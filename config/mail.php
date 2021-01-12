@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Mailer
@@ -12,7 +11,6 @@ return [
     | and used as needed; however, this mailer will be used by default.
     |
     */
-
     'default' => env('MAIL_MAILER', 'smtp'),
 
     /*
@@ -32,7 +30,6 @@ return [
     |            "postmark", "log", "array"
     |
     */
-
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
@@ -82,7 +79,6 @@ return [
     | used globally for all e-mails that are sent by your application.
     |
     */
-
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
@@ -98,7 +94,6 @@ return [
     | of the emails. Or, you may simply stick with the Laravel defaults!
     |
     */
-
     'markdown' => [
         'theme' => 'default',
 
@@ -106,5 +101,4 @@ return [
             resource_path('views/vendor/mail'),
         ],
     ],
-
 ];

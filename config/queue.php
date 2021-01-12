@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Queue Connection Name
@@ -12,7 +11,6 @@ return [
     | syntax for every one. Here you may define a default connection.
     |
     */
-
     'default' => env('QUEUE_CONNECTION', 'sync'),
 
     /*
@@ -27,9 +25,7 @@ return [
     | Drivers: "sync", "database", "beanstalkd", "sqs", "redis", "null"
     |
     */
-
     'connections' => [
-
         'sync' => [
             'driver' => 'sync',
         ],
@@ -49,16 +45,6 @@ return [
             'block_for' => 0,
         ],
 
-        'sqs' => [
-            'driver' => 'sqs',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'prefix' => env('SQS_PREFIX', 'https://sqs.us-east-1.amazonaws.com/your-account-id'),
-            'queue' => env('SQS_QUEUE', 'your-queue-name'),
-            'suffix' => env('SQS_SUFFIX'),
-            'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
-        ],
-
         'redis' => [
             'driver' => 'redis',
             'connection' => 'default',
@@ -66,7 +52,6 @@ return [
             'retry_after' => 90,
             'block_for' => null,
         ],
-
     ],
 
     /*
@@ -79,11 +64,9 @@ return [
     | have failed. You may change them to any database / table you wish.
     |
     */
-
     'failed' => [
         'driver' => env('QUEUE_FAILED_DRIVER', 'database-uuids'),
         'database' => env('DB_CONNECTION', 'mysql'),
         'table' => 'failed_jobs',
     ],
-
 ];

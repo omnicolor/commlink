@@ -3,7 +3,6 @@
 use Illuminate\Support\Str;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Cache Store
@@ -14,7 +13,6 @@ return [
     | not explicitly specified when executing a given caching function.
     |
     */
-
     'default' => env('CACHE_DRIVER', 'file'),
 
     /*
@@ -30,7 +28,6 @@ return [
     |            "memcached", "redis", "dynamodb", "null"
     |
     */
-
     'stores' => [
 
         'apc' => [
@@ -87,7 +84,6 @@ return [
             'table' => env('DYNAMODB_CACHE_TABLE', 'cache'),
             'endpoint' => env('DYNAMODB_ENDPOINT'),
         ],
-
     ],
 
     /*
@@ -100,7 +96,6 @@ return [
     | value to get prefixed to all our keys so we can avoid collisions.
     |
     */
-
-    'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_cache'),
-
+    'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_')
+        . '_cache'),
 ];
