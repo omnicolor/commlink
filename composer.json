@@ -41,14 +41,17 @@
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
+        "phpstan/phpstan": "^0.12.66",
         "phpunit/phpunit": "^9.3.3",
         "roave/security-advisories": "dev-latest"
     },
     "scripts": {
         "all": [
+            "@phpstan",
             "@test"
         ],
         "coverage": "phpunit --coverage-html=public/coverage",
+        "phpstan": "phpstan analyze",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
