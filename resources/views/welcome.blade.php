@@ -6,7 +6,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <title>Commlink RPG Manager</title>
+    <title>Commlink RPG Manager - Logim</title>
 </head>
 
 <body id="login">
@@ -47,7 +47,7 @@
                                     class="form-control" id="email"
                                     inputmode="email" name="email" required
                                     type="email">
-                                <small class="=form-text text-muted"
+                                <small class="form-text text-muted"
                                     id="email-help">
                                     We'll never intentionally release your email
                                     address at any time for any reason.
@@ -79,6 +79,10 @@
                             <button class="btn btn-primary" type="submit">
                                 Login
                             </button>
+                            <a class="btn btn-outline-secondary"
+                                href="{{ route('register') }}">
+                                Create a new account
+                            </a>
                         </div>
                     </div>
                 </form>
