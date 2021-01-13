@@ -83,6 +83,10 @@
                                 href="{{ route('register') }}">
                                 Create a new account
                             </a>
+                            <a class="btn btn-outline-secondary"
+                                href="{{ route('password.request') }}">
+                                Forgot your password?
+                            </a>
                         </div>
                     </div>
                 </form>
