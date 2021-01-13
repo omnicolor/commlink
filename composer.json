@@ -44,14 +44,17 @@
         "nunomaduro/larastan": "^0.6.12",
         "phpstan/phpstan": "^0.12.66",
         "phpunit/phpunit": "^9.3.3",
-        "roave/security-advisories": "dev-latest"
+        "roave/security-advisories": "dev-latest",
+        "squizlabs/php_codesniffer": "^3.5"
     },
     "scripts": {
         "all": [
-            "@phpstan",
-            "@test"
+            "@test",
+            "@cs",
+            "@phpstan"
         ],
         "coverage": "phpunit --coverage-html=public/coverage",
+        "cs": "phpcs",
         "phpstan": "phpstan analyze",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
