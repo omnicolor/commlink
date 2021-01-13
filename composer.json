@@ -43,6 +43,7 @@
         "nunomaduro/collision": "^5.0",
         "nunomaduro/larastan": "^0.6.12",
         "phpstan/phpstan": "^0.12.66",
+        "phpstan/phpstan-strict-rules": "^0.12.9",
         "phpunit/phpunit": "^9.3.3",
         "roave/security-advisories": "dev-latest",
         "squizlabs/php_codesniffer": "^3.5"
