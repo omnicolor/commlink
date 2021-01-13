@@ -4,4 +4,4 @@ parameters:
     paths:
         - %currentWorkingDirectory%/app
         - %currentWorkingDirectory%/tests
-    level: 7
+    level: 8
