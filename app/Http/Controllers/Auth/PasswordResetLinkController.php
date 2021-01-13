@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -28,6 +30,7 @@ class PasswordResetLinkController extends Controller
      */
     public function store(Request $request)
     {
+        // @phpstan-ignore-next-line
         $request->validate([
             'email' => 'required|email',
         ]);
