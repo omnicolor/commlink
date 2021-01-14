@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -51,6 +50,11 @@ return [
     'url' => env('APP_URL', 'http://localhost'),
 
     'asset_url' => env('ASSET_URL', null),
+
+    /*
+     * Data URL points to where the data files for different RPG systems are.
+     */
+    'data_url' => env('DATA_URL', 'data/'),
 
     /*
     |--------------------------------------------------------------------------
