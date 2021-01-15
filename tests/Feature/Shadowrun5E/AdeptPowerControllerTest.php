@@ -30,7 +30,7 @@ final class AdeptPowerControllerTest extends \Tests\TestCase
     {
         $response = $this->getJson(route('shadowrun5e.adept-powers.index'))
             ->assertOk();
-        $this->assertGreaterThanOrEqual(1, count($response['data']));
+        self::assertGreaterThanOrEqual(1, count($response['data']));
     }
 
     /**
@@ -48,7 +48,7 @@ final class AdeptPowerControllerTest extends \Tests\TestCase
                     'self' => '/api/shadowrun5e/adept-powers/improved-sense-direction-sense',
                 ],
             ]);
-        $this->assertGreaterThanOrEqual(1, count($response['data']));
+        self::assertGreaterThanOrEqual(1, count($response['data']));
     }
 
     /**
