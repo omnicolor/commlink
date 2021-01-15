@@ -17,7 +17,7 @@ final class AdeptPowerControllerTest extends \Tests\TestCase
     {
         \Config::set('app.data_url', '/tmp/unused/');
         $user = User::factory()->create();
-        $response = $this->actingAs($user)
+        $this->actingAs($user)
             ->getJson(route('shadowrun5e.adept-powers.index'))
             ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
@@ -57,7 +57,7 @@ final class AdeptPowerControllerTest extends \Tests\TestCase
      */
     public function testNoAuthShow(): void
     {
-        $response = $this->getJson(route(
+        $this->getJson(route(
             'shadowrun5e.adept-powers.show',
             'improved-sense-direction-sense'
         ))
@@ -79,10 +79,7 @@ final class AdeptPowerControllerTest extends \Tests\TestCase
      */
     public function testNoAuthShowNotFound(): void
     {
-        $response = $this->getJson(route(
-            'shadowrun5e.adept-powers.show',
-            'not-found'
-        ))
+        $this->getJson(route('shadowrun5e.adept-powers.show', 'not-found'))
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
 
@@ -116,10 +113,7 @@ final class AdeptPowerControllerTest extends \Tests\TestCase
     public function testAuthShowNotFound(): void
     {
         $user = User::factory()->create();
-        $this->getJson(route(
-            'shadowrun5e.adept-powers.show',
-            'not-found'
-        ))
+        $this->getJson(route('shadowrun5e.adept-powers.show', 'not-found'))
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }
