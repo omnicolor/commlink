@@ -71,12 +71,12 @@ class TraditionsController extends \App\Http\Controllers\Controller
         $identifier = strtolower($identifier);
         if (!key_exists($identifier, $this->traditions)) {
             // We couldn't find it!
-            $errors = [
+            $error = [
                 'status' => Response::HTTP_NOT_FOUND,
                 'detail' => sprintf('%s not found', $identifier),
                 'title' => 'Not Found',
             ];
-            return $this->error($errors);
+            return $this->error($error);
         }
 
         $tradition = $this->traditions[$identifier];
