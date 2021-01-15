@@ -64,7 +64,7 @@ class AdeptPower
     public static ?array $powers;
 
     /**
-     * Build a new Power object.
+     * Build a new AdeptPower object.
      * @param string $id
      */
     public function __construct(string $id)
