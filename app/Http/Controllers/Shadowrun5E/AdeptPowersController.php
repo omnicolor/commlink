@@ -25,6 +25,7 @@ class AdeptPowersController extends \App\Http\Controllers\Controller
 
     /**
      * Constructor.
+     * @throws \ErrorException if the path to the data file is wrong
      */
     public function __construct()
     {
@@ -33,9 +34,6 @@ class AdeptPowersController extends \App\Http\Controllers\Controller
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/adept-powers';
         $stat = stat($this->filename);
-        if (false === $stat) {
-            throw new \RuntimeException('Can not find data file');
-        }
         $this->headers['Last-Modified'] = date('r', $stat['mtime']);
         $this->powers = require $this->filename;
     }
@@ -47,10 +45,9 @@ class AdeptPowersController extends \App\Http\Controllers\Controller
     public function index(): Response
     {
         foreach ($this->powers as $key => $value) {
-            $value['links'] = [
-                'self' => '/api/shadowrun5e/adept-powers/' . $key,
+            $this->powers[$key]['links'] = [
+                'self' => sprintf('/api/shadowrun5e/adept-powers/%s', $key),
             ];
-            $this->powers[$key] = $value;
         }
 
         $this->headers['Etag'] = sha1_file($this->filename);
@@ -81,13 +78,10 @@ class AdeptPowersController extends \App\Http\Controllers\Controller
             return $this->error($errors);
         }
         $power = $this->powers[$id];
-        $power['links'] = [
-            'self' => sprintf('/api/shadowrun5e/adept-powers/%s', $id),
-        ];
-        $this->links['self'] = sprintf(
-            '/api/shadowrun5e/adept-powers/%s',
-            urlencode($id)
-        );
+
+        $power['links']['self'] = $this->links['self'] =
+            sprintf('/api/shadowrun5e/adept-powers/%s', $id);
+
         $this->headers['Etag'] = sha1((string)json_encode($power));
 
         $data = [
