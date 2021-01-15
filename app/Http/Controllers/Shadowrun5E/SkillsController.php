@@ -4,24 +4,25 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shadowrun5E;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
- * Controller for adept powers.
+ * Controller for the various Shadowrun skill requests.
  */
-class AdeptPowersController extends \App\Http\Controllers\Controller
+class SkillsController extends Controller
 {
     /**
-     * Filename for all of the data.
+     * Filename for all of the skills.
      * @var string
      */
     protected string $filename;
 
     /**
-     * Collection of adept powers.
+     * Collection of skills.
      * @var array<string, mixed>
      */
-    protected array $powers;
+    protected array $skills;
 
     /**
      * Constructor.
@@ -30,64 +31,62 @@ class AdeptPowersController extends \App\Http\Controllers\Controller
     public function __construct()
     {
         parent::__construct();
-        $this->filename = config('app.data_url') . 'adept-powers.php';
+        $this->filename = config('app.data_url') . 'skills.php';
         $this->links['system'] = '/api/shadowrun5e';
-        $this->links['collection'] = '/api/shadowrun5e/adept-powers';
+        $this->links['collection'] = '/api/shadowrun5e/skills';
         $stat = stat($this->filename);
         // @phpstan-ignore-next-line
         $this->headers['Last-Modified'] = date('r', $stat['mtime']);
-        $this->powers = require $this->filename;
+        $this->skills = require $this->filename;
     }
 
     /**
-     * Get the entire collection of fifth edition adept powers.
+     * Return all skills.
      * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
-        foreach ($this->powers as $key => $value) {
-            $this->powers[$key]['links'] = [
-                'self' => sprintf('/api/shadowrun5e/adept-powers/%s', $key),
+        foreach ($this->skills as $key => $value) {
+            $this->skills[$key]['links'] = [
+                'self' => sprintf('/api/shadowrun5e/skills/%s', $key),
             ];
         }
 
         $this->headers['Etag'] = sha1_file($this->filename);
-
         $data = [
             'links' => $this->links,
-            'data' => array_values($this->powers),
+            'data' => array_values($this->skills),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
 
     /**
-     * Get a single fifth edition adept power.
+     * Return a single skill.
      * @param string $id
      * @return \Illuminate\Http\Response
      */
     public function show(string $id): Response
     {
-        $id = strtolower($id);
-        if (!key_exists($id, $this->powers)) {
-            // We couldn't find it!
-            $errors = [
+        if (!key_exists($id, $this->skills)) {
+            // We couldn't find the requested skill!
+            $error = [
                 'status' => Response::HTTP_NOT_FOUND,
                 'detail' => $id . ' not found',
                 'title' => 'Not Found',
             ];
-            return $this->error($errors);
+            return $this->error($error);
         }
-        $power = $this->powers[$id];
+        $skill = $this->skills[$id];
+        $skill['links']['self'] = $this->links['self'] = sprintf(
+            '/api/shadowrun5e/skills/%s',
+            $id
+        );
 
-        $power['links']['self'] = $this->links['self'] =
-            sprintf('/api/shadowrun5e/adept-powers/%s', $id);
-
-        $this->headers['Etag'] = sha1((string)json_encode($power));
-
+        $this->headers['Etag'] = sha1((string)json_encode($skill));
         $data = [
             'links' => $this->links,
-            'data' => $power,
+            'data' => $skill,
         ];
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
