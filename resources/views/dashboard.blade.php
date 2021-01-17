@@ -1,17 +1,49 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+<!doctype html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Shadowrun manager">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/open-iconic-bootstrap.min.css" rel="stylesheet">
+    <title>Commlink - Dashboard</title>
+</head>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    You're logged in!
-                </div>
-            </div>
+<body>
+<nav class="navbar navbar-expand navbar-dark bg-dark justify-content-between">
+    <a class="navbar-brand" href="/">Commlink</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+        </ul>
+        <span class="navbar-text">
+            {{ Auth::user()->email }}
+        </span>
+        <span class="nav-item">
+            <form method="POST" action="{{ route('logout') }}" id="logout-form">
+                @csrf
+                <a class="nav-link" href="#" id="logout">Logout</a>
+            </form>
+        </span>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row mt-4">
+        <div class="col">
+oh, hai
         </div>
     </div>
-</x-app-layout>
+</div>
+
+<script src="/js/popper.min.js"></script>
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script>
+$('#logout').on('click', function (e) {
+    e.preventDefault();
+    $('#logout-form').submit();
+});
+</script>
+</body>
+</html>
