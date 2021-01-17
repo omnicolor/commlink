@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Shadowrun5E\AdeptPowersController;
 use App\Http\Controllers\Shadowrun5E\ComplexFormsController;
 use App\Http\Controllers\Shadowrun5E\ProgramsController;
+use App\Http\Controllers\Shadowrun5E\QualitiesController;
 use App\Http\Controllers\Shadowrun5E\SkillsController;
 use App\Http\Controllers\Shadowrun5E\SkillGroupsController;
 use App\Http\Controllers\Shadowrun5E\SpritesController;
@@ -22,6 +23,8 @@ Route::prefix('shadowrun5e')->name('shadowrun5e.')->group(function () {
     Route::resource('complex-forms', ComplexFormsController::class)
         ->only(['index', 'show']);
     Route::resource('programs', ProgramsController::class)
+        ->only(['index', 'show']);
+    Route::resource('qualities', QualitiesController::class)
         ->only(['index', 'show']);
     Route::resource('skills', SkillsController::class)
         ->only(['index', 'show']);

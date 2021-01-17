@@ -1,0 +1,79 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Unit\Shadowrun5E;
+
+use App\Models\Shadowrun5E\ActiveSkill;
+use App\Models\Shadowrun5E\Quality;
+use App\Models\Shadowrun5E\QualityArray;
+
+/**
+ * Tests for the QualityArray class.
+ * @covers \App\Models\Shadowrun5E\QualityArray
+ */
+final class QualityArrayTest extends \Tests\TestCase
+{
+    /**
+     * Subject under test.
+     * @var QualityArray<Quality>
+     */
+    protected QualityArray $qualities;
+
+    /**
+     * Set up a clean subject.
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->qualities = new QualityArray();
+    }
+
+    /**
+     * Test an empty QualityArray.
+     * @test
+     */
+    public function testEmpty(): void
+    {
+        self::assertEmpty($this->qualities);
+    }
+
+    /**
+     * Test adding a quality to the array.
+     * @test
+     */
+    public function testAdd(): void
+    {
+        $this->qualities[] = new Quality('alpha-junkie');
+        self::assertNotEmpty($this->qualities);
+    }
+
+    /**
+     * Test that adding a non-quality to the array throws an exception.
+     * @test
+     */
+    public function testAddWrongTypeException(): void
+    {
+        self::expectException(\TypeError::class);
+        self::expectExceptionMessage(
+            'QualityArray only accepts Quality objects'
+        );
+        // @phpstan-ignore-next-line
+        $this->qualities[] = new ActiveSkill('automatics', 1);
+    }
+
+    /**
+     * Test that adding a non-quality to the array doesn't add it.
+     * @test
+     */
+    public function testAddWrongTypeDoesntAdd(): void
+    {
+        try {
+            // @phpstan-ignore-next-line
+            $this->qualities[] = new ActiveSkill('automatics');
+        } catch (\TypeError $e) {
+            // Ignored
+        }
+        self::assertEmpty($this->qualities);
+    }
+}
