@@ -97,6 +97,7 @@ class Program
      * Construct a new program object.
      * @param string $id ID of the program
      * @param ?bool $running Whether the program is running or not
+     * @throws \RuntimeException if the ID isn't found
      */
     public function __construct(string $id, ?bool $running = null)
     {
@@ -107,7 +108,7 @@ class Program
         $id = strtolower($id);
         if (!isset(self::$programs[$id])) {
             throw new \RuntimeException(sprintf(
-                'Program ID "%s" is invalid.',
+                'Program ID "%s" is invalid',
                 $id
             ));
         }
