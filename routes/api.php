@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Shadowrun5E\AdeptPowersController;
+use App\Http\Controllers\Shadowrun5E\ArmorModificationsController;
 use App\Http\Controllers\Shadowrun5E\ComplexFormsController;
 use App\Http\Controllers\Shadowrun5E\ProgramsController;
 use App\Http\Controllers\Shadowrun5E\QualitiesController;
@@ -19,6 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::prefix('shadowrun5e')->name('shadowrun5e.')->group(function () {
     Route::resource('adept-powers', AdeptPowersController::class)
+        ->only(['index', 'show']);
+    Route::resource('armor-modifications', ArmorModificationsController::class)
         ->only(['index', 'show']);
     Route::resource('complex-forms', ComplexFormsController::class)
         ->only(['index', 'show']);

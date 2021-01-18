@@ -1,0 +1,128 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Feature\Shadowrun5E;
+
+use App\Models\User;
+use Illuminate\Http\Response;
+
+/**
+ * Tests for the armor-modifications controller.
+ */
+final class ArmorModificationsControllerTest extends \Tests\TestCase
+{
+    /**
+     * Test loading the collection if the config is broken.
+     * @test
+     */
+    public function testIndexBrokenConfig(): void
+    {
+        \Config::set('app.data_url', '/tmp/unused/');
+        $user = User::factory()->create();
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.armor-modifications.index'))
+            ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * Test loading the collection without authentication.
+     * @test
+     */
+    public function testNoAuthIndex(): void
+    {
+        $response = $this->getJson(route(
+            'shadowrun5e.armor-modifications.index'
+        ))
+            ->assertOk();
+        self::assertGreaterThanOrEqual(1, count($response['data']));
+    }
+
+    /**
+     * Test loading the collection as an authenticated user.
+     * @test
+     */
+    public function testAuthIndex(): void
+    {
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)
+            ->getJson(route('shadowrun5e.armor-modifications.index'))
+            ->assertOk()
+            ->assertJsonFragment([
+                'links' => [
+                    'self' => '/api/shadowrun5e/armor-modifications/auto-injector',
+                ],
+            ]);
+        self::assertGreaterThanOrEqual(1, count($response['data']));
+    }
+
+    /**
+     * Test loading an individual modification without authentication.
+     * @test
+     */
+    public function testNoAuthShow(): void
+    {
+        $this->getJson(
+            route('shadowrun5e.armor-modifications.show', 'auto-injector')
+        )
+            ->assertOk()
+            ->assertJson([
+                'data' => [
+                    'availability' => '4',
+                    'capacity-cost' => 2,
+                    'cost' => 1500,
+                    'id' => 'auto-injector',
+                    'name' => 'Auto-injector',
+                    'ruleset' => 'run-and-gun',
+                ]
+            ]);
+    }
+
+    /**
+     * Test loading an invalid modification without authentication.
+     * @test
+     */
+    public function testNoAuthShowNotFound(): void
+    {
+        $this->getJson(
+            route('shadowrun5e.armor-modifications.show', 'not-found')
+        )
+            ->assertStatus(Response::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * Test loading an individual modification with authentication.
+     * @test
+     */
+    public function testAuthShow(): void
+    {
+        $user = User::factory()->create();
+        $this->getJson(
+            route('shadowrun5e.armor-modifications.show', 'auto-injector')
+        )
+            ->assertOk()
+            ->assertJson([
+                'data' => [
+                    'availability' => '4',
+                    'capacity-cost' => 2,
+                    'cost' => 1500,
+                    'id' => 'auto-injector',
+                    'name' => 'Auto-injector',
+                    'ruleset' => 'run-and-gun',
+                ],
+            ]);
+    }
+
+    /**
+     * Test loading an invalid modification with authentication.
+     * @test
+     */
+    public function testAuthShowNotFound(): void
+    {
+        $user = User::factory()->create();
+        $this->getJson(
+            route('shadowrun5e.armor-modifications.show', 'not-found')
+        )
+            ->assertStatus(Response::HTTP_NOT_FOUND);
+    }
+}
