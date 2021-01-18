@@ -43,6 +43,17 @@ return [
         'name' => 'Fire Resistance',
         'rating' => 2,
     ],
+    'gel-packs' => [
+        'availability' => '6',
+        'cost' => 1500,
+        'description' => 'Modification description.',
+        'effects' => [
+            'armor' => 2,
+        ],
+        'id' => 'gel-packs',
+        'name' => 'Gel Packs',
+        'ruleset' => 'run-and-gun',
+    ],
     'ynt-softweave-armor' => [
         'id' => 'ynt-softweave-armor',
         'availability' => '+4',

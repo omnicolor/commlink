@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Shadowrun5E;
 
+use App\Models\Shadowrun5E\Armor;
 use App\Models\Shadowrun5E\ArmorModification;
 
 /**
@@ -148,9 +149,8 @@ final class ArmorModificationTest extends \Tests\TestCase
      */
     public function testGetCostSimple(): void
     {
-        self::markTestSkipped('Needs armor');
-        $mod = new ArmorModification('fire-resistance-1');
-        self::assertSame(250, $mod->getCost(new Armor('armor-jacket')));
+        $mod = new ArmorModification('fire-resistance-2');
+        self::assertSame(500, $mod->getCost(new Armor('armor-jacket')));
     }
 
     /**
@@ -160,9 +160,7 @@ final class ArmorModificationTest extends \Tests\TestCase
      */
     public function testGetCostCostModifier(): void
     {
-        self::markTestSkipped('Needs armor');
         $mod = new ArmorModification('ynt-softweave-armor');
         self::assertSame(1000, $mod->getCost(new Armor('armor-jacket')));
-        self::assertSame(500, $mod->getCost(new Armor('armor-vest')));
     }
 }
