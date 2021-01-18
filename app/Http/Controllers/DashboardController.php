@@ -16,6 +16,7 @@ class DashboardController extends Controller
      */
     public function show(): \Illuminate\View\View
     {
+        // @phpstan-ignore-next-line
         $characters = Character::where('owner', \Auth::user()->email)->get();
 
         return view('dashboard', ['characters' => $characters]);
