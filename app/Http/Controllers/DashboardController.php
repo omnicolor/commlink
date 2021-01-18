@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Character;
 
 class DashboardController extends Controller
 {
@@ -15,6 +16,8 @@ class DashboardController extends Controller
      */
     public function show(): \Illuminate\View\View
     {
-        return view('dashboard', ['foo' => rand()]);
+        $characters = Character::where('owner', \Auth::user()->email)->get();
+
+        return view('dashboard', ['characters' => $characters]);
     }
 }
