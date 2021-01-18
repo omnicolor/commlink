@@ -82,10 +82,7 @@ class QualitiesController extends \App\Http\Controllers\Controller
         $quality = $this->qualities[$qualityId];
         $quality['links']['self'] = $this->links['self'] =
             sprintf('/api/shadowrun5e/qualities/%s', $qualityId);
-
-        if (!array_key_exists('ruleset', $quality)) {
-            $quality['ruleset'] = 'core';
-        }
+        $quality['ruleset'] ??= 'core';
 
         $this->headers['Etag'] = sha1((string)json_encode($quality));
 
