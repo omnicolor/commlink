@@ -80,5 +80,6 @@ final class ForceTraitTest extends \Tests\TestCase
         self::assertSame(12, $this->force->convertFormula('TT+1', 'T', 1));
         self::assertSame(3, $this->force->convertFormula('T^2', 'T', 3));
         self::assertSame(1, $this->force->convertFormula('+T+1-2', 'T', 2));
+        self::assertSame(0, $this->force->convertFormula('', 'L', 1));
     }
 }

@@ -38,9 +38,15 @@ trait ForceTrait
             -1,
             PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE
         );
+        // @codeCoverageIgnoreStart
+        // The preg_split() function should only return false if the regular
+        // expression itself is invalid. The above expression is valid, so this
+        // can't happen. We're just checking this for code correctness (and to
+        // keep PHPStan happy).
         if (false === $components) {
             return 0;
         }
+        // @codeCoverageIgnoreEnd
         while (false !== ($index = array_search('*', $components, true))) {
             array_splice(
                 $components,
