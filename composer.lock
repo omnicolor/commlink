@@ -1104,16 +1104,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.22.1",
+            "version": "v8.23.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "5c70991b96c5722afed541a996479b5112654c8b"
+                "reference": "a813df1b248ca305e5f5ce23ea981ed6c6905504"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/5c70991b96c5722afed541a996479b5112654c8b",
-                "reference": "5c70991b96c5722afed541a996479b5112654c8b",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/a813df1b248ca305e5f5ce23ea981ed6c6905504",
+                "reference": "a813df1b248ca305e5f5ce23ea981ed6c6905504",
                 "shasum": ""
             },
             "require": {
@@ -1267,7 +1267,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-01-13T13:37:56+00:00"
+            "time": "2021-01-19T14:10:48+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -1535,16 +1535,16 @@
         },
         {
             "name": "league/mime-type-detection",
-            "version": "1.6.0",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/mime-type-detection.git",
-                "reference": "abab7860d86533ae520523c7f6b5e74ca071116b"
+                "reference": "3b9dff8aaf7323590c1d2e443db701eb1f9aa0d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/mime-type-detection/zipball/abab7860d86533ae520523c7f6b5e74ca071116b",
-                "reference": "abab7860d86533ae520523c7f6b5e74ca071116b",
+                "url": "https://api.github.com/repos/thephpleague/mime-type-detection/zipball/3b9dff8aaf7323590c1d2e443db701eb1f9aa0d3",
+                "reference": "3b9dff8aaf7323590c1d2e443db701eb1f9aa0d3",
                 "shasum": ""
             },
             "require": {
@@ -1575,7 +1575,7 @@
             "description": "Mime-type detection for Flysystem",
             "support": {
                 "issues": "https://github.com/thephpleague/mime-type-detection/issues",
-                "source": "https://github.com/thephpleague/mime-type-detection/tree/1.6.0"
+                "source": "https://github.com/thephpleague/mime-type-detection/tree/1.7.0"
             },
             "funding": [
                 {
@@ -1587,7 +1587,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-18T20:19:53+00:00"
+            "time": "2021-01-18T20:58:21+00:00"
         },
         {
             "name": "mongodb/mongodb",
@@ -6162,16 +6162,16 @@
         },
         {
             "name": "laravel/sail",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sail.git",
-                "reference": "277d868441b49898caf0ce3cb4e19b439e419133"
+                "reference": "c28c1b77d9aada131861c89bc406813859b62844"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/277d868441b49898caf0ce3cb4e19b439e419133",
-                "reference": "277d868441b49898caf0ce3cb4e19b439e419133",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/c28c1b77d9aada131861c89bc406813859b62844",
+                "reference": "c28c1b77d9aada131861c89bc406813859b62844",
                 "shasum": ""
             },
             "require": {
@@ -6217,7 +6217,7 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-            "time": "2021-01-05T16:40:11+00:00"
+            "time": "2021-01-19T15:26:58+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -7458,12 +7458,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "5688b64287a502c56061ab3f400f05e190d5fa5a"
+                "reference": "0c708de044c44e33ee157115462b8bc577a1573f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/5688b64287a502c56061ab3f400f05e190d5fa5a",
-                "reference": "5688b64287a502c56061ab3f400f05e190d5fa5a",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/0c708de044c44e33ee157115462b8bc577a1573f",
+                "reference": "0c708de044c44e33ee157115462b8bc577a1573f",
                 "shasum": ""
             },
             "conflict": {
@@ -7545,7 +7545,7 @@
                 "guzzlehttp/guzzle": ">=4-rc.2,<4.2.4|>=5,<5.3.1|>=6,<6.2.1",
                 "illuminate/auth": ">=4,<4.0.99|>=4.1,<=4.1.31|>=4.2,<=4.2.22|>=5,<=5.0.35|>=5.1,<=5.1.46|>=5.2,<=5.2.45|>=5.3,<=5.3.31|>=5.4,<=5.4.36|>=5.5,<5.5.10",
                 "illuminate/cookie": ">=4,<=4.0.11|>=4.1,<=4.1.99999|>=4.2,<=4.2.99999|>=5,<=5.0.99999|>=5.1,<=5.1.99999|>=5.2,<=5.2.99999|>=5.3,<=5.3.99999|>=5.4,<=5.4.99999|>=5.5,<=5.5.49|>=5.6,<=5.6.99999|>=5.7,<=5.7.99999|>=5.8,<=5.8.99999|>=6,<6.18.31|>=7,<7.22.4",
-                "illuminate/database": ">=4,<4.0.99|>=4.1,<4.1.29|>=5.5,<=5.5.44|>=6,<6.20.11|>=7,<7.30.2|>=8,<8.22.1",
+                "illuminate/database": "<6.20.12|>=7,<7.30.3|>=8,<8.22.1",
                 "illuminate/encryption": ">=4,<=4.0.11|>=4.1,<=4.1.31|>=4.2,<=4.2.22|>=5,<=5.0.35|>=5.1,<=5.1.46|>=5.2,<=5.2.45|>=5.3,<=5.3.31|>=5.4,<=5.4.36|>=5.5,<5.5.40|>=5.6,<5.6.15",
                 "illuminate/view": ">=7,<7.1.2",
                 "ivankristianto/phpwhois": "<=4.3",
@@ -7556,7 +7556,7 @@
                 "kitodo/presentation": "<3.1.2",
                 "kreait/firebase-php": ">=3.2,<3.8.1",
                 "la-haute-societe/tcpdf": "<6.2.22",
-                "laravel/framework": ">=4,<4.0.99|>=4.1,<=4.1.99999|>=4.2,<=4.2.99999|>=5,<=5.0.99999|>=5.1,<=5.1.99999|>=5.2,<=5.2.99999|>=5.3,<=5.3.99999|>=5.4,<=5.4.99999|>=5.5,<=5.5.49|>=5.6,<=5.6.99999|>=5.7,<=5.7.99999|>=5.8,<=5.8.99999|>=6,<6.20.11|>=7,<7.30.2|>=8,<8.22.1",
+                "laravel/framework": "<6.20.12|>=7,<7.30.3|>=8,<8.22.1",
                 "laravel/socialite": ">=1,<1.0.99|>=2,<2.0.10",
                 "league/commonmark": "<0.18.3",
                 "librenms/librenms": "<1.53",
@@ -7591,7 +7591,7 @@
                 "paragonie/random_compat": "<2",
                 "passbolt/passbolt_api": "<2.11",
                 "paypal/merchant-sdk-php": "<3.12",
-                "pear/archive_tar": "<1.4.11",
+                "pear/archive_tar": "<1.4.12",
                 "personnummer/personnummer": "<3.0.2",
                 "phpfastcache/phpfastcache": ">=5,<5.0.13",
                 "phpmailer/phpmailer": "<6.1.6",
@@ -7773,7 +7773,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-18T19:42:28+00:00"
+            "time": "2021-01-19T19:42:21+00:00"
         },
         {
             "name": "sebastian/cli-parser",
