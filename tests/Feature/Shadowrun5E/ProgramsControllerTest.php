@@ -29,8 +29,7 @@ final class ProgramsControllerTest extends \Tests\TestCase
     public function testNoAuthIndex(): void
     {
         $response = $this->getJson(route('shadowrun5e.programs.index'))
-            ->assertOk();
-        self::assertGreaterThanOrEqual(1, count($response['data']));
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -58,19 +57,7 @@ final class ProgramsControllerTest extends \Tests\TestCase
     public function testNoAuthShow(): void
     {
         $this->getJson(route('shadowrun5e.programs.show', 'armor'))
-            ->assertOk()
-            ->assertJson([
-                'data' => [
-                    'id' => 'armor',
-                    'allowedDevices' => ['cyberdeck', 'rcc'],
-                    'availability' => '4R',
-                    'cost' => 250,
-                    'effects' => [
-                        'damage-resist' => 2,
-                    ],
-                    'name' => 'Armor',
-                ],
-            ]);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -80,7 +67,7 @@ final class ProgramsControllerTest extends \Tests\TestCase
     public function testNoAuthShowNotFound(): void
     {
         $this->getJson(route('shadowrun5e.programs.show', 'not-found'))
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -90,7 +77,8 @@ final class ProgramsControllerTest extends \Tests\TestCase
     public function testAuthShow(): void
     {
         $user = User::factory()->create();
-        $this->getJson(route('shadowrun5e.programs.show', 'armor'))
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.programs.show', 'armor'))
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -113,7 +101,8 @@ final class ProgramsControllerTest extends \Tests\TestCase
     public function testAuthShowNotFound(): void
     {
         $user = User::factory()->create();
-        $this->getJson(route('shadowrun5e.programs.show', 'not-found'))
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.programs.show', 'not-found'))
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

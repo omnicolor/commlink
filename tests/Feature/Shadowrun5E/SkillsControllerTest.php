@@ -29,8 +29,7 @@ final class SkillsControllerTest extends \Tests\TestCase
     public function testNoAuthIndex(): void
     {
         $response = $this->getJson(route('shadowrun5e.skills.index'))
-            ->assertOk();
-        self::assertGreaterThanOrEqual(1, count($response['data']));
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -58,24 +57,7 @@ final class SkillsControllerTest extends \Tests\TestCase
     public function testNoAuthShow(): void
     {
         $this->getJson(route('shadowrun5e.skills.show', 'automatics'))
-            ->assertOk()
-            ->assertJson([
-                'data' => [
-                    'id' => 'automatics',
-                    'name' => 'Automatics',
-                    'default' => true,
-                    'group' => 'firearms',
-                    'attribute' => 'agility',
-                    'description' => 'Skill description here.',
-                    'limit' => 'weapon',
-                    'specializations' => [
-                        'Assault Rifles',
-                        'Cyber-Implant',
-                        'Machine Pistols',
-                        'Submachine Guns',
-                    ],
-                ],
-            ]);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -85,7 +67,7 @@ final class SkillsControllerTest extends \Tests\TestCase
     public function testNoAuthShowNotFound(): void
     {
         $this->getJson(route('shadowrun5e.skills.show', 'not-found'))
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -95,10 +77,8 @@ final class SkillsControllerTest extends \Tests\TestCase
     public function testAuthShow(): void
     {
         $user = User::factory()->create();
-        $this->getJson(route(
-            'shadowrun5e.skills.show',
-            'automatics'
-        ))
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.skills.show', 'automatics'))
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -126,10 +106,8 @@ final class SkillsControllerTest extends \Tests\TestCase
     public function testAuthShowNotFound(): void
     {
         $user = User::factory()->create();
-        $this->getJson(route(
-            'shadowrun5e.skills.show',
-            'not-found'
-        ))
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.skills.show', 'not-found'))
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

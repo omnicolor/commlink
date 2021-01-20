@@ -29,8 +29,7 @@ final class TraditionsControllerTest extends \Tests\TestCase
     public function testNoAuthIndex(): void
     {
         $response = $this->getJson(route('shadowrun5e.traditions.index'))
-            ->assertOk();
-        self::assertGreaterThanOrEqual(1, count($response['data']));
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -58,23 +57,7 @@ final class TraditionsControllerTest extends \Tests\TestCase
     public function testNoAuthShow(): void
     {
         $this->getJson(route('shadowrun5e.traditions.show', 'norse'))
-            ->assertOk()
-            ->assertJson([
-                'data' => [
-                    'drain' => 'Willpower + Logic',
-                    'elements' => [
-                        'combat' => 'Guardian',
-                        'detection' => 'Earth',
-                        'health' => 'Plant',
-                        'illusion' => 'Air',
-                        'manipulation' => 'Fire',
-                    ],
-                    'id' => 'norse',
-                    'name' => 'Norse',
-                    'page' => 4,
-                    'ruleset' => 'shadow-spells',
-                ],
-            ]);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -84,7 +67,7 @@ final class TraditionsControllerTest extends \Tests\TestCase
     public function testNoAuthShowNotFound(): void
     {
         $this->getJson(route('shadowrun5e.traditions.show', 'not-found'))
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -94,7 +77,8 @@ final class TraditionsControllerTest extends \Tests\TestCase
     public function testAuthShow(): void
     {
         $user = User::factory()->create();
-        $this->getJson(route('shadowrun5e.traditions.show', 'norse'))
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.traditions.show', 'norse'))
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -121,7 +105,8 @@ final class TraditionsControllerTest extends \Tests\TestCase
     public function testAuthShowNotFound(): void
     {
         $user = User::factory()->create();
-        $this->getJson(route('shadowrun5e.traditions.show', 'not-found'))
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.traditions.show', 'not-found'))
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

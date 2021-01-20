@@ -29,8 +29,7 @@ final class SpritesControllerTest extends \Tests\TestCase
     public function testNoAuthIndex(): void
     {
         $response = $this->getJson(route('shadowrun5e.sprites.index'))
-            ->assertOk();
-        self::assertGreaterThanOrEqual(1, count($response['data']));
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -58,23 +57,7 @@ final class SpritesControllerTest extends \Tests\TestCase
     public function testNoAuthShow(): void
     {
         $this->getJson(route('shadowrun5e.sprites.show', 'courier'))
-            ->assertOk()
-            ->assertJson([
-                'data' => [
-                    'attack' => 'L',
-                    'data-processing' => 'L+1',
-                    'firewall' => 'L+2',
-                    'id' => 'courier',
-                    'initiative' => '(L*2)+1',
-                    'name' => 'Courier',
-                    'page' => 258,
-                    'powers' => ['cookie', 'hash'],
-                    'resonance' => 'L',
-                    'ruleset' => 'core',
-                    'skills' => ['computer', 'hacking'],
-                    'sleaze' => 'L+3',
-                ],
-            ]);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -84,7 +67,7 @@ final class SpritesControllerTest extends \Tests\TestCase
     public function testNoAuthShowNotFound(): void
     {
         $this->getJson(route('shadowrun5e.sprites.show', 'not-found'))
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -94,7 +77,8 @@ final class SpritesControllerTest extends \Tests\TestCase
     public function testAuthShow(): void
     {
         $user = User::factory()->create();
-        $this->getJson(route('shadowrun5e.sprites.show', 'courier'))
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.sprites.show', 'courier'))
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -121,7 +105,8 @@ final class SpritesControllerTest extends \Tests\TestCase
     public function testAuthShowNotFound(): void
     {
         $user = User::factory()->create();
-        $this->getJson(route('shadowrun5e.sprites.show', 'not-found'))
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.sprites.show', 'not-found'))
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

@@ -29,8 +29,7 @@ final class AdeptPowerControllerTest extends \Tests\TestCase
     public function testNoAuthIndex(): void
     {
         $response = $this->getJson(route('shadowrun5e.adept-powers.index'))
-            ->assertOk();
-        self::assertGreaterThanOrEqual(1, count($response['data']));
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -61,16 +60,7 @@ final class AdeptPowerControllerTest extends \Tests\TestCase
             'shadowrun5e.adept-powers.show',
             'improved-sense-direction-sense'
         ))
-            ->assertOk()
-            ->assertJson([
-                'data' => [
-                    'cost' => 0.25,
-                    'id' => 'improved-sense-direction-sense',
-                    'name' => 'Improved Sense: Direction Sense',
-                    'page' => '310',
-                    'ruleset' => 'core',
-                ],
-            ]);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -80,7 +70,7 @@ final class AdeptPowerControllerTest extends \Tests\TestCase
     public function testNoAuthShowNotFound(): void
     {
         $this->getJson(route('shadowrun5e.adept-powers.show', 'not-found'))
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -90,10 +80,11 @@ final class AdeptPowerControllerTest extends \Tests\TestCase
     public function testAuthShow(): void
     {
         $user = User::factory()->create();
-        $this->getJson(route(
-            'shadowrun5e.adept-powers.show',
-            'improved-sense-direction-sense'
-        ))
+        $this->actingAs($user)
+            ->getJson(route(
+                'shadowrun5e.adept-powers.show',
+                'improved-sense-direction-sense'
+            ))
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -113,7 +104,8 @@ final class AdeptPowerControllerTest extends \Tests\TestCase
     public function testAuthShowNotFound(): void
     {
         $user = User::factory()->create();
-        $this->getJson(route('shadowrun5e.adept-powers.show', 'not-found'))
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.adept-powers.show', 'not-found'))
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

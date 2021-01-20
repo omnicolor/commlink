@@ -32,8 +32,7 @@ final class ArmorControllerTest extends \Tests\TestCase
     public function testNoAuthIndex(): void
     {
         $response = $this->getJson(route('shadowrun5e.armor.index'))
-            ->assertOk();
-        self::assertGreaterThanOrEqual(1, count($response['data']));
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -61,16 +60,7 @@ final class ArmorControllerTest extends \Tests\TestCase
     public function testNoAuthShow(): void
     {
         $this->getJson(route('shadowrun5e.armor.show', 'armor-jacket'))
-            ->assertOk()
-            ->assertJson([
-                'data' => [
-                    'availability' => '2',
-                    'cost' => 1000,
-                    'id' => 'armor-jacket',
-                    'name' => 'Armor Jacket',
-                    'rating' => 12,
-                ]
-            ]);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -80,7 +70,7 @@ final class ArmorControllerTest extends \Tests\TestCase
     public function testNoAuthShowNotFound(): void
     {
         $this->getJson(route('shadowrun5e.armor.show', 'not-found'))
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -90,7 +80,8 @@ final class ArmorControllerTest extends \Tests\TestCase
     public function testAuthShow(): void
     {
         $user = User::factory()->create();
-        $this->getJson(route('shadowrun5e.armor.show', 'armor-jacket'))
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.armor.show', 'armor-jacket'))
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -110,7 +101,8 @@ final class ArmorControllerTest extends \Tests\TestCase
     public function testAuthShowNotFound(): void
     {
         $user = User::factory()->create();
-        $this->getJson(route('shadowrun5e.armor.show', 'not-found'))
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.armor.show', 'not-found'))
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

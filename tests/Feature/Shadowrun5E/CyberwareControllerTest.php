@@ -32,8 +32,7 @@ final class CyberwareControllerTest extends \Tests\TestCase
     public function testNoAuthIndex(): void
     {
         $response = $this->getJson(route('shadowrun5e.cyberware.index'))
-            ->assertOk();
-        self::assertGreaterThanOrEqual(1, count($response['data']));
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -61,27 +60,7 @@ final class CyberwareControllerTest extends \Tests\TestCase
     public function testNoAuthShow(): void
     {
         $this->getJson(route('shadowrun5e.cyberware.show', 'damper'))
-            ->assertOk()
-            ->assertJson([
-                'data' => [
-                    'id' => 'damper',
-                    'availability' => '6',
-                    'capacity-containers' => [
-                        'cyberears-1',
-                        'cyberears-2',
-                        'cyberears-3',
-                        'cyberears-4',
-                    ],
-                    'capacity-cost' => 1,
-                    'cost' => 2250,
-                    'effects' => [],
-                    'essence' => 0.1,
-                    'incompatibilities' => [],
-                    'name' => 'Damper',
-                    'ruleset' => 'core',
-                    'type' => 'cyberware',
-                ],
-            ]);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -91,7 +70,7 @@ final class CyberwareControllerTest extends \Tests\TestCase
     public function testNoAuthShowNotFound(): void
     {
         $this->getJson(route('shadowrun5e.cyberware.show', 'not-found'))
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -101,7 +80,8 @@ final class CyberwareControllerTest extends \Tests\TestCase
     public function testAuthShow(): void
     {
         $user = User::factory()->create();
-        $this->getJson(route('shadowrun5e.cyberware.show', 'image-link'))
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.cyberware.show', 'image-link'))
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -133,7 +113,8 @@ final class CyberwareControllerTest extends \Tests\TestCase
     public function testAuthShowNotFound(): void
     {
         $user = User::factory()->create();
-        $this->getJson(route('shadowrun5e.cyberware.show', 'not-found'))
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.cyberware.show', 'not-found'))
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

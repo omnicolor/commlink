@@ -29,8 +29,7 @@ final class SkillGroupsControllerTest extends \Tests\TestCase
     public function testNoAuthIndex(): void
     {
         $response = $this->getJson(route('shadowrun5e.skill-groups.index'))
-            ->assertOk();
-        self::assertGreaterThanOrEqual(1, count($response['data']));
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -58,16 +57,7 @@ final class SkillGroupsControllerTest extends \Tests\TestCase
     public function testNoAuthShow(): void
     {
         $this->getJson(route('shadowrun5e.skill-groups.show', 'firearms'))
-            ->assertOk()
-            ->assertJson([
-                'data' => [
-                    'skills' => [],
-                    'id' => 'firearms',
-                    'links' => [
-                        'self' => '/api/shadowrun5e/skill-groups/firearms',
-                    ],
-                ],
-            ]);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -77,7 +67,7 @@ final class SkillGroupsControllerTest extends \Tests\TestCase
     public function testNoAuthShowNotFound(): void
     {
         $this->getJson(route('shadowrun5e.skill-groups.show', 'not-found'))
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -87,7 +77,8 @@ final class SkillGroupsControllerTest extends \Tests\TestCase
     public function testAuthShow(): void
     {
         $user = User::factory()->create();
-        $this->getJson(route('shadowrun5e.skill-groups.show', 'firearms'))
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.skill-groups.show', 'firearms'))
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -107,7 +98,8 @@ final class SkillGroupsControllerTest extends \Tests\TestCase
     public function testAuthShowNotFound(): void
     {
         $user = User::factory()->create();
-        $this->getJson(route('shadowrun5e.skill-groups.show', 'not-found'))
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.skill-groups.show', 'not-found'))
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

@@ -32,8 +32,7 @@ final class ComplexFormsControllerTest extends \Tests\TestCase
     public function testNoAuthIndex(): void
     {
         $response = $this->getJson(route('shadowrun5e.complex-forms.index'))
-            ->assertOk();
-        self::assertGreaterThanOrEqual(1, count($response['data']));
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -61,18 +60,7 @@ final class ComplexFormsControllerTest extends \Tests\TestCase
     public function testNoAuthShow(): void
     {
         $this->getJson(route('shadowrun5e.complex-forms.show', 'cleaner'))
-            ->assertOk()
-            ->assertJson([
-                'data' => [
-                    'duration' => 'P',
-                    'fade' => 'L+1',
-                    'id' => 'cleaner',
-                    'name' => 'Cleaner',
-                    'page' => 252,
-                    'ruleset' => 'core',
-                    'target' => 'Persona',
-                ],
-            ]);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -82,7 +70,7 @@ final class ComplexFormsControllerTest extends \Tests\TestCase
     public function testNoAuthShowNotFound(): void
     {
         $this->getJson(route('shadowrun5e.complex-forms.show', 'not-found'))
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -92,7 +80,8 @@ final class ComplexFormsControllerTest extends \Tests\TestCase
     public function testAuthShow(): void
     {
         $user = User::factory()->create();
-        $this->getJson(route('shadowrun5e.complex-forms.show', 'cleaner'))
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.complex-forms.show', 'cleaner'))
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -114,7 +103,8 @@ final class ComplexFormsControllerTest extends \Tests\TestCase
     public function testAuthShowNotFound(): void
     {
         $user = User::factory()->create();
-        $this->getJson(route('shadowrun5e.complex-forms.show', 'not-found'))
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.complex-forms.show', 'not-found'))
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

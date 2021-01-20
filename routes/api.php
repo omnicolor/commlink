@@ -21,7 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('shadowrun5e')->name('shadowrun5e.')->group(function () {
+Route::middleware('auth:sanctum')->prefix('shadowrun5e')->name('shadowrun5e.')->group(function () {
     Route::resource('adept-powers', AdeptPowersController::class)
         ->only(['index', 'show']);
     Route::resource('armor', ArmorController::class)

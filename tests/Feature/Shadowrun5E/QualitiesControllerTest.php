@@ -32,8 +32,7 @@ final class QualitiesControllerTest extends \Tests\TestCase
     public function testNoAuthIndex(): void
     {
         $response = $this->getJson(route('shadowrun5e.qualities.index'))
-            ->assertOk();
-        self::assertGreaterThanOrEqual(1, count($response['data']));
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -61,18 +60,7 @@ final class QualitiesControllerTest extends \Tests\TestCase
     public function testNoAuthShow(): void
     {
         $this->getJson(route('shadowrun5e.qualities.show', 'alpha-junkie'))
-            ->assertOk()
-            ->assertJson([
-                'data' => [
-                    'id' => 'alpha-junkie',
-                    'incompatible-with' => ['alpha-junkie'],
-                    'karma' => 12,
-                    'name' => 'Alpha Junkie',
-                    'page' => 151,
-                    'requires' => [],
-                    'ruleset' => 'cutting-aces',
-                ],
-            ]);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -82,7 +70,7 @@ final class QualitiesControllerTest extends \Tests\TestCase
     public function testNoAuthShowNotFound(): void
     {
         $this->getJson(route('shadowrun5e.qualities.show', 'not-found'))
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -92,7 +80,8 @@ final class QualitiesControllerTest extends \Tests\TestCase
     public function testAuthShow(): void
     {
         $user = User::factory()->create();
-        $this->getJson(route('shadowrun5e.qualities.show', 'alpha-junkie'))
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.qualities.show', 'alpha-junkie'))
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -114,7 +103,8 @@ final class QualitiesControllerTest extends \Tests\TestCase
     public function testAuthShowNotFound(): void
     {
         $user = User::factory()->create();
-        $this->getJson(route('shadowrun5e.qualities.show', 'not-found'))
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.qualities.show', 'not-found'))
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

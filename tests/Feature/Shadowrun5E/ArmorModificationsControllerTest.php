@@ -34,8 +34,7 @@ final class ArmorModificationsControllerTest extends \Tests\TestCase
         $response = $this->getJson(route(
             'shadowrun5e.armor-modifications.index'
         ))
-            ->assertOk();
-        self::assertGreaterThanOrEqual(1, count($response['data']));
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -65,17 +64,7 @@ final class ArmorModificationsControllerTest extends \Tests\TestCase
         $this->getJson(
             route('shadowrun5e.armor-modifications.show', 'auto-injector')
         )
-            ->assertOk()
-            ->assertJson([
-                'data' => [
-                    'availability' => '4',
-                    'capacity-cost' => 2,
-                    'cost' => 1500,
-                    'id' => 'auto-injector',
-                    'name' => 'Auto-injector',
-                    'ruleset' => 'run-and-gun',
-                ]
-            ]);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -87,7 +76,7 @@ final class ArmorModificationsControllerTest extends \Tests\TestCase
         $this->getJson(
             route('shadowrun5e.armor-modifications.show', 'not-found')
         )
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -97,9 +86,10 @@ final class ArmorModificationsControllerTest extends \Tests\TestCase
     public function testAuthShow(): void
     {
         $user = User::factory()->create();
-        $this->getJson(
-            route('shadowrun5e.armor-modifications.show', 'auto-injector')
-        )
+        $this->actingAs($user)
+            ->getJson(
+                route('shadowrun5e.armor-modifications.show', 'auto-injector')
+            )
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -120,9 +110,10 @@ final class ArmorModificationsControllerTest extends \Tests\TestCase
     public function testAuthShowNotFound(): void
     {
         $user = User::factory()->create();
-        $this->getJson(
-            route('shadowrun5e.armor-modifications.show', 'not-found')
-        )
+        $this->actingAs($user)
+            ->getJson(
+                route('shadowrun5e.armor-modifications.show', 'not-found')
+            )
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }
