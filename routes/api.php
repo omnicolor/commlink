@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\DiceRollerController;
 use App\Http\Controllers\Shadowrun5E\AdeptPowersController;
 use App\Http\Controllers\Shadowrun5E\ArmorController;
 use App\Http\Controllers\Shadowrun5E\ArmorModificationsController;
@@ -20,6 +21,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::options('/roll', [DiceRollerController::class, 'options'])
+    ->name('roll-options');
+Route::post('/roll', [DiceRollerController::class, 'post'])->name('roll');
 
 Route::middleware('auth:sanctum')->prefix('shadowrun5e')->name('shadowrun5e.')->group(function () {
     Route::resource('adept-powers', AdeptPowersController::class)
