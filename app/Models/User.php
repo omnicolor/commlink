@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Character;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -21,8 +23,8 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'name',
         'email',
+        'name',
         'password',
     ];
 
@@ -42,4 +44,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the characters for the User.
+     * @param ?string $system
+     * @return Builder
+     */
+    public function characters(?string $system = null): Builder
+    {
+        $characters = Character::where('owner', $this->email);
+        if (null !== $system) {
+            $characters->where('type', $system);
+        }
+        return $characters;
+    }
 }
