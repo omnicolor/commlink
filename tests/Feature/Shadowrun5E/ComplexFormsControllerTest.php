@@ -31,7 +31,7 @@ final class ComplexFormsControllerTest extends \Tests\TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $response = $this->getJson(route('shadowrun5e.complex-forms.index'))
+        $this->getJson(route('shadowrun5e.complex-forms.index'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 

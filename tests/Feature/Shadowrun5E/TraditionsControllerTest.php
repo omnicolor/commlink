@@ -28,7 +28,7 @@ final class TraditionsControllerTest extends \Tests\TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $response = $this->getJson(route('shadowrun5e.traditions.index'))
+        $this->getJson(route('shadowrun5e.traditions.index'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 

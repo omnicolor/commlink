@@ -28,7 +28,7 @@ final class SpritesControllerTest extends \Tests\TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $response = $this->getJson(route('shadowrun5e.sprites.index'))
+        $this->getJson(route('shadowrun5e.sprites.index'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 

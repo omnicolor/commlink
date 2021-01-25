@@ -28,7 +28,7 @@ final class AdeptPowerControllerTest extends \Tests\TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $response = $this->getJson(route('shadowrun5e.adept-powers.index'))
+        $this->getJson(route('shadowrun5e.adept-powers.index'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 

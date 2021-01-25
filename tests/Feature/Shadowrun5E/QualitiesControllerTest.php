@@ -31,7 +31,7 @@ final class QualitiesControllerTest extends \Tests\TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $response = $this->getJson(route('shadowrun5e.qualities.index'))
+        $this->getJson(route('shadowrun5e.qualities.index'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 

@@ -31,7 +31,7 @@ final class ArmorControllerTest extends \Tests\TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $response = $this->getJson(route('shadowrun5e.armor.index'))
+        $this->getJson(route('shadowrun5e.armor.index'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 

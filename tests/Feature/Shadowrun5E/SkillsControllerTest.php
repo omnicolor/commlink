@@ -28,7 +28,7 @@ final class SkillsControllerTest extends \Tests\TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $response = $this->getJson(route('shadowrun5e.skills.index'))
+        $this->getJson(route('shadowrun5e.skills.index'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
