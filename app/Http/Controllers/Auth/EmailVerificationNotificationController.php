@@ -12,7 +12,7 @@ class EmailVerificationNotificationController extends Controller
 {
     /**
      * Send a new email verification notification.
-     *
+     * @codeCoverageIgnore
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
