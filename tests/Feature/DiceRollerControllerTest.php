@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use App\Http\Responses\SlackResponse;
 use Illuminate\Http\Response;
 
 /**
@@ -61,7 +62,7 @@ final class DiceRollerControllerTest extends \Tests\TestCase
             [
                 'channel_id' => 'A123',
                 'team_id' => 'B234',
-                'text' => 'help',
+                'text' => 'error',
                 'user_id' => 'C345',
             ]
         )
@@ -73,6 +74,29 @@ final class DiceRollerControllerTest extends \Tests\TestCase
                     . PHP_EOL . PHP_EOL
                     . 'Type `/roll help` for more help.',
                 'title' => 'Error',
+            ]);
+    }
+
+    /**
+     * Test a POST request for a valid command.
+     * @test
+     */
+    public function testPostHelpCommandUnregisteredChannel(): void
+    {
+        $response = $this->post(
+            route('roll'),
+            [
+                'channel_id' => 'A123',
+                'team_id' => 'B234',
+                'text' => 'help',
+                'user_id' => 'C345',
+            ]
+        )
+            ->assertOk()
+            ->assertJsonFragment([
+                'color' => SlackResponse::COLOR_INFO,
+                'response_type' => 'ephemeral',
+                'title' => 'Commands For Unregistered Channels',
             ]);
     }
 }

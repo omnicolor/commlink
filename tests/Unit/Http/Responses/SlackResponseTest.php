@@ -41,6 +41,23 @@ final class SlackResponseTest extends \Tests\TestCase
     }
 
     /**
+     * Test setting things in the constructor.
+     * @test
+     */
+    public function testConstructor(): void
+    {
+        $response = new SlackResponse(
+            'Content',
+            SlackResponse::HTTP_NOT_FOUND,
+            ['Content-Type' => 'Your Mom']
+        );
+        self::assertSame(
+            '{"response_type":"ephemeral"}',
+            (string)$this->response
+        );
+    }
+
+    /**
      * Test changing a Slack Response to go to the channel.
      * @test
      */
