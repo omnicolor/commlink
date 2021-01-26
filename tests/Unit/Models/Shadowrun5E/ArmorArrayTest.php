@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Shadowrun5E;
+namespace Tests\Unit\Models\Shadowrun5E;
 
 use App\Models\Shadowrun5E\AdeptPower;
 use App\Models\Shadowrun5E\Armor;
@@ -11,6 +11,9 @@ use App\Models\Shadowrun5E\ArmorArray;
 /**
  * Tests for the ArmorArray class.
  * @covers \App\Models\Shadowrun5E\ArmorArray
+ * @group shadowrun
+ * @group shadowrun5e
+ * @group models
  */
 final class ArmorArrayTest extends \Tests\TestCase
 {

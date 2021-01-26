@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Shadowrun5E;
+namespace Tests\Unit\Models\Shadowrun5E;
 
 use App\Models\Shadowrun5E\ActiveSkill;
 use App\Models\Shadowrun5E\SkillGroup;
@@ -10,6 +10,9 @@ use App\Models\Shadowrun5E\SkillGroup;
 /**
  * Unit tests for SkillGroups.
  * @covers \App\Models\Shadowrun5E\SkillGroup
+ * @group shadowrun
+ * @group shadowrun5e
+ * @group models
  */
 final class SkillGroupTest extends \Tests\TestCase
 {

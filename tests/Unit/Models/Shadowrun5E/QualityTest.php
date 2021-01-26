@@ -2,13 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Shadowrun5E;
+namespace Tests\Unit\Models\Shadowrun5E;
 
 use App\Models\Shadowrun5E\Quality;
 
 /**
  * Qualities tests for Quality class.
  * @covers \App\Models\Shadowrun5E\Quality
+ * @group shadowrun
+ * @group shadowrun5e
+ * @group models
  */
 final class QualityTest extends \Tests\TestCase
 {

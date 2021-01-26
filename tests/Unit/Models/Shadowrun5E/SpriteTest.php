@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Shadowrun5E;
+namespace Tests\Unit\Models\Shadowrun5E;
 
 use App\Models\Shadowrun5E\ActiveSkill;
 use App\Models\Shadowrun5E\Sprite;
@@ -10,6 +10,9 @@ use App\Models\Shadowrun5E\Sprite;
 /**
  * Unit tests for the Sprite class
  * @covers \App\Models\Shadowrun5E\Sprite
+ * @group shadowrun
+ * @group shadowrun5e
+ * @group models
  */
 final class SpriteTest extends \Tests\TestCase
 {

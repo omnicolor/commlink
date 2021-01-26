@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Shadowrun5E;
+namespace Tests\Unit\Models\Shadowrun5E;
 
 use App\Models\Shadowrun5E\Armor;
 use App\Models\Shadowrun5E\ArmorModification;
@@ -10,6 +10,9 @@ use App\Models\Shadowrun5E\ArmorModification;
 /**
  * Tests for armor modifications class.
  * @covers \App\Models\Shadowrun5E\ArmorModification
+ * @group shadowrun
+ * @group shadowrun5e
+ * @group models
  */
 final class ArmorModificationTest extends \Tests\TestCase
 {

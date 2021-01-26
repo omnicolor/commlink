@@ -2,13 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Shadowrun5E;
+namespace Tests\Unit\Models\Shadowrun6E;
 
 use App\Models\Shadowrun5E\Augmentation;
 
 /**
  * Unit tests for Augmentation class.
  * @covers \App\Models\Shadowrun5E\Augmentation
+ * @group shadowrun
+ * @group shadowrun5e
+ * @group models
  */
 final class AugmentationTest extends \Tests\TestCase
 {

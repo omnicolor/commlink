@@ -2,13 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Shadowrun5E;
+namespace Tests\Unit\Models\Shadowrun5E;
 
 use App\Models\Shadowrun5E\Tradition;
 
 /**
  * Unit tests for Tradition class.
  * @covers \App\Models\Shadowrun5E\Tradition
+ * @group shadowrun
+ * @group shadowrun5e
+ * @group models
  */
 final class TraditionTest extends \Tests\TestCase
 {

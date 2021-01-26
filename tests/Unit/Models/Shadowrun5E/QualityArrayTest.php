@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Shadowrun5E;
+namespace Tests\Unit\Models\Shadowrun5E;
 
 use App\Models\Shadowrun5E\ActiveSkill;
 use App\Models\Shadowrun5E\Quality;
@@ -11,6 +11,9 @@ use App\Models\Shadowrun5E\QualityArray;
 /**
  * Tests for the QualityArray class.
  * @covers \App\Models\Shadowrun5E\QualityArray
+ * @group shadowrun
+ * @group shadowrun5e
+ * @group models
  */
 final class QualityArrayTest extends \Tests\TestCase
 {

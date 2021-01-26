@@ -7,11 +7,15 @@
         <div class="col">
             <h1>Characters</h1>
             <ul class="list-group">
-            @foreach ($characters as $character)
+            @forelse ($characters as $character)
                 <li class="list-group-item">
                     {{ $character->handle ?? $character->name }} ({{ $character->type }})
                 </li>
-            @endforeach
+            @empty
+                <li class="list-group-item">
+                    You don't have any characters!
+                </li>
+            @endforelse
             </ul>
         </div>
     </div>

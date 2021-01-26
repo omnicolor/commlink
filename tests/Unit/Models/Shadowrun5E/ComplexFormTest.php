@@ -2,12 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Shadowrun5E;
+namespace Tests\Unit\Models\Shadowrun5E;
 
 use App\Models\Shadowrun5E\ComplexForm;
 
 /**
  * Tests for ComplexForm object.
+ * @group shadowrun
+ * @group shadowrun5e
+ * @group models
  */
 final class ComplexFormTest extends \Tests\TestCase
 {

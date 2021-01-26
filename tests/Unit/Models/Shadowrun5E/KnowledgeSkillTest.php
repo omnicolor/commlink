@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Shadowrun5E;
+namespace Tests\Unit\Models\Shadowrun5E;
 
 use App\Models\Shadowrun5E\KnowledgeSkill;
 
@@ -10,6 +10,9 @@ use App\Models\Shadowrun5E\KnowledgeSkill;
  * Unit tests for knowledge skills class.
  * @covers \App\Models\Shadowrun5E\KnowledgeSkill
  * @covers \App\Models\Shadowrun5E\Skill
+ * @group shadowrun
+ * @group shadowrun5e
+ * @group models
  */
 final class KnowledgeSkillTest extends \Tests\TestCase
 {

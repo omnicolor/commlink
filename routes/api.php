@@ -6,6 +6,7 @@ use App\Http\Controllers\DiceRollerController;
 use App\Http\Controllers\Shadowrun5E\AdeptPowersController;
 use App\Http\Controllers\Shadowrun5E\ArmorController;
 use App\Http\Controllers\Shadowrun5E\ArmorModificationsController;
+use App\Http\Controllers\Shadowrun5E\CharactersController;
 use App\Http\Controllers\Shadowrun5E\ComplexFormsController;
 use App\Http\Controllers\Shadowrun5E\CyberwareController;
 use App\Http\Controllers\Shadowrun5E\GearModificationsController;
@@ -32,6 +33,8 @@ Route::middleware('auth:sanctum')->prefix('shadowrun5e')->name('shadowrun5e.')->
     Route::resource('armor', ArmorController::class)
         ->only(['index', 'show']);
     Route::resource('armor-modifications', ArmorModificationsController::class)
+        ->only(['index', 'show']);
+    Route::resource('characters', CharactersController::class)
         ->only(['index', 'show']);
     Route::resource('complex-forms', ComplexFormsController::class)
         ->only(['index', 'show']);

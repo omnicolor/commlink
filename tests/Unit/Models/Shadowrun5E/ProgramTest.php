@@ -2,13 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Shadowrun5E;
+namespace Tests\Unit\Models\Shadowrun5E;
 
 use App\Models\Shadowrun5E\Program;
 
 /**
  * Unit tests for Program class
  * @covers \App\Models\Shadowrun5E\Program
+ * @group shadowrun
+ * @group shadowrun5e
+ * @group models
  */
 final class ProgramTest extends \Tests\TestCase
 {
