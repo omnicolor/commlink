@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Http\MiddleWare;
+namespace Tests\Unit\Http\Middleware;
 
 use App\Http\Middleware\TrustHosts;
 

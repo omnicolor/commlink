@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Models\Shadowrun5e;
+namespace Tests\Unit\Models\Shadowrun5E;
 
 use App\Models\Shadowrun5E\Character;
 
@@ -50,5 +50,25 @@ final class CharacterTest extends \Tests\TestCase
         self::assertNotNull($character->id);
         self::assertSame($character->_id, $character->id);
         $character->delete();
+    }
+
+    /**
+     * Test getting a character's qualities if they don't have any.
+     * @test
+     */
+    public function testGetQualitiesEmpty(): void
+    {
+        $character = new Character();
+        self::assertEmpty($character->getQualities());
+    }
+
+    /**
+     * Test getting a character's qualities if they have one that is invalid.
+     * @test
+     */
+    public function testGetQualitiesInvalid(): void
+    {
+        $character = new Character(['qualities' => [['id' => 'not-found']]]);
+        self::assertEmpty($character->getQualities());
     }
 }

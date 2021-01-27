@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\CyberpunkRed;
+namespace Tests\Unit\Models\CyberpunkRed;
 
 use App\Models\CyberpunkRed\Character;
 

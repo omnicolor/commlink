@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Responses;
+namespace Tests\Unit\Http\Responses;
 
 use App\Http\Responses\SlackResponse;
 
