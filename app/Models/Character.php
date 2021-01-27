@@ -43,4 +43,30 @@ class Character extends Model
     {
         return User::where('email', $this->owner)->firstOrFail();
     }
+
+    /**
+     * Create a new Character, subclassed if available.
+     * @param array<mixed, mixed> $attributes
+     * @param ?string $connection
+     * @return static(\Illuminate\Database\Eloquent\Model)
+     */
+    public function newFromBuilder(
+        $attributes = [],
+        $connection = null
+    ): Character {
+        switch ($attributes['type']) {
+            case 'shadowrun5e':
+                $character = new Shadowrun5E\Character($attributes);
+                break;
+            default:
+                $character = new Character($attributes);
+                break;
+        }
+        $character->exists = true;
+        $character->setRawAttributes($attributes, true);
+        $character->setConnection($connection);
+        $character->fireModelEvent('retrieved', false);
+        // @phpstan-ignore-next-line
+        return $character;
+    }
 }
