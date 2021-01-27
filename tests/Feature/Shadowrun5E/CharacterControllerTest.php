@@ -89,4 +89,46 @@ final class CharacterControllerTest extends \Tests\TestCase
         $character1->delete();
         $character2->delete();
     }
+
+    /**
+     * Test loading an individual character.
+     * @test
+     */
+    public function testShowCharacter(): void
+    {
+        $user = User::factory()->create();
+        $character = Character::factory()->create([
+            'owner' => $user->email,
+            'type' => 'shadowrun5e',
+        ]);
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.characters.show', $character->id))
+            ->assertOk()
+            ->assertJsonFragment([
+                'id' => $character->_id,
+                'handle' => $character->handle,
+                'owner' => $user->email,
+                'type' => 'shadowrun5e',
+                'updated_at' => $character->updated_at->toJson(),
+                'created_at' => $character->created_at->toJson(),
+            ]);
+        $character->delete();
+    }
+
+    /**
+     * Test loading an individual character.
+     * @test
+     */
+    public function testShowCharacterOtherSystem(): void
+    {
+        $user = User::factory()->create();
+        $character = Character::factory()->create([
+            'owner' => $user->email,
+            'type' => 'shadowrun6e',
+        ]);
+        $this->actingAs($user)
+            ->getJson(route('shadowrun5e.characters.show', $character->id))
+            ->assertStatus(Response::HTTP_NOT_FOUND);
+        $character->delete();
+    }
 }

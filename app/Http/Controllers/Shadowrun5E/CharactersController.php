@@ -21,4 +21,20 @@ class CharactersController extends \App\Http\Controllers\Controller
             Character::where('owner', \Auth::user()->email)->get()
         );
     }
+
+    /**
+     * Return a single Shadowrun 5E character.
+     * @param string $identifier
+     * @return JsonResource
+     */
+    public function show(string $identifier): JsonResource
+    {
+        // @phpstan-ignore-next-line
+        $email = \Auth::user()->email;
+        return new CharacterResource(
+            Character::where('_id', $identifier)
+                ->where('owner', $email)
+                ->firstOrFail()
+        );
+    }
 }
