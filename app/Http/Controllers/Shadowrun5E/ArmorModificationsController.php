@@ -48,10 +48,12 @@ class ArmorModificationsController extends \App\Http\Controllers\Controller
         foreach ($this->mods as $key => $value) {
             $this->mods[$key]['links']['self'] = sprintf(
                 '/api/shadowrun5e/armor-modifications/%s',
-                $key
+                urlencode($key)
             );
             $this->mods[$key]['ruleset'] ??= 'core';
         }
+
+        $this->headers['Etag'] = sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
@@ -79,8 +81,10 @@ class ArmorModificationsController extends \App\Http\Controllers\Controller
         }
 
         $mod = $this->mods[$id];
-        $mod['links']['self'] = $this->links['self'] =
-            sprintf('/api/shadowrun5e/armor-modifications/%s', $id);
+        $mod['links']['self'] = $this->links['self'] = sprintf(
+            '/api/shadowrun5e/armor-modifications/%s',
+            urlencode($id)
+        );
         $mod['ruleset'] ??= 'core';
         $this->headers['Etag'] = sha1((string)json_encode($mod));
 
