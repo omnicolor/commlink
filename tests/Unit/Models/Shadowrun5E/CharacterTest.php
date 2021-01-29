@@ -71,4 +71,19 @@ final class CharacterTest extends \Tests\TestCase
         $character = new Character(['qualities' => [['id' => 'not-found']]]);
         self::assertEmpty($character->getQualities());
     }
+
+    /**
+     * Test getting a character's qualities.
+     * @test
+     */
+    public function testGetQualities(): void
+    {
+        $character = new Character([
+            'qualities' => [
+                ['id' => 'lucky'],
+                ['id' => 'addiction-mild', 'addiction' => 'Alcohol']
+            ]
+        ]);
+        self::assertCount(2, $character->getQualities());
+    }
 }
