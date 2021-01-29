@@ -53,6 +53,78 @@ final class CharacterTest extends \Tests\TestCase
     }
 
     /**
+     * Test getting a character's armor if they don't have any.
+     * @test
+     */
+    public function testGetArmorEmpty(): void
+    {
+        $character = new Character();
+        self::assertEmpty($character->getArmor());
+    }
+
+    /**
+     * Test getting a character's armor if they have one that is invalid.
+     * @test
+     */
+    public function testGetArmorInvalid(): void
+    {
+        $character = new Character(['armor' => [['id' => 'not-found']]]);
+        self::assertEmpty($character->getArmor());
+    }
+
+    /**
+     * Test getting a character's armor.
+     * @test
+     */
+    public function testGetArmor(): void
+    {
+        $character = new Character([
+            'armor' => [
+                ['id' => 'armor-jacket'],
+                ['id' => 'berwick-suit'],
+            ],
+        ]);
+        self::assertCount(2, $character->getArmor());
+    }
+
+    /**
+     * Test getting a character's augmentations if they don't have any.
+     * @test
+     */
+    public function testGetAugmentationsEmpty(): void
+    {
+        $character = new Character();
+        self::assertEmpty($character->getAugmentations());
+    }
+
+    /**
+     * Test getting a character's augmentations if they have an invalid one.
+     * @test
+     */
+    public function testGetAugmentationsInvalid(): void
+    {
+        $character = new Character([
+            'augmentations' => [['id' => 'not-found']],
+        ]);
+        self::assertEmpty($character->getAugmentations());
+    }
+
+    /**
+     * Test getting a character's augmentations.
+     * @test
+     */
+    public function testGetAugmentations(): void
+    {
+        $character = new Character([
+            'augmentations' => [
+                ['id' => 'cyberears-1'],
+                ['id' => 'cybereyes-1'],
+            ],
+        ]);
+        self::assertCount(2, $character->getAugmentations());
+    }
+
+    /**
      * Test getting a character's qualities if they don't have any.
      * @test
      */
@@ -85,5 +157,44 @@ final class CharacterTest extends \Tests\TestCase
             ]
         ]);
         self::assertCount(2, $character->getQualities());
+    }
+
+    /**
+     * Test getting a character's skills if they have none.
+     * @test
+     */
+    public function testGetSkillsEmpty(): void
+    {
+        $character = new Character();
+        self::assertEmpty($character->getSkills());
+    }
+
+    /**
+     * Test getting a character's skills if they have one that is invalid.
+     * @test
+     */
+    public function testGetSkillsInvalid(): void
+    {
+        $character = new Character([
+            'skills' => [
+                ['id' => 'not-found', 'level' => 6],
+            ]
+        ]);
+        self::assertEmpty($character->getSkills());
+    }
+
+    /**
+     * Test getting a character's skills.
+     * @test
+     */
+    public function testGetSkills(): void
+    {
+        $character = new Character([
+            'skills' => [
+                ['id' => 'automatics', 'level' => 6],
+                ['id' => 'hacking', 'level' => 5, 'specialization' => 'foo'],
+            ],
+        ]);
+        self::assertCount(2, $character->getSkills());
     }
 }
