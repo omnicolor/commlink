@@ -53,6 +53,48 @@ final class CharacterTest extends \Tests\TestCase
     }
 
     /**
+     * Test getting a character's adept powers if they don't have any.
+     * @test
+     */
+    public function testGetAdeptPowersEmpty(): void
+    {
+        $character = new Character();
+        self::assertEmpty($character->getAdeptPowers());
+    }
+
+    /**
+     * Test getting a character's adept powers if they have an invalid power.
+     * @test
+     */
+    public function testGetAdeptPowersInvalid(): void
+    {
+        $character = new Character([
+            'magics' => [
+                'powers' => [
+                    'not-found',
+                ],
+            ],
+        ]);
+        self::assertEmpty($character->getAdeptPowers());
+    }
+
+    /**
+     * Test getting a character's adept powers.
+     * @test
+     */
+    public function testGetAdeptPowers(): void
+    {
+        $character = new Character([
+            'magics' => [
+                'powers' => [
+                    'improved-sense-direction-sense',
+                ],
+            ],
+        ]);
+        self::assertCount(1, $character->getAdeptPowers());
+    }
+
+    /**
      * Test getting a character's armor if they don't have any.
      * @test
      */

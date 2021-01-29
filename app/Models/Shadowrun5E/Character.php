@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @property ?array<int, array<string, mixed>> $augmentations
  * @property string $handle
  * @property string $id
+ * @property ?array<string, mixed> $magics
  * @property ?array<int, array<string, mixed>> $qualities
  * @property ?array<int, array<string, mixed>> $skills
  */
@@ -31,6 +32,7 @@ class Character extends \App\Models\Character
         'armor',
         'augmentations',
         'handle',
+        'magics',
         'qualities',
         'skills',
     ];
@@ -62,6 +64,31 @@ class Character extends \App\Models\Character
                 $builder->where('type', 'shadowrun5e');
             }
         );
+    }
+
+    /**
+     * Return the character's adept powers.
+     * @return AdeptPowerArray
+     */
+    public function getAdeptPowers(): AdeptPowerArray
+    {
+        $powers = new AdeptPowerArray();
+        if (null === $this->magics || !isset($this->magics['powers'])) {
+            return $powers;
+        }
+        foreach ($this->magics['powers'] as $power) {
+            try {
+                $powers[] = new AdeptPower($power);
+            } catch (\RuntimeException $ex) {
+                \Log::warning(sprintf(
+                    'Shadowrun5E character "%s" (%s) has invalid adept power "%s"',
+                    $this->handle,
+                    $this->_id,
+                    $power
+                ));
+            }
+        }
+        return $powers;
     }
 
     /**
