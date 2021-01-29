@@ -76,7 +76,7 @@ class Character extends \App\Models\Character
         }
         foreach ($this->armor as $rawArmor) {
             try {
-                $armor[] = Armor::buildArmor($rawArmor);
+                $armor[] = Armor::build($rawArmor);
             } catch (\RuntimeException $ex) {
                 \Log::warning(sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid armor "%s"',

@@ -135,7 +135,7 @@ class Armor
      * @return Armor
      * @throws \RuntimeException
      */
-    public static function buildArmor(array $armor): Armor
+    public static function build(array $armor): Armor
     {
         $armorItem = new Armor($armor['id']);
         $armorItem->active = $armor['active'] ?? false;

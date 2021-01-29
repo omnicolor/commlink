@@ -198,18 +198,18 @@ final class ArmorTest extends \Tests\TestCase
     }
 
     /**
-     * Test buildArmor() with an ID that doesn't exist.
+     * Test build() with an ID that doesn't exist.
      * @test
      */
     public function testBuildArmorNotFound(): void
     {
         self::expectException(\RuntimeException::class);
         self::expectExceptionMessage('Armor ID "invalid-id" is invalid');
-        Armor::buildArmor(['id' => 'invalid-id']);
+        Armor::build(['id' => 'invalid-id']);
     }
 
     /**
-     * Test buildArmor() with valid armor, setting active property, no mods.
+     * Test build() with valid armor, setting active property, no mods.
      * @test
      */
     public function testBuildArmorActiveNoModifications(): void
@@ -218,14 +218,14 @@ final class ArmorTest extends \Tests\TestCase
             'id' => 'armor-jacket',
             'active' => true,
         ];
-        $armor = Armor::buildArmor($array);
+        $armor = Armor::build($array);
         self::assertSame('Armor Jacket', $armor->name);
         self::assertTrue($armor->active);
         self::assertEmpty($armor->modifications);
     }
 
     /**
-     * Test buildArmor() with some modded armor (gear and armor mods), not
+     * Test build() with some modded armor (gear and armor mods), not
      * active.
      * @test
      */
@@ -238,7 +238,7 @@ final class ArmorTest extends \Tests\TestCase
                 'biomonitor',
             ],
         ];
-        $armor = Armor::buildArmor($array);
+        $armor = Armor::build($array);
         self::assertSame('Berwick Suit', $armor->name);
         self::assertFalse($armor->active);
         self::assertNotEmpty($armor->modifications);
@@ -253,7 +253,7 @@ final class ArmorTest extends \Tests\TestCase
     }
 
     /**
-     * Test buildArmor() with an illegal mod.
+     * Test build() with an illegal mod.
      * @test
      */
     public function testBuildArmorWithUnknownMods(): void
@@ -266,7 +266,7 @@ final class ArmorTest extends \Tests\TestCase
         ];
         self::expectException(\RuntimeException::class);
         self::expectExceptionMessage('Armor/Gear mod not found: unknown');
-        Armor::buildArmor($array);
+        Armor::build($array);
     }
 
     /**
