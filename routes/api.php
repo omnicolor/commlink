@@ -16,6 +16,8 @@ use App\Http\Controllers\Shadowrun5E\ProgramsController;
 use App\Http\Controllers\Shadowrun5E\QualitiesController;
 use App\Http\Controllers\Shadowrun5E\SkillsController;
 use App\Http\Controllers\Shadowrun5E\SkillGroupsController;
+use App\Http\Controllers\Shadowrun5E\SpellsController;
+use App\Http\Controllers\Shadowrun5E\SpiritsController;
 use App\Http\Controllers\Shadowrun5E\SpritesController;
 use App\Http\Controllers\Shadowrun5E\TraditionsController;
 use Illuminate\Http\Request;
@@ -56,6 +58,10 @@ Route::middleware('auth:sanctum')->prefix('shadowrun5e')->name('shadowrun5e.')->
         Route::resource('skills', SkillsController::class)
             ->only(['index', 'show']);
         Route::resource('skill-groups', SkillGroupsController::class)
+            ->only(['index', 'show']);
+        Route::resource('spells', SpellsController::class)
+            ->only(['index', 'show']);
+        Route::resource('spirits', SpiritsController::class)
             ->only(['index', 'show']);
         Route::resource('sprites', SpritesController::class)
             ->only(['index', 'show']);
