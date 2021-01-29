@@ -9,9 +9,9 @@ use App\Models\Shadowrun5E\Program;
 /**
  * Unit tests for Program class
  * @covers \App\Models\Shadowrun5E\Program
+ * @group models
  * @group shadowrun
  * @group shadowrun5e
- * @group models
  */
 final class ProgramTest extends \Tests\TestCase
 {

@@ -8,9 +8,9 @@ use App\Models\Shadowrun5E\ComplexForm;
 
 /**
  * Tests for ComplexForm object.
+ * @group models
  * @group shadowrun
  * @group shadowrun5e
- * @group models
  */
 final class ComplexFormTest extends \Tests\TestCase
 {

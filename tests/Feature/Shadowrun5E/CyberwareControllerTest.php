@@ -9,6 +9,9 @@ use Illuminate\Http\Response;
 
 /**
  * Tests for the Cyberware controller.
+ * @group controllers
+ * @group shadowrun
+ * @group shadowrun5e
  */
 final class CyberwareControllerTest extends \Tests\TestCase
 {

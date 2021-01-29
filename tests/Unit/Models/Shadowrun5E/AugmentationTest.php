@@ -9,9 +9,9 @@ use App\Models\Shadowrun5E\Augmentation;
 /**
  * Unit tests for Augmentation class.
  * @covers \App\Models\Shadowrun5E\Augmentation
+ * @group models
  * @group shadowrun
  * @group shadowrun5e
- * @group models
  */
 final class AugmentationTest extends \Tests\TestCase
 {

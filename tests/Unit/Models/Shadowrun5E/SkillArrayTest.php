@@ -12,9 +12,9 @@ use App\Models\Shadowrun5E\SkillArray;
 /**
  * Tests for the SkillArray class.
  * @covers \App\Models\Shadowrun5E\SkillArray
+ * @group models
  * @group shadowrun
  * @group shadowrun5e
- * @group models
  */
 final class SkillArrayTest extends \Tests\TestCase
 {

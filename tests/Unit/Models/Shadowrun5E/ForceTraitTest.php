@@ -8,9 +8,9 @@ use App\Models\Shadowrun5E\ForceTrait;
 
 /**
  * Tests for the Force trait.
+ * @group models
  * @group shadowrun
  * @group shadowrun5e
- * @group models
  */
 final class ForceTraitTest extends \Tests\TestCase
 {

@@ -9,9 +9,9 @@ use App\Models\Shadowrun5E\GearModification;
 /**
  * Unit tests for GearModification class
  * @covers \App\Models\Shadowrun5E\GearModification
+ * @group models
  * @group shadowrun
  * @group shadowrun5e
- * @group models
  */
 final class GearModificationTest extends \Tests\TestCase
 {

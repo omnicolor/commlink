@@ -9,9 +9,9 @@ use App\Models\Shadowrun5E\Tradition;
 /**
  * Unit tests for Tradition class.
  * @covers \App\Models\Shadowrun5E\Tradition
+ * @group models
  * @group shadowrun
  * @group shadowrun5e
- * @group models
  */
 final class TraditionTest extends \Tests\TestCase
 {

@@ -7,6 +7,12 @@ namespace Tests\Feature\Shadowrun5E;
 use App\Models\User;
 use Illuminate\Http\Response;
 
+/**
+ * Tests for the Shadowrun 5E skill groups controller.
+ * @group controllers
+ * @group shadowrun
+ * @group shadowrun5e
+ */
 final class SkillGroupsControllerTest extends \Tests\TestCase
 {
     /**

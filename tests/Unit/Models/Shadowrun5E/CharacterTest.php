@@ -9,9 +9,9 @@ use App\Models\Shadowrun5E\Character;
 /**
  * Tests for Shadowrun 5E characters.
  * @covers \App\Models\Shadowrun5E\Character
+ * @group models
  * @group shadowrun
  * @group shadowrun5e
- * @group models
  */
 final class CharacterTest extends \Tests\TestCase
 {

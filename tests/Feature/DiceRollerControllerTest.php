@@ -13,6 +13,7 @@ use Illuminate\Http\Response;
  * @covers \App\Http\Controllers\DiceRollerController
  * @covers \App\Http\Requests\SlackRequest
  * @group controllers
+ * @group slack
  */
 final class DiceRollerControllerTest extends \Tests\TestCase
 {

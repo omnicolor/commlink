@@ -9,9 +9,9 @@ use App\Models\Shadowrun5E\Quality;
 /**
  * Qualities tests for Quality class.
  * @covers \App\Models\Shadowrun5E\Quality
+ * @group models
  * @group shadowrun
  * @group shadowrun5e
- * @group models
  */
 final class QualityTest extends \Tests\TestCase
 {

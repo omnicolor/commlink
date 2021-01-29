@@ -11,6 +11,7 @@ use Illuminate\Support\Collection;
 
 /**
  * Tests for the top-level Character class.
+ * @group controllers
  * @group character
  */
 final class CharacterTest extends \Tests\TestCase

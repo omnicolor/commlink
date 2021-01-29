@@ -9,9 +9,9 @@ use App\Models\Shadowrun5E\MartialArtsStyle;
 /**
  * Unit tests for MartialArtsStyle class.
  * @covers \App\Models\Shadowrun5E\MartialArtsStyle
+ * @group models
  * @group shadowrun
  * @group shadowrun5e
- * @group models
  */
 final class MartialArtsStyleTest extends \Tests\TestCase
 {

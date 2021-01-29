@@ -11,9 +11,9 @@ use App\Models\Shadowrun5E\GearModification;
 /**
  * Armor tests for Armor object.
  * @covers \App\Models\Shadowrun5E\Armor
+ * @group models
  * @group shadowrun
  * @group shadowrun5e
- * @group models
  */
 final class ArmorTest extends \Tests\TestCase
 {

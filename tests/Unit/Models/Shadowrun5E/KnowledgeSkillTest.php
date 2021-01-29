@@ -10,9 +10,9 @@ use App\Models\Shadowrun5E\KnowledgeSkill;
  * Unit tests for knowledge skills class.
  * @covers \App\Models\Shadowrun5E\KnowledgeSkill
  * @covers \App\Models\Shadowrun5E\Skill
+ * @group models
  * @group shadowrun
  * @group shadowrun5e
- * @group models
  */
 final class KnowledgeSkillTest extends \Tests\TestCase
 {

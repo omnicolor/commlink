@@ -9,6 +9,9 @@ use Illuminate\Http\Response;
 
 /**
  * Tests for the gear-modifications controller.
+ * @group controllers
+ * @group shadowrun
+ * @group shadowrun5e
  */
 final class GearModificationsControllerTest extends \Tests\TestCase
 {

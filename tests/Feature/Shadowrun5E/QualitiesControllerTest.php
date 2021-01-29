@@ -9,6 +9,9 @@ use Illuminate\Http\Response;
 
 /**
  * Tests for the qualities controller.
+ * @group controllers
+ * @group shadowrun
+ * @group shadowrun5e
  */
 final class QualitiesControllerTest extends \Tests\TestCase
 {

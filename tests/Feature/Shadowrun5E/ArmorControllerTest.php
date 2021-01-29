@@ -9,6 +9,9 @@ use Illuminate\Http\Response;
 
 /**
  * Tests for the armor controller.
+ * @group controllers
+ * @group shadowrun
+ * @group shadowrun5e
  */
 final class ArmorControllerTest extends \Tests\TestCase
 {

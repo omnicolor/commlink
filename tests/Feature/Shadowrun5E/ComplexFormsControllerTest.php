@@ -9,6 +9,9 @@ use Illuminate\Http\Response;
 
 /**
  * Tests for the Complex Forms controller.
+ * @group controllers
+ * @group shadowrun
+ * @group shadowrun5e
  */
 final class ComplexFormsControllerTest extends \Tests\TestCase
 {
