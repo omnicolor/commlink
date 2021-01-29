@@ -47,18 +47,7 @@ final class QualityTest extends \Tests\TestCase
      */
     public function testLoadingLuckyDescription(Quality $quality): void
     {
-        $expected = 'The dice roll and the coin flips this character\'s way '
-            . 'more often than not, giving her the chance to drop jaws in '
-            . 'amazement at her good fortune. Lucky allows a character to '
-            . 'possess an Edge attribute one point higher than his metatype '
-            . 'maximum (for example, a human character could raise her Edge to '
-            . '8). Note that taking this quality does not actually increase '
-            . 'the character\'s current Edge rating, it just allows her the '
-            . 'opportunity to do so; the Karma cost for gaining the extra '
-            . 'point must still be paid. This quality may only be taken once '
-            . 'and must be approved by the gamemaster. The Lucky quality '
-            . 'cannot be combined with Exceptional Attribute.';
-        self::assertEquals($expected, $quality->description);
+        self::assertNotNull($quality->description);
     }
 
     /**
