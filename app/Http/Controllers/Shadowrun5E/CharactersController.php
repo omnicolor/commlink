@@ -6,8 +6,12 @@ namespace App\Http\Controllers\Shadowrun5E;
 
 use App\Http\Resources\Shadowrun5E\CharacterResource;
 use App\Models\Shadowrun5E\Character;
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * Controller for interacting with Shadowrun 5E characters.
+ */
 class CharactersController extends \App\Http\Controllers\Controller
 {
     /**
@@ -35,6 +39,15 @@ class CharactersController extends \App\Http\Controllers\Controller
             Character::where('_id', $identifier)
                 ->where('owner', $email)
                 ->firstOrFail()
+        );
+    }
+
+    public function view(Character $character): \Illuminate\View\View
+    {
+        $user = \Auth::user();
+        return view(
+            'shadowrun5e.character',
+            ['character' => $character, 'user' => $user]
         );
     }
 }

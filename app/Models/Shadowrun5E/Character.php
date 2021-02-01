@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @property ?array<int, array<string, mixed>> $augmentations
  * @property string $handle
  * @property string $id
+ * @property ?array<string, string> $priorities
  * @property ?array<string, mixed> $magics
  * @property ?array<int, array<string, mixed>> $qualities
  * @property ?array<int, array<string, mixed>> $skills
@@ -29,12 +30,38 @@ class Character extends \App\Models\Character
      * @var string[]
      */
     protected $fillable = [
+        'agility',
         'armor',
         'augmentations',
+        'birthdate',
+        'birthplace',
+        'body',
+        'campaign',
+        'charisma',
+        'edge',
+        'edgeCurrent',
+        'eyes',
+        'hair',
         'handle',
+        'height',
+        'intuition',
+        'karma',
+        'karmaCurrent',
+        'logic',
+        'magic',
         'magics',
+        'nuyen',
+        'priorities',
         'qualities',
+        'reaction',
+        'realName',
+        'resonance',
+        'sex',
         'skills',
+        'streetCred',
+        'strength',
+        'weight',
+        'willpower',
     ];
 
     /**
@@ -139,6 +166,18 @@ class Character extends \App\Models\Character
             }
         }
         return $augmentations;
+    }
+
+    /**
+     * Return the character's metatype.
+     * @return string
+     */
+    public function getMetatypeAttribute(): string
+    {
+        if (isset($this->priorities['metatype'])) {
+            return $this->priorities['metatype'];
+        }
+        return 'unknown';
     }
 
     /**

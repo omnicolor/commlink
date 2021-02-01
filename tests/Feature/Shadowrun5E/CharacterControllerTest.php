@@ -131,4 +131,25 @@ final class CharacterControllerTest extends \Tests\TestCase
             ->assertStatus(Response::HTTP_NOT_FOUND);
         $character->delete();
     }
+
+    /**
+     * Test loading a character view.
+     * @group current
+     * @test
+     */
+    public function testViewCharacter(): void
+    {
+        $user = User::factory()->create();
+        $character = Character::factory()->create([
+            'owner' => $user->email,
+            'type' => 'shadowrun5e',
+        ]);
+        $view = $this->actingAs($user)
+            ->get(
+                sprintf('/characters/shadowrun5e/%s', $character->id),
+                ['character' => $character, 'user' => $user]
+            );
+        $view->assertSee($user->email);
+        $view->assertSee($character->handle);
+    }
 }

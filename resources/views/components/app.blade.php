@@ -13,6 +13,9 @@
             &mdash; {{ $title }}
         @endif
     </title>
+    @if (isset($head))
+        {!! $head !!}
+    @endif
 </head>
 
 <body>
@@ -20,8 +23,11 @@
     <a class="navbar-brand" href="/">Commlink</a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item active"><a class="nav-link" href="/dashboard">
+                Home
+            </a></li>
         </ul>
+        @if (Auth::user())
         <span class="navbar-text">
             {{ Auth::user()->email }}
         </span>
@@ -31,6 +37,7 @@
                 <a class="nav-link" href="#" id="logout">Logout</a>
             </form>
         </span>
+        @endif
     </div>
 </nav>
 

@@ -167,6 +167,68 @@ final class CharacterTest extends \Tests\TestCase
     }
 
     /**
+     * Test getting the metatype of a character with no priorities.
+     * @test
+     */
+    public function testGetMetatypeNoPriority(): void
+    {
+        $character = new Character();
+        self::assertSame('unknown', $character->metatype);
+    }
+
+    /**
+     * Test getting the metatype of a character with incomplete priorities.
+     * @test
+     */
+    public function testGetMetatypeIncompletePriorities(): void
+    {
+        $character = new Character(['priorities' => []]);
+        self::assertSame('unknown', $character->metatype);
+    }
+
+    /**
+     * Test getting the metatype of a character with standard priorities.
+     * @test
+     */
+    public function testGetMetatypeStandardPriorities(): void
+    {
+        $character = new Character([
+            'priorities' => [
+                'a' => 'attributes',
+                'b' => 'skills',
+                'c' => 'resources',
+                'd' => 'metatype',
+                'e' => 'magic',
+                'metatype' => 'elf',
+                'magic' => '',
+                'gameplay' => 'established',
+            ],
+        ]);
+        self::assertSame('elf', $character->metatype);
+    }
+
+    /**
+     * Test getting the metatype of a character with sum-to-ten priorities.
+     * @test
+     */
+    public function testGetMetatypeSumToTenPriorities(): void
+    {
+        $character = new Character([
+            'priorities' => [
+                'metatype' => 'human',
+                'metatypePriority' => 'E',
+                'magicPriority' => 'B',
+                'attributePriority' => 'A',
+                'skillPriority' => 'B',
+                'resourcePriority' => 'E',
+                'magic' => 'technomancer',
+                'gameplay' => 'established',
+            ],
+        ]);
+        self::assertSame('human', $character->metatype);
+    }
+
+    /**
      * Test getting a character's qualities if they don't have any.
      * @test
      */
