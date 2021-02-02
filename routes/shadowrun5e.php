@@ -11,6 +11,7 @@ use App\Http\Controllers\Shadowrun5E\CyberwareController;
 use App\Http\Controllers\Shadowrun5E\GearModificationsController;
 use App\Http\Controllers\Shadowrun5E\MartialArtsStylesController;
 use App\Http\Controllers\Shadowrun5E\MartialArtsTechniquesController;
+use App\Http\Controllers\Shadowrun5E\MentorSpiritsController;
 use App\Http\Controllers\Shadowrun5E\ProgramsController;
 use App\Http\Controllers\Shadowrun5E\QualitiesController;
 use App\Http\Controllers\Shadowrun5E\SkillsController;
@@ -39,6 +40,8 @@ Route::middleware('auth:sanctum')->prefix('shadowrun5e')->name('shadowrun5e.')->
         Route::resource('martial-arts-styles', MartialArtsStylesController::class)
             ->only(['index', 'show']);
         Route::resource('martial-arts-techniques', MartialArtsTechniquesController::class)
+            ->only(['index', 'show']);
+        Route::resource('mentor-spirits', MentorSpiritsController::class)
             ->only(['index', 'show']);
         Route::resource('programs', ProgramsController::class)
             ->only(['index', 'show']);
