@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Models\Shadowrun5E;
+namespace Tests\Unit\Models\Shadowrun5E;
 
 use App\Models\Shadowrun5E\Spirit;
 
