@@ -11,7 +11,7 @@ use Illuminate\Http\Response;
 /**
  * Controller for handling Slack requests.
  */
-class DiceRollerController extends Controller
+class SlackController extends Controller
 {
     /**
      * Arguments to the roll bot.

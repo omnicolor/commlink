@@ -8,14 +8,14 @@ use App\Http\Responses\SlackResponse;
 use Illuminate\Http\Response;
 
 /**
- * Tests for the DiceRollerController.
+ * Tests for the SlackController.
  * @covers \App\Exceptions\SlackException
- * @covers \App\Http\Controllers\DiceRollerController
+ * @covers \App\Http\Controllers\SlackController
  * @covers \App\Http\Requests\SlackRequest
  * @group controllers
  * @group slack
  */
-final class DiceRollerControllerTest extends \Tests\TestCase
+final class SlackControllerTest extends \Tests\TestCase
 {
     /**
      * Test an OPTIONS request to the dice roller.
