@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Models\Shadowrun5E;
 
-use App\Models\Shadowrun5E\AdeptPower;
 use App\Models\Shadowrun5E\Armor;
 use App\Models\Shadowrun5E\ArmorArray;
 
@@ -59,7 +58,7 @@ final class ArmorArrayTest extends \Tests\TestCase
     {
         self::expectException(\TypeError::class);
         // @phpstan-ignore-next-line
-        $this->armors[] = new AdeptPower('improved-sense-direction-sense');
+        $this->armors[] = new \StdClass();
     }
 
     /**
@@ -70,7 +69,7 @@ final class ArmorArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->armors[] = new AdeptPower('improved-sense-direction-sense');
+            $this->armors[] = new \StdClass();
         } catch (\TypeError $e) {
             // Ignored
         }

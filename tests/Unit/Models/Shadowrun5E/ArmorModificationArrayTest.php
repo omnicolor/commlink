@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Models\Shadowrun5E;
 
-use App\Models\Shadowrun5E\AdeptPower;
 use App\Models\Shadowrun5E\ArmorModification;
 use App\Models\Shadowrun5E\ArmorModificationArray;
 use App\Models\Shadowrun5E\GearModification;
@@ -73,7 +72,7 @@ final class ArmorModificationArrayTest extends \Tests\TestCase
             'ArmorModificationArray only accepts Armor- or GearModification objects'
         );
         // @phpstan-ignore-next-line
-        $this->mods[] = new AdeptPower('improved-sense-direction-sense');
+        $this->mods[] = new \StdClass();
     }
 
     /**
@@ -84,7 +83,7 @@ final class ArmorModificationArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->mods[] = new AdeptPower('improved-sense-direction-sense');
+            $this->mods[] = new \StdClass();
         } catch (\TypeError $e) {
             // Ignored
         }

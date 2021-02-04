@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Unit\Models\Shadowrun5E;
 
 use App\Models\Shadowrun5E\ActiveSkill;
-use App\Models\Shadowrun5E\AdeptPower;
 use App\Models\Shadowrun5E\Skill;
 use App\Models\Shadowrun5E\SkillArray;
 
@@ -60,7 +59,7 @@ final class SkillArrayTest extends \Tests\TestCase
     {
         self::expectException(\TypeError::class);
         // @phpstan-ignore-next-line
-        $this->skills[] = new AdeptPower('improved-sense-direction-sense');
+        $this->skills[] = new \StdClass();
     }
 
     /**
@@ -71,7 +70,7 @@ final class SkillArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->skills[] = new AdeptPower('improved-sense-direction-sense');
+            $this->skills[] = new \StdClass();
         } catch (\TypeError $e) {
             // Ignored
         }

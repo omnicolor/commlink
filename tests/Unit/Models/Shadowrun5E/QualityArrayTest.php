@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Models\Shadowrun5E;
 
-use App\Models\Shadowrun5E\ActiveSkill;
 use App\Models\Shadowrun5E\Quality;
 use App\Models\Shadowrun5E\QualityArray;
 
@@ -62,7 +61,7 @@ final class QualityArrayTest extends \Tests\TestCase
             'QualityArray only accepts Quality objects'
         );
         // @phpstan-ignore-next-line
-        $this->qualities[] = new ActiveSkill('automatics', 1);
+        $this->qualities[] = new \StdClass();
     }
 
     /**
@@ -73,7 +72,7 @@ final class QualityArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->qualities[] = new ActiveSkill('automatics');
+            $this->qualities[] = new \StdClass();
         } catch (\TypeError $e) {
             // Ignored
         }
