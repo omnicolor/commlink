@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Tests\Unit\Http\Responses;
 
 use App\Http\Responses\SlackResponse;
+use App\Models\Slack\TextAttachment;
 
 /**
  * Tests for the SlackResponse class.
- * @covers \App\Http\Responses\SlackResponse
  * @group slack
  */
 final class SlackResponseTest extends \Tests\TestCase
@@ -89,11 +89,11 @@ final class SlackResponseTest extends \Tests\TestCase
      */
     public function testWithAttachment(): void
     {
-        $this->response->addAttachment(
+        $this->response->addAttachment(new TextAttachment(
             'Title',
             'Attachment Text',
-            SlackResponse::COLOR_DANGER
-        );
+            TextAttachment::COLOR_DANGER
+        ));
         self::assertSame(
             '{"response_type":"ephemeral","attachments":[{"color":"danger",'
                 . '"text":"Attachment Text","title":"Title"}]}',

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Responses;
 
+use App\Models\Slack\TextAttachment;
+
 /**
  * Generic help response for Slack.
  */
@@ -21,7 +23,7 @@ class HelpResponse extends SlackResponse
         array $headers = []
     ) {
         parent::__construct($content, $status, $headers);
-        $this->addAttachment(
+        $this->addAttachment(new TextAttachment(
             'About Commlink',
             sprintf(
                 'RollBot is a Slack bot that lets you roll dice '
@@ -36,9 +38,9 @@ class HelpResponse extends SlackResponse
                     . 'to your character via Slack will appear in Commlink.',
                 config('app.url')
             ),
-            self::COLOR_INFO
-        );
-        $this->addAttachment(
+            TextAttachment::COLOR_INFO
+        ));
+        $this->addAttachment(new TextAttachment(
             'Supported Systems',
             'The current channel is not registered for any of the systems.'
                 . PHP_EOL
@@ -48,12 +50,12 @@ class HelpResponse extends SlackResponse
                 . '· Shadowrun 5th Edition' . PHP_EOL
                 . '· Shadowrun 6th Edition' . PHP_EOL
                 . '· Star Trek Adventures' . PHP_EOL,
-            self::COLOR_INFO
-        );
-        $this->addAttachment(
+            TextAttachment::COLOR_INFO
+        ));
+        $this->addAttachment(new TextAttachment(
             'Commands For Unregistered Channels',
             '`help` - Show help' . PHP_EOL,
-            self::COLOR_INFO
-        );
+            TextAttachment::COLOR_INFO
+        ));
     }
 }

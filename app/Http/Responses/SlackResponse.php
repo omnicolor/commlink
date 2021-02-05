@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Responses;
 
+use App\Models\Slack\Attachment;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -21,6 +22,12 @@ class SlackResponse extends JsonResponse
      * @var array<int, array<string, mixed>>
      */
     protected array $attachments = [];
+
+    /**
+     * Whether to delete the original message this is in response to.
+     * @var bool
+     */
+    protected bool $deleteOriginal = false;
 
     /**
      * Optional text to send.
@@ -41,12 +48,6 @@ class SlackResponse extends JsonResponse
     protected bool $replaceOriginal = false;
 
     /**
-     * Whether to delete the original message this is in response to.
-     * @var bool
-     */
-    protected bool $deleteOriginal = false;
-
-    /**
      * Constructor.
      * @param string $content
      * @param int $status
@@ -63,21 +64,12 @@ class SlackResponse extends JsonResponse
 
     /**
      * Add an attachment to the output.
-     * @param string $title
-     * @param string $text
-     * @param string $color
+     * @param Attachment $attachment
      * @return SlackResponse
      */
-    public function addAttachment(
-        string $title,
-        string $text,
-        string $color
-    ): SlackResponse {
-        $this->attachments[] = [
-            'color' => $color,
-            'text' => $text,
-            'title' => $title,
-        ];
+    public function addAttachment(Attachment $attachment): SlackResponse
+    {
+        $this->attachments[] = $attachment->toArray();
         $this->updateData();
         return $this;
     }
