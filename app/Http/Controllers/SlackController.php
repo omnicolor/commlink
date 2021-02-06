@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SlackRequest;
 use App\Http\Responses\SlackResponse;
+use App\Models\Slack\Channel;
 use Illuminate\Http\Response;
 
 /**
@@ -20,28 +21,10 @@ class SlackController extends Controller
     protected array $args;
 
     /**
-     * Slack channel ID the command came from.
-     * @var string
-     */
-    protected string $channelId;
-
-    /**
-     * Slack team ID (server) the command came from.
-     * @var string
-     */
-    protected string $teamId;
-
-    /**
      * Raw (unparsed) text of the command.
      * @var string
      */
     protected string $text;
-
-    /**
-     * Slack user ID that entered the command.
-     * @var string
-     */
-    protected string $userId;
 
     /**
      * Return a response for an OPTIONS request.
@@ -60,23 +43,40 @@ class SlackController extends Controller
     public function post(SlackRequest $request): SlackResponse
     {
         $this->args = explode(' ', $request->text);
-        $this->channelId = $request->channel_id;
-        $this->teamId = $request->team_id;
         $this->text = $request->text;
-        $this->userId = $request->user_id;
 
+        $channel = $this->getChannel($request->team_id, $request->channel_id);
+        $channel->user = $request->user_id;
         try {
             $class = sprintf(
                 '\\App\Http\\Responses\\%sResponse',
                 ucfirst($this->text)
             );
-            \Log::info('Trying to load ' . $class);
-            return new $class();
+            $response = new $class('', 200, [], $channel);
         } catch (\Error $ex) {
+            \Log::debug($ex->getMessage());
             throw new \App\Exceptions\SlackException(
                 'That doesn\'t appear to be a valid Commlink command.' . PHP_EOL
                 . PHP_EOL . 'Type `/roll help` for more help.'
             );
+        }
+        return $response;
+    }
+
+    /**
+     * Get the channel attached to the request.
+     * @param string $team Slack team ID (server)
+     * @param string $channel Slack channel ID
+     * @return Channel
+     */
+    protected function getChannel(string $team, string $channel): Channel
+    {
+        try {
+            return Channel::where('channel', $channel)
+                ->where('team', $team)
+                ->firstOrFail();
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $ex) {
+            return new Channel(['channel' => $channel, 'team' => $team]);
         }
     }
 }

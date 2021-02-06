@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Responses;
 
 use App\Models\Slack\Attachment;
+use App\Models\Slack\Channel;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -22,6 +23,12 @@ class SlackResponse extends JsonResponse
      * @var array<int, array<string, mixed>>
      */
     protected array $attachments = [];
+
+    /**
+     * Slack channel the request
+     * @var Channel
+     */
+    protected Channel $channel;
 
     /**
      * Whether to delete the original message this is in response to.
@@ -52,13 +59,16 @@ class SlackResponse extends JsonResponse
      * @param string $content
      * @param int $status
      * @param array<string, string> $headers
+     * @param ?Channel $channel
      */
     public function __construct(
         string $content = '',
         int $status = 200,
-        array $headers = []
+        array $headers = [],
+        ?Channel $channel = null
     ) {
         parent::__construct($content, $status, $headers);
+        $this->channel = $channel ?? new Channel();
         $this->updateData();
     }
 
