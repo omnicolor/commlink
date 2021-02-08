@@ -23,8 +23,8 @@ final class InfoResponseTest extends \Tests\TestCase
         $channel = new Channel([
             'channel' => 'channel id',
             'team' => 'server id',
-            'user' => 'user id',
         ]);
+        $channel->user = 'user id';
         $response = new InfoResponse('', InfoResponse::HTTP_OK, [], $channel);
         $response = json_decode((string)$response);
         self::assertSame('ephemeral', $response->response_type);
@@ -69,9 +69,9 @@ final class InfoResponseTest extends \Tests\TestCase
         $channel = new Channel([
             'channel' => 'channel id',
             'team' => 'server id',
-            'user' => 'user id',
             'system' => 'shadowrun5e',
         ]);
+        $channel->user = 'user id';
         $response = new InfoResponse('', InfoResponse::HTTP_OK, [], $channel);
         $response = json_decode((string)$response);
         self::assertSame('ephemeral', $response->response_type);

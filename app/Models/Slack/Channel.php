@@ -10,7 +10,6 @@ use Jenssegers\Mongodb\Eloquent\Model;
  * @property string $channel
  * @property string $system
  * @property string $team
- * @property string $user
  */
 class Channel extends Model
 {
@@ -28,8 +27,19 @@ class Channel extends Model
         'channel',
         'system',
         'team',
-        'user',
     ];
+
+    /**
+     * User ID attached to the current Slack user.
+     * @var string
+     */
+    public string $user = 'Unknown';
+
+    /**
+     * Username currently attached to the Slack user.
+     * @var string
+     */
+    public string $username = 'Unknown';
 
     /**
      * Return the system the channel is registered to.
