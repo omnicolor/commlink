@@ -217,4 +217,12 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
     ],
+
+    /*
+     * Systems the server supports.
+     * short name = full name
+     */
+    'systems' => [
+        'shadowrun5e' => 'Shadowrun 5th Edition',
+    ],
 ];
