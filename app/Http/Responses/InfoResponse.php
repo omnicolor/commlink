@@ -31,7 +31,10 @@ class InfoResponse extends SlackResponse
             ->addField(new Field('Team ID', $this->channel->team))
             ->addField(new Field('Channel ID', $this->channel->channel))
             ->addField(new Field('User ID', $this->channel->user))
-            ->addField(new Field('System', $this->channel->system));
+            ->addField(new Field(
+                'System',
+                config('app.systems')[$this->channel->system] ?? $this->channel->system
+            ));
         $this->addAttachment($attachment);
     }
 }
