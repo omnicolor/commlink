@@ -47,12 +47,14 @@ class SlackController extends Controller
 
         $channel = $this->getChannel($request->team_id, $request->channel_id);
         $channel->user = $request->user_id;
+        $channel->username = $request->user_name ?? '';
+
         try {
             $class = sprintf(
                 '\\App\Http\\Responses\\%sResponse',
-                ucfirst($this->text)
+                ucfirst($this->args[0])
             );
-            $response = new $class('', 200, [], $channel);
+            $response = new $class($this->text, 200, [], $channel);
         } catch (\Error $ex) {
             \Log::debug($ex->getMessage());
             throw new \App\Exceptions\SlackException(
