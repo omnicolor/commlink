@@ -49,20 +49,31 @@ class SlackController extends Controller
         $channel->user = $request->user_id;
         $channel->username = $request->user_name ?? '';
 
+        // First, try to load system-specific responses.
+        try {
+            $class = sprintf(
+                '\\App\Http\\Responses\\%s\\%sResponse',
+                ucfirst($channel->system),
+                ucfirst($this->args[0])
+            );
+            return new $class($this->text, 200, [], $channel);
+        } catch (\Error $ex) {
+            // Ignore errors here, they might want a generic command.
+        }
+
+        // No system-specific response found, try generic ones.
         try {
             $class = sprintf(
                 '\\App\Http\\Responses\\%sResponse',
                 ucfirst($this->args[0])
             );
-            $response = new $class($this->text, 200, [], $channel);
+            return new $class($this->text, 200, [], $channel);
         } catch (\Error $ex) {
-            \Log::debug($ex->getMessage());
             throw new \App\Exceptions\SlackException(
                 'That doesn\'t appear to be a valid Commlink command.' . PHP_EOL
                 . PHP_EOL . 'Type `/roll help` for more help.'
             );
         }
-        return $response;
     }
 
     /**

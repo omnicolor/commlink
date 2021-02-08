@@ -97,7 +97,7 @@ final class InfoResponseTest extends \Tests\TestCase
                         ],
                         (object)[
                             'title' => 'System',
-                            'value' => 'shadowrun5e',
+                            'value' => 'Shadowrun 5th Edition',
                             'short' => true,
                         ],
                     ],

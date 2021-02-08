@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Http\Responses\SlackResponse;
+use App\Models\Slack\Channel;
 use Illuminate\Http\Response;
 
 /**
@@ -36,7 +37,7 @@ final class SlackControllerTest extends \Tests\TestCase
      */
     public function testPostNoPayload(): void
     {
-        $response = $this->post(route('roll'), [])
+        $this->post(route('roll'), [])
             ->assertOk()
             ->assertJsonFragment([
                 'color' => 'danger',
@@ -84,13 +85,13 @@ final class SlackControllerTest extends \Tests\TestCase
      */
     public function testPostHelpCommandUnregisteredChannel(): void
     {
-        $response = $this->post(
+        $this->post(
             route('roll'),
             [
-                'channel_id' => 'A123',
-                'team_id' => 'B234',
+                'channel_id' => 'B234',
+                'team_id' => 'C345',
                 'text' => 'help',
-                'user_id' => 'C345',
+                'user_id' => 'D456',
             ]
         )
             ->assertOk()
@@ -99,5 +100,34 @@ final class SlackControllerTest extends \Tests\TestCase
                 'response_type' => 'ephemeral',
                 'title' => 'Commands For Unregistered Channels',
             ]);
+    }
+
+    /**
+     * Test a Slash command for getting help in a registered channel.
+     * @test
+     */
+    public function testGetHelpInRegisteredChannel(): void
+    {
+        $channel = Channel::create([
+            'channel' => 'C345',
+            'team' => 'D456',
+            'system' => 'shadowrun5e',
+        ]);
+        $this->post(
+            route('roll'),
+            [
+                'channel_id' => 'C345',
+                'team_id' => 'D456',
+                'text' => 'help',
+                'user_id' => 'E567',
+            ]
+        )
+            ->assertOk()
+            ->assertJsonFragment([
+                'color' => SlackResponse::COLOR_INFO,
+                'response_type' => 'ephemeral',
+                'title' => 'Commlink - Shadowrun 5E',
+            ]);
+        $channel->delete();
     }
 }
