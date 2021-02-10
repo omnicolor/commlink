@@ -15,7 +15,7 @@ class SlackResponse extends JsonResponse
 {
     public const COLOR_DANGER = 'danger';
     public const COLOR_INFO = '#439Fe0';
-    public const COLOR_SUCCESS = 'success';
+    public const COLOR_SUCCESS = 'good';
     public const COLOR_WARNING = 'warning';
 
     /**

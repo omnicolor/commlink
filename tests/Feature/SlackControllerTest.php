@@ -18,6 +18,8 @@ use Illuminate\Http\Response;
  */
 final class SlackControllerTest extends \Tests\TestCase
 {
+    use \phpmock\phpunit\PHPMock;
+
     /**
      * Test an OPTIONS request to the dice roller.
      * @test
@@ -127,6 +129,70 @@ final class SlackControllerTest extends \Tests\TestCase
                 'color' => SlackResponse::COLOR_INFO,
                 'response_type' => 'ephemeral',
                 'title' => 'Commlink - Shadowrun 5E',
+            ]);
+        $channel->delete();
+    }
+
+    /**
+     * Test a Slack command for rolling dice in a Shadowrun 5E channel.
+     * @test
+     */
+    public function testRollDiceShadowrun(): void
+    {
+        $randomInt = $this->getFunctionMock(
+            'App\\Http\\Responses\\Shadowrun5e',
+            'random_int'
+        );
+        $randomInt->expects(self::any())->willReturn(5);
+        $channel = Channel::create([
+            'channel' => 'C345',
+            'team' => 'D456',
+            'system' => 'shadowrun5e',
+        ]);
+        $this->post(
+            route('roll'),
+            [
+                'channel_id' => 'C345',
+                'team_id' => 'D456',
+                'text' => '5',
+                'user_id' => 'E567',
+            ]
+        )
+            ->assertOk()
+            ->assertJsonFragment([
+                'response_type' => 'in_channel',
+            ])
+            ->assertSee('Rolled 5 successes');
+        $channel->delete();
+    }
+
+    /**
+     * Test trying to `/roll 5` in an unregistered channel.
+     * @test
+     */
+    public function testRollDiceUnregistered(): void
+    {
+        $channel = Channel::create([
+            'channel' => 'E999',
+            'team' => 'F9888',
+        ]);
+        $this->post(
+            route('roll'),
+            [
+                'channel_id' => 'C345',
+                'team_id' => 'D456',
+                'text' => '5',
+                'user_id' => 'E567',
+            ]
+        )
+            ->assertOk()
+            ->assertJsonFragment([
+                'color' => SlackResponse::COLOR_DANGER,
+                'response_type' => 'ephemeral',
+                'text' => 'That doesn\'t appear to be a valid Commlink command.'
+                    . PHP_EOL . PHP_EOL
+                    . 'Type `/roll help` for more help.',
+                'title' => 'Error',
             ]);
         $channel->delete();
     }

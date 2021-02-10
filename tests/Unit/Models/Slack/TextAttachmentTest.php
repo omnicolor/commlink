@@ -42,4 +42,21 @@ final class TextAttachmentTest extends \PHPUnit\Framework\TestCase
         ];
         self::assertEqualsCanonicalizing($expected, $attachment->toArray());
     }
+
+    /**
+     * Test formatting a TextAttachment when adding a footer.
+     * @test
+     */
+    public function testWithFooter(): void
+    {
+        $attachment = (new TextAttachment('Footer Test', 'Black', '#000000'))
+            ->addFooter('This is a footer');
+        $expected = [
+            'color' => '#000000',
+            'footer' => 'This is a footer',
+            'text' => 'Black',
+            'title' => 'Footer Test',
+        ];
+        self::assertSame($expected, $attachment->toArray());
+    }
 }

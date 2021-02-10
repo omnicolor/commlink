@@ -134,7 +134,6 @@ final class CharacterControllerTest extends \Tests\TestCase
 
     /**
      * Test loading a character view.
-     * @group current
      * @test
      */
     public function testViewCharacter(): void

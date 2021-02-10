@@ -49,7 +49,21 @@ class SlackController extends Controller
         $channel->user = $request->user_id;
         $channel->username = $request->user_name ?? '';
 
-        // First, try to load system-specific responses.
+        // First, try to load system-specific responses for numeric data.
+        if (is_numeric($this->args[0])) {
+            try {
+                $class = sprintf(
+                    '\\App\Http\\Responses\\%s\\NumberResponse',
+                    ucfirst($channel->system)
+                );
+                return new $class($this->text, 200, [], $channel);
+            } catch (\Error $ex) {
+                // Ignore errors here, they might want a generic command.
+                \Log::error($ex->getMessage());
+            }
+        }
+
+        // Next, try system-specific responses.
         try {
             $class = sprintf(
                 '\\App\Http\\Responses\\%s\\%sResponse',
@@ -58,7 +72,7 @@ class SlackController extends Controller
             );
             return new $class($this->text, 200, [], $channel);
         } catch (\Error $ex) {
-            // Ignore errors here, they might want a generic command.
+            // Again, ignore errors, they might want a generic command.
         }
 
         // No system-specific response found, try generic ones.
