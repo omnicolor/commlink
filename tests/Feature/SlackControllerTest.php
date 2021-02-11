@@ -196,4 +196,32 @@ final class SlackControllerTest extends \Tests\TestCase
             ]);
         $channel->delete();
     }
+
+    /**
+     * Test trying to `/roll 1d20' in an unregistered channel.
+     * @test
+     */
+    public function testRollGenericDiceUnregistered(): void
+    {
+        $randomInt = $this->getFunctionMock(
+            'App\\Http\\Responses',
+            'random_int'
+        );
+        $randomInt->expects(self::exactly(1))->willReturn(5);
+        $this->post(
+            route('roll'),
+            [
+                'channel_id' => 'C345',
+                'team_id' => 'D456',
+                'text' => '1d20',
+                'user_id' => 'E567',
+            ]
+        )
+            ->assertOk()
+            ->assertJsonFragment([
+                'response_type' => 'in_channel',
+            ])
+            ->assertSee('Rolling: 1d20 = [5] = 5')
+            ->assertSee('Rolls: 5');
+    }
 }

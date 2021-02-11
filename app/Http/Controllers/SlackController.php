@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SlackRequest;
+use App\Http\Responses\GenericRollResponse;
 use App\Http\Responses\SlackResponse;
 use App\Models\Slack\Channel;
 use Illuminate\Http\Response;
@@ -59,7 +60,6 @@ class SlackController extends Controller
                 return new $class($this->text, 200, [], $channel);
             } catch (\Error $ex) {
                 // Ignore errors here, they might want a generic command.
-                \Log::error($ex->getMessage());
             }
         }
 
@@ -76,12 +76,25 @@ class SlackController extends Controller
         }
 
         // No system-specific response found, try generic ones.
+        if (1 === preg_match('/\d+d\d+/i', $this->text)) {
+            return new GenericRollResponse(
+                $this->text,
+                SlackResponse::HTTP_OK,
+                [],
+                $channel
+            );
+        }
         try {
             $class = sprintf(
                 '\\App\Http\\Responses\\%sResponse',
                 ucfirst($this->args[0])
             );
-            return new $class($this->text, 200, [], $channel);
+            return new $class(
+                $this->text,
+                SlackResponse::HTTP_OK,
+                [],
+                $channel
+            );
         } catch (\Error $ex) {
             throw new \App\Exceptions\SlackException(
                 'That doesn\'t appear to be a valid Commlink command.' . PHP_EOL

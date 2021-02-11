@@ -26,12 +26,14 @@ class HelpResponse extends SlackResponse
         parent::__construct($content, $status, $headers);
         $this->addAttachment(new TextAttachment(
             'Commlink - Shadowrun 5E',
-            'Commlink is a Slack bot that lets you roll Shadowrun 5e dice.',
-            TextAttachment::COLOR_INFO
-        ));
-        $this->addAttachment(new TextAttachment(
-            'Misc Commands',
-            '`help` - Show help',
+            'Commlink is a Slack bot that lets you roll Shadowrun 5E dice.'
+                . PHP_EOL
+                . '· `6 [text]` - Roll 6 dice, with optional text (automatics, '
+                . 'perception, etc)' . PHP_EOL
+                . '· `12 6 [text]` - Roll 12 dice with a limit of 6' . PHP_EOL
+                . '· `XdY[+C] [text]` - Roll X dice with Y sides, optionally '
+                . 'adding C to the result, optionally describing that the roll '
+                . 'is for "text"' . PHP_EOL,
             TextAttachment::COLOR_INFO
         ));
     }

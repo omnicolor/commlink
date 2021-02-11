@@ -54,7 +54,10 @@ class HelpResponse extends SlackResponse
         ));
         $this->addAttachment(new TextAttachment(
             'Commands For Unregistered Channels',
-            '`help` - Show help' . PHP_EOL,
+            '· `help` - Show help' . PHP_EOL
+                . '· `XdY[+C] [text]` - Roll X dice with Y sides, optionally '
+                . 'adding C to the result, optionally describing that the roll '
+                . 'is for "text"' . PHP_EOL,
             TextAttachment::COLOR_INFO
         ));
     }
