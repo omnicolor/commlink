@@ -76,7 +76,7 @@ class SlackController extends Controller
         }
 
         // No system-specific response found, try generic ones.
-        if (1 === preg_match('/\d+d\d+/i', $this->text)) {
+        if (1 === preg_match('/\d+d\d+/i', $this->args[0])) {
             return new GenericRollResponse(
                 $this->text,
                 SlackResponse::HTTP_OK,
