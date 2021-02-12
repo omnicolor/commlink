@@ -23,7 +23,7 @@ class Character extends \App\Models\Character
      * @var array<string, mixed>
      */
     protected $attributes = [
-        'type' => 'shadowrun5e',
+        'system' => 'shadowrun5e',
     ];
 
     /**
@@ -88,7 +88,7 @@ class Character extends \App\Models\Character
         static::addGlobalScope(
             'shadowrun5e',
             function (Builder $builder): void {
-                $builder->where('type', 'shadowrun5e');
+                $builder->where('system', 'shadowrun5e');
             }
         );
     }

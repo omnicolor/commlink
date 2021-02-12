@@ -50,7 +50,7 @@ final class CharacterControllerTest extends \Tests\TestCase
         $user = User::factory()->create();
         $character = Character::factory()->create([
             'owner' => $user->email,
-            'type' => 'cyberpunkred',
+            'system' => 'cyberpunkred',
         ]);
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.characters.index'))
@@ -69,11 +69,11 @@ final class CharacterControllerTest extends \Tests\TestCase
         $user = User::factory()->create();
         $character1 = Character::factory()->create([
             'owner' => $user->email,
-            'type' => 'shadowrun6e',
+            'system' => 'shadowrun6e',
         ]);
         $character2 = Character::factory()->create([
             'owner' => $user->email,
-            'type' => 'shadowrun5e',
+            'system' => 'shadowrun5e',
         ]);
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.characters.index'))
@@ -82,7 +82,7 @@ final class CharacterControllerTest extends \Tests\TestCase
                 'id' => $character2->_id,
                 'handle' => $character2->handle,
                 'owner' => $user->email,
-                'type' => 'shadowrun5e',
+                'system' => 'shadowrun5e',
                 'updated_at' => $character2->updated_at->toJson(),
                 'created_at' => $character2->created_at->toJson(),
             ]);
@@ -99,7 +99,7 @@ final class CharacterControllerTest extends \Tests\TestCase
         $user = User::factory()->create();
         $character = Character::factory()->create([
             'owner' => $user->email,
-            'type' => 'shadowrun5e',
+            'system' => 'shadowrun5e',
         ]);
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.characters.show', $character->id))
@@ -108,7 +108,7 @@ final class CharacterControllerTest extends \Tests\TestCase
                 'id' => $character->_id,
                 'handle' => $character->handle,
                 'owner' => $user->email,
-                'type' => 'shadowrun5e',
+                'system' => 'shadowrun5e',
                 'updated_at' => $character->updated_at->toJson(),
                 'created_at' => $character->created_at->toJson(),
             ]);
@@ -124,7 +124,7 @@ final class CharacterControllerTest extends \Tests\TestCase
         $user = User::factory()->create();
         $character = Character::factory()->create([
             'owner' => $user->email,
-            'type' => 'shadowrun6e',
+            'system' => 'shadowrun6e',
         ]);
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.characters.show', $character->id))
@@ -141,7 +141,7 @@ final class CharacterControllerTest extends \Tests\TestCase
         $user = User::factory()->create();
         $character = Character::factory()->create([
             'owner' => $user->email,
-            'type' => 'shadowrun5e',
+            'system' => 'shadowrun5e',
         ]);
         $view = $this->actingAs($user)
             ->get(

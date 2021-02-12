@@ -24,7 +24,7 @@ class CharacterFactory extends Factory
         return [
             'handle' => $this->faker->name,
             'owner' => $this->faker->email,
-            'type' => 'shadowrun5e',
+            'system' => 'shadowrun5e',
         ];
     }
 }

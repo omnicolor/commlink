@@ -12,7 +12,7 @@ use Jenssegers\Mongodb\Eloquent\Model;
  * Generic model representing a role playing character.
  * @property string $handle
  * @property string $owner
- * @property string $type
+ * @property string $system
  */
 class Character extends Model
 {
@@ -31,7 +31,7 @@ class Character extends Model
     protected $fillable = [
         'handle',
         'owner',
-        'type',
+        'system',
     ];
 
     /**
@@ -54,7 +54,7 @@ class Character extends Model
         $attributes = [],
         $connection = null
     ): Character {
-        switch ($attributes['type']) {
+        switch ($attributes['system']) {
             case 'shadowrun5e':
                 $character = new Shadowrun5E\Character($attributes);
                 break;
