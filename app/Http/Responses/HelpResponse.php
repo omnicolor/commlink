@@ -40,16 +40,14 @@ class HelpResponse extends SlackResponse
             ),
             TextAttachment::COLOR_INFO
         ));
+        $systems = [];
+        foreach (config('app.systems') as $code => $name) {
+            $systems[] = sprintf('· %s (%s)', $name, $code);
+        }
         $this->addAttachment(new TextAttachment(
             'Supported Systems',
             'The current channel is not registered for any of the systems.'
-                . PHP_EOL
-                . '· Cyberpunk Red' . PHP_EOL
-                . '· The Expanse' . PHP_EOL
-                . '· Shadowrun Anarchy' . PHP_EOL
-                . '· Shadowrun 5th Edition' . PHP_EOL
-                . '· Shadowrun 6th Edition' . PHP_EOL
-                . '· Star Trek Adventures' . PHP_EOL,
+                . PHP_EOL . implode(PHP_EOL, $systems),
             TextAttachment::COLOR_INFO
         ));
         $this->addAttachment(new TextAttachment(
