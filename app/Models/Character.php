@@ -56,7 +56,7 @@ class Character extends Model
         $attributes = [],
         $connection = null
     ): Character {
-        switch ($attributes['system']) {
+        switch ($attributes['system'] ?? null) {
             case 'shadowrun5e':
                 $character = new Shadowrun5E\Character($attributes);
                 break;
