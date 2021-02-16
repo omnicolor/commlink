@@ -49,7 +49,7 @@ final class SlackLinkTest extends \Tests\TestCase
      */
     public function testNoUser(): void
     {
-        $slackLink = SlackLink::factory()->make();
+        $slackLink = SlackLink::factory()->make(['user_id' => null]);
         self::assertNull($slackLink->user);
     }
 
