@@ -11,6 +11,7 @@ use Jenssegers\Mongodb\Eloquent\Model;
 /**
  * Generic model representing a role playing character.
  * @property string $handle
+ * @property string $name
  * @property string $owner
  * @property string $system
  */
@@ -30,6 +31,7 @@ class Character extends Model
      */
     protected $fillable = [
         'handle',
+        'name',
         'owner',
         'system',
     ];
