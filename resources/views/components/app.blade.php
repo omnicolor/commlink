@@ -30,6 +30,9 @@
         @if (Auth::user())
         <span class="navbar-text">
             {{ Auth::user()->email }}
+            <small><a href="/settings">
+                <span class="oi oi-cog" title="Settings"></span>
+            </a></small>
         </span>
         <span class="nav-item">
             <form method="POST" action="{{ route('logout') }}" id="logout-form">

@@ -6,7 +6,6 @@ namespace Tests\Feature;
 
 use App\Models\Character;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
 
 /**
@@ -16,6 +15,12 @@ use Illuminate\Support\Collection;
  */
 final class CharacterTest extends \Tests\TestCase
 {
+    /**
+     * Character we're testing with.
+     * @var Character
+     */
+    protected Character $character;
+
     /**
      * Faker instance.
      * @var \Faker\Generator
@@ -28,6 +33,18 @@ final class CharacterTest extends \Tests\TestCase
     public static function setUpBeforeClass(): void
     {
         self::$faker = \Faker\Factory::create();
+    }
+
+    /**
+     * Clean up.
+     */
+    public function tearDown(): void
+    {
+        if (isset($this->character)) {
+            $this->character->delete();
+            unset($this->character);
+        }
+        parent::tearDown();
     }
 
     /**
@@ -54,5 +71,46 @@ final class CharacterTest extends \Tests\TestCase
         $user = User::factory()->create();
         $character = new Character(['owner' => $user->email]);
         self::assertInstanceOf(User::class, $character->user());
+    }
+
+    /**
+     * Test finding a character with no system returns an \App\Model\Character.
+     * @test
+     */
+    public function testBuildDefault(): void
+    {
+        $this->character = Character::factory()
+            ->create(['system' => 'unknown']);
+        $character = Character::where('_id', $this->character->id)
+            ->firstOrFail();
+        self::assertSame('unknown', $character->system);
+
+        // PHPStan reports that this is always true. We're asserting that it's
+        // not.
+        // @phpstan-ignore-next-line
+        self::assertFalse(is_subclass_of($character, Character::class));
+    }
+
+    /**
+     * Test finding a character that has a system returns a subclass of
+     * \App\Model\Character.
+     * @test
+     */
+    public function testBuildSubclass(): void
+    {
+        $this->character = Character::factory()
+            ->create(['system' => 'shadowrun5e']);
+        $character = Character::where('_id', $this->character->id)
+            ->firstOrFail();
+        self::assertSame('shadowrun5e', $character->system);
+        self::assertInstanceOf(
+            \App\Models\Shadowrun5E\Character::class,
+            $character
+        );
+
+        // PHPStan reports that this is always true. testBuildDefault() asserts
+        // that it's not.
+        // @phpstan-ignore-next-line
+        self::assertTrue(is_subclass_of($character, Character::class));
     }
 }

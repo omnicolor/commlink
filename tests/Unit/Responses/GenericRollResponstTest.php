@@ -18,6 +18,12 @@ final class GenericRollResponseTest extends \Tests\TestCase
     use \phpmock\phpunit\PHPMock;
 
     /**
+     * Channel used for testing.
+     * @var ?Channel
+     */
+    protected ?Channel $channel;
+
+    /**
      * Mock random_int function to take randomness out of testing.
      * @var \PHPUnit\Framework\MockObject\MockObject
      */
@@ -33,6 +39,18 @@ final class GenericRollResponseTest extends \Tests\TestCase
             'App\\Http\\Responses',
             'random_int'
         );
+    }
+
+    /**
+     * Clean up after the tests.
+     */
+    public function tearDown(): void
+    {
+        if (isset($this->channel)) {
+            $this->channel->delete();
+            unset($this->channel);
+        }
+        parent::tearDown();
     }
 
     /**
@@ -53,13 +71,13 @@ final class GenericRollResponseTest extends \Tests\TestCase
      */
     public function testSimple(): void
     {
-        $channel = new Channel();
+        $this->channel = Channel::factory()->create();
         $this->randomInt->expects(self::exactly(3))->willReturn(2);
         $response = new GenericRollResponse(
             '3d6',
             GenericRollResponse::HTTP_OK,
             [],
-            $channel
+            $this->channel
         );
         $response = json_decode((string)$response);
         self::assertSame('Rolls: 2, 2, 2', $response->attachments[0]->footer);
@@ -75,13 +93,13 @@ final class GenericRollResponseTest extends \Tests\TestCase
      */
     public function testWithDescription(): void
     {
-        $channel = new Channel();
+        $this->channel = Channel::factory()->create();
         $this->randomInt->expects(self::exactly(4))->willReturn(3);
         $response = new GenericRollResponse(
             '4d6 testing',
             GenericRollResponse::HTTP_OK,
             [],
-            $channel
+            $this->channel
         );
         $response = json_decode((string)$response);
         self::assertSame(
@@ -104,13 +122,13 @@ final class GenericRollResponseTest extends \Tests\TestCase
      */
     public function testWithCalculation(): void
     {
-        $channel = new Channel();
+        $this->channel = Channel::factory()->create();
         $this->randomInt->expects(self::exactly(1))->willReturn(10);
         $response = new GenericRollResponse(
             '4+1d10-1*10 foo',
             GenericRollResponse::HTTP_OK,
             [],
-            $channel
+            $this->channel
         );
         $response = json_decode((string)$response);
         self::assertSame('Rolls: 10', $response->attachments[0]->footer);

@@ -223,6 +223,7 @@ return [
      * short name = full name
      */
     'systems' => [
+        'expanse' => 'The Expanse',
         'shadowrun5e' => 'Shadowrun 5th Edition',
     ],
 ];

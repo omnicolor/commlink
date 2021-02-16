@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Models\Character;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -57,5 +57,14 @@ class User extends Authenticatable
             $characters->where('type', $system);
         }
         return $characters;
+    }
+
+    /**
+     * Get the user's Slack Links.
+     * @return HasMany
+     */
+    public function slackLinks(): HasMany
+    {
+        return $this->hasMany(SlackLink::class);
     }
 }

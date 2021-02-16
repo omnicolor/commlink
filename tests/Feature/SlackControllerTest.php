@@ -7,6 +7,7 @@ namespace Tests\Feature;
 use App\Http\Responses\SlackResponse;
 use App\Models\Slack\Channel;
 use Illuminate\Http\Response;
+use Str;
 
 /**
  * Tests for the SlackController.
@@ -19,6 +20,24 @@ use Illuminate\Http\Response;
 final class SlackControllerTest extends \Tests\TestCase
 {
     use \phpmock\phpunit\PHPMock;
+
+    /**
+     * Channel used for tests.
+     * @var ?Channel
+     */
+    protected ?Channel $channel;
+
+    /**
+     * Clean up after the tests.
+     */
+    public function tearDown(): void
+    {
+        if (isset($this->channel)) {
+            $this->channel->delete();
+            unset($this->channel);
+        }
+        parent::tearDown();
+    }
 
     /**
      * Test an OPTIONS request to the dice roller.
@@ -64,8 +83,8 @@ final class SlackControllerTest extends \Tests\TestCase
         $response = $this->post(
             route('roll'),
             [
-                'channel_id' => 'A123',
-                'team_id' => 'B234',
+                'channel_id' => Str::random(12),
+                'team_id' => Str::random(12),
                 'text' => 'error',
                 'user_id' => 'C345',
             ]
@@ -110,16 +129,14 @@ final class SlackControllerTest extends \Tests\TestCase
      */
     public function testGetHelpInRegisteredChannel(): void
     {
-        $channel = Channel::create([
-            'channel' => 'C345',
-            'team' => 'D456',
+        $this->channel = Channel::factory()->create([
             'system' => 'shadowrun5e',
         ]);
         $this->post(
             route('roll'),
             [
-                'channel_id' => 'C345',
-                'team_id' => 'D456',
+                'channel_id' => $this->channel->channel,
+                'team_id' => $this->channel->team,
                 'text' => 'help',
                 'user_id' => 'E567',
             ]
@@ -130,7 +147,6 @@ final class SlackControllerTest extends \Tests\TestCase
                 'response_type' => 'ephemeral',
                 'title' => 'Commlink - Shadowrun 5E',
             ]);
-        $channel->delete();
     }
 
     /**
@@ -144,16 +160,14 @@ final class SlackControllerTest extends \Tests\TestCase
             'random_int'
         );
         $randomInt->expects(self::any())->willReturn(5);
-        $channel = Channel::create([
-            'channel' => 'C345',
-            'team' => 'D456',
+        $this->channel = Channel::factory()->create([
             'system' => 'shadowrun5e',
         ]);
         $this->post(
             route('roll'),
             [
-                'channel_id' => 'C345',
-                'team_id' => 'D456',
+                'channel_id' => $this->channel->channel,
+                'team_id' => $this->channel->team,
                 'text' => '5',
                 'user_id' => 'E567',
             ]
@@ -163,7 +177,6 @@ final class SlackControllerTest extends \Tests\TestCase
                 'response_type' => 'in_channel',
             ])
             ->assertSee('Rolled 5 successes');
-        $channel->delete();
     }
 
     /**
@@ -172,15 +185,12 @@ final class SlackControllerTest extends \Tests\TestCase
      */
     public function testRollDiceUnregistered(): void
     {
-        $channel = Channel::create([
-            'channel' => 'E999',
-            'team' => 'F9888',
-        ]);
+        $this->channel = Channel::factory()->create(['system' => '']);
         $this->post(
             route('roll'),
             [
-                'channel_id' => 'C345',
-                'team_id' => 'D456',
+                'channel_id' => $this->channel->channel,
+                'team_id' => $this->channel->team,
                 'text' => '5',
                 'user_id' => 'E567',
             ]
@@ -194,7 +204,6 @@ final class SlackControllerTest extends \Tests\TestCase
                     . 'Type `/roll help` for more help.',
                 'title' => 'Error',
             ]);
-        $channel->delete();
     }
 
     /**
@@ -211,8 +220,8 @@ final class SlackControllerTest extends \Tests\TestCase
         $this->post(
             route('roll'),
             [
-                'channel_id' => 'C345',
-                'team_id' => 'D456',
+                'channel_id' => Str::random(12),
+                'team_id' => Str::random(12),
                 'text' => '1d20',
                 'user_id' => 'E567',
             ]

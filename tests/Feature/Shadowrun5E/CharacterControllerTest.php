@@ -17,6 +17,24 @@ use Illuminate\Http\Response;
 final class CharacterControllerTest extends \Tests\TestCase
 {
     /**
+     * Characters we're testing on.
+     * @var array<int, Character>
+     */
+    protected array $characters = [];
+
+    /**
+     * Clean up after the tests.
+     */
+    public function tearDown(): void
+    {
+        foreach ($this->characters as $key => $character) {
+            $character->delete();
+            unset($this->characters[$key]);
+        }
+        parent::tearDown();
+    }
+
+    /**
      * Test loading Shadowrun 5E characters if unauthenticated.
      * @test
      */
@@ -48,7 +66,7 @@ final class CharacterControllerTest extends \Tests\TestCase
     public function testAuthenticatedNoCharactersFromSystem(): void
     {
         $user = User::factory()->create();
-        $character = Character::factory()->create([
+        $character = $this->characters[] = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'cyberpunkred',
         ]);
@@ -67,11 +85,11 @@ final class CharacterControllerTest extends \Tests\TestCase
     public function testAuthenticatedWithSR5ECharacter(): void
     {
         $user = User::factory()->create();
-        $character1 = Character::factory()->create([
+        $character1 = $this->characters[] = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun6e',
         ]);
-        $character2 = Character::factory()->create([
+        $character2 = $this->characters[] = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
         ]);
@@ -97,7 +115,7 @@ final class CharacterControllerTest extends \Tests\TestCase
     public function testShowCharacter(): void
     {
         $user = User::factory()->create();
-        $character = Character::factory()->create([
+        $character = $this->characters[] = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
         ]);
@@ -122,7 +140,7 @@ final class CharacterControllerTest extends \Tests\TestCase
     public function testShowCharacterOtherSystem(): void
     {
         $user = User::factory()->create();
-        $character = Character::factory()->create([
+        $character = $this->characters[] = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun6e',
         ]);
@@ -139,7 +157,7 @@ final class CharacterControllerTest extends \Tests\TestCase
     public function testViewCharacter(): void
     {
         $user = User::factory()->create();
-        $character = Character::factory()->create([
+        $character = $this->characters[] = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
         ]);

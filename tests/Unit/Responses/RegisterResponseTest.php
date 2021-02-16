@@ -94,6 +94,7 @@ final class RegisterResponseTest extends \Tests\TestCase
         $channel = Channel::create([
             'channel' => 'channel-id',
             'team' => 'team-id',
+            'username' => 'Testing',
         ]);
         $response = new RegisterResponse(
             sprintf('register %s', key(config('app.systems'))),

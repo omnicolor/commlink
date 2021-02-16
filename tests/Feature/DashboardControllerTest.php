@@ -15,6 +15,24 @@ use Illuminate\Http\Response;
 final class DashboardControllerTest extends \Tests\TestCase
 {
     /**
+     * Characters we're testing on.
+     * @var array<int, Character>
+     */
+    protected array $characters = [];
+
+    /**
+     * Clean up after the tests.
+     */
+    public function tearDown(): void
+    {
+        foreach ($this->characters as $key => $character) {
+            $character->delete();
+            unset($this->characters[$key]);
+        }
+        parent::tearDown();
+    }
+
+    /**
      * Test an unauthenticated request.
      * @test
      */
@@ -43,8 +61,10 @@ final class DashboardControllerTest extends \Tests\TestCase
     public function testAuthenticated(): void
     {
         $user = User::factory()->create();
-        $character1 = Character::factory()->create(['owner' => $user->email]);
-        $character2 = Character::factory()->create(['owner' => $user->email]);
+        $character1 = $this->characters[] = Character::factory()
+            ->create(['owner' => $user->email]);
+        $character2 = $this->characters[] = Character::factory()
+            ->create(['owner' => $user->email]);
         $this->actingAs($user)
             ->get('/dashboard')
             ->assertSee($user->email)
@@ -52,7 +72,5 @@ final class DashboardControllerTest extends \Tests\TestCase
             ->assertSee($character1->type)
             ->assertSee($character2->handle)
             ->assertSee($character2->type);
-        $character1->delete();
-        $character2->delete();
     }
 }

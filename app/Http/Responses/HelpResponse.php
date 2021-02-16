@@ -55,7 +55,9 @@ class HelpResponse extends SlackResponse
             '· `help` - Show help' . PHP_EOL
                 . '· `XdY[+C] [text]` - Roll X dice with Y sides, optionally '
                 . 'adding C to the result, optionally describing that the roll '
-                . 'is for "text"' . PHP_EOL,
+                . 'is for "text"' . PHP_EOL
+                . '· `register <system>` - Register this channel for system '
+                . 'code <system>' . PHP_EOL,
             TextAttachment::COLOR_INFO
         ));
     }

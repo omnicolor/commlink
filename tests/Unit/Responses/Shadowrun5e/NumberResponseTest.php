@@ -20,6 +20,12 @@ final class NumberResponseTest extends \Tests\TestCase
     use \phpmock\phpunit\PHPMock;
 
     /**
+     * Channel used for testing.
+     * @var ?Channel
+     */
+    protected ?Channel $channel;
+
+    /**
      * Mock random_int function to take randomness out of testing.
      * @var \PHPUnit\Framework\MockObject\MockObject
      */
@@ -35,6 +41,18 @@ final class NumberResponseTest extends \Tests\TestCase
             'App\\Http\\Responses\\Shadowrun5e',
             'random_int'
         );
+    }
+
+    /**
+     * Clean up after the tests.
+     */
+    public function tearDown(): void
+    {
+        if (isset($this->channel)) {
+            $this->channel->delete();
+            unset($this->channel);
+        }
+        parent::tearDown();
     }
 
     /**
@@ -55,13 +73,13 @@ final class NumberResponseTest extends \Tests\TestCase
      */
     public function testRollNoLimitNoDescription(): void
     {
-        $channel = new Channel();
+        $this->channel = Channel::factory()->create();
         $this->randomInt->expects(self::any())->willReturn(random_int(1, 6));
         $response = new NumberResponse(
             '5',
             NumberResponse::HTTP_OK,
             [],
-            $channel
+            $this->channel
         );
         self::assertStringNotContainsString('limit', (string)$response);
         self::assertStringNotContainsString('for', (string)$response);
@@ -73,13 +91,13 @@ final class NumberResponseTest extends \Tests\TestCase
      */
     public function testRollWithLimit(): void
     {
-        $channel = new Channel();
+        $this->channel = Channel::factory()->create();
         $this->randomInt->expects(self::any())->willReturn(random_int(1, 6));
         $response = new NumberResponse(
             '15 5',
             NumberResponse::HTTP_OK,
             [],
-            $channel
+            $this->channel
         );
         self::assertStringContainsString(', limit: 5', (string)$response);
         self::assertStringNotContainsString('for', (string)$response);
@@ -91,13 +109,13 @@ final class NumberResponseTest extends \Tests\TestCase
      */
     public function testRollWithDescription(): void
     {
-        $channel = new Channel();
+        $this->channel = Channel::factory()->create();
         $this->randomInt->expects(self::any())->willReturn(random_int(1, 6));
         $response = new NumberResponse(
             '5 description',
             NumberResponse::HTTP_OK,
             [],
-            $channel
+            $this->channel
         );
         self::assertStringNotContainsString('limit', (string)$response);
         self::assertStringContainsString(
@@ -112,13 +130,13 @@ final class NumberResponseTest extends \Tests\TestCase
      */
     public function testRollBoth(): void
     {
-        $channel = new Channel();
+        $this->channel = Channel::factory()->create();
         $this->randomInt->expects(self::any())->willReturn(random_int(1, 6));
         $response = new NumberResponse(
             '20 10 description',
             NumberResponse::HTTP_OK,
             [],
-            $channel
+            $this->channel
         );
         self::assertStringContainsString('limit: 10', (string)$response);
         self::assertStringContainsString(
@@ -145,17 +163,17 @@ final class NumberResponseTest extends \Tests\TestCase
      */
     public function testCriticalGlitch(): void
     {
-        $channel = new Channel();
-        $channel->username = 'Bob';
+        $this->channel = Channel::factory()->create();
+        $this->channel->username = 'Bob';
         $this->randomInt->expects(self::exactly(3))->willReturn(1);
         $response = new NumberResponse(
             '3',
             NumberResponse::HTTP_OK,
             [],
-            $channel
+            $this->channel
         );
         self::assertStringContainsString(
-            'Bob rolled a critical glitch on 3 dice!',
+            'rolled a critical glitch on 3 dice!',
             (string)$response
         );
     }
@@ -166,13 +184,13 @@ final class NumberResponseTest extends \Tests\TestCase
      */
     public function testFooterSixes(): void
     {
-        $channel = new Channel();
+        $this->channel = Channel::factory()->create();
         $this->randomInt->expects(self::exactly(3))->willReturn(6);
         $response = new NumberResponse(
             '3',
             NumberResponse::HTTP_OK,
             [],
-            $channel
+            $this->channel
         );
         self::assertStringContainsString(
             '*6* *6* *6*',
@@ -186,13 +204,13 @@ final class NumberResponseTest extends \Tests\TestCase
      */
     public function testDescriptionHitLimit(): void
     {
-        $channel = new Channel();
+        $this->channel = Channel::factory()->create();
         $this->randomInt->expects(self::exactly(6))->willReturn(5);
         $response = new NumberResponse(
             '6 3 shooting',
             NumberResponse::HTTP_OK,
             [],
-            $channel
+            $this->channel
         );
         self::assertStringContainsString(
             'Rolled 3 successes for \\"shooting\\", hit limit',

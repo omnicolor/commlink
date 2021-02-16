@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Models\Character;
+use App\Models\SlackLink;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
@@ -23,8 +24,7 @@ final class UserTest extends \Tests\TestCase
      */
     protected Collection $characters;
 
-    /**
-     * Set up a clean test environment.
+    /** * Set up a clean test environment.
      */
     public function setUp(): void
     {
@@ -84,5 +84,26 @@ final class UserTest extends \Tests\TestCase
             'type' => 'cyberpunk2077',
         ]);
         self::assertSame(1, $user->characters('shadowrun5e')->count());
+    }
+
+    /**
+     * Test getting the SlackLinks for a user if they have none.
+     * @test
+     */
+    public function testGetSlackLinksNone(): void
+    {
+        $user = User::factory()->create();
+        self::assertEmpty($user->slackLinks);
+    }
+
+    /**
+     * Test getting SlackLinks for a user that has registered a channel.
+     * @test
+     */
+    public function testGetSlackLinks(): void
+    {
+        $user = User::factory()->create();
+        SlackLink::factory()->create(['user_id' => $user->id]);
+        self::assertNotEmpty($user->slackLinks);
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Responses\Shadowrun5e;
 
 use App\Http\Responses\SlackResponse;
+use App\Models\Slack\Channel;
 use App\Models\Slack\TextAttachment;
 
 /**
@@ -17,13 +18,15 @@ class HelpResponse extends SlackResponse
      * @param string $content
      * @param int $status
      * @param array<string, string> $headers
+     * @param ?Channel $channel
      */
     public function __construct(
         string $content = '',
         int $status = 200,
-        array $headers = []
+        array $headers = [],
+        ?Channel $channel = null
     ) {
-        parent::__construct($content, $status, $headers);
+        parent::__construct($content, $status, $headers, $channel);
         $this->addAttachment(new TextAttachment(
             'Commlink - Shadowrun 5E',
             'Commlink is a Slack bot that lets you roll Shadowrun 5E dice.'
@@ -36,5 +39,18 @@ class HelpResponse extends SlackResponse
                 . 'is for "text"' . PHP_EOL,
             TextAttachment::COLOR_INFO
         ));
+        if (!is_null($channel) && is_null($channel->character())) {
+            $this->addAttachment(new TextAttachment(
+                'Unregistered',
+                sprintf(
+                    'It doesn\'t look like you\'ve linked a character here. If '
+                        . 'you\'ve already built a character in <%s|Commlink>, '
+                        . 'type `/roll link <characterId>` to connect your '
+                        . 'character here.',
+                    config('app.url')
+                ),
+                TextAttachment::COLOR_INFO
+            ));
+        }
     }
 }
