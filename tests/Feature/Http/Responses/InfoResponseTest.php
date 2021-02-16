@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Http\Responses;
+namespace Tests\Feature\Http\Responses;
 
 use App\Http\Responses\InfoResponse;
 use App\Models\Slack\Channel;

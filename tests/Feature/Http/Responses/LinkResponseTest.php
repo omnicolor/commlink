@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Http\Responses;
+namespace Tests\Feature\Http\Responses;
 
 use App\Exceptions\SlackException;
 use App\Http\Responses\LinkResponse;
