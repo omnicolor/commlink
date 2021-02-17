@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Shadowrun5E;
+namespace Tests\Feature\Http\Controllers\Shadowrun5E;
 
 use App\Models\User;
 use Illuminate\Http\Response;
 
 /**
- * Tests for the Complex Forms controller.
+ * Tests for the armor controller.
  * @group controllers
  * @group shadowrun
  * @group shadowrun5e
  */
-final class ComplexFormsControllerTest extends \Tests\TestCase
+final class ArmorControllerTest extends \Tests\TestCase
 {
     /**
      * Test loading the collection if the config is broken.
@@ -24,7 +24,7 @@ final class ComplexFormsControllerTest extends \Tests\TestCase
         \Config::set('app.data_url', '/tmp/unused/');
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route('shadowrun5e.complex-forms.index'))
+            ->getJson(route('shadowrun5e.armor.index'))
             ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
@@ -34,7 +34,7 @@ final class ComplexFormsControllerTest extends \Tests\TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $this->getJson(route('shadowrun5e.complex-forms.index'))
+        $this->getJson(route('shadowrun5e.armor.index'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -46,68 +46,66 @@ final class ComplexFormsControllerTest extends \Tests\TestCase
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)
-            ->getJson(route('shadowrun5e.complex-forms.index'))
+            ->getJson(route('shadowrun5e.armor.index'))
             ->assertOk()
             ->assertJsonFragment([
                 'links' => [
-                    'self' => '/api/shadowrun5e/complex-forms/cleaner',
+                    'self' => '/api/shadowrun5e/armor/armor-jacket',
                 ],
             ]);
         self::assertGreaterThanOrEqual(1, count($response['data']));
     }
 
     /**
-     * Test loading an individual form without authentication.
+     * Test loading an individual modification without authentication.
      * @test
      */
     public function testNoAuthShow(): void
     {
-        $this->getJson(route('shadowrun5e.complex-forms.show', 'cleaner'))
+        $this->getJson(route('shadowrun5e.armor.show', 'armor-jacket'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
-     * Test loading an invalid form without authentication.
+     * Test loading an invalid modification without authentication.
      * @test
      */
     public function testNoAuthShowNotFound(): void
     {
-        $this->getJson(route('shadowrun5e.complex-forms.show', 'not-found'))
+        $this->getJson(route('shadowrun5e.armor.show', 'not-found'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
-     * Test loading an individual form with authentication.
+     * Test loading an individual modification with authentication.
      * @test
      */
     public function testAuthShow(): void
     {
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route('shadowrun5e.complex-forms.show', 'cleaner'))
+            ->getJson(route('shadowrun5e.armor.show', 'armor-jacket'))
             ->assertOk()
             ->assertJson([
                 'data' => [
-                    'duration' => 'P',
-                    'fade' => 'L+1',
-                    'id' => 'cleaner',
-                    'name' => 'Cleaner',
-                    'page' => 252,
-                    'ruleset' => 'core',
-                    'target' => 'Persona',
+                    'availability' => '2',
+                    'cost' => 1000,
+                    'id' => 'armor-jacket',
+                    'name' => 'Armor Jacket',
+                    'rating' => 12,
                 ],
             ]);
     }
 
     /**
-     * Test loading an invalid form with authentication.
+     * Test loading an invalid modification with authentication.
      * @test
      */
     public function testAuthShowNotFound(): void
     {
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route('shadowrun5e.complex-forms.show', 'not-found'))
+            ->getJson(route('shadowrun5e.armor.show', 'not-found'))
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature;
+namespace Tests\Feature\Http\Controllers;
 
 use App\Http\Responses\SlackResponse;
 use App\Models\Slack\Channel;

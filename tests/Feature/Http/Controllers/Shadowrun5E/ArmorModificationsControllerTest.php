@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Shadowrun5E;
+namespace Tests\Feature\Http\Controllers\Shadowrun5E;
 
 use App\Models\User;
 use Illuminate\Http\Response;
 
 /**
- * Tests for the gear-modifications controller.
+ * Tests for the armor-modifications controller.
  * @group controllers
  * @group shadowrun
  * @group shadowrun5e
  */
-final class GearModificationsControllerTest extends \Tests\TestCase
+final class ArmorModificationsControllerTest extends \Tests\TestCase
 {
     /**
      * Test loading the collection if the config is broken.
@@ -24,7 +24,7 @@ final class GearModificationsControllerTest extends \Tests\TestCase
         \Config::set('app.data_url', '/tmp/unused/');
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route('shadowrun5e.gear-modifications.index'))
+            ->getJson(route('shadowrun5e.armor-modifications.index'))
             ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
@@ -34,7 +34,7 @@ final class GearModificationsControllerTest extends \Tests\TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $this->getJson(route('shadowrun5e.gear-modifications.index'))
+        $this->getJson(route('shadowrun5e.armor-modifications.index'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -46,11 +46,11 @@ final class GearModificationsControllerTest extends \Tests\TestCase
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)
-            ->getJson(route('shadowrun5e.gear-modifications.index'))
+            ->getJson(route('shadowrun5e.armor-modifications.index'))
             ->assertOk()
             ->assertJsonFragment([
                 'links' => [
-                    'self' => '/api/shadowrun5e/gear-modifications/biomonitor',
+                    'self' => '/api/shadowrun5e/armor-modifications/auto-injector',
                 ],
             ]);
         self::assertGreaterThanOrEqual(1, count($response['data']));
@@ -63,7 +63,7 @@ final class GearModificationsControllerTest extends \Tests\TestCase
     public function testNoAuthShow(): void
     {
         $this->getJson(
-            route('shadowrun5e.gear-modifications.show', 'biomonitor')
+            route('shadowrun5e.armor-modifications.show', 'auto-injector')
         )
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
@@ -75,7 +75,7 @@ final class GearModificationsControllerTest extends \Tests\TestCase
     public function testNoAuthShowNotFound(): void
     {
         $this->getJson(
-            route('shadowrun5e.gear-modifications.show', 'not-found')
+            route('shadowrun5e.armor-modifications.show', 'not-found')
         )
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
@@ -89,18 +89,17 @@ final class GearModificationsControllerTest extends \Tests\TestCase
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(
-                route('shadowrun5e.gear-modifications.show', 'biomonitor')
+                route('shadowrun5e.armor-modifications.show', 'auto-injector')
             )
             ->assertOk()
             ->assertJson([
                 'data' => [
-                    'availability' => '3',
-                    'capacity-cost' => 1,
-                    'container-type' => 'commlink|cyberdeck|rcc',
-                    'cost' => 300,
-                    'id' => 'biomonitor',
-                    'name' => 'Biomonitor',
-                    'ruleset' => 'core',
+                    'availability' => '4',
+                    'capacity-cost' => 2,
+                    'cost' => 1500,
+                    'id' => 'auto-injector',
+                    'name' => 'Auto-injector',
+                    'ruleset' => 'run-and-gun',
                 ],
             ]);
     }
@@ -114,7 +113,7 @@ final class GearModificationsControllerTest extends \Tests\TestCase
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(
-                route('shadowrun5e.gear-modifications.show', 'not-found')
+                route('shadowrun5e.armor-modifications.show', 'not-found')
             )
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }

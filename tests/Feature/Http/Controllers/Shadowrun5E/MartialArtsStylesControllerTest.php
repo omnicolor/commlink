@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Shadowrun5E;
+namespace Tests\Feature\Http\Controllers\Shadowrun5E;
 
 use App\Models\User;
 use Illuminate\Http\Response;
 
 /**
- * Tests for the martial-arts-techniques route for Shadowrun 5E.
+ * Tests for the martial-arts-styles route for Shadowrun 5E.
  * @group controllers
  * @group shadowrun
  * @group shadowrun5e
  */
-final class MartialArtsTechniquesControllerTest extends \Tests\TestCase
+final class MartialArtsStylesControllerTest extends \Tests\TestCase
 {
     /**
      * Test loading the collection if the config is broken.
@@ -24,7 +24,7 @@ final class MartialArtsTechniquesControllerTest extends \Tests\TestCase
         \Config::set('app.data_url', '/tmp/unused/');
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route('shadowrun5e.martial-arts-techniques.index'))
+            ->getJson(route('shadowrun5e.martial-arts-styles.index'))
             ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
@@ -34,7 +34,7 @@ final class MartialArtsTechniquesControllerTest extends \Tests\TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $this->getJson(route('shadowrun5e.martial-arts-techniques.index'))
+        $this->getJson(route('shadowrun5e.martial-arts-styles.index'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -46,11 +46,11 @@ final class MartialArtsTechniquesControllerTest extends \Tests\TestCase
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)
-            ->getJson(route('shadowrun5e.martial-arts-techniques.index'))
+            ->getJson(route('shadowrun5e.martial-arts-styles.index'))
             ->assertOk()
             ->assertJsonFragment([
                 'links' => [
-                    'self' => '/api/shadowrun5e/martial-arts-techniques/called-shot-disarm',
+                    'self' => '/api/shadowrun5e/martial-arts-styles/aikido',
                 ],
             ]);
         self::assertGreaterThanOrEqual(1, count($response['data']));
@@ -62,10 +62,7 @@ final class MartialArtsTechniquesControllerTest extends \Tests\TestCase
      */
     public function testNoAuthShow(): void
     {
-        $this->getJson(route(
-            'shadowrun5e.martial-arts-techniques.show',
-            'called-shot-disarm'
-        ))
+        $this->getJson(route('shadowrun5e.martial-arts-styles.show', 'aikido'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -78,7 +75,7 @@ final class MartialArtsTechniquesControllerTest extends \Tests\TestCase
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(
-                route('shadowrun5e.martial-arts-techniques.show', 'not-found')
+                route('shadowrun5e.martial-arts-styles.show', 'not-found')
             )
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
@@ -91,18 +88,22 @@ final class MartialArtsTechniquesControllerTest extends \Tests\TestCase
     {
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route(
-                'shadowrun5e.martial-arts-techniques.show',
-                'called-shot-disarm'
-            ))
+            ->getJson(route('shadowrun5e.martial-arts-styles.show', 'aikido'))
             ->assertOk()
             ->assertJson([
                 'data' => [
-                    'id' => 'called-shot-disarm',
-                    'name' => 'Called Shot',
-                    'page' => 111,
+                    'id' => 'aikido',
+                    'name' => 'Aikido',
                     'ruleset' => 'run-and-gun',
-                    'subname' => 'Disarm',
+                    'page' => 128,
+                    'techniques' => [
+                        'called-shot-disarm',
+                        'constrictors-crush',
+                        'counterstrike',
+                        'throw-person',
+                        'yielding-force-counterstrike',
+                        'yielding-force-throw',
+                    ],
                 ],
             ]);
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Shadowrun5E;
+namespace Tests\Feature\Http\Controllers\Shadowrun5E;
 
 use App\Models\Shadowrun5E\Character;
 use App\Models\User;

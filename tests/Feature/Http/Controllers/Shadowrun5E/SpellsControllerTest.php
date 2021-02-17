@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Shadowrun5E;
+namespace Tests\Feature\Http\Controllers\Shadowrun5E;
 
 use App\Models\User;
 use Illuminate\Http\Response;
 
 /**
- * Tests for the programs controller for Shadowrun 5E.
+ * Tests for the Spells controller for Shadowrun5e.
  * @group controllers
  * @group shadowrun
  * @group shadowrun5e
  */
-final class ProgramsControllerTest extends \Tests\TestCase
+final class SpellsControllerTest extends \Tests\TestCase
 {
     /**
      * Test loading the collection if the config is broken.
@@ -24,7 +24,7 @@ final class ProgramsControllerTest extends \Tests\TestCase
         \Config::set('app.data_url', '/tmp/unused/');
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route('shadowrun5e.programs.index'))
+            ->getJson(route('shadowrun5e.spells.index'))
             ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
@@ -34,7 +34,7 @@ final class ProgramsControllerTest extends \Tests\TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $this->getJson(route('shadowrun5e.programs.index'))
+        $this->getJson(route('shadowrun5e.spells.index'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -46,69 +46,52 @@ final class ProgramsControllerTest extends \Tests\TestCase
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)
-            ->getJson(route('shadowrun5e.programs.index'))
+            ->getJson(route('shadowrun5e.spells.index'))
             ->assertOk()
             ->assertJsonFragment([
                 'links' => [
-                    'self' => '/api/shadowrun5e/programs/armor',
+                    'self' => '/api/shadowrun5e/spells/control-emotions',
                 ],
             ]);
         self::assertGreaterThanOrEqual(1, count($response['data']));
     }
 
     /**
-     * Test loading an individual program without authentication.
-     * @test
-     */
-    public function testNoAuthShow(): void
-    {
-        $this->getJson(route('shadowrun5e.programs.show', 'armor'))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
-    }
-
-    /**
-     * Test loading an invalid program without authentication.
-     * @test
-     */
-    public function testNoAuthShowNotFound(): void
-    {
-        $this->getJson(route('shadowrun5e.programs.show', 'not-found'))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
-    }
-
-    /**
-     * Test loading an individual program with authentication.
+     * Test loading an individual spell with authentication.
      * @test
      */
     public function testAuthShow(): void
     {
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route('shadowrun5e.programs.show', 'armor'))
+            ->getJson(route('shadowrun5e.spells.show', 'control-emotions'))
             ->assertOk()
             ->assertJson([
                 'data' => [
-                    'id' => 'armor',
-                    'allowedDevices' => ['cyberdeck', 'rcc'],
-                    'availability' => '4R',
-                    'cost' => 250,
-                    'effects' => [
-                        'damage-resist' => 2,
-                    ],
-                    'name' => 'Armor',
+                    'category' => 'Manipulation',
+                    'description' => 'Spell description.',
+                    'drain' => 'F-1',
+                    'duration' => 'S',
+                    'id' => 'control-emotions',
+                    'name' => 'Control Emotions',
+                    'page' => 21,
+                    'range' => 'LOS',
+                    'ruleset' => 'shadow-spells',
+                    'tags' => ['mental'],
+                    'type' => 'M',
                 ],
             ]);
     }
 
     /**
-     * Test loading an invalid program with authentication.
+     * Test loading an invalid spell with authentication.
      * @test
      */
     public function testAuthShowNotFound(): void
     {
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route('shadowrun5e.programs.show', 'not-found'))
+            ->getJson(route('shadowrun5e.spells.show', 'not-found'))
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

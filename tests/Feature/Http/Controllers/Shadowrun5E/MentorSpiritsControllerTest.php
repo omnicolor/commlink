@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Shadowrun5E;
+namespace Tests\Feature\Http\Controllers\Shadowrun5E;
 
 use App\Models\User;
 use Illuminate\Http\Response;
 
 /**
- * Tests for the Cyberware controller.
+ * Tests for the MentorSpirits controller.
  * @group controllers
  * @group shadowrun
  * @group shadowrun5e
  */
-final class CyberwareControllerTest extends \Tests\TestCase
+final class MentorSpiritsControllerTest extends \Tests\TestCase
 {
     /**
      * Test loading the collection if the config is broken.
@@ -24,7 +24,7 @@ final class CyberwareControllerTest extends \Tests\TestCase
         \Config::set('app.data_url', '/tmp/unused/');
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route('shadowrun5e.cyberware.index'))
+            ->getJson(route('shadowrun5e.mentor-spirits.index'))
             ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
@@ -34,7 +34,7 @@ final class CyberwareControllerTest extends \Tests\TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $this->getJson(route('shadowrun5e.cyberware.index'))
+        $this->getJson(route('shadowrun5e.mentor-spirits.index'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -46,11 +46,11 @@ final class CyberwareControllerTest extends \Tests\TestCase
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)
-            ->getJson(route('shadowrun5e.cyberware.index'))
+            ->getJson(route('shadowrun5e.mentor-spirits.index'))
             ->assertOk()
             ->assertJsonFragment([
                 'links' => [
-                    'self' => '/api/shadowrun5e/cyberware/damper',
+                    'self' => '/api/shadowrun5e/mentor-spirits/goddess',
                 ],
             ]);
         self::assertGreaterThanOrEqual(1, count($response['data']));
@@ -62,17 +62,7 @@ final class CyberwareControllerTest extends \Tests\TestCase
      */
     public function testNoAuthShow(): void
     {
-        $this->getJson(route('shadowrun5e.cyberware.show', 'damper'))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
-    }
-
-    /**
-     * Test loading an invalid resource without authentication.
-     * @test
-     */
-    public function testNoAuthShowNotFound(): void
-    {
-        $this->getJson(route('shadowrun5e.cyberware.show', 'not-found'))
+        $this->getJson(route('shadowrun5e.mentor-spirits.show', 'goddess'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -84,27 +74,10 @@ final class CyberwareControllerTest extends \Tests\TestCase
     {
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route('shadowrun5e.cyberware.show', 'image-link'))
+            ->getJson(route('shadowrun5e.mentor-spirits.show', 'goddess'))
             ->assertOk()
             ->assertJson([
                 'data' => [
-                    'id' => 'image-link',
-                    'availability' => '4',
-                    'capacity-containers' => [
-                        'cybereyes-1',
-                        'cybereyes-2',
-                        'cybereyes-3',
-                        'cybereyes-4',
-                    ],
-                    'capacity-cost' => 0,
-                    'cost' => 1000,
-                    'description' => 'Image link description.',
-                    'effects' => [],
-                    'essence' => 0.1,
-                    'incompatibilities' => [],
-                    'name' => 'Image Link',
-                    'ruleset' => 'core',
-                    'type' => 'cyberware',
                 ],
             ]);
     }
@@ -117,7 +90,7 @@ final class CyberwareControllerTest extends \Tests\TestCase
     {
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route('shadowrun5e.cyberware.show', 'not-found'))
+            ->getJson(route('shadowrun5e.mentor-spirits.show', 'not-found'))
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

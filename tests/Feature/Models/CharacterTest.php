@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature;
+namespace Tests\Feature\Models;
 
 use App\Models\Character;
 use App\Models\User;
@@ -10,7 +10,6 @@ use Illuminate\Support\Collection;
 
 /**
  * Tests for the top-level Character class.
- * @group controllers
  * @group character
  */
 final class CharacterTest extends \Tests\TestCase

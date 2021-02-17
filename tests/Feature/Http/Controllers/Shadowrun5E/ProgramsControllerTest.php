@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Shadowrun5E;
+namespace Tests\Feature\Http\Controllers\Shadowrun5E;
 
 use App\Models\User;
 use Illuminate\Http\Response;
 
 /**
- * Tests for the Traditions controller for Shadowrun 5E.
+ * Tests for the programs controller for Shadowrun 5E.
  * @group controllers
  * @group shadowrun
  * @group shadowrun5e
  */
-final class TraditionsControllerTest extends \Tests\TestCase
+final class ProgramsControllerTest extends \Tests\TestCase
 {
     /**
      * Test loading the collection if the config is broken.
@@ -24,7 +24,7 @@ final class TraditionsControllerTest extends \Tests\TestCase
         \Config::set('app.data_url', '/tmp/unused/');
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route('shadowrun5e.traditions.index'))
+            ->getJson(route('shadowrun5e.programs.index'))
             ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
@@ -34,7 +34,7 @@ final class TraditionsControllerTest extends \Tests\TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $this->getJson(route('shadowrun5e.traditions.index'))
+        $this->getJson(route('shadowrun5e.programs.index'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -46,73 +46,69 @@ final class TraditionsControllerTest extends \Tests\TestCase
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)
-            ->getJson(route('shadowrun5e.traditions.index'))
+            ->getJson(route('shadowrun5e.programs.index'))
             ->assertOk()
             ->assertJsonFragment([
                 'links' => [
-                    'self' => '/api/shadowrun5e/traditions/norse',
+                    'self' => '/api/shadowrun5e/programs/armor',
                 ],
             ]);
         self::assertGreaterThanOrEqual(1, count($response['data']));
     }
 
     /**
-     * Test loading an individual tradition without authentication.
+     * Test loading an individual program without authentication.
      * @test
      */
     public function testNoAuthShow(): void
     {
-        $this->getJson(route('shadowrun5e.traditions.show', 'norse'))
+        $this->getJson(route('shadowrun5e.programs.show', 'armor'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
-     * Test loading an invalid tradition without authentication.
+     * Test loading an invalid program without authentication.
      * @test
      */
     public function testNoAuthShowNotFound(): void
     {
-        $this->getJson(route('shadowrun5e.traditions.show', 'not-found'))
+        $this->getJson(route('shadowrun5e.programs.show', 'not-found'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /**
-     * Test loading an individual tradition with authentication.
+     * Test loading an individual program with authentication.
      * @test
      */
     public function testAuthShow(): void
     {
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route('shadowrun5e.traditions.show', 'norse'))
+            ->getJson(route('shadowrun5e.programs.show', 'armor'))
             ->assertOk()
             ->assertJson([
                 'data' => [
-                    'drain' => 'Willpower + Logic',
-                    'elements' => [
-                        'combat' => 'Guardian',
-                        'detection' => 'Earth',
-                        'health' => 'Plant',
-                        'illusion' => 'Air',
-                        'manipulation' => 'Fire',
+                    'id' => 'armor',
+                    'allowedDevices' => ['cyberdeck', 'rcc'],
+                    'availability' => '4R',
+                    'cost' => 250,
+                    'effects' => [
+                        'damage-resist' => 2,
                     ],
-                    'id' => 'norse',
-                    'name' => 'Norse',
-                    'page' => 4,
-                    'ruleset' => 'shadow-spells',
+                    'name' => 'Armor',
                 ],
             ]);
     }
 
     /**
-     * Test loading an invalid tradition with authentication.
+     * Test loading an invalid program with authentication.
      * @test
      */
     public function testAuthShowNotFound(): void
     {
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route('shadowrun5e.traditions.show', 'not-found'))
+            ->getJson(route('shadowrun5e.programs.show', 'not-found'))
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }

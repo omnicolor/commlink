@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Shadowrun5E;
+namespace Tests\Feature\Http\Controllers\Shadowrun5E;
 
 use App\Models\User;
 use Illuminate\Http\Response;
 
 /**
- * Tests for the armor controller.
+ * Tests for the gear-modifications controller.
  * @group controllers
  * @group shadowrun
  * @group shadowrun5e
  */
-final class ArmorControllerTest extends \Tests\TestCase
+final class GearModificationsControllerTest extends \Tests\TestCase
 {
     /**
      * Test loading the collection if the config is broken.
@@ -24,7 +24,7 @@ final class ArmorControllerTest extends \Tests\TestCase
         \Config::set('app.data_url', '/tmp/unused/');
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route('shadowrun5e.armor.index'))
+            ->getJson(route('shadowrun5e.gear-modifications.index'))
             ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
@@ -34,7 +34,7 @@ final class ArmorControllerTest extends \Tests\TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $this->getJson(route('shadowrun5e.armor.index'))
+        $this->getJson(route('shadowrun5e.gear-modifications.index'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -46,11 +46,11 @@ final class ArmorControllerTest extends \Tests\TestCase
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)
-            ->getJson(route('shadowrun5e.armor.index'))
+            ->getJson(route('shadowrun5e.gear-modifications.index'))
             ->assertOk()
             ->assertJsonFragment([
                 'links' => [
-                    'self' => '/api/shadowrun5e/armor/armor-jacket',
+                    'self' => '/api/shadowrun5e/gear-modifications/biomonitor',
                 ],
             ]);
         self::assertGreaterThanOrEqual(1, count($response['data']));
@@ -62,7 +62,9 @@ final class ArmorControllerTest extends \Tests\TestCase
      */
     public function testNoAuthShow(): void
     {
-        $this->getJson(route('shadowrun5e.armor.show', 'armor-jacket'))
+        $this->getJson(
+            route('shadowrun5e.gear-modifications.show', 'biomonitor')
+        )
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -72,7 +74,9 @@ final class ArmorControllerTest extends \Tests\TestCase
      */
     public function testNoAuthShowNotFound(): void
     {
-        $this->getJson(route('shadowrun5e.armor.show', 'not-found'))
+        $this->getJson(
+            route('shadowrun5e.gear-modifications.show', 'not-found')
+        )
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -84,15 +88,19 @@ final class ArmorControllerTest extends \Tests\TestCase
     {
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route('shadowrun5e.armor.show', 'armor-jacket'))
+            ->getJson(
+                route('shadowrun5e.gear-modifications.show', 'biomonitor')
+            )
             ->assertOk()
             ->assertJson([
                 'data' => [
-                    'availability' => '2',
-                    'cost' => 1000,
-                    'id' => 'armor-jacket',
-                    'name' => 'Armor Jacket',
-                    'rating' => 12,
+                    'availability' => '3',
+                    'capacity-cost' => 1,
+                    'container-type' => 'commlink|cyberdeck|rcc',
+                    'cost' => 300,
+                    'id' => 'biomonitor',
+                    'name' => 'Biomonitor',
+                    'ruleset' => 'core',
                 ],
             ]);
     }
@@ -105,7 +113,9 @@ final class ArmorControllerTest extends \Tests\TestCase
     {
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route('shadowrun5e.armor.show', 'not-found'))
+            ->getJson(
+                route('shadowrun5e.gear-modifications.show', 'not-found')
+            )
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }
