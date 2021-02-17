@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Responses\Shadowrun5e;
 
+use App\Events\RollEvent;
 use App\Exceptions\SlackException;
 use App\Models\Slack\Channel;
 use App\Models\Slack\TextAttachment;
@@ -88,11 +89,6 @@ class NumberResponse extends SlackResponse
 
         $this->roll();
 
-        $title = sprintf(
-            '%s rolled %d successes',
-            $channel->username,
-            $this->successes
-        );
         if ($this->isCriticalGlitch()) {
             $attachment = $this->formatCriticalGlitch();
         } else {
@@ -112,19 +108,18 @@ class NumberResponse extends SlackResponse
      */
     protected function formatCriticalGlitch(): TextAttachment
     {
-        return new TextAttachment(
-            sprintf(
-                '%s rolled a critical glitch on %d dice!',
-                $this->name,
-                $this->dice
-            ),
-            sprintf(
-                'Rolled %d ones with no successes%s!',
-                $this->fails,
-                ('' !== $this->description) ? sprintf(' for "%s"', $this->description) : ''
-            ),
-            TextAttachment::COLOR_DANGER
+        $title = sprintf(
+            '%s rolled a critical glitch on %d dice!',
+            $this->name,
+            $this->dice
         );
+        $text = sprintf(
+            'Rolled %d ones with no successes%s!',
+            $this->fails,
+            ('' !== $this->description) ? sprintf(' for "%s"', $this->description) : ''
+        );
+        RollEvent::dispatch($title, $text, $this->rolls, $this->channel);
+        return new TextAttachment($title, $text, TextAttachment::COLOR_DANGER);
     }
 
     /**
@@ -137,26 +132,28 @@ class NumberResponse extends SlackResponse
         if ($this->isGlitch() || 0 === $this->successes) {
             $color = TextAttachment::COLOR_DANGER;
         }
+
         if (!is_null($this->limit) && $this->limit < $this->successes) {
-            return new TextAttachment(
-                $this->formatTitle(),
-                sprintf(
-                    'Rolled %d successes%s, hit limit',
-                    $this->limit,
-                    ('' !== $this->description) ? sprintf(' for "%s"', $this->description) : ''
-                ),
-                $color
-            );
-        }
-        return new TextAttachment(
-            $this->formatTitle(),
-            sprintf(
-                'Rolled %d successes%s',
-                $this->successes,
+            $text = sprintf(
+                'Rolled %d successes%s, hit limit',
+                $this->limit,
                 ('' !== $this->description) ? sprintf(' for "%s"', $this->description) : ''
-            ),
-            $color
+            );
+            RollEvent::dispatch(
+                $this->formatTitle(),
+                $text,
+                $this->rolls,
+                $this->channel
+            );
+            return new TextAttachment($title, $text $color);
+        }
+
+        $text = sprintf(
+            'Rolled %d successes%s',
+            $this->successes,
+            ('' !== $this->description) ? sprintf(' for "%s"', $this->description) : ''
         );
+        return new TextAttachment($this->formatTitle(), $text, $color);
     }
 
     /**

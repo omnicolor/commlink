@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Responses;
 
+use App\Events\RollEvent;
 use App\Exceptions\SlackException;
 use App\Models\Shadowrun5E\ForceTrait;
 use App\Models\Slack\Channel;
@@ -67,23 +68,21 @@ class GenericRollResponse extends SlackResponse
             1 // unused
         );
 
+        $title = sprintf(
+            '%s rolled %d%s',
+            $channel->username,
+            $total,
+            ('' !== $this->description) ? sprintf(' for "%s"', $this->description) : ''
+        );
+        $text = sprintf('Rolling: %s = %s = %d', $expression, $partial, $total);
         $attachment = (new TextAttachment(
-            sprintf(
-                '%s rolled %d%s',
-                $channel->username,
-                $total,
-                ('' !== $this->description) ? sprintf(' for "%s"', $this->description) : ''
-            ),
-            sprintf(
-                'Rolling: %s = %s = %d',
-                $expression,
-                $partial,
-                $total
-            ),
+            $title,
+            $text,
             TextAttachment::COLOR_SUCCESS
         ))
             ->addFooter('Rolls: ' . implode(', ', $rolls));
         $this->addAttachment($attachment)->sendToChannel();
+        RollEvent::dispatch($title, $text, $rolls, $channel);
     }
 
     /**
