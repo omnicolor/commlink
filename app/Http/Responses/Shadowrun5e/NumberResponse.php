@@ -145,7 +145,7 @@ class NumberResponse extends SlackResponse
                 $this->rolls,
                 $this->channel
             );
-            return new TextAttachment($title, $text $color);
+            return new TextAttachment($this->formatTitle(), $text, $color);
         }
 
         $text = sprintf(
