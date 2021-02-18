@@ -19,13 +19,13 @@ class RollEvent
 
     /**
      * Individual die results.
-     * @var array
+     * @var array<int, int>
      */
     public array $rolls;
 
     /**
      * Where the event was generated.
-     * @var Channel
+     * @var \App\Models\Slack\Channel
      */
     public $source;
 
@@ -43,12 +43,16 @@ class RollEvent
 
     /**
      * Create a new event instance.
+     * @param string $title
+     * @param string $text
+     * @param array<int, int> $rolls
+     * @param mixed $source
      */
     public function __construct(
         string $title,
         string $text,
         array $rolls,
-        $source
+        mixed $source
     ) {
         $this->title = $title;
         $this->text = $text;

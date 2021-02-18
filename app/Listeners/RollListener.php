@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Listeners;
 
 use App\Events\RollEvent;
@@ -7,13 +9,16 @@ use App\Models\Slack\Channel;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
+/**
+ * Class to listen for rolls.
+ */
 class RollListener
 {
     /**
      * Handle the event.
      * @param object $event
      */
-    public function handleRoll($event)
+    public function handleRoll($event): void
     {
         switch (get_class($event->source)) {
             case Channel::class:
@@ -41,7 +46,7 @@ class RollListener
     {
         $events->listen(
             RollEvent::class,
-            [RollListener::class, 'handleRoll']
+            RollListener::class . '@handleRoll'
         );
     }
 }
