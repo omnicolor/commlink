@@ -52,7 +52,7 @@ class RollEvent
         string $title,
         string $text,
         array $rolls,
-        mixed $source
+        $source
     ) {
         $this->title = $title;
         $this->text = $text;

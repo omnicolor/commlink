@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Listeners\RollListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -26,7 +25,5 @@ class EventServiceProvider extends ServiceProvider
      * Subscriber classes to listen for.
      * @var array<int, string>
      */
-    protected $subscribe = [
-        RollListener::class,
-    ];
+    protected $subscribe = [];
 }
