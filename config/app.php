@@ -226,4 +226,9 @@ return [
         'expanse' => 'The Expanse',
         'shadowrun5e' => 'Shadowrun 5th Edition',
     ],
+
+    /*
+     * Bot token for logging in to Discord.
+     */
+    'discord_token' => env('DISCORD_TOKEN'),
 ];
