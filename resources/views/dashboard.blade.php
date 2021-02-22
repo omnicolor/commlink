@@ -9,12 +9,12 @@
             <ul class="list-group">
             @forelse ($characters as $character)
                 <li class="list-group-item">
-                    @if ('shadowrun5e' === $character->type)
+                    @if ('shadowrun5e' === $character->system)
                     <a href="/characters/shadowrun5e/{{ $character->id }}">
                         {{ $character->handle }}
                     </a> ({{ $character->type }})
                     @else
-                    {{ $character->handle ?? $character->name }} ({{ $character->type }})
+                    {{ $character->handle ?? $character->name }} ({{ $character->system }})
                     @endif
                 </li>
             @empty
