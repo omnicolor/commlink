@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use \CharlotteDunois\Yasmin\Client as DiscordClient;
+use CharlotteDunois\Yasmin\Client as DiscordClient;
 use Illuminate\Console\Command;
 
 /**
  * Start a Discord bot.
+ * @codeCoverageIgnore
  */
 class DiscordRunCommand extends Command
 {
@@ -37,6 +38,9 @@ class DiscordRunCommand extends Command
         });
 
         $client->on('ready', function () use ($client): void {
+            if (is_null($client->user)) {
+                return;
+            }
             \Log::info(sprintf('Logged in to Discord: %s', $client->user->tag));
         });
 
