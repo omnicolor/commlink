@@ -69,8 +69,8 @@ final class DashboardControllerTest extends \Tests\TestCase
             ->get('/dashboard')
             ->assertSee($user->email)
             ->assertSee($character1->handle)
-            ->assertSee($character1->type)
+            ->assertSee($character1->system)
             ->assertSee($character2->handle)
-            ->assertSee($character2->type);
+            ->assertSee($character2->system);
     }
 }
