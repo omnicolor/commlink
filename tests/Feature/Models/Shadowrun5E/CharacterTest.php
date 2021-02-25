@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models\Shadowrun5E;
 
+use App\Models\Shadowrun5E\Armor;
+use App\Models\Shadowrun5E\ArmorArray;
+use App\Models\Shadowrun5E\ArmorModification;
 use App\Models\Shadowrun5E\Character;
+use App\Models\Shadowrun5E\Quality;
+use App\Models\Shadowrun5E\QualityArray;
 
 /**
  * Tests for Shadowrun 5E characters.
@@ -241,6 +246,155 @@ final class CharacterTest extends \Tests\TestCase
             ],
         ]);
         self::assertSame('human', $character->metatype);
+    }
+
+    /**
+     * Test getting the modified attribute for an invalid attribute.
+     * @test
+     */
+    public function testGetModifiedAttributeInvalid(): void
+    {
+        $character = new Character();
+        self::assertEquals(0, $character->getModifiedAttribute(''));
+    }
+
+    /**
+     * Test getModifiedAttribute() with an armor mod or two, one of which
+     * changes a stat.
+     * @test
+     */
+    public function testGetModifiedAttributeArmorMod(): void
+    {
+        $armor = new Armor('armor-jacket');
+        $armor->active = true;
+
+        // Armor mod that doesn't have any effect.
+        $armor->modifications[] = new ArmorModification('auto-injector');
+
+        // Armor mod that also has no effect, but we're going to fake it.
+        $mod = new ArmorModification('fire-resistance-2');
+        $mod->effects = ['charisma' => 2];
+
+        $armor->modifications[] = $mod;
+
+        $armorArray = new ArmorArray();
+        $armorArray[] = $armor;
+
+        $character = $this->getMockBuilder(Character::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getArmor'])
+            ->setConstructorArgs([['system' => 'shadowrun5e']])
+            ->getMock();
+        $character->method('getArmor')->willReturn($armorArray);
+        // @phpstan-ignore-next-line
+        $character->charisma = 6;
+
+        self::assertEquals(8, $character->getModifiedAttribute('charisma'));
+    }
+
+    /**
+     * Test getModifiedAttribute() with an armor that changes it.
+     * @test
+     */
+    public function testGetModifiedAttributeArmor(): void
+    {
+        $armor = new Armor('armor-jacket');
+        $armor->active = true;
+        $armor->effects = ['agility' => -2];
+        $armorArray = new ArmorArray();
+        $armorArray[] = $armor;
+
+        $character = $this->getMockBuilder(Character::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getArmor'])
+            ->setConstructorArgs([['system' => 'shadowrun5e']])
+            ->getMock();
+        $character->method('getArmor')->willReturn($armorArray);
+        // @phpstan-ignore-next-line
+        $character->agility = 4;
+
+        self::assertEquals(2, $character->getModifiedAttribute('agility'));
+    }
+
+    /**
+     * Test that inactive armor does not have effects.
+     * @test
+     */
+    public function testGetModifiedAttributeArmorInactive(): void
+    {
+        $armor = new Armor('armor-jacket');
+        $armor->active = false;
+        $armor->effects = ['agility' => -2];
+        $armorArray = new ArmorArray();
+        $armorArray[] = $armor;
+
+        $character = $this->getMockBuilder(Character::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getArmor'])
+            ->setConstructorArgs([['system' => 'shadowrun5e']])
+            ->getMock();
+        $character->method('getArmor')->willReturn($armorArray);
+        // @phpstan-ignore-next-line
+        $character->agility = 4;
+
+        self::assertEquals(4, $character->getModifiedAttribute('agility'));
+    }
+
+    /**
+     * Test that active armor with effects for different attribute don't change.
+     * @test
+     */
+    public function testGetModifiedAttributeArmorOtherAttribute(): void
+    {
+        $armor = new Armor('armor-jacket');
+        $armor->active = true;
+        $armor->effects = ['strength' => -2];
+
+        $mod = new ArmorModification('fire-resistance-2');
+        $mod->effects = ['charisma' => 2];
+        $armor->modifications[] = $mod;
+
+        $armorArray = new ArmorArray();
+        $armorArray[] = $armor;
+
+        $character = $this->getMockBuilder(Character::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getArmor'])
+            ->setConstructorArgs([['system' => 'shadowrun5e']])
+            ->getMock();
+        $character->method('getArmor')->willReturn($armorArray);
+        // @phpstan-ignore-next-line
+        $character->agility = 4;
+
+        self::assertEquals(4, $character->getModifiedAttribute('agility'));
+    }
+
+    /**
+     * Test getting an attribute modified by a quality.
+     * @test
+     */
+    public function testGetModifiedAttributeQuality(): void
+    {
+        $qualityDifferentEffect = new Quality('aptitude-alchemy');
+
+        // Modify the hquality to have testable effect.
+        $qualityWithEffect = new Quality('lucky');
+        $qualityWithEffect->effects = ['agility' => 2];
+
+        $qualities = new QualityArray();
+        $qualities[] = $qualityDifferentEffect;
+        $qualities[] = $qualityWithEffect;
+
+        $character = $this->getMockBuilder(Character::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getQualities'])
+            ->setConstructorArgs([['system' => 'shadowrun5e']])
+            ->getMock();
+        $character->method('getQualities')->willReturn($qualities);
+        // @phpstan-ignore-next-line
+        $character->agility = 4;
+
+        self::assertEquals(6, $character->getModifiedAttribute('agility'));
     }
 
     /**

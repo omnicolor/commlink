@@ -94,6 +94,23 @@ class Character extends \App\Models\Character
     }
 
     /**
+     * Change a dashed ID to a camel case ID.
+     * @param string $string ID to convert
+     * @return string Converted ID
+     */
+    protected function dashedToCamel(string $string): string
+    {
+        if ('' == $string) {
+            return '';
+        }
+        $string = str_replace('-', ' ', $string);
+        $string = ucwords($string);
+        $string = str_replace(' ', '', $string);
+        $string[0] = strtolower($string[0]);
+        return $string;
+    }
+
+    /**
      * Return the character's adept powers.
      * @return AdeptPowerArray
      */
@@ -178,6 +195,58 @@ class Character extends \App\Models\Character
             return $this->priorities['metatype'];
         }
         return 'unknown';
+    }
+
+    /**
+     * Return an attribute's value with all modifiers taken into account.
+     * @param string $attribute Attribute to return
+     * @return int Attribute's value
+     */
+    public function getModifiedAttribute(string $attribute): int
+    {
+        $cleanAttributeName = $this->dashedToCamel($attribute);
+        // @phpstan-ignore-next-line
+        $modifiedAttribute = $this->$cleanAttributeName ?? 0;
+        $modifiers = array_merge(
+            (array)$this->getAugmentations(),
+            (array)$this->getQualities()
+        );
+
+        foreach ($modifiers as $modifier) {
+            foreach ($modifier->effects as $effect => $value) {
+                if (
+                    $attribute !== $effect
+                    && $cleanAttributeName !== $this->dashedToCamel($effect)
+                ) {
+                    continue;
+                }
+                $modifiedAttribute += (int)$value;
+            }
+        }
+        foreach ($this->getArmor() as $armor) {
+            if (!$armor->active) {
+                // Armor only counts if it's active.
+                continue;
+            }
+            foreach ($armor->modifications as $mod) {
+                if (0 === count($mod->effects)) {
+                    continue;
+                }
+                if (!isset($mod->effects[$cleanAttributeName])) {
+                    continue;
+                }
+                $modifiedAttribute += $mod->effects[$cleanAttributeName];
+            }
+            if (0 === count($armor->effects)) {
+                // Armor has no effects.
+                continue;
+            }
+            if (!isset($armor->effects[$cleanAttributeName])) {
+                continue;
+            }
+            $modifiedAttribute += $armor->effects[$cleanAttributeName];
+        }
+        return (int)$modifiedAttribute;
     }
 
     /**

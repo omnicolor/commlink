@@ -172,5 +172,116 @@
                 </div>
             </div>
         </div>
+
+        <div class="col">
+            <div class="card" id="attributes">
+                <div class="card-header">attributes</div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        Body
+                        <div class="value">
+                            <span id="body-natural">{{ $character->body }}</span>
+                            <span id="body-augment">
+                                {{ $character->getModifiedAttribute('body') - $character->body }}
+                            </span>
+                            <span id="body-total">
+                                {{ $character->getModifiedAttribute('body') }}
+                            </span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        Agility
+                        <div class="value">
+                            <span id="agility-natural">{{ $character->agility }}</span>
+                            <span id="agility-augment">
+                                {{ $character->getModifiedAttribute('agility') - $character->agility }}
+                            </span>
+                            <span id="agility-total">
+                                {{ $character->getModifiedAttribute('agility') }}
+                            </span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        Reaction
+                        <div class="value">
+                            <span id="reaction-natural">{{ $character->reaction }}</span>
+                            <span id="reaction-augment">
+                                {{ $character->getModifiedAttribute('reaction') - $character->reaction }}
+                            </span>
+                            <span id="reaction-total">
+                                {{ $character->getModifiedAttribute('reaction') }}
+                            </span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        Strength
+                        <div class="value">
+                            <span id="strength-natural">{{ $character->strength }}</span>
+                            <span id="strength-augment">
+                                {{ $character->getModifiedAttribute('strength') - $character->strength }}
+                            </span>
+                            <span id="strength-total">
+                                {{ $character->getModifiedAttribute('strength') }}
+                            </span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        Willpower
+                        <div class="value">
+                            <span id="willpower-natural">{{ $character->willpower }}</span>
+                            <span id="willpower-augment">
+                                {{ $character->getModifiedAttribute('willpower') - $character->willpower }}
+                            </span>
+                            <span id="willpower-total">
+                                {{ $character->getModifiedAttribute('willpower') }}
+                            </span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        Logic
+                        <div class="value">
+                            <span id="logic-natural">{{ $character->logic }}</span>
+                            <span id="logic-augment">
+                                {{ $character->getModifiedAttribute('logic') - $character->logic }}
+                            </span>
+                            <span id="logic-total">
+                                {{ $character->getModifiedAttribute('logic') }}
+                            </span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        Intuition
+                        <div class="value">
+                            <span id="intuition-natural">{{ $character->intuition }}</span>
+                            <span id="intuition-augment">
+                                {{ $character->getModifiedAttribute('intuition') - $character->intuition }}
+                            </span>
+                            <span id="intuition-total">
+                                {{ $character->getModifiedAttribute('intuition') }}
+                            </span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        Charisma
+                        <div class="value">
+                            <span id="charisma-natural">{{ $character->charisma }}</span>
+                            <span id="charisma-augment">
+                                {{ $character->getModifiedAttribute('charisma') - $character->charisma }}
+                            </span>
+                            <span id="charisma-total">
+                                {{ $character->getModifiedAttribute('charisma') }}
+                            </span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        Edge
+                        <div class="value" id="edge">
+                            {{ $character->edgeCurrent ?? $character->edge }} /
+                            {{ $character->edge }}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </x-app>
