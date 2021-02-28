@@ -20,6 +20,8 @@ use App\Http\Controllers\Shadowrun5E\SpellsController;
 use App\Http\Controllers\Shadowrun5E\SpiritsController;
 use App\Http\Controllers\Shadowrun5E\SpritesController;
 use App\Http\Controllers\Shadowrun5E\TraditionsController;
+use App\Http\Controllers\Shadowrun5E\VehiclesController;
+use App\Http\Controllers\Shadowrun5E\VehicleModificationsController;
 use App\Http\Controllers\Shadowrun5E\WeaponsController;
 use App\Http\Controllers\Shadowrun5E\WeaponModificationsController;
 
@@ -60,6 +62,10 @@ Route::middleware('auth:sanctum')->prefix('shadowrun5e')->name('shadowrun5e.')->
         Route::resource('sprites', SpritesController::class)
             ->only(['index', 'show']);
         Route::resource('traditions', TraditionsController::class)
+            ->only(['index', 'show']);
+        Route::resource('vehicles', VehiclesController::class)
+            ->only(['index', 'show']);
+        Route::resource('vehicle-modifications', VehicleModificationsController::class)
             ->only(['index', 'show']);
         Route::resource('weapons', WeaponsController::class)
             ->only(['index', 'show']);
