@@ -71,7 +71,7 @@ class Quality
      */
     public function __construct(string $id, array $raw = [])
     {
-        $filename = config('app.data_url') . 'qualities.php';
+        $filename = config('app.data_path.shadowrun5e') . 'qualities.php';
         self::$qualities ??= require $filename;
         $id = strtolower($id);
         if (!isset(self::$qualities[$id])) {
@@ -142,7 +142,7 @@ class Quality
      */
     public static function findByName(string $name): Quality
     {
-        $filename = config('app.data_url') . 'qualities.php';
+        $filename = config('app.data_path.shadowrun5e') . 'qualities.php';
         self::$qualities ??= require $filename;
         foreach (self::$qualities as $quality) {
             if (strtolower($quality['name']) === strtolower($name)) {

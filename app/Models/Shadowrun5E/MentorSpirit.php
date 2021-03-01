@@ -58,7 +58,7 @@ class MentorSpirit
      */
     public function __construct(string $id)
     {
-        $filename = config('app.data_url') . 'mentor-spirits.php';
+        $filename = config('app.data_path.shadowrun5e') . 'mentor-spirits.php';
         self::$spirits ??= require $filename;
 
         $id = strtolower($id);

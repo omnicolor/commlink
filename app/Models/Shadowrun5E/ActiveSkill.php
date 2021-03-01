@@ -54,7 +54,7 @@ class ActiveSkill extends Skill
      */
     public function __construct(string $id, int $level, $specialization = null)
     {
-        $filename = config('app.data_url') . 'skills.php';
+        $filename = config('app.data_path.shadowrun5e') . 'skills.php';
         self::$skills ??= require $filename;
 
         $id = strtolower($id);
@@ -85,7 +85,7 @@ class ActiveSkill extends Skill
      */
     public static function findIdByName(string $name): string
     {
-        $filename = config('app.data_url') . 'skills.php';
+        $filename = config('app.data_path.shadowrun5e') . 'skills.php';
         self::$skills ??= require $filename;
         foreach (self::$skills as $skill) {
             if ($skill['name'] === $name) {

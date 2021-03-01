@@ -92,7 +92,7 @@ class ComplexForm
      */
     public function __construct(string $identifier, ?int $level = null)
     {
-        $filename = config('app.data_url') . 'complex-forms.php';
+        $filename = config('app.data_path.shadowrun5e') . 'complex-forms.php';
         self::$forms ??= require $filename;
 
         $identifier = strtolower($identifier);

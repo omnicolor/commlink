@@ -102,7 +102,7 @@ class Program
     public function __construct(string $id, ?bool $running = null)
     {
         // Lazy load the programs.
-        $filename = config('app.data_url') . 'programs.php';
+        $filename = config('app.data_path.shadowrun5e') . 'programs.php';
         self::$programs ??= require $filename;
 
         $id = strtolower($id);

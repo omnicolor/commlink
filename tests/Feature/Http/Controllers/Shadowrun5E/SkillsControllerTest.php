@@ -21,7 +21,7 @@ final class SkillsControllerTest extends \Tests\TestCase
      */
     public function testIndexBrokenConfig(): void
     {
-        \Config::set('app.data_url', '/tmp/unused/');
+        \Config::set('app.data_path.shadowrun5e', '/tmp/unused/');
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.skills.index'))
@@ -93,7 +93,6 @@ final class SkillsControllerTest extends \Tests\TestCase
                     'default' => true,
                     'group' => 'firearms',
                     'attribute' => 'agility',
-                    'description' => 'Skill description here.',
                     'limit' => 'weapon',
                     'specializations' => [
                         'Assault Rifles',

@@ -52,11 +52,6 @@ return [
     'asset_url' => env('ASSET_URL', null),
 
     /*
-     * Data URL points to where the data files for different RPG systems are.
-     */
-    'data_url' => env('DATA_URL', 'data/'),
-
-    /*
     |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
@@ -219,10 +214,20 @@ return [
     ],
 
     /*
+     * Paths to the different data files for each system.
+     */
+    'data_path' => [
+        'cyberpunkred' => env('CYBERPUNK_DATA_PATH', 'data/CyberpunkRed/'),
+        'expanse' => env('EXPANSE_DATA_PATH', 'data/Expanse/'),
+        'shadowrun5e' => env('SHADOWRUN5E_DATA_PATH', 'data/Shadowrun5E/'),
+    ],
+
+    /*
      * Systems the server supports.
      * short name = full name
      */
     'systems' => [
+        'cyberpunkred' => 'Cyberpunk Red',
         'expanse' => 'The Expanse',
         'shadowrun5e' => 'Shadowrun 5th Edition',
     ],

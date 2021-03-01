@@ -21,7 +21,7 @@ final class WeaponModificationsControllerTest extends \Tests\TestCase
      */
     public function testIndexBrokenConfig(): void
     {
-        \Config::set('app.data_url', '/tmp/unused/');
+        \Config::set('app.data_path.shadowrun5e', '/tmp/unused/');
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.weapon-modifications.index'))
@@ -94,7 +94,6 @@ final class WeaponModificationsControllerTest extends \Tests\TestCase
                 'data' => [
                     'availability' => '4R',
                     'cost' => 50,
-                    'description' => 'Bayonet description.',
                     'id' => 'bayonet',
                     'mount' => ['top', 'under'],
                     'name' => 'Bayonet',

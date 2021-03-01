@@ -64,7 +64,7 @@ class Tradition
      */
     public function __construct(string $identifier)
     {
-        $filename = config('app.data_url') . 'traditions.php';
+        $filename = config('app.data_path.shadowrun5e') . 'traditions.php';
         self::$traditions ??= require $filename;
 
         $identifier = strtolower($identifier);

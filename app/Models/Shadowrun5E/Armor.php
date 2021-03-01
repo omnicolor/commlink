@@ -94,7 +94,7 @@ class Armor
      */
     public function __construct(string $id)
     {
-        $filename = config('app.data_url') . 'armor.php';
+        $filename = config('app.data_path.shadowrun5e') . 'armor.php';
         self::$armor ??= require $filename;
 
         $id = strtolower($id);
@@ -166,7 +166,7 @@ class Armor
      */
     public static function findByName(string $name): Armor
     {
-        $filename = config('app.data_url') . 'armor.php';
+        $filename = config('app.data_path.shadowrun5e') . 'armor.php';
         self::$armor ??= require $filename;
         foreach (self::$armor as $armor) {
             if (strtolower($armor['name']) === strtolower($name)) {

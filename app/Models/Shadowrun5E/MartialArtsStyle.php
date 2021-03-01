@@ -58,7 +58,8 @@ class MartialArtsStyle
      */
     public function __construct(string $id)
     {
-        $filename = config('app.data_url') . 'martial-arts-styles.php';
+        $filename = config('app.data_path.shadowrun5e')
+            . 'martial-arts-styles.php';
         self::$styles ??= require $filename;
 
         $id = strtolower($id);

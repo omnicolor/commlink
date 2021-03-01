@@ -21,7 +21,7 @@ final class SpiritsControllerTest extends \Tests\TestCase
      */
     public function testIndexBrokenConfig(): void
     {
-        \Config::set('app.data_url', '/tmp/unused/');
+        \Config::set('app.data_path.shadowrun5e', '/tmp/unused/');
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.spirits.index'))

@@ -21,7 +21,7 @@ final class WeaponsControllerTest extends \Tests\TestCase
      */
     public function testIndexBrokenConfig(): void
     {
-        \Config::set('app.data_url', '/tmp/unused/');
+        \Config::set('app.data_path.shadowrun5e', '/tmp/unused/');
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.weapons.index'))
@@ -97,7 +97,6 @@ final class WeaponsControllerTest extends \Tests\TestCase
                     'class' => 'Assault Rifle',
                     'cost' => 1250,
                     'damage' => '10P',
-                    'description' => 'AK-98 description.',
                     'modes' => ['SA', 'BF', 'FA'],
                     'mounts' => ['top', 'barrel', 'stock'],
                     'name' => 'AK-98',

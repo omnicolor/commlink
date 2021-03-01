@@ -182,7 +182,7 @@ class Spirit
      */
     public function __construct(string $id, ?int $force = null)
     {
-        $filename = config('app.data_url') . 'spirits.php';
+        $filename = config('app.data_path.shadowrun5e') . 'spirits.php';
         self::$spirits ??= require $filename;
 
         $id = strtolower($id);

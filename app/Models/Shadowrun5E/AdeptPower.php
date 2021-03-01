@@ -69,7 +69,7 @@ class AdeptPower
      */
     public function __construct(string $id)
     {
-        $filename = config('app.data_url') . 'adept-powers.php';
+        $filename = config('app.data_path.shadowrun5e') . 'adept-powers.php';
         self::$powers ??= require $filename;
         $id = strtolower($id);
         if (!isset(self::$powers[$id])) {

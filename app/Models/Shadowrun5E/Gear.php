@@ -95,7 +95,7 @@ class Gear
      */
     public function __construct(string $id, int $quantity = 1)
     {
-        $filename = config('app.data_url') . 'gear.php';
+        $filename = config('app.data_path.shadowrun5e') . 'gear.php';
         self::$gear ??= require $filename;
 
         $id = strtolower($id);
@@ -179,7 +179,7 @@ class Gear
      */
     public static function findByName(string $name): Gear
     {
-        $filename = config('app.data_url') . 'gear.php';
+        $filename = config('app.data_path.shadowrun5e') . 'gear.php';
         self::$gear ??= require $filename;
         foreach (self::$gear as $gear) {
             if (strtolower($gear['name']) === strtolower($name)) {

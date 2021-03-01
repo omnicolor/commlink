@@ -30,7 +30,7 @@ class MartialArtsTechniquesController extends \App\Http\Controllers\Controller
     public function __construct()
     {
         parent::__construct();
-        $this->filename = config('app.data_url')
+        $this->filename = config('app.data_path.shadowrun5e')
             . 'martial-arts-techniques.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/martial-arts-techniques';

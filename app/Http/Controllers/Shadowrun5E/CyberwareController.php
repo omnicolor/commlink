@@ -30,7 +30,7 @@ class CyberwareController extends \App\Http\Controllers\Controller
     public function __construct()
     {
         parent::__construct();
-        $this->filename = config('app.data_url') . 'cyberware.php';
+        $this->filename = config('app.data_path.shadowrun5e') . 'cyberware.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/cyberware';
         $stat = stat($this->filename);

@@ -127,7 +127,7 @@ class Sprite
      */
     public function __construct(string $id, ?int $level = null)
     {
-        $filename = config('app.data_url') . 'sprites.php';
+        $filename = config('app.data_path.shadowrun5e') . 'sprites.php';
         self::$sprites = require $filename;
         $id = strtolower($id);
         if (!isset(self::$sprites[$id])) {

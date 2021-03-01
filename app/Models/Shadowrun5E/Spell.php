@@ -102,7 +102,7 @@ class Spell
      */
     public function __construct(string $id)
     {
-        $filename = config('app.data_url') . 'spells.php';
+        $filename = config('app.data_path.shadowrun5e') . 'spells.php';
         self::$spells ??= require $filename;
 
         $id = strtolower($id);

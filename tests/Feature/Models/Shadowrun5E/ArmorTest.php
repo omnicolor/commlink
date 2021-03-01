@@ -235,7 +235,7 @@ final class ArmorTest extends \Tests\TestCase
             'id' => 'berwick-suit',
             'modifications' => [
                 'auto-injector',
-                'biomonitor',
+                'attack-dongle-2',
             ],
         ];
         $armor = Armor::build($array);

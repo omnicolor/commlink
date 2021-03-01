@@ -173,7 +173,7 @@ class Vehicle
      */
     public function __construct(array $data)
     {
-        $filename = config('app.data_url') . 'vehicles.php';
+        $filename = config('app.data_path.shadowrun5e') . 'vehicles.php';
         self::$vehicles ??= require $filename;
 
         $id = strtolower($data['id']);

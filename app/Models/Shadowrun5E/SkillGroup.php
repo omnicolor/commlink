@@ -48,7 +48,7 @@ class SkillGroup
     public function __construct(string $id, int $level)
     {
         if (!isset(self::$skillGroups)) {
-            $filename = config('app.data_url') . 'skills.php';
+            $filename = config('app.data_path.shadowrun5e') . 'skills.php';
             $skills = require $filename;
 
             foreach ($skills as $skill) {

@@ -82,7 +82,8 @@ class VehicleModification
      */
     public function __construct(string $id)
     {
-        $filename = config('app.data_url') . 'vehicle-modifications.php';
+        $filename = config('app.data_path.shadowrun5e')
+            . 'vehicle-modifications.php';
         self::$modifications ??= require $filename;
 
         $id = strtolower($id);

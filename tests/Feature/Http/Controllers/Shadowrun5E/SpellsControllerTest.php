@@ -21,7 +21,7 @@ final class SpellsControllerTest extends \Tests\TestCase
      */
     public function testIndexBrokenConfig(): void
     {
-        \Config::set('app.data_url', '/tmp/unused/');
+        \Config::set('app.data_path.shadowrun5e', '/tmp/unused/');
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.spells.index'))
@@ -69,7 +69,6 @@ final class SpellsControllerTest extends \Tests\TestCase
             ->assertJson([
                 'data' => [
                     'category' => 'Manipulation',
-                    'description' => 'Spell description.',
                     'drain' => 'F-1',
                     'duration' => 'S',
                     'id' => 'control-emotions',

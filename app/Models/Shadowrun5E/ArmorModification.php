@@ -82,7 +82,8 @@ class ArmorModification
      */
     public function __construct(string $id)
     {
-        $filename = config('app.data_url') . 'armor-modifications.php';
+        $filename = config('app.data_path.shadowrun5e')
+            . 'armor-modifications.php';
         self::$modifications ??= require $filename;
 
         $id = strtolower($id);

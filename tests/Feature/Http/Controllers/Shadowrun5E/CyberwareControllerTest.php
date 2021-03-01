@@ -21,7 +21,7 @@ final class CyberwareControllerTest extends \Tests\TestCase
      */
     public function testIndexBrokenConfig(): void
     {
-        \Config::set('app.data_url', '/tmp/unused/');
+        \Config::set('app.data_path.shadowrun5e', '/tmp/unused/');
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.cyberware.index'))
@@ -98,7 +98,6 @@ final class CyberwareControllerTest extends \Tests\TestCase
                     ],
                     'capacity-cost' => 0,
                     'cost' => 1000,
-                    'description' => 'Image link description.',
                     'effects' => [],
                     'essence' => 0.1,
                     'incompatibilities' => [],

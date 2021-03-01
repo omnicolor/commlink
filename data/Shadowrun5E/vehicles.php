@@ -14,6 +14,7 @@ return [
         'category' => '',
         'cost' => ,
         'description' => '',
+        'deviceRating' => ,
         'handling' => ,
         'handlingOffRoad' => ,
         'id' => '',

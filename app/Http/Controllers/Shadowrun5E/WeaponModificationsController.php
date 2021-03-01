@@ -30,7 +30,8 @@ class WeaponModificationsController extends \App\Http\Controllers\Controller
     public function __construct()
     {
         parent::__construct();
-        $this->filename = config('app.data_url') . 'weapon-modifications.php';
+        $this->filename = config('app.data_path.shadowrun5e')
+            . 'weapon-modifications.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/weapon-modifications';
         $stat = stat($this->filename);

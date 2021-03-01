@@ -88,7 +88,8 @@ class WeaponModification
      */
     public function __construct(string $id)
     {
-        $filename = config('app.data_url') . 'weapon-modifications.php';
+        $filename = config('app.data_path.shadowrun5e')
+            . 'weapon-modifications.php';
         self::$modifications ??= require $filename;
 
         if (!isset(self::$modifications[$id])) {

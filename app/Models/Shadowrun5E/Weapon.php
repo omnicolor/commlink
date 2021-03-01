@@ -172,7 +172,7 @@ class Weapon
      */
     public function __construct(string $id)
     {
-        $filename = config('app.data_url') . 'weapons.php';
+        $filename = config('app.data_path.shadowrun5e') . 'weapons.php';
         self::$weapons ??= require $filename;
 
         if ('unarmed-strike' === $id) {
@@ -361,7 +361,7 @@ class Weapon
         }
 
         if (isset($weapon['ammo'])) {
-            $filename = config('app.data_url') . 'ammunition.php';
+            $filename = config('app.data_path.shadowrun5e') . 'ammunition.php';
             $ammoTypes = require $filename;
             foreach ($ammoTypes as $ammo) {
                 $ammoTypes[$ammo['id']] = $ammo;
@@ -384,7 +384,7 @@ class Weapon
      */
     public static function findByName(string $name): Weapon
     {
-        $filename = config('app.data_url') . 'weapons.php';
+        $filename = config('app.data_path.shadowrun5e') . 'weapons.php';
         self::$weapons ??= require $filename;
 
         foreach (self::$weapons as $weapon) {

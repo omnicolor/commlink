@@ -102,7 +102,7 @@ class Augmentation
      */
     public function __construct(string $id, ?string $grade = null)
     {
-        $filename = config('app.data_url') . 'cyberware.php';
+        $filename = config('app.data_path.shadowrun5e') . 'cyberware.php';
         self::$augmentations ??= require $filename;
 
         $id = strtolower($id);

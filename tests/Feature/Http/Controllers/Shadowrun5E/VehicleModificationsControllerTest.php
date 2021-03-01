@@ -21,7 +21,7 @@ final class VehicleModificationsControllerTest extends \Tests\TestCase
      */
     public function testIndexBrokenConfig(): void
     {
-        \Config::set('app.data_url', '/tmp/unused/');
+        \Config::set('app.data_path.shadowrun5e', '/tmp/unused/');
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.vehicle-modifications.index'))
@@ -84,7 +84,10 @@ final class VehicleModificationsControllerTest extends \Tests\TestCase
     {
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route('shadowrun5e.vehicle-modifications.show', 'rigger-interface'))
+            ->getJson(route(
+                'shadowrun5e.vehicle-modifications.show',
+                'rigger-interface'
+            ))
             ->assertOk()
             ->assertJson([
                 'data' => [

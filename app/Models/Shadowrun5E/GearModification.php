@@ -94,7 +94,8 @@ class GearModification
      */
     public function __construct(string $id)
     {
-        $filename = config('app.data_url') . 'gear-modifications.php';
+        $filename = config('app.data_path.shadowrun5e')
+            . 'gear-modifications.php';
         self::$modifications ??= require $filename;
 
         $id = strtolower($id);

@@ -27,7 +27,7 @@ final class SpiritTest extends \Tests\TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $filename = \Config::get('app.data_url') . 'spirits.php';
+        $filename = \Config::get('app.data_path.shadowrun5e') . 'spirits.php';
         $this->spirits ??= require $filename;
     }
 
