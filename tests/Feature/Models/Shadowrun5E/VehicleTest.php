@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Features\Models\Shadowrun5E;
+namespace Tests\Feature\Models\Shadowrun5E;
 
 use App\Models\Shadowrun5E\Vehicle;
 use App\Models\Shadowrun5E\VehicleModification;
