@@ -8,6 +8,7 @@ use App\Http\Controllers\Shadowrun5E\ArmorModificationsController;
 use App\Http\Controllers\Shadowrun5E\CharactersController;
 use App\Http\Controllers\Shadowrun5E\ComplexFormsController;
 use App\Http\Controllers\Shadowrun5E\CyberwareController;
+use App\Http\Controllers\Shadowrun5E\GearController;
 use App\Http\Controllers\Shadowrun5E\GearModificationsController;
 use App\Http\Controllers\Shadowrun5E\MartialArtsStylesController;
 use App\Http\Controllers\Shadowrun5E\MartialArtsTechniquesController;
@@ -38,6 +39,8 @@ Route::middleware('auth:sanctum')->prefix('shadowrun5e')->name('shadowrun5e.')->
         Route::resource('complex-forms', ComplexFormsController::class)
             ->only(['index', 'show']);
         Route::resource('cyberware', CyberwareController::class)
+            ->only(['index', 'show']);
+        Route::resource('gear', GearController::class)
             ->only(['index', 'show']);
         Route::resource('gear-modifications', GearModificationsController::class)
             ->only(['index', 'show']);
