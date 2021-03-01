@@ -1,0 +1,27 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Models\Shadowrun5E;
+
+/**
+ * Type-safe collection of Gear.
+ * @extends \ArrayObject<int, Gear>
+ */
+class GearArray extends \ArrayObject
+{
+    /**
+     * Adds some gear to the array.
+     * @param int|null $index
+     * @param Gear $gear
+     * @throws \TypeError
+     */
+    public function offsetSet($index = null, $gear = null): void
+    {
+        if ($gear instanceof Gear) {
+            parent::offsetSet($index, $gear);
+            return;
+        }
+        throw new \TypeError('GearArray only accepts Gear objects');
+    }
+}

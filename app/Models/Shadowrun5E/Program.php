@@ -144,4 +144,47 @@ class Program
     {
         return $this->cost;
     }
+
+    /**
+     * Build a program from either its ID or an array.
+     * @param array<string, string>|string $rawProgram
+     * @param ProgramArray $running
+     * @return Program
+     * @throws \RuntimeException
+     */
+    public static function build($rawProgram, ProgramArray $running): Program
+    {
+        if (!is_array($rawProgram)) {
+            $program = new Program($rawProgram);
+            $program->running = $program->isRunning($running);
+            return $program;
+        }
+
+        $program = new Program($rawProgram['id']);
+        $program->running = $program->isRunning($running);
+        if (isset($rawProgram['vehicle'])) {
+            $program->vehicle = new Vehicle(['id' => $rawProgram['vehicle']]);
+            return $program;
+        }
+        if (isset($rawProgram['weapon'])) {
+            $program->weapon = new Weapon($rawProgram['weapon']);
+        }
+        return $program;
+    }
+
+    /**
+     * Determine if the program is running based on the array of running
+     * programs.
+     * @param ProgramArray $running
+     * @return bool
+     */
+    public function isRunning(ProgramArray $running): bool
+    {
+        foreach ($running as $potential) {
+            if ($potential->id === $this->id) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -35,4 +35,14 @@ return [
         'page' => 245,
         'ruleset' => 'core',
     ],
+    'bootstrap' => [
+        'id' => 'bootstrap',
+        'allowedDevices' => ['cyberdeck'],
+        'availability' => '',
+        'cost' => 80,
+        'description' => 'Bootstrap description.',
+        'name' => 'Bootstrap',
+        'page' => 56,
+        'ruleset' => 'data-trails',
+    ],
 ];

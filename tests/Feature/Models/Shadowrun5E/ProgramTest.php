@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5E;
 
 use App\Models\Shadowrun5E\Program;
+use App\Models\Shadowrun5E\ProgramArray;
+use App\Models\Shadowrun5E\Vehicle;
+use App\Models\Shadowrun5E\Weapon;
 
 /**
  * Unit tests for Program class
@@ -77,5 +80,101 @@ final class ProgramTest extends \Tests\TestCase
     {
         $program = new Program('armor');
         self::assertSame(250, $program->getCost());
+    }
+
+    /**
+     * Test building a program from a string ID that isn't valid.
+     * @test
+     */
+    public function testBuildFromStringNotFound(): void
+    {
+        self::expectException(\RuntimeException::class);
+        self::expectExceptionMessage('Program ID "invalid" is invalid');
+        Program::build('invalid', new ProgramArray());
+    }
+
+    /**
+     * Test building a program from a string.
+     * @test
+     */
+    public function testBuildFromString(): void
+    {
+        $program = Program::build('armor', new ProgramArray());
+        self::assertSame('Armor', $program->name);
+        self::assertFalse($program->running);
+    }
+
+    /**
+     * Test building a program from a string, that's running.
+     * @test
+     */
+    public function testBuildFromStringRunning(): void
+    {
+        $array = new ProgramArray();
+        $array[] = new Program('armor');
+        $program = Program::build('armor', $array);
+        self::assertSame('Armor', $program->name);
+        self::assertTrue($program->running);
+    }
+
+    /**
+     * Test building a program from an array that is used by a vehicle.
+     * @test
+     */
+    public function testBuildVehicleProgram(): void
+    {
+        $program = Program::build(
+            [
+                'id' => 'armor',
+                'vehicle' => 'mct-fly-spy',
+            ],
+            new ProgramArray()
+        );
+        self::assertFalse(isset($program->weapon));
+        self::assertInstanceOf(Vehicle::class, $program->vehicle);
+        self::assertFalse($program->running);
+    }
+
+    /**
+     * Test building a program from an array that is used by a weapon.
+     * @test
+     */
+    public function testBuildWeaponProgram(): void
+    {
+        $array = new ProgramArray();
+        $array[] = new Program('armor');
+
+        $program = Program::build(
+            [
+                'id' => 'armor',
+                'weapon' => 'ak-98',
+            ],
+            $array
+        );
+        self::assertInstanceOf(Weapon::class, $program->weapon);
+        self::assertFalse(isset($program->vehicle));
+        self::assertTrue($program->running);
+    }
+
+    /**
+     * Test whether the program is running on a not-running program.
+     * @test
+     */
+    public function testIsRunningNot(): void
+    {
+        $program = new Program('armor');
+        self::assertFalse($program->isRunning(new ProgramArray()));
+    }
+
+    /**
+     * Test whether the program is running on a running program.
+     * @test
+     */
+    public function testIsRunning(): void
+    {
+        $program = new Program('armor');
+        $array = new ProgramArray();
+        $array[] = $program;
+        self::assertTrue($program->isRunning($array));
     }
 }
