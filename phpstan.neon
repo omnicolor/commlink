@@ -4,6 +4,7 @@ includes:
 parameters:
     paths:
         - %currentWorkingDirectory%/app
+        - %currentWorkingDirectory%/data
         - %currentWorkingDirectory%/tests
     level: 8
     treatPhpDocTypesAsCertain: false
