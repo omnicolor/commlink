@@ -14,7 +14,6 @@ use App\Models\Shadowrun5E\LifestyleZone;
  * @covers \App\Models\Shadowrun5E\Lifestyle
  * @covers \App\Models\Shadowrun5E\LifestyleAttributes
  * @covers \App\Models\Shadowrun5E\LifestyleZone
- * @group current
  * @group models
  * @group shadowrun
  * @group shadowrun5e

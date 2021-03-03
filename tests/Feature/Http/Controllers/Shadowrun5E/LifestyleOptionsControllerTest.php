@@ -9,7 +9,6 @@ use Illuminate\Http\Response;
 
 /**
  * Tests for the lifestyle options controller.
- * @group current
  * @group controllers
  * @group shadowrun
  * @group shadowrun5e

@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\LifestyleZone;
 /**
  * Tests for Shadowrun 5E lifestyle zones.
  * @covers \App\Models\Shadowrun5E\LifestyleZone
- * @group current
  * @group models
  * @group shadowrun
  * @group shadowrun5e

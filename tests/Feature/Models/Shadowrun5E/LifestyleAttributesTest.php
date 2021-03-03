@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\LifestyleAttributes;
 /**
  * Tests for Shadowrun 5E lifestyle attributes.
  * @covers \App\Models\Shadowrun5E\LifestyleAttributes
- * @group current
  * @group models
  * @group shadowrun
  * @group shadowrun5e

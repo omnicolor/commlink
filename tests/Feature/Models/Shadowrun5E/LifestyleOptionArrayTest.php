@@ -11,7 +11,6 @@ use App\Models\Shadowrun5E\LifestyleOptionArray;
  * Tests for LifestyleOptionArray.
  * @covers \App\Models\Shadowrun5E\LifestyleOption
  * @covers \App\Models\Shadowrun5E\LifestyleOptionArray
- * @group current
  * @group models
  * @group shadowrun
  * @group shadowrun5e
