@@ -10,6 +10,9 @@ use App\Http\Controllers\Shadowrun5E\ComplexFormsController;
 use App\Http\Controllers\Shadowrun5E\CyberwareController;
 use App\Http\Controllers\Shadowrun5E\GearController;
 use App\Http\Controllers\Shadowrun5E\GearModificationsController;
+use App\Http\Controllers\Shadowrun5E\LifestylesController;
+use App\Http\Controllers\Shadowrun5E\LifestyleOptionsController;
+use App\Http\Controllers\Shadowrun5E\LifestyleZonesController;
 use App\Http\Controllers\Shadowrun5E\MartialArtsStylesController;
 use App\Http\Controllers\Shadowrun5E\MartialArtsTechniquesController;
 use App\Http\Controllers\Shadowrun5E\MentorSpiritsController;
@@ -43,6 +46,12 @@ Route::middleware('auth:sanctum')->prefix('shadowrun5e')->name('shadowrun5e.')->
         Route::resource('gear', GearController::class)
             ->only(['index', 'show']);
         Route::resource('gear-modifications', GearModificationsController::class)
+            ->only(['index', 'show']);
+        Route::resource('lifestyles', LifestylesController::class)
+            ->only(['index', 'show']);
+        Route::resource('lifestyle-options', LifestyleOptionsController::class)
+            ->only(['index', 'show']);
+        Route::resource('lifestyle-zones', LifestyleZonesController::class)
             ->only(['index', 'show']);
         Route::resource('martial-arts-styles', MartialArtsStylesController::class)
             ->only(['index', 'show']);
