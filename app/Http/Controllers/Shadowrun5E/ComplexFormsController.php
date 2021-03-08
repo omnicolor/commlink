@@ -70,7 +70,7 @@ class ComplexFormsController extends \App\Http\Controllers\Controller
     public function show(string $identifier): Response
     {
         $identifier = strtolower($identifier);
-        if (!key_exists($identifier, $this->forms)) {
+        if (!array_key_exists($identifier, $this->forms)) {
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
                 'detail' => sprintf('%s not found', $identifier),

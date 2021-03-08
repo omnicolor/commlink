@@ -6,9 +6,9 @@ namespace Tests\Feature\Http\Responses;
 
 use App\Exceptions\SlackException;
 use App\Http\Responses\LinkResponse;
+use App\Models\Shadowrun5E\Character;
 use App\Models\Slack\Channel;
 use App\Models\SlackLink;
-use App\Models\Shadowrun5E\Character;
 use App\Models\User;
 use Str;
 

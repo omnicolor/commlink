@@ -10,19 +10,19 @@ namespace App\Models\Shadowrun5E;
 class Lifestyle
 {
     /**
-     * Base and maximum attributes for the lifestyle
+     * Base and maximum attributes for the lifestyle.
      * @var LifestyleAttributes
      */
     public LifestyleAttributes $attributes;
 
     /**
-     * Cost of the lifestyle with no additional options
+     * Cost of the lifestyle with no additional options.
      * @var int
      */
     public int $cost;
 
     /**
-     * Description of the lifestyle
+     * Description of the lifestyle.
      * @var string
      */
     public string $description;
@@ -34,43 +34,43 @@ class Lifestyle
     public string $id;
 
     /**
-     * Name of the lifestyle
+     * Name of the lifestyle.
      * @var string
      */
     public string $name;
 
     /**
-     * Optional notes about the character's lifestyle
+     * Optional notes about the character's lifestyle.
      * @var string
      */
     public string $notes = '';
 
     /**
-     * Options added to the lifestyle
+     * Options added to the lifestyle.
      * @var LifestyleOptionArray<LifestyleOption>
      */
     public LifestyleOptionArray $options;
 
     /**
-     * Number of months paid for this lifestyle
+     * Number of months paid for this lifestyle.
      * @var int
      */
     public int $quantity;
 
     /**
-     * Number of points that can be spent on upgrades
+     * Number of points that can be spent on upgrades.
      * @var int
      */
     public int $points;
 
     /**
-     * Page the lifestyle was introduced on
+     * Page the lifestyle was introduced on.
      * @var int
      */
     public int $page;
 
     /**
-     * Ruleset the lifestyle was introduced in
+     * Ruleset the lifestyle was introduced in.
      * @var string
      */
     public string $ruleset;

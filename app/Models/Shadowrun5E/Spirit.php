@@ -24,37 +24,37 @@ class Spirit
     use ForceTrait;
 
     /**
-     * Spirit's agility
+     * Spirit's agility.
      * @var string
      */
     public string $agility;
 
     /**
-     * Spirit's body
+     * Spirit's body.
      * @var string
      */
     public string $body;
 
     /**
-     * Whether the spirit has been bound by the caster
-     * @var boolean
+     * Whether the spirit has been bound by the caster.
+     * @var bool
      */
     public bool $bound = false;
 
     /**
-     * Spirit's charisma
+     * Spirit's charisma.
      * @var string
      */
     public string $charisma;
 
     /**
-     * Spirit's edge
+     * Spirit's edge.
      * @var string
      */
     public string $edge;
 
     /**
-     * Spirit's essence
+     * Spirit's essence.
      * @var string
      */
     public string $essence;
@@ -66,74 +66,74 @@ class Spirit
     public ?int $force;
 
     /**
-     * Spirit's ID
+     * Spirit's ID.
      * @var string
      */
     public string $id;
 
     /**
-     * Spirit's astral initiative
+     * Spirit's astral initiative.
      * @var string
      */
     public string $initiativeAstral;
 
     /**
-     * Spirit's meat-space initiative
+     * Spirit's meat-space initiative.
      * @var string
      */
     public string $initiative;
 
     /**
-     * Spirit's intuition
+     * Spirit's intuition.
      * @var string
      */
     public string $intuition;
 
     /**
-     * Spirit's logic
+     * Spirit's logic.
      * @var string
      */
     public string $logic;
 
     /**
-     a *Spirit's name
+     a *Spirit's name.
      * @var string
      */
     public string $name;
 
     /**
-     * Spirit's magic rating
+     * Spirit's magic rating.
      * @var string
      */
     public string $magic;
 
     /**
-     * Page number the spirit type was introduced on
+     * Page number the spirit type was introduced on.
      * @var int
      */
     public int $page;
 
     /**
      * Power the spirit has, both innate to the spirit type and optional ones
-     * chosed during summoning
+     * chosed during summoning.
      * @var string[]
      */
     public array $powers = [];
 
     /**
-     * Collection of powers the spirit can choose
+     * Collection of powers the spirit can choose.
      * @var string[]
      */
     public array $powersOptional = [];
 
     /**
-     * Spirit's reaction
+     * Spirit's reaction.
      * @var string
      */
     public string $reaction;
 
     /**
-     * Ruleset the spirit type was introduced in
+     * Ruleset the spirit type was introduced in.
      * @var string
      */
     public string $ruleset;
@@ -151,19 +151,19 @@ class Spirit
     public array $skills = [];
 
     /**
-     * Any special information about the spirit
+     * Any special information about the spirit.
      * @var ?string
      */
     public ?string $special;
 
     /**
-     * Spirit's strength
+     * Spirit's strength.
      * @var string
      */
     public string $strength;
 
     /**
-     * Spirit's willpower
+     * Spirit's willpower.
      * @var string
      */
     public string $willpower;
@@ -268,7 +268,7 @@ class Spirit
     }
 
     /**
-     * Convert an initiative string like (F*2+4)+2d6 into [init, dice]
+     * Convert an initiative string like (F*2+4)+2d6 into [init, dice].
      * @param string $initiative
      * @return array<int, string|int> [base initiative, initiative dice]
      */

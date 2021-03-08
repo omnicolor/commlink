@@ -69,7 +69,7 @@ class QualitiesController extends \App\Http\Controllers\Controller
     {
         $qualityId = strtolower($qualityId);
 
-        if (!key_exists($qualityId, $this->qualities)) {
+        if (!array_key_exists($qualityId, $this->qualities)) {
             // We couldn't find it!
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,

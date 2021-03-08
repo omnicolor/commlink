@@ -10,79 +10,79 @@ namespace App\Models\Shadowrun5E;
 class Gear
 {
     /**
-     * Whether the item is active
+     * Whether the item is active.
      * @var ?bool
      */
     public ?bool $active;
 
     /**
-     * Availability code of the item
+     * Availability code of the item.
      * @var string
      */
     public string $availability;
 
     /**
-     * Base cost of the item
+     * Base cost of the item.
      * @var int
      */
     public int $cost;
 
     /**
-     * Matrix damage the item has taken
+     * Matrix damage the item has taken.
      * @var ?int
      */
     public ?int $damage;
 
     /**
-     * Description of the item
+     * Description of the item.
      * @var string
      */
     public string $description;
 
     /**
-     * Effects of the item
+     * Effects of the item.
      * @var array<string, int>
      */
     public array $effects = [];
 
     /**
-     * ID of the item
+     * ID of the item.
      * @var string
      */
     public string $id;
 
     /**
-     * Modifications applied to the item
+     * Modifications applied to the item.
      * @var GearModificationArray
      */
     public GearModificationArray $modifications;
 
     /**
-     * Name of the item
+     * Name of the item.
      * @var string
      */
     public string $name;
 
     /**
-     * Quantity of the item
+     * Quantity of the item.
      * @var int
      */
     public int $quantity;
 
     /**
-     * Optional rating for the item
+     * Optional rating for the item.
      * @var ?int
      */
     public ?int $rating = null;
 
     /**
-     * Optional subname of the item
+     * Optional subname of the item.
      * @var ?string
      */
     public ?string $subname = null;
 
     /**
-     * List of all gear
+     * List of all gear.
      * @var ?array<string, mixed>
      */
     public static ?array $gear;

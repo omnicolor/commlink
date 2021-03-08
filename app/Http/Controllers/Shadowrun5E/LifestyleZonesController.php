@@ -73,7 +73,7 @@ class LifestyleZonesController extends \App\Http\Controllers\Controller
     public function show(string $id): Response
     {
         $id = strtolower($id);
-        if (!key_exists($id, $this->zones)) {
+        if (!array_key_exists($id, $this->zones)) {
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
                 'detail' => $id . ' not found',

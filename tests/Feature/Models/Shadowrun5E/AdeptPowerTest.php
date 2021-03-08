@@ -7,7 +7,7 @@ namespace Tests\Feature\Models\Shadowrun5E;
 use App\Models\Shadowrun5E\AdeptPower;
 
 /**
- * Unit tests for AdeptPower class
+ * Unit tests for AdeptPower class.
  * @covers \App\Models\Shadowrun5E\AdeptPower
  * @group models
  * @group shadowrun

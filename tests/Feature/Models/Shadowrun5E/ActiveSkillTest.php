@@ -30,7 +30,7 @@ final class ActiveSkillTest extends \Tests\TestCase
 
     /**
      * Test loading a skill.
-     * Active@return Skill
+     * @return ActiveSkill
      * @test
      */
     public function testLoadSkillSetsId(): ActiveSkill

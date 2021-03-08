@@ -69,7 +69,7 @@ class GearController extends \App\Http\Controllers\Controller
     public function show(string $id): Response
     {
         $id = strtolower($id);
-        if (!key_exists($id, $this->gear)) {
+        if (!array_key_exists($id, $this->gear)) {
             // We couldn't find it!
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,

@@ -10,79 +10,79 @@ namespace App\Models\Shadowrun5E;
 class GearModification
 {
     /**
-     * Availability of the modification
+     * Availability of the modification.
      * @var string
      */
     public string $availability;
 
     /**
-     * Amount of capacity in the modified gear taken up
+     * Amount of capacity in the modified gear taken up.
      * @var int
      */
     public ?int $capacityCost;
 
     /**
-     * What kind of container the modification can go in
+     * What kind of container the modification can go in.
      * @var string
      */
     public string $containerType;
 
     /**
-     * Cost of the modification
+     * Cost of the modification.
      * @var int
      */
     public int $cost;
 
     /**
-     * Description of the modification
+     * Description of the modification.
      * @var string
      */
     public $description;
 
     /**
-     * List of effects the modification has in game terms
+     * List of effects the modification has in game terms.
      * @var array<string, int>
      */
     public $effects;
 
     /**
-     * Unique identifier for the modification
+     * Unique identifier for the modification.
      * @var string
      */
     public $id;
 
     /**
-     * Name of the modification
+     * Name of the modification.
      * @var string
      */
     public $name;
 
     /**
-     * Page number
+     * Page number.
      * @var int
      */
     public $page;
 
     /**
-     * Rating of the modification
+     * Rating of the modification.
      * @var int
      */
     public $rating;
 
     /**
-     * Ruleset code for where the modification was added
+     * Ruleset code for where the modification was added.
      * @var string
      */
     public $ruleset;
 
     /**
-     * List of effects the modification has when wireless is on
+     * List of effects the modification has when wireless is on.
      * @var array<string, int>
      */
     public $wirelessEffects;
 
     /**
-     * List of all modifications
+     * List of all modifications.
      * @var ?array<mixed>
      */
     public static ?array $modifications;

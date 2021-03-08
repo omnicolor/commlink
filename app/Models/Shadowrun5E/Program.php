@@ -10,85 +10,85 @@ namespace App\Models\Shadowrun5E;
 class Program
 {
     /**
-     * List of devices that can run the program
+     * List of devices that can run the program.
      * @var string[]
      */
     public array $allowedDevices = [];
 
     /**
-     * Availability code for the program
+     * Availability code for the program.
      * @var string
      */
     public string $availability;
 
     /**
-     * Cost of the program
+     * Cost of the program.
      * @var int
      */
     public int $cost;
 
     /**
-     * Cost of the program
+     * Cost of the program.
      * @var string Description of the program
      */
     public string $description;
 
     /**
-     * Collection of effects the program has
+     * Collection of effects the program has.
      * @var array<string, int>
      */
     public array $effects = [];
 
     /**
-     * Unique ID for the program
+     * Unique ID for the program.
      * @var string
      */
     public string $id;
 
     /**
-     * Name of the program
+     * Name of the program.
      * @var string
      */
     public string $name;
 
     /**
-     * Page the program was listed on
+     * Page the program was listed on.
      * @var ?int
      */
     public ?int $page;
 
     /**
-     * Optional rating for programs (agents) that need one
+     * Optional rating for programs (agents) that need one.
      * @var ?int
      */
     public ?int $rating;
 
     /**
-     * ID of the rules the program was introduced in
+     * ID of the rules the program was introduced in.
      * @var ?string
      */
     public ?string $ruleset;
 
     /**
-     * Whether the program is currently running
+     * Whether the program is currently running.
      * @var bool
      */
     public bool $running;
 
     /**
-     * Specific vehicle if the program is an autosoft
+     * Specific vehicle if the program is an autosoft.
      * @var mixed
      */
     public $vehicle;
 
     /**
-     * Specific weapon if the program is an autosoft
+     * Specific weapon if the program is an autosoft.
      * @var mixed
      */
     public $weapon;
 
     /**
-     * List of all programs
+     * List of all programs.
      * @var ?array<mixed>
      */
     public static ?array $programs;

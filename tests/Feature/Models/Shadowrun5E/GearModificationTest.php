@@ -7,7 +7,7 @@ namespace Tests\Feature\Models\Shadowrun5E;
 use App\Models\Shadowrun5E\GearModification;
 
 /**
- * Unit tests for GearModification class
+ * Unit tests for GearModification class.
  * @covers \App\Models\Shadowrun5E\GearModification
  * @group models
  * @group shadowrun

@@ -11,73 +11,73 @@ namespace App\Models\Shadowrun5E;
 class Augmentation
 {
     /**
-     * Whether the augmentation is currently active
+     * Whether the augmentation is currently active.
      * @var bool
      */
     public bool $active = true;
 
     /**
-     * Availability code for the augmentation
+     * Availability code for the augmentation.
      * @var string
      */
     public string $availability;
 
     /**
-     * Base cost of the augmentation
+     * Base cost of the augmentation.
      * @var ?int
      */
     public ?int $cost;
 
     /**
-     * Description of the augmentation
+     * Description of the augmentation.
      * @var string
      */
     public string $description;
 
     /**
-     * List of effects the augmentation has
+     * List of effects the augmentation has.
      * @var array<string, int>
      */
     public array $effects = [];
 
     /**
-     * Base essence cost of the augmentation
+     * Base essence cost of the augmentation.
      * @var float
      */
     public float $essence;
 
     /**
-     * Grade of the augmentation
+     * Grade of the augmentation.
      * @var ?string
      */
     public ?string $grade;
 
     /**
-     * ID of the augmentation
+     * ID of the augmentation.
      * @var ?string
      */
     public ?string $id;
 
     /**
-     * List of augmentations this one is incompatible with
+     * List of augmentations this one is incompatible with.
      * @var string[]
      */
     public array $incompatibilities = [];
 
     /**
-     * List of modifications to this augmentation
+     * List of modifications to this augmentation.
      * @var AugmentationArray<int, Augmentation>
      */
     public AugmentationArray $modifications;
 
     /**
-     * Name of the augmentation
+     * Name of the augmentation.
      * @var string
      */
     public string $name;
 
     /**
-     * Rating of the augmentation
+     * Rating of the augmentation.
      * @var int|string|null
      */
     public $rating;
@@ -89,7 +89,7 @@ class Augmentation
     public ?array $softs;
 
     /**
-     * List of all augmentations
+     * List of all augmentations.
      * @var ?array<mixed>
      */
     public static ?array $augmentations;

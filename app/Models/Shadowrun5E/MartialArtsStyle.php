@@ -10,43 +10,43 @@ namespace App\Models\Shadowrun5E;
 class MartialArtsStyle
 {
     /**
-     * Collection of IDs for techniques the style allows
+     * Collection of IDs for techniques the style allows.
      * @var string[]
      */
     public array $allowedTechniques;
 
     /**
-     * Description of the style
+     * Description of the style.
      * @var string
      */
     public string $description;
 
     /**
-     * Unique ID for the style
+     * Unique ID for the style.
      * @var string
      */
     public string $id;
 
     /**
-     * Name of the style
+     * Name of the style.
      * @var string
      */
     public string $name;
 
     /**
-     * Page the style was introduced on
+     * Page the style was introduced on.
      * @var int
      */
     public int $page;
 
     /**
-     * ID of the book the style was introduced in
+     * ID of the book the style was introduced in.
      * @var string
      */
     public string $ruleset;
 
     /**
-     * Collection of all styles
+     * Collection of all styles.
      * @var ?array<mixed>
      */
     public static ?array $styles;

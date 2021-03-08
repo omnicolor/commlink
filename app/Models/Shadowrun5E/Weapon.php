@@ -10,79 +10,79 @@ namespace App\Models\Shadowrun5E;
 class Weapon
 {
     /**
-     * Collection of accessories
+     * Collection of accessories.
      * @var array<string, ?WeaponModification>
      */
     public array $accessories = [];
 
     /**
-     * Accuracy of the weapon
+     * Accuracy of the weapon.
      * @var string|int|null
      */
     public $accuracy;
 
     /**
-     * Array of ammunition
+     * Array of ammunition.
      * @var mixed[]
      */
     public array $ammunition = [];
 
     /**
-     * Number of rounds the weapon holds
+     * Number of rounds the weapon holds.
      * @var ?int
      */
     public ?int $ammoCapacity;
 
     /**
-     * Type of container for the ammunition
+     * Type of container for the ammunition.
      * @var string
      */
     public ?string $ammoContainer;
 
     /**
-     * Armor piercing base value for the weapon
+     * Armor piercing base value for the weapon.
      * @var int
      */
     public int $armorPiercing;
 
     /**
-     * Availability code for the weapon
+     * Availability code for the weapon.
      * @var string
      */
     public string $availability = '';
 
     /**
-     * Class of the weapon
+     * Class of the weapon.
      * @var string
      */
     public string $class;
 
     /**
-     * Cost of the weapon
+     * Cost of the weapon.
      * @var ?int
      */
     public ?int $cost;
 
     /**
-     * Damage code for the weapon
+     * Damage code for the weapon.
      * @var string
      */
     public string $damage;
 
     /**
-     * Description of the weapon
+     * Description of the weapon.
      * @var string
      */
     public string $description;
 
     /**
-     * Unique identifier for the weapon's information
+     * Unique identifier for the weapon's information.
      * @var string
      */
     public string $id;
 
     /**
-     * Unique identifier for this instance of the weapon
+     * Unique identifier for this instance of the weapon.
      * @var ?string
      */
     public ?string $link;
@@ -94,73 +94,73 @@ class Weapon
     public ?string $loaded;
 
     /**
-     * Modes the weapon can shoot in
+     * Modes the weapon can shoot in.
      * @var string[]
      */
     public ?array $modes;
 
     /**
-     * Built-in modifications
+     * Built-in modifications.
      * @var WeaponModification[]
      */
     public array $modifications = [];
 
     /**
-     * Added-on modifications
+     * Added-on modifications.
      * @var WeaponModification[]
      */
     public array $modificationsAdded = [];
 
     /**
-     * Name of the weapon
+     * Name of the weapon.
      * @var string
      */
     public string $name;
 
     /**
-     * Page the weapon was added on
+     * Page the weapon was added on.
      * @var ?int
      */
     public ?int $page;
 
     /**
-     * Weapon's reach
+     * Weapon's reach.
      * @var ?int
      */
     public ?int $reach;
 
     /**
-     * Recoil compensation
+     * Recoil compensation.
      * @var ?int
      */
     public ?int $recoilCompensation;
 
     /**
-     * Ruleset the weapon is listed in
+     * Ruleset the weapon is listed in.
      * @var string
      */
     public string $ruleset = 'core';
 
     /**
-     * Skill to use for the weapon
+     * Skill to use for the weapon.
      * @var string
      */
     public string $skill;
 
     /**
-     * Subname for the weapon
+     * Subname for the weapon.
      * @var ?string
      */
     public ?string $subname;
 
     /**
-     * Type of combat for the weapon
+     * Type of combat for the weapon.
      * @var string
      */
     public string $type;
 
     /**
-     * List of all weapons
+     * List of all weapons.
      * @var ?array<int, mixed>
      */
     public static ?array $weapons;
@@ -352,7 +352,7 @@ class Weapon
      */
     public static function buildWeapon(array $weapon): Weapon
     {
-        $weaponObj =  new Weapon($weapon['id']);
+        $weaponObj = new Weapon($weapon['id']);
         foreach ($weapon['modifications'] ?? [] as $mod) {
             $weaponObj->modifications[] = new WeaponModification($mod);
         }

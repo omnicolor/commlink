@@ -8,7 +8,7 @@ use App\Models\Shadowrun5E\ActiveSkill;
 use App\Models\Shadowrun5E\Sprite;
 
 /**
- * Unit tests for the Sprite class
+ * Unit tests for the Sprite class.
  * @covers \App\Models\Shadowrun5E\Sprite
  * @group models
  * @group shadowrun
@@ -68,7 +68,7 @@ final class SpriteTest extends \Tests\TestCase
         self::expectException(\BadMethodCallException::class);
         self::expectExceptionMessage('Foo is not an attribute of sprites');
         $sprite = new Sprite('courier');
-        /** @phpstan-ignore-next-line */
+        // @phpstan-ignore-next-line
         $sprite->getFoo();
     }
 
@@ -122,7 +122,7 @@ final class SpriteTest extends \Tests\TestCase
      */
     public function testSkillsNoLevel(): void
     {
-        $expected = ['computer', 'hacking',];
+        $expected = ['computer', 'hacking'];
         self::expectException(\RuntimeException::class);
         self::expectExceptionMessage('Level is not set');
         $sprite = new Sprite('courier');

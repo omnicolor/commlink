@@ -10,37 +10,37 @@ namespace App\Models\Shadowrun5E;
 class ActiveSkill extends Skill
 {
     /**
-     * Whether the character can default this skill
-     * @var boolean
+     * Whether the character can default this skill.
+     * @var bool
      */
     public bool $default = false;
 
     /**
-     * Description of the skill
+     * Description of the skill.
      * @var string
      */
     public string $description;
 
     /**
-     * Skill group the skill belongs to
+     * Skill group the skill belongs to.
      * @var ?string
      */
     public ?string $group = null;
 
     /**
-     * ID of the skill
+     * ID of the skill.
      * @var string
      */
     public string $id;
 
     /**
-     * Level of the skill
+     * Level of the skill.
      * @var int
      */
     public $level;
 
     /**
-     * List of all skills
+     * List of all skills.
      * @var ?array<mixed>
      */
     public static ?array $skills;

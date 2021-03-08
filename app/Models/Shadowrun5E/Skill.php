@@ -16,25 +16,25 @@ abstract class Skill
     public string $attribute;
 
     /**
-     * Level of the skill, N for native language
+     * Level of the skill, N for native language.
      * @var int|string
      */
     public $level;
 
     /**
-     * Name of the skill
+     * Name of the skill.
      * @var string
      */
     public string $name;
 
     /**
-     * Specialization(s) if any, comma-separated
+     * Specialization(s) if any, comma-separated.
      * @var ?string
      */
     public ?string $specialization;
 
     /**
-     * Limit the skill uses
+     * Limit the skill uses.
      * @var string
      */
     public string $limit;

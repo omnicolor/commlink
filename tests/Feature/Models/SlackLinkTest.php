@@ -7,7 +7,6 @@ namespace Tests\Feature\Models;
 use App\Models\Character;
 use App\Models\SlackLink;
 use App\Models\User;
-use Str;
 
 /**
  * Tests for the SlackLink model.

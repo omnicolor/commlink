@@ -10,43 +10,43 @@ namespace App\Models\Shadowrun5E;
 class MartialArtsTechnique
 {
     /**
-     * Description of the technique
+     * Description of the technique.
      * @var string
      */
     public string $description;
 
     /**
-     * Unique ID for the technique
+     * Unique ID for the technique.
      * @var string
      */
     public string $id;
 
     /**
-     * Name of the technique
+     * Name of the technique.
      * @var string
      */
     public string $name;
 
     /**
-     * Page the technique was introduced on
+     * Page the technique was introduced on.
      * @var int
      */
     public int $page;
 
     /**
-     * Rulebook technique was introduced in
+     * Rulebook technique was introduced in.
      * @var string
      */
     public string $ruleset;
 
     /**
-     * Optional subname for the technique
+     * Optional subname for the technique.
      * @var string
      */
     public ?string $subname;
 
     /**
-     * Collection of techniques
+     * Collection of techniques.
      * @var ?array<mixed>
      */
     public static ?array $techniques;

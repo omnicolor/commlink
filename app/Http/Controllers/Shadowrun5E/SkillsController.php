@@ -68,7 +68,7 @@ class SkillsController extends Controller
      */
     public function show(string $id): Response
     {
-        if (!key_exists($id, $this->skills)) {
+        if (!array_key_exists($id, $this->skills)) {
             // We couldn't find the requested skill!
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5E;
 
 /**
- * Collection of Lifestyle Options
+ * Collection of Lifestyle Options.
  * @extends \ArrayObject<int, LifestyleOption>
  */
 class LifestyleOptionArray extends \ArrayObject

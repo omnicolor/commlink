@@ -6,9 +6,9 @@ namespace App\Http\Responses;
 
 use App\Exceptions\SlackException;
 use App\Models\Character;
-use App\Models\SlackLink;
 use App\Models\Slack\Channel;
 use App\Models\Slack\TextAttachment;
+use App\Models\SlackLink;
 
 /**
  * Slack response for registering a character to the current channel.

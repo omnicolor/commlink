@@ -125,27 +125,27 @@ class LifestyleOption
     {
         switch ($this->minimumLifestyle) {
             case 'Commercial':
-                return ($lifestyle->name === 'Commercial');
+                return $lifestyle->name === 'Commercial';
             case 'High':
-                return ($lifestyle->name === 'High'
-                    || $lifestyle->name === 'Luxury');
+                return $lifestyle->name === 'High'
+                    || $lifestyle->name === 'Luxury';
             case 'Low':
-                return ($lifestyle->name === 'Low'
+                return $lifestyle->name === 'Low'
                     || $lifestyle->name === 'Middle'
                     || $lifestyle->name === 'High'
-                    || $lifestyle->name === 'Luxury');
+                    || $lifestyle->name === 'Luxury';
             case 'Luxury':
-                return ($lifestyle->name === 'Luxury');
+                return $lifestyle->name === 'Luxury';
             case 'Middle':
-                return ($lifestyle->name === 'Middle'
+                return $lifestyle->name === 'Middle'
                     || $lifestyle->name === 'High'
-                    || $lifestyle->name === 'Luxury');
+                    || $lifestyle->name === 'Luxury';
             case 'None':
                 return false;
             case 'Squatter':
-                return ($lifestyle->name !== 'Street'
+                return $lifestyle->name !== 'Street'
                     && $lifestyle->name !== 'Commercial'
-                    && $lifestyle->name !== 'Hospitalized');
+                    && $lifestyle->name !== 'Hospitalized';
         }
         throw new \RuntimeException('Option has invalid minimum lifestyle');
     }

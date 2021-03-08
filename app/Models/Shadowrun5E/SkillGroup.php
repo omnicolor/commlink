@@ -10,19 +10,19 @@ namespace App\Models\Shadowrun5E;
 class SkillGroup
 {
     /**
-     * ID of the skill group
+     * ID of the skill group.
      * @var string
      */
     public string $id;
 
     /**
-     * Level of the skill group
+     * Level of the skill group.
      * @var int
      */
     public int $level;
 
     /**
-     * Name of the skill group
+     * Name of the skill group.
      * @var string
      */
     public string $name;
@@ -34,7 +34,7 @@ class SkillGroup
     public array $skills;
 
     /**
-     * List of all skill groups
+     * List of all skill groups.
      * @var ?array<mixed>
      */
     public static ?array $skillGroups;

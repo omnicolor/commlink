@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Shadowrun5E;
 use Illuminate\Http\Response;
 
 /**
- * Traditions route
+ * Traditions route.
  */
 class TraditionsController extends \App\Http\Controllers\Controller
 {
@@ -70,7 +70,7 @@ class TraditionsController extends \App\Http\Controllers\Controller
     public function show(string $identifier): Response
     {
         $identifier = strtolower($identifier);
-        if (!key_exists($identifier, $this->traditions)) {
+        if (!array_key_exists($identifier, $this->traditions)) {
             // We couldn't find it!
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,

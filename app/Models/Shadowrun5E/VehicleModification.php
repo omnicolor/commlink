@@ -10,67 +10,67 @@ namespace App\Models\Shadowrun5E;
 class VehicleModification
 {
     /**
-     * Availability code for the modification
+     * Availability code for the modification.
      * @var string
      */
     public string $availability;
 
     /**
-     * Cost of the modification
+     * Cost of the modification.
      * @var int
      */
     public int $cost;
 
     /**
-     * Description of the modification
+     * Description of the modification.
      * @var string
      */
     public string $description;
 
     /**
-     * Unique identifier for the modification
+     * Unique identifier for the modification.
      * @var string
      */
     public string $id;
 
     /**
-     * Name of the modification
+     * Name of the modification.
      * @var string
      */
     public string $name;
 
     /**
-     * Page the modification is found on
+     * Page the modification is found on.
      * @var int
      */
     public int $page;
 
     /**
-     * Rating of the modification
+     * Rating of the modification.
      * @var ?int
      */
     public ?int $rating;
 
     /**
-     * Ruleset identifier
+     * Ruleset identifier.
      * @var string
      */
     public string $ruleset;
 
     /**
-     * For modifications, what type of slot it takes
+     * For modifications, what type of slot it takes.
      * @var ?string
      */
     public ?string $slotType;
 
     /**
-     * For modifications, how many slots it takes
+     * For modifications, how many slots it takes.
      * @var ?int
      */
     public ?int $slots;
 
     /**
-     * List of all modifications
+     * List of all modifications.
      * @var array<mixed>
      */
     public static ?array $modifications;

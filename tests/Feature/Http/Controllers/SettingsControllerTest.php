@@ -6,7 +6,6 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Models\SlackLink;
 use App\Models\User;
-use Illuminate\Http\Response;
 use Str;
 
 /**

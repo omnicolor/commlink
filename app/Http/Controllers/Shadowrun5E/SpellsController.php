@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Shadowrun5E;
 use Illuminate\Http\Response;
 
 /**
- * Spells API route
+ * Spells API route.
  */
 class SpellsController extends \App\Http\Controllers\Controller
 {
@@ -70,7 +70,7 @@ class SpellsController extends \App\Http\Controllers\Controller
     public function show(string $id): Response
     {
         $id = strtolower($id);
-        if (!key_exists($id, $this->spells)) {
+        if (!array_key_exists($id, $this->spells)) {
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
                 'detail' => $id . ' not found',

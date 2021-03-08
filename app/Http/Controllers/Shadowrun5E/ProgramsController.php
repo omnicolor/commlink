@@ -68,7 +68,7 @@ class ProgramsController extends \App\Http\Controllers\Controller
      */
     public function show(string $programId): Response
     {
-        if (!key_exists($programId, $this->programs)) {
+        if (!array_key_exists($programId, $this->programs)) {
             // We couldn't find it!
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,

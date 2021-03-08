@@ -18,67 +18,67 @@ class Sprite
     use ForceTrait;
 
     /**
-     * Sprite's attack rating formula
+     * Sprite's attack rating formula.
      * @var string
      */
     public string $attack;
 
     /**
-     * Sprite's data processing rating formula
+     * Sprite's data processing rating formula.
      * @var string
      */
     public string $dataProcessing;
 
     /**
-     * Description of the sprite
+     * Description of the sprite.
      * @var string
      */
     public string $description;
 
     /**
-     * Sprite's firewall rating formula
+     * Sprite's firewall rating formula.
      * @var string
      */
     public string $firewall;
 
     /**
-     * Sprite's unique ID
+     * Sprite's unique ID.
      * @var string
      */
     public string $id;
 
     /**
-     * Sprites formula for calculating initiative
+     * Sprites formula for calculating initiative.
      * @var string
      */
     public string $initiative;
 
     /**
-     * Sprite's level, assuming they've been given one
+     * Sprite's level, assuming they've been given one.
      * @var ?int
      */
     public ?int $level;
 
     /**
-     * Sprite's name
+     * Sprite's name.
      * @var string
      */
     public string $name;
 
     /**
-     * Page number the sprite was introduced on
+     * Page number the sprite was introduced on.
      * @var int
      */
     public int $page;
 
     /**
-     * Collection of powers the sprite has
+     * Collection of powers the sprite has.
      * @var string[]
      */
     public array $powers = [];
 
     /**
-     * Sprite's resonance formula
+     * Sprite's resonance formula.
      * @var string
      */
     public string $resonance;
@@ -90,19 +90,19 @@ class Sprite
     public bool $registered = false;
 
     /**
-     * ID for the ruleset the sprite was introduced in
+     * ID for the ruleset the sprite was introduced in.
      * @var string
      */
     public string $ruleset;
 
     /**
-     * Collection of skills the sprite has
+     * Collection of skills the sprite has.
      * @var string[]
      */
     public array $skills = [];
 
     /**
-     * Sprite's sleaze formula
+     * Sprite's sleaze formula.
      * @var string
      */
     public string $sleaze;
@@ -114,7 +114,7 @@ class Sprite
     public int $tasks = 0;
 
     /**
-     * List of all sprites
+     * List of all sprites.
      * @var array<mixed>
      */
     public static array $sprites;
@@ -195,7 +195,7 @@ class Sprite
         $formula = str_replace(
             ['L', '(', ')'],
             [(string)$this->level, '', ''],
-            /** @phpstan-ignore-next-line */
+            // @phpstan-ignore-next-line
             (string)$this->$attribute
         );
         return $this->convertFormula($formula, 'L', $this->level);

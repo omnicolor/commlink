@@ -78,7 +78,7 @@ class SkillGroupsController extends Controller
     public function show(string $identifier): Response
     {
         $identifier = strtolower($identifier);
-        if (!key_exists($identifier, $this->groups)) {
+        if (!array_key_exists($identifier, $this->groups)) {
             // We couldn't find the requested skill group!
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,

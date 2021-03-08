@@ -10,67 +10,67 @@ namespace App\Models\Shadowrun5E;
 class ArmorModification
 {
     /**
-     * Availability code for the modification
+     * Availability code for the modification.
      * @var string
      */
     public ?string $availability;
 
     /**
-     * Cost of the modification
+     * Cost of the modification.
      * @var int
      */
     public int $cost;
 
     /**
-     * Cost modifier for the modification
+     * Cost modifier for the modification.
      * @var float
      */
     public float $costModifier;
 
     /**
-     * Description of the modification
+     * Description of the modification.
      * @var string
      */
     public string $description;
 
     /**
-     * List of effects for the modification
+     * List of effects for the modification.
      * @var array<string, int>
      */
     public array $effects = [];
 
     /**
-     * ID of the modification
+     * ID of the modification.
      * @var string
      */
     public string $id;
 
     /**
-     * List of modifications this is incompatible with
+     * List of modifications this is incompatible with.
      * @var string[]
      */
     public array $incompatibleWith = [];
 
     /**
-     * Name of the modification
+     * Name of the modification.
      * @var string
      */
     public string $name;
 
     /**
-     * Rating for the modification
-     * @var integer
+     * Rating for the modification.
+     * @var int
      */
     public ?int $rating;
 
     /**
-     * Ruleset the modification comes from
+     * Ruleset the modification comes from.
      * @var string
      */
     public string $ruleset = 'core';
 
     /**
-     * List of all modifications
+     * List of all modifications.
      * @var ?array<mixed>
      */
     public static ?array $modifications;

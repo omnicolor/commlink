@@ -10,152 +10,152 @@ namespace App\Models\Shadowrun5E;
 class Vehicle
 {
     /**
-     * Acceleration rating for the vehicle
+     * Acceleration rating for the vehicle.
      * @var int
      */
     public int $acceleration;
 
     /**
-     * True if the vehicle is active (shown on character sheet)
-     * @var boolean
+     * True if the vehicle is active (shown on character sheet).
+     * @var bool
      */
     public $active;
 
     /**
-     * Vehicle's armor rating
+     * Vehicle's armor rating.
      * @var int
      */
     public int $armor;
 
     /**
-     * Collection of programs running
+     * Collection of programs running.
      * @var ProgramArray
      */
     public ProgramArray $autosofts;
 
     /**
-     * Availability code for the vehicle
+     * Availability code for the vehicle.
      * @var string
      */
     public string $availability;
 
     /**
-     * Body rating for the vehicle
+     * Body rating for the vehicle.
      * @var int
      */
     public int $body;
 
     /**
-     * Category of the vehicle
+     * Category of the vehicle.
      * @var string
      */
     public string $category;
 
     /**
-     * Cost of the vehicle
+     * Cost of the vehicle.
      * @var int
      */
     public int $cost;
 
     /**
-     * Amount of matrix damage the vehicle has taken
+     * Amount of matrix damage the vehicle has taken.
      * @var int
      */
     public int $damageMatrix;
 
     /**
-     * Amount of physical damage the vehicle has taken
+     * Amount of physical damage the vehicle has taken.
      * @var int
      */
     public int $damagePhysical;
 
     /**
-     * Description of the vehicle
+     * Description of the vehicle.
      * @var string
      */
     public string $description;
 
     /**
-     * Device rating for the vehicle
+     * Device rating for the vehicle.
      * @var int
      */
     public int $deviceRating;
 
     /**
-     * List of equipment added to the vehicle
+     * List of equipment added to the vehicle.
      * @var VehicleModificationArray
      */
     public VehicleModificationArray $equipment;
 
     /**
-     * Handling rating for the vehicle
+     * Handling rating for the vehicle.
      * @var int
      */
     public int $handling;
 
     /**
-     * Unique ID for the vehicle
+     * Unique ID for the vehicle.
      * @var string
      */
     public string $id;
 
     /**
-     * Name of the vehicle
+     * Name of the vehicle.
      * @var string
      */
     public string $name;
 
     /**
      * List of modifications that have been made to the vehicle, including
-     * stock ones
+     * stock ones.
      * @var VehicleModificationArray
      */
     public VehicleModificationArray $modifications;
 
     /**
-     * List of modifications that came with the vehicle
+     * List of modifications that came with the vehicle.
      * @var VehicleModificationArray
      */
     protected VehicleModificationArray $stockModifications;
 
     /**
-     * Pilot rating for the vehicle
+     * Pilot rating for the vehicle.
      * @var int
      */
     public int $pilot;
 
     /**
-     * Number of seats the vehicle has
+     * Number of seats the vehicle has.
      * @var int
      */
     public int $seats;
 
     /**
-     * Sensor rating for the vehicle
+     * Sensor rating for the vehicle.
      * @var int
      */
     public int $sensor;
 
     /**
-     * Speed rating for the vehicle
+     * Speed rating for the vehicle.
      * @var int
      */
     public int $speed;
 
     /**
-     * Optional Subname for the vehicle
+     * Optional Subname for the vehicle.
      * @var ?string
      */
     public ?string $subname;
 
     /**
-     * Type of vehicle (aircraft, groundcraft, etc)
+     * Type of vehicle (aircraft, groundcraft, etc).
      * @var string
      */
     public string $type;
 
     /**
-     * Array of weapons on the vehicle
+     * Array of weapons on the vehicle.
      * @var WeaponArray
      */
     public WeaponArray $weapons;

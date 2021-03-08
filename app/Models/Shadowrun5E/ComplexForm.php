@@ -12,13 +12,13 @@ class ComplexForm
     use ForceTrait;
 
     /**
-     * Description of the complex form
+     * Description of the complex form.
      * @var string
      */
     public string $description;
 
     /**
-     * Duration of the complex form
+     * Duration of the complex form.
      *
      * Should be one of:
      *   E: Extended Test
@@ -31,55 +31,55 @@ class ComplexForm
     public string $duration;
 
     /**
-     * Fade formula for the complex form
+     * Fade formula for the complex form.
      * @var string
      */
     public string $fade;
 
     /**
-     * Identifier for the form
+     * Identifier for the form.
      * @var string
      */
     public string $identifier;
 
     /**
-     * Level the form was threaded at
+     * Level the form was threaded at.
      * @var ?int
      */
     public ?int $level;
 
     /**
-     * Name of the form
+     * Name of the form.
      * @var string
      */
     public string $name;
 
     /**
-     * Page the form is described on
+     * Page the form is described on.
      * @var int
      */
     public int $page;
 
     /**
-     * Ruleset the form is introduced in
+     * Ruleset the form is introduced in.
      * @var string
      */
     public string $ruleset;
 
     /**
-     * Optional Stream the form belongs to
+     * Optional Stream the form belongs to.
      * @var ?string
      */
     public ?string $stream;
 
     /**
-     * What the form targets
+     * What the form targets.
      * @var string
      */
     public string $target;
 
     /**
-     * List of all forms
+     * List of all forms.
      * @var ?array<string, mixed>
      */
     public static ?array $forms;

@@ -10,43 +10,43 @@ namespace App\Models\Shadowrun5E;
 class Quality
 {
     /**
-     * Description of the quality and its effects
+     * Description of the quality and its effects.
      * @var string
      */
     public string $description;
 
     /**
-     * List of the quality's effects
+     * List of the quality's effects.
      * @var array<string, mixed>
      */
     public array $effects = [];
 
     /**
-     * ID of the quality
+     * ID of the quality.
      * @var string
      */
     public string $id;
 
     /**
-     * List of qualities or augmentations this is incompatible with
+     * List of qualities or augmentations this is incompatible with.
      * @var string[]
      */
     public array $incompatibilities = [];
 
     /**
-     * Amount of karma quality is worth
+     * Amount of karma quality is worth.
      * @var int
      */
     public int $karma;
 
     /**
-     * Name of the quality
+     * Name of the quality.
      * @var string
      */
     public string $name;
 
     /**
-     * Book quality is described in
+     * Book quality is described in.
      * @var string
      */
     public string $ruleset = 'core';
@@ -58,7 +58,7 @@ class Quality
     public ?string $type;
 
     /**
-     * List of all qualities
+     * List of all qualities.
      * @var ?array<mixed>
      */
     public static ?array $qualities;

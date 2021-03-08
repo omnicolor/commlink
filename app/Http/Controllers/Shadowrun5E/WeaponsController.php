@@ -72,7 +72,7 @@ class WeaponsController extends \App\Http\Controllers\Controller
     public function show(string $id): Response
     {
         $id = strtolower($id);
-        if (!key_exists($id, $this->weapons)) {
+        if (!array_key_exists($id, $this->weapons)) {
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
                 'detail' => $id . ' not found',

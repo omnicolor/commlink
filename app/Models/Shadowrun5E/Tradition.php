@@ -10,49 +10,49 @@ namespace App\Models\Shadowrun5E;
 class Tradition
 {
     /**
-     * Description of the tradition
+     * Description of the tradition.
      * @var string
      */
     public string $description;
 
     /**
-     * Attributes used to resist drain
+     * Attributes used to resist drain.
      * @var string
      */
     public string $drain;
 
     /**
-     * Map of elements to categories
+     * Map of elements to categories.
      * @var array<string, string>
      */
     public array $elements;
 
     /**
-     * Unique ID for the tradition
+     * Unique ID for the tradition.
      * @var string
      */
     public string $id;
 
     /**
-     * Name of the tradition
+     * Name of the tradition.
      * @var string
      */
     public string $name;
 
     /**
-     * Page the tradition was introduced on
+     * Page the tradition was introduced on.
      * @var int
      */
     public int $page;
 
     /**
-     * Rule book the tradition was introduced in
+     * Rule book the tradition was introduced in.
      * @var string
      */
     public string $ruleset;
 
     /**
-     * Collection of all traditions
+     * Collection of all traditions.
      * @var ?array<mixed>
      */
     public static ?array $traditions;

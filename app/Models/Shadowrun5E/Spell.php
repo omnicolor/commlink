@@ -12,91 +12,91 @@ class Spell
     use ForceTrait;
 
     /**
-     * Category (combat, detection, etc)
+     * Category (combat, detection, etc).
      * @var string
      */
     public string $category;
 
     /**
-     * Damage type for the spell
+     * Damage type for the spell.
      * @var ?string
      */
     public ?string $damage;
 
     /**
-     * Description of the spell
+     * Description of the spell.
      * @var string
      */
     public string $description;
 
     /**
-     * Drain code for the spell
+     * Drain code for the spell.
      * @var string
      */
     public string $drain;
 
     /**
-     * Duration of the spell
+     * Duration of the spell.
      * @var string
      */
     public string $duration;
 
     /**
-     * Force of the spell
+     * Force of the spell.
      * @var int
      */
     public int $force;
 
     /**
-     * Unique ID of the spell
+     * Unique ID of the spell.
      * @var string
      */
     public string $id;
 
     /**
-     * Name of the spell
+     * Name of the spell.
      * @var string
      */
     public string $name;
 
     /**
-     * Page the spell was introduced on
+     * Page the spell was introduced on.
      * @var ?int
      */
     public ?int $page;
 
     /**
-     * Range of the spell (T, LOS, etc)
+     * Range of the spell (T, LOS, etc).
      * @var string
      */
     public string $range;
 
     /**
-     * Book ID the spell was introduced in
+     * Book ID the spell was introduced in.
      * @var string
      */
     public string $ruleset;
 
     /**
-     * List of tags for the spell
+     * List of tags for the spell.
      * @var string[]
      */
     public array $tags = [];
 
     /**
-     * Type of the spell
+     * Type of the spell.
      * @var string
      */
     public string $type;
 
     /**
-     * List of all spells
+     * List of all spells.
      * @var ?array<mixed>
      */
     public static ?array $spells;
 
     /**
-     * Construct a new spelll object.
+     * Construct a new spell object.
      * @param string $id ID to load
      * @throws \RuntimeException if the ID is invalid
      */
@@ -114,7 +114,7 @@ class Spell
 
         $spell = self::$spells[$id];
         $this->category = $spell['category'];
-        $this->damage  = $spell['damage'] ?? '';
+        $this->damage = $spell['damage'] ?? '';
         $this->description = $spell['description'];
         $this->drain = $spell['drain'];
         $this->duration = $spell['duration'];

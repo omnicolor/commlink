@@ -6,7 +6,6 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Character;
 use App\Models\User;
-use Illuminate\Http\Response;
 
 /**
  * Tests for the main dashboard.

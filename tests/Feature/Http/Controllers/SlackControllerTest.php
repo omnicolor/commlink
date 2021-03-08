@@ -6,7 +6,6 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Http\Responses\SlackResponse;
 use App\Models\Slack\Channel;
-use Illuminate\Http\Response;
 use Str;
 
 /**

@@ -426,8 +426,8 @@ final class CharacterTest extends \Tests\TestCase
         $character = new Character([
             'qualities' => [
                 ['id' => 'lucky'],
-                ['id' => 'addiction-mild', 'addiction' => 'Alcohol']
-            ]
+                ['id' => 'addiction-mild', 'addiction' => 'Alcohol'],
+            ],
         ]);
         self::assertCount(2, $character->getQualities());
     }
@@ -451,7 +451,7 @@ final class CharacterTest extends \Tests\TestCase
         $character = new Character([
             'skills' => [
                 ['id' => 'not-found', 'level' => 6],
-            ]
+            ],
         ]);
         self::assertEmpty($character->getSkills());
     }

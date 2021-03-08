@@ -88,7 +88,7 @@ final class GenericRollResponseTest extends \Tests\TestCase
     }
 
     /**
-     * Test a simple roll with a description
+     * Test a simple roll with a description.
      * @test
      */
     public function testWithDescription(): void

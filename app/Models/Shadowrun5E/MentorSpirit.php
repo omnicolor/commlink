@@ -10,43 +10,43 @@ namespace App\Models\Shadowrun5E;
 class MentorSpirit
 {
     /**
-     * Description of the mentor spirit
+     * Description of the mentor spirit.
      * @var string
      */
     public string $description;
 
     /**
-     * Collection of effects the mentor spirit provides
+     * Collection of effects the mentor spirit provides.
      * @var array<string, int>
      */
     public array $effects = [];
 
     /**
-     * Unique ID for the mentor spirit
+     * Unique ID for the mentor spirit.
      * @var string
      */
     public string $id;
 
     /**
-     * Name of the mentor spirit
+     * Name of the mentor spirit.
      * @var string
      */
     public string $name;
 
     /**
-     * Page the mentor spirit was introduced on
+     * Page the mentor spirit was introduced on.
      * @var ?int
      */
     public ?int $page;
 
     /**
-     * Ruleset the mentor spirit was introduced in
+     * Ruleset the mentor spirit was introduced in.
      * @var string
      */
     public string $ruleset;
 
     /**
-     * Collection of all mentor spirits
+     * Collection of all mentor spirits.
      * @var ?array<mixed>
      */
     public static ?array $spirits;

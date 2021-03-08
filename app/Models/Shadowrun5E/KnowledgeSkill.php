@@ -10,7 +10,7 @@ namespace App\Models\Shadowrun5E;
 class KnowledgeSkill extends Skill
 {
     /**
-     * Category of knowledge skill (professional, academic, etc)
+     * Category of knowledge skill (professional, academic, etc).
      * @var string
      */
     public string $category;

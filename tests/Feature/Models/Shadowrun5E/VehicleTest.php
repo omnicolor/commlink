@@ -84,7 +84,7 @@ final class VehicleTest extends \Tests\TestCase
     }
 
     /**
-     * Test loading a vehicle with modifications
+     * Test loading a vehicle with modifications.
      * @test
      */
     public function testConstructorWithModification(): void

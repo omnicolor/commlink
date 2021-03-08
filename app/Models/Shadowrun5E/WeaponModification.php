@@ -10,73 +10,73 @@ namespace App\Models\Shadowrun5E;
 class WeaponModification
 {
     /**
-     * Availability code for the modification
+     * Availability code for the modification.
      * @var string
      */
     public string $availability;
 
     /**
-     * Cost of the modification
+     * Cost of the modification.
      * @var ?int
      */
     public ?int $cost;
 
     /**
-     * Cost modifier for the modification
+     * Cost modifier for the modification.
      * @var ?int
      */
     public ?int $costModifier;
 
     /**
-     * Description of the modification
+     * Description of the modification.
      * @var string
      */
     public string $description;
 
     /**
-     * List of effects for the modification
+     * List of effects for the modification.
      * @var array<string, int>
      */
     public array $effects;
 
     /**
-     * ID of the modification
+     * ID of the modification.
      * @var string
      */
     public string $id;
 
     /**
-     * List of modifications this is incompatible with
+     * List of modifications this is incompatible with.
      * @var string[]
      */
     public array $incompatibleWith;
 
     /**
-     * List of locations the modification can be installed on
+     * List of locations the modification can be installed on.
      * @var string[]
      */
     public array $mount;
 
     /**
-     * Name of the modification
+     * Name of the modification.
      * @var string
      */
     public string $name;
 
     /**
-     * Ruleset the modification comes from
+     * Ruleset the modification comes from.
      * @var string
      */
     public string $ruleset;
 
     /**
-     * Type of modification (accessory or modification)
+     * Type of modification (accessory or modification).
      * @var string
      */
     public string $type;
 
     /**
-     * List of all modifications
+     * List of all modifications.
      * @var array<int, mixed>
      */
     public static ?array $modifications;

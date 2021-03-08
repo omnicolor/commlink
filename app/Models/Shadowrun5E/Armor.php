@@ -10,79 +10,79 @@ namespace App\Models\Shadowrun5E;
 class Armor
 {
     /**
-     * Whether the armor is currently active
+     * Whether the armor is currently active.
      * @var bool
      */
     public bool $active = false;
 
     /**
-     * Availability code
+     * Availability code.
      * @var string
      */
     public string $availability;
 
     /**
-     * Cost of the item
-     * @var integer
+     * Cost of the item.
+     * @var int
      */
     public int $cost;
 
     /**
-     * Description of the item
+     * Description of the item.
      * @var string
      */
     public string $description;
 
     /**
-     * List of additional effects of the armor
+     * List of additional effects of the armor.
      * @var array<string, int>
      */
     public array $effects = [];
 
     /**
-     * Name of the item
+     * Name of the item.
      * @var string
      */
     public string $name;
 
     /**
-     * ID of the item
+     * ID of the item.
      * @var string
      */
     public string $id;
 
     /**
-     * Modifications to the item
+     * Modifications to the item.
      * @var ArmorModificationArray
      */
     public ArmorModificationArray $modifications;
 
     /**
-     * Page the armor was introduced on
+     * Page the armor was introduced on.
      * @var ?int
      */
     public ?int $page;
 
     /**
-     * Armor rating
+     * Armor rating.
      * @var int
      */
     public int $rating;
 
     /**
-     * Armor rating for stacking
+     * Armor rating for stacking.
      * @var ?int
      */
     public ?int $stackRating;
 
     /**
-     * Rulebook for the item
+     * Rulebook for the item.
      * @var string
      */
     public string $ruleset;
 
     /**
-     * List of all armor
+     * List of all armor.
      * @var ?array<mixed>
      */
     public static ?array $armor;
