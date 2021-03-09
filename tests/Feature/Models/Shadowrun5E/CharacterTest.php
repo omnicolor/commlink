@@ -704,4 +704,246 @@ final class CharacterTest extends \Tests\TestCase
         self::assertNotEmpty($groups);
         self::assertInstanceOf(ActiveSkill::class, $groups[0]->skills[0]);
     }
+
+    /**
+     * Test getting a character's spells if they are mundane.
+     * @test
+     */
+    public function testGetSpellsMundane(): void
+    {
+        $character = new Character();
+        self::assertEmpty($character->getSpells());
+    }
+
+    /**
+     * Test getting a character's spells if they're awakened but have no spells.
+     * @test
+     */
+    public function testGetSpellsNone(): void
+    {
+        $character = new Character([
+            'magics' => [],
+        ]);
+        self::assertEmpty($character->getSpells());
+    }
+
+    /**
+     * Test getting a character's spells if they have a spell, but it's invalid.
+     * @test
+     */
+    public function testGetSpellsInvalid(): void
+    {
+        $character = new Character([
+            'magics' => [
+                'spells' => [
+                    'invalid',
+                ],
+            ],
+        ]);
+        self::assertEmpty($character->getSpells());
+    }
+
+    /**
+     * Test getting a character's spells if they have one.
+     * @test
+     */
+    public function testGetSpells(): void
+    {
+        $character = new Character([
+            'magics' => [
+                'spells' => [
+                    'control-emotions',
+                ],
+            ],
+        ]);
+        self::assertNotEmpty($character->getSpells());
+    }
+
+    /**
+     * Test getting spirits for a mundane character.
+     * @test
+     */
+    public function testGetSpiritsMundane(): void
+    {
+        $character = new Character();
+        self::assertEmpty($character->getSpirits());
+    }
+
+    /**
+     * Test getting spirits for a magical character without spirits.
+     * @test
+     */
+    public function testGetSpiritsNoSpirits(): void
+    {
+        $character = new Character(['magics' => []]);
+        self::assertEmpty($character->getSpirits());
+    }
+
+    /**
+     * Test getting spirits for character with an invalid spirit.
+     * @test
+     */
+    public function testGetSpiritsInvalid(): void
+    {
+        $character = new Character(['magics' => [
+            'spirits' => [
+                ['id' => 'invalid'],
+            ],
+        ]]);
+        self::assertEmpty($character->getSpirits());
+    }
+
+    /**
+     * Test getting spirits for a character with a valid spirit.
+     * @test
+     */
+    public function testGetSpirits(): void
+    {
+        $character = new Character(['magics' => [
+            'spirits' => [
+                [
+                    'id' => 'air',
+                    'force' => 6,
+                    'services' => 3,
+                ],
+            ],
+        ]]);
+        self::assertNotEmpty($character->getSpirits());
+    }
+
+    /**
+     * Test getting the character's sprites if the have none.
+     * @test
+     */
+    public function testGetSpritesNone(): void
+    {
+        $character = new Character();
+        self::assertEmpty($character->getSprites());
+    }
+
+    /**
+     * Test getting the character's sprites if they have an invalid one.
+     * @test
+     */
+    public function testGetSpritesInvalid(): void
+    {
+        $character = new Character(['technomancer' => [
+            'sprites' => ['invalid'],
+        ]]);
+        self::assertEmpty($character->getSprites());
+    }
+
+    /**
+     * Test getting the character's sprites if they've got one.
+     * @test
+     */
+    public function testGetSprites(): void
+    {
+        $character = new Character(['technomancer' => [
+            'sprites' => ['courier'],
+        ]]);
+        self::assertNotEmpty($character->getSprites());
+    }
+
+    /**
+     * Test getting a mundane character's magical tradition.
+     * @test
+     */
+    public function testGetTraditionMundane(): void
+    {
+        $character = new Character();
+        self::assertNull($character->getTradition());
+    }
+
+    /**
+     * Test getting a character's magical tradition if they have an invalid one.
+     * @test
+     */
+    public function testGetTraditionInvalid(): void
+    {
+        $character = new Character([
+            'magics' => [
+                'tradition' => 'invalid',
+            ],
+        ]);
+        self::assertNull($character->getTradition());
+    }
+
+    /**
+     * Test getting a character's magical tradition.
+     * @test
+     */
+    public function testGetTradition(): void
+    {
+        $character = new Character([
+            'magics' => [
+                'tradition' => 'norse',
+            ],
+        ]);
+        self::assertNotNull($character->getTradition());
+    }
+
+    /**
+     * Test getting vehicles for a character without any.
+     * @test
+     */
+    public function testGetVehiclesNone(): void
+    {
+        $character = new Character();
+        self::assertEmpty($character->getVehicles());
+    }
+
+    /**
+     * Test getting vehicles for a character with an invalid ride.
+     * @test
+     */
+    public function testGetVehiclesInvalid(): void
+    {
+        $character = new Character(['vehicles' => [
+            ['id' => 'invalid'],
+        ]]);
+        self::assertEmpty($character->getVehicles());
+    }
+
+    /**
+     * Test getting vehicles for a character with a vehicle.
+     * @test
+     */
+    public function testGetVehicles(): void
+    {
+        $character = new Character(['vehicles' => [
+            ['id' => 'dodge-scoot'],
+        ]]);
+        self::assertNotEmpty($character->getVehicles());
+    }
+
+    /**
+     * Test getting weapons for an unarmed character.
+     * @test
+     */
+    public function testGetWeaponsUnarmed(): void
+    {
+        $character = new Character();
+        self::assertEmpty($character->getWeapons());
+    }
+
+    /**
+     * Test getting weapons for a character armed with an invalid weapon.
+     * @test
+     */
+    public function testGetWeaponsInvalid(): void
+    {
+        $character = new Character(['weapons' => [['id' => 'invalid']]]);
+        self::assertEmpty($character->getWeapons());
+    }
+
+    /**
+     * Test getting weapons for an armed character.
+     * @test
+     */
+    public function testGetWeapons(): void
+    {
+        $character = new Character(['weapons' => [['id' => 'ak-98']]]);
+        self::assertNotEmpty($character->getWeapons());
+    }
 }

@@ -20,6 +20,9 @@ use Illuminate\Database\Eloquent\Builder;
  * @property ?array<int, array<string, mixed>> $qualities
  * @property ?array<int, array<string, mixed>> $skills
  * @property ?array<string, ?int> $skillGroups
+ * @property ?array<string, mixed> $technomancer
+ * @property ?array<int, array<string, mixed>> $vehicles
+ * @property ?array<int, array<string, mixed>> $weapons
  */
 class Character extends \App\Models\Character
 {
@@ -68,6 +71,9 @@ class Character extends \App\Models\Character
         'skillGroups',
         'streetCred',
         'strength',
+        'technomancer',
+        'vehicles',
+        'weapons',
         'weight',
         'willpower',
     ];
@@ -450,5 +456,149 @@ class Character extends \App\Models\Character
             }
         }
         return $groups;
+    }
+
+    /**
+     * Return the character's spells.
+     * @return SpellArray
+     */
+    public function getSpells(): SpellArray
+    {
+        $spells = new SpellArray();
+        if (!isset($this->magics, $this->magics['spells'])) {
+            return $spells;
+        }
+        foreach ($this->magics['spells'] as $spell) {
+            try {
+                $spells[] = new Spell($spell);
+            } catch (\RuntimeException $ex) {
+                \Log::warning(sprintf(
+                    'Shadowrun5E character "%s" (%s) has invalid spell "%s"',
+                    $this->handle,
+                    $this->_id,
+                    $spell
+                ));
+            }
+        }
+        return $spells;
+    }
+
+    /**
+     * Return the character's spirits.
+     * @return SpiritArray
+     */
+    public function getSpirits(): SpiritArray
+    {
+        $spirits = new SpiritArray();
+        if (!isset($this->magics, $this->magics['spirits'])) {
+            return $spirits;
+        }
+        foreach ($this->magics['spirits'] as $spirit) {
+            try {
+                $spirits[] = new Spirit(
+                    $spirit['id'],
+                    $spirit['force'] ?? null
+                );
+            } catch (\RuntimeException $ex) {
+                \Log::warning(sprintf(
+                    'Shadowrun5E character "%s" (%s) has invalid spirit "%s"',
+                    $this->handle,
+                    $this->_id,
+                    $spirit['id']
+                ));
+            }
+        }
+        return $spirits;
+    }
+
+    /**
+     * Return the character's sprites.
+     * @return SpriteArray
+     */
+    public function getSprites(): SpriteArray
+    {
+        $sprites = new SpriteArray();
+        if (!isset($this->technomancer, $this->technomancer['sprites'])) {
+            return $sprites;
+        }
+        foreach ($this->technomancer['sprites'] as $sprite) {
+            try {
+                $sprites[] = new Sprite($sprite);
+            } catch (\RuntimeException $ex) {
+                \Log::warning(sprintf(
+                    'Shadowrun5E character "%s" (%s) has invalid sprite "%s"',
+                    $this->handle,
+                    $this->_id,
+                    $sprite
+                ));
+            }
+        }
+        return $sprites;
+    }
+
+    /**
+     * Return the character's magical tradition, if they're magical.
+     * @return ?Tradition
+     */
+    public function getTradition(): ?Tradition
+    {
+        if (!isset($this->magics, $this->magics['tradition'])) {
+            return null;
+        }
+        try {
+            return new Tradition($this->magics['tradition']);
+        } catch (\RuntimeException $ex) {
+            \Log::warning(sprintf(
+                'Shadowrun5E character "%s" (%s) has invalid tradition "%s"',
+                $this->handle,
+                $this->_id,
+                $this->magics['tradition']
+            ));
+        }
+        return null;
+    }
+
+    /**
+     * Return the character's vehicles.
+     * @return VehicleArray
+     */
+    public function getVehicles(): VehicleArray
+    {
+        $vehicles = new VehicleArray();
+        foreach ($this->vehicles ?? [] as $vehicle) {
+            try {
+                $vehicles[] = new Vehicle($vehicle);
+            } catch (\RuntimeException $ex) {
+                \Log::warning(sprintf(
+                    'Shadowrun5E character "%s" (%s) has invalid vehicle "%s"',
+                    $this->handle,
+                    $this->_id,
+                    $vehicle['id']
+                ));
+            }
+        }
+        return $vehicles;
+    }
+
+    /**
+     * Return the character's weapons.
+     * @return WeaponArray
+     */
+    public function getWeapons(): WeaponArray
+    {
+        $weapons = new WeaponArray();
+        foreach ($this->weapons ?? [] as $weapon) {
+            try {
+                $weapons[] = Weapon::buildWeapon($weapon);
+            } catch (\RuntimeException $ex) {
+                \Log::warning(sprintf(
+                    'Shadowrun5E character "%s" (%s) has invalid weapon "%s"',
+                    $this->handle,
+                    $this->_id,
+                    $weapon['id']
+                ));
+            }
+        }
+        return $weapons;
     }
 }
