@@ -41,7 +41,7 @@ final class VehicleArrayTest extends \Tests\TestCase
     }
 
     /**
-     * Test adding a armor to the array.
+     * Test adding a vehicle to the array.
      * @test
      */
     public function testAdd(): void
@@ -51,7 +51,7 @@ final class VehicleArrayTest extends \Tests\TestCase
     }
 
     /**
-     * Test that adding a non-armor to the array throws an exception.
+     * Test that adding a non-vehicle to the array throws an exception.
      * @test
      */
     public function testAddWrongTypeException(): void
@@ -62,7 +62,7 @@ final class VehicleArrayTest extends \Tests\TestCase
     }
 
     /**
-     * Test that adding a non-armor to the array doesn't add it.
+     * Test that adding a non-vehicle to the array doesn't add it.
      * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
