@@ -9,6 +9,7 @@ use App\Models\Shadowrun5E\Armor;
 use App\Models\Shadowrun5E\ArmorArray;
 use App\Models\Shadowrun5E\ArmorModification;
 use App\Models\Shadowrun5E\Character;
+use App\Models\Shadowrun5E\MentorSpirit;
 use App\Models\Shadowrun5E\Quality;
 use App\Models\Shadowrun5E\QualityArray;
 
@@ -248,6 +249,65 @@ final class CharacterTest extends \Tests\TestCase
             'quantity' => 1,
         ]]]);
         self::assertNotEmpty($character->getGear());
+    }
+
+    /**
+     * Test getting the mentor spirit of a mundane character.
+     * @test
+     */
+    public function testGetMentorSpiritMundane(): void
+    {
+        $character = new Character();
+        self::assertNull($character->getMentorSpirit());
+    }
+
+    /**
+     * Test getting the mentor spirit of an awakened character that has no
+     * mentor spirit.
+     * @test
+     */
+    public function testGetMentorSpiritNone(): void
+    {
+        $character = new Character([
+            'magics' => [
+                'powers' => [
+                    'improved-sense-direction-sense',
+                ],
+            ],
+        ]);
+        self::assertNull($character->getMentorSpirit());
+    }
+
+    /**
+     * Test trying to load the mentor spirit of a character with an invalid
+     * spirit.
+     * @test
+     */
+    public function testGetMentorSpiritInvalid(): void
+    {
+        $character = new Character([
+            'magics' => [
+                'mentorSpirit' => 'invalid',
+            ],
+        ]);
+        self::assertNull($character->getMentorSpirit());
+    }
+
+    /**
+     * Test getting the mentor spirit of a character that has one.
+     * @test
+     */
+    public function testGetMentorSpirit(): void
+    {
+        $character = new Character([
+            'magics' => [
+                'mentorSpirit' => 'goddess',
+            ],
+        ]);
+        self::assertInstanceOf(
+            MentorSpirit::class,
+            $character->getMentorSpirit()
+        );
     }
 
     /**

@@ -248,6 +248,31 @@ class Character extends \App\Models\Character
     }
 
     /**
+     * Return the character's mentor spirit (if they have one).
+     * @return ?MentorSpirit
+     */
+    public function getMentorSpirit(): ?MentorSpirit
+    {
+        if (
+            !isset($this->magics)
+            || !array_key_exists('mentorSpirit', $this->magics)
+        ) {
+            return null;
+        }
+        try {
+            return new MentorSpirit($this->magics['mentorSpirit']);
+        } catch (\RuntimeException $e) {
+            \Log::warning(sprintf(
+                'Shadowrun5E character "%s" (%s) has invalid mentor spirit "%s"',
+                $this->handle,
+                $this->_id,
+                $this->magics['mentorSpirit']
+            ));
+        }
+        return null;
+    }
+
+    /**
      * Return an attribute's value with all modifiers taken into account.
      * @param string $attribute Attribute to return
      * @return int Attribute's value
