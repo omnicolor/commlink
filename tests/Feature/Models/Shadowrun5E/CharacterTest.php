@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models\Shadowrun5E;
 
+use App\Models\Shadowrun5E\ActiveSkill;
 use App\Models\Shadowrun5E\Armor;
 use App\Models\Shadowrun5E\ArmorArray;
 use App\Models\Shadowrun5E\ArmorModification;
@@ -184,6 +185,69 @@ final class CharacterTest extends \Tests\TestCase
             ],
         ]);
         self::assertCount(2, $character->getAugmentations());
+    }
+
+    /**
+     * Test getting a character's complex forms if they have none.
+     * @test
+     */
+    public function testGetComplexFormsEmpty(): void
+    {
+        $character = new Character();
+        self::assertEmpty($character->getComplexForms());
+    }
+
+    /**
+     * Test getting a character's complex forms if they've got an invalid one.
+     * @test
+     */
+    public function testGetComplexFormsInvalid(): void
+    {
+        $character = new Character(['complexForms' => ['invalid']]);
+        self::assertEmpty($character->getComplexForms());
+    }
+
+    /**
+     * Test getting a character's complex forms.
+     * @test
+     */
+    public function testGetComplexForms(): void
+    {
+        $character = new Character(['complexForms' => ['cleaner']]);
+        self::assertNotEmpty($character->getComplexForms());
+    }
+
+    /**
+     * Test getting a character's gear if they have none.
+     * @test
+     */
+    public function testGetGearEmpty(): void
+    {
+        $character = new Character();
+        self::assertEmpty($character->getGear());
+    }
+
+    /**
+     * Test getting a character's gear if they've only got invalid gear.
+     * @test
+     */
+    public function testGetGearInvalid(): void
+    {
+        $character = new Character(['gear' => [['id' => 'invalid']]]);
+        self::assertEmpty($character->getGear());
+    }
+
+    /**
+     * Test getting a character's gear.
+     * @test
+     */
+    public function testGetGear(): void
+    {
+        $character = new Character(['gear' => [[
+            'id' => 'credstick-gold',
+            'quantity' => 1,
+        ]]]);
+        self::assertNotEmpty($character->getGear());
     }
 
     /**
@@ -469,5 +533,45 @@ final class CharacterTest extends \Tests\TestCase
             ],
         ]);
         self::assertCount(2, $character->getSkills());
+    }
+
+    /**
+     * Test getting a character's skill groups if they have none.
+     * @test
+     */
+    public function testGetSkillGroupsEmpty(): void
+    {
+        $character = new Character();
+        self::assertEmpty($character->getSkillGroups());
+    }
+
+    /**
+     * Test getting a character's skill groups with an invalid group.
+     * @test
+     */
+    public function testGetSkillGroupsInvalid(): void
+    {
+        $character = new Character([
+            'skillGroups' => [
+                'not-found' => 6,
+            ],
+        ]);
+        self::assertEmpty($character->getSkillGroups());
+    }
+
+    /**
+     * Test getting a character's skill groups.
+     * @test
+     */
+    public function testGetSkillGroups(): void
+    {
+        $character = new Character([
+            'skillGroups' => [
+                'firearms' => 6,
+            ],
+        ]);
+        $groups = $character->getSkillGroups();
+        self::assertNotEmpty($groups);
+        self::assertInstanceOf(ActiveSkill::class, $groups[0]->skills[0]);
     }
 }

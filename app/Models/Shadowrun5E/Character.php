@@ -10,12 +10,15 @@ use Illuminate\Database\Eloquent\Builder;
  * Representation of a Shadowrun 5E character.
  * @property ?array<int, array<string, mixed>> $armor
  * @property ?array<int, array<string, mixed>> $augmentations
+ * @property ?array<int, string> $complexForms
+ * @property ?array<int, array<string, mixed>> $gear
  * @property string $handle
  * @property string $id
  * @property ?array<string, string> $priorities
  * @property ?array<string, mixed> $magics
  * @property ?array<int, array<string, mixed>> $qualities
  * @property ?array<int, array<string, mixed>> $skills
+ * @property ?array<string, ?int> $skillGroups
  */
 class Character extends \App\Models\Character
 {
@@ -38,9 +41,11 @@ class Character extends \App\Models\Character
         'body',
         'campaign',
         'charisma',
+        'complexForms',
         'edge',
         'edgeCurrent',
         'eyes',
+        'gear',
         'hair',
         'handle',
         'height',
@@ -58,6 +63,7 @@ class Character extends \App\Models\Character
         'resonance',
         'sex',
         'skills',
+        'skillGroups',
         'streetCred',
         'strength',
         'weight',
@@ -186,6 +192,50 @@ class Character extends \App\Models\Character
     }
 
     /**
+     * Return the character's complex form.
+     * @return ComplexFormArray
+     */
+    public function getComplexForms(): ComplexFormArray
+    {
+        $forms = new ComplexFormArray();
+        foreach ($this->complexForms ?? [] as $form) {
+            try {
+                $forms[] = new ComplexForm($form);
+            } catch (\RuntimeException $ex) {
+                \Log::warning(sprintf(
+                    'Shadowrun5E character "%s" (%s) has invalid complex form "%s"',
+                    $this->handle,
+                    $this->_id,
+                    $form
+                ));
+            }
+        }
+        return $forms;
+    }
+
+    /**
+     * Return the character's gear.
+     * @return GearArray
+     */
+    public function getGear(): GearArray
+    {
+        $gear = new GearArray();
+        foreach ($this->gear ?? [] as $item) {
+            try {
+                $gear[] = Gear::build($item);
+            } catch (\RuntimeException $e) {
+                \Log::warning(sprintf(
+                    'Shadowrun5E character "%s" (%s) has invalid item "%s"',
+                    $this->handle,
+                    $this->_id,
+                    $item['id']
+                ));
+            }
+        }
+        return $gear;
+    }
+
+    /**
      * Return the character's metatype.
      * @return string
      */
@@ -301,5 +351,27 @@ class Character extends \App\Models\Character
             }
         }
         return $skills;
+    }
+
+    /**
+     * Return the character's skill groups.
+     * @return array<int, SkillGroup>
+     */
+    public function getSkillGroups(): array
+    {
+        $groups = [];
+        foreach ($this->skillGroups ?? [] as $group => $level) {
+            try {
+                $groups[] = new SkillGroup($group, (int)$level);
+            } catch (\RuntimeException $ex) {
+                \Log::warning(sprintf(
+                    'Shadowrun5E character "%s" (%s) has invalid skill group "%s"',
+                    $this->handle,
+                    $this->_id,
+                    $group
+                ));
+            }
+        }
+        return $groups;
     }
 }
