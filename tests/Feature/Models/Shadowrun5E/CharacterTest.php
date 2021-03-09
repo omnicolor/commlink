@@ -23,32 +23,13 @@ use App\Models\Shadowrun5E\QualityArray;
 final class CharacterTest extends \Tests\TestCase
 {
     /**
-     * Character to test on.
-     * @var ?Character
-     */
-    protected ?Character $character;
-
-    /**
-     * Clean up after the tests.
-     */
-    public function tearDown(): void
-    {
-        if (isset($this->character)) {
-            $this->character->delete();
-            unset($this->character);
-        }
-        parent::tearDown();
-    }
-
-    /**
      * Test displaying the character as a string just shows their handle.
      * @test
      */
     public function testToString(): void
     {
-        $this->character = Character::factory()
-            ->create(['handle' => 'The Smiling Bandit']);
-        self::assertSame('The Smiling Bandit', (string)$this->character);
+        $character = new Character(['handle' => 'The Smiling Bandit']);
+        self::assertSame('The Smiling Bandit', (string)$character);
     }
 
     /**
@@ -59,8 +40,9 @@ final class CharacterTest extends \Tests\TestCase
      */
     public function testHiddenId(): void
     {
-        $this->character = Character::factory()->create();
-        self::assertNotNull($this->character->_id);
+        $character = Character::factory()->create();
+        self::assertNotNull($character->_id);
+        $character->delete();
     }
 
     /**
@@ -69,9 +51,10 @@ final class CharacterTest extends \Tests\TestCase
      */
     public function testGetId(): void
     {
-        $this->character = Character::factory()->create();
-        self::assertNotNull($this->character->id);
-        self::assertSame($this->character->_id, $this->character->id);
+        $character = Character::factory()->create();
+        self::assertNotNull($character->id);
+        self::assertSame($character->_id, $character->id);
+        $character->delete();
     }
 
     /**
