@@ -235,6 +235,93 @@ final class CharacterTest extends \Tests\TestCase
     }
 
     /**
+     * Test getting a character's martial arts styles if they have no style.
+     * @test
+     */
+    public function testGetMartialArtsStyleNone(): void
+    {
+        $character = new Character();
+        self::assertEmpty($character->getMartialArtsStyles());
+    }
+
+    /**
+     * Test getting a character's martial arts styles if they have an invalid
+     * style.
+     * @test
+     */
+    public function testGetMartialArtsStyleInvalid(): void
+    {
+        $character = new Character([
+            'martialArts' => [
+                'styles' => [
+                    'invalid',
+                ],
+            ],
+        ]);
+        self::assertEmpty($character->getMartialArtsStyles());
+    }
+
+    /**
+     * Test getting a character's martial arts style.
+     * @test
+     */
+    public function testGetMartialArtsStyles(): void
+    {
+        $character = new Character([
+            'martialArts' => [
+                'styles' => [
+                    'aikido',
+                ],
+            ],
+        ]);
+        self::assertNotEmpty($character->getMartialArtsStyles());
+    }
+
+    /**
+     * Test getting a character's martial arts techniques if they have no
+     * technique.
+     * @test
+     */
+    public function testGetMartialArtsTechniqueNone(): void
+    {
+        $character = new Character();
+        self::assertEmpty($character->getMartialArtsTechniques());
+    }
+
+    /**
+     * Test getting a character's martial arts techniques if they have an
+     * invalid technique.
+     * @test
+     */
+    public function testGetMartialArtsTechniqueInvalid(): void
+    {
+        $character = new Character([
+            'martialArts' => [
+                'techniques' => [
+                    'invalid',
+                ],
+            ],
+        ]);
+        self::assertEmpty($character->getMartialArtsTechniques());
+    }
+
+    /**
+     * Test getting a character's martial arts techniques.
+     * @test
+     */
+    public function testGetMartialArtsTechniques(): void
+    {
+        $character = new Character([
+            'martialArts' => [
+                'techniques' => [
+                    'constrictors-crush',
+                ],
+            ],
+        ]);
+        self::assertNotEmpty($character->getMartialArtsTechniques());
+    }
+
+    /**
      * Test getting the mentor spirit of a mundane character.
      * @test
      */

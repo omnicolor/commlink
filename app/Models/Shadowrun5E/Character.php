@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @property ?array<int, array<string, mixed>> $gear
  * @property string $handle
  * @property string $id
+ * @property ?array<int, string> $martialArts
  * @property ?array<string, string> $priorities
  * @property ?array<string, mixed> $magics
  * @property ?array<int, array<string, mixed>> $qualities
@@ -55,6 +56,7 @@ class Character extends \App\Models\Character
         'logic',
         'magic',
         'magics',
+        'martialArts',
         'nuyen',
         'priorities',
         'qualities',
@@ -233,6 +235,56 @@ class Character extends \App\Models\Character
             }
         }
         return $gear;
+    }
+
+    /**
+     * Return the character's martial arts styles.
+     * @return MartialArtsStyleArray
+     */
+    public function getMartialArtsStyles(): MartialArtsStyleArray
+    {
+        $styles = new MartialArtsStyleArray();
+        if (!isset($this->martialArts, $this->martialArts['styles'])) {
+            return $styles;
+        }
+        foreach ($this->martialArts['styles'] as $style) {
+            try {
+                $styles[] = new MartialArtsStyle($style);
+            } catch (\RuntimeException $e) {
+                \Log::warning(sprintf(
+                    'Shadowrun5E character "%s" (%s) has invalid martial arts style "%s"',
+                    $this->handle,
+                    $this->_id,
+                    $style
+                ));
+            }
+        }
+        return $styles;
+    }
+
+    /**
+     * Return the character's martial arts techniques.
+     * @return MartialArtsTechniqueArray
+     */
+    public function getMartialArtsTechniques(): MartialArtsTechniqueArray
+    {
+        $techniques = new MartialArtsTechniqueArray();
+        if (!isset($this->martialArts, $this->martialArts['techniques'])) {
+            return $techniques;
+        }
+        foreach ($this->martialArts['techniques'] as $technique) {
+            try {
+                $techniques[] = new MartialArtsTechnique($technique);
+            } catch (\RuntimeException $e) {
+                \Log::warning(sprintf(
+                    'Shadowrun5E character "%s" (%s) has invalid martial arts technique "%s"',
+                    $this->handle,
+                    $this->_id,
+                    $technique
+                ));
+            }
+        }
+        return $techniques;
     }
 
     /**
