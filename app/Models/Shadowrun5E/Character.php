@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @property ?array<int, array<string, mixed>> $gear
  * @property string $handle
  * @property string $id
+ * @property ?array<int, array<string, midxed>> $identities
  * @property ?array<int, array<string, null|string|int>> $knowledgeSkills
  * @property ?array<int, string> $martialArts
  * @property ?array<string, string> $priorities
@@ -54,6 +55,7 @@ class Character extends \App\Models\Character
         'hair',
         'handle',
         'height',
+        'identities',
         'intuition',
         'karma',
         'karmaCurrent',
@@ -243,6 +245,19 @@ class Character extends \App\Models\Character
             }
         }
         return $gear;
+    }
+
+    /**
+     * Return the character's identities.
+     * @return IdentityArray
+     */
+    public function getIdentities(): IdentityArray
+    {
+        $identities = new IdentityArray();
+        foreach ($this->identities ?? [] as $identity) {
+            $identities[] = Identity::fromArray($identity);
+        }
+        return $identities;
     }
 
     /**

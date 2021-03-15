@@ -295,6 +295,35 @@ final class CharacterTest extends \Tests\TestCase
     }
 
     /**
+     * Test getting a character's identities if they have none.
+     * @test
+     */
+    public function testGetIdentitiesNone(): void
+    {
+        $character = new Character();
+        self::assertEmpty($character->getIdentities());
+    }
+
+    /**
+     * Test getting a character's identities if they've got one.
+     * @test
+     */
+    public function testGetIdentities(): void
+    {
+        $character = new Character([
+            'identities' => [
+                [
+                    'id' => 0,
+                    'name' => 'Altered Ego',
+                    'notes' => 'Nothing of note.',
+                    'sin' => 4,
+                ],
+            ],
+        ]);
+        self::assertNotEmpty($character->getIdentities());
+    }
+
+    /**
      * Test getting a character's martial arts styles if they have no style.
      * @test
      */
