@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @property ?array<int, array<string, mixed>> $gear
  * @property string $handle
  * @property string $id
+ * @property ?array<int, array<string, null|string|int>> $knowledgeSkills
  * @property ?array<int, string> $martialArts
  * @property ?array<string, string> $priorities
  * @property ?array<string, mixed> $magics
@@ -56,6 +57,7 @@ class Character extends \App\Models\Character
         'intuition',
         'karma',
         'karmaCurrent',
+        'knowledgeSkills',
         'logic',
         'magic',
         'magics',
@@ -241,6 +243,38 @@ class Character extends \App\Models\Character
             }
         }
         return $gear;
+    }
+
+    /**
+     * Return the character's knowledge skills.
+     * @return SkillArray
+     */
+    public function getKnowledgeSkills(): SkillArray
+    {
+        $skills = new SkillArray();
+        if (null === $this->knowledgeSkills) {
+            return $skills;
+        }
+        foreach ($this->knowledgeSkills as $skill) {
+            try {
+                $skills[] = new KnowledgeSkill(
+                    (string)$skill['name'],
+                    (string)$skill['category'],
+                    // @phpstan-ignore-next-line
+                    $skill['level'],
+                    // @phpstan-ignore-next-line
+                    $skill['specialization'] ?? null
+                );
+            } catch (\RuntimeException $ex) {
+                \Log::warning(sprintf(
+                    'Shadowrun5E character "%s" (%s) has invalid skill category "%s"',
+                    $this->handle,
+                    $this->_id,
+                    $skill['category']
+                ));
+            }
+        }
+        return $skills;
     }
 
     /**

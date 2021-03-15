@@ -235,6 +235,66 @@ final class CharacterTest extends \Tests\TestCase
     }
 
     /**
+     * Test getting a character's knowledge skills if they're dumB.
+     * @test
+     */
+    public function testGetKnowledgeSkillsNone(): void
+    {
+        $character = new Character();
+        self::assertEmpty($character->getKnowledgeSkills());
+    }
+
+    /**
+     * Test getting the character's knowledge skills if they have an invalid
+     * skill category.
+     * @test
+     */
+    public function testGetKnowledgeSkillInvalid(): void
+    {
+        $character = new Character(['knowledgeSkills' => [
+            [
+                'name' => 'Elven Wines',
+                'category' => 'drunken',
+                'level' => 4,
+            ],
+        ]]);
+        self::assertEmpty($character->getKnowledgeSkills());
+    }
+
+    /**
+     * Test getting a character's knowledge skills.
+     * @test
+     */
+    public function testGetKnowledgeSkills(): void
+    {
+        $character = new Character(['knowledgeSkills' => [
+            [
+                'name' => 'Elven Wines',
+                'category' => 'interests',
+                'level' => 4,
+            ],
+        ]]);
+        self::assertNotEmpty($character->getKnowledgeSkills());
+    }
+
+    /**
+     * Test getting a character's native language knowledge skill.
+     * @test
+     */
+    public function testGetKnowledgeSkillLanguage(): void
+    {
+        $character = new Character(['knowledgeSkills' => [
+            [
+                'name' => 'English',
+                'category' => 'language',
+                'level' => 'N',
+                'specialization' => 'Spoken',
+            ],
+        ]]);
+        self::assertNotEmpty($character->getKnowledgeSkills());
+    }
+
+    /**
      * Test getting a character's martial arts styles if they have no style.
      * @test
      */
