@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Shadowrun5E\AdeptPowersController;
+use App\Http\Controllers\Shadowrun5E\AmmunitionController;
 use App\Http\Controllers\Shadowrun5E\ArmorController;
 use App\Http\Controllers\Shadowrun5E\ArmorModificationsController;
 use App\Http\Controllers\Shadowrun5E\CharactersController;
@@ -33,6 +34,8 @@ use App\Http\Controllers\Shadowrun5E\WeaponsController;
 Route::middleware('auth:sanctum')->prefix('shadowrun5e')->name('shadowrun5e.')->group(
     function (): void {
         Route::resource('adept-powers', AdeptPowersController::class)
+            ->only(['index', 'show']);
+        Route::resource('ammunition', AmmunitionController::class)
             ->only(['index', 'show']);
         Route::resource('armor', ArmorController::class)
             ->only(['index', 'show']);
