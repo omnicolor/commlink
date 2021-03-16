@@ -47,7 +47,10 @@ class ArmorController extends \App\Http\Controllers\Controller
     {
         foreach ($this->armor as $key => $value) {
             $this->armor[$key]['links'] = [
-                'self' => sprintf('/api/shadowrun5e/armor/%s', $key),
+                'self' => sprintf(
+                    '/api/shadowrun5e/armor/%s',
+                    urlencode($key)
+                ),
             ];
         }
 

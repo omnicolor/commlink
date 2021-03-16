@@ -48,7 +48,10 @@ class MetamagicsController extends \App\Http\Controllers\Controller
     {
         foreach ($this->magics as $key => $unused) {
             $this->magics[$key]['links'] = [
-                'self' => sprintf('/api/shadowrun5e/metamagics/%s', $key),
+                'self' => sprintf(
+                    '/api/shadowrun5e/metamagics/%s',
+                    urlencode($key)
+                ),
             ];
         }
 

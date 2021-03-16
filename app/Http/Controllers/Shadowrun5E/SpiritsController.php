@@ -48,7 +48,7 @@ class SpiritsController extends \App\Http\Controllers\Controller
         foreach ($this->spirits as $key => $value) {
             $this->spirits[$key]['links']['self'] = sprintf(
                 '/api/shadowrun5e/spirits/%s',
-                $key
+                urlencode($key)
             );
             $this->spirits[$key]['ruleset'] ??= 'core';
         }

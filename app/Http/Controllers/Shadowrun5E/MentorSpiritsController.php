@@ -48,7 +48,10 @@ class MentorSpiritsController extends \App\Http\Controllers\Controller
     {
         foreach ($this->spirits as $key => $unused) {
             $this->spirits[$key]['links'] = [
-                'self' => sprintf('/api/shadowrun5e/mentor-spirits/%s', $key),
+                'self' => sprintf(
+                    '/api/shadowrun5e/mentor-spirits/%s',
+                    urlencode($key)
+                ),
             ];
             $this->spirits[$key]['ruleset'] ??= 'core';
         }

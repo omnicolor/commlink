@@ -46,8 +46,10 @@ class QualitiesController extends \App\Http\Controllers\Controller
     public function index(): Response
     {
         foreach ($this->qualities as $key => $value) {
-            $this->qualities[$key]['links']['self'] =
-                sprintf('/api/shadowrun5e/qualities/%s', $key);
+            $this->qualities[$key]['links']['self'] = sprintf(
+                '/api/shadowrun5e/qualities/%s',
+                urlencode($key)
+            );
             $this->qualities[$key]['ruleset'] ??= 'core';
         }
 

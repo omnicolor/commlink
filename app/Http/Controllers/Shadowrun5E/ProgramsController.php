@@ -47,7 +47,10 @@ class ProgramsController extends \App\Http\Controllers\Controller
     {
         foreach ($this->programs as $key => $value) {
             $this->programs[$key]['links'] = [
-                'self' => sprintf('/api/shadowrun5e/programs/%s', $key),
+                'self' => sprintf(
+                    '/api/shadowrun5e/programs/%s',
+                    urlencode($key)
+                ),
             ];
         }
 

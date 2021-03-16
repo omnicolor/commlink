@@ -48,7 +48,10 @@ class ComplexFormsController extends \App\Http\Controllers\Controller
     {
         foreach ($this->forms as $key => $unused) {
             $this->forms[$key]['links'] = [
-                'self' => sprintf('/api/shadowrun5e/complex-forms/%s', $key),
+                'self' => sprintf(
+                    '/api/shadowrun5e/complex-forms/%s',
+                    urlencode($key)
+                ),
             ];
         }
 

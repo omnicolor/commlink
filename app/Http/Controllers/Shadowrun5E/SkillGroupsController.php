@@ -44,7 +44,10 @@ class SkillGroupsController extends Controller
                 // Some skills are not in any groups.
                 continue;
             }
-            $value['links']['self'] = sprintf('/api/shadowrun5e/skills/%s', $key);
+            $value['links']['self'] = sprintf(
+                '/api/shadowrun5e/skills/%s',
+                urlencode($key)
+            );
             $this->groups[$value['group']]['skills'][] = $value;
             $this->groups[$value['group']]['id'] = $value['group'];
             $this->groups[$value['group']]['links'] = [

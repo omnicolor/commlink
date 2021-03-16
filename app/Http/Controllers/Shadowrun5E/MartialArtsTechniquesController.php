@@ -50,7 +50,7 @@ class MartialArtsTechniquesController extends \App\Http\Controllers\Controller
             $this->techniques[$key]['links'] = [
                 'self' => sprintf(
                     '/api/shadowrun5e/martial-arts-techniques/%s',
-                    $key
+                    urlencode($key)
                 ),
             ];
         }

@@ -48,7 +48,7 @@ class SpellsController extends \App\Http\Controllers\Controller
         foreach ($this->spells as $key => $value) {
             $this->spells[$key]['links']['self'] = sprintf(
                 '/api/shadowrun5e/spells/%s',
-                $key
+                urlencode($key)
             );
             $this->spells[$key]['ruleset'] ??= 'core';
         }

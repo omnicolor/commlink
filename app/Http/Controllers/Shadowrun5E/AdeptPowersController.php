@@ -48,7 +48,10 @@ class AdeptPowersController extends \App\Http\Controllers\Controller
     {
         foreach ($this->powers as $key => $value) {
             $this->powers[$key]['links'] = [
-                'self' => sprintf('/api/shadowrun5e/adept-powers/%s', $key),
+                'self' => sprintf(
+                    '/api/shadowrun5e/adept-powers/%s',
+                    urlencode($key)
+                ),
             ];
         }
 

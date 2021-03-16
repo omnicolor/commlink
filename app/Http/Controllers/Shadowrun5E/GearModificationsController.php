@@ -49,7 +49,7 @@ class GearModificationsController extends \App\Http\Controllers\Controller
         foreach ($this->mods as $key => $value) {
             $this->mods[$key]['links']['self'] = sprintf(
                 '/api/shadowrun5e/gear-modifications/%s',
-                $key
+                urlencode($key)
             );
             if (!array_key_exists('ruleset', $value)) {
                 $this->mods[$key]['ruleset'] = 'core';

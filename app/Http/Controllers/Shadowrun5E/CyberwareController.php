@@ -47,7 +47,10 @@ class CyberwareController extends \App\Http\Controllers\Controller
     {
         foreach ($this->augmentations as $key => $unused) {
             $this->augmentations[$key]['links'] = [
-                'self' => sprintf('/api/shadowrun5e/cyberware/%s', $key),
+                'self' => sprintf(
+                    '/api/shadowrun5e/cyberware/%s',
+                    urlencode($key)
+                ),
             ];
             $this->augmentations['ruleset'] ??= 'core';
         }

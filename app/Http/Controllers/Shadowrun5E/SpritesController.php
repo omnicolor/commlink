@@ -47,7 +47,10 @@ class SpritesController extends \App\Http\Controllers\Controller
     {
         foreach ($this->sprites as $key => $unused) {
             $this->sprites[$key]['links'] = [
-                'self' => sprintf('/api/shadowrun5e/sprites/%s', $key),
+                'self' => sprintf(
+                    '/api/shadowrun5e/sprites/%s',
+                    urlencode($key)
+                ),
             ];
         }
 

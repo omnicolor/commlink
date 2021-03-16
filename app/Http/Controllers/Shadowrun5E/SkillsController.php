@@ -48,7 +48,10 @@ class SkillsController extends Controller
     {
         foreach ($this->skills as $key => $value) {
             $this->skills[$key]['links'] = [
-                'self' => sprintf('/api/shadowrun5e/skills/%s', $key),
+                'self' => sprintf(
+                    '/api/shadowrun5e/skills/%s',
+                    urlencode($key)
+                ),
             ];
         }
 

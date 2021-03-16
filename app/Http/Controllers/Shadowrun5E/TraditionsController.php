@@ -48,7 +48,10 @@ class TraditionsController extends \App\Http\Controllers\Controller
     {
         foreach ($this->traditions as $key => $unused) {
             $this->traditions[$key]['links'] = [
-                'self' => sprintf('/api/shadowrun5e/traditions/%s', $key),
+                'self' => sprintf(
+                    '/api/shadowrun5e/traditions/%s',
+                    urlencode($key)
+                ),
             ];
         }
 
