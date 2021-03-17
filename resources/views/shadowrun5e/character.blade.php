@@ -109,19 +109,19 @@
                         <li class="list-group-item" id="street-cred-li">
                             Street cred
                             <div class="value" id="street-cred">
-                                {{ $character->streetCred }}
+                                {{ $character->getModifiedAttribute('streetCred') }}
                             </div>
                         </li>
                         <li class="list-group-item" id="notoriety-li">
                             Notoriety
                             <div class="value" id="notoriety">
-                                {{ $character->notoriety }}
+                                {{ $character->getModifiedAttribute('notoriety') }}
                             </div>
                         </li>
                         <li class="list-group-item">
                             Public awareness
                             <div class="value" id="public-awareness">
-                                {{ $character->publicAwareness }}
+                                {{ $character->getModifiedAttribute('publicAwareness') }}
                             </div>
                         </li>
                         <li class="list-group-item">
@@ -142,6 +142,7 @@
                                 Composure
                             </span>
                             <div class="value">
+                                {{ $character->composure }}
                             </div>
                         </li>
                         <li class="list-group-item" id="judge-intentions">
@@ -150,6 +151,7 @@
                                 Judge Intentions
                             </span>
                             <div class="value">
+                                {{ $character->judgeIntentions }}
                             </div>
                         </li>
                         <li class="list-group-item" id="memory">
@@ -158,6 +160,7 @@
                                 Memory
                             </span>
                             <div class="value">
+                                {{ $character->memory }}
                             </div>
                         </li>
                         <li class="list-group-item" id="lift-carry">
@@ -166,6 +169,7 @@
                                 Lift/Carry
                             </span>
                             <div class="value">
+                                {{ $character->liftCarry }}
                             </div>
                         </li>
                     </ul>

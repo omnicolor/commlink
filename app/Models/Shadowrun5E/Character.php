@@ -8,23 +8,31 @@ use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Representation of a Shadowrun 5E character.
+ * @property int $agility
  * @property ?array<int, array<string, mixed>> $armor
  * @property ?array<int, array<string, mixed>> $augmentations
+ * @property int $body
+ * @property int $charisma
  * @property ?array<int, string> $complexForms
  * @property ?array<int, array<string, mixed>> $gear
  * @property string $handle
  * @property string $id
  * @property ?array<int, array<string, midxed>> $identities
+ * @property int $intuition
  * @property ?array<int, array<string, null|string|int>> $knowledgeSkills
+ * @property int $logic
  * @property ?array<int, string> $martialArts
  * @property ?array<string, string> $priorities
  * @property ?array<string, mixed> $magics
  * @property ?array<int, array<string, mixed>> $qualities
+ * @property int $reaction
  * @property ?array<int, array<string, mixed>> $skills
  * @property ?array<string, ?int> $skillGroups
+ * @property int $strength
  * @property ?array<string, mixed> $technomancer
  * @property ?array<int, array<string, mixed>> $vehicles
  * @property ?array<int, array<string, mixed>> $weapons
+ * @property int $willpower
  */
 class Character extends \App\Models\Character
 {
@@ -64,6 +72,7 @@ class Character extends \App\Models\Character
         'magic',
         'magics',
         'martialArts',
+        'notoriety',
         'nuyen',
         'priorities',
         'qualities',
@@ -226,6 +235,16 @@ class Character extends \App\Models\Character
     }
 
     /**
+     * Get the character's composure derived stat.
+     * @return int
+     */
+    public function getComposureAttribute(): int
+    {
+        return $this->getModifiedAttribute('charisma') +
+            $this->getModifiedAttribute('willpower');
+    }
+
+    /**
      * Return the character's gear.
      * @return GearArray
      */
@@ -261,6 +280,16 @@ class Character extends \App\Models\Character
     }
 
     /**
+     * Get the character's judge intentions derived stat.
+     * @return int
+     */
+    public function getJudgeIntentionsAttribute(): int
+    {
+        return $this->getModifiedAttribute('intuition') +
+            $this->getModifiedAttribute('charisma');
+    }
+
+    /**
      * Return the character's knowledge skills.
      * @return SkillArray
      */
@@ -290,6 +319,16 @@ class Character extends \App\Models\Character
             }
         }
         return $skills;
+    }
+
+    /**
+     * Return the character's lift/carry derived stat.
+     * @return int
+     */
+    public function getLiftCarryAttribute(): int
+    {
+        return $this->getModifiedAttribute('body') +
+            $this->getModifiedAttribute('strength');
     }
 
     /**
@@ -340,6 +379,16 @@ class Character extends \App\Models\Character
             }
         }
         return $techniques;
+    }
+
+    /**
+     * Get the character's memory derived stat.
+     * @return int
+     */
+    public function getMemoryAttribute(): int
+    {
+        return $this->getModifiedAttribute('logic') +
+            $this->getModifiedAttribute('willpower');
     }
 
     /**

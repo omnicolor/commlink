@@ -202,6 +202,25 @@ final class CharacterTest extends \Tests\TestCase
     }
 
     /**
+     * Test getting a character's composure derived attribute.
+     * @test
+     */
+    public function testGetComposure(): void
+    {
+        $character = new Character();
+        self::assertSame(0, $character->composure);
+        $character->body = 1;
+        $character->agility = 2;
+        $character->reaction = 3;
+        $character->strength = 4;
+        $character->willpower = 5;
+        $character->logic = 6;
+        $character->intuition = 7;
+        $character->charisma = 8;
+        self::assertSame(5 + 8, $character->composure);
+    }
+
+    /**
      * Test getting a character's gear if they have none.
      * @test
      */
@@ -232,6 +251,25 @@ final class CharacterTest extends \Tests\TestCase
             'quantity' => 1,
         ]]]);
         self::assertNotEmpty($character->getGear());
+    }
+
+    /**
+     * Test getting a character's judge intentions derived attribute.
+     * @test
+     */
+    public function testGetJudgeIntentions(): void
+    {
+        $character = new Character();
+        self::assertSame(0, $character->judgeIntentions);
+        $character->body = 1;
+        $character->agility = 2;
+        $character->reaction = 3;
+        $character->strength = 4;
+        $character->willpower = 5;
+        $character->logic = 6;
+        $character->intuition = 7;
+        $character->charisma = 8;
+        self::assertSame(7 + 8, $character->judgeIntentions);
     }
 
     /**
@@ -324,6 +362,25 @@ final class CharacterTest extends \Tests\TestCase
     }
 
     /**
+     * Test getting a character's lift/carry derived stat.
+     * @test
+     */
+    public function testGetLiftCarry(): void
+    {
+        $character = new Character();
+        self::assertSame(0, $character->composure);
+        $character->body = 1;
+        $character->agility = 2;
+        $character->reaction = 3;
+        $character->strength = 4;
+        $character->willpower = 5;
+        $character->logic = 6;
+        $character->intuition = 7;
+        $character->charisma = 8;
+        self::assertSame(1 + 4, $character->liftCarry);
+    }
+
+    /**
      * Test getting a character's martial arts styles if they have no style.
      * @test
      */
@@ -408,6 +465,25 @@ final class CharacterTest extends \Tests\TestCase
             ],
         ]);
         self::assertNotEmpty($character->getMartialArtsTechniques());
+    }
+
+    /**
+     * Test getting a character's memory derived attribute.
+     * @test
+     */
+    public function testGetMemory(): void
+    {
+        $character = new Character();
+        self::assertSame(0, $character->memory);
+        $character->body = 1;
+        $character->agility = 2;
+        $character->reaction = 3;
+        $character->strength = 4;
+        $character->willpower = 5;
+        $character->logic = 6;
+        $character->intuition = 7;
+        $character->charisma = 8;
+        self::assertSame(6 + 5, $character->memory);
     }
 
     /**
@@ -569,7 +645,6 @@ final class CharacterTest extends \Tests\TestCase
             ->setConstructorArgs([['system' => 'shadowrun5e']])
             ->getMock();
         $character->method('getArmor')->willReturn($armorArray);
-        // @phpstan-ignore-next-line
         $character->charisma = 6;
 
         self::assertEquals(8, $character->getModifiedAttribute('charisma'));
@@ -593,7 +668,6 @@ final class CharacterTest extends \Tests\TestCase
             ->setConstructorArgs([['system' => 'shadowrun5e']])
             ->getMock();
         $character->method('getArmor')->willReturn($armorArray);
-        // @phpstan-ignore-next-line
         $character->agility = 4;
 
         self::assertEquals(2, $character->getModifiedAttribute('agility'));
@@ -617,7 +691,6 @@ final class CharacterTest extends \Tests\TestCase
             ->setConstructorArgs([['system' => 'shadowrun5e']])
             ->getMock();
         $character->method('getArmor')->willReturn($armorArray);
-        // @phpstan-ignore-next-line
         $character->agility = 4;
 
         self::assertEquals(4, $character->getModifiedAttribute('agility'));
@@ -646,7 +719,6 @@ final class CharacterTest extends \Tests\TestCase
             ->setConstructorArgs([['system' => 'shadowrun5e']])
             ->getMock();
         $character->method('getArmor')->willReturn($armorArray);
-        // @phpstan-ignore-next-line
         $character->agility = 4;
 
         self::assertEquals(4, $character->getModifiedAttribute('agility'));
@@ -674,7 +746,6 @@ final class CharacterTest extends \Tests\TestCase
             ->setConstructorArgs([['system' => 'shadowrun5e']])
             ->getMock();
         $character->method('getQualities')->willReturn($qualities);
-        // @phpstan-ignore-next-line
         $character->agility = 4;
 
         self::assertEquals(6, $character->getModifiedAttribute('agility'));

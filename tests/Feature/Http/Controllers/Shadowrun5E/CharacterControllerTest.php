@@ -10,6 +10,8 @@ use Illuminate\Http\Response;
 
 /**
  * Controller for the Shadowrun 5E characters controller.
+ * @covers \App\Http\Controllers\Shadowrun5E\CharactersController
+ * @covers \App\Models\Shadowrun5E\Character::booted
  * @group shadowrun
  * @group shadowrun5e
  * @group controllers
