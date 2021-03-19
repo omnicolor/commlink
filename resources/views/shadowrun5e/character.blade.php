@@ -175,6 +175,28 @@
                     </ul>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-header">skills</div>
+                <div class="card-body skills p-0">
+                    @foreach ($character->getSkills() as $skill)
+                    <div class="row m-0 p-2 border-bottom">
+                        <div class="col text-truncate" data-toggle="tooltip"
+                            data-placement="right" title="{{ $skill->description }}">
+                            {{ $skill->name }}
+                            @if ($skill->specialization)
+                            ({{ $skill->specialization }})
+                        @endif
+                        </div>
+                        <div class="col-1">{{ $skill->level }}</div>
+                        <div class="col-1 text-nowrap">{{ strtoupper(substr($skill->attribute, 0, 3)) }}</div>
+                        <div class="col-3 text-nowrap text-right">
+                            {{ $character->getModifiedAttribute($skill->attribute) + $skill->level }}
+                            [{{ $character->getSkillLimit($skill) }}]
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
         </div>
 
         <div class="col">

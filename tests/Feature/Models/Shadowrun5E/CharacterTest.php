@@ -8,7 +8,9 @@ use App\Models\Shadowrun5E\ActiveSkill;
 use App\Models\Shadowrun5E\Armor;
 use App\Models\Shadowrun5E\ArmorArray;
 use App\Models\Shadowrun5E\ArmorModification;
+use App\Models\Shadowrun5E\Augmentation;
 use App\Models\Shadowrun5E\Character;
+use App\Models\Shadowrun5E\KnowledgeSkill;
 use App\Models\Shadowrun5E\MentorSpirit;
 use App\Models\Shadowrun5E\Quality;
 use App\Models\Shadowrun5E\QualityArray;
@@ -135,6 +137,69 @@ final class CharacterTest extends \Tests\TestCase
     }
 
     /**
+     * Test getting the character's astral limit for a mundane character.
+     * @test
+     */
+    public function testAstralLimitMundane(): void
+    {
+        $character = new Character();
+        $character->magic = 0;
+        $character->body = 1;
+        $character->agility = 2;
+        $character->reaction = 3;
+        $character->strength = 4;
+        $character->willpower = 5;
+        $character->logic = 6;
+        $character->intuition = 7;
+        $character->charisma = 8;
+        self::assertEquals(0, $character->getAstralLimit());
+    }
+
+    /**
+     * Test getting the astral limit for an awakened character with a higher
+     * social limit than mental limit.
+     * @test
+     */
+    public function testGetAstralLimitUsesSocialLimit(): void
+    {
+        $character = new Character();
+        $character->magic = 6;
+        $character->body = 1;
+        $character->agility = 2;
+        $character->reaction = 3;
+        $character->strength = 4;
+        $character->willpower = 5;
+        $character->logic = 6;
+        $character->intuition = 7;
+        $character->charisma = 8;
+        // Essence should be 6, added to Willpower 5 and twice Charisma 8 all
+        // divided by 3: (6+5+(8*2))/3 = 26/3 = 8.6, rounded up.
+        self::assertEquals(9, $character->getAstralLimit());
+    }
+
+    /**
+     * Test getting the astral limit for an awakened character with a higher
+     * mental limit than social limit.
+     * @test
+     */
+    public function testGetAstralLimitUsesMentalLimit(): void
+    {
+        $character = new Character();
+        $character->magic = 6;
+        $character->body = 1;
+        $character->agility = 2;
+        $character->reaction = 3;
+        $character->strength = 4;
+        $character->willpower = 5;
+        $character->logic = 6;
+        $character->intuition = 7;
+        $character->charisma = 1;
+        // Should be twice Logic 6 plus Intuition 7 plus Willpower 5 all divided
+        // by 3: ((6*2)+7+5)/3 = 24/3 = 8, rounded up
+        self::assertEquals(8, $character->getAstralLimit());
+    }
+
+    /**
      * Test getting a character's augmentations if they don't have any.
      * @test
      */
@@ -218,6 +283,34 @@ final class CharacterTest extends \Tests\TestCase
         $character->intuition = 7;
         $character->charisma = 8;
         self::assertSame(5 + 8, $character->composure);
+    }
+
+    /**
+     * Test that essence goes down with augmentations.
+     * @test
+     */
+    public function testEssenceLoss(): void
+    {
+        $character = new Character();
+        self::assertEquals(6, $character->getEssence());
+        $character->augmentations = [['id' => 'bone-lacing-aluminum']];
+        self::assertEquals(5, $character->getEssence());
+    }
+
+    /**
+     * Test essence going down with a different grade of augmentation.
+     * @test
+     */
+    public function testEssenceLossWithGrade(): void
+    {
+        // TODO: Change grade to augmentation constant.
+        $character = new Character();
+        self::assertEquals(6, $character->getEssence());
+        $character->augmentations = [[
+            'id' => 'bone-lacing-aluminum',
+            'grade' => 'Alpha',
+        ]];
+        self::assertEquals(5.2, $character->getEssence());
     }
 
     /**
@@ -378,6 +471,88 @@ final class CharacterTest extends \Tests\TestCase
         $character->intuition = 7;
         $character->charisma = 8;
         self::assertSame(1 + 4, $character->liftCarry);
+    }
+
+    /**
+     * Test getting limits for skills.
+     * @test
+     */
+    public function testGetSkillLimit(): void
+    {
+        $character = new Character();
+        $character->magic = 6;
+        $character->body = 1;
+        $character->agility = 2;
+        $character->reaction = 3;
+        $character->strength = 4;
+        $character->willpower = 5;
+        $character->logic = 6;
+        $character->intuition = 7;
+        $character->charisma = 8;
+
+        $skill = new ActiveSkill('astral-combat', 3);
+        // Defaults to weapon.
+        self::assertSame('W', $character->getSkillLimit($skill));
+        $skill->limit = 'astral';
+        self::assertSame('9', $character->getSkillLimit($skill));
+        $skill->limit = 'force';
+        self::assertSame('F', $character->getSkillLimit($skill));
+        $skill->limit = 'handling';
+        self::assertSame('H', $character->getSkillLimit($skill));
+        $skill->limit = 'level';
+        self::assertSame('L', $character->getSkillLimit($skill));
+        $skill->limit = 'matrix';
+        self::assertSame('M', $character->getSkillLimit($skill));
+        $skill->limit = 'mental';
+        self::assertSame('8', $character->getSkillLimit($skill));
+        $skill->limit = 'physical';
+        self::assertSame('4', $character->getSkillLimit($skill));
+        $skill->limit = 'social';
+        self::assertSame('9', $character->getSkillLimit($skill));
+        $skill->limit = 'unknown';
+        self::assertSame('?', $character->getSkillLimit($skill));
+    }
+
+    /**
+     * Test getting limit for a knowledge skill.
+     * @test
+     */
+    public function testGetKnowledgeSkillLimit(): void
+    {
+        $character = new Character([
+            'intuition' => 4,
+            'logic' => 2,
+            'willpower' => 4,
+        ]);
+        $skill = new KnowledgeSkill('astral-combat', 'academic', 3);
+        self::assertSame('4', $character->getSkillLimit($skill));
+    }
+
+    /**
+     * Test getting a limit for a skill that uses a calculatable limit that has
+     * a quality that updates it.
+     * @test
+     */
+    public function testGetSkillLimitUpdated(): void
+    {
+        $quality = new Quality('lucky');
+        $quality->effects = ['limit-astral-combat' => 2];
+        $qualities = new QualityArray();
+        $qualities[] = $quality;
+
+        $character = $this->getMockBuilder(Character::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getQualities'])
+            ->setConstructorArgs([['system' => 'shadowrun5e']])
+            ->getMock();
+        $character->method('getQualities')->willReturn($qualities);
+        $character->body = 1;
+        $character->reaction = 3;
+        $character->strength = 4;
+
+        $skill = new ActiveSkill('astral-combat', 3);
+        $skill->limit = 'physical';
+        self::assertSame('6', $character->getSkillLimit($skill));
     }
 
     /**
@@ -732,7 +907,7 @@ final class CharacterTest extends \Tests\TestCase
     {
         $qualityDifferentEffect = new Quality('aptitude-alchemy');
 
-        // Modify the hquality to have testable effect.
+        // Create a quality with a testable effect.
         $qualityWithEffect = new Quality('lucky');
         $qualityWithEffect->effects = ['agility' => 2];
 
@@ -749,6 +924,72 @@ final class CharacterTest extends \Tests\TestCase
         $character->agility = 4;
 
         self::assertEquals(6, $character->getModifiedAttribute('agility'));
+    }
+
+    /**
+     * Test getting an attribute with a broken effect.
+     * @test
+     */
+    public function testGetModifiedAttributeBrokenEffect(): void
+    {
+        // Create a quality with a broken effect.
+        $quality = new Quality('lucky');
+        // @phpstan-ignore-next-line
+        $quality->effects = ['distinctive-style'];
+
+        $qualities = new QualityArray();
+        $qualities[] = $quality;
+
+        $character = $this->getMockBuilder(Character::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getQualities'])
+            ->setConstructorArgs([['system' => 'shadowrun5e']])
+            ->getMock();
+        $character->method('getQualities')->willReturn($qualities);
+        $character->agility = 4;
+
+        self::assertEquals(4, $character->getModifiedAttribute('agility'));
+    }
+
+    /**
+     * Test getting the character's physical limit when unaugmented.
+     * @test
+     */
+    public function testUnaugmentedPhysicalLimit(): void
+    {
+        $character = new Character([
+            'strength' => 4,
+            'body' => 4,
+            'reaction' => 4,
+        ]);
+        self::assertEquals(6, $character->getPhysicalLimit());
+    }
+
+    /**
+     * Test getting the character's physical limit with a quality that changes
+     * it.
+     * @test
+     */
+    public function testPhysicalLimitAugmented(): void
+    {
+        // Create a quality with a testable effect.
+        $quality = new Quality('lucky');
+        $quality->effects = ['physical-limit' => 2];
+
+        $qualities = new QualityArray();
+        $qualities[] = $quality;
+
+        $character = $this->getMockBuilder(Character::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getQualities'])
+            ->setConstructorArgs([['system' => 'shadowrun5e']])
+            ->getMock();
+        $character->method('getQualities')->willReturn($qualities);
+        $character->body = 4;
+        $character->reaction = 4;
+        $character->strength = 4;
+
+        self::assertEquals(8, $character->getPhysicalLimit());
     }
 
     /**

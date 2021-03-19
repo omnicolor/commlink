@@ -24,7 +24,7 @@ return [
         'id' => 'astral-combat',
         'name' => 'Astral Combat',
         'attribute' => 'willpower',
-        'description' => '',
+        'description' => 'Astral combat description.',
         // Group is optional.
         'magicOnly' => true,
         'limit' => 'weapon',

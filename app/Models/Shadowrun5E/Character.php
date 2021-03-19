@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @property int $logic
  * @property ?array<int, string> $martialArts
  * @property ?array<string, string> $priorities
+ * @property int $magic
  * @property ?array<string, mixed> $magics
  * @property ?array<int, array<string, mixed>> $qualities
  * @property int $reaction
@@ -108,7 +109,7 @@ class Character extends \App\Models\Character
     }
 
     /**
-     * The "booted" method of the model.
+     * Force this model to only load for Shadowrun characters.
      */
     protected static function booted(): void
     {
@@ -188,6 +189,21 @@ class Character extends \App\Models\Character
     }
 
     /**
+     * Return the character's astral limit if they have one.
+     * @return int
+     */
+    public function getAstralLimit(): int
+    {
+        if (!(bool)$this->magic) {
+            return 0;
+        }
+        return max(
+            $this->getMentalLimit(),
+            $this->getSocialLimit()
+        );
+    }
+
+    /**
      * Return the character's augmentations.
      * @return AugmentationArray
      */
@@ -242,6 +258,19 @@ class Character extends \App\Models\Character
     {
         return $this->getModifiedAttribute('charisma') +
             $this->getModifiedAttribute('willpower');
+    }
+
+    /**
+     * Return the character's effective essence.
+     * @return float
+     */
+    public function getEssence(): float
+    {
+        $essence = 6;
+        foreach ($this->getAugmentations() as $augmentation) {
+            $essence -= $augmentation->essence;
+        }
+        return $essence;
     }
 
     /**
@@ -392,15 +421,18 @@ class Character extends \App\Models\Character
     }
 
     /**
-     * Return the character's metatype.
-     * @return string
+     * Return the character's mental limit.
+     * @return int
      */
-    public function getMetatypeAttribute(): string
+    public function getMentalLimit(): int
     {
-        if (isset($this->priorities['metatype'])) {
-            return $this->priorities['metatype'];
-        }
-        return 'unknown';
+        return (int)ceil(
+            (
+                $this->getModifiedAttribute('logic') * 2
+                + $this->getModifiedAttribute('intuition')
+                + $this->getModifiedAttribute('willpower')
+            ) / 3
+        ) + $this->getModifiedAttribute('mental-limit');
     }
 
     /**
@@ -429,6 +461,18 @@ class Character extends \App\Models\Character
     }
 
     /**
+     * Return the character's metatype.
+     * @return string
+     */
+    public function getMetatypeAttribute(): string
+    {
+        if (isset($this->priorities['metatype'])) {
+            return $this->priorities['metatype'];
+        }
+        return 'unknown';
+    }
+
+    /**
      * Return an attribute's value with all modifiers taken into account.
      * @param string $attribute Attribute to return
      * @return int Attribute's value
@@ -445,6 +489,9 @@ class Character extends \App\Models\Character
 
         foreach ($modifiers as $modifier) {
             foreach ($modifier->effects as $effect => $value) {
+                if (is_int($effect)) {
+                    continue;
+                }
                 if (
                     $attribute !== $effect
                     && $cleanAttributeName !== $this->dashedToCamel($effect)
@@ -481,6 +528,21 @@ class Character extends \App\Models\Character
     }
 
     /**
+     * Return the character's physical limit.
+     * @return int
+     */
+    public function getPhysicalLimit(): int
+    {
+        return (int)ceil(
+            (
+                $this->getModifiedAttribute('strength') * 2
+                + $this->getModifiedAttribute('body')
+                + $this->getModifiedAttribute('reaction')
+            ) / 3
+        ) + $this->getModifiedAttribute('physical-limit');
+    }
+
+    /**
      * Return the character's qualities (if they have any).
      * @return QualityArray
      */
@@ -503,6 +565,59 @@ class Character extends \App\Models\Character
             }
         }
         return $qualities;
+    }
+
+    /**
+     * Get a limit for a particular skill.
+     * @param Skill $skill
+     * @return string
+     */
+    public function getSkillLimit(Skill $skill): string
+    {
+        $limitModifier = $this->getSkillLimitModifierFromQualities($skill);
+        switch ($skill->limit) {
+            case 'astral':
+                return (string)($this->getAstralLimit() + $limitModifier);
+            case 'force':
+                return 'F';
+            case 'handling':
+                return 'H';
+            case 'level':
+                return 'L';
+            case 'matrix':
+                return 'M';
+            case 'mental':
+                return (string)($this->getMentalLimit() + $limitModifier);
+            case 'physical':
+                return (string)($this->getPhysicalLimit() + $limitModifier);
+            case 'social':
+                return (string)($this->getSocialLimit() + $limitModifier);
+            case 'weapon':
+                return 'W';
+            default:
+                return '?';
+        }
+    }
+
+    /**
+     * Some qualities modify limits for particular skills.
+     * @param Skill $skill
+     * @return int
+     */
+    protected function getSkillLimitModifierFromQualities(Skill $skill): int
+    {
+        if (!isset($skill->id)) {
+            return 0;
+        }
+        $limitModifier = 0;
+        foreach ($this->getQualities() as $quality) {
+            foreach ($quality->effects as $effect => $value) {
+                if ($effect === 'limit-' . $skill->id) {
+                    $limitModifier += $value;
+                }
+            }
+        }
+        return (int)$limitModifier;
     }
 
     /**
@@ -554,6 +669,21 @@ class Character extends \App\Models\Character
             }
         }
         return $groups;
+    }
+
+    /**
+     * Return the character's social limit.
+     * @return int
+     */
+    public function getSocialLimit(): int
+    {
+        return (int)ceil(
+            (
+                ceil($this->getEssence())
+                + $this->getModifiedAttribute('willpower')
+                + ($this->getModifiedAttribute('charisma') * 2)
+            ) / 3
+        ) + $this->getModifiedAttribute('social-limit');
     }
 
     /**
