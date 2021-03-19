@@ -116,14 +116,14 @@ final class AugmentationTest extends \Tests\TestCase
     public function getCyberwareGradesAndEssence(): array
     {
         return [
-            ['Standard', 1.0],
+            [Augmentation::GRADE_STANDARD, 1.0],
             ['Unknown', 1.0],
-            ['Used', 1.25],
-            ['Alpha', 0.8],
-            ['Beta', 0.7],
-            ['Delta', 0.5],
-            ['Gamma', 1.0], // Not supported yet
-            ['Omega', 1.0], // Not supported yet
+            [Augmentation::GRADE_USED, 1.25],
+            [Augmentation::GRADE_ALPHA, 0.8],
+            [Augmentation::GRADE_BETA, 0.7],
+            [Augmentation::GRADE_DELTA, 0.5],
+            [Augmentation::GRADE_GAMMA, 1.0], // Not supported yet
+            [Augmentation::GRADE_OMEGA, 1.0], // Not supported yet
         ];
     }
 
@@ -238,14 +238,14 @@ final class AugmentationTest extends \Tests\TestCase
     public function getCyberwareGradesAndCost(): array
     {
         return [
-            ['Standard', 4000],
+            [Augmentation::GRADE_STANDARD, 4000],
             ['Unknown', 4000],
-            ['Used', 3000],
-            ['Alpha', 4800],
-            ['Beta', 6000],
-            ['Delta', 10000],
-            ['Gamma', 4000], // Not supported yet
-            ['Omega', 4000], // Not supported yet
+            [Augmentation::GRADE_USED, 3000],
+            [Augmentation::GRADE_ALPHA, 4800],
+            [Augmentation::GRADE_BETA, 6000],
+            [Augmentation::GRADE_DELTA, 10000],
+            [Augmentation::GRADE_GAMMA, 4000], // Not supported yet
+            [Augmentation::GRADE_OMEGA, 4000], // Not supported yet
         ];
     }
 

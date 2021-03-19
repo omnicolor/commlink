@@ -303,12 +303,11 @@ final class CharacterTest extends \Tests\TestCase
      */
     public function testEssenceLossWithGrade(): void
     {
-        // TODO: Change grade to augmentation constant.
         $character = new Character();
         self::assertEquals(6, $character->getEssence());
         $character->augmentations = [[
             'id' => 'bone-lacing-aluminum',
-            'grade' => 'Alpha',
+            'grade' => Augmentation::GRADE_ALPHA,
         ]];
         self::assertEquals(5.2, $character->getEssence());
     }

@@ -10,6 +10,14 @@ namespace App\Models\Shadowrun5E;
  */
 class Augmentation
 {
+    public const GRADE_ALPHA = 'Alpha';
+    public const GRADE_BETA = 'Beta';
+    public const GRADE_DELTA = 'Delta';
+    public const GRADE_GAMMA = 'Gamma';
+    public const GRADE_OMEGA = 'Omega';
+    public const GRADE_STANDARD = 'Standard';
+    public const GRADE_USED = 'Used';
+
     /**
      * Whether the augmentation is currently active.
      * @var bool
@@ -132,16 +140,16 @@ class Augmentation
         $this->name = $augmentation['name'];
         $this->rating = $augmentation['rating'] ?? null;
         switch ($grade) {
-            case 'Alpha':
+            case self::GRADE_ALPHA:
                 $this->essence *= 0.8;
                 break;
-            case 'Beta':
+            case self::GRADE_BETA:
                 $this->essence *= 0.7;
                 break;
-            case 'Delta':
+            case self::GRADE_DELTA:
                 $this->essence *= 0.5;
                 break;
-            case 'Used':
+            case self::GRADE_USED:
                 $this->essence *= 1.25;
                 break;
         }
@@ -194,18 +202,19 @@ class Augmentation
             $cost += $mod->getCost();
         }
         switch ($this->grade) {
-            case 'Alpha':
+            case self::GRADE_ALPHA:
                 $cost = (float)$cost * 1.2;
                 break;
-            case 'Beta':
+            case self::GRADE_BETA:
                 $cost = (float)$cost * 1.5;
                 break;
-            case 'Delta':
+            case self::GRADE_DELTA:
                 $cost = (float)$cost * 2.5;
                 break;
-            case 'Used':
+            case self::GRADE_USED:
                 $cost = (float)$cost * 0.75;
                 break;
+            case self::GRADE_STANDARD:
             default:
                 $cost = (float)$cost * 1;
                 break;
