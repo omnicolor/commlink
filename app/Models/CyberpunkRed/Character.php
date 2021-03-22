@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @property int $luck
  * @property int $movement
  * @property int $reflexes
+ * @property array<int, array<string, int|string>> $roles
  * @property int $technique
  * @property int $willpower
  */
@@ -46,6 +47,7 @@ class Character extends \App\Models\Character
         'luck',
         'movement',
         'reflexes',
+        'roles',
         'technique',
         'willpower',
     ];
@@ -77,5 +79,27 @@ class Character extends \App\Models\Character
                 $builder->where('system', 'cyberpunkred');
             }
         );
+    }
+
+    /**
+     * Get the character's roles.
+     * @return RoleArray
+     */
+    public function getRoles(): RoleArray
+    {
+        $roles = new RoleArray();
+        foreach ($this->roles ?? [] as $role) {
+            try {
+                $roles[] = Role::fromArray($role);
+            } catch (\RuntimeException $ex) {
+                \Log::warning(sprintf(
+                    'Cyberpunk character "%s" (%s) has invalid role "%s"',
+                    $this->handle,
+                    $this->_id,
+                    (string)$role['role']
+                ));
+            }
+        }
+        return $roles;
     }
 }

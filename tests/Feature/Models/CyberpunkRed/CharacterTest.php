@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\CyberpunkRed;
 
 use App\Models\CyberpunkRed\Character;
+use App\Models\CyberpunkRed\Role\Fixer;
 
 /**
  * Unit tests for CyberpunkRed Characters.
  * @covers \App\Models\CyberpunkRed\Character
+ * @group cyberpunkred
+ * @group models
  */
 final class CharacterTest extends \Tests\TestCase
 {
@@ -56,5 +59,44 @@ final class CharacterTest extends \Tests\TestCase
     {
         $character = new Character(['handle' => 'Bob King']);
         self::assertSame('Bob King', (string)$character);
+    }
+
+    /**
+     * Test getting a character's roles if they have none.
+     * @test
+     */
+    public function testGetRolesNone(): void
+    {
+        $character = new Character();
+        self::assertEmpty($character->getRoles());
+    }
+
+    /**
+     * Test getting a character's roles if they only have an invalid one.
+     * @test
+     */
+    public function testGetRolesInvalid(): void
+    {
+        $character = new Character(['roles' => [['role' => 'invalid']]]);
+        self::assertEmpty($character->getRoles());
+    }
+
+    /**
+     * Test getting a character's roles.
+     * @test
+     */
+    public function testGetRoles(): void
+    {
+        $character = new Character([
+            'roles' => [
+                [
+                    'role' => 'fixer',
+                    'rank' => 4,
+                    'type' => Fixer::TYPE_BROKER_DEALS,
+                ],
+            ],
+        ]);
+        self::assertNotEmpty($character->getRoles());
+        self::assertInstanceOf(Fixer::class, $character->getRoles()[0]);
     }
 }
