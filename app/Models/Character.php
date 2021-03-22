@@ -59,6 +59,9 @@ class Character extends Model
             case 'shadowrun5e':
                 $character = new Shadowrun5E\Character($attributes);
                 break;
+            case 'cyberpunkred':
+                $character = new CyberpunkRed\Character($attributes);
+                break;
             default:
                 $character = new Character($attributes);
                 break;

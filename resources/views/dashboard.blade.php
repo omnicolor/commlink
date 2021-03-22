@@ -9,13 +9,17 @@
             <ul class="list-group">
             @forelse ($characters as $character)
                 <li class="list-group-item">
-                    @if ('shadowrun5e' === $character->system)
-                    <a href="/characters/shadowrun5e/{{ $character->id }}">
-                        {{ $character->handle }}
-                    </a> ({{ $character->type }})
-                    @else
-                    {{ $character->handle ?? $character->name }} ({{ $character->system }})
-                    @endif
+                    @switch ($character->system)
+                        @case ('shadowrun5e')
+                        @case ('cyberpunkred')
+                            <a href="/characters/{{ $character->system }}/{{ $character->id }}">
+                                {{ $character->handle }}
+                            </a> ({{ $character->type }})
+                            @break
+                        @default
+                            {{ $character->handle ?? $character->name }} ({{ $character->system }})
+                            @break
+                    @endswitch
                 </li>
             @empty
                 <li class="list-group-item">
