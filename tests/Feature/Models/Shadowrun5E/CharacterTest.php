@@ -237,6 +237,36 @@ final class CharacterTest extends \Tests\TestCase
     }
 
     /**
+     * Test getting a character's contacts if they have none.
+     * @test
+     */
+    public function testGetContactsNone(): void
+    {
+        $character = new Character([]);
+        self::assertEmpty($character->getContacts());
+    }
+
+    /**
+     * Test getting a character's contacts.
+     * @test
+     */
+    public function testGetContacts(): void
+    {
+        $character = new Character([
+            'contacts' => [
+                [
+                    'archetype' => 'Fixer',
+                    'connection' => 1,
+                    'id' => 42,
+                    'name' => 'Contact McContactFace',
+                    'loyalty' => 2,
+                ],
+            ],
+        ]);
+        self::assertNotEmpty($character->getContacts());
+    }
+
+    /**
      * Test getting a character's complex forms if they have none.
      * @test
      */

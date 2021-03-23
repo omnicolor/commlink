@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @property int $body
  * @property int $charisma
  * @property ?array<int, string> $complexForms
+ * @property ?array<int, array<string, string|int>> $contacts
  * @property ?array<int, array<string, mixed>> $gear
  * @property string $handle
  * @property string $id
@@ -57,6 +58,7 @@ class Character extends \App\Models\Character
         'campaign',
         'charisma',
         'complexForms',
+        'contacts',
         'edge',
         'edgeCurrent',
         'eyes',
@@ -226,6 +228,19 @@ class Character extends \App\Models\Character
             }
         }
         return $augmentations;
+    }
+
+    /**
+     * Return the character's contacts.
+     * @return ContactArray
+     */
+    public function getContacts(): ContactArray
+    {
+        $contacts = new ContactArray();
+        foreach ($this->contacts ?? [] as $contact) {
+            $contacts[] = new Contact($contact);
+        }
+        return $contacts;
     }
 
     /**
