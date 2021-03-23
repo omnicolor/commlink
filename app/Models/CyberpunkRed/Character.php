@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @property int $movement
  * @property int $reflexes
  * @property array<int, array<string, int|string>> $roles
+ * @property array<string, int> $skills
  * @property int $technique
  * @property int $willpower
  */
@@ -48,6 +49,7 @@ class Character extends \App\Models\Character
         'movement',
         'reflexes',
         'roles',
+        'skills',
         'technique',
         'willpower',
     ];
@@ -101,5 +103,63 @@ class Character extends \App\Models\Character
             }
         }
         return $roles;
+    }
+
+    /**
+     * Get the skills the character has ranks in.
+     * @return SkillArray
+     */
+    public function getSkills(): SkillArray
+    {
+        $skills = new SkillArray();
+        foreach ($this->skills ?? [] as $skill => $level) {
+            try {
+                $skills[] = new Skill($skill, $level);
+            } catch (\RuntimeException $ex) {
+                \Log::warning(sprintf(
+                    'Cyberpunk character "%s" (%s) has invalid skill "%s"',
+                    $this->handle,
+                    $this->_id,
+                    $skill
+                ));
+            }
+        }
+        return $skills;
+    }
+
+    /**
+     * Get all skills available, whether the character has levels or not.
+     * @return SkillArray
+     */
+    public function getAllSkills(): SkillArray
+    {
+        $filename = config('app.data_path.cyberpunkred') . 'skills.php';
+        $rawSkills = require $filename;
+        $skills = new SkillArray();
+        foreach ($rawSkills as $id => $skillInfo) {
+            if (array_key_exists($id, $this->skills ?? [])) {
+                $skills[] = new Skill($id, $this->skills[$id]);
+                continue;
+            }
+            $skills[] = new Skill($id);
+        }
+        return $skills;
+    }
+
+    /**
+     * Get skills grouped by category.
+     * @return array<string, SkillArray>
+     */
+    public function getSkillsByCategory(): array
+    {
+        $allSkills = $this->getAllSkills();
+        $skills = [];
+        foreach ($allSkills as $skill) {
+            if (!array_key_exists($skill->category, $skills)) {
+                $skills[$skill->category] = new SkillArray();
+            }
+            $skills[$skill->category][] = $skill;
+        }
+        return $skills;
     }
 }

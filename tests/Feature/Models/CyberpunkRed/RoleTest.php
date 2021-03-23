@@ -10,8 +10,8 @@ use App\Models\CyberpunkRed\Role\Fixer;
 /**
  * Tests for the Role abstract class.
  * @covers \App\Models\CyberpunkRed\Role
- * @group models
  * @group cyberpunkred
+ * @group models
  */
 final class RoleTest extends \PHPUnit\Framework\TestCase
 {

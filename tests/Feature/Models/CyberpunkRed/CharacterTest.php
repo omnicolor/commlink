@@ -99,4 +99,105 @@ final class CharacterTest extends \Tests\TestCase
         self::assertNotEmpty($character->getRoles());
         self::assertInstanceOf(Fixer::class, $character->getRoles()[0]);
     }
+
+    /**
+     * Test getting a character's skills if the have none.
+     * @test
+     */
+    public function testGetSkillsNone(): void
+    {
+        $character = new Character();
+        self::assertEmpty($character->getSkills());
+    }
+
+    /**
+     * Test getting a character's skills if they only have an invalid one.
+     * @test
+     */
+    public function testGetSkillsInvalid(): void
+    {
+        $character = new Character(['skills' => ['invalid' => 1]]);
+        self::assertEmpty($character->getSkills());
+    }
+
+    /**
+     * Test getting a character's skills if they have a valid skill.
+     * @test
+     */
+    public function testGetSkills(): void
+    {
+        $character = new Character(['skills' => ['business' => 1]]);
+        self::assertNotEmpty($character->getSkills());
+        // @phpstan-ignore-next-line
+        self::assertSame(1, $character->getSkills()[0]->level);
+    }
+
+    /**
+     * Test getting all skills if the character doesn't have any levels.
+     * @test
+     */
+    public function testGetAllSkillsNoRanks(): void
+    {
+        $character = new Character();
+        self::assertNotEmpty($character->getAllSkills());
+        foreach ($character->getAllSkills() as $skill) {
+            self::assertSame(0, $skill->level);
+        }
+    }
+
+    /**
+     * Test getting all skills if the character has levels.
+     * @test
+     */
+    public function testGetAllSkills(): void
+    {
+        $character = new Character(['skills' => ['concentration' => 2]]);
+        $skills = $character->getAllSkills();
+        $concentrationSeen = false;
+        foreach ($skills as $skill) {
+            if ($skill->id === 'concentration') {
+                self::assertSame(2, $skill->level);
+                $concentrationSeen = true;
+                continue;
+            }
+            self::assertSame(0, $skill->level);
+        }
+        self::assertTrue($concentrationSeen);
+    }
+
+    /**
+     * Test getting all skills categorized if the character doesn't have any
+     * levels.
+     * @test
+     */
+    public function testGetSkillsByCategoryNoRanks(): void
+    {
+        $character = new Character();
+        $skills = $character->getSkillsByCategory();
+        self::assertArrayHasKey('Awareness', $skills);
+        self::assertArrayHasKey('Education', $skills);
+        // @phpstan-ignore-next-line
+        self::assertSame(0, $skills['Awareness'][0]->level);
+        // @phpstan-ignore-next-line
+        self::assertSame(0, $skills['Education'][0]->level);
+    }
+
+    /**
+     * Test getting all skills categorized if the character has some levels.
+     * @test
+     */
+    public function testGetSkillsByCategory(): void
+    {
+        $character = new Character(['skills' => ['business' => 4]]);
+        $skills = $character->getSkillsByCategory();
+        self::assertArrayHasKey('Education', $skills);
+        foreach ($skills['Education'] as $skill) {
+            if ($skill->id !== 'business') {
+                continue;
+            }
+            self::assertSame(4, $skill->level);
+            return;
+        }
+        self::fail('Skill not found');
+    }
 }
