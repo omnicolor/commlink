@@ -25,9 +25,9 @@ return [
             'E' => 'Description of expert Fringer.',
             'M' => 'Description of master Fringer.',
         ],
-        'description' => 'You know how to navigate and survive on the fringes of civilization.',
+        'description' => 'Fringer description.',
         'name' => 'Fringer',
-        'page' => 0,
+        'page' => 52,
         'requirements' => [],
     ],
 ];
