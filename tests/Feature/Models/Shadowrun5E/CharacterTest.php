@@ -10,6 +10,7 @@ use App\Models\Shadowrun5E\ArmorArray;
 use App\Models\Shadowrun5E\ArmorModification;
 use App\Models\Shadowrun5E\Augmentation;
 use App\Models\Shadowrun5E\Character;
+use App\Models\Shadowrun5E\KarmaLogEntry;
 use App\Models\Shadowrun5E\KnowledgeSkill;
 use App\Models\Shadowrun5E\MentorSpirit;
 use App\Models\Shadowrun5E\Quality;
@@ -540,6 +541,81 @@ final class CharacterTest extends \Tests\TestCase
         self::assertSame('9', $character->getSkillLimit($skill));
         $skill->limit = 'unknown';
         self::assertSame('?', $character->getSkillLimit($skill));
+    }
+
+    /**
+     * Test getting the character's karma log if they're new.
+     * @test
+     */
+    public function testGetKarmaLogNewCharacter(): void
+    {
+        $character = new Character([
+            'priorities' => [
+                'a' => 'attributes',
+                'b' => 'skills',
+                'c' => 'resources',
+                'd' => 'metatype',
+                'e' => 'magic',
+                'magic' => null,
+                'metatype' => 'human',
+                'gameplay' => 'established',
+            ],
+            'qualities' => [
+                ['id' => 'lucky'],
+            ],
+        ]);
+        $log = $character->getKarmaLog();
+        self::assertCount(2, $log);
+
+        /** @var KarmaLogEntry */
+        $entry = $log[1];
+        self::assertSame('Add quality Lucky', $entry->description);
+        self::assertSame(-12, $entry->karma);
+        self::assertNull($entry->realDate);
+        self::assertNull($entry->gameDate);
+    }
+
+    /**
+     * Test getting the character's karma log if they've got a log in Mongo.
+     * @test
+     */
+    public function testGetKarmaLogOldCharacter(): void
+    {
+        $character = new Character([
+            'priorities' => [
+                'a' => 'attributes',
+                'b' => 'skills',
+                'c' => 'resources',
+                'd' => 'metatype',
+                'e' => 'magic',
+                'magic' => null,
+                'metatype' => 'human',
+                'gameplay' => 'established',
+            ],
+            'karmaLog' => [
+                [
+                    'description' => 'Test entry',
+                    'karma' => 42,
+                    'realDate' => '2020-03-24',
+                    'gameDate' => '2080-04-01',
+                ],
+            ],
+            // Red herring to make sure this isn't getting put into the log.
+            'qualities' => [
+                ['id' => 'lucky'],
+            ],
+        ]);
+        $log = $character->getKarmaLog();
+        self::assertCount(1, $log);
+
+        /** @var KarmaLogEntry */
+        $log = $log[0];
+        self::assertSame('Test entry', $log->description);
+        self::assertSame(42, $log->karma);
+        // @phpstan-ignore-next-line
+        self::assertSame('2020-03-24', $log->realDate->format('Y-m-d'));
+        // @phpstan-ignore-next-line
+        self::assertSame('2080-04-01', $log->gameDate->format('Y-m-d'));
     }
 
     /**

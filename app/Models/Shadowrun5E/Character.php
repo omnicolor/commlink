@@ -18,12 +18,13 @@ use Illuminate\Database\Eloquent\Builder;
  * @property ?array<int, array<string, mixed>> $gear
  * @property string $handle
  * @property string $id
- * @property ?array<int, array<string, midxed>> $identities
+ * @property ?array<int, array<string, mixed>> $identities
  * @property int $intuition
+ * @property ?array<int, array<string, string|int>> $karmaLog
  * @property ?array<int, array<string, null|string|int>> $knowledgeSkills
  * @property int $logic
- * @property ?array<int, string> $martialArts
- * @property ?array<string, string> $priorities
+ * @property ?array<string, array<int, string>> $martialArts
+ * @property ?array<string, ?string> $priorities
  * @property int $magic
  * @property ?array<string, mixed> $magics
  * @property ?array<int, array<string, mixed>> $qualities
@@ -70,6 +71,7 @@ class Character extends \App\Models\Character
         'intuition',
         'karma',
         'karmaCurrent',
+        'karmaLog',
         'knowledgeSkills',
         'logic',
         'magic',
@@ -331,6 +333,20 @@ class Character extends \App\Models\Character
     {
         return $this->getModifiedAttribute('intuition') +
             $this->getModifiedAttribute('charisma');
+    }
+
+    /**
+     * Return the character's karma log.
+     * @return KarmaLog
+     */
+    public function getKarmaLog(): KarmaLog
+    {
+        $log = new KarmaLog();
+        // New characters haven't saved a karma log to the data store.
+        if (null === $this->karmaLog) {
+            return $log->initialize($this);
+        }
+        return $log->fromArray($this->karmaLog);
     }
 
     /**
