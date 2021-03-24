@@ -198,9 +198,6 @@ class Augmentation
     public function getCost(): int
     {
         $cost = $this->cost;
-        foreach ($this->modifications as $mod) {
-            $cost += $mod->getCost();
-        }
         switch ($this->grade) {
             case self::GRADE_ALPHA:
                 $cost = (float)$cost * 1.2;
@@ -218,6 +215,9 @@ class Augmentation
             default:
                 $cost = (float)$cost * 1;
                 break;
+        }
+        foreach ($this->modifications as $mod) {
+            $cost += $mod->getCost();
         }
         return (int)$cost;
     }

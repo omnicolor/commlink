@@ -227,7 +227,7 @@ final class AugmentationTest extends \Tests\TestCase
     public function testGetCostWithModificationsAndGrade(): void
     {
         $aug = new Augmentation('cyberears-1', 'Beta');
-        $aug->modifications[] = new Augmentation('damper');
+        $aug->modifications[] = new Augmentation('damper', 'Beta');
         self::assertSame(7875, $aug->getCost());
     }
 
