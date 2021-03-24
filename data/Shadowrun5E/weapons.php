@@ -58,7 +58,7 @@ return [
         'damage' => '10P',
         'description' => 'AK-98 description.',
         'modes' => ['SA', 'BF', 'FA'],
-        // TODO(omni): Add grenade launcher when supported
+        // TODO Add grenade launcher when supported
         //'modifications' => ['grenade-launcher'],
         'mounts' => ['top', 'barrel', 'stock'],
         'name' => 'AK-98',
