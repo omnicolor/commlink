@@ -8,12 +8,12 @@ use App\Models\User;
 use Illuminate\Http\Response;
 
 /**
- * Tests for the social classes controller.
- * @covers \App\Http\Controllers\Expanse\SocialClassesController
+ * Tests for the focuses controller.
+ * @covers \App\Http\Controllers\Expanse\FocusesController
  * @group controllers
  * @group expanse
  */
-final class SocialClassesControllerTest extends \Tests\TestCase
+final class FocusesControllerTest extends \Tests\TestCase
 {
     /**
      * Test loading the collection if the config is broken.
@@ -24,7 +24,7 @@ final class SocialClassesControllerTest extends \Tests\TestCase
         \Config::set('app.data_path.expanse', '/tmp/unused/');
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route('expanse.social-classes.index'))
+            ->getJson(route('expanse.focuses.index'))
             ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
@@ -34,7 +34,7 @@ final class SocialClassesControllerTest extends \Tests\TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $this->getJson(route('expanse.social-classes.index'))
+        $this->getJson(route('expanse.focuses.index'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -46,11 +46,11 @@ final class SocialClassesControllerTest extends \Tests\TestCase
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)
-            ->getJson(route('expanse.social-classes.index'))
+            ->getJson(route('expanse.focuses.index'))
             ->assertOk()
             ->assertJsonFragment([
                 'links' => [
-                    'self' => '/api/expanse/social-classes/middle',
+                    'self' => '/api/expanse/focuses/crafting',
                 ],
             ]);
         self::assertGreaterThanOrEqual(1, count($response['data']));
@@ -62,7 +62,7 @@ final class SocialClassesControllerTest extends \Tests\TestCase
      */
     public function testNoAuthShow(): void
     {
-        $this->getJson(route('expanse.social-classes.show', 'middle'))
+        $this->getJson(route('expanse.focuses.show', 'crafting'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -72,7 +72,7 @@ final class SocialClassesControllerTest extends \Tests\TestCase
      */
     public function testNoAuthShowNotFound(): void
     {
-        $this->getJson(route('expanse.social-classes.show', 'not-found'))
+        $this->getJson(route('expanse.focuses.show', 'not-found'))
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
@@ -84,12 +84,13 @@ final class SocialClassesControllerTest extends \Tests\TestCase
     {
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route('expanse.social-classes.show', 'middle'))
+            ->getJson(route('expanse.focuses.show', 'crafting'))
             ->assertOk()
             ->assertJson([
                 'data' => [
-                    'id' => 'middle',
-                    'name' => 'Middle Class',
+                    'attribute' => 'dexterity',
+                    'name' => 'Crafting',
+                    'page' => 47,
                 ],
             ]);
     }
@@ -102,7 +103,7 @@ final class SocialClassesControllerTest extends \Tests\TestCase
     {
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->getJson(route('expanse.social-classes.show', 'not-found'))
+            ->getJson(route('expanse.focuses.show', 'not-found'))
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
 }
