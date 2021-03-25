@@ -9,9 +9,9 @@ return [
     /*
     '' => [
         'benefits' => [
-            'N' => '',
-            'E' => '',
-            'M' => '',
+            'novice' => '',
+            'expert' => '',
+            'master' => '',
         ],
         'description' => '',
         'name' => '',
@@ -21,9 +21,9 @@ return [
      */
     'fringer' => [
         'benefits' => [
-            'N' => 'Description of novice Fringer.',
-            'E' => 'Description of expert Fringer.',
-            'M' => 'Description of master Fringer.',
+            'novice' => 'Description of novice Fringer.',
+            'expert' => 'Description of expert Fringer.',
+            'master' => 'Description of master Fringer.',
         ],
         'description' => 'Fringer description.',
         'name' => 'Fringer',
