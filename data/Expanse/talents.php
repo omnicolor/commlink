@@ -30,4 +30,20 @@ return [
         'page' => 52,
         'requirements' => [],
     ],
+    'maker' => [
+        'benefits' => [
+            'novice' => 'Description of novice Maker.',
+            'expert' => 'Description of expert Maker.',
+            'master' => 'Description of master Maker.',
+        ],
+        'description' => 'Description of a Maker.',
+        'name' => 'Maker',
+        'page' => 55,
+        'requirements' => [
+            'focus' => [
+                'crafting',
+                'engineering',
+            ],
+        ],
+    ],
 ];
