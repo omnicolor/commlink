@@ -70,7 +70,7 @@ final class CharacterControllerTest extends \Tests\TestCase
     public function testAuthenticatedNoCharactersFromSystem(): void
     {
         $user = User::factory()->create();
-        $character = $this->characters[] = Character::factory()->create([
+        $this->characters[] = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'cyberpunkred',
         ]);
@@ -78,7 +78,6 @@ final class CharacterControllerTest extends \Tests\TestCase
             ->getJson(route('shadowrun5e.characters.index'))
             ->assertOk()
             ->assertJson(['data' => []]);
-        $character->delete();
     }
 
     /**
@@ -138,7 +137,7 @@ final class CharacterControllerTest extends \Tests\TestCase
     }
 
     /**
-     * Test loading an individual character.
+     * Test loading an individual character from a different system.
      * @test
      */
     public function testShowCharacterOtherSystem(): void
