@@ -124,6 +124,46 @@ final class NumberResponseTest extends \Tests\TestCase
     }
 
     /**
+     * Test getting a critical success roll.
+     * @test
+     */
+    public function testCritSuccess(): void
+    {
+        $this->channel = Channel::factory()->create();
+        $this->randomInt->expects(self::exactly(2))->willReturn(10);
+        $response = new NumberResponse(
+            '3',
+            NumberResponse::HTTP_OK,
+            [],
+            $this->channel
+        );
+        self::assertStringContainsString(
+            '1d10 + 3 = 10 + 10 + 3 = 23',
+            (string)$response
+        );
+    }
+
+    /**
+     * Test getting a critical failure.
+     * @test
+     */
+    public function testCritFailure(): void
+    {
+        $this->channel = Channel::factory()->create();
+        $this->randomInt->expects(self::exactly(2))->willReturn(1);
+        $response = new NumberResponse(
+            '3',
+            NumberResponse::HTTP_OK,
+            [],
+            $this->channel
+        );
+        self::assertStringContainsString(
+            '1d10 + 3 = 1 - 1 + 3 = 3',
+            (string)$response
+        );
+    }
+
+    /**
      * Test the footer formatting.
      * @test
      */

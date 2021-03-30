@@ -173,7 +173,7 @@ final class SettingsControllerTest extends \Tests\TestCase
      * is.
      * @test
      */
-    public function testCreateSlackLinkNoTeam(): void
+    public function testCreateSlackLinkNoTeams(): void
     {
         $user = User::factory()->create();
         $teamId = Str::random(10);
@@ -183,6 +183,54 @@ final class SettingsControllerTest extends \Tests\TestCase
             'slack.com/api/auth.teams.list' => Http::response([
                 'ok' => false,
                 'error' => 'not_authed',
+            ]),
+            sprintf('slack.com/api/users.info?user=%s', $userId) => Http::response([
+                'ok' => true,
+                'user' => [
+                    'name' => $userName,
+                ],
+            ]),
+        ]);
+        $this->actingAs($user)
+            ->post(
+                '/settings/link-slack',
+                ['slack-team' => $teamId, 'slack-user' => $userId]
+            )
+            ->assertStatus(302)
+            ->assertSessionHasNoErrors();
+        $this->assertDatabaseHas(
+            'slack_links',
+            [
+                'character_id' => null,
+                'slack_team' => $teamId,
+                'team_name' => null,
+                'slack_user' => $userId,
+                'user_name' => $userName,
+                'user_id' => $user->id,
+            ]
+        );
+    }
+
+    /**
+     * Test creating a Slack link if the Slack team isn't found among the
+     * returned teams, but the user is found.
+     * @test
+     */
+    public function testCreateSlackLinkNoTeamMatch(): void
+    {
+        $user = User::factory()->create();
+        $teamId = Str::random(10);
+        $userId = Str::random(10);
+        $userName = Str::random(12);
+        Http::fake([
+            'slack.com/api/auth.teams.list' => Http::response([
+                'ok' => true,
+                'teams' => [
+                    [
+                        'id' => Str::random(9),
+                        'name' => Str::random(20),
+                    ],
+                ],
             ]),
             sprintf('slack.com/api/users.info?user=%s', $userId) => Http::response([
                 'ok' => true,
