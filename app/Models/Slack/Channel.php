@@ -36,8 +36,10 @@ class Channel extends Model
      */
     protected $fillable = [
         'channel',
+        'channel_name',
         'system',
         'team',
+        'team_name',
     ];
 
     /**

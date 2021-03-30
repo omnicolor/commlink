@@ -22,7 +22,9 @@ class SlackLink extends Model
     protected $fillable = [
         'character_id',
         'slack_team',
+        'team_name',
         'slack_user',
+        'user_name',
         'user_id',
     ];
 

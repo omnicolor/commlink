@@ -236,4 +236,9 @@ return [
      * Bot token for logging in to Discord.
      */
     'discord_token' => env('DISCORD_TOKEN'),
+
+    /*
+     * Oauth token for Slack interaction.
+     */
+    'slack_token' => env('SLACK_TOKEN'),
 ];

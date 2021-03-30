@@ -23,7 +23,8 @@
                     <ul class="list-group">
                         @forelse ($user->slackLinks as $link)
                         <li class="list-group-item">
-                            {{ $link->slack_team }} — {{ $link->slack_user }}
+                            {{ $link->team_name }} ({{ $link->slack_team }}) —
+                            {{ $link->user_name }} ({{ $link->slack_user }})
                         </li>
                         @empty
                         <li class="list-group-item">

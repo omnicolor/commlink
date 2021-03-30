@@ -24,7 +24,9 @@ class SlackLinkFactory extends Factory
     {
         return [
             'slack_team' => Str::random(10),
+            'team_name' => 'Slack Servername',
             'slack_user' => Str::random(10),
+            'user_name' => 'Slack User',
             'character_id' => Str::random(24),
             'user_id' => $this->faker->randomNumber(),
         ];
