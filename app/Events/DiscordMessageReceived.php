@@ -60,11 +60,7 @@ class DiscordMessageReceived
         $this->message = $message;
         $this->user = $message->author;
 
-        /**
-         * Work around the weird, incomplete Interface.
-         * @var TextChannel $channel
-         * */
-        $channel = $message->channel;
-        $this->server = $channel->guild;
+        // @phpstan-ignore-next-line
+        $this->server = $message->channel->guild;
     }
 }
