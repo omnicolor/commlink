@@ -15,9 +15,11 @@ class HandleDiscordListener
     public function handle($event): void
     {
         \Log::info(sprintf(
-            'Listener: Received Discord command from %s (%s): %s',
+            'Listener: Received Discord command from %s (%s.%s): %s',
             $event->user->tag,
-            $event->server->id,
+            $event->server->name,
+            // @phpstan-ignore-next-line
+            $event->channel->name,
             $event->content
         ));
         $event->channel->send('Hello there!');
