@@ -11,8 +11,9 @@ class HandleDiscordListener
     /**
      * Handle the event.
      * @param DiscordMessageReceived $event
+     * @return bool
      */
-    public function handle($event): void
+    public function handle(DiscordMessageReceived $event): bool
     {
         \Log::info(sprintf(
             'Listener: Received Discord command from %s (%s.%s): %s',
@@ -23,5 +24,6 @@ class HandleDiscordListener
             $event->content
         ));
         $event->channel->send('Hello there!');
+        return true;
     }
 }
