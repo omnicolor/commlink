@@ -6,7 +6,7 @@ namespace App\Listeners;
 
 use App\Events\DiscordMessageReceived;
 
-class HandleDiscordListener
+class HandleDiscordMessage
 {
     /**
      * Handle the event.

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Listeners;
 
 use App\Events\DiscordMessageReceived;
-use App\Listeners\HandleDiscordListener;
+use App\Listeners\HandleDiscordMessage;
 use CharlotteDunois\Yasmin\Models\Guild;
 use CharlotteDunois\Yasmin\Models\Message;
 use CharlotteDunois\Yasmin\Models\TextChannel;
@@ -17,7 +17,7 @@ use CharlotteDunois\Yasmin\Models\User;
  * @group discord
  * @group events
  */
-final class HandleDiscordListenerTest extends \Tests\TestCase
+final class HandleDiscordMessageTest extends \Tests\TestCase
 {
     /**
      * Test handling a Discord event.
@@ -47,6 +47,6 @@ final class HandleDiscordListenerTest extends \Tests\TestCase
         $messageStub->method('__get')->will(self::returnValueMap($messageMap));
 
         $event = new DiscordMessageReceived($messageStub);
-        self::assertTrue((new HandleDiscordListener())->handle($event));
+        self::assertTrue((new HandleDiscordMessage())->handle($event));
     }
 }
