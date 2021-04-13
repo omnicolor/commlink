@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Responses;
 
-use App\Models\Slack\Channel;
+use App\Models\Channel;
 use App\Models\Slack\Field;
 use App\Models\Slack\FieldsAttachment;
 
@@ -27,13 +27,22 @@ class InfoResponse extends SlackResponse
         ?Channel $channel = null
     ) {
         parent::__construct($content, $status, $headers, $channel);
+        $chatUser = $this->channel->getChatUser();
+        $commlinkUser = 'Not linked';
+        if (!is_null($chatUser) && !is_null($chatUser->user)) {
+            $commlinkUser = $chatUser->user->email;
+        }
         $attachment = (new FieldsAttachment('Debugging Info'))
-            ->addField(new Field('Team ID', $this->channel->team))
-            ->addField(new Field('Channel ID', $this->channel->channel))
-            ->addField(new Field('User ID', $this->channel->user))
+            ->addField(new Field('Team ID', $this->channel->server_id))
+            ->addField(new Field('Channel ID', $this->channel->channel_id))
+            ->addField(new Field('User ID', $this->channel->user ?? ''))
+            ->addField(new Field(
+                'Commlink User',
+                $commlinkUser ?? 'Not linked'
+            ))
             ->addField(new Field(
                 'System',
-                config('app.systems')[$this->channel->system] ?? $this->channel->system
+                config('app.systems')[$this->channel->system] ?? $this->channel->system ?? 'unregistered'
             ));
         $this->addAttachment($attachment);
     }

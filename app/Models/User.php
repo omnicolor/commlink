@@ -59,11 +59,11 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the user's Slack Links.
+     * Get the user's chat server links.
      * @return HasMany
      */
-    public function slackLinks(): HasMany
+    public function chatUsers(): HasMany
     {
-        return $this->hasMany(SlackLink::class);
+        return $this->hasMany(ChatUser::class);
     }
 }

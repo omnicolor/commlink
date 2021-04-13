@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Controllers;
 
 use App\Http\Responses\SlackResponse;
-use App\Models\Slack\Channel;
+use App\Models\Channel;
 use Str;
 
 /**
@@ -118,7 +118,7 @@ final class SlackControllerTest extends \Tests\TestCase
             ->assertJsonFragment([
                 'color' => SlackResponse::COLOR_INFO,
                 'response_type' => 'ephemeral',
-                'title' => 'Commands For Unregistered Channels',
+                'title' => 'Commands for unregistered channels:',
             ]);
     }
 
@@ -134,8 +134,8 @@ final class SlackControllerTest extends \Tests\TestCase
         $this->post(
             route('roll'),
             [
-                'channel_id' => $this->channel->channel,
-                'team_id' => $this->channel->team,
+                'channel_id' => $this->channel->channel_id,
+                'team_id' => $this->channel->server_id,
                 'text' => 'help',
                 'user_id' => 'E567',
             ]
@@ -165,8 +165,8 @@ final class SlackControllerTest extends \Tests\TestCase
         $this->post(
             route('roll'),
             [
-                'channel_id' => $this->channel->channel,
-                'team_id' => $this->channel->team,
+                'channel_id' => $this->channel->channel_id,
+                'team_id' => $this->channel->server_id,
                 'text' => '5',
                 'user_id' => 'E567',
             ]
@@ -184,14 +184,13 @@ final class SlackControllerTest extends \Tests\TestCase
      */
     public function testRollDiceUnregistered(): void
     {
-        $this->channel = Channel::factory()->create(['system' => '']);
         $this->post(
             route('roll'),
             [
-                'channel_id' => $this->channel->channel,
-                'team_id' => $this->channel->team,
+                'channel_id' => \Str::random(11),
+                'team_id' => \Str::random(12),
                 'text' => '5',
-                'user_id' => 'E567',
+                'user_id' => \Str::random(9),
             ]
         )
             ->assertOk()

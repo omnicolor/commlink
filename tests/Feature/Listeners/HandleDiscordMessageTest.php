@@ -13,7 +13,6 @@ use CharlotteDunois\Yasmin\Models\User;
 
 /**
  * Tests for Discord message event listener.
- * @group current
  * @group discord
  * @group events
  */

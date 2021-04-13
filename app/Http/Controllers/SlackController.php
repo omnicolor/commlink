@@ -7,7 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SlackRequest;
 use App\Http\Responses\GenericRollResponse;
 use App\Http\Responses\SlackResponse;
-use App\Models\Slack\Channel;
+use App\Models\Channel;
 use Illuminate\Http\Response;
 
 /**
@@ -45,6 +45,7 @@ class SlackController extends Controller
     {
         $this->args = explode(' ', $request->text);
         $this->text = $request->text;
+        \Log::info($this->text);
 
         $channel = $this->getChannel($request->team_id, $request->channel_id);
         $channel->user = $request->user_id;
@@ -55,10 +56,11 @@ class SlackController extends Controller
             try {
                 $class = sprintf(
                     '\\App\Http\\Responses\\%s\\NumberResponse',
-                    ucfirst($channel->system)
+                    ucfirst($channel->system ?? 'Unknown')
                 );
                 return new $class($this->text, 200, [], $channel);
             } catch (\Error $ex) {
+                \Log::debug($ex->getMessage());
                 // Ignore errors here, they might want a generic command.
             }
         }
@@ -67,12 +69,13 @@ class SlackController extends Controller
         try {
             $class = sprintf(
                 '\\App\Http\\Responses\\%s\\%sResponse',
-                ucfirst($channel->system),
+                ucfirst($channel->system ?? 'Unknown'),
                 ucfirst($this->args[0])
             );
             return new $class($this->text, 200, [], $channel);
         } catch (\Error $ex) {
             // Again, ignore errors, they might want a generic command.
+            \Log::debug($ex->getMessage());
         }
 
         // No system-specific response found, try generic ones.
@@ -96,6 +99,7 @@ class SlackController extends Controller
                 $channel
             );
         } catch (\Error $ex) {
+            \Log::debug('Final: ' . $ex->getMessage());
             throw new \App\Exceptions\SlackException(
                 'That doesn\'t appear to be a valid Commlink command.' . PHP_EOL
                 . PHP_EOL . 'Type `/roll help` for more help.'
@@ -112,11 +116,16 @@ class SlackController extends Controller
     protected function getChannel(string $team, string $channel): Channel
     {
         try {
-            return Channel::where('channel', $channel)
-                ->where('team', $team)
+            return Channel::slack()
+                ->where('channel_id', $channel)
+                ->where('server_id', $team)
                 ->firstOrFail();
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $ex) {
-            return new Channel(['channel' => $channel, 'team' => $team]);
+            return new Channel([
+                'channel_id' => $channel,
+                'server_id' => $team,
+                'type' => Channel::TYPE_SLACK,
+            ]);
         }
     }
 }

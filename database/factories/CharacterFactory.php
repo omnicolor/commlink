@@ -16,30 +16,15 @@ class CharacterFactory extends Factory
     protected $model = Character::class;
 
     /**
-     * Types of characters that Commlink supports.
-     * @var string[]
-     */
-    protected array $types = [
-        'cyberpunkred',
-        'expanse',
-        'paranoia',
-        'shadowruna',
-        'shadowrun5e',
-        'shadowrun6e',
-        'startrekadventures',
-    ];
-
-    /**
      * Define the model's default state.
-     *
      * @return array
      */
     public function definition()
     {
         return [
             'handle' => $this->faker->name,
-            'owner' => $this->faker->email,
-            'type' => $this->faker->randomElement($this->types),
+            'owner' => $this->faker->safeEmail,
+            'type' => $this->faker->randomElement(array_keys(config('app.systems'))),
         ];
     }
 }

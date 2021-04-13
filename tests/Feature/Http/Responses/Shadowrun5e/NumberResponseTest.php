@@ -6,7 +6,7 @@ namespace Tests\Feature\Http\Responses\Shadowrun5e;
 
 use App\Exceptions\SlackException;
 use App\Http\Responses\Shadowrun5e\NumberResponse;
-use App\Models\Slack\Channel;
+use App\Models\Channel;
 
 /**
  * Tests for rolling dice in Shadowrun 5E.

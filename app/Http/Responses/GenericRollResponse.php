@@ -6,8 +6,8 @@ namespace App\Http\Responses;
 
 use App\Events\RollEvent;
 use App\Exceptions\SlackException;
+use App\Models\Channel;
 use App\Models\Shadowrun5E\ForceTrait;
-use App\Models\Slack\Channel;
 use App\Models\Slack\TextAttachment;
 
 class GenericRollResponse extends SlackResponse
@@ -36,7 +36,7 @@ class GenericRollResponse extends SlackResponse
     ) {
         parent::__construct('', $status, $headers);
         if (is_null($channel)) {
-            throw new SlackException(('Channel is required'));
+            throw new SlackException('Channel is required');
         }
 
         // First, pull the description part out, if it exists.

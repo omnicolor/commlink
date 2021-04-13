@@ -18,8 +18,8 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/settings', [SettingsController::class, 'show'])
         ->name('settings')->middleware('web');
     Route::post(
-        '/settings/link-slack',
-        [SettingsController::class, 'linkSlack']
+        '/settings/link-user',
+        [SettingsController::class, 'linkUser']
     );
 });
 

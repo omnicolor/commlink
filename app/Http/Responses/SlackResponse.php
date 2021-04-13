@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Responses;
 
+use App\Models\Channel;
 use App\Models\Slack\Attachment;
-use App\Models\Slack\Channel;
 use Illuminate\Http\JsonResponse;
 
 /**

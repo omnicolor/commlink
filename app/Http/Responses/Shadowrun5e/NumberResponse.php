@@ -7,7 +7,7 @@ namespace App\Http\Responses\Shadowrun5e;
 use App\Events\RollEvent;
 use App\Exceptions\SlackException;
 use App\Http\Responses\SlackResponse;
-use App\Models\Slack\Channel;
+use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 
 /**

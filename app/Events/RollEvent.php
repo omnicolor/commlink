@@ -25,7 +25,7 @@ class RollEvent
 
     /**
      * Where the event was generated.
-     * @var \App\Models\Slack\Channel
+     * @var \App\Models\Channel
      */
     public $source;
 

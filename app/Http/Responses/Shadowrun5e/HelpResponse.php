@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Responses\Shadowrun5e;
 
 use App\Http\Responses\SlackResponse;
-use App\Models\Slack\Channel;
+use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 
 /**

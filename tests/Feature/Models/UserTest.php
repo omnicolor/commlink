@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Models;
 
 use App\Models\Character;
-use App\Models\SlackLink;
+use App\Models\ChatUser;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
@@ -24,7 +24,8 @@ final class UserTest extends \Tests\TestCase
      */
     protected Collection $characters;
 
-    /** * Set up a clean test environment.
+    /**
+     * Set up a clean test environment.
      */
     public function setUp(): void
     {
@@ -46,6 +47,7 @@ final class UserTest extends \Tests\TestCase
 
     /**
      * Test getting a user's characters if they have none.
+     * @small
      * @test
      */
     public function testGetCharactersNone(): void
@@ -56,6 +58,7 @@ final class UserTest extends \Tests\TestCase
 
     /**
      * Test getting a user's characters if they have some.
+     * @small
      * @test
      */
     public function testGetCharacters(): void
@@ -70,6 +73,7 @@ final class UserTest extends \Tests\TestCase
 
     /**
      * Test getting a user's characters from a particular system.
+     * @small
      * @test
      */
     public function testGetSystemCharacters(): void
@@ -87,23 +91,25 @@ final class UserTest extends \Tests\TestCase
     }
 
     /**
-     * Test getting the SlackLinks for a user if they have none.
+     * Test getting a character's ChatUsers if they have none.
+     * @small
      * @test
      */
-    public function testGetSlackLinksNone(): void
+    public function testGetChatUsersNone(): void
     {
         $user = User::factory()->create();
-        self::assertEmpty($user->slackLinks);
+        self::assertEmpty($user->chatUsers);
     }
 
     /**
-     * Test getting SlackLinks for a user that has registered a channel.
+     * Test getting a character's ChatUsers.
+     * @small
      * @test
      */
-    public function testGetSlackLinks(): void
+    public function testGetChatUsers(): void
     {
         $user = User::factory()->create();
-        SlackLink::factory()->create(['user_id' => $user->id]);
-        self::assertNotEmpty($user->slackLinks);
+        $chatUser = ChatUser::factory()->create(['user_id' => $user->id]);
+        self::assertNotEmpty($user->chatUsers);
     }
 }

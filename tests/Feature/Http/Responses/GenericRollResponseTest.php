@@ -6,7 +6,7 @@ namespace Tests\Feature\Http\Responses;
 
 use App\Exceptions\SlackException;
 use App\Http\Responses\GenericRollResponse;
-use App\Models\Slack\Channel;
+use App\Models\Channel;
 
 /**
  * Tests for rolling generic dice.

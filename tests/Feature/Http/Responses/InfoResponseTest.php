@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Responses;
 
 use App\Http\Responses\InfoResponse;
-use App\Models\Slack\Channel;
+use App\Models\Channel;
+use App\Models\ChatUser;
+use App\Models\User;
 
 /**
  * Tests for getting info about the channel.
@@ -18,11 +20,11 @@ final class InfoResponseTest extends \Tests\TestCase
      * Test getting info for an unregistered channel.
      * @test
      */
-    public function testToArrayUnregistered(): void
+    public function testUnregistered(): void
     {
         $channel = new Channel([
-            'channel' => 'channel id',
-            'team' => 'server id',
+            'channel_id' => 'channel id',
+            'server_id' => 'server id',
         ]);
         $channel->user = 'user id';
         $response = new InfoResponse('', InfoResponse::HTTP_OK, [], $channel);
@@ -46,6 +48,11 @@ final class InfoResponseTest extends \Tests\TestCase
                         (object)[
                             'title' => 'User ID',
                             'value' => 'user id',
+                            'short' => true,
+                        ],
+                        (object)[
+                            'title' => 'Commlink User',
+                            'value' => 'Not linked',
                             'short' => true,
                         ],
                         (object)[
@@ -64,14 +71,23 @@ final class InfoResponseTest extends \Tests\TestCase
      * Test getting info for a registered channel.
      * @test
      */
-    public function testToArrayRegistered(): void
+    public function testRegisteredWithUser(): void
     {
-        $channel = new Channel([
-            'channel' => 'channel id',
-            'team' => 'server id',
+        $user = User::factory()->create();
+        $channel = Channel::factory()->make([
+            'channel_id' => 'channel id',
+            'server_id' => 'server id',
             'system' => 'shadowrun5e',
         ]);
         $channel->user = 'user id';
+        ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => $channel->type,
+            'user_id' => $user->id,
+            'verified' => true,
+        ]);
+
         $response = new InfoResponse('', InfoResponse::HTTP_OK, [], $channel);
         $response = json_decode((string)$response);
         self::assertSame('ephemeral', $response->response_type);
@@ -93,6 +109,11 @@ final class InfoResponseTest extends \Tests\TestCase
                         (object)[
                             'title' => 'User ID',
                             'value' => 'user id',
+                            'short' => true,
+                        ],
+                        (object)[
+                            'title' => 'Commlink User',
+                            'value' => $user->email,
                             'short' => true,
                         ],
                         (object)[

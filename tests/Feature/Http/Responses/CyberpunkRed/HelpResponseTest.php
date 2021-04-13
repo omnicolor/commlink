@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Responses\CyberpunkRed;
 
 use App\Http\Responses\Cyberpunkred\HelpResponse;
-use App\Models\Slack\Channel;
+use App\Models\Channel;
 
 /**
  * Tests for getting help in an Cyberpunk Red channel.

@@ -7,7 +7,7 @@ namespace App\Http\Responses\Cyberpunkred;
 use App\Events\RollEvent;
 use App\Exceptions\SlackException;
 use App\Http\Responses\SlackResponse;
-use App\Models\Slack\Channel;
+use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 
 /**
@@ -79,7 +79,7 @@ class NumberResponse extends SlackResponse
         $args = explode(' ', $content);
         $this->addition = (int)array_shift($args);
         $this->description = implode(' ', $args);
-        $this->name = $channel->username;
+        $this->name = $channel->username ?? $channel->user ?? '';
 
         $this->roll();
         RollEvent::dispatch(
@@ -110,7 +110,7 @@ class NumberResponse extends SlackResponse
             $this->dice[] = random_int(1, 10);
         }
 
-        $this->result = (int)array_sum($this->dice) + $this->addition;
+        $this->result = array_sum($this->dice) + $this->addition;
     }
 
     /**

@@ -15,83 +15,169 @@
     </div>
     @endif
 
+    @if(session('error'))
+    <div class="alert alert-danger mt-4">
+        {{ session('error') }}
+    </div>
+    @endif
+
     <div class="row mt-4">
         <div class="col">
             <div class="row">
                 <div class="col">
-                    <h1>Linked Slack Teams</h1>
-                    <ul class="list-group">
-                        @forelse ($user->slackLinks as $link)
-                        <li class="list-group-item">
-                            {{ $link->team_name }} ({{ $link->slack_team }}) —
-                            {{ $link->user_name }} ({{ $link->slack_user }})
-                        </li>
+                    <h1>Linked chat users</h1>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Type</th>
+                                <th scope="col">Server ID</th>
+                                <th scope="col">Server name</th>
+                                <th scope="col">User ID</th>
+                                <th scope="col">User name</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @forelse ($user->chatUsers->sortByDesc('verified') as $chatUser)
+                            <tr>
+                                <td>{{ ucfirst($chatUser->server_type) }}</td>
+                                <td>{{ $chatUser->server_id }}</td>
+                                <td>
+                                    @if ($chatUser->server_name)
+                                        {{ $chatUser->server_name }}
+                                    @else
+                                        <small class="text-muted">
+                                            Unable to load name
+                                        </small>
+                                    @endif
+                                </td>
+                                <td>{{ $chatUser->remote_user_id }}</td>
+                                <td>
+                                    @if ($chatUser->remote_user_name)
+                                        {{ $chatUser->remote_user_name }}
+                                    @else
+                                        <small class="text-muted">
+                                            Unable to load name
+                                        </small>
+                                    @endif
+                                </td>
+                                @if ($chatUser->verified)
+                                <td title="User link is verified">
+                                    <i class="bi bi-check-square-fill text-success"></i>
+                                </td>
+                                @else
+                                <td title="User link is not verified">
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="bi bi-question-square-fill text-danger"></i>
+                                        </span>
+                                        <span class="input-group-text user-select-all">
+                                            /roll validateUser {{ $chatUser->verification }}
+                                        </span>
+                                        <button class="btn btn-outline-secondary copy-btn" type="button">
+                                            <i class="bi bi-clipboard"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                                @endif
+                            </tr>
                         @empty
-                        <li class="list-group-item">
-                            You don't have any linked Slack teams!
-                        </li>
+                            <tr>
+                                <td colspan="6">
+                                    You don't have any linked chat users!
+                                </td>
+                            </tr>
                         @endforelse
-                    </ul>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            <form action="/settings/link-slack" method="POST">
+            <form action="/settings/link-user" method="POST">
                 @csrf
                 <div class="row mt-4">
                     <div class="col">
-                        <h2>Link New Team</h2>
+                        <h2>Link your chat user</h2>
                         <p>
-                            Linking a Slack Team will allow you to use Commlink
-                            resources (like your characters) in Slack channels.
-                            In addition, you'll be able to interact with your
-                            character sheets in Commlink and have results show
-                            up in your Slack channels.
+                            Linking your user will allow you to interact with
+                            Commlink resources from your chat server (Slack)
+                            and send messages to the chat server from Commlink.
+                            This is a two-step process requiring action in
+                            Commlink (here) as well as in your chat channel to
+                            make sure you own both sides.
                         </p>
                         <p>
                             <strong>Step 1.</strong>
-                            Enter your Team ID (representing the Slack server)
-                            and your User ID here. You can get them from
-                            Commlink's Slack bot by typing <code>/roll
-                            info</code> in any channel on the Slack team you
-                            want to link. We don't ask for the Channel ID since
-                            you may want to play different games in different
-                            channels.
+                            Enter your server ID and user ID here. You can get
+                            them from Commlink's bot by typing <code>/roll
+                            info</code> on the server. If Commlink doesn't
+                            respond, the server's administrators will need to
+                            invite the bot to the server.
                         </p>
                         <p>
                             <strong>Step 2.</strong>
-                            In a Slack channel to want to play a character in,
-                            type <code>/roll link <character ID></code>, where
-                            <code>character ID</code> is the ID you can
-                            retrieve from your character sheet.
+
                         </p>
                     </div>
                 </div>
                 <div class="form-row mt-1">
-                    <label class="col-4 col-form-label" for="slack-team">
-                        Team ID
+                    <label class="col-4 col-form-label" for="server-id">
+                        Server (required)
                     </label>
                     <div class="col">
-                        <input autocomplete="off"
-                            class="form-control @error('slack-team') is-invalid @enderror"
-                            id="slack-team" name="slack-team" required
-                            type="text" value="{{ old('slack-team') }}">
-                        @error('slack-team')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
+                        <input aria-describedBy="server-help" autocomplete="off"
+                            class="form-control @error('server-id') is-invalid @enderror"
+                            id="server-id" name="server-id" required
+                            type="text" value="{{ old('server-id') }}">
+                        <small id="server-help" class="form-text text-muted">
+                            Slack team IDs will look like
+                            <code>T025GMATU</code>. Discord server IDs will look
+                            like <code>473246380039733249</code>.
+                        </small>
+                        @error('server-id')
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
                 <div class="form-row mt-1">
-                    <label class="col-4 col-form-label" for="slack-user">
-                        User ID
+                    <label class="col-4 col-form-label" for="server-type">
+                        Server type (required)
                     </label>
                     <div class="col">
-                        <input autocomplete="off"
-                            class="form-control @error('slack-user') is-invalid @enderror"
-                            id="slack-user" name="slack-user"
-                            type="text">
-                        @error('slack-user')
+                        <select class="form-control @error('server-type') is-invalid @enderror"
+                            id="server-type" name="server-type" required>
+                            <option value="">Choose type</option>
+                            <option value="discord"
+                                @if('discord' === old('server-type'))
+                                    selected
+                                @endif
+                            >Discord</option>
+                            <option value="slack"
+                                @if('slack' === old('server-type'))
+                                selected
+                                @endif
+                            >Slack</option>
+                        </select>
+                        @error('server-type')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-row mt-1">
+                    <label class="col-4 col-form-label" for="user-id">
+                        User (required)
+                    </label>
+                    <div class="col">
+                        <input aria-describedBy="user-help" autocomplete="off"
+                            class="form-control @error('user-id') is-invalid @enderror"
+                            id="user-id" name="user-id" required type="text"
+                            value="{{ old('user-id') }}">
+                        <small id="user-help" class="form-text text-muted">
+                            Slack user IDs look like <code>U025GMATW</code>.
+                            Discord user tags look like
+                            <code>omnicolor#7067</code>.
+                        </small>
+                        @error('user-id')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
@@ -100,10 +186,38 @@
                 </div>
                 <div class="form-row mt-1">
                     <button class="btn btn-primary" type="submit">
-                        Link Team
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="currentColor" class="bi bi-link"
+                            viewBox="0 0 16 16">
+                            <path d="M6.354 5.5H4a3 3 0 0 0 0 6h3a3 3 0 0 0 2.83-4H9c-.086 0-.17.01-.25.031A2 2 0 0 1 7 10.5H4a2 2 0 1 1 0-4h1.535c.218-.376.495-.714.82-1z"/>
+                            <path d="M9 5.5a3 3 0 0 0-2.83 4h1.098A2 2 0 0 1 9 6.5h3a2 2 0 1 1 0 4h-1.535a4.02 4.02 0 0 1-.82 1H12a3 3 0 1 0 0-6H9z"/>
+                        </svg>
+                        Link server
                     </button>
                 </div>
             </form>
         </div>
     </div>
+
+
+    <x-slot name="javascript">
+    <script>
+        $('.copy-btn').on('click', function (e) {
+            if (!window.navigator.clipboard) {
+                // Clipboard API not available
+                return;
+            }
+            const text = $(e.target).parents('div')
+                .first()
+                .children('.user-select-all')
+                .text()
+                .trim();
+            try {
+                navigator.clipboard.writeText(text);
+            } catch (err) {
+                console.error('Failed to copy!', err);
+            }
+        });
+    </script>
+    </x-slot>
 </x-app>

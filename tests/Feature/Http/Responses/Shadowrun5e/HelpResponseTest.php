@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Responses\Shadowrun5e;
 
 use App\Http\Responses\Shadowrun5e\HelpResponse;
-use App\Models\Slack\Channel;
+use App\Models\Channel;
 
 /**
  * Tests for getting help in a Shadowrun 5E channel.

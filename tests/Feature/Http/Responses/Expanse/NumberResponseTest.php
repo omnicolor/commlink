@@ -6,7 +6,7 @@ namespace Tests\Feature\Http\Responses\Expanse;
 
 use App\Exceptions\SlackException;
 use App\Http\Responses\Expanse\NumberResponse;
-use App\Models\Slack\Channel;
+use App\Models\Channel;
 
 /**
  * Tests for rolling dice in The Expanse.

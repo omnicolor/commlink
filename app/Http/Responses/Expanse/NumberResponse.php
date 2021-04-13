@@ -7,7 +7,7 @@ namespace App\Http\Responses\Expanse;
 use App\Events\RollEvent;
 use App\Exceptions\SlackException;
 use App\Http\Responses\SlackResponse;
-use App\Models\Slack\Channel;
+use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 
 /**
@@ -103,7 +103,7 @@ class NumberResponse extends SlackResponse
             random_int(1, 6),
             random_int(1, 6),
         ];
-        $this->result = (int)array_sum($this->dice) + $this->addition;
+        $this->result = array_sum($this->dice) + $this->addition;
     }
 
     /**

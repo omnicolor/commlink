@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Events;
 
 use App\Events\RollEvent;
-use App\Models\Slack\Channel;
+use App\Models\Channel;
 
 /**
  * Tests for RollEvents.

@@ -6,7 +6,7 @@ namespace Tests\Feature\Http\Responses\CyberpunkRed;
 
 use App\Exceptions\SlackException;
 use App\Http\Responses\Cyberpunkred\NumberResponse;
-use App\Models\Slack\Channel;
+use App\Models\Channel;
 
 /**
  * Tests for rolling dice in Cyberpunk Red.

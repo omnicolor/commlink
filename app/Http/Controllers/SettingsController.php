@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SlackLinkRequest;
-use App\Models\SlackLink;
+use App\Http\Requests\LinkUserRequest;
+use App\Models\ChatUser;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
 
 class SettingsController extends Controller
@@ -22,67 +21,55 @@ class SettingsController extends Controller
     }
 
     /**
-     * Given a Slack team ID, return the name of the team.
-     * @param string $slackTeam
-     * @return ?string
-     */
-    protected function getTeamName(string $slackTeam): ?string
-    {
-        $response = Http::withHeaders([
-            'Authorization' => sprintf('Bearer %s', config('app.slack_token')),
-        ])->get('https://slack.com/api/auth.teams.list');
-
-        if ($response->failed() || $response['ok'] === false) {
-            return null;
-        }
-
-        foreach ($response['teams'] as $team) {
-            if ($team['id'] === $slackTeam) {
-                return $team['name'];
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Given a Slack User ID, return the user's name.
-     * @param string $user
-     * @return ?string
-     */
-    protected function getUserName(string $user): ?string
-    {
-        $response = Http::withHeaders([
-            'Authorization' => sprintf('Bearer %s', config('app.slack_token')),
-        ])->get(
-            'https://slack.com/api/users.info',
-            ['user' => urlencode($user)]
-        );
-
-        if ($response->failed() || $response['ok'] === false) {
-            return null;
-        }
-
-        return $response['user']['name'];
-    }
-
-    /**
      * Handle a request to link a Slack team/user to the current user.
-     * @param SlackLinkRequest $request
+     * @param LinkUserRequest $request
      * @return RedirectResponse
      */
-    public function linkSlack(SlackLinkRequest $request): RedirectResponse
+    protected function linkSlack(LinkUserRequest $request): RedirectResponse
     {
-        $team = $this->getTeamName($request->input('slack-team'));
-        $user = $this->getUserName($request->input('slack-user'));
+        $serverId = $request->input('server-id');
+        $remoteUserId = $request->input('user-id');
+        // @phpstan-ignore-next-line
+        $userId = \Auth::user()->id;
 
-        SlackLink::create([
-            'slack_team' => $request->input('slack-team'),
-            'team_name' => $team,
-            'slack_user' => $request->input('slack-user'),
-            'user_name' => $user,
-            // @phpstan-ignore-next-line
-            'user_id' => \Auth::user()->id,
+        $chatUser = ChatUser::where('server_id', $serverId)
+            ->where('remote_user_id', $remoteUserId)
+            ->where('user_id', $userId)
+            ->where('server_type', ChatUser::TYPE_SLACK)
+            ->first();
+        if (!is_null($chatUser)) {
+            return redirect('settings')
+                ->with('error', 'User already registered.')
+                ->withInput();
+        }
+
+        $chatUser = new ChatUser([
+            'server_id' => $serverId,
+            'server_type' => ChatUser::TYPE_SLACK,
+            'remote_user_id' => $remoteUserId,
+            'user_id' => $userId,
+            'verified' => false,
         ]);
+        $chatUser->server_name = $chatUser->getSlackTeamName($serverId);
+        $chatUser->remote_user_name
+            = $chatUser->getSlackUserName($remoteUserId);
+        $chatUser->save();
+
         return redirect('settings')->with('success', 'Slack account linked.');
+    }
+
+    /**
+     * Handle a request to link a chat server to the current user.
+     * @param LinkUserRequest $request
+     * @return RedirectResponse
+     */
+    public function linkUser(LinkUserRequest $request): RedirectResponse
+    {
+        if ('slack' === $request->input('server-type')) {
+            return $this->linkSlack($request);
+        }
+        return redirect('settings')
+            ->with('error', 'Discord isn\'t ready.')
+            ->withInput();
     }
 }

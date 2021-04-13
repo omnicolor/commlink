@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Models\SlackLink;
+use App\Models\ChatUser;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
-use Str;
 
 /**
  * Tests for the settings controller.
@@ -15,6 +14,9 @@ use Str;
  */
 final class SettingsControllerTest extends \Tests\TestCase
 {
+    protected const API_TEAMS = 'slack.com/api/auth.teams.list';
+    protected const API_USERS = 'slack.com/api/users.info';
+
     /**
      * Test an unauthenticated request.
      * @test
@@ -25,285 +27,155 @@ final class SettingsControllerTest extends \Tests\TestCase
     }
 
     /**
-     * Test authenticated no Slack Links.
+     * Test an authenticated user with no linked users.
      * @test
      */
-    public function testNoSlackLinks(): void
+    public function testNoLinkedUsers(): void
     {
-        $user = User::factory()->make();
-        $this->actingAs($user)
+        $this->actingAs(User::factory()->create())
             ->get('/settings')
-            ->assertSee('You don\'t have any linked Slack teams!', false);
+            ->assertOk()
+            ->assertSee('You don\'t have any linked chat users!', false);
     }
 
     /**
-     * Test an authenticated request that has some Slack teams linked.
+     * Test an authenticated user with a linked user.
      * @test
      */
-    public function testWithSlackLinks(): void
+    public function testWithLinkedUser(): void
     {
         $user = User::factory()->create();
-        $slackLink = SlackLink::factory()->create([
-            'slack_team' => Str::random(10),
-            'slack_user' => Str::random(10),
+        $serverId = 'T' . \Str::random(10);
+        $remoteUserId = 'U' . \Str::random(10);
+        ChatUser::factory()->create([
+            'server_id' => $serverId,
+            'server_type' => ChatUser::TYPE_SLACK,
+            'remote_user_id' => $remoteUserId,
             'user_id' => $user->id,
+            'verified' => false,
         ]);
         $this->actingAs($user)
             ->get('/settings')
-            ->assertDontSee('You don\'t have any linked Slack teams!', false)
-            ->assertSee(sprintf(
-                '%s (%s)',
-                $slackLink->team_name,
-                $slackLink->slack_team
-            ))
-            ->assertSee(sprintf(
-                '%s (%s)',
-                $slackLink->user_name,
-                $slackLink->slack_user
-            ));
+            ->assertDontSee('You don\'t have any linked chat users!', false)
+            ->assertSee($serverId)
+            ->assertSee($remoteUserId)
+            ->assertSee('/roll validateUser');
     }
 
     /**
-     * Test trying to create a Slack Link with incomplete info.
+     * Test creating a linked user without sending the required fields.
      * @test
      */
-    public function testCreateSlackLinkErrors(): void
+    public function testLinkUserMissingData(): void
     {
-        $user = User::factory()->create();
-        $this->actingAs($user)
-            ->post('/settings/link-slack', [])
+        $this->actingAs(User::factory()->create())
+            ->post('/settings/link-user', [])
             ->assertStatus(302)
             ->assertSessionHasErrors();
         self::assertSame(
-            ['Enter your Slack User ID'],
-            session('errors')->get('slack-user')
+            ['The server-id field is required.'],
+            session('errors')->get('server-id')
         );
         self::assertSame(
-            ['Enter your Slack Team ID'],
-            session('errors')->get('slack-team')
+            ['The server-type field is required.'],
+            session('errors')->get('server-type')
+        );
+        self::assertSame(
+            ['The user-id field is required.'],
+            session('errors')->get('user-id')
         );
     }
 
     /**
-     * Test creating a Slack link if the Slack team and user aren't found.
+     * Test creating a chat user where the Slack requests for the team and user
+     * names fail but the request otherwise succeeds.
      * @test
      */
-    public function testCreateSlackLinkNoTeamNoUser(): void
+    public function testLinkUserSlackCallsFail(): void
     {
         $user = User::factory()->create();
-        $teamId = Str::random(10);
-        $userId = Str::random(10);
+        $serverId = 'T' . \Str::random(10);
+        $userId = 'U' . \Str::random(10);
         Http::fake([
-            'slack.com/api/auth.teams.list' => Http::response([
+            self::API_TEAMS => Http::response([
                 'ok' => false,
                 'error' => 'not_authed',
             ]),
-            sprintf('slack.com/api/users.info?user=%s', $userId) => Http::response([
-                'ok' => false,
-                'error' => 'not_authed',
-            ]),
-        ]);
-        $this->actingAs($user)
-            ->post(
-                '/settings/link-slack',
-                ['slack-team' => $teamId, 'slack-user' => $userId]
-            )
-            ->assertStatus(302)
-            ->assertSessionHasNoErrors();
-        $this->assertDatabaseHas(
-            'slack_links',
-            [
-                'character_id' => null,
-                'slack_team' => $teamId,
-                'team_name' => null,
-                'slack_user' => $userId,
-                'user_name' => null,
-                'user_id' => $user->id,
-            ]
-        );
-    }
-
-    /**
-     * Test creating a Slack link if the Slack team is found, but not the user.
-     * @test
-     */
-    public function testCreateSlackLinkNoUser(): void
-    {
-        $user = User::factory()->create();
-        $teamId = Str::random(10);
-        $teamName = Str::random(12);
-        $userId = Str::random(10);
-        Http::fake([
-            'slack.com/api/auth.teams.list' => Http::response([
-                'ok' => true,
-                'teams' => [
-                    [
-                        'id' => $teamId,
-                        'name' => $teamName,
-                    ],
-                ],
-            ]),
-            sprintf('slack.com/api/users.info?user=%s', $userId) => Http::response([
+            sprintf('%s?user=%s', self::API_USERS, $userId) => Http::response([
                 'ok' => false,
                 'error' => 'not_authed',
             ]),
         ]);
         $this->actingAs($user)
             ->post(
-                '/settings/link-slack',
-                ['slack-team' => $teamId, 'slack-user' => $userId]
+                '/settings/link-user',
+                [
+                    'server-id' => $serverId,
+                    'server-type' => ChatUser::TYPE_SLACK,
+                    'user-id' => $userId,
+                ]
             )
             ->assertStatus(302)
             ->assertSessionHasNoErrors();
         $this->assertDatabaseHas(
-            'slack_links',
+            'chat_users',
             [
-                'character_id' => null,
-                'slack_team' => $teamId,
-                'team_name' => $teamName,
-                'slack_user' => $userId,
-                'user_name' => null,
+                'server_id' => $serverId,
+                'server_name' => null,
+                'server_type' => ChatUser::TYPE_SLACK,
+                'remote_user_id' => $userId,
+                'remote_user_name' => null,
                 'user_id' => $user->id,
+                'verified' => false,
             ]
         );
     }
 
     /**
-     * Test creating a Slack link if the Slack team isn't found, but the user
-     * is.
+     * Test trying to create a duplicate chat user.
      * @test
      */
-    public function testCreateSlackLinkNoTeams(): void
+    public function testLinkDuplicateSlackUser(): void
     {
         $user = User::factory()->create();
-        $teamId = Str::random(10);
-        $userId = Str::random(10);
-        $userName = Str::random(12);
-        Http::fake([
-            'slack.com/api/auth.teams.list' => Http::response([
-                'ok' => false,
-                'error' => 'not_authed',
-            ]),
-            sprintf('slack.com/api/users.info?user=%s', $userId) => Http::response([
-                'ok' => true,
-                'user' => [
-                    'name' => $userName,
-                ],
-            ]),
+        $serverId = 'T' . \Str::random(10);
+        $userId = 'U' . \Str::random(10);
+        ChatUser::factory()->create([
+            'server_id' => $serverId,
+            'server_type' => ChatUser::TYPE_SLACK,
+            'remote_user_id' => $userId,
+            'user_id' => $user->id,
         ]);
         $this->actingAs($user)
+            ->followingRedirects()
             ->post(
-                '/settings/link-slack',
-                ['slack-team' => $teamId, 'slack-user' => $userId]
+                '/settings/link-user',
+                [
+                    'server-id' => $serverId,
+                    'server-type' => ChatUser::TYPE_SLACK,
+                    'user-id' => $userId,
+                ]
             )
-            ->assertStatus(302)
-            ->assertSessionHasNoErrors();
-        $this->assertDatabaseHas(
-            'slack_links',
-            [
-                'character_id' => null,
-                'slack_team' => $teamId,
-                'team_name' => null,
-                'slack_user' => $userId,
-                'user_name' => $userName,
-                'user_id' => $user->id,
-            ]
-        );
+            ->assertSee('User already registered.');
     }
 
     /**
-     * Test creating a Slack link if the Slack team isn't found among the
-     * returned teams, but the user is found.
+     * Test trying to create a linked Discord user.
      * @test
      */
-    public function testCreateSlackLinkNoTeamMatch(): void
+    public function testLinkDiscordUser(): void
     {
-        $user = User::factory()->create();
-        $teamId = Str::random(10);
-        $userId = Str::random(10);
-        $userName = Str::random(12);
-        Http::fake([
-            'slack.com/api/auth.teams.list' => Http::response([
-                'ok' => true,
-                'teams' => [
-                    [
-                        'id' => Str::random(9),
-                        'name' => Str::random(20),
-                    ],
-                ],
-            ]),
-            sprintf('slack.com/api/users.info?user=%s', $userId) => Http::response([
-                'ok' => true,
-                'user' => [
-                    'name' => $userName,
-                ],
-            ]),
-        ]);
-        $this->actingAs($user)
+        $this->actingAs(User::factory()->create())
+            ->followingRedirects()
             ->post(
-                '/settings/link-slack',
-                ['slack-team' => $teamId, 'slack-user' => $userId]
+                '/settings/link-user',
+                [
+                    'server-id' => \Str::random(10),
+                    'server-type' => 'discord',
+                    'user-id' => \Str::random(10),
+                ]
             )
-            ->assertStatus(302)
-            ->assertSessionHasNoErrors();
-        $this->assertDatabaseHas(
-            'slack_links',
-            [
-                'character_id' => null,
-                'slack_team' => $teamId,
-                'team_name' => null,
-                'slack_user' => $userId,
-                'user_name' => $userName,
-                'user_id' => $user->id,
-            ]
-        );
-    }
-
-    /**
-     * Test creating a Slack link.
-     * @test
-     */
-    public function testCreateSlackLinkValidResponse(): void
-    {
-        $user = User::factory()->create();
-        $teamId = Str::random(10);
-        $teamName = Str::random(12);
-        $userId = Str::random(10);
-        $userName = Str::random(12);
-        Http::fake([
-            'slack.com/api/auth.teams.list' => Http::response([
-                'ok' => true,
-                'teams' => [
-                    [
-                        'id' => $teamId,
-                        'name' => $teamName,
-                    ],
-                ],
-            ]),
-            sprintf('slack.com/api/users.info?user=%s', $userId) => Http::response([
-                'ok' => true,
-                'user' => [
-                    'name' => $userName,
-                ],
-            ]),
-        ]);
-        $this->actingAs($user)
-            ->post(
-                '/settings/link-slack',
-                ['slack-team' => $teamId, 'slack-user' => $userId]
-            )
-            ->assertStatus(302)
-            ->assertSessionHasNoErrors();
-        $this->assertDatabaseHas(
-            'slack_links',
-            [
-                'character_id' => null,
-                'slack_team' => $teamId,
-                'team_name' => $teamName,
-                'slack_user' => $userId,
-                'user_name' => $userName,
-                'user_id' => $user->id,
-            ]
-        );
+            ->assertStatus(200)
+            ->assertSee('Discord isn\'t ready.');
     }
 }
