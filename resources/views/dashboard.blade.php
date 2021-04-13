@@ -13,11 +13,16 @@
                         @case ('shadowrun5e')
                         @case ('cyberpunkred')
                             <a href="/characters/{{ $character->system }}/{{ $character->id }}">
-                                {{ $character->handle }}
-                            </a> ({{ $character->type }})
+                                {{ $character->handle }}</a>
+                            ({{ config('app.systems')[$character->system] }})
                             @break
                         @default
+                            @if(array_key_exists($character->system, config('app.systems')))
+                            {{ $character->handle ?? $character->name }}
+                            ({{ config('app.systems')[$character->system] }})
+                            @else
                             {{ $character->handle ?? $character->name }} ({{ $character->system }})
+                            @endif
                             @break
                     @endswitch
                 </li>
