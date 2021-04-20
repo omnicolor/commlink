@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Responses\Cyberpunkred;
 
-use App\Events\RollEvent;
 use App\Exceptions\SlackException;
 use App\Http\Responses\SlackResponse;
 use App\Models\Channel;
@@ -82,12 +81,6 @@ class NumberResponse extends SlackResponse
         $this->name = $channel->username ?? $channel->user ?? '';
 
         $this->roll();
-        RollEvent::dispatch(
-            $this->formatTitle(),
-            $this->formatBody(),
-            $this->dice,
-            $this->channel
-        );
         $this->addAttachment($this->buildAttachment())->sendToChannel();
     }
 

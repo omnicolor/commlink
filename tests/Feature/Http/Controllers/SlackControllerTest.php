@@ -27,6 +27,24 @@ final class SlackControllerTest extends \Tests\TestCase
     protected ?Channel $channel;
 
     /**
+     * Mock random_int function to take randomness out of testing.
+     * @var \PHPUnit\Framework\MockObject\MockObject
+     */
+    protected \PHPUnit\Framework\MockObject\MockObject $randomInt;
+
+    /**
+     * Set up the mock random function each time.
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->randomInt = $this->getFunctionMock(
+            'App\\Rolls\\Shadowrun5e',
+            'random_int'
+        );
+    }
+
+    /**
      * Clean up after the tests.
      */
     public function tearDown(): void
@@ -154,11 +172,7 @@ final class SlackControllerTest extends \Tests\TestCase
      */
     public function testRollDiceShadowrun(): void
     {
-        $randomInt = $this->getFunctionMock(
-            'App\\Http\\Responses\\Shadowrun5e',
-            'random_int'
-        );
-        $randomInt->expects(self::any())->willReturn(5);
+        $this->randomInt->expects(self::any())->willReturn(5);
         $this->channel = Channel::factory()->create([
             'system' => 'shadowrun5e',
         ]);
@@ -210,11 +224,11 @@ final class SlackControllerTest extends \Tests\TestCase
      */
     public function testRollGenericDiceUnregistered(): void
     {
-        $randomInt = $this->getFunctionMock(
-            'App\\Http\\Responses',
+        $this->randomInt = $this->getFunctionMock(
+            'App\\Rolls',
             'random_int'
         );
-        $randomInt->expects(self::exactly(1))->willReturn(5);
+        $this->randomInt->expects(self::exactly(1))->willReturn(5);
         $this->post(
             route('roll'),
             [
@@ -222,6 +236,7 @@ final class SlackControllerTest extends \Tests\TestCase
                 'team_id' => Str::random(12),
                 'text' => '1d20',
                 'user_id' => 'E567',
+                'username' => 'Bob',
             ]
         )
             ->assertOk()
@@ -229,6 +244,36 @@ final class SlackControllerTest extends \Tests\TestCase
                 'response_type' => 'in_channel',
             ])
             ->assertSee('Rolling: 1d20 = [5] = 5')
-            ->assertSee('Rolls: 5');
+            ->assertDontSee('Rolls: 5');
+    }
+
+    /**
+     * Test trying to `/roll 5` in an channel registered to a system that
+     * doesn't use that format.
+     * @test
+     */
+    public function testRollDiceInvalidNumericForSystem(): void
+    {
+        $this->channel = Channel::factory()->create([
+            'system' => 'expanse',
+        ]);
+        $this->post(
+            route('roll'),
+            [
+                'channel_id' => $this->channel->channel_id,
+                'team_id' => $this->channel->server_id,
+                'text' => '5',
+                'user_id' => \Str::random(9),
+            ]
+        )
+            ->assertOk()
+            ->assertJsonFragment([
+                'color' => SlackResponse::COLOR_DANGER,
+                'response_type' => 'ephemeral',
+                'text' => 'That doesn\'t appear to be a valid Commlink command.'
+                    . PHP_EOL . PHP_EOL
+                    . 'Type `/roll help` for more help.',
+                'title' => 'Error',
+            ]);
     }
 }

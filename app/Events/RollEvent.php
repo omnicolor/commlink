@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Events;
 
+use App\Models\Channel;
+use App\Rolls\Roll;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -18,45 +20,25 @@ class RollEvent
     use SerializesModels;
 
     /**
-     * Individual die results.
-     * @var array<int, int>
+     * Roll object that generated the event.
+     * @var Roll
      */
-    public array $rolls;
+    public Roll $roll;
 
     /**
      * Where the event was generated.
      * @var \App\Models\Channel
      */
-    public $source;
-
-    /**
-     * Text of the event.
-     * @var string
-     */
-    public string $text;
-
-    /**
-     * Title of the event.
-     * @var string
-     */
-    public string $title;
+    public Channel $source;
 
     /**
      * Create a new event instance.
-     * @param string $title
-     * @param string $text
-     * @param array<int, int> $rolls
-     * @param mixed $source
+     * @param Roll $roll
+     * @param Channel $source
      */
-    public function __construct(
-        string $title,
-        string $text,
-        array $rolls,
-        $source
-    ) {
-        $this->title = $title;
-        $this->text = $text;
-        $this->rolls = $rolls;
+    public function __construct(Roll $roll, Channel $source)
+    {
+        $this->roll = $roll;
         $this->source = $source;
     }
 }

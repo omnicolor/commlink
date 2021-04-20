@@ -2,25 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Responses\Shadowrun5e;
+namespace App\Rolls\Shadowrun5e;
 
-use App\Events\RollEvent;
 use App\Exceptions\SlackException;
 use App\Http\Responses\SlackResponse;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
+use App\Rolls\Roll;
 
 /**
- * Respond to a user requesting a number roll.
+ * Roll a Shadowrun number, representing a set of six-sided dice.
  */
-class NumberResponse extends SlackResponse
+class Number extends Roll
 {
-    /**
-     * Optional description the user added for the roll.
-     * @var string
-     */
-    protected string $description = '';
-
     /**
      * Number of dice to roll.
      * @var int
@@ -60,100 +54,68 @@ class NumberResponse extends SlackResponse
     /**
      * Constructor.
      * @param string $content
-     * @param int $status
-     * @param array<string, string> $headers
-     * @param ?Channel $channel
+     * @param string $character
      * @throws SlackException
      */
-    public function __construct(
-        string $content = '',
-        int $status = 200,
-        array $headers = [],
-        ?Channel $channel = null
-    ) {
-        if (is_null($channel)) {
-            throw new SlackException('Channel is required');
-        }
-
-        parent::__construct('', $status, $headers, $channel);
+    public function __construct(string $content, string $character)
+    {
+        $this->name = $character;
         $args = explode(' ', $content);
         $this->dice = (int)array_shift($args);
-        if ($this->dice > 100) {
-            throw new SlackException('You can\'t roll more than 100 dice');
-        }
         if (isset($args[0]) && is_numeric($args[0])) {
             $this->limit = (int)array_shift($args);
         }
         $this->description = implode(' ', $args);
-        $this->name = $channel->username;
 
+        if ($this->dice > 100) {
+            return;
+        }
         $this->roll();
 
         if ($this->isCriticalGlitch()) {
-            $attachment = $this->formatCriticalGlitch();
+            $this->formatCriticalGlitch();
         } else {
-            $attachment = $this->formatRoll();
+            $this->formatRoll();
         }
-        $footer = implode(' ', $this->prettifyRolls());
-        if (!is_null($this->limit)) {
-            $footer .= sprintf(', limit: %d', $this->limit);
-        }
-        $attachment->addFooter($footer);
-        $this->addAttachment($attachment)->sendToChannel();
     }
 
     /**
-     * Format an attachment to show the user crit glitched.
-     * @return TextAttachment
+     * Format the text and title for a critical glitch.
      */
-    protected function formatCriticalGlitch(): TextAttachment
+    protected function formatCriticalGlitch(): void
     {
-        $title = sprintf(
+        $this->title = sprintf(
             '%s rolled a critical glitch on %d dice!',
             $this->name,
             $this->dice
         );
-        $text = sprintf(
+        $this->text = sprintf(
             'Rolled %d ones with no successes%s!',
             $this->fails,
             ('' !== $this->description) ? sprintf(' for "%s"', $this->description) : ''
         );
-        RollEvent::dispatch($title, $text, $this->rolls, $this->channel);
-        return new TextAttachment($title, $text, TextAttachment::COLOR_DANGER);
     }
 
     /**
-     * Format an attachment to show the roll results.
-     * @return TextAttachment
+     * Format the text and title for a normal roll.
      */
-    protected function formatRoll(): TextAttachment
+    protected function formatRoll(): void
     {
-        $color = TextAttachment::COLOR_SUCCESS;
-        if ($this->isGlitch() || 0 === $this->successes) {
-            $color = TextAttachment::COLOR_DANGER;
-        }
-
+        $this->title = $this->formatTitle();
         if (!is_null($this->limit) && $this->limit < $this->successes) {
-            $text = sprintf(
+            $this->text = sprintf(
                 'Rolled %d successes%s, hit limit',
                 $this->limit,
                 ('' !== $this->description) ? sprintf(' for "%s"', $this->description) : ''
             );
-            RollEvent::dispatch(
-                $this->formatTitle(),
-                $text,
-                $this->rolls,
-                $this->channel
-            );
-            return new TextAttachment($this->formatTitle(), $text, $color);
+            return;
         }
 
-        $text = sprintf(
+        $this->text = sprintf(
             'Rolled %d successes%s',
             $this->successes,
             ('' !== $this->description) ? sprintf(' for "%s"', $this->description) : ''
         );
-        return new TextAttachment($this->formatTitle(), $text, $color);
     }
 
     /**
@@ -229,5 +191,50 @@ class NumberResponse extends SlackResponse
     protected function isCriticalGlitch(): bool
     {
         return $this->isGlitch() && 0 === $this->successes;
+    }
+
+    /**
+     * Return the roll formatted for Slack.
+     * @param Channel $channel
+     * @return SlackResponse
+     */
+    public function forSlack(Channel $channel): SlackResponse
+    {
+        if ($this->dice > 100) {
+            throw new SlackException('You can\'t roll more than 100 dice');
+        }
+        $color = TextAttachment::COLOR_SUCCESS;
+        if ($this->isCriticalGlitch() || $this->isGlitch()) {
+            $color = TextAttachment::COLOR_DANGER;
+        }
+        $footer = implode(' ', $this->prettifyRolls());
+        if (!is_null($this->limit)) {
+            $footer .= sprintf(', limit: %d', $this->limit);
+        }
+        $attachment = new TextAttachment($this->title, $this->text, $color);
+        $attachment->addFooter($footer);
+        $response = new SlackResponse('', SlackResponse::HTTP_OK, [], $channel);
+        return $response->addAttachment($attachment)->sendToChannel();
+    }
+
+    /**
+     * Return the roll formatted for Discord.
+     * @return string
+     */
+    public function forDiscord(): string
+    {
+        if ($this->dice > 100) {
+            return sprintf(
+                '%s, you can\'t roll more than 100 dice!',
+                $this->name
+            );
+        }
+        $footer = 'Rolls: ' . implode(' ', $this->rolls);
+        if (!is_null($this->limit)) {
+            $footer .= sprintf(', Limit: %d', $this->limit);
+        }
+        return sprintf('**%s**', $this->formatTitle()) . PHP_EOL
+            . $this->text . PHP_EOL
+            . $footer;
     }
 }

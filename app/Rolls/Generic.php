@@ -2,43 +2,27 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Responses;
+namespace App\Rolls;
 
-use App\Events\RollEvent;
-use App\Exceptions\SlackException;
+use App\Http\Responses\SlackResponse;
 use App\Models\Channel;
 use App\Models\Shadowrun5E\ForceTrait;
 use App\Models\Slack\TextAttachment;
 
-class GenericRollResponse extends SlackResponse
+/**
+ * Class representing a generic XdY+C roll.
+ */
+class Generic extends Roll
 {
     use ForceTrait;
 
     /**
-     * Optional description the user added for the roll.
-     * @var string
-     */
-    protected string $description = '';
-
-    /**
      * Constructor.
      * @param string $content
-     * @param int $status
-     * @param array<string, string> $headers
-     * @param ?Channel $channel
-     * @throws SlackException
+     * @param string $character
      */
-    public function __construct(
-        string $content = '',
-        int $status = self::HTTP_OK,
-        array $headers = [],
-        ?Channel $channel = null
-    ) {
-        parent::__construct('', $status, $headers);
-        if (is_null($channel)) {
-            throw new SlackException('Channel is required');
-        }
-
+    public function __construct(string $content, string $character)
+    {
         // First, pull the description part out, if it exists.
         $parts = explode(' ', $content);
         $expression = array_shift($parts);
@@ -68,21 +52,16 @@ class GenericRollResponse extends SlackResponse
             1 // unused
         );
 
-        $title = sprintf(
+        $this->title = sprintf(
             '%s rolled %d%s',
-            $channel->username,
+            $character,
             $total,
             ('' !== $this->description) ? sprintf(' for "%s"', $this->description) : ''
         );
-        $text = sprintf('Rolling: %s = %s = %d', $expression, $partial, $total);
-        $attachment = (new TextAttachment(
-            $title,
-            $text,
-            TextAttachment::COLOR_SUCCESS
-        ))
-            ->addFooter('Rolls: ' . implode(', ', $rolls));
-        $this->addAttachment($attachment)->sendToChannel();
-        RollEvent::dispatch($title, $text, $rolls, $channel);
+        $this->text = sprintf('Rolling: %s = %s = %d', $expression, $partial, $total);
+        if ($dice > 1) {
+            $this->footer = 'Rolls: ' . implode(', ', $rolls);
+        }
     }
 
     /**
@@ -123,5 +102,35 @@ class GenericRollResponse extends SlackResponse
             $rolls[] = random_int(1, $pips);
         }
         return $rolls;
+    }
+
+    /**
+     * Return the roll formatted for Slack.
+     * @return SlackResponse
+     */
+    public function forSlack(Channel $channel): SlackResponse
+    {
+        $attachment = new TextAttachment(
+            $this->title,
+            $this->text,
+            TextAttachment::COLOR_SUCCESS
+        );
+        $attachment->addFooter($this->footer);
+        $response = new SlackResponse('', SlackResponse::HTTP_OK, [], $channel);
+        return $response->addAttachment($attachment)->sendToChannel();
+    }
+
+    /**
+     * Return the roll formatted for Discord.
+     * @return string
+     */
+    public function forDiscord(): string
+    {
+        $value = sprintf('**%s**', $this->title) . PHP_EOL
+            . $this->text . PHP_EOL;
+        if ('' !== $this->footer) {
+            $value .= sprintf('_%s_', $this->footer);
+        }
+        return $value;
     }
 }

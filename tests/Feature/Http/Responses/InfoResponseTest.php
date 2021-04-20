@@ -79,7 +79,7 @@ final class InfoResponseTest extends \Tests\TestCase
             'server_id' => 'server id',
             'system' => 'shadowrun5e',
         ]);
-        $channel->user = 'user id';
+        $channel->user = \Str::random(10);
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -108,7 +108,7 @@ final class InfoResponseTest extends \Tests\TestCase
                         ],
                         (object)[
                             'title' => 'User ID',
-                            'value' => 'user id',
+                            'value' => $channel->user,
                             'short' => true,
                         ],
                         (object)[

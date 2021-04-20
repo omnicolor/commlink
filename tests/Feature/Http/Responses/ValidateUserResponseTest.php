@@ -60,6 +60,8 @@ final class ValidateUserResponseTest extends \Tests\TestCase
      */
     public function testInvalidHash(): void
     {
+        $user = User::factory()->create();
+
         $channel = Channel::factory()->make();
         $channel->user = \Str::random(10);
 
@@ -68,7 +70,7 @@ final class ValidateUserResponseTest extends \Tests\TestCase
             'server_id' => $channel->server_id,
             'server_type' => ChatUser::TYPE_SLACK,
             'remote_user_id' => $channel->user,
-            'user_id' => 42,
+            'user_id' => $user->id,
             'verified' => false,
         ]);
 

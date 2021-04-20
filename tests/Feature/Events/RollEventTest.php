@@ -6,6 +6,7 @@ namespace Tests\Feature\Events;
 
 use App\Events\RollEvent;
 use App\Models\Channel;
+use App\Rolls\Shadowrun5e\Number;
 
 /**
  * Tests for RollEvents.
@@ -13,17 +14,26 @@ use App\Models\Channel;
  */
 final class RollEventTest extends \Tests\TestCase
 {
+    use \phpmock\phpunit\PHPMock;
+
     /**
      * Test the constructor.
      * @test
      */
     public function testConstructor(): void
     {
-        $channel = Channel::factory()->make();
-        $event = new RollEvent('Title', 'Text', [1, 2, 3], $channel);
-        self::assertSame('Title', $event->title);
-        self::assertSame('Text', $event->text);
-        self::assertSame([1, 2, 3], $event->rolls);
-        self::assertEquals($channel, $event->source);
+        $randomInt = $this->getFunctionMock(
+            'App\\Rolls\\Shadowrun5e',
+            'random_int'
+        );
+        $randomInt->expects(self::any())->willReturn(random_int(1, 6));
+
+        $roll = new Number('5', 'Bob');
+        $channel = Channel::factory()->make([
+            'system' => 'shadowrun5e',
+        ]);
+        $event = new RollEvent($roll, $channel);
+        self::assertSame($channel, $event->source);
+        self::assertSame($roll, $event->roll);
     }
 }
