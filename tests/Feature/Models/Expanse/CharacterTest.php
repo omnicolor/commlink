@@ -79,7 +79,11 @@ final class CharacterTest extends \Tests\TestCase
      */
     public function testGetFocusesInvalid(): void
     {
-        $character = new Character(['focuses' => ['invalid']]);
+        $character = new Character([
+            'focuses' => [
+                ['id' => 'invalid'],
+            ],
+        ]);
         self::assertEmpty($character->getFocuses());
     }
 
@@ -89,10 +93,34 @@ final class CharacterTest extends \Tests\TestCase
      */
     public function testGetFocuses(): void
     {
-        $character = new Character(['focuses' => ['crafting']]);
+        $character = new Character([
+            'focuses' => [
+                ['id' => 'crafting'],
+            ],
+        ]);
         self::assertCount(1, $character->getFocuses());
         $focus = $character->getFocuses()[0];
         self::assertSame('Crafting', (string)$focus);
+        // @phpstan-ignore-next-line
+        self::assertSame(1, $focus->level);
+    }
+
+    /**
+     * Test getting a character's focuses if a level is set.
+     * @test
+     */
+    public function testGetFocusesWithLevel(): void
+    {
+        $character = new Character([
+            'focuses' => [
+                ['id' => 'crafting', 'level' => 2],
+            ],
+        ]);
+        self::assertCount(1, $character->getFocuses());
+        $focus = $character->getFocuses()[0];
+        self::assertSame('Crafting', (string)$focus);
+        // @phpstan-ignore-next-line
+        self::assertSame(2, $focus->level);
     }
 
     /**
@@ -198,7 +226,7 @@ final class CharacterTest extends \Tests\TestCase
      */
     public function testHasFocus(): void
     {
-        $character = new Character(['focuses' => ['crafting']]);
+        $character = new Character(['focuses' => [['id' => 'crafting']]]);
         self::assertTrue($character->hasFocus(new Focus('crafting')));
     }
 }

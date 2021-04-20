@@ -34,6 +34,12 @@ class Focus
     public string $id;
 
     /**
+     * Level of the focus.
+     * @var int
+     */
+    public int $level;
+
+    /**
      * Name of the Focus.
      * @var string
      */
@@ -48,9 +54,10 @@ class Focus
     /**
      * Constructor.
      * @param string $id
+     * @param int $level
      * @throws \RuntimeException
      */
-    public function __construct(string $id)
+    public function __construct(string $id, int $level = 1)
     {
         $filename = config('app.data_path.expanse') . 'focuses.php';
         self::$focuses ??= require $filename;
@@ -66,6 +73,7 @@ class Focus
         $this->attribute = $focus['attribute'];
         $this->description = $focus['description'];
         $this->id = $id;
+        $this->level = $level;
         $this->name = $focus['name'];
         $this->page = $focus['page'];
     }

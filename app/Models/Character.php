@@ -56,11 +56,14 @@ class Character extends Model
         $connection = null
     ): Character {
         switch ($attributes['system'] ?? null) {
-            case 'shadowrun5e':
-                $character = new Shadowrun5E\Character($attributes);
-                break;
             case 'cyberpunkred':
                 $character = new CyberpunkRed\Character($attributes);
+                break;
+            case 'expanse':
+                $character = new Expanse\Character($attributes);
+                break;
+            case 'shadowrun5e':
+                $character = new Shadowrun5E\Character($attributes);
                 break;
             default:
                 $character = new Character($attributes);

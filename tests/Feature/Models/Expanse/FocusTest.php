@@ -48,4 +48,24 @@ final class FocusTest extends \Tests\TestCase
         $focus = new Focus('crafting');
         self::assertSame('Crafting', (string)$focus);
     }
+
+    /**
+     * Test not setting the level for the focus.
+     * @test
+     */
+    public function testDefaultLevel(): void
+    {
+        $focus = new Focus('crafting');
+        self::assertSame(1, $focus->level);
+    }
+
+    /**
+     * Test setting the level for the focus.
+     * @test
+     */
+    public function testSetLevel(): void
+    {
+        $focus = new Focus('crafting', 2);
+        self::assertSame(2, $focus->level);
+    }
 }

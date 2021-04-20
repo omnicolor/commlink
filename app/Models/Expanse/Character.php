@@ -81,6 +81,12 @@ class Character extends \App\Models\Character
     ];
 
     /**
+     * Collection of Focus objects.
+     * @var FocusArray
+     */
+    protected FocusArray $focusArray;
+
+    /**
      * Return the character's name.
      * @return string
      */
@@ -118,20 +124,26 @@ class Character extends \App\Models\Character
      */
     public function getFocuses(): FocusArray
     {
-        $focuses = new FocusArray();
-        foreach ($this->focuses ?? [] as $focus) {
-            try {
-                $focuses[] = new Focus($focus);
-            } catch (\RuntimeException $ex) {
-                \Log::warning(sprintf(
-                    'Expanse character "%s" (%s) has invalid focus "%s"',
-                    $this->name,
-                    $this->_id,
-                    $focus
-                ));
+        if (!isset($this->focusArray)) {
+            $this->focusArray = new FocusArray();
+            foreach ($this->focuses ?? [] as $focus) {
+                try {
+                    $this->focusArray[] = new Focus(
+                        $focus['id'],
+                        $focus['level'] ?? 1
+                    );
+                } catch (\RuntimeException $ex) {
+                    \Log::warning(sprintf(
+                        'Expanse character "%s" (%s) has invalid focus "%s"',
+                        $this->name,
+                        $this->_id,
+                        $focus['id']
+                    ));
+                }
             }
         }
-        return $focuses;
+
+        return $this->focusArray;
     }
 
     /**

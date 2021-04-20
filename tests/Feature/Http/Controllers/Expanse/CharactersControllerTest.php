@@ -148,4 +148,24 @@ final class CharactersControllerTest extends \Tests\TestCase
             ->getJson(route('expanse.characters.show', $character))
             ->assertStatus(Response::HTTP_NOT_FOUND);
     }
+
+    /**
+     * Test loading a character view.
+     * @test
+     */
+    public function testViewCharacter(): void
+    {
+        $user = User::factory()->create();
+        $character = $this->characters[] = Character::factory()->create([
+            'owner' => $user->email,
+            'system' => 'expanse',
+        ]);
+        $view = $this->actingAs($user)
+            ->get(
+                sprintf('/characters/expanse/%s', $character->id),
+                ['character' => $character, 'user' => $user]
+            );
+        $view->assertSee($user->email);
+        $view->assertSee($character->name);
+    }
 }

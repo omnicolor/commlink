@@ -41,4 +41,18 @@ class CharactersController extends \App\Http\Controllers\Controller
                 ->firstOrFail()
         );
     }
+
+    /**
+     * View a character's sheet.
+     * @param Character $character
+     * @return \Illuminate\View\View
+     */
+    public function view(Character $character): \Illuminate\View\View
+    {
+        $user = \Auth::user();
+        return view(
+            'expanse.character',
+            ['character' => $character, 'user' => $user]
+        );
+    }
 }
