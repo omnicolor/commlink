@@ -10,10 +10,11 @@
             @forelse ($characters as $character)
                 <li class="list-group-item">
                     @switch ($character->system)
-                        @case ('shadowrun5e')
                         @case ('cyberpunkred')
+                        @case ('expanse')
+                        @case ('shadowrun5e')
                             <a href="/characters/{{ $character->system }}/{{ $character->id }}">
-                                {{ $character->handle }}</a>
+                                {{ $character->handle ?? $character->name }}</a>
                             ({{ config('app.systems')[$character->system] }})
                             @break
                         @default
