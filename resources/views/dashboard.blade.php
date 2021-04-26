@@ -7,7 +7,7 @@
         <div class="col">
             <h1>Characters</h1>
             <ul class="list-group">
-            @forelse ($characters as $character)
+                @forelse ($user->characters()->get() as $character)
                 <li class="list-group-item">
                     @switch ($character->system)
                         @case ('cyberpunkred')
@@ -22,7 +22,8 @@
                             {{ $character->handle ?? $character->name }}
                             ({{ config('app.systems')[$character->system] }})
                             @else
-                            {{ $character->handle ?? $character->name }} ({{ $character->system }})
+                            {{ $character->handle ?? $character->name }}
+                            ({{ $character->system }})
                             @endif
                             @break
                     @endswitch
