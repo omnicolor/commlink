@@ -12,3 +12,4 @@ public/storage
 storage/*.key
 vendor
 yarn-error.log
+storage/framework/db.sqlite

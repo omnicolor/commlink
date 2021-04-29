@@ -6,6 +6,7 @@ namespace Tests\Feature\Http\Controllers\Shadowrun5E;
 
 use App\Models\Shadowrun5E\Character;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 
 /**
@@ -20,6 +21,8 @@ use Illuminate\Http\Response;
  */
 final class CharacterControllerTest extends \Tests\TestCase
 {
+    use RefreshDatabase;
+
     /**
      * Characters we're testing on.
      * @var array<int, Character>
