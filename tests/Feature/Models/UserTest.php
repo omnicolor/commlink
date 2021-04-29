@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models;
 
+use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\ChatUser;
 use App\Models\User;
@@ -12,6 +13,7 @@ use Illuminate\Support\Collection;
 
 /**
  * Tests for the user class.
+ * @group campaigns
  * @group user
  */
 final class UserTest extends \Tests\TestCase
@@ -43,6 +45,33 @@ final class UserTest extends \Tests\TestCase
             unset($this->characters[$key]);
         }
         parent::tearDown();
+    }
+
+    /**
+     * Test getting a user's campaigns if they have none.
+     * @test
+     */
+    public function testCampaignsNone(): void
+    {
+        $user = User::factory()->create();
+        self::assertCount(0, $user->campaigns);
+        self::assertCount(0, $user->campaignsRegistered);
+    }
+
+    /**
+     * Test getting a user's campaigns.
+     * @test
+     */
+    public function testCampaigns(): void
+    {
+        $user = User::factory()->create();
+        Campaign::factory()->create(['gm' => $user]);
+        Campaign::factory()->create([
+            'gm' => $user,
+            'registered_by' => $user,
+        ]);
+        self::assertCount(2, $user->campaigns);
+        self::assertCount(1, $user->campaignsRegistered);
     }
 
     /**

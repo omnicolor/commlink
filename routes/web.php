@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\CampaignsController;
 use App\Http\Controllers\CyberpunkRed\CharactersController as CyberpunkRedCharacterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Expanse\CharactersController as ExpanseCharacterController;
@@ -16,6 +17,8 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function (): void {
     Route::get('/dashboard', [DashboardController::class, 'show'])
         ->name('dashboard');
+    Route::get('/campaigns/create', [CampaignsController::class, 'createForm']);
+    Route::post('/campaigns/create', [CampaignsController::class, 'create']);
     Route::get('/settings', [SettingsController::class, 'show'])
         ->name('settings')->middleware('web');
     Route::post(

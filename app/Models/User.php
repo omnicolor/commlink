@@ -45,6 +45,24 @@ class User extends Authenticatable
     ];
 
     /**
+     * Get the campaigns for the user.
+     * @return HasMany
+     */
+    public function campaigns(): HasMany
+    {
+        return $this->hasMany(Campaign::class, 'gm', 'id');
+    }
+
+    /**
+     * Get the campaigns the user has registered.
+     * @return HasMany
+     */
+    public function campaignsRegistered(): HasMany
+    {
+        return $this->hasMany(Campaign::class, 'registered_by', 'id');
+    }
+
+    /**
      * Get the characters for the User.
      * @param ?string $system
      * @return Builder
