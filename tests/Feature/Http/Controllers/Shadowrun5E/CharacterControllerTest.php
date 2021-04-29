@@ -110,8 +110,19 @@ final class CharacterControllerTest extends \Tests\TestCase
                 'updated_at' => $character2->updated_at->toJson(),
                 'created_at' => $character2->created_at->toJson(),
             ]);
-        $character1->delete();
-        $character2->delete();
+    }
+
+    /**
+     * Test listing a user's Shadowrun characters.
+     * @test
+     */
+    public function testListCharacters(): void
+    {
+        $user = User::factory()->create();
+        $view = $this->actingAs($user)
+            ->get('/characters/shadowrun5e')
+            ->assertSee('You don\'t have any characters!', false)
+            ->assertSee('Shadowrun 5E Characters');
     }
 
     /**
@@ -136,7 +147,6 @@ final class CharacterControllerTest extends \Tests\TestCase
                 'updated_at' => $character->updated_at->toJson(),
                 'created_at' => $character->created_at->toJson(),
             ]);
-        $character->delete();
     }
 
     /**
@@ -153,7 +163,6 @@ final class CharacterControllerTest extends \Tests\TestCase
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.characters.show', $character->id))
             ->assertStatus(Response::HTTP_NOT_FOUND);
-        $character->delete();
     }
 
     /**
@@ -167,12 +176,11 @@ final class CharacterControllerTest extends \Tests\TestCase
             'owner' => $user->email,
             'system' => 'shadowrun5e',
         ]);
-        $view = $this->actingAs($user)
+        $this->actingAs($user)
             ->get(
                 sprintf('/characters/shadowrun5e/%s', $character->id),
                 ['character' => $character, 'user' => $user]
-            );
-        $view->assertSee($user->email);
-        $view->assertSee($character->handle);
+            )
+            ->assertSee($character->handle);
     }
 }

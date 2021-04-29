@@ -19,6 +19,10 @@ Route::middleware('auth')->group(function (): void {
         ->name('dashboard');
     Route::get('/campaigns/create', [CampaignsController::class, 'createForm']);
     Route::post('/campaigns/create', [CampaignsController::class, 'create']);
+    Route::get(
+        '/characters/shadowrun5e',
+        [Shadowrun5ECharacterController::class, 'list']
+    );
     Route::get('/settings', [SettingsController::class, 'show'])
         ->name('settings')->middleware('web');
     Route::post(

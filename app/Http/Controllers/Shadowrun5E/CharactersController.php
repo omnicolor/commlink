@@ -8,6 +8,7 @@ use App\Http\Resources\Shadowrun5E\CharacterResource;
 use App\Models\Shadowrun5E\Character;
 use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\View\View;
 
 /**
  * Controller for interacting with Shadowrun 5E characters.
@@ -24,6 +25,15 @@ class CharactersController extends \App\Http\Controllers\Controller
             // @phpstan-ignore-next-line
             Character::where('owner', \Auth::user()->email)->get()
         );
+    }
+
+    /**
+     * View all of the logged in user's characters.
+     * @return View
+     */
+    public function list(): View
+    {
+        return view('shadowrun5e.characters');
     }
 
     /**
@@ -45,9 +55,9 @@ class CharactersController extends \App\Http\Controllers\Controller
     /**
      * View a character's sheet.
      * @param Character $character
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function view(Character $character): \Illuminate\View\View
+    public function view(Character $character): View
     {
         $user = \Auth::user();
         return view(
