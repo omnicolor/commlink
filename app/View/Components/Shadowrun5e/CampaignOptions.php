@@ -9,6 +9,10 @@ use Illuminate\View\Component;
 
 class CampaignOptions extends Component
 {
+    /**
+     * Collection of books.
+     * @var array<string, string|bool>
+     */
     public array $books;
 
     /**
