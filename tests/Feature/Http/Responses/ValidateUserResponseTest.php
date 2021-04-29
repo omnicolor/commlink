@@ -9,6 +9,7 @@ use App\Http\Responses\ValidateUserResponse;
 use App\Models\Channel;
 use App\Models\ChatUser;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * Tests for validating a user from Slack.
@@ -16,6 +17,8 @@ use App\Models\User;
  */
 final class ValidateUserResponseTest extends \Tests\TestCase
 {
+    use RefreshDatabase;
+
     /**
      * Test not having a channel.
      * @test
