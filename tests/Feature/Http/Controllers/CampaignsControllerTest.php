@@ -11,7 +11,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 /**
  * Tests for the campaigns controller.
  * @group campaigns
- * @group current
  * @group controllers
  */
 final class CampaignsControllerTest extends \Tests\TestCase
@@ -51,7 +50,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
             count(config('app.systems')) === 1
             && isset(config('app.systems')['shadowrun5e'])
         ) {
-            $this->markTestSkipped('Shadowrun 5E is the only available system');
+            self::markTestSkipped('Shadowrun 5E is the only available system');
         }
         // @phpstan-ignore-next-line
         $name = $this->faker->catchPhrase();
@@ -92,12 +91,13 @@ final class CampaignsControllerTest extends \Tests\TestCase
      */
     public function testCreateNewSr5eCampaign(): void
     {
-        if (!in_array('shadowrun5e', array_keys(config('app.systems')))) {
-            $this->markTestSkipped('Shadowrun 5E not enabled');
-            return;
+        if (!in_array('shadowrun5e', array_keys(config('app.systems')), true)) {
+            self::markTestSkipped('Shadowrun 5E not enabled');
         }
         // @phpstan-ignore-next-line
         $name = $this->faker->catchPhrase();
+
+        // @phpstan-ignore-next-line
         $description = $this->faker->bs();
 
         $user = User::factory()->create();
