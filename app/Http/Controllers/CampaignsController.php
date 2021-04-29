@@ -17,9 +17,7 @@ class CampaignsController extends Controller
      */
     public function createForm(): View
     {
-        $filename = config('app.data_path.shadowrun5e') . 'rulebooks.php';
-        $books = require $filename;
-        return view('campaign.create', ['sr5eBooks' => $books]);
+        return view('campaign.create');
     }
 
     /**
