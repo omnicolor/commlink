@@ -135,7 +135,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
                 'gm' => null,
                 'name' => $name,
                 'options' => $expectedOptions,
-                'registered_by' => $user->id,
+                'registered_by' => (int)$user->id,
                 'system' => 'shadowrun5e',
             ]
         );

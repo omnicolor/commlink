@@ -35,13 +35,12 @@ class CampaignsController extends Controller
         // @phpstan-ignore-next-line
         $campaign->registered_by = \Auth::user()->id;
         if ('shadowrun5e' === $request->input('system')) {
-            $options = [
+            $campaign->options = [
                 'creation' => $request->input('sr5e-creation'),
                 'gameplay' => $request->input('sr5e-gameplay'),
                 'rulesets' => $request->input('sr5e-rules'),
                 'startDate' => $request->input('sr5e-start-date'),
             ];
-            $campaign->options = json_encode($options);
         }
         $campaign->save();
         return redirect('dashboard');
