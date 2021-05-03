@@ -28,7 +28,6 @@ final class CharacterTest extends \Tests\TestCase
             'empathy' => 4,
             'handle' => 'Test Character',
             'hitPointsCurrent' => 100,
-            'hitPointsMax' => 200,
             'intelligence' => 5,
             'luck' => 6,
             'movement' => 7,
@@ -42,7 +41,7 @@ final class CharacterTest extends \Tests\TestCase
         self::assertSame(4, $character->empathy);
         self::assertSame('Test Character', $character->handle);
         self::assertSame(100, $character->hitPointsCurrent);
-        self::assertSame(200, $character->hitPointsMax);
+        self::assertSame(40, $character->hitPointsMax);
         self::assertSame(5, $character->intelligence);
         self::assertSame(6, $character->luck);
         self::assertSame(7, $character->movement);
@@ -59,6 +58,101 @@ final class CharacterTest extends \Tests\TestCase
     {
         $character = new Character(['handle' => 'Bob King']);
         self::assertSame('Bob King', (string)$character);
+    }
+
+    /**
+     * Test getting the character's death save.
+     * @test
+     */
+    public function testGetDeathSave(): void
+    {
+        $body = random_int(1, 15);
+        $character = new Character(['body' => $body]);
+        self::assertSame($body, $character->death_save);
+    }
+
+    /**
+     * Return different datasets for testing hit points.
+     * @return array<int, array<int, int>>
+     */
+    public function hitPointsProvider(): array
+    {
+        return [
+            [0, 0, 10],
+            [1, 0, 15],
+            [0, 1, 15],
+            [0, 10, 35],
+            [10, 10, 60],
+        ];
+    }
+
+    /**
+     * Data provider for the max hit points tests.
+     * @dataProvider hitPointsProvider
+     * @param int $body
+     * @param int $will
+     * @param int $hp
+     */
+    public function testHitPointsMax(int $body, int $will, int $hp): void
+    {
+        $character = new Character(['body' => $body, 'willpower' => $will]);
+        self::assertSame($hp, $character->hit_points_max);
+    }
+
+    /**
+     * Return different data sets for calculating the character's humanity.
+     * @return array<int, array<int, int>>
+     */
+    public function humanityProvider(): array
+    {
+        return [
+            [0, 0],
+            [1, 10],
+            [2, 20],
+            [10, 100],
+        ];
+    }
+
+    /**
+     * Test getting the character's humanity.
+     * @dataProvider humanityProvider
+     * @param int $empathy
+     * @param int $humanity
+     */
+    public function testHumanity(int $empathy, int $humanity): void
+    {
+        $character = new Character(['empathy' => $empathy]);
+        self::assertSame($humanity, $character->humanity);
+    }
+
+    /**
+     * Return different datasets for testing getting the threshold.
+     * @return array<int, array<int, int>>
+     */
+    public function woundThresholdProvider(): array
+    {
+        return [
+            [0, 0, 5],
+            [10, 10, 30],
+            [15, 10, 38],
+        ];
+    }
+
+    /**
+     * Test getting the serious wound threshold.
+     * @dataProvider woundThresholdProvider
+     * @param int $body
+     * @param int $will
+     * @param int $threshold
+     * @test
+     */
+    public function testSeriousWoundThreshold(
+        int $body,
+        int $will,
+        int $threshold
+    ): void {
+        $character = new Character(['body' => $body, 'willpower' => $will]);
+        self::assertSame($threshold, $character->seriously_wounded_threshold);
     }
 
     /**
@@ -199,5 +293,15 @@ final class CharacterTest extends \Tests\TestCase
             return;
         }
         self::fail('Skill not found');
+    }
+
+    /**
+     * Test getting the character's original empathy statistic.
+     * @test
+     */
+    public function testGetOriginalEmpathy(): void
+    {
+        $character = new Character(['empathy' => 5]);
+        self::assertSame(5, $character->empathy_original);
     }
 }

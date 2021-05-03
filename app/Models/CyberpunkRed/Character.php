@@ -43,7 +43,6 @@ class Character extends \App\Models\Character
         'empathy',
         'handle',
         'hitPointsCurrent',
-        'hitPointsMax',
         'intelligence',
         'luck',
         'movement',
@@ -84,6 +83,53 @@ class Character extends \App\Models\Character
     }
 
     /**
+     * Return the character's death save attribute.
+     * @return int
+     */
+    public function getDeathSaveAttribute(): int
+    {
+        return $this->attributes['body'];
+    }
+
+    /**
+     * Return the character's calculated empathy.
+     * @return int
+     */
+    public function getEmpathyAttribute(): int
+    {
+        return (int)floor($this->humanity / 10);
+    }
+
+    /**
+     * Return the character's original empathy.
+     * @return int
+     */
+    public function getEmpathyOriginalAttribute(): int
+    {
+        return $this->attributes['empathy'];
+    }
+
+    /**
+     * Return the character's maximum hit points.
+     * @return int
+     */
+    public function getHitPointsMaxAttribute(): int
+    {
+        return 10 + 5 * (int)ceil(
+            ($this->attributes['body'] + $this->attributes['willpower']) / 2
+        );
+    }
+
+    /**
+     * Return the character's remaining humanity.
+     * @return int
+     */
+    public function getHumanityAttribute(): int
+    {
+        return (int)$this->attributes['empathy'] * 10;
+    }
+
+    /**
      * Get the character's roles.
      * @return RoleArray
      */
@@ -103,6 +149,15 @@ class Character extends \App\Models\Character
             }
         }
         return $roles;
+    }
+
+    /**
+     * Get the character's seriously wounded threshold.
+     * @return int
+     */
+    public function getSeriouslyWoundedThresholdAttribute(): int
+    {
+        return (int)ceil($this->hit_points_max / 2);
     }
 
     /**
