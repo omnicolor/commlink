@@ -9,48 +9,20 @@
                 float: right;
             }
             .value span {
-                color: #999;
+                color: #000;
                 display: inline-block;
                 text-align: center;
                 white-space: nowrap;
                 width: 2em;
             }
             .value span:last-child {
-                color: #000;
                 text-align: right;
             }
             .card {
                 margin-top: 1em;
             }
-            .show-more {
-                bottom: -18px;
-                display: inline-block;
-                font-size: 80%;
-                position: absolute;
-                right: 0;
-            }
             #weaponlist th {
                 font-size: 80%;
-            }
-            span.monitor {
-                background-color: #66cc66;
-                border-color: #000000;
-                border-style: solid;
-                border-width: 1px 0 1px 1px;
-                color: #66cc66;
-                display: inline-block;
-                float: left;
-                height: 1.4em;
-                margin: 0;
-                padding-left: 0.2em;
-                width: 1.4em;
-            }
-            span.monitor:last-child {
-                border-width: 1px;
-            }
-            span.monitor.used {
-                background-color: #cc6666;
-                color: #000000;
             }
             .tooltip-inner {
                 text-align: left;
@@ -108,13 +80,41 @@
                     <li class="list-group-item">
                         LUCK
                         <div class="value">
-                            {{ $character->luck }}
+                            <span id="luck-current">{{ $character->luck }}</span> /
+                            <span id="luck-total">{{ $character->luck }}</span>
                         </div>
                     </li>
                     <li class="list-group-item">
                         MOVE
                         <div class="value" id="movement">
                             {{ $character->movement }}
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        BODY
+                        <div class="value" id="body">
+                            {{ $character->body }}
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        EMP
+                        <div class="value">
+                            <span id="empathy-current">{{ $character->empathy }}</span> /
+                            <span id="empathy-total">{{ $character->empathy_original }}</span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        Humanity
+                        <div class="value">
+                            <span id="humanity-current">{{ $character->humanity }}</span> /
+                            <span id="humanity-total">{{ $character->humanity }}</span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        Hit points
+                        <div class="value">
+                            <span id="hit-points-current">{{ $character->hit_points_max }}</span> /
+                            <span id="hit-points-total">{{ $character->hit_points_max }}</span>
                         </div>
                     </li>
                 </ul>
