@@ -31,7 +31,7 @@
     </x-slot>
 
     <div class="row">
-        <div class="col">
+        <div class="col-2">
             <div class="card">
                 <div class="card-header">metadata</div>
                 <ul class="list-group list-group-flush">
@@ -118,6 +118,73 @@
                         </div>
                     </li>
                 </ul>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row">
+                @php
+                    $skills = $character->getSkillsByCategory();
+                @endphp
+                <div class="col-4 mt-3">
+                    @foreach (['Awareness', 'Body', 'Control', 'Fighting', 'Performance'] as $category)
+                    <table class="table table-sm">
+                        <tr class="table-dark">
+                            <th scope="col">{{ $category }} Skills</th>
+                            <th scope="col">Level</th>
+                            <th scope="col">Stat</th>
+                            <th scope="col">Base</th>
+                        </tr>
+                        @foreach ($skills[$category] as $skill)
+                        <tr>
+                            <td>{{ $skill }} ({{ $skill->getShortAttribute() }})</td>
+                            <td>{{ $skill->level }}</td>
+                            <td>{{ $character->{$skill->attribute} }}</td>
+                            <td>{{ $skill->getBase($character) }}</td>
+                        </tr>
+                        @endforeach
+                    </table>
+                    @endforeach
+                </div>
+                <div class="col-4 mt-3">
+                    @foreach (['Education', 'Ranged Weapon'] as $category)
+                    <table class="table table-sm">
+                        <tr class="table-dark">
+                            <th scope="col">{{ $category }} Skills</th>
+                            <th scope="col">Level</th>
+                            <th scope="col">Stat</th>
+                            <th scope="col">Base</th>
+                        </tr>
+                        @foreach ($skills[$category] as $skill)
+                        <tr>
+                            <td>{{ $skill }} ({{ $skill->getShortAttribute() }})</td>
+                            <td>{{ $skill->level }}</td>
+                            <td>{{ $character->{$skill->attribute} }}</td>
+                            <td>{{ $skill->getBase($character) }}</td>
+                        </tr>
+                        @endforeach
+                    </table>
+                    @endforeach
+                </div>
+                <div class="col-4 mt-3">
+                    @foreach (['Social', 'Technique'] as $category)
+                    <table class="table table-sm">
+                        <tr class="table-dark">
+                            <th scope="col">{{ $category }} Skills</th>
+                            <th scope="col">Level</th>
+                            <th scope="col">Stat</th>
+                            <th scope="col">Base</th>
+                        </tr>
+                        @foreach ($skills[$category] as $skill)
+                        <tr>
+                            <td>{{ $skill }} ({{ $skill->getShortAttribute() }})</td>
+                            <td>{{ $skill->level }}</td>
+                            <td>{{ $character->{$skill->attribute} }}</td>
+                            <td>{{ $skill->getBase($character) }}</td>
+                        </tr>
+                        @endforeach
+                    </table>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>

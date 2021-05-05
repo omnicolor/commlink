@@ -193,10 +193,10 @@ class Character extends \App\Models\Character
         $skills = new SkillArray();
         foreach ($rawSkills as $id => $skillInfo) {
             if (array_key_exists($id, $this->skills ?? [])) {
-                $skills[] = new Skill($id, $this->skills[$id]);
+                $skills[$id] = new Skill($id, $this->skills[$id]);
                 continue;
             }
-            $skills[] = new Skill($id);
+            $skills[$id] = new Skill($id);
         }
         return $skills;
     }
@@ -215,6 +215,7 @@ class Character extends \App\Models\Character
             }
             $skills[$skill->category][] = $skill;
         }
+        ksort($skills);
         return $skills;
     }
 }

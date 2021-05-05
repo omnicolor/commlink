@@ -112,4 +112,26 @@ class Skill
         // @phpstan-ignore-next-line
         return (int)($this->level + $character->{$this->attribute});
     }
+
+    /**
+     * Return the shortened version of a skill's attribute.
+     * @return string
+     */
+    public function getShortAttribute(): string
+    {
+        $attributes = [
+            'body' => 'BOD',
+            'cool' => 'COOL',
+            'dexterity' => 'DEX',
+            'empathy' => 'EMP',
+            'intelligence' => 'INT',
+            'reflexes' => 'REF',
+            'technique' => 'TECH',
+            'willpower' => 'WILL',
+        ];
+        if (!array_key_exists($this->attribute, $attributes)) {
+            return $this->attribute;
+        }
+        return $attributes[$this->attribute];
+    }
 }

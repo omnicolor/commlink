@@ -66,4 +66,37 @@ final class SkillTest extends \Tests\TestCase
         $skill = new Skill('business', $level);
         self::assertSame($intelligence + $level, $skill->getBase($character));
     }
+
+    /**
+     * Return attributes and what the short form should be.
+     * @return array<int, array<int, string>>
+     */
+    public function attributeProvider(): array
+    {
+        return [
+            ['body', 'BOD'],
+            ['cool', 'COOL'],
+            ['dexterity', 'DEX'],
+            ['empathy', 'EMP'],
+            ['intelligence', 'INT'],
+            ['reflexes', 'REF'],
+            ['technique', 'TECH'],
+            ['unknown', 'unknown'],
+            ['willpower', 'WILL'],
+        ];
+    }
+
+    /**
+     * Test getting a skill's shortened attribute.
+     * @dataProvider attributeProvider
+     * @param string $attribute
+     * @param string $expected
+     * @test
+     */
+    public function testGetShort($attribute, $expected): void
+    {
+        $skill = new Skill('business');
+        $skill->attribute = $attribute;
+        self::assertSame($expected, $skill->getShortAttribute());
+    }
 }
