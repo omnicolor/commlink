@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Lifestyle zone stats for Shadowrun 5E.
  */
-
 return [
     /*
     '' => [

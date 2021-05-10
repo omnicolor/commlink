@@ -1,11 +1,10 @@
 <?php
 
-/**
- * List of qualities.
- */
-
 declare(strict_types=1);
 
+/**
+ * List of Shadowrun 5th edition qualities.
+ */
 return [
     /*
     '' => [

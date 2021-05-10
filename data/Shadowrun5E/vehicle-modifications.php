@@ -1,9 +1,10 @@
 <?php
 
-/**
- * Data file for Shadowrun 5E vehicle modifications.
- */
+declare(strict_types=1);
 
+/**
+ * Data file for Shadowrun 5th edition vehicle modifications.
+ */
 return [
     /*
     '' => [

@@ -1,11 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * List of martial arts styles.
  */
-
-declare(strict_types=1);
-
 return [
     /*
     '' => [

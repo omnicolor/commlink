@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * List of Shadowrun 5E ammunition.
  */
-
 return [
     /*
     '' => [

@@ -1,9 +1,10 @@
 <?php
 
-/**
- * List of Shadowrun 5E weapons.
- */
+declare(strict_types=1);
 
+/**
+ * List of Shadowrun 5th edition weapons.
+ */
 return [
     /*
     '' => [

@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Data file for Shadowrun 5th edition vehicles.
  */
-
 return [
     /*
     '' => [

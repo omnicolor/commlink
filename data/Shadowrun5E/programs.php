@@ -1,11 +1,10 @@
 <?php
 
-/**
- * List of matrix programs.
- */
-
 declare(strict_types=1);
 
+/**
+ * List of Shadowrun 5th edition matrix programs.
+ */
 return [
     /*
     '' => [

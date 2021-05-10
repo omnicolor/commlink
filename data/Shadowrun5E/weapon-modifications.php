@@ -1,9 +1,10 @@
 <?php
 
-/**
- * List of weapon modifications.
- */
+declare(strict_types=1);
 
+/**
+ * List of weapon modifications in Shadowrun 5th edition.
+ */
 return [
     /*
     '' => [

@@ -1,11 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Data file of complex forms.
  */
-
-declare(strict_types=1);
-
 return [
     /*
     '' => [

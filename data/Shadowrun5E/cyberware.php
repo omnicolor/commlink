@@ -1,11 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * List of cyberware.
  */
-
-declare(strict_types=1);
-
 return [
     /*
     '' => [

@@ -1,11 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Data file for Shadowrun 5E spirits.
  */
-
-declare(strict_types=1);
-
 return [
     /*
     '' => [

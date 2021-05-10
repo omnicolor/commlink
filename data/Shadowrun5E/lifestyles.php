@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Lifestyles for Shadowrun 5E.
  */
-
 return [
     /*
     '' => [

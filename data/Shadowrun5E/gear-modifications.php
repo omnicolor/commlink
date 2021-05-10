@@ -1,11 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * List of modifications that can be added to gear.
  */
-
-declare(strict_types=1);
-
 return [
     /*
     '' => [
