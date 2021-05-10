@@ -1,7 +1,7 @@
 <?php
 
 /**
- * List of matrix programs
+ * List of matrix programs.
  */
 
 declare(strict_types=1);
