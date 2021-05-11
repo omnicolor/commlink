@@ -13,6 +13,7 @@ use App\Models\Channel;
  * @covers \App\Http\Responses\Expanse\NumberResponse
  * @group expanse
  * @group slack
+ * @small
  */
 final class NumberResponseTest extends \Tests\TestCase
 {
@@ -49,7 +50,7 @@ final class NumberResponseTest extends \Tests\TestCase
     {
         if (isset($this->channel)) {
             $this->channel->delete();
-            unset($this->channel);
+            $this->channel = null;
         }
         parent::tearDown();
     }

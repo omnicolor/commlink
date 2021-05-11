@@ -12,6 +12,7 @@ use App\Models\Shadowrun5E\Augmentation;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class AugmentationTest extends \Tests\TestCase
 {

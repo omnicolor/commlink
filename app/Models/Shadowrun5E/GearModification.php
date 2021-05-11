@@ -98,9 +98,9 @@ class GearModification
             . 'gear-modifications.php';
         self::$modifications ??= require $filename;
 
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$modifications[$id])) {
-            throw new \RuntimeException(sprintf(
+            throw new \RuntimeException(\sprintf(
                 'Gear mod "%s" not found',
                 $id
             ));

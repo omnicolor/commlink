@@ -34,9 +34,9 @@ class LifestylesController extends \App\Http\Controllers\Controller
             . 'lifestyles.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/lifestyles';
-        $stat = stat($this->filename);
+        $stat = \stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
         $this->lifestyles = require $this->filename;
     }
 
@@ -48,18 +48,18 @@ class LifestylesController extends \App\Http\Controllers\Controller
     {
         foreach ($this->lifestyles as $key => $value) {
             $this->lifestyles[$key]['links'] = [
-                'self' => sprintf(
+                'self' => \sprintf(
                     '/api/shadowrun5e/lifestyles/%s',
-                    urlencode($key)
+                    \urlencode($key)
                 ),
             ];
         }
 
-        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->headers['Etag'] = \sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => array_values($this->lifestyles),
+            'data' => \array_values($this->lifestyles),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -72,8 +72,8 @@ class LifestylesController extends \App\Http\Controllers\Controller
      */
     public function show(string $id): Response
     {
-        $id = strtolower($id);
-        if (!array_key_exists($id, $this->lifestyles)) {
+        $id = \strtolower($id);
+        if (!\array_key_exists($id, $this->lifestyles)) {
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
                 'detail' => $id . ' not found',
@@ -84,8 +84,8 @@ class LifestylesController extends \App\Http\Controllers\Controller
 
         $lifestyle = $this->lifestyles[$id];
         $this->links['self'] = $lifestyle['links']['self']
-            = sprintf('/api/shadowrun5e/lifestyles/%s', urlencode($id));
-        $this->headers['Etag'] = sha1((string)json_encode($lifestyle));
+            = \sprintf('/api/shadowrun5e/lifestyles/%s', \urlencode($id));
+        $this->headers['Etag'] = \sha1((string)\json_encode($lifestyle));
 
         $data = [
             'links' => $this->links,

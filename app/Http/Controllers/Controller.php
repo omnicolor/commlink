@@ -37,7 +37,7 @@ class Controller extends BaseController
             'Access-Control-Allow-Origin' => '*',
             'Cache-Control' => 'public',
             'Content-Language' => 'en-US',
-            'Expires' => (new \DateTime('+1 month'))->format('r'),
+            'Expires' => (new \DateTimeImmutable('+1 month'))->format('r'),
         ];
         $this->links = ['root' => '/api'];
     }
@@ -53,6 +53,7 @@ class Controller extends BaseController
             'links' => $this->links,
             'errors' => [$error],
         ];
-        return response($data, (int)$error['status'])->withHeaders($this->headers);
+        return response($data, (int)$error['status'])
+            ->withHeaders($this->headers);
     }
 }

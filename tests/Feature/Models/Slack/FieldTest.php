@@ -10,6 +10,7 @@ use App\Models\Slack\Field;
  * Tests for Slack Field class.
  * @covers \App\Models\Slack\Field
  * @group slack
+ * @small
  */
 final class FieldTest extends \PHPUnit\Framework\TestCase
 {

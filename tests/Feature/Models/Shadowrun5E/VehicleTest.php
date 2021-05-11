@@ -14,6 +14,7 @@ use App\Models\Shadowrun5E\Weapon;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class VehicleTest extends \Tests\TestCase
 {
@@ -156,7 +157,7 @@ final class VehicleTest extends \Tests\TestCase
     public function testGetMatrixConditionMonitorNoDR(): void
     {
         $vehicle = new Vehicle(['id' => 'dodge-scoot']);
-        unset($vehicle->deviceRating);
+        $vehicle->deviceRating = null;
         self::assertSame(0, $vehicle->getMatrixConditionMonitor());
     }
 

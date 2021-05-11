@@ -15,6 +15,7 @@ use Illuminate\Support\Collection;
  * Tests for the user class.
  * @group campaigns
  * @group user
+ * @medium
  */
 final class UserTest extends \Tests\TestCase
 {

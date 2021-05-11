@@ -12,6 +12,7 @@ use App\Models\Expanse\ConditionArray;
  * @covers \App\Models\Expanse\ConditionArray
  * @group models
  * @group expanse
+ * @small
  */
 final class ConditionArrayTest extends \Tests\TestCase
 {

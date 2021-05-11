@@ -37,8 +37,8 @@ class KnowledgeSkill extends Skill
             'street',
         ];
         $this->name = $name;
-        if (!in_array($category, $categories, true)) {
-            throw new \RuntimeException(sprintf(
+        if (!\in_array($category, $categories, true)) {
+            throw new \RuntimeException(\sprintf(
                 'Knowledge skill category "%s" is invalid',
                 $category
             ));

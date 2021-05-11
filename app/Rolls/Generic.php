@@ -24,10 +24,10 @@ class Generic extends Roll
     public function __construct(string $content, string $character)
     {
         // First, pull the description part out, if it exists.
-        $parts = explode(' ', $content);
-        $expression = array_shift($parts);
-        if (0 !== count($parts)) {
-            $this->description = implode(' ', $parts);
+        $parts = \explode(' ', $content);
+        $expression = \array_shift($parts);
+        if (0 !== \count($parts)) {
+            $this->description = \implode(' ', $parts);
         }
 
         $dynamicPart = $this->getDynamicPart($expression);
@@ -35,32 +35,32 @@ class Generic extends Roll
 
         $rolls = $this->rollDice($dice, $pips);
 
-        $diceSum = array_sum($rolls);
+        $diceSum = \array_sum($rolls);
 
         // Swap out the XdY with the sum of the rolled dice to show our work.
-        $partial = str_replace(
+        $partial = \str_replace(
             $dynamicPart,
-            sprintf('[%d]', $diceSum),
+            \sprintf('[%d]', $diceSum),
             $expression
         );
 
         // Use the convertFormula trait from Shadowrun 5E to avoid needing
         // eval().
         $total = $this->convertFormula(
-            str_replace($dynamicPart, sprintf('%d', $diceSum), $content),
+            \str_replace($dynamicPart, \sprintf('%d', $diceSum), $content),
             'F', // unused
             1 // unused
         );
 
-        $this->title = sprintf(
+        $this->title = \sprintf(
             '%s rolled %d%s',
             $character,
             $total,
-            ('' !== $this->description) ? sprintf(' for "%s"', $this->description) : ''
+            ('' !== $this->description) ? \sprintf(' for "%s"', $this->description) : ''
         );
-        $this->text = sprintf('Rolling: %s = %s = %d', $expression, $partial, $total);
+        $this->text = \sprintf('Rolling: %s = %s = %d', $expression, $partial, $total);
         if ($dice > 1) {
-            $this->footer = 'Rolls: ' . implode(', ', $rolls);
+            $this->footer = 'Rolls: ' . \implode(', ', $rolls);
         }
     }
 
@@ -74,7 +74,7 @@ class Generic extends Roll
     protected function getDynamicPart(string $string): string
     {
         $matches = [];
-        preg_match('/(\d+)d(\d+)/', $string, $matches);
+        \preg_match('/(\d+)d(\d+)/', $string, $matches);
         return $matches[0];
     }
 
@@ -85,7 +85,7 @@ class Generic extends Roll
      */
     protected function getDiceAndPips(string $dynamicPart): array
     {
-        $dicePart = explode('d', $dynamicPart);
+        $dicePart = \explode('d', $dynamicPart);
         return [(int)$dicePart[0], (int)$dicePart[1]];
     }
 
@@ -126,10 +126,10 @@ class Generic extends Roll
      */
     public function forDiscord(): string
     {
-        $value = sprintf('**%s**', $this->title) . PHP_EOL
-            . $this->text . PHP_EOL;
+        $value = \sprintf('**%s**', $this->title) . \PHP_EOL
+            . $this->text . \PHP_EOL;
         if ('' !== $this->footer) {
-            $value .= sprintf('_%s_', $this->footer);
+            $value .= \sprintf('_%s_', $this->footer);
         }
         return $value;
     }

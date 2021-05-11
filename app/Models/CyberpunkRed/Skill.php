@@ -74,9 +74,9 @@ class Skill
         $filename = config('app.data_path.cyberpunkred') . 'skills.php';
         self::$skills ??= require $filename;
 
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$skills[$id])) {
-            throw new \RuntimeException(sprintf(
+            throw new \RuntimeException(\sprintf(
                 'Skill ID "%s" is invalid',
                 $id
             ));
@@ -129,7 +129,7 @@ class Skill
             'technique' => 'TECH',
             'willpower' => 'WILL',
         ];
-        if (!array_key_exists($this->attribute, $attributes)) {
+        if (!\array_key_exists($this->attribute, $attributes)) {
             return $this->attribute;
         }
         return $attributes[$this->attribute];

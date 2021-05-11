@@ -29,7 +29,7 @@ class ChannelFactory extends Factory
             'server_id' => \Str::random(10),
             'server_name' => $this->faker->company(),
             'system' => $this->faker->randomElement(
-                array_keys(config('app.systems'))
+                \array_keys(config('app.systems'))
             ),
             'type' => $this->faker->randomElement(Channel::VALID_TYPES),
         ];

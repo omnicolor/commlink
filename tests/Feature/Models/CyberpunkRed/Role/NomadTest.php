@@ -10,8 +10,9 @@ use App\Models\CyberpunkRed\Role\Nomad;
  * Tests for the Nomad role.
  * @covers App\Models\CyberpunkRed\Role
  * @covers App\Models\CyberpunkRed\Role\Nomad
- * @group models
  * @group cyberpunkred
+ * @group models
+ * @small
  */
 final class NomadTest extends \PHPUnit\Framework\TestCase
 {

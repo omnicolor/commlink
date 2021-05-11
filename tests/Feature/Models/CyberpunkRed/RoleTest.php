@@ -12,6 +12,7 @@ use App\Models\CyberpunkRed\Role\Fixer;
  * @covers \App\Models\CyberpunkRed\Role
  * @group cyberpunkred
  * @group models
+ * @small
  */
 final class RoleTest extends \PHPUnit\Framework\TestCase
 {

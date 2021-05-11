@@ -97,10 +97,10 @@ class Armor
         $filename = config('app.data_path.shadowrun5e') . 'armor.php';
         self::$armor ??= require $filename;
 
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$armor[$id])) {
             throw new \RuntimeException(
-                sprintf('Armor ID "%s" is invalid', $id)
+                \sprintf('Armor ID "%s" is invalid', $id)
             );
         }
 
@@ -150,7 +150,7 @@ class Armor
                 continue;
             } catch (\Exception $e) {
             }
-            throw new \RuntimeException(sprintf(
+            throw new \RuntimeException(\sprintf(
                 'Armor/Gear mod not found: %s',
                 $mod
             ));
@@ -169,11 +169,11 @@ class Armor
         $filename = config('app.data_path.shadowrun5e') . 'armor.php';
         self::$armor ??= require $filename;
         foreach (self::$armor as $armor) {
-            if (strtolower($armor['name']) === strtolower($name)) {
+            if (\strtolower($armor['name']) === \strtolower($name)) {
                 return new Armor($armor['id']);
             }
         }
-        throw new \RuntimeException(sprintf(
+        throw new \RuntimeException(\sprintf(
             'Armor name "%s" was not found',
             $name
         ));

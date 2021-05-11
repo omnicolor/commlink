@@ -13,6 +13,7 @@ use App\Models\Shadowrun5E\WeaponModification;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class WeaponModificationTest extends \Tests\TestCase
 {

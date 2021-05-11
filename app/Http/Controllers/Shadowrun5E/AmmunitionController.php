@@ -34,9 +34,9 @@ class AmmunitionController extends \App\Http\Controllers\Controller
             . 'ammunition.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/ammunition';
-        $stat = stat($this->filename);
+        $stat = \stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
         $this->ammo = require $this->filename;
     }
 
@@ -48,18 +48,18 @@ class AmmunitionController extends \App\Http\Controllers\Controller
     {
         foreach ($this->ammo as $key => $value) {
             $this->ammo[$key]['links'] = [
-                'self' => sprintf(
+                'self' => \sprintf(
                     '/api/shadowrun5e/ammunition/%s',
-                    urlencode($key)
+                    \urlencode($key)
                 ),
             ];
         }
 
-        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->headers['Etag'] = \sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => array_values($this->ammo),
+            'data' => \array_values($this->ammo),
         ];
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
@@ -71,8 +71,8 @@ class AmmunitionController extends \App\Http\Controllers\Controller
      */
     public function show(string $id): Response
     {
-        $id = strtolower($id);
-        if (!array_key_exists($id, $this->ammo)) {
+        $id = \strtolower($id);
+        if (!\array_key_exists($id, $this->ammo)) {
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
                 'detail' => $id . ' not found',
@@ -82,11 +82,11 @@ class AmmunitionController extends \App\Http\Controllers\Controller
         }
 
         $ammo = $this->ammo[$id];
-        $this->links['self'] = $ammo['links']['self'] = sprintf(
+        $this->links['self'] = $ammo['links']['self'] = \sprintf(
             '/api/shadowrun5e/ammunition/%s',
-            urlencode($id)
+            \urlencode($id)
         );
-        $this->headers['Etag'] = sha1((string)json_encode($ammo));
+        $this->headers['Etag'] = \sha1((string)\json_encode($ammo));
 
         $data = [
             'links' => $this->links,

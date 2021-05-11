@@ -34,9 +34,9 @@ class MartialArtsTechniquesController extends \App\Http\Controllers\Controller
             . 'martial-arts-techniques.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/martial-arts-techniques';
-        $stat = stat($this->filename);
+        $stat = \stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
         $this->techniques = require $this->filename;
     }
 
@@ -48,16 +48,16 @@ class MartialArtsTechniquesController extends \App\Http\Controllers\Controller
     {
         foreach ($this->techniques as $key => $value) {
             $this->techniques[$key]['links'] = [
-                'self' => sprintf(
+                'self' => \sprintf(
                     '/api/shadowrun5e/martial-arts-techniques/%s',
-                    urlencode($key)
+                    \urlencode($key)
                 ),
             ];
         }
-        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->headers['Etag'] = \sha1_file($this->filename);
         $data = [
             'links' => $this->links,
-            'data' => array_values($this->techniques),
+            'data' => \array_values($this->techniques),
         ];
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
@@ -69,8 +69,8 @@ class MartialArtsTechniquesController extends \App\Http\Controllers\Controller
      */
     public function show(string $id): Response
     {
-        $id = strtolower($id);
-        if (!array_key_exists($id, $this->techniques)) {
+        $id = \strtolower($id);
+        if (!\array_key_exists($id, $this->techniques)) {
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
                 'detail' => $id . ' not found',
@@ -80,12 +80,12 @@ class MartialArtsTechniquesController extends \App\Http\Controllers\Controller
         }
 
         $technique = $this->techniques[$id];
-        $technique['links']['self'] = $this->links['self'] = sprintf(
+        $technique['links']['self'] = $this->links['self'] = \sprintf(
             '/api/shadowrun5e/martial-arts-techniques/%s',
-            urlencode($id)
+            \urlencode($id)
         );
 
-        $this->headers['Etag'] = sha1((string)json_encode($technique));
+        $this->headers['Etag'] = \sha1((string)\json_encode($technique));
         $data = [
             'links' => $this->links,
             'data' => $technique,

@@ -12,6 +12,7 @@ use Illuminate\Foundation\Testing\WithFaker;
  * Tests for the campaigns controller.
  * @group campaigns
  * @group controllers
+ * @medium
  */
 final class CampaignsControllerTest extends \Tests\TestCase
 {
@@ -47,7 +48,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
     public function testCreateNewCampaign(): void
     {
         if (
-            count(config('app.systems')) === 1
+            1 === \count(config('app.systems'))
             && isset(config('app.systems')['shadowrun5e'])
         ) {
             self::markTestSkipped('Shadowrun 5E is the only available system');
@@ -58,9 +59,9 @@ final class CampaignsControllerTest extends \Tests\TestCase
         // Find a system that doesn't use the options field.
         do {
             $system = $this->faker->randomElement(
-                array_keys(config('app.systems'))
+                \array_keys(config('app.systems'))
             );
-        } while ($system === 'shadowrun5e');
+        } while ('shadowrun5e' === $system);
 
         $user = User::factory()->create();
         $this->actingAs($user)
@@ -91,7 +92,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
      */
     public function testCreateNewSr5eCampaign(): void
     {
-        if (!in_array('shadowrun5e', array_keys(config('app.systems')), true)) {
+        if (!\in_array('shadowrun5e', \array_keys(config('app.systems')), true)) {
             self::markTestSkipped('Shadowrun 5E not enabled');
         }
         // @phpstan-ignore-next-line
@@ -122,7 +123,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
             )
             ->assertRedirect('/dashboard');
 
-        $expectedOptions = json_encode([
+        $expectedOptions = \json_encode([
             'creation' => ['priority', 'sum-to-ten'],
             'gameplay' => 'established',
             'rulesets' => ['core', 'run-faster'],

@@ -12,6 +12,7 @@ use Illuminate\Http\Response;
  * @covers \App\Http\Controllers\Expanse\ConditionsController
  * @group controllers
  * @group expanse
+ * @medium
  */
 final class ConditionsControllerTest extends \Tests\TestCase
 {
@@ -53,7 +54,7 @@ final class ConditionsControllerTest extends \Tests\TestCase
                     'self' => '/api/expanse/conditions/deafened',
                 ],
             ]);
-        self::assertGreaterThanOrEqual(1, count($response['data']));
+        self::assertGreaterThanOrEqual(1, \count($response['data']));
     }
 
     /**

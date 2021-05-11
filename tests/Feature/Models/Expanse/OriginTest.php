@@ -17,6 +17,7 @@ use App\Models\Expanse\Origin\Martian;
  * @covers \App\Models\Expanse\Origin\Martian
  * @group models
  * @group expanse
+ * @small
  */
 final class OriginTest extends \Tests\TestCase
 {

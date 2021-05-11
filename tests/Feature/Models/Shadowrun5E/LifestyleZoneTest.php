@@ -12,6 +12,7 @@ use App\Models\Shadowrun5E\LifestyleZone;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class LifestyleZoneTest extends \Tests\TestCase
 {

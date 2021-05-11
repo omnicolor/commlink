@@ -34,9 +34,9 @@ class AdeptPowersController extends \App\Http\Controllers\Controller
             . 'adept-powers.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/adept-powers';
-        $stat = stat($this->filename);
+        $stat = \stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
         $this->powers = require $this->filename;
     }
 
@@ -48,18 +48,18 @@ class AdeptPowersController extends \App\Http\Controllers\Controller
     {
         foreach ($this->powers as $key => $value) {
             $this->powers[$key]['links'] = [
-                'self' => sprintf(
+                'self' => \sprintf(
                     '/api/shadowrun5e/adept-powers/%s',
-                    urlencode($key)
+                    \urlencode($key)
                 ),
             ];
         }
 
-        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->headers['Etag'] = \sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => array_values($this->powers),
+            'data' => \array_values($this->powers),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -72,8 +72,8 @@ class AdeptPowersController extends \App\Http\Controllers\Controller
      */
     public function show(string $id): Response
     {
-        $id = strtolower($id);
-        if (!array_key_exists($id, $this->powers)) {
+        $id = \strtolower($id);
+        if (!\array_key_exists($id, $this->powers)) {
             // We couldn't find it!
             $errors = [
                 'status' => Response::HTTP_NOT_FOUND,
@@ -85,9 +85,9 @@ class AdeptPowersController extends \App\Http\Controllers\Controller
         $power = $this->powers[$id];
 
         $power['links']['self'] = $this->links['self'] =
-            sprintf('/api/shadowrun5e/adept-powers/%s', $id);
+            \sprintf('/api/shadowrun5e/adept-powers/%s', $id);
 
-        $this->headers['Etag'] = sha1((string)json_encode($power));
+        $this->headers['Etag'] = \sha1((string)\json_encode($power));
 
         $data = [
             'links' => $this->links,

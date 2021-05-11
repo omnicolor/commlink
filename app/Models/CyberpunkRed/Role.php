@@ -31,14 +31,14 @@ abstract class Role
      */
     public static function fromArray(array $role): Role
     {
-        $class = sprintf(
+        $class = \sprintf(
             'App\\Models\\CyberpunkRed\\Role\\%s',
-            ucfirst((string)$role['role'])
+            \ucfirst((string)$role['role'])
         );
         try {
             return new $class($role);
         } catch (\Error $ex) {
-            throw new \RuntimeException(sprintf(
+            throw new \RuntimeException(\sprintf(
                 'Role "%s" is invalid',
                 $role['role']
             ));

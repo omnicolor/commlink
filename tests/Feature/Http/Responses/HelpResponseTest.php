@@ -12,6 +12,7 @@ use App\Models\ChatUser;
 /**
  * Tests for unregistered HelpResponses.
  * @group slack
+ * @medium
  */
 final class HelpResponseTest extends \Tests\TestCase
 {
@@ -36,11 +37,11 @@ final class HelpResponseTest extends \Tests\TestCase
         $channel = new Channel();
         $response = new HelpResponse('', 200, [], $channel);
         $text = (string)$response;
-        $response = json_decode($text);
+        $response = \json_decode($text);
         self::assertSame('ephemeral', $response->response_type);
         self::assertCount(4, $response->attachments);
         self::assertSame(
-            sprintf('About %s', config('app.name')),
+            \sprintf('About %s', config('app.name')),
             $response->attachments[0]->title
         );
         self::assertSame('Supported Systems', $response->attachments[1]->title);
@@ -71,11 +72,11 @@ final class HelpResponseTest extends \Tests\TestCase
         ]);
         $response = new HelpResponse('', 200, [], $channel);
         $text = (string)$response;
-        $response = json_decode($text);
+        $response = \json_decode($text);
         self::assertSame('ephemeral', $response->response_type);
         self::assertCount(3, $response->attachments);
         self::assertSame(
-            sprintf('About %s', config('app.name')),
+            \sprintf('About %s', config('app.name')),
             $response->attachments[0]->title
         );
         self::assertSame('Supported Systems', $response->attachments[1]->title);

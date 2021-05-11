@@ -31,12 +31,12 @@ trait ForceTrait
     ): int {
         // If $formula = "F+3", $letter = "F", and $rating = 6, change it to
         // "6+3"
-        $formula = str_replace($letter, (string)$rating, $formula);
-        $components = preg_split(
+        $formula = \str_replace($letter, (string)$rating, $formula);
+        $components = \preg_split(
             '~(?<=\d)([*/+-])~',
             $formula,
             -1,
-            PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE
+            \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE
         );
         // @codeCoverageIgnoreStart
         // The preg_split() function should only return false if the regular
@@ -47,8 +47,8 @@ trait ForceTrait
             return 0;
         }
         // @codeCoverageIgnoreEnd
-        while (false !== ($index = array_search('*', $components, true))) {
-            array_splice(
+        while (false !== ($index = \array_search('*', $components, true))) {
+            \array_splice(
                 $components,
                 $index - 1,
                 3,
@@ -57,8 +57,8 @@ trait ForceTrait
                 )
             );
         }
-        while (false !== ($index = array_search('/', $components, true))) {
-            array_splice(
+        while (false !== ($index = \array_search('/', $components, true))) {
+            \array_splice(
                 $components,
                 $index - 1,
                 3,
@@ -67,8 +67,8 @@ trait ForceTrait
                 )
             );
         }
-        while (false !== ($index = array_search('+', $components, true))) {
-            array_splice(
+        while (false !== ($index = \array_search('+', $components, true))) {
+            \array_splice(
                 $components,
                 $index - 1,
                 3,
@@ -77,8 +77,8 @@ trait ForceTrait
                 )
             );
         }
-        while (false !== ($index = array_search('-', $components, true))) {
-            array_splice(
+        while (false !== ($index = \array_search('-', $components, true))) {
+            \array_splice(
                 $components,
                 $index - 1,
                 3,
@@ -87,6 +87,6 @@ trait ForceTrait
                 )
             );
         }
-        return (int)current($components);
+        return (int)\current($components);
     }
 }

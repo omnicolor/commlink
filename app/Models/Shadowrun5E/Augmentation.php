@@ -113,10 +113,10 @@ class Augmentation
         $filename = config('app.data_path.shadowrun5e') . 'cyberware.php';
         self::$augmentations ??= require $filename;
 
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$augmentations[$id])) {
             throw new \RuntimeException(
-                sprintf('Augmentation "%s" is invalid', $id)
+                \sprintf('Augmentation "%s" is invalid', $id)
             );
         }
 

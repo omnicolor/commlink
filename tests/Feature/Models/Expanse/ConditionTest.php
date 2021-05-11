@@ -11,6 +11,7 @@ use App\Models\Expanse\Condition;
  * @covers \App\Models\Expanse\Condition
  * @group models
  * @group expanse
+ * @small
  */
 final class ConditionTest extends \Tests\TestCase
 {

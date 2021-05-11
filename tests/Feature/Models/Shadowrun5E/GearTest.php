@@ -17,6 +17,7 @@ use App\Models\Shadowrun5E\Weapon;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class GearTest extends \Tests\TestCase
 {

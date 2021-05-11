@@ -98,10 +98,10 @@ class Gear
         $filename = config('app.data_path.shadowrun5e') . 'gear.php';
         self::$gear ??= require $filename;
 
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$gear[$id])) {
             throw new \RuntimeException(
-                sprintf('Item ID "%s" is invalid', $id)
+                \sprintf('Item ID "%s" is invalid', $id)
             );
         }
 
@@ -124,7 +124,7 @@ class Gear
      */
     public function __toString(): string
     {
-        if (!is_null($this->subname)) {
+        if (null !== $this->subname) {
             return $this->name . ' - ' . $this->subname;
         }
         return $this->name;
@@ -160,7 +160,7 @@ class Gear
             return $gearObj;
         }
 
-        sort($gear['programsInstalled']);
+        \sort($gear['programsInstalled']);
         foreach ($gear['programsInstalled'] as $rawProgram) {
             $gearObj->programs[] = Program::build(
                 $rawProgram,
@@ -182,17 +182,17 @@ class Gear
         $filename = config('app.data_path.shadowrun5e') . 'gear.php';
         self::$gear ??= require $filename;
         foreach (self::$gear as $gear) {
-            if (strtolower($gear['name']) === strtolower($name)) {
+            if (\strtolower($gear['name']) === \strtolower($name)) {
                 return GearFactory::get($gear['id']);
             }
             if (
                 isset($gear['subname'])
-                && strtolower($gear['subname']) === strtolower($name)
+                && \strtolower($gear['subname']) === \strtolower($name)
             ) {
                 return GearFactory::get($gear['id']);
             }
         }
-        throw new \RuntimeException(sprintf(
+        throw new \RuntimeException(\sprintf(
             'Gear name "%s" was not found',
             $name
         ));

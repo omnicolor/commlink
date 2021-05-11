@@ -12,6 +12,7 @@ use App\Models\Shadowrun5E\Contact;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class ContactTest extends \PHPUnit\Framework\TestCase
 {

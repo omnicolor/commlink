@@ -61,10 +61,10 @@ class MentorSpirit
         $filename = config('app.data_path.shadowrun5e') . 'mentor-spirits.php';
         self::$spirits ??= require $filename;
 
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$spirits[$id])) {
             throw new \RuntimeException(
-                sprintf('Mentor spirit ID "%s" is invalid', $id)
+                \sprintf('Mentor spirit ID "%s" is invalid', $id)
             );
         }
 

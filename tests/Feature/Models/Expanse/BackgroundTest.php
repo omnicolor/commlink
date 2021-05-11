@@ -15,6 +15,7 @@ use App\Models\Expanse\TalentArray;
  * @covers \App\Models\Expanse\Background
  * @group models
  * @group expanse
+ * @small
  */
 final class BackgroundTest extends \Tests\TestCase
 {

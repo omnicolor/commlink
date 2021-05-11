@@ -12,6 +12,7 @@ use Illuminate\Http\Response;
  * @group controllers
  * @group shadowrun
  * @group shadowrun5e
+ * @medium
  */
 final class LifestyleZonesControllerTest extends \Tests\TestCase
 {
@@ -53,7 +54,7 @@ final class LifestyleZonesControllerTest extends \Tests\TestCase
                     'self' => '/api/shadowrun5e/lifestyle-zones/aaa',
                 ],
             ]);
-        self::assertGreaterThanOrEqual(1, count($response['data']));
+        self::assertGreaterThanOrEqual(1, \count($response['data']));
     }
 
     /**

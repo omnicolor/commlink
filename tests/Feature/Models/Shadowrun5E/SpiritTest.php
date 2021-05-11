@@ -12,6 +12,7 @@ use App\Models\Shadowrun5E\Spirit;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class SpiritTest extends \Tests\TestCase
 {
@@ -127,7 +128,7 @@ final class SpiritTest extends \Tests\TestCase
                 self::assertArrayHasKey(
                     $field,
                     $spirit,
-                    sprintf('Spirit %s is missing field %s', $key, $field)
+                    \sprintf('Spirit %s is missing field %s', $key, $field)
                 );
             }
         }
@@ -143,7 +144,7 @@ final class SpiritTest extends \Tests\TestCase
             self::assertEquals(
                 $key,
                 $spirit['id'],
-                sprintf(
+                \sprintf(
                     'Spirit %s has mismatched key: %s',
                     $spirit['id'],
                     $key

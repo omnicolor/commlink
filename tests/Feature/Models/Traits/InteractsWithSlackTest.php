@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Http;
 /**
  * Tests for the InteractsWithSlackTest.
  * @group slack
+ * @small
  */
 final class InteractsWithSlackTest extends \Tests\TestCase
 {
@@ -38,7 +39,7 @@ final class InteractsWithSlackTest extends \Tests\TestCase
      */
     public function testGetChannelNameCallFails(): void
     {
-        $url = sprintf('%s?channel=C00', self::API_CHANNELS);
+        $url = \sprintf('%s?channel=C00', self::API_CHANNELS);
         Http::fake([
             $url => Http::response([], 500),
         ]);
@@ -52,7 +53,7 @@ final class InteractsWithSlackTest extends \Tests\TestCase
      */
     public function testGetChannelNameCallErrors(): void
     {
-        $url = sprintf('%s?channel=C0000', self::API_CHANNELS);
+        $url = \sprintf('%s?channel=C0000', self::API_CHANNELS);
         Http::fake([
             $url => Http::response([
                 'ok' => false,
@@ -69,7 +70,7 @@ final class InteractsWithSlackTest extends \Tests\TestCase
      */
     public function testGetChannelName(): void
     {
-        $url = sprintf('%s?channel=a', self::API_CHANNELS);
+        $url = \sprintf('%s?channel=a', self::API_CHANNELS);
         Http::fake([
             $url => Http::response([
                 'ok' => true,
@@ -149,7 +150,7 @@ final class InteractsWithSlackTest extends \Tests\TestCase
      */
     public function testGetUserNameCallFails(): void
     {
-        $url = sprintf('%s?user=%s', self::API_USERS, 'UF0');
+        $url = \sprintf('%s?user=%s', self::API_USERS, 'UF0');
         Http::fake([
             $url => Http::response([], 500),
         ]);
@@ -163,7 +164,7 @@ final class InteractsWithSlackTest extends \Tests\TestCase
      */
     public function testGetUserNameCallErrors(): void
     {
-        $url = sprintf('%s?user=%s', self::API_USERS, 'UF00');
+        $url = \sprintf('%s?user=%s', self::API_USERS, 'UF00');
         Http::fake([
             $url => Http::response([
                 'ok' => false,
@@ -180,7 +181,7 @@ final class InteractsWithSlackTest extends \Tests\TestCase
      */
     public function testGetUserName(): void
     {
-        $url = sprintf('%s?user=%s', self::API_USERS, 'UF000');
+        $url = \sprintf('%s?user=%s', self::API_USERS, 'UF000');
         Http::fake([
             $url => Http::response([
                 'ok' => true,

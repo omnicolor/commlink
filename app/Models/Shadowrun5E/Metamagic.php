@@ -54,10 +54,10 @@ class Metamagic
         $filename = config('app.data_path.shadowrun5e') . 'metamagics.php';
         self::$metamagics ??= require $filename;
 
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$metamagics[$id])) {
             throw new \RuntimeException(
-                sprintf('Metamagic ID "%s" is invalid', $id)
+                \sprintf('Metamagic ID "%s" is invalid', $id)
             );
         }
 
@@ -95,7 +95,7 @@ class Metamagic
             }
         }
         throw new \RuntimeException(
-            sprintf('Metamagic "%s" was not found', $name)
+            \sprintf('Metamagic "%s" was not found', $name)
         );
     }
 }

@@ -60,12 +60,12 @@ class Number extends Roll
     public function __construct(string $content, string $character)
     {
         $this->name = $character;
-        $args = explode(' ', $content);
-        $this->dice = (int)array_shift($args);
-        if (isset($args[0]) && is_numeric($args[0])) {
-            $this->limit = (int)array_shift($args);
+        $args = \explode(' ', $content);
+        $this->dice = (int)\array_shift($args);
+        if (isset($args[0]) && \is_numeric($args[0])) {
+            $this->limit = (int)\array_shift($args);
         }
-        $this->description = implode(' ', $args);
+        $this->description = \implode(' ', $args);
 
         if ($this->dice > 100) {
             return;
@@ -84,15 +84,15 @@ class Number extends Roll
      */
     protected function formatCriticalGlitch(): void
     {
-        $this->title = sprintf(
+        $this->title = \sprintf(
             '%s rolled a critical glitch on %d dice!',
             $this->name,
             $this->dice
         );
-        $this->text = sprintf(
+        $this->text = \sprintf(
             'Rolled %d ones with no successes%s!',
             $this->fails,
-            ('' !== $this->description) ? sprintf(' for "%s"', $this->description) : ''
+            ('' !== $this->description) ? \sprintf(' for "%s"', $this->description) : ''
         );
     }
 
@@ -102,19 +102,19 @@ class Number extends Roll
     protected function formatRoll(): void
     {
         $this->title = $this->formatTitle();
-        if (!is_null($this->limit) && $this->limit < $this->successes) {
-            $this->text = sprintf(
+        if (null !== $this->limit && $this->limit < $this->successes) {
+            $this->text = \sprintf(
                 'Rolled %d successes%s, hit limit',
                 $this->limit,
-                ('' !== $this->description) ? sprintf(' for "%s"', $this->description) : ''
+                ('' !== $this->description) ? \sprintf(' for "%s"', $this->description) : ''
             );
             return;
         }
 
-        $this->text = sprintf(
+        $this->text = \sprintf(
             'Rolled %d successes%s',
             $this->successes,
-            ('' !== $this->description) ? sprintf(' for "%s"', $this->description) : ''
+            ('' !== $this->description) ? \sprintf(' for "%s"', $this->description) : ''
         );
     }
 
@@ -124,12 +124,12 @@ class Number extends Roll
      */
     protected function formatTitle(): string
     {
-        return sprintf(
+        return \sprintf(
             '%s rolled %d %s%s%s',
             $this->name,
             $this->dice,
-            $this->dice === 1 ? 'die' : 'dice',
-            !is_null($this->limit) ? sprintf(' with a limit of %d', $this->limit) : '',
+            1 === $this->dice ? 'die' : 'dice',
+            null !== $this->limit ? \sprintf(' with a limit of %d', $this->limit) : '',
             $this->isGlitch() ? ', glitched' : ''
         );
     }
@@ -148,7 +148,7 @@ class Number extends Roll
                 $this->fails++;
             }
         }
-        rsort($this->rolls, SORT_NUMERIC);
+        \rsort($this->rolls, \SORT_NUMERIC);
     }
 
     /**
@@ -158,11 +158,11 @@ class Number extends Roll
     protected function prettifyRolls(): array
     {
         $rolls = $this->rolls;
-        array_walk($rolls, function (int &$value, int $key): void {
+        \array_walk($rolls, function (int &$value, int $key): void {
             if ($value >= 5) {
-                $value = sprintf('*%d*', $value);
-            } elseif ($value == 1) {
-                $value = sprintf('~%d~', $value);
+                $value = \sprintf('*%d*', $value);
+            } elseif (1 == $value) {
+                $value = \sprintf('~%d~', $value);
             }
         });
         // @phpstan-ignore-next-line
@@ -181,7 +181,7 @@ class Number extends Roll
             return false;
         }
         // If half of the dice were ones, it's a glitch.
-        return $this->fails > floor($this->dice / 2);
+        return $this->fails > \floor($this->dice / 2);
     }
 
     /**
@@ -207,9 +207,9 @@ class Number extends Roll
         if ($this->isCriticalGlitch() || $this->isGlitch()) {
             $color = TextAttachment::COLOR_DANGER;
         }
-        $footer = implode(' ', $this->prettifyRolls());
-        if (!is_null($this->limit)) {
-            $footer .= sprintf(', limit: %d', $this->limit);
+        $footer = \implode(' ', $this->prettifyRolls());
+        if (null !== $this->limit) {
+            $footer .= \sprintf(', limit: %d', $this->limit);
         }
         $attachment = new TextAttachment($this->title, $this->text, $color);
         $attachment->addFooter($footer);
@@ -224,17 +224,17 @@ class Number extends Roll
     public function forDiscord(): string
     {
         if ($this->dice > 100) {
-            return sprintf(
+            return \sprintf(
                 '%s, you can\'t roll more than 100 dice!',
                 $this->name
             );
         }
-        $footer = 'Rolls: ' . implode(' ', $this->rolls);
-        if (!is_null($this->limit)) {
-            $footer .= sprintf(', Limit: %d', $this->limit);
+        $footer = 'Rolls: ' . \implode(' ', $this->rolls);
+        if (null !== $this->limit) {
+            $footer .= \sprintf(', Limit: %d', $this->limit);
         }
-        return sprintf('**%s**', $this->formatTitle()) . PHP_EOL
-            . $this->text . PHP_EOL
+        return \sprintf('**%s**', $this->formatTitle()) . \PHP_EOL
+            . $this->text . \PHP_EOL
             . $footer;
     }
 }

@@ -13,6 +13,7 @@ use App\Models\Shadowrun5E\ContactArray;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class ContactArrayTest extends \Tests\TestCase
 {

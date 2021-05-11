@@ -87,16 +87,14 @@ class Commlink extends Gear
     public function __construct(string $id, int $quantity = 1)
     {
         parent::__construct($id, $quantity);
-        // @phpstan-ignore-next-line
+        /** @phpstan-ignore-next-line */
         $item = self::$gear[$id];
         $this->programs = new ProgramArray();
         $this->programsInstalled = new ProgramArray();
         $this->programsRunning = new ProgramArray();
 
         $this->programsAllowed = $item['programs'];
-        if (
-            isset($item['attributes']) && isset($item['attributes']['firewall'])
-        ) {
+        if (isset($item['attributes'], $item['attributes']['firewall'])) {
             $this->attributes = [
                 $item['attributes']['attack'] ?? null,
                 $item['attributes']['sleaze'] ?? null,
@@ -122,7 +120,7 @@ class Commlink extends Gear
         if (!isset($this->rating)) {
             return 0;
         }
-        return 8 + (int)ceil($this->rating / 2);
+        return 8 + (int)\ceil($this->rating / 2);
     }
 
     /**

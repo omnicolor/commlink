@@ -86,10 +86,10 @@ class LifestyleOption
             . 'lifestyle-options.php';
         self::$options ??= require $filename;
 
-        $id = strtolower($id);
-        if (!array_key_exists($id, self::$options)) {
+        $id = \strtolower($id);
+        if (!\array_key_exists($id, self::$options)) {
             throw new \RuntimeException(
-                sprintf('Lifestyle Option ID "%s" is invalid', $id)
+                \sprintf('Lifestyle Option ID "%s" is invalid', $id)
             );
         }
 
@@ -125,27 +125,27 @@ class LifestyleOption
     {
         switch ($this->minimumLifestyle) {
             case 'Commercial':
-                return $lifestyle->name === 'Commercial';
+                return 'Commercial' === $lifestyle->name;
             case 'High':
-                return $lifestyle->name === 'High'
-                    || $lifestyle->name === 'Luxury';
+                return 'High' === $lifestyle->name
+                    || 'Luxury' === $lifestyle->name;
             case 'Low':
-                return $lifestyle->name === 'Low'
-                    || $lifestyle->name === 'Middle'
-                    || $lifestyle->name === 'High'
-                    || $lifestyle->name === 'Luxury';
+                return 'Low' === $lifestyle->name
+                    || 'Middle' === $lifestyle->name
+                    || 'High' === $lifestyle->name
+                    || 'Luxury' === $lifestyle->name;
             case 'Luxury':
-                return $lifestyle->name === 'Luxury';
+                return 'Luxury' === $lifestyle->name;
             case 'Middle':
-                return $lifestyle->name === 'Middle'
-                    || $lifestyle->name === 'High'
-                    || $lifestyle->name === 'Luxury';
+                return 'Middle' === $lifestyle->name
+                    || 'High' === $lifestyle->name
+                    || 'Luxury' === $lifestyle->name;
             case 'None':
                 return false;
             case 'Squatter':
-                return $lifestyle->name !== 'Street'
-                    && $lifestyle->name !== 'Commercial'
-                    && $lifestyle->name !== 'Hospitalized';
+                return 'Street' !== $lifestyle->name
+                    && 'Commercial' !== $lifestyle->name
+                    && 'Hospitalized' !== $lifestyle->name;
         }
         throw new \RuntimeException('Option has invalid minimum lifestyle');
     }
@@ -164,7 +164,7 @@ class LifestyleOption
             return 0;
         }
         if (isset($this->costMultiplier)) {
-            return (int)floor($lifestyle->cost * $this->costMultiplier);
+            return (int)\floor($lifestyle->cost * $this->costMultiplier);
         }
         return (int)$this->cost;
     }

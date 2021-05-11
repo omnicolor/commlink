@@ -33,9 +33,9 @@ class BackgroundsController extends \App\Http\Controllers\Controller
         $this->filename = config('app.data_path.expanse') . 'backgrounds.php';
         $this->links['system'] = '/api/expanse';
         $this->links['collection'] = '/api/expanse/backgrounds';
-        $stat = stat($this->filename);
+        $stat = \stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
         $this->backgrounds = require $this->filename;
     }
 
@@ -47,15 +47,15 @@ class BackgroundsController extends \App\Http\Controllers\Controller
     {
         foreach ($this->backgrounds as $key => $unused) {
             $this->backgrounds[$key]['links'] = [
-                'self' => sprintf('/api/expanse/backgrounds/%s', $key),
+                'self' => \sprintf('/api/expanse/backgrounds/%s', $key),
             ];
         }
 
-        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->headers['Etag'] = \sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => array_values($this->backgrounds),
+            'data' => \array_values($this->backgrounds),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -68,12 +68,12 @@ class BackgroundsController extends \App\Http\Controllers\Controller
      */
     public function show(string $id): Response
     {
-        $id = strtolower($id);
-        if (!array_key_exists($id, $this->backgrounds)) {
+        $id = \strtolower($id);
+        if (!\array_key_exists($id, $this->backgrounds)) {
             // We couldn't find it!
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
-                'detail' => sprintf('%s not found', $id),
+                'detail' => \sprintf('%s not found', $id),
                 'title' => 'Not Found',
             ];
             return $this->error($error);
@@ -81,9 +81,9 @@ class BackgroundsController extends \App\Http\Controllers\Controller
 
         $background = $this->backgrounds[$id];
         $background['links']['self'] = $this->links['self'] =
-            sprintf('/api/expanse/backgrounds/%s', $id);
+            \sprintf('/api/expanse/backgrounds/%s', $id);
 
-        $this->headers['Etag'] = sha1((string)json_encode($background));
+        $this->headers['Etag'] = \sha1((string)\json_encode($background));
 
         $data = [
             'links' => $this->links,

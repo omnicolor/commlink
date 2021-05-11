@@ -11,6 +11,7 @@ use App\Models\CyberpunkRed\RangedWeapon;
  * @group current
  * @group models
  * @group cyberpunkred
+ * @small
  */
 final class RangedWeaponTest extends \Tests\TestCase
 {

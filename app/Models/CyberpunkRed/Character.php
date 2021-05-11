@@ -97,7 +97,7 @@ class Character extends \App\Models\Character
      */
     public function getEmpathyAttribute(): int
     {
-        return (int)floor($this->humanity / 10);
+        return (int)\floor($this->humanity / 10);
     }
 
     /**
@@ -115,7 +115,7 @@ class Character extends \App\Models\Character
      */
     public function getHitPointsMaxAttribute(): int
     {
-        return 10 + 5 * (int)ceil(
+        return 10 + 5 * (int)\ceil(
             ($this->attributes['body'] + $this->attributes['willpower']) / 2
         );
     }
@@ -140,7 +140,7 @@ class Character extends \App\Models\Character
             try {
                 $roles[] = Role::fromArray($role);
             } catch (\RuntimeException $ex) {
-                \Log::warning(sprintf(
+                \Log::warning(\sprintf(
                     'Cyberpunk character "%s" (%s) has invalid role "%s"',
                     $this->handle,
                     $this->_id,
@@ -157,7 +157,7 @@ class Character extends \App\Models\Character
      */
     public function getSeriouslyWoundedThresholdAttribute(): int
     {
-        return (int)ceil($this->hit_points_max / 2);
+        return (int)\ceil($this->hit_points_max / 2);
     }
 
     /**
@@ -171,7 +171,7 @@ class Character extends \App\Models\Character
             try {
                 $skills[] = new Skill($skill, $level);
             } catch (\RuntimeException $ex) {
-                \Log::warning(sprintf(
+                \Log::warning(\sprintf(
                     'Cyberpunk character "%s" (%s) has invalid skill "%s"',
                     $this->handle,
                     $this->_id,
@@ -192,7 +192,7 @@ class Character extends \App\Models\Character
         $rawSkills = require $filename;
         $skills = new SkillArray();
         foreach ($rawSkills as $id => $skillInfo) {
-            if (array_key_exists($id, $this->skills ?? [])) {
+            if (\array_key_exists($id, $this->skills ?? [])) {
                 $skills[$id] = new Skill($id, $this->skills[$id]);
                 continue;
             }
@@ -210,12 +210,12 @@ class Character extends \App\Models\Character
         $allSkills = $this->getAllSkills();
         $skills = [];
         foreach ($allSkills as $skill) {
-            if (!array_key_exists($skill->category, $skills)) {
+            if (!\array_key_exists($skill->category, $skills)) {
                 $skills[$skill->category] = new SkillArray();
             }
             $skills[$skill->category][] = $skill;
         }
-        ksort($skills);
+        \ksort($skills);
         return $skills;
     }
 }

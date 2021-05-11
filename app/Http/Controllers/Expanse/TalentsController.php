@@ -33,9 +33,9 @@ class TalentsController extends \App\Http\Controllers\Controller
         $this->filename = config('app.data_path.expanse') . 'talents.php';
         $this->links['system'] = '/api/expanse';
         $this->links['collection'] = '/api/expanse/talents';
-        $stat = stat($this->filename);
+        $stat = \stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
         $this->talents = require $this->filename;
     }
 
@@ -47,15 +47,15 @@ class TalentsController extends \App\Http\Controllers\Controller
     {
         foreach ($this->talents as $key => $unused) {
             $this->talents[$key]['links'] = [
-                'self' => sprintf('/api/expanse/talents/%s', $key),
+                'self' => \sprintf('/api/expanse/talents/%s', $key),
             ];
         }
 
-        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->headers['Etag'] = \sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => array_values($this->talents),
+            'data' => \array_values($this->talents),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -68,12 +68,12 @@ class TalentsController extends \App\Http\Controllers\Controller
      */
     public function show(string $id): Response
     {
-        $id = strtolower($id);
-        if (!array_key_exists($id, $this->talents)) {
+        $id = \strtolower($id);
+        if (!\array_key_exists($id, $this->talents)) {
             // We couldn't find it!
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
-                'detail' => sprintf('%s not found', $id),
+                'detail' => \sprintf('%s not found', $id),
                 'title' => 'Not Found',
             ];
             return $this->error($error);
@@ -81,9 +81,9 @@ class TalentsController extends \App\Http\Controllers\Controller
 
         $talent = $this->talents[$id];
         $talent['links']['self'] = $this->links['self'] =
-            sprintf('/api/expanse/talents/%s', $id);
+            \sprintf('/api/expanse/talents/%s', $id);
 
-        $this->headers['Etag'] = sha1((string)json_encode($talent));
+        $this->headers['Etag'] = \sha1((string)\json_encode($talent));
 
         $data = [
             'links' => $this->links,

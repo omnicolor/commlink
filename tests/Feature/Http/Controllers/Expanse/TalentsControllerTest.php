@@ -13,6 +13,7 @@ use Illuminate\Http\Response;
  * @covers \App\Http\Controllers\Expanse\TalentsController
  * @group controllers
  * @group expanse
+ * @medium
  */
 final class TalentsControllerTest extends \Tests\TestCase
 {
@@ -56,7 +57,7 @@ final class TalentsControllerTest extends \Tests\TestCase
                     'self' => '/api/expanse/talents/fringer',
                 ],
             ]);
-        self::assertGreaterThanOrEqual(1, count($response['data']));
+        self::assertGreaterThanOrEqual(1, \count($response['data']));
     }
 
     /**

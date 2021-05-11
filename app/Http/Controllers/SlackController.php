@@ -44,7 +44,7 @@ class SlackController extends Controller
      */
     public function post(SlackRequest $request): SlackResponse
     {
-        $this->args = explode(' ', $request->text);
+        $this->args = \explode(' ', $request->text);
         $this->text = $request->text;
 
         $channel = $this->getChannel($request->team_id, $request->channel_id);
@@ -52,11 +52,11 @@ class SlackController extends Controller
         $channel->username = $request->user_name ?? '';
 
         // First, try to load system-specific responses for numeric data.
-        if (is_numeric($this->args[0]) && isset($channel->system)) {
+        if (\is_numeric($this->args[0]) && isset($channel->system)) {
             try {
-                $class = sprintf(
+                $class = \sprintf(
                     '\\App\\Rolls\\%s\\Number',
-                    ucfirst($channel->system)
+                    \ucfirst($channel->system)
                 );
                 $roll = new $class($this->text, $channel->username);
                 RollEvent::dispatch($roll, $channel);
@@ -68,20 +68,20 @@ class SlackController extends Controller
 
         // Next, try system-specific responses.
         try {
-            $class = sprintf(
+            $class = \sprintf(
                 '\\App\\Rolls\\%s\\%s',
-                ucfirst($channel->system ?? 'Unknown'),
-                ucfirst($this->args[0])
+                \ucfirst($channel->system ?? 'Unknown'),
+                \ucfirst($this->args[0])
             );
             return new $class($this->text, 200, [], $channel);
         } catch (\Error $ex) {
             // Again, ignore errors, they might want a generic command.
         }
         try {
-            $class = sprintf(
+            $class = \sprintf(
                 '\\App\Http\\Responses\\%s\\%sResponse',
-                ucfirst($channel->system ?? 'Unknown'),
-                ucfirst($this->args[0])
+                \ucfirst($channel->system ?? 'Unknown'),
+                \ucfirst($this->args[0])
             );
             return new $class($this->text, 200, [], $channel);
         } catch (\Error $ex) {
@@ -89,15 +89,15 @@ class SlackController extends Controller
         }
 
         // No system-specific response found, try generic ones.
-        if (1 === preg_match('/\d+d\d+/i', $this->args[0])) {
+        if (1 === \preg_match('/\d+d\d+/i', $this->args[0])) {
             $roll = new Generic($this->text, $channel->username);
             RollEvent::dispatch($roll, $channel);
             return $roll->forSlack($channel);
         }
         try {
-            $class = sprintf(
+            $class = \sprintf(
                 '\\App\Http\\Responses\\%sResponse',
-                ucfirst($this->args[0])
+                \ucfirst($this->args[0])
             );
             return new $class(
                 $this->text,
@@ -107,8 +107,8 @@ class SlackController extends Controller
             );
         } catch (\Error $ex) {
             throw new \App\Exceptions\SlackException(
-                'That doesn\'t appear to be a valid Commlink command.' . PHP_EOL
-                . PHP_EOL . 'Type `/roll help` for more help.'
+                'That doesn\'t appear to be a valid Commlink command.'
+                . \PHP_EOL . \PHP_EOL . 'Type `/roll help` for more help.'
             );
         }
     }

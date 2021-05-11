@@ -185,10 +185,10 @@ class Spirit
         $filename = config('app.data_path.shadowrun5e') . 'spirits.php';
         self::$spirits ??= require $filename;
 
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$spirits[$id])) {
             throw new \RuntimeException(
-                sprintf('Spirit ID "%s" is invalid', $id)
+                \sprintf('Spirit ID "%s" is invalid', $id)
             );
         }
 
@@ -227,7 +227,7 @@ class Spirit
      */
     public function __call(string $name, array $arguments): int
     {
-        $attribute = strtolower(str_replace('get', '', $name));
+        $attribute = \strtolower(\str_replace('get', '', $name));
         $attributes = [
             'agility',
             'body',
@@ -241,10 +241,10 @@ class Spirit
             'strength',
             'willpower',
         ];
-        if (!in_array($attribute, $attributes, true)) {
-            throw new \BadMethodCallException(sprintf(
+        if (!\in_array($attribute, $attributes, true)) {
+            throw new \BadMethodCallException(\sprintf(
                 '%s is not an attribute of spirits',
-                ucfirst($attribute)
+                \ucfirst($attribute)
             ));
         }
         if (null === $this->force) {
@@ -274,8 +274,8 @@ class Spirit
      */
     protected function convertInitiative(string $initiative): array
     {
-        preg_match('/\((F.*)\)\+(\d)d6/', $initiative, $matches);
-        array_shift($matches);
+        \preg_match('/\((F.*)\)\+(\d)d6/', $initiative, $matches);
+        \array_shift($matches);
         return $matches;
     }
 

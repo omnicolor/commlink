@@ -73,9 +73,9 @@ class Quality
     {
         $filename = config('app.data_path.shadowrun5e') . 'qualities.php';
         self::$qualities ??= require $filename;
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$qualities[$id])) {
-            throw new \RuntimeException(sprintf(
+            throw new \RuntimeException(\sprintf(
                 'Quality ID "%s" is invalid',
                 $id
             ));
@@ -104,7 +104,7 @@ class Quality
                 'physical-limit' => 0,
                 'social-limit' => 0,
             ];
-            $this->name .= ' (' . implode(', ', $limits) . ')';
+            $this->name .= ' (' . \implode(', ', $limits) . ')';
             foreach ($limits as $limit) {
                 $this->effects[$limit . '-limit']++;
             }
@@ -114,14 +114,14 @@ class Quality
                 $this->name .= ' - ' . $raw['allergy'];
             }
             $this->name .= ')';
-        } elseif (0 === strpos($quality['id'], 'aptitude-')) {
-            $start = (int)strpos($quality['id'], '-') + 1;
-            $this->name .= ' (' . ucfirst(substr($quality['id'], $start)) . ')';
-        } elseif (0 === strpos($quality['id'], 'exceptional-attribute-')) {
-            $start = (int)strrpos($quality['id'], '-') + 1;
-            $this->name .= ' (' . ucfirst(substr($quality['id'], $start)) . ')';
+        } elseif (0 === \strpos($quality['id'], 'aptitude-')) {
+            $start = (int)\strpos($quality['id'], '-') + 1;
+            $this->name .= ' (' . \ucfirst(\substr($quality['id'], $start)) . ')';
+        } elseif (0 === \strpos($quality['id'], 'exceptional-attribute-')) {
+            $start = (int)\strrpos($quality['id'], '-') + 1;
+            $this->name .= ' (' . \ucfirst(\substr($quality['id'], $start)) . ')';
         } elseif (isset($quality['severity'])) {
-            $this->name .= ' (' . ucfirst($quality['severity']) . ')';
+            $this->name .= ' (' . \ucfirst($quality['severity']) . ')';
         }
     }
 
@@ -145,11 +145,11 @@ class Quality
         $filename = config('app.data_path.shadowrun5e') . 'qualities.php';
         self::$qualities ??= require $filename;
         foreach (self::$qualities as $quality) {
-            if (strtolower($quality['name']) === strtolower($name)) {
+            if (\strtolower($quality['name']) === \strtolower($name)) {
                 return new Quality($quality['id']);
             }
         }
-        throw new \RuntimeException(sprintf(
+        throw new \RuntimeException(\sprintf(
             'Quality name "%s" was not found',
             $name
         ));

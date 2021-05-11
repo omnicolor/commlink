@@ -12,6 +12,7 @@ use App\Http\Responses\SlackResponse;
  * @covers \App\Exceptions\SlackException
  * @covers \App\Http\Requests\SlackRequest
  * @group exception
+ * @small
  */
 class SlackExceptionTest extends \Tests\TestCase
 {
@@ -26,7 +27,7 @@ class SlackExceptionTest extends \Tests\TestCase
         } catch (SlackException $ex) {
             $response = $ex->render();
             self::assertInstanceOf(SlackResponse::class, $response);
-            $response = json_decode((string)$response, false);
+            $response = \json_decode((string)$response, false);
             self::assertSame('ephemeral', $response->response_type);
             self::assertCount(1, $response->attachments);
         }

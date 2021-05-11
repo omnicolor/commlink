@@ -55,7 +55,7 @@ class DiscordMessageReceived
     public function __construct(Message $message)
     {
         $this->channel = $message->channel;
-        $this->content = str_replace('/roll ', '', $message->content);
+        $this->content = \str_replace('/roll ', '', $message->content);
         $this->message = $message;
         $this->user = $message->author;
 

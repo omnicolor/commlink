@@ -92,10 +92,10 @@ class Lifestyle
         $filename = config('app.data_path.shadowrun5e') . 'lifestyles.php';
         self::$lifestyles ??= require $filename;
 
-        $id = strtolower($id);
-        if (!array_key_exists($id, self::$lifestyles)) {
+        $id = \strtolower($id);
+        if (!\array_key_exists($id, self::$lifestyles)) {
             throw new \RuntimeException(
-                sprintf('Lifestyle ID "%s" is invalid', urlencode($id))
+                \sprintf('Lifestyle ID "%s" is invalid', \urlencode($id))
             );
         }
 
@@ -140,7 +140,7 @@ class Lifestyle
     {
         $value = $this->attributes->neighborhood;
         foreach ($this->options as $option) {
-            if ($option->name !== 'Increase Neighborhood') {
+            if ('Increase Neighborhood' !== $option->name) {
                 continue;
             }
             $value++;

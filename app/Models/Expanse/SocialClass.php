@@ -43,10 +43,10 @@ class SocialClass
         $filename = config('app.data_path.expanse') . 'social-classes.php';
         self::$classes ??= require $filename;
 
-        $id = strtolower($id);
-        if (!array_key_exists($id, self::$classes)) {
+        $id = \strtolower($id);
+        if (!\array_key_exists($id, self::$classes)) {
             throw new \RuntimeException(
-                sprintf('Social Class ID "%s" is invalid', $id)
+                \sprintf('Social Class ID "%s" is invalid', $id)
             );
         }
 

@@ -11,6 +11,7 @@ use App\Rolls\Shadowrun5e\Number;
 /**
  * Tests for RollEvents.
  * @group events
+ * @small
  */
 final class RollEventTest extends \Tests\TestCase
 {

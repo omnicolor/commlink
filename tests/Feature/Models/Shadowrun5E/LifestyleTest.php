@@ -17,6 +17,7 @@ use App\Models\Shadowrun5E\LifestyleZone;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class LifestyleTest extends \Tests\TestCase
 {
@@ -146,13 +147,13 @@ final class LifestyleTest extends \Tests\TestCase
     {
         $lifestyle = new Lifestyle('low');
         $hotTub = new LifestyleOption('swimming-pool');
-        unset($hotTub->cost);
+        $hotTub->cost = null;
         $hotTub->costMultiplier = 0.1;
         $lifestyle->options[] = $hotTub;
         self::assertEquals(2200, $lifestyle->getCost());
 
         $pool = new LifestyleOption('swimming-pool');
-        unset($pool->cost);
+        $pool->cost = null;
         $pool->costMultiplier = -0.2;
         $lifestyle->options[] = $pool;
         self::assertEquals(1800, $lifestyle->getCost());

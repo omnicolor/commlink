@@ -17,6 +17,7 @@ use App\Models\Shadowrun5E\KnowledgeSkill;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class KarmaLogTest extends \Tests\TestCase
 {
@@ -92,7 +93,7 @@ final class KarmaLogTest extends \Tests\TestCase
         } catch (\TypeError $ex) {
             // Ignore
         }
-        self::assertSame(0, count($this->log));
+        self::assertCount(0, $this->log);
     }
 
     /**
@@ -101,7 +102,7 @@ final class KarmaLogTest extends \Tests\TestCase
      */
     public function testCountNewLog(): void
     {
-        self::assertSame(0, count($this->log));
+        self::assertCount(0, $this->log);
     }
 
     /**
@@ -112,7 +113,7 @@ final class KarmaLogTest extends \Tests\TestCase
     {
         $this->log[] = new KarmaLogEntry('Test', 5);
         $this->log[] = new KarmaLogEntry('Foo', -5);
-        self::assertSame(2, count($this->log));
+        self::assertCount(2, $this->log);
     }
 
     /**
@@ -159,7 +160,7 @@ final class KarmaLogTest extends \Tests\TestCase
      */
     public function testCountSkillPointsEmptyArray(): void
     {
-        self::assertNull(array_reduce(
+        self::assertNull(\array_reduce(
             [],
             [KarmaLog::class, 'countSkillPoints']
         ));
@@ -177,7 +178,7 @@ final class KarmaLogTest extends \Tests\TestCase
         ];
         self::assertSame(
             5,
-            array_reduce(
+            \array_reduce(
                 $knowledgeSkills,
                 [KarmaLog::class, 'countSkillPoints']
             )
@@ -196,7 +197,7 @@ final class KarmaLogTest extends \Tests\TestCase
         ];
         self::assertSame(
             2,
-            array_reduce(
+            \array_reduce(
                 $knowledgeSkills,
                 [KarmaLog::class, 'countSkillPoints']
             )
@@ -215,7 +216,7 @@ final class KarmaLogTest extends \Tests\TestCase
         ];
         self::assertSame(
             3,
-            array_reduce(
+            \array_reduce(
                 $knowledgeSkills,
                 [KarmaLog::class, 'countSkillPoints']
             )
@@ -235,7 +236,7 @@ final class KarmaLogTest extends \Tests\TestCase
             new ActiveSkill('hacking', 2),
             new ActiveSkill('hacking', 1, 'Special'),
         ];
-        $specializations = array_filter(
+        $specializations = \array_filter(
             $skills,
             [$this->log, 'filterUnspecialized']
         );
@@ -959,7 +960,7 @@ final class KarmaLogTest extends \Tests\TestCase
      */
     public function testFromArray(): void
     {
-        $rawLog = json_decode(
+        $rawLog = \json_decode(
             '[{"description":"Initial karma","karma":25},'
                 . '{"description":"Increase body to 3","karma":-15},'
                 . '{"description":"Add Gremlins","karma":4},'

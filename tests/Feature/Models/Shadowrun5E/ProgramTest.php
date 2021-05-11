@@ -15,6 +15,7 @@ use App\Models\Shadowrun5E\Weapon;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class ProgramTest extends \Tests\TestCase
 {

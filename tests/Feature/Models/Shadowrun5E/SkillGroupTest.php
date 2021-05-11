@@ -13,6 +13,7 @@ use App\Models\Shadowrun5E\SkillGroup;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class SkillGroupTest extends \Tests\TestCase
 {

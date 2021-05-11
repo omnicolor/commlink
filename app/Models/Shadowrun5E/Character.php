@@ -135,10 +135,10 @@ class Character extends \App\Models\Character
         if ('' == $string) {
             return '';
         }
-        $string = str_replace('-', ' ', $string);
-        $string = ucwords($string);
-        $string = str_replace(' ', '', $string);
-        $string[0] = strtolower($string[0]);
+        $string = \str_replace('-', ' ', $string);
+        $string = \ucwords($string);
+        $string = \str_replace(' ', '', $string);
+        $string[0] = \strtolower($string[0]);
         return $string;
     }
 
@@ -156,7 +156,7 @@ class Character extends \App\Models\Character
             try {
                 $powers[] = new AdeptPower($power);
             } catch (\RuntimeException $ex) {
-                \Log::warning(sprintf(
+                \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid adept power "%s"',
                     $this->handle,
                     $this->_id,
@@ -181,7 +181,7 @@ class Character extends \App\Models\Character
             try {
                 $armor[] = Armor::build($rawArmor);
             } catch (\RuntimeException $ex) {
-                \Log::warning(sprintf(
+                \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid armor "%s"',
                     $this->handle,
                     $this->_id,
@@ -201,7 +201,7 @@ class Character extends \App\Models\Character
         if (!(bool)$this->magic) {
             return 0;
         }
-        return max(
+        return \max(
             $this->getMentalLimit(),
             $this->getSocialLimit()
         );
@@ -221,7 +221,7 @@ class Character extends \App\Models\Character
             try {
                 $augmentations[] = Augmentation::build($augmentation);
             } catch (\RuntimeException $ex) {
-                \Log::warning(sprintf(
+                \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid augmentation "%s"',
                     $this->handle,
                     $this->_id,
@@ -256,7 +256,7 @@ class Character extends \App\Models\Character
             try {
                 $forms[] = new ComplexForm($form);
             } catch (\RuntimeException $ex) {
-                \Log::warning(sprintf(
+                \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid complex form "%s"',
                     $this->handle,
                     $this->_id,
@@ -301,7 +301,7 @@ class Character extends \App\Models\Character
             try {
                 $gear[] = Gear::build($item);
             } catch (\RuntimeException $e) {
-                \Log::warning(sprintf(
+                \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid item "%s"',
                     $this->handle,
                     $this->_id,
@@ -370,7 +370,7 @@ class Character extends \App\Models\Character
                     $skill['specialization'] ?? null
                 );
             } catch (\RuntimeException $ex) {
-                \Log::warning(sprintf(
+                \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid skill category "%s"',
                     $this->handle,
                     $this->_id,
@@ -405,7 +405,7 @@ class Character extends \App\Models\Character
             try {
                 $styles[] = new MartialArtsStyle($style);
             } catch (\RuntimeException $e) {
-                \Log::warning(sprintf(
+                \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid martial arts style "%s"',
                     $this->handle,
                     $this->_id,
@@ -430,7 +430,7 @@ class Character extends \App\Models\Character
             try {
                 $techniques[] = new MartialArtsTechnique($technique);
             } catch (\RuntimeException $e) {
-                \Log::warning(sprintf(
+                \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid martial arts technique "%s"',
                     $this->handle,
                     $this->_id,
@@ -457,7 +457,7 @@ class Character extends \App\Models\Character
      */
     public function getMentalLimit(): int
     {
-        return (int)ceil(
+        return (int)\ceil(
             (
                 $this->getModifiedAttribute('logic') * 2
                 + $this->getModifiedAttribute('intuition')
@@ -474,14 +474,14 @@ class Character extends \App\Models\Character
     {
         if (
             !isset($this->magics)
-            || !array_key_exists('mentorSpirit', $this->magics)
+            || !\array_key_exists('mentorSpirit', $this->magics)
         ) {
             return null;
         }
         try {
             return new MentorSpirit($this->magics['mentorSpirit']);
         } catch (\RuntimeException $e) {
-            \Log::warning(sprintf(
+            \Log::warning(\sprintf(
                 'Shadowrun5E character "%s" (%s) has invalid mentor spirit "%s"',
                 $this->handle,
                 $this->_id,
@@ -513,14 +513,14 @@ class Character extends \App\Models\Character
         $cleanAttributeName = $this->dashedToCamel($attribute);
         // @phpstan-ignore-next-line
         $modifiedAttribute = $this->$cleanAttributeName ?? 0;
-        $modifiers = array_merge(
+        $modifiers = \array_merge(
             (array)$this->getAugmentations(),
             (array)$this->getQualities()
         );
 
         foreach ($modifiers as $modifier) {
             foreach ($modifier->effects as $effect => $value) {
-                if (is_int($effect)) {
+                if (\is_int($effect)) {
                     continue;
                 }
                 if (
@@ -538,7 +538,7 @@ class Character extends \App\Models\Character
                 continue;
             }
             foreach ($armor->modifications as $mod) {
-                if (0 === count($mod->effects)) {
+                if (0 === \count($mod->effects)) {
                     continue;
                 }
                 if (!isset($mod->effects[$cleanAttributeName])) {
@@ -546,7 +546,7 @@ class Character extends \App\Models\Character
                 }
                 $modifiedAttribute += $mod->effects[$cleanAttributeName];
             }
-            if (0 === count($armor->effects)) {
+            if (0 === \count($armor->effects)) {
                 // Armor has no effects.
                 continue;
             }
@@ -564,7 +564,7 @@ class Character extends \App\Models\Character
      */
     public function getPhysicalLimit(): int
     {
-        return (int)ceil(
+        return (int)\ceil(
             (
                 $this->getModifiedAttribute('strength') * 2
                 + $this->getModifiedAttribute('body')
@@ -587,7 +587,7 @@ class Character extends \App\Models\Character
             try {
                 $qualities[] = new Quality($quality['id'], $quality);
             } catch (\RuntimeException $ex) {
-                \Log::warning(sprintf(
+                \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid quality "%s"',
                     $this->handle,
                     $this->_id,
@@ -669,7 +669,7 @@ class Character extends \App\Models\Character
                     $skill['specialization'] ?? null
                 );
             } catch (\RuntimeException $ex) {
-                \Log::warning(sprintf(
+                \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid skill "%s"',
                     $this->handle,
                     $this->_id,
@@ -691,7 +691,7 @@ class Character extends \App\Models\Character
             try {
                 $groups[] = new SkillGroup($group, (int)$level);
             } catch (\RuntimeException $ex) {
-                \Log::warning(sprintf(
+                \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid skill group "%s"',
                     $this->handle,
                     $this->_id,
@@ -708,9 +708,9 @@ class Character extends \App\Models\Character
      */
     public function getSocialLimit(): int
     {
-        return (int)ceil(
+        return (int)\ceil(
             (
-                ceil($this->getEssence())
+                \ceil($this->getEssence())
                 + $this->getModifiedAttribute('willpower')
                 + ($this->getModifiedAttribute('charisma') * 2)
             ) / 3
@@ -731,7 +731,7 @@ class Character extends \App\Models\Character
             try {
                 $spells[] = new Spell($spell);
             } catch (\RuntimeException $ex) {
-                \Log::warning(sprintf(
+                \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid spell "%s"',
                     $this->handle,
                     $this->_id,
@@ -759,7 +759,7 @@ class Character extends \App\Models\Character
                     $spirit['force'] ?? null
                 );
             } catch (\RuntimeException $ex) {
-                \Log::warning(sprintf(
+                \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid spirit "%s"',
                     $this->handle,
                     $this->_id,
@@ -784,7 +784,7 @@ class Character extends \App\Models\Character
             try {
                 $sprites[] = new Sprite($sprite);
             } catch (\RuntimeException $ex) {
-                \Log::warning(sprintf(
+                \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid sprite "%s"',
                     $this->handle,
                     $this->_id,
@@ -807,7 +807,7 @@ class Character extends \App\Models\Character
         try {
             return new Tradition($this->magics['tradition']);
         } catch (\RuntimeException $ex) {
-            \Log::warning(sprintf(
+            \Log::warning(\sprintf(
                 'Shadowrun5E character "%s" (%s) has invalid tradition "%s"',
                 $this->handle,
                 $this->_id,
@@ -828,7 +828,7 @@ class Character extends \App\Models\Character
             try {
                 $vehicles[] = new Vehicle($vehicle);
             } catch (\RuntimeException $ex) {
-                \Log::warning(sprintf(
+                \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid vehicle "%s"',
                     $this->handle,
                     $this->_id,
@@ -850,7 +850,7 @@ class Character extends \App\Models\Character
             try {
                 $weapons[] = Weapon::buildWeapon($weapon);
             } catch (\RuntimeException $ex) {
-                \Log::warning(sprintf(
+                \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid weapon "%s"',
                     $this->handle,
                     $this->_id,

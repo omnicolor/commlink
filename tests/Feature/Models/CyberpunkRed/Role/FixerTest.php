@@ -10,8 +10,9 @@ use App\Models\CyberpunkRed\Role\Fixer;
  * Tests for the Fixer role.
  * @covers App\Models\CyberpunkRed\Role
  * @covers App\Models\CyberpunkRed\Role\Fixer
- * @group models
  * @group cyberpunkred
+ * @group models
+ * @small
  */
 final class FixerTest extends \PHPUnit\Framework\TestCase
 {

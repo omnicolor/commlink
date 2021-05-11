@@ -34,9 +34,9 @@ class MartialArtsStylesController extends \App\Http\Controllers\Controller
             . 'martial-arts-styles.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/martial-arts-styles';
-        $stat = stat($this->filename);
+        $stat = \stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
         $this->styles = require $this->filename;
     }
 
@@ -48,18 +48,18 @@ class MartialArtsStylesController extends \App\Http\Controllers\Controller
     {
         foreach ($this->styles as $key => $value) {
             $this->styles[$key]['links'] = [
-                'self' => sprintf(
+                'self' => \sprintf(
                     '/api/shadowrun5e/martial-arts-styles/%s',
-                    urlencode($key)
+                    \urlencode($key)
                 ),
             ];
         }
 
-        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->headers['Etag'] = \sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => array_values($this->styles),
+            'data' => \array_values($this->styles),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -72,8 +72,8 @@ class MartialArtsStylesController extends \App\Http\Controllers\Controller
      */
     public function show(string $id): Response
     {
-        $id = strtolower($id);
-        if (!array_key_exists($id, $this->styles)) {
+        $id = \strtolower($id);
+        if (!\array_key_exists($id, $this->styles)) {
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
                 'detail' => $id . ' not found',
@@ -83,12 +83,12 @@ class MartialArtsStylesController extends \App\Http\Controllers\Controller
         }
 
         $style = $this->styles[$id];
-        $style['links']['self'] = $this->links['self'] = sprintf(
+        $style['links']['self'] = $this->links['self'] = \sprintf(
             '/api/shadowrun5e/martial-arts-styles/%s',
-            urlencode($id)
+            \urlencode($id)
         );
 
-        $this->headers['Etag'] = sha1((string)json_encode($style));
+        $this->headers['Etag'] = \sha1((string)\json_encode($style));
         $data = [
             'links' => $this->links,
             'data' => $style,

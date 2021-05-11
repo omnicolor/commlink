@@ -12,6 +12,7 @@ use App\Models\Shadowrun5E\KarmaLogEntry;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class KarmaLogEntryTest extends \PHPUnit\Framework\TestCase
 {
@@ -35,7 +36,7 @@ final class KarmaLogEntryTest extends \PHPUnit\Framework\TestCase
     public function testConstructorDates(): void
     {
         $realDate = new \DateTimeImmutable('2020-03-15');
-        $gameDate = new \DateTime('2080-04-01');
+        $gameDate = new \DateTimeImmutable('2080-04-01');
         $entry = new KarmaLogEntry('Foo', 42, $realDate, $gameDate);
         self::assertSame('Foo', $entry->description);
         self::assertSame(42, $entry->karma);

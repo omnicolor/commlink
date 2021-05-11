@@ -12,6 +12,7 @@ use App\Models\Shadowrun5E\Metamagic;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class MetamagicTest extends \Tests\TestCase
 {

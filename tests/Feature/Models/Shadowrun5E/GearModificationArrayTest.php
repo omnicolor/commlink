@@ -13,6 +13,7 @@ use App\Models\Shadowrun5E\GearModificationArray;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class GearModificationArrayTest extends \Tests\TestCase
 {

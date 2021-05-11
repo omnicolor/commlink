@@ -12,6 +12,7 @@ use Illuminate\Http\Response;
  * @group controllers
  * @group shadowrun
  * @group shadowrun5e
+ * @medium
  */
 final class WeaponModificationsControllerTest extends \Tests\TestCase
 {
@@ -53,7 +54,7 @@ final class WeaponModificationsControllerTest extends \Tests\TestCase
                     'self' => '/api/shadowrun5e/weapon-modifications/bayonet',
                 ],
             ]);
-        self::assertGreaterThanOrEqual(1, count($response['data']));
+        self::assertGreaterThanOrEqual(1, \count($response['data']));
     }
 
     /**

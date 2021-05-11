@@ -12,6 +12,7 @@ use App\Models\CyberpunkRed\Skill;
  * @covers \App\Models\CyberpunkRed\Skill
  * @group cyberpunkred
  * @group models
+ * @small
  */
 final class SkillTest extends \Tests\TestCase
 {

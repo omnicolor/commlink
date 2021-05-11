@@ -34,9 +34,9 @@ class SocialClassesController extends \App\Http\Controllers\Controller
             . 'social-classes.php';
         $this->links['system'] = '/api/expanse';
         $this->links['collection'] = '/api/expanse/social-classes';
-        $stat = stat($this->filename);
+        $stat = \stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
         $this->classes = require $this->filename;
     }
 
@@ -48,15 +48,15 @@ class SocialClassesController extends \App\Http\Controllers\Controller
     {
         foreach ($this->classes as $key => $unused) {
             $this->classes[$key]['links'] = [
-                'self' => sprintf('/api/expanse/social-classes/%s', $key),
+                'self' => \sprintf('/api/expanse/social-classes/%s', $key),
             ];
         }
 
-        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->headers['Etag'] = \sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => array_values($this->classes),
+            'data' => \array_values($this->classes),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -69,12 +69,12 @@ class SocialClassesController extends \App\Http\Controllers\Controller
      */
     public function show(string $id): Response
     {
-        $id = strtolower($id);
-        if (!array_key_exists($id, $this->classes)) {
+        $id = \strtolower($id);
+        if (!\array_key_exists($id, $this->classes)) {
             // We couldn't find it!
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
-                'detail' => sprintf('%s not found', $id),
+                'detail' => \sprintf('%s not found', $id),
                 'title' => 'Not Found',
             ];
             return $this->error($error);
@@ -82,9 +82,9 @@ class SocialClassesController extends \App\Http\Controllers\Controller
 
         $class = $this->classes[$id];
         $class['links']['self'] = $this->links['self'] =
-            sprintf('/api/expanse/social-classes/%s', $id);
+            \sprintf('/api/expanse/social-classes/%s', $id);
 
-        $this->headers['Etag'] = sha1((string)json_encode($class));
+        $this->headers['Etag'] = \sha1((string)\json_encode($class));
 
         $data = [
             'links' => $this->links,

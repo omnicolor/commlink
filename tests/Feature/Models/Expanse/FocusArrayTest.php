@@ -12,6 +12,7 @@ use App\Models\Expanse\FocusArray;
  * @covers \App\Models\Expanse\FocusArray
  * @group models
  * @group expanse
+ * @small
  */
 final class FocusArrayTest extends \Tests\TestCase
 {

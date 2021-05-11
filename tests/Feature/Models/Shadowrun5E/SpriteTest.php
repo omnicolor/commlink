@@ -13,6 +13,7 @@ use App\Models\Shadowrun5E\Sprite;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class SpriteTest extends \Tests\TestCase
 {

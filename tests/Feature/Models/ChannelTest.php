@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Http;
  * @group discord
  * @group models
  * @group slack
+ * @medium
  */
 final class ChannelTest extends \Tests\TestCase
 {
@@ -39,6 +40,7 @@ final class ChannelTest extends \Tests\TestCase
 
     /**
      * Test getting the server's name if we've already retrieved it.
+     * @small
      * @test
      */
     public function testGetServerNameAlreadyHave(): void
@@ -52,6 +54,7 @@ final class ChannelTest extends \Tests\TestCase
     /**
      * Test getting the server's name for a Slack instance that hasn't been
      * saved.
+     * @medium
      * @test
      */
     public function testGetServerNameNewSlackInstance(): void
@@ -92,6 +95,7 @@ final class ChannelTest extends \Tests\TestCase
     /**
      * Test that getting a server's name for the first time on a saved instance
      * updates the database.
+     * @medium
      * @test
      */
     public function testGetServerNameSlackInstance(): void
@@ -101,7 +105,7 @@ final class ChannelTest extends \Tests\TestCase
             'channel_id' => 'C' . \Str::random(10),
             'registered_by' => $user->id,
             'server_id' => 'T' . \Str::random(10),
-            'system' => self::$faker->randomElement(array_keys(config('app.systems'))),
+            'system' => self::$faker->randomElement(\array_keys(config('app.systems'))),
             'type' => Channel::TYPE_SLACK,
         ]);
         $channel->save();
@@ -140,6 +144,7 @@ final class ChannelTest extends \Tests\TestCase
 
     /**
      * Test trying to get a server's name if the type isn't set.
+     * @small
      * @test
      */
     public function testGetServerNameUnknownType(): void
@@ -150,6 +155,7 @@ final class ChannelTest extends \Tests\TestCase
 
     /**
      * Test that trying to set an invalid system throws an exception.
+     * @small
      * @test
      */
     public function testSetInvalidSystem(): void
@@ -162,11 +168,12 @@ final class ChannelTest extends \Tests\TestCase
 
     /**
      * Test setting the system to a valid value sets it.
+     * @small
      * @test
      */
     public function testSetSystem(): void
     {
-        $system = key(config('app.systems'));
+        $system = \key(config('app.systems'));
         $channel = new Channel();
         $channel->system = $system;
         self::assertSame($system, $channel->system);
@@ -174,6 +181,7 @@ final class ChannelTest extends \Tests\TestCase
 
     /**
      * Test setting the type of channel to an invalid type throws an exception.
+     * @small
      * @test
      */
     public function testSetTypeInvalid(): void
@@ -186,6 +194,7 @@ final class ChannelTest extends \Tests\TestCase
 
     /**
      * Test setting the type of channel to a valid type.
+     * @small
      * @test
      */
     public function testSetType(): void
@@ -197,6 +206,7 @@ final class ChannelTest extends \Tests\TestCase
 
     /**
      * Test scoping results to just Slack.
+     * @medium
      * @test
      */
     public function testScopeSlack(): void
@@ -225,6 +235,7 @@ final class ChannelTest extends \Tests\TestCase
 
     /**
      * Test getting the characters linked to this user and channel.
+     * @medium
      * @test
      */
     public function testCharacterNone(): void

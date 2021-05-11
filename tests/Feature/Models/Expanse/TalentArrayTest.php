@@ -12,6 +12,7 @@ use App\Models\Expanse\TalentArray;
  * @covers \App\Models\Expanse\TalentArray
  * @group models
  * @group expanse
+ * @small
  */
 final class TalentArrayTest extends \Tests\TestCase
 {

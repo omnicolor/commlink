@@ -7,7 +7,9 @@
     convertErrorsToExceptions="true"
     convertNoticesToExceptions="true"
     convertWarningsToExceptions="true"
+    enforceTimeLimit="true"
     executionOrder="random"
+    timeoutForMediumTests="10"
 >
 
     <testsuites>

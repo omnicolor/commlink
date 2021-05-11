@@ -13,6 +13,7 @@ use App\Models\CyberpunkRed\RoleArray;
  * @covers \App\Models\CyberpunkRed\RoleArray
  * @group cyberpunkred
  * @group models
+ * @small
  */
 final class RoleArrayTest extends \PHPUnit\Framework\TestCase
 {

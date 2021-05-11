@@ -11,6 +11,7 @@ use App\Models\Expanse\SocialClass;
  * @covers \App\Models\Expanse\SocialClass
  * @group models
  * @group expanse
+ * @small
  */
 final class SocialClassTest extends \Tests\TestCase
 {

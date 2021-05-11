@@ -14,6 +14,7 @@ use App\Models\Shadowrun5E\GearFactory;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class GearFactoryTest extends \Tests\TestCase
 {

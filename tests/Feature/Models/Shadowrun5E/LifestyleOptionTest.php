@@ -14,6 +14,7 @@ use App\Models\Shadowrun5E\LifestyleOption;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class LifestyleOptionTest extends \Tests\TestCase
 {
@@ -194,7 +195,7 @@ final class LifestyleOptionTest extends \Tests\TestCase
     {
         $option = new LifestyleOption('swimming-pool');
         $option->minimumLifestyle = 'None';
-        unset($option->cost);
+        $option->cost = null;
         $option->costMultiplier = 0.2;
         self::assertSame(1000, $option->getCost(new Lifestyle('middle')));
         self::assertSame(2000, $option->getCost(new Lifestyle('high')));
@@ -208,7 +209,7 @@ final class LifestyleOptionTest extends \Tests\TestCase
     {
         $option = new LifestyleOption('swimming-pool');
         $option->minimumLifestyle = 'None';
-        unset($option->cost);
+        $option->cost = null;
         $option->costMultiplier = -0.2;
         self::assertSame(-1000, $option->getCost(new Lifestyle('middle')));
         self::assertSame(-2000, $option->getCost(new Lifestyle('high')));

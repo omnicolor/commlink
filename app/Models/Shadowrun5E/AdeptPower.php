@@ -71,9 +71,9 @@ class AdeptPower
     {
         $filename = config('app.data_path.shadowrun5e') . 'adept-powers.php';
         self::$powers ??= require $filename;
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$powers[$id])) {
-            throw new \RuntimeException(sprintf(
+            throw new \RuntimeException(\sprintf(
                 'Adept power ID "%s" is invalid',
                 $id
             ));

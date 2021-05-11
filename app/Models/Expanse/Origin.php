@@ -38,7 +38,7 @@ abstract class Origin
      */
     public static function factory(string $id): Origin
     {
-        $id = strtolower($id);
+        $id = \strtolower($id);
         switch ($id) {
             case 'belter':
                 return new Origin\Belter();
@@ -48,7 +48,7 @@ abstract class Origin
                 return new Origin\Martian();
             default:
                 throw new \RuntimeException(
-                    sprintf('Origin "%s" is invalid', $id)
+                    \sprintf('Origin "%s" is invalid', $id)
                 );
         }
     }

@@ -12,6 +12,7 @@ use App\Models\Shadowrun5E\MentorSpirit;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class MentorSpiritTest extends \Tests\TestCase
 {

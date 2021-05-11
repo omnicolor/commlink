@@ -34,9 +34,9 @@ class TraditionsController extends \App\Http\Controllers\Controller
             . 'traditions.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/traditions';
-        $stat = stat($this->filename);
+        $stat = \stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
         $this->traditions = require $this->filename;
     }
 
@@ -48,18 +48,18 @@ class TraditionsController extends \App\Http\Controllers\Controller
     {
         foreach ($this->traditions as $key => $unused) {
             $this->traditions[$key]['links'] = [
-                'self' => sprintf(
+                'self' => \sprintf(
                     '/api/shadowrun5e/traditions/%s',
-                    urlencode($key)
+                    \urlencode($key)
                 ),
             ];
         }
 
-        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->headers['Etag'] = \sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => array_values($this->traditions),
+            'data' => \array_values($this->traditions),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -72,12 +72,12 @@ class TraditionsController extends \App\Http\Controllers\Controller
      */
     public function show(string $identifier): Response
     {
-        $identifier = strtolower($identifier);
-        if (!array_key_exists($identifier, $this->traditions)) {
+        $identifier = \strtolower($identifier);
+        if (!\array_key_exists($identifier, $this->traditions)) {
             // We couldn't find it!
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
-                'detail' => sprintf('%s not found', $identifier),
+                'detail' => \sprintf('%s not found', $identifier),
                 'title' => 'Not Found',
             ];
             return $this->error($error);
@@ -85,9 +85,9 @@ class TraditionsController extends \App\Http\Controllers\Controller
 
         $tradition = $this->traditions[$identifier];
         $tradition['links']['self'] = $this->links['self'] =
-            sprintf('/api/shadowrun5e/traditions/%s', $identifier);
+            \sprintf('/api/shadowrun5e/traditions/%s', $identifier);
 
-        $this->headers['Etag'] = sha1((string)json_encode($tradition));
+        $this->headers['Etag'] = \sha1((string)\json_encode($tradition));
 
         $data = [
             'links' => $this->links,

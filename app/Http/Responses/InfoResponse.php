@@ -29,7 +29,7 @@ class InfoResponse extends SlackResponse
         parent::__construct($content, $status, $headers, $channel);
         $chatUser = $this->channel->getChatUser();
         $commlinkUser = 'Not linked';
-        if (!is_null($chatUser) && !is_null($chatUser->user)) {
+        if (null !== $chatUser && null !== $chatUser->user) {
             $commlinkUser = $chatUser->user->email;
         }
         $attachment = (new FieldsAttachment('Debugging Info'))

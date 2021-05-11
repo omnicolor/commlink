@@ -12,6 +12,7 @@ use Illuminate\Http\Response;
  * @covers \App\Http\Controllers\Expanse\FocusesController
  * @group controllers
  * @group expanse
+ * @medium
  */
 final class FocusesControllerTest extends \Tests\TestCase
 {
@@ -53,7 +54,7 @@ final class FocusesControllerTest extends \Tests\TestCase
                     'self' => '/api/expanse/focuses/crafting',
                 ],
             ]);
-        self::assertGreaterThanOrEqual(1, count($response['data']));
+        self::assertGreaterThanOrEqual(1, \count($response['data']));
     }
 
     /**

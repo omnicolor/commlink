@@ -15,6 +15,7 @@ use App\Rolls\Shadowrun5e\Number;
  * @group shadowrun
  * @group shadowrun5e
  * @group slack
+ * @small
  */
 final class NumberTest extends \Tests\TestCase
 {
@@ -159,8 +160,8 @@ final class NumberTest extends \Tests\TestCase
      */
     public function testFormattedForDiscord(): void
     {
-        $expected = '**username rolled 1 die**' . PHP_EOL
-            . 'Rolled 1 successes' . PHP_EOL
+        $expected = '**username rolled 1 die**' . \PHP_EOL
+            . 'Rolled 1 successes' . \PHP_EOL
             . 'Rolls: 6';
         $this->randomInt->expects(self::exactly(1))->willReturn(6);
         $response = new Number('1', 'username');
@@ -173,8 +174,8 @@ final class NumberTest extends \Tests\TestCase
      */
     public function testFormattedForDiscordMaxedOut(): void
     {
-        $expected = '**username rolled 6 dice with a limit of 3**' . PHP_EOL
-            . 'Rolled 3 successes, hit limit' . PHP_EOL
+        $expected = '**username rolled 6 dice with a limit of 3**' . \PHP_EOL
+            . 'Rolled 3 successes, hit limit' . \PHP_EOL
             . 'Rolls: 6 6 6 6 6 6, Limit: 3';
         $this->randomInt->expects(self::exactly(6))->willReturn(6);
         $response = new Number('6 3', 'username');

@@ -129,9 +129,9 @@ class Sprite
     {
         $filename = config('app.data_path.shadowrun5e') . 'sprites.php';
         self::$sprites = require $filename;
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$sprites[$id])) {
-            throw new \RuntimeException(sprintf(
+            throw new \RuntimeException(\sprintf(
                 'Sprite ID "%s" is invalid',
                 $id
             ));
@@ -174,7 +174,7 @@ class Sprite
      */
     public function __call(string $name, array $arguments): int
     {
-        $attribute = lcfirst(str_replace('get', '', $name));
+        $attribute = \lcfirst(\str_replace('get', '', $name));
         $attributes = [
             'attack',
             'dataProcessing',
@@ -183,16 +183,16 @@ class Sprite
             'resonance',
             'sleaze',
         ];
-        if (!in_array($attribute, $attributes, true)) {
-            throw new \BadMethodCallException(sprintf(
+        if (!\in_array($attribute, $attributes, true)) {
+            throw new \BadMethodCallException(\sprintf(
                 '%s is not an attribute of sprites',
-                ucfirst($attribute)
+                \ucfirst($attribute)
             ));
         }
         if (null === $this->level) {
             throw new \RuntimeException('Level has not been set');
         }
-        $formula = str_replace(
+        $formula = \str_replace(
             ['L', '(', ')'],
             [(string)$this->level, '', ''],
             // @phpstan-ignore-next-line

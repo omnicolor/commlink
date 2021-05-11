@@ -46,11 +46,11 @@ class DiscordRunCommand extends Command
         });
 
         $client->on('ready', function () use ($client): void {
-            if (is_null($client->user)) {
+            if (null === $client->user) {
                 return;
             }
-            \Log::info(sprintf('Logged in to Discord: %s', $client->user->tag));
-            echo 'Logged in to Discord: ', $client->user->tag, PHP_EOL;
+            \Log::info(\sprintf('Logged in to Discord: %s', $client->user->tag));
+            echo 'Logged in to Discord: ', $client->user->tag, \PHP_EOL;
             $this->myTag = $client->user->tag;
         });
 
@@ -59,12 +59,12 @@ class DiscordRunCommand extends Command
             if ($this->myTag === $message->author->tag) {
                 // Ignoring messages from the bot.
                 \Log::debug(
-                    sprintf('Ignoring message from Discord bot: %s', $content)
+                    \sprintf('Ignoring message from Discord bot: %s', $content)
                 );
                 return;
             }
             if ($message->channel instanceof DMChannel) {
-                \Log::debug(sprintf(
+                \Log::debug(\sprintf(
                     'Handling DM from %s: %s',
                     $message->author->tag,
                     $content
@@ -75,10 +75,10 @@ class DiscordRunCommand extends Command
                 );
                 return;
             }
-            if (substr($content, 0, 1) !== '/') {
+            if ('/' !== \substr($content, 0, 1)) {
                 // Ignore non-command chatter.
                 \Log::debug(
-                    sprintf('Ignoring non-command message: %s', $content)
+                    \sprintf('Ignoring non-command message: %s', $content)
                 );
                 return;
             }

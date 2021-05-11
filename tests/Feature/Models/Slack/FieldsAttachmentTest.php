@@ -11,6 +11,7 @@ use App\Models\Slack\FieldsAttachment;
  * Tests for Slack FieldsAttachment.
  * @covers \App\Models\Slack\FieldsAttachment
  * @group slack
+ * @small
  */
 final class FieldsAttachmentTest extends \PHPUnit\Framework\TestCase
 {

@@ -11,6 +11,7 @@ use App\Models\Expanse\Focus;
  * @covers \App\Models\Expanse\Focus
  * @group models
  * @group expanse
+ * @small
  */
 final class FocusTest extends \Tests\TestCase
 {

@@ -14,6 +14,7 @@ use CharlotteDunois\Yasmin\Models\User;
  * Tests for Discord message events.
  * @group discord
  * @group events
+ * @small
  */
 final class DiscordMessageReceivedTest extends \Tests\TestCase
 {
@@ -33,7 +34,7 @@ final class DiscordMessageReceivedTest extends \Tests\TestCase
             ['content', '/roll foo'],
         ];
         $messageStub = $this->createStub(Message::class);
-        $messageStub->method('__get')->will(self::returnValueMap($map));
+        $messageStub->method('__get')->willReturnMap($map);
 
         $event = new DiscordMessageReceived($messageStub);
         self::assertSame('foo', $event->content);

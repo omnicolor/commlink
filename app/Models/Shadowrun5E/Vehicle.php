@@ -77,9 +77,9 @@ class Vehicle
 
     /**
      * Device rating for the vehicle.
-     * @var int
+     * @var ?int
      */
-    public int $deviceRating;
+    public ?int $deviceRating;
 
     /**
      * List of equipment added to the vehicle.
@@ -176,10 +176,10 @@ class Vehicle
         $filename = config('app.data_path.shadowrun5e') . 'vehicles.php';
         self::$vehicles ??= require $filename;
 
-        $id = strtolower($data['id']);
+        $id = \strtolower($data['id']);
         if (!isset(self::$vehicles[$id])) {
             throw new \RuntimeException(
-                sprintf('Vehicle ID "%s" is invalid', $id)
+                \sprintf('Vehicle ID "%s" is invalid', $id)
             );
         }
 
@@ -241,7 +241,7 @@ class Vehicle
      */
     public function isDrone(): bool
     {
-        return false !== strpos($this->category, 'drone');
+        return false !== \strpos($this->category, 'drone');
     }
 
     /**
@@ -272,7 +272,7 @@ class Vehicle
         if (!isset($this->deviceRating)) {
             return 0;
         }
-        return 8 + (int)ceil($this->deviceRating / 2);
+        return 8 + (int)\ceil($this->deviceRating / 2);
     }
 
     /**
@@ -282,8 +282,8 @@ class Vehicle
     public function getPhysicalConditionMonitor(): int
     {
         if ($this->isDrone()) {
-            return 6 + (int)ceil($this->body / 2);
+            return 6 + (int)\ceil($this->body / 2);
         }
-        return 12 + (int)ceil($this->body / 2);
+        return 12 + (int)\ceil($this->body / 2);
     }
 }

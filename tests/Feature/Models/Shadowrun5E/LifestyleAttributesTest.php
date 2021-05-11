@@ -12,6 +12,7 @@ use App\Models\Shadowrun5E\LifestyleAttributes;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class LifestyleAttributesTest extends \PHPUnit\Framework\TestCase
 {

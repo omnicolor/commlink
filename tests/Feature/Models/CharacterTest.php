@@ -10,14 +10,15 @@ use App\Models\User;
 /**
  * Tests for the top-level Character class.
  * @group character
+ * @small
  */
 final class CharacterTest extends \Tests\TestCase
 {
     /**
      * Character we're testing with.
-     * @var Character
+     * @var ?Character
      */
-    protected Character $character;
+    protected ?Character $character;
 
     /**
      * Faker instance.
@@ -40,7 +41,7 @@ final class CharacterTest extends \Tests\TestCase
     {
         if (isset($this->character)) {
             $this->character->delete();
-            unset($this->character);
+            $this->character = null;
         }
         parent::tearDown();
     }
@@ -86,7 +87,7 @@ final class CharacterTest extends \Tests\TestCase
         // PHPStan reports that this is always true. We're asserting that it's
         // not.
         // @phpstan-ignore-next-line
-        self::assertFalse(is_subclass_of($character, Character::class));
+        self::assertFalse(\is_subclass_of($character, Character::class));
     }
 
     /**
@@ -109,6 +110,6 @@ final class CharacterTest extends \Tests\TestCase
         // PHPStan reports that this is always true. testBuildDefault() asserts
         // that it's not.
         // @phpstan-ignore-next-line
-        self::assertTrue(is_subclass_of($character, Character::class));
+        self::assertTrue(\is_subclass_of($character, Character::class));
     }
 }

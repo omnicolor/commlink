@@ -34,9 +34,9 @@ class ArmorModificationsController extends \App\Http\Controllers\Controller
             . 'armor-modifications.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/armor-modifications';
-        $stat = stat($this->filename);
+        $stat = \stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
         $this->mods = require $this->filename;
     }
 
@@ -47,18 +47,18 @@ class ArmorModificationsController extends \App\Http\Controllers\Controller
     public function index(): Response
     {
         foreach ($this->mods as $key => $value) {
-            $this->mods[$key]['links']['self'] = sprintf(
+            $this->mods[$key]['links']['self'] = \sprintf(
                 '/api/shadowrun5e/armor-modifications/%s',
-                urlencode($key)
+                \urlencode($key)
             );
             $this->mods[$key]['ruleset'] ??= 'core';
         }
 
-        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->headers['Etag'] = \sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => array_values($this->mods),
+            'data' => \array_values($this->mods),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -71,8 +71,8 @@ class ArmorModificationsController extends \App\Http\Controllers\Controller
      */
     public function show(string $id): Response
     {
-        $id = strtolower($id);
-        if (!array_key_exists($id, $this->mods)) {
+        $id = \strtolower($id);
+        if (!\array_key_exists($id, $this->mods)) {
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
                 'detail' => $id . ' not found',
@@ -82,12 +82,12 @@ class ArmorModificationsController extends \App\Http\Controllers\Controller
         }
 
         $mod = $this->mods[$id];
-        $mod['links']['self'] = $this->links['self'] = sprintf(
+        $mod['links']['self'] = $this->links['self'] = \sprintf(
             '/api/shadowrun5e/armor-modifications/%s',
-            urlencode($id)
+            \urlencode($id)
         );
         $mod['ruleset'] ??= 'core';
-        $this->headers['Etag'] = sha1((string)json_encode($mod));
+        $this->headers['Etag'] = \sha1((string)\json_encode($mod));
 
         $data = [
             'links' => $this->links,

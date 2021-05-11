@@ -61,7 +61,7 @@ class Campaign extends Model
      */
     public function setSystemAttribute(string $system): void
     {
-        if (!array_key_exists($system, config('app.systems'))) {
+        if (!\array_key_exists($system, config('app.systems'))) {
             throw new \RuntimeException('Invalid system');
         }
         $this->attributes['system'] = $system;

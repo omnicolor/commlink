@@ -13,6 +13,7 @@ use App\Models\Shadowrun5E\MartialArtsTechniqueArray;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class MartialArtsTechniqueArrayTest extends \Tests\TestCase
 {

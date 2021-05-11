@@ -34,9 +34,9 @@ class MetamagicsController extends \App\Http\Controllers\Controller
             . 'metamagics.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/metamagics';
-        $stat = stat($this->filename);
+        $stat = \stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
         $this->magics = require $this->filename;
     }
 
@@ -48,18 +48,18 @@ class MetamagicsController extends \App\Http\Controllers\Controller
     {
         foreach ($this->magics as $key => $unused) {
             $this->magics[$key]['links'] = [
-                'self' => sprintf(
+                'self' => \sprintf(
                     '/api/shadowrun5e/metamagics/%s',
-                    urlencode($key)
+                    \urlencode($key)
                 ),
             ];
         }
 
-        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->headers['Etag'] = \sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => array_values($this->magics),
+            'data' => \array_values($this->magics),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -72,11 +72,11 @@ class MetamagicsController extends \App\Http\Controllers\Controller
      */
     public function show(string $identifier): Response
     {
-        $identifier = strtolower($identifier);
-        if (!array_key_exists($identifier, $this->magics)) {
+        $identifier = \strtolower($identifier);
+        if (!\array_key_exists($identifier, $this->magics)) {
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
-                'detail' => sprintf('%s not found', $identifier),
+                'detail' => \sprintf('%s not found', $identifier),
                 'title' => 'Not Found',
             ];
             return $this->error($error);
@@ -84,9 +84,9 @@ class MetamagicsController extends \App\Http\Controllers\Controller
 
         $magic = $this->magics[$identifier];
         $magic['links']['self'] = $this->links['self'] =
-            sprintf('/api/shadowrun5e/metamagics/%s', $identifier);
+            \sprintf('/api/shadowrun5e/metamagics/%s', $identifier);
 
-        $this->headers['Etag'] = sha1((string)json_encode($magic));
+        $this->headers['Etag'] = \sha1((string)\json_encode($magic));
 
         $data = [
             'links' => $this->links,

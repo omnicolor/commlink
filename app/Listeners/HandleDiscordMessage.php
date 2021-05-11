@@ -16,7 +16,7 @@ class HandleDiscordMessage
      */
     public function handle(DiscordMessageReceived $event): bool
     {
-        \Log::info(sprintf(
+        \Log::info(\sprintf(
             'HandleDiscordMessage: Received Discord command from %s (%s.%s): %s',
             $event->user->tag,
             $event->server->name,
@@ -24,9 +24,9 @@ class HandleDiscordMessage
             $event->channel->name,
             $event->content
         ));
-        $args = explode(' ', $event->content);
+        $args = \explode(' ', $event->content);
 
-        if (1 === preg_match('/\d+d\d+/i', $args[0])) {
+        if (1 === \preg_match('/\d+d\d+/i', $args[0])) {
             $roll = new \App\Rolls\Generic($event->content, $event->user->tag);
             $event->channel->send($roll->forDiscord());
             //RollEvent::dispatch($roll, $event->channel);
@@ -34,9 +34,9 @@ class HandleDiscordMessage
         }
 
         try {
-            $class = sprintf(
+            $class = \sprintf(
                 '\\App\Http\\Responses\\Discord\\%sResponse',
-                ucfirst($args[0])
+                \ucfirst($args[0])
             );
             $response = new $class($event);
             $event->channel->send((string)$response);

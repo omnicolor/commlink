@@ -14,6 +14,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 /**
  * Tests for validating a user from Slack.
  * @group slack
+ * @medium
  */
 final class ValidateUserResponseTest extends \Tests\TestCase
 {
@@ -39,7 +40,7 @@ final class ValidateUserResponseTest extends \Tests\TestCase
         $channel = Channel::factory()->make();
         $channel->user = \Str::random(10);
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(sprintf(
+        self::expectExceptionMessage(\sprintf(
             'To link your Commlink user, go to the <%s/settings|settings page> '
                 . 'and copy the command listed there for this server. If the '
                 . 'server isn\'t listed, follow the instructions there to add '
@@ -78,7 +79,7 @@ final class ValidateUserResponseTest extends \Tests\TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(sprintf(
+        self::expectExceptionMessage(\sprintf(
             'We couldn\'t find a Commlink registration for this Slack team and '
                 . 'your user. Go to the <%s/settings|settings page> and copy '
                 . 'the command listed there for this server. If the server '
@@ -116,7 +117,7 @@ final class ValidateUserResponseTest extends \Tests\TestCase
         self::expectException(SlackException::class);
         self::expectExceptionMessage('It looks like you\'re already verfied!');
         new ValidateUserResponse(
-            sprintf('validate %s', $chatUser->verification),
+            \sprintf('validate %s', $chatUser->verification),
             ValidateUserResponse::HTTP_OK,
             [],
             $channel
@@ -140,7 +141,7 @@ final class ValidateUserResponseTest extends \Tests\TestCase
             'verified' => false,
         ]);
         $response = new ValidateUserResponse(
-            sprintf('validate %s', $chatUser->verification),
+            \sprintf('validate %s', $chatUser->verification),
             ValidateUserResponse::HTTP_OK,
             [],
             $channel
@@ -172,7 +173,7 @@ final class ValidateUserResponseTest extends \Tests\TestCase
             'verified' => false,
         ]);
         $response = new ValidateUserResponse(
-            sprintf('validate %s', $chatUser->verification),
+            \sprintf('validate %s', $chatUser->verification),
             ValidateUserResponse::HTTP_OK,
             [],
             $channel

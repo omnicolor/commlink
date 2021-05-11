@@ -12,6 +12,7 @@ use App\Models\Shadowrun5E\Quality;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class QualityTest extends \Tests\TestCase
 {

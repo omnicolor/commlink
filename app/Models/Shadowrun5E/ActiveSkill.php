@@ -57,9 +57,9 @@ class ActiveSkill extends Skill
         $filename = config('app.data_path.shadowrun5e') . 'skills.php';
         self::$skills ??= require $filename;
 
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$skills[$id])) {
-            throw new \RuntimeException(sprintf(
+            throw new \RuntimeException(\sprintf(
                 'Skill ID "%s" is invalid',
                 $id
             ));
@@ -92,7 +92,7 @@ class ActiveSkill extends Skill
                 return $skill['id'];
             }
         }
-        throw new \RuntimeException(sprintf(
+        throw new \RuntimeException(\sprintf(
             'Active skill "%s" not found',
             $name
         ));

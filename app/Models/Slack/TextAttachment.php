@@ -69,7 +69,7 @@ class TextAttachment extends Attachment
      */
     public function toArray(): array
     {
-        if (is_null($this->footer)) {
+        if (null === $this->footer) {
             return [
                 'color' => $this->color,
                 'text' => $this->text,

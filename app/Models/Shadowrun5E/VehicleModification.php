@@ -86,10 +86,10 @@ class VehicleModification
             . 'vehicle-modifications.php';
         self::$modifications ??= require $filename;
 
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$modifications[$id])) {
             throw new \RuntimeException(
-                sprintf('Vehicle modification "%s" is invalid', $id)
+                \sprintf('Vehicle modification "%s" is invalid', $id)
             );
         }
 

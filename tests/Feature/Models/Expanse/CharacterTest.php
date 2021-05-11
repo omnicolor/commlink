@@ -18,6 +18,7 @@ use App\Models\Expanse\TalentArray;
  * @covers \App\Models\Expanse\Character
  * @group expanse
  * @group models
+ * @small
  */
 final class CharacterTest extends \Tests\TestCase
 {

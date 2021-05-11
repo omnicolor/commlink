@@ -10,8 +10,9 @@ use App\Models\CyberpunkRed\Role\Lawman;
  * Tests for the Lawman role.
  * @covers App\Models\CyberpunkRed\Role
  * @covers App\Models\CyberpunkRed\Role\Lawman
- * @group models
  * @group cyberpunkred
+ * @group models
+ * @small
  */
 final class LawmanTest extends \PHPUnit\Framework\TestCase
 {

@@ -34,9 +34,9 @@ class MentorSpiritsController extends \App\Http\Controllers\Controller
             . 'mentor-spirits.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/mentor-spirits';
-        $stat = stat($this->filename);
+        $stat = \stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
         $this->spirits = require $this->filename;
     }
 
@@ -48,19 +48,19 @@ class MentorSpiritsController extends \App\Http\Controllers\Controller
     {
         foreach ($this->spirits as $key => $unused) {
             $this->spirits[$key]['links'] = [
-                'self' => sprintf(
+                'self' => \sprintf(
                     '/api/shadowrun5e/mentor-spirits/%s',
-                    urlencode($key)
+                    \urlencode($key)
                 ),
             ];
             $this->spirits[$key]['ruleset'] ??= 'core';
         }
 
-        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->headers['Etag'] = \sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => array_values($this->spirits),
+            'data' => \array_values($this->spirits),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -73,8 +73,8 @@ class MentorSpiritsController extends \App\Http\Controllers\Controller
      */
     public function show(string $id): Response
     {
-        $id = strtolower($id);
-        if (!array_key_exists($id, $this->spirits)) {
+        $id = \strtolower($id);
+        if (!\array_key_exists($id, $this->spirits)) {
             // We couldn't find it!
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
@@ -87,9 +87,9 @@ class MentorSpiritsController extends \App\Http\Controllers\Controller
         $spirit = $this->spirits[$id];
         $spirit['ruleset'] ??= 'core';
         $spirit['links']['self'] = $this->links['self'] =
-            sprintf('/api/shadowrun5e/mentor-spirits/%s', urlencode($id));
+            \sprintf('/api/shadowrun5e/mentor-spirits/%s', \urlencode($id));
 
-        $this->headers['Etag'] = sha1((string)json_encode($spirit));
+        $this->headers['Etag'] = \sha1((string)\json_encode($spirit));
         $data = [
             'links' => $this->links,
             'data' => $spirit,

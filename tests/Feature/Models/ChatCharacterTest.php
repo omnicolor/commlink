@@ -14,6 +14,7 @@ use App\Models\ChatUser;
  * @group discord
  * @group models
  * @group slack
+ * @medium
  */
 final class ChatCharacterTest extends \Tests\TestCase
 {

@@ -12,6 +12,7 @@ use App\Models\Shadowrun5E\MartialArtsStyle;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class MartialArtsStyleTest extends \Tests\TestCase
 {

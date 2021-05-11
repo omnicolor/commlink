@@ -12,6 +12,7 @@ use App\Models\Channel;
  * @covers \App\Http\Responses\Cyberpunkred\HelpResponse
  * @group cyberpunkred
  * @group slack
+ * @medium
  */
 final class HelpResponseTest extends \Tests\TestCase
 {
@@ -45,12 +46,12 @@ final class HelpResponseTest extends \Tests\TestCase
             [],
             new Channel()
         );
-        $response = json_decode((string)$response);
+        $response = \json_decode((string)$response);
         self::assertSame('ephemeral', $response->response_type);
         self::assertEquals(
             (object)[
                 'title' => 'Unregistered',
-                'text' => sprintf(
+                'text' => \sprintf(
                     'It doesn\'t look like you\'ve linked a character here. If '
                         . 'you\'ve already built a character in <%s|Commlink>, '
                         . 'type `/roll link <characterId>` to connect your '

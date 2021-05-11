@@ -10,6 +10,7 @@ use App\Models\User;
 /**
  * Tests for the ChatUser test.
  * @group models
+ * @medium
  */
 final class ChatUserTest extends \Tests\TestCase
 {

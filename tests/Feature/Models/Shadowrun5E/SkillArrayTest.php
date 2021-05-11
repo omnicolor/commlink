@@ -14,6 +14,7 @@ use App\Models\Shadowrun5E\SkillArray;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class SkillArrayTest extends \Tests\TestCase
 {

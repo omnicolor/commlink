@@ -86,7 +86,7 @@ class Preparation
      */
     public function setTrigger(string $trigger): Preparation
     {
-        if (!in_array($trigger, ['command', 'contact', 'time'], true)) {
+        if (!\in_array($trigger, ['command', 'contact', 'time'], true)) {
             throw new \RuntimeException('Invalid alchemical trigger');
         }
         $this->trigger = $trigger;

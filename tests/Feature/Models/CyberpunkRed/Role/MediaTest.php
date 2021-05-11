@@ -10,8 +10,9 @@ use App\Models\CyberpunkRed\Role\Media;
  * Tests for the Media role.
  * @covers App\Models\CyberpunkRed\Role
  * @covers App\Models\CyberpunkRed\Role\Media
- * @group models
  * @group cyberpunkred
+ * @group models
+ * @small
  */
 final class MediaTest extends \PHPUnit\Framework\TestCase
 {

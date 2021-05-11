@@ -58,14 +58,14 @@ class NumberResponse extends SlackResponse
         array $headers = [],
         ?Channel $channel = null
     ) {
-        if (is_null($channel)) {
+        if (null === $channel) {
             throw new SlackException('Channel is required');
         }
 
         parent::__construct('', $status, $headers, $channel);
-        $args = explode(' ', $content);
-        $this->addition = (int)array_shift($args);
-        $this->description = implode(' ', $args);
+        $args = \explode(' ', $content);
+        $this->addition = (int)\array_shift($args);
+        $this->description = \implode(' ', $args);
         $this->name = $channel->username;
 
         $this->roll();
@@ -78,8 +78,8 @@ class NumberResponse extends SlackResponse
      */
     protected function getStuntPoints(): int
     {
-        $values = array_count_values($this->dice);
-        if (count($values) === 3) {
+        $values = \array_count_values($this->dice);
+        if (3 === \count($values)) {
             // No doubles, no stunt points.
             return 0;
         }
@@ -96,7 +96,7 @@ class NumberResponse extends SlackResponse
             random_int(1, 6),
             random_int(1, 6),
         ];
-        $this->result = array_sum($this->dice) + $this->addition;
+        $this->result = \array_sum($this->dice) + $this->addition;
     }
 
     /**
@@ -107,9 +107,9 @@ class NumberResponse extends SlackResponse
     {
         $for = '';
         if ('' !== $this->description) {
-            $for = sprintf(' for "%s"', $this->description);
+            $for = \sprintf(' for "%s"', $this->description);
         }
-        return sprintf('%s made a roll%s', $this->name, $for);
+        return \sprintf('%s made a roll%s', $this->name, $for);
     }
 
     /**
@@ -120,7 +120,7 @@ class NumberResponse extends SlackResponse
     {
         $result = (string)$this->result;
         if (0 !== $this->getStuntPoints()) {
-            $result = sprintf(
+            $result = \sprintf(
                 '%d (%d SP)',
                 $this->result,
                 $this->getStuntPoints()
@@ -140,7 +140,7 @@ class NumberResponse extends SlackResponse
             $this->formatBody(),
             TextAttachment::COLOR_INFO
         );
-        $attachment->addFooter(sprintf(
+        $attachment->addFooter(\sprintf(
             '%d %d `%d`',
             $this->dice[0],
             $this->dice[1],

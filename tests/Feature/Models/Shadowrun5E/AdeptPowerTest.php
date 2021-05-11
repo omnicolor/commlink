@@ -12,6 +12,7 @@ use App\Models\Shadowrun5E\AdeptPower;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class AdeptPowerTest extends \Tests\TestCase
 {

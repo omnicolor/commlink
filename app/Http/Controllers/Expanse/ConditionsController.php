@@ -33,9 +33,9 @@ class ConditionsController extends \App\Http\Controllers\Controller
         $this->filename = config('app.data_path.expanse') . 'conditions.php';
         $this->links['system'] = '/api/expanse';
         $this->links['collection'] = '/api/expanse/conditions';
-        $stat = stat($this->filename);
+        $stat = \stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
         $this->conditions = require $this->filename;
     }
 
@@ -47,15 +47,15 @@ class ConditionsController extends \App\Http\Controllers\Controller
     {
         foreach ($this->conditions as $key => $unused) {
             $this->conditions[$key]['links'] = [
-                'self' => sprintf('/api/expanse/conditions/%s', $key),
+                'self' => \sprintf('/api/expanse/conditions/%s', $key),
             ];
         }
 
-        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->headers['Etag'] = \sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => array_values($this->conditions),
+            'data' => \array_values($this->conditions),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -68,12 +68,12 @@ class ConditionsController extends \App\Http\Controllers\Controller
      */
     public function show(string $id): Response
     {
-        $id = strtolower($id);
-        if (!array_key_exists($id, $this->conditions)) {
+        $id = \strtolower($id);
+        if (!\array_key_exists($id, $this->conditions)) {
             // We couldn't find it!
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
-                'detail' => sprintf('%s not found', $id),
+                'detail' => \sprintf('%s not found', $id),
                 'title' => 'Not Found',
             ];
             return $this->error($error);
@@ -81,9 +81,9 @@ class ConditionsController extends \App\Http\Controllers\Controller
 
         $condition = $this->conditions[$id];
         $condition['links']['self'] = $this->links['self'] =
-            sprintf('/api/expanse/conditions/%s', $id);
+            \sprintf('/api/expanse/conditions/%s', $id);
 
-        $this->headers['Etag'] = sha1((string)json_encode($condition));
+        $this->headers['Etag'] = \sha1((string)\json_encode($condition));
 
         $data = [
             'links' => $this->links,

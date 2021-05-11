@@ -16,6 +16,7 @@ use Illuminate\Http\Response;
  * @covers \App\Models\CyberpunkRed\Character::booted
  * @group cyberpunkred
  * @group controllers
+ * @medium
  */
 final class CharacterControllerTest extends \Tests\TestCase
 {
@@ -161,7 +162,7 @@ final class CharacterControllerTest extends \Tests\TestCase
         ]);
         $view = $this->actingAs($user)
             ->get(
-                sprintf('/characters/cyberpunkred/%s', $character->id),
+                \sprintf('/characters/cyberpunkred/%s', $character->id),
                 ['character' => $character, 'user' => $user]
             );
         $view->assertSee($user->email);

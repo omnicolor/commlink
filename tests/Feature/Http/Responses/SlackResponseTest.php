@@ -10,6 +10,7 @@ use App\Models\Slack\TextAttachment;
 /**
  * Tests for the SlackResponse class.
  * @group slack
+ * @medium
  */
 final class SlackResponseTest extends \Tests\TestCase
 {

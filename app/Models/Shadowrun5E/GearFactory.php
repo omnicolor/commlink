@@ -17,7 +17,7 @@ class GearFactory
      */
     public static function get($gear): Gear
     {
-        if (is_array($gear)) {
+        if (\is_array($gear)) {
             return self::getGearFromArray($gear);
         }
         return self::getGearFromId($gear);
@@ -32,13 +32,13 @@ class GearFactory
     protected static function getGearFromArray(array $gear): Gear
     {
         $quantity = 1;
-        if (isset($gear['quantity']) && is_numeric($gear['quantity'])) {
+        if (isset($gear['quantity']) && \is_numeric($gear['quantity'])) {
             $quantity = (int)$gear['quantity'];
         }
         if (
-            0 === strpos($gear['id'], 'cyberdeck-')
-            || 0 === strpos($gear['id'], 'commlink-')
-            || 0 === strpos($gear['id'], 'rcc-')
+            0 === \strpos($gear['id'], 'cyberdeck-')
+            || 0 === \strpos($gear['id'], 'commlink-')
+            || 0 === \strpos($gear['id'], 'rcc-')
         ) {
             $commlink = new Commlink($gear['id'], $quantity);
             if (isset($gear['sin'])) {

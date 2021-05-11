@@ -62,9 +62,9 @@ class MartialArtsTechnique
             . 'martial-arts-techniques.php';
         self::$techniques ??= require $filename;
 
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$techniques[$id])) {
-            throw new \RuntimeException(sprintf(
+            throw new \RuntimeException(\sprintf(
                 'Martial Arts Technique ID "%s" is invalid',
                 $id
             ));
@@ -86,7 +86,7 @@ class MartialArtsTechnique
     public function __toString(): string
     {
         if (null !== $this->subname) {
-            return sprintf('%s (%s)', $this->name, $this->subname);
+            return \sprintf('%s (%s)', $this->name, $this->subname);
         }
         return $this->name;
     }

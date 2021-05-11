@@ -13,6 +13,7 @@ use App\Models\Shadowrun5E\AdeptPowerArray;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class AdeptPowerArrayTest extends \Tests\TestCase
 {

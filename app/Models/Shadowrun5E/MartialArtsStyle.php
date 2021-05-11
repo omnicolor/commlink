@@ -62,9 +62,9 @@ class MartialArtsStyle
             . 'martial-arts-styles.php';
         self::$styles ??= require $filename;
 
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$styles[$id])) {
-            throw new \RuntimeException(sprintf(
+            throw new \RuntimeException(\sprintf(
                 'Martial Arts Style ID "%s" is invalid',
                 $id
             ));

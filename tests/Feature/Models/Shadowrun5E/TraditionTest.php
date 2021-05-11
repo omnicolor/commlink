@@ -12,6 +12,7 @@ use App\Models\Shadowrun5E\Tradition;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class TraditionTest extends \Tests\TestCase
 {

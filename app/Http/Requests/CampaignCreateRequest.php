@@ -49,7 +49,7 @@ class CampaignCreateRequest extends FormRequest
             'system' => [
                 'max:30',
                 'required',
-                Rule::in(array_keys(config('app.systems'))),
+                Rule::in(\array_keys(config('app.systems'))),
             ],
         ];
     }

@@ -105,9 +105,9 @@ class Program
         $filename = config('app.data_path.shadowrun5e') . 'programs.php';
         self::$programs ??= require $filename;
 
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$programs[$id])) {
-            throw new \RuntimeException(sprintf(
+            throw new \RuntimeException(\sprintf(
                 'Program ID "%s" is invalid',
                 $id
             ));
@@ -154,7 +154,7 @@ class Program
      */
     public static function build($rawProgram, ProgramArray $running): Program
     {
-        if (!is_array($rawProgram)) {
+        if (!\is_array($rawProgram)) {
             $program = new Program($rawProgram);
             $program->running = $program->isRunning($running);
             return $program;

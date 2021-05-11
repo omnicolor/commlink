@@ -15,6 +15,7 @@ use Str;
  * @covers \App\Http\Requests\SlackRequest
  * @group controllers
  * @group slack
+ * @medium
  */
 final class SlackControllerTest extends \Tests\TestCase
 {
@@ -51,7 +52,7 @@ final class SlackControllerTest extends \Tests\TestCase
     {
         if (isset($this->channel)) {
             $this->channel->delete();
-            unset($this->channel);
+            $this->channel = null;
         }
         parent::tearDown();
     }
@@ -81,9 +82,9 @@ final class SlackControllerTest extends \Tests\TestCase
                 'color' => 'danger',
                 'response_type' => 'ephemeral',
                 'text' => 'You must include at least one command argument.'
-                    . PHP_EOL
+                    . \PHP_EOL
                     . 'For example: `/roll init` to roll your character\'s '
-                    . 'initiative.' . PHP_EOL . PHP_EOL
+                    . 'initiative.' . \PHP_EOL . \PHP_EOL
                     . 'Type `/roll help` for more help.',
                 'title' => 'Error',
             ]);
@@ -111,7 +112,7 @@ final class SlackControllerTest extends \Tests\TestCase
                 'color' => 'danger',
                 'response_type' => 'ephemeral',
                 'text' => 'That doesn\'t appear to be a valid Commlink command.'
-                    . PHP_EOL . PHP_EOL
+                    . \PHP_EOL . \PHP_EOL
                     . 'Type `/roll help` for more help.',
                 'title' => 'Error',
             ]);
@@ -212,7 +213,7 @@ final class SlackControllerTest extends \Tests\TestCase
                 'color' => SlackResponse::COLOR_DANGER,
                 'response_type' => 'ephemeral',
                 'text' => 'That doesn\'t appear to be a valid Commlink command.'
-                    . PHP_EOL . PHP_EOL
+                    . \PHP_EOL . \PHP_EOL
                     . 'Type `/roll help` for more help.',
                 'title' => 'Error',
             ]);
@@ -271,7 +272,7 @@ final class SlackControllerTest extends \Tests\TestCase
                 'color' => SlackResponse::COLOR_DANGER,
                 'response_type' => 'ephemeral',
                 'text' => 'That doesn\'t appear to be a valid Commlink command.'
-                    . PHP_EOL . PHP_EOL
+                    . \PHP_EOL . \PHP_EOL
                     . 'Type `/roll help` for more help.',
                 'title' => 'Error',
             ]);

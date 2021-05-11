@@ -67,14 +67,14 @@ class SkillGroup
         }
 
         if (!isset(self::$skillGroups[$id])) {
-            throw new \RuntimeException(sprintf(
+            throw new \RuntimeException(\sprintf(
                 'Skill group ID "%s" is invalid',
                 $id
             ));
         }
 
         $this->id = $id;
-        $this->name = ucfirst(str_replace('-', ' ', $id));
+        $this->name = \ucfirst(\str_replace('-', ' ', $id));
         $this->level = $level;
         $this->skills = self::$skillGroups[$id];
     }

@@ -13,6 +13,7 @@ use App\Models\Shadowrun5E\LifestyleOption;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class IdentityTest extends \Tests\TestCase
 {
@@ -131,7 +132,7 @@ final class IdentityTest extends \Tests\TestCase
                 ],
             ],
         ];
-        $expected = 'Test' . PHP_EOL
+        $expected = 'Test' . \PHP_EOL
             . 'Option "Not Found" was not found for lifestyle "Street"';
         $identity = Identity::fromArray($example);
         self::assertEmpty($identity->lifestyles[0]->options);

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Http;
 /**
  * Tests for the settings controller.
  * @group controllers
+ * @medium
  */
 final class SettingsControllerTest extends \Tests\TestCase
 {
@@ -101,7 +102,7 @@ final class SettingsControllerTest extends \Tests\TestCase
                 'ok' => false,
                 'error' => 'not_authed',
             ]),
-            sprintf('%s?user=%s', self::API_USERS, $userId) => Http::response([
+            \sprintf('%s?user=%s', self::API_USERS, $userId) => Http::response([
                 'ok' => false,
                 'error' => 'not_authed',
             ]),

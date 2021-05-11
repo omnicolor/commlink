@@ -13,6 +13,7 @@ use App\Models\Shadowrun5E\KnowledgeSkill;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class KnowledgeSkillTest extends \Tests\TestCase
 {

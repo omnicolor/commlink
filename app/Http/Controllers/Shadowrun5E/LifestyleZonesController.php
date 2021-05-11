@@ -34,9 +34,9 @@ class LifestyleZonesController extends \App\Http\Controllers\Controller
             . 'lifestyle-zones.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/lifestyle-zones';
-        $stat = stat($this->filename);
+        $stat = \stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
         $this->zones = require $this->filename;
     }
 
@@ -48,18 +48,18 @@ class LifestyleZonesController extends \App\Http\Controllers\Controller
     {
         foreach ($this->zones as $key => $value) {
             $this->zones[$key]['links'] = [
-                'self' => sprintf(
+                'self' => \sprintf(
                     '/api/shadowrun5e/lifestyle-zones/%s',
-                    urlencode($key)
+                    \urlencode($key)
                 ),
             ];
         }
 
-        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->headers['Etag'] = \sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => array_values($this->zones),
+            'data' => \array_values($this->zones),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -72,8 +72,8 @@ class LifestyleZonesController extends \App\Http\Controllers\Controller
      */
     public function show(string $id): Response
     {
-        $id = strtolower($id);
-        if (!array_key_exists($id, $this->zones)) {
+        $id = \strtolower($id);
+        if (!\array_key_exists($id, $this->zones)) {
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
                 'detail' => $id . ' not found',
@@ -84,8 +84,8 @@ class LifestyleZonesController extends \App\Http\Controllers\Controller
 
         $zone = $this->zones[$id];
         $this->links['self'] = $zone['links']['self']
-            = sprintf('/api/shadowrun5e/lifestyle-zones/%s', urlencode($id));
-        $this->headers['Etag'] = sha1((string)json_encode($zone));
+            = \sprintf('/api/shadowrun5e/lifestyle-zones/%s', \urlencode($id));
+        $this->headers['Etag'] = \sha1((string)\json_encode($zone));
 
         $data = [
             'links' => $this->links,

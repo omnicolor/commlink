@@ -10,6 +10,7 @@ use App\Models\Slack\TextAttachment;
  * Tests for the Slack TextAttachment class.
  * @covers \App\Models\Slack\TextAttachment
  * @group slack
+ * @small
  */
 final class TextAttachmentTest extends \PHPUnit\Framework\TestCase
 {

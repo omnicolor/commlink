@@ -133,7 +133,7 @@ class Character extends \App\Models\Character
                         $focus['level'] ?? 1
                     );
                 } catch (\RuntimeException $ex) {
-                    \Log::warning(sprintf(
+                    \Log::warning(\sprintf(
                         'Expanse character "%s" (%s) has invalid focus "%s"',
                         $this->name,
                         $this->_id,
@@ -179,7 +179,7 @@ class Character extends \App\Models\Character
                     (int)($talent['level'] ?? Talent::NOVICE)
                 );
             } catch (\RuntimeException $ex) {
-                \Log::warning(sprintf(
+                \Log::warning(\sprintf(
                     'Expanse character "%s" (%s) has invalid talent "%s"',
                     $this->name,
                     $this->_id,

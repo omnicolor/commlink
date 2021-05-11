@@ -33,9 +33,9 @@ class GearController extends \App\Http\Controllers\Controller
         $this->filename = config('app.data_path.shadowrun5e') . 'gear.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/gear';
-        $stat = stat($this->filename);
+        $stat = \stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
         $this->gear = require $this->filename;
     }
 
@@ -47,17 +47,17 @@ class GearController extends \App\Http\Controllers\Controller
     {
         foreach ($this->gear as $key => $unused) {
             $this->gear[$key]['links'] = [
-                'self' => sprintf('/api/shadowrun5e/gear/%s', urlencode($key)),
+                'self' => \sprintf('/api/shadowrun5e/gear/%s', \urlencode($key)),
             ];
             $this->gear[$key]['ruleset'] ??= 'core';
         }
 
         $data = [
             'links' => $this->links,
-            'data' => array_values($this->gear),
+            'data' => \array_values($this->gear),
         ];
 
-        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->headers['Etag'] = \sha1_file($this->filename);
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
 
@@ -68,8 +68,8 @@ class GearController extends \App\Http\Controllers\Controller
      */
     public function show(string $id): Response
     {
-        $id = strtolower($id);
-        if (!array_key_exists($id, $this->gear)) {
+        $id = \strtolower($id);
+        if (!\array_key_exists($id, $this->gear)) {
             // We couldn't find it!
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
@@ -82,14 +82,14 @@ class GearController extends \App\Http\Controllers\Controller
         $item = $this->gear[$id];
         $item['ruleset'] ??= 'core';
         $item['links']['self'] = $this->links['self'] =
-            sprintf('/api/shadowrun5e/gear/%s', urlencode($id));
+            \sprintf('/api/shadowrun5e/gear/%s', \urlencode($id));
 
         $data = [
             'links' => $this->links,
             'data' => $item,
         ];
 
-        $this->headers['Etag'] = sha1((string)json_encode($item));
+        $this->headers['Etag'] = \sha1((string)\json_encode($item));
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
 }

@@ -12,6 +12,7 @@ use Illuminate\Http\Response;
  * @covers \App\Http\Controllers\Expanse\BackgroundsController
  * @group controllers
  * @group expanse
+ * @medium
  */
 final class BackgroundsControllerTest extends \Tests\TestCase
 {
@@ -53,7 +54,7 @@ final class BackgroundsControllerTest extends \Tests\TestCase
                     'self' => '/api/expanse/backgrounds/trade',
                 ],
             ]);
-        self::assertGreaterThanOrEqual(1, count($response['data']));
+        self::assertGreaterThanOrEqual(1, \count($response['data']));
     }
 
     /**

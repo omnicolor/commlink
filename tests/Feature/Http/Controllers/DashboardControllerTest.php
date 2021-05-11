@@ -12,6 +12,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 /**
  * Tests for the main dashboard.
  * @group controllers
+ * @medium
  */
 final class DashboardControllerTest extends \Tests\TestCase
 {

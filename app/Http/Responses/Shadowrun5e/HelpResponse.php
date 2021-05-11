@@ -30,19 +30,19 @@ class HelpResponse extends SlackResponse
         $this->addAttachment(new TextAttachment(
             'Commlink - Shadowrun 5E',
             'Commlink is a Slack bot that lets you roll Shadowrun 5E dice.'
-                . PHP_EOL
+                . \PHP_EOL
                 . '· `6 [text]` - Roll 6 dice, with optional text (automatics, '
-                . 'perception, etc)' . PHP_EOL
-                . '· `12 6 [text]` - Roll 12 dice with a limit of 6' . PHP_EOL
+                . 'perception, etc)' . \PHP_EOL
+                . '· `12 6 [text]` - Roll 12 dice with a limit of 6' . \PHP_EOL
                 . '· `XdY[+C] [text]` - Roll X dice with Y sides, optionally '
                 . 'adding C to the result, optionally describing that the roll '
-                . 'is for "text"' . PHP_EOL,
+                . 'is for "text"' . \PHP_EOL,
             TextAttachment::COLOR_INFO
         ));
-        if (!is_null($channel) && is_null($channel->character())) {
+        if (null !== $channel && null === $channel->character()) {
             $this->addAttachment(new TextAttachment(
                 'Unregistered',
-                sprintf(
+                \sprintf(
                     'It doesn\'t look like you\'ve linked a character here. If '
                         . 'you\'ve already built a character in <%s|Commlink>, '
                         . 'type `/roll link <characterId>` to connect your '

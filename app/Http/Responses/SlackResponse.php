@@ -141,7 +141,7 @@ class SlackResponse extends JsonResponse
             $data['response_type'] = 'ephemeral';
         }
 
-        if (0 !== count($this->attachments)) {
+        if (0 !== \count($this->attachments)) {
             $data['attachments'] = $this->attachments;
         }
         if (null !== $this->text) {

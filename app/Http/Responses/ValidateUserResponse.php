@@ -20,23 +20,23 @@ class ValidateUserResponse extends SlackResponse
      * @param string $content
      * @param int $status
      * @param array<string, string> $headers
-     * @param Channel $channel
+     * @param ?Channel $channel
      * @throws SlackException
      */
     public function __construct(
         string $content = '',
         int $status = 200,
         array $headers = [],
-        Channel $channel = null
+        ?Channel $channel = null
     ) {
         parent::__construct('', $status, $headers, $channel);
-        if (is_null($channel)) {
+        if (null === $channel) {
             throw new SlackException('Channel is required');
         }
 
-        $args = explode(' ', $content);
-        if (2 !== count($args)) {
-            throw new SlackException(sprintf(
+        $args = \explode(' ', $content);
+        if (2 !== \count($args)) {
+            throw new SlackException(\sprintf(
                 'To link your Commlink user, go to the '
                     . '<%s/settings|settings page> and copy the command listed '
                     . 'there for this server. If the server isn\'t listed, '
@@ -73,26 +73,26 @@ class ValidateUserResponse extends SlackResponse
             if (null === $channel->id) {
                 $systems = [];
                 foreach (config('app.systems') as $code => $name) {
-                    $systems[] = sprintf('· %s (%s)', $name, $code);
+                    $systems[] = \sprintf('· %s (%s)', $name, $code);
                 }
                 $nextStep = 'Next, you can `/roll register <systemID>`, where '
-                    . '<systemId> is the short code from:' . PHP_EOL
-                    . implode(PHP_EOL, $systems);
+                    . '<systemId> is the short code from:' . \PHP_EOL
+                    . \implode(\PHP_EOL, $systems);
             }
 
             $this->addAttachment(new TextAttachment(
                 'Verified!',
-                sprintf(
+                \sprintf(
                     'Your Commlink account (%s) has been linked with this '
                         . 'Slack user. You only need to do this once for this '
                         . 'server, no matter how many different channels you '
-                        . 'play in.' . PHP_EOL . PHP_EOL . '%s',
+                        . 'play in.' . \PHP_EOL . \PHP_EOL . '%s',
                     // @phpstan-ignore-next-line
                     $user->user->email,
                     $nextStep
                 ),
                 TextAttachment::COLOR_SUCCESS,
-                sprintf(
+                \sprintf(
                     'Server: %s User: %s Channel: %s',
                     $channel->server_id,
                     $channel->user,
@@ -101,7 +101,7 @@ class ValidateUserResponse extends SlackResponse
             ));
             return;
         }
-        throw new SlackException(sprintf(
+        throw new SlackException(\sprintf(
             'We couldn\'t find a Commlink registration for this Slack team and '
                 . 'your user. Go to the <%s/settings|settings page> and copy '
                 . 'the command listed there for this server. If the server '

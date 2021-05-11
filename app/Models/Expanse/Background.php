@@ -73,10 +73,10 @@ class Background
         $filename = config('app.data_path.expanse') . 'backgrounds.php';
         self::$backgrounds ??= require $filename;
 
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$backgrounds[$id])) {
             throw new \RuntimeException(
-                sprintf('Background ID "%s" is invalid', $id)
+                \sprintf('Background ID "%s" is invalid', $id)
             );
         }
 

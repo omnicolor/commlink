@@ -62,10 +62,10 @@ class Focus
         $filename = config('app.data_path.expanse') . 'focuses.php';
         self::$focuses ??= require $filename;
 
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$focuses[$id])) {
             throw new \RuntimeException(
-                sprintf('Focus ID "%s" is invalid', $id)
+                \sprintf('Focus ID "%s" is invalid', $id)
             );
         }
 

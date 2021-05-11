@@ -18,6 +18,7 @@ use Illuminate\Http\Response;
  * @group shadowrun
  * @group shadowrun5e
  * @group controllers
+ * @medium
  */
 final class CharacterControllerTest extends \Tests\TestCase
 {
@@ -178,7 +179,7 @@ final class CharacterControllerTest extends \Tests\TestCase
         ]);
         $this->actingAs($user)
             ->get(
-                sprintf('/characters/shadowrun5e/%s', $character->id),
+                \sprintf('/characters/shadowrun5e/%s', $character->id),
                 ['character' => $character, 'user' => $user]
             )
             ->assertSee($character->handle);

@@ -70,14 +70,14 @@ class NumberResponse extends SlackResponse
         array $headers = [],
         ?Channel $channel = null
     ) {
-        if (is_null($channel)) {
+        if (null === $channel) {
             throw new SlackException('Channel is required');
         }
 
         parent::__construct('', $status, $headers, $channel);
-        $args = explode(' ', $content);
-        $this->addition = (int)array_shift($args);
-        $this->description = implode(' ', $args);
+        $args = \explode(' ', $content);
+        $this->addition = (int)\array_shift($args);
+        $this->description = \implode(' ', $args);
         $this->name = $channel->username ?? $channel->user ?? '';
 
         $this->roll();
@@ -103,7 +103,7 @@ class NumberResponse extends SlackResponse
             $this->dice[] = random_int(1, 10);
         }
 
-        $this->result = array_sum($this->dice) + $this->addition;
+        $this->result = \array_sum($this->dice) + $this->addition;
     }
 
     /**
@@ -114,21 +114,21 @@ class NumberResponse extends SlackResponse
     {
         $for = '';
         if ('' !== $this->description) {
-            $for = sprintf(' for "%s"', $this->description);
+            $for = \sprintf(' for "%s"', $this->description);
         }
         if (!$this->critFailure && !$this->critSuccess) {
-            return sprintf('%s made a roll%s', $this->name, $for);
+            return \sprintf('%s made a roll%s', $this->name, $for);
         }
 
         if ($this->critFailure) {
-            return sprintf(
+            return \sprintf(
                 '%s made a roll with a critical failure%s',
                 $this->name,
                 $for
             );
         }
 
-        return sprintf(
+        return \sprintf(
             '%s made a roll with a critical success%s',
             $this->name,
             $for
@@ -142,7 +142,7 @@ class NumberResponse extends SlackResponse
     protected function formatBody(): string
     {
         if (!$this->critFailure && !$this->critSuccess) {
-            return sprintf(
+            return \sprintf(
                 '1d10 + %1$d = %2$d + %1$d = %3$d',
                 $this->addition,
                 $this->dice[0],
@@ -150,14 +150,14 @@ class NumberResponse extends SlackResponse
             );
         }
         if ($this->critFailure) {
-            return sprintf(
+            return \sprintf(
                 '1d10 + %1$d = 1 - %2$d + %1$d = %3$d',
                 $this->addition,
-                abs($this->dice[1]),
+                \abs($this->dice[1]),
                 $this->result
             );
         }
-        return sprintf(
+        return \sprintf(
             '1d10 + %1$d = 10 + %2$d + %1$d = %3$d',
             $this->addition,
             $this->dice[1],
@@ -182,7 +182,7 @@ class NumberResponse extends SlackResponse
             $this->formatBody(),
             $color
         );
-        $attachment->addFooter(implode(' ', $this->dice));
+        $attachment->addFooter(\implode(' ', $this->dice));
         return $attachment;
     }
 }

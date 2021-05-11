@@ -14,6 +14,7 @@ use App\Models\Shadowrun5E\LifestyleOptionArray;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class LifestyleOptionArrayTest extends \Tests\TestCase
 {

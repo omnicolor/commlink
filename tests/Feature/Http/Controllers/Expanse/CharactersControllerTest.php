@@ -16,6 +16,7 @@ use Illuminate\Http\Response;
  * @covers \App\Models\Expanse\Character::booted
  * @group expanse
  * @group controllers
+ * @medium
  */
 final class CharactersControllerTest extends \Tests\TestCase
 {
@@ -162,7 +163,7 @@ final class CharactersControllerTest extends \Tests\TestCase
         ]);
         $view = $this->actingAs($user)
             ->get(
-                sprintf('/characters/expanse/%s', $character->id),
+                \sprintf('/characters/expanse/%s', $character->id),
                 ['character' => $character, 'user' => $user]
             );
         $view->assertSee($user->email);

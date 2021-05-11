@@ -86,9 +86,9 @@ class ArmorModification
             . 'armor-modifications.php';
         self::$modifications ??= require $filename;
 
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$modifications[$id])) {
-            throw new \RuntimeException(sprintf(
+            throw new \RuntimeException(\sprintf(
                 'Modification ID "%s" not found',
                 $id
             ));

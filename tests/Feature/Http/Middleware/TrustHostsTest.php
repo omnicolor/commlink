@@ -8,6 +8,7 @@ use App\Http\Middleware\TrustHosts;
 
 /**
  * @covers \App\Http\Middleware\TrustHosts
+ * @small
  */
 final class TrustHostsTest extends \Tests\TestCase
 {

@@ -14,6 +14,7 @@ use App\Models\Shadowrun5E\Program;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class CommlinkTest extends \Tests\TestCase
 {

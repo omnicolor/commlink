@@ -41,12 +41,12 @@ class ChatUser extends Model
      */
     public function getVerificationAttribute(): string
     {
-        $hash = sha1(
+        $hash = \sha1(
             config('app.key') . $this->attributes['server_id']
                 . $this->attributes['remote_user_id']
                 . $this->attributes['user_id']
         );
-        return substr($hash, 0, 20);
+        return \substr($hash, 0, 20);
     }
 
     /**

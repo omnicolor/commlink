@@ -49,10 +49,10 @@ class LifestyleZone
         $filename = config('app.data_path.shadowrun5e') . 'lifestyle-zones.php';
         self::$zones ??= require $filename;
 
-        $id = strtolower($id);
-        if (!array_key_exists($id, self::$zones)) {
+        $id = \strtolower($id);
+        if (!\array_key_exists($id, self::$zones)) {
             throw new \RuntimeException(
-                sprintf('Lifestyle Zone ID "%s" is invalid', $id)
+                \sprintf('Lifestyle Zone ID "%s" is invalid', $id)
             );
         }
 

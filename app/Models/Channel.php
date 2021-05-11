@@ -69,7 +69,7 @@ class Channel extends Model
     public function getServerNameAttribute(): ?string
     {
         // If we've already retrieved it, just return what we've got.
-        if (!is_null($this->attributes['server_name'] ?? null)) {
+        if (null !== ($this->attributes['server_name'] ?? null)) {
             return $this->attributes['server_name'];
         }
 
@@ -103,7 +103,7 @@ class Channel extends Model
      */
     public function setSystemAttribute(string $system): void
     {
-        if (!array_key_exists($system, config('app.systems'))) {
+        if (!\array_key_exists($system, config('app.systems'))) {
             throw new \RuntimeException('Invalid system');
         }
         $this->attributes['system'] = $system;
@@ -116,7 +116,7 @@ class Channel extends Model
      */
     public function setTypeAttribute(string $type): void
     {
-        if (!in_array($type, self::VALID_TYPES, true)) {
+        if (!\in_array($type, self::VALID_TYPES, true)) {
             throw new \RuntimeException('Invalid channel type');
         }
         $this->attributes['type'] = $type;

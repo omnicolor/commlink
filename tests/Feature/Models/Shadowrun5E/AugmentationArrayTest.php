@@ -13,6 +13,7 @@ use App\Models\Shadowrun5E\AugmentationArray;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class AugmentationArrayTest extends \Tests\TestCase
 {

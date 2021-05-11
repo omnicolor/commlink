@@ -13,6 +13,7 @@ use App\Models\User;
  * Tests for getting info about the channel.
  * @covers \App\Http\Responses\InfoResponse
  * @group slack
+ * @medium
  */
 final class InfoResponseTest extends \Tests\TestCase
 {
@@ -28,7 +29,7 @@ final class InfoResponseTest extends \Tests\TestCase
         ]);
         $channel->user = 'user id';
         $response = new InfoResponse('', InfoResponse::HTTP_OK, [], $channel);
-        $response = json_decode((string)$response);
+        $response = \json_decode((string)$response);
         self::assertSame('ephemeral', $response->response_type);
         self::assertEquals(
             [
@@ -89,7 +90,7 @@ final class InfoResponseTest extends \Tests\TestCase
         ]);
 
         $response = new InfoResponse('', InfoResponse::HTTP_OK, [], $channel);
-        $response = json_decode((string)$response);
+        $response = \json_decode((string)$response);
         self::assertSame('ephemeral', $response->response_type);
         self::assertEquals(
             [

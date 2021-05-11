@@ -49,10 +49,10 @@ class Condition
         $filename = config('app.data_path.expanse') . 'conditions.php';
         self::$conditions ??= require $filename;
 
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$conditions[$id])) {
             throw new \RuntimeException(
-                sprintf('Condition ID "%s" is invalid', $id)
+                \sprintf('Condition ID "%s" is invalid', $id)
             );
         }
 

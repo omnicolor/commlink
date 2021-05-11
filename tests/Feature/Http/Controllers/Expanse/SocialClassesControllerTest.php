@@ -12,6 +12,7 @@ use Illuminate\Http\Response;
  * @covers \App\Http\Controllers\Expanse\SocialClassesController
  * @group controllers
  * @group expanse
+ * @medium
  */
 final class SocialClassesControllerTest extends \Tests\TestCase
 {
@@ -53,7 +54,7 @@ final class SocialClassesControllerTest extends \Tests\TestCase
                     'self' => '/api/expanse/social-classes/middle',
                 ],
             ]);
-        self::assertGreaterThanOrEqual(1, count($response['data']));
+        self::assertGreaterThanOrEqual(1, \count($response['data']));
     }
 
     /**

@@ -11,6 +11,7 @@ use App\Models\Shadowrun5E\ForceTrait;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class ForceTraitTest extends \Tests\TestCase
 {

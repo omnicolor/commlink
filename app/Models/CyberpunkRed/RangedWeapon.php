@@ -117,9 +117,9 @@ class RangedWeapon
         $filename = config('app.data_path.cyberpunkred') . 'ranged-weapons.php';
         self::$weapons ??= require $filename;
 
-        $id = strtolower($options['id']);
-        if (!array_key_exists($id, self::$weapons)) {
-            throw new \RuntimeException(sprintf(
+        $id = \strtolower($options['id']);
+        if (!\array_key_exists($id, self::$weapons)) {
+            throw new \RuntimeException(\sprintf(
                 'Weapon ID "%s" is invalid',
                 $id
             ));
@@ -137,8 +137,8 @@ class RangedWeapon
         $this->type = $weapon['type'];
 
         if (isset($options['quality'])) {
-            if (!in_array($options['quality'], self::QUALITIES, true)) {
-                throw new \RuntimeException(sprintf(
+            if (!\in_array($options['quality'], self::QUALITIES, true)) {
+                throw new \RuntimeException(\sprintf(
                     'Weapon ID "%s" has invalid quality "%s"',
                     $id,
                     $options['quality']

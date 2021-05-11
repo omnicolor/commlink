@@ -11,6 +11,7 @@ use App\Models\Expanse\Talent;
  * @covers \App\Models\Expanse\Talent
  * @group models
  * @group expanse
+ * @small
  */
 final class TalentTest extends \Tests\TestCase
 {

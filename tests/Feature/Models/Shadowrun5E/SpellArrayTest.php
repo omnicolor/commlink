@@ -13,6 +13,7 @@ use App\Models\Shadowrun5E\SpellArray;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class SpellArrayTest extends \Tests\TestCase
 {

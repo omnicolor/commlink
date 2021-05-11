@@ -67,9 +67,9 @@ class Tradition
         $filename = config('app.data_path.shadowrun5e') . 'traditions.php';
         self::$traditions ??= require $filename;
 
-        $identifier = strtolower($identifier);
+        $identifier = \strtolower($identifier);
         if (!isset(self::$traditions[$identifier])) {
-            throw new \RuntimeException(sprintf(
+            throw new \RuntimeException(\sprintf(
                 'Tradition ID "%s" not found',
                 $identifier
             ));
@@ -92,8 +92,8 @@ class Tradition
      */
     public function getDrainAttributes(): array
     {
-        $drain = explode('+', $this->drain);
-        return [trim($drain[0]), trim($drain[1])];
+        $drain = \explode('+', $this->drain);
+        return [\trim($drain[0]), \trim($drain[1])];
     }
 
     /**

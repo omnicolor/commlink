@@ -34,9 +34,9 @@ class SkillsController extends Controller
         $this->filename = config('app.data_path.shadowrun5e') . 'skills.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/skills';
-        $stat = stat($this->filename);
+        $stat = \stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
         $this->skills = require $this->filename;
     }
 
@@ -48,17 +48,17 @@ class SkillsController extends Controller
     {
         foreach ($this->skills as $key => $value) {
             $this->skills[$key]['links'] = [
-                'self' => sprintf(
+                'self' => \sprintf(
                     '/api/shadowrun5e/skills/%s',
-                    urlencode($key)
+                    \urlencode($key)
                 ),
             ];
         }
 
-        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->headers['Etag'] = \sha1_file($this->filename);
         $data = [
             'links' => $this->links,
-            'data' => array_values($this->skills),
+            'data' => \array_values($this->skills),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -71,7 +71,7 @@ class SkillsController extends Controller
      */
     public function show(string $id): Response
     {
-        if (!array_key_exists($id, $this->skills)) {
+        if (!\array_key_exists($id, $this->skills)) {
             // We couldn't find the requested skill!
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
@@ -81,12 +81,12 @@ class SkillsController extends Controller
             return $this->error($error);
         }
         $skill = $this->skills[$id];
-        $skill['links']['self'] = $this->links['self'] = sprintf(
+        $skill['links']['self'] = $this->links['self'] = \sprintf(
             '/api/shadowrun5e/skills/%s',
             $id
         );
 
-        $this->headers['Etag'] = sha1((string)json_encode($skill));
+        $this->headers['Etag'] = \sha1((string)\json_encode($skill));
         $data = [
             'links' => $this->links,
             'data' => $skill,

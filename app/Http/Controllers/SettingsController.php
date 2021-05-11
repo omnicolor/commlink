@@ -37,7 +37,7 @@ class SettingsController extends Controller
             ->where('user_id', $userId)
             ->where('server_type', ChatUser::TYPE_SLACK)
             ->first();
-        if (!is_null($chatUser)) {
+        if (null !== $chatUser) {
             return redirect('settings')
                 ->with('error', 'User already registered.')
                 ->withInput();

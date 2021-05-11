@@ -105,10 +105,10 @@ class Spell
         $filename = config('app.data_path.shadowrun5e') . 'spells.php';
         self::$spells ??= require $filename;
 
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$spells[$id])) {
             throw new \RuntimeException(
-                sprintf('Spell ID "%s" is invalid', $id)
+                \sprintf('Spell ID "%s" is invalid', $id)
             );
         }
 

@@ -8,6 +8,7 @@ use App\Providers\BroadcastServiceProvider;
 
 /**
  * @covers \App\Providers\BroadcastServiceProvider
+ * @small
  */
 final class BroadcastServiceProviderTest extends \Tests\TestCase
 {

@@ -12,6 +12,7 @@ use App\Models\CyberpunkRed\SkillArray;
  * @covers \App\Models\CyberpunkRed\SkillArray
  * @group cyberpunkred
  * @group models
+ * @small
  */
 final class SkillArrayTest extends \Tests\TestCase
 {

@@ -11,6 +11,7 @@ use App\Models\Channel;
  * Tests for getting help in a Shadowrun 5E channel.
  * @covers \App\Http\Responses\Shadowrun5e\HelpResponse
  * @group slack
+ * @small
  */
 final class HelpResponseTest extends \Tests\TestCase
 {
@@ -44,12 +45,12 @@ final class HelpResponseTest extends \Tests\TestCase
             [],
             new Channel()
         );
-        $response = json_decode((string)$response);
+        $response = \json_decode((string)$response);
         self::assertSame('ephemeral', $response->response_type);
         self::assertEquals(
             (object)[
                 'title' => 'Unregistered',
-                'text' => sprintf(
+                'text' => \sprintf(
                     'It doesn\'t look like you\'ve linked a character here. If '
                         . 'you\'ve already built a character in <%s|Commlink>, '
                         . 'type `/roll link <characterId>` to connect your '

@@ -24,7 +24,7 @@ class CharacterFactory extends Factory
         return [
             'handle' => $this->faker->name,
             'owner' => $this->faker->safeEmail,
-            'type' => $this->faker->randomElement(array_keys(config('app.systems'))),
+            'type' => $this->faker->randomElement(\array_keys(config('app.systems'))),
         ];
     }
 }

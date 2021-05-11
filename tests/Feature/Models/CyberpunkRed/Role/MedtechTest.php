@@ -10,8 +10,9 @@ use App\Models\CyberpunkRed\Role\Medtech;
  * Tests for the Medtech role.
  * @covers App\Models\CyberpunkRed\Role
  * @covers App\Models\CyberpunkRed\Role\Medtech
- * @group models
  * @group cyberpunkred
+ * @group models
+ * @small
  */
 final class MedtechTest extends \PHPUnit\Framework\TestCase
 {

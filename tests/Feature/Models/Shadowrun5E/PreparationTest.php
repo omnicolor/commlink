@@ -13,6 +13,7 @@ use App\Models\Shadowrun5E\Spell;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class PreparationTest extends \Tests\TestCase
 {

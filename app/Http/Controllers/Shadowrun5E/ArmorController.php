@@ -33,9 +33,9 @@ class ArmorController extends \App\Http\Controllers\Controller
         $this->filename = config('app.data_path.shadowrun5e') . 'armor.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/armor';
-        $stat = stat($this->filename);
+        $stat = \stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
         $this->armor = require $this->filename;
     }
 
@@ -47,18 +47,18 @@ class ArmorController extends \App\Http\Controllers\Controller
     {
         foreach ($this->armor as $key => $value) {
             $this->armor[$key]['links'] = [
-                'self' => sprintf(
+                'self' => \sprintf(
                     '/api/shadowrun5e/armor/%s',
-                    urlencode($key)
+                    \urlencode($key)
                 ),
             ];
         }
 
-        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->headers['Etag'] = \sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => array_values($this->armor),
+            'data' => \array_values($this->armor),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -71,8 +71,8 @@ class ArmorController extends \App\Http\Controllers\Controller
      */
     public function show(string $id): Response
     {
-        $id = strtolower($id);
-        if (!array_key_exists($id, $this->armor)) {
+        $id = \strtolower($id);
+        if (!\array_key_exists($id, $this->armor)) {
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
                 'detail' => $id . ' not found',
@@ -84,9 +84,9 @@ class ArmorController extends \App\Http\Controllers\Controller
         $armor = $this->armor[$id];
         $armor['ruleset'] ??= 'core';
         $armor['links']['self'] = $this->links['self']
-            = sprintf('/api/shadowrun5e/armor/%s', urlencode($id));
+            = \sprintf('/api/shadowrun5e/armor/%s', \urlencode($id));
 
-        $this->headers['Etag'] = sha1((string)json_encode($armor));
+        $this->headers['Etag'] = \sha1((string)\json_encode($armor));
 
         $data = [
             'links' => $this->links,

@@ -10,8 +10,9 @@ use App\Models\CyberpunkRed\Role\Netrunner;
  * Tests for the Netrunner role.
  * @covers App\Models\CyberpunkRed\Role
  * @covers App\Models\CyberpunkRed\Role\Netrunner
- * @group models
  * @group cyberpunkred
+ * @group models
+ * @small
  */
 final class NetrunnerTest extends \PHPUnit\Framework\TestCase
 {

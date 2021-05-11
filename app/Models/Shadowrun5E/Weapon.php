@@ -192,8 +192,8 @@ class Weapon
             return;
         }
 
-        if (!array_key_exists($id, self::$weapons)) {
-            throw new \RuntimeException(sprintf(
+        if (!\array_key_exists($id, self::$weapons)) {
+            throw new \RuntimeException(\sprintf(
                 'Weapon ID "%s" is invalid',
                 $id
             ));
@@ -260,7 +260,7 @@ class Weapon
             $cost += $mod->getCost($this);
         }
         foreach ($this->accessories as $mod) {
-            if (is_null($mod)) {
+            if (null === $mod) {
                 continue;
             }
             $cost += $mod->getCost($this);
@@ -275,11 +275,11 @@ class Weapon
      */
     public function getDamage(int $strength): string
     {
-        if (false === strpos($this->damage, 'STR')) {
+        if (false === \strpos($this->damage, 'STR')) {
             // Weapon is not strength-based.
             return $this->damage;
         }
-        $damage = str_replace('(STR', '', $this->damage);
+        $damage = \str_replace('(STR', '', $this->damage);
         $damage = (int)$damage + $strength;
         if ('unarmed-strike' === $this->id) {
             return $damage . 'S';
@@ -367,7 +367,7 @@ class Weapon
                 $ammoTypes[$ammo['id']] = $ammo;
             }
             foreach ($weapon['ammo'] as $ammo) {
-                $ammo = array_merge($ammoTypes[$ammo['id']], $ammo);
+                $ammo = \array_merge($ammoTypes[$ammo['id']], $ammo);
                 $weaponObj->ammunition[] = $ammo;
             }
         }
@@ -388,12 +388,12 @@ class Weapon
         self::$weapons ??= require $filename;
 
         foreach (self::$weapons as $weapon) {
-            if (strtolower($weapon['name']) === strtolower($name)) {
+            if (\strtolower($weapon['name']) === \strtolower($name)) {
                 return new Weapon($weapon['id']);
             }
         }
 
-        throw new \RuntimeException(sprintf(
+        throw new \RuntimeException(\sprintf(
             'Weapon name "%s" was not found',
             $name
         ));

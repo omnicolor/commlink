@@ -13,6 +13,7 @@ use App\Models\Shadowrun5E\ActiveSkill;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class ActiveSkillTest extends \Tests\TestCase
 {

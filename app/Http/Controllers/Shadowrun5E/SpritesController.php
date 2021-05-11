@@ -33,9 +33,9 @@ class SpritesController extends \App\Http\Controllers\Controller
         $this->filename = config('app.data_path.shadowrun5e') . 'sprites.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/sprites';
-        $stat = stat($this->filename);
+        $stat = \stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
         $this->sprites = require $this->filename;
     }
 
@@ -47,18 +47,18 @@ class SpritesController extends \App\Http\Controllers\Controller
     {
         foreach ($this->sprites as $key => $unused) {
             $this->sprites[$key]['links'] = [
-                'self' => sprintf(
+                'self' => \sprintf(
                     '/api/shadowrun5e/sprites/%s',
-                    urlencode($key)
+                    \urlencode($key)
                 ),
             ];
         }
 
-        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->headers['Etag'] = \sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => array_values($this->sprites),
+            'data' => \array_values($this->sprites),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -71,12 +71,12 @@ class SpritesController extends \App\Http\Controllers\Controller
      */
     public function show(string $identifier): Response
     {
-        $identifier = strtolower($identifier);
-        if (!array_key_exists($identifier, $this->sprites)) {
+        $identifier = \strtolower($identifier);
+        if (!\array_key_exists($identifier, $this->sprites)) {
             // We couldn't find it!
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
-                'detail' => sprintf('%s not found', $identifier),
+                'detail' => \sprintf('%s not found', $identifier),
                 'title' => 'Not Found',
             ];
             return $this->error($error);
@@ -84,9 +84,9 @@ class SpritesController extends \App\Http\Controllers\Controller
 
         $sprite = $this->sprites[$identifier];
         $sprite['links']['self'] = $this->links['self'] =
-            sprintf('/api/shadowrun5e/sprites/%s', $identifier);
+            \sprintf('/api/shadowrun5e/sprites/%s', $identifier);
 
-        $this->headers['Etag'] = sha1((string)json_encode($sprite));
+        $this->headers['Etag'] = \sha1((string)\json_encode($sprite));
 
         $data = [
             'links' => $this->links,

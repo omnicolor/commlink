@@ -11,6 +11,7 @@ use App\Models\User;
  * Tests for the campaign model.
  * @group campaigns
  * @group models
+ * @small
  */
 final class CampaignTest extends \Tests\TestCase
 {
@@ -58,7 +59,7 @@ final class CampaignTest extends \Tests\TestCase
      */
     public function testSetSystem(): void
     {
-        $system = key(config('app.systems'));
+        $system = \key(config('app.systems'));
         $campaign = new Campaign();
         $campaign->system = $system;
         self::assertSame($system, $campaign->system);

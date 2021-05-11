@@ -15,6 +15,7 @@ use CharlotteDunois\Yasmin\Models\User;
  * Tests for Discord message event listener.
  * @group discord
  * @group events
+ * @small
  */
 final class HandleDiscordMessageTest extends \Tests\TestCase
 {
@@ -49,7 +50,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
             ['guild', $serverStub],
         ];
         $channelMock = $this->createMock(TextChannel::class);
-        $channelMock->method('__get')->will(self::returnValueMap($channelMap));
+        $channelMock->method('__get')->willReturnMap($channelMap);
         $channelMock->expects(self::once())
             ->method('send')
             ->with(self::equalTo('That doesn\'t appear to be a valid command!'));
@@ -60,7 +61,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
             ['content', '/roll foo'],
         ];
         $messageStub = $this->createStub(Message::class);
-        $messageStub->method('__get')->will(self::returnValueMap($messageMap));
+        $messageStub->method('__get')->willReturnMap($messageMap);
 
         $event = new DiscordMessageReceived($messageStub);
         self::assertTrue((new HandleDiscordMessage())->handle($event));
@@ -73,8 +74,8 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
     public function testHandleGenericRoll(): void
     {
         $this->randomInt->expects(self::exactly(2))->willReturn(3);
-        $expected = '**discord#tag rolled 6**' . PHP_EOL
-            . 'Rolling: 2d6 = [6] = 6' . PHP_EOL
+        $expected = '**discord#tag rolled 6**' . \PHP_EOL
+            . 'Rolling: 2d6 = [6] = 6' . \PHP_EOL
             . '_Rolls: 3, 3_';
 
         $serverStub = $this->createStub(Guild::class);
@@ -85,7 +86,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
             ['guild', $serverStub],
         ];
         $channelMock = $this->createMock(TextChannel::class);
-        $channelMock->method('__get')->will(self::returnValueMap($channelMap));
+        $channelMock->method('__get')->willReturnMap($channelMap);
         $channelMock->expects(self::once())
             ->method('send')
             ->with(self::equalTo($expected));
@@ -99,7 +100,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
             ['content', '/roll 2d6'],
         ];
         $messageStub = $this->createStub(Message::class);
-        $messageStub->method('__get')->will(self::returnValueMap($messageMap));
+        $messageStub->method('__get')->willReturnMap($messageMap);
 
         $event = new DiscordMessageReceived($messageStub);
         self::assertTrue((new HandleDiscordMessage())->handle($event));
@@ -122,26 +123,26 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
             ['id', $userId],
         ];
         $userMock = $this->createMock(User::class);
-        $userMock->method('__get')->will(self::returnValueMap($userMap));
+        $userMock->method('__get')->willReturnMap($userMap);
 
         $channelName = \Str::random(12);
         $channelId = \Str::random(10);
-        $expected = '**Debugging info**' . PHP_EOL
-            . 'User Tag: ' . $userTag . PHP_EOL
-            . 'User ID: ' . $userId . PHP_EOL
-            . 'Server Name: ' . $serverNameAndId . PHP_EOL
-            . 'Server ID: ' . $serverNameAndId . PHP_EOL
-            . 'Channel Name: ' . $channelName . PHP_EOL
-            . 'Channel ID: ' . $channelId . PHP_EOL
-            . 'System: Unregistered' . PHP_EOL
-            . 'Character: Unlinked' . PHP_EOL;
+        $expected = '**Debugging info**' . \PHP_EOL
+            . 'User Tag: ' . $userTag . \PHP_EOL
+            . 'User ID: ' . $userId . \PHP_EOL
+            . 'Server Name: ' . $serverNameAndId . \PHP_EOL
+            . 'Server ID: ' . $serverNameAndId . \PHP_EOL
+            . 'Channel Name: ' . $channelName . \PHP_EOL
+            . 'Channel ID: ' . $channelId . \PHP_EOL
+            . 'System: Unregistered' . \PHP_EOL
+            . 'Character: Unlinked' . \PHP_EOL;
         $channelMap = [
             ['guild', $serverStub],
             ['id', $channelId],
             ['name', $channelName],
         ];
         $channelMock = $this->createMock(TextChannel::class);
-        $channelMock->method('__get')->will(self::returnValueMap($channelMap));
+        $channelMock->method('__get')->willReturnMap($channelMap);
         $channelMock->expects(self::once())
             ->method('send')
             ->with(self::equalTo($expected));
@@ -152,7 +153,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
             ['content', '/roll info'],
         ];
         $messageStub = $this->createStub(Message::class);
-        $messageStub->method('__get')->will(self::returnValueMap($messageMap));
+        $messageStub->method('__get')->willReturnMap($messageMap);
 
         $event = new DiscordMessageReceived($messageStub);
         self::assertTrue((new HandleDiscordMessage())->handle($event));

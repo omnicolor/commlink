@@ -78,10 +78,10 @@ class Talent
         $filename = config('app.data_path.expanse') . 'talents.php';
         self::$talents ??= require $filename;
 
-        $id = strtolower($id);
+        $id = \strtolower($id);
         if (!isset(self::$talents[$id])) {
             throw new \RuntimeException(
-                sprintf('Talent ID "%s" is invalid', $id)
+                \sprintf('Talent ID "%s" is invalid', $id)
             );
         }
 

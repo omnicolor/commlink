@@ -12,6 +12,7 @@ use App\Models\CyberpunkRed\Role\Fixer;
  * @covers \App\Models\CyberpunkRed\Character
  * @group cyberpunkred
  * @group models
+ * @small
  */
 final class CharacterTest extends \Tests\TestCase
 {
@@ -249,7 +250,7 @@ final class CharacterTest extends \Tests\TestCase
         $skills = $character->getAllSkills();
         $concentrationSeen = false;
         foreach ($skills as $skill) {
-            if ($skill->id === 'concentration') {
+            if ('concentration' === $skill->id) {
                 self::assertSame(2, $skill->level);
                 $concentrationSeen = true;
                 continue;
@@ -286,7 +287,7 @@ final class CharacterTest extends \Tests\TestCase
         $skills = $character->getSkillsByCategory();
         self::assertArrayHasKey('Education', $skills);
         foreach ($skills['Education'] as $skill) {
-            if ($skill->id !== 'business') {
+            if ('business' !== $skill->id) {
                 continue;
             }
             self::assertSame(4, $skill->level);

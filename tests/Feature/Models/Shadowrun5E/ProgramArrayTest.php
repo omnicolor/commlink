@@ -13,6 +13,7 @@ use App\Models\Shadowrun5E\ProgramArray;
  * @group models
  * @group shadowrun
  * @group shadowrun5e
+ * @small
  */
 final class ProgramArrayTest extends \Tests\TestCase
 {

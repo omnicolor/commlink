@@ -93,7 +93,7 @@ class WeaponModification
         self::$modifications ??= require $filename;
 
         if (!isset(self::$modifications[$id])) {
-            throw new \RuntimeException(sprintf(
+            throw new \RuntimeException(\sprintf(
                 'Modification ID "%s" is invalid',
                 $id
             ));

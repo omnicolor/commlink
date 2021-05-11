@@ -95,9 +95,9 @@ class ComplexForm
         $filename = config('app.data_path.shadowrun5e') . 'complex-forms.php';
         self::$forms ??= require $filename;
 
-        $identifier = strtolower($identifier);
+        $identifier = \strtolower($identifier);
         if (!isset(self::$forms[$identifier])) {
-            throw new \RuntimeException(sprintf(
+            throw new \RuntimeException(\sprintf(
                 'Complex Form ID "%s" is invalid',
                 $identifier
             ));

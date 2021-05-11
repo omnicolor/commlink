@@ -33,9 +33,9 @@ class VehiclesController extends \App\Http\Controllers\Controller
         $this->filename = config('app.data_path.shadowrun5e') . 'vehicles.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/vehicles';
-        $stat = stat($this->filename);
+        $stat = \stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
         $this->vehicles = require $this->filename;
     }
 
@@ -47,19 +47,19 @@ class VehiclesController extends \App\Http\Controllers\Controller
     {
         foreach ($this->vehicles as $key => $value) {
             $this->vehicles[$key]['links'] = [
-                'self' => sprintf(
+                'self' => \sprintf(
                     '/api/shadowrun5e/vehicles/%s',
-                    urlencode($key)
+                    \urlencode($key)
                 ),
             ];
             $this->vehicles[$key]['ruleset'] ??= 'core';
         }
 
-        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->headers['Etag'] = \sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => array_values($this->vehicles),
+            'data' => \array_values($this->vehicles),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -72,8 +72,8 @@ class VehiclesController extends \App\Http\Controllers\Controller
      */
     public function show(string $id): Response
     {
-        $id = strtolower($id);
-        if (!array_key_exists($id, $this->vehicles)) {
+        $id = \strtolower($id);
+        if (!\array_key_exists($id, $this->vehicles)) {
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
                 'detail' => $id . ' not found',
@@ -84,8 +84,8 @@ class VehiclesController extends \App\Http\Controllers\Controller
 
         $vehicle = $this->vehicles[$id];
         $this->links['self'] = $vehicle['links']['self']
-            = sprintf('/api/shadowrun5e/vehicles/%s', urlencode($id));
-        $this->headers['Etag'] = sha1((string)json_encode($vehicle));
+            = \sprintf('/api/shadowrun5e/vehicles/%s', \urlencode($id));
+        $this->headers['Etag'] = \sha1((string)\json_encode($vehicle));
 
         $data = [
             'links' => $this->links,
