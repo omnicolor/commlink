@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Responses;
 
+use App\Exceptions\SlackException;
 use App\Models\Channel;
+use App\Models\ChatUser;
 use App\Models\Slack\Attachment;
 use Illuminate\Http\JsonResponse;
 
@@ -82,6 +84,26 @@ class SlackResponse extends JsonResponse
         $this->attachments[] = $attachment->toArray();
         $this->updateData();
         return $this;
+    }
+
+    /**
+     * Require the user to have a Commlink account and link it to the Slack
+     * team before they can do whatever they're trying to do.
+     * @param ?ChatUser $chatUser
+     * @throws SlackException
+     */
+    protected function requireCommlink(?ChatUser $chatUser): void
+    {
+        if (null !== $chatUser) {
+            return;
+        }
+        throw new SlackException(\sprintf(
+            'You must have already created an account on <%s|%s> and '
+                . 'linked it to this server before you can register a '
+                . 'channel to a specific system.',
+            config('app.url'),
+            config('app.name'),
+        ));
     }
 
     /**
