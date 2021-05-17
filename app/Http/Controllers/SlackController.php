@@ -51,7 +51,7 @@ class SlackController extends Controller
         $channel->user = $request->user_id;
         $channel->username = $request->user_name ?? '';
 
-        // First, try to load system-specific responses for numeric data.
+        // First, try to load system-specific rolls for numeric data.
         if (\is_numeric($this->args[0]) && isset($channel->system)) {
             try {
                 $class = \sprintf(
@@ -66,7 +66,7 @@ class SlackController extends Controller
             }
         }
 
-        // Next, try system-specific responses.
+        // Next, try system-specific rolls that aren't numeric.
         try {
             $class = \sprintf(
                 '\\App\\Rolls\\%s\\%s',
@@ -77,6 +77,8 @@ class SlackController extends Controller
         } catch (\Error $ex) {
             // Again, ignore errors, they might want a generic command.
         }
+
+        // Now try Slack-specific responses.
         try {
             $class = \sprintf(
                 '\\App\Http\\Responses\\%s\\%sResponse',
@@ -88,12 +90,15 @@ class SlackController extends Controller
             // Again, ignore errors, they might want a generic command.
         }
 
-        // No system-specific response found, try generic ones.
+        // No system-specific response found, see if the request is a generic
+        // XdY roll.
         if (1 === \preg_match('/\d+d\d+/i', $this->args[0])) {
             $roll = new Generic($this->text, $channel->username);
             RollEvent::dispatch($roll, $channel);
             return $roll->forSlack($channel);
         }
+
+        // Finally, see if there's a Slack response that isn't system-specific.
         try {
             $class = \sprintf(
                 '\\App\Http\\Responses\\%sResponse',
