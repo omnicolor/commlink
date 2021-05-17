@@ -25,7 +25,6 @@ class MartialArtsStylesController extends \App\Http\Controllers\Controller
 
     /**
      * Constructor.
-     * @throws \ErrorException if the path to the data file is wrong
      */
     public function __construct()
     {

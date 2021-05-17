@@ -8,3 +8,7 @@ parameters:
         - %currentWorkingDirectory%/tests
     level: 8
     treatPhpDocTypesAsCertain: false
+    polluteScopeWithAlwaysIterableForeach: false
+    exceptions:
+        check:
+            tooWideThrowType: true

@@ -55,7 +55,6 @@ class Number extends Roll
      * Constructor.
      * @param string $content
      * @param string $character
-     * @throws SlackException
      */
     public function __construct(string $content, string $character)
     {
@@ -197,6 +196,7 @@ class Number extends Roll
      * Return the roll formatted for Slack.
      * @param Channel $channel
      * @return SlackResponse
+     * @throws SlackException
      */
     public function forSlack(Channel $channel): SlackResponse
     {
