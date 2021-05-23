@@ -30,7 +30,7 @@ final class UserTest extends \Tests\TestCase
     /**
      * Set up a clean test environment.
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->characters = new Collection();
@@ -77,7 +77,6 @@ final class UserTest extends \Tests\TestCase
 
     /**
      * Test getting a user's characters if they have none.
-     * @small
      * @test
      */
     public function testGetCharactersNone(): void
@@ -88,7 +87,6 @@ final class UserTest extends \Tests\TestCase
 
     /**
      * Test getting a user's characters if they have some.
-     * @small
      * @test
      */
     public function testGetCharacters(): void
@@ -103,7 +101,6 @@ final class UserTest extends \Tests\TestCase
 
     /**
      * Test getting a user's characters from a particular system.
-     * @small
      * @test
      */
     public function testGetSystemCharacters(): void
@@ -122,7 +119,6 @@ final class UserTest extends \Tests\TestCase
 
     /**
      * Test getting a character's ChatUsers if they have none.
-     * @small
      * @test
      */
     public function testGetChatUsersNone(): void
@@ -133,7 +129,6 @@ final class UserTest extends \Tests\TestCase
 
     /**
      * Test getting a character's ChatUsers.
-     * @small
      * @test
      */
     public function testGetChatUsers(): void

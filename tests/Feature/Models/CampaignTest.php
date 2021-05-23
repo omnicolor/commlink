@@ -11,7 +11,7 @@ use App\Models\User;
  * Tests for the campaign model.
  * @group campaigns
  * @group models
- * @small
+ * @medium
  */
 final class CampaignTest extends \Tests\TestCase
 {

@@ -13,7 +13,7 @@ use App\Models\Channel;
  * @covers \App\Http\Responses\Expanse\NumberResponse
  * @group expanse
  * @group slack
- * @small
+ * @medium
  */
 final class NumberResponseTest extends \Tests\TestCase
 {
