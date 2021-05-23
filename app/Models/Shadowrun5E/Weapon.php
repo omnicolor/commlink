@@ -11,15 +11,15 @@ class Weapon
 {
     /**
      * Collection of accessories.
-     * @var array<string, ?WeaponModification>
+     * @var WeaponModificationArray
      */
-    public array $accessories = [];
+    public WeaponModificationArray $accessories;
 
     /**
      * Accuracy of the weapon.
      * @var string|int|null
      */
-    public $accuracy;
+    public int | null | string $accuracy;
 
     /**
      * Array of ammunition.
@@ -101,15 +101,15 @@ class Weapon
 
     /**
      * Built-in modifications.
-     * @var WeaponModification[]
+     * @var WeaponModificationArray
      */
-    public array $modifications = [];
+    public WeaponModificationArray $modifications;
 
     /**
      * Added-on modifications.
-     * @var WeaponModification[]
+     * @var WeaponModificationArray
      */
-    public array $modificationsAdded = [];
+    public WeaponModificationArray $modificationsAdded;
 
     /**
      * Name of the weapon.
@@ -174,6 +174,9 @@ class Weapon
     {
         $filename = config('app.data_path.shadowrun5e') . 'weapons.php';
         self::$weapons ??= require $filename;
+
+        $this->accessories = new WeaponModificationArray();
+        $this->modifications = new WeaponModificationArray();
 
         if ('unarmed-strike' === $id) {
             $this->accuracy = 'physical';
@@ -257,9 +260,12 @@ class Weapon
     {
         $cost = (int)$this->cost;
         foreach ($this->modifications as $mod) {
+            // Modifications are guaranteed to not be null.
+            // @phpstan-ignore-next-line
             $cost += $mod->getCost($this);
         }
-        foreach ($this->accessories as $mod) {
+        foreach ($this->accessories as $slot => $mod) {
+            // Accessories are might be null for a given slot.
             if (null === $mod) {
                 continue;
             }

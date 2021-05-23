@@ -11,15 +11,15 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
     /**
      * Display the registration view.
-     *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function create(): \Illuminate\View\View
+    public function create(): View
     {
         return view('auth.register');
     }

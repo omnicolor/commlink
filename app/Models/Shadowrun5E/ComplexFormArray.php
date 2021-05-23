@@ -12,7 +12,7 @@ class ComplexFormArray extends \ArrayObject
 {
     /**
      * Add a form to the array.
-     * @param int|null $index
+     * @param ?int $index
      * @param ComplexForm $form
      * @throws \TypeError
      */

@@ -13,7 +13,7 @@ class LifestyleOptionArray extends \ArrayObject
     /**
      * Add an option to the array.
      * @param ?int $index
-     * @param ?LifestyleOption $option
+     * @param LifestyleOption $option
      * @throws \TypeError
      */
     public function offsetSet($index = null, $option = null): void

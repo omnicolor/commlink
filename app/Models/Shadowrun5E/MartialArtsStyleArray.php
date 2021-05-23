@@ -13,7 +13,7 @@ class MartialArtsStyleArray extends \ArrayObject
     /**
      * Add a style to the array.
      * @param ?int $index
-     * @param ?MartialArtsStyle $style
+     * @param MartialArtsStyle $style
      * @throws \TypeError
      */
     public function offsetSet($index = null, $style = null): void

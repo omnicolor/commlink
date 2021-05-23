@@ -12,7 +12,7 @@ class GearArray extends \ArrayObject
 {
     /**
      * Adds some gear to the array.
-     * @param int|null $index
+     * @param ?int $index
      * @param Gear $gear
      * @throws \TypeError
      */

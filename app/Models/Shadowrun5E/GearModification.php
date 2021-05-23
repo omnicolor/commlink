@@ -37,49 +37,49 @@ class GearModification
      * Description of the modification.
      * @var string
      */
-    public $description;
+    public string $description;
 
     /**
      * List of effects the modification has in game terms.
      * @var array<string, int>
      */
-    public $effects;
+    public array $effects;
 
     /**
      * Unique identifier for the modification.
      * @var string
      */
-    public $id;
+    public string $id;
 
     /**
      * Name of the modification.
      * @var string
      */
-    public $name;
+    public string $name;
 
     /**
      * Page number.
      * @var int
      */
-    public $page;
+    public ?int $page;
 
     /**
      * Rating of the modification.
      * @var int
      */
-    public $rating;
+    public ?int $rating;
 
     /**
      * Ruleset code for where the modification was added.
      * @var string
      */
-    public $ruleset;
+    public string $ruleset;
 
     /**
      * List of effects the modification has when wireless is on.
      * @var array<string, int>
      */
-    public $wirelessEffects;
+    public array $wirelessEffects;
 
     /**
      * List of all modifications.

@@ -12,7 +12,7 @@ class SpriteArray extends \ArrayObject
 {
     /**
      * Add a item to the array.
-     * @param int|null $index
+     * @param ?int $index
      * @param Sprite $sprite
      * @throws \TypeError
      */

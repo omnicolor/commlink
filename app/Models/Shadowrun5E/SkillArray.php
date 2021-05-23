@@ -12,7 +12,7 @@ class SkillArray extends \ArrayObject
 {
     /**
      * Add a skill to the array.
-     * @param mixed $index
+     * @param ?int $index
      * @param Skill $skill
      * @throws \TypeError
      */

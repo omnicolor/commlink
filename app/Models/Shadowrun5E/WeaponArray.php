@@ -12,7 +12,7 @@ class WeaponArray extends \ArrayObject
 {
     /**
      * Force the array to only accept Weapon objects.
-     * @param int|null $index
+     * @param ?int $index
      * @param Weapon $weapon
      * @throws \TypeError if the object assigned isn't a weapon
      */

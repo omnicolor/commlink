@@ -121,10 +121,10 @@ class ArmorModification
 
     /**
      * Return the cost of the modification.
-     * @param mixed $armor
+     * @param Armor $armor
      * @return int
      */
-    public function getCost($armor): int
+    public function getCost(Armor $armor): int
     {
         if (0 !== $this->cost) {
             return $this->cost;

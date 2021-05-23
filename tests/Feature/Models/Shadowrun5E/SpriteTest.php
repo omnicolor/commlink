@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5E;
 
 use App\Models\Shadowrun5E\ActiveSkill;
+use App\Models\Shadowrun5E\SkillArray;
 use App\Models\Shadowrun5E\Sprite;
 
 /**
@@ -137,10 +138,9 @@ final class SpriteTest extends \Tests\TestCase
      */
     public function testSkills(): void
     {
-        $expected = [
-            new ActiveSkill('computer', 3),
-            new ActiveSkill('hacking', 3),
-        ];
+        $expected = new SkillArray();
+        $expected[] = new ActiveSkill('computer', 3);
+        $expected[] = new ActiveSkill('hacking', 3);
 
         $sprite = new Sprite('courier', 3);
         self::assertEqualsCanonicalizing($expected, $sprite->getSkills());

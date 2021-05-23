@@ -19,7 +19,7 @@ class Vehicle
      * True if the vehicle is active (shown on character sheet).
      * @var bool
      */
-    public $active;
+    public bool $active;
 
     /**
      * Vehicle's armor rating.

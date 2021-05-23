@@ -13,7 +13,7 @@ class ContactArray extends \ArrayObject
     /**
      * Add a contact to the array.
      * @param ?int $index
-     * @param ?Contact $contact
+     * @param Contact $contact
      * @throws \TypeError
      */
     public function offsetSet($index = null, $contact = null): void

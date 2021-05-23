@@ -307,10 +307,8 @@ final class WeaponTest extends \Tests\TestCase
             WeaponModification::class,
             $weapon->modifications[0]
         );
-        self::assertEquals(
-            ['barrel' => null, 'top' => null],
-            $weapon->accessories
-        );
+        self::assertNull($weapon->accessories['barrel']);
+        self::assertNull($weapon->accessories['top']);
     }
 
     /**
@@ -329,6 +327,7 @@ final class WeaponTest extends \Tests\TestCase
         $weapon = Weapon::buildWeapon($array);
         self::assertEquals(
             'Internal Smartlink',
+            // @phpstan-ignore-next-line
             $weapon->modifications[0]->name
         );
         // @phpstan-ignore-next-line

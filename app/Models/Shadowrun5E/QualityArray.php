@@ -12,7 +12,7 @@ class QualityArray extends \ArrayObject
 {
     /**
      * Add a quality to the array.
-     * @param mixed $index
+     * @param ?int $index
      * @param Quality $quality
      * @throws \TypeError
      */

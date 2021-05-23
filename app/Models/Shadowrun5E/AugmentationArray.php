@@ -12,7 +12,7 @@ class AugmentationArray extends \ArrayObject
 {
     /**
      * Add an augmentation to the array.
-     * @param int|null $index
+     * @param ?int $index
      * @param Augmentation $augmentation
      * @throws \TypeError
      */

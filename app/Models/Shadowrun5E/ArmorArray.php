@@ -12,7 +12,7 @@ class ArmorArray extends \ArrayObject
 {
     /**
      * Add an armor to the array.
-     * @param int|null $index
+     * @param ?int $index
      * @param Armor $armor
      * @throws \TypeError
      */

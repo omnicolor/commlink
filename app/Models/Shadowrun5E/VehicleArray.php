@@ -12,7 +12,7 @@ class VehicleArray extends \ArrayObject
 {
     /**
      * Add a vehicle to the array.
-     * @param int|null $index
+     * @param ?int $index
      * @param Vehicle $vehicle
      * @throws \TypeError
      */

@@ -71,7 +71,7 @@ class KarmaLog extends \ArrayObject
     /**
      * Add an entry to the array.
      * @param ?int $index
-     * @param ?KarmaLogEntry $entry
+     * @param KarmaLogEntry $entry
      * @throws \TypeError
      */
     public function offsetSet($index = null, $entry = null): void
@@ -601,6 +601,7 @@ class KarmaLog extends \ArrayObject
                     continue;
                 }
                 // The user can get free points in this skill.
+                // @phpstan-ignore-next-line
                 $skill->level -= $this->magicSkills['rating'];
                 $skills[$key] = $skill;
             }
@@ -641,7 +642,7 @@ class KarmaLog extends \ArrayObject
             $skill->level = $skill->level;
 
             if (
-                $skill->level * self::KARMA_SKILL > self::KARMA_SPECIALIZATION
+                (int)$skill->level * self::KARMA_SKILL > self::KARMA_SPECIALIZATION
                 && 0 !== \count($specializations)
             ) {
                 // The next cheapest skill, karma-wise, is a specialization.
@@ -664,12 +665,13 @@ class KarmaLog extends \ArrayObject
             $this[] = new KarmaLogEntry(
                 \sprintf(
                     '%d₭ for %s (%d)',
-                    $skill->level * self::KARMA_SKILL,
+                    (int)$skill->level * self::KARMA_SKILL,
                     $skill->name,
                     $skill->level
                 ),
-                $skill->level * self::KARMA_SKILL * -1,
+                (int)$skill->level * self::KARMA_SKILL * -1,
             );
+            // @phpstan-ignore-next-line
             $skill->level--;
             $deficit--;
         }

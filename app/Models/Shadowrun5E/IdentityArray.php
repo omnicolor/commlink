@@ -13,7 +13,7 @@ class IdentityArray extends \ArrayObject
     /**
      * Add an identity to the array.
      * @param ?int $index
-     * @param ?Identity $identity
+     * @param Identity $identity
      * @throws \TypeError
      */
     public function offsetSet($index = null, $identity = null): void

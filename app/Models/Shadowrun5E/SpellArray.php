@@ -12,7 +12,7 @@ class SpellArray extends \ArrayObject
 {
     /**
      * Add a item to the array.
-     * @param int|null $index
+     * @param ?int $index
      * @param Spell $spell
      * @throws \TypeError
      */

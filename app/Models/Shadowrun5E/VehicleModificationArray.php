@@ -12,7 +12,7 @@ class VehicleModificationArray extends \ArrayObject
 {
     /**
      * Add a modification to the array.
-     * @param int|null $index
+     * @param ?int $index
      * @param VehicleModification $mod
      * @throws \TypeError
      */

@@ -12,7 +12,7 @@ class ProgramArray extends \ArrayObject
 {
     /**
      * Add a item to the array.
-     * @param int|null $index
+     * @param ?int $index
      * @param Program $program
      * @throws \TypeError
      */

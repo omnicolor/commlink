@@ -127,7 +127,6 @@ class Augmentation
         $this->description = $augmentation['description'];
         $this->effects = $augmentation['effects'] ?? [];
         $this->essence = $augmentation['essence'];
-        $this->grade = $grade;
         $this->id = $id;
         $this->incompatibilities = $augmentation['incompatibilities'] ?? [];
         $this->modifications = new AugmentationArray();
@@ -139,6 +138,8 @@ class Augmentation
         }
         $this->name = $augmentation['name'];
         $this->rating = $augmentation['rating'] ?? null;
+
+        $this->grade = $grade;
         switch ($grade) {
             case self::GRADE_ALPHA:
                 $this->essence *= 0.8;
