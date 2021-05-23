@@ -46,7 +46,16 @@ class Channel extends Model
      */
     public function character(): ?Character
     {
-        return null;
+        $chatUser = $this->getChatUser();
+        if (null === $chatUser) {
+            return null;
+        }
+        $chatCharacter = ChatCharacter::where('channel_id', $this->id)
+            ->where('chat_user_id', $chatUser->id)->first();
+        if (null === $chatCharacter) {
+            return null;
+        }
+        return $chatCharacter->getCharacter();
     }
 
     /**
