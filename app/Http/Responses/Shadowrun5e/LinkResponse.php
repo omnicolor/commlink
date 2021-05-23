@@ -8,6 +8,7 @@ use App\Exceptions\SlackException;
 use App\Http\Responses\SlackResponse;
 use App\Models\Channel;
 use App\Models\Character;
+use App\Models\ChatCharacter;
 use App\Models\Slack\TextAttachment;
 
 /**
@@ -27,7 +28,7 @@ class LinkResponse extends SlackResponse
         string $content,
         int $status,
         array $headers,
-        Channel $channel
+        Channel $channel,
     ) {
         parent::__construct($content, $status, $headers, $channel);
 
@@ -53,17 +54,33 @@ class LinkResponse extends SlackResponse
         $user = $chatUser->user;
         if (null === $user || $character->owner !== $user->email) {
             throw new SlackException(
-                'Unable to find one of your characters with that ID.'
+                'You don\'t own that character.'
             );
         }
 
         if ($channel->system !== $character->system) {
+            $systems = config('app.systems');
+            throw new SlackException(sprintf(
+                '%s is a %s character. This channel is playing %s.',
+                $character->handle ?? $character->name,
+                $systems[$character->system] ?? 'Unknown',
+                $systems[$channel->system] ?? 'Unknown',
+            ));
         }
+
+        ChatCharacter::create([
+            'channel_id' => $channel->id,
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser->id,
+        ]);
 
         $this->addAttachment(new TextAttachment(
             'Linking Character',
-            'Hi ' . ($character->handle ?? $character->name),
-            TextAttachment::COLOR_INFO
+            sprintf(
+                'You have linked %s to this channel.',
+                $character->handle ?? $character->name ?? 'Unknown',
+            ),
+            TextAttachment::COLOR_INFO,
         ));
     }
 }

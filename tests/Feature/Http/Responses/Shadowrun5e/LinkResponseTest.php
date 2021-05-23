@@ -1,0 +1,258 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Feature\Http\Responses\Shadowrun5e;
+
+use App\Exceptions\SlackException;
+use App\Http\Responses\Shadowrun5e\LinkResponse;
+use App\Models\Channel;
+use App\Models\Character;
+use App\Models\ChatCharacter;
+use App\Models\ChatUser;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+/**
+ * Tests for linking a character to a Shadowrun 5E channel.
+ * @group slack
+ * @medium
+ */
+final class LinkResponseTest extends \Tests\TestCase
+{
+    use RefreshDatabase;
+
+    /**
+     * Test trying to link a character if the user has no Commlink account.
+     * @test
+     */
+    public function testResponseNoCommlink(): void
+    {
+        self::expectException(SlackException::class);
+        self::expectExceptionMessage(
+            'You must have already created an account on '
+                . '<http://localhost|Commlink - Test> and linked it to this '
+                . 'server before you can register a channel to a specific '
+                . 'system.'
+        );
+        new LinkResponse(
+            content: 'link deadb33f',
+            status: LinkResponse::HTTP_OK,
+            headers: [],
+            channel: new Channel(),
+        );
+    }
+
+    /**
+     * Test trying to link a character if the user has an unverified Commlink
+     * account.
+     * @test
+     */
+    public function testWithUnverifiedCommlinkAccount(): void
+    {
+        self::expectException(SlackException::class);
+        self::expectExceptionMessage(
+            'You must have already created an account on '
+                . '<http://localhost|Commlink - Test> and linked it to this '
+                . 'server before you can register a channel to a specific '
+                . 'system.'
+        );
+        $channel = Channel::factory()->create();
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_SLACK,
+            'verified' => false,
+        ]);
+        new LinkResponse(
+            content: 'link deadb33f',
+            status: LinkResponse::HTTP_OK,
+            headers: [],
+            channel: $channel,
+        );
+    }
+
+    /**
+     * Test trying to link a character if the user has a Commlink account and
+     * has already linked a character to the channel.
+     * @test
+     */
+    public function testResponseAlreadyLinked(): void
+    {
+        self::expectException(SlackException::class);
+        self::expectExceptionMessage(
+            'This channel is already linked to a character.'
+        );
+        $user = User::factory()->create();
+        $character = Character::factory()->create([
+            'owner' => $user->email,
+        ]);
+        $channel = Channel::factory()->create([
+            'system' => $character->system,
+            'type' => Channel::TYPE_SLACK,
+        ]);
+        $channel->user = \Str::random(10);
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_SLACK,
+            'user_id' => $user,
+            'verified' => true,
+        ]);
+        ChatCharacter::factory()->create([
+            'channel_id' => $channel->id,
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser->id,
+        ]);
+        new LinkResponse(
+            content: 'link deadb33f',
+            status: LinkResponse::HTTP_OK,
+            headers: [],
+            channel: $channel,
+        );
+    }
+
+    /**
+     * Test trying to link an ID for a character that doesn't exist.
+     * @test
+     */
+    public function testLinkNotFoundCharacter(): void
+    {
+        self::expectException(SlackException::class);
+        self::expectExceptionMessage(
+            'Unable to find one of your characters with that ID.'
+        );
+        $user = User::factory()->create();
+        $channel = Channel::factory()->create(['type' => Channel::TYPE_SLACK]);
+        $channel->user = \Str::random(10);
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_SLACK,
+            'user_id' => $user,
+            'verified' => true,
+        ]);
+        new LinkResponse(
+            content: sprintf('link %s', sha1(\Str::random(10))),
+            status: LinkResponse::HTTP_OK,
+            headers: [],
+            channel: $channel,
+        );
+    }
+
+    /**
+     * Test trying to link a different user's Character to the channel.
+     * @test
+     */
+    public function testLinkAnotherUsersCharacter(): void
+    {
+        self::expectException(SlackException::class);
+        self::expectExceptionMessage('You don\'t own that character.');
+        $user = User::factory()->create();
+        $otherUser = User::factory()->create();
+        $character = Character::factory()->create([
+            '_id' => sha1(\Str::random(10)),
+            'owner' => $otherUser->email,
+        ]);
+        $channel = Channel::factory()->create([
+            'system' => $character->system,
+            'type' => Channel::TYPE_SLACK,
+        ]);
+        $channel->user = \Str::random(10);
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_SLACK,
+            'user_id' => $user,
+            'verified' => true,
+        ]);
+        new LinkResponse(
+            content: sprintf('link %s', $character->_id),
+            status: LinkResponse::HTTP_OK,
+            headers: [],
+            channel: $channel,
+        );
+    }
+
+    /**
+     * Test trying to link a character to the channel that isn't the right
+     * system.
+     * @test
+     */
+    public function testLinkWrongSystem(): void
+    {
+        self::expectException(SlackException::class);
+        self::expectExceptionMessage(
+            'Bob is a Shadowrun 5th Edition character. '
+                . 'This channel is playing The Expanse.'
+        );
+        $user = User::factory()->create();
+        $character = Character::factory()->create([
+            '_id' => sha1(\Str::random(10)),
+            'handle' => 'Bob',
+            'owner' => $user->email,
+            'system' => 'shadowrun5e',
+        ]);
+        $channel = Channel::factory()->create([
+            'system' => 'expanse',
+            'type' => Channel::TYPE_SLACK,
+        ]);
+        $channel->user = \Str::random(10);
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_SLACK,
+            'user_id' => $user,
+            'verified' => true,
+        ]);
+        new LinkResponse(
+            content: sprintf('link %s', $character->_id),
+            status: LinkResponse::HTTP_OK,
+            headers: [],
+            channel: $channel,
+        );
+    }
+
+    /**
+     * Test linking a character of the correct system.
+     * @test
+     */
+    public function testLinkCharacter(): void
+    {
+        $user = User::factory()->create();
+        $character = Character::factory()->create([
+            'owner' => $user->email,
+        ]);
+        $channel = Channel::factory()->create([
+            'system' => $character->system,
+            'type' => Channel::TYPE_SLACK,
+        ]);
+        $channel->user = \Str::random(10);
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_SLACK,
+            'user_id' => $user,
+            'verified' => true,
+        ]);
+        $response = new LinkResponse(
+            content: sprintf('link %s', $character->_id),
+            status: LinkResponse::HTTP_OK,
+            headers: [],
+            channel: $channel,
+        );
+        $response = json_decode((string)$response);
+        self::assertSame(
+            sprintf('You have linked %s to this channel.', $character->handle),
+            $response->attachments[0]->text
+        );
+        self::assertDatabaseHas(
+            'chat_characters',
+            [
+                'channel_id' => $channel->id,
+                'character_id' => $character->id,
+                'chat_user_id' => $chatUser->id,
+            ]
+        );
+    }
+}
