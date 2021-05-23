@@ -16,7 +16,7 @@ class RoleArray extends \ArrayObject
      * @param ?Role $role
      * @throws \TypeError
      */
-    public function offsetSet($index = null, $role = null): void
+    public function offsetSet($index = null, mixed $role = null): void
     {
         if (!($role instanceof Role)) {
             throw new \TypeError('RoleArray only accepts Role objects');

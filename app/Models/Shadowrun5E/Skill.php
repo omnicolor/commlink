@@ -19,7 +19,7 @@ abstract class Skill
      * Level of the skill, N for native language.
      * @var int|string
      */
-    public $level;
+    public int | string $level;
 
     /**
      * Name of the skill.

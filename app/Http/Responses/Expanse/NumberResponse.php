@@ -56,7 +56,7 @@ class NumberResponse extends SlackResponse
         string $content = '',
         int $status = 200,
         array $headers = [],
-        ?Channel $channel = null
+        ?Channel $channel = null,
     ) {
         if (null === $channel) {
             throw new SlackException('Channel is required');

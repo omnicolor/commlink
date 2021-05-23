@@ -50,37 +50,27 @@ class Fixer extends Role
      */
     public function getType(): string
     {
-        switch ($this->type) {
-            case self::TYPE_BROKER_DEALS:
-                return 'Broker deals between rival gangs.';
-            case self::TYPE_PROCURE_ATYPICAL:
-                return 'Procure rare or atypical resources for exclusive '
-                    . 'clientele.';
-            case self::TYPE_BROKER_SERVICES:
-                return 'Specialize in brokering Solo or Tech services as an '
-                    . 'agent.';
-            case self::TYPE_SUPPLY_REGULAR:
-                return 'Supply a regular resource for the Night Markets, like '
-                    . 'food, medicines, or drugs.';
-            case self::TYPE_PROCURE_ILLEGAL:
-                return 'Procure highly illegal resources, like street drugs or '
-                    . 'milspec weapons.';
-            case self::TYPE_SUPPLY_RESOURCES:
-                return 'Supply resources for Techs and Medtechs, like parts '
-                    . 'and medical supplies.';
-            case self::TYPE_OPERATE_NIGHT_MARKETS:
-                return 'Operate several successful Night Markets, although not '
-                    . 'as owner.';
-            case self::TYPE_BROKER_FENCE:
-                return 'Broker deals as a fence for scavengers raiding Corps '
-                    . 'or Combat Zones.';
-            case self::TYPE_BROKER_CONTRACTS:
-                return 'Broker use contracts for heavy machinery, military '
-                    . 'vehicles, and aircraft.';
-            case self::TYPE_EXCLUSIVE_AGENT:
-                return 'Act as an exclusive agent for a Media, Rockerboy, or a '
-                    . 'Nomad Pack.';
-        }
-        throw new \OutOfBoundsException();
+        return match ($this->type) {
+            self::TYPE_BROKER_DEALS => 'Broker deals between rival gangs.',
+            self::TYPE_PROCURE_ATYPICAL => 'Procure rare or atypical resources '
+                . 'for exclusive clientele.',
+            self::TYPE_BROKER_SERVICES => 'Specialize in brokering Solo or '
+                . 'Tech services as an agent.',
+            self::TYPE_SUPPLY_REGULAR => 'Supply a regular resource for the '
+                . 'Night Markets, like food, medicines, or drugs.',
+            self::TYPE_PROCURE_ILLEGAL => 'Procure highly illegal resources, '
+                . 'like street drugs or milspec weapons.',
+            self::TYPE_SUPPLY_RESOURCES => 'Supply resources for Techs and '
+                . 'Medtechs, like parts and medical supplies.',
+            self::TYPE_OPERATE_NIGHT_MARKETS => 'Operate several successful '
+                . 'Night Markets, although not as owner.',
+            self::TYPE_BROKER_FENCE => 'Broker deals as a fence for scavengers '
+                . 'raiding Corps or Combat Zones.',
+            self::TYPE_BROKER_CONTRACTS => 'Broker use contracts for heavy '
+                . 'machinery, military vehicles, and aircraft.',
+            self::TYPE_EXCLUSIVE_AGENT => 'Act as an exclusive agent for a '
+                . 'Media, Rockerboy, or a Nomad Pack.',
+            default => throw new \OutOfBoundsException(),
+        };
     }
 }

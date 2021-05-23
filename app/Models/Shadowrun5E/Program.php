@@ -152,8 +152,10 @@ class Program
      * @return Program
      * @throws \RuntimeException
      */
-    public static function build($rawProgram, ProgramArray $running): Program
-    {
+    public static function build(
+        array | string $rawProgram,
+        ProgramArray $running,
+    ): Program {
         if (!\is_array($rawProgram)) {
             $program = new Program($rawProgram);
             $program->running = $program->isRunning($running);

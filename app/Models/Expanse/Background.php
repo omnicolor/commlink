@@ -110,7 +110,7 @@ class Background
         foreach ($this->focuses as $focus) {
             try {
                 $focuses[] = new Focus($focus);
-            } catch (\RuntimeException $ex) {
+            } catch (\RuntimeException) {
                 // Ignore.
             }
         }
@@ -127,7 +127,7 @@ class Background
         foreach ($this->talents as $talent) {
             try {
                 $talents[] = new Talent($talent);
-            } catch (\RuntimeException $ex) {
+            } catch (\RuntimeException) {
                 // Ignore.
             }
         }

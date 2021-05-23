@@ -132,7 +132,7 @@ class Character extends \App\Models\Character
                         $focus['id'],
                         $focus['level'] ?? 1
                     );
-                } catch (\RuntimeException $ex) {
+                } catch (\RuntimeException) {
                     \Log::warning(\sprintf(
                         'Expanse character "%s" (%s) has invalid focus "%s"',
                         $this->name,

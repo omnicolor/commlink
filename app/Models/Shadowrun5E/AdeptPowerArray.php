@@ -12,7 +12,7 @@ class AdeptPowerArray extends \ArrayObject
 {
     /**
      * Add a power to the array.
-     * @param int|null $index
+     * @param ?int $index
      * @param AdeptPower $power
      * @throws \TypeError
      */

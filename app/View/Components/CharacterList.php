@@ -11,18 +11,11 @@ use Illuminate\View\Component;
 class CharacterList extends Component
 {
     /**
-     * Characters to include in the view.
-     * @var Collection
-     */
-    public Collection $characters;
-
-    /**
      * Create a new component instance.
      * @param Collection $characters
      */
-    public function __construct(Collection $characters)
+    public function __construct(public Collection $characters)
     {
-        $this->characters = $characters;
     }
 
     /**

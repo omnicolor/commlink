@@ -110,7 +110,7 @@ class SlackController extends Controller
                 [],
                 $channel
             );
-        } catch (\Error $ex) {
+        } catch (\Error) {
             throw new \App\Exceptions\SlackException(
                 'That doesn\'t appear to be a valid Commlink command.'
                 . \PHP_EOL . \PHP_EOL . 'Type `/roll help` for more help.'
@@ -131,7 +131,7 @@ class SlackController extends Controller
                 ->where('channel_id', $channel)
                 ->where('server_id', $team)
                 ->firstOrFail();
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $ex) {
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException) {
             return new Channel([
                 'channel_id' => $channel,
                 'server_id' => $team,

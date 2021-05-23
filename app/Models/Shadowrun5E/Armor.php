@@ -143,12 +143,14 @@ class Armor
             try {
                 $armorItem->modifications[] = new ArmorModification($mod);
                 continue;
-            } catch (\Exception $e) {
+            } catch (\Exception) {
+                // Ignore, could be a GearModification.
             }
             try {
                 $armorItem->modifications[] = new GearModification($mod);
                 continue;
-            } catch (\Exception $e) {
+            } catch (\Exception) {
+                // Ignore, we'll throw a different exception in a sec.
             }
             throw new \RuntimeException(\sprintf(
                 'Armor/Gear mod not found: %s',

@@ -34,12 +34,6 @@ class ActiveSkill extends Skill
     public string $id;
 
     /**
-     * Level of the skill.
-     * @var int
-     */
-    public $level;
-
-    /**
      * List of all skills.
      * @var ?array<mixed>
      */

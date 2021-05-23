@@ -16,18 +16,11 @@ class FieldsAttachment extends Attachment
     protected array $fields = [];
 
     /**
-     * Title for the attachment.
-     * @var string
-     */
-    protected string $title;
-
-    /**
      * Constructor.
      * @param string $title
      */
-    public function __construct(string $title)
+    public function __construct(protected string $title)
     {
-        $this->title = $title;
     }
 
     /**

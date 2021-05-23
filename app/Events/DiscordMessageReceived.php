@@ -31,12 +31,6 @@ class DiscordMessageReceived
     public string $content;
 
     /**
-     * Message received from Discord.
-     * @var Message
-     */
-    public Message $message;
-
-    /**
      * Server the command was received on.
      * @var Guild
      */
@@ -52,14 +46,13 @@ class DiscordMessageReceived
      * Create a new event instance.
      * @param Message $message
      */
-    public function __construct(Message $message)
+    public function __construct(public Message $message)
     {
-        $this->channel = $message->channel;
-        $this->content = \str_replace('/roll ', '', $message->content);
-        $this->message = $message;
-        $this->user = $message->author;
+        $this->channel = $this->message->channel;
+        $this->content = \str_replace('/roll ', '', $this->message->content);
+        $this->user = $this->message->author;
 
         // @phpstan-ignore-next-line
-        $this->server = $message->channel->guild;
+        $this->server = $this->message->channel->guild;
     }
 }

@@ -43,12 +43,6 @@ class ComplexForm
     public string $identifier;
 
     /**
-     * Level the form was threaded at.
-     * @var ?int
-     */
-    public ?int $level;
-
-    /**
      * Name of the form.
      * @var string
      */
@@ -90,7 +84,7 @@ class ComplexForm
      * @param ?int $level Optional level to assign to the form
      * @throws \RuntimeException if the ID is not found
      */
-    public function __construct(string $identifier, ?int $level = null)
+    public function __construct(string $identifier, public ?int $level = null)
     {
         $filename = config('app.data_path.shadowrun5e') . 'complex-forms.php';
         self::$forms ??= require $filename;
@@ -108,7 +102,6 @@ class ComplexForm
         $this->duration = $form['duration'];
         $this->fade = $form['fade'];
         $this->identifier = $form['id'];
-        $this->level = $level;
         $this->name = $form['name'];
         $this->page = $form['page'];
         $this->ruleset = $form['ruleset'];

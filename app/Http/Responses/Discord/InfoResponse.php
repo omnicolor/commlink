@@ -9,18 +9,11 @@ use App\Events\DiscordMessageReceived;
 class InfoResponse
 {
     /**
-     * Discord message received.
-     * @var DiscordMessageReceived
-     */
-    protected DiscordMessageReceived $event;
-
-    /**
      * Construct a new instance.
      * @param DiscordMessageReceived $event
      */
-    public function __construct(DiscordMessageReceived $event)
+    public function __construct(protected DiscordMessageReceived $event)
     {
-        $this->event = $event;
     }
 
     /**

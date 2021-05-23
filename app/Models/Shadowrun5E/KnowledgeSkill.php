@@ -26,7 +26,7 @@ class KnowledgeSkill extends Skill
     public function __construct(
         string $name,
         string $category,
-        $level,
+        string | int $level,
         ?string $specializations = null
     ) {
         $categories = [

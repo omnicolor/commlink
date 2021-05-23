@@ -54,12 +54,6 @@ class Sprite
     public string $initiative;
 
     /**
-     * Sprite's level, assuming they've been given one.
-     * @var ?int
-     */
-    public ?int $level;
-
-    /**
      * Sprite's name.
      * @var string
      */
@@ -125,7 +119,7 @@ class Sprite
      * @param ?int $level Level of the sprite
      * @throws \RuntimeException if the ID is not found
      */
-    public function __construct(string $id, ?int $level = null)
+    public function __construct(string $id, public ?int $level = null)
     {
         $filename = config('app.data_path.shadowrun5e') . 'sprites.php';
         self::$sprites = require $filename;
@@ -145,7 +139,6 @@ class Sprite
         $this->firewall = $sprite['firewall'];
         $this->id = $id;
         $this->initiative = $sprite['initiative'];
-        $this->level = $level;
         $this->name = $sprite['name'];
         $this->page = $sprite['page'];
         $this->powers = $sprite['powers'];
@@ -214,15 +207,15 @@ class Sprite
 
     /**
      * If the sprite has a level, return initialized skills instead of IDs.
-     * @return Skill[]
+     * @return SkillArray
      * @throws \RuntimeException if the level isn't set
      */
-    public function getSkills(): array
+    public function getSkills(): SkillArray
     {
         if (!isset($this->level)) {
             throw new \RuntimeException('Level is not set');
         }
-        $skills = [];
+        $skills = new SkillArray();
         foreach ($this->skills as $skill) {
             $skills[] = new ActiveSkill($skill, $this->level);
         }

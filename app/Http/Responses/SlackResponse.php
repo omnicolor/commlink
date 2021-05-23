@@ -67,7 +67,7 @@ class SlackResponse extends JsonResponse
         string $content = '',
         int $status = 200,
         array $headers = [],
-        ?Channel $channel = null
+        ?Channel $channel = null,
     ) {
         parent::__construct($content, $status, $headers);
         $this->channel = $channel ?? new Channel();

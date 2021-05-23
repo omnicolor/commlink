@@ -11,26 +11,14 @@ use Illuminate\View\Component;
 class CampaignList extends Component
 {
     /**
-     * Collection of campaigns the user is GMing.
-     * @var Collection
-     */
-    public Collection $gmed;
-
-    /**
-     * Collection of campaigns the user registered.
-     * @var Collection
-     */
-    public Collection $registered;
-
-    /**
      * Create a new component instance.
      * @param Collection $gmed
      * @param Collection $registered
      */
-    public function __construct(Collection $gmed, Collection $registered)
-    {
-        $this->gmed = $gmed;
-        $this->registered = $registered;
+    public function __construct(
+        public Collection $gmed,
+        public Collection $registered,
+    ) {
     }
 
     /**

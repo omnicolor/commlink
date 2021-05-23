@@ -11,45 +11,19 @@ namespace App\Models\Shadowrun5E;
 class KarmaLogEntry
 {
     /**
-     * Description of the karma event.
-     * @var string
-     */
-    public string $description;
-
-    /**
-     * Amount of karma in the event.
-     * @var int
-     */
-    public int $karma;
-
-    /**
-     * Date the karma was gained or spent in the real world.
-     * @var ?\DateTimeInterface
-     */
-    public ?\DateTimeInterface $realDate = null;
-
-    /**
-     * Date the karma was gained or spent in the game world.
-     * @var ?\DateTimeInterface
-     */
-    public ?\DateTimeInterface $gameDate = null;
-
-    /**
      * Constructor.
-     * @param string $description
-     * @param int $karma
-     * @param ?\DateTimeInterface $realDate
-     * @param ?\DateTimeInterface $gameDate
+     * @param string $description Description of the karma event
+     * @param int $karma Amount of karma
+     * @param ?\DateTimeInterface $realDate Real world date for karma event
+     * @param ?\DateTimeInterface $gameDate Game world date for karma event
      */
     public function __construct(
-        string $description,
-        int $karma,
-        ?\DateTimeInterface $realDate = null,
-        ?\DateTimeInterface $gameDate = null
+        public string $description,
+        public int $karma,
+        public ?\DateTimeInterface $realDate = null,
+        public ?\DateTimeInterface $gameDate = null
     ) {
         $this->description = $description;
         $this->karma = $karma;
-        $this->realDate = $realDate;
-        $this->gameDate = $gameDate;
     }
 }

@@ -25,7 +25,7 @@ class RegisterResponse extends SlackResponse
         string $content = '',
         int $status = 200,
         array $headers = [],
-        ?Channel $channel = null
+        ?Channel $channel = null,
     ) {
         parent::__construct('', $status, $headers, $channel);
         if (null === $channel) {

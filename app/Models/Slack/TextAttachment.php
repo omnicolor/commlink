@@ -10,30 +10,6 @@ namespace App\Models\Slack;
 class TextAttachment extends Attachment
 {
     /**
-     * Color for the left bar.
-     * @var string
-     */
-    protected string $color;
-
-    /**
-     * Optional footer for the attachment.
-     * @var ?string
-     */
-    protected ?string $footer = null;
-
-    /**
-     * Text to include in the response.
-     * @var string
-     */
-    protected string $text;
-
-    /**
-     * Title for the attachment.
-     * @var string
-     */
-    protected string $title;
-
-    /**
      * Constructor.
      * @param string $title
      * @param string $text
@@ -41,15 +17,11 @@ class TextAttachment extends Attachment
      * @param ?string $footer
      */
     public function __construct(
-        string $title,
-        string $text,
-        string $color = self::COLOR_SUCCESS,
-        ?string $footer = null
+        protected string $title,
+        protected string $text,
+        protected string $color = self::COLOR_SUCCESS,
+        protected ?string $footer = null,
     ) {
-        $this->color = $color;
-        $this->footer = $footer;
-        $this->text = $text;
-        $this->title = $title;
     }
 
     /**

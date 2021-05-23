@@ -139,7 +139,7 @@ class Character extends \App\Models\Character
         foreach ($this->roles ?? [] as $role) {
             try {
                 $roles[] = Role::fromArray($role);
-            } catch (\RuntimeException $ex) {
+            } catch (\RuntimeException) {
                 \Log::warning(\sprintf(
                     'Cyberpunk character "%s" (%s) has invalid role "%s"',
                     $this->handle,

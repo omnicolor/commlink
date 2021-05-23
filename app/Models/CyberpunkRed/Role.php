@@ -37,7 +37,7 @@ abstract class Role
         );
         try {
             return new $class($role);
-        } catch (\Error $ex) {
+        } catch (\Error) {
             throw new \RuntimeException(\sprintf(
                 'Role "%s" is invalid',
                 $role['role']

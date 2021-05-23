@@ -24,9 +24,14 @@ class HelpResponse extends SlackResponse
         string $content = '',
         int $status = 200,
         array $headers = [],
-        ?Channel $channel = null
+        ?Channel $channel = null,
     ) {
-        parent::__construct($content, $status, $headers, $channel);
+        parent::__construct(
+            channel: $channel,
+            content: $content,
+            headers: $headers,
+            status: $status,
+        );
         $this->addAttachment(new TextAttachment(
             'Commlink - Shadowrun 5E',
             'Commlink is a Slack bot that lets you roll Shadowrun 5E dice.'

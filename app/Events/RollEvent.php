@@ -20,25 +20,11 @@ class RollEvent
     use SerializesModels;
 
     /**
-     * Roll object that generated the event.
-     * @var Roll
-     */
-    public Roll $roll;
-
-    /**
-     * Where the event was generated.
-     * @var \App\Models\Channel
-     */
-    public Channel $source;
-
-    /**
      * Create a new event instance.
      * @param Roll $roll
      * @param Channel $source
      */
-    public function __construct(Roll $roll, Channel $source)
+    public function __construct(public Roll $roll, public Channel $source)
     {
-        $this->roll = $roll;
-        $this->source = $source;
     }
 }

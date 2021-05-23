@@ -30,7 +30,7 @@ class LifestyleAttributes
                 $attributes['neighborhood'],
                 $attributes['neighborhoodMax'],
                 $attributes['security'],
-                $attributes['securityMax']
+                $attributes['securityMax'],
             )
         ) {
             throw new \RuntimeException('Lifestyle attributes missing');

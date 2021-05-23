@@ -60,12 +60,6 @@ class Spirit
     public string $essence;
 
     /**
-     * Spirit's force.
-     * @var ?int
-     */
-    public ?int $force;
-
-    /**
      * Spirit's ID.
      * @var string
      */
@@ -180,7 +174,7 @@ class Spirit
      * @param ?int $force Force of the spirit
      * @throws \RuntimeException if the ID is invalid
      */
-    public function __construct(string $id, ?int $force = null)
+    public function __construct(string $id, public ?int $force = null)
     {
         $filename = config('app.data_path.shadowrun5e') . 'spirits.php';
         self::$spirits ??= require $filename;
@@ -198,7 +192,6 @@ class Spirit
         $this->charisma = $spirit['charisma'];
         $this->edge = $spirit['edge'];
         $this->essence = $spirit['essence'];
-        $this->force = $force;
         $this->id = $id;
         $this->initiativeAstral = $spirit['initiative-astral'];
         $this->initiative = $spirit['initiative'];
