@@ -274,5 +274,6 @@ final class InfoResponseTest extends \Tests\TestCase
             ],
             $response->attachments
         );
+        $character->delete();
     }
 }

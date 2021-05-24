@@ -110,6 +110,7 @@ final class LinkResponseTest extends \Tests\TestCase
             headers: [],
             channel: $channel,
         );
+        $character->delete();
     }
 
     /**
@@ -172,6 +173,7 @@ final class LinkResponseTest extends \Tests\TestCase
             headers: [],
             channel: $channel,
         );
+        $character->delete();
     }
 
     /**
@@ -211,6 +213,7 @@ final class LinkResponseTest extends \Tests\TestCase
             headers: [],
             channel: $channel,
         );
+        $character->delete();
     }
 
     /**
@@ -254,5 +257,6 @@ final class LinkResponseTest extends \Tests\TestCase
                 'chat_user_id' => $chatUser->id,
             ]
         );
+        $character->delete();
     }
 }
