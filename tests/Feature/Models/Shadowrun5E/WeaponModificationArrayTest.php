@@ -45,10 +45,32 @@ final class WeaponModificationArrayTest extends \Tests\TestCase
      * Test adding to the array.
      * @test
      */
-    public function testAdd(): void
+    public function testAppend(): void
     {
         $this->mods[] = new WeaponModification('bayonet');
         self::assertNotEmpty($this->mods);
+    }
+
+    /**
+     * Test setting up a weapon's slots.
+     * @test
+     */
+    public function testInitializeSlots(): void
+    {
+        $this->mods['barrel'] = null;
+        $this->mods['internal'] = null;
+
+        self::assertCount(2, $this->mods);
+    }
+
+    /**
+     * Test adding a modification to a weapon's slot.
+     * @test
+     */
+    public function testAddToSlot(): void
+    {
+        $this->mods['barrel'] = new WeaponModification('bayonet');
+        self::assertSame('Bayonet', (string)$this->mods['barrel']);
     }
 
     /**
