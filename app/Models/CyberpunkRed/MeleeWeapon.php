@@ -14,6 +14,7 @@ class MeleeWeapon extends Weapon
     protected function __construct(array $options)
     {
         $id = \strtolower((string)$options['id']);
+        // @phpstan-ignore-next-line
         $weapon = self::$meleeWeapons[$id];
         $this->concealable = $weapon['concealable'];
         $this->cost = $weapon['cost'];

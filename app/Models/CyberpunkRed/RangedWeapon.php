@@ -30,6 +30,7 @@ class RangedWeapon extends Weapon
     protected function __construct(array $options)
     {
         $id = \strtolower((string)$options['id']);
+        // @phpstan-ignore-next-line
         $weapon = self::$rangedWeapons[$id];
         $this->concealable = $weapon['concealable'];
         $this->cost = $weapon['cost'];
