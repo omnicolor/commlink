@@ -35,6 +35,7 @@
         <server name="DB_CONNECTION" value="sqlite" />
         <server name="LOG_CHANNEL" value="null" />
         <server name="MONGO_CONNECTION" value="mongo-test" />
+        <server name="MONGO_DATABASE" value="commlink-test" />
         <server name="MAIL_MAILER" value="array" />
         <server name="QUEUE_CONNECTION" value="sync" />
         <server name="SESSION_DRIVER" value="array" />
