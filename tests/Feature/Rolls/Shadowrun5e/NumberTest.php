@@ -15,7 +15,7 @@ use App\Rolls\Shadowrun5e\Number;
  * @group shadowrun
  * @group shadowrun5e
  * @group slack
- * @small
+ * @medium
  */
 final class NumberTest extends \Tests\TestCase
 {
