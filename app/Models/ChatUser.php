@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ChatUser extends Model
 {
@@ -34,6 +35,15 @@ class ChatUser extends Model
         'user_id',
         'verified',
     ];
+
+    /**
+     * Return the chat character linked to this user.
+     * @return HasOne
+     */
+    public function chatCharacter(): HasOne
+    {
+        return $this->hasOne(ChatCharacter::class);
+    }
 
     /**
      * Return the verification hash for the user.

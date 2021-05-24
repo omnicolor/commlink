@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models;
 
+use App\Models\Character;
+use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
 
@@ -137,15 +139,29 @@ final class ChatUserTest extends \Tests\TestCase
         );
     }
 
+    public function testGetChatCharacter(): void
+    {
+        $chatUser = ChatUser::factory()->create();
+        $character = Character::factory()->create();
+        $chatCharacter = ChatCharacter::factory()->create([
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser->id,
+        ]);
+
+        self::assertSame(
+            $character->id,
+            $chatUser->chatCharacter->getCharacter()->id,
+        );
+    }
+
     /**
      * Test getting the Commlink user attached to a ChatUser.
      * @test
      */
     public function testGetUser(): void
     {
-        $user = User::factory()->create(['email' => 'user-test@example.com']);
+        $user = User::factory()->create();
         $chatUser = ChatUser::factory()->make(['user_id' => $user->id]);
-        self::assertSame('user-test@example.com', $chatUser->user->email);
-        $user->delete();
+        self::assertSame($user->email, $chatUser->user->email);
     }
 }

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Responses\Shadowrun5e;
+namespace Tests\Feature\Http\Responses;
 
 use App\Exceptions\SlackException;
-use App\Http\Responses\Shadowrun5e\LinkResponse;
+use App\Http\Responses\LinkResponse;
 use App\Models\Channel;
 use App\Models\Character;
 use App\Models\ChatCharacter;
@@ -14,7 +14,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
- * Tests for linking a character to a Shadowrun 5E channel.
+ * Tests for linking a character to a channel.
  * @group slack
  * @medium
  */

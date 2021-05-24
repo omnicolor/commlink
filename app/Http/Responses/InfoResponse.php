@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Responses;
 
 use App\Models\Channel;
+use App\Models\ChatCharacter;
+use App\Models\ChatUser;
 use App\Models\Slack\Field;
 use App\Models\Slack\FieldsAttachment;
 
@@ -32,6 +34,7 @@ class InfoResponse extends SlackResponse
         if (null !== $chatUser && null !== $chatUser->user) {
             $commlinkUser = $chatUser->user->email;
         }
+
         $attachment = (new FieldsAttachment('Debugging Info'))
             ->addField(new Field('Team ID', $this->channel->server_id))
             ->addField(new Field('Channel ID', $this->channel->channel_id))
@@ -43,7 +46,37 @@ class InfoResponse extends SlackResponse
             ->addField(new Field(
                 'System',
                 config('app.systems')[$this->channel->system] ?? $this->channel->system ?? 'unregistered'
+            ))
+            ->addField(new Field(
+                'Character',
+                $this->getCharacterName($chatUser, $channel)
             ));
         $this->addAttachment($attachment);
+    }
+
+    /**
+     * Return the character's name that is linked to the channel, or null.
+     * @param ?ChatUser $user
+     * @param ?Channel $channel
+     * @return string
+     */
+    protected function getCharacterName(
+        ?ChatUser $user,
+        ?Channel $channel
+    ): string {
+        if (null === $user || null === $channel) {
+            return 'No character';
+        }
+        $chatCharacter = ChatCharacter::where('channel_id', $channel->id)
+            ->where('chat_user_id', $user->id)
+            ->first();
+        if (null === $chatCharacter) {
+            return 'No character';
+        }
+        $character = $chatCharacter->getCharacter();
+        if (null === $character) {
+            return 'Invalid character';
+        }
+        return $character->handle ?? $character->name;
     }
 }

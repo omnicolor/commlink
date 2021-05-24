@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Responses\Shadowrun5e;
+namespace App\Http\Responses;
 
 use App\Exceptions\SlackException;
-use App\Http\Responses\SlackResponse;
 use App\Models\Channel;
 use App\Models\Character;
 use App\Models\ChatCharacter;
