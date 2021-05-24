@@ -50,6 +50,7 @@ class Character extends \App\Models\Character
         'roles',
         'skills',
         'technique',
+        'weapons',
         'willpower',
     ];
 
@@ -217,5 +218,47 @@ class Character extends \App\Models\Character
         }
         \ksort($skills);
         return $skills;
+    }
+
+    /**
+     * Return the character's weapons.
+     * @return WeaponArray
+     */
+    public function getWeapons(?string $type = null): WeaponArray
+    {
+        if (
+            null !== $type
+            && Weapon::TYPE_MELEE !== $type
+            && Weapon::TYPE_RANGED !== $type
+        ) {
+            throw new \RuntimeException('Invalid Weapon Type');
+        }
+
+        $weapons = new WeaponArray();
+        foreach ($this->attributes['weapons'] ?? [] as $rawWeapon) {
+            try {
+                $weapon = Weapon::build($rawWeapon);
+                if (null === $type) {
+                    $weapons[] = $weapon;
+                    continue;
+                }
+                if (Weapon::TYPE_RANGED === $type && $weapon instanceof RangedWeapon) {
+                    $weapons[] = $weapon;
+                    continue;
+                }
+                if (Weapon::TYPE_MELEE === $type && $weapon instanceof MeleeWeapon) {
+                    $weapons[] = $weapon;
+                    continue;
+                }
+            } catch (\RuntimeException $ex) {
+                \Log::warning(sprintf(
+                    'Cyberpunk Red character %s (%s) has invalid weapon ID "%s"',
+                    $this->name,
+                    $this->id,
+                    $rawWeapon['id']
+                ));
+            }
+        }
+        return $weapons;
     }
 }

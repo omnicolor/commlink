@@ -4,41 +4,24 @@ declare(strict_types=1);
 
 namespace App\Models\CyberpunkRed;
 
-/**
- * If something comes out of it, traverses a distance, and causes damage at the
- * end of that trajectory, it's a Ranged Weapon.
- */
-class RangedWeapon extends Weapon
+class MeleeWeapon extends Weapon
 {
     /**
-     * Number of rounds remaining in the magazine.
-     * @var int
-     */
-    public int $ammoRemaining;
-
-    /**
-     * Number of rounds in the weapon's standard magazine.
-     * @var int
-     */
-    public int $magazine;
-
-    /**
-     * Construct a new ranged weapon.
+     * Construct a new melee weapon.
      * @param array<string, int|string> $options
      * @throws \RuntimeException
      */
     protected function __construct(array $options)
     {
         $id = \strtolower((string)$options['id']);
-        $weapon = self::$rangedWeapons[$id];
+        $weapon = self::$meleeWeapons[$id];
         $this->concealable = $weapon['concealable'];
         $this->cost = $weapon['cost'];
         $this->damage = $weapon['damage'];
         $this->examples = $weapon['examples'];
         $this->handsRequired = $weapon['hands-required'];
-        $this->magazine = $weapon['magazine'];
         $this->rateOfFire = $weapon['rate-of-fire'];
-        $this->skill = $weapon['skill'];
+        $this->skill = 'melee-weapon';
         $this->type = $weapon['type'];
 
         if (isset($options['quality'])) {
@@ -52,6 +35,5 @@ class RangedWeapon extends Weapon
             $this->quality = $options['quality'];
         }
         $this->name = $options['name'] ?? $this->type;
-        $this->ammoRemaining = $options['ammoRemaining'] ?? $this->magazine;
     }
 }

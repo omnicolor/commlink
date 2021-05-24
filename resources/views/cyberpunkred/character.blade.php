@@ -188,4 +188,40 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Weapon</th>
+                        <th scope="col">DMG</th>
+                        <th scope="col">Ammo</th>
+                        <th scope="col">ROF</th>
+                        <th scope="col">Conceal</th>
+                        <th scope="col">Hands</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($character->getWeapons() as $weapon)
+                    <tr>
+                        @if ($weapon->name !== $weapon->type)
+                            <td>
+                                {{ $weapon }}
+                                ({{ ucfirst($weapon->quality) }} {{ $weapon->type}})
+                            </td>
+                        @else
+                        <td>{{ ucfirst($weapon->quality) }} {{ $weapon }}</td>
+                        @endif
+                        <td>{{ $weapon->damage }}</td>
+                        <td>{{ $weapon->ammoRemaining }} / {{ $weapon->magazine }}</td>
+                        <td>{{ $weapon->rateOfFire }}</td>
+                        <td>{{ $weapon->concealable ? 'Yes' : 'No' }}</td>
+                        <td>{{ $weapon->handsRequired }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
 </x-app>

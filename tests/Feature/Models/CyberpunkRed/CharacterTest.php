@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\CyberpunkRed;
 
 use App\Models\CyberpunkRed\Character;
 use App\Models\CyberpunkRed\Role\Fixer;
+use App\Models\CyberpunkRed\Weapon;
 
 /**
  * Unit tests for CyberpunkRed Characters.
@@ -150,7 +151,7 @@ final class CharacterTest extends \Tests\TestCase
     public function testSeriousWoundThreshold(
         int $body,
         int $will,
-        int $threshold
+        int $threshold,
     ): void {
         $character = new Character(['body' => $body, 'willpower' => $will]);
         self::assertSame($threshold, $character->seriously_wounded_threshold);
@@ -304,5 +305,35 @@ final class CharacterTest extends \Tests\TestCase
     {
         $character = new Character(['empathy' => 5]);
         self::assertSame(5, $character->empathy_original);
+    }
+
+    /**
+     * Test trying to get an invalid class of weapons.
+     * @test
+     */
+    public function testGetInvalidWeaponsType(): void
+    {
+        self::expectException(\RuntimeException::class);
+        self::expectExceptionMessage('Invalid Weapon Type');
+        (new Character())->getWeapons('unknown');
+    }
+
+    /**
+     * Test trying to get the different classes of weapons.
+     * @test
+     */
+    public function testGetWeapons(): void
+    {
+        $character = new Character([
+            'weapons' => [
+                ['id' => 'medium-pistol'],
+                ['id' => 'medium-melee'],
+                ['id' => 'medium-melee'],
+                ['id' => 'invalid'],
+            ],
+        ]);
+        self::assertCount(3, $character->getWeapons());
+        self::assertCount(2, $character->getWeapons(Weapon::TYPE_MELEE));
+        self::assertCount(1, $character->getWeapons(Weapon::TYPE_RANGED));
     }
 }

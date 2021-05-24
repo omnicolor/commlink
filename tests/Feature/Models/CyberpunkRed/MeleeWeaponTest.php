@@ -4,17 +4,34 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models\CyberpunkRed;
 
-use App\Models\CyberpunkRed\RangedWeapon;
+use App\Models\CyberpunkRed\MeleeWeapon;
 use App\Models\CyberpunkRed\Weapon;
 
 /**
- * Unit tests for RangedWeapon class.
+ * Unit tests for MeleeWeapon class.
  * @group models
  * @group cyberpunkred
  * @small
  */
-final class RangedWeaponTest extends \Tests\TestCase
+final class MeleeWeaponTest extends \Tests\TestCase
 {
+    /**
+     * Test that trying to load a weapon of any kind loads the data files.
+     * @test
+     */
+    public function testLoadDataFiles(): void
+    {
+        MeleeWeapon::$rangedWeapons = null;
+        Weapon::$meleeWeapons = null;
+        try {
+            Weapon::build([]);
+        } catch (\RuntimeException) {
+            // Ignore.
+        }
+        self::assertNotEmpty(Weapon::$meleeWeapons);
+        self::assertNotEmpty(Weapon::$rangedWeapons);
+    }
+
     /**
      * Test trying to load a weapon without including an ID.
      * @test
@@ -25,7 +42,7 @@ final class RangedWeaponTest extends \Tests\TestCase
         self::expectExceptionMessage(
             'ID must be included when instantiating a weapon'
         );
-        Weapon::build([]);
+        MeleeWeapon::build([]);
     }
 
     /**
@@ -36,7 +53,7 @@ final class RangedWeaponTest extends \Tests\TestCase
     {
         self::expectException(\RuntimeException::class);
         self::expectExceptionMessage('Weapon ID "invalid" is invalid');
-        Weapon::build(['id' => 'invalid']);
+        MeleeWeapon::build(['id' => 'invalid']);
     }
 
     /**
@@ -45,9 +62,9 @@ final class RangedWeaponTest extends \Tests\TestCase
      */
     public function testLoadMinimum(): void
     {
-        $weapon = Weapon::build(['id' => 'medium-pistol']);
+        $weapon = MeleeWeapon::build(['id' => 'medium-melee']);
         self::assertSame('2d6', $weapon->damage);
-        self::assertSame(RangedWeapon::QUALITY_STANDARD, $weapon->quality);
+        self::assertSame(MeleeWeapon::QUALITY_STANDARD, $weapon->quality);
     }
 
     /**
@@ -56,8 +73,8 @@ final class RangedWeaponTest extends \Tests\TestCase
      */
     public function testToString(): void
     {
-        $weapon = Weapon::build(['id' => 'medium-pistol']);
-        self::assertSame('Medium pistol', (string)$weapon);
+        $weapon = Weapon::build(['id' => 'medium-melee']);
+        self::assertSame('Medium melee', (string)$weapon);
     }
 
     /**
@@ -67,10 +84,10 @@ final class RangedWeaponTest extends \Tests\TestCase
     public function testLoadWithQuality(): void
     {
         $weapon = Weapon::build([
-            'id' => 'medium-pistol',
-            'quality' => RangedWeapon::QUALITY_EXCELLENT,
+            'id' => 'medium-melee',
+            'quality' => MeleeWeapon::QUALITY_EXCELLENT,
         ]);
-        self::assertSame(RangedWeapon::QUALITY_EXCELLENT, $weapon->quality);
+        self::assertSame(MeleeWeapon::QUALITY_EXCELLENT, $weapon->quality);
     }
 
     /**
@@ -81,9 +98,9 @@ final class RangedWeaponTest extends \Tests\TestCase
     {
         self::expectException(\RuntimeException::class);
         self::expectExceptionMessage(
-            'Weapon ID "medium-pistol" has invalid quality "super"'
+            'Weapon ID "medium-melee" has invalid quality "super"'
         );
-        Weapon::build(['id' => 'medium-pistol', 'quality' => 'super']);
+        Weapon::build(['id' => 'medium-melee', 'quality' => 'super']);
     }
 
     /**
@@ -93,11 +110,11 @@ final class RangedWeaponTest extends \Tests\TestCase
     public function testLoadWithName(): void
     {
         $weapon = Weapon::build([
-            'id' => 'medium-pistol',
-            'name' => 'Militech "Avenger"',
+            'id' => 'medium-melee',
+            'name' => 'Baseball bat',
         ]);
-        self::assertSame(RangedWeapon::QUALITY_STANDARD, $weapon->quality);
-        self::assertSame('Militech "Avenger"', (string)$weapon);
+        self::assertSame(MeleeWeapon::QUALITY_STANDARD, $weapon->quality);
+        self::assertSame('Baseball bat', (string)$weapon);
     }
 
     /**
@@ -108,15 +125,15 @@ final class RangedWeaponTest extends \Tests\TestCase
     public function costDataProvider(): array
     {
         return [
-            [50, RangedWeapon::QUALITY_POOR, 20],
-            [50, RangedWeapon::QUALITY_STANDARD, 50],
-            [50, RangedWeapon::QUALITY_EXCELLENT, 100],
-            [100, RangedWeapon::QUALITY_POOR, 50],
-            [100, RangedWeapon::QUALITY_STANDARD, 100],
-            [100, RangedWeapon::QUALITY_EXCELLENT, 500],
-            [500, RangedWeapon::QUALITY_POOR, 100],
-            [500, RangedWeapon::QUALITY_STANDARD, 500],
-            [500, RangedWeapon::QUALITY_EXCELLENT, 1000],
+            [50, MeleeWeapon::QUALITY_POOR, 20],
+            [50, MeleeWeapon::QUALITY_STANDARD, 50],
+            [50, MeleeWeapon::QUALITY_EXCELLENT, 100],
+            [100, MeleeWeapon::QUALITY_POOR, 50],
+            [100, MeleeWeapon::QUALITY_STANDARD, 100],
+            [100, MeleeWeapon::QUALITY_EXCELLENT, 500],
+            [500, MeleeWeapon::QUALITY_POOR, 100],
+            [500, MeleeWeapon::QUALITY_STANDARD, 500],
+            [500, MeleeWeapon::QUALITY_EXCELLENT, 1000],
         ];
     }
 
@@ -135,7 +152,7 @@ final class RangedWeaponTest extends \Tests\TestCase
         int $expected
     ): void {
         $weapon = Weapon::build([
-            'id' => 'medium-pistol',
+            'id' => 'medium-melee',
             'quality' => $quality,
         ]);
         $weapon->cost = $cost;
