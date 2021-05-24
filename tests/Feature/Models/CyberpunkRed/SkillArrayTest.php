@@ -63,7 +63,7 @@ final class SkillArrayTest extends \Tests\TestCase
     }
 
     /**
-     * That that adding soemthing other than a skill to the array doesn't add
+     * Test that adding something other than a skill to the array doesn't add
      * anything.
      * @test
      */
