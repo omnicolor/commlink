@@ -31,15 +31,27 @@ class SlackRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     * @return array<string, string>
+     * @return array<string, array<int, string>>
      */
     public function rules(): array
     {
         return [
-            'channel_id' => 'required|filled',
-            'team_id' => 'required|filled',
-            'text' => 'required|filled',
-            'user_id' => 'required|filled',
+            'channel_id' => [
+                'filled',
+                'required',
+            ],
+            'team_id' => [
+                'filled',
+                'required',
+            ],
+            'text' => [
+                'filled',
+                'required',
+            ],
+            'user_id' => [
+                'filled',
+                'required',
+            ],
         ];
     }
 }
