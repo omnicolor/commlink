@@ -81,11 +81,11 @@
                             </button>
                             <a class="btn btn-outline-secondary"
                                 href="{{ route('register') }}">
-                                Create a new account
+                                Create account
                             </a>
                             <a class="btn btn-outline-secondary"
                                 href="{{ route('password.request') }}">
-                                Forgot your password?
+                                Forgot password
                             </a>
                         </div>
                     </div>
