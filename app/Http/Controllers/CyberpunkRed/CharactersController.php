@@ -7,6 +7,7 @@ namespace App\Http\Controllers\CyberpunkRed;
 use App\Http\Resources\CyberpunkRed\CharacterResource;
 use App\Models\CyberpunkRed\Character;
 use App\Models\User;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -16,9 +17,9 @@ class CharactersController extends \App\Http\Controllers\Controller
 {
     /**
      * Return a collection of characters for the logged in user.
-     * @return JsonResource
+     * @return AnonymousResourceCollection<Character>
      */
-    public function index(): JsonResource
+    public function index(): AnonymousResourceCollection
     {
         return CharacterResource::collection(
             // @phpstan-ignore-next-line
