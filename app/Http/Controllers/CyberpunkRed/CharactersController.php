@@ -9,6 +9,7 @@ use App\Models\CyberpunkRed\Character;
 use App\Models\User;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\View\View;
 
 /**
  * Controller for interacting with Cyberpunk Red characters.
@@ -46,9 +47,9 @@ class CharactersController extends \App\Http\Controllers\Controller
     /**
      * View a character's sheet.
      * @param Character $character
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function view(Character $character): \Illuminate\View\View
+    public function view(Character $character): View
     {
         $user = \Auth::user();
         return view(
