@@ -46,6 +46,7 @@ class Character extends \App\Models\Character
         'intelligence',
         'luck',
         'movement',
+        'owner',
         'reflexes',
         'roles',
         'skills',
