@@ -108,7 +108,7 @@ class Character extends \App\Models\Character
      */
     public function getEmpathyOriginalAttribute(): int
     {
-        return $this->attributes['empathy'];
+        return $this->attributes['empathy'] ?? 0;
     }
 
     /**
@@ -118,7 +118,10 @@ class Character extends \App\Models\Character
     public function getHitPointsMaxAttribute(): int
     {
         return 10 + 5 * (int)\ceil(
-            ($this->attributes['body'] + $this->attributes['willpower']) / 2
+            (
+                ($this->attributes['body'] ?? 0)
+                + ($this->attributes['willpower'] ?? 0)
+            ) / 2
         );
     }
 
@@ -128,7 +131,7 @@ class Character extends \App\Models\Character
      */
     public function getHumanityAttribute(): int
     {
-        return (int)$this->attributes['empathy'] * 10;
+        return (int)($this->attributes['empathy'] ?? 0) * 10;
     }
 
     /**
