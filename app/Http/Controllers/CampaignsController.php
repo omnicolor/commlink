@@ -36,10 +36,10 @@ class CampaignsController extends Controller
         $campaign->registered_by = \Auth::user()->id;
         if ('shadowrun5e' === $request->input('system')) {
             $campaign->options = [
-                'creation' => $request->input('sr5e-creation'),
-                'gameplay' => $request->input('sr5e-gameplay'),
-                'rulesets' => $request->input('sr5e-rules'),
-                'startDate' => $request->input('sr5e-start-date'),
+                'creation' => (array)$request->input('sr5e-creation'),
+                'gameplay' => (string)$request->input('sr5e-gameplay'),
+                'rulesets' => (array)$request->input('sr5e-rules'),
+                'startDate' => (string)$request->input('sr5e-start-date'),
             ];
         }
         $campaign->save();

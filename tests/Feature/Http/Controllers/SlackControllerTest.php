@@ -147,13 +147,16 @@ final class SlackControllerTest extends \Tests\TestCase
      */
     public function testGetHelpInRegisteredChannel(): void
     {
+        // @phpstan-ignore-next-line
         $this->channel = Channel::factory()->create([
             'system' => 'shadowrun5e',
         ]);
         $this->post(
             route('roll'),
             [
+                // @phpstan-ignore-next-line
                 'channel_id' => $this->channel->channel_id,
+                // @phpstan-ignore-next-line
                 'team_id' => $this->channel->server_id,
                 'text' => 'help',
                 'user_id' => 'E567',
@@ -174,13 +177,16 @@ final class SlackControllerTest extends \Tests\TestCase
     public function testRollDiceShadowrun(): void
     {
         $this->randomInt->expects(self::any())->willReturn(5);
+        // @phpstan-ignore-next-line
         $this->channel = Channel::factory()->create([
             'system' => 'shadowrun5e',
         ]);
         $this->post(
             route('roll'),
             [
+                // @phpstan-ignore-next-line
                 'channel_id' => $this->channel->channel_id,
+                // @phpstan-ignore-next-line
                 'team_id' => $this->channel->server_id,
                 'text' => '5',
                 'user_id' => 'E567',
@@ -255,13 +261,16 @@ final class SlackControllerTest extends \Tests\TestCase
      */
     public function testRollDiceInvalidNumericForSystem(): void
     {
+        // @phpstan-ignore-next-line
         $this->channel = Channel::factory()->create([
             'system' => 'expanse',
         ]);
         $this->post(
             route('roll'),
             [
+                // @phpstan-ignore-next-line
                 'channel_id' => $this->channel->channel_id,
+                // @phpstan-ignore-next-line
                 'team_id' => $this->channel->server_id,
                 'text' => '5',
                 'user_id' => \Str::random(9),

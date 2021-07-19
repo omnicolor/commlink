@@ -82,9 +82,12 @@ final class InfoResponseTest extends \Tests\TestCase
      */
     public function testRegisteredButNotLinked(): void
     {
+        /** @var User */
         $user = User::factory()->create();
+        /** @var Channel */
         $channel = Channel::factory()->create();
         $channel->user = \Str::random(10);
+        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -144,9 +147,12 @@ final class InfoResponseTest extends \Tests\TestCase
      */
     public function testRegisteredButCharacterNotFound(): void
     {
+        /** @var User */
         $user = User::factory()->create();
+        /** @var Channel */
         $channel = Channel::factory()->create();
         $channel->user = \Str::random(10);
+        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -211,9 +217,12 @@ final class InfoResponseTest extends \Tests\TestCase
      */
     public function testRegisteredWithUser(): void
     {
+        /** @var User */
         $user = User::factory()->create();
+        /** @var Channel */
         $channel = Channel::factory()->create();
         $channel->user = \Str::random(10);
+        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -221,6 +230,7 @@ final class InfoResponseTest extends \Tests\TestCase
             'user_id' => $user->id,
             'verified' => true,
         ]);
+        /** @var Character */
         $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => $channel->system,

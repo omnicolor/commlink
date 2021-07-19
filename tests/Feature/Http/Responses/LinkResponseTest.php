@@ -57,7 +57,9 @@ final class LinkResponseTest extends \Tests\TestCase
                 . 'server before you can register a channel to a specific '
                 . 'system.'
         );
+        /** @var Channel */
         $channel = Channel::factory()->create();
+        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -83,15 +85,19 @@ final class LinkResponseTest extends \Tests\TestCase
         self::expectExceptionMessage(
             'This channel is already linked to a character.'
         );
+        /** @var User */
         $user = User::factory()->create();
+        /** @var Character */
         $character = Character::factory()->create([
             'owner' => $user->email,
         ]);
+        /** @var Channel */
         $channel = Channel::factory()->create([
             'system' => $character->system,
             'type' => Channel::TYPE_SLACK,
         ]);
         $channel->user = \Str::random(10);
+        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -123,9 +129,12 @@ final class LinkResponseTest extends \Tests\TestCase
         self::expectExceptionMessage(
             'Unable to find one of your characters with that ID.'
         );
+        /** @var User */
         $user = User::factory()->create();
+        /** @var Channel */
         $channel = Channel::factory()->create(['type' => Channel::TYPE_SLACK]);
         $channel->user = \Str::random(10);
+        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -149,17 +158,22 @@ final class LinkResponseTest extends \Tests\TestCase
     {
         self::expectException(SlackException::class);
         self::expectExceptionMessage('You don\'t own that character.');
+        /** @var User */
         $user = User::factory()->create();
+        /** @var User */
         $otherUser = User::factory()->create();
+        /** @var Character */
         $character = Character::factory()->create([
             '_id' => sha1(\Str::random(10)),
             'owner' => $otherUser->email,
         ]);
+        /** @var Channel */
         $channel = Channel::factory()->create([
             'system' => $character->system,
             'type' => Channel::TYPE_SLACK,
         ]);
         $channel->user = \Str::random(10);
+        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -188,18 +202,22 @@ final class LinkResponseTest extends \Tests\TestCase
             'Bob is a Shadowrun 5th Edition character. '
                 . 'This channel is playing The Expanse.'
         );
+        /** @var User */
         $user = User::factory()->create();
+        /** @var Character */
         $character = Character::factory()->create([
             '_id' => sha1(\Str::random(10)),
             'handle' => 'Bob',
             'owner' => $user->email,
             'system' => 'shadowrun5e',
         ]);
+        /** @var Channel */
         $channel = Channel::factory()->create([
             'system' => 'expanse',
             'type' => Channel::TYPE_SLACK,
         ]);
         $channel->user = \Str::random(10);
+        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -222,15 +240,19 @@ final class LinkResponseTest extends \Tests\TestCase
      */
     public function testLinkCharacter(): void
     {
+        /** @var User */
         $user = User::factory()->create();
+        /** @var Character */
         $character = Character::factory()->create([
             'owner' => $user->email,
         ]);
+        /** @var Channel */
         $channel = Channel::factory()->create([
             'system' => $character->system,
             'type' => Channel::TYPE_SLACK,
         ]);
         $channel->user = \Str::random(10);
+        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,

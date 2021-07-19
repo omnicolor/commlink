@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models\CyberpunkRed;
 
+use Error;
+use RuntimeException;
+
 abstract class Role
 {
     /**
@@ -37,8 +40,8 @@ abstract class Role
         );
         try {
             return new $class($role);
-        } catch (\Error) {
-            throw new \RuntimeException(\sprintf(
+        } catch (Error) {
+            throw new RuntimeException(\sprintf(
                 'Role "%s" is invalid',
                 $role['role']
             ));

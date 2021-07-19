@@ -45,6 +45,7 @@ final class NumberTest extends \Tests\TestCase
      */
     public function testRollNoLimitNoDescription(): void
     {
+        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         $this->randomInt->expects(self::any())->willReturn(random_int(1, 6));
         $response = new Number('5', 'user');
@@ -61,6 +62,7 @@ final class NumberTest extends \Tests\TestCase
     {
         $this->randomInt->expects(self::any())->willReturn(random_int(1, 6));
         $response = new Number('15 5', 'username');
+        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         $response = (string)$response->forSlack($channel);
         self::assertStringContainsString(', limit: 5', $response);
@@ -75,6 +77,7 @@ final class NumberTest extends \Tests\TestCase
     {
         $this->randomInt->expects(self::any())->willReturn(random_int(1, 6));
         $response = new Number('5 description', 'username');
+        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         $response = (string)$response->forSlack($channel);
         self::assertStringNotContainsString('limit', $response);
@@ -89,6 +92,7 @@ final class NumberTest extends \Tests\TestCase
     {
         $this->randomInt->expects(self::any())->willReturn(random_int(1, 6));
         $response = new Number('20 10 description', 'username');
+        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         $response = (string)$response->forSlack($channel);
         self::assertStringContainsString('limit: 10', $response);
@@ -105,6 +109,7 @@ final class NumberTest extends \Tests\TestCase
         self::expectExceptionMessage('You can\'t roll more than 100 dice');
         $this->randomInt->expects(self::never());
         $response = new Number('101', 'username');
+        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         $response->forSlack($channel);
     }
@@ -117,6 +122,7 @@ final class NumberTest extends \Tests\TestCase
     {
         $this->randomInt->expects(self::exactly(3))->willReturn(1);
         $response = new Number('3', 'username');
+        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         $response = (string)$response->forSlack($channel);
         self::assertStringContainsString(
@@ -133,6 +139,7 @@ final class NumberTest extends \Tests\TestCase
     {
         $this->randomInt->expects(self::exactly(3))->willReturn(6);
         $response = new Number('3', 'username');
+        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         $response = (string)$response->forSlack($channel);
         self::assertStringContainsString('*6* *6* *6*', $response);
@@ -146,6 +153,7 @@ final class NumberTest extends \Tests\TestCase
     {
         $this->randomInt->expects(self::exactly(6))->willReturn(5);
         $response = new Number('6 3 shooting', 'username');
+        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         $response = (string)$response->forSlack($channel);
         self::assertStringContainsString(

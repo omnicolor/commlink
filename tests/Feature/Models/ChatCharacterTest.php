@@ -24,8 +24,11 @@ final class ChatCharacterTest extends \Tests\TestCase
      */
     public function testRelationships(): void
     {
+        /** @var Channel */
         $channel = Channel::factory()->create();
+        /** @var Character */
         $character = Character::factory()->create();
+        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create();
 
         $chatCharacter = new ChatCharacter([

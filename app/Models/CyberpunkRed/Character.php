@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\CyberpunkRed;
 
 use Illuminate\Database\Eloquent\Builder;
+use RuntimeException;
 
 /**
  * Representation of a Cyberpunk Red character sheet.
@@ -144,7 +145,7 @@ class Character extends \App\Models\Character
         foreach ($this->roles ?? [] as $role) {
             try {
                 $roles[] = Role::fromArray($role);
-            } catch (\RuntimeException) {
+            } catch (RuntimeException) {
                 \Log::warning(\sprintf(
                     'Cyberpunk character "%s" (%s) has invalid role "%s"',
                     $this->handle,
@@ -175,7 +176,7 @@ class Character extends \App\Models\Character
         foreach ($this->skills ?? [] as $skill => $level) {
             try {
                 $skills[] = new Skill($skill, $level);
-            } catch (\RuntimeException $ex) {
+            } catch (RuntimeException $ex) {
                 \Log::warning(\sprintf(
                     'Cyberpunk character "%s" (%s) has invalid skill "%s"',
                     $this->handle,
@@ -235,7 +236,7 @@ class Character extends \App\Models\Character
             && Weapon::TYPE_MELEE !== $type
             && Weapon::TYPE_RANGED !== $type
         ) {
-            throw new \RuntimeException('Invalid Weapon Type');
+            throw new RuntimeException('Invalid Weapon Type');
         }
 
         $weapons = new WeaponArray();
@@ -254,7 +255,7 @@ class Character extends \App\Models\Character
                     $weapons[] = $weapon;
                     continue;
                 }
-            } catch (\RuntimeException $ex) {
+            } catch (RuntimeException $ex) {
                 \Log::warning(sprintf(
                     'Cyberpunk Red character %s (%s) has invalid weapon ID "%s"',
                     $this->name,

@@ -39,6 +39,7 @@ final class GenericTest extends \Tests\TestCase
      */
     public function testSimple(): void
     {
+        /** @var Channel */
         $channel = Channel::factory()->make();
         $this->randomInt->expects(self::exactly(3))->willReturn(2);
         $response = new Generic('3d6', 'username');
@@ -56,6 +57,7 @@ final class GenericTest extends \Tests\TestCase
      */
     public function testWithDescription(): void
     {
+        /** @var Channel */
         $channel = Channel::factory()->make();
         $this->randomInt->expects(self::exactly(4))->willReturn(3);
         $roll = new Generic('4d6 testing', 'user');
@@ -86,6 +88,7 @@ final class GenericTest extends \Tests\TestCase
      */
     public function testWithCalculation(): void
     {
+        /** @var Channel */
         $channel = Channel::factory()->make();
         $this->randomInt->expects(self::exactly(2))->willReturn(10);
         $roll = new Generic('4+2d10-1*10 foo', 'Bob');

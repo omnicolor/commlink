@@ -37,6 +37,7 @@ final class ValidateUserResponseTest extends \Tests\TestCase
      */
     public function testNoHash(): void
     {
+        /** @var Channel */
         $channel = Channel::factory()->make();
         $channel->user = \Str::random(10);
         self::expectException(SlackException::class);
@@ -64,12 +65,15 @@ final class ValidateUserResponseTest extends \Tests\TestCase
      */
     public function testInvalidHash(): void
     {
+        /** @var User */
         $user = User::factory()->create();
 
+        /** @var Channel */
         $channel = Channel::factory()->make();
         $channel->user = \Str::random(10);
 
         // User that doesn't match the hash.
+        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'server_id' => $channel->server_id,
             'server_type' => ChatUser::TYPE_SLACK,
@@ -104,9 +108,12 @@ final class ValidateUserResponseTest extends \Tests\TestCase
      */
     public function testValidateAgain(): void
     {
+        /** @var User */
         $user = User::factory()->create();
+        /** @var Channel */
         $channel = Channel::factory()->make();
         $channel->user = \Str::random(10);
+        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'server_id' => $channel->server_id,
             'server_type' => ChatUser::TYPE_SLACK,
@@ -130,9 +137,12 @@ final class ValidateUserResponseTest extends \Tests\TestCase
      */
     public function testValidateUnregistered(): void
     {
+        /** @var User */
         $user = User::factory()->create();
+        /** @var Channel */
         $channel = Channel::factory()->make();
         $channel->user = \Str::random(10);
+        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'server_id' => $channel->server_id,
             'server_type' => ChatUser::TYPE_SLACK,
@@ -162,9 +172,12 @@ final class ValidateUserResponseTest extends \Tests\TestCase
      */
     public function testValidateRegistered(): void
     {
+        /** @var User */
         $user = User::factory()->create();
+        /** @var Channel */
         $channel = Channel::factory()->create();
         $channel->user = \Str::random(10);
+        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'server_id' => $channel->server_id,
             'server_type' => ChatUser::TYPE_SLACK,

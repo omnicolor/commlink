@@ -10,6 +10,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class representing a gaming campaign or one-shot.
+ * @property string $description
+ * @property int $id
+ * @property string $name
+ * @property array<string, mixed> $options
+ * @property string $system
  */
 class Campaign extends Model
 {

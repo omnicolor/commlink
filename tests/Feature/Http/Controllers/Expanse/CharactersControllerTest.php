@@ -6,6 +6,8 @@ namespace Tests\Feature\Http\Controllers\Expanse;
 
 use App\Models\Expanse\Character;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Response;
 
 /**
@@ -22,7 +24,7 @@ final class CharactersControllerTest extends \Tests\TestCase
 {
     /**
      * Characters we're testing on.
-     * @var array<int, Character>
+     * @var array<int, Character|Collection|Model>
      */
     protected array $characters = [];
 
@@ -32,6 +34,7 @@ final class CharactersControllerTest extends \Tests\TestCase
     public function tearDown(): void
     {
         foreach ($this->characters as $key => $character) {
+            // @phpstan-ignore-next-line
             $character->delete();
             unset($this->characters[$key]);
         }
@@ -55,6 +58,7 @@ final class CharactersControllerTest extends \Tests\TestCase
      */
     public function testAuthenticatedNoCharacters(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('expanse.characters.index'))
@@ -69,6 +73,7 @@ final class CharactersControllerTest extends \Tests\TestCase
      */
     public function testAuthenticatedNoCharactersFromSystem(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $character = $this->characters[] = Character::factory()->create([
             'owner' => $user->email,
@@ -78,6 +83,7 @@ final class CharactersControllerTest extends \Tests\TestCase
             ->getJson(route('expanse.characters.index'))
             ->assertOk()
             ->assertJson(['data' => []]);
+        // @phpstan-ignore-next-line
         $character->delete();
     }
 
@@ -88,11 +94,13 @@ final class CharactersControllerTest extends \Tests\TestCase
      */
     public function testAuthenticatedWithCharacters(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $this->characters[] = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun6e',
         ]);
+        /** @var Character */
         $character = $this->characters[] = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'expanse',
@@ -105,8 +113,8 @@ final class CharactersControllerTest extends \Tests\TestCase
                 'name' => $character->name,
                 'owner' => $user->email,
                 'system' => 'expanse',
-                'updated_at' => $character->updated_at->toJson(),
-                'created_at' => $character->created_at->toJson(),
+                'updated_at' => $character->updated_at,
+                'created_at' => $character->created_at,
             ]);
     }
 
@@ -116,7 +124,9 @@ final class CharactersControllerTest extends \Tests\TestCase
      */
     public function testShowCharacter(): void
     {
+        /** @var User */
         $user = User::factory()->create();
+        /** @var Character */
         $character = $this->characters[] = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'expanse',
@@ -129,8 +139,8 @@ final class CharactersControllerTest extends \Tests\TestCase
                 'name' => $character->name,
                 'owner' => $user->email,
                 'system' => 'expanse',
-                'updated_at' => $character->updated_at->toJson(),
-                'created_at' => $character->created_at->toJson(),
+                'updated_at' => $character->updated_at,
+                'created_at' => $character->created_at,
             ]);
     }
 
@@ -140,7 +150,9 @@ final class CharactersControllerTest extends \Tests\TestCase
      */
     public function testShowCharacterOtherSystem(): void
     {
+        /** @var User */
         $user = User::factory()->create();
+        /** @var Character */
         $character = $this->characters[] = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun6e',
@@ -156,7 +168,9 @@ final class CharactersControllerTest extends \Tests\TestCase
      */
     public function testViewCharacter(): void
     {
+        /** @var User */
         $user = User::factory()->create();
+        /** @var Character */
         $character = $this->characters[] = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'expanse',

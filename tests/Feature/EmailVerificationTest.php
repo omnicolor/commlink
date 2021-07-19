@@ -21,22 +21,20 @@ class EmailVerificationTest extends TestCase
 
     public function testEmailVerificationScreenCanBeRendered(): void
     {
-        $user = User::factory()->create([
-            'email_verified_at' => null,
-        ]);
+        /** @var User */
+        $user = User::factory()->create(['email_verified_at' => null]);
 
-        $response = $this->actingAs($user)->get('/verify-email');
-
-        $response->assertStatus(200);
+        $this->actingAs($user)
+            ->get('/verify-email')
+            ->assertOk();
     }
 
     public function testEmailCanBeVerified(): void
     {
         Event::fake();
 
-        $user = User::factory()->create([
-            'email_verified_at' => null,
-        ]);
+        /** @var User */
+        $user = User::factory()->create(['email_verified_at' => null]);
 
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
@@ -47,15 +45,15 @@ class EmailVerificationTest extends TestCase
         $response = $this->actingAs($user)->get($verificationUrl);
 
         Event::assertDispatched(Verified::class);
+        // @phpstan-ignore-next-line
         self::assertTrue($user->fresh()->hasVerifiedEmail());
         $response->assertRedirect(RouteServiceProvider::HOME . '?verified=1');
     }
 
     public function testEmailIsNotVerifiedWithInvalidHash(): void
     {
-        $user = User::factory()->create([
-            'email_verified_at' => null,
-        ]);
+        /** @var User */
+        $user = User::factory()->create(['email_verified_at' => null]);
 
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
@@ -65,6 +63,7 @@ class EmailVerificationTest extends TestCase
 
         $this->actingAs($user)->get($verificationUrl);
 
+        // @phpstan-ignore-next-line
         self::assertFalse($user->fresh()->hasVerifiedEmail());
     }
 }

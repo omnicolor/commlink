@@ -23,6 +23,7 @@ final class AdeptPowerControllerTest extends \Tests\TestCase
     public function testIndexBrokenConfig(): void
     {
         \Config::set('app.data_path.shadowrun5e', '/tmp/unused/');
+        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.adept-powers.index'))
@@ -45,6 +46,7 @@ final class AdeptPowerControllerTest extends \Tests\TestCase
      */
     public function testAuthIndex(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $response = $this->actingAs($user)
             ->getJson(route('shadowrun5e.adept-powers.index'))
@@ -86,6 +88,7 @@ final class AdeptPowerControllerTest extends \Tests\TestCase
      */
     public function testAuthShow(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route(
@@ -110,6 +113,7 @@ final class AdeptPowerControllerTest extends \Tests\TestCase
      */
     public function testAuthShowNotFound(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.adept-powers.show', 'not-found'))

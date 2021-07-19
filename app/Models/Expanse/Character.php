@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Expanse;
 
 use Illuminate\Database\Eloquent\Builder;
+use RuntimeException;
 
 /**
  * Representation of an Expanse character.
@@ -111,7 +112,7 @@ class Character extends \App\Models\Character
     /**
      * Return the character's background.
      * @return Background
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function getBackgroundAttribute(): Background
     {
@@ -132,7 +133,7 @@ class Character extends \App\Models\Character
                         $focus['id'],
                         $focus['level'] ?? 1
                     );
-                } catch (\RuntimeException) {
+                } catch (RuntimeException) {
                     \Log::warning(\sprintf(
                         'Expanse character "%s" (%s) has invalid focus "%s"',
                         $this->name,
@@ -158,7 +159,7 @@ class Character extends \App\Models\Character
     /**
      * Return the character's social class.
      * @return SocialClass
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function getSocialClassAttribute(): SocialClass
     {
@@ -178,7 +179,7 @@ class Character extends \App\Models\Character
                     (string)$talent['name'],
                     (int)($talent['level'] ?? Talent::NOVICE)
                 );
-            } catch (\RuntimeException $ex) {
+            } catch (RuntimeException $ex) {
                 \Log::warning(\sprintf(
                     'Expanse character "%s" (%s) has invalid talent "%s"',
                     $this->name,

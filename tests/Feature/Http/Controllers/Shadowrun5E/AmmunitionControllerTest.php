@@ -23,6 +23,7 @@ final class AmmunitionControllerTest extends \Tests\TestCase
     public function testIndexBrokenConfig(): void
     {
         \Config::set('app.data_path.shadowrun5e', '/tmp/unused/');
+        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.ammunition.index'))
@@ -45,6 +46,7 @@ final class AmmunitionControllerTest extends \Tests\TestCase
      */
     public function testAuthIndex(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $response = $this->actingAs($user)
             ->getJson(route('shadowrun5e.ammunition.index'))
@@ -83,6 +85,7 @@ final class AmmunitionControllerTest extends \Tests\TestCase
      */
     public function testAuthShow(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.ammunition.show', 'apds'))
@@ -104,6 +107,7 @@ final class AmmunitionControllerTest extends \Tests\TestCase
      */
     public function testAuthShowNotFound(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.ammunition.show', 'not-found'))

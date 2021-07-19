@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Events\RollEvent;
+use App\Exceptions\SlackException;
 use App\Http\Requests\SlackRequest;
 use App\Http\Responses\SlackResponse;
 use App\Models\Channel;
 use App\Rolls\Generic;
+use Error;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Response;
 
 /**
@@ -61,7 +64,7 @@ class SlackController extends Controller
                 $roll = new $class($this->text, $channel->username);
                 RollEvent::dispatch($roll, $channel);
                 return $roll->forSlack($channel);
-            } catch (\Error $ex) {
+            } catch (Error) {
                 // Ignore errors here, they might want a generic command.
             }
         }
@@ -74,7 +77,7 @@ class SlackController extends Controller
                 \ucfirst($this->args[0])
             );
             return new $class($this->text, 200, [], $channel);
-        } catch (\Error $ex) {
+        } catch (Error) {
             // Again, ignore errors, they might want a generic command.
         }
 
@@ -86,7 +89,7 @@ class SlackController extends Controller
                 \ucfirst($this->args[0])
             );
             return new $class($this->text, 200, [], $channel);
-        } catch (\Error $ex) {
+        } catch (Error) {
             // Again, ignore errors, they might want a generic command.
         }
 
@@ -110,8 +113,8 @@ class SlackController extends Controller
                 [],
                 $channel
             );
-        } catch (\Error) {
-            throw new \App\Exceptions\SlackException(
+        } catch (Error) {
+            throw new SlackException(
                 'That doesn\'t appear to be a valid Commlink command.'
                 . \PHP_EOL . \PHP_EOL . 'Type `/roll help` for more help.'
             );
@@ -131,7 +134,7 @@ class SlackController extends Controller
                 ->where('channel_id', $channel)
                 ->where('server_id', $team)
                 ->firstOrFail();
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException) {
+        } catch (ModelNotFoundException) {
             return new Channel([
                 'channel_id' => $channel,
                 'server_id' => $team,

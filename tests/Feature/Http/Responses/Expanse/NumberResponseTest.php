@@ -73,12 +73,14 @@ final class NumberResponseTest extends \Tests\TestCase
      */
     public function testRollNoDescription(): void
     {
+        // @phpstan-ignore-next-line
         $this->channel = Channel::factory()->create();
         $this->randomInt->expects(self::any())->willReturn(random_int(1, 6));
         $response = new NumberResponse(
             '5',
             NumberResponse::HTTP_OK,
             [],
+            // @phpstan-ignore-next-line
             $this->channel
         );
         self::assertStringNotContainsString('for \\"', (string)$response);
@@ -90,12 +92,14 @@ final class NumberResponseTest extends \Tests\TestCase
      */
     public function testRollWithDescription(): void
     {
+        // @phpstan-ignore-next-line
         $this->channel = Channel::factory()->create();
         $this->randomInt->expects(self::any())->willReturn(random_int(1, 6));
         $response = new NumberResponse(
             '5 description',
             NumberResponse::HTTP_OK,
             [],
+            // @phpstan-ignore-next-line
             $this->channel
         );
         self::assertStringContainsString(
@@ -110,12 +114,14 @@ final class NumberResponseTest extends \Tests\TestCase
      */
     public function testStuntPoints(): void
     {
+        // @phpstan-ignore-next-line
         $this->channel = Channel::factory()->create();
         $this->randomInt->expects(self::any())->willReturn(3);
         $response = new NumberResponse(
             '5',
             NumberResponse::HTTP_OK,
             [],
+            // @phpstan-ignore-next-line
             $this->channel
         );
         self::assertStringContainsString('14 (3 SP)', (string)$response);
@@ -127,6 +133,7 @@ final class NumberResponseTest extends \Tests\TestCase
      */
     public function testNoStuntPoints(): void
     {
+        // @phpstan-ignore-next-line
         $this->channel = Channel::factory()->create();
         $this->randomInt->expects(self::any())
             ->willReturn(self::onConsecutiveCalls(2, 3, 5));
@@ -134,6 +141,7 @@ final class NumberResponseTest extends \Tests\TestCase
             '5',
             NumberResponse::HTTP_OK,
             [],
+            // @phpstan-ignore-next-line
             $this->channel
         );
         self::assertStringNotContainsString('SP)', (string)$response);
@@ -145,12 +153,14 @@ final class NumberResponseTest extends \Tests\TestCase
      */
     public function testFooter(): void
     {
+        // @phpstan-ignore-next-line
         $this->channel = Channel::factory()->create();
         $this->randomInt->expects(self::exactly(3))->willReturn(6);
         $response = new NumberResponse(
             '3',
             NumberResponse::HTTP_OK,
             [],
+            // @phpstan-ignore-next-line
             $this->channel
         );
         self::assertStringContainsString('6 6 `6`', (string)$response);

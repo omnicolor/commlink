@@ -7,6 +7,8 @@ namespace Tests\Feature\Http\Controllers;
 use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
@@ -20,7 +22,7 @@ final class DashboardControllerTest extends \Tests\TestCase
 
     /**
      * Characters we're testing on.
-     * @var array<int, Character>
+     * @var array<int, Character|Collection|Model>
      */
     protected array $characters = [];
 
@@ -30,6 +32,7 @@ final class DashboardControllerTest extends \Tests\TestCase
     public function tearDown(): void
     {
         foreach ($this->characters as $key => $character) {
+            // @phpstan-ignore-next-line
             $character->delete();
             unset($this->characters[$key]);
         }
@@ -51,6 +54,7 @@ final class DashboardControllerTest extends \Tests\TestCase
      */
     public function testAuthenticatedNoCharactersNoCampaigns(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->get('/dashboard')
@@ -65,18 +69,21 @@ final class DashboardControllerTest extends \Tests\TestCase
      */
     public function testAuthenticatedWithCharacters(): void
     {
+        /** @var User */
         $user = User::factory()->create();
+        /** @var Character */
         $character1 = $this->characters[] = Character::factory()
             ->create(['owner' => $user->email]);
+        /** @var Character */
         $character2 = $this->characters[] = Character::factory()
             ->create(['owner' => $user->email]);
         $this->actingAs($user)
             ->get('/dashboard')
             ->assertSee($user->email)
             ->assertSee($character1->handle)
-            ->assertSee($character1->system)
+            ->assertSee(config('app.systems')[$character1->system])
             ->assertSee($character2->handle)
-            ->assertSee($character2->system);
+            ->assertSee(config('app.systems')[$character2->system]);
     }
 
     /**
@@ -85,10 +92,10 @@ final class DashboardControllerTest extends \Tests\TestCase
      */
     public function testWithRegisteredCampaigns(): void
     {
+        /** @var User */
         $user = User::factory()->create();
-        $campaign = Campaign::factory()->create([
-            'registered_by' => $user->id,
-        ]);
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['registered_by' => $user]);
         $this->actingAs($user)
             ->get('/dashboard')
             ->assertSee($campaign->name)
@@ -102,8 +109,10 @@ final class DashboardControllerTest extends \Tests\TestCase
      */
     public function testWithGamemasterCampaign(): void
     {
+        /** @var User */
         $user = User::factory()->create();
-        $campaign = Campaign::factory()->create(['gm' => $user->id]);
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['gm' => $user]);
         $this->actingAs($user)
             ->get('/dashboard')
             ->assertSee($campaign->name)

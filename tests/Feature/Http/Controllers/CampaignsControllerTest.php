@@ -34,6 +34,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
      */
     public function testLoadForm(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->get('/campaigns/create')
@@ -63,6 +64,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
             );
         } while ('shadowrun5e' === $system);
 
+        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->postJson(
@@ -101,6 +103,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
         // @phpstan-ignore-next-line
         $description = $this->faker->bs();
 
+        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->postJson(
@@ -136,7 +139,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
                 'gm' => null,
                 'name' => $name,
                 'options' => $expectedOptions,
-                'registered_by' => (int)$user->id,
+                'registered_by' => $user->id,
                 'system' => 'shadowrun5e',
             ]
         );

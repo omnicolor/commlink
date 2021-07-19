@@ -26,6 +26,7 @@ final class TalentsControllerTest extends \Tests\TestCase
     public function testIndexBrokenConfig(): void
     {
         \Config::set('app.data_path.expanse', '/tmp/unused/');
+        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('expanse.talents.index'))
@@ -48,6 +49,7 @@ final class TalentsControllerTest extends \Tests\TestCase
      */
     public function testAuthIndex(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $response = $this->actingAs($user)
             ->getJson(route('expanse.talents.index'))
@@ -86,6 +88,7 @@ final class TalentsControllerTest extends \Tests\TestCase
      */
     public function testAuthShow(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('expanse.talents.show', 'fringer'))
@@ -105,6 +108,7 @@ final class TalentsControllerTest extends \Tests\TestCase
      */
     public function testAuthShowNotFound(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('expanse.talents.show', 'not-found'))

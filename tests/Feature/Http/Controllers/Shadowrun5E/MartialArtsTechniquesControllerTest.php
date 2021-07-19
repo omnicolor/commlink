@@ -23,6 +23,7 @@ final class MartialArtsTechniquesControllerTest extends \Tests\TestCase
     public function testIndexBrokenConfig(): void
     {
         \Config::set('app.data_path.shadowrun5e', '/tmp/unused/');
+        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.martial-arts-techniques.index'))
@@ -45,6 +46,7 @@ final class MartialArtsTechniquesControllerTest extends \Tests\TestCase
      */
     public function testIndex(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $response = $this->actingAs($user)
             ->getJson(route('shadowrun5e.martial-arts-techniques.index'))
@@ -76,6 +78,7 @@ final class MartialArtsTechniquesControllerTest extends \Tests\TestCase
      */
     public function testNotFound(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(
@@ -90,6 +93,7 @@ final class MartialArtsTechniquesControllerTest extends \Tests\TestCase
      */
     public function testShow(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route(

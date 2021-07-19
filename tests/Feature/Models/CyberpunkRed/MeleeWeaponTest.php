@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\CyberpunkRed;
 
 use App\Models\CyberpunkRed\MeleeWeapon;
 use App\Models\CyberpunkRed\Weapon;
+use RuntimeException;
 
 /**
  * Unit tests for MeleeWeapon class.
@@ -25,7 +26,7 @@ final class MeleeWeaponTest extends \Tests\TestCase
         Weapon::$meleeWeapons = null;
         try {
             Weapon::build([]);
-        } catch (\RuntimeException) {
+        } catch (RuntimeException) {
             // Ignore.
         }
         self::assertNotEmpty(Weapon::$meleeWeapons);
@@ -38,7 +39,7 @@ final class MeleeWeaponTest extends \Tests\TestCase
      */
     public function testLoadNoId(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage(
             'ID must be included when instantiating a weapon'
         );
@@ -51,7 +52,7 @@ final class MeleeWeaponTest extends \Tests\TestCase
      */
     public function testLoadInvalid(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Weapon ID "invalid" is invalid');
         MeleeWeapon::build(['id' => 'invalid']);
     }
@@ -96,7 +97,7 @@ final class MeleeWeaponTest extends \Tests\TestCase
      */
     public function testLoadWithInvalidQuality(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage(
             'Weapon ID "medium-melee" has invalid quality "super"'
         );

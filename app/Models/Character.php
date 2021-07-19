@@ -9,10 +9,12 @@ use Jenssegers\Mongodb\Eloquent\Model;
 
 /**
  * Generic model representing a role playing character.
+ * @property string $created_at
  * @property string $handle
  * @property string $name
  * @property string $owner
  * @property string $system
+ * @property string $updated_at
  */
 class Character extends Model
 {

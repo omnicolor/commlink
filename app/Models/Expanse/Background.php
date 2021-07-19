@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Expanse;
 
+use RuntimeException;
+
 /**
  * Class for Expanse backgrounds.
  */
@@ -66,7 +68,7 @@ class Background
     /**
      * Constructor.
      * @param string $id
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function __construct(string $id)
     {
@@ -75,7 +77,7 @@ class Background
 
         $id = \strtolower($id);
         if (!isset(self::$backgrounds[$id])) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 \sprintf('Background ID "%s" is invalid', $id)
             );
         }
@@ -110,7 +112,7 @@ class Background
         foreach ($this->focuses as $focus) {
             try {
                 $focuses[] = new Focus($focus);
-            } catch (\RuntimeException) {
+            } catch (RuntimeException) {
                 // Ignore.
             }
         }
@@ -127,7 +129,7 @@ class Background
         foreach ($this->talents as $talent) {
             try {
                 $talents[] = new Talent($talent);
-            } catch (\RuntimeException) {
+            } catch (RuntimeException) {
                 // Ignore.
             }
         }

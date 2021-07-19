@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5E;
 
 use Illuminate\Database\Eloquent\Builder;
+use RuntimeException;
 
 /**
  * Representation of a Shadowrun 5E character.
@@ -155,7 +156,7 @@ class Character extends \App\Models\Character
         foreach ($this->magics['powers'] as $power) {
             try {
                 $powers[] = new AdeptPower($power);
-            } catch (\RuntimeException) {
+            } catch (RuntimeException) {
                 \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid adept power "%s"',
                     $this->handle,
@@ -180,7 +181,7 @@ class Character extends \App\Models\Character
         foreach ($this->armor as $rawArmor) {
             try {
                 $armor[] = Armor::build($rawArmor);
-            } catch (\RuntimeException) {
+            } catch (RuntimeException) {
                 \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid armor "%s"',
                     $this->handle,
@@ -220,7 +221,7 @@ class Character extends \App\Models\Character
         foreach ($this->augmentations as $augmentation) {
             try {
                 $augmentations[] = Augmentation::build($augmentation);
-            } catch (\RuntimeException) {
+            } catch (RuntimeException) {
                 \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid augmentation "%s"',
                     $this->handle,
@@ -255,7 +256,7 @@ class Character extends \App\Models\Character
         foreach ($this->complexForms ?? [] as $form) {
             try {
                 $forms[] = new ComplexForm($form);
-            } catch (\RuntimeException) {
+            } catch (RuntimeException) {
                 \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid complex form "%s"',
                     $this->handle,
@@ -300,7 +301,7 @@ class Character extends \App\Models\Character
         foreach ($this->gear ?? [] as $item) {
             try {
                 $gear[] = Gear::build($item);
-            } catch (\RuntimeException) {
+            } catch (RuntimeException) {
                 \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid item "%s"',
                     $this->handle,
@@ -368,7 +369,7 @@ class Character extends \App\Models\Character
                     // @phpstan-ignore-next-line
                     $skill['specialization'] ?? null
                 );
-            } catch (\RuntimeException) {
+            } catch (RuntimeException) {
                 \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid skill category "%s"',
                     $this->handle,
@@ -403,7 +404,7 @@ class Character extends \App\Models\Character
         foreach ($this->martialArts['styles'] as $style) {
             try {
                 $styles[] = new MartialArtsStyle($style);
-            } catch (\RuntimeException) {
+            } catch (RuntimeException) {
                 \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid martial arts style "%s"',
                     $this->handle,
@@ -428,7 +429,7 @@ class Character extends \App\Models\Character
         foreach ($this->martialArts['techniques'] as $technique) {
             try {
                 $techniques[] = new MartialArtsTechnique($technique);
-            } catch (\RuntimeException) {
+            } catch (RuntimeException) {
                 \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid martial arts technique "%s"',
                     $this->handle,
@@ -479,7 +480,7 @@ class Character extends \App\Models\Character
         }
         try {
             return new MentorSpirit($this->magics['mentorSpirit']);
-        } catch (\RuntimeException) {
+        } catch (RuntimeException) {
             \Log::warning(\sprintf(
                 'Shadowrun5E character "%s" (%s) has invalid mentor spirit "%s"',
                 $this->handle,
@@ -585,7 +586,7 @@ class Character extends \App\Models\Character
         foreach ($this->qualities as $quality) {
             try {
                 $qualities[] = new Quality($quality['id'], $quality);
-            } catch (\RuntimeException $ex) {
+            } catch (RuntimeException) {
                 \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid quality "%s"',
                     $this->handle,
@@ -667,7 +668,7 @@ class Character extends \App\Models\Character
                     $skill['level'],
                     $skill['specialization'] ?? null
                 );
-            } catch (\RuntimeException) {
+            } catch (RuntimeException) {
                 \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid skill "%s"',
                     $this->handle,
@@ -689,7 +690,7 @@ class Character extends \App\Models\Character
         foreach ($this->skillGroups ?? [] as $group => $level) {
             try {
                 $groups[] = new SkillGroup($group, (int)$level);
-            } catch (\RuntimeException) {
+            } catch (RuntimeException) {
                 \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid skill group "%s"',
                     $this->handle,
@@ -729,7 +730,7 @@ class Character extends \App\Models\Character
         foreach ($this->magics['spells'] as $spell) {
             try {
                 $spells[] = new Spell($spell);
-            } catch (\RuntimeException) {
+            } catch (RuntimeException) {
                 \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid spell "%s"',
                     $this->handle,
@@ -757,7 +758,7 @@ class Character extends \App\Models\Character
                     $spirit['id'],
                     $spirit['force'] ?? null
                 );
-            } catch (\RuntimeException) {
+            } catch (RuntimeException) {
                 \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid spirit "%s"',
                     $this->handle,
@@ -782,7 +783,7 @@ class Character extends \App\Models\Character
         foreach ($this->technomancer['sprites'] as $sprite) {
             try {
                 $sprites[] = new Sprite($sprite);
-            } catch (\RuntimeException) {
+            } catch (RuntimeException) {
                 \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid sprite "%s"',
                     $this->handle,
@@ -805,7 +806,7 @@ class Character extends \App\Models\Character
         }
         try {
             return new Tradition($this->magics['tradition']);
-        } catch (\RuntimeException) {
+        } catch (RuntimeException) {
             \Log::warning(\sprintf(
                 'Shadowrun5E character "%s" (%s) has invalid tradition "%s"',
                 $this->handle,
@@ -826,7 +827,7 @@ class Character extends \App\Models\Character
         foreach ($this->vehicles ?? [] as $vehicle) {
             try {
                 $vehicles[] = new Vehicle($vehicle);
-            } catch (\RuntimeException) {
+            } catch (RuntimeException) {
                 \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid vehicle "%s"',
                     $this->handle,
@@ -848,7 +849,7 @@ class Character extends \App\Models\Character
         foreach ($this->weapons ?? [] as $weapon) {
             try {
                 $weapons[] = Weapon::buildWeapon($weapon);
-            } catch (\RuntimeException) {
+            } catch (RuntimeException) {
                 \Log::warning(\sprintf(
                     'Shadowrun5E character "%s" (%s) has invalid weapon "%s"',
                     $this->handle,

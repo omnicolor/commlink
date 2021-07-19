@@ -62,6 +62,7 @@ final class HelpResponseTest extends \Tests\TestCase
      */
     public function testTitlesUnregisteredLinked(): void
     {
+        /** @var Channel */
         $channel = Channel::factory()->make();
         $channel->user = \Str::random(10);
         ChatUser::factory()->create([

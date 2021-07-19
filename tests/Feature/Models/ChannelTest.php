@@ -100,6 +100,7 @@ final class ChannelTest extends \Tests\TestCase
      */
     public function testGetServerNameSlackInstance(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $channel = new Channel([
             'channel_id' => 'C' . \Str::random(10),
@@ -189,6 +190,7 @@ final class ChannelTest extends \Tests\TestCase
         $channel = new Channel();
         self::expectException(\RuntimeException::class);
         self::expectExceptionMessage('Invalid channel type');
+        // @phpstan-ignore-next-line
         $channel->type = 'aol';
     }
 
@@ -240,6 +242,7 @@ final class ChannelTest extends \Tests\TestCase
      */
     public function testCharacterNone(): void
     {
+        /** @var Channel */
         $channel = Channel::factory()->make();
         self::assertNull($channel->character());
     }

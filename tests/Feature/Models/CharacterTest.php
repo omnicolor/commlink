@@ -53,6 +53,7 @@ final class CharacterTest extends \Tests\TestCase
     public function testNoUser(): void
     {
         $character = new Character([
+            // @phpstan-ignore-next-line
             'owner' => self::$faker->unique()->safeEmail,
         ]);
         self::expectException(
@@ -67,6 +68,7 @@ final class CharacterTest extends \Tests\TestCase
      */
     public function testGetUser(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $character = new Character(['owner' => $user->email]);
         self::assertInstanceOf(User::class, $character->user());
@@ -78,8 +80,10 @@ final class CharacterTest extends \Tests\TestCase
      */
     public function testBuildDefault(): void
     {
+        // @phpstan-ignore-next-line
         $this->character = Character::factory()
             ->create(['system' => 'unknown']);
+        // @phpstan-ignore-next-line
         $character = Character::where('_id', $this->character->id)
             ->firstOrFail();
         self::assertSame('unknown', $character->system);
@@ -97,8 +101,10 @@ final class CharacterTest extends \Tests\TestCase
      */
     public function testBuildSubclass(): void
     {
+        // @phpstan-ignore-next-line
         $this->character = Character::factory()
             ->create(['system' => 'shadowrun5e']);
+        // @phpstan-ignore-next-line
         $character = Character::where('_id', $this->character->id)
             ->firstOrFail();
         self::assertSame('shadowrun5e', $character->system);

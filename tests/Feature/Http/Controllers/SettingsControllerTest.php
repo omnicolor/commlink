@@ -33,7 +33,9 @@ final class SettingsControllerTest extends \Tests\TestCase
      */
     public function testNoLinkedUsers(): void
     {
-        $this->actingAs(User::factory()->create())
+        /** @var User */
+        $user = User::factory()->create();
+        $this->actingAs($user)
             ->get('/settings')
             ->assertOk()
             ->assertSee('You don\'t have any linked chat users!', false);
@@ -45,6 +47,7 @@ final class SettingsControllerTest extends \Tests\TestCase
      */
     public function testWithLinkedUser(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $serverId = 'T' . \Str::random(10);
         $remoteUserId = 'U' . \Str::random(10);
@@ -69,7 +72,9 @@ final class SettingsControllerTest extends \Tests\TestCase
      */
     public function testLinkUserMissingData(): void
     {
-        $this->actingAs(User::factory()->create())
+        /** @var User */
+        $user = User::factory()->create();
+        $this->actingAs($user)
             ->post('/settings/link-user', [])
             ->assertStatus(302)
             ->assertSessionHasErrors();
@@ -94,6 +99,7 @@ final class SettingsControllerTest extends \Tests\TestCase
      */
     public function testLinkUserSlackCallsFail(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $serverId = 'T' . \Str::random(10);
         $userId = 'U' . \Str::random(10);
@@ -138,6 +144,7 @@ final class SettingsControllerTest extends \Tests\TestCase
      */
     public function testLinkDuplicateSlackUser(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $serverId = 'T' . \Str::random(10);
         $userId = 'U' . \Str::random(10);
@@ -166,7 +173,9 @@ final class SettingsControllerTest extends \Tests\TestCase
      */
     public function testLinkDiscordUser(): void
     {
-        $this->actingAs(User::factory()->create())
+        /** @var User */
+        $user = User::factory()->create();
+        $this->actingAs($user)
             ->followingRedirects()
             ->post(
                 '/settings/link-user',

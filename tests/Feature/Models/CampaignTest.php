@@ -21,13 +21,18 @@ final class CampaignTest extends \Tests\TestCase
      */
     public function testGetUsers(): void
     {
+        /** @var User */
         $gm = User::factory()->create();
+        /** @var User */
         $registerer = User::factory()->create();
+        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $gm->id,
             'registered_by' => $registerer->id,
         ]);
+        // @phpstan-ignore-next-line
         self::assertSame($gm->id, $campaign->gamemaster->id);
+        // @phpstan-ignore-next-line
         self::assertSame($registerer->id, $campaign->registeredBy->id);
     }
 
@@ -37,6 +42,7 @@ final class CampaignTest extends \Tests\TestCase
      */
     public function testNullGM(): void
     {
+        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => null]);
         self::assertNull($campaign->gamemaster);
     }

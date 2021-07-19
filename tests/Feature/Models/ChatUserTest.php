@@ -22,12 +22,14 @@ final class ChatUserTest extends \Tests\TestCase
      */
     public function testGetVerificationAttribute(): void
     {
+        /** @var ChatUser */
         $user = ChatUser::factory()->make([
             'server_id' => 'server-id',
             'remote_user_id' => 'Ud3adb33f',
             'user_id' => 13,
         ]);
         self::assertSame('7c8ab8b31389dff56531', $user->verification);
+        /** @var ChatUser */
         $user = ChatUser::factory()->make([
             'server_id' => 'server_id',
             'remote_user_id' => 'UFO',
@@ -100,6 +102,7 @@ final class ChatUserTest extends \Tests\TestCase
                 ->get()
         );
 
+        /** @var ChatUser */
         $user = ChatUser::factory()->create([
             'remote_user_name' => 'scopeUnverifiedTest',
             'verified' => false,
@@ -127,6 +130,7 @@ final class ChatUserTest extends \Tests\TestCase
                 ->get()
         );
 
+        /** @var ChatUser */
         $user = ChatUser::factory()->create([
             'remote_user_name' => 'scopeVerifiedTest',
             'verified' => true,
@@ -141,7 +145,9 @@ final class ChatUserTest extends \Tests\TestCase
 
     public function testGetChatCharacter(): void
     {
+        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create();
+        /** @var Character */
         $character = Character::factory()->create();
         $chatCharacter = ChatCharacter::factory()->create([
             'character_id' => $character->id,
@@ -150,6 +156,7 @@ final class ChatUserTest extends \Tests\TestCase
 
         self::assertSame(
             $character->id,
+            // @phpstan-ignore-next-line
             $chatUser->chatCharacter->getCharacter()->id,
         );
     }
@@ -160,8 +167,11 @@ final class ChatUserTest extends \Tests\TestCase
      */
     public function testGetUser(): void
     {
+        /** @var User */
         $user = User::factory()->create();
+        /** @var ChatUser */
         $chatUser = ChatUser::factory()->make(['user_id' => $user->id]);
+        // @phpstan-ignore-next-line
         self::assertSame($user->email, $chatUser->user->email);
     }
 }

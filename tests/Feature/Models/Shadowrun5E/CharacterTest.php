@@ -44,6 +44,7 @@ final class CharacterTest extends \Tests\TestCase
      */
     public function testHiddenId(): void
     {
+        /** @var Character */
         $character = Character::factory()->create();
         self::assertNotNull($character->_id);
         $character->delete();
@@ -55,6 +56,7 @@ final class CharacterTest extends \Tests\TestCase
      */
     public function testGetId(): void
     {
+        /** @var Character */
         $character = Character::factory()->create();
         self::assertNotNull($character->id);
         self::assertSame($character->_id, $character->id);

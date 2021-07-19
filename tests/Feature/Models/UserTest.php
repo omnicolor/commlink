@@ -54,6 +54,7 @@ final class UserTest extends \Tests\TestCase
      */
     public function testCampaignsNone(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         self::assertCount(0, $user->campaigns);
         self::assertCount(0, $user->campaignsRegistered);
@@ -65,6 +66,7 @@ final class UserTest extends \Tests\TestCase
      */
     public function testCampaigns(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         Campaign::factory()->create(['gm' => $user]);
         Campaign::factory()->create([
@@ -81,6 +83,7 @@ final class UserTest extends \Tests\TestCase
      */
     public function testGetCharactersNone(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         self::assertEmpty($user->characters()->get());
     }
@@ -91,11 +94,13 @@ final class UserTest extends \Tests\TestCase
      */
     public function testGetCharacters(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $this->characters[] = Character::factory()
             ->create(['owner' => $user->email]);
         $this->characters[] = Character::factory()
             ->create(['owner' => $user->email]);
+        // @phpstan-ignore-next-line
         self::assertSame(2, $user->characters()->count());
     }
 
@@ -105,6 +110,7 @@ final class UserTest extends \Tests\TestCase
      */
     public function testGetSystemCharacters(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $this->characters[] = Character::factory()->create([
             'owner' => $user->email,
@@ -114,6 +120,7 @@ final class UserTest extends \Tests\TestCase
             'owner' => $user->email,
             'type' => 'cyberpunk2077',
         ]);
+        // @phpstan-ignore-next-line
         self::assertSame(1, $user->characters('shadowrun5e')->count());
     }
 
@@ -123,6 +130,7 @@ final class UserTest extends \Tests\TestCase
      */
     public function testGetChatUsersNone(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         self::assertEmpty($user->chatUsers);
     }
@@ -133,7 +141,9 @@ final class UserTest extends \Tests\TestCase
      */
     public function testGetChatUsers(): void
     {
+        /** @var User */
         $user = User::factory()->create();
+        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create(['user_id' => $user->id]);
         self::assertNotEmpty($user->chatUsers);
     }

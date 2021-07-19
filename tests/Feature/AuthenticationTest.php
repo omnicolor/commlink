@@ -25,6 +25,7 @@ final class AuthenticationTest extends TestCase
 
     public function testUsersCanAuthenticateUsingTheLoginScreen(): void
     {
+        /** @var User */
         $user = User::factory()->create();
 
         $response = $this->post('/login', [
@@ -32,12 +33,13 @@ final class AuthenticationTest extends TestCase
             'password' => 'password',
         ]);
 
-        $this->assertAuthenticated();
+        self::assertAuthenticated();
         $response->assertRedirect(RouteServiceProvider::HOME);
     }
 
     public function testUsersCanNotAuthenticateWithInvalidPassword(): void
     {
+        /** @var User */
         $user = User::factory()->create();
 
         $this->post('/login', [
@@ -45,6 +47,6 @@ final class AuthenticationTest extends TestCase
             'password' => 'wrong-password',
         ]);
 
-        $this->assertGuest();
+        self::assertGuest();
     }
 }

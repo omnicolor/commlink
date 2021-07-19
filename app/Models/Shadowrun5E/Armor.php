@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5E;
 
+use Exception;
+use RuntimeException;
+
 /**
  * Armor to protect a character.
  */
@@ -90,7 +93,7 @@ class Armor
     /**
      * Construct a new armor object.
      * @param string $id ID to load.
-     * @throws \RuntimeException if the ID is invalid.
+     * @throws RuntimeException if the ID is invalid.
      */
     public function __construct(string $id)
     {
@@ -99,7 +102,7 @@ class Armor
 
         $id = \strtolower($id);
         if (!isset(self::$armor[$id])) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 \sprintf('Armor ID "%s" is invalid', $id)
             );
         }
@@ -133,7 +136,7 @@ class Armor
      * Build a new Armor object from a raw Mongo array.
      * @param array<string, mixed> $armor
      * @return Armor
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public static function build(array $armor): Armor
     {
@@ -143,16 +146,16 @@ class Armor
             try {
                 $armorItem->modifications[] = new ArmorModification($mod);
                 continue;
-            } catch (\Exception) {
+            } catch (Exception) {
                 // Ignore, could be a GearModification.
             }
             try {
                 $armorItem->modifications[] = new GearModification($mod);
                 continue;
-            } catch (\Exception) {
+            } catch (Exception) {
                 // Ignore, we'll throw a different exception in a sec.
             }
-            throw new \RuntimeException(\sprintf(
+            throw new RuntimeException(\sprintf(
                 'Armor/Gear mod not found: %s',
                 $mod
             ));
@@ -164,7 +167,7 @@ class Armor
      * Return an armor based on its name.
      * @param string $name
      * @return Armor
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public static function findByName(string $name): Armor
     {
@@ -175,7 +178,7 @@ class Armor
                 return new Armor($armor['id']);
             }
         }
-        throw new \RuntimeException(\sprintf(
+        throw new RuntimeException(\sprintf(
             'Armor name "%s" was not found',
             $name
         ));

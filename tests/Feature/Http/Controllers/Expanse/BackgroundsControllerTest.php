@@ -23,6 +23,7 @@ final class BackgroundsControllerTest extends \Tests\TestCase
     public function testIndexBrokenConfig(): void
     {
         \Config::set('app.data_path.expanse', '/tmp/unused/');
+        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('expanse.backgrounds.index'))
@@ -45,6 +46,7 @@ final class BackgroundsControllerTest extends \Tests\TestCase
      */
     public function testAuthIndex(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $response = $this->actingAs($user)
             ->getJson(route('expanse.backgrounds.index'))
@@ -83,6 +85,7 @@ final class BackgroundsControllerTest extends \Tests\TestCase
      */
     public function testAuthShow(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('expanse.backgrounds.show', 'trade'))
@@ -123,6 +126,7 @@ final class BackgroundsControllerTest extends \Tests\TestCase
      */
     public function testAuthShowNotFound(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('expanse.backgrounds.show', 'not-found'))
