@@ -12,24 +12,32 @@ use RuntimeException;
  * @property int $agility
  * @property ?array<int, array<string, mixed>> $armor
  * @property ?array<int, array<string, mixed>> $augmentations
+ * @property ?array<string, mixed> $background
  * @property int $body
  * @property int $charisma
  * @property ?array<int, string> $complexForms
  * @property ?array<int, array<string, string|int>> $contacts
+ * @property int $edge
+ * @property int $edgeCurrent
  * @property ?array<int, array<string, mixed>> $gear
+ * @property ?string $gender
  * @property string $handle
  * @property string $id
  * @property ?array<int, array<string, mixed>> $identities
  * @property int $intuition
+ * @property int $karma
+ * @property int $karmaCurrent
  * @property ?array<int, array<string, string|int>> $karmaLog
- * @property ?array<int, array<string, string|int>> $knowledgeSkills
+ * @property ?array<int, array<string, string|int|null>> $knowledgeSkills
  * @property int $logic
  * @property ?array<string, array<int, string>> $martialArts
  * @property ?array<string, ?string> $priorities
  * @property int $magic
  * @property ?array<string, mixed> $magics
+ * @property int $nuyen
  * @property ?array<int, array<string, mixed>> $qualities
  * @property int $reaction
+ * @property ?int $resonance
  * @property ?array<int, array<string, mixed>> $skills
  * @property ?array<string, ?int> $skillGroups
  * @property int $strength
@@ -48,12 +56,21 @@ class Character extends \App\Models\Character
     ];
 
     /**
-     * @var string[]
+     * The attributes that should be cast.
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'background' => 'array',
+    ];
+
+    /**
+     * @var array<int, string>
      */
     protected $fillable = [
         'agility',
         'armor',
         'augmentations',
+        'background',
         'birthdate',
         'birthplace',
         'body',
@@ -65,7 +82,7 @@ class Character extends \App\Models\Character
         'edgeCurrent',
         'eyes',
         'gear',
-        'hair',
+        'gender',
         'handle',
         'height',
         'identities',
@@ -98,7 +115,7 @@ class Character extends \App\Models\Character
     ];
 
     /**
-     * @var string[]
+     * @var array<int, string>
      */
     protected $hidden = [
         '_id',
@@ -365,6 +382,7 @@ class Character extends \App\Models\Character
                 $skills[] = new KnowledgeSkill(
                     (string)$skill['name'],
                     (string)$skill['category'],
+                    // @phpstan-ignore-next-line
                     $skill['level'],
                     // @phpstan-ignore-next-line
                     $skill['specialization'] ?? null

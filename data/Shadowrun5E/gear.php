@@ -44,6 +44,18 @@ return [
         'ruleset' => 'data-trails',
         'subname' => 'Sony Angel',
     ],
+    'commlink-renraku-sensei' => [
+        'id' => 'commlink-renraku-sensei',
+        'availability' => '6',
+        'container-type' => ['commlink'],
+        'cost' => 1000,
+        'description' => 'Commlink example.',
+        'name' => 'Commlink',
+        'programs' => 2,
+        'rating' => 3,
+        'ruleset' => 'core',
+        'subname' => 'Renraku Sensei',
+    ],
     // Example of a non-configurable cyberdeck.
     'cyberdeck-ares-echo-unlimited' => [
         'id' => 'cyberdeck-ares-echo-unlimited',
@@ -87,6 +99,27 @@ return [
         'description' => 'Credstick description.',
         'name' => 'Certified Credstick',
         'subname' => 'Gold',
+    ],
+    'credstick-silver' => [
+        'availability' => '',
+        'cost' => 20,
+        'description' => 'Credstick description.',
+        'id' => 'credstick-silver',
+        'name' => 'Certified Credstick',
+        'subname' => 'Silver',
+    ],
+    'ear-buds-1' => [
+        'availability' => '',
+        'capacity' => 1,
+        'container-type' => ['audio'],
+        'cost' => 50 * 1,
+        'description' => 'Ear buds description.',
+        'effects' => [],
+        'id' => 'ear-buds-1',
+        'name' => 'Ear Buds',
+        'rating' => 1,
+        'ruleset' => 'core',
+        'wireless-effects' => [],
     ],
     // Vision container example.
     'goggles-2' => [
