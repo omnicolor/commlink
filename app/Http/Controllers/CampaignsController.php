@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Events\CampaignCreated;
 use App\Http\Requests\CampaignCreateRequest;
 use App\Models\Campaign;
 use Illuminate\Http\RedirectResponse;
@@ -43,6 +44,7 @@ class CampaignsController extends Controller
             ];
         }
         $campaign->save();
+        CampaignCreated::dispatch($campaign);
         return redirect('dashboard');
     }
 }
