@@ -35,4 +35,17 @@ return [
         'tags' => ['mental'],
         'type' => 'M',
     ],
+    'control-pack' => [
+        'category' => 'Manipulation',
+        'description' => 'Control pack description.',
+        'drain' => 'F-1',
+        'duration' => 'S',
+        'id' => 'control-pack',
+        'name' => 'Control Pack',
+        'page' => 115,
+        'range' => 'LOS',
+        'ruleset' => 'street-grimoire',
+        'tags' => ['area', 'mental'],
+        'type' => 'M',
+    ],
 ];
