@@ -8,7 +8,6 @@ use App\Http\Resources\Dnd5e\CharacterResource;
 use App\Models\Dnd5e\Character;
 use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\View\View;
 
 /**
  * Controller for interacting with D&D 5E characters.
