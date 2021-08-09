@@ -15,7 +15,10 @@ class CharacterResource extends JsonResource
      */
     public function toArray($request): array
     {
-        $array = \array_merge(parent::toArray($request), ['id' => $this->id]);
+        $array = \array_merge(
+            (array)parent::toArray($request),
+            ['id' => $this->id]
+        );
         unset(
             $array['_id'],
             $array['abilities'],
