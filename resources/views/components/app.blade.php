@@ -21,7 +21,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Commlink</a>
+        <span class="navbar-brand">Commlink</span>
         <button aria-controls="navbarSupportedContent" aria-expanded="false"
             aria-label="Toggle navigation" class="navbar-toggler"
             data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse"
@@ -33,6 +33,9 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="/dashboard">Home</a>
                 </li>
+                @if (isset($navbar))
+                    {!! $navbar !!}
+                @endif
             </ul>
         </div>
         <div class="d-flex">
