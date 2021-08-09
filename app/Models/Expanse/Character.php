@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Expanse;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use RuntimeException;
 
 /**
@@ -37,6 +38,8 @@ use RuntimeException;
  */
 class Character extends \App\Models\Character
 {
+    use HasFactory;
+
     /**
      * @var array<string, mixed>
      */
