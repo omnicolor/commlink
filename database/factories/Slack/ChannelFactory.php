@@ -20,7 +20,7 @@ class ChannelFactory extends Factory
      * Define the model's default state.
      * @return array<int, string>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'channel' => Str::random(10),
