@@ -38,6 +38,7 @@ use RuntimeException;
  * @property int $nuyen
  * @property ?array<int, array<string, mixed>> $qualities
  * @property int $reaction
+ * @property ?string $realName
  * @property ?int $resonance
  * @property ?array<int, array<string, mixed>> $skills
  * @property ?array<string, ?int> $skillGroups
@@ -56,14 +57,6 @@ class Character extends \App\Models\Character
      */
     protected $attributes = [
         'system' => 'shadowrun5e',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'background' => 'array',
     ];
 
     /**

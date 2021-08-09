@@ -9,6 +9,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Representation of a D&D 5E character sheet.
+ * @property int $charisma
+ * @property int $constitution
+ * @property int $dexterity
+ * @property int $intelligence
+ * @property string $owner
+ * @property int $strength
+ * @property string $system
+ * @property int $wisdom
  */
 class Character extends \App\Models\Character
 {
