@@ -164,9 +164,6 @@ class Shadowrun5eConverter implements ConverterInterface
             \DIRECTORY_SEPARATOR,
             \DIRECTORY_SEPARATOR
         ));
-        if (false === $files) {
-            throw new RuntimeException('Failed to load Portfolio stats');
-        }
         $xml = false;
         foreach ($files as $file) {
             if (false === strpos($file, '.xml')) {
@@ -314,7 +311,7 @@ class Shadowrun5eConverter implements ConverterInterface
             $skillObject = new ActiveSkill($id, $level);
             $skillsArray[] = [
                 'id' => $skillObject->id,
-                'rating' => $skill->level,
+                'level' => $skill->level,
             ];
         }
         $this->character->skills = $skillsArray;

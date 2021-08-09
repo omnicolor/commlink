@@ -96,7 +96,7 @@ final class Shadowrun5eConverterTest extends \Tests\TestCase
     }
 
     /**
-     * Test trying to load an empty portfolio.
+     * Test trying to load a portfolio without the required XML files.
      * @test
      */
     public function testEmptyPortfolio(): void
