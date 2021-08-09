@@ -165,6 +165,7 @@ class Shadowrun5eConverter implements ConverterInterface
             \DIRECTORY_SEPARATOR
         ));
         $xml = false;
+        // @phpstan-ignore-next-line
         foreach ($files as $file) {
             if (false === strpos($file, '.xml')) {
                 continue;
