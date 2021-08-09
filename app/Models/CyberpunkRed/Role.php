@@ -10,6 +10,24 @@ use RuntimeException;
 abstract class Role
 {
     /**
+     * Description of the role's ability.
+     * @var string
+     */
+    public string $abilityDescription;
+
+    /**
+     * Name of the role's ability.
+     * @var string
+     */
+    public string $abilityName;
+
+    /**
+     * Description of the role.
+     * @var string
+     */
+    public string $description;
+
+    /**
      * Rank the character has achieved in the role.
      * @var int
      */
@@ -46,5 +64,25 @@ abstract class Role
                 $role['role']
             ));
         }
+    }
+
+    /**
+     * Return a collection of all roles.
+     * @return RoleArray
+     */
+    public static function all(): RoleArray
+    {
+        $roles = new RoleArray();
+        $roles[] = new Role\Exec([]);
+        $roles[] = new Role\Fixer([]);
+        $roles[] = new Role\Lawman([]);
+        $roles[] = new Role\Media([]);
+        $roles[] = new Role\Medtech([]);
+        $roles[] = new Role\Netrunner([]);
+        $roles[] = new Role\Nomad([]);
+        $roles[] = new Role\Rockerboy([]);
+        $roles[] = new Role\Solo([]);
+        $roles[] = new Role\Tech([]);
+        return $roles;
     }
 }

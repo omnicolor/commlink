@@ -35,4 +35,13 @@ final class RoleTest extends \PHPUnit\Framework\TestCase
         $role = Role::fromArray(['role' => 'fixer', 'rank' => 1, 'type' => 1]);
         self::assertInstanceOf(Fixer::class, $role);
     }
+
+    /**
+     * Test getting all of the roles.
+     * @test
+     */
+    public function testAll(): void
+    {
+        self::assertCount(10, Role::all());
+    }
 }
