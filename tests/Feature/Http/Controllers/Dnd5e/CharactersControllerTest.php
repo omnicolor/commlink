@@ -6,6 +6,8 @@ namespace Tests\Feature\Http\Controllers\Dnd5e;
 
 use App\Models\Dnd5e\Character;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
@@ -14,7 +16,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
  * @group controllers
  * @medium
  */
-final class CharacterControllerTest extends \Tests\TestCase
+final class CharactersControllerTest extends \Tests\TestCase
 {
     use RefreshDatabase;
 
