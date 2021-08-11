@@ -6,16 +6,21 @@
             @case ('expanse')
             @case ('shadowrun5e')
                 <a href="/characters/{{ $character->system }}/{{ $character->id }}">
-                    {{ $character->handle ?? $character->name }}</a>
-                    ({{ config('app.systems')[$character->system] }})
+                    {{ $character }}</a>
+                    @if ($character->campaign())
+                        ({{ $character->campaign() }} &mdash;
+                        {{ $character->getSystem() }})
+                    @else
+                        ({{ $character->getSystem() }})
+                    @endif
                 @break
             @default
-                @if(array_key_exists($character->system, config('app.systems')))
-                    {{ $character->handle ?? $character->name }}
-                    ({{ config('app.systems')[$character->system] }})
+                {{ $character->handle ?? $character->name }}
+                @if ($character->campaign())
+                    ({{ $character->campaign() }} &mdash;
+                    {{ $character->getSystem() }})
                 @else
-                    {{ $character->handle ?? $character->name }}
-                    ({{ $character->system }})
+                    ({{ $character->getSystem() }})
                 @endif
             @break
         @endswitch

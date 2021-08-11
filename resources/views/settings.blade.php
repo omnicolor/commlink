@@ -199,7 +199,6 @@
         </div>
     </div>
 
-
     <x-slot name="javascript">
     <script>
         $('.copy-btn').on('click', function (e) {

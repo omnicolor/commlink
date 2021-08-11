@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Traits\GameSystem;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
 
@@ -18,6 +19,7 @@ use Jenssegers\Mongodb\Eloquent\Model;
  */
 class Character extends Model
 {
+    use GameSystem;
     use HasFactory;
 
     /**
