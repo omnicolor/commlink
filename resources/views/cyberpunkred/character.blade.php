@@ -1,31 +1,21 @@
 <x-app>
-    <x-slot name="title">
-        {{ $character->handle }}
-    </x-slot>
+    <x-slot name="title">{{ $character->handle }}</x-slot>
+    @includeWhen($creating, 'cyberpunkred.create-navigation')
+
     <x-slot name="head">
         <style>
             .value {
                 display: inline-block;
                 float: right;
             }
-            .value span {
-                color: #000;
-                display: inline-block;
-                text-align: center;
-                white-space: nowrap;
-                width: 2em;
-            }
-            .value span:last-child {
-                text-align: right;
-            }
             .card {
                 margin-top: 1em;
             }
-            #weaponlist th {
-                font-size: 80%;
+            .skill :not(td:first-child, td:last-child) {
+                text-align: center;
             }
-            .tooltip-inner {
-                text-align: left;
+            .skill td:last-child {
+                text-align: right;
             }
         </style>
     </x-slot>
@@ -117,6 +107,23 @@
                             <span id="hit-points-total">{{ $character->hit_points_max }}</span>
                         </div>
                     </li>
+                    @php
+                        $roles = $character->getRoles();
+                    @endphp
+                    <li class="list-group-item">
+                        @if (count($roles) === 1)
+                        Role
+                        @else
+                        Roles
+                        @endif
+                        <ul>
+                        @foreach ($roles as $role)
+                            <li title="{{ $role->description }}">
+                                {{ $role }}
+                            </li>
+                        @endforeach
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -128,60 +135,72 @@
                 <div class="col-4 mt-3">
                     @foreach (['Awareness', 'Body', 'Control', 'Fighting', 'Performance'] as $category)
                     <table class="table table-sm">
-                        <tr class="table-dark">
-                            <th scope="col">{{ $category }} Skills</th>
-                            <th scope="col">Level</th>
-                            <th scope="col">Stat</th>
-                            <th scope="col">Base</th>
-                        </tr>
+                        <thead>
+                            <tr class="table-dark">
+                                <th scope="col">{{ $category }} Skills</th>
+                                <th scope="col" style="width: 3em;">Level</th>
+                                <th scope="col" style="width: 3em;">Stat</th>
+                                <th scope="col" style="width: 3em;">Base</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                         @foreach ($skills[$category] as $skill)
-                        <tr>
-                            <td>{{ $skill }} ({{ $skill->getShortAttribute() }})</td>
-                            <td>{{ $skill->level }}</td>
-                            <td>{{ $character->{$skill->attribute} }}</td>
-                            <td>{{ $skill->getBase($character) }}</td>
-                        </tr>
+                            <tr class="skill">
+                                <td>{{ $skill }} ({{ $skill->getShortAttribute() }})</td>
+                                <td>{{ $skill->level }}</td>
+                                <td>{{ $character->{$skill->attribute} }}</td>
+                                <td>{{ $skill->getBase($character) }}</td>
+                            </tr>
                         @endforeach
+                        </tbody>
                     </table>
                     @endforeach
                 </div>
                 <div class="col-4 mt-3">
                     @foreach (['Education', 'Ranged Weapon'] as $category)
                     <table class="table table-sm">
-                        <tr class="table-dark">
-                            <th scope="col">{{ $category }} Skills</th>
-                            <th scope="col">Level</th>
-                            <th scope="col">Stat</th>
-                            <th scope="col">Base</th>
-                        </tr>
+                        <thead>
+                            <tr class="table-dark">
+                                <th scope="col">{{ $category }} Skills</th>
+                                <th scope="col" style="width: 3em;">Level</th>
+                                <th scope="col" style="width: 3em;">Stat</th>
+                                <th scope="col" style="width: 3em;">Base</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                         @foreach ($skills[$category] as $skill)
-                        <tr>
-                            <td>{{ $skill }} ({{ $skill->getShortAttribute() }})</td>
-                            <td>{{ $skill->level }}</td>
-                            <td>{{ $character->{$skill->attribute} }}</td>
-                            <td>{{ $skill->getBase($character) }}</td>
-                        </tr>
+                            <tr class="skill">
+                                <td>{{ $skill }} ({{ $skill->getShortAttribute() }})</td>
+                                <td>{{ $skill->level }}</td>
+                                <td>{{ $character->{$skill->attribute} }}</td>
+                                <td>{{ $skill->getBase($character) }}</td>
+                            </tr>
                         @endforeach
+                        </tbody>
                     </table>
                     @endforeach
                 </div>
                 <div class="col-4 mt-3">
                     @foreach (['Social', 'Technique'] as $category)
                     <table class="table table-sm">
-                        <tr class="table-dark">
-                            <th scope="col">{{ $category }} Skills</th>
-                            <th scope="col">Level</th>
-                            <th scope="col">Stat</th>
-                            <th scope="col">Base</th>
-                        </tr>
+                        <thead>
+                            <tr class="table-dark">
+                                <th scope="col">{{ $category }} Skills</th>
+                                <th scope="col" style="width: 3em;">Level</th>
+                                <th scope="col" style="width: 3em;">Stat</th>
+                                <th scope="col" style="width: 3em;">Base</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                         @foreach ($skills[$category] as $skill)
-                        <tr>
-                            <td>{{ $skill }} ({{ $skill->getShortAttribute() }})</td>
-                            <td>{{ $skill->level }}</td>
-                            <td>{{ $character->{$skill->attribute} }}</td>
-                            <td>{{ $skill->getBase($character) }}</td>
-                        </tr>
+                            <tr class="skill">
+                                <td>{{ $skill }} ({{ $skill->getShortAttribute() }})</td>
+                                <td>{{ $skill->level }}</td>
+                                <td>{{ $character->{$skill->attribute} }}</td>
+                                <td>{{ $skill->getBase($character) }}</td>
+                            </tr>
                         @endforeach
+                        </tbody>
                     </table>
                     @endforeach
                 </div>
@@ -190,6 +209,38 @@
     </div>
 
     <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th scope="col">Armor</th>
+                        <th scope="col">SP</th>
+                        <th scope="col">Penalty</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="row">Head</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">Body</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td scope="row">Shield</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <div class="col">
             <table class="table">
                 <thead>

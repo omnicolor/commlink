@@ -25,4 +25,21 @@
             You don't have any characters!
         </li>
     @endforelse
+    <li class="list-group-item">
+        <div class="dropdown">
+            <a aria-expanded="false" class="btn btn-primary dropdown-toggle"
+                data-bs-toggle="dropdown" href="#" id="create-character"
+                role="button">
+                Create character
+            </a>
+
+            <ul aria-labelledby="create-character" class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item" href="/characters/cyberpunkred/create">
+                        Cyberpunk Red
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </li>
 </ul>

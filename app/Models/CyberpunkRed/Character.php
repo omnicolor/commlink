@@ -18,6 +18,7 @@ use RuntimeException;
  * @property int $hitPointsCurrent
  * @property int $hitPointsMax
  * @property int $intelligence
+ * @property array<string, array<string, int>> $lifepath
  * @property int $luck
  * @property int $movement
  * @property int $reflexes
@@ -38,7 +39,23 @@ class Character extends \App\Models\Character
     ];
 
     /**
-     * @var string[]
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'body' => 'integer',
+        'cool' => 'integer',
+        'dexterity' => 'integer',
+        'empathy' => 'integer',
+        'intelligence' => 'integer',
+        'luck' => 'integer',
+        'movement' => 'integer',
+        'reflexes' => 'integer',
+        'technique' => 'integer',
+        'willpower' => 'integer',
+    ];
+
+    /**
+     * @var array<int, string>
      */
     protected $fillable = [
         'body',
@@ -48,6 +65,7 @@ class Character extends \App\Models\Character
         'handle',
         'hitPointsCurrent',
         'intelligence',
+        'lifepath',
         'luck',
         'movement',
         'owner',
@@ -60,7 +78,7 @@ class Character extends \App\Models\Character
     ];
 
     /**
-     * @var string[]
+     * @var array<int, string>
      */
     protected $hidden = [
         '_id',
@@ -94,7 +112,7 @@ class Character extends \App\Models\Character
      */
     public function getDeathSaveAttribute(): int
     {
-        return $this->attributes['body'];
+        return (int)$this->attributes['body'];
     }
 
     /**
@@ -112,7 +130,7 @@ class Character extends \App\Models\Character
      */
     public function getEmpathyOriginalAttribute(): int
     {
-        return $this->attributes['empathy'] ?? 0;
+        return (int)$this->attributes['empathy'] ?? 0;
     }
 
     /**

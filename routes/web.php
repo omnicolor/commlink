@@ -19,10 +19,33 @@ Route::middleware('auth')->group(function (): void {
         ->name('dashboard');
     Route::get('/campaigns/create', [CampaignsController::class, 'createForm']);
     Route::post('/campaigns/create', [CampaignsController::class, 'create']);
+
+    Route::get(
+        '/characters/cyberpunkred/create/{step?}',
+        [CyberpunkRedCharacterController::class, 'createForm'],
+    );
+    Route::post(
+        '/characters/cyberpunkred/create/role',
+        [CyberpunkRedCharacterController::class, 'storeRole'],
+    )->name('cyberpunkred-create-role');
+    Route::post(
+        '/characters/cyberpunkred/create/handle',
+        [CyberpunkRedCharacterController::class, 'storeHandle'],
+    )->name('cyberpunkred-create-handle');
+    Route::post(
+        '/characters/cyberpunkred/create/lifepath',
+        [CyberpunkRedCharacterController::class, 'storeLifepath'],
+    )->name('cyberpunkred-create-lifepath');
+    Route::post(
+        '/characters/cyberpunkred/create/stats',
+        [CyberpunkRedCharacterController::class, 'storeStats'],
+    )->name('cyberpunkred-create-stats');
+
     Route::get(
         '/characters/shadowrun5e',
         [Shadowrun5ECharacterController::class, 'list']
     );
+
     Route::get('/settings', [SettingsController::class, 'show'])
         ->name('settings')->middleware('web');
     Route::post(
