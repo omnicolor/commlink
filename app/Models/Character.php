@@ -77,6 +77,9 @@ class Character extends Model
             case 'cyberpunkred':
                 $character = new CyberpunkRed\Character($attributes);
                 break;
+            case 'dnd5e':
+                $character = new Dnd5e\Character($attributes);
+                break;
             case 'expanse':
                 $character = new Expanse\Character($attributes);
                 break;
