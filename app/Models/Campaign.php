@@ -44,6 +44,15 @@ class Campaign extends Model
     ];
 
     /**
+     * Return the campaign's name.
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->attributes['name'];
+    }
+
+    /**
      * Get the user that is GMing the campaign.
      * @return BelongsTo
      */

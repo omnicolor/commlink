@@ -6,14 +6,14 @@
     @else
         @foreach ($gmed as $campaign)
             <li class="list-group-item">
-                {{ $campaign->name }}
+                {{ $campaign }}
                 ({{ config('app.systems')[$campaign->system] }}) -
                 Gamemaster
             </li>
         @endforeach
         @foreach ($registered as $campaign)
             <li class="list-group-item">
-                {{ $campaign->name }}
+                {{ $campaign }}
                 ({{ config('app.systems')[$campaign->system] }}) -
                 Registered
             </li>
