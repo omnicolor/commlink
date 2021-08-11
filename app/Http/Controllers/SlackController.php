@@ -52,7 +52,12 @@ class SlackController extends Controller
 
         $channel = $this->getChannel($request->team_id, $request->channel_id);
         $channel->user = $request->user_id;
-        $channel->username = $request->user_name ?? '';
+        $character = $channel->character();
+        if ($character) {
+            $channel->username = (string)$character;
+        } else {
+            $channel->username = $request->user_name ?? '';
+        }
 
         // First, try to load system-specific rolls for numeric data.
         if (\is_numeric($this->args[0]) && isset($channel->system)) {
