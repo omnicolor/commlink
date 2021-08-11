@@ -17,11 +17,10 @@ class CreateCampaignUsersTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('campaign_id')->constrained();
-            $table->boolean('accepted')->default(false);
+            $table->enum('status', ['invited', 'accepted', 'banned', 'removed'])
+                ->default('invited');
             $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')
-                ->nullable()
-                ->default(DB::raw('NULL ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable();
         });
     }
 
