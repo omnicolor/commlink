@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Events\CampaignCreated;
 use App\Http\Requests\CampaignCreateRequest;
 use App\Models\Campaign;
+use Gate;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -46,5 +47,16 @@ class CampaignsController extends Controller
         $campaign->save();
         CampaignCreated::dispatch($campaign);
         return redirect('dashboard');
+    }
+
+    /**
+     * Handle a GET request to view the campaign.
+     * @param Campaign $campaign
+     * @return View
+     */
+    public function view(Campaign $campaign): View
+    {
+        Gate::authorize('view', $campaign);
+        return view('campaign.view', ['campaign' => $campaign]);
     }
 }

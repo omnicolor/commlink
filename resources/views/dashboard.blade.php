@@ -10,8 +10,10 @@
         </div>
         <div class="col">
             <h1>Campaigns</h1>
-            <x-campaign-list :gmed="$user->campaigns"
-                :registered="$user->campaignsRegistered" />
+            <x-campaign-list :gmed="$user->campaignsGmed"
+                :registered="$user->campaignsRegistered"
+                :playing="$user->campaigns"
+                :user="$user" />
         </div>
     </div>
 </x-app>

@@ -20,6 +20,9 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/campaigns/create', [CampaignsController::class, 'createForm']);
     Route::post('/campaigns/create', [CampaignsController::class, 'create']);
 
+    Route::get('/campaigns/{campaign}', [CampaignsController::class, 'view'])
+        ->name('campaign.view');
+
     Route::get(
         '/characters/cyberpunkred/create/{step?}',
         [CyberpunkRedCharacterController::class, 'createForm'],

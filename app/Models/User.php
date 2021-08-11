@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -49,11 +50,12 @@ class User extends Authenticatable
 
     /**
      * Get the campaigns for the user.
-     * @return HasMany
+     * @return BelongsToMany
      */
-    public function campaigns(): HasMany
+    public function campaigns(): BelongsToMany
     {
-        return $this->hasMany(Campaign::class, 'gm', 'id');
+        return $this->belongsToMany(Campaign::class)
+            ->withPivot('status');
     }
 
     /**
@@ -63,6 +65,15 @@ class User extends Authenticatable
     public function campaignsRegistered(): HasMany
     {
         return $this->hasMany(Campaign::class, 'registered_by', 'id');
+    }
+
+    /**
+     * Get the campaigns the user is gamemastering.
+     * @return HasMany
+     */
+    public function campaignsGmed(): HasMany
+    {
+        return $this->hasMany(Campaign::class, 'gm', 'id');
     }
 
     /**

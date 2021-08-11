@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Traits\GameSystem;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Class representing a gaming campaign or one-shot.
@@ -53,6 +55,16 @@ class Campaign extends Model
     }
 
     /**
+     * Get a collection of users playing in the game (or at least invited).
+     * @return BelongsToMany
+     */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)
+            ->withPivot('status');
+    }
+
+    /**
      * Get the user that is GMing the campaign.
      * @return BelongsTo
      */
@@ -68,6 +80,15 @@ class Campaign extends Model
     public function registeredBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'registered_by');
+    }
+
+    /**
+     * Return characters playing in the campaign.
+     * @return Collection
+     */
+    public function characters(): Collection
+    {
+        return Character::where('campaign_id', $this->id)->get();
     }
 
     /**

@@ -10,6 +10,7 @@ use Jenssegers\Mongodb\Eloquent\Model;
 
 /**
  * Generic model representing a role playing character.
+ * @property int $campaign_id
  * @property string $created_at
  * @property string $handle
  * @property string $name
@@ -33,11 +34,24 @@ class Character extends Model
      * @var string[]
      */
     protected $fillable = [
+        'campaign_id',
         'handle',
         'name',
         'owner',
         'system',
     ];
+
+    /**
+     * Returns the campaign the character is playing in (if any).
+     * @return ?Campaign
+     */
+    public function campaign(): ?Campaign
+    {
+        if (!$this->campaign_id) {
+            return null;
+        }
+        return Campaign::find($this->campaign_id);
+    }
 
     /**
      * Return the user that owns the character.
