@@ -377,7 +377,11 @@ class CharactersController extends \App\Http\Controllers\Controller
         $user = \Auth::user();
         return view(
             'cyberpunkred.character',
-            ['character' => $character, 'user' => $user]
+            [
+                'character' => $character,
+                'creating' => false,
+                'user' => $user,
+            ]
         );
     }
 }
