@@ -95,7 +95,10 @@ final class DashboardControllerTest extends \Tests\TestCase
         /** @var User */
         $user = User::factory()->create();
         /** @var Campaign */
-        $campaign = Campaign::factory()->create(['registered_by' => $user]);
+        $campaign = Campaign::factory()->create([
+            'registered_by' => $user,
+            'gm' => null,
+        ]);
         $this->actingAs($user)
             ->get('/dashboard')
             ->assertSee($campaign->name)
