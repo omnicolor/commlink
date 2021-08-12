@@ -53,10 +53,8 @@ Route::middleware('auth')->group(function (): void {
 
     Route::get('/settings', [SettingsController::class, 'show'])
         ->name('settings')->middleware('web');
-    Route::post(
-        '/settings/link-user',
-        [SettingsController::class, 'linkUser']
-    );
+    Route::post('/settings/link-user', [SettingsController::class, 'linkUser'])
+        ->name('settings-link-user');
 });
 
 Route::get(

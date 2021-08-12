@@ -161,7 +161,6 @@ final class SlackControllerTest extends \Tests\TestCase
 
     /**
      * Test a Slack command for rolling dice in a Shadowrun 5E channel.
-     * @group current
      * @test
      */
     public function testRollDiceShadowrun(): void
@@ -194,7 +193,6 @@ final class SlackControllerTest extends \Tests\TestCase
 
     /**
      * Test a Slack command for rolling dice with a linked character.
-     * @group current
      * @test
      */
     public function testRollDiceShadowrunWithCharacter(): void

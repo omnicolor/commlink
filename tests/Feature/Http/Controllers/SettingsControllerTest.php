@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Http;
 /**
  * Tests for the settings controller.
  * @group controllers
+ * @group settings
  * @medium
  */
 final class SettingsControllerTest extends \Tests\TestCase
@@ -27,7 +28,7 @@ final class SettingsControllerTest extends \Tests\TestCase
      */
     public function testUnauthenticated(): void
     {
-        $this->get('/settings')->assertRedirect('/login');
+        $this->get(route('settings'))->assertRedirect('/login');
     }
 
     /**
@@ -39,13 +40,13 @@ final class SettingsControllerTest extends \Tests\TestCase
         /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->get('/settings')
+            ->get(route('settings'))
             ->assertOk()
             ->assertSee('You don\'t have any linked chat users!', false);
     }
 
     /**
-     * Test an authenticated user with a linked user.
+     * Test an authenticated user that has a linked user.
      * @test
      */
     public function testWithLinkedUser(): void
@@ -62,7 +63,7 @@ final class SettingsControllerTest extends \Tests\TestCase
             'verified' => false,
         ]);
         $this->actingAs($user)
-            ->get('/settings')
+            ->get(route('settings'))
             ->assertDontSee('You don\'t have any linked chat users!', false)
             ->assertSee($serverId)
             ->assertSee($remoteUserId)
@@ -78,7 +79,7 @@ final class SettingsControllerTest extends \Tests\TestCase
         /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->post('/settings/link-user', [])
+            ->post(route('settings-link-user'), [])
             ->assertStatus(Response::HTTP_FOUND)
             ->assertSessionHasErrors();
         self::assertSame(
@@ -114,7 +115,7 @@ final class SettingsControllerTest extends \Tests\TestCase
         ]);
         $this->actingAs($user)
             ->post(
-                '/settings/link-user',
+                route('settings-link-user'),
                 [
                     'server-id' => $serverId,
                     'user-id' => $userId,
@@ -155,7 +156,7 @@ final class SettingsControllerTest extends \Tests\TestCase
         $this->actingAs($user)
             ->followingRedirects()
             ->post(
-                '/settings/link-user',
+                route('settings-link-user'),
                 [
                     'server-id' => $serverId,
                     'server-type' => ChatUser::TYPE_SLACK,
@@ -166,7 +167,7 @@ final class SettingsControllerTest extends \Tests\TestCase
     }
 
     /**
-     * Test trying to create a linked Discord user.
+     * Test trying to create a linked Discord user if the API calls fail.
      * @test
      */
     public function testLinkDiscordUserAPICallsFail(): void
@@ -179,10 +180,10 @@ final class SettingsControllerTest extends \Tests\TestCase
             self::API_DISCORD_GUILDS . $serverId => Http::response([], Response::HTTP_BAD_REQUEST),
             self::API_DISCORD_USERS . $userId => Http::response([], Response::HTTP_NOT_FOUND),
         ]);
-        $response = $this->actingAs($user)
+        $this->actingAs($user)
             ->followingRedirects()
             ->post(
-                '/settings/link-user',
+                route('settings-link-user'),
                 [
                     'server-id' => $serverId,
                     'user-id' => $userId,
@@ -202,5 +203,82 @@ final class SettingsControllerTest extends \Tests\TestCase
                 'verified' => false,
             ]
         );
+    }
+
+    /**
+     * Test trying to create a linked Discord user.
+     * @test
+     */
+    public function testLinkDiscordUser(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+        $serverId = '1' . \Str::random(10);
+        $userId = \Str::random(10);
+        Http::fake([
+            self::API_DISCORD_GUILDS . $serverId => Http::response(
+                ['name' => 'Discord Guild'],
+                Response::HTTP_OK
+            ),
+            self::API_DISCORD_USERS . $userId => Http::response(
+                [
+                    'username' => 'DiscordUser',
+                    'discriminator' => '1234',
+                ],
+                Response::HTTP_OK
+            ),
+        ]);
+        $this->actingAs($user)
+            ->followingRedirects()
+            ->post(
+                route('settings-link-user'),
+                [
+                    'server-id' => $serverId,
+                    'user-id' => $userId,
+                ]
+            )
+            ->assertOk()
+            ->assertSessionHasNoErrors();
+        $this->assertDatabaseHas(
+            'chat_users',
+            [
+                'server_id' => $serverId,
+                'server_name' => 'Discord Guild',
+                'server_type' => ChatUser::TYPE_DISCORD,
+                'remote_user_id' => $userId,
+                'remote_user_name' => 'DiscordUser#1234',
+                'user_id' => $user->id,
+                'verified' => false,
+            ]
+        );
+    }
+
+    /**
+     * Test trying to create a duplicate Discord chat user.
+     * @test
+     */
+    public function testLinkDuplicateDiscordUser(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+        $serverId = '1' . \Str::random(10);
+        $userId = '2' . \Str::random(10);
+        ChatUser::factory()->create([
+            'server_id' => $serverId,
+            'server_type' => ChatUser::TYPE_DISCORD,
+            'remote_user_id' => $userId,
+            'user_id' => $user->id,
+        ]);
+        $this->actingAs($user)
+            ->followingRedirects()
+            ->post(
+                route('settings-link-user'),
+                [
+                    'server-id' => $serverId,
+                    'server-type' => ChatUser::TYPE_DISCORD,
+                    'user-id' => $userId,
+                ]
+            )
+            ->assertSee('User already registered.');
     }
 }
