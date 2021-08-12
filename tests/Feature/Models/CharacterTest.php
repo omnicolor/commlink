@@ -147,4 +147,24 @@ final class CharacterTest extends \Tests\TestCase
         ]);
         self::assertNotNull($character->campaign());
     }
+
+    /**
+     * Test the getSystem() method from the GameSystem trait.
+     * @test
+     */
+    public function testGameSystem(): void
+    {
+        $character = Character::factory()->make(['system' => 'shadowrun5e']);
+        self::assertSame('Shadowrun 5th Edition', $character->getSystem());
+    }
+
+    /**
+     * Test the getSystem() method with an unknown system.
+     * @test
+     */
+    public function testGameSystemNotFound(): void
+    {
+        $character = Character::factory()->make(['system' => 'unknown']);
+        self::assertSame('unknown', $character->getSystem());
+    }
 }
