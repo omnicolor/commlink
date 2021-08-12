@@ -52,7 +52,7 @@ class Character extends Model
      */
     public function campaign(): ?Campaign
     {
-        if (!$this->campaign_id) {
+        if (!isset($this->campaign_id)) {
             return null;
         }
         return Campaign::find($this->campaign_id);
