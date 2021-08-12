@@ -29,10 +29,14 @@ class CampaignList extends Component
     ) {
         $this->registered = $registered->reject(
             function (Campaign $value, int $key): bool {
-                if (null === $value->gamemaster) {
+                if (null === $value->gm) {
+                    // Registered by the user and there's no GM, don't reject.
                     return false;
                 }
-                return $value->gamemaster !== $value->registered_by;
+                // Reject games where the GM is the person that registered the
+                // campaign, so that it will show up as a GMed game, not
+                // a registered game.
+                return $value->gm === $value->registered_by;
             }
         );
     }
