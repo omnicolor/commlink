@@ -53,7 +53,7 @@ final class ChatUserTest extends \Tests\TestCase
                 ->get()
         );
 
-        $user1 = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'remote_user_name' => 'scopeSlackTest',
             'server_type' => ChatUser::TYPE_SLACK,
         ]);
@@ -64,7 +64,7 @@ final class ChatUserTest extends \Tests\TestCase
                 ->get()
         );
 
-        $user2 = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'remote_user_name' => 'scopeSlackTest',
             'server_type' => 'discord',
         ]);
@@ -75,7 +75,7 @@ final class ChatUserTest extends \Tests\TestCase
                 ->get()
         );
 
-        $user3 = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'remote_user_name' => 'scopeSlackTest',
             'server_type' => ChatUser::TYPE_SLACK,
         ]);
@@ -83,6 +83,56 @@ final class ChatUserTest extends \Tests\TestCase
             2,
             ChatUser::slack()
                 ->where('remote_user_name', 'scopeSlackTest')
+                ->get()
+        );
+    }
+
+    /**
+     * Test limiting the scope to Discord chat users.
+     * @test
+     */
+    public function testScopeDiscord(): void
+    {
+        // Clean up previous runs.
+        ChatUser::where('remote_user_name', 'scopeDiscordTest')->delete();
+
+        self::assertEmpty(
+            ChatUser::discord()
+                ->where('remote_user_name', 'scopeDiscordTest')
+                ->get()
+        );
+
+        ChatUser::factory()->create([
+            'remote_user_name' => 'scopeDiscordTest',
+            'server_type' => ChatUser::TYPE_DISCORD,
+        ]);
+        self::assertCount(
+            1,
+            ChatUser::discord()
+                ->where('remote_user_name', 'scopeDiscordTest')
+                ->get()
+        );
+
+        ChatUser::factory()->create([
+            'remote_user_name' => 'scopeDiscordTest',
+            'server_type' => ChatUser::TYPE_DISCORD,
+        ]);
+        self::assertCount(
+            2,
+            ChatUser::discord()
+                ->where('remote_user_name', 'scopeDiscordTest')
+                ->get()
+        );
+
+        // Slack user that shouldn't get picked up.
+        ChatUser::factory()->create([
+            'remote_user_name' => 'scopeDiscordTest',
+            'server_type' => ChatUser::TYPE_SLACK,
+        ]);
+        self::assertCount(
+            2,
+            ChatUser::discord()
+                ->where('remote_user_name', 'scopeDiscordTest')
                 ->get()
         );
     }
@@ -143,6 +193,10 @@ final class ChatUserTest extends \Tests\TestCase
         );
     }
 
+    /**
+     * Test trying to load a chat character.
+     * @test
+     */
     public function testGetChatCharacter(): void
     {
         /** @var ChatUser */
