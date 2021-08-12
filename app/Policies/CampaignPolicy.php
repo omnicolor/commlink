@@ -92,7 +92,7 @@ class CampaignPolicy
      * Determine whether the user can permanently delete the model.
      * @param \App\Models\User $user
      * @param \App\Models\Campaign $campaign
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return bool
      */
     public function forceDelete(User $user, Campaign $campaign): bool
     {
