@@ -6,13 +6,13 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Http\Responses\SlackResponse;
 use App\Models\Channel;
+use App\Models\Character;
+use App\Models\ChatCharacter;
+use App\Models\ChatUser;
 use Str;
 
 /**
  * Tests for the SlackController.
- * @covers \App\Exceptions\SlackException
- * @covers \App\Http\Controllers\SlackController
- * @covers \App\Http\Requests\SlackRequest
  * @group controllers
  * @group slack
  * @medium
@@ -43,18 +43,6 @@ final class SlackControllerTest extends \Tests\TestCase
             'App\\Rolls\\Shadowrun5e',
             'random_int'
         );
-    }
-
-    /**
-     * Clean up after the tests.
-     */
-    public function tearDown(): void
-    {
-        if (isset($this->channel)) {
-            $this->channel->delete();
-            $this->channel = null;
-        }
-        parent::tearDown();
     }
 
     /**
@@ -173,6 +161,7 @@ final class SlackControllerTest extends \Tests\TestCase
 
     /**
      * Test a Slack command for rolling dice in a Shadowrun 5E channel.
+     * @group current
      * @test
      */
     public function testRollDiceShadowrun(): void
@@ -192,13 +181,71 @@ final class SlackControllerTest extends \Tests\TestCase
                 'team_id' => $this->channel->server_id,
                 'text' => '5',
                 'user_id' => 'E567',
+                'user_name' => 'Bob',
             ]
         )
             ->assertOk()
             ->assertJsonFragment([
                 'response_type' => 'in_channel',
             ])
-            ->assertSee('Rolled 5 successes');
+            ->assertSee('Rolled 5 successes')
+            ->assertSee('Bob rolled 5 dice');
+    }
+
+    /**
+     * Test a Slack command for rolling dice with a linked character.
+     * @group current
+     * @test
+     */
+    public function testRollDiceShadowrunWithCharacter(): void
+    {
+        $this->randomInt->expects(self::any())->willReturn(5);
+
+        $slackUserId = 'E567';
+
+        // @phpstan-ignore-next-line
+        $this->channel = Channel::factory()->create([
+            'system' => 'shadowrun5e',
+            'type' => Channel::TYPE_SLACK,
+        ]);
+
+        $character = Character::factory()->create([
+            'handle' => 'Bobby-Jo',
+            'system' => 'shadowrun5e',
+        ]);
+
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $slackUserId,
+            'server_id' => $this->channel->server_id,
+            'server_type' => Channel::TYPE_SLACK,
+            'verified' => true,
+        ]);
+
+        $chatCharacter = ChatCharacter::factory()->create([
+            'channel_id' => $this->channel,
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser,
+        ]);
+
+        $this->post(
+            route('roll'),
+            [
+                // @phpstan-ignore-next-line
+                'channel_id' => $this->channel->channel_id,
+                // @phpstan-ignore-next-line
+                'team_id' => $this->channel->server_id,
+                'text' => '5',
+                'user_id' => $slackUserId,
+                'user_name' => 'Bob',
+            ]
+        )
+            ->assertOk()
+            ->assertJsonFragment([
+                'response_type' => 'in_channel',
+            ])
+            ->assertSee('Rolled 5 successes')
+            ->assertDontSee('Bob rolled 5 dice')
+            ->assertSee('Bobby-Jo rolled 5 dice');
     }
 
     /**
