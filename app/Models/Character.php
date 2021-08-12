@@ -10,6 +10,7 @@ use Jenssegers\Mongodb\Eloquent\Model;
 
 /**
  * Generic model representing a role playing character.
+ * @method string getSystem()
  * @property int $campaign_id
  * @property string $created_at
  * @property string $handle
