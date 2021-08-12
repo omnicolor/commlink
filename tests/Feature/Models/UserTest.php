@@ -64,7 +64,7 @@ final class UserTest extends \Tests\TestCase
      * Test getting a user's campaigns.
      * @test
      */
-    public function testCampaigns(): void
+    public function testCampaignsGmed(): void
     {
         /** @var User */
         $user = User::factory()->create();
@@ -73,7 +73,7 @@ final class UserTest extends \Tests\TestCase
             'gm' => $user,
             'registered_by' => $user,
         ]);
-        self::assertCount(2, $user->campaigns);
+        self::assertCount(2, $user->campaignsGmed);
         self::assertCount(1, $user->campaignsRegistered);
     }
 
