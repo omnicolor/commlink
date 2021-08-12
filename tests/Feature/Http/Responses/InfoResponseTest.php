@@ -276,7 +276,7 @@ final class InfoResponseTest extends \Tests\TestCase
                         ],
                         (object)[
                             'title' => 'Character',
-                            'value' => $character->handle,
+                            'value' => (string)$character,
                             'short' => true,
                         ],
                     ],
