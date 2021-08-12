@@ -22,12 +22,11 @@ class CampaignFactory extends Factory
      */
     public function definition(): array
     {
-        $user = User::factory()->create();
         return [
             'name' => $this->faker->company(),
             'description' => $this->faker->text(),
-            'registered_by' => $user,
-            'gm' => $user,
+            'registered_by' => User::factory()->create(),
+            'gm' => User::factory()->create(),
             'system' => $this->faker->randomElement(
                 \array_keys(config('app.systems'))
             ),
