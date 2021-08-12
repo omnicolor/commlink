@@ -21,10 +21,18 @@ class CharacterFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            'handle' => $this->faker->name,
-            'owner' => $this->faker->safeEmail,
-            'system' => $this->faker->randomElement(\array_keys(config('app.systems'))),
-        ];
+        $system = $this->faker->randomElement(\array_keys(config('app.systems')));
+        if (in_array($system, ['cyberpunkred', 'shadowrun5e'], true)) {
+            $name = ['handle' => $this->faker->name];
+        } else {
+            $name = ['name' => $this->faker->name];
+        }
+        return array_merge(
+            $name,
+            [
+                'owner' => $this->faker->safeEmail,
+                'system' => $system,
+            ]
+        );
     }
 }
