@@ -41,6 +41,11 @@ class Character extends Model
         'system',
     ];
 
+    public function __toString(): string
+    {
+        return $this->handle ?? $this->name ?? '';
+    }
+
     /**
      * Returns the campaign the character is playing in (if any).
      * @return ?Campaign
