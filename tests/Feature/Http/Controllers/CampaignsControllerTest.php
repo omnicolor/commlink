@@ -165,6 +165,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
      */
     public function testViewCampaignNotAllowed(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $campaign = Campaign::factory()->create();
         $this->actingAs($user)
@@ -178,6 +179,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
      */
     public function testViewCampaignAsRegisterer(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $campaign = Campaign::factory()->create([
             'registered_by' => $user->id,
@@ -193,6 +195,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
      */
     public function testViewCampaignAsGm(): void
     {
+        /** @var User */
         $user = User::factory()->create();
         $campaign = Campaign::factory()->create([
             'gm' => $user,

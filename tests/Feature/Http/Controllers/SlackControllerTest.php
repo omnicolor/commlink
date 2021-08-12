@@ -201,12 +201,13 @@ final class SlackControllerTest extends \Tests\TestCase
 
         $slackUserId = 'E567';
 
-        // @phpstan-ignore-next-line
-        $this->channel = Channel::factory()->create([
+        /** @var Channel */
+        $channel = Channel::factory()->create([
             'system' => 'shadowrun5e',
             'type' => Channel::TYPE_SLACK,
         ]);
 
+        /** @var Character */
         $character = Character::factory()->create([
             'handle' => 'Bobby-Jo',
             'system' => 'shadowrun5e',
@@ -214,13 +215,13 @@ final class SlackControllerTest extends \Tests\TestCase
 
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $slackUserId,
-            'server_id' => $this->channel->server_id,
+            'server_id' => $channel->server_id,
             'server_type' => Channel::TYPE_SLACK,
             'verified' => true,
         ]);
 
         $chatCharacter = ChatCharacter::factory()->create([
-            'channel_id' => $this->channel,
+            'channel_id' => $channel,
             'character_id' => $character->id,
             'chat_user_id' => $chatUser,
         ]);
@@ -228,10 +229,8 @@ final class SlackControllerTest extends \Tests\TestCase
         $this->post(
             route('roll'),
             [
-                // @phpstan-ignore-next-line
-                'channel_id' => $this->channel->channel_id,
-                // @phpstan-ignore-next-line
-                'team_id' => $this->channel->server_id,
+                'channel_id' => $channel->channel_id,
+                'team_id' => $channel->server_id,
                 'text' => '5',
                 'user_id' => $slackUserId,
                 'user_name' => 'Bob',

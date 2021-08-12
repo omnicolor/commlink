@@ -29,7 +29,9 @@ final class CampaignPolicyTest extends \Tests\TestCase
      */
     public function testViewAny(): void
     {
-        self::assertFalse($this->policy->viewAny(User::factory()->make()));
+        /** @var User */
+        $user = User::factory()->make();
+        self::assertFalse($this->policy->viewAny($user));
     }
 
     /**
@@ -39,10 +41,11 @@ final class CampaignPolicyTest extends \Tests\TestCase
      */
     public function testViewNoConnection(): void
     {
-        self::assertFalse($this->policy->view(
-            User::factory()->make(),
-            Campaign::factory()->make(),
-        ));
+        /** @var User */
+        $user = User::factory()->make();
+        /** @var Campaign */
+        $campaign = Campaign::factory()->make();
+        self::assertFalse($this->policy->view($user, $campaign));
     }
 
     /**
@@ -52,7 +55,9 @@ final class CampaignPolicyTest extends \Tests\TestCase
      */
     public function testViewAsRegisterer(): void
     {
+        /** @var User */
         $user = User::factory()->make();
+        /** @var Campaign */
         $campaign = Campaign::factory()->make([
             'registered_by' => $user,
         ]);
@@ -65,7 +70,9 @@ final class CampaignPolicyTest extends \Tests\TestCase
      */
     public function testViewAsGm(): void
     {
+        /** @var User */
         $user = User::factory()->make();
+        /** @var Campaign */
         $campaign = Campaign::factory()->make([
             'gm' => $user,
         ]);
@@ -78,7 +85,9 @@ final class CampaignPolicyTest extends \Tests\TestCase
      */
     public function testViewAsGmAndRegisterer(): void
     {
+        /** @var User */
         $user = User::factory()->make();
+        /** @var Campaign */
         $campaign = Campaign::factory()->make([
             'registered_by' => $user,
             'gm' => $user,
@@ -93,7 +102,9 @@ final class CampaignPolicyTest extends \Tests\TestCase
      */
     public function testViewAsPlayer(): void
     {
+        /** @var User */
         $user = User::factory()->create();
+        /** @var Campaign */
         $campaign = Campaign::factory()
             ->hasAttached($user, ['status' => 'accepted'])
             ->create();
@@ -106,7 +117,9 @@ final class CampaignPolicyTest extends \Tests\TestCase
      */
     public function testCreate(): void
     {
-        self::assertTrue($this->policy->create(User::factory()->make()));
+        /** @var User */
+        $user = User::factory()->make();
+        self::assertTrue($this->policy->create($user));
     }
 
     /**
@@ -117,7 +130,9 @@ final class CampaignPolicyTest extends \Tests\TestCase
      */
     public function testUpdate(): void
     {
+        /** @var User */
         $user = User::factory()->create();
+        /** @var Campaign */
         $campaign = Campaign::factory([
             'gm' => $user,
             'registered_by' => $user,
@@ -135,7 +150,9 @@ final class CampaignPolicyTest extends \Tests\TestCase
      */
     public function testDelete(): void
     {
+        /** @var User */
         $user = User::factory()->create();
+        /** @var Campaign */
         $campaign = Campaign::factory([
             'gm' => $user,
             'registered_by' => $user,
@@ -153,7 +170,9 @@ final class CampaignPolicyTest extends \Tests\TestCase
      */
     public function testRestore(): void
     {
+        /** @var User */
         $user = User::factory()->create();
+        /** @var Campaign */
         $campaign = Campaign::factory([
             'gm' => $user,
             'registered_by' => $user,
@@ -171,7 +190,9 @@ final class CampaignPolicyTest extends \Tests\TestCase
      */
     public function testForceDelete(): void
     {
+        /** @var User */
         $user = User::factory()->create();
+        /** @var Campaign */
         $campaign = Campaign::factory([
             'gm' => $user,
             'registered_by' => $user,
