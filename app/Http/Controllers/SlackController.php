@@ -53,7 +53,7 @@ class SlackController extends Controller
         $channel = $this->getChannel($request->team_id, $request->channel_id);
         $channel->user = $request->user_id;
         $character = $channel->character();
-        if ($character) {
+        if (null !== $character) {
             $channel->username = (string)$character;
         } else {
             $channel->username = $request->user_name ?? '';
