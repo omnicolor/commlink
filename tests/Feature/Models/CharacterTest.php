@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models;
 
+use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\User;
 
@@ -117,5 +118,33 @@ final class CharacterTest extends \Tests\TestCase
         // that it's not.
         // @phpstan-ignore-next-line
         self::assertTrue(\is_subclass_of($character, Character::class));
+    }
+
+    /**
+     * Test getting the campaign attached to a character if they don't have one.
+     * @test
+     */
+    public function testCampaignNone(): void
+    {
+        /** @var Character */
+        $character = Character::factory()->make();
+        self::assertNull($character->campaign());
+    }
+
+    /**
+     * Test getting the campaign attached to a character.
+     * @test
+     */
+    public function testCampaign(): void
+    {
+        $campaign = Campaign::factory()->create([
+            'system' => 'shadowrun5e',
+        ]);
+        /** @var Character */
+        $character = Character::factory()->make([
+            'campaign_id' => $campaign,
+            'system' => 'shadowrun5e',
+        ]);
+        self::assertNotNull($character->campaign());
     }
 }
