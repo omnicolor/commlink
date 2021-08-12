@@ -40,7 +40,9 @@
                         <tbody>
                         @forelse ($user->chatUsers->sortByDesc('verified') as $chatUser)
                             <tr>
-                                <td>{{ ucfirst($chatUser->server_type) }}</td>
+                                <td>
+                                    <i class="bi bi-{{ $chatUser->server_type }}"></i>
+                                </td>
                                 <td>{{ $chatUser->server_id }}</td>
                                 <td>
                                     @if ($chatUser->server_name)
@@ -100,11 +102,11 @@
                         <h2>Link your chat user</h2>
                         <p>
                             Linking your user will allow you to interact with
-                            Commlink resources from your chat server (Slack)
-                            and send messages to the chat server from Commlink.
-                            This is a two-step process requiring action in
-                            Commlink (here) as well as in your chat channel to
-                            make sure you own both sides.
+                            Commlink resources from your chat server and send
+                            messages to the chat server from Commlink. This is a
+                            two-step process requiring action in Commlink (here)
+                            as well as in your chat channel to make sure you own
+                            both sides.
                         </p>
                         <p>
                             <strong>Step 1.</strong>
@@ -116,7 +118,8 @@
                         </p>
                         <p>
                             <strong>Step 2.</strong>
-
+                            After linking, you'll need to copy a link and paste
+                            it into the channel you want to link.
                         </p>
                     </div>
                 </div>
@@ -140,30 +143,6 @@
                     </div>
                 </div>
                 <div class="form-row mt-1">
-                    <label class="col-4 col-form-label" for="server-type">
-                        Server type (required)
-                    </label>
-                    <div class="col">
-                        <select class="form-control @error('server-type') is-invalid @enderror"
-                            id="server-type" name="server-type" required>
-                            <option value="">Choose type</option>
-                            <option value="discord"
-                                @if('discord' === old('server-type'))
-                                    selected
-                                @endif
-                            >Discord</option>
-                            <option value="slack"
-                                @if('slack' === old('server-type'))
-                                selected
-                                @endif
-                            >Slack</option>
-                        </select>
-                        @error('server-type')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-                <div class="form-row mt-1">
                     <label class="col-4 col-form-label" for="user-id">
                         User (required)
                     </label>
@@ -174,8 +153,8 @@
                             value="{{ old('user-id') }}">
                         <small id="user-help" class="form-text text-muted">
                             Slack user IDs look like <code>U025GMATW</code>.
-                            Discord user tags look like
-                            <code>omnicolor#7067</code>.
+                            Discord user IDs look like
+                            <code>225743973845565441</code>.
                         </small>
                         @error('user-id')
                         <div class="invalid-feedback">

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Traits\InteractsWithDiscord;
 use App\Models\Traits\InteractsWithSlack;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,11 +15,14 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class ChatUser extends Model
 {
     use HasFactory;
+    use InteractsWithDiscord;
     use InteractsWithSlack;
 
+    public const TYPE_DISCORD = 'discord';
     public const TYPE_SLACK = 'slack';
 
     public const VALID_TYPES = [
+        self::TYPE_DISCORD,
         self::TYPE_SLACK,
     ];
 
@@ -57,6 +61,16 @@ class ChatUser extends Model
                 . $this->attributes['user_id']
         );
         return \substr($hash, 0, 20);
+    }
+
+    /**
+     * Scope the query to only include Discord accounts.
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeDiscord(Builder $query): Builder
+    {
+        return $query->where('server_type', self::TYPE_DISCORD);
     }
 
     /**

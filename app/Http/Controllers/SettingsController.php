@@ -21,7 +21,46 @@ class SettingsController extends Controller
     }
 
     /**
-     * Handle a request to link a Slack team/user to the current user.
+     * Handle a request to link a Discord guild/user to the current Commlink
+     * user.
+     * @param LinkUserRequest $request
+     * @return RedirectResponse
+     */
+    public function linkDiscord(LinkUserRequest $request): RedirectResponse
+    {
+        $serverId = $request->input('server-id');
+        $remoteUserId = $request->input('user-id');
+
+        // @phpstan-ignore-next-line
+        $userId = \Auth::user()->id;
+
+        $chatUser = ChatUser::where('server_id', $serverId)
+            ->where('remote_user_id', $remoteUserId)
+            ->where('user_id', $userId)
+            ->where('server_type', ChatUser::TYPE_DISCORD)
+            ->first();
+        if (null !== $chatUser) {
+            return redirect('settings')
+                ->with('error', 'User already registered.')
+                ->withInput();
+        }
+
+        $chatUser = new ChatUser([
+            'server_id' => $serverId,
+            'server_type' => ChatUser::TYPE_DISCORD,
+            'remote_user_id' => $remoteUserId,
+            'user_id' => $userId,
+            'verified' => false,
+        ]);
+        $chatUser->server_name = $chatUser->getDiscordServerName($serverId);
+        $chatUser->remote_user_name = $chatUser->getDiscordUserName($remoteUserId);
+        $chatUser->save();
+
+        return redirect('settings')->with('success', 'Discord account linked.');
+    }
+
+    /**
+     * Handle a request to link a Slack team/user to the current Commlink user.
      * @param LinkUserRequest $request
      * @return RedirectResponse
      */
@@ -59,17 +98,15 @@ class SettingsController extends Controller
     }
 
     /**
-     * Handle a request to link a chat server to the current user.
+     * Handle a request to link a chat server to the current Commlink user.
      * @param LinkUserRequest $request
      * @return RedirectResponse
      */
     public function linkUser(LinkUserRequest $request): RedirectResponse
     {
-        if ('slack' === $request->input('server-type')) {
+        if ('T' === substr($request->input('server-id'), 0, 1)) {
             return $this->linkSlack($request);
         }
-        return redirect('settings')
-            ->with('error', 'Discord isn\'t ready.')
-            ->withInput();
+        return $this->linkDiscord($request);
     }
 }

@@ -149,6 +149,7 @@ final class SlackControllerTest extends \Tests\TestCase
     {
         // @phpstan-ignore-next-line
         $this->channel = Channel::factory()->create([
+            'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
         ]);
         $this->post(
@@ -180,6 +181,7 @@ final class SlackControllerTest extends \Tests\TestCase
         // @phpstan-ignore-next-line
         $this->channel = Channel::factory()->create([
             'system' => 'shadowrun5e',
+            'type' => Channel::TYPE_SLACK,
         ]);
         $this->post(
             route('roll'),

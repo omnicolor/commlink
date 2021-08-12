@@ -63,7 +63,6 @@ final class LinkResponseTest extends \Tests\TestCase
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
-            'server_type' => ChatUser::TYPE_SLACK,
             'verified' => false,
         ]);
         new LinkResponse(
@@ -252,6 +251,7 @@ final class LinkResponseTest extends \Tests\TestCase
             'type' => Channel::TYPE_SLACK,
         ]);
         $channel->user = \Str::random(10);
+
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -268,7 +268,7 @@ final class LinkResponseTest extends \Tests\TestCase
         );
         $response = json_decode((string)$response);
         self::assertSame(
-            sprintf('You have linked %s to this channel.', $character->handle),
+            sprintf('You have linked %s to this channel.', (string)$character),
             $response->attachments[0]->text
         );
         self::assertDatabaseHas(

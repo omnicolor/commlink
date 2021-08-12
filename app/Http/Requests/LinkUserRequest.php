@@ -22,11 +22,8 @@ class LinkUserRequest extends FormRequest
                 'alpha_num',
                 'required',
             ],
-            'server-type' => [
-                'in:discord,slack',
-                'required',
-            ],
             'user-id' => [
+                'alpha_num',
                 'required',
             ],
         ];

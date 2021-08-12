@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Traits\InteractsWithDiscord;
 use App\Models\Traits\InteractsWithSlack;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,11 +16,14 @@ use Illuminate\Database\Eloquent\Model;
 class Channel extends Model
 {
     use HasFactory;
+    use InteractsWithDiscord;
     use InteractsWithSlack;
 
+    public const TYPE_DISCORD = 'discord';
     public const TYPE_SLACK = 'slack';
 
     public const VALID_TYPES = [
+        self::TYPE_DISCORD,
         self::TYPE_SLACK,
     ];
 
@@ -51,7 +55,8 @@ class Channel extends Model
             return null;
         }
         $chatCharacter = ChatCharacter::where('channel_id', $this->id)
-            ->where('chat_user_id', $chatUser->id)->first();
+            ->where('chat_user_id', $chatUser->id)
+            ->first();
         if (null === $chatCharacter) {
             return null;
         }
@@ -83,6 +88,14 @@ class Channel extends Model
         }
 
         switch ($this->attributes['type'] ?? null) {
+            case self::TYPE_DISCORD:
+                $this->attributes['server_name'] = self::getDiscordServerName(
+                    $this->attributes['server_id']
+                );
+                if (isset($this->id)) {
+                    $this->save();
+                }
+                return $this->attributes['server_name'];
             case self::TYPE_SLACK:
                 $this->attributes['server_name']
                     = self::getSlackTeamName($this->attributes['server_id']);
@@ -93,6 +106,16 @@ class Channel extends Model
             default:
                 return null;
         }
+    }
+
+    /**
+     * Scope the query to only include Discord accounts.
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeDiscord(Builder $query): Builder
+    {
+        return $query->where('type', self::TYPE_DISCORD);
     }
 
     /**
