@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Responses;
 
+use App\Events\SlackUserLinked;
 use App\Exceptions\SlackException;
 use App\Models\Channel;
 use App\Models\ChatUser;
@@ -67,6 +68,8 @@ class ValidateUserResponse extends SlackResponse
 
             $user->verified = true;
             $user->save();
+
+            SlackUserLinked::dispatch($user);
 
             $nextStep = 'Next, you can `/roll link <characterID>` to link a '
                 . 'character to this channel.';

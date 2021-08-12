@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Responses\Discord;
 
 use App\Events\DiscordMessageReceived;
+use App\Events\DiscordUserLinked;
 use App\Models\ChatUser;
-use App\Models\User;
 
 /**
  * Discord response for linking a Commlink user to a Discord user.
@@ -54,6 +54,7 @@ class ValidateUserResponse
 
             $user->verified = true;
             $user->save();
+            DiscordUserLinked::dispatch($user);
 
             $this->event->message->reply(
                 'Your Commlink account has been linked with this Discord user. '
