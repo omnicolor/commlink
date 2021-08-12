@@ -40,7 +40,7 @@ final class TalentsControllerTest extends \Tests\TestCase
     public function testNoAuthIndex(): void
     {
         $this->getJson(route('expanse.talents.index'))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -69,7 +69,7 @@ final class TalentsControllerTest extends \Tests\TestCase
     public function testNoAuthShow(): void
     {
         $this->getJson(route('expanse.talents.show', 'fringer'))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -79,7 +79,7 @@ final class TalentsControllerTest extends \Tests\TestCase
     public function testNoAuthShowNotFound(): void
     {
         $this->getJson(route('expanse.talents.show', 'not-found'))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -112,6 +112,6 @@ final class TalentsControllerTest extends \Tests\TestCase
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('expanse.talents.show', 'not-found'))
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertNotFound();
     }
 }

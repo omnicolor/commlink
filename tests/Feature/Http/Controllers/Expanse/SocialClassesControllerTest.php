@@ -37,7 +37,7 @@ final class SocialClassesControllerTest extends \Tests\TestCase
     public function testNoAuthIndex(): void
     {
         $this->getJson(route('expanse.social-classes.index'))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -66,7 +66,7 @@ final class SocialClassesControllerTest extends \Tests\TestCase
     public function testNoAuthShow(): void
     {
         $this->getJson(route('expanse.social-classes.show', 'middle'))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -76,7 +76,7 @@ final class SocialClassesControllerTest extends \Tests\TestCase
     public function testNoAuthShowNotFound(): void
     {
         $this->getJson(route('expanse.social-classes.show', 'not-found'))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -108,6 +108,6 @@ final class SocialClassesControllerTest extends \Tests\TestCase
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('expanse.social-classes.show', 'not-found'))
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertNotFound();
     }
 }

@@ -37,7 +37,7 @@ final class SpellsControllerTest extends \Tests\TestCase
     public function testNoAuthIndex(): void
     {
         $this->getJson(route('shadowrun5e.spells.index'))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -96,6 +96,6 @@ final class SpellsControllerTest extends \Tests\TestCase
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.spells.show', 'not-found'))
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertNotFound();
     }
 }

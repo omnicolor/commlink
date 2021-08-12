@@ -37,7 +37,7 @@ final class LifestylesControllerTest extends \Tests\TestCase
     public function testNoAuthIndex(): void
     {
         $this->getJson(route('shadowrun5e.lifestyles.index'))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -68,7 +68,7 @@ final class LifestylesControllerTest extends \Tests\TestCase
         $this->getJson(
             route('shadowrun5e.lifestyles.show', 'low')
         )
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -78,7 +78,7 @@ final class LifestylesControllerTest extends \Tests\TestCase
     public function testNoAuthShowNotFound(): void
     {
         $this->getJson(route('shadowrun5e.lifestyles.show', 'not-found'))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -124,6 +124,6 @@ final class LifestylesControllerTest extends \Tests\TestCase
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.lifestyles.show', 'not-found'))
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertNotFound();
     }
 }

@@ -109,7 +109,6 @@ final class Shadowrun5eConverterTest extends \Tests\TestCase
     /**
      * Test that converting a valid Hero Lab portfolio returns a Commlink
      * character.
-     * @group current
      * @test
      */
     public function testConvertPortfolio(): void

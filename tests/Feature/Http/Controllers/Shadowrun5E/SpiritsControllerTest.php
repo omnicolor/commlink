@@ -37,7 +37,7 @@ final class SpiritsControllerTest extends \Tests\TestCase
     public function testNoAuthIndex(): void
     {
         $this->getJson(route('shadowrun5e.spirits.index'))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -131,6 +131,6 @@ final class SpiritsControllerTest extends \Tests\TestCase
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.spirits.show', 'not-found'))
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertNotFound();
     }
 }

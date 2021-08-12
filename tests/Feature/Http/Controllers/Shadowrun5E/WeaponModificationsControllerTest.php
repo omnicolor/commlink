@@ -37,7 +37,7 @@ final class WeaponModificationsControllerTest extends \Tests\TestCase
     public function testNoAuthIndex(): void
     {
         $this->getJson(route('shadowrun5e.weapon-modifications.index'))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -68,7 +68,7 @@ final class WeaponModificationsControllerTest extends \Tests\TestCase
         $this->getJson(
             route('shadowrun5e.weapon-modifications.show', 'bayonet')
         )
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -80,7 +80,7 @@ final class WeaponModificationsControllerTest extends \Tests\TestCase
         $this->getJson(
             route('shadowrun5e.weapon-modifications.show', 'not-found')
         )
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -119,6 +119,6 @@ final class WeaponModificationsControllerTest extends \Tests\TestCase
             ->getJson(
                 route('shadowrun5e.weapon-modifications.show', 'not-found')
             )
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertNotFound();
     }
 }

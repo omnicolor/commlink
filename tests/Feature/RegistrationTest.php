@@ -17,9 +17,7 @@ final class RegistrationTest extends TestCase
 
     public function testRegistrationScreenCanBeRendered(): void
     {
-        $response = $this->get('/register');
-
-        $response->assertStatus(200);
+        $this->get('/register')->assertOk();
     }
 
     public function testNewUsersCanRegister(): void

@@ -37,7 +37,7 @@ final class AdeptPowerControllerTest extends \Tests\TestCase
     public function testNoAuthIndex(): void
     {
         $this->getJson(route('shadowrun5e.adept-powers.index'))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -69,7 +69,7 @@ final class AdeptPowerControllerTest extends \Tests\TestCase
             'shadowrun5e.adept-powers.show',
             'improved-sense-direction-sense'
         ))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -79,7 +79,7 @@ final class AdeptPowerControllerTest extends \Tests\TestCase
     public function testNoAuthShowNotFound(): void
     {
         $this->getJson(route('shadowrun5e.adept-powers.show', 'not-found'))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -117,6 +117,6 @@ final class AdeptPowerControllerTest extends \Tests\TestCase
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.adept-powers.show', 'not-found'))
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertNotFound();
     }
 }

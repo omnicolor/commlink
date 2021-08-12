@@ -159,7 +159,7 @@ final class CharactersControllerTest extends \Tests\TestCase
         ]);
         $this->actingAs($user)
             ->getJson(route('expanse.characters.show', $character))
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertNotFound();
     }
 
     /**

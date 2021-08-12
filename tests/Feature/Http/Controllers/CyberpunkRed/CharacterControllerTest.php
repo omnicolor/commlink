@@ -8,7 +8,6 @@ use App\Models\CyberpunkRed\Character;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Response;
 
 /**
  * Controller for the Cyberpunk Red characters controller.
@@ -48,7 +47,7 @@ final class CharacterControllerTest extends \Tests\TestCase
     public function testUnauthenticated(): void
     {
         $this->getJson(route('cyberpunkred.characters.index'))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -157,7 +156,7 @@ final class CharacterControllerTest extends \Tests\TestCase
         ]);
         $this->actingAs($user)
             ->getJson(route('cyberpunkred.characters.show', $character->id))
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertNotFound();
     }
 
     /**

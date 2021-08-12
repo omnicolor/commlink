@@ -37,7 +37,7 @@ final class GearModificationsControllerTest extends \Tests\TestCase
     public function testNoAuthIndex(): void
     {
         $this->getJson(route('shadowrun5e.gear-modifications.index'))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -68,7 +68,7 @@ final class GearModificationsControllerTest extends \Tests\TestCase
         $this->getJson(
             route('shadowrun5e.gear-modifications.show', 'biomonitor')
         )
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -80,7 +80,7 @@ final class GearModificationsControllerTest extends \Tests\TestCase
         $this->getJson(
             route('shadowrun5e.gear-modifications.show', 'not-found')
         )
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -121,6 +121,6 @@ final class GearModificationsControllerTest extends \Tests\TestCase
             ->getJson(
                 route('shadowrun5e.gear-modifications.show', 'not-found')
             )
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertNotFound();
     }
 }

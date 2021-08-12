@@ -176,7 +176,7 @@ final class CharacterControllerTest extends \Tests\TestCase
         ]);
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.characters.show', $character->id))
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertNotFound();
     }
 
     /**

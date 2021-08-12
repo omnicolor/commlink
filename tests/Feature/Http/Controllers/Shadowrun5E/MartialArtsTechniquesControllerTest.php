@@ -37,7 +37,7 @@ final class MartialArtsTechniquesControllerTest extends \Tests\TestCase
     public function testNoAuthIndex(): void
     {
         $this->getJson(route('shadowrun5e.martial-arts-techniques.index'))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -69,7 +69,7 @@ final class MartialArtsTechniquesControllerTest extends \Tests\TestCase
             'shadowrun5e.martial-arts-techniques.show',
             'called-shot-disarm'
         ))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
@@ -84,7 +84,7 @@ final class MartialArtsTechniquesControllerTest extends \Tests\TestCase
             ->getJson(
                 route('shadowrun5e.martial-arts-techniques.show', 'not-found')
             )
-            ->assertStatus(Response::HTTP_NOT_FOUND);
+            ->assertNotFound();
     }
 
     /**
