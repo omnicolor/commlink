@@ -17,9 +17,11 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function (): void {
     Route::get('/dashboard', [DashboardController::class, 'show'])
         ->name('dashboard');
-    Route::get('/campaigns/create', [CampaignsController::class, 'createForm']);
-    Route::post('/campaigns/create', [CampaignsController::class, 'create']);
 
+    Route::get('/campaigns/create', [CampaignsController::class, 'createForm'])
+        ->name('campaign.createForm');
+    Route::post('/campaigns/create', [CampaignsController::class, 'create'])
+        ->name('campaign.create');
     Route::get('/campaigns/{campaign}', [CampaignsController::class, 'view'])
         ->name('campaign.view');
 

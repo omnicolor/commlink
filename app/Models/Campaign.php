@@ -29,7 +29,9 @@ class Campaign extends Model
      * @var array<string, string>
      */
     protected $casts = [
+        'gm' => 'int',
         'options' => 'array',
+        'registered_by' => 'int',
     ];
 
     /**

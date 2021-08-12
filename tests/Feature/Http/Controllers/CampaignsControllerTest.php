@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Models\Campaign;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -20,12 +21,13 @@ final class CampaignsControllerTest extends \Tests\TestCase
     use WithFaker;
 
     /**
-     * Test an unauthenticated request.
+     * Test an unauthenticated request to the campaign creation form.
      * @test
      */
     public function testUnauthenticated(): void
     {
-        $this->get('/dashboard')->assertRedirect('/login');
+        $this->get(route('campaign.createForm'))
+            ->assertRedirect('/login');
     }
 
     /**
@@ -37,7 +39,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
         /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
-            ->get('/campaigns/create')
+            ->get(route('campaign.createForm'))
             ->assertSee($user->email)
             ->assertSee('Create campaign', false);
     }
@@ -68,7 +70,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
         $user = User::factory()->create();
         $this->actingAs($user)
             ->postJson(
-                '/campaigns/create',
+                route('campaign.create'),
                 [
                     'name' => $name,
                     'system' => $system,
@@ -107,7 +109,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
         $user = User::factory()->create();
         $this->actingAs($user)
             ->postJson(
-                '/campaigns/create',
+                route('campaign.createForm'),
                 [
                     'description' => $description,
                     'name' => $name,
@@ -143,5 +145,60 @@ final class CampaignsControllerTest extends \Tests\TestCase
                 'system' => 'shadowrun5e',
             ]
         );
+    }
+
+    /**
+     * Test trying to view a campaign without being authorized.
+     * @test
+     */
+    public function testViewCampaignUnauthenticated(): void
+    {
+        $campaign = Campaign::factory()->create();
+        $this->get(route('campaign.view', $campaign))
+            ->assertRedirect('/login');
+    }
+
+    /**
+     * Test trying to view a campaign without being a player, the GM, or the
+     * person that registered the campaign.
+     * @test
+     */
+    public function testViewCampaignNotAllowed(): void
+    {
+        $user = User::factory()->create();
+        $campaign = Campaign::factory()->create();
+        $this->actingAs($user)
+            ->get(route('campaign.view', $campaign))
+            ->assertForbidden();
+    }
+
+    /**
+     * Test trying to view a campaign as the person that registered it.
+     * @test
+     */
+    public function testViewCampaignAsRegisterer(): void
+    {
+        $user = User::factory()->create();
+        $campaign = Campaign::factory()->create([
+            'registered_by' => $user->id,
+        ]);
+        $this->actingAs($user)
+            ->get(route('campaign.view', $campaign))
+            ->assertOk();
+    }
+
+    /**
+     * Test trying to view a campaign as the GM.
+     * @test
+     */
+    public function testViewCampaignAsGm(): void
+    {
+        $user = User::factory()->create();
+        $campaign = Campaign::factory()->create([
+            'gm' => $user,
+        ]);
+        $this->actingAs($user)
+            ->get(route('campaign.view', $campaign))
+            ->assertOk();
     }
 }
