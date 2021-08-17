@@ -28,7 +28,11 @@ class CampaignList extends Component
         public User $user,
     ) {
         $this->registered = $registered->reject(
-            function (Campaign $value, int $key): bool {
+            function (Campaign $value, int $key) use ($user): bool {
+                if ($value->registered_by !== $user->id) {
+                    // Registered by another user, shouldn't have been included.
+                    return true;
+                }
                 if (null === $value->gm) {
                     // Registered by the user and there's no GM, don't reject.
                     return false;
