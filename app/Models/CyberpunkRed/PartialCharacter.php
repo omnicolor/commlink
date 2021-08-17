@@ -39,11 +39,9 @@ class PartialCharacter extends Character
      */
     public function initializeLifepath(): void
     {
-        /*
-        if ($this->lifepath) {
+        if (isset($this->lifepath)) {
             return;
         }
-         */
         $this->lifepath = [
             'affectation' => $this->createSubLifepathValue(),
             'background' => $this->createSubLifepathValue(),
