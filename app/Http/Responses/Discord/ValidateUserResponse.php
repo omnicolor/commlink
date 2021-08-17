@@ -47,7 +47,7 @@ class ValidateUserResponse
             }
             if ($user->verified) {
                 $this->event->message->reply(
-                    'It looks like you\'re already verfied!'
+                    'It looks like you\'re already verified!'
                 );
                 return;
             }
