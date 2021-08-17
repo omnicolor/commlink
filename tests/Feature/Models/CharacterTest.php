@@ -154,6 +154,7 @@ final class CharacterTest extends \Tests\TestCase
      */
     public function testGameSystem(): void
     {
+        /** @var Character */
         $character = Character::factory()->make(['system' => 'shadowrun5e']);
         self::assertSame('Shadowrun 5th Edition', $character->getSystem());
     }
@@ -164,6 +165,7 @@ final class CharacterTest extends \Tests\TestCase
      */
     public function testGameSystemNotFound(): void
     {
+        /** @var Character */
         $character = Character::factory()->make(['system' => 'unknown']);
         self::assertSame('unknown', $character->getSystem());
     }
