@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Tests\Feature\Listeners;
 
 use App\Events\DiscordMessageReceived;
+use App\Events\DiscordUserLinked;
 use App\Listeners\HandleDiscordMessage;
 use App\Models\ChatUser;
 use CharlotteDunois\Yasmin\Models\Guild;
 use CharlotteDunois\Yasmin\Models\Message;
 use CharlotteDunois\Yasmin\Models\TextChannel;
 use CharlotteDunois\Yasmin\Models\User;
+use Illuminate\Support\Facades\Event;
 
 /**
  * Tests for Discord message event listener.
@@ -166,6 +168,8 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
      */
     public function testHandleValidateUserNoHash(): void
     {
+        Event::fake();
+
         $serverNameAndId = \Str::random(10);
         $serverStub = $this->createStub(Guild::class);
         $serverStub->method('__get')->willReturn($serverNameAndId);
@@ -213,15 +217,17 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
 
         $event = new DiscordMessageReceived($messageMock);
         self::assertTrue((new HandleDiscordMessage())->handle($event));
+        Event::assertNotDispatched(DiscordUserLinked::class);
     }
 
     /**
      * Test handling a Discord event for linking a user with a wrong hash.
-     * @group current
      * @test
      */
     public function testHandleValidateUserWrongHash(): void
     {
+        Event::fake();
+
         $serverNameAndId = \Str::random(10);
         $serverStub = $this->createStub(Guild::class);
         $serverStub->method('__get')->willReturn($serverNameAndId);
@@ -277,15 +283,17 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
 
         $event = new DiscordMessageReceived($messageMock);
         self::assertTrue((new HandleDiscordMessage())->handle($event));
+        Event::assertNotDispatched(DiscordUserLinked::class);
     }
 
     /**
      * Test handling a Discord event for linking a user already linked.
-     * @group current
      * @test
      */
     public function testHandleValidateUserAlreadyLinked(): void
     {
+        Event::fake();
+
         $serverNameAndId = \Str::random(10);
         $serverStub = $this->createStub(Guild::class);
         $serverStub->method('__get')->willReturn($serverNameAndId);
@@ -332,5 +340,66 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
 
         $event = new DiscordMessageReceived($messageMock);
         self::assertTrue((new HandleDiscordMessage())->handle($event));
+        Event::assertNotDispatched(DiscordUserLinked::class);
+    }
+
+    /**
+     * Test handling a Discord event for linking a user.
+     * @medium
+     * @test
+     */
+    public function testHandleValidateUser(): void
+    {
+        Event::fake();
+
+        $serverNameAndId = \Str::random(10);
+        $serverStub = $this->createStub(Guild::class);
+        $serverStub->method('__get')->willReturn($serverNameAndId);
+
+        $userTag = 'user#' . random_int(1000, 9999);
+        $userId = random_int(1, 9999);
+        $userMap = [
+            ['tag', $userTag],
+            ['id', $userId],
+        ];
+        $userMock = $this->createMock(User::class);
+        $userMock->method('__get')->willReturnMap($userMap);
+
+        $channelName = \Str::random(12);
+        $channelId = \Str::random(10);
+        $channelMap = [
+            ['guild', $serverStub],
+            ['id', $channelId],
+            ['name', $channelName],
+        ];
+        $channelMock = $this->createMock(TextChannel::class);
+        $channelMock->method('__get')->willReturnMap($channelMap);
+
+        /** @var ChatUser */
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $userId,
+            'server_id' => $serverNameAndId,
+            'server_type' => ChatUser::TYPE_DISCORD,
+            'verified' => false,
+        ]);
+
+        $expected = 'Your Commlink account has been linked with this Discord '
+            . 'user. You only need to do this once for this server, no matter '
+            . 'how many different channels you play in.';
+        $messageMap = [
+            ['author', $userMock],
+            ['channel', $channelMock],
+            ['content', sprintf('/roll validateUser %s', $chatUser->verification)],
+        ];
+        $messageMock = $this->createStub(Message::class);
+        $messageMock->method('__get')->willReturnMap($messageMap);
+        // @phpstan-ignore-next-line
+        $messageMock->expects(self::once())
+            ->method('reply')
+            ->with($expected);
+
+        $event = new DiscordMessageReceived($messageMock);
+        self::assertTrue((new HandleDiscordMessage())->handle($event));
+        Event::assertDispatched(DiscordUserLinked::class);
     }
 }
