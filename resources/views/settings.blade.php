@@ -3,6 +3,13 @@
         Settings
     </x-slot>
 
+    @if(session('successObj'))
+    <div class="alert alert-success alert-dismissible fade mt-4 show" id="{{ session('successObj')['id'] }}" role="alert">
+        {{ session('successObj')['message'] }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
     @if(session('success'))
     <div class="alert alert-success mt-4">
         {{ session('success') }}
@@ -68,7 +75,8 @@
                                     <i class="bi bi-check-square-fill text-success"></i>
                                 </td>
                                 @else
-                                <td title="User link is not verified">
+                                    <td id="{{ $chatUser->server_type }}-{{ $chatUser->server_id }}-{{ $chatUser->remote_user_id }}"
+                                        title="User link is not verified">
                                     <div class="input-group">
                                         <span class="input-group-text">
                                             <i class="bi bi-question-square-fill text-danger"></i>
@@ -196,6 +204,45 @@
                 console.error('Failed to copy!', err);
             }
         });
+        function updateAlert(id, message) {
+            let el = $(id);
+            if (el.length) {
+                el.html(message);
+            } else {
+                $('main').prepend(
+                    '<div class="alert alert-success alert-dismissible '
+                    + 'fade mt-4 show" id="' + id + '" role="alert">'
+                    + message + '</div>'
+                );
+            }
+        }
+        Echo.private(`users.{{ $user->id }}`)
+            .listen('SlackUserLinked', (e) => {
+                $('#slack-' + e.chatUser.server_id + '-' + e.chatUser.remote_user_id)
+                    .html('<i class="bi bi-check-square-fill text-success"></i>');
+
+                const message = 'Slack account (' + e.chatUser.server_name
+                    + ' - ' + e.chatUser.remote_user_name
+                    + ') linked <b>and</b> verified!'
+                    + '<button type="button" class="btn-close" '
+                    + 'data-bs-dismiss="alert" aria-label="Close"></button>';
+                const id = '#success-slack-' + e.chatUser.server_id + '-'
+                    + e.chatUser.remote_user_id;
+                updateAlert(id, message);
+            })
+            .listen('DiscordUserLinked', (e) => {
+                $('#discord-' + e.chatUser.server_id + '-' + e.chatUser.remote_user_id)
+                    .html('<i class="bi bi-check-square-fill text-success"></i>');
+
+                const message = 'Discord account (' + e.chatUser.server_name
+                    + ' - ' + e.chatUser.remote_user_name
+                    + ') linked <b>and</b> verified!'
+                    + '<button type="button" class="btn-close" '
+                    + 'data-bs-dismiss="alert" aria-label="Close"></button>';
+                const id = '#success-discord-' + e.chatUser.server_id + '-'
+                    + e.chatUser.remote_user_id;
+                updateAlert(id, message);
+            });
     </script>
     </x-slot>
 </x-app>

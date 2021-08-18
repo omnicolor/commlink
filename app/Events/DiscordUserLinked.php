@@ -6,10 +6,12 @@ namespace App\Events;
 
 use App\Models\ChatUser;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class DiscordUserLinked
+class DiscordUserLinked implements ShouldBroadcast
 {
     use Dispatchable;
     use InteractsWithSockets;
@@ -21,5 +23,16 @@ class DiscordUserLinked
      */
     public function __construct(public ChatUser $chatUser)
     {
+        \Log::info('Discord user linked __construct');
+    }
+
+    /**
+     * Get the channels the event should broadcast on.
+     * @return PrivateChannel
+     */
+    public function broadcastOn(): PrivateChannel
+    {
+        \Log::info('Discord user linked broadcastOn');
+        return new PrivateChannel('users.' . $this->chatUser->user_id);
     }
 }

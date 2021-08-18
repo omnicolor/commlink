@@ -14,10 +14,12 @@
         "alpinejs": "^2.8.2",
         "autoprefixer": "^10.2.5",
         "axios": "^0.21",
-        "laravel-mix": "^5.0.9",
+        "laravel-echo": "^1.11.1",
+        "laravel-mix": "^6.0.27",
         "lodash": "^4.17.21",
         "postcss": "^8.2.10",
         "postcss-import": "^14.0.2",
+        "pusher-js": "^7.0.3",
         "tailwindcss": "^2.0.4"
     }
 }

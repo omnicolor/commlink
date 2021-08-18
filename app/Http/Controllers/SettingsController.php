@@ -56,7 +56,22 @@ class SettingsController extends Controller
         $chatUser->remote_user_name = $chatUser->getDiscordUserName($remoteUserId);
         $chatUser->save();
 
-        return redirect('settings')->with('success', 'Discord account linked.');
+        return redirect('settings')
+            ->with(
+                'successObj',
+                [
+                    'id' => sprintf(
+                        'success-discord-%s-%s',
+                        $serverId,
+                        $remoteUserId,
+                    ),
+                    'message' => sprintf(
+                        'Discord account (%s - %s) linked.',
+                        $chatUser->server_name,
+                        $chatUser->remote_user_name,
+                    ),
+                ],
+            );
     }
 
     /**
@@ -94,7 +109,22 @@ class SettingsController extends Controller
             = $chatUser->getSlackUserName($remoteUserId);
         $chatUser->save();
 
-        return redirect('settings')->with('success', 'Slack account linked.');
+        return redirect('settings')
+            ->with(
+                'successObj',
+                [
+                    'id' => sprintf(
+                        'success-slack-%s-%s',
+                        $serverId,
+                        $remoteUserId,
+                    ),
+                    'message' => sprintf(
+                        'Slack account (%s - %s) linked.',
+                        $chatUser->server_name,
+                        $chatUser->remote_user_name,
+                    ),
+                ],
+            );
     }
 
     /**
