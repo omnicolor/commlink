@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Traits\GameSystem;
 use App\Models\Traits\InteractsWithDiscord;
 use App\Models\Traits\InteractsWithSlack;
 use Illuminate\Database\Eloquent\Builder;
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Channel extends Model
 {
+    use GameSystem;
     use HasFactory;
     use InteractsWithDiscord;
     use InteractsWithSlack;

@@ -33,9 +33,7 @@ class InfoResponse
         $system = 'Unregistered';
         $character = 'No character';
         if (null !== $channel) {
-            $system = config('app.systems')[$channel->system]
-                ?? $channel->system
-                ?? 'unregistered';
+            $system = $channel->getSystem();
             if ($channel->campaign) {
                 $campaignName = $channel->campaign->name;
             }
@@ -47,7 +45,7 @@ class InfoResponse
             . 'Server ID: ' . $this->event->server->id . \PHP_EOL
             . 'Channel Name: ' . $textChannel->name . \PHP_EOL
             . 'Channel ID: ' . $textChannel->id . \PHP_EOL
-            . 'System: ' . 'Unregistered' . \PHP_EOL
+            . 'System: ' . $system . \PHP_EOL
             . 'Character: ' . 'Unlinked' . \PHP_EOL
             . 'Campaign: ' . $campaignName;
     }
