@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Responses\Discord;
 
 use App\Events\DiscordMessageReceived;
+use App\Models\Channel;
 
 class InfoResponse
 {
@@ -23,15 +24,31 @@ class InfoResponse
     public function __toString(): string
     {
         /** @var \CharlotteDunois\Yasmin\Models\TextChannel */
-        $channel = $this->event->channel;
+        $textChannel = $this->event->channel;
+        $channel = Channel::discord()
+            ->where('channel_id', $textChannel->id)
+            ->where('server_id', $this->event->server->id)
+            ->first();
+        $campaignName = 'No campaign';
+        $system = 'Unregistered';
+        $character = 'No character';
+        if (null !== $channel) {
+            $system = config('app.systems')[$channel->system]
+                ?? $channel->system
+                ?? 'unregistered';
+            if ($channel->campaign) {
+                $campaignName = $channel->campaign->name;
+            }
+        }
         return '**Debugging info**' . \PHP_EOL
             . 'User Tag: ' . $this->event->user->tag . \PHP_EOL
             . 'User ID: ' . $this->event->user->id . \PHP_EOL
             . 'Server Name: ' . $this->event->server->name . \PHP_EOL
             . 'Server ID: ' . $this->event->server->id . \PHP_EOL
-            . 'Channel Name: ' . $channel->name . \PHP_EOL
-            . 'Channel ID: ' . $channel->id . \PHP_EOL
+            . 'Channel Name: ' . $textChannel->name . \PHP_EOL
+            . 'Channel ID: ' . $textChannel->id . \PHP_EOL
             . 'System: ' . 'Unregistered' . \PHP_EOL
-            . 'Character: ' . 'Unlinked' . \PHP_EOL;
+            . 'Character: ' . 'Unlinked' . \PHP_EOL
+            . 'Campaign: ' . $campaignName;
     }
 }

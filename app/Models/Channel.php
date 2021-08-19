@@ -9,6 +9,7 @@ use App\Models\Traits\InteractsWithSlack;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property ?string $system
@@ -32,6 +33,7 @@ class Channel extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'campaign_id',
         'channel_id',
         'channel_name',
         'registered_by',
@@ -43,6 +45,15 @@ class Channel extends Model
 
     public string $user = '';
     public string $username = 'Unknown';
+
+    /**
+     * Return the campaign attached to the channel.
+     * @return BelongsTo
+     */
+    public function campaign(): BelongsTo
+    {
+        return $this->belongsTo(Campaign::class);
+    }
 
     /**
      * Return the character linked to this user and channel.

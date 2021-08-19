@@ -34,6 +34,12 @@ class InfoResponse extends SlackResponse
         if (null !== $chatUser && null !== $chatUser->user) {
             $commlinkUser = $chatUser->user->email;
         }
+        $campaign = 'No campaign';
+        // @phpstan-ignore-next-line
+        if (null !== $channel->campaign) {
+            // @phpstan-ignore-next-line
+            $campaign = $channel->campaign->name;
+        }
 
         $attachment = (new FieldsAttachment('Debugging Info'))
             ->addField(new Field('Team ID', $this->channel->server_id))
@@ -50,7 +56,8 @@ class InfoResponse extends SlackResponse
             ->addField(new Field(
                 'Character',
                 $this->getCharacterName($chatUser, $channel)
-            ));
+            ))
+            ->addField(new Field('Campaign', $campaign));
         $this->addAttachment($attachment);
     }
 

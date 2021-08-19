@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models;
 
+use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\User;
 use Illuminate\Http\Response;
@@ -369,5 +370,32 @@ final class ChannelTest extends \Tests\TestCase
         /** @var Channel */
         $channel = Channel::factory()->make();
         self::assertNull($channel->character());
+    }
+
+    /**
+     * Test getting the campaign attached to the channel when there isn't one.
+     * @test
+     */
+    public function testCampaignNone(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->make();
+        self::assertEmpty($channel->campaign);
+    }
+
+    /**
+     * Test getting the campaign attached to the channel.
+     * @test
+     */
+    public function testCampaign(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+        /** @var Channel */
+        $channel = Channel::factory()->make([
+            'campaign_id' => $campaign,
+        ]);
+        // @phpstan-ignore-next-line
+        self::assertSame($campaign->id, $channel->campaign->id);
     }
 }

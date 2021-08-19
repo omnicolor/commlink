@@ -68,6 +68,11 @@ final class InfoResponseTest extends \Tests\TestCase
                             'value' => 'No character',
                             'short' => true,
                         ],
+                        (object)[
+                            'title' => 'Campaign',
+                            'value' => 'No campaign',
+                            'short' => true,
+                        ],
                     ],
                 ],
             ],
@@ -132,6 +137,11 @@ final class InfoResponseTest extends \Tests\TestCase
                         (object)[
                             'title' => 'Character',
                             'value' => 'No character',
+                            'short' => true,
+                        ],
+                        (object)[
+                            'title' => 'Campaign',
+                            'value' => 'No campaign',
                             'short' => true,
                         ],
                     ],
@@ -202,6 +212,11 @@ final class InfoResponseTest extends \Tests\TestCase
                         (object)[
                             'title' => 'Character',
                             'value' => 'Invalid character',
+                            'short' => true,
+                        ],
+                        (object)[
+                            'title' => 'Campaign',
+                            'value' => 'No campaign',
                             'short' => true,
                         ],
                     ],
@@ -277,6 +292,11 @@ final class InfoResponseTest extends \Tests\TestCase
                         (object)[
                             'title' => 'Character',
                             'value' => (string)$character,
+                            'short' => true,
+                        ],
+                        (object)[
+                            'title' => 'Campaign',
+                            'value' => 'No campaign',
                             'short' => true,
                         ],
                     ],

@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Tests\Feature\Models;
 
 use App\Models\Campaign;
+use App\Models\Channel;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * Tests for the campaign model.
@@ -15,6 +17,8 @@ use App\Models\User;
  */
 final class CampaignTest extends \Tests\TestCase
 {
+    use RefreshDatabase;
+
     /**
      * Test getting the users associated with the campaign.
      * @test
@@ -69,5 +73,30 @@ final class CampaignTest extends \Tests\TestCase
         $campaign = new Campaign();
         $campaign->system = $system;
         self::assertSame($system, $campaign->system);
+    }
+
+    /**
+     * Test getting the campaign's channels when none have been set.
+     * @test
+     */
+    public function testGetChannelsNone(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->make();
+        self::assertCount(0, $campaign->channels);
+    }
+
+    /**
+     * Test getting the campaign's channels when it has several.
+     * @test
+     */
+    public function testGetChannels(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+        Channel::factory()->count(2)->create([
+            'campaign_id' => $campaign,
+        ]);
+        self::assertCount(2, $campaign->channels);
     }
 }

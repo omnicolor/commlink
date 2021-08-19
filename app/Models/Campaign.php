@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class representing a gaming campaign or one-shot.
@@ -54,6 +55,15 @@ class Campaign extends Model
     public function __toString(): string
     {
         return $this->attributes['name'];
+    }
+
+    /**
+     * Get a collection of channels attached to the campaign.
+     * @return HasMany
+     */
+    public function channels(): HasMany
+    {
+        return $this->hasMany(Channel::class);
     }
 
     /**

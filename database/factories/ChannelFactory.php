@@ -23,6 +23,7 @@ class ChannelFactory extends Factory
     public function definition(): array
     {
         return [
+            'campaign_id' => null,
             'channel_id' => \Str::random(10),
             'channel_name' => $this->faker->company(),
             'registered_by' => User::factory()->create(),

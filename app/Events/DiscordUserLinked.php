@@ -23,7 +23,6 @@ class DiscordUserLinked implements ShouldBroadcast
      */
     public function __construct(public ChatUser $chatUser)
     {
-        \Log::info('Discord user linked __construct');
     }
 
     /**
@@ -32,7 +31,6 @@ class DiscordUserLinked implements ShouldBroadcast
      */
     public function broadcastOn(): PrivateChannel
     {
-        \Log::info('Discord user linked broadcastOn');
         return new PrivateChannel('users.' . $this->chatUser->user_id);
     }
 }
