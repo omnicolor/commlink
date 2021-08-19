@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Responses;
+namespace Tests\Feature\Http\Responses\Slack;
 
 use App\Exceptions\SlackException;
-use App\Http\Responses\ValidateUserResponse;
+use App\Http\Responses\Slack\ValidateUserResponse;
 use App\Models\Channel;
 use App\Models\ChatUser;
 use App\Models\User;

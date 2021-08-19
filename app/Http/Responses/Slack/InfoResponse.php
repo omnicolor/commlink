@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Responses;
+namespace App\Http\Responses\Slack;
 
 use App\Models\Channel;
 use App\Models\ChatCharacter;

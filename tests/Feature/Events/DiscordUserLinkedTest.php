@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Event;
+namespace Tests\Feature\Events;
 
 use App\Events\DiscordUserLinked;
 use App\Models\ChatUser;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Responses;
+namespace Tests\Feature\Http\Responses\Slack;
 
-use App\Http\Responses\SlackResponse;
+use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Slack\TextAttachment;
 
 /**

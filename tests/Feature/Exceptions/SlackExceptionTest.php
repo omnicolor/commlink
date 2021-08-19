@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace Tests\Feature\Exceptions;
 
 use App\Exceptions\SlackException;
-use App\Http\Responses\SlackResponse;
+use App\Http\Responses\Slack\SlackResponse;
 
 /**
  * Tests for the Slack Exception.
- * @covers \App\Exceptions\SlackException
- * @covers \App\Http\Requests\SlackRequest
  * @group exception
  * @small
  */

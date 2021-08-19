@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Responses\Expanse;
 
 use App\Exceptions\SlackException;
-use App\Http\Responses\SlackResponse;
+use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 

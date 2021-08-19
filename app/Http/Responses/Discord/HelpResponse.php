@@ -46,11 +46,23 @@ class HelpResponse
             ->first();
         if (null === $channel) {
             // Channel is unregistered.
+            /*
+            $systems = [];
+            foreach (config('app.systems') as $code => $name) {
+                $systems[] = \sprintf('· · %s - %s', $code, $name);
+            }
+             */
+
             $help .= '**Commands for unregistered channels:**' . \PHP_EOL
                 . '· `help` - Show help' . \PHP_EOL
                 . '· `XdY[+C] [text]` - Roll X dice with Y sides, '
                 . 'optionally adding C to the result, optionally '
-                . 'describing that the roll is for "text"' . \PHP_EOL;
+                . 'describing that the roll is for "text"';
+            /*
+                . '· `register <system>` - Register this channel for '
+                . 'system code <system>, where <system> is one of:'
+                . \PHP_EOL . \implode(\PHP_EOL, $systems);
+             */
             return $help;
         }
 

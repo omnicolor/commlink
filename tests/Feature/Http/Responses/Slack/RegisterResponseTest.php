@@ -2,17 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Responses;
+namespace Tests\Feature\Http\Responses\Slack;
 
 use App\Exceptions\SlackException;
-use App\Http\Responses\RegisterResponse;
+use App\Http\Responses\Slack\RegisterResponse;
 use App\Models\Channel;
 use App\Models\ChatUser;
 use App\Models\User;
 
 /**
  * Tests for registering a channel in Slack.
- * @covers \App\Http\Responses\RegisterResponse
  * @group slack
  * @medium
  */

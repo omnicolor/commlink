@@ -7,7 +7,7 @@ namespace App\Http\Controllers;
 use App\Events\RollEvent;
 use App\Exceptions\SlackException;
 use App\Http\Requests\SlackRequest;
-use App\Http\Responses\SlackResponse;
+use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Rolls\Generic;
 use Error;
@@ -109,7 +109,7 @@ class SlackController extends Controller
         // Finally, see if there's a Slack response that isn't system-specific.
         try {
             $class = \sprintf(
-                '\\App\Http\\Responses\\%sResponse',
+                '\\App\Http\\Responses\\Slack\\%sResponse',
                 \ucfirst($this->args[0])
             );
             return new $class(
