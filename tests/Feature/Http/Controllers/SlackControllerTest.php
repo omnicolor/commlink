@@ -22,12 +22,6 @@ final class SlackControllerTest extends \Tests\TestCase
     use \phpmock\phpunit\PHPMock;
 
     /**
-     * Channel used for tests.
-     * @var ?Channel
-     */
-    protected ?Channel $channel;
-
-    /**
      * Mock random_int function to take randomness out of testing.
      * @var \PHPUnit\Framework\MockObject\MockObject
      */
@@ -135,18 +129,16 @@ final class SlackControllerTest extends \Tests\TestCase
      */
     public function testGetHelpInRegisteredChannel(): void
     {
-        // @phpstan-ignore-next-line
-        $this->channel = Channel::factory()->create([
+        /** @var Channel */
+        $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
         ]);
         $this->post(
             route('roll'),
             [
-                // @phpstan-ignore-next-line
-                'channel_id' => $this->channel->channel_id,
-                // @phpstan-ignore-next-line
-                'team_id' => $this->channel->server_id,
+                'channel_id' => $channel->channel_id,
+                'team_id' => $channel->server_id,
                 'text' => 'help',
                 'user_id' => 'E567',
             ]
@@ -166,18 +158,16 @@ final class SlackControllerTest extends \Tests\TestCase
     public function testRollDiceShadowrun(): void
     {
         $this->randomInt->expects(self::any())->willReturn(5);
-        // @phpstan-ignore-next-line
-        $this->channel = Channel::factory()->create([
+        /** @var Channel */
+        $channel = Channel::factory()->create([
             'system' => 'shadowrun5e',
             'type' => Channel::TYPE_SLACK,
         ]);
         $this->post(
             route('roll'),
             [
-                // @phpstan-ignore-next-line
-                'channel_id' => $this->channel->channel_id,
-                // @phpstan-ignore-next-line
-                'team_id' => $this->channel->server_id,
+                'channel_id' => $channel->channel_id,
+                'team_id' => $channel->server_id,
                 'text' => '5',
                 'user_id' => 'E567',
                 'user_name' => 'Bob',
@@ -189,6 +179,37 @@ final class SlackControllerTest extends \Tests\TestCase
             ])
             ->assertSee('Rolled 5 successes')
             ->assertSee('Bob rolled 5 dice');
+    }
+
+    /**
+     * Test trying a generic number command in a channel for a system that
+     * doesn't have it.
+     * @test
+     */
+    public function testRollNumberUnsupported(): void
+    {
+        $this->randomInt->expects(self::any())->willReturn(5);
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'system' => 'dnd5e',
+            'type' => Channel::TYPE_SLACK,
+        ]);
+        $this->post(
+            route('roll'),
+            [
+                'channel_id' => $channel->channel_id,
+                'team_id' => $channel->server_id,
+                'text' => '5',
+                'user_id' => 'E567',
+                'user_name' => 'Bob',
+            ]
+        )
+            ->assertOk()
+            ->assertJsonFragment(['response_type' => 'ephemeral'])
+            ->assertSee(
+                'That doesn\'t appear to be a valid Commlink command.',
+                false
+            );
     }
 
     /**
@@ -307,17 +328,15 @@ final class SlackControllerTest extends \Tests\TestCase
      */
     public function testRollDiceInvalidNumericForSystem(): void
     {
-        // @phpstan-ignore-next-line
-        $this->channel = Channel::factory()->create([
+        /** @var Channel */
+        $channel = Channel::factory()->create([
             'system' => 'expanse',
         ]);
         $this->post(
             route('roll'),
             [
-                // @phpstan-ignore-next-line
-                'channel_id' => $this->channel->channel_id,
-                // @phpstan-ignore-next-line
-                'team_id' => $this->channel->server_id,
+                'channel_id' => $channel->channel_id,
+                'team_id' => $channel->server_id,
                 'text' => '5',
                 'user_id' => \Str::random(9),
             ]
