@@ -7,6 +7,7 @@ namespace Tests\Feature\Listeners;
 use App\Events\DiscordMessageReceived;
 use App\Events\DiscordUserLinked;
 use App\Listeners\HandleDiscordMessage;
+use App\Models\Channel;
 use App\Models\ChatUser;
 use CharlotteDunois\Yasmin\Models\Guild;
 use CharlotteDunois\Yasmin\Models\Message;
@@ -41,6 +42,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
 
     /**
      * Test handling a Discord event with an invalid command.
+     * @medium
      * @test
      */
     public function testHandleInvalidCommand(): void
@@ -49,6 +51,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $serverStub->method('__get')->willReturn(\Str::random(10));
 
         $channelMap = [
+            ['id', \Str::random(14)],
             ['name', \Str::random(12)],
             ['guild', $serverStub],
         ];
@@ -57,11 +60,17 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $channelMock->expects(self::once())
             ->method('send')
             ->with(self::equalTo('That doesn\'t appear to be a valid command!'));
+        Channel::factory()->create([
+            'channel_id' => $channelMock->id,
+            'server_id' => $serverStub->id,
+            'system' => 'dnd5e',
+            'type' => 'discord',
+        ]);
 
         $messageMap = [
             ['author', $this->createStub(User::class)],
             ['channel', $channelMock],
-            ['content', '/roll foo'],
+            ['content', '/roll 6'],
         ];
         $messageStub = $this->createStub(Message::class);
         $messageStub->method('__get')->willReturnMap($messageMap);
@@ -402,5 +411,54 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $event = new DiscordMessageReceived($messageMock);
         self::assertTrue((new HandleDiscordMessage())->handle($event));
         Event::assertDispatched(DiscordUserLinked::class);
+    }
+
+    /**
+     * Test handling a Discord message asking for a system-specific number roll.
+     * @medium
+     * @test
+     */
+    public function testHandleSystemNumberRoll(): void
+    {
+        $this->randomInt = $this->getFunctionMock(
+            'App\\Rolls\Cyberpunkred',
+            'random_int'
+        );
+        $this->randomInt->expects(self::exactly(1))->willReturn(3);
+        $expected = "**discord#tag made a roll**\n1d10 + 6 = 3 + 6 = 9";
+
+        $serverStub = $this->createStub(Guild::class);
+        $serverStub->method('__get')->willReturn(\Str::random(10));
+
+        $channelMap = [
+            ['id', \Str::random(14)],
+            ['name', \Str::random(12)],
+            ['guild', $serverStub],
+        ];
+        $channelMock = $this->createMock(TextChannel::class);
+        $channelMock->method('__get')->willReturnMap($channelMap);
+        $channelMock->expects(self::once())
+            ->method('send')
+            ->with(self::equalTo($expected));
+        Channel::factory()->create([
+            'channel_id' => $channelMock->id,
+            'server_id' => $serverStub->id,
+            'system' => 'cyberpunkred',
+            'type' => 'discord',
+        ]);
+
+        $userMock = $this->createMock(User::class);
+        $userMock->method('__get')->willReturn('discord#tag');
+
+        $messageMap = [
+            ['author', $userMock],
+            ['channel', $channelMock],
+            ['content', '/roll 6'],
+        ];
+        $messageStub = $this->createStub(Message::class);
+        $messageStub->method('__get')->willReturnMap($messageMap);
+
+        $event = new DiscordMessageReceived($messageStub);
+        self::assertTrue((new HandleDiscordMessage())->handle($event));
     }
 }

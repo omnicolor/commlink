@@ -28,55 +28,55 @@
     </div>
     @endif
 
+    <h1>Settings</h1>
+
     <div class="row mt-4">
         <div class="col">
-            <div class="row">
-                <div class="col">
-                    <h1>Linked chat users</h1>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Type</th>
-                                <th scope="col">Server ID</th>
-                                <th scope="col">Server name</th>
-                                <th scope="col">User ID</th>
-                                <th scope="col">User name</th>
-                                <th scope="col">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @forelse ($user->chatUsers->sortByDesc('verified') as $chatUser)
-                            <tr>
-                                <td>
-                                    <i class="bi bi-{{ $chatUser->server_type }}"></i>
-                                </td>
-                                <td>{{ $chatUser->server_id }}</td>
-                                <td>
-                                    @if ($chatUser->server_name)
-                                        {{ $chatUser->server_name }}
-                                    @else
-                                        <small class="text-muted">
-                                            Unable to load name
-                                        </small>
-                                    @endif
-                                </td>
-                                <td>{{ $chatUser->remote_user_id }}</td>
-                                <td>
-                                    @if ($chatUser->remote_user_name)
-                                        {{ $chatUser->remote_user_name }}
-                                    @else
-                                        <small class="text-muted">
-                                            Unable to load name
-                                        </small>
-                                    @endif
-                                </td>
-                                @if ($chatUser->verified)
+            <h2>Linked chat users</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Type</th>
+                        <th scope="col">Server ID</th>
+                        <th scope="col">Server name</th>
+                        <th scope="col">User ID</th>
+                        <th scope="col">User name</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($user->chatUsers->sortByDesc('verified') as $chatUser)
+                        <tr>
+                            <td>
+                                <i class="bi bi-{{ $chatUser->server_type }}"></i>
+                            </td>
+                            <td>{{ $chatUser->server_id }}</td>
+                            <td>
+                                @if ($chatUser->server_name)
+                                    {{ $chatUser->server_name }}
+                                @else
+                                    <small class="text-muted">
+                                        Unable to load name
+                                    </small>
+                                @endif
+                            </td>
+                            <td>{{ $chatUser->remote_user_id }}</td>
+                            <td>
+                                @if ($chatUser->remote_user_name)
+                                    {{ $chatUser->remote_user_name }}
+                                @else
+                                    <small class="text-muted">
+                                        Unable to load name
+                                    </small>
+                                @endif
+                            </td>
+                            @if ($chatUser->verified)
                                 <td title="User link is verified">
                                     <i class="bi bi-check-square-fill text-success"></i>
                                 </td>
-                                @else
-                                    <td id="{{ $chatUser->server_type }}-{{ $chatUser->server_id }}-{{ $chatUser->remote_user_id }}"
-                                        title="User link is not verified">
+                            @else
+                                <td id="{{ $chatUser->server_type }}-{{ $chatUser->server_id }}-{{ $chatUser->remote_user_id }}"
+                                    title="User link is not verified">
                                     <div class="input-group">
                                         <span class="input-group-text">
                                             <i class="bi bi-question-square-fill text-danger"></i>
@@ -89,89 +89,210 @@
                                         </button>
                                     </div>
                                 </td>
-                                @endif
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6">
-                                    You don't have any linked chat users!
-                                </td>
-                            </tr>
-                        @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                            @endif
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6">
+                                You don't have any linked chat users!
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="6">
+                            <button class="btn btn-primary"
+                                    data-bs-target="#link-user"
+                                    data-bs-toggle="modal" type="button">
+                                Link a user
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
 
-            <form action="/settings/link-user" method="POST">
+    <div class="row mt-4">
+        <div class="col">
+            <h2>Linked channels</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Type</th>
+                        <th scope="col">Server ID</th>
+                        <th scope="col">Server name</th>
+                        <th scope="col">Channel ID</th>
+                        <th scope="col">Channel name</th>
+                        <th scope="col">Character</th>
+                        <th scope="col">Campaign</th>
+                        <th scope="col">System</th>
+                        <th scope="col">Webhook</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($user->channels as $channel)
+                        @php
+                            $chatUser = \App\Models\ChatUser::where('server_id', $channel->server_id)
+                                ->where('user_id', \Auth::user()->id)
+                                ->where('server_type', $channel->type)
+                                ->first();
+                            $character = null;
+                            if ($chatUser) {
+                                $chatCharacter = \App\Models\ChatCharacter::where('channel_id', $channel->id)
+                                    ->where('chat_user_id', $chatUser->id)
+                                    ->first();
+                                if ($chatCharacter) {
+                                    $character = $chatCharacter->getCharacter();
+                                }
+                            }
+                        @endphp
+                        <tr>
+                            <td>
+                                <i class="bi bi-{{ $channel->type }}"></i>
+                            </td>
+                            <td>{{ $channel->server_id }}</td>
+                            <td>
+                                @if ($channel->server_name)
+                                    {{ $channel->server_name }}
+                                @else
+                                    <small class="text-muted">
+                                        Unable to load name
+                                    </small>
+                                @endif
+                            </td>
+                            <td>{{ $channel->channel_id }}</td>
+                            <td>
+                                @if ($channel->channel_name)
+                                    {{ $channel->channel_name }}
+                                @else
+                                    <small class="text-muted">
+                                        Unable to load name
+                                    </small>
+                                @endif
+                            </td>
+                            <td>{{ $character }}</th>
+                            <td>
+                                @if ($channel->campaign)
+                                    <a href="{{ route('campaign.view', $channel->campaign) }}">
+                                        {{ $channel->campaign->name }}
+                                    </a>
+                                @else
+                                    &nbsp;
+                                @endif
+                            </td>
+                            <td>{{ $channel->getSystem() }}</td>
+                            <td>
+                                @if ($channel->webhook)
+                                    <i class="bi bi-check-square-fill text-success" title="{{ $channel->webhook }}"></i>
+                                @else
+                                    <i class="bi bi-question-square-fill text-danger"></i>
+                                @endif
+                            </td>
+                        </tr>
+                    @empty
+                    <tr>
+                        <td colspan="9">You haven't registered any channels</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="text-muted" colspan="9"><small>
+                            To link a channel, type <code>/roll register
+                            &lt;system&gt;</code>, where &lt;system&gt; is the
+                            short code for the system you want this channel to
+                            play. Type <code>/roll help</code> to see the list
+                            of systems.
+                            </small></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <div aria-hidden="true" aria-labelledby="link-user-title" class="modal fade"
+        id="link-user" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="/settings/link-user" method="POST">
                 @csrf
-                <div class="row mt-4">
-                    <div class="col">
-                        <h2>Link your chat user</h2>
-                        <p>
-                            Linking your user will allow you to interact with
-                            Commlink resources from your chat server and send
-                            messages to the chat server from Commlink. This is a
-                            two-step process requiring action in Commlink (here)
-                            as well as in your chat channel to make sure you own
-                            both sides.
-                        </p>
-                        <p>
-                            <strong>Step 1.</strong>
-                            Enter your server ID and user ID here. You can get
-                            them from Commlink's bot by typing <code>/roll
-                            info</code> on the server. If Commlink doesn't
-                            respond, the server's administrators will need to
-                            invite the bot to the server.
-                        </p>
-                        <p>
-                            <strong>Step 2.</strong>
-                            After linking, you'll need to copy a link and paste
-                            it into the channel you want to link.
-                        </p>
-                    </div>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="link-user-title">Modal title</h5>
+                    <button aria-label="Close" class="btn-close"
+                        data-bs-dismiss="modal" type="button"></button>
                 </div>
-                <div class="form-row mt-1">
-                    <label class="col-4 col-form-label" for="server-id">
-                        Server (required)
-                    </label>
-                    <div class="col">
-                        <input aria-describedBy="server-help" autocomplete="off"
-                            class="form-control @error('server-id') is-invalid @enderror"
-                            id="server-id" name="server-id" required
-                            type="text" value="{{ old('server-id') }}">
-                        <small id="server-help" class="form-text text-muted">
-                            Slack team IDs will look like
-                            <code>T025GMATU</code>. Discord server IDs will look
-                            like <code>473246380039733249</code>.
-                        </small>
-                        @error('server-id')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-                <div class="form-row mt-1">
-                    <label class="col-4 col-form-label" for="user-id">
-                        User (required)
-                    </label>
-                    <div class="col">
-                        <input aria-describedBy="user-help" autocomplete="off"
-                            class="form-control @error('user-id') is-invalid @enderror"
-                            id="user-id" name="user-id" required type="text"
-                            value="{{ old('user-id') }}">
-                        <small id="user-help" class="form-text text-muted">
-                            Slack user IDs look like <code>U025GMATW</code>.
-                            Discord user IDs look like
-                            <code>225743973845565441</code>.
-                        </small>
-                        @error('user-id')
-                        <div class="invalid-feedback">
-                            {{ $message }}
+                <div class="modal-body">
+                    <div class="row mt-4">
+                        <div class="col">
+                            <h2>Link your chat user</h2>
+                            <p>
+                                Linking your user will allow you to interact with
+                                Commlink resources from your chat server and send
+                                messages to the chat server from Commlink. This is a
+                                two-step process requiring action in Commlink (here)
+                                as well as in your chat channel to make sure you own
+                                both sides.
+                            </p>
+                            <p>
+                                <strong>Step 1.</strong>
+                                Enter your server ID and user ID here. You can get
+                                them from Commlink's bot by typing <code>/roll
+                                info</code> on the server. If Commlink doesn't
+                                respond, the server's administrators will need to
+                                invite the bot to the server.
+                            </p>
+                            <p>
+                                <strong>Step 2.</strong>
+                                After linking, you'll need to copy a link and paste
+                                it into the channel you want to link.
+                            </p>
                         </div>
-                        @enderror
+                    </div>
+                    <div class="form-row mt-1">
+                        <label class="col-4 col-form-label" for="server-id">
+                            Server (required)
+                        </label>
+                        <div class="col">
+                            <input aria-describedBy="server-help" autocomplete="off"
+                                class="form-control @error('server-id') is-invalid @enderror"
+                                id="server-id" name="server-id" required
+                                type="text" value="{{ old('server-id') }}">
+                            <small id="server-help" class="form-text text-muted">
+                                Slack team IDs will look like
+                                <code>T025GMATU</code>. Discord server IDs will look
+                                like <code>473246380039733249</code>.
+                            </small>
+                            @error('server-id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-row mt-1">
+                        <label class="col-4 col-form-label" for="user-id">
+                            User (required)
+                        </label>
+                        <div class="col">
+                            <input aria-describedBy="user-help" autocomplete="off"
+                                class="form-control @error('user-id') is-invalid @enderror"
+                                id="user-id" name="user-id" required type="text"
+                                value="{{ old('user-id') }}">
+                            <small id="user-help" class="form-text text-muted">
+                                Slack user IDs look like <code>U025GMATW</code>.
+                                Discord user IDs look like
+                                <code>225743973845565441</code>.
+                            </small>
+                            @error('user-id')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
                     </div>
                 </div>
-                <div class="form-row mt-1">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button class="btn btn-primary" type="submit">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16"
                             height="16" fill="currentColor" class="bi bi-link"
@@ -182,11 +303,12 @@
                         Link server
                     </button>
                 </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 
-    <x-slot name="javascript">
+<x-slot name="javascript">
     <script>
         $('.copy-btn').on('click', function (e) {
             if (!window.navigator.clipboard) {
@@ -244,5 +366,5 @@
                 updateAlert(id, message);
             });
     </script>
-    </x-slot>
+</x-slot>
 </x-app>

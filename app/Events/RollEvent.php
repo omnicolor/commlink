@@ -22,9 +22,9 @@ class RollEvent
     /**
      * Create a new event instance.
      * @param Roll $roll
-     * @param Channel $source
+     * @param ?Channel $source
      */
-    public function __construct(public Roll $roll, public Channel $source)
+    public function __construct(public Roll $roll, public ?Channel $source)
     {
     }
 }

@@ -6,6 +6,7 @@ namespace App\Listeners;
 
 use App\Events\DiscordMessageReceived;
 use App\Events\RollEvent;
+use App\Models\Channel;
 
 class HandleDiscordMessage
 {
@@ -16,21 +17,40 @@ class HandleDiscordMessage
      */
     public function handle(DiscordMessageReceived $event): bool
     {
-        \Log::info(\sprintf(
-            'HandleDiscordMessage: Received Discord command from %s (%s.%s): %s',
-            $event->user->tag,
-            $event->server->name,
-            // @phpstan-ignore-next-line
-            $event->channel->name,
-            $event->content
-        ));
         $args = \explode(' ', $event->content);
+
+        /** @var \CharlotteDunois\Yasmin\Models\TextChannel */
+        $textChannel = $event->channel;
+
+        $channel = Channel::discord()
+            ->where('channel_id', $textChannel->id)
+            ->where('server_id', $event->server->id)
+            ->first();
 
         if (1 === \preg_match('/\d+d\d+/i', $args[0])) {
             $roll = new \App\Rolls\Generic($event->content, $event->user->tag);
             $event->channel->send($roll->forDiscord());
-            //RollEvent::dispatch($roll, $event->channel);
+            RollEvent::dispatch($roll, $channel);
             return true;
+        }
+
+        if (
+            \is_numeric($args[0])
+            && null !== $channel
+            && null !== $channel->system
+        ) {
+            try {
+                $class = \sprintf(
+                    '\\App\Rolls\\%s\\Number',
+                    ucfirst($channel->system),
+                );
+                $roll = new $class($event->content, $event->user->tag);
+                $event->channel->send($roll->forDiscord());
+                RollEvent::dispatch($roll, $channel);
+                return true;
+            } catch (\Error $ex) {
+                // Ignore.
+            }
         }
 
         try {
@@ -41,7 +61,6 @@ class HandleDiscordMessage
             $response = new $class($event);
             $event->channel->send((string)$response);
         } catch (\Error $ex) {
-            \Log::debug('HandleDiscordMessage: ' . $ex->getMessage());
             $event->channel->send('That doesn\'t appear to be a valid command!');
         }
         return true;

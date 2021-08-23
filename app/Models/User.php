@@ -77,6 +77,15 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the user's channels.
+     * @return HasMany
+     */
+    public function channels(): HasMany
+    {
+        return $this->hasMany(Channel::class, 'registered_by', 'id');
+    }
+
+    /**
      * Get the characters for the User.
      * @param ?string $system
      * @return Builder

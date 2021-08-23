@@ -8,6 +8,9 @@ use App\Models\Channel;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @method mixed hasChannels(int $count, array $parameters)
+ */
 class ChannelFactory extends Factory
 {
     /**

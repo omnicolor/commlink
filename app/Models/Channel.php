@@ -43,6 +43,7 @@ class Channel extends Model
         'server_name',
         'system',
         'type',
+        'webhook',
     ];
 
     public string $user = '';

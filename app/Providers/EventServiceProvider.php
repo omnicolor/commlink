@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Events\DiscordMessageReceived;
+use App\Events\RollEvent;
 use App\Listeners\HandleDiscordMessage;
+use App\Listeners\HandleRollEvent;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -23,6 +25,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         DiscordMessageReceived::class => [
             HandleDiscordMessage::class,
+        ],
+        RollEvent::class => [
+            HandleRollEvent::class,
         ],
     ];
 
