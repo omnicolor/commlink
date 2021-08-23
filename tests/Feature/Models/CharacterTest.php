@@ -133,6 +133,7 @@ final class CharacterTest extends \Tests\TestCase
 
     /**
      * Test getting the campaign attached to a character.
+     * @medium
      * @test
      */
     public function testCampaign(): void

@@ -81,6 +81,7 @@ final class CampaignPolicyTest extends \Tests\TestCase
 
     /**
      * Test trying to view a campaign as both the registerer and GM.
+     * @medium
      * @test
      */
     public function testViewAsGmAndRegisterer(): void
