@@ -23,7 +23,7 @@
             <h2>Players</h2>
 
             <ul class="list-group">
-                @foreach ($campaign->users as $user)
+                @forelse ($campaign->users as $user)
                     @if ('accepted' === $user->pivot->status)
                         <li class="list-group-item">
                             <i class="bi bi-person"></i>
@@ -36,7 +36,9 @@
                             ({{ $user->pivot->status }})
                         </li>
                     @endif
-                @endforeach
+                @empty
+                    <li class="list-group-item">Campaign has no players</li>
+                @endforelse
                 <li class="list-group-item"><a href="#">
                     <i class="bi bi-person-plus"></i>
                     Invite player
@@ -60,6 +62,30 @@
                 </li>
             @endforelse
             </ul>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <h2>Chat servers</h2>
+
+            <ul class="list-group">
+                @forelse ($campaign->channels as $channel)
+                    <li class="list-group-item">
+                        <i class="bi bi-{{ $channel->type }}"></i>
+                        {{ $channel->server_name ?? $channel->server_id }}
+                        - #{{ $channel->channel_name ?? $channel->channel_id }}
+                    </li>
+                @empty
+                    <li class="list-group-item">Campaign has no channels</li>
+                @endforelse
+                <li class="list-group-item"><a href="#">
+                    <i class="bi bi-plus-circle"></i>
+                    Add server
+                </a></li>
+            </ul>
+        </div>
+        <div class="col">
         </div>
     </div>
 </x-app>
