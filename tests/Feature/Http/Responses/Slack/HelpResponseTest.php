@@ -8,6 +8,7 @@ use App\Exceptions\SlackException;
 use App\Http\Responses\Slack\HelpResponse;
 use App\Models\Channel;
 use App\Models\ChatUser;
+use Illuminate\Http\Response;
 
 /**
  * Tests for unregistered HelpResponses.
@@ -35,7 +36,7 @@ final class HelpResponseTest extends \Tests\TestCase
     public function testTitlesUnregisteredNotLinked(): void
     {
         $channel = new Channel();
-        $response = new HelpResponse('', 200, [], $channel);
+        $response = new HelpResponse('', Response::HTTP_OK, [], $channel);
         $text = (string)$response;
         $response = \json_decode($text);
         self::assertSame('ephemeral', $response->response_type);
@@ -71,7 +72,7 @@ final class HelpResponseTest extends \Tests\TestCase
             'server_type' => $channel->type,
             'verified' => true,
         ]);
-        $response = new HelpResponse('', 200, [], $channel);
+        $response = new HelpResponse('', Response::HTTP_OK, [], $channel);
         $text = (string)$response;
         $response = \json_decode($text);
         self::assertSame('ephemeral', $response->response_type);
