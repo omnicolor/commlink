@@ -9,6 +9,7 @@ use App\Listeners\HandleRollEvent;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Rolls\Generic;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -21,6 +22,8 @@ use Illuminate\Support\Facades\Http;
  */
 final class HandleRollEventTest extends \Tests\TestCase
 {
+    use RefreshDatabase;
+
     /**
      * Test an improperly created event that has no source.
      * @test
@@ -87,7 +90,9 @@ final class HandleRollEventTest extends \Tests\TestCase
         $roll = new Generic('1d6', 'unnamed');
         /** @var Campaign */
         $campaign = Campaign::factory()
-            ->has(Channel::factory()->count(4))
+            ->has(Channel::factory([
+                'type' => Channel::TYPE_DISCORD,
+            ])->count(4))
             ->create();
         $source = $campaign->channels->first();
         $rollEvent = new RollEvent($roll, $source);
@@ -123,7 +128,7 @@ final class HandleRollEventTest extends \Tests\TestCase
         (new HandleRollEvent())->handle($rollEvent);
 
         Http::assertSent(function (Request $request): bool {
-            return 'http://example.com' === $request->url();
+            return 'https://slack.com/api/chat.postMessage' === $request->url();
         });
     }
 

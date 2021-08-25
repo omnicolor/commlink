@@ -41,12 +41,12 @@ class HandleRollEvent
                 // Don't broadcast back to the original channel.
                 continue;
             }
-            if (null === $channel->webhook) {
-                // We can't broadcast to channels without webhooks.
-                continue;
-            }
             if ('slack' === $channel->type) {
                 $this->sendToSlack($event->roll, $channel);
+                continue;
+            }
+            if (null === $channel->webhook) {
+                // We can't broadcast to Discord channels without webhooks.
                 continue;
             }
             $this->sendToDiscord($event->roll, $channel);
@@ -62,9 +62,12 @@ class HandleRollEvent
     {
         $data = $roll->forSlack($channel)->getData();
         $data->response_type = null;
+        $data->channel = $channel->channel_id;
+
         // TODO: Add error handling.
-        // @phpstan-ignore-next-line
-        Http::post($channel->webhook, (array)$data);
+        $response = Http::withHeaders([
+            'Authorization' => \sprintf('Bearer %s', config('app.slack_token')),
+        ])->post('https://slack.com/api/chat.postMessage', (array)$data);
     }
 
     /**

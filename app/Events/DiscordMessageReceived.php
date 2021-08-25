@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Events;
 
-use CharlotteDunois\Yasmin\Interfaces\TextChannelInterface;
 use CharlotteDunois\Yasmin\Models\Guild;
 use CharlotteDunois\Yasmin\Models\Message;
+use CharlotteDunois\Yasmin\Models\TextChannel;
 use CharlotteDunois\Yasmin\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -20,9 +20,9 @@ class DiscordMessageReceived
 
     /**
      * Channel the message was sent on.
-     * @var TextChannelInterface
+     * @var TextChannel
      */
-    public TextChannelInterface $channel;
+    public TextChannel $channel;
 
     /**
      * Content of the command, without the preceding '/roll '.
@@ -48,6 +48,7 @@ class DiscordMessageReceived
      */
     public function __construct(public Message $message)
     {
+        // @phpstan-ignore-next-line
         $this->channel = $this->message->channel;
         $this->content = \str_replace('/roll ', '', $this->message->content);
         $this->user = $this->message->author;
