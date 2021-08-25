@@ -232,6 +232,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
 
     /**
      * Test handling a Discord event for linking a user with a wrong hash.
+     * @medium
      * @test
      */
     public function testHandleValidateUserWrongHash(): void
@@ -298,6 +299,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
 
     /**
      * Test handling a Discord event for linking a user already linked.
+     * @medium
      * @test
      */
     public function testHandleValidateUserAlreadyLinked(): void

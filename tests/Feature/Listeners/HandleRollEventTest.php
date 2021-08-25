@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Http;
 
 /**
  * Tests for listening for a Roll event and rebroadcasting.
- * @group current
  * @group discord
  * @group events
  * @group slack

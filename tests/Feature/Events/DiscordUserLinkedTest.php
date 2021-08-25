@@ -12,7 +12,7 @@ use Illuminate\Broadcasting\PrivateChannel;
  * Tests for the event fired when a Discord user gets linked.
  * @group discord
  * @group events
- * @small
+ * @medium
  */
 final class DiscordUserLinkedTest extends \Tests\TestCase
 {
