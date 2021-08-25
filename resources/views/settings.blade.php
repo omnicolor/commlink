@@ -184,7 +184,9 @@
                             </td>
                             <td>{{ $channel->getSystem() }}</td>
                             <td>
-                                @if ($channel->webhook)
+                                @if (\App\Models\Channel::TYPE_SLACK === $channel->type)
+                                    <i class="bi bi-check-square-fill text-success" title="Slack channels don't require webhooks"></i>
+                                @elseif ($channel->webhook)
                                     <i class="bi bi-check-square-fill text-success" title="{{ $channel->webhook }}"></i>
                                 @else
                                     <i class="bi bi-question-square-fill text-danger"></i>
