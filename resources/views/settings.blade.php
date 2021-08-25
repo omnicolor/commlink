@@ -131,7 +131,7 @@
                         <th scope="col">Webhook</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="channels">
                     @forelse ($user->channels as $channel)
                         @php
                             $chatUser = \App\Models\ChatUser::where('server_id', $channel->server_id)
@@ -172,7 +172,7 @@
                                     </small>
                                 @endif
                             </td>
-                            <td>{{ $character }}</th>
+                            <td>{{ $character }}</td>
                             <td>
                                 @if ($channel->campaign)
                                     <a href="{{ route('campaign.view', $channel->campaign) }}">
@@ -194,7 +194,7 @@
                             </td>
                         </tr>
                     @empty
-                    <tr>
+                    <tr id="no-channels">
                         <td colspan="9">You haven't registered any channels</td>
                     </tr>
                     @endforelse
@@ -366,6 +366,38 @@
                 const id = '#success-discord-' + e.chatUser.server_id + '-'
                     + e.chatUser.remote_user_id;
                 updateAlert(id, message);
+            })
+            .listen('ChannelLinked', (e) => {
+                const channel = e.channel;
+                let row = '<tr><td><i class="bi bi-' + channel.type + '"></i>'
+                    + '</td><td>' + channel.server_id + '</td>';
+                if (channel.server_name) {
+                    row += '<td>' + channel.server_name + '</td>';
+                } else {
+                    row += '<td><small class="text-muted">Unable to load name</small></td>';
+                }
+                row += '<td>' + channel.channel_id + '</td>';
+                if (channel.channel_name) {
+                    row += '<td>' + channel.channel_name + '</td>';
+                } else {
+                    row += '<td><small class="text-muted">Unable to load name</small></td>';
+                }
+                row += '<td>&nbsp;</td>'
+                    + '<td>&nbsp;</td>'
+                    + '<td>' + channel.system + '</td>';
+                if ('slack' === channel.type) {
+                    row += '<td><i class="bi bi-check-square-fill text-success" '
+                        + 'title="Slack channels don\'t require webhooks"></i>'
+                        + '</td>';
+                } else if (channel.webhook) {
+                    row += '<td><i class="bi bi-check-square-fill text-success"'
+                        + ' title="' + channel.webhook + '"></i></td>';
+                } else {
+                    row += '<td><i class="bi bi-question-square-fill text-danger"></i></td>';
+                }
+                row += '</tr>';
+                $('#no-channels').remove();
+                $('#channels').append(row);
             });
     </script>
 </x-slot>

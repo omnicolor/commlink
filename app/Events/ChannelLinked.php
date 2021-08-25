@@ -6,10 +6,12 @@ namespace App\Events;
 
 use App\Models\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ChannelLinked
+class ChannelLinked implements ShouldBroadcast
 {
     use Dispatchable;
     use InteractsWithSockets;
@@ -22,5 +24,14 @@ class ChannelLinked
      */
     public function __construct(public Channel $channel)
     {
+    }
+
+    /**
+     * Get the channel the event should broadcast on.
+     * @return PrivateChannel
+     */
+    public function broadcastOn(): PrivateChannel
+    {
+        return new PrivateChannel('users.' . $this->channel->registered_by);
     }
 }
