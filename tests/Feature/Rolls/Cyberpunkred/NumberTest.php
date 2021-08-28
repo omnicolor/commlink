@@ -7,6 +7,7 @@ namespace Tests\Feature\Rolls\Cyberpunkred;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Cyberpunkred\Number;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * Tests for rolling dice in Shadowrun 5E.
@@ -18,6 +19,7 @@ use App\Rolls\Cyberpunkred\Number;
 final class NumberTest extends \Tests\TestCase
 {
     use \phpmock\phpunit\PHPMock;
+    use RefreshDatabase;
 
     /**
      * Mock random_int function to take randomness out of testing.

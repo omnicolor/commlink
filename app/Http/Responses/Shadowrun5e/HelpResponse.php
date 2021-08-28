@@ -33,7 +33,7 @@ class HelpResponse extends SlackResponse
             status: $status,
         );
         $this->addAttachment(new TextAttachment(
-            'Commlink - Shadowrun 5E',
+            'Commlink - Shadowrun 5th Edition',
             'Commlink is a Slack bot that lets you roll Shadowrun 5E dice.'
                 . \PHP_EOL
                 . '· `6 [text]` - Roll 6 dice, with optional text (automatics, '
@@ -44,9 +44,16 @@ class HelpResponse extends SlackResponse
                 . 'is for "text"' . \PHP_EOL,
             TextAttachment::COLOR_INFO
         ));
-        if (null !== $channel && null === $channel->character()) {
+        $campaign = optional($channel)->campaign;
+        $isGm = false;
+        if (null !== $campaign) {
+            if (optional($this->chatUser)->user->id === $campaign->gm) {
+                $isGm = true;
+            }
+        }
+        if (!$isGm && null === optional($channel)->character()) {
             $this->addAttachment(new TextAttachment(
-                'Unregistered',
+                'No linked character',
                 \sprintf(
                     'It doesn\'t look like you\'ve linked a character here. If '
                         . 'you\'ve already built a character in <%s|Commlink>, '
@@ -56,6 +63,9 @@ class HelpResponse extends SlackResponse
                 ),
                 TextAttachment::COLOR_INFO
             ));
+        }
+        if (null === $campaign) {
+            $this->addHelpForUnlinkedCampaign();
         }
     }
 }

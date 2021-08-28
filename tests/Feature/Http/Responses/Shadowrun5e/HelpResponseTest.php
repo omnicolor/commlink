@@ -9,14 +9,13 @@ use App\Models\Channel;
 
 /**
  * Tests for getting help in a Shadowrun 5E channel.
- * @covers \App\Http\Responses\Shadowrun5e\HelpResponse
  * @group slack
  * @small
  */
 final class HelpResponseTest extends \Tests\TestCase
 {
     /**
-     * Test the response without a channel.
+     * Test the response.
      * @test
      */
     public function testResponse(): void
@@ -28,7 +27,7 @@ final class HelpResponseTest extends \Tests\TestCase
             new Channel()
         );
         self::assertStringContainsString(
-            '"title":"Commlink - Shadowrun 5E"',
+            '"title":"Commlink - Shadowrun 5th Edition"',
             (string)$response
         );
     }
@@ -49,7 +48,7 @@ final class HelpResponseTest extends \Tests\TestCase
         self::assertSame('ephemeral', $response->response_type);
         self::assertEquals(
             (object)[
-                'title' => 'Unregistered',
+                'title' => 'No linked character',
                 'text' => \sprintf(
                     'It doesn\'t look like you\'ve linked a character here. If '
                         . 'you\'ve already built a character in <%s|Commlink>, '

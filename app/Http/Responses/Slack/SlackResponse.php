@@ -8,6 +8,7 @@ use App\Exceptions\SlackException;
 use App\Models\Channel;
 use App\Models\ChatUser;
 use App\Models\Slack\Attachment;
+use App\Models\Slack\TextAttachment;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -31,6 +32,12 @@ class SlackResponse extends JsonResponse
      * @var Channel
      */
     protected Channel $channel;
+
+    /**
+     * Link between Slack and Commlink.
+     * @var ?ChatUser
+     */
+    protected ?ChatUser $chatUser;
 
     /**
      * Whether to delete the original message this is in response to.
@@ -71,7 +78,17 @@ class SlackResponse extends JsonResponse
     ) {
         parent::__construct($content, $status, $headers);
         $this->channel = $channel ?? new Channel();
+        $this->chatUser = $this->channel->getChatUser();
         $this->updateData();
+    }
+
+    /**
+     * Return the response as a string.
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->data;
     }
 
     /**
@@ -180,11 +197,73 @@ class SlackResponse extends JsonResponse
     }
 
     /**
-     * Return the response as a string.
-     * @return string
+     * Add help for user if they haven't linked their Commlink user yet.
      */
-    public function __toString(): string
+    protected function addHelpForUnlinkedUser(): void
     {
-        return $this->data;
+        $this->addAttachment(new TextAttachment(
+            'Note for unregistered users:',
+            \sprintf(
+                'Your Slack user has not been linked with a %s user. '
+                    . 'Go to the <%s/settings|settings page> and copy the '
+                    . 'command listed there for this server. If the server '
+                    . 'isn\'t listed, follow the instructions there to add '
+                    . 'it. You\'ll need to know your server ID (`%s`) and '
+                    . 'your user ID (`%s`).',
+                config('app.name'),
+                config('app.url'),
+                $this->channel->server_id,
+                $this->channel->user
+            ),
+            TextAttachment::COLOR_DANGER
+        ));
+    }
+
+    /**
+     * Add help for a channel that is registered for a system, but not
+     * a campaign.
+     */
+    protected function addHelpForUnlinkedCampaign(): void
+    {
+        $user = optional($this->chatUser)->user;
+        if (null === $user) {
+            return;
+        }
+
+        $campaigns = $user->campaignsRegistered->merge($user->campaignsGmed)
+            ->unique();
+        if (null !== $this->channel->system) {
+            $campaigns = $campaigns->where('system', $this->channel->system);
+        }
+        if (0 === count($campaigns)) {
+            return;
+        }
+        $campaignList = [];
+        if (null === $this->channel->system) {
+            foreach ($campaigns as $campaign) {
+                $campaignList[] = sprintf(
+                    '· %d - %s',
+                    $campaign->id,
+                    $campaign->name
+                );
+            }
+        } else {
+            foreach ($campaigns as $campaign) {
+                $campaignList[] = sprintf(
+                    '· %d - %s (%s)',
+                    $campaign->id,
+                    $campaign->name,
+                    $campaign->getSystem()
+                );
+            }
+        }
+        $this->addAttachment(new TextAttachment(
+            'No linked campaign',
+            'It doesn\'t look like you\'ve linked a campaign here. Type '
+                . '`/roll campaign <campaignId>` to connect your campaign '
+                . 'here. Your campaigns:' . \PHP_EOL
+                . implode(\PHP_EOL, $campaignList),
+            TextAttachment::COLOR_INFO
+        ));
     }
 }

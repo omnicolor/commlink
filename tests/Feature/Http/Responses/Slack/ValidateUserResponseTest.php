@@ -157,11 +157,11 @@ final class ValidateUserResponseTest extends \Tests\TestCase
             $channel
         );
         self::assertStringContainsString(
-            '/roll register <systemID>',
+            '/roll register <system>',
             (string)$response
         );
         self::assertStringNotContainsString(
-            '/roll link <characterID>',
+            '/roll link <characterId>',
             (string)$response
         );
     }
@@ -192,11 +192,7 @@ final class ValidateUserResponseTest extends \Tests\TestCase
             $channel
         );
         self::assertStringNotContainsString(
-            '/roll register <systemID>',
-            (string)$response
-        );
-        self::assertStringContainsString(
-            '/roll link <characterID>',
+            '/roll register <system>',
             (string)$response
         );
     }

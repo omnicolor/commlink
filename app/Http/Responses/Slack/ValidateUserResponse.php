@@ -7,6 +7,7 @@ namespace App\Http\Responses\Slack;
 use App\Events\SlackUserLinked;
 use App\Exceptions\SlackException;
 use App\Models\Channel;
+use App\Models\Character;
 use App\Models\ChatUser;
 use App\Models\Slack\TextAttachment;
 use App\Models\User;
@@ -16,6 +17,12 @@ use App\Models\User;
  */
 class ValidateUserResponse extends SlackResponse
 {
+    /**
+     * User linked to the request.
+     * @var User
+     */
+    protected User $user;
+
     /**
      * Constructor.
      * @param string $content
@@ -55,33 +62,26 @@ class ValidateUserResponse extends SlackResponse
             ->where('server_id', $channel->server_id)
             ->where('remote_user_id', $channel->user)
             ->get();
-        foreach ($chatUsers as $user) {
-            if ($user->verification !== $hash) {
+        foreach ($chatUsers as $chatUser) {
+            if ($chatUser->verification !== $hash) {
                 // Not the right user.
                 continue;
             }
-            if ($user->verified) {
+            if ($chatUser->verified) {
                 throw new SlackException(
                     'It looks like you\'re already verfied!'
                 );
             }
 
-            $user->verified = true;
-            $user->save();
+            $chatUser->verified = true;
+            $chatUser->save();
 
-            SlackUserLinked::dispatch($user);
+            SlackUserLinked::dispatch($chatUser);
 
-            $nextStep = 'Next, you can `/roll link <characterID>` to link a '
-                . 'character to this channel.';
-            if (null === $channel->id) {
-                $systems = [];
-                foreach (config('app.systems') as $code => $name) {
-                    $systems[] = \sprintf('· %s (%s)', $name, $code);
-                }
-                $nextStep = 'Next, you can `/roll register <systemID>`, where '
-                    . '<systemId> is the short code from:' . \PHP_EOL
-                    . \implode(\PHP_EOL, $systems);
-            }
+            // @phpstan-ignore-next-line
+            $this->user = $chatUser->user;
+
+            $nextStep = $this->getNextStep();
 
             $this->addAttachment(new TextAttachment(
                 'Verified!',
@@ -91,15 +91,16 @@ class ValidateUserResponse extends SlackResponse
                         . 'server, no matter how many different channels you '
                         . 'play in.' . \PHP_EOL . \PHP_EOL . '%s',
                     // @phpstan-ignore-next-line
-                    $user->user->email,
+                    $this->user->email,
                     $nextStep
                 ),
                 TextAttachment::COLOR_SUCCESS,
                 \sprintf(
-                    'Server: %s User: %s Channel: %s',
+                    'Server: %s User: %s Channel: %s Commlink User: %d',
                     $channel->server_id,
                     $channel->user,
-                    $channel->channel_id
+                    $channel->channel_id,
+                    optional($this->user)->id,
                 )
             ));
             return;
@@ -115,5 +116,58 @@ class ValidateUserResponse extends SlackResponse
             $channel->server_id,
             $channel->user
         ));
+    }
+
+    /**
+     * Get instructions for the next step.
+     */
+    protected function getNextStep(): string
+    {
+        if (null === $this->channel->id) {
+            // Channel is not linked, give instructions for linking a campaign
+            // or registering a system.
+            $systems = [];
+            foreach (config('app.systems') as $code => $name) {
+                $systems[] = \sprintf('%s (%s)', $code, $name);
+            }
+            $next = 'Next, you can `/roll register <system>`, where <system> '
+                . 'is one of: ' . \implode(', ', $systems);
+            $campaigns = $this->user->campaignsRegistered
+                ->merge($this->user->campaignsGmed)
+                ->unique();
+            if (0 === count($campaigns)) {
+                return $next;
+            }
+            $campaignList = [];
+            foreach ($campaigns as $campaign) {
+                $campaignList[] = sprintf(
+                    '· %d - %s (%s)',
+                    $campaign->id,
+                    $campaign->name,
+                    $campaign->getSystem(),
+                );
+            }
+            return $next . \PHP_EOL . '*Or*, you can type `/roll campaign '
+                . '<campaignId>` to register this channel for the campaign '
+                . 'with ID <campaignId>. Your campaigns:' . \PHP_EOL
+                . implode(\PHP_EOL, $campaignList);
+        }
+
+        /** @var array<int, Character> */
+        $characters = $this->user->characters($this->channel->system)->get();
+        if (0 === count($characters)) {
+            return '';
+        }
+        $charactersList = [];
+        foreach ($characters as $character) {
+            $charactersList[] = sprintf(
+                '· %s - %s',
+                $character->id,
+                (string)$character
+            );
+        }
+        return 'Next, you can `/roll link <characterId>` to link a character '
+            . 'to this channel, where <characterId> is one of: ' . \PHP_EOL
+            . implode(\PHP_EOL, $charactersList);
     }
 }

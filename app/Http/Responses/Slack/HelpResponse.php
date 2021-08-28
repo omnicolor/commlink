@@ -50,44 +50,21 @@ class HelpResponse extends SlackResponse
             TextAttachment::COLOR_INFO
         ));
 
+        if (null === $this->chatUser) {
+            $this->addHelpForUnlinkedUser();
+        }
+
+        $this->addHelpForUnlinkedChannel();
+    }
+
+    /**
+     * Add help for a channel that hasn't been registered.
+     */
+    protected function addHelpForUnlinkedChannel(): void
+    {
         $systems = [];
         foreach (config('app.systems') as $code => $name) {
-            $systems[] = \sprintf('· %s (%s)', $name, $code);
-        }
-        $this->addAttachment(new TextAttachment(
-            'Supported Systems',
-            'The current channel is not registered for any of the systems.'
-                . \PHP_EOL . \implode(\PHP_EOL, $systems),
-            TextAttachment::COLOR_INFO
-        ));
-
-        $chatUser = $this->channel->getChatUser();
-        if (null === $chatUser) {
-            $this->addAttachment(new TextAttachment(
-                'Note for unregistered users:',
-                \sprintf(
-                    'Your Slack user has not been linked with a %s user. '
-                        . 'Go to the <%s/settings|settings page> and copy the '
-                        . 'command listed there for this server. If the server '
-                        . 'isn\'t listed, follow the instructions there to add '
-                        . 'it. You\'ll need to know your server ID (`%s`) and '
-                        . 'your user ID (`%s`).',
-                    config('app.name'),
-                    config('app.url'),
-                    $channel->server_id,
-                    $channel->user
-                ),
-                TextAttachment::COLOR_DANGER
-            ));
-            $this->addAttachment(new TextAttachment(
-                'Commands for unregistered channels:',
-                '· `help` - Show help' . \PHP_EOL
-                    . '· `XdY[+C] [text]` - Roll X dice with Y sides, '
-                    . 'optionally adding C to the result, optionally '
-                    . 'describing that the roll is for "text"',
-                TextAttachment::COLOR_INFO
-            ));
-            return;
+            $systems[] = \sprintf('%s (%s)', $code, $name);
         }
         $this->addAttachment(new TextAttachment(
             'Commands for unregistered channels:',
@@ -96,8 +73,39 @@ class HelpResponse extends SlackResponse
                 . 'optionally adding C to the result, optionally '
                 . 'describing that the roll is for "text"' . \PHP_EOL
                 . '· `register <system>` - Register this channel for '
-                . 'system code <system>',
+                . 'system code <system>, where system is one of:'
+                . implode(', ', $systems) . \PHP_EOL
+                . $this->getCampaignsHelp(),
             TextAttachment::COLOR_INFO
         ));
+    }
+
+    /**
+     * Get additional help for a channel that has no campaign.
+     * @return string
+     */
+    protected function getCampaignsHelp(): string
+    {
+        $user = optional($this->chatUser)->user;
+        if (null === $user) {
+            return '';
+        }
+        $campaigns = $user->campaignsRegistered->merge($user->campaignsGmed)
+            ->unique();
+        if (0 === count($campaigns)) {
+            return '';
+        }
+        $campaignList = [];
+        foreach ($campaigns as $campaign) {
+            $campaignList[] = sprintf(
+                '· %d - %s (%s)',
+                $campaign->id,
+                $campaign->name,
+                $campaign->getSystem()
+            );
+        }
+        return '· `campaign <campaignId>` - Register this channel for '
+            . 'the campaign with ID <campaignId>. Your campaigns: '
+            . implode(', ', $campaignList);
     }
 }

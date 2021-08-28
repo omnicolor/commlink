@@ -6,8 +6,10 @@ namespace Tests\Feature\Http\Responses\Slack;
 
 use App\Exceptions\SlackException;
 use App\Http\Responses\Slack\HelpResponse;
+use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\ChatUser;
+use App\Models\User;
 use Illuminate\Http\Response;
 
 /**
@@ -40,19 +42,18 @@ final class HelpResponseTest extends \Tests\TestCase
         $text = (string)$response;
         $response = \json_decode($text);
         self::assertSame('ephemeral', $response->response_type);
-        self::assertCount(4, $response->attachments);
+        self::assertCount(3, $response->attachments);
         self::assertSame(
             \sprintf('About %s', config('app.name')),
             $response->attachments[0]->title
         );
-        self::assertSame('Supported Systems', $response->attachments[1]->title);
         self::assertSame(
             'Note for unregistered users:',
-            $response->attachments[2]->title
+            $response->attachments[1]->title
         );
         self::assertSame(
             'Commands for unregistered channels:',
-            $response->attachments[3]->title
+            $response->attachments[2]->title
         );
     }
 
@@ -76,15 +77,44 @@ final class HelpResponseTest extends \Tests\TestCase
         $text = (string)$response;
         $response = \json_decode($text);
         self::assertSame('ephemeral', $response->response_type);
-        self::assertCount(3, $response->attachments);
+        self::assertCount(2, $response->attachments);
         self::assertSame(
             \sprintf('About %s', config('app.name')),
             $response->attachments[0]->title
         );
-        self::assertSame('Supported Systems', $response->attachments[1]->title);
         self::assertSame(
             'Commands for unregistered channels:',
-            $response->attachments[2]->title
+            $response->attachments[1]->title
+        );
+    }
+
+    /**
+     * Test getting help for an unlinked channel with a user that has campaigns.
+     * @test
+     */
+    public function testHelpWithCampaignsUnlinked(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+        Campaign::factory()->create([
+            'registered_by' => $user,
+        ]);
+        /** @var Channel */
+        $channel = Channel::factory()->make();
+        $channel->user = \Str::random(10);
+        ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => $channel->type,
+            'user_id' => $user,
+            'verified' => true,
+        ]);
+        $response = json_decode(
+            (string)(new HelpResponse('', Response::HTTP_OK, [], $channel))
+        );
+        self::assertStringContainsString(
+            'Your campaigns',
+            $response->attachments[1]->text
         );
     }
 }

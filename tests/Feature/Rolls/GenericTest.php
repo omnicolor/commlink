@@ -9,7 +9,6 @@ use App\Rolls\Generic;
 
 /**
  * Tests for rolling generic dice.
- * @covers \App\Rolls\Generic
  * @group discord
  * @group slack
  * @medium

@@ -37,9 +37,16 @@ class HelpResponse extends SlackResponse
                 . 'account critical successes and failures',
             TextAttachment::COLOR_INFO
         ));
-        if (null !== $channel && null === $channel->character()) {
+        $campaign = optional($channel)->campaign;
+        $isGm = false;
+        if (null !== $campaign) {
+            if (optional($this->chatUser)->user->id === $campaign->gm) {
+                $isGm = true;
+            }
+        }
+        if (!$isGm && null === optional($channel)->character()) {
             $this->addAttachment(new TextAttachment(
-                'Unregistered',
+                'No linked character',
                 \sprintf(
                     'It doesn\'t look like you\'ve linked a character here. If '
                         . 'you\'ve already built a character in <%s|Commlink>, '
@@ -49,6 +56,9 @@ class HelpResponse extends SlackResponse
                 ),
                 TextAttachment::COLOR_INFO
             ));
+        }
+        if (null === $campaign) {
+            $this->addHelpForUnlinkedCampaign();
         }
     }
 }

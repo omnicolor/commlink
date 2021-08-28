@@ -50,7 +50,7 @@ final class HelpResponseTest extends \Tests\TestCase
         self::assertSame('ephemeral', $response->response_type);
         self::assertEquals(
             (object)[
-                'title' => 'Unregistered',
+                'title' => 'No linked character',
                 'text' => \sprintf(
                     'It doesn\'t look like you\'ve linked a character here. If '
                         . 'you\'ve already built a character in <%s|Commlink>, '

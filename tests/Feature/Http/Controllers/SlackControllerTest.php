@@ -147,7 +147,7 @@ final class SlackControllerTest extends \Tests\TestCase
             ->assertJsonFragment([
                 'color' => SlackResponse::COLOR_INFO,
                 'response_type' => 'ephemeral',
-                'title' => 'Commlink - Shadowrun 5E',
+                'title' => 'Commlink - Shadowrun 5th Edition',
             ]);
     }
 
