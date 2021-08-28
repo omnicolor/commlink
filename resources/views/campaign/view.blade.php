@@ -98,41 +98,15 @@
                 @empty
                     <li class="list-group-item">Campaign has no channels</li>
                 @endforelse
-                <li class="list-group-item">
-                    <button class="btn btn-link" data-bs-target="#add-server"
-                        data-bs-toggle="modal" type="button">
-                        <i class="bi bi-plus-circle"></i>
-                        Add server
-                    </button>
-                </li>
+                @if (Auth::user()->id === $campaign->gm || Auth::user()->id === $campaign->registered_by)
+                <li class="list-group-item"><small class="text-muted">
+                    To link a channel to this campaign, type
+                    <code>/roll campaign {{ $campaign->id }}</code>.
+                </small></li>
+                @endif
             </ul>
         </div>
         <div class="col">
-        </div>
-    </div>
-
-    <div aria-hidden="true" aria-labelledby="add-server-label"
-        class="modal fade" id="add-server" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="add-server-label">
-                        Adding a chat server
-                    </h5>
-                    <button aria-label="Close" class="btn-close"
-                        data-bs-dismiss="modal" type="button"></button>
-                </div>
-                <div class="modal-body">
-                    To link a channel, type <code>/roll register
-                    &lt;system&gt;</code>, where &lt;system&gt; is the short
-                    code for the system you want this channel to play. Type
-                    <code>/roll help</code> to see the list of systems.
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" data-bs-dismiss="modal"
-                        type="button">Okay</button>
-                </div>
-            </div>
         </div>
     </div>
 

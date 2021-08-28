@@ -382,9 +382,14 @@
                 } else {
                     row += '<td><small class="text-muted">Unable to load name</small></td>';
                 }
-                row += '<td>&nbsp;</td>'
-                    + '<td>&nbsp;</td>'
-                    + '<td>' + channel.system + '</td>';
+                row += '<td>&nbsp;</td>';
+                if (channel.campaign) {
+                    row += '<td><a href="/campaigns/' + channel.campaign.id
+                        + '">' + channel.campaign.name + '</a></td>';
+                } else {
+                    row += '<td>&nbsp;</td>';
+                }
+                row += '<td>' + channel.system + '</td>';
                 if ('slack' === channel.type) {
                     row += '<td><i class="bi bi-check-square-fill text-success" '
                         + 'title="Slack channels don\'t require webhooks"></i>'
