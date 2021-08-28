@@ -1,22 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace {{ namespace }};
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 
-class {{ class }} extends TestCase
+final class {{ class }} extends \Tests\TestCase
 {
     /**
      * A basic feature test example.
-     *
-     * @return void
+     * @test
      */
-    public function test_example()
+    public function testExample(): void
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
+        $response = $this->get('/')
+            ->assertOk()
     }
 }
