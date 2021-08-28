@@ -240,20 +240,23 @@ class SlackResponse extends JsonResponse
         }
         $campaignList = [];
         if (null === $this->channel->system) {
-            foreach ($campaigns as $campaign) {
-                $campaignList[] = sprintf(
-                    '· %d - %s',
-                    $campaign->id,
-                    $campaign->name
-                );
-            }
-        } else {
+            // Channel has no system, so show the system for each campaign.
             foreach ($campaigns as $campaign) {
                 $campaignList[] = sprintf(
                     '· %d - %s (%s)',
                     $campaign->id,
                     $campaign->name,
                     $campaign->getSystem()
+                );
+            }
+        } else {
+            // Campaigns are limited to the channel's system, so no need to
+            // show them.
+            foreach ($campaigns as $campaign) {
+                $campaignList[] = sprintf(
+                    '· %d - %s',
+                    $campaign->id,
+                    $campaign->name
                 );
             }
         }
