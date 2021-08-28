@@ -66,6 +66,13 @@ final class HelpResponseTest extends \Tests\TestCase
      */
     public function testHelpUnregistered(): void
     {
+        $messageMock = $this->createMessageMock();
+        $event = new DiscordMessageReceived($messageMock);
+
+        $systems = [];
+        foreach (config('app.systems') as $code => $name) {
+            $systems[] = \sprintf('%s (%s)', $code, $name);
+        }
         $expected = \sprintf(
             '%1$s is a Discord bot that lets you roll dice appropriate for '
                 . 'various RPG systems. For example, if you are playing The '
@@ -80,14 +87,26 @@ final class HelpResponseTest extends \Tests\TestCase
             config('app.name'),
             config('app.url')
         )
+            . \sprintf(
+                'Your Slack user has not been linked with a %s user. Go to the '
+                    . 'settings page (%s/settings) and copy the command listed '
+                    . 'there for this server. If the server isn\'t listed, '
+                    . 'follow the instructions there to add it. You\'ll need '
+                    . 'to know your server ID (`%s`) and your user ID (`%s`).',
+                config('app.name'),
+                config('app.url'),
+                $event->server->id,
+                $event->user->id,
+            ) . \PHP_EOL . \PHP_EOL
             . '**Commands for unregistered channels:**' . \PHP_EOL
             . '· `help` - Show help' . \PHP_EOL
             . '· `XdY[+C] [text]` - Roll X dice with Y sides, '
             . 'optionally adding C to the result, optionally '
-            . 'describing that the roll is for "text"';
+            . 'describing that the roll is for "text"' . \PHP_EOL
+            . '· `register <system>` - Register this channel for '
+            . 'system code <system>, where <system> is one of: '
+            . \implode(', ', $systems);
 
-        $messageMock = $this->createMessageMock();
-        $event = new DiscordMessageReceived($messageMock);
         $response = new HelpResponse($event);
         self::assertSame($expected, (string)$response);
     }
@@ -114,8 +133,6 @@ final class HelpResponseTest extends \Tests\TestCase
             config('app.name'),
             config('app.url')
         )
-            . 'This channel is registered for Shadowrun 5th Edition.'
-            . \PHP_EOL . \PHP_EOL
             . \sprintf(
                 'Your Slack user has not been linked with a %s user. Go to the '
                     . 'settings page (%s/settings) and copy the command listed '
@@ -127,7 +144,8 @@ final class HelpResponseTest extends \Tests\TestCase
                 // @phpstan-ignore-next-line
                 $messageMock->channel->guild->id,
                 $messageMock->author->id,
-            );
+            ) . \PHP_EOL . \PHP_EOL
+            . 'This channel is registered for Shadowrun 5th Edition.';
 
         $channel = Channel::factory()->create([
             // @phpstan-ignore-next-line
@@ -163,8 +181,7 @@ final class HelpResponseTest extends \Tests\TestCase
             config('app.name'),
             config('app.url')
         )
-            . 'This channel is registered for Shadowrun 5th Edition.'
-            . \PHP_EOL . \PHP_EOL;
+            . 'This channel is registered for Shadowrun 5th Edition.';
 
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([

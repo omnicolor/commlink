@@ -6,6 +6,7 @@ namespace App\Http\Responses\Discord;
 
 use App\Events\DiscordMessageReceived;
 use App\Models\Channel;
+use App\Models\ChatUser;
 
 class HelpResponse
 {
@@ -38,40 +39,9 @@ class HelpResponse
             config('app.url')
         );
 
-        /** @var \CharlotteDunois\Yasmin\Models\TextChannel */
-        $textChannel = $this->event->channel;
-        $channel = Channel::discord()
-            ->where('channel_id', $textChannel->id)
-            ->where('server_id', $this->event->server->id)
+        $chatUser = ChatUser::where('server_id', $this->event->server->id)
+            ->where('remote_user_id', $this->event->user->id)
             ->first();
-        if (null === $channel) {
-            // Channel is unregistered.
-            /*
-            $systems = [];
-            foreach (config('app.systems') as $code => $name) {
-                $systems[] = \sprintf('· · %s - %s', $code, $name);
-            }
-             */
-
-            $help .= '**Commands for unregistered channels:**' . \PHP_EOL
-                . '· `help` - Show help' . \PHP_EOL
-                . '· `XdY[+C] [text]` - Roll X dice with Y sides, '
-                . 'optionally adding C to the result, optionally '
-                . 'describing that the roll is for "text"';
-            /*
-                . '· `register <system>` - Register this channel for '
-                . 'system code <system>, where <system> is one of:'
-                . \PHP_EOL . \implode(\PHP_EOL, $systems);
-             */
-            return $help;
-        }
-
-        $help .= 'This channel is registered for ' . $channel->getSystem()
-            . '.' . \PHP_EOL . \PHP_EOL;
-
-        // @phpstan-ignore-next-line
-        $channel->user = (string)$this->event->user->id;
-        $chatUser = $channel->getChatUser();
         if (null === $chatUser) {
             $help .= \sprintf(
                 'Your Slack user has not been linked with a %s user. Go to the '
@@ -83,8 +53,35 @@ class HelpResponse
                 config('app.url'),
                 $this->event->server->id,
                 $this->event->user->id,
-            );
+            ) . \PHP_EOL . \PHP_EOL;
         }
+
+        /** @var \CharlotteDunois\Yasmin\Models\TextChannel */
+        $discordChannel = $this->event->channel;
+        $channel = Channel::discord()
+            ->where('channel_id', $discordChannel->id)
+            ->where('server_id', $this->event->server->id)
+            ->first();
+        if (null === $channel) {
+            // Channel is unregistered.
+            $systems = [];
+            foreach (config('app.systems') as $code => $name) {
+                $systems[] = \sprintf('%s (%s)', $code, $name);
+            }
+
+            $help .= '**Commands for unregistered channels:**' . \PHP_EOL
+                . '· `help` - Show help' . \PHP_EOL
+                . '· `XdY[+C] [text]` - Roll X dice with Y sides, '
+                . 'optionally adding C to the result, optionally '
+                . 'describing that the roll is for "text"' . \PHP_EOL
+                . '· `register <system>` - Register this channel for '
+                . 'system code <system>, where <system> is one of: '
+                . \implode(', ', $systems);
+            return $help;
+        }
+
+        $help .= 'This channel is registered for ' . $channel->getSystem()
+            . '.';
         return $help;
     }
 }
