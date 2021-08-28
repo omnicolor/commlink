@@ -12,6 +12,7 @@ use App\Rolls\Generic;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
+use phpmock\phpunit\PHPMock;
 
 /**
  * Tests for listening for a Roll event and rebroadcasting.
@@ -22,7 +23,26 @@ use Illuminate\Support\Facades\Http;
  */
 final class HandleRollEventTest extends \Tests\TestCase
 {
+    use PHPMock;
     use RefreshDatabase;
+
+    /**
+     * Mock random_int function to take randomness out of testing.
+     * @var \PHPUnit\Framework\MockObject\MockObject
+     */
+    protected \PHPUnit\Framework\MockObject\MockObject $randomInt;
+
+    /**
+     * Set up the mock random function each time.
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->randomInt = $this->getFunctionMock(
+            'App\\Rolls',
+            'random_int'
+        );
+    }
 
     /**
      * Test an improperly created event that has no source.
