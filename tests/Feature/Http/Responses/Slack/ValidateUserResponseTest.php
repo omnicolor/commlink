@@ -6,7 +6,9 @@ namespace Tests\Feature\Http\Responses\Slack;
 
 use App\Exceptions\SlackException;
 use App\Http\Responses\Slack\ValidateUserResponse;
+use App\Models\Campaign;
 use App\Models\Channel;
+use App\Models\Character;
 use App\Models\ChatUser;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -194,6 +196,89 @@ final class ValidateUserResponseTest extends \Tests\TestCase
         self::assertStringNotContainsString(
             '/roll register <system>',
             (string)$response
+        );
+    }
+
+    /**
+     * Test validating an unvalidated user in an registered channel that has no
+     * campaign if the user already has campaigns.
+     * @test
+     */
+    public function testValidateRegisteredWithCampaign(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+        $channel = new Channel();
+        $channel->server_id = 'G' . \Str::random(10);
+        $channel->type = Channel::TYPE_SLACK;
+        $channel->user = \Str::random(10);
+        /** @var ChatUser */
+        $chatUser = ChatUser::factory()->create([
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_SLACK,
+            'remote_user_id' => $channel->user,
+            'user_id' => $user->id,
+            'verified' => false,
+        ]);
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['gm' => $user->id]);
+
+        $expected = sprintf(
+            '*Or*, you can type `\\/roll campaign <campaignId>` to register '
+                . 'this channel for the campaign with ID <campaignId>. Your '
+                . 'campaigns:\n\u00b7 %d - %s (%s)',
+            $campaign->id,
+            $campaign->name,
+            $campaign->getSystem(),
+        );
+
+        $response = (string)(new ValidateUserResponse(
+            \sprintf('validate %s', $chatUser->verification),
+            ValidateUserResponse::HTTP_OK,
+            [],
+            $channel
+        ));
+        self::assertStringContainsString($expected, $response);
+    }
+
+    /**
+     * Test validating an unvalidated user in an registered channel, where the
+     * user has a character appropriate to the system.
+     * @test
+     */
+    public function testValidateRegisteredWithCharacters(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var Channel */
+        $channel = Channel::factory()->create();
+        $channel->user = \Str::random(10);
+
+        /** @var Character */
+        $character = Character::factory()->create([
+            'owner' => $user->email,
+            'system' => $channel->system,
+        ]);
+
+        /** @var ChatUser */
+        $chatUser = ChatUser::factory()->create([
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_SLACK,
+            'remote_user_id' => $channel->user,
+            'user_id' => $user->id,
+            'verified' => false,
+        ]);
+        $response = (string)(new ValidateUserResponse(
+            \sprintf('validate %s', $chatUser->verification),
+            ValidateUserResponse::HTTP_OK,
+            [],
+            $channel
+        ));
+        self::assertStringContainsString(
+            'Next, you can `\\/roll link <characterId>` to link a character '
+                . 'to this channel, where <characterId> is one of:',
+            $response
         );
     }
 }
