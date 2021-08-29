@@ -50,6 +50,7 @@ class HandleDiscordMessage
                 return true;
             } catch (\Error $ex) {
                 // Ignore.
+                \Log::debug($ex->getMessage());
             }
         }
 

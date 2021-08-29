@@ -69,8 +69,9 @@ class SlackController extends Controller
                 $roll = new $class($this->text, $channel->username);
                 RollEvent::dispatch($roll, $channel);
                 return $roll->forSlack($channel);
-            } catch (Error) {
+            } catch (\Error $ex) {
                 // Ignore errors here, they might want a generic command.
+                \Log::debug($ex->getMessage());
             }
         }
 
@@ -82,8 +83,9 @@ class SlackController extends Controller
                 \ucfirst($this->args[0])
             );
             return new $class($this->text, 200, [], $channel);
-        } catch (Error) {
+        } catch (\Error $ex) {
             // Again, ignore errors, they might want a generic command.
+            \Log::debug($ex->getMessage());
         }
 
         // Now try Slack-specific responses.
@@ -94,8 +96,9 @@ class SlackController extends Controller
                 \ucfirst($this->args[0])
             );
             return new $class($this->text, 200, [], $channel);
-        } catch (Error) {
+        } catch (\Error $ex) {
             // Again, ignore errors, they might want a generic command.
+            \Log::debug($ex->getMessage());
         }
 
         // No system-specific response found, see if the request is a generic
@@ -118,7 +121,8 @@ class SlackController extends Controller
                 [],
                 $channel
             );
-        } catch (Error) {
+        } catch (\Error $ex) {
+            \Log::debug($ex->getMessage());
             throw new SlackException(
                 'That doesn\'t appear to be a valid Commlink command.'
                 . \PHP_EOL . \PHP_EOL . 'Type `/roll help` for more help.'
