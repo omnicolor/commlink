@@ -82,7 +82,11 @@ class SlackController extends Controller
                 \ucfirst($channel->system ?? 'Unknown'),
                 \ucfirst($this->args[0])
             );
-            return new $class($this->text, 200, [], $channel);
+            $roll = new $class($this->text, $channel->username);
+            if ('help' !== $this->args[0]) {
+                RollEvent::dispatch($roll, $channel);
+            }
+            return $roll->forSlack($channel);
         } catch (\Error $ex) {
             // Again, ignore errors, they might want a generic command.
             \Log::debug($ex->getMessage());
