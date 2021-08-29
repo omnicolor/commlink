@@ -27,6 +27,7 @@ class HandleDiscordMessage
             ->where('server_id', $event->server->id)
             ->first();
 
+        // See if the requested roll is XdY or something similar.
         if (1 === \preg_match('/\d+d\d+/i', $args[0])) {
             $roll = new \App\Rolls\Generic($event->content, $event->user->tag);
             $event->channel->send($roll->forDiscord());
@@ -34,6 +35,8 @@ class HandleDiscordMessage
             return true;
         }
 
+        // See if the roll is just a number, and if there's a number-only
+        // handler for the registered system.
         if (
             \is_numeric($args[0])
             && null !== $channel
@@ -52,6 +55,23 @@ class HandleDiscordMessage
                 // Ignore.
                 \Log::debug($ex->getMessage());
             }
+        }
+
+        // Try system-specific rolls that aren't numeric.
+        try {
+            $class = \sprintf(
+                '\\App\\Rolls\\%s\\%s',
+                \ucfirst($channel->system ?? 'Unknown'),
+                \ucfirst($args[0])
+            );
+            $roll = new $class($event->content, $event->user->tag);
+            $event->channel->send($roll->forDiscord());
+            if ('help' !== $args[0]) {
+                RollEvent::dispatch($roll, $channel);
+            }
+            return true;
+        } catch (\Error $ex) {
+            \Log::debug($ex->getMessage());
         }
 
         try {
