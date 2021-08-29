@@ -94,7 +94,7 @@ class User extends Authenticatable
     {
         $characters = Character::where('owner', $this->email);
         if (null !== $system) {
-            $characters->where('type', $system);
+            $characters->where('system', $system);
         }
         return $characters;
     }

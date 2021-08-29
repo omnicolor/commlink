@@ -114,11 +114,11 @@ final class UserTest extends \Tests\TestCase
         $user = User::factory()->create();
         $this->characters[] = Character::factory()->create([
             'owner' => $user->email,
-            'type' => 'shadowrun5e',
+            'system' => 'shadowrun5e',
         ]);
         $this->characters[] = Character::factory()->create([
             'owner' => $user->email,
-            'type' => 'cyberpunk2077',
+            'system' => 'cyberpunk2077',
         ]);
         // @phpstan-ignore-next-line
         self::assertSame(1, $user->characters('shadowrun5e')->count());
