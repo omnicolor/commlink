@@ -1,0 +1,48 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use App\Http\Responses\Slack\SlackResponse;
+use App\Models\Channel;
+use App\Models\Slack\TextAttachment;
+use App\Rolls\Roll;
+
+class {{ class }} extends Roll
+{
+    /**
+     * Constructor.
+     * @param string $content
+     * @param string $character
+     */
+    public function __construct(string $content, string $character)
+    {
+    }
+
+    /**
+     * Return the roll formatted for Slack.
+     * @return SlackResponse
+     */
+    public function forSlack(Channel $channel): SlackResponse
+    {
+        $attachment = new TextAttachment(
+            'Title',
+            'Text',
+            TextAttachment::COLOR_SUCCESS
+        );
+        $response = new SlackResponse('', SlackResponse::HTTP_OK, [], $channel);
+        return $response->addAttachment($attachment)->sendToChannel();
+    }
+
+    /**
+     * Return the roll formatted for Discord.
+     * @return string
+     */
+    public function forDiscord(): string
+    {
+        $value = \sprintf('**%s**', 'Title') . \PHP_EOL
+            . 'Text' . \PHP_EOL;
+        return $value;
+    }
+}
