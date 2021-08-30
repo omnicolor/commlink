@@ -16,6 +16,6 @@ final class {{ class }} extends \Tests\TestCase
     public function testExample(): void
     {
         $response = $this->get('/')
-            ->assertOk()
+            ->assertOk();
     }
 }
