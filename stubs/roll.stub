@@ -15,16 +15,21 @@ class {{ class }} extends Roll
      * Constructor.
      * @param string $content
      * @param string $character
+     * @param Channel $channel
      */
-    public function __construct(string $content, string $character)
-    {
+    public function __construct(
+        string $content,
+        string $character,
+        Channel $channel
+    ) {
+        parent::__construct($content, $character, $channel);
     }
 
     /**
      * Return the roll formatted for Slack.
      * @return SlackResponse
      */
-    public function forSlack(Channel $channel): SlackResponse
+    public function forSlack(): SlackResponse
     {
         $attachment = new TextAttachment(
             'Title',
