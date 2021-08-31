@@ -329,7 +329,7 @@ final class SlackControllerTest extends \Tests\TestCase
     {
         /** @var Channel */
         $channel = Channel::factory()->create([
-            'system' => 'expanse',
+            'system' => 'dnd5e',
         ]);
         $this->post(
             route('roll'),
