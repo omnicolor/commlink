@@ -52,7 +52,7 @@ final class HandleRollEventTest extends \Tests\TestCase
     {
         Http::fake();
 
-        $roll = new Generic('1d6', 'unnamed');
+        $roll = new Generic('1d6', 'unnamed', new Channel());
         (new HandleRollEvent())->handle(new RollEvent($roll, null));
 
         Http::assertNothingSent();
@@ -66,9 +66,9 @@ final class HandleRollEventTest extends \Tests\TestCase
     {
         Http::fake();
 
-        $roll = new Generic('1d6', 'unnamed');
         /** @var Channel */
         $source = Channel::factory()->make();
+        $roll = new Generic('1d6', 'unnamed', $source);
         $rollEvent = new RollEvent($roll, $source);
         (new HandleRollEvent())->handle($rollEvent);
 
@@ -85,12 +85,13 @@ final class HandleRollEventTest extends \Tests\TestCase
     {
         Http::fake();
 
-        $roll = new Generic('1d6', 'unnamed');
         /** @var Campaign */
         $campaign = Campaign::factory()
             ->has(Channel::factory())
             ->create();
+        /** @var Channel */
         $source = $campaign->channels->first();
+        $roll = new Generic('1d6', 'unnamed', $source);
         $rollEvent = new RollEvent($roll, $source);
         (new HandleRollEvent())->handle($rollEvent);
 
@@ -107,14 +108,15 @@ final class HandleRollEventTest extends \Tests\TestCase
     {
         Http::fake();
 
-        $roll = new Generic('1d6', 'unnamed');
         /** @var Campaign */
         $campaign = Campaign::factory()
             ->has(Channel::factory([
                 'type' => Channel::TYPE_DISCORD,
             ])->count(4))
             ->create();
+        /** @var Channel */
         $source = $campaign->channels->first();
+        $roll = new Generic('1d6', 'unnamed', $source);
         $rollEvent = new RollEvent($roll, $source);
         (new HandleRollEvent())->handle($rollEvent);
 
@@ -131,7 +133,6 @@ final class HandleRollEventTest extends \Tests\TestCase
     {
         Http::fake();
 
-        $roll = new Generic('1d6', 'unnamed');
         // @phpstan-ignore-next-line
         $campaign = Campaign::factory()
             ->has(Channel::factory())
@@ -144,6 +145,7 @@ final class HandleRollEventTest extends \Tests\TestCase
             )
             ->create();
         $source = $campaign->channels->first();
+        $roll = new Generic('1d6', 'unnamed', $source);
         $rollEvent = new RollEvent($roll, $source);
         (new HandleRollEvent())->handle($rollEvent);
 
@@ -162,7 +164,7 @@ final class HandleRollEventTest extends \Tests\TestCase
     {
         Http::fake();
 
-        $roll = new Generic('1d6', 'unnamed');
+        $roll = new Generic('1d6', 'unnamed', new Channel());
         // @phpstan-ignore-next-line
         $campaign = Campaign::factory()
             ->has(Channel::factory())

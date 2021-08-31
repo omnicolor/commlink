@@ -66,51 +66,52 @@ class SlackController extends Controller
                     '\\App\\Rolls\\%s\\Number',
                     \ucfirst($channel->system)
                 );
-                $roll = new $class($this->text, $channel->username);
+                $roll = new $class($this->text, $channel->username, $channel);
                 RollEvent::dispatch($roll, $channel);
                 return $roll->forSlack($channel);
-            } catch (\Error $ex) {
+            } catch (Error $ex) {
                 // Ignore errors here, they might want a generic command.
                 \Log::debug($ex->getMessage());
             }
         }
 
-        // Next, try system-specific rolls that aren't numeric.
-        try {
-            $class = \sprintf(
-                '\\App\\Rolls\\%s\\%s',
-                \ucfirst($channel->system ?? 'Unknown'),
-                \ucfirst($this->args[0])
-            );
-            $roll = new $class($this->text, $channel->username);
-            if ('help' !== $this->args[0]) {
-                RollEvent::dispatch($roll, $channel);
+        // See if we have a system to try some system-specific rolls or
+        // responses.
+        if (null !== $channel->system) {
+            // Next, try system-specific rolls that aren't numeric.
+            try {
+                $class = \sprintf(
+                    '\\App\\Rolls\\%s\\%s',
+                    \ucfirst($channel->system ?? 'Unknown'),
+                    \ucfirst($this->args[0])
+                );
+                $roll = new $class($this->text, $channel->username, $channel);
+                return $roll->forSlack($channel);
+            } catch (Error $ex) {
+                // Again, ignore errors, they might want a generic command.
+                \Log::debug($ex->getMessage());
             }
-            return $roll->forSlack($channel);
-        } catch (\Error $ex) {
-            // Again, ignore errors, they might want a generic command.
-            \Log::debug($ex->getMessage());
-        }
 
-        // Now try Slack-specific responses.
-        try {
-            $class = \sprintf(
-                '\\App\Http\\Responses\\%s\\%sResponse',
-                \ucfirst($channel->system ?? 'Unknown'),
-                \ucfirst($this->args[0])
-            );
-            return new $class($this->text, 200, [], $channel);
-        } catch (\Error $ex) {
-            // Again, ignore errors, they might want a generic command.
-            \Log::debug($ex->getMessage());
+            // Now try Slack-specific responses.
+            try {
+                $class = \sprintf(
+                    '\\App\Http\\Responses\\%s\\%sResponse',
+                    \ucfirst($channel->system),
+                    \ucfirst($this->args[0])
+                );
+                return new $class($this->text, 200, [], $channel);
+            } catch (Error $ex) {
+                // Again, ignore errors, they might want a generic command.
+                \Log::debug($ex->getMessage());
+            }
         }
 
         // No system-specific response found, see if the request is a generic
         // XdY roll.
         if (1 === \preg_match('/\d+d\d+/i', $this->args[0])) {
-            $roll = new Generic($this->text, $channel->username);
+            $roll = new Generic($this->text, $channel->username, $channel);
             RollEvent::dispatch($roll, $channel);
-            return $roll->forSlack($channel);
+            return $roll->forSlack();
         }
 
         // Finally, see if there's a Slack response that isn't system-specific.
@@ -125,7 +126,7 @@ class SlackController extends Controller
                 [],
                 $channel
             );
-        } catch (\Error $ex) {
+        } catch (Error $ex) {
             \Log::debug($ex->getMessage());
             throw new SlackException(
                 'That doesn\'t appear to be a valid Commlink command.'

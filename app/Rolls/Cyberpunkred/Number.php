@@ -53,10 +53,16 @@ class Number extends Roll
     /**
      * Constructor.
      * @param string $content
-     * @param string $character
+     * @param string $username
+     * @param Channel $channel
      */
-    public function __construct(string $content, public string $character)
-    {
+    public function __construct(
+        string $content,
+        string $username,
+        Channel $channel
+    ) {
+        parent::__construct($content, $username, $channel);
+
         $args = \explode(' ', $content);
         $this->addition = (int)\array_shift($args);
         $this->description = \implode(' ', $args);
@@ -66,10 +72,9 @@ class Number extends Roll
 
     /**
      * Return the roll formatted for Slack.
-     * @param Channel $channel
      * @return SlackResponse
      */
-    public function forSlack(Channel $channel): SlackResponse
+    public function forSlack(): SlackResponse
     {
         $color = TextAttachment::COLOR_INFO;
         if ($this->critFailure) {
@@ -84,7 +89,12 @@ class Number extends Roll
         );
         $attachment->addFooter(\implode(' ', $this->dice));
 
-        $response = new SlackResponse('', SlackResponse::HTTP_OK, [], $channel);
+        $response = new SlackResponse(
+            '',
+            SlackResponse::HTTP_OK,
+            [],
+            $this->channel
+        );
         return $response->addAttachment($attachment)->sendToChannel();
     }
 
@@ -139,20 +149,20 @@ class Number extends Roll
             $for = \sprintf(' for "%s"', $this->description);
         }
         if (!$this->critFailure && !$this->critSuccess) {
-            return \sprintf('%s made a roll%s', $this->character, $for);
+            return \sprintf('%s made a roll%s', $this->username, $for);
         }
 
         if ($this->critFailure) {
             return \sprintf(
                 '%s made a roll with a critical failure%s',
-                $this->character,
+                $this->username,
                 $for
             );
         }
 
         return \sprintf(
             '%s made a roll with a critical success%s',
-            $this->character,
+            $this->username,
             $for
         );
     }

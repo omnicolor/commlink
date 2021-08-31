@@ -19,10 +19,16 @@ class Generic extends Roll
     /**
      * Constructor.
      * @param string $content
-     * @param string $character
+     * @param string $username
+     * @param Channel $channel
      */
-    public function __construct(string $content, string $character)
-    {
+    public function __construct(
+        string $content,
+        string $username,
+        Channel $channel
+    ) {
+        parent::__construct($content, $username, $channel);
+
         // First, pull the description part out, if it exists.
         $parts = \explode(' ', $content);
         $expression = \array_shift($parts);
@@ -54,11 +60,16 @@ class Generic extends Roll
 
         $this->title = \sprintf(
             '%s rolled %d%s',
-            $character,
+            $username,
             $total,
             ('' !== $this->description) ? \sprintf(' for "%s"', $this->description) : ''
         );
-        $this->text = \sprintf('Rolling: %s = %s = %d', $expression, $partial, $total);
+        $this->text = \sprintf(
+            'Rolling: %s = %s = %d',
+            $expression,
+            $partial,
+            $total
+        );
         if ($dice > 1) {
             $this->footer = 'Rolls: ' . \implode(', ', $rolls);
         }
@@ -108,7 +119,7 @@ class Generic extends Roll
      * Return the roll formatted for Slack.
      * @return SlackResponse
      */
-    public function forSlack(Channel $channel): SlackResponse
+    public function forSlack(): SlackResponse
     {
         $attachment = new TextAttachment(
             $this->title,
@@ -116,7 +127,12 @@ class Generic extends Roll
             TextAttachment::COLOR_SUCCESS
         );
         $attachment->addFooter($this->footer);
-        $response = new SlackResponse('', SlackResponse::HTTP_OK, [], $channel);
+        $response = new SlackResponse(
+            '',
+            SlackResponse::HTTP_OK,
+            [],
+            $this->channel
+        );
         return $response->addAttachment($attachment)->sendToChannel();
     }
 

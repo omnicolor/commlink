@@ -10,9 +10,9 @@ use App\Rolls\Cyberpunkred\Number;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
- * Tests for rolling dice in Shadowrun 5E.
- * @group discord
+ * Tests for rolling dice in Cyberpunk Red.
  * @group cyberpunkred
+ * @group discord
  * @group slack
  * @medium
  */
@@ -47,9 +47,9 @@ final class NumberTest extends \Tests\TestCase
     {
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
+        $channel->username = 'user';
         $this->randomInt->expects(self::exactly(1))->willReturn(5);
-        $response = new Number('5', 'user');
-        $response = $response->forSlack($channel);
+        $response = (new Number('5', 'user', $channel))->forSlack();
         $expected = [
             'response_type' => 'in_channel',
             'attachments' => [
@@ -72,11 +72,11 @@ final class NumberTest extends \Tests\TestCase
     {
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
+        $channel->username = 'user';
         $this->randomInt
             ->expects(self::exactly(2))
             ->willReturnOnConsecutiveCalls(10, 4);
-        $response = new Number('5', 'user');
-        $response = $response->forSlack($channel);
+        $response = (new Number('5', 'user', $channel))->forSlack();
         $expected = [
             'response_type' => 'in_channel',
             'attachments' => [
@@ -99,11 +99,11 @@ final class NumberTest extends \Tests\TestCase
     {
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
+        $channel->username = 'user';
         $this->randomInt
             ->expects(self::exactly(2))
             ->willReturnOnConsecutiveCalls(1, 4);
-        $response = new Number('5 shooting', 'user');
-        $response = $response->forSlack($channel);
+        $response = (new Number('5 shooting', 'user', $channel))->forSlack();
         $expected = [
             'response_type' => 'in_channel',
             'attachments' => [
@@ -124,9 +124,11 @@ final class NumberTest extends \Tests\TestCase
      */
     public function testRollDiscord(): void
     {
+        $channel = new Channel();
+        $channel->username = 'user';
         $this->randomInt->expects(self::exactly(1))->willReturn(5);
-        $response = new Number('5 perception', 'user');
-        $response = $response->forDiscord();
+        $response = (new Number('5 perception', 'user', $channel))
+            ->forDiscord();
         $expected = "**user made a roll for \"perception\"**\n1d10 + 5 = 5 + 5 = 10";
         self::assertSame($expected, $response);
     }
@@ -137,11 +139,12 @@ final class NumberTest extends \Tests\TestCase
      */
     public function testRollDiscordCritSuccess(): void
     {
+        $channel = new Channel();
+        $channel->username = 'user';
         $this->randomInt
             ->expects(self::exactly(2))
             ->willReturnOnConsecutiveCalls(10, 4);
-        $response = new Number('5', 'user');
-        $response = $response->forDiscord();
+        $response = (new Number('5', 'user', $channel))->forDiscord();
         $expected = "**user made a roll with a critical success**\n1d10 + 5 = 10 + 4 + 5 = 19";
         self::assertSame($expected, $response);
     }
@@ -155,8 +158,7 @@ final class NumberTest extends \Tests\TestCase
         $this->randomInt
             ->expects(self::exactly(2))
             ->willReturnOnConsecutiveCalls(1, 4);
-        $response = new Number('5', 'user');
-        $response = $response->forDiscord();
+        $response = (new Number('5', 'user', new Channel()))->forDiscord();
         $expected = "**user made a roll with a critical failure**\n1d10 + 5 = 1 - 4 + 5 = 2";
         self::assertSame($expected, $response);
     }

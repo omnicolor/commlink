@@ -117,7 +117,7 @@ final class SlackControllerTest extends \Tests\TestCase
         )
             ->assertOk()
             ->assertJsonFragment([
-                'color' => SlackResponse::COLOR_INFO,
+                'color' => SlackResponse::COLOR_DANGER,
                 'response_type' => 'ephemeral',
                 'title' => 'Commands for unregistered channels:',
             ]);
@@ -230,7 +230,6 @@ final class SlackControllerTest extends \Tests\TestCase
 
         /** @var Character */
         $character = Character::factory()->create([
-            'handle' => 'Bobby-Jo',
             'system' => 'shadowrun5e',
         ]);
 
@@ -263,7 +262,7 @@ final class SlackControllerTest extends \Tests\TestCase
             ])
             ->assertSee('Rolled 5 successes')
             ->assertDontSee('Bob rolled 5 dice')
-            ->assertSee('Bobby-Jo rolled 5 dice');
+            ->assertSee(sprintf('%s rolled 5 dice', (string)$character));
     }
 
     /**

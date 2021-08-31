@@ -29,9 +29,9 @@ final class RollEventTest extends \Tests\TestCase
         );
         $randomInt->expects(self::any())->willReturn(random_int(1, 6));
 
-        $roll = new Number('5', 'Bob');
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
+        $roll = new Number('5', 'Bob', $channel);
         $event = new RollEvent($roll, $channel);
         self::assertSame($channel, $event->source);
         self::assertSame($roll, $event->roll);

@@ -54,11 +54,16 @@ class Number extends Roll
     /**
      * Constructor.
      * @param string $content
-     * @param string $character
+     * @param string $username
+     * @param Channel $channel
      */
-    public function __construct(string $content, string $character)
-    {
-        $this->name = $character;
+    public function __construct(
+        string $content,
+        string $username,
+        Channel $channel
+    ) {
+        parent::__construct($content, $username, $channel);
+
         $args = \explode(' ', $content);
         $this->dice = (int)\array_shift($args);
         if (isset($args[0]) && \is_numeric($args[0])) {
@@ -85,7 +90,7 @@ class Number extends Roll
     {
         $this->title = \sprintf(
             '%s rolled a critical glitch on %d dice!',
-            $this->name,
+            $this->username,
             $this->dice
         );
         $this->text = \sprintf(
@@ -125,7 +130,7 @@ class Number extends Roll
     {
         return \sprintf(
             '%s rolled %d %s%s%s',
-            $this->name,
+            $this->username,
             $this->dice,
             1 === $this->dice ? 'die' : 'dice',
             null !== $this->limit ? \sprintf(' with a limit of %d', $this->limit) : '',
@@ -194,11 +199,10 @@ class Number extends Roll
 
     /**
      * Return the roll formatted for Slack.
-     * @param Channel $channel
      * @return SlackResponse
      * @throws SlackException
      */
-    public function forSlack(Channel $channel): SlackResponse
+    public function forSlack(): SlackResponse
     {
         if ($this->dice > 100) {
             throw new SlackException('You can\'t roll more than 100 dice');
@@ -213,7 +217,7 @@ class Number extends Roll
         }
         $attachment = new TextAttachment($this->title, $this->text, $color);
         $attachment->addFooter($footer);
-        $response = new SlackResponse('', SlackResponse::HTTP_OK, [], $channel);
+        $response = new SlackResponse('', SlackResponse::HTTP_OK, [], $this->channel);
         return $response->addAttachment($attachment)->sendToChannel();
     }
 
@@ -226,7 +230,7 @@ class Number extends Roll
         if ($this->dice > 100) {
             return \sprintf(
                 '%s, you can\'t roll more than 100 dice!',
-                $this->name
+                $this->username
             );
         }
         $footer = 'Rolls: ' . \implode(' ', $this->rolls);

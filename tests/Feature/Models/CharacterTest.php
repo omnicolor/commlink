@@ -65,6 +65,7 @@ final class CharacterTest extends \Tests\TestCase
 
     /**
      * Load a character's owner.
+     * @medium
      * @test
      */
     public function testGetUser(): void

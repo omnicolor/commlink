@@ -13,7 +13,9 @@ use CharlotteDunois\Yasmin\Models\Guild;
 use CharlotteDunois\Yasmin\Models\Message;
 use CharlotteDunois\Yasmin\Models\TextChannel;
 use CharlotteDunois\Yasmin\Models\User;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
+use phpmock\phpunit\PHPMock;
 
 /**
  * Tests for Discord message event listener.
@@ -23,7 +25,8 @@ use Illuminate\Support\Facades\Event;
  */
 final class HandleDiscordMessageTest extends \Tests\TestCase
 {
-    use \phpmock\phpunit\PHPMock;
+    use PHPMock;
+    use WithFaker;
 
     /**
      * Mock random_int function to take randomness out of testing.
@@ -38,6 +41,15 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
     {
         parent::setUp();
         $this->randomInt = $this->getFunctionMock('App\\Rolls', 'random_int');
+    }
+
+    /**
+     * Return a Discord username.
+     * @return string
+     */
+    protected function createDiscordTag(): string
+    {
+        return $this->faker->word . '#' . $this->faker->randomNumber(4, true);
     }
 
     /**
@@ -67,8 +79,15 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
             'type' => 'discord',
         ]);
 
+        $userMap = [
+            ['id', $this->faker->randomNumber(5)],
+            ['tag', $this->createDiscordTag()],
+        ];
+        $userMock = $this->createMock(User::class);
+        $userMock->method('__get')->willReturnMap($userMap);
+
         $messageMap = [
-            ['author', $this->createStub(User::class)],
+            ['author', $userMock],
             ['channel', $channelMock],
             ['content', '/roll 6'],
         ];
@@ -86,7 +105,8 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
     public function testHandleGenericRoll(): void
     {
         $this->randomInt->expects(self::exactly(2))->willReturn(3);
-        $expected = '**discord#tag rolled 6**' . \PHP_EOL
+        $tag = $this->createDiscordTag();
+        $expected = sprintf('**%s rolled 6**', $tag) . \PHP_EOL
             . 'Rolling: 2d6 = [6] = 6' . \PHP_EOL
             . '_Rolls: 3, 3_';
 
@@ -103,8 +123,12 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
             ->method('send')
             ->with(self::equalTo($expected));
 
+        $userMap = [
+            ['id', $this->faker->randomNumber(5)],
+            ['tag', $tag],
+        ];
         $userMock = $this->createMock(User::class);
-        $userMock->method('__get')->willReturn('discord#tag');
+        $userMock->method('__get')->willReturnMap($userMap);
 
         $messageMap = [
             ['author', $userMock],
@@ -456,6 +480,50 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
             ['author', $userMock],
             ['channel', $channelMock],
             ['content', '/roll 6'],
+        ];
+        $messageStub = $this->createStub(Message::class);
+        $messageStub->method('__get')->willReturnMap($messageMap);
+
+        $event = new DiscordMessageReceived($messageStub);
+        self::assertTrue((new HandleDiscordMessage())->handle($event));
+    }
+
+    /**
+     * Test handling a Discord message asking for a system-specific help roll.
+     * @medium
+     * @test
+     */
+    public function testHandleSystemNonNumberRoll(): void
+    {
+        $expected = 'Slack/Discord bot that lets you roll Shadowrun 5E dice.';
+
+        $serverStub = $this->createStub(Guild::class);
+        $serverStub->method('__get')->willReturn(\Str::random(10));
+
+        $channelMap = [
+            ['id', \Str::random(14)],
+            ['name', \Str::random(12)],
+            ['guild', $serverStub],
+        ];
+        $channelMock = $this->createMock(TextChannel::class);
+        $channelMock->method('__get')->willReturnMap($channelMap);
+        $channelMock->expects(self::once())
+            ->method('send')
+            ->with(self::stringContains($expected));
+        Channel::factory()->create([
+            'channel_id' => $channelMock->id,
+            'server_id' => $serverStub->id,
+            'system' => 'shadowrun5e',
+            'type' => 'discord',
+        ]);
+
+        $userMock = $this->createMock(User::class);
+        $userMock->method('__get')->willReturn('discord#tag');
+
+        $messageMap = [
+            ['author', $userMock],
+            ['channel', $channelMock],
+            ['content', '/roll help'],
         ];
         $messageStub = $this->createStub(Message::class);
         $messageStub->method('__get')->willReturnMap($messageMap);

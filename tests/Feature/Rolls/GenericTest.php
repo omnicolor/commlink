@@ -41,8 +41,8 @@ final class GenericTest extends \Tests\TestCase
         /** @var Channel */
         $channel = Channel::factory()->make();
         $this->randomInt->expects(self::exactly(3))->willReturn(2);
-        $response = new Generic('3d6', 'username');
-        $response = \json_decode((string)$response->forSlack($channel));
+        $response = new Generic('3d6', 'username', $channel);
+        $response = \json_decode((string)$response->forSlack());
         self::assertSame('Rolls: 2, 2, 2', $response->attachments[0]->footer);
         self::assertSame(
             'Rolling: 3d6 = [6] = 6',
@@ -59,8 +59,8 @@ final class GenericTest extends \Tests\TestCase
         /** @var Channel */
         $channel = Channel::factory()->make();
         $this->randomInt->expects(self::exactly(4))->willReturn(3);
-        $roll = new Generic('4d6 testing', 'user');
-        $response = \json_decode((string)$roll->forSlack($channel));
+        $roll = new Generic('4d6 testing', 'user', $channel);
+        $response = \json_decode((string)$roll->forSlack());
         self::assertSame(
             'Rolls: 3, 3, 3, 3',
             $response->attachments[0]->footer
@@ -90,8 +90,8 @@ final class GenericTest extends \Tests\TestCase
         /** @var Channel */
         $channel = Channel::factory()->make();
         $this->randomInt->expects(self::exactly(2))->willReturn(10);
-        $roll = new Generic('4+2d10-1*10 foo', 'Bob');
-        $response = \json_decode((string)$roll->forSlack($channel));
+        $roll = new Generic('4+2d10-1*10 foo', 'Bob', $channel);
+        $response = \json_decode((string)$roll->forSlack());
         self::assertSame('Rolls: 10, 10', $response->attachments[0]->footer);
         self::assertSame(
             'Rolling: 4+2d10-1*10 = 4+[20]-1*10 = 14',

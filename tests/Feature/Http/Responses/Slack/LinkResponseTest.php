@@ -196,26 +196,23 @@ final class LinkResponseTest extends \Tests\TestCase
      */
     public function testLinkWrongSystem(): void
     {
-        self::expectException(SlackException::class);
-        self::expectExceptionMessage(
-            'Bob is a Shadowrun 5th Edition character. '
-                . 'This channel is playing The Expanse.'
-        );
         /** @var User */
         $user = User::factory()->create();
+
         /** @var Character */
         $character = Character::factory()->create([
             '_id' => sha1(\Str::random(10)),
-            'handle' => 'Bob',
             'owner' => $user->email,
             'system' => 'shadowrun5e',
         ]);
+
         /** @var Channel */
         $channel = Channel::factory()->create([
             'system' => 'expanse',
             'type' => Channel::TYPE_SLACK,
         ]);
         $channel->user = \Str::random(10);
+
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -224,6 +221,14 @@ final class LinkResponseTest extends \Tests\TestCase
             'user_id' => $user,
             'verified' => true,
         ]);
+
+        self::expectException(SlackException::class);
+        self::expectExceptionMessage(sprintf(
+            '%s is a Shadowrun 5th Edition character. '
+                . 'This channel is playing The Expanse.',
+            (string)$character
+        ));
+
         new LinkResponse(
             content: sprintf('link %s', $character->_id),
             status: LinkResponse::HTTP_OK,

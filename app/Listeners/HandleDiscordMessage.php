@@ -26,10 +26,24 @@ class HandleDiscordMessage
             ->where('channel_id', $textChannel->id)
             ->where('server_id', $event->server->id)
             ->first();
+        if (null === $channel) {
+            $channel = new Channel([
+                'channel_id' => $textChannel->id,
+                'server_id' => $event->server->id,
+                'type' => Channel::TYPE_DISCORD,
+            ]);
+        }
+        // @phpstan-ignore-next-line
+        $channel->user = (string)$event->user->id;
+        $channel->username = $event->user->tag;
 
         // See if the requested roll is XdY or something similar.
         if (1 === \preg_match('/\d+d\d+/i', $args[0])) {
-            $roll = new \App\Rolls\Generic($event->content, $event->user->tag);
+            $roll = new \App\Rolls\Generic(
+                $event->content,
+                $event->user->tag,
+                $channel
+            );
             $event->channel->send($roll->forDiscord());
             RollEvent::dispatch($roll, $channel);
             return true;
@@ -47,7 +61,11 @@ class HandleDiscordMessage
                     '\\App\Rolls\\%s\\Number',
                     ucfirst($channel->system),
                 );
-                $roll = new $class($event->content, $event->user->tag);
+                $roll = new $class(
+                    $event->content,
+                    $event->user->tag,
+                    $channel
+                );
                 $event->channel->send($roll->forDiscord());
                 RollEvent::dispatch($roll, $channel);
                 return true;
@@ -64,16 +82,21 @@ class HandleDiscordMessage
                 \ucfirst($channel->system ?? 'Unknown'),
                 \ucfirst($args[0])
             );
-            $roll = new $class($event->content, $event->user->tag);
+            $roll = new $class($event->content, $event->user->tag, $channel);
             $event->channel->send($roll->forDiscord());
+            /*
+             * There aren't any non-numeric rolls for any system so far other
+             * than help.
             if ('help' !== $args[0]) {
                 RollEvent::dispatch($roll, $channel);
             }
+             */
             return true;
         } catch (\Error $ex) {
             \Log::debug($ex->getMessage());
         }
 
+        // Try an old-format HTTP Response
         try {
             $class = \sprintf(
                 '\\App\Http\\Responses\\Discord\\%sResponse',

@@ -48,8 +48,8 @@ final class NumberTest extends \Tests\TestCase
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         $this->randomInt->expects(self::any())->willReturn(random_int(1, 6));
-        $response = new Number('5', 'user');
-        $response = (string)$response->forSlack($channel);
+        $response = new Number('5', 'user', $channel);
+        $response = (string)$response->forSlack();
         self::assertStringNotContainsString('limit', $response);
         self::assertStringNotContainsString('for', $response);
     }
@@ -61,10 +61,10 @@ final class NumberTest extends \Tests\TestCase
     public function testRollWithLimit(): void
     {
         $this->randomInt->expects(self::any())->willReturn(random_int(1, 6));
-        $response = new Number('15 5', 'username');
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
-        $response = (string)$response->forSlack($channel);
+        $response = new Number('15 5', 'username', $channel);
+        $response = (string)$response->forSlack();
         self::assertStringContainsString(', limit: 5', $response);
         self::assertStringNotContainsString('for', $response);
     }
@@ -76,10 +76,10 @@ final class NumberTest extends \Tests\TestCase
     public function testRollWithDescription(): void
     {
         $this->randomInt->expects(self::any())->willReturn(random_int(1, 6));
-        $response = new Number('5 description', 'username');
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
-        $response = (string)$response->forSlack($channel);
+        $response = new Number('5 description', 'username', $channel);
+        $response = (string)$response->forSlack();
         self::assertStringNotContainsString('limit', $response);
         self::assertStringContainsString('for \\"description\\"', $response);
     }
@@ -91,10 +91,10 @@ final class NumberTest extends \Tests\TestCase
     public function testRollBoth(): void
     {
         $this->randomInt->expects(self::any())->willReturn(random_int(1, 6));
-        $response = new Number('20 10 description', 'username');
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
-        $response = (string)$response->forSlack($channel);
+        $response = new Number('20 10 description', 'username', $channel);
+        $response = (string)$response->forSlack();
         self::assertStringContainsString('limit: 10', $response);
         self::assertStringContainsString('for \\"description\\"', $response);
     }
@@ -108,10 +108,9 @@ final class NumberTest extends \Tests\TestCase
         self::expectException(SlackException::class);
         self::expectExceptionMessage('You can\'t roll more than 100 dice');
         $this->randomInt->expects(self::never());
-        $response = new Number('101', 'username');
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
-        $response->forSlack($channel);
+        (new Number('101', 'username', $channel))->forSlack();
     }
 
     /**
@@ -121,10 +120,10 @@ final class NumberTest extends \Tests\TestCase
     public function testCriticalGlitch(): void
     {
         $this->randomInt->expects(self::exactly(3))->willReturn(1);
-        $response = new Number('3', 'username');
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
-        $response = (string)$response->forSlack($channel);
+        $response = new Number('3', 'username', $channel);
+        $response = (string)$response->forSlack();
         self::assertStringContainsString(
             'username rolled a critical glitch on 3 dice!',
             $response
@@ -138,10 +137,10 @@ final class NumberTest extends \Tests\TestCase
     public function testFooterSixes(): void
     {
         $this->randomInt->expects(self::exactly(3))->willReturn(6);
-        $response = new Number('3', 'username');
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
-        $response = (string)$response->forSlack($channel);
+        $response = new Number('3', 'username', $channel);
+        $response = (string)$response->forSlack();
         self::assertStringContainsString('*6* *6* *6*', $response);
     }
 
@@ -152,10 +151,10 @@ final class NumberTest extends \Tests\TestCase
     public function testDescriptionHitLimit(): void
     {
         $this->randomInt->expects(self::exactly(6))->willReturn(5);
-        $response = new Number('6 3 shooting', 'username');
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
-        $response = (string)$response->forSlack($channel);
+        $response = new Number('6 3 shooting', 'username', $channel);
+        $response = (string)$response->forSlack();
         self::assertStringContainsString(
             'Rolled 3 successes for \\"shooting\\", hit limit',
             $response
@@ -172,7 +171,7 @@ final class NumberTest extends \Tests\TestCase
             . 'Rolled 1 successes' . \PHP_EOL
             . 'Rolls: 6';
         $this->randomInt->expects(self::exactly(1))->willReturn(6);
-        $response = new Number('1', 'username');
+        $response = new Number('1', 'username', new Channel());
         self::assertSame($expected, $response->forDiscord());
     }
 
@@ -186,7 +185,7 @@ final class NumberTest extends \Tests\TestCase
             . 'Rolled 3 successes, hit limit' . \PHP_EOL
             . 'Rolls: 6 6 6 6 6 6, Limit: 3';
         $this->randomInt->expects(self::exactly(6))->willReturn(6);
-        $response = new Number('6 3', 'username');
+        $response = new Number('6 3', 'username', new Channel());
         self::assertSame($expected, $response->forDiscord());
     }
 
@@ -197,7 +196,7 @@ final class NumberTest extends \Tests\TestCase
     public function testFormattedForDiscordTooManyDice(): void
     {
         $this->randomInt->expects(self::never());
-        $response = new Number('101', 'Loftwyr');
+        $response = new Number('101', 'Loftwyr', new Channel());
         self::assertSame(
             'Loftwyr, you can\'t roll more than 100 dice!',
             $response->forDiscord()
