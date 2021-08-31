@@ -90,7 +90,7 @@ class Character extends \App\Models\Character
      */
     public function __toString(): string
     {
-        return $this->handle;
+        return $this->handle ?? 'Unnamed character';
     }
 
     /**
