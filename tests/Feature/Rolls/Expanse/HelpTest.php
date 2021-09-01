@@ -12,7 +12,7 @@ use App\Rolls\Expanse\Help;
  * @group discord
  * @group expanse
  * @group slack
- * @small
+ * @medium
  */
 final class HelpTest extends \Tests\TestCase
 {
