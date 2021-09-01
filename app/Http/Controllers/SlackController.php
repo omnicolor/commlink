@@ -75,10 +75,8 @@ class SlackController extends Controller
             }
         }
 
-        // See if we have a system to try some system-specific rolls or
-        // responses.
+        // Next, try system-specific rolls that aren't numeric.
         if (null !== $channel->system) {
-            // Next, try system-specific rolls that aren't numeric.
             try {
                 $class = \sprintf(
                     '\\App\\Rolls\\%s\\%s',
@@ -86,20 +84,10 @@ class SlackController extends Controller
                     \ucfirst($this->args[0])
                 );
                 $roll = new $class($this->text, $channel->username, $channel);
+                if ('help' !== $this->args[0]) {
+                    RollEvent::dispatch($roll, $channel);
+                }
                 return $roll->forSlack($channel);
-            } catch (Error $ex) {
-                // Again, ignore errors, they might want a generic command.
-                \Log::debug($ex->getMessage());
-            }
-
-            // Now try Slack-specific responses.
-            try {
-                $class = \sprintf(
-                    '\\App\Http\\Responses\\%s\\%sResponse',
-                    \ucfirst($channel->system),
-                    \ucfirst($this->args[0])
-                );
-                return new $class($this->text, 200, [], $channel);
             } catch (Error $ex) {
                 // Again, ignore errors, they might want a generic command.
                 \Log::debug($ex->getMessage());
@@ -112,6 +100,16 @@ class SlackController extends Controller
             $roll = new Generic($this->text, $channel->username, $channel);
             RollEvent::dispatch($roll, $channel);
             return $roll->forSlack();
+        }
+
+        // See if there's a Roll that isn't system-specific.
+        try {
+            $class = \sprintf('\\App\\Rolls\\%s', \ucfirst($this->args[0]));
+            $roll = new $class($this->text, $channel->username, $channel);
+            return $roll->forSlack($channel);
+        } catch (Error $ex) {
+            // Again, ignore errors, they might want an old-school response.
+            \Log::debug($ex->getMessage());
         }
 
         // Finally, see if there's a Slack response that isn't system-specific.

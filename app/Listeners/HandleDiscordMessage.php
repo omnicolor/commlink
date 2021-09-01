@@ -96,6 +96,16 @@ class HandleDiscordMessage
             \Log::debug($ex->getMessage());
         }
 
+        // Try generic rolls.
+        try {
+            $class = \sprintf('\\App\\Rolls\\%s', \ucfirst($args[0]));
+            $roll = new $class($event->content, $event->user->tag, $channel);
+            $event->channel->send($roll->forDiscord());
+            return true;
+        } catch (\Error $ex) {
+            \Log::debug($ex->getMessage());
+        }
+
         // Try an old-format HTTP Response
         try {
             $class = \sprintf(
