@@ -4,42 +4,20 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers\Expanse;
 
+use App\Models\CyberpunkRed\Character as CprCharacter;
 use App\Models\Expanse\Character;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Response;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * Tests for the Expanse character controller.
- * @covers \App\Http\Controllers\Expanse\CharactersController
- * @covers \App\Http\Resources\Expanse\CharacterResource
- * @covers \App\Models\Character::newFromBuilder
- * @covers \App\Models\Expanse\Character::booted
  * @group expanse
  * @group controllers
  * @medium
  */
 final class CharactersControllerTest extends \Tests\TestCase
 {
-    /**
-     * Characters we're testing on.
-     * @var array<int, Character|Collection|Model>
-     */
-    protected array $characters = [];
-
-    /**
-     * Clean up after the tests.
-     */
-    public function tearDown(): void
-    {
-        foreach ($this->characters as $key => $character) {
-            // @phpstan-ignore-next-line
-            $character->delete();
-            unset($this->characters[$key]);
-        }
-        parent::tearDown();
-    }
+    use RefreshDatabase;
 
     /**
      * Test loading Expanse characters if unauthenticated.
@@ -47,8 +25,7 @@ final class CharactersControllerTest extends \Tests\TestCase
      */
     public function testUnauthenticated(): void
     {
-        $this->getJson(route('expanse.characters.index'))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+        $this->getJson(route('expanse.characters.index'))->assertUnauthorized();
     }
 
     /**
@@ -75,16 +52,13 @@ final class CharactersControllerTest extends \Tests\TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $character = $this->characters[] = Character::factory()->create([
-            'owner' => $user->email,
-            'system' => 'cyberpunkred',
-        ]);
+
+        CprCharacter::factory()->create(['owner' => $user->email]);
+
         $this->actingAs($user)
             ->getJson(route('expanse.characters.index'))
             ->assertOk()
             ->assertJson(['data' => []]);
-        // @phpstan-ignore-next-line
-        $character->delete();
     }
 
     /**
@@ -96,15 +70,12 @@ final class CharactersControllerTest extends \Tests\TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $this->characters[] = Character::factory()->create([
-            'owner' => $user->email,
-            'system' => 'shadowrun6e',
-        ]);
+
+        CprCharacter::factory()->create(['owner' => $user->email]);
+
         /** @var Character */
-        $character = $this->characters[] = Character::factory()->create([
-            'owner' => $user->email,
-            'system' => 'expanse',
-        ]);
+        $character = Character::factory()->create(['owner' => $user->email]);
+
         $this->actingAs($user)
             ->getJson(route('expanse.characters.index'))
             ->assertOk()
@@ -126,11 +97,13 @@ final class CharactersControllerTest extends \Tests\TestCase
     {
         /** @var User */
         $user = User::factory()->create();
+
         /** @var Character */
-        $character = $this->characters[] = Character::factory()->create([
+        $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'expanse',
         ]);
+
         $this->actingAs($user)
             ->getJson(route('expanse.characters.show', $character))
             ->assertOk()
@@ -152,11 +125,10 @@ final class CharactersControllerTest extends \Tests\TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        /** @var Character */
-        $character = $this->characters[] = Character::factory()->create([
-            'owner' => $user->email,
-            'system' => 'shadowrun6e',
-        ]);
+
+        /** @var CprCharacter */
+        $character = CprCharacter::factory()->create(['owner' => $user->email]);
+
         $this->actingAs($user)
             ->getJson(route('expanse.characters.show', $character))
             ->assertNotFound();
@@ -170,17 +142,16 @@ final class CharactersControllerTest extends \Tests\TestCase
     {
         /** @var User */
         $user = User::factory()->create();
+
         /** @var Character */
-        $character = $this->characters[] = Character::factory()->create([
-            'owner' => $user->email,
-            'system' => 'expanse',
-        ]);
-        $view = $this->actingAs($user)
+        $character = Character::factory()->create(['owner' => $user->email]);
+
+        $this->actingAs($user)
             ->get(
                 \sprintf('/characters/expanse/%s', $character->id),
                 ['character' => $character, 'user' => $user]
-            );
-        $view->assertSee($user->email);
-        $view->assertSee($character->name);
+            )
+            ->assertSee($user->email)
+            ->assertSee(e($character->name), false);
     }
 }
