@@ -87,6 +87,6 @@ class DiscordRunCommand extends Command
 
         $client->login(config('app.discord_token'))->done();
         $client->getLoop()->run();
-        return 0;
+        return self::SUCCESS;
     }
 }
