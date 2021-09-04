@@ -531,4 +531,42 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $event = new DiscordMessageReceived($messageStub);
         self::assertTrue((new HandleDiscordMessage())->handle($event));
     }
+
+    /**
+     * Test handling a Discord message asking for a generic help roll.
+     * @medium
+     * @test
+     */
+    public function testHandleNonSystemHelpRoll(): void
+    {
+        $expected = sprintf('**About %s**', config('app.name'));
+
+        $serverStub = $this->createStub(Guild::class);
+        $serverStub->method('__get')->willReturn(\Str::random(10));
+
+        $channelMap = [
+            ['id', \Str::random(14)],
+            ['name', \Str::random(12)],
+            ['guild', $serverStub],
+        ];
+        $channelMock = $this->createMock(TextChannel::class);
+        $channelMock->method('__get')->willReturnMap($channelMap);
+        $channelMock->expects(self::once())
+            ->method('send')
+            ->with(self::stringContains($expected));
+
+        $userMock = $this->createMock(User::class);
+        $userMock->method('__get')->willReturn('discord#tag');
+
+        $messageMap = [
+            ['author', $userMock],
+            ['channel', $channelMock],
+            ['content', '/roll help'],
+        ];
+        $messageStub = $this->createStub(Message::class);
+        $messageStub->method('__get')->willReturnMap($messageMap);
+
+        $event = new DiscordMessageReceived($messageStub);
+        self::assertTrue((new HandleDiscordMessage())->handle($event));
+    }
 }

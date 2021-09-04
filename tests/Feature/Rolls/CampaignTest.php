@@ -16,7 +16,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 
 /**
- * @group current
  * @medium
  */
 final class CampaignTest extends \Tests\TestCase
@@ -520,7 +519,10 @@ final class CampaignTest extends \Tests\TestCase
             $response
         );
 
-        Event::assertDispatched(ChannelLinked::class);
+        Event::assertDispatched(function (ChannelLinked $event) use ($campaign): bool {
+            $channel = $event->broadcastWith();
+            return $channel['campaign_name'] === $campaign->name;
+        });
     }
 
     /**

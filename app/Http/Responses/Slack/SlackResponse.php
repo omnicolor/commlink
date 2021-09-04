@@ -197,29 +197,6 @@ class SlackResponse extends JsonResponse
     }
 
     /**
-     * Add help for user if they haven't linked their Commlink user yet.
-     */
-    protected function addHelpForUnlinkedUser(): void
-    {
-        $this->addAttachment(new TextAttachment(
-            'Note for unregistered users:',
-            \sprintf(
-                'Your Slack user has not been linked with a %s user. '
-                    . 'Go to the <%s/settings|settings page> and copy the '
-                    . 'command listed there for this server. If the server '
-                    . 'isn\'t listed, follow the instructions there to add '
-                    . 'it. You\'ll need to know your server ID (`%s`) and '
-                    . 'your user ID (`%s`).',
-                config('app.name'),
-                config('app.url'),
-                $this->channel->server_id,
-                $this->channel->user
-            ),
-            TextAttachment::COLOR_DANGER
-        ));
-    }
-
-    /**
      * Add help for a channel that is registered for a system, but not
      * a campaign.
      */
