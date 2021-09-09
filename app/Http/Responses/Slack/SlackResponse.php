@@ -8,7 +8,6 @@ use App\Exceptions\SlackException;
 use App\Models\Channel;
 use App\Models\ChatUser;
 use App\Models\Slack\Attachment;
-use App\Models\Slack\TextAttachment;
 use Illuminate\Http\JsonResponse;
 
 /**

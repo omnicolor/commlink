@@ -140,7 +140,7 @@ class Character extends \App\Models\Character
     public function getHitPointsMaxAttribute(): int
     {
         return 10 + 5 * (int)\ceil(
-            (
+            (int)(
                 ($this->attributes['body'] ?? 0)
                 + ($this->attributes['willpower'] ?? 0)
             ) / 2

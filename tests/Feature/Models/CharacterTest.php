@@ -54,7 +54,6 @@ final class CharacterTest extends \Tests\TestCase
     public function testNoUser(): void
     {
         $character = new Character([
-            // @phpstan-ignore-next-line
             'owner' => self::$faker->unique()->safeEmail,
         ]);
         self::expectException(

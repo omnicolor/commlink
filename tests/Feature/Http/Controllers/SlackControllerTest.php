@@ -45,9 +45,9 @@ final class SlackControllerTest extends \Tests\TestCase
      */
     public function testOption(): void
     {
-        $response = $this->options(route('roll-options'))
-            ->assertOk();
-        self::assertSame('OK', $response->content());
+        $this->options(route('roll-options'))
+            ->assertOk()
+            ->assertSee('OK');
     }
 
     /**
