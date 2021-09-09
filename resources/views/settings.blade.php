@@ -17,8 +17,19 @@
     @endif
 
     @if ($errors->any())
-    <div class="alert alert-danger mt-4">
-        There were problems saving your settings.
+    <div class="alert alert-danger alert-dismissible fade mt-4 show" role="alert">
+        There
+        @if (1 === count($errors->all()))
+            was a problem
+        @else
+            were problems
+        @endif
+        with your request:
+        <ul>
+        @foreach ($errors->all() as $message)
+            <li>{!! $message !!}</li>
+        @endforeach
+        </ul>
     </div>
     @endif
 
@@ -28,7 +39,11 @@
     </div>
     @endif
 
-    <h1>Settings</h1>
+    <div class="row">
+        <div class="col">
+            <h1>Settings</h1>
+        </div>
+    </div>
 
     <div class="row mt-4">
         <div class="col">
@@ -36,11 +51,8 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Type</th>
-                        <th scope="col">Server ID</th>
-                        <th scope="col">Server name</th>
-                        <th scope="col">User ID</th>
-                        <th scope="col">User name</th>
+                        <th scope="col">Server</th>
+                        <th scope="col">User</th>
                         <th scope="col">Status</th>
                     </tr>
                 </thead>
@@ -48,27 +60,27 @@
                     @forelse ($user->chatUsers->sortByDesc('verified') as $chatUser)
                         <tr>
                             <td>
-                                <i class="bi bi-{{ $chatUser->server_type }}"></i>
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-{{ $chatUser->server_type }} me-3"></i>
+                                    <div class="d-inline-block">
+                                        @if ($chatUser->server_name)
+                                            {{ $chatUser->server_name }}
+                                        @else
+                                            Unable to load name
+                                        @endif
+                                        <br>
+                                        <small class="text-muted">{{ $chatUser->server_id }}</small>
+                                    </div>
+                                </div>
                             </td>
-                            <td>{{ $chatUser->server_id }}</td>
-                            <td>
-                                @if ($chatUser->server_name)
-                                    {{ $chatUser->server_name }}
-                                @else
-                                    <small class="text-muted">
-                                        Unable to load name
-                                    </small>
-                                @endif
-                            </td>
-                            <td>{{ $chatUser->remote_user_id }}</td>
                             <td>
                                 @if ($chatUser->remote_user_name)
                                     {{ $chatUser->remote_user_name }}
                                 @else
-                                    <small class="text-muted">
-                                        Unable to load name
-                                    </small>
+                                    Unable to load name
                                 @endif
+                                <br>
+                                <small class="text-muted">{{ $chatUser->remote_user_id }}</small>
                             </td>
                             @if ($chatUser->verified)
                                 <td title="User link is verified">
@@ -77,7 +89,7 @@
                             @else
                                 <td id="{{ $chatUser->server_type }}-{{ $chatUser->server_id }}-{{ $chatUser->remote_user_id }}"
                                     title="User link is not verified">
-                                    <div class="input-group">
+                                    <div class="input-group input-group-sm">
                                         <span class="input-group-text">
                                             <i class="bi bi-question-square-fill text-danger"></i>
                                         </span>
@@ -120,11 +132,8 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Type</th>
-                        <th scope="col">Server ID</th>
-                        <th scope="col">Server name</th>
-                        <th scope="col">Channel ID</th>
-                        <th scope="col">Channel name</th>
+                        <th scope="col">Server</th>
+                        <th scope="col">Channel</th>
                         <th scope="col">Character</th>
                         <th scope="col">Campaign</th>
                         <th scope="col">System</th>
@@ -148,29 +157,29 @@
                                 }
                             }
                         @endphp
-                        <tr>
+                        <tr class="align-middle">
                             <td>
-                                <i class="bi bi-{{ $channel->type }}"></i>
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-{{ $channel->type }} me-3"></i>
+                                    <div class="d-inline-block">
+                                        @if ($channel->server_name)
+                                            {{ $channel->server_name }}
+                                        @else
+                                            Unable to load name
+                                        @endif
+                                        <br>
+                                        <small class="text-muted">{{ $channel->server_id }}</small>
+                                    </div>
+                                </div>
                             </td>
-                            <td>{{ $channel->server_id }}</td>
-                            <td>
-                                @if ($channel->server_name)
-                                    {{ $channel->server_name }}
-                                @else
-                                    <small class="text-muted">
-                                        Unable to load name
-                                    </small>
-                                @endif
-                            </td>
-                            <td>{{ $channel->channel_id }}</td>
                             <td>
                                 @if ($channel->channel_name)
                                     {{ $channel->channel_name }}
                                 @else
-                                    <small class="text-muted">
-                                        Unable to load name
-                                    </small>
+                                    Unable to load name
                                 @endif
+                                <br>
+                                <small class="text-muted">{{ $channel->channel_id }}</small>
                             </td>
                             <td>{{ $character }}</td>
                             <td>
@@ -221,29 +230,39 @@
                 <form action="/settings/link-user" method="POST">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="link-user-title">Modal title</h5>
+                    <h5 class="modal-title" id="link-user-title">
+                        Link your chat user
+                    </h5>
                     <button aria-label="Close" class="btn-close"
                         data-bs-dismiss="modal" type="button"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row mt-4">
+                    <div class="row">
                         <div class="col">
-                            <h2>Link your chat user</h2>
                             <p>
-                                Linking your user will allow you to interact with
-                                Commlink resources from your chat server and send
-                                messages to the chat server from Commlink. This is a
-                                two-step process requiring action in Commlink (here)
-                                as well as in your chat channel to make sure you own
-                                both sides.
+                                Linking your user will allow you to interact
+                                with Commlink resources from your chat server
+                                and send messages to the chat server from
+                                Commlink. This is a two-step process requiring
+                                action in Commlink (here) as well as in your
+                                chat channel to make sure you own both sides.
                             </p>
+
+                            <p>
+                                For Discord servers, we can automagically get
+                                your user ID by <a href="{{ $discordOauthURL }}">
+                                    clicking here</a>. Or
+                                you can manually follow these two steps.
+                            </p>
+
                             <p>
                                 <strong>Step 1.</strong>
-                                Enter your server ID and user ID here. You can get
-                                them from Commlink's bot by typing <code>/roll
-                                info</code> on the server. If Commlink doesn't
-                                respond, the server's administrators will need to
-                                invite the bot to the server.
+                                Enter your server ID and user ID here. You can
+                                get them from Commlink's bot by typing
+                                <code>/roll info</code> on the server. If
+                                Commlink doesn't respond, the server's
+                                administrators will need to invite the bot to
+                                the server.
                             </p>
                             <p>
                                 <strong>Step 2.</strong>

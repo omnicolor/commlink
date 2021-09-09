@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\CampaignsController;
 use App\Http\Controllers\CyberpunkRed\CharactersController as CyberpunkRedCharacterController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DiscordController;
 use App\Http\Controllers\Expanse\CharactersController as ExpanseCharacterController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Shadowrun5E\CharactersController as Shadowrun5ECharacterController;
@@ -24,6 +25,11 @@ Route::middleware('auth')->group(function (): void {
         ->name('campaign.create');
     Route::get('/campaigns/{campaign}', [CampaignsController::class, 'view'])
         ->name('campaign.view');
+
+    Route::get('/discord', [DiscordController::class, 'view'])
+        ->name('discord.view');
+    Route::post('/discord', [DiscordController::class, 'save'])
+        ->name('discord.save');
 
     Route::get(
         '/characters/cyberpunkred/create/{step?}',

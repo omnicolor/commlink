@@ -236,8 +236,8 @@ final class CampaignTest extends \Tests\TestCase
         ]);
 
         self::assertSame(
-            'No campaign was found for ID "9".',
-            (new CampaignRoll('campaign 9', 'username', $channel))->forDiscord()
+            'No campaign was found for ID "0".',
+            (new CampaignRoll('campaign 0', 'username', $channel))->forDiscord()
         );
 
         Event::assertNotDispatched(ChannelLinked::class);

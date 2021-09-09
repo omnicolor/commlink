@@ -207,6 +207,13 @@ return [
      */
     'discord_token' => env('DISCORD_TOKEN'),
 
+    'discord' => [
+        'bot_token' => env('DISCORD_TOKEN'),
+        'client_id' => env('DISCORD_CLIENT_ID'),
+        'client_secret' => env('DISCORD_CLIENT_SECRET'),
+        'redirect_uri' => env('DISCORD_REDIRECT_URI'),
+    ],
+
     /*
      * Oauth token for Slack interaction.
      */

@@ -6,18 +6,27 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LinkUserRequest;
 use App\Models\ChatUser;
+use App\Models\Traits\InteractsWithDiscord;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class SettingsController extends Controller
 {
+    use InteractsWithDiscord;
+
     /**
      * Show the settings page.
      * @return View
      */
     public function show(): View
     {
-        return view('settings', ['user' => \Auth::user()]);
+        return view(
+            'settings',
+            [
+                'discordOauthURL' => $this->getDiscordOauthURL(),
+                'user' => \Auth::user(),
+            ]
+        );
     }
 
     /**
