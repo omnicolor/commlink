@@ -20,4 +20,10 @@ return [
         'name' => 'Core 5th Edition',
         'required' => true,
     ],
+    'forbidden-arcana' => [
+        'default' => false,
+        'description' => 'Magic is wild. Magic is undisciplined. You can try to impose order and understanding on it, but that’s just surface. Underneath is chaos, an erratic heart beating to a staggering rhythm. You don’t control it, any more than a surfer controls twenty-meter-tall wave; you don’t direct the wave, you ride it, capture a piece of its power, and hope to survive. If you do it right, though, you catch a portion of unimaginable power—power those who control the Sixth World don’t want you to have. All the more reason to push past their boundaries and grab it.||Forbidden Arcana offers dozens of different ways for Awakened characters in Shadowrun to harness that power and make themselves a mana-slinger like no other. From new ways to distinguish spellcasters of different traditions to more chaotic methods for summoning spirits to options for Awakened characters who have mastered their craft, Forbidden Arcana shows players how to break out of conventional molds, use mana in new ways, and become true street legends riding the growing wave of Sixth World mana.',
+        'name' => 'Forbidden Arcana',
+        'required' => false,
+    ],
 ];
