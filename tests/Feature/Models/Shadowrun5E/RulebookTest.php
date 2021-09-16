@@ -53,6 +53,6 @@ final class RulebookTest extends \Tests\TestCase
     {
         $books = Rulebook::all();
         self::assertNotEmpty($books);
-        self::assertInstanceOf(Rulebook::class, $books[0]);
+        self::assertInstanceOf(Rulebook::class, current($books));
     }
 }

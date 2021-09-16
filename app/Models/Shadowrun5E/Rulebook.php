@@ -81,7 +81,7 @@ class Rulebook
 
     /**
      * Return all rulebooks.
-     * @return array<int, Rulebook>
+     * @return array<string, Rulebook>
      */
     public static function all(): array
     {
@@ -91,7 +91,7 @@ class Rulebook
         $books = [];
         // @phpstan-ignore-next-line
         foreach (self::$books as $id => $book) {
-            $books[] = new Rulebook($id);
+            $books[$id] = new Rulebook($id);
         }
         return $books;
     }
