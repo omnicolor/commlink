@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Models\Shadowrun;
+namespace Tests\Feature\Models\Shadowrun5E;
 
 use App\Models\Shadowrun5E\Rulebook;
 use RuntimeException;
