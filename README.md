@@ -28,3 +28,7 @@ Running unit tests is done through Composer:
 ```shell
 $ composer test
 ```
+
+## Favicon credit
+
+https://commons.wikimedia.org/wiki/File:Sixsided_Dice_inJapan.jpg
