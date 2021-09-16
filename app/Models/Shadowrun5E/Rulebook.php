@@ -91,7 +91,7 @@ class Rulebook
         $books = [];
         // @phpstan-ignore-next-line
         foreach (self::$books as $id => $book) {
-            $books[$id] = new Rulebook($id);
+            $books[(string)$id] = new Rulebook($id);
         }
         return $books;
     }
