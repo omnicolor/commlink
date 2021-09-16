@@ -93,6 +93,7 @@ class Character extends \App\Models\Character
         'martialArts',
         'notoriety',
         'nuyen',
+        'owner',
         'priorities',
         'qualities',
         'reaction',
