@@ -1,9 +1,5 @@
 .env
-.env.backup
 .phpunit.result.cache
-Homestead.json
-Homestead.yaml
-docker-compose.override.yml
 node_modules
 npm-debug.log
 public/coverage
