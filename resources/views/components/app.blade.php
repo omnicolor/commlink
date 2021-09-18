@@ -46,12 +46,12 @@
                         <i class="bi bi-gear" title="Settings"></i>
                     </a></small>
                 </span>
-                <span class="nav-item">
-                    <form method="POST" action="{{ route('logout') }}" id="logout-form">
-                        @csrf
+                <form method="POST" action="{{ route('logout') }}" id="logout-form">
+                    @csrf
+                    <span class="nav-item">
                         <a class="nav-link" href="#" id="logout">Logout</a>
-                    </form>
-                </span>
+                    </span>
+                </form>
             @endif
         </div>
     </div>
