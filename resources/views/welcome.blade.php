@@ -2,17 +2,17 @@
 <html lang="en-US">
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="RPG manager">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="RPG character builder and campaign manager">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <title>Commlink RPG Manager - Login</title>
 </head>
 
-<body id="login">
-<nav class="navbar navbar-expand navbar-dark bg-dark justify-content-between">
-    <a class="navbar-brand" href="/">Commlink</a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent"></div>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <span class="navbar-brand">Commlink</span>
+    </div>
 </nav>
 
 <div class="container-fluid">
