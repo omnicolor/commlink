@@ -334,7 +334,7 @@ class Shadowrun5eConverter implements ConverterInterface
         foreach ($skills as $skill) {
             $name = (string)$skill['name'];
             $rating = (int)$skill['base'];
-            if ($skill->specialization) {
+            if (null !== $skill->specialization) {
                 $specializations = [];
                 foreach ($skill->specialization as $spec) {
                     $specializations[]
