@@ -17,6 +17,10 @@ use App\Rolls\Roll;
  */
 class Init extends Roll
 {
+    /**
+     * Arguments passed to the roll.
+     * @var array<int, string>
+     */
     protected array $args = [];
 
     /**
@@ -92,7 +96,6 @@ class Init extends Roll
         $this->roll = random_int(1, 10);
         $this->initiative = Initiative::updateOrCreate(
             [
-                // @phpstan-ignore-next-line
                 'campaign_id' => optional($this->campaign)->id,
                 'channel_id' => $this->channel->channel_id,
                 'character_id' => optional($this->channel->character())->id,
@@ -142,7 +145,7 @@ class Init extends Roll
         }
         $this->roll();
         $attachment = new TextAttachment(
-            sprintf('Initiative added for %s', (string)$this->username),
+            sprintf('Initiative added for %s', $this->username),
             $this->formatBody()
         );
         $response = new SlackResponse(
@@ -167,7 +170,7 @@ class Init extends Roll
                 . 'modifier of -2';
         }
         $this->roll();
-        return sprintf('**Initiative added for %s**', (string)$this->username)
+        return sprintf('**Initiative added for %s**', $this->username)
             . \PHP_EOL . $this->formatBody();
     }
 }

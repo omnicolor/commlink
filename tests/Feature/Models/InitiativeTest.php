@@ -17,6 +17,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
  */
 final class InitiativeTest extends \Tests\TestCase
 {
+    use RefreshDatabase;
+
     public function testToStringWithoutCharacter(): void
     {
         $initiative = new Initiative(['character_name' => 'Conan']);
@@ -41,7 +43,10 @@ final class InitiativeTest extends \Tests\TestCase
             'campaign_id' => $campaign->id,
         ]);
 
-        self::assertSame($campaign->name, $initiative->campaign->name);
+        self::assertSame(
+            $campaign->name,
+            optional($initiative->campaign)->name
+        );
     }
 
     public function testScopeForCampaign(): void

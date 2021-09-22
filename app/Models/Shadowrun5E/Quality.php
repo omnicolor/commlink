@@ -59,7 +59,7 @@ class Quality
 
     /**
      * List of all qualities.
-     * @var ?array<mixed>
+     * @var ?array<string, mixed>
      */
     public static ?array $qualities;
 

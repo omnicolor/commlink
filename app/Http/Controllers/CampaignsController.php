@@ -82,6 +82,7 @@ class CampaignsController extends Controller
                     'cyberpunkred.gm-screen',
                     [
                         'campaign' => $campaign,
+                        // @phpstan-ignore-next-line
                         'initiative' => Initiative::forCampaign($campaign)
                             ->orderByDesc('initiative')
                             ->get(),

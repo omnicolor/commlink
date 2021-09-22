@@ -19,12 +19,6 @@ abstract class Roll
     protected ?Campaign $campaign;
 
     /**
-     * Registered channel.
-     * @var Channel
-     */
-    protected Channel $channel;
-
-    /**
      * Character, if one is linked to the channel.
      * @var ?Character
      */
@@ -67,12 +61,6 @@ abstract class Roll
     protected string $title = '';
 
     /**
-     * Slack/Discord name of the user.
-     * @var string
-     */
-    protected $username;
-
-    /**
      * Construct the roll.
      * @param string $content
      * @param string $username
@@ -81,14 +69,12 @@ abstract class Roll
      */
     public function __construct(
         string $content,
-        string $username,
-        Channel $channel
+        protected string $username,
+        protected Channel $channel
     ) {
-        $this->channel = $channel;
         $this->chatUser = $channel->getChatUser();
         $this->campaign = $channel->campaign;
         $this->character = $channel->character();
-        $this->username = $username;
     }
 
     /**
