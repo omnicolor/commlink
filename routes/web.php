@@ -25,6 +25,10 @@ Route::middleware('auth')->group(function (): void {
         ->name('campaign.create');
     Route::get('/campaigns/{campaign}', [CampaignsController::class, 'view'])
         ->name('campaign.view');
+    Route::get(
+        '/campaigns/{campaign}/gm-screen',
+        [CampaignsController::class, 'gmScreen']
+    )->name('campaign.gm-screen');
 
     Route::get('/discord', [DiscordController::class, 'view'])
         ->name('discord.view');

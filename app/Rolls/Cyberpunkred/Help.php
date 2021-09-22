@@ -61,6 +61,8 @@ class Help extends Roll
                         . '· `6 5 -2 [text]` - Roll 1d10, adding 6 '
                         . '(attribute), 5 (skill), and -2 (modifier) to the '
                         . 'result' . \PHP_EOL
+                        . '· `init [-2]` - Roll initiative as %s (reflexes %d) '
+                        . 'with an optional modifier of -2' . \PHP_EOL
                         . '· `XdY[+C] [text]` - Roll X dice with Y sides, '
                         . 'optionally adding C to the result, optionally '
                         . 'describing that the roll is for "text"' . \PHP_EOL,
@@ -108,6 +110,8 @@ class Help extends Roll
                 . 'optional text (human perception, bargaining, etc)' . \PHP_EOL
                 . '· `6 5 -2 [text]` - Roll 1d10, adding 6 (attribute), 5 '
                 . '(skill), and -2 (modifier) to the result' . \PHP_EOL
+                . '· `init 8 [-2]` - Roll initiative for a character with '
+                . 'reflexes of 8, optionally with a modifier of -2' . \PHP_EOL
                 . '· `XdY[+C] [text]` - Roll X dice with Y sides, optionally '
                 . 'adding C to the result, optionally describing that the roll '
                 . 'is for "text"' . \PHP_EOL,

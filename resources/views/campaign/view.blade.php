@@ -1,7 +1,14 @@
 <x-app>
     <x-slot name="title">Campaign: {{ $campaign }}</x-slot>
 
-    <h1>{{ $campaign }}</h1>
+    <h1>
+        {{ $campaign }}
+        @if (optional($campaign->gamemaster)->id === $user->id && \Illuminate\Support\Facades\View::exists(sprintf('%s.gm-screen', $campaign->system)))
+            <a class="btn btn-primary" href="{{ route('campaign.gm-screen', $campaign) }}">
+                Launch GM screen
+            </a>
+        @endif
+    </h1>
 
     <p>
         A {{ $campaign->getSystem() }} campaign.

@@ -56,6 +56,17 @@ class CampaignPolicy
     }
 
     /**
+     * Determine whether the user can GM a campaign.
+     * @param User $user
+     * @param Campaign $campaign
+     * @return bool
+     */
+    public function gm(User $user, Campaign $campaign): bool
+    {
+        return $user->id === $campaign->gm;
+    }
+
+    /**
      * Determine whether the user can update the model.
      * @param User $user
      * @param Campaign $campaign

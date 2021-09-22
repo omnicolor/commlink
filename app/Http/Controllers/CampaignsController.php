@@ -7,8 +7,10 @@ namespace App\Http\Controllers;
 use App\Events\CampaignCreated;
 use App\Http\Requests\CampaignCreateRequest;
 use App\Models\Campaign;
+use App\Models\Initiative;
 use Gate;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class CampaignsController extends Controller
@@ -57,6 +59,37 @@ class CampaignsController extends Controller
     public function view(Campaign $campaign): View
     {
         Gate::authorize('view', $campaign);
-        return view('campaign.view', ['campaign' => $campaign]);
+        return view(
+            'campaign.view',
+            [
+                'campaign' => $campaign,
+                'user' => \Auth::user(),
+            ]
+        );
+    }
+
+    /**
+     * Launch the GM screen.
+     * @param Campaign $campaign
+     * @return View
+     */
+    public function gmScreen(Campaign $campaign): View
+    {
+        Gate::authorize('gm', $campaign);
+        switch ($campaign->system) {
+            case 'cyberpunkred':
+                return view(
+                    'cyberpunkred.gm-screen',
+                    [
+                        'campaign' => $campaign,
+                        'initiative' => Initiative::forCampaign($campaign)
+                            ->orderByDesc('initiative')
+                            ->get(),
+                        'user' => \Auth::user(),
+                    ]
+                );
+            default:
+                abort(Response::HTTP_NOT_FOUND);
+        }
     }
 }

@@ -11,7 +11,7 @@ use App\Policies\CampaignPolicy;
 /**
  * Tests for the Campaigns policy.
  * @group campaigns
- * @small
+ * @medium
  */
 final class CampaignPolicyTest extends \Tests\TestCase
 {
@@ -25,6 +25,7 @@ final class CampaignPolicyTest extends \Tests\TestCase
 
     /**
      * Test the viewAny method. It doesn't matter what the user is.
+     * @small
      * @test
      */
     public function testViewAny(): void
@@ -37,6 +38,7 @@ final class CampaignPolicyTest extends \Tests\TestCase
     /**
      * Test trying to view a campaign if the user isn't the one that registered
      * it, or the GM, or a player.
+     * @small
      * @test
      */
     public function testViewNoConnection(): void
@@ -50,7 +52,6 @@ final class CampaignPolicyTest extends \Tests\TestCase
 
     /**
      * Test trying to view a campaign as the user that registered it.
-     * @medium
      * @test
      */
     public function testViewAsRegisterer(): void
@@ -66,6 +67,7 @@ final class CampaignPolicyTest extends \Tests\TestCase
 
     /**
      * Test trying to view a campaign as the GM.
+     * @small
      * @test
      */
     public function testViewAsGm(): void
@@ -81,7 +83,6 @@ final class CampaignPolicyTest extends \Tests\TestCase
 
     /**
      * Test trying to view a campaign as both the registerer and GM.
-     * @medium
      * @test
      */
     public function testViewAsGmAndRegisterer(): void
@@ -98,7 +99,6 @@ final class CampaignPolicyTest extends \Tests\TestCase
 
     /**
      * Test trying to view a campaign as a player.
-     * @medium
      * @test
      */
     public function testViewAsPlayer(): void
@@ -114,6 +114,7 @@ final class CampaignPolicyTest extends \Tests\TestCase
 
     /**
      * Any user can create a campaign.
+     * @small
      * @test
      */
     public function testCreate(): void
@@ -126,7 +127,6 @@ final class CampaignPolicyTest extends \Tests\TestCase
     /**
      * No user can currently update a campaign, even the one that registered it
      * and acts as both the GM and a player.
-     * @medium
      * @test
      */
     public function testUpdate(): void
@@ -146,7 +146,6 @@ final class CampaignPolicyTest extends \Tests\TestCase
     /**
      * No user can currently delete a campaign, even the one that registered it
      * and acts as both the GM and a player.
-     * @medium
      * @test
      */
     public function testDelete(): void
@@ -166,7 +165,6 @@ final class CampaignPolicyTest extends \Tests\TestCase
     /**
      * No user can currently restore a campaign, even the one that registered it
      * and acts as both the GM and a player.
-     * @medium
      * @test
      */
     public function testRestore(): void
@@ -186,7 +184,6 @@ final class CampaignPolicyTest extends \Tests\TestCase
     /**
      * No user can currently force delete a campaign, even the one that
      * registered it and acts as both the GM and a player.
-     * @medium
      * @test
      */
     public function testForceDelete(): void
@@ -201,5 +198,37 @@ final class CampaignPolicyTest extends \Tests\TestCase
             ->hasAttached($user, ['status' => 'accepted'])
             ->create();
         self::assertFalse($this->policy->forceDelete($user, $campaign));
+    }
+
+    /**
+     * Test whether a normal user can GM a campaign.
+     * @small
+     * @test
+     */
+    public function testNonGmTryingToGm(): void
+    {
+        /** @var User */
+        $user = User::factory()->make();
+
+        /** @var Campaign */
+        $campaign = Campaign::factory()->make();
+        self::assertFalse($this->policy->gm($user, $campaign));
+    }
+
+    /**
+     * Test a GM trying to GM a campaign.
+     * @small
+     * @test
+     */
+    public function testGmTryingToGm(): void
+    {
+        /** @var User */
+        $user = User::factory()->make();
+
+        /** @var Campaign */
+        $campaign = Campaign::factory()->make([
+            'gm' => $user->id,
+        ]);
+        self::assertTrue($this->policy->gm($user, $campaign));
     }
 }
