@@ -222,95 +222,96 @@
         </div>
     </div>
 
-<x-slot name="javascript">
-    <script>
-        const discordWebhookFailed = function (xhr, status, errorThrown) {
-            switch (errorThrown) {
-                case 'Forbidden':
-                    message = 'You don\'t have permission to change that channel!';
-                    break;
-                case 'Not Found':
-                    message = 'That channel no longer seems to exist.';
-                    break;
-                case 'Unprocessable Entity':
-                    message = [];
-                    $.each(xhr.responseJSON.errors, function (field, errorBag) {
-                        $.each(errorBag, function (key, error) {
-                            message.push(error);
+    <x-slot name="javascript">
+        <script>
+            const discordWebhookFailed = function (xhr, status, errorThrown) {
+                switch (errorThrown) {
+                    case 'Forbidden':
+                        message = 'You don\'t have permission to change that channel!';
+                        break;
+                    case 'Not Found':
+                        message = 'That channel no longer seems to exist.';
+                        break;
+                    case 'Unprocessable Entity':
+                        message = [];
+                        $.each(xhr.responseJSON.errors, function (field, errorBag) {
+                            $.each(errorBag, function (key, error) {
+                                message.push(error);
+                            });
                         });
-                    });
-                    message = message.join('<br>');
-                    break;
-                default:
-                    message = 'An unknown error has occurred: ' + errorThrown;
-                    break;
-            }
-            $('#add-webhook-discord .modal-body').prepend(
-                '<div class="alert alert-danger alert-dismissible fade show" role="alert">'
-                + message
-                + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>'
-                + '</div>'
-            );
-        };
-        const discordWebhookSucceeded = function (data, status, xhr) {
-            const id = $('#add-webhook-discord').data('bs-channel-id');
-            $('#add-webhook-discord .modal-body .alert').remove();
-            $('button[data-bs-channel-id="' + id + '"]').replaceWith(
-                '<button class="btn btn-link float-end">'
-                + '<i class="bi bi-check-square-fill text-success"></i>'
-                + '</button>'
-            );
-            $('#add-webhook-discord').hide();
-            $('.modal-backdrop').remove();
-        };
+                        message = message.join('<br>');
+                        break;
+                    default:
+                        message = 'An unknown error has occurred: ' + errorThrown;
+                        break;
+                }
+                $('#add-webhook-discord .modal-body').prepend(
+                    '<div class="alert alert-danger alert-dismissible fade show" role="alert">'
+                    + message
+                    + '<button type="button" class="btn-close" '
+                    + 'data-bs-dismiss="alert" aria-label="Close"></button>'
+                    + '</div>'
+                );
+            };
+            const discordWebhookSucceeded = function (data, status, xhr) {
+                const id = $('#add-webhook-discord').data('bs-channel-id');
+                $('#add-webhook-discord .modal-body .alert').remove();
+                $('button[data-bs-channel-id="' + id + '"]').replaceWith(
+                    '<button class="btn btn-link float-end">'
+                    + '<i class="bi bi-check-square-fill text-success"></i>'
+                    + '</button>'
+                );
+                $('#add-webhook-discord').hide();
+                $('.modal-backdrop').remove();
+            };
 
-        $('#add-webhook-discord').on('show.bs.modal', function (event) {
-            let button = $(event.relatedTarget);
-            $('#webhook-discord-channel-name').html(button.data('bs-channel-name'));
-            $('#add-webhook-discord').data('bs-channel-id', button.data('bs-channel-id'));
-            $('#add-webhook-discord-footer-initial').removeClass('d-none');
-            $('.discord-manual').addClass('d-none');
-        });
-
-        $('#add-webhook-discord').on('hidden.bs.modal', function () {
-            $('#add-webhook-discord-footer-initial').removeClass('d-none');
-            $('.discord-manual').addClass('d-none');
-            $('#add-webhook-discord .modal-dialog').removeClass('modal-xl');
-        });
-
-        $('#add-webhook-discord-auto').on('click', function (event) {
-            $.ajax({
-                data: {
-                    auto: 1
-                },
-                error: discordWebhookFailed,
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                method: 'PATCH',
-                success: discordWebhookSucceeded,
-                url: '/api/channels/' + $('#add-webhook-discord').data('bs-channel-id')
+            $('#add-webhook-discord').on('show.bs.modal', function (event) {
+                let button = $(event.relatedTarget);
+                $('#webhook-discord-channel-name').html(button.data('bs-channel-name'));
+                $('#add-webhook-discord').data('bs-channel-id', button.data('bs-channel-id'));
+                $('#add-webhook-discord-footer-initial').removeClass('d-none');
+                $('.discord-manual').addClass('d-none');
             });
-        });
-        $('.discord-manual .btn-primary').on('click', function (event) {
-            $.ajax({
-                data: {
-                    webhook: $('#discord-webhook').val()
-                },
-                error: discordWebhookFailed,
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                method: 'PATCH',
-                success: discordWebhookSucceeded,
-                url: '/api/channels/' + $('#add-webhook-discord').data('bs-channel-id')
+
+            $('#add-webhook-discord').on('hidden.bs.modal', function () {
+                $('#add-webhook-discord-footer-initial').removeClass('d-none');
+                $('.discord-manual').addClass('d-none');
+                $('#add-webhook-discord .modal-dialog').removeClass('modal-xl');
             });
-        });
-        $('#add-webhook-discord-manual').on('click', function (event) {
-            $('#add-webhook-discord-footer-initial').addClass('d-none');
-            $('.discord-manual').removeClass('d-none');
-            $('#add-webhook-discord .modal-dialog').addClass('modal-xl');
-        });
-    </script>
-</x-slot>
+
+            $('#add-webhook-discord-auto').on('click', function (event) {
+                $.ajax({
+                    data: {
+                        auto: 1
+                    },
+                    error: discordWebhookFailed,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    method: 'PATCH',
+                    success: discordWebhookSucceeded,
+                    url: '/api/channels/' + $('#add-webhook-discord').data('bs-channel-id')
+                });
+            });
+            $('.discord-manual .btn-primary').on('click', function (event) {
+                $.ajax({
+                    data: {
+                        webhook: $('#discord-webhook').val()
+                    },
+                    error: discordWebhookFailed,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    method: 'PATCH',
+                    success: discordWebhookSucceeded,
+                    url: '/api/channels/' + $('#add-webhook-discord').data('bs-channel-id')
+                });
+            });
+            $('#add-webhook-discord-manual').on('click', function (event) {
+                $('#add-webhook-discord-footer-initial').addClass('d-none');
+                $('.discord-manual').removeClass('d-none');
+                $('#add-webhook-discord .modal-dialog').addClass('modal-xl');
+            });
+        </script>
+    </x-slot>
 </x-app>
