@@ -5,13 +5,20 @@ declare(strict_types=1);
 namespace App\View\Components\Shadowrun5e;
 
 use App\Models\Shadowrun5E\Character;
+use App\Models\Shadowrun5E\PartialCharacter;
 use App\Models\Shadowrun5E\SkillArray;
 use App\Models\Shadowrun5E\SkillGroup;
-use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
+use Illuminate\View\Component;
 
 class Skills extends Component
 {
+    /**
+     * Whether the character is still being built.
+     * @var bool
+     */
+    public bool $charGen;
+
     /**
      * Character's skill groups.
      * @var array<int, SkillGroup>
@@ -27,16 +34,16 @@ class Skills extends Component
     /**
      * Create a new component instance.
      * @param Character $character
-     * @param bool $charGen
      */
-    public function __construct(public Character $character, public bool $charGen = false)
+    public function __construct(public Character $character)
     {
+        $this->charGen = $character instanceof PartialCharacter;
         $this->skillGroups = $character->getSkillGroups();
         $this->skills = $character->getSkills();
     }
 
     /**
-     * Get the view that represent the component.
+     * Get the view that represents the component.
      * @return View
      */
     public function render(): View

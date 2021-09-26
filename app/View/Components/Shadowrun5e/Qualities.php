@@ -7,8 +7,8 @@ namespace App\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5E\Character;
 use App\Models\Shadowrun5E\PartialCharacter;
 use App\Models\Shadowrun5E\QualityArray;
-use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
+use Illuminate\View\Component;
 
 class Qualities extends Component
 {
@@ -19,7 +19,8 @@ class Qualities extends Component
      * Create a new component instance.
      * @param Character $character
      */
-    public function __construct(public Character $character) {
+    public function __construct(public Character $character)
+    {
         $this->charGen = $character instanceof PartialCharacter;
         $this->qualities = $character->getQualities();
     }

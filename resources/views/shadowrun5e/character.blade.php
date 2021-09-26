@@ -177,7 +177,7 @@
                     </ul>
                 </div>
             </div>
-            <x-shadowrun5e.skills :character="$character" :charGen="(bool)($currentStep ?? false)"/>
+            <x-shadowrun5e.skills :character="$character"/>
         </div>
 
         <div class="col">
