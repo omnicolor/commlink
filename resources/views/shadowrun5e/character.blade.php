@@ -359,4 +359,12 @@
         <div class="col">
         </div>
     </div>
+
+    <x-slot name="javascript">
+        <script>
+            $(function () {
+                $('[data-bs-toggle="tooltip"]').tooltip();
+            });
+        </script>
+    </x-slot>
 </x-app>
