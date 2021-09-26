@@ -60,6 +60,24 @@ class Character extends \App\Models\Character
     ];
 
     /**
+     * Attributes that need to be cast to a type.
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'agility' => 'integer',
+        'body' => 'integer',
+        'charisma' => 'integer',
+        'edge' => 'integer',
+        'intuition' => 'integer',
+        'logic' => 'integer',
+        'magic' => 'integer',
+        'reaction' => 'integer',
+        'resonance' => 'integer',
+        'strength' => 'integer',
+        'willpower' => 'integer',
+    ];
+
+    /**
      * @var array<int, string>
      */
     protected $fillable = [
