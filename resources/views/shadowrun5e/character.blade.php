@@ -335,6 +335,28 @@
                     </li>
                 </ul>
             </div>
+
+            @if (!empty($character->getQualities()))
+            <div class="card">
+                <div class="card-header">qualities</div>
+                <ul class="card-body list-group list-group-flush" id="qualities">
+                    @foreach ($character->getQualities() as $quality)
+                    <li class="list-group-item">
+                        <span data-bs-html="true" data-bs-toggle="tooltip"
+                            data-bs-placement="right"
+                            title="<p>{{ str_replace('||', '</p><p>', $quality->description) }}</p>">
+                            {{ $quality }}
+                        </span>
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
         </div>
     </div>
 </x-app>
