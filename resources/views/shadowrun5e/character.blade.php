@@ -188,6 +188,7 @@
 
     <div class="row">
         <div class="col">
+            <x-shadowrun5e.weapons :character="$character"/>
         </div>
     </div>
 
