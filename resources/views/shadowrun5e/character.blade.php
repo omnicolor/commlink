@@ -192,6 +192,14 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col">
+            <x-shadowrun5e.augmentations :character="$character"/>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+
     <x-slot name="javascript">
         <script>
             $(function () {
