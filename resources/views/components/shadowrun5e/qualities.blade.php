@@ -5,9 +5,9 @@
             @foreach ($qualities as $quality)
                 <li class="list-group-item">
                     <span data-bs-html="true" data-bs-toggle="tooltip"
-                                              data-bs-placement="right"
-                                              title="<p>{{ str_replace('||', '</p><p>', $quality->description) }}</p>">
-                                              {{ $quality }}
+                        data-bs-placement="right"
+                        title="<p>{{ str_replace('||', '</p><p>', $quality->description) }}</p>">
+                        {{ $quality }}
                     </span>
                 </li>
             @endforeach
