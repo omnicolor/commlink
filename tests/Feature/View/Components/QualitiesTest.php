@@ -7,7 +7,6 @@ namespace Tests\Feature\View\Components;
 use App\Models\Shadowrun5E\Character;
 use App\Models\Shadowrun5E\PartialCharacter;
 use App\View\Components\Shadowrun5e\Qualities;
-use Illuminate\Database\Eloquent\Collection;
 
 /**
  * @small
@@ -20,6 +19,7 @@ final class QualitiesTest extends \Tests\TestCase
      */
     public function testCharGenExistingCharacter(): void
     {
+        /** @var Qualities */
         $view = $this->component(
             Qualities::class,
             ['character' => new Character()]
@@ -34,6 +34,7 @@ final class QualitiesTest extends \Tests\TestCase
      */
     public function testCharGenInprogressCharacter(): void
     {
+        /** @var Qualities */
         $view = $this->component(
             Qualities::class,
             ['character' => new PartialCharacter()]
@@ -48,6 +49,7 @@ final class QualitiesTest extends \Tests\TestCase
      */
     public function testRenderQuality(): void
     {
+        /** @var Qualities */
         $view = $this->component(
             Qualities::class,
             [

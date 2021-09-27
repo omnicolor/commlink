@@ -7,7 +7,6 @@ namespace Tests\Feature\View\Components;
 use App\Models\Shadowrun5E\Character;
 use App\Models\Shadowrun5E\PartialCharacter;
 use App\View\Components\Shadowrun5e\Skills;
-use Illuminate\Database\Eloquent\Collection;
 
 /**
  * @small
@@ -20,6 +19,7 @@ final class SkillsTest extends \Tests\TestCase
      */
     public function testNoSkillsExistingCharacter(): void
     {
+        /** @var Skills */
         $view = $this->component(
             Skills::class,
             ['character' => new Character()]
@@ -35,6 +35,7 @@ final class SkillsTest extends \Tests\TestCase
      */
     public function testNoSkillsNewCharacter(): void
     {
+        /** @var Skills */
         $view = $this->component(
             Skills::class,
             ['character' => new PartialCharacter()]
@@ -50,6 +51,7 @@ final class SkillsTest extends \Tests\TestCase
      */
     public function testRenderSkill(): void
     {
+        /** @var Skills */
         $view = $this->component(
             Skills::class,
             [
