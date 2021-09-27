@@ -54,6 +54,7 @@
             @empty
                 <tr>
                     <td colspan="8">
+                        <span class="badge rounded-pill bg-danger ms-2">!</span>
                         Character is unarmed.
                         @if ($charGen)
                             Purchase weapons on the <a href="/characters/shadowrun5e/create/weapons">weapons page</a>.
