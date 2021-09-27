@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\View\Components;
+namespace Tests\Feature\View\Components\Shadowrun5e;
 
 use App\Models\Shadowrun5E\Character;
 use App\Models\Shadowrun5E\PartialCharacter;
