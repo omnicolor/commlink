@@ -198,6 +198,7 @@
             <x-shadowrun5e.spells :character="$character"/>
         </div>
         <div class="col">
+            <x-shadowrun5e.armor :character="$character"/>
         </div>
     </div>
 

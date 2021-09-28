@@ -226,6 +226,26 @@ class Character extends \App\Models\Character
     }
 
     /**
+     * Return the character's armor value.
+     * @return int
+     */
+    public function getArmorValue(): int
+    {
+        $armorValue = 0;
+        $stackValue = 0;
+        foreach ($this->getArmor() as $armor) {
+            if (!$armor->active) {
+                continue;
+            }
+            if (null !== $armor->stackRating) {
+                $stackValue += $armor->stackRating;
+            }
+            $armorValue = max($armor->getModifiedRating(), $armorValue);
+        }
+        return $armorValue + $stackValue;
+    }
+
+    /**
      * Return the character's astral limit if they have one.
      * @return int
      */

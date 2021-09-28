@@ -141,6 +141,65 @@ final class CharacterTest extends \Tests\TestCase
     }
 
     /**
+     * Provide different raw armor settings and expected armor value.
+     * @return array<string, array<int, array<int, array<string, array<int, string>|bool|string>>|int>>
+     */
+    public function armorValueProvider(): array
+    {
+        return [
+            'Has armor, but not active' => [
+                [
+                    ['id' => 'armor-jacket'],
+                    ['id' => 'berwick-suit'],
+                ],
+                0,
+            ],
+            'Has no armor' => [
+                [],
+                0,
+            ],
+            'Active armor' => [
+                [
+                    ['id' => 'armor-jacket', 'active' => true],
+                ],
+                12,
+            ],
+            'Active stackable armor' => [
+                [
+                    ['id' => 'berwick-suit', 'active' => true],
+                    ['id' => 'ballistic-mask', 'active' => true],
+                    ['id' => 'armor-jacket'],
+                ],
+                11,
+            ],
+            'Active armor with modification' => [
+                [
+                    [
+                        'id' => 'berwick-suit',
+                        'active' => true,
+                        'modifications' => ['gel-packs'],
+                    ],
+                    ['id' => 'ballistic-mask', 'active' => true],
+                ],
+                13,
+            ],
+        ];
+    }
+
+    /**
+     * Test getting a character's armor value.
+     * @dataProvider armorValueProvider
+     * @param array<int, array<string, array<int, string>|bool|string>> $armor
+     * @param int $expected
+     * @test
+     */
+    public function testGetArmorValue(array $armor, int $expected): void
+    {
+        $character = new Character(['armor' => $armor]);
+        self::assertSame($expected, $character->getArmorValue());
+    }
+
+    /**
      * Test getting the character's astral limit for a mundane character.
      * @test
      */

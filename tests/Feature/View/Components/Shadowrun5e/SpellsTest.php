@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\PartialCharacter;
 use App\View\Components\Shadowrun5e\Spells;
 
 /**
- * @group current
  * @small
  */
 final class SpellsTest extends \Tests\TestCase
@@ -61,7 +60,7 @@ final class SpellsTest extends \Tests\TestCase
                     'priorities' => [
                         'magic' => null,
                     ],
-                ])
+                ]),
             ]
         )
             ->assertDontSee('Character has no spells.');
@@ -80,7 +79,7 @@ final class SpellsTest extends \Tests\TestCase
                     'priorities' => [
                         'magic' => 'technomancer',
                     ],
-                ])
+                ]),
             ]
         )
             ->assertDontSee('Character has no spells.');
