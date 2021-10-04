@@ -39,6 +39,7 @@
     </div>
     <ul class="card-body list-group list-group-flush" id="armor">
         <li class="list-group-item">
+            <span class="badge rounded-pill bg-danger ms-2">!</span>
             Character has no armor. While the bad guys appreciate it, you should
             probably <a href="/characters/shadowrun5e/create/armor">protect
             yourself</a>.
