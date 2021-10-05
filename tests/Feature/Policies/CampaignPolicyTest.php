@@ -217,7 +217,7 @@ final class CampaignPolicyTest extends \Tests\TestCase
 
     /**
      * Test a GM trying to GM a campaign.
-     * @small
+     * @medium
      * @test
      */
     public function testGmTryingToGm(): void
