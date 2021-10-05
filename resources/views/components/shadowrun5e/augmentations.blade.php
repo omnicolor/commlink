@@ -20,8 +20,8 @@
                             @foreach ($augmentation->modifications as $mod)
                                 <li class="list-group-item">
                                     <span data-bs-toggle="tooltip" data-bs-placement="right"
-                                        title="{{ $modification->description }}">
-                                        {{ $modification }}
+                                        title="{{ $mod->description }}">
+                                        {{ $mod }}
                                     </span>
                                 </li>
                             @endforeach
