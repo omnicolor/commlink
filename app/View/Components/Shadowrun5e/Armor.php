@@ -38,7 +38,7 @@ class Armor extends Component
      * Get the view that represents the component.
      * @return View
      */
-    public function render(): view
+    public function render(): View
     {
         return view('components.shadowrun5e.armor');
     }
