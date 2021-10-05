@@ -41,9 +41,9 @@ class Weapon
 
     /**
      * Armor piercing base value for the weapon.
-     * @var int
+     * @var ?int
      */
-    public int $armorPiercing;
+    public ?int $armorPiercing;
 
     /**
      * Availability code for the weapon.
