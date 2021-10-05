@@ -28,12 +28,6 @@ class Contact
     public ?string $gmNotes;
 
     /**
-     * Array index for the contact.
-     * @var int
-     */
-    public int $id;
-
-    /**
      * Numerical rating for how loyal the contact is to the character.
      * @var ?int
      */
@@ -60,7 +54,6 @@ class Contact
         $this->archetype = $data['archetype'];
         $this->connection = $data['connection'];
         $this->gmNotes = $data['gmNotes'] ?? '';
-        $this->id = $data['id'];
         $this->loyalty = $data['loyalty'];
         $this->name = $data['name'];
         $this->notes = $data['notes'] ?? '';
