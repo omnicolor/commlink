@@ -57,6 +57,7 @@ class Powers extends Component
         if (!$this->isAdept()) {
             return '';
         }
+        // @phpstan-ignore-next-line
         if ('mystic' === $this->character->priorities['magic']) {
             return 'mystic adept';
         }
