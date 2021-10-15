@@ -192,7 +192,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row mb-4">
         <div class="col">
             <x-shadowrun5e.augmentations :character="$character"/>
             <x-shadowrun5e.spells :character="$character"/>
