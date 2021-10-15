@@ -17,6 +17,7 @@ $rules = [
     'class_attributes_separation' => [
         'elements' => [
             'method' => 'one',
+            'trait_import' => 'none',
         ],
     ],
     'class_definition' => true,
@@ -68,7 +69,6 @@ $rules = [
             'extra',
             'throw',
             'use',
-            'use_trait',
         ],
     ],
     'no_blank_lines_after_class_opening' => true,
