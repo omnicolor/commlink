@@ -9,12 +9,17 @@
             </tr>
         </thead>
         <tbody>
+        @php
+            $class = '';
+        @endphp
         @forelse ($gears as $gear)
-            @if (in_array($gear->name, ['Commlink', 'Cyberdeck', 'Rigger Command Console'], true))
-                @continue
-            @endif
+            @php
+                if ($loop->last) {
+                    $class = 'class="border-bottom-0"';
+                }
+            @endphp
             <tr>
-                <td>
+                <td {!! $class !!}>
                     <span data-bs-html="true" data-bs-placement="right"
                         data-bs-toggle="tooltip"
                         title="<p>{!! str_replace(['||', '"'], ['</p><p>', '&quot;'], $gear->description) !!}</p>">
@@ -31,13 +36,13 @@
                         @endif
                     </span>
                 </td>
-                <td>{{ $gear->rating }}</td>
-                <td>{{ $gear->quantity }}</td>
+                <td {!! $class !!}>{{ $gear->rating }}</td>
+                <td {!! $class !!}>{{ $gear->quantity }}</td>
             </tr>
         @empty
             @if ($charGen)
                 <tr>
-                    <td colspan="3">
+                    <td class="border-bottom-0" colspan="3">
                         <span class="badge rounded-pill bg-warning ms-2">!</span>
                         No gear purchased. Buy some stuff on the
                         <a href="/characters/shadowrun5e/create/gear">gear page</a>.
@@ -45,7 +50,7 @@
                 </tr>
             @else
                 <tr>
-                    <td colspan="3">No gear purchased.</td>
+                    <td class="border-bottom-0" colspan="3">No gear purchased.</td>
                 </tr>
             @endif
         @endforelse

@@ -61,4 +61,28 @@ final class GearTest extends \Tests\TestCase
             ->assertSee('Biomonitor')
             ->assertDontSee('No gear purchased.');
     }
+
+    /**
+     * Test that matrix devices aren't considered gear for the purposes of
+     * appearing in the gear section.
+     * @test
+     */
+    public function testOnlyMatrixDevices(): void
+    {
+        $this->component(
+            Gear::class,
+            [
+                'character' => new PartialCharacter([
+                    'gear' => [
+                        [
+                            'id' => 'commlink-sony-angel',
+                            'quantity' => true,
+                        ],
+                    ],
+                ]),
+            ]
+        )
+            ->assertSee('Buy some stuff')
+            ->assertSee('No gear purchased.');
+    }
 }

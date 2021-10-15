@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\View\Components\Shadowrun5e;
 
 use App\Models\Shadowrun5E\Character;
-use App\Models\Shadowrun5E\GearArray;
+use App\Models\Shadowrun5E\Commlink;
+use App\Models\Shadowrun5E\Gear as GearModel;
 use App\Models\Shadowrun5E\PartialCharacter;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
 class Gear extends Component
@@ -20,9 +22,9 @@ class Gear extends Component
 
     /**
      * Character's gear.
-     * @var GearArray
+     * @var Collection
      */
-    public GearArray $gears;
+    public Collection $gears;
 
     /**
      * Create a new component instance.
@@ -31,7 +33,12 @@ class Gear extends Component
     public function __construct(public Character $character)
     {
         $this->charGen = $character instanceof PartialCharacter;
-        $this->gears = $character->getGear();
+        $this->gears = collect($character->getGear())
+            ->filter(function (GearModel $item, int $key): bool {
+                // Filter matrix devices out, they're shown in a different
+                // section.
+                return !($item instanceof Commlink);
+            });
     }
 
     /**
