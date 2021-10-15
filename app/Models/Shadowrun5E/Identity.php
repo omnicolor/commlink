@@ -17,13 +17,13 @@ class Identity
 
     /**
      * Collection of fake licenses.
-     * @var array<int, array<string, int|string>>
+     * @var array<int, License>
      */
     public array $licenses = [];
 
     /**
      * Collection of lifestyles.
-     * @var Lifestyle[]
+     * @var array<int, Lifestyle>
      */
     public array $lifestyles = [];
 
@@ -72,7 +72,10 @@ class Identity
         $identity->notes = $raw['notes'] ?? '';
 
         foreach ($raw['licenses'] ?? [] as $license) {
-            $identity->licenses[] = $license;
+            $identity->licenses[] = new License(
+                $license['rating'],
+                $license['license'],
+            );
         }
 
         foreach ($raw['lifestyles'] ?? [] as $rawLifestyle) {
@@ -110,8 +113,7 @@ class Identity
     }
 
     /**
-     * Return the cost of the identity, including licenses, lifestyles, and
-     * SINs.
+     * Return the cost of the identity including licenses, lifestyles, and SINs.
      * @return int
      */
     public function getCost(): int
@@ -121,7 +123,7 @@ class Identity
             $cost += $this->sin * 2500;
         }
         foreach ($this->licenses as $license) {
-            $cost += (int)$license['rating'] * 200;
+            $cost += $license->getCost();
         }
         foreach ($this->lifestyles as $lifestyle) {
             $cost += $lifestyle->getCost();

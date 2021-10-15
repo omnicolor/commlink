@@ -202,6 +202,7 @@
         <div class="col">
             <x-shadowrun5e.armor :character="$character"/>
             <x-shadowrun5e.contacts :character="$character"/>
+            <x-shadowrun5e.identities :character="$character"/>
         </div>
     </div>
 

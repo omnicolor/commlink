@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5E;
 
 use App\Models\Shadowrun5E\Identity;
+use App\Models\Shadowrun5E\License;
 use App\Models\Shadowrun5E\Lifestyle;
 use App\Models\Shadowrun5E\LifestyleOption;
 
@@ -106,10 +107,9 @@ final class IdentityTest extends \Tests\TestCase
         ];
         $identity = Identity::fromArray($example);
         self::assertNotEmpty($identity->licenses);
-        self::assertEquals(
-            ['license' => 'Concealed Carry', 'rating' => 4],
-            $identity->licenses[0]
-        );
+        $license = $identity->licenses[0];
+        self::assertSame(4, $license->rating);
+        self::assertSame('Concealed Carry', $license->name);
     }
 
     /**
@@ -169,9 +169,9 @@ final class IdentityTest extends \Tests\TestCase
     public function testGetCostWithFakeLicense(): void
     {
         $identity = new Identity();
-        $identity->licenses[] = ['rating' => 1, 'license' => 'Drivers'];
+        $identity->licenses[] = new License(1, 'Drivers');
         self::assertSame(200, $identity->getCost());
-        $identity->licenses[] = ['rating' => 6, 'license' => 'Pilots'];
+        $identity->licenses[] = new License(6, 'Pilots');
         self::assertSame(1400, $identity->getCost());
     }
 
