@@ -178,6 +178,6 @@ final class CharacterControllerTest extends \Tests\TestCase
                 ['character' => $character, 'user' => $user]
             );
         $view->assertSee($user->email);
-        $view->assertSee($character->handle);
+        $view->assertSee($character->handle, false);
     }
 }
