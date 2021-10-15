@@ -14,9 +14,17 @@
             </tr>
         </thead>
         <tbody>
+            @php
+                $class = '';
+            @endphp
             @forelse ($weapons as $weapon)
+                @php
+                    if ($loop->last) {
+                        $class = 'class="border-bottom-0"';
+                    }
+                @endphp
                 <tr>
-                    <td data-bs-html="true" data-bs-placement="right"
+                    <td {!! $class !!} data-bs-html="true" data-bs-placement="right"
                         data-toggle="tooltip" title="<p>{{ str_replace('||', '</p><p>', $weapon->description) }}</p>">
                         {{ $weapon }}
                         @if (!empty($weapon->modifications))
@@ -28,32 +36,32 @@
                         @endif
                     </td>
                     @if ('physical' == $weapon->accuracy)
-                        <td>{{ $character->getPhysicalLimit() }}</td>
+                        <td {!! $class !!}>{{ $character->getPhysicalLimit() }}</td>
                     @else
-                        <td>{{ $weapon->accuracy }}</td>
+                        <td {!! $class !!}>{{ $weapon->accuracy }}</td>
                     @endif
                     @if (is_array($weapon->modes))
-                        <td>{{ implode(', ', $weapon->modes) }}</td>
+                        <td {!! $class !!}>{{ implode(', ', $weapon->modes) }}</td>
                     @else
-                        <td>{{ $weapon->modes }}</td>
+                        <td {!! $class !!}>{{ $weapon->modes }}</td>
                     @endif
                     @if ('firearm' === $weapon->type)
-                        <td>{{ $weapon->getRange() }}</td>
+                        <td {!! $class !!}>{{ $weapon->getRange() }}</td>
                     @else
-                        <td>{{ $weapon->reach }}</td>
+                        <td {!! $class !!}>{{ $weapon->reach }}</td>
                     @endif
-                    <td>{{ $weapon->recoilCompensation }}</td>
-                    <td>{{ $weapon->armorPiercing }}</td>
+                    <td {!! $class !!}>{{ $weapon->recoilCompensation }}</td>
+                    <td {!! $class !!}>{{ $weapon->armorPiercing }}</td>
                     @if ('firearm' === $weapon->type)
-                        <td>{{ $weapon->ammoCapacity }} ({{ $weapon->ammoContainer }})</td>
+                        <td {!! $class !!}>{{ $weapon->ammoCapacity }} ({{ $weapon->ammoContainer }})</td>
                     @else
-                        <td></td>
+                        <td {!! $class !!}></td>
                     @endif
-                    <td>{{ $weapon->getDamage($character->getModifiedAttribute('strength')) }}</td>
+                    <td {!! $class !!}>{{ $weapon->getDamage($character->getModifiedAttribute('strength')) }}</td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="8">
+                    <td class="border-bottom-0" colspan="8">
                         <span class="badge rounded-pill bg-danger ms-2">!</span>
                         Character is unarmed.
                         @if ($charGen)

@@ -11,17 +11,25 @@
             </tr>
         </thead>
         <tbody>
+        @php
+            $class = '';
+        @endphp
         @forelse ($contacts as $contact)
+            @php
+                if ($loop->last) {
+                    $class = 'class="border-bottom-0"';
+                }
+            @endphp
             <tr data-bs-toggle="tooltip" data-bs-placement="left"
                 title="{{ $contact->notes }}">
-                <td>{{ $contact->name }}</td>
-                <td>{{ $contact->archetype }}</td>
-                <td>{{ $contact->loyalty ?: '?' }}</td>
-                <td>{{ $contact->connection ?: '?' }}</td>
+                <td {!! $class !!}>{{ $contact->name }}</td>
+                <td {!! $class !!}>{{ $contact->archetype }}</td>
+                <td {!! $class !!}>{{ $contact->loyalty ?: '?' }}</td>
+                <td {!! $class !!}>{{ $contact->connection ?: '?' }}</td>
             </tr>
         @empty
             <tr>
-                <td colspan="4">
+                <td class="border-bottom-0" colspan="4">
                     <span class="badge rounded-pill bg-danger ms-2">!</span>
                     Character does not know anyone. In the shadows, you are who
                     you know. Meet some valuable contacts on the

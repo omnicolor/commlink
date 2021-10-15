@@ -34,7 +34,11 @@
             @endif
         @endforelse
         @forelse ($skills as $skill)
-            <div class="row m-0 p-2 border-bottom">
+            <div class="row m-0 p-2
+            @if (!$loop->last)
+                    border-bottom
+                @endif
+                ">
                 <div class="col text-truncate" data-bs-toggle="tooltip"
                     data-bs-placement="right" data-bs-html="true"
                     title="<p>{{ str_replace('||', '</p><p>', $skill->description) }}</p>">
