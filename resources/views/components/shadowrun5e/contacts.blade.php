@@ -33,7 +33,7 @@
                     <span class="badge rounded-pill bg-danger ms-2">!</span>
                     Character does not know anyone. In the shadows, you are who
                     you know. Meet some valuable contacts on the
-                    <a href="/characters/shadowrun5e/create/contacts">contacts page</a>.
+                    <a href="/characters/shadowrun5e/create/social">social page</a>.
                 </td>
             </tr>
         @endforelse
