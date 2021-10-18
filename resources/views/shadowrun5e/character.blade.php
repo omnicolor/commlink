@@ -219,6 +219,7 @@
     <div class="row mb-4">
         <div class="col">
             <x-shadowrun5e.vehicles :character="$character"/>
+            <x-shadowrun5e.matrix :character="$character"/>
         </div>
     </div>
 

@@ -143,7 +143,7 @@ class Gear
             $gearObj->modifications[] = new GearModification($mod);
         }
         $gearObj->damage = $gear['damage'] ?? 0;
-        $gearObj->subname = $gear['subname'] ?? null;
+        $gearObj->subname = $gear['subname'] ?? $gearObj->subname;
         if (!($gearObj instanceof Commlink)) {
             return $gearObj;
         }

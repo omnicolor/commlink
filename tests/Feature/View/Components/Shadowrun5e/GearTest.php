@@ -36,7 +36,7 @@ final class GearTest extends \Tests\TestCase
     }
 
     /**
-     * Test rendering some ger.
+     * Test rendering some gear.
      * @test
      */
     public function testGear(): void
