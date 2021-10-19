@@ -103,6 +103,7 @@
             <x-shadowrun5e.armor :character="$character"/>
             <x-shadowrun5e.contacts :character="$character"/>
             <x-shadowrun5e.identities :character="$character"/>
+            <x-shadowrun5e.martial-arts :character="$character"/>
         </div>
     </div>
 
