@@ -33,7 +33,7 @@ use RuntimeException;
  * @property int $logic
  * @property ?array<string, array<int, string>> $martialArts
  * @property ?array<string, ?string> $priorities
- * @property int $magic
+ * @property ?int $magic
  * @property ?array<string, mixed> $magics
  * @property int $nuyen
  * @property ?array<int, array<string, mixed>> $qualities
