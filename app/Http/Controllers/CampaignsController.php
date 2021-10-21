@@ -90,7 +90,7 @@ class CampaignsController extends Controller
                     ]
                 );
             default:
-                abort(Response::HTTP_NOT_FOUND);
+                return abort(Response::HTTP_NOT_FOUND);
         }
     }
 }

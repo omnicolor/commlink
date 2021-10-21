@@ -350,4 +350,27 @@ final class SlackControllerTest extends \Tests\TestCase
                 'title' => 'Error',
             ]);
     }
+
+    /**
+     * Test trying to `/roll info`.
+     * @test
+     */
+    public function testRollInfo(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->create([]);
+        $this->post(
+            route('roll'),
+            [
+                'channel_id' => $channel->channel_id,
+                'team_id' => $channel->server_id,
+                'text' => 'info',
+                'user_id' => \Str::random(9),
+            ]
+        )
+            ->assertOk()
+            ->assertJsonFragment([
+                'value' => 'No campaign',
+            ]);
+    }
 }

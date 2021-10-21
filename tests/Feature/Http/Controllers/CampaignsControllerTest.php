@@ -204,4 +204,52 @@ final class CampaignsControllerTest extends \Tests\TestCase
             ->get(route('campaign.view', $campaign))
             ->assertOk();
     }
+
+    /**
+     * Test loading GM screen as a non-GM.
+     * @test
+     */
+    public function testViewGmScreenAsNonGM(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+        $campaign = Campaign::factory()->create([]);
+        $this->actingAs($user)
+            ->get(route('campaign.gm-screen', $campaign))
+            ->assertForbidden();
+    }
+
+    /**
+     * Test loading GM screen as a GM for a system that doesn't yet have it.
+     * @test
+     */
+    public function testViewGmScreenNotSupported(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+        $campaign = Campaign::factory()->create([
+            'gm' => $user,
+            'system' => 'shadowrun5e',
+        ]);
+        $this->actingAs($user)
+            ->get(route('campaign.gm-screen', $campaign))
+            ->assertNotFound();
+    }
+
+    /**
+     * Test loading a GM screen as a GM for a supported system.
+     * @test
+     */
+    public function testViewGmScreen(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+        $campaign = Campaign::factory()->create([
+            'gm' => $user,
+            'system' => 'cyberpunkred',
+        ]);
+        $this->actingAs($user)
+            ->get(route('campaign.gm-screen', $campaign))
+            ->assertOk();
+    }
 }
