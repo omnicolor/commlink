@@ -151,7 +151,7 @@ class KarmaLog extends \ArrayObject
 
     /**
      * Set the number of points for each class from the chosen priority.
-     * @param array<string, ?string> $priorities
+     * @param array<string, bool|null|string> $priorities
      */
     protected function setPointsFromSumToTen(array $priorities): void
     {
@@ -258,7 +258,7 @@ class KarmaLog extends \ArrayObject
 
     /**
      * Set the number of points for each class from the chosen priority.
-     * @param array<string, ?string> $priorities
+     * @param array<string, bool|null|string> $priorities
      */
     protected function setPointsFromStandardPriority(array $priorities): void
     {

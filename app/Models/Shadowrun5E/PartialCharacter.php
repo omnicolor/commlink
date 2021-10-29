@@ -6,6 +6,7 @@ namespace App\Models\Shadowrun5E;
 
 /**
  * Representation of a character currently being built.
+ * @property array<int, string> $errors
  */
 class PartialCharacter extends Character
 {
@@ -31,6 +32,7 @@ class PartialCharacter extends Character
         $character->setRawAttributes($attributes, true);
         $character->setConnection($this->connection);
         $character->fireModelEvent('retrieved', false);
+        $character->fillable[] = 'errors';
         return $character;
     }
 

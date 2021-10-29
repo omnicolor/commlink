@@ -8,9 +8,9 @@ use App\Models\Shadowrun5E\ActiveSkill;
 use App\Models\Shadowrun5E\AdeptPower;
 use App\Models\Shadowrun5E\Armor;
 use App\Models\Shadowrun5E\Augmentation;
-use App\Models\Shadowrun5E\Character;
 use App\Models\Shadowrun5E\Gear;
 use App\Models\Shadowrun5E\GearFactory;
+use App\Models\Shadowrun5E\PartialCharacter;
 use App\Models\Shadowrun5E\Quality;
 use App\Models\Shadowrun5E\SkillGroup;
 use App\Models\Shadowrun5E\Weapon;
@@ -27,9 +27,9 @@ use ZipArchive;
 class Shadowrun5eConverter implements ConverterInterface
 {
     /**
-     * @var Character Character being converted.
+     * @var PartialCharacter Character being converted.
      */
-    protected Character $character;
+    protected PartialCharacter $character;
 
     /**
      * @var string Directory the portfolio was extracted to.
@@ -68,9 +68,16 @@ class Shadowrun5eConverter implements ConverterInterface
     ];
 
     /**
+     * Hero portfolio.
      * @var SimpleXMLElement
      */
     protected SimpleXMLElement $xml;
+
+    /**
+     * Additional information about the hero.
+     * @var SimpleXMLElement
+     */
+    protected SimpleXMLElement $xmlMeta;
 
     /**
      * Constructor.
@@ -158,6 +165,7 @@ class Shadowrun5eConverter implements ConverterInterface
      */
     protected function parseFiles(): void
     {
+        // Load the main data file from the portfolio.
         $files = glob(sprintf(
             '%s%sstatblocks_xml%s*',
             $this->directory,
@@ -177,6 +185,19 @@ class Shadowrun5eConverter implements ConverterInterface
             throw new RuntimeException('Failed to load Portfolio stats');
         }
         $this->xml = $xml->public->character;
+
+        // Load the meta file, containing priorities.
+        $meta = sprintf(
+            '%s%sherolab%slead1.xml',
+            $this->directory,
+            \DIRECTORY_SEPARATOR,
+            \DIRECTORY_SEPARATOR
+        );
+        $xml = simplexml_load_file($meta);
+        if (false === $xml) {
+            throw new RuntimeException('Failed to load Portfolio metadata');
+        }
+        $this->xmlMeta = $xml;
     }
 
     /**
@@ -312,7 +333,7 @@ class Shadowrun5eConverter implements ConverterInterface
             $skillObject = new ActiveSkill($id, $level);
             $skillsArray[] = [
                 'id' => $skillObject->id,
-                'level' => $skill->level,
+                'level' => $skillObject->level,
             ];
         }
         $this->character->skills = $skillsArray;
@@ -620,17 +641,179 @@ class Shadowrun5eConverter implements ConverterInterface
     }
 
     /**
-     * Convert a loaded Hero Lab portfolio to a Commlink character.
-     * @return Character
+     * Given a priority from Herolab, return the matching Sum to Ten priority.
+     * @param int $priority
+     * @return string
      */
-    public function convert(): Character
+    protected function priorityLetter(int $priority): string
     {
-        $this->character = new Character();
+        // @phpstan-ignore-next-line
+        return match ($priority) {
+            1 => 'A',
+            2 => 'B',
+            3 => 'C',
+            4 => 'D',
+            5 => 'E',
+        };
+    }
 
-        $this->character->handle = (string)$this->xml['name'];
-        $this->character->priorities = [
+    /**
+     * Parse the character's priorities.
+     * @return Shadowrun5eConverter
+     */
+    protected function parsePriorities(): Shadowrun5eConverter
+    {
+        $priorities = [
             'metatype' => (string)$this->xml->race['name'],
         ];
+        foreach ($this->xmlMeta->hero->container->pick as $key => $value) {
+            $priority = 0;
+            foreach ($value->field as $field) {
+                if ('priSmOrder' === (string)$field['id']) {
+                    $priority = (int)$field['value'];
+                }
+            }
+            if (0 === $priority) {
+                continue;
+            }
+            switch ((string)$value['thing']) {
+                case 'priAttr':
+                    $priorities['attributePriority'] = $this->priorityLetter($priority);
+                    break;
+                case 'priMagic':
+                    $priorities['magicPriority'] = $this->priorityLetter($priority);
+                    break;
+                case 'priMeta':
+                    $priorities['metatypePriority'] = $this->priorityLetter($priority);
+                    break;
+                case 'priSkill':
+                    $priorities['skillPriority'] = $this->priorityLetter($priority);
+                    break;
+                case 'priResourc':
+                    $priorities['resourcePriority'] = $this->priorityLetter($priority);
+                    break;
+            }
+        }
+        $this->character->priorities = $priorities;
+        return $this;
+    }
+
+    /**
+     * Parse the 'source' information from the Hero Lab portfolio.
+     *
+     * The sources include the rulebooks loaded in Hero Lab, as well as the
+     * priority system, gameplay level, life modules, etc.
+     * @return Shadowrun5eConverter
+     */
+    protected function parseSources(): Shadowrun5eConverter
+    {
+        // Commented out rulesets are either not included in my copy of Herolab
+        // (if the key is a question mark), or is a book I don't have included
+        // in Commlink (value is a normal string).
+        $map = [
+            'Aether' => 'aetherology',
+            'Assassin' => 'assassins-primer',
+            //'?' => 'better-than-bad',
+            'BloodyBus' => 'bloody-business',
+            'BulletBand' => 'bullets-and-bandages',
+            //'?' => 'book-of-the-lost',
+            'ChromeFles' => 'chrome-flesh',
+            //'?' => 'complete-trog',
+            'CourtShad' => 'court-of-shadows',
+            //'?' => 'coyotes',
+            'CuttingAce' => 'cutting-aces',
+            //'?' => 'dark-terrors',
+            'DataTrails' => 'data-trails',
+            //'?' => 'false-flag',
+            //'?' => 'firing-line',
+            //'?' => 'forbidden-arcana',
+            'GunHeaven3' => 'gun-heaven-3',
+            'HardTarget' => 'hard-targets',
+            'HowlShadow' => 'howling-shadows',
+            //'?' => 'kill-code',
+            'Lockdown' => 'lockdown',
+            //'?' => 'london-falling',
+            //'?' => 'market-panic',
+            //'NothingPer' => 'Nothing Personal',
+            'Rigger5' => 'rigger-5',
+            'RunGun' => 'run-and-gun',
+            'RunFaster' => 'run-faster',
+            //'SailAway' => 'Sail Away, Sweet Sister',
+            //'?' => 'serrated-edge',
+            'ShadSpells' => 'shadow-spells',
+            'Butte' => 'shadows-in-focus-butte',
+            //'?' => 'shadows-in-focus-casablance-rabat',
+            //'?' => 'shadows-in-focus-cheyenne',
+            //'Metropole' => 'Shadows in Focus: Metrópole',
+            'SanFran' => 'shadows-in-focus-san-francisco-metroplex',
+            'SiouxNat' => 'shadows-in-focus-sioux-nation',
+            //'?' => 'splintered-state',
+            //'?' => 'sprawl-wilds',
+            'StolenSoul' => 'stolen-souls',
+            'StreetGrim' => 'street-grimoire',
+            //'?' => 'street-lethal',
+            //'?' => 'streetpedia',
+            //'?' => 'ten-terrorists',
+            //'?' => 'toxic-alleys',
+            //'?' => 'unoriginal-sin',
+            'VladGaunt' => 'vladivostok-guantlet',
+        ];
+
+        $priorities = $this->character->priorities ?? [];
+        $books = ['core'];
+        $lifeModules = false;
+
+        foreach ($this->xmlMeta->hero->source as $key => $value) {
+            $source = (string)$value['source'];
+            $enabled = (bool)$value['count'];
+            if (in_array($source, $map, true)) {
+                // @phpstan-ignore-next-line
+                $books[] = $map[$source];
+                continue;
+            }
+            if ('SumToTen' === $source && $enabled) {
+                // Sum-to-ten chargen requires Run Faster.
+                $books[] = 'run-faster';
+                $priorities['system'] = 'sum-to-ten';
+                continue;
+            }
+            if ('AltNormal' === $source && $enabled) {
+                $priorities['gameplay'] = 'established';
+                continue;
+            }
+            if ('AltPrime' === $source && $enabled) {
+                $priorities['gameplay'] = 'prime';
+                continue;
+            }
+            if ('AltStreet' === $source && $enabled) {
+                $priorities['gameplay'] = 'street';
+                continue;
+            }
+            if ('LifeModule' === $source && $enabled) {
+                $priorities['lifeModule'] = true;
+                $books[] = 'run-faster';
+                continue;
+            }
+            if ('PointBuy' === $source && $enabled) {
+                $priorities['system'] = 'point-buy';
+                $books[] = 'run-faster';
+            }
+        }
+        sort($books);
+        $priorities['rulebooks'] = implode(',', array_unique($books));
+        $this->character->priorities = $priorities;
+        return $this;
+    }
+
+    /**
+     * Convert a loaded Hero Lab portfolio to a Commlink character.
+     * @return PartialCharacter
+     */
+    public function convert(): PartialCharacter
+    {
+        $this->character = new PartialCharacter();
+
+        $this->character->handle = (string)$this->xml['name'];
         $this->character->karmaCurrent = (int)$this->xml->karma['left'];
         $this->character->karma = (int)$this->xml->karma['total'];
         $this->character->nuyen = (int)$this->xml->cash['total'];
@@ -643,7 +826,9 @@ class Shadowrun5eConverter implements ConverterInterface
             'skin' => (string)$this->xml->personal['skin'],
         ];
 
-        $this->parseAttributes($this->xml->attributes->attribute)
+        $this->parsePriorities()
+            ->parseSources()
+            ->parseAttributes($this->xml->attributes->attribute)
             ->parseQualities($this->xml->qualities->positive->quality)
             ->parseQualities($this->xml->qualities->negative->quality)
             ->parseSkillGroups($this->xml->skills->groups->skill)

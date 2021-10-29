@@ -32,7 +32,7 @@ use RuntimeException;
  * @property ?array<int, array<string, string|int|null>> $knowledgeSkills
  * @property int $logic
  * @property ?array<string, array<int, string>> $martialArts
- * @property ?array<string, ?string> $priorities
+ * @property ?array<string, boolean|null|string> $priorities
  * @property ?int $magic
  * @property ?array<string, mixed> $magics
  * @property int $nuyen
@@ -551,7 +551,7 @@ class Character extends \App\Models\Character
     public function getMetatypeAttribute(): string
     {
         if (isset($this->priorities['metatype'])) {
-            return $this->priorities['metatype'];
+            return (string)$this->priorities['metatype'];
         }
         return 'unknown';
     }

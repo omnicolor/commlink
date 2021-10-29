@@ -153,6 +153,21 @@ final class Shadowrun5eConverterTest extends \Tests\TestCase
         self::assertCount(3, (array)$character->gear);
         self::assertCount(1, (array)$character->identities);
         self::assertCount(2, (array)$character->contacts);
+        self::assertSame(
+            [
+                'metatype' => 'Human',
+                'attributePriority' => 'A',
+                'magicPriority' => 'D',
+                'metatypePriority' => 'C',
+                'resourcePriority' => 'D',
+                'skillPriority' => 'C',
+                'gameplay' => 'street',
+                'lifeModule' => true,
+                'system' => 'sum-to-ten',
+                'rulebooks' => 'core,run-faster',
+            ],
+            $character->priorities
+        );
 
         self::assertEquals([], $hl->getErrors());
     }
