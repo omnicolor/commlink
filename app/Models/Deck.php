@@ -6,7 +6,6 @@ namespace App\Models;
 
 use Countable;
 use Error;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
 use RuntimeException;
 use UnderflowException;
