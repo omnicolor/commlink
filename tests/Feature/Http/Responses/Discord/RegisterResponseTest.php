@@ -116,7 +116,7 @@ final class RegisterResponseTest extends \Tests\TestCase
                 . 'linked it to this server before you can register a '
                 . 'channel to a specific system.',
             config('app.name'),
-            config('app.url') . 'settings',
+            config('app.url') . '/settings',
         );
         $messageMock = $this->createDiscordMessageMock('/roll register shadowrun5e');
         // @phpstan-ignore-next-line
