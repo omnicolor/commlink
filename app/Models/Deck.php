@@ -125,6 +125,31 @@ abstract class Deck implements Countable
     }
 
     /**
+     * Find all decks for a campaign.
+     * @param Campaign $campaign
+     * @return array<int, Deck>
+     */
+    public static function findForCampaign(Campaign $campaign): array
+    {
+        $rows = DB::table('decks')
+            ->where('campaign_id', $campaign->id)
+            ->get();
+        $decks = [];
+        foreach ($rows as $row) {
+            try {
+                $deck = new $row->type();
+            } catch (Error) {
+                continue;
+            }
+            $deck->campaign_id = $row->campaign_id;
+            $deck->currentCards = unserialize($row->cards);
+            $deck->id = $row->id;
+            $decks[] = $deck;
+        }
+        return $decks;
+    }
+
+    /**
      * Initialize the cards in a deck.
      */
     protected function initialize(): void

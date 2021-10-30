@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models;
 
+use App\Models\Campaign;
 use App\Models\StandardDeck;
 use Illuminate\Support\Facades\DB;
 use RuntimeException;
@@ -184,5 +185,47 @@ final class StandardDeckTest extends \Tests\TestCase
         $deck->id = 42;
         $deck->draw(51);
         $deck->save();
+    }
+
+    /**
+     * Test finding decks for a campaign if the campaign has none.
+     * @medium
+     * @test
+     */
+    public function testFindForCampaignNoDecks(): void
+    {
+        DB::shouldReceive('table->where->get')->andReturn([]);
+
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+        $decks = StandardDeck::findForCampaign($campaign);
+        self::assertEmpty($decks);
+    }
+
+    /**
+     * Test finding decks for a campaign if the campaign has one.
+     * @medium
+     * @test
+     */
+    public function testFindForDeck(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+        DB::shouldReceive('table->where->get')
+            ->andReturn([
+                (object)[
+                    'id' => 1,
+                    'campaign_id' => $campaign->id,
+                    'cards' => 'a:1:{i:0;O:15:"App\Models\Card":2:{s:5:"value";s:1:"2";s:4:"suit";s:3:"♣";}}',
+                    'type' => StandardDeck::class,
+                ],
+                (object)[
+                    'type' => '\App\Models\UnknownDeck',
+                ],
+            ]);
+
+        $decks = StandardDeck::findForCampaign($campaign);
+        self::assertCount(1, $decks);
+        self::assertInstanceOf(StandardDeck::class, $decks[0]);
     }
 }
