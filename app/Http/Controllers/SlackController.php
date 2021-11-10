@@ -84,6 +84,9 @@ class SlackController extends Controller
                     \ucfirst($this->args[0])
                 );
                 $roll = new $class($this->text, $channel->username, $channel);
+                if ('help' !== $this->args[0]) {
+                    RollEvent::dispatch($roll, $channel);
+                }
                 return $roll->forSlack($channel);
             } catch (Error $ex) {
                 // Again, ignore errors, they might want a generic command.
@@ -103,6 +106,9 @@ class SlackController extends Controller
         try {
             $class = \sprintf('\\App\\Rolls\\%s', \ucfirst($this->args[0]));
             $roll = new $class($this->text, $channel->username, $channel);
+            if ('help' !== $this->args[0]) {
+                RollEvent::dispatch($roll, $channel);
+            }
             return $roll->forSlack($channel);
         } catch (Error $ex) {
             // Again, ignore errors, they might want an old-school response.

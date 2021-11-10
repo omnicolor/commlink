@@ -84,13 +84,10 @@ class HandleDiscordMessage
             );
             $roll = new $class($event->content, $event->user->tag, $channel);
             $event->channel->send($roll->forDiscord());
-            /*
-             * There aren't any non-numeric rolls for any system so far other
-             * than help.
+
             if ('help' !== $args[0]) {
                 RollEvent::dispatch($roll, $channel);
             }
-             */
             return true;
         } catch (\Error $ex) {
             \Log::debug($ex->getMessage());

@@ -59,13 +59,6 @@ final class CampaignsControllerTest extends \Tests\TestCase
         // @phpstan-ignore-next-line
         $name = $this->faker->catchPhrase();
 
-        // Find a system that doesn't use the options field.
-        do {
-            $system = $this->faker->randomElement(
-                \array_keys(config('app.systems'))
-            );
-        } while ('shadowrun5e' === $system);
-
         /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
@@ -73,7 +66,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
                 route('campaign.create'),
                 [
                     'name' => $name,
-                    'system' => $system,
+                    'system' => 'dnd5e',
                 ]
             )
             ->assertRedirect('/dashboard');
@@ -85,7 +78,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
                 'name' => $name,
                 'options' => null,
                 'registered_by' => $user->id,
-                'system' => $system,
+                'system' => 'dnd5e',
             ]
         );
     }

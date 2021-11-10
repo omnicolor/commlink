@@ -6,7 +6,9 @@ namespace Tests\Feature\Listeners;
 
 use App\Events\DiscordMessageReceived;
 use App\Events\DiscordUserLinked;
+use App\Events\RollEvent;
 use App\Listeners\HandleDiscordMessage;
+use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\ChatUser;
 use CharlotteDunois\Yasmin\Models\Guild;
@@ -489,11 +491,61 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
     }
 
     /**
-     * Test handling a Discord message asking for a system-specific help roll.
+     * Test handling a Discord message asking for a system-specific, non-help
+     * roll.
      * @medium
      * @test
      */
     public function testHandleSystemNonNumberRoll(): void
+    {
+        Event::fake();
+
+        $serverStub = $this->createStub(Guild::class);
+        $serverStub->method('__get')->willReturn(\Str::random(10));
+
+        $channelMap = [
+            ['id', \Str::random(14)],
+            ['name', \Str::random(12)],
+            ['guild', $serverStub],
+        ];
+        $channelMock = $this->createMock(TextChannel::class);
+        $channelMock->method('__get')->willReturnMap($channelMap);
+        $campaign = Campaign::factory()->create([
+            'options' => [
+                'nightCityTarot' => true,
+            ],
+            'system' => 'cyberpunkred',
+        ]);
+        Channel::factory()->create([
+            'campaign_id' => $campaign,
+            'channel_id' => $channelMock->id,
+            'server_id' => $serverStub->id,
+            'system' => 'cyberpunkred',
+            'type' => 'discord',
+        ]);
+
+        $userMock = $this->createMock(User::class);
+        $userMock->method('__get')->willReturn('discord#tag');
+
+        $messageMap = [
+            ['author', $userMock],
+            ['channel', $channelMock],
+            ['content', '/roll tarot'],
+        ];
+        $messageStub = $this->createStub(Message::class);
+        $messageStub->method('__get')->willReturnMap($messageMap);
+
+        $event = new DiscordMessageReceived($messageStub);
+        self::assertTrue((new HandleDiscordMessage())->handle($event));
+        Event::assertDispatched(RollEvent::class);
+    }
+
+    /**
+     * Test handling a Discord message asking for a system-specific help roll.
+     * @medium
+     * @test
+     */
+    public function testHandleSystemHelpRoll(): void
     {
         $expected = 'Slack/Discord bot that lets you roll Shadowrun 5E dice.';
 

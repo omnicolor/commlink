@@ -141,9 +141,9 @@ abstract class Deck implements Countable
             } catch (Error) {
                 continue;
             }
-            $deck->campaign_id = $row->campaign_id;
+            $deck->campaign_id = (int)$row->campaign_id;
             $deck->currentCards = unserialize($row->cards);
-            $deck->id = $row->id;
+            $deck->id = (int)$row->id;
             $decks[] = $deck;
         }
         return $decks;

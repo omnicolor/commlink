@@ -75,6 +75,9 @@ abstract class Roll
         $this->chatUser = $channel->getChatUser();
         $this->campaign = $channel->campaign;
         $this->character = $channel->character();
+        if (null !== $this->character) {
+            $this->username = (string)$this->character;
+        }
     }
 
     /**
