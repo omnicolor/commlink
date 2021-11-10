@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Models\Shadwrun5E;
+namespace Tests\Feature\Models\Shadowrun5E;
 
 use App\Models\Shadowrun5E\TarotDeck;
 
