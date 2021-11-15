@@ -31,7 +31,7 @@ class CampaignsController extends Controller
      */
     public function create(CampaignCreateRequest $request): RedirectResponse
     {
-        $campaign = Campaign::make($request->only([
+        $campaign = new Campaign($request->only([
             'description',
             'name',
             'system',
