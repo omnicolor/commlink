@@ -84,7 +84,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
     }
 
     /**
-     * Test creating a new Shadowrun campaign with options.
+     * Test creating a new Shadowrun 5E campaign with options.
      * @test
      */
     public function testCreateNewSr5eCampaign(): void
@@ -136,6 +136,51 @@ final class CampaignsControllerTest extends \Tests\TestCase
                 'options' => $expectedOptions,
                 'registered_by' => $user->id,
                 'system' => 'shadowrun5e',
+            ]
+        );
+    }
+
+    /**
+     * Test creating a new Cyberpunk Red campaign with options.
+     * @test
+     */
+    public function testCreateNewCyberpunkRedCampaign(): void
+    {
+        if (!\in_array('cyberpunkred', \array_keys(config('app.systems')), true)) {
+            self::markTestSkipped('Cyberpunk Red not enabled');
+        }
+        // @phpstan-ignore-next-line
+        $name = $this->faker->catchPhrase();
+
+        // @phpstan-ignore-next-line
+        $description = $this->faker->bs();
+
+        /** @var User */
+        $user = User::factory()->create();
+        $this->actingAs($user)
+            ->postJson(
+                route('campaign.createForm'),
+                [
+                    'description' => $description,
+                    'name' => $name,
+                    'night-city-tarot' => true,
+                    'system' => 'cyberpunkred',
+                ]
+            )
+            ->assertRedirect('/dashboard');
+
+        $expectedOptions = \json_encode([
+            'nightCityTarot' => true,
+        ]);
+        $this->assertDatabaseHas(
+            'campaigns',
+            [
+                'description' => $description,
+                'gm' => null,
+                'name' => $name,
+                'options' => $expectedOptions,
+                'registered_by' => $user->id,
+                'system' => 'cyberpunkred',
             ]
         );
     }

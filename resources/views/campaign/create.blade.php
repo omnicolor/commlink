@@ -1,7 +1,5 @@
 <x-app>
-    <x-slot name="title">
-        Create campaign
-    </x-slot>
+    <x-slot name="title">Create campaign</x-slot>
 
     <h1>Create campaign</h1>
 
@@ -82,6 +80,10 @@
             <x-shadowrun5e.campaign-options />
         </div>
 
+        <div id="cyberpunkred-options" style="display:none;">
+            <x-cyberpunkred.campaign-options />
+        </div>
+
         <div>
             <button class="btn btn-primary" type="submit">
                 Create campaign
@@ -93,11 +95,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title">Book title</h5>
+                    <button aria-label="Close" class="btn-close"
+                        data-bs-dismiss="modal" type="button"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Modal body text goes here.</p>
+                    <p>Filled by Javascript.</p>
                 </div>
             </div>
         </div>
@@ -138,9 +141,15 @@
                             }
                         });
                         $('#shadowrun5e-options').show();
+                        $('#cyberpunkred-options').hide();
+                        break;
+                    case 'cyberpunkred':
+                        $('#shadowrun5e-options').hide();
+                        $('#cyberpunkred-options').show();
                         break;
                     default:
                         $('#shadowrun5e-options').hide();
+                        $('#cyberpunkred-options').hide();
                         break;
                 }
             }).change();

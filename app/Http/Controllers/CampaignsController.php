@@ -38,13 +38,21 @@ class CampaignsController extends Controller
         ]));
         // @phpstan-ignore-next-line
         $campaign->registered_by = \Auth::user()->id;
-        if ('shadowrun5e' === $request->input('system')) {
-            $campaign->options = [
-                'creation' => (array)$request->input('sr5e-creation'),
-                'gameplay' => (string)$request->input('sr5e-gameplay'),
-                'rulesets' => (array)$request->input('sr5e-rules'),
-                'startDate' => (string)$request->input('sr5e-start-date'),
-            ];
+
+        switch ($request->input('system')) {
+            case 'cyberpunkred':
+                $campaign->options = [
+                    'nightCityTarot' => $request->boolean('night-city-tarot'),
+                ];
+                break;
+            case 'shadowrun5e':
+                $campaign->options = [
+                    'creation' => (array)$request->input('sr5e-creation'),
+                    'gameplay' => (string)$request->input('sr5e-gameplay'),
+                    'rulesets' => (array)$request->input('sr5e-rules'),
+                    'startDate' => (string)$request->input('sr5e-start-date'),
+                ];
+                break;
         }
         $campaign->save();
         CampaignCreated::dispatch($campaign);
