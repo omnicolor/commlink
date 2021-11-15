@@ -9,14 +9,9 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\Response;
 
 /**
  * Controller for the Shadowrun 5E characters controller.
- * @covers \App\Http\Controllers\Shadowrun5E\CharactersController
- * @covers \App\Http\Resources\Shadowrun5E\CharacterResource
- * @covers \App\Models\Character::newFromBuilder
- * @covers \App\Models\Shadowrun5E\Character::booted
  * @group shadowrun
  * @group shadowrun5e
  * @group controllers
@@ -40,8 +35,8 @@ final class CharacterControllerTest extends \Tests\TestCase
         foreach ($this->characters as $key => $character) {
             // @phpstan-ignore-next-line
             $character->delete();
-            unset($this->characters[$key]);
         }
+        $this->characters = [];
         parent::tearDown();
     }
 
@@ -52,7 +47,7 @@ final class CharacterControllerTest extends \Tests\TestCase
     public function testUnauthenticated(): void
     {
         $this->getJson(route('shadowrun5e.characters.index'))
-            ->assertStatus(Response::HTTP_UNAUTHORIZED);
+            ->assertUnauthorized();
     }
 
     /**
