@@ -71,7 +71,7 @@ class SlackResponse extends JsonResponse
      */
     public function __construct(
         string $content = '',
-        int $status = 200,
+        int $status = self::HTTP_OK,
         array $headers = [],
         ?Channel $channel = null,
     ) {

@@ -30,7 +30,7 @@ final class ValidateUserResponseTest extends \Tests\TestCase
     {
         self::expectException(SlackException::class);
         self::expectExceptionMessage('Channel is required');
-        new ValidateUserResponse('', ValidateUserResponse::HTTP_OK, []);
+        new ValidateUserResponse();
     }
 
     /**
@@ -54,10 +54,8 @@ final class ValidateUserResponseTest extends \Tests\TestCase
             $channel->user
         ));
         new ValidateUserResponse(
-            'validate',
-            ValidateUserResponse::HTTP_OK,
-            [],
-            $channel
+            content: 'validate',
+            channel: $channel
         );
     }
 
@@ -97,10 +95,8 @@ final class ValidateUserResponseTest extends \Tests\TestCase
             $channel->user
         ));
         new ValidateUserResponse(
-            'validate aaa',
-            ValidateUserResponse::HTTP_OK,
-            [],
-            $channel
+            content: 'validate aaa',
+            channel: $channel,
         );
     }
 
@@ -126,10 +122,8 @@ final class ValidateUserResponseTest extends \Tests\TestCase
         self::expectException(SlackException::class);
         self::expectExceptionMessage('It looks like you\'re already verfied!');
         new ValidateUserResponse(
-            \sprintf('validate %s', $chatUser->verification),
-            ValidateUserResponse::HTTP_OK,
-            [],
-            $channel
+            content: \sprintf('validate %s', $chatUser->verification),
+            channel: $channel,
         );
     }
 
@@ -153,10 +147,8 @@ final class ValidateUserResponseTest extends \Tests\TestCase
             'verified' => false,
         ]);
         $response = new ValidateUserResponse(
-            \sprintf('validate %s', $chatUser->verification),
-            ValidateUserResponse::HTTP_OK,
-            [],
-            $channel
+            content: \sprintf('validate %s', $chatUser->verification),
+            channel: $channel
         );
         self::assertStringContainsString(
             '/roll register <system>',
@@ -188,10 +180,8 @@ final class ValidateUserResponseTest extends \Tests\TestCase
             'verified' => false,
         ]);
         $response = new ValidateUserResponse(
-            \sprintf('validate %s', $chatUser->verification),
-            ValidateUserResponse::HTTP_OK,
-            [],
-            $channel
+            content: \sprintf('validate %s', $chatUser->verification),
+            channel: $channel
         );
         self::assertStringNotContainsString(
             '/roll register <system>',
@@ -233,10 +223,8 @@ final class ValidateUserResponseTest extends \Tests\TestCase
         );
 
         $response = (string)(new ValidateUserResponse(
-            \sprintf('validate %s', $chatUser->verification),
-            ValidateUserResponse::HTTP_OK,
-            [],
-            $channel
+            content: \sprintf('validate %s', $chatUser->verification),
+            channel: $channel
         ));
         self::assertStringContainsString($expected, $response);
     }
@@ -270,10 +258,8 @@ final class ValidateUserResponseTest extends \Tests\TestCase
             'verified' => false,
         ]);
         $response = (string)(new ValidateUserResponse(
-            \sprintf('validate %s', $chatUser->verification),
-            ValidateUserResponse::HTTP_OK,
-            [],
-            $channel
+            content: \sprintf('validate %s', $chatUser->verification),
+            channel: $channel
         ));
         self::assertStringContainsString(
             'Next, you can `\\/roll link <characterId>` to link a character '

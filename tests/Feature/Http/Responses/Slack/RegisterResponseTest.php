@@ -50,10 +50,8 @@ final class RegisterResponseTest extends \Tests\TestCase
             config('app.name')
         ));
         $response = new RegisterResponse(
-            \sprintf('register %s', \key(config('app.systems'))),
-            RegisterResponse::HTTP_OK,
-            [],
-            $channel
+            content: \sprintf('register %s', \key(config('app.systems'))),
+            channel: $channel,
         );
     }
 
@@ -68,10 +66,7 @@ final class RegisterResponseTest extends \Tests\TestCase
             'This channel is already registered for "shadowrun5e"'
         );
         $response = new RegisterResponse(
-            '',
-            RegisterResponse::HTTP_OK,
-            [],
-            new Channel(['system' => 'shadowrun5e'])
+            channel: new Channel(['system' => 'shadowrun5e'])
         );
     }
 
@@ -101,10 +96,8 @@ final class RegisterResponseTest extends \Tests\TestCase
             'verified' => true,
         ])->create();
         $response = new RegisterResponse(
-            'register',
-            RegisterResponse::HTTP_OK,
-            [],
-            $channel
+            content: 'register',
+            channel: $channel,
         );
     }
 
@@ -135,10 +128,8 @@ final class RegisterResponseTest extends \Tests\TestCase
             'verified' => true,
         ])->create();
         $response = new RegisterResponse(
-            'register invalid',
-            RegisterResponse::HTTP_OK,
-            [],
-            $channel
+            content: 'register invalid',
+            channel: $channel,
         );
     }
 
@@ -163,10 +154,8 @@ final class RegisterResponseTest extends \Tests\TestCase
             'verified' => true,
         ])->create();
         $response = new RegisterResponse(
-            \sprintf('register %s', \key(config('app.systems'))),
-            RegisterResponse::HTTP_OK,
-            [],
-            $channel
+            content: \sprintf('register %s', \key(config('app.systems'))),
+            channel: $channel,
         );
         self::assertSame(\key(config('app.systems')), $channel->system);
     }

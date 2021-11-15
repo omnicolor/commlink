@@ -30,7 +30,7 @@ final class InfoResponseTest extends \Tests\TestCase
             'server_id' => 'server id',
         ]);
         $channel->user = 'user id';
-        $response = new InfoResponse('', InfoResponse::HTTP_OK, [], $channel);
+        $response = new InfoResponse(channel: $channel);
         $response = \json_decode((string)$response);
         self::assertSame('ephemeral', $response->response_type);
         self::assertEquals(
@@ -101,7 +101,7 @@ final class InfoResponseTest extends \Tests\TestCase
             'verified' => true,
         ]);
 
-        $response = new InfoResponse('', InfoResponse::HTTP_OK, [], $channel);
+        $response = new InfoResponse(channel: $channel);
         $response = \json_decode((string)$response);
         self::assertSame('ephemeral', $response->response_type);
         self::assertEquals(
@@ -176,7 +176,7 @@ final class InfoResponseTest extends \Tests\TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $response = new InfoResponse('', InfoResponse::HTTP_OK, [], $channel);
+        $response = new InfoResponse(channel: $channel);
         $response = \json_decode((string)$response);
         self::assertSame('ephemeral', $response->response_type);
         self::assertEquals(
@@ -256,7 +256,7 @@ final class InfoResponseTest extends \Tests\TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $response = new InfoResponse('', InfoResponse::HTTP_OK, [], $channel);
+        $response = new InfoResponse(channel: $channel);
         $response = \json_decode((string)$response);
         self::assertSame('ephemeral', $response->response_type);
         self::assertEquals(
@@ -344,7 +344,7 @@ final class InfoResponseTest extends \Tests\TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $response = new InfoResponse('', InfoResponse::HTTP_OK, [], $channel);
+        $response = new InfoResponse(channel: $channel);
         $response = \json_decode((string)$response);
         self::assertSame('ephemeral', $response->response_type);
         self::assertEquals(

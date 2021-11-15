@@ -20,14 +20,14 @@ class LinkResponse extends SlackResponse
      * @param string $content
      * @param int $status
      * @param array<string, string> $headers
-     * @param Channel $channel
+     * @param ?Channel $channel
      * @throws SlackException
      */
     public function __construct(
-        string $content,
-        int $status,
-        array $headers,
-        Channel $channel,
+        string $content = '',
+        int $status = self::HTTP_OK,
+        array $headers = [],
+        ?Channel $channel = null,
     ) {
         parent::__construct($content, $status, $headers, $channel);
 
@@ -35,6 +35,7 @@ class LinkResponse extends SlackResponse
         $chatUser = $this->channel->getChatUser();
         $this->requireCommlink($chatUser);
 
+        // @phpstan-ignore-next-line
         if (null !== $channel->character()) {
             throw new SlackException(
                 'This channel is already linked to a character.'
@@ -57,17 +58,20 @@ class LinkResponse extends SlackResponse
             );
         }
 
+        // @phpstan-ignore-next-line
         if ($channel->system !== $character->system) {
             $systems = config('app.systems');
             throw new SlackException(sprintf(
                 '%s is a %s character. This channel is playing %s.',
                 $character->handle ?? $character->name,
                 $systems[$character->system] ?? 'Unknown',
+                // @phpstan-ignore-next-line
                 $systems[$channel->system] ?? 'Unknown',
             ));
         }
 
         ChatCharacter::create([
+            // @phpstan-ignore-next-line
             'channel_id' => $channel->id,
             'character_id' => $character->id,
             'chat_user_id' => $chatUser->id,

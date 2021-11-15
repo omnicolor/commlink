@@ -35,12 +35,7 @@ final class LinkResponseTest extends \Tests\TestCase
                 . 'server before you can register a channel to a specific '
                 . 'system.'
         );
-        new LinkResponse(
-            content: 'link deadb33f',
-            status: LinkResponse::HTTP_OK,
-            headers: [],
-            channel: new Channel(),
-        );
+        new LinkResponse(content: 'link deadb33f', channel: new Channel());
     }
 
     /**
@@ -65,12 +60,7 @@ final class LinkResponseTest extends \Tests\TestCase
             'server_id' => $channel->server_id,
             'verified' => false,
         ]);
-        new LinkResponse(
-            content: 'link deadb33f',
-            status: LinkResponse::HTTP_OK,
-            headers: [],
-            channel: $channel,
-        );
+        new LinkResponse(content: 'link deadb33f', channel: $channel);
     }
 
     /**
@@ -109,12 +99,7 @@ final class LinkResponseTest extends \Tests\TestCase
             'character_id' => $character->id,
             'chat_user_id' => $chatUser->id,
         ]);
-        new LinkResponse(
-            content: 'link deadb33f',
-            status: LinkResponse::HTTP_OK,
-            headers: [],
-            channel: $channel,
-        );
+        new LinkResponse(content: 'link deadb33f', channel: $channel);
         $character->delete();
     }
 
@@ -143,8 +128,6 @@ final class LinkResponseTest extends \Tests\TestCase
         ]);
         new LinkResponse(
             content: sprintf('link %s', sha1(\Str::random(10))),
-            status: LinkResponse::HTTP_OK,
-            headers: [],
             channel: $channel,
         );
     }
@@ -182,8 +165,6 @@ final class LinkResponseTest extends \Tests\TestCase
         ]);
         new LinkResponse(
             content: sprintf('link %s', $character->_id),
-            status: LinkResponse::HTTP_OK,
-            headers: [],
             channel: $channel,
         );
         $character->delete();
@@ -231,8 +212,6 @@ final class LinkResponseTest extends \Tests\TestCase
 
         new LinkResponse(
             content: sprintf('link %s', $character->_id),
-            status: LinkResponse::HTTP_OK,
-            headers: [],
             channel: $channel,
         );
         $character->delete();
@@ -267,8 +246,6 @@ final class LinkResponseTest extends \Tests\TestCase
         ]);
         $response = new LinkResponse(
             content: sprintf('link %s', $character->_id),
-            status: LinkResponse::HTTP_OK,
-            headers: [],
             channel: $channel,
         );
         $response = json_decode((string)$response);

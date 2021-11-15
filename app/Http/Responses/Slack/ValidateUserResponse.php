@@ -33,11 +33,11 @@ class ValidateUserResponse extends SlackResponse
      */
     public function __construct(
         string $content = '',
-        int $status = 200,
+        int $status = self::HTTP_OK,
         array $headers = [],
         ?Channel $channel = null,
     ) {
-        parent::__construct('', $status, $headers, $channel);
+        parent::__construct($content, $status, $headers, $channel);
         if (null === $channel) {
             throw new SlackException('Channel is required');
         }
