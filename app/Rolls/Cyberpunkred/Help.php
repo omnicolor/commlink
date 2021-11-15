@@ -40,7 +40,7 @@ class Help extends Roll
                     . 'your result, while rolling a 10 adds an additional '
                     . 'roll. Commlink handles that for you with a simple '
                     . '`/roll 6 5 -2` (for example) that will roll a ten-sided '
-                    . 'die, add six for your attribute and 5 for your still, '
+                    . 'die, add six for your attribute and 5 for your skill, '
                     . 'then subtract two for your modifiers to give you a '
                     . 'final result of nine plus whatever the dice say.',
                     config('app.name'),
