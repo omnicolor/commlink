@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\View\Components\CyberpunkRed;
+namespace App\View\Components\Cyberpunkred;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
