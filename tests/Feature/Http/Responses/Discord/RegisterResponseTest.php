@@ -30,8 +30,8 @@ final class RegisterResponseTest extends \Tests\TestCase
         Http::fake();
 
         $expected = 'To register a channel, use `register [system]`, where '
-            . 'system is a system code: cyberpunkred, dnd5e, expanse, '
-            . 'shadowrun5e';
+            . 'system is a system code: '
+            . implode(', ', array_keys(config('app.systems')));
         $messageMock = $this->createDiscordMessageMock('/roll register');
         // @phpstan-ignore-next-line
         $messageMock->expects(self::once())
