@@ -156,7 +156,7 @@ class Help extends Roll
                 . 'optionally adding C to the result, optionally '
                 . 'describing that the roll is for "text"' . \PHP_EOL
                 . '· `register <system>` - Register this channel for '
-                . 'system code <system>, where system is one of:'
+                . 'system code <system>, where system is one of: '
                 . implode(', ', $systems) . \PHP_EOL
                 . $this->getCampaignsHelp(),
             'color' => TextAttachment::COLOR_INFO,
