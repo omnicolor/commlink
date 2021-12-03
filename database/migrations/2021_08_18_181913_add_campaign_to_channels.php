@@ -27,7 +27,7 @@ class AddCampaignToChannels extends Migration
     public function down(): void
     {
         Schema::table('channels', function (Blueprint $table): void {
-            $table->dropColum('campaign_id');
+            $table->dropColumn('campaign_id');
         });
     }
 }
