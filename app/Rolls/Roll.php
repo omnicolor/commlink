@@ -91,4 +91,28 @@ abstract class Roll
      * @return string
      */
     abstract public function forDiscord(): string;
+
+    /**
+     * Return whether the current user is the GM of the campaign attached to the
+     * current channel.
+     * @return bool
+     */
+    public function isGm(): bool
+    {
+        if (null === $this->campaign) {
+            // You can't be a GM if there's no campaign.
+            return false;
+        }
+
+        if (null === $this->chatUser || null === $this->chatUser->user) {
+            // It doesn't matter if you're the GM if you're not registered, we
+            // don't know who you are.
+            return false;
+        }
+
+        if ($this->campaign->gm === $this->chatUser->user->id) {
+            return true;
+        }
+        return false;
+    }
 }

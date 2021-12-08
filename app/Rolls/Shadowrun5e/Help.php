@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Rolls\Shadowrun5e;
 
 use App\Http\Responses\Slack\SlackResponse;
-use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
@@ -62,31 +61,6 @@ class Help extends Roll
                 'color' => TextAttachment::COLOR_INFO,
             ];
         }
-    }
-
-    /**
-     * Return whether the current user is the GM of the campaign attached to the
-     * current channel.
-     * @return bool
-     */
-    protected function isGm(): bool
-    {
-        if (null === $this->campaign) {
-            // You can't be a GM if there's no campaign.
-            return false;
-        }
-
-        if (null === $this->chatUser) {
-            // It doesn't matter if you're the GM if you're not registered, we
-            // don't know who you are.
-            return false;
-        }
-
-        // @phpstan-ignore-next-line
-        if ($this->campaign->gm === $this->chatUser->user->id) {
-            return true;
-        }
-        return false;
     }
 
     /**
