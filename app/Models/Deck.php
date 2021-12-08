@@ -28,7 +28,7 @@ abstract class Deck implements Countable
      * Collection of remaining cards in the deck.
      * @var array<int, Card>
      */
-    protected array $currentCards;
+    public array $currentCards;
 
     /**
      * Database ID of the deck.
