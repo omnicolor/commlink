@@ -48,7 +48,7 @@ class Character extends \App\Models\Character
     ];
 
     /**
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         'accuracy',
@@ -76,7 +76,7 @@ class Character extends \App\Models\Character
     ];
 
     /**
-     * @var string[]
+     * @var array<int, string>
      */
     protected $hidden = [
         '_id',

@@ -70,7 +70,7 @@ final class SpellArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->spells[] = new \StdClass();
+            $this->spells->offsetSet(spell: new \StdClass());
         } catch (\TypeError $ex) {
             // Ignored
         }

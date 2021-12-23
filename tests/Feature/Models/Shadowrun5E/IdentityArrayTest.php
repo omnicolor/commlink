@@ -73,7 +73,7 @@ final class IdentityArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->identities[] = new \StdClass();
+            $this->identities->offsetSet(identity: new \StdClass());
         } catch (\TypeError $e) {
             // Ignored
         }

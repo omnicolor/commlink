@@ -113,6 +113,7 @@ abstract class Deck implements Countable
             throw new RuntimeException('Deck not found');
         }
         try {
+            /** @var Deck */
             $deck = new $row->type();
         } catch (Error) {
             throw new RuntimeException('Deck type not found');
@@ -137,6 +138,7 @@ abstract class Deck implements Countable
         $decks = [];
         foreach ($rows as $row) {
             try {
+                /** @var Deck */
                 $deck = new $row->type();
             } catch (Error) {
                 continue;

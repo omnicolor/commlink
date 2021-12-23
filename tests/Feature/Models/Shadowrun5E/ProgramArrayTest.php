@@ -70,7 +70,7 @@ final class ProgramArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->programs[] = new \StdClass();
+            $this->programs->offsetSet(program: new \StdClass());
         } catch (\TypeError $ex) {
             // Ignored
         }

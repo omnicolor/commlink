@@ -73,7 +73,7 @@ final class QualityArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->qualities[] = new \StdClass();
+            $this->qualities->offsetSet(quality: new \StdClass());
         } catch (\TypeError $e) {
             // Ignored
         }

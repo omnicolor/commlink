@@ -41,7 +41,7 @@ class Metamagic
 
     /**
      * Collection of all metamagics.
-     * @var array<string, array>
+     * @var array<string, array<string, bool|int|string>>
      */
     public static ?array $metamagics;
 

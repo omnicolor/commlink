@@ -81,7 +81,7 @@ final class GearArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->gears[] = new \StdClass();
+            $this->gears->offsetSet(gear: new \StdClass());
         } catch (\TypeError $e) {
             // Ignored
         }

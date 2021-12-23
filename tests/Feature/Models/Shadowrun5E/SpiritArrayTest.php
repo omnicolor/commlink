@@ -70,7 +70,7 @@ final class SpiritArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->spirits[] = new \StdClass();
+            $this->spirits->offsetSet(spirit: new \StdClass());
         } catch (\TypeError $e) {
             // Ignored
         }

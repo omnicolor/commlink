@@ -6,6 +6,9 @@ namespace App\Http\Resources\Dnd5e;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property string $id
+ */
 class CharacterResource extends JsonResource
 {
     /**

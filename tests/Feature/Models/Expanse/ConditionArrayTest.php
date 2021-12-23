@@ -69,7 +69,7 @@ final class ConditionArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->array[] = new \StdClass();
+            $this->array->offsetSet(condition: new \StdClass());
         } catch (\TypeError $e) {
             // Ignored
         }

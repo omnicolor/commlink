@@ -75,7 +75,7 @@ final class RoleArrayTest extends \PHPUnit\Framework\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->roles[] = new \StdClass();
+            $this->roles->offsetSet(role: new \StdClass());
         } catch (\TypeError $e) {
             // Ignored
         }

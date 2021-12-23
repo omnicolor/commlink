@@ -34,7 +34,7 @@ class InfoResponse
         $character = 'No character';
         if (null !== $channel) {
             $system = $channel->getSystem();
-            if ($channel->campaign) {
+            if (null !== $channel->campaign) {
                 $campaignName = $channel->campaign->name;
             }
         }

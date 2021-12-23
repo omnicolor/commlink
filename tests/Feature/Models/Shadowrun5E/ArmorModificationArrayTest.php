@@ -84,7 +84,7 @@ final class ArmorModificationArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->mods[] = new \StdClass();
+            $this->mods->offsetSet(mod: new \StdClass());
         } catch (\TypeError $e) {
             // Ignored
         }

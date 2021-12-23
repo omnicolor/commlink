@@ -112,7 +112,7 @@ class Channel extends Model
                 return $this->attributes['server_name'];
             case self::TYPE_SLACK:
                 $this->attributes['server_name']
-                    = self::getSlackTeamName($this->attributes['server_id']);
+                    = (string)self::getSlackTeamName($this->attributes['server_id']);
                 if (isset($this->id)) {
                     $this->save();
                 }

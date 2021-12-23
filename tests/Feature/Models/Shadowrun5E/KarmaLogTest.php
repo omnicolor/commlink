@@ -89,7 +89,7 @@ final class KarmaLogTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->log[] = new \StdClass();
+            $this->log->offsetSet(entry: new \StdClass());
         } catch (\TypeError $ex) {
             // Ignore
         }

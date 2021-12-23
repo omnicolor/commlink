@@ -77,7 +77,7 @@ final class ContactArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->contacts[] = new \StdClass();
+            $this->contacts->offsetSet(contact: new \StdClass());
         } catch (\TypeError $e) {
             // Ignored
         }

@@ -70,7 +70,7 @@ final class VehicleArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->vehicles[] = new \StdClass();
+            $this->vehicles->offsetSet(vehicle: new \StdClass());
         } catch (\TypeError $e) {
             // Ignored
         }

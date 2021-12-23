@@ -70,7 +70,7 @@ final class AugmentationArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->augmentations[] = new \StdClass();
+            $this->augmentations->offsetSet(augmentation: new \StdClass());
         } catch (\TypeError $e) {
             // Ignored
         }

@@ -7,6 +7,7 @@ namespace App\Listeners;
 use App\Events\DiscordMessageReceived;
 use App\Events\RollEvent;
 use App\Models\Channel;
+use App\Rolls\Roll;
 
 class HandleDiscordMessage
 {
@@ -51,16 +52,13 @@ class HandleDiscordMessage
 
         // See if the roll is just a number, and if there's a number-only
         // handler for the registered system.
-        if (
-            \is_numeric($args[0])
-            && null !== $channel
-            && null !== $channel->system
-        ) {
+        if (\is_numeric($args[0]) && null !== $channel->system) {
             try {
                 $class = \sprintf(
                     '\\App\Rolls\\%s\\Number',
                     ucfirst($channel->system),
                 );
+                /** @var Roll */
                 $roll = new $class(
                     $event->content,
                     $event->user->tag,
@@ -82,6 +80,7 @@ class HandleDiscordMessage
                 \ucfirst($channel->system ?? 'Unknown'),
                 \ucfirst($args[0])
             );
+            /** @var Roll */
             $roll = new $class($event->content, $event->user->tag, $channel);
             $event->channel->send($roll->forDiscord());
 
@@ -96,6 +95,7 @@ class HandleDiscordMessage
         // Try generic rolls.
         try {
             $class = \sprintf('\\App\\Rolls\\%s', \ucfirst($args[0]));
+            /** @var Roll */
             $roll = new $class($event->content, $event->user->tag, $channel);
             $event->channel->send($roll->forDiscord());
             return true;

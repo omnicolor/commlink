@@ -10,6 +10,7 @@ use App\Http\Requests\SlackRequest;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Rolls\Generic;
+use App\Rolls\Roll;
 use Error;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Response;
@@ -66,9 +67,10 @@ class SlackController extends Controller
                     '\\App\\Rolls\\%s\\Number',
                     \ucfirst($channel->system)
                 );
+                /** @var Roll */
                 $roll = new $class($this->text, $channel->username, $channel);
                 RollEvent::dispatch($roll, $channel);
-                return $roll->forSlack($channel);
+                return $roll->forSlack();
             } catch (Error $ex) {
                 // Ignore errors here, they might want a generic command.
                 \Log::debug($ex->getMessage());
@@ -83,11 +85,12 @@ class SlackController extends Controller
                     \ucfirst($channel->system ?? 'Unknown'),
                     \ucfirst($this->args[0])
                 );
+                /** @var Roll */
                 $roll = new $class($this->text, $channel->username, $channel);
                 if ('help' !== $this->args[0]) {
                     RollEvent::dispatch($roll, $channel);
                 }
-                return $roll->forSlack($channel);
+                return $roll->forSlack();
             } catch (Error $ex) {
                 // Again, ignore errors, they might want a generic command.
                 \Log::debug($ex->getMessage());
@@ -105,11 +108,12 @@ class SlackController extends Controller
         // See if there's a Roll that isn't system-specific.
         try {
             $class = \sprintf('\\App\\Rolls\\%s', \ucfirst($this->args[0]));
+            /** @var Roll */
             $roll = new $class($this->text, $channel->username, $channel);
             if ('help' !== $this->args[0]) {
                 RollEvent::dispatch($roll, $channel);
             }
-            return $roll->forSlack($channel);
+            return $roll->forSlack();
         } catch (Error $ex) {
             // Again, ignore errors, they might want an old-school response.
             \Log::debug($ex->getMessage());
@@ -121,12 +125,9 @@ class SlackController extends Controller
                 '\\App\Http\\Responses\\Slack\\%sResponse',
                 \ucfirst($this->args[0])
             );
-            return new $class(
-                $this->text,
-                SlackResponse::HTTP_OK,
-                [],
-                $channel
-            );
+            /** @var SlackResponse */
+            $response = new $class(content: $this->text, channel: $channel);
+            return $response;
         } catch (Error $ex) {
             \Log::debug($ex->getMessage());
             throw new SlackException(

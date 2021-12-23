@@ -12,7 +12,7 @@ class PartialCharacter extends Character
 {
     /**
      * The database connection that should be used by the model.
-     * @var string
+     * @var ?string
      */
     protected $connection = 'mongodb';
 

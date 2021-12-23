@@ -1,0 +1,39 @@
+<?php
+
+namespace Illuminate\Database\Eloquent;
+
+class Model
+{
+    /**
+     * @var array<string, mixed>
+     */
+    protected $attributes = [];
+
+    /**
+     * The attributes that should be cast to native types.
+     * @var array<string, string>
+     */
+    protected $casts = [];
+
+    /**
+     * @var array<int, string>
+     */
+    protected $fillable = [];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     * @var array<int, string>
+     */
+    protected $hidden = [];
+
+    /**
+     * @param array<mixed, mixed> $attributes
+     * @param ?string $connection
+     * @return static(\Illuminate\Database\Eloquent\Model)
+     */
+    public function newFromBuilder(
+        $attributes = [],
+        $connection = null
+    ): static {
+    }
+}

@@ -70,7 +70,7 @@ final class MartialArtsTechniqueArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->techniques[] = new \StdClass();
+            $this->techniques->offsetSet(technique: new \StdClass());
         } catch (\TypeError $e) {
             // Ignored
         }

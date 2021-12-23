@@ -70,7 +70,7 @@ final class MartialArtsStyleArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->styles[] = new \StdClass();
+            $this->styles->offsetSet(style: new \StdClass());
         } catch (\TypeError $e) {
             // Ignored
         }

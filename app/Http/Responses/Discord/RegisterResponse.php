@@ -41,7 +41,7 @@ class RegisterResponse
             ->first();
 
         if (null !== $channel) {
-            $this->sendAlreadyRegisteredError($channel->system);
+            $this->sendAlreadyRegisteredError((string)$channel->system);
             return;
         }
 

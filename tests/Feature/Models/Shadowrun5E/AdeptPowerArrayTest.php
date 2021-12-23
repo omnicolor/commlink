@@ -70,7 +70,7 @@ final class AdeptPowerArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->powers[] = new \StdClass();
+            $this->powers->offsetSet(power: new \StdClass());
         } catch (\TypeError $e) {
             // Ignored
         }

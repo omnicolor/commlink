@@ -26,13 +26,13 @@ class Character extends Model
 
     /**
      * The database connection that should be used by the model.
-     * @var string
+     * @var ?string
      */
     protected $connection = 'mongodb';
 
     /**
      * The attributes that are mass assignable.
-     * @var string[]
+     * @var array<int, string>
      */
     protected $fillable = [
         'campaign_id',

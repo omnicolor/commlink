@@ -271,7 +271,6 @@ class CharactersController extends \App\Http\Controllers\Controller
         foreach ($request->only(array_keys($character->lifepath)) as $key => $value) {
             $lifepath[$key]['chosen'] = (int)$value;
         }
-        // @phpstan-ignore-next-line
         $character->lifepath = $lifepath;
         $character->update();
 

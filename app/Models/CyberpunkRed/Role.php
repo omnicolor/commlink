@@ -57,7 +57,9 @@ abstract class Role
             \ucfirst((string)$role['role'])
         );
         try {
-            return new $class($role);
+            /** @var Role */
+            $role = new $class($role);
+            return $role;
         } catch (Error) {
             throw new RuntimeException(\sprintf(
                 'Role "%s" is invalid',

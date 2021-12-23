@@ -70,7 +70,7 @@ final class SpriteArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->sprites[] = new \StdClass();
+            $this->sprites->offsetSet(sprite: new \StdClass());
         } catch (\TypeError $ex) {
             // Ignored
         }

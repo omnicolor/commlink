@@ -45,10 +45,7 @@ class InfoResponse extends SlackResponse
             ->addField(new Field('Team ID', $this->channel->server_id))
             ->addField(new Field('Channel ID', $this->channel->channel_id))
             ->addField(new Field('User ID', $this->channel->user ?? ''))
-            ->addField(new Field(
-                'Commlink User',
-                $commlinkUser ?? 'Not linked'
-            ))
+            ->addField(new Field('Commlink User', $commlinkUser))
             ->addField(new Field(
                 'System',
                 config('app.systems')[$this->channel->system] ?? $this->channel->system ?? 'unregistered'

@@ -70,8 +70,8 @@ final class ComplexFormArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->forms[] = new \StdClass();
-        } catch (\TypeError $ex) {
+            $this->forms->offsetSet(form: new \StdClass());
+        } catch (\TypeError) {
             // Ignored
         }
         self::assertEmpty($this->forms);

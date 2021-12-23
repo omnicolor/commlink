@@ -12,3 +12,7 @@ parameters:
     exceptions:
         check:
             tooWideThrowType: true
+    stubFiles:
+        - stubs/PHPStan/Exception.stub
+        - stubs/PHPStan/Model.stub
+    reportMaybesInPropertyPhpDocTypes: false

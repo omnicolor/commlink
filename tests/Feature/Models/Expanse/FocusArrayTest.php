@@ -69,7 +69,7 @@ final class FocusArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->array[] = new \StdClass();
+            $this->array->offsetSet(focus: new \StdClass());
         } catch (\TypeError $e) {
             // Ignored
         }

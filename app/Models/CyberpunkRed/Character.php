@@ -130,7 +130,7 @@ class Character extends \App\Models\Character
      */
     public function getEmpathyOriginalAttribute(): int
     {
-        return (int)$this->attributes['empathy'] ?? 0;
+        return (int)($this->attributes['empathy'] ?? 0);
     }
 
     /**

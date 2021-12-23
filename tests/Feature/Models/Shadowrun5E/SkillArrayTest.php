@@ -71,7 +71,7 @@ final class SkillArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->skills[] = new \StdClass();
+            $this->skills->offsetSet(skill: new \StdClass());
         } catch (\TypeError $e) {
             // Ignored
         }

@@ -92,8 +92,8 @@ final class WeaponModificationArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->mods[] = new \StdClass();
-        } catch (\TypeError $ex) {
+            $this->mods->offsetSet(mod: new \stdClass());
+        } catch (\TypeError) {
             // Ignored
         }
         self::assertEmpty($this->mods);

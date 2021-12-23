@@ -70,7 +70,7 @@ final class WeaponArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->weapons[] = new \StdClass();
+            $this->weapons->offsetSet(weapon: new \StdClass());
         } catch (\TypeError $e) {
             // Ignored
         }

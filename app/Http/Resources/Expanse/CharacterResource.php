@@ -6,6 +6,9 @@ namespace App\Http\Resources\Expanse;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property string $id
+ */
 class CharacterResource extends JsonResource
 {
     /**
