@@ -75,12 +75,7 @@ class Help extends Roll
      */
     public function forSlack(): SlackResponse
     {
-        $response = new SlackResponse(
-            '',
-            SlackResponse::HTTP_OK,
-            [],
-            $this->channel
-        );
+        $response = new SlackResponse(channel: $this->channel);
         foreach ($this->data as $element) {
             $response->addAttachment(new TextAttachment(
                 $element['title'],
@@ -155,6 +150,7 @@ class Help extends Roll
                 . '· `XdY[+C] [text]` - Roll X dice with Y sides, '
                 . 'optionally adding C to the result, optionally '
                 . 'describing that the roll is for "text"' . \PHP_EOL
+                . '· `coin` - Flip a coin'
                 . '· `register <system>` - Register this channel for '
                 . 'system code <system>, where system is one of: '
                 . implode(', ', $systems) . \PHP_EOL
