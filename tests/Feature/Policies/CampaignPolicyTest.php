@@ -67,7 +67,6 @@ final class CampaignPolicyTest extends \Tests\TestCase
 
     /**
      * Test trying to view a campaign as the GM.
-     * @small
      * @test
      */
     public function testViewAsGm(): void
