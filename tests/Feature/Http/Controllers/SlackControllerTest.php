@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Events\RollEvent;
 use App\Http\Responses\Slack\SlackResponse;
+use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
+use Illuminate\Support\Facades\Event;
 use Str;
 
 /**
@@ -263,6 +266,61 @@ final class SlackControllerTest extends \Tests\TestCase
             ->assertSee('Rolled 5 successes')
             ->assertDontSee('Bob rolled 5 dice')
             ->assertSee(sprintf('%s rolled 5 dice', (string)$character));
+    }
+
+    /**
+     * Test a Slack command for rolling a system-specific, non-numeric roll.
+     * @test
+     */
+    public function testRollSystemSpecificNonNumeric(): void
+    {
+        Event::fake();
+
+        $slackUserId = 'U' . \Str::random(8);
+
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create([
+            'options' => ['nightCityTarot' => true],
+            'system' => 'cyberpunkred',
+        ]);
+
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'campaign_id' => $campaign,
+            'system' => 'cyberpunkred',
+            'type' => Channel::TYPE_SLACK,
+        ]);
+
+        /** @var Character */
+        $character = Character::factory()->create([
+            'system' => 'cyberpunkred',
+        ]);
+
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $slackUserId,
+            'server_id' => $channel->server_id,
+            'server_type' => Channel::TYPE_SLACK,
+            'verified' => true,
+        ]);
+
+        $this->post(
+            route('roll'),
+            [
+                'channel_id' => $channel->channel_id,
+                'team_id' => $channel->server_id,
+                'text' => 'tarot',
+                'user_id' => $slackUserId,
+                'user_name' => 'Bob',
+            ]
+        )
+            ->assertOk()
+            ->assertJsonFragment([
+                'response_type' => 'in_channel',
+            ])
+            ->assertSee('Bob drew')
+            ->assertSee('21 cards remain');
+
+        Event::assertDispatched(RollEvent::class);
     }
 
     /**
