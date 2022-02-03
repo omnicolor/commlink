@@ -14,7 +14,11 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "wyrihaximus/composer-update-bin-autoload-path": false,
+            "icanhazstring/composer-unused": true
+        }
     },
     "description": "Commlink RPG manager.",
     "extra": {

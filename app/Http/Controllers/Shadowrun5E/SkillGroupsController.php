@@ -47,8 +47,11 @@ class SkillGroupsController extends Controller
                 '/api/shadowrun5e/skills/%s',
                 \urlencode($key)
             );
+            // @phpstan-ignore-next-line
             $this->groups[$value['group']]['skills'][] = $value;
+            // @phpstan-ignore-next-line
             $this->groups[$value['group']]['id'] = $value['group'];
+            // @phpstan-ignore-next-line
             $this->groups[$value['group']]['links'] = [
                 'self' => \sprintf(
                     '/api/shadowrun5e/skill-groups/%s',

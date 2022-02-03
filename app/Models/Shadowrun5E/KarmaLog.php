@@ -642,7 +642,9 @@ class KarmaLog extends \ArrayObject
             $skill->level = $skill->level;
 
             if (
+                // @phpstan-ignore-next-line
                 (int)$skill->level * self::KARMA_SKILL > self::KARMA_SPECIALIZATION
+                // @phpstan-ignore-next-line
                 && 0 !== \count($specializations)
             ) {
                 // The next cheapest skill, karma-wise, is a specialization.
@@ -709,7 +711,9 @@ class KarmaLog extends \ArrayObject
             $skill->level = (int)$skill->level;
 
             if (
+                // @phpstan-ignore-next-line
                 $skill->level * self::KARMA_KNOWLEDGE > self::KARMA_SPECIALIZATION
+                // @phpstan-ignore-next-line
                 && 0 !== \count($specializations)
             ) {
                 // The next cheapest skill, karma-wise, is a specialization.
