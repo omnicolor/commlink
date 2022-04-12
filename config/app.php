@@ -186,6 +186,7 @@ return [
      * Paths to the different data files for each system.
      */
     'data_path' => [
+        'capers' => env('CAPERS_DATA_PATH', 'data/Capers/'),
         'cyberpunkred' => env('CYBERPUNK_DATA_PATH', 'data/CyberpunkRed/'),
         'expanse' => env('EXPANSE_DATA_PATH', 'data/Expanse/'),
         'shadowrun5e' => env('SHADOWRUN5E_DATA_PATH', 'data/Shadowrun5E/'),
@@ -196,6 +197,7 @@ return [
      * short name = full name
      */
     'systems' => [
+        'capers' => 'Capers',
         'cyberpunkred' => 'Cyberpunk Red',
         'dnd5e' => 'Dungeons & Dragons 5th Edition',
         'expanse' => 'The Expanse',

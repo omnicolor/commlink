@@ -80,6 +80,9 @@ class Character extends Model
         $connection = null
     ): Character {
         switch ($attributes['system'] ?? null) {
+            case 'capers':
+                $character = new Capers\Character($attributes);
+                break;
             case 'cyberpunkred':
                 $character = new CyberpunkRed\Character($attributes);
                 break;

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\CampaignsController;
+use App\Http\Controllers\Capers\CharactersController as CapersCharacterController;
 use App\Http\Controllers\CyberpunkRed\CharactersController as CyberpunkRedCharacterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscordController;
@@ -36,6 +37,46 @@ Route::middleware('auth')->group(function (): void {
         ->name('discord.save');
 
     Route::prefix('characters')->group(function (): void {
+        Route::prefix('capers')->name('capers.')->group(function (): void {
+            Route::get(
+                'create/{step?}',
+                [CapersCharacterController::class, 'create']
+            )->name('create');
+
+            Route::post(
+                'create/anchors',
+                [CapersCharacterController::class, 'storeAnchors']
+            )->name('create-anchors');
+            Route::post(
+                'create/basics',
+                [CapersCharacterController::class, 'storeBasics']
+            )->name('create-basics');
+            Route::post(
+                'create/boosts',
+                [CapersCharacterController::class, 'storeBoosts']
+            )->name('create-boosts');
+            Route::post(
+                'create/gear',
+                [CapersCharacterController::class, 'storeGear']
+            )->name('create-gear');
+            Route::post(
+                'create/powers',
+                [CapersCharacterController::class, 'storePowers']
+            )->name('create-powers');
+            Route::post(
+                'create/save',
+                [CapersCharacterController::class, 'saveCharacter']
+            )->name('create-save');
+            Route::post(
+                'create/skills',
+                [CapersCharacterController::class, 'storeSkills']
+            )->name('create-skills');
+            Route::post(
+                'create/traits',
+                [CapersCharacterController::class, 'storeTraits']
+            )->name('create-traits');
+        });
+
         // TODO: Change name to "cyberpunkred."
         Route::prefix('cyberpunkred')->name('cyberpunkred-')->group(function (): void {
             Route::get(

@@ -2,6 +2,7 @@
     @forelse ($characters as $character)
         <li class="list-group-item">
         @switch ($character->system)
+            @case ('capers')
             @case ('cyberpunkred')
             @case ('expanse')
             @case ('shadowrun5e')
@@ -40,8 +41,12 @@
 
             <ul aria-labelledby="create-character" class="dropdown-menu">
                 <li>
+                    <a class="dropdown-item" href="/characters/capers/create">
+                        Capers
+                    </a>
                     <a class="dropdown-item" href="/characters/cyberpunkred/create">
                         Cyberpunk Red
+                        <span class="badge bg-danger">Not complete</span>
                     </a>
                     <a class="dropdown-item" href="/characters/shadowrun5e/create">
                         Shadowrun 5th Edition
