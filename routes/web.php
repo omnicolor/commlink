@@ -35,37 +35,79 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/discord', [DiscordController::class, 'save'])
         ->name('discord.save');
 
-    Route::get(
-        '/characters/cyberpunkred/create/{step?}',
-        [CyberpunkRedCharacterController::class, 'createForm'],
-    );
-    Route::post(
-        '/characters/cyberpunkred/create/role',
-        [CyberpunkRedCharacterController::class, 'storeRole'],
-    )->name('cyberpunkred-create-role');
-    Route::post(
-        '/characters/cyberpunkred/create/handle',
-        [CyberpunkRedCharacterController::class, 'storeHandle'],
-    )->name('cyberpunkred-create-handle');
-    Route::post(
-        '/characters/cyberpunkred/create/lifepath',
-        [CyberpunkRedCharacterController::class, 'storeLifepath'],
-    )->name('cyberpunkred-create-lifepath');
-    Route::post(
-        '/characters/cyberpunkred/create/stats',
-        [CyberpunkRedCharacterController::class, 'storeStats'],
-    )->name('cyberpunkred-create-stats');
+    Route::prefix('characters')->group(function (): void {
+        // TODO: Change name to "cyberpunkred."
+        Route::prefix('cyberpunkred')->name('cyberpunkred-')->group(function (): void {
+            Route::get(
+                'create/{step?}',
+                [CyberpunkRedCharacterController::class, 'createForm'],
+            );
+            Route::post(
+                'create/role',
+                [CyberpunkRedCharacterController::class, 'storeRole'],
+            )->name('create-role');
+            Route::post(
+                'create/handle',
+                [CyberpunkRedCharacterController::class, 'storeHandle'],
+            )->name('create-handle');
+            Route::post(
+                'create/lifepath',
+                [CyberpunkRedCharacterController::class, 'storeLifepath'],
+            )->name('create-lifepath');
+            Route::post(
+                'create/stats',
+                [CyberpunkRedCharacterController::class, 'storeStats'],
+            )->name('create-stats');
+        });
 
-    Route::get(
-        '/characters/shadowrun5e',
-        [Shadowrun5ECharacterController::class, 'list']
-    );
+        Route::prefix('shadowrun5e')->name('shadowrun5e.')->group(function (): void {
+            Route::get('/', [Shadowrun5ECharacterController::class, 'list']);
+            Route::get(
+                'create/{step?}',
+                [Shadowrun5ECharacterController::class, 'create'],
+            );
+            Route::post(
+                'create/attributes',
+                [Shadowrun5ECharacterController::class, 'storeAttributes'],
+            )->name('create-attributes');
+            Route::post(
+                'create/martial-arts',
+                [Shadowrun5ECharacterController::class, 'storeMartialArts'],
+            )->name('create-martial-arts');
+            Route::post(
+                'create/qualities',
+                [Shadowrun5ECharacterController::class, 'storeQualities'],
+            )->name('create-qualities');
+            Route::post(
+                'create/rules',
+                [Shadowrun5ECharacterController::class, 'storeRules'],
+            )->name('create-rules');
+            Route::post(
+                'create/skills',
+                [Shadowrun5ECharacterController::class, 'storeSkills'],
+            )->name('create-skills');
+            Route::post(
+                'create/standard',
+                [Shadowrun5ECharacterController::class, 'storeStandard'],
+            )->name('create-standard');
+            Route::post(
+                'create/vitals',
+                [Shadowrun5ECharacterController::class, 'storeVitals'],
+            )->name('create-vitals');
+        });
+    });
 
     Route::get('/settings', [SettingsController::class, 'show'])
         ->name('settings')->middleware('web');
     Route::post('/settings/link-user', [SettingsController::class, 'linkUser'])
         ->name('settings-link-user');
 });
+
+// Allow character sheets to be viewed without being logged in.
+Route::get(
+    '/characters/capers/{character}',
+    [CapersCharacterController::class, 'view']
+)->name('capers.character');
 
 Route::get(
     '/characters/cyberpunkred/{character}',
