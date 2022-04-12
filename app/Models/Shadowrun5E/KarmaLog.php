@@ -808,6 +808,9 @@ class KarmaLog extends \ArrayObject
             (array)$this->character->getVehicles(),
             (array)$this->character->getWeapons()
         );
+
+        // PHPstan seems to think $items will always be empty.
+        // @phpstan-ignore-next-line
         foreach ($items as $item) {
             $spent += $item->getCost();
         }

@@ -43,6 +43,10 @@
                     <a class="dropdown-item" href="/characters/cyberpunkred/create">
                         Cyberpunk Red
                     </a>
+                    <a class="dropdown-item" href="/characters/shadowrun5e/create">
+                        Shadowrun 5th Edition
+                        <span class="badge bg-danger">Not complete</span>
+                    </a>
                 </li>
             </ul>
         </div>

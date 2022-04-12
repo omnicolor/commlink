@@ -1,7 +1,7 @@
 <x-app>
-    <x-slot name="title">
-        {{ $character->handle }}
-    </x-slot>
+    <x-slot name="title">{{ $character->handle }}</x-slot>
+    @includeWhen($currentStep ?? false, 'shadowrun5e.create-navigation')
+
     <x-slot name="head">
         <style>
             .value {
