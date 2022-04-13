@@ -43,15 +43,20 @@
                 <li>
                     <a class="dropdown-item" href="/characters/capers/create">
                         Capers
+                        <span class="badge bg-success">New!</span>
                     </a>
+                    @feature('cyberpunkred-chargen')
                     <a class="dropdown-item" href="/characters/cyberpunkred/create">
                         Cyberpunk Red
                         <span class="badge bg-danger">Not complete</span>
                     </a>
+                    @endfeature
+                    @feature('shadowrun5e-chargen')
                     <a class="dropdown-item" href="/characters/shadowrun5e/create">
                         Shadowrun 5th Edition
                         <span class="badge bg-danger">Not complete</span>
                     </a>
+                    @endfeature
                 </li>
             </ul>
         </div>
