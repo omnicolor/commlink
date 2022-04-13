@@ -39,7 +39,8 @@
         "laravel-discord/yasmin": "0.8.2",
         "laravel/framework": "^9.0",
         "laravel/sanctum": "^2.8",
-        "pusher/pusher-php-server": "^7.0"
+        "pusher/pusher-php-server": "^7.0",
+        "sentry/sentry-laravel": "^2.12"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
