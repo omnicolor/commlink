@@ -31,32 +31,31 @@
     "name": "omnicolor/commlink",
     "prefer-stable": true,
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^8.0",
         "doctrine/dbal": "^3.1",
-        "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.3",
         "jenssegers/mongodb": "^3.8",
         "laravel-discord/yasmin": "0.8.2",
-        "laravel/framework": "^8.12",
+        "laravel/framework": "^9.0",
         "laravel/sanctum": "^2.8",
         "pusher/pusher-php-server": "^7.0"
     },
     "require-dev": {
-        "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "friendsofphp/php-cs-fixer": "^3.0",
         "icanhazstring/composer-unused": "^0.8",
         "laravel/breeze": "^1.0",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.2",
-        "nunomaduro/larastan": "^1.0",
+        "nunomaduro/larastan": "^2.0",
         "php-mock/php-mock-phpunit": "^2.6",
         "phpstan/phpstan": "^1.2",
         "phpstan/phpstan-strict-rules": "^1.1",
         "phpunit/phpunit": "^9.3.3",
         "roave/security-advisories": "dev-latest",
-        "squizlabs/php_codesniffer": "^3.5"
+        "spatie/laravel-ignition": "^1.2",
+        "squizlabs/php_codesniffer": "^3.6"
     },
     "scripts": {
         "all": [

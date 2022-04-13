@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Capers;
 
 use App\Models\Capers\Gear;
+use Closure;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\In;
 
@@ -12,7 +13,7 @@ class GearRequest extends BaseRequest
 {
     /**
      * Get the validation rules that apply to the request.
-     * @return array<string, array<int, string|In|Rule>>
+     * @return array<string, array<int, string|Closure|In|Rule>>
      */
     public function rules(): array
     {

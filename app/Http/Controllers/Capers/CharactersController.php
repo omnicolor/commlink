@@ -384,11 +384,11 @@ class CharactersController extends Controller
                 'quantity' => (int)$gearQuantities[$key],
             ];
         }
+        // @phpstan-ignore-next-line
         $character->gear = $gear;
 
         $character->update();
 
-        // @phpstan-ignore-next-line
         return redirect(sprintf(
             '/characters/capers/create/%s',
             $request->input('nav')

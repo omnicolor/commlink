@@ -2,17 +2,18 @@ includes:
     - vendor/nunomaduro/larastan/extension.neon
     - vendor/phpstan/phpstan-strict-rules/rules.neon
 parameters:
+    checkGenericClassInNonGenericObjectType: false
+    exceptions:
+        check:
+            tooWideThrowType: true
+    level: 8
     paths:
         - %currentWorkingDirectory%/app
         - %currentWorkingDirectory%/data
         - %currentWorkingDirectory%/tests
-    level: 8
-    treatPhpDocTypesAsCertain: false
     polluteScopeWithAlwaysIterableForeach: false
-    exceptions:
-        check:
-            tooWideThrowType: true
+    reportMaybesInPropertyPhpDocTypes: false
     stubFiles:
         - stubs/PHPStan/Exception.stub
         - stubs/PHPStan/Model.stub
-    reportMaybesInPropertyPhpDocTypes: false
+    treatPhpDocTypesAsCertain: false

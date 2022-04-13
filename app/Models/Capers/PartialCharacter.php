@@ -67,9 +67,9 @@ class PartialCharacter extends Character
     {
         $rawCharacter = $this->toArray();
         unset($rawCharacter['_id']);
-        $rawCharacter['identity'] = $this->identity->id;
-        $rawCharacter['vice'] = $this->vice->id;
-        $rawCharacter['virtue'] = $this->virtue->id;
+        $rawCharacter['identity'] = optional($this->identity)->id;
+        $rawCharacter['vice'] = optional($this->vice)->id;
+        $rawCharacter['virtue'] = optional($this->virtue)->id;
 
         $skills = [];
         foreach ($this->skills as $skill) {

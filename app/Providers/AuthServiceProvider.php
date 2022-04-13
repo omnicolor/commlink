@@ -13,7 +13,7 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * The policy mappings for the application.
      *
-     * @var array<string, string>
+     * @var array<class-string, class-string>
      */
     protected $policies = [
         Campaign::class => CampaignPolicy::class,

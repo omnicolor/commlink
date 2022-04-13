@@ -27,6 +27,7 @@ class DiscordController extends Controller
         /** @var User */
         $commlinkUser = \Auth::user();
 
+        // @phpstan-ignore-next-line
         $potentialGuilds = collect($request->session()->pull('guilds'))
             ->keyBy('snowflake');
         $guilds = $request->input('guilds');

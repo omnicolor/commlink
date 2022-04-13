@@ -23,11 +23,13 @@ final class CampaignListTest extends \Tests\TestCase
     {
         /** @var User */
         $user = User::factory()->make();
+        // @phpstan-ignore-next-line
         $gmCampaigns = new Collection([
             Campaign::factory()->make([
                 'gm' => $user,
             ]),
         ]);
+        // @phpstan-ignore-next-line
         $registeredCampaigns = new Collection([
             Campaign::factory()->make([
                 'registered_by' => $user,
@@ -57,7 +59,9 @@ final class CampaignListTest extends \Tests\TestCase
             'gm' => $user,
             'registered_by' => $user,
         ]);
+        // @phpstan-ignore-next-line
         $gmCampaigns = new Collection([$commonCampaign]);
+        // @phpstan-ignore-next-line
         $registeredCampaigns = new Collection([
             $commonCampaign,
             Campaign::factory()->make([

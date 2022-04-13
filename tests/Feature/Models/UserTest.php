@@ -8,8 +8,9 @@ use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\ChatUser;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Collection;
 
 /**
  * Tests for the user class.
@@ -23,7 +24,7 @@ final class UserTest extends \Tests\TestCase
 
     /**
      * Collection of characters creates during tests.
-     * @var Collection
+     * @var Collection<Character|Model>
      */
     protected Collection $characters;
 
