@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 class CreateFeatureGroupsTable extends Migration
 {
-    public function up()
+    public function up(): void
     {
-        Schema::create('feature_groups', function (Blueprint $table) {
+        Schema::create('feature_groups', function (Blueprint $table): void {
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
@@ -17,7 +19,7 @@ class CreateFeatureGroupsTable extends Migration
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('feature_groups');
     }
