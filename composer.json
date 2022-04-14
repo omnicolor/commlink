@@ -62,7 +62,7 @@
     },
     "scripts": {
         "all": [
-            "@test",
+            "@coverage",
             "@cs",
             "@phpstan"
         ],
