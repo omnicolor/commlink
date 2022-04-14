@@ -431,4 +431,31 @@ final class SlackControllerTest extends \Tests\TestCase
                 'value' => 'No campaign',
             ]);
     }
+
+    /**
+     * Test a non-generic, non-system roll.
+     * @test
+     */
+    public function testFlipCoin(): void
+    {
+        Event::fake();
+
+        $this->post(
+            route('roll'),
+            [
+                'channel_id' => Str::random(12),
+                'team_id' => Str::random(12),
+                'text' => 'coin',
+                'user_id' => 'E567',
+                'username' => 'Bob',
+            ]
+        )
+            ->assertOk()
+            ->assertJsonFragment([
+                'response_type' => 'in_channel',
+            ])
+            ->assertSee('flipped a coin: ');
+
+        Event::assertDispatched(RollEvent::class);
+    }
 }
