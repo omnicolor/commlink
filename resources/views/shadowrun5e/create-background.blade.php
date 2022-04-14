@@ -44,9 +44,13 @@
     <form action="" method="POST">
     @csrf
 
-    <div class="row">
+    <div class="row mt-4">
         <div class="col-1"></div>
         <div class="col">
+            <div class="alert alert-danger" role="alert">
+                This page is currently under development.
+            </div>
+
             <h1>Background</h1>
         </div>
     </div>

@@ -288,9 +288,13 @@
     <form action="" method="POST">
     @csrf
 
-    <div class="row">
+    <div class="row mt-3">
         <div class="col-1"></div>
         <div class="col">
+            <div class="alert alert-danger" role="alert">
+                This page is currently under development.
+            </div>
+
             <h1>Knowledge skills</h1>
             <p>
                 Characters receive free Knowledge and Language skills points
