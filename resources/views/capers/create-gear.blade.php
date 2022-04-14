@@ -37,10 +37,6 @@
         <div class="col">
             <h1>Gear</h1>
 
-            <div class="alert alert-danger" role="alert">
-                This page is currently under development.
-            </div>
-
             <p>
                 You keep track of what equipment your character owns. You don’t
                 need to track everything here, but you should at least cover
