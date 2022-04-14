@@ -56,7 +56,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var Character */
-        $character = $this->characters[] = Character::factory()->create([
+        $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun6e',
         ]);
@@ -93,10 +93,10 @@ final class CharactersControllerTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
 
-        $this->characters[] = PartialCharacter::factory()->create([
+        PartialCharacter::factory()->create([
             'owner' => $user->email,
         ]);
-        $this->characters[] = PartialCharacter::factory()->create([
+        PartialCharacter::factory()->create([
             'owner' => $user->email,
         ]);
 
@@ -115,7 +115,7 @@ final class CharactersControllerTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
 
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
         ]);
 

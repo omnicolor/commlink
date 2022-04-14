@@ -181,6 +181,7 @@ class Character extends BaseCharacter
 
     public function getMaximumHitsAttribute(): int
     {
+        // @phpstan-ignore-next-line
         return 4 + (2 * (int)$this->resilience) + (2 * (int)$this->charisma);
     }
 
