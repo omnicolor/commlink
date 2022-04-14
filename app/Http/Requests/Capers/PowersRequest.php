@@ -80,10 +80,6 @@ class PowersRequest extends BaseRequest
                                     return;
                                 }
                                 break;
-                            default:
-                                // Validation rule for options should catch
-                                // this.
-                                return;
                         }
                     },
                 ],

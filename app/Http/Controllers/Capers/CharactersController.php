@@ -51,6 +51,7 @@ class CharactersController extends Controller
                 'capers.create-basics',
                 [
                     'background' => '',
+                    'character' => $character,
                     'creating' => 'basics',
                     'description' => '',
                     'mannerisms' => '',
@@ -195,12 +196,10 @@ class CharactersController extends Controller
                     return redirect('/characters/capers/create/basics')
                         ->withErrors(['type' => 'Only Exceptionals can choose perks.']);
                 }
-                abort(
+                return abort(
                     Response::HTTP_NOT_IMPLEMENTED,
                     'That step of character creation was not found.',
                 );
-                // @phpstan-ignore-next-line
-                break;
             case 'powers':
                 if (Character::TYPE_CAPER !== $character->type) {
                     return redirect('/characters/capers/create/basics')
@@ -332,13 +331,18 @@ class CharactersController extends Controller
 
     public function storeBoosts(BoostsRequest $request): RedirectResponse
     {
-        $characterId = $request->session()->get('capers-partial');
         /** @var User */
         $user = \Auth::user();
 
+        $characterId = $request->session()->get('capers-partial');
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
+        if (Character::TYPE_CAPER !== $character->type) {
+            return redirect('/characters/capers/create/skills')
+                ->withErrors(['type' => 'Only Capers can choose powers.']);
+        }
+
         $powers = [];
         foreach ($character->powers as $power) {
             $powers[$power->id] = [
@@ -395,17 +399,6 @@ class CharactersController extends Controller
         ));
     }
 
-    public function storePerks(Request $request): RedirectResponse
-    {
-        dd($request->input());
-
-        // @phpstan-ignore-next-line
-        return redirect(sprintf(
-            '/characters/capers/create/%s',
-            $request->input('nav')
-        ));
-    }
-
     public function storePowers(PowersRequest $request): RedirectResponse
     {
         $characterId = $request->session()->get('capers-partial');
@@ -415,6 +408,10 @@ class CharactersController extends Controller
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
+        if (Character::TYPE_CAPER !== $character->type) {
+            return redirect('/characters/capers/create/skills')
+                ->withErrors(['type' => 'Only Capers can choose powers.']);
+        }
         $rank = 1;
         if ('one-minor' === $request->input('options')) {
             $rank = 2;

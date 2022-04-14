@@ -49,8 +49,17 @@ class BoostsRequest extends BaseRequest
                                 'boosts' => [],
                             ];
                         }
-                        foreach ($rawBoosts as $rawBoost) {
+                        foreach ($rawBoosts as $key => $rawBoost) {
                             [$powerId, $boostId] = explode('+', $rawBoost);
+                            if (!isset($powers[$powerId])) {
+                                $fail(sprintf(
+                                    'Character does not have required power '
+                                        . '"%s" for boost ID "%s".',
+                                    $powerId,
+                                    $boostId
+                                ));
+                                return;
+                            }
                             if (!isset($powers[$powerId]['power']->availableBoosts[$boostId])) {
                                 $fail(sprintf(
                                     'Boost ID "%s" is not available for power "%s".',
@@ -60,6 +69,7 @@ class BoostsRequest extends BaseRequest
                                 return;
                             }
                             $powers[$powerId]['boosts'][] = $boostId;
+                            unset($rawBoosts[$key]);
                         }
                         foreach ($powers as $power) {
                             $requiredBoosts = 2 + $power['power']->rank;
