@@ -265,7 +265,7 @@ final class SlackControllerTest extends \Tests\TestCase
             ])
             ->assertSee('Rolled 5 successes')
             ->assertDontSee('Bob rolled 5 dice')
-            ->assertSee(sprintf('%s rolled 5 dice', (string)$character));
+            ->assertSee(sprintf('%s rolled 5 dice', (string)$character), false);
     }
 
     /**
