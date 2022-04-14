@@ -181,8 +181,7 @@ class Character extends BaseCharacter
 
     public function getMaximumHitsAttribute(): int
     {
-        return 4 + (2 * (int)$this->attributes['resilience'])
-            + (2 * (int)$this->attributes['charisma']);
+        return 4 + (2 * (int)$this->resilience) + (2 * (int)$this->charisma);
     }
 
     public function getMindAttribute(): string
