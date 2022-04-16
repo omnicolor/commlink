@@ -36,16 +36,16 @@ class HandleDiscordMessage
         }
         // @phpstan-ignore-next-line
         $channel->user = (string)$event->user->id;
-        $channel->username = $event->user->tag;
+        $channel->username = $event->user->username;
 
         // See if the requested roll is XdY or something similar.
         if (1 === \preg_match('/\d+d\d+/i', $args[0])) {
             $roll = new \App\Rolls\Generic(
                 $event->content,
-                $event->user->tag,
+                $event->user->username,
                 $channel
             );
-            $event->channel->send($roll->forDiscord());
+            $event->channel->sendMessage($roll->forDiscord());
             RollEvent::dispatch($roll, $channel);
             return true;
         }
@@ -61,10 +61,10 @@ class HandleDiscordMessage
                 /** @var Roll */
                 $roll = new $class(
                     $event->content,
-                    $event->user->tag,
+                    $event->user->username,
                     $channel
                 );
-                $event->channel->send($roll->forDiscord());
+                $event->channel->sendMessage($roll->forDiscord());
                 RollEvent::dispatch($roll, $channel);
                 return true;
             } catch (\Error $ex) {
@@ -81,8 +81,8 @@ class HandleDiscordMessage
                 \ucfirst($args[0])
             );
             /** @var Roll */
-            $roll = new $class($event->content, $event->user->tag, $channel);
-            $event->channel->send($roll->forDiscord());
+            $roll = new $class($event->content, $event->user->username, $channel);
+            $event->channel->sendMessage($roll->forDiscord());
 
             if ('help' !== $args[0]) {
                 RollEvent::dispatch($roll, $channel);
@@ -96,8 +96,8 @@ class HandleDiscordMessage
         try {
             $class = \sprintf('\\App\\Rolls\\%s', \ucfirst($args[0]));
             /** @var Roll */
-            $roll = new $class($event->content, $event->user->tag, $channel);
-            $event->channel->send($roll->forDiscord());
+            $roll = new $class($event->content, $event->user->username, $channel);
+            $event->channel->sendMessage($roll->forDiscord());
             return true;
         } catch (\Error $ex) {
             \Log::debug($ex->getMessage());
@@ -110,9 +110,10 @@ class HandleDiscordMessage
                 \ucfirst($args[0])
             );
             $response = new $class($event);
-            $event->channel->send((string)$response);
+            $event->channel->sendMessage((string)$response);
         } catch (\Error $ex) {
-            $event->channel->send('That doesn\'t appear to be a valid command!');
+            \Log::debug($ex->getMessage());
+            $event->channel->sendMessage('That doesn\'t appear to be a valid command!');
         }
         return true;
     }

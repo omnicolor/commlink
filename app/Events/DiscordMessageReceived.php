@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Events;
 
-use CharlotteDunois\Yasmin\Models\Guild;
-use CharlotteDunois\Yasmin\Models\Message;
-use CharlotteDunois\Yasmin\Models\TextChannel;
-use CharlotteDunois\Yasmin\Models\User;
+use Discord\Parts\Channel\Message;
+use Discord\Parts\User\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -20,9 +18,8 @@ class DiscordMessageReceived
 
     /**
      * Channel the message was sent on.
-     * @var TextChannel
      */
-    public TextChannel $channel;
+    public $channel;
 
     /**
      * Content of the command, without the preceding '/roll '.
@@ -34,7 +31,7 @@ class DiscordMessageReceived
      * Server the command was received on.
      * @var Guild
      */
-    public Guild $server;
+    public $server;
 
     /**
      * User that sent the message we're reacting to.

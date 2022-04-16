@@ -42,27 +42,11 @@ $ ./artisan queue:work
 
 ## Running the Discord bot
 
-The Discord bot currently relies on a legacy Discord library that doesn't play
-nice with newer versions of some other libraries. In order to run it:
+Assuming you've registered the bot with Discord and configured its token:
 
 ```shell
-$ composer remove pusher/pusher-php-server
-$ composer require -W guzzlehttp/guzzle ^6
 $ ./artisan discord:run
 ```
-
-Running it loads all of the important things into memory, so it will continue to
-run there until you stop it. In another shell, get your environment back to
-normal:
-
-```shell
-$ git checkout -- composer.json composer.lock
-$ composer install
-```
-
-**Note:** If you're using Pusher and have have configured it in your `.env`
-file, you'll need to temporarily set that to null before running the Composer
-commands to set up for running the Discord bot.
 
 ## Running tests
 
