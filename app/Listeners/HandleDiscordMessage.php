@@ -8,6 +8,7 @@ use App\Events\DiscordMessageReceived;
 use App\Events\RollEvent;
 use App\Models\Channel;
 use App\Rolls\Roll;
+use Discord\Parts\Channel\Channel as TextChannel;
 
 class HandleDiscordMessage
 {
@@ -20,7 +21,7 @@ class HandleDiscordMessage
     {
         $args = \explode(' ', $event->content);
 
-        /** @var \CharlotteDunois\Yasmin\Models\TextChannel */
+        /** @var TextChannel */
         $textChannel = $event->channel;
 
         $channel = Channel::discord()
@@ -36,13 +37,13 @@ class HandleDiscordMessage
         }
         // @phpstan-ignore-next-line
         $channel->user = (string)$event->user->id;
-        $channel->username = $event->user->username;
+        $channel->username = optional($event->user)->displayname;
 
         // See if the requested roll is XdY or something similar.
         if (1 === \preg_match('/\d+d\d+/i', $args[0])) {
             $roll = new \App\Rolls\Generic(
                 $event->content,
-                $event->user->username,
+                $channel->username,
                 $channel
             );
             $event->channel->sendMessage($roll->forDiscord());
@@ -61,7 +62,7 @@ class HandleDiscordMessage
                 /** @var Roll */
                 $roll = new $class(
                     $event->content,
-                    $event->user->username,
+                    optional($event->user)->username,
                     $channel
                 );
                 $event->channel->sendMessage($roll->forDiscord());
@@ -81,7 +82,11 @@ class HandleDiscordMessage
                 \ucfirst($args[0])
             );
             /** @var Roll */
-            $roll = new $class($event->content, $event->user->username, $channel);
+            $roll = new $class(
+                $event->content,
+                optional($event->user)->username,
+                $channel
+            );
             $event->channel->sendMessage($roll->forDiscord());
 
             if ('help' !== $args[0]) {
@@ -96,7 +101,11 @@ class HandleDiscordMessage
         try {
             $class = \sprintf('\\App\\Rolls\\%s', \ucfirst($args[0]));
             /** @var Roll */
-            $roll = new $class($event->content, $event->user->username, $channel);
+            $roll = new $class(
+                $event->content,
+                optional($event->user)->username,
+                $channel
+            );
             $event->channel->sendMessage($roll->forDiscord());
             return true;
         } catch (\Error $ex) {
@@ -106,7 +115,7 @@ class HandleDiscordMessage
         // Try an old-format HTTP Response
         try {
             $class = \sprintf(
-                '\\App\Http\\Responses\\Discord\\%sResponse',
+                '\\App\\Http\\Responses\\Discord\\%sResponse',
                 \ucfirst($args[0])
             );
             $response = new $class($event);

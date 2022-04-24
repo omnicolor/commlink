@@ -23,7 +23,7 @@ class InfoResponse
      */
     public function __toString(): string
     {
-        /** @var \CharlotteDunois\Yasmin\Models\TextChannel */
+        /** @var \Discord\Parts\Channel\Channel */
         $textChannel = $this->event->channel;
         $channel = Channel::discord()
             ->where('channel_id', $textChannel->id)
@@ -39,8 +39,8 @@ class InfoResponse
             }
         }
         return '**Debugging info**' . \PHP_EOL
-            . 'User Tag: ' . $this->event->user->tag . \PHP_EOL
-            . 'User ID: ' . $this->event->user->id . \PHP_EOL
+            . 'User Tag: ' . optional($this->event->user)->displayname . \PHP_EOL
+            . 'User ID: ' . optional($this->event->user)->id . \PHP_EOL
             . 'Server Name: ' . $this->event->server->name . \PHP_EOL
             . 'Server ID: ' . $this->event->server->id . \PHP_EOL
             . 'Channel Name: ' . $textChannel->name . \PHP_EOL

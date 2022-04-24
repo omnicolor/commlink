@@ -29,7 +29,7 @@ class ValidateUserResponse
                     . 'server ID (`%s`) and your user ID (`%s`).',
                 config('app.url'),
                 $this->event->server->id,
-                $this->event->user->id,
+                optional($this->event->user)->id,
             ));
             return;
         }
@@ -38,7 +38,7 @@ class ValidateUserResponse
 
         $chatUsers = ChatUser::discord()
             ->where('server_id', $this->event->server->id)
-            ->where('remote_user_id', $this->event->user->id)
+            ->where('remote_user_id', optional($this->event->user)->id)
             ->get();
         foreach ($chatUsers as $user) {
             if ($user->verification !== $hash) {
@@ -73,7 +73,7 @@ class ValidateUserResponse
                 . 'user ID (`%s`).',
             config('app.url'),
             $this->event->server->id,
-            $this->event->user->id,
+            optional($this->event->user)->id,
         ));
     }
 

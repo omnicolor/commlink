@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Events;
 
+use Discord\Parts\Channel\Channel;
 use Discord\Parts\Channel\Message;
+use Discord\Parts\Guild\Guild;
 use Discord\Parts\User\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -18,8 +20,9 @@ class DiscordMessageReceived
 
     /**
      * Channel the message was sent on.
+     * @var Channel
      */
-    public $channel;
+    public Channel $channel;
 
     /**
      * Content of the command, without the preceding '/roll '.
@@ -35,9 +38,9 @@ class DiscordMessageReceived
 
     /**
      * User that sent the message we're reacting to.
-     * @var User
+     * @var ?User
      */
-    public User $user;
+    public ?User $user;
 
     /**
      * Create a new event instance.

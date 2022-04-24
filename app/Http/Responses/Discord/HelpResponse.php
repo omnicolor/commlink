@@ -40,7 +40,7 @@ class HelpResponse
         );
 
         $chatUser = ChatUser::where('server_id', $this->event->server->id)
-            ->where('remote_user_id', $this->event->user->id)
+            ->where('remote_user_id', optional($this->event->user)->id)
             ->first();
         if (null === $chatUser) {
             $help .= \sprintf(
@@ -52,11 +52,11 @@ class HelpResponse
                 config('app.name'),
                 config('app.url'),
                 $this->event->server->id,
-                $this->event->user->id,
+                optional($this->event->user)->id,
             ) . \PHP_EOL . \PHP_EOL;
         }
 
-        /** @var \CharlotteDunois\Yasmin\Models\TextChannel */
+        /** @var \Discord\Parts\Channel\Channel */
         $discordChannel = $this->event->channel;
         $channel = Channel::discord()
             ->where('channel_id', $discordChannel->id)

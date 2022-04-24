@@ -40,7 +40,7 @@ final class RegisterResponseTest extends \Tests\TestCase
         $event = new DiscordMessageReceived($messageMock);
         self::assertSame('', (string)(new RegisterResponse($event)));
 
-        Event::assertNothingDispatched();
+        Event::assertNotDispatched(ChannelLinked::class);
         Http::assertNothingSent();
     }
 
@@ -51,6 +51,7 @@ final class RegisterResponseTest extends \Tests\TestCase
     public function testRegisterWithInvalidSystem(): void
     {
         Event::fake();
+        Http::fake();
 
         $expected = sprintf(
             '"invalid" is not a valid system code. Use `register '
@@ -66,7 +67,7 @@ final class RegisterResponseTest extends \Tests\TestCase
 
         self::assertSame('', (string)(new RegisterResponse($event)));
 
-        Event::assertNothingDispatched();
+        Event::assertNotDispatched(ChannelLinked::class);
         Http::assertNothingSent();
     }
 
@@ -144,9 +145,9 @@ final class RegisterResponseTest extends \Tests\TestCase
 
         $event = new DiscordMessageReceived($messageMock);
         // @phpstan-ignore-next-line
-        $event->channel->expects(self::once())->method('send');
+        $event->channel->expects(self::once())->method('sendMessage');
         ChatUser::factory()->create([
-            'remote_user_id' => $event->user->id,
+            'remote_user_id' => optional($event->user)->id,
             'server_id' => $event->server->id,
             'server_type' => ChatUser::TYPE_DISCORD,
             'verified' => true,
@@ -195,9 +196,9 @@ final class RegisterResponseTest extends \Tests\TestCase
 
         $event = new DiscordMessageReceived($messageMock);
         // @phpstan-ignore-next-line
-        $event->channel->expects(self::once())->method('send');
+        $event->channel->expects(self::once())->method('sendMessage');
         ChatUser::factory()->create([
-            'remote_user_id' => $event->user->id,
+            'remote_user_id' => optional($event->user)->id,
             'server_id' => $event->server->id,
             'server_type' => ChatUser::TYPE_DISCORD,
             'verified' => true,

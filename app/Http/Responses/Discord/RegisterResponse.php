@@ -7,7 +7,7 @@ namespace App\Http\Responses\Discord;
 use App\Events\ChannelLinked;
 use App\Events\DiscordMessageReceived;
 use App\Models\Channel;
-use CharlotteDunois\Yasmin\Models\TextChannel;
+use Discord\Parts\Channel\Channel as TextChannel;
 
 /**
  * Handle a user requesting to link a Discord channel to Commlink.
@@ -61,7 +61,7 @@ class RegisterResponse
         ]);
         $channel->save();
 
-        $event->channel->send(\sprintf(
+        $event->channel->sendMessage(\sprintf(
             '%s has registered this channel for the "%s" system.',
             $channel->username,
             $systems[$system],
@@ -89,7 +89,7 @@ class RegisterResponse
 
         // @phpstan-ignore-next-line
         $channel->user = (string)$this->event->user->id;
-        $channel->username = $this->event->user->tag;
+        $channel->username = optional($this->event->user)->displayname;
         return $channel;
     }
 

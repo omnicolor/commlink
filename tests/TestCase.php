@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use CharlotteDunois\Yasmin\Models\Guild;
-use CharlotteDunois\Yasmin\Models\Message;
-use CharlotteDunois\Yasmin\Models\TextChannel;
-use CharlotteDunois\Yasmin\Models\User;
+use Discord\Parts\Channel\Channel;
+use Discord\Parts\Channel\Message;
+use Discord\Parts\Guild\Guild;
+use Discord\Parts\User\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -28,7 +28,7 @@ abstract class TestCase extends BaseTestCase
         $userTag = 'user#' . random_int(1000, 9999);
         $userId = random_int(1, 9999);
         $userMap = [
-            ['tag', $userTag],
+            ['displayname', $userTag],
             ['id', $userId],
         ];
         $userMock = $this->createMock(User::class);
@@ -41,7 +41,7 @@ abstract class TestCase extends BaseTestCase
             ['id', $channelId],
             ['name', $channelName],
         ];
-        $channelMock = $this->createMock(TextChannel::class);
+        $channelMock = $this->createMock(Channel::class);
         $channelMock->method('__get')->willReturnMap($channelMap);
 
         $messageMap = [

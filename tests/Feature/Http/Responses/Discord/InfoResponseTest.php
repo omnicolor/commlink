@@ -8,10 +8,10 @@ use App\Events\DiscordMessageReceived;
 use App\Http\Responses\Discord\InfoResponse;
 use App\Models\Campaign;
 use App\Models\Channel;
-use CharlotteDunois\Yasmin\Models\Guild;
-use CharlotteDunois\Yasmin\Models\Message;
-use CharlotteDunois\Yasmin\Models\TextChannel;
-use CharlotteDunois\Yasmin\Models\User;
+use Discord\Parts\Channel\Channel as TextChannel;
+use Discord\Parts\Channel\Message;
+use Discord\Parts\Guild\Guild;
+use Discord\Parts\User\User;
 
 /**
  * @group discord
@@ -67,12 +67,12 @@ final class InfoResponseTest extends \Tests\TestCase
         $messageMock = $this->createMessageMock();
         $event = new DiscordMessageReceived($messageMock);
 
-        /** @var \CharlotteDunois\Yasmin\Models\TextChannel */
+        /** @var TextChannel */
         $channel = $event->channel;
 
         $expected = '**Debugging info**' . \PHP_EOL
-            . 'User Tag: ' . $event->user->tag . \PHP_EOL
-            . 'User ID: ' . $event->user->id . \PHP_EOL
+            . 'User Tag: ' . optional($event->user)->displayname . \PHP_EOL
+            . 'User ID: ' . optional($event->user)->id . \PHP_EOL
             . 'Server Name: ' . $event->server->name . \PHP_EOL
             . 'Server ID: ' . $event->server->id . \PHP_EOL
             . 'Channel Name: ' . $channel->name . \PHP_EOL
@@ -93,15 +93,15 @@ final class InfoResponseTest extends \Tests\TestCase
     {
         $messageMock = $this->createMessageMock();
 
-        /** @var \CharlotteDunois\Yasmin\Models\TextChannel */
+        /** @var TextChannel */
         $textChannel = $messageMock->channel;
 
         /** @var Channel */
         $channel = Channel::factory()->create([
             'channel_id' => $textChannel->id,
             'channel_name' => $textChannel->name,
-            'server_id' => $textChannel->guild->id,
-            'server_name' => $textChannel->guild->name,
+            'server_id' => optional($textChannel->guild)->id,
+            'server_name' => optional($textChannel->guild)->name,
             'system' => 'shadowrun5e',
             'type' => 'discord',
         ]);
@@ -109,8 +109,8 @@ final class InfoResponseTest extends \Tests\TestCase
         $event = new DiscordMessageReceived($messageMock);
 
         $expected = '**Debugging info**' . \PHP_EOL
-            . 'User Tag: ' . $event->user->tag . \PHP_EOL
-            . 'User ID: ' . $event->user->id . \PHP_EOL
+            . 'User Tag: ' . optional($event->user)->displayname . \PHP_EOL
+            . 'User ID: ' . optional($event->user)->id . \PHP_EOL
             . 'Server Name: ' . $channel->server_name . \PHP_EOL
             . 'Server ID: ' . $channel->server_id . \PHP_EOL
             . 'Channel Name: ' . $channel->channel_name . \PHP_EOL
@@ -131,7 +131,7 @@ final class InfoResponseTest extends \Tests\TestCase
     {
         $messageMock = $this->createMessageMock();
 
-        /** @var \CharlotteDunois\Yasmin\Models\TextChannel */
+        /** @var TextChannel */
         $textChannel = $messageMock->channel;
 
         /** @var Campaign */
@@ -142,8 +142,8 @@ final class InfoResponseTest extends \Tests\TestCase
             'campaign_id' => $campaign,
             'channel_id' => $textChannel->id,
             'channel_name' => $textChannel->name,
-            'server_id' => $textChannel->guild->id,
-            'server_name' => $textChannel->guild->name,
+            'server_id' => optional($textChannel->guild)->id,
+            'server_name' => optional($textChannel->guild)->name,
             'system' => 'shadowrun5e',
             'type' => 'discord',
         ]);
@@ -151,8 +151,8 @@ final class InfoResponseTest extends \Tests\TestCase
         $event = new DiscordMessageReceived($messageMock);
 
         $expected = '**Debugging info**' . \PHP_EOL
-            . 'User Tag: ' . $event->user->tag . \PHP_EOL
-            . 'User ID: ' . $event->user->id . \PHP_EOL
+            . 'User Tag: ' . optional($event->user)->displayname . \PHP_EOL
+            . 'User ID: ' . optional($event->user)->id . \PHP_EOL
             . 'Server Name: ' . $channel->server_name . \PHP_EOL
             . 'Server ID: ' . $channel->server_id . \PHP_EOL
             . 'Channel Name: ' . $channel->channel_name . \PHP_EOL

@@ -45,6 +45,7 @@ class DiscordRunCommand extends Command
             echo 'Logged in to Discord', \PHP_EOL;
         });
         $discord->on(Event::MESSAGE_CREATE, function (Message $message, Discord $discord): void {
+            // @phpstan-ignore-next-line
             if ($message->author->bot) {
                 // Ignore messages from bots.
                 return;

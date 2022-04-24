@@ -8,10 +8,10 @@ use App\Events\DiscordMessageReceived;
 use App\Http\Responses\Discord\HelpResponse;
 use App\Models\Channel;
 use App\Models\ChatUser;
-use CharlotteDunois\Yasmin\Models\Guild;
-use CharlotteDunois\Yasmin\Models\Message;
-use CharlotteDunois\Yasmin\Models\TextChannel;
-use CharlotteDunois\Yasmin\Models\User;
+use Discord\Parts\Channel\Channel as TextChannel;
+use Discord\Parts\Channel\Message;
+use Discord\Parts\Guild\Guild;
+use Discord\Parts\User\User;
 
 /**
  * @group discord
@@ -96,7 +96,7 @@ final class HelpResponseTest extends \Tests\TestCase
                 config('app.name'),
                 config('app.url'),
                 $event->server->id,
-                $event->user->id,
+                optional($event->user)->id,
             ) . \PHP_EOL . \PHP_EOL
             . '**Commands for unregistered channels:**' . \PHP_EOL
             . '· `help` - Show help' . \PHP_EOL
@@ -143,7 +143,7 @@ final class HelpResponseTest extends \Tests\TestCase
                 config('app.url'),
                 // @phpstan-ignore-next-line
                 $messageMock->channel->guild->id,
-                $messageMock->author->id,
+                optional($messageMock->author)->id,
             ) . \PHP_EOL . \PHP_EOL
             . 'This channel is registered for Shadowrun 5th Edition.';
 

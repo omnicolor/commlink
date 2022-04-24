@@ -11,10 +11,10 @@ use App\Listeners\HandleDiscordMessage;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\ChatUser;
-use CharlotteDunois\Yasmin\Models\Guild;
-use CharlotteDunois\Yasmin\Models\Message;
-use CharlotteDunois\Yasmin\Models\TextChannel;
-use CharlotteDunois\Yasmin\Models\User;
+use Discord\Parts\Channel\Channel as TextChannel;
+use Discord\Parts\Channel\Message;
+use Discord\Parts\Guild\Guild;
+use Discord\Parts\User\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use phpmock\phpunit\PHPMock;
@@ -72,7 +72,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $channelMock = $this->createMock(TextChannel::class);
         $channelMock->method('__get')->willReturnMap($channelMap);
         $channelMock->expects(self::once())
-            ->method('send')
+            ->method('sendMessage')
             ->with(self::equalTo('That doesn\'t appear to be a valid command!'));
         Channel::factory()->create([
             'channel_id' => $channelMock->id,
@@ -81,9 +81,10 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
             'type' => 'discord',
         ]);
 
+        $tag = $this->createDiscordTag();
         $userMap = [
             ['id', $this->faker->randomNumber(5)],
-            ['tag', $this->createDiscordTag()],
+            ['displayname', $tag],
         ];
         $userMock = $this->createMock(User::class);
         $userMock->method('__get')->willReturnMap($userMap);
@@ -122,12 +123,12 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $channelMock = $this->createMock(TextChannel::class);
         $channelMock->method('__get')->willReturnMap($channelMap);
         $channelMock->expects(self::once())
-            ->method('send')
+            ->method('sendMessage')
             ->with(self::equalTo($expected));
 
         $userMap = [
             ['id', $this->faker->randomNumber(5)],
-            ['tag', $tag],
+            ['displayname', $tag],
         ];
         $userMock = $this->createMock(User::class);
         $userMock->method('__get')->willReturnMap($userMap);
@@ -157,7 +158,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $userTag = 'user#' . random_int(1000, 9999);
         $userId = random_int(1, 9999);
         $userMap = [
-            ['tag', $userTag],
+            ['displayname', $userTag],
             ['id', $userId],
         ];
         $userMock = $this->createMock(User::class);
@@ -183,7 +184,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $channelMock = $this->createMock(TextChannel::class);
         $channelMock->method('__get')->willReturnMap($channelMap);
         $channelMock->expects(self::once())
-            ->method('send')
+            ->method('sendMessage')
             ->with(self::equalTo($expected));
 
         $messageMap = [
@@ -213,7 +214,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $userTag = 'user#' . random_int(1000, 9999);
         $userId = random_int(1, 9999);
         $userMap = [
-            ['tag', $userTag],
+            ['displayname', $userTag],
             ['id', $userId],
         ];
         $userMock = $this->createMock(User::class);
@@ -272,7 +273,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $userTag = 'user#' . random_int(1000, 9999);
         $userId = random_int(1, 9999);
         $userMap = [
-            ['tag', $userTag],
+            ['displayname', $userTag],
             ['id', $userId],
         ];
         $userMock = $this->createMock(User::class);
@@ -339,7 +340,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $userTag = 'user#' . random_int(1000, 9999);
         $userId = random_int(1, 9999);
         $userMap = [
-            ['tag', $userTag],
+            ['displayname', $userTag],
             ['id', $userId],
         ];
         $userMock = $this->createMock(User::class);
@@ -397,7 +398,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $userTag = 'user#' . random_int(1000, 9999);
         $userId = random_int(1, 9999);
         $userMap = [
-            ['tag', $userTag],
+            ['displayname', $userTag],
             ['id', $userId],
         ];
         $userMock = $this->createMock(User::class);
@@ -466,7 +467,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $channelMock = $this->createMock(TextChannel::class);
         $channelMock->method('__get')->willReturnMap($channelMap);
         $channelMock->expects(self::once())
-            ->method('send')
+            ->method('sendMessage')
             ->with(self::equalTo($expected));
         Channel::factory()->create([
             'channel_id' => $channelMock->id,
@@ -560,7 +561,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $channelMock = $this->createMock(TextChannel::class);
         $channelMock->method('__get')->willReturnMap($channelMap);
         $channelMock->expects(self::once())
-            ->method('send')
+            ->method('sendMessage')
             ->with(self::stringContains($expected));
         Channel::factory()->create([
             'channel_id' => $channelMock->id,
@@ -604,7 +605,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $channelMock = $this->createMock(TextChannel::class);
         $channelMock->method('__get')->willReturnMap($channelMap);
         $channelMock->expects(self::once())
-            ->method('send')
+            ->method('sendMessage')
             ->with(self::stringContains($expected));
 
         $userMock = $this->createMock(User::class);

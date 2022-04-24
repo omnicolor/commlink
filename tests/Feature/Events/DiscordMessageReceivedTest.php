@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Tests\Feature\Events;
 
 use App\Events\DiscordMessageReceived;
-use CharlotteDunois\Yasmin\Models\Guild;
-use CharlotteDunois\Yasmin\Models\Message;
-use CharlotteDunois\Yasmin\Models\TextChannel;
-use CharlotteDunois\Yasmin\Models\User;
+use Discord\Parts\Channel\Channel as TextChannel;
+use Discord\Parts\Channel\Message;
+use Discord\Parts\Guild\Guild;
+use Discord\Parts\User\User;
 
 /**
  * Tests for Discord message events.
