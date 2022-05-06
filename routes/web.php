@@ -12,10 +12,6 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Shadowrun5E\CharactersController as Shadowrun5ECharacterController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::middleware('auth')->group(function (): void {
     Route::get('/dashboard', [DashboardController::class, 'show'])
         ->name('dashboard');
@@ -144,22 +140,26 @@ Route::middleware('auth')->group(function (): void {
         ->name('settings-link-user');
 });
 
+Route::get('/', function () {
+    return view('welcome');
+});
+Route::get('/about', function () {
+    return view('about');
+});
+
 // Allow character sheets to be viewed without being logged in.
 Route::get(
     '/characters/capers/{character}',
     [CapersCharacterController::class, 'view']
 )->name('capers.character');
-
 Route::get(
     '/characters/cyberpunkred/{character}',
     [CyberpunkRedCharacterController::class, 'view']
 )->name('cyberpunk.character');
-
 Route::get(
     '/characters/expanse/{character}',
     [ExpanseCharacterController::class, 'view']
 )->name('expanse.character');
-
 Route::get(
     '/characters/shadowrun5e/{character}',
     [Shadowrun5ECharacterController::class, 'view']
