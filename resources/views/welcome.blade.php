@@ -11,7 +11,14 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <span class="navbar-brand">Commlink</span>
+        <a class="navbar-brand active" href="/">Commlink</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/about">What is Commlink?</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>
 
@@ -47,11 +54,6 @@
                                     class="form-control" id="email"
                                     inputmode="email" name="email" required
                                     type="email">
-                                <small class="form-text text-muted"
-                                    id="email-help">
-                                    We'll never intentionally release your email
-                                    address at any time for any reason.
-                                </small>
                                 <div class="invalid-feedback">
                                     Enter your email address.
                                 </div>
