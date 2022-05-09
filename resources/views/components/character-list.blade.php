@@ -2,6 +2,7 @@
     @forelse ($characters as $character)
         <li class="list-group-item">
         @switch ($character->system)
+            @case ('avatar')
             @case ('capers')
             @case ('cyberpunkred')
             @case ('expanse')

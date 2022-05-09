@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Avatar\CharactersController as AvatarController;
 use App\Http\Controllers\CampaignsController;
 use App\Http\Controllers\Capers\CharactersController as CapersCharacterController;
 use App\Http\Controllers\CyberpunkRed\CharactersController as CyberpunkRedCharacterController;
@@ -153,6 +154,8 @@ Route::get('/about', function () {
 });
 
 // Allow character sheets to be viewed without being logged in.
+Route::get('/characters/avatar/{character}', [AvatarController::class, 'view'])
+    ->name('avatar.character');
 Route::get(
     '/characters/capers/{character}',
     [CapersCharacterController::class, 'view']
