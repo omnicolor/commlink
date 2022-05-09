@@ -98,7 +98,13 @@ class CharactersController extends \App\Http\Controllers\Controller
                 'owner' => $user->email,
             ]);
             $request->session()->put('cyberpunkredpartial', $character->id);
-            return view('cyberpunkred.create-handle');
+            return view(
+                'cyberpunkred.create-handle',
+                [
+                    'character' => $character,
+                    'creating' => 'handle',
+                ]
+            );
         }
         if ('save' === $step) {
             $request->session()->forget('cyberpunkredpartial');

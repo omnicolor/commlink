@@ -144,7 +144,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach ($skills[$category] as $skill)
+                        @foreach ($skills[$category] ?? [] as $skill)
                             <tr class="skill">
                                 <td>{{ $skill }} ({{ $skill->getShortAttribute() }})</td>
                                 <td>{{ $skill->level }}</td>
@@ -168,7 +168,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach ($skills[$category] as $skill)
+                        @foreach ($skills[$category] ?? [] as $skill)
                             <tr class="skill">
                                 <td>{{ $skill }} ({{ $skill->getShortAttribute() }})</td>
                                 <td>{{ $skill->level }}</td>
@@ -192,7 +192,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach ($skills[$category] as $skill)
+                        @foreach ($skills[$category] ?? [] as $skill)
                             <tr class="skill">
                                 <td>{{ $skill }} ({{ $skill->getShortAttribute() }})</td>
                                 <td>{{ $skill->level }}</td>
