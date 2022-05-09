@@ -191,6 +191,10 @@ return [
         'cyberpunkred' => env('CYBERPUNK_DATA_PATH', 'data/CyberpunkRed/'),
         'expanse' => env('EXPANSE_DATA_PATH', 'data/Expanse/'),
         'shadowrun5e' => env('SHADOWRUN5E_DATA_PATH', 'data/Shadowrun5E/'),
+        'star-trek-adventures' => env(
+            'STAR_TREK_ADVENTURES_DATA_PATH',
+            'data/StarTrekAdventures/'
+        ),
     ],
 
     /*
@@ -204,6 +208,7 @@ return [
         'dnd5e' => 'Dungeons & Dragons 5th Edition',
         'expanse' => 'The Expanse',
         'shadowrun5e' => 'Shadowrun 5th Edition',
+        'star-trek-adventures' => 'Star Trek Adventures',
     ],
 
     /*

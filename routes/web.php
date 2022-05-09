@@ -10,6 +10,7 @@ use App\Http\Controllers\DiscordController;
 use App\Http\Controllers\Expanse\CharactersController as ExpanseCharacterController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Shadowrun5E\CharactersController as Shadowrun5ECharacterController;
+use App\Http\Controllers\StarTrekAdventures\CharactersController as StarTrekController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function (): void {
@@ -132,6 +133,10 @@ Route::middleware('auth')->group(function (): void {
                 [Shadowrun5ECharacterController::class, 'storeVitals'],
             )->name('create-vitals');
         });
+
+        Route::prefix('star-trek-adventures')->name('star-trek-adventures.')->group(function (): void {
+            Route::get('/', [StarTrekController::class, 'list']);
+        });
     });
 
     Route::get('/settings', [SettingsController::class, 'show'])
@@ -164,5 +169,9 @@ Route::get(
     '/characters/shadowrun5e/{character}',
     [Shadowrun5ECharacterController::class, 'view']
 )->name('shadowrun5e.character');
+Route::get(
+    '/characters/star-trek-adventures/{character}',
+    [StarTrekController::class, 'view']
+)->name('star-trek-adventures.character');
 
 require __DIR__ . '/auth.php';

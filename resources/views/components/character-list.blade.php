@@ -6,6 +6,7 @@
             @case ('cyberpunkred')
             @case ('expanse')
             @case ('shadowrun5e')
+            @case ('star-trek-adventures')
                 <a href="/characters/{{ $character->system }}/{{ $character->id }}">
                     {{ $character }}</a>
                     @if ($character->campaign())

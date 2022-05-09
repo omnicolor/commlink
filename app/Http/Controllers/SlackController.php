@@ -82,7 +82,7 @@ class SlackController extends Controller
             try {
                 $class = \sprintf(
                     '\\App\\Rolls\\%s\\%s',
-                    \ucfirst($channel->system ?? 'Unknown'),
+                    \str_replace(' ', '', \ucwords(\str_replace('-', ' ', $channel->system ?? 'Unknown'))),
                     \ucfirst($this->args[0])
                 );
                 /** @var Roll */
