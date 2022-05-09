@@ -10,7 +10,6 @@ use App\Models\Shadowrun5E\GearModification;
 
 /**
  * Tests for the ArmorModificationArray class.
- * @covers \App\Models\Shadowrun5E\ArmorModificationArray
  * @group models
  * @group shadowrun
  * @group shadowrun5e

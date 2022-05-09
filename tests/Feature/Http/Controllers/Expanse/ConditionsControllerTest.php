@@ -9,7 +9,6 @@ use Illuminate\Http\Response;
 
 /**
  * Tests for the conditions controller.
- * @covers \App\Http\Controllers\Expanse\ConditionsController
  * @group controllers
  * @group expanse
  * @medium

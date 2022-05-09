@@ -11,9 +11,6 @@ use App\Models\Shadowrun5E\LifestyleZone;
 
 /**
  * Tests for Shadowrun 5E lifestyles.
- * @covers \App\Models\Shadowrun5E\Lifestyle
- * @covers \App\Models\Shadowrun5E\LifestyleAttributes
- * @covers \App\Models\Shadowrun5E\LifestyleZone
  * @group models
  * @group shadowrun
  * @group shadowrun5e

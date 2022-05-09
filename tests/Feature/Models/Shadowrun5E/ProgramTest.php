@@ -11,7 +11,6 @@ use App\Models\Shadowrun5E\Weapon;
 
 /**
  * Unit tests for Program class.
- * @covers \App\Models\Shadowrun5E\Program
  * @group models
  * @group shadowrun
  * @group shadowrun5e

@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\IdentityArray;
 
 /**
  * Tests for the IdentityArray class.
- * @covers \App\Models\Shadowrun5E\IdentityArray
  * @group models
  * @group shadowrun
  * @group shadowrun5e

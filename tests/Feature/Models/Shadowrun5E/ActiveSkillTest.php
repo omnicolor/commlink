@@ -8,8 +8,6 @@ use App\Models\Shadowrun5E\ActiveSkill;
 
 /**
  * Unit tests for ActiveSkill class.
- * @covers \App\Models\Shadowrun5E\ActiveSkill
- * @covers \App\Models\Shadowrun5E\Skill
  * @group models
  * @group shadowrun
  * @group shadowrun5e

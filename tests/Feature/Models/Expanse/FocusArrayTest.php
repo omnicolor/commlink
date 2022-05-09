@@ -9,7 +9,6 @@ use App\Models\Expanse\FocusArray;
 
 /**
  * Tests for the FocusArray class.
- * @covers \App\Models\Expanse\FocusArray
  * @group models
  * @group expanse
  * @small

@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\ArmorModification;
 
 /**
  * Tests for armor modifications class.
- * @covers \App\Models\Shadowrun5E\ArmorModification
  * @group models
  * @group shadowrun
  * @group shadowrun5e

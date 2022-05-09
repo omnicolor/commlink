@@ -9,7 +9,6 @@ use App\Models\Capers\PowerArray;
 
 /**
  * Tests for the PowerArray class.
- * @covers \App\Models\Capers\PowerArray
  * @group capers
  * @group models
  * @small

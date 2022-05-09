@@ -10,7 +10,6 @@ use Illuminate\Http\Response;
 
 /**
  * Tests for the talents controller.
- * @covers \App\Http\Controllers\Expanse\TalentsController
  * @group controllers
  * @group expanse
  * @medium

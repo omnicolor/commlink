@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\SpellArray;
 
 /**
  * Tests for the SpellArray.
- * @covers \App\Models\Shadowrun5E\SpellArray
  * @group models
  * @group shadowrun
  * @group shadowrun5e

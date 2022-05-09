@@ -8,8 +8,6 @@ use App\Models\CyberpunkRed\Role\Lawman;
 
 /**
  * Tests for the Lawman role.
- * @covers App\Models\CyberpunkRed\Role
- * @covers App\Models\CyberpunkRed\Role\Lawman
  * @group cyberpunkred
  * @group models
  * @small

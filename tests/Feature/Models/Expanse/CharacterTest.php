@@ -15,7 +15,6 @@ use App\Models\Expanse\TalentArray;
 
 /**
  * Tests for Expanse characters.
- * @covers \App\Models\Expanse\Character
  * @group expanse
  * @group models
  * @small

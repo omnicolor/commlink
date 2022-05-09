@@ -10,7 +10,6 @@ use App\Models\Shadowrun5E\GearFactory;
 
 /**
  * Unit tests for the gear factory.
- * @covers \App\Models\Shadowrun5E\GearFactory
  * @group models
  * @group shadowrun
  * @group shadowrun5e

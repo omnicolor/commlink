@@ -9,7 +9,6 @@ use App\Models\Expanse\ConditionArray;
 
 /**
  * Tests for the ConditionArray class.
- * @covers \App\Models\Expanse\ConditionArray
  * @group models
  * @group expanse
  * @small

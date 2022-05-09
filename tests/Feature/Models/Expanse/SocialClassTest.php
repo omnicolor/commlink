@@ -8,7 +8,6 @@ use App\Models\Expanse\SocialClass;
 
 /**
  * Tests for Expanse social classes.
- * @covers \App\Models\Expanse\SocialClass
  * @group models
  * @group expanse
  * @small

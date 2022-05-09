@@ -9,7 +9,6 @@ use App\Models\Expanse\TalentArray;
 
 /**
  * Tests for the TalentArray class.
- * @covers \App\Models\Expanse\TalentArray
  * @group models
  * @group expanse
  * @small

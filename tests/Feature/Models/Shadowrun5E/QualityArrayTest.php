@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\QualityArray;
 
 /**
  * Tests for the QualityArray class.
- * @covers \App\Models\Shadowrun5E\QualityArray
  * @group models
  * @group shadowrun
  * @group shadowrun5e

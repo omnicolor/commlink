@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\ComplexFormArray;
 
 /**
  * Tests for the ComplexFormArray.
- * @covers \App\Models\Shadowrun5E\ComplexFormArray
  * @group models
  * @group shadowrun
  * @group shadowrun5e

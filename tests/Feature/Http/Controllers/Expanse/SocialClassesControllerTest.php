@@ -9,7 +9,6 @@ use Illuminate\Http\Response;
 
 /**
  * Tests for the social classes controller.
- * @covers \App\Http\Controllers\Expanse\SocialClassesController
  * @group controllers
  * @group expanse
  * @medium

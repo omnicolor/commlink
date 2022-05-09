@@ -12,7 +12,6 @@ use App\Models\Expanse\TalentArray;
 
 /**
  * Tests for Expanse backgrounds.
- * @covers \App\Models\Expanse\Background
  * @group models
  * @group expanse
  * @small

@@ -8,7 +8,6 @@ use App\Models\Shadowrun5E\KarmaLogEntry;
 
 /**
  * Tests for KarmaLogEntry class.
- * @covers \App\Models\Shadowrun5E\KarmaLogEntry
  * @group models
  * @group shadowrun
  * @group shadowrun5e

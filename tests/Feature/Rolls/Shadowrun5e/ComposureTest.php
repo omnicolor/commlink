@@ -20,7 +20,7 @@ use Tests\TestCase;
  * @group shadowrun5e
  * @medium
  */
-final class ComposureTest extends \Tests\TestCase
+final class ComposureTest extends TestCase
 {
     use PHPMock;
 

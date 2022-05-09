@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\ContactArray;
 
 /**
  * Tests for the ContactArray class.
- * @covers \App\Models\Shadowrun5E\ContactArray
  * @group models
  * @group shadowrun
  * @group shadowrun5e

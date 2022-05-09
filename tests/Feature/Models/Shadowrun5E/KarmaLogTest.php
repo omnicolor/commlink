@@ -13,7 +13,6 @@ use App\Models\Shadowrun5E\KnowledgeSkill;
 
 /**
  * Tests for Karma Log.
- * @covers \App\Models\Shadowrun5E\KarmaLog
  * @group models
  * @group shadowrun
  * @group shadowrun5e

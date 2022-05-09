@@ -8,8 +8,6 @@ use App\Models\CyberpunkRed\Role\Solo;
 
 /**
  * Tests for the Solo role.
- * @covers App\Models\CyberpunkRed\Role
- * @covers App\Models\CyberpunkRed\Role\Solo
  * @group cyberpunkred
  * @group models
  * @small

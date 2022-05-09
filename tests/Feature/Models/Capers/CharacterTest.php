@@ -11,7 +11,6 @@ use RuntimeException;
 
 /**
  * Tests for Capers characters.
- * @covers \App\Models\Capers\Character
  * @group capers
  * @small
  */

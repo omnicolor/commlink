@@ -8,7 +8,6 @@ use App\Models\Shadowrun5E\Contact;
 
 /**
  * Tests for Contact class.
- * @covers \App\Models\Shadowrun5E\Contact
  * @group models
  * @group shadowrun
  * @group shadowrun5e

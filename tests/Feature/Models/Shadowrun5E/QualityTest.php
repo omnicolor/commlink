@@ -7,8 +7,7 @@ namespace Tests\Feature\Models\Shadowrun5E;
 use App\Models\Shadowrun5E\Quality;
 
 /**
- * Qualities tests for Quality class.
- * @covers \App\Models\Shadowrun5E\Quality
+ * Unit tests for Quality class.
  * @group models
  * @group shadowrun
  * @group shadowrun5e

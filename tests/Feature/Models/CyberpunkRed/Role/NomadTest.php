@@ -8,8 +8,6 @@ use App\Models\CyberpunkRed\Role\Nomad;
 
 /**
  * Tests for the Nomad role.
- * @covers App\Models\CyberpunkRed\Role
- * @covers App\Models\CyberpunkRed\Role\Nomad
  * @group cyberpunkred
  * @group models
  * @small

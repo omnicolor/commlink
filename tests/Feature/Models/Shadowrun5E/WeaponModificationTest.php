@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\WeaponModification;
 
 /**
  * Unit tests for weapon modification class.
- * @covers \App\Models\Shadowrun5E\WeaponModification
  * @group models
  * @group shadowrun
  * @group shadowrun5e

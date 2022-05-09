@@ -10,7 +10,6 @@ use App\Models\Shadowrun5E\GearFactory;
 
 /**
  * Tests for the GearArray class.
- * @covers \App\Models\Shadowrun5E\GearArray
  * @group models
  * @group shadowrun
  * @group shadowrun5e

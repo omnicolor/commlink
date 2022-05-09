@@ -8,8 +8,6 @@ use App\Models\CyberpunkRed\Role\Exec;
 
 /**
  * Tests for the Exec role.
- * @covers App\Models\CyberpunkRed\Role
- * @covers App\Models\CyberpunkRed\Role\Exec
  * @group cyberpunkred
  * @group models
  * @small

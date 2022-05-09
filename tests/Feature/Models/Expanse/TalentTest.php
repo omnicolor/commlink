@@ -8,7 +8,6 @@ use App\Models\Expanse\Talent;
 
 /**
  * Tests for Expanse talents.
- * @covers \App\Models\Expanse\Talent
  * @group models
  * @group expanse
  * @small

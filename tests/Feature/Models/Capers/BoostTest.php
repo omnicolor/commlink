@@ -8,7 +8,6 @@ use App\Models\Capers\Boost;
 
 /**
  * Tests for Boost model.
- * @covers \App\Models\Capers\Boost
  * @group capers
  * @small
  */

@@ -8,6 +8,7 @@ use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * Tests for the ChatUser test.
@@ -16,6 +17,8 @@ use App\Models\User;
  */
 final class ChatUserTest extends \Tests\TestCase
 {
+    use RefreshDatabase;
+
     /**
      * Test getting the partial hash for verify a chat user.
      * @test
@@ -44,9 +47,6 @@ final class ChatUserTest extends \Tests\TestCase
      */
     public function testScopeSlack(): void
     {
-        // Clean up previous runs.
-        ChatUser::where('remote_user_name', 'scopeSlackTest')->delete();
-
         self::assertEmpty(
             ChatUser::slack()
                 ->where('remote_user_name', 'scopeSlackTest')
@@ -93,9 +93,6 @@ final class ChatUserTest extends \Tests\TestCase
      */
     public function testScopeDiscord(): void
     {
-        // Clean up previous runs.
-        ChatUser::where('remote_user_name', 'scopeDiscordTest')->delete();
-
         self::assertEmpty(
             ChatUser::discord()
                 ->where('remote_user_name', 'scopeDiscordTest')
@@ -143,9 +140,6 @@ final class ChatUserTest extends \Tests\TestCase
      */
     public function testScopeUnverified(): void
     {
-        // Clean up previous runs.
-        ChatUser::where('remote_user_name', 'scopeUnverifiedTest')->delete();
-
         self::assertEmpty(
             ChatUser::unverified()
                 ->where('remote_user_name', 'scopeUnverifiedTest')
@@ -171,9 +165,6 @@ final class ChatUserTest extends \Tests\TestCase
      */
     public function testScopeVerified(): void
     {
-        // Clean up previous runs.
-        ChatUser::where('remote_user_name', 'scopeVerifiedTest')->delete();
-
         self::assertEmpty(
             ChatUser::verified()
                 ->where('remote_user_name', 'scopeVerifiedTest')

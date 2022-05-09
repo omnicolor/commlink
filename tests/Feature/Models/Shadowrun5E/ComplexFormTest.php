@@ -8,7 +8,6 @@ use App\Models\Shadowrun5E\ComplexForm;
 
 /**
  * Tests for ComplexForm object.
- * @covers \App\Models\Shadowrun5E\ComplexForm
  * @group models
  * @group shadowrun
  * @group shadowrun5e

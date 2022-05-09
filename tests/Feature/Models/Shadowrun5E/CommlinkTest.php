@@ -10,7 +10,6 @@ use App\Models\Shadowrun5E\Program;
 
 /**
  * Tests for the Commlink class.
- * @covers \App\Models\Shadowrun5E\Commlink
  * @group models
  * @group shadowrun
  * @group shadowrun5e

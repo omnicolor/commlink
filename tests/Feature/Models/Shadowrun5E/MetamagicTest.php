@@ -8,7 +8,6 @@ use App\Models\Shadowrun5E\Metamagic;
 
 /**
  * Tests for Metamagic class.
- * @covers \App\Models\Shadowrun5E\Metamagic
  * @group models
  * @group shadowrun
  * @group shadowrun5e

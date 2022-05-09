@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\AugmentationArray;
 
 /**
  * Tests for the AugmentationArray class.
- * @covers \App\Models\Shadowrun5E\AugmentationArray
  * @group models
  * @group shadowrun
  * @group shadowrun5e

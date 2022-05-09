@@ -9,8 +9,6 @@ use OutOfBoundsException;
 
 /**
  * Tests for the Rockerboy role.
- * @covers App\Models\CyberpunkRed\Role
- * @covers App\Models\CyberpunkRed\Role\Rockerboy
  * @group cyberpunkred
  * @group models
  * @small

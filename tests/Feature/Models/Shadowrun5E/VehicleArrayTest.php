@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\VehicleArray;
 
 /**
  * Tests for the VehicleArray class.
- * @covers \App\Models\Shadowrun5E\VehicleArray
  * @group models
  * @group shadowrun
  * @group shadowrun5e

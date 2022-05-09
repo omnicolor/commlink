@@ -9,7 +9,6 @@ use Illuminate\Http\Response;
 
 /**
  * Tests for the focuses controller.
- * @covers \App\Http\Controllers\Expanse\FocusesController
  * @group controllers
  * @group expanse
  * @medium

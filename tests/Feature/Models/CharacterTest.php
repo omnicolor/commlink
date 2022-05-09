@@ -7,6 +7,7 @@ namespace Tests\Feature\Models;
 use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\User;
+use Illuminate\Foundation\Testing\WithFaker;
 
 /**
  * Tests for the top-level Character class.
@@ -15,25 +16,13 @@ use App\Models\User;
  */
 final class CharacterTest extends \Tests\TestCase
 {
+    use WithFaker;
+
     /**
      * Character we're testing with.
      * @var ?Character
      */
     protected ?Character $character;
-
-    /**
-     * Faker instance.
-     * @var \Faker\Generator
-     */
-    protected static \Faker\Generator $faker;
-
-    /**
-     * Set up the test suite.
-     */
-    public static function setUpBeforeClass(): void
-    {
-        self::$faker = \Faker\Factory::create();
-    }
 
     /**
      * Clean up.
@@ -54,7 +43,7 @@ final class CharacterTest extends \Tests\TestCase
     public function testNoUser(): void
     {
         $character = new Character([
-            'owner' => self::$faker->unique()->safeEmail,
+            'owner' => $this->faker->unique()->safeEmail,
         ]);
         self::expectException(
             \Illuminate\Database\Eloquent\ModelNotFoundException::class

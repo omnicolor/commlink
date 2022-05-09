@@ -8,7 +8,6 @@ use App\Models\Shadowrun5E\Spirit;
 
 /**
  * Tests for the spirit class.
- * @covers \App\Models\Shadowrun5E\Spirit
  * @group models
  * @group shadowrun
  * @group shadowrun5e

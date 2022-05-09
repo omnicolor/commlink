@@ -8,8 +8,6 @@ use App\Models\CyberpunkRed\Role\Fixer;
 
 /**
  * Tests for the Fixer role.
- * @covers App\Models\CyberpunkRed\Role
- * @covers App\Models\CyberpunkRed\Role\Fixer
  * @group cyberpunkred
  * @group models
  * @small

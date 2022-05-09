@@ -18,7 +18,6 @@ use App\Models\Shadowrun5E\QualityArray;
 
 /**
  * Tests for Shadowrun 5E characters.
- * @covers \App\Models\Shadowrun5E\Character
  * @group models
  * @group shadowrun
  * @group shadowrun5e

@@ -8,8 +8,6 @@ use App\Models\CyberpunkRed\Role\Media;
 
 /**
  * Tests for the Media role.
- * @covers App\Models\CyberpunkRed\Role
- * @covers App\Models\CyberpunkRed\Role\Media
  * @group cyberpunkred
  * @group models
  * @small

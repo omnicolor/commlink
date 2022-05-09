@@ -7,7 +7,6 @@ namespace App\Rolls\Shadowrun5e;
 use App\Exceptions\SlackException;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
-use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 
 /**
@@ -17,6 +16,7 @@ class Composure extends Number
 {
     protected ?string $error = null;
 
+    // @phpstan-ignore-next-line
     public function __construct(
         string $content,
         string $username,
@@ -29,6 +29,7 @@ class Composure extends Number
                 . 'tests';
             return;
         }
+        // @phpstan-ignore-next-line
         $this->dice = $this->character->composure;
         $this->roll();
         if ($this->isCriticalGlitch()) {
@@ -52,8 +53,7 @@ class Composure extends Number
     {
         $this->title = \sprintf(
             '%s critically glitched on a composure roll!',
-            $this->username,
-            $this->dice
+            $this->username
         );
         $this->text = \sprintf(
             'Rolled %d ones with no successes!',

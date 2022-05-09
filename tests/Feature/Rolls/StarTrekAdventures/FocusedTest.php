@@ -11,9 +11,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
 /**
- * Tests for trying an focused test in Star Trek Adventures.
+ * Tests for trying a focused test in Star Trek Adventures.
  * @group star-trek-adventures
- * @small
+ * @medium
  */
 final class FocusedTest extends TestCase
 {

@@ -9,7 +9,6 @@ use RuntimeException;
 
 /**
  * Unit tests for CyberpunkRed lifepath.
- * @covers \App\Models\CyberpunkRed\Lifepath
  * @group cyberpunkred
  * @group models
  * @small

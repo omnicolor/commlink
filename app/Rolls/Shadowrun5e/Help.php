@@ -55,6 +55,7 @@ class Help extends Roll
                     . ' in this channel' . \PHP_EOL
                     . \sprintf(
                         '· `composure` - Roll your composure stat (%d)',
+                        // @phpstan-ignore-next-line
                         $this->character->composure
                     ) . \PHP_EOL,
                 'color' => TextAttachment::COLOR_INFO,

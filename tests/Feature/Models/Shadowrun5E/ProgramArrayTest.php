@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\ProgramArray;
 
 /**
  * Tests for the ProgramArray.
- * @covers \App\Models\Shadowrun5E\ProgramArray
  * @group models
  * @group shadowrun
  * @group shadowrun5e

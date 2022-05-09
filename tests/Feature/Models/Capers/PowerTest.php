@@ -9,7 +9,6 @@ use RuntimeException;
 
 /**
  * Tests for Capers powers.
- * @covers \App\Models\Capers\Power
  * @group capers
  * @small
  */

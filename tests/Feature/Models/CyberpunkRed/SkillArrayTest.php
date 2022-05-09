@@ -9,7 +9,6 @@ use App\Models\CyberpunkRed\SkillArray;
 
 /**
  * Tests for the SkillArray class.
- * @covers \App\Models\CyberpunkRed\SkillArray
  * @group cyberpunkred
  * @group models
  * @small

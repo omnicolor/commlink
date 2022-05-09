@@ -13,7 +13,6 @@ use App\Models\Shadowrun5E\Weapon;
 
 /**
  * Unit tests for gear class.
- * @covers \App\Models\Shadowrun5E\Gear
  * @group models
  * @group shadowrun
  * @group shadowrun5e

@@ -11,10 +11,6 @@ use App\Models\Expanse\Origin\Martian;
 
 /**
  * Tests for Expanse origins.
- * @covers \App\Models\Expanse\Origin
- * @covers \App\Models\Expanse\Origin\Belter
- * @covers \App\Models\Expanse\Origin\Earther
- * @covers \App\Models\Expanse\Origin\Martian
  * @group models
  * @group expanse
  * @small

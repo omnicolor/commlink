@@ -9,7 +9,6 @@ use App\Models\Capers\BoostArray;
 
 /**
  * Tests for the BoostArray class.
- * @covers \App\Models\Capers\BoostArray
  * @group capers
  * @group models
  * @small

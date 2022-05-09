@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\SkillGroup;
 
 /**
  * Unit tests for SkillGroups.
- * @covers \App\Models\Shadowrun5E\SkillGroup
  * @group models
  * @group shadowrun
  * @group shadowrun5e

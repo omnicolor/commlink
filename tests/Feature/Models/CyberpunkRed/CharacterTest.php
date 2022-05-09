@@ -10,7 +10,6 @@ use App\Models\CyberpunkRed\Weapon;
 
 /**
  * Unit tests for CyberpunkRed Characters.
- * @covers \App\Models\CyberpunkRed\Character
  * @group cyberpunkred
  * @group models
  * @small

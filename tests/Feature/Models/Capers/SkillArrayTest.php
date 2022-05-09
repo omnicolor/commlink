@@ -9,7 +9,6 @@ use App\Models\Capers\SkillArray;
 
 /**
  * Tests for the SkillArray class.
- * @covers \App\Models\Capers\SkillArray
  * @group capers
  * @group models
  * @small

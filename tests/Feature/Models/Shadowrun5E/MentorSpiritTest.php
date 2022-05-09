@@ -8,7 +8,6 @@ use App\Models\Shadowrun5E\MentorSpirit;
 
 /**
  * Unit tests for MentorSpirit class.
- * @covers \App\Models\Shadowrun5E\MentorSpirit
  * @group models
  * @group shadowrun
  * @group shadowrun5e

@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\WeaponModificationArray;
 
 /**
  * Tests for the WeaponModificationArray.
- * @covers \App\Models\Shadowrun5E\WeaponModificationArray
  * @group models
  * @group shadowrun
  * @group shadowrun5e

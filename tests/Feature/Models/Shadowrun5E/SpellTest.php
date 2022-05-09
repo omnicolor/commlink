@@ -8,7 +8,6 @@ use App\Models\Shadowrun5E\Spell;
 
 /**
  * Unit tests for Spell class.
- * @covers \App\Models\Shadowrun5E\Spell
  * @group models
  * @group shadowrun
  * @group shadowrun5e

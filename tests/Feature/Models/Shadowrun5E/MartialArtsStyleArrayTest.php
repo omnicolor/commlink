@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\MartialArtsStyleArray;
 
 /**
  * Tests for the MartialArtsStyleArray class.
- * @covers \App\Models\Shadowrun5E\MartialArtsStyleArray
  * @group models
  * @group shadowrun
  * @group shadowrun5e

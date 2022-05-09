@@ -8,7 +8,6 @@ use App\Models\Expanse\Focus;
 
 /**
  * Tests for Expanse focuses.
- * @covers \App\Models\Expanse\Focus
  * @group models
  * @group expanse
  * @small

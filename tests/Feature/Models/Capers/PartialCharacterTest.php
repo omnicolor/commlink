@@ -57,7 +57,7 @@ final class PartialCharacterTest extends TestCase
                 'sense',
             ],
             'meta' => [
-                'powers-option' => 'two-minor'
+                'powers-option' => 'two-minor',
             ],
             'powers' => [
                 'alter-form' => [
@@ -67,7 +67,7 @@ final class PartialCharacterTest extends TestCase
                         'liquid-form-boost',
                     ],
                     'id' => 'alter-form',
-                    'rank' => 1
+                    'rank' => 1,
                 ],
                 'bone-organ-shifting' => [
                     'boosts' => [

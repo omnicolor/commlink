@@ -10,7 +10,6 @@ use App\Models\CyberpunkRed\RoleArray;
 
 /**
  * Tests for the RoleArray class.
- * @covers \App\Models\CyberpunkRed\RoleArray
  * @group cyberpunkred
  * @group models
  * @small

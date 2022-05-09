@@ -10,7 +10,6 @@ use App\Models\Shadowrun5E\Sprite;
 
 /**
  * Unit tests for the Sprite class.
- * @covers \App\Models\Shadowrun5E\Sprite
  * @group models
  * @group shadowrun
  * @group shadowrun5e

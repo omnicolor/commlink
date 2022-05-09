@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\Spell;
 
 /**
  * Unit tests for Preparation class.
- * @covers \App\Models\Shadowrun5E\Preparation
  * @group models
  * @group shadowrun
  * @group shadowrun5e

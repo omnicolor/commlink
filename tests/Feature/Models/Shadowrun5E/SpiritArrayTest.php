@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\SpiritArray;
 
 /**
  * Tests for the SpiritArray class.
- * @covers \App\Models\Shadowrun5E\SpiritArray
  * @group models
  * @group shadowrun
  * @group shadowrun5e

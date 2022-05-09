@@ -9,7 +9,6 @@ use App\Models\Capers\GearArray;
 
 /**
  * Tests for the GearArray class.
- * @covers \App\Models\Capers\GearArray
  * @group capers
  * @group models
  * @small

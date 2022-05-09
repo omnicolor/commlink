@@ -125,7 +125,7 @@ final class CharacterControllerTest extends \Tests\TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $view = $this->actingAs($user)
+        $this->actingAs($user)
             ->get('/characters/shadowrun5e')
             ->assertSee('You don\'t have any characters!', false)
             ->assertSee('Shadowrun 5E Characters');

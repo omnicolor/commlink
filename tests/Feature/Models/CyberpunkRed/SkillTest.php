@@ -9,7 +9,6 @@ use App\Models\CyberpunkRed\Skill;
 
 /**
  * Unit tests for the skill class.
- * @covers \App\Models\CyberpunkRed\Skill
  * @group cyberpunkred
  * @group models
  * @small

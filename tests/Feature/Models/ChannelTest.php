@@ -7,6 +7,8 @@ namespace Tests\Feature\Models;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 
@@ -19,6 +21,9 @@ use Illuminate\Support\Facades\Http;
  */
 final class ChannelTest extends \Tests\TestCase
 {
+    use RefreshDatabase;
+    use WithFaker;
+
     /**
      * URL that Slack connections will go to.
      * @var string
@@ -30,21 +35,6 @@ final class ChannelTest extends \Tests\TestCase
      * @var string
      */
     protected const API_DISCORD_GUILDS = 'https://discord.com/api/guilds/';
-
-    /**
-     * Faker instance.
-     * @var \Faker\Generator
-     */
-    protected static \Faker\Generator $faker;
-
-    /**
-     * Set up the faker instance.
-     */
-    public static function setUpBeforeClass(): void
-    {
-        parent::setUpBeforeClass();
-        self::$faker = \Faker\Factory::create();
-    }
 
     /**
      * Test getting the server's name if we've already retrieved it.
@@ -114,7 +104,7 @@ final class ChannelTest extends \Tests\TestCase
             'channel_id' => 'C' . \Str::random(10),
             'registered_by' => $user->id,
             'server_id' => 'T' . \Str::random(10),
-            'system' => self::$faker->randomElement(\array_keys(config('app.systems'))),
+            'system' => $this->faker->randomElement(\array_keys(config('app.systems'))),
             'type' => Channel::TYPE_SLACK,
         ]);
         $channel->save();
@@ -201,7 +191,7 @@ final class ChannelTest extends \Tests\TestCase
             'channel_id' => '2' . \Str::random(10),
             'registered_by' => $user->id,
             'server_id' => '1' . \Str::random(10),
-            'system' => self::$faker->randomElement(\array_keys(config('app.systems'))),
+            'system' => $this->faker->randomElement(\array_keys(config('app.systems'))),
             'type' => Channel::TYPE_DISCORD,
         ]);
         $channel->save();

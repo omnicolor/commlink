@@ -8,7 +8,6 @@ use App\Models\Shadowrun5E\VehicleModification;
 
 /**
  * Unit tests for Vehicle Modifications.
- * @covers \App\Models\Shadowrun5E\VehicleModification
  * @group models
  * @group shadowrun
  * @group shadowrun5e

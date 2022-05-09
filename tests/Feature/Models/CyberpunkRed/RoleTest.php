@@ -9,7 +9,6 @@ use App\Models\CyberpunkRed\Role\Fixer;
 
 /**
  * Tests for the Role abstract class.
- * @covers \App\Models\CyberpunkRed\Role
  * @group cyberpunkred
  * @group models
  * @small

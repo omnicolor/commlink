@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\GearModificationArray;
 
 /**
  * Tests for the GearModificationArray.
- * @covers \App\Models\Shadowrun5E\GearModificationArray
  * @group models
  * @group shadowrun
  * @group shadowrun5e

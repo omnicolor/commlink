@@ -6,7 +6,7 @@ namespace Tests\Features\Models\StarTrekAdventures;
 
 use App\Models\StarTrekAdventures\Talent;
 use App\Models\StarTrekAdventures\TalentArray;
-use StdClass;
+use stdClass;
 use Tests\TestCase;
 use TypeError;
 

@@ -8,8 +8,6 @@ use App\Models\CyberpunkRed\Role\Tech;
 
 /**
  * Tests for the Tech role.
- * @covers App\Models\CyberpunkRed\Role
- * @covers App\Models\CyberpunkRed\Role\Tech
  * @group cyberpunkred
  * @group models
  * @small

@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\ArmorArray;
 
 /**
  * Tests for the ArmorArray class.
- * @covers \App\Models\Shadowrun5E\ArmorArray
  * @group models
  * @group shadowrun
  * @group shadowrun5e

@@ -10,7 +10,6 @@ use App\Rolls\Shadowrun5e\Number;
 
 /**
  * Tests for rolling dice in Shadowrun 5E.
- * @covers \App\Rolls\Shadowrun5e\Number
  * @group discord
  * @group shadowrun
  * @group shadowrun5e

@@ -9,8 +9,6 @@ use App\Models\Shadowrun5E\LifestyleOption;
 
 /**
  * Tests for LifestyleOption.
- * @covers \App\Models\Shadowrun5E\Lifestyle
- * @covers \App\Models\Shadowrun5E\LifestyleOption
  * @group models
  * @group shadowrun
  * @group shadowrun5e

@@ -10,7 +10,6 @@ use App\Models\Shadowrun5E\Weapon;
 
 /**
  * Unit tests for the Vehicle class.
- * @covers \App\Models\Shadowrun5E\Vehicle
  * @group models
  * @group shadowrun
  * @group shadowrun5e

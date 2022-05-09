@@ -9,7 +9,6 @@ use Illuminate\Http\Response;
 
 /**
  * Tests for the backgrounds controller.
- * @covers \App\Http\Controllers\Expanse\BackgroundsController
  * @group controllers
  * @group expanse
  * @medium

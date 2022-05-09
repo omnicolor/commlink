@@ -8,7 +8,6 @@ use App\Models\Shadowrun5E\AdeptPower;
 
 /**
  * Unit tests for AdeptPower class.
- * @covers \App\Models\Shadowrun5E\AdeptPower
  * @group models
  * @group shadowrun
  * @group shadowrun5e

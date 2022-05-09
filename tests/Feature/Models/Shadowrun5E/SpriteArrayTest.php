@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\SpriteArray;
 
 /**
  * Tests for the SpriteArray.
- * @covers \App\Models\Shadowrun5E\SpriteArray
  * @group models
  * @group shadowrun
  * @group shadowrun5e

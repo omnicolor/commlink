@@ -9,7 +9,6 @@ use App\Models\Shadowrun5E\AdeptPowerArray;
 
 /**
  * Tests for the AdeptPowerArray class.
- * @covers \App\Models\Shadowrun5E\AdeptPowerArray
  * @group models
  * @group shadowrun
  * @group shadowrun5e

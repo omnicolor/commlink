@@ -8,7 +8,6 @@ use App\Models\Expanse\Condition;
 
 /**
  * Tests for Expanse conditions.
- * @covers \App\Models\Expanse\Condition
  * @group models
  * @group expanse
  * @small
