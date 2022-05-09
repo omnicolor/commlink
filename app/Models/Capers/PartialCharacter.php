@@ -25,6 +25,7 @@ class PartialCharacter extends Character
         'charisma',
         'description',
         'expertise',
+        'gear',
         'hits',
         'identity',
         'level',
