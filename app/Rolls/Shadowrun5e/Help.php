@@ -51,13 +51,20 @@ class Help extends Roll
         } elseif (null !== $this->character) {
             $this->data[] = [
                 'title' => 'Player',
-                'text' => (string)$this->character,
+                'text' => 'You\'re playing ' . (string)$this->character
+                    . ' in this channel' . \PHP_EOL
+                    . \sprintf(
+                        '· `composure` - Roll your composure stat (%d)',
+                        $this->character->composure
+                    ) . \PHP_EOL,
                 'color' => TextAttachment::COLOR_INFO,
             ];
         } else {
             $this->data[] = [
                 'title' => 'Player',
-                'text' => 'No character linked',
+                'text' => 'No character linked' . \PHP_EOL
+                    . '· `link <characterId>` - Link a character to this '
+                    . 'channel',
                 'color' => TextAttachment::COLOR_INFO,
             ];
         }

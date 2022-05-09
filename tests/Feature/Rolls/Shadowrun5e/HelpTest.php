@@ -42,7 +42,8 @@ final class HelpTest extends \Tests\TestCase
             $response->attachments[0]->title
         );
         self::assertSame(
-            'No character linked',
+            'No character linked' . \PHP_EOL
+                . '· `link <characterId>` - Link a character to this channel',
             $response->attachments[1]->text
         );
     }
@@ -88,7 +89,8 @@ final class HelpTest extends \Tests\TestCase
         $response = (new Help('', 'username', $channel))->forSlack();
         $response = \json_decode((string)$response);
         self::assertSame(
-            'No character linked',
+            'No character linked' . \PHP_EOL
+                . '· `link <characterId>` - Link a character to this channel',
             $response->attachments[1]->text
         );
     }
@@ -121,7 +123,8 @@ final class HelpTest extends \Tests\TestCase
         $response = (new Help('', 'username', $channel))->forSlack();
         $response = \json_decode((string)$response);
         self::assertSame(
-            'No character linked',
+            'No character linked' . \PHP_EOL
+                . '· `link <characterId>` - Link a character to this channel',
             $response->attachments[1]->text
         );
     }
@@ -157,7 +160,9 @@ final class HelpTest extends \Tests\TestCase
 
         /** @var Character */
         $character = Character::factory()->create([
+            'charisma' => 2,
             'system' => 'shadowrun5e',
+            'willpower' => 3,
         ]);
 
         ChatCharacter::factory()->create([
@@ -169,7 +174,11 @@ final class HelpTest extends \Tests\TestCase
         $response = (new Help('', 'username', $channel))->forSlack();
         $response = \json_decode((string)$response);
         self::assertSame(
-            (string)$character,
+            \sprintf(
+                'You\'re playing %s in this channel' . \PHP_EOL
+                    . '· `composure` - Roll your composure stat (5)' . \PHP_EOL,
+                (string)$character,
+            ),
             $response->attachments[1]->text
         );
     }
