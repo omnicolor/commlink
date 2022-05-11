@@ -12,6 +12,7 @@ use App\Models\ChatUser;
 use App\Models\User;
 use App\Rolls\Shadowrun5e\Help;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * Tests for getting help in a Channel registered as Shadowrun 5E.
@@ -20,7 +21,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
  * @group slack
  * @medium
  */
-final class HelpTest extends \Tests\TestCase
+final class HelpTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -160,9 +161,12 @@ final class HelpTest extends \Tests\TestCase
 
         /** @var Character */
         $character = Character::factory()->create([
+            'body' => 1,
             'charisma' => 2,
+            'intuition' => 3,
             'system' => 'shadowrun5e',
-            'willpower' => 3,
+            'strength' => 4,
+            'willpower' => 5,
         ]);
 
         ChatCharacter::factory()->create([
@@ -176,7 +180,10 @@ final class HelpTest extends \Tests\TestCase
         self::assertSame(
             \sprintf(
                 'You\'re playing %s in this channel' . \PHP_EOL
-                    . '· `composure` - Roll your composure stat (5)' . \PHP_EOL,
+                    . '· `composure` - Make a composure roll (7)' . \PHP_EOL
+                    . '· `judge` - Make a judge intentions check (5)' . \PHP_EOL
+                    . '· `lift` - Make a lift/carry roll (5)' . \PHP_EOL
+                    . '· `memory` - Make a memory test (5)',
                 (string)$character,
             ),
             $response->attachments[1]->text

@@ -54,10 +54,17 @@ class Help extends Roll
                 'text' => 'You\'re playing ' . (string)$this->character
                     . ' in this channel' . \PHP_EOL
                     . \sprintf(
-                        '· `composure` - Roll your composure stat (%d)',
+                        '· `composure` - Make a composure roll (%d)' . \PHP_EOL
+                        . '· `judge` - Make a judge intentions check (%d)'
+                        . \PHP_EOL
+                        . '· `lift` - Make a lift/carry roll (%d)' . \PHP_EOL
+                        . '· `memory` - Make a memory test (%d)',
                         // @phpstan-ignore-next-line
-                        $this->character->composure
-                    ) . \PHP_EOL,
+                        $this->character->composure,
+                        $this->character->judge_intentions,
+                        $this->character->lift_carry,
+                        $this->character->memory,
+                    ),
                 'color' => TextAttachment::COLOR_INFO,
             ];
         } else {
