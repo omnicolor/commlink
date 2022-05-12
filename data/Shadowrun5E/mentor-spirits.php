@@ -16,6 +16,19 @@ return [
         'ruleset' => '',
     ],
      */
+    'bear' => [
+        'description' => 'Description of Bear.',
+        'effects' => [
+            'damage-resistance' => 2,
+            'health-spell' => 2,
+            'health-preparations' => 2,
+            'health-ritual' => 2,
+            'rapid-healing' => 1,
+        ],
+        'id' => 'bear',
+        'name' => 'Bear',
+        'ruleset' => 'core',
+    ],
     'goddess' => [
         'description' => 'Description of Goddess.',
         'effects-adept' => ['adept-power' => 'authoritative-tone-1'],

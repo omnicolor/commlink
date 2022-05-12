@@ -183,7 +183,8 @@ final class HelpTest extends TestCase
                     . '· `composure` - Make a composure roll (7)' . \PHP_EOL
                     . '· `judge` - Make a judge intentions check (5)' . \PHP_EOL
                     . '· `lift` - Make a lift/carry roll (5)' . \PHP_EOL
-                    . '· `memory` - Make a memory test (5)',
+                    . '· `memory` - Make a memory test (5)' . \PHP_EOL
+                    . '· `soak` - Make a soak test (1)',
                 (string)$character,
             ),
             $response->attachments[1]->text

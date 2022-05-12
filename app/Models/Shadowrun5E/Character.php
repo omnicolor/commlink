@@ -26,12 +26,15 @@ use RuntimeException;
  * @property string $id
  * @property ?array<int, array<string, mixed>> $identities
  * @property int $intuition
+ * @property int $judge_intentions
  * @property int $karma
  * @property int $karmaCurrent
  * @property ?array<int, array<string, string|int>> $karmaLog
  * @property ?array<int, array<string, string|int|null>> $knowledgeSkills
+ * @property int $lift_carry
  * @property int $logic
  * @property ?array<string, array<int, string>> $martialArts
+ * @property int $memory
  * @property ?array<string, boolean|null|string> $priorities
  * @property ?int $magic
  * @property ?array<string, mixed> $magics
@@ -755,6 +758,27 @@ class Character extends \App\Models\Character
             }
         }
         return $groups;
+    }
+
+    /**
+     * Return the character's soak dice pool.
+     * @return int
+     */
+    public function getSoakAttribute(): int
+    {
+        $modifier = 0;
+        foreach ($this->getAugmentations() as $augmentation) {
+            if (!isset($augmentation->effects['damage-resistance'])) {
+                continue;
+            }
+            $modifier += $augmentation->effects['damage-resistance'];
+        }
+        $mentor = $this->getMentorSpirit();
+        if (null !== $mentor) {
+            $modifier += $mentor->effects['damage-resistance'] ?? 0;
+        }
+        return $this->getModifiedAttribute('body') + $modifier
+            + $this->getArmorValue();
     }
 
     /**

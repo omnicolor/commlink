@@ -217,7 +217,7 @@ class Number extends Roll
         }
         $attachment = new TextAttachment($this->title, $this->text, $color);
         $attachment->addFooter($footer);
-        $response = new SlackResponse('', SlackResponse::HTTP_OK, [], $this->channel);
+        $response = new SlackResponse(channel: $this->channel);
         return $response->addAttachment($attachment)->sendToChannel();
     }
 

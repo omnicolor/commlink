@@ -49,6 +49,9 @@ class Help extends Roll
                 'color' => TextAttachment::COLOR_INFO,
             ];
         } elseif (null !== $this->character) {
+            /** @var \App\Models\Shadowrun5E\Character */
+            $character = $this->character;
+
             $this->data[] = [
                 'title' => 'Player',
                 'text' => 'You\'re playing ' . (string)$this->character
@@ -58,12 +61,13 @@ class Help extends Roll
                         . '· `judge` - Make a judge intentions check (%d)'
                         . \PHP_EOL
                         . '· `lift` - Make a lift/carry roll (%d)' . \PHP_EOL
-                        . '· `memory` - Make a memory test (%d)',
-                        // @phpstan-ignore-next-line
-                        $this->character->composure,
-                        $this->character->judge_intentions,
-                        $this->character->lift_carry,
-                        $this->character->memory,
+                        . '· `memory` - Make a memory test (%d)' . \PHP_EOL
+                        . '· `soak` - Make a soak test (%d)',
+                        $character->composure,
+                        $character->judge_intentions,
+                        $character->lift_carry,
+                        $character->memory,
+                        $character->soak,
                     ),
                 'color' => TextAttachment::COLOR_INFO,
             ];
@@ -84,12 +88,7 @@ class Help extends Roll
      */
     public function forSlack(): SlackResponse
     {
-        $response = new SlackResponse(
-            '',
-            SlackResponse::HTTP_OK,
-            [],
-            $this->channel
-        );
+        $response = new SlackResponse(channel: $this->channel);
         foreach ($this->data as $element) {
             $response->addAttachment(new TextAttachment(
                 $element['title'],

@@ -1273,6 +1273,68 @@ final class CharacterTest extends \Tests\TestCase
     }
 
     /**
+     * Test getting the character's soak pool if they have nothing to change
+     * their base value.
+     * @test
+     */
+    public function testGetBaseSoak(): void
+    {
+        $character = new Character(['body' => 1]);
+        self::assertSame(1, $character->soak);
+    }
+
+    /**
+     * Test getting a character's soak pool if they have an augmentation that
+     * increases their damage resistance.
+     * @test
+     */
+    public function testGetSoakWithBoneDensityAugmentation(): void
+    {
+        $character = new Character([
+            'augmentations' => [
+                ['id' => 'bone-density-augmentation-2'],
+            ],
+            'body' => 2,
+        ]);
+        self::assertSame(4, $character->soak);
+    }
+
+    /**
+     * Test getting a character's soak pool if they've got a mentor spirit that
+     * toughens them up.
+     * @test
+     */
+    public function testGetSoakWithBearMentorSpirit(): void
+    {
+        $character = new Character([
+            'body' => 3,
+            'magics' => [
+                'mentorSpirit' => 'bear',
+            ],
+        ]);
+        self::assertSame(5, $character->soak);
+    }
+
+    /**
+     * Test getting a character's soak pool if they're a coward hiding behind
+     * armor.
+     * @test
+     */
+    public function testGetSoakWithArmor(): void
+    {
+        $character = new Character([
+            'armor' => [
+                [
+                    'active' => true,
+                    'id' => 'armor-jacket',
+                ],
+            ],
+            'body' => 3,
+        ]);
+        self::assertSame(15, $character->soak);
+    }
+
+    /**
      * Test getting a character's spells if they are mundane.
      * @test
      */
