@@ -163,6 +163,7 @@ final class HelpTest extends TestCase
         $character = Character::factory()->create([
             'body' => 1,
             'charisma' => 2,
+            'edge' => 6,
             'intuition' => 3,
             'system' => 'shadowrun5e',
             'strength' => 4,
@@ -184,7 +185,8 @@ final class HelpTest extends TestCase
                     . '· `judge` - Make a judge intentions check (5)' . \PHP_EOL
                     . '· `lift` - Make a lift/carry roll (5)' . \PHP_EOL
                     . '· `memory` - Make a memory test (5)' . \PHP_EOL
-                    . '· `soak` - Make a soak test (1)',
+                    . '· `soak` - Make a soak test (1)' . \PHP_EOL
+                    . '· `luck` - Make a luck (edge) test (6)',
                 (string)$character,
             ),
             $response->attachments[1]->text

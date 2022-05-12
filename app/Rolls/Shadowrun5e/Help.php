@@ -62,12 +62,14 @@ class Help extends Roll
                         . \PHP_EOL
                         . '· `lift` - Make a lift/carry roll (%d)' . \PHP_EOL
                         . '· `memory` - Make a memory test (%d)' . \PHP_EOL
-                        . '· `soak` - Make a soak test (%d)',
+                        . '· `soak` - Make a soak test (%d)' . \PHP_EOL
+                        . '· `luck` - Make a luck (edge) test (%d)',
                         $character->composure,
                         $character->judge_intentions,
                         $character->lift_carry,
                         $character->memory,
                         $character->soak,
+                        $character->edge,
                     ),
                 'color' => TextAttachment::COLOR_INFO,
             ];
