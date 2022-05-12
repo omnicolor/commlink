@@ -48,7 +48,7 @@ class CharactersController extends Controller
             ]);
             $request->session()->put('capers-partial', $character->id);
             return view(
-                'capers.create-basics',
+                'Capers.create-basics',
                 [
                     'background' => '',
                     'character' => $character,
@@ -73,7 +73,7 @@ class CharactersController extends Controller
 
             if (0 !== count($characters)) {
                 return view(
-                    'capers.choose-character',
+                    'Capers.choose-character',
                     [
                         'characters' => $characters,
                         'user' => $user,
@@ -93,7 +93,7 @@ class CharactersController extends Controller
         switch ($step) {
             case 'anchors':
                 return view(
-                    'capers.create-anchors',
+                    'Capers.create-anchors',
                     [
                         'character' => $character,
                         'creating' => 'anchors',
@@ -105,7 +105,7 @@ class CharactersController extends Controller
                 );
             case 'basics':
                 return view(
-                    'capers.create-basics',
+                    'Capers.create-basics',
                     [
                         'background' => $request->old('background') ?? $character->background ?? '',
                         'character' => $character,
@@ -135,7 +135,7 @@ class CharactersController extends Controller
                 }
 
                 return view(
-                    'capers.create-boosts',
+                    'Capers.create-boosts',
                     [
                         'character' => $character,
                         'chosenBoosts' => $request->old('boosts') ?? $chosenBoosts,
@@ -161,7 +161,7 @@ class CharactersController extends Controller
                 );
                 sort($types);
                 return view(
-                    'capers.create-gear',
+                    'Capers.create-gear',
                     [
                         'character' => $character,
                         'creating' => 'gear',
@@ -174,7 +174,7 @@ class CharactersController extends Controller
                 );
             case 'review':
                 return view(
-                    'capers.character',
+                    'Capers.character',
                     [
                         'character' => $character,
                         'creating' => 'review',
@@ -183,7 +183,7 @@ class CharactersController extends Controller
                 );
             case 'skills':
                 return view(
-                    'capers.create-skills',
+                    'Capers.create-skills',
                     [
                         'character' => $character,
                         'creating' => 'skills',
@@ -211,7 +211,7 @@ class CharactersController extends Controller
                 }
 
                 return view(
-                    'capers.create-powers',
+                    'Capers.create-powers',
                     [
                         'character' => $character,
                         'chosenPowers' => $request->old('powers') ?? $chosenPowers,
@@ -224,7 +224,7 @@ class CharactersController extends Controller
                 );
             case 'traits':
                 return view(
-                    'capers.create-traits',
+                    'Capers.create-traits',
                     [
                         'character' => $character,
                         'creating' => 'traits',
@@ -283,7 +283,7 @@ class CharactersController extends Controller
         $character->save();
         $partialCharacter->delete();
 
-        return redirect(route('capers.character', $character));
+        return redirect(route('Capers.character', $character));
     }
 
     public function storeAnchors(AnchorsRequest $request): RedirectResponse
@@ -493,7 +493,7 @@ class CharactersController extends Controller
     {
         $user = Auth::user();
         return view(
-            'capers.character',
+            'Capers.character',
             ['character' => $character, 'user' => $user]
         );
     }

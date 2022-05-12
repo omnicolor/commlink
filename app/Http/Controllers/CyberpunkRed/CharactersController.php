@@ -99,7 +99,7 @@ class CharactersController extends \App\Http\Controllers\Controller
             ]);
             $request->session()->put('cyberpunkredpartial', $character->id);
             return view(
-                'cyberpunkred.create-handle',
+                'CyberpunkRed.create-handle',
                 [
                     'character' => $character,
                     'creating' => 'handle',
@@ -112,7 +112,7 @@ class CharactersController extends \App\Http\Controllers\Controller
                 ->where('system', 'cyberpunkred')
                 ->get();
             return view(
-                'cyberpunkred.choose-character',
+                'CyberpunkRed.choose-character',
                 ['characters' => $characters],
             );
         }
@@ -128,7 +128,7 @@ class CharactersController extends \App\Http\Controllers\Controller
 
             if (0 !== count($characters)) {
                 return view(
-                    'cyberpunkred.choose-character',
+                    'CyberpunkRed.choose-character',
                     [
                         'characters' => $characters,
                         'user' => $user,
@@ -150,7 +150,7 @@ class CharactersController extends \App\Http\Controllers\Controller
         switch ($step) {
             case 'handle':
                 return view(
-                    'cyberpunkred.create-handle',
+                    'CyberpunkRed.create-handle',
                     [
                         'creating' => 'handle',
                         'character' => $character,
@@ -159,7 +159,7 @@ class CharactersController extends \App\Http\Controllers\Controller
             case 'lifepath':
                 $character->initializeLifepath();
                 return view(
-                    'cyberpunkred.create-lifepath',
+                    'CyberpunkRed.create-lifepath',
                     [
                         'affectation' => $character->lifepath['affectation']['chosen'],
                         'background' => $character->lifepath['background']['chosen'],
@@ -178,7 +178,7 @@ class CharactersController extends \App\Http\Controllers\Controller
                 );
             case 'review':
                 return view(
-                    'cyberpunkred.character',
+                    'CyberpunkRed.character',
                     [
                         'character' => $character,
                         'creating' => 'review',
@@ -193,7 +193,7 @@ class CharactersController extends \App\Http\Controllers\Controller
                     $role = $character->roles[0]['role'];
                 }
                 return view(
-                    'cyberpunkred.create-role',
+                    'CyberpunkRed.create-role',
                     [
                         'character' => $character,
                         'chosenRole' => $role,
@@ -214,7 +214,7 @@ class CharactersController extends \App\Http\Controllers\Controller
                 return view(
                     // @phpstan-ignore-next-line
                     sprintf(
-                        'cyberpunkred.create-lifepath-%s',
+                        'CyberpunkRed.create-lifepath-%s',
                         strtolower((string)$role),
                     ),
                     [
@@ -224,7 +224,7 @@ class CharactersController extends \App\Http\Controllers\Controller
                 );
             case 'stats':
                 return view(
-                    'cyberpunkred.create-stats',
+                    'CyberpunkRed.create-stats',
                     [
                         'character' => $character,
                         'creating' => 'stats',
@@ -381,7 +381,7 @@ class CharactersController extends \App\Http\Controllers\Controller
     {
         $user = \Auth::user();
         return view(
-            'cyberpunkred.character',
+            'CyberpunkRed.character',
             [
                 'character' => $character,
                 'creating' => false,

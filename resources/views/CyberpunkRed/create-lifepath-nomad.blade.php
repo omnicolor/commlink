@@ -1,6 +1,6 @@
 <x-app>
     <x-slot name="title">Role-based lifepath</x-slot>
-    @include('cyberpunkred.create-navigation')
+    @include('CyberpunkRed.create-navigation')
 
     <h1>Role-based lifepath</h1>
 

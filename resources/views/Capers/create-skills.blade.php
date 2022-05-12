@@ -1,6 +1,6 @@
 <x-app>
     <x-slot name="title">Create character: Skills</x-slot>
-    @include('capers.create-navigation')
+    @include('Capers.create-navigation')
 
     <form action="{{ route('capers.create-skills') }}" id="form" method="POST"
         @if ($errors->any()) class="was-validated" @endif

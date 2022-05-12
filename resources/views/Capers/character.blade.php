@@ -44,7 +44,7 @@
         </style>
     </x-slot>
 
-    @includeWhen($creating ?? false, 'capers.create-navigation')
+    @includeWhen($creating ?? false, 'Capers.create-navigation')
 
     <div class="row my-4">
         <div class="col-1"></div>

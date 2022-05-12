@@ -1,6 +1,6 @@
 <x-app>
     <x-slot name="title">{{ $character->handle }}</x-slot>
-    @includeWhen($creating, 'cyberpunkred.create-navigation')
+    @includeWhen($creating, 'CyberpunkRed.create-navigation')
 
     <x-slot name="head">
         <style>

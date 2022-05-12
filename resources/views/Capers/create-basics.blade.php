@@ -1,6 +1,6 @@
 <x-app>
     <x-slot name="title">Create character: Basics</x-slot>
-    @include('capers.create-navigation')
+    @include('Capers.create-navigation')
 
     @if ($errors->any())
         <div class="my-4 row">

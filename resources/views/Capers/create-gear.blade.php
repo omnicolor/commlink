@@ -9,7 +9,7 @@
         </style>
     </x-slot>
 
-    @include('capers.create-navigation')
+    @include('Capers.create-navigation')
 
     <form action="{{ route('capers.create-gear') }}" id="form" method="POST"
         @if ($errors->any()) class="was-validated" @endif
