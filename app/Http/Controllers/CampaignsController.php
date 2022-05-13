@@ -87,7 +87,7 @@ class CampaignsController extends Controller
         switch ($campaign->system) {
             case 'cyberpunkred':
                 return view(
-                    'cyberpunkred.gm-screen',
+                    'CyberpunkRed.gm-screen',
                     [
                         'campaign' => $campaign,
                         // @phpstan-ignore-next-line

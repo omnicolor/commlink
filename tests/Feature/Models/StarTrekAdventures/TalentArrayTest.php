@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Features\Models\StarTrekAdventures;
+namespace Tests\Feature\Models\StarTrekAdventures;
 
 use App\Models\StarTrekAdventures\Talent;
 use App\Models\StarTrekAdventures\TalentArray;

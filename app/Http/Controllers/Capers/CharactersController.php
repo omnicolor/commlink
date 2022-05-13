@@ -283,7 +283,7 @@ class CharactersController extends Controller
         $character->save();
         $partialCharacter->delete();
 
-        return redirect(route('Capers.character', $character));
+        return redirect(route('capers.character', $character));
     }
 
     public function storeAnchors(AnchorsRequest $request): RedirectResponse
