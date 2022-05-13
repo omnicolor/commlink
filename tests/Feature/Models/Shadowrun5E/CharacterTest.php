@@ -1292,7 +1292,10 @@ final class CharacterTest extends \Tests\TestCase
     {
         $character = new Character([
             'augmentations' => [
+                // One with damage-resistance...
                 ['id' => 'bone-density-augmentation-2'],
+                // and one without.
+                ['id' => 'damper'],
             ],
             'body' => 2,
         ]);
