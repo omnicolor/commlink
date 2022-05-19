@@ -67,7 +67,7 @@ final class SettingsControllerTest extends \Tests\TestCase
             ->assertDontSee('You don\'t have any linked chat users!', false)
             ->assertSee($serverId)
             ->assertSee($remoteUserId)
-            ->assertSee('/roll validateUser');
+            ->assertSee('/roll validate');
     }
 
     /**

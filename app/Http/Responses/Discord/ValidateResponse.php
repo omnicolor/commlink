@@ -11,7 +11,7 @@ use App\Models\ChatUser;
 /**
  * Discord response for linking a Commlink user to a Discord user.
  */
-class ValidateUserResponse
+class ValidateResponse
 {
     /**
      * Construct a new instance.

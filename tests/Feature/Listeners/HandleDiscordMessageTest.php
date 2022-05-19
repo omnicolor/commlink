@@ -243,7 +243,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $messageMap = [
             ['author', $userMock],
             ['channel', $channelMock],
-            ['content', '/roll validateUser'],
+            ['content', '/roll validate'],
         ];
         $messageMock = $this->createStub(Message::class);
         $messageMock->method('__get')->willReturnMap($messageMap);
@@ -310,7 +310,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $messageMap = [
             ['author', $userMock],
             ['channel', $channelMock],
-            ['content', '/roll validateUser deadb33f'],
+            ['content', '/roll validate deadb33f'],
         ];
         $messageMock = $this->createStub(Message::class);
         $messageMock->method('__get')->willReturnMap($messageMap);
@@ -368,7 +368,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $messageMap = [
             ['author', $userMock],
             ['channel', $channelMock],
-            ['content', sprintf('/roll validateUser %s', $chatUser->verification)],
+            ['content', sprintf('/roll validate %s', $chatUser->verification)],
         ];
         $messageMock = $this->createStub(Message::class);
         $messageMock->method('__get')->willReturnMap($messageMap);
@@ -428,7 +428,7 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $messageMap = [
             ['author', $userMock],
             ['channel', $channelMock],
-            ['content', sprintf('/roll validateUser %s', $chatUser->verification)],
+            ['content', sprintf('/roll validate %s', $chatUser->verification)],
         ];
         $messageMock = $this->createStub(Message::class);
         $messageMock->method('__get')->willReturnMap($messageMap);

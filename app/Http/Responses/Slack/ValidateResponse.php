@@ -15,7 +15,7 @@ use App\Models\User;
 /**
  * Slack response for registering a Commlink user to a Slack user.
  */
-class ValidateUserResponse extends SlackResponse
+class ValidateResponse extends SlackResponse
 {
     /**
      * User linked to the request.

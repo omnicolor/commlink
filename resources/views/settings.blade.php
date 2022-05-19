@@ -94,7 +94,7 @@
                                             <i class="bi bi-question-square-fill text-danger"></i>
                                         </span>
                                         <span class="input-group-text user-select-all">
-                                            /roll validateUser {{ $chatUser->verification }}
+                                            /roll validate {{ $chatUser->verification }}
                                         </span>
                                         <button class="btn btn-outline-secondary copy-btn" type="button">
                                             <i class="bi bi-clipboard"></i>

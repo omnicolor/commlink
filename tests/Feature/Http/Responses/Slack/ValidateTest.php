@@ -5,20 +5,21 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Responses\Slack;
 
 use App\Exceptions\SlackException;
-use App\Http\Responses\Slack\ValidateUserResponse;
+use App\Http\Responses\Slack\ValidateResponse;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\Character;
 use App\Models\ChatUser;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * Tests for validating a user from Slack.
  * @group slack
  * @medium
  */
-final class ValidateUserResponseTest extends \Tests\TestCase
+final class ValidateTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -30,7 +31,7 @@ final class ValidateUserResponseTest extends \Tests\TestCase
     {
         self::expectException(SlackException::class);
         self::expectExceptionMessage('Channel is required');
-        new ValidateUserResponse();
+        new ValidateResponse();
     }
 
     /**
@@ -53,7 +54,7 @@ final class ValidateUserResponseTest extends \Tests\TestCase
             $channel->server_id,
             $channel->user
         ));
-        new ValidateUserResponse(
+        new ValidateResponse(
             content: 'validate',
             channel: $channel
         );
@@ -94,7 +95,7 @@ final class ValidateUserResponseTest extends \Tests\TestCase
             $channel->server_id,
             $channel->user
         ));
-        new ValidateUserResponse(
+        new ValidateResponse(
             content: 'validate aaa',
             channel: $channel,
         );
@@ -121,7 +122,7 @@ final class ValidateUserResponseTest extends \Tests\TestCase
         ]);
         self::expectException(SlackException::class);
         self::expectExceptionMessage('It looks like you\'re already verfied!');
-        new ValidateUserResponse(
+        new ValidateResponse(
             content: \sprintf('validate %s', $chatUser->verification),
             channel: $channel,
         );
@@ -146,7 +147,7 @@ final class ValidateUserResponseTest extends \Tests\TestCase
             'user_id' => $user->id,
             'verified' => false,
         ]);
-        $response = new ValidateUserResponse(
+        $response = new ValidateResponse(
             content: \sprintf('validate %s', $chatUser->verification),
             channel: $channel
         );
@@ -179,7 +180,7 @@ final class ValidateUserResponseTest extends \Tests\TestCase
             'user_id' => $user->id,
             'verified' => false,
         ]);
-        $response = new ValidateUserResponse(
+        $response = new ValidateResponse(
             content: \sprintf('validate %s', $chatUser->verification),
             channel: $channel
         );
@@ -222,7 +223,7 @@ final class ValidateUserResponseTest extends \Tests\TestCase
             $campaign->getSystem(),
         );
 
-        $response = (string)(new ValidateUserResponse(
+        $response = (string)(new ValidateResponse(
             content: \sprintf('validate %s', $chatUser->verification),
             channel: $channel
         ));
@@ -257,7 +258,7 @@ final class ValidateUserResponseTest extends \Tests\TestCase
             'user_id' => $user->id,
             'verified' => false,
         ]);
-        $response = (string)(new ValidateUserResponse(
+        $response = (string)(new ValidateResponse(
             content: \sprintf('validate %s', $chatUser->verification),
             channel: $channel
         ));
