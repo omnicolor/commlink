@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Events;
 
 use App\Models\Campaign;
+use App\Models\Channel;
 use App\Models\Initiative;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -31,7 +32,8 @@ class InitiativeAdded implements ShouldBroadcast
      */
     public function __construct(
         public Initiative $initiative,
-        public Campaign $campaign
+        public Campaign $campaign,
+        public ?Channel $source = null
     ) {
         $this->name = (string)$initiative;
     }

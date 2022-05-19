@@ -25,6 +25,8 @@ use RuntimeException;
  * @property string $handle
  * @property string $id
  * @property ?array<int, array<string, mixed>> $identities
+ * @property int $initiative_dice
+ * @property int $initiative_score
  * @property int $intuition
  * @property int $judge_intentions
  * @property int $karma
@@ -382,6 +384,22 @@ class Character extends \App\Models\Character
     }
 
     /**
+     * Return the character's real-world initiative.
+     * @return int
+     */
+    public function getInitiativeScoreAttribute(): int
+    {
+        return $this->getModifiedAttribute('reaction')
+            + $this->getModifiedAttribute('intuition')
+            + $this->getModifiedAttribute('initiative');
+    }
+
+    public function getInitiativeDiceAttribute(): int
+    {
+        return 1 + $this->getModifiedAttribute('initiative-dice');
+    }
+
+    /**
      * Get the character's judge intentions derived stat.
      * @return int
      */
@@ -567,11 +585,11 @@ class Character extends \App\Models\Character
     public function getModifiedAttribute(string $attribute): int
     {
         $cleanAttributeName = $this->dashedToCamel($attribute);
-        // @phpstan-ignore-next-line
-        $modifiedAttribute = $this->$cleanAttributeName ?? 0;
+        $modifiedAttribute = $this->attributes[$cleanAttributeName] ?? 0;
         $modifiers = \array_merge(
             (array)$this->getAugmentations(),
-            (array)$this->getQualities()
+            (array)$this->getQualities(),
+            (array)$this->getAdeptPowers(),
         );
 
         // PHPstan seems to think $modifiers will always be an empty array.

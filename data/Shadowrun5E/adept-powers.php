@@ -19,6 +19,25 @@ return [
         'ruleset' => '',
     ],
     */
+    'adrenaline-boost-1' => [
+        'id' => 'adrenaline-boost-1',
+        'cost' => .25 * 1,
+        'description' => 'Adrenaline boost ',
+        'effects' => [
+            'initiative' => 2 * 1,
+        ],
+        'incompatible-with' => [
+            'adrenaline-boost-1',
+            'adrenaline-boost-2',
+            'adrenaline-boost-3',
+            'adrenaline-boost-4',
+            'adrenaline-boost-5',
+            'adrenaline-boost-6',
+            'adrenaline-boost-7',
+        ],
+        'level' => 1,
+        'name' => 'Adrenaline boost',
+    ],
     'combat-sense-2' => [
         'cost' => .5 * 2,
         'description' => 'Combat sense description',

@@ -3,19 +3,21 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\ChannelsController;
+use App\Http\Controllers\InitiativesController;
 use App\Http\Controllers\SlackController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-Route::middleware('auth:api')->group(function (): void {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
-});
 
 Route::middleware('auth:sanctum')->group(function (): void {
     Route::resource('/channels', ChannelsController::class)
         ->only(['update']);
+    Route::resource(
+        '/campaigns/{campaign}/initiatives',
+        InitiativesController::class,
+    );
+    Route::delete(
+        '/campaigns/{campaign}/initiatives',
+        [InitiativesController::class, 'truncate']
+    );
 });
 
 Route::options('/roll', [SlackController::class, 'options'])

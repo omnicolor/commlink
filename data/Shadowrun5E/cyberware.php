@@ -191,4 +191,25 @@ return [
         'type' => 'cyberware',
         'wireless-effects' => [],
     ],
+    'synaptic-booster-1' => [
+        'id' => 'synaptic-booster-1',
+        'availability' => '6R',
+        'cost' => 95000,
+        'essence' => 0.5,
+        'name' => 'Synaptic Booster',
+        'rating' => 1,
+        'description' => 'Synaptic booster description.',
+        'effects' => [
+            'reaction' => 1,
+            'initiative-dice' => 1,
+        ],
+        'incompatibilities' => [
+            'reaction-enhancers-1',
+            'reaction-enhancers-2',
+            'reaction-enhancers-3',
+            'synaptic-booster-1',
+            'synaptic-booster-2',
+            'synaptic-booster-3',
+        ],
+    ],
 ];

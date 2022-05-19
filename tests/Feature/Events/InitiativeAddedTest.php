@@ -37,7 +37,7 @@ final class InitiativeAddedTest extends \Tests\TestCase
             'character_id' => $character->id,
         ]);
 
-        $event = new InitiativeAdded($initiative, $campaign);
+        $event = new InitiativeAdded($initiative, $campaign, null);
 
         self::assertInstanceOf(PrivateChannel::class, $event->broadcastOn());
         self::assertSame($campaign, $event->campaign);

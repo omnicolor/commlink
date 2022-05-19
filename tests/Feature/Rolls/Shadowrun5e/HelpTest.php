@@ -44,7 +44,9 @@ final class HelpTest extends TestCase
         );
         self::assertSame(
             'No character linked' . \PHP_EOL
-                . '· `link <characterId>` - Link a character to this channel',
+                . '· `link <characterId>` - Link a character to this channel'
+                . \PHP_EOL
+                . '· `init 12+3d6` - Roll your initiative' . \PHP_EOL,
             $response->attachments[1]->text
         );
     }
@@ -91,7 +93,9 @@ final class HelpTest extends TestCase
         $response = \json_decode((string)$response);
         self::assertSame(
             'No character linked' . \PHP_EOL
-                . '· `link <characterId>` - Link a character to this channel',
+                . '· `link <characterId>` - Link a character to this channel'
+                . \PHP_EOL
+                . '· `init 12+3d6` - Roll your initiative' . \PHP_EOL,
             $response->attachments[1]->text
         );
     }
@@ -125,7 +129,9 @@ final class HelpTest extends TestCase
         $response = \json_decode((string)$response);
         self::assertSame(
             'No character linked' . \PHP_EOL
-                . '· `link <characterId>` - Link a character to this channel',
+                . '· `link <characterId>` - Link a character to this channel'
+                . \PHP_EOL
+                . '· `init 12+3d6` - Roll your initiative' . \PHP_EOL,
             $response->attachments[1]->text
         );
     }
@@ -166,8 +172,9 @@ final class HelpTest extends TestCase
             'edge' => 6,
             'intuition' => 3,
             'system' => 'shadowrun5e',
-            'strength' => 4,
-            'willpower' => 5,
+            'reaction' => 4,
+            'strength' => 5,
+            'willpower' => 6,
         ]);
 
         ChatCharacter::factory()->create([
@@ -181,12 +188,13 @@ final class HelpTest extends TestCase
         self::assertSame(
             \sprintf(
                 'You\'re playing %s in this channel' . \PHP_EOL
-                    . '· `composure` - Make a composure roll (7)' . \PHP_EOL
+                    . '· `composure` - Make a composure roll (8)' . \PHP_EOL
                     . '· `judge` - Make a judge intentions check (5)' . \PHP_EOL
-                    . '· `lift` - Make a lift/carry roll (5)' . \PHP_EOL
-                    . '· `memory` - Make a memory test (5)' . \PHP_EOL
+                    . '· `lift` - Make a lift/carry roll (6)' . \PHP_EOL
+                    . '· `memory` - Make a memory test (6)' . \PHP_EOL
                     . '· `soak` - Make a soak test (1)' . \PHP_EOL
-                    . '· `luck` - Make a luck (edge) test (6)',
+                    . '· `luck` - Make a luck (edge) test (6)' . \PHP_EOL
+                    . '· `init` - Roll your initiative (1d6+7)' . \PHP_EOL,
                 (string)$character,
             ),
             $response->attachments[1]->text

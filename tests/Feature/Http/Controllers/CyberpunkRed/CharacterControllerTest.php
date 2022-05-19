@@ -18,7 +18,6 @@ use Tests\TestCase;
  * Controller for the Cyberpunk Red characters controller.
  * @group controllers
  * @group cyberpunkred
- * @group current
  * @medium
  */
 final class CharacterControllerTest extends TestCase

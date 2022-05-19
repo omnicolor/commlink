@@ -104,7 +104,11 @@ class Init extends Roll
             ['initiative' => $this->roll + $this->reflexes + $this->modifier],
         );
         if (null !== $this->campaign) {
-            InitiativeAdded::dispatch($this->initiative, $this->campaign);
+            InitiativeAdded::dispatch(
+                $this->initiative,
+                $this->campaign,
+                $this->channel
+            );
         }
     }
 

@@ -15,6 +15,7 @@ use App\Models\Shadowrun5E\KnowledgeSkill;
 use App\Models\Shadowrun5E\MentorSpirit;
 use App\Models\Shadowrun5E\Quality;
 use App\Models\Shadowrun5E\QualityArray;
+use Tests\TestCase;
 
 /**
  * Tests for Shadowrun 5E characters.
@@ -23,7 +24,7 @@ use App\Models\Shadowrun5E\QualityArray;
  * @group shadowrun5e
  * @small
  */
-final class CharacterTest extends \Tests\TestCase
+final class CharacterTest extends TestCase
 {
     /**
      * Test displaying the character as a string just shows their handle.
@@ -1035,6 +1036,87 @@ final class CharacterTest extends \Tests\TestCase
         $character->agility = 4;
 
         self::assertEquals(4, $character->getModifiedAttribute('agility'));
+    }
+
+    /**
+     * Test a character's unmodified initiative score.
+     * @test
+     */
+    public function testInitiativeUnmodified(): void
+    {
+        $intuition = random_int(1, 8);
+        $reaction = random_int(1, 8);
+
+        $character = new Character([
+            'intuition' => $intuition,
+            'reaction' => $reaction,
+        ]);
+
+        self::assertSame($intuition + $reaction, $character->initiative_score);
+    }
+
+    /**
+     * Test a character's initiative modified by an adept power.
+     * @test
+     */
+    public function testInitiativeWithPower(): void
+    {
+        $intuition = random_int(1, 8);
+        $reaction = random_int(1, 8);
+
+        $character = new Character([
+            'intuition' => $intuition,
+            'magics' => [
+                'powers' => [
+                    'adrenaline-boost-1',
+                ],
+            ],
+            'reaction' => $reaction,
+        ]);
+
+        self::assertSame($intuition + $reaction + 2, $character->initiative_score);
+    }
+
+    /**
+     * Test that an unmodified character gets one initiative die.
+     * @test
+     */
+    public function testInitiativeDiceUnmodified(): void
+    {
+        $character = new Character();
+        self::assertSame(1, $character->initiative_dice);
+    }
+
+    /**
+     * Test that a character with a synaptic booster gets an additional
+     * initiative die.
+     * @test
+     */
+    public function testInitiativeDiceModifiedByCyberware(): void
+    {
+        $character = new Character([
+            'augmentations' => [
+                ['id' => 'synaptic-booster-1'],
+            ],
+        ]);
+        self::assertSame(2, $character->initiative_dice);
+    }
+
+    /**
+     * Test that a character with the improved reflexes adept power gets an
+     * additional initiative die.
+     * @test
+     */
+    public function testInitiativeDiceModifiedByPower(): void
+    {
+        $character = new Character([
+            'magics' => [
+                'powers' => [
+                    'improved-reflexes-3',
+                ],
+            ],
+        ]);
+        self::assertSame(4, $character->initiative_dice);
     }
 
     /**

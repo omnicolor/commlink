@@ -45,7 +45,8 @@ class Help extends Roll
         if ($this->isGm()) {
             $this->data[] = [
                 'title' => 'Gamemaster commands',
-                'text' => '· None yet',
+                'text' => '· `init start` - Start a new initiative tracker, '
+                    . 'removing any existing rolls' . \PHP_EOL,
                 'color' => TextAttachment::COLOR_INFO,
             ];
         } elseif (null !== $this->character) {
@@ -63,13 +64,16 @@ class Help extends Roll
                         . '· `lift` - Make a lift/carry roll (%d)' . \PHP_EOL
                         . '· `memory` - Make a memory test (%d)' . \PHP_EOL
                         . '· `soak` - Make a soak test (%d)' . \PHP_EOL
-                        . '· `luck` - Make a luck (edge) test (%d)',
+                        . '· `luck` - Make a luck (edge) test (%d)' . \PHP_EOL
+                        . '· `init` - Roll your initiative (%dd6+%d)' . \PHP_EOL,
                         $character->composure,
                         $character->judge_intentions,
                         $character->lift_carry,
                         $character->memory,
                         $character->soak,
                         $character->edge,
+                        $character->initiative_dice,
+                        $character->initiative_score,
                     ),
                 'color' => TextAttachment::COLOR_INFO,
             ];
@@ -78,7 +82,8 @@ class Help extends Roll
                 'title' => 'Player',
                 'text' => 'No character linked' . \PHP_EOL
                     . '· `link <characterId>` - Link a character to this '
-                    . 'channel',
+                    . 'channel' . \PHP_EOL
+                    . '· `init 12+3d6` - Roll your initiative' . \PHP_EOL,
                 'color' => TextAttachment::COLOR_INFO,
             ];
         }

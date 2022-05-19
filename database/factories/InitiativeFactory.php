@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Models\Campaign;
 use App\Models\Initiative;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,7 +22,7 @@ class InitiativeFactory extends Factory
     public function definition(): array
     {
         return [
-            'campaign_id' => Campaign::factory()->create(),
+            'campaign_id' => null,
             'channel_id' => null,
             'character_id' => null,
             'character_name' => $this->faker->name,
