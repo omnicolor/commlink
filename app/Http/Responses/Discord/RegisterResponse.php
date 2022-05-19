@@ -14,6 +14,8 @@ use Discord\Parts\Channel\Channel as TextChannel;
  */
 class RegisterResponse
 {
+    protected string $message = '';
+
     /**
      * Construct a new instance.
      * @param DiscordMessageReceived $event
@@ -68,6 +70,15 @@ class RegisterResponse
         ));
 
         ChannelLinked::dispatch($channel);
+    }
+
+    /**
+     * Format the response for Discord.
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->message;
     }
 
     /**
@@ -146,14 +157,5 @@ class RegisterResponse
             config('app.name'),
             config('app.url') . '/settings',
         ));
-    }
-
-    /**
-     * Format the response for Discord.
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return '';
     }
 }

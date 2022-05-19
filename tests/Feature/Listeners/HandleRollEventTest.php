@@ -19,7 +19,7 @@ use phpmock\phpunit\PHPMock;
  * @group discord
  * @group events
  * @group slack
- * @small
+ * @medium
  */
 final class HandleRollEventTest extends \Tests\TestCase
 {

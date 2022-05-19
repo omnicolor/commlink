@@ -18,6 +18,7 @@ class LinkResponse
 {
     protected ?Channel $channel;
     protected TextChannel $textChannel;
+    protected string $message = '';
 
     /**
      * Construct a new instance.
@@ -91,7 +92,7 @@ class LinkResponse
      */
     public function __toString(): string
     {
-        return '';
+        return $this->message;
     }
 
     protected function sendChannelNotRegisteredError(): void
@@ -100,28 +101,24 @@ class LinkResponse
         foreach (config('app.systems') as $code => $name) {
             $systems[] = \sprintf('%s (%s)', $code, $name);
         }
-        $this->event->message->reply(
-            'This channel must be registered for a system before characters '
-                . 'can be linked. Type `/roll register <system>`, where '
-                . '<system> is one of: ' . \implode(', ', $systems)
-        );
+        $this->message = 'This channel must be registered for a system before '
+            . 'characters can be linked. Type `/roll register <system>`, where '
+            . '<system> is one of: ' . \implode(', ', $systems);
     }
 
     protected function sendMissingArgumentError(): void
     {
-        $this->event->message->reply(
-            'To link a character, use `link <characterId>`.'
-        );
+        $this->message = 'To link a character, use `link <characterId>`.';
     }
 
     protected function sendMustRegisterError(): void
     {
-        $this->event->message->reply(\sprintf(
+        $this->message = \sprintf(
             'You must have already created an account on %s (%s) and linked it '
                 . 'to this server before you can link a character.',
             config('app.name'),
             config('app.url') . '/settings',
-        ));
+        );
     }
 
     protected function sendAlreadyLinkedError(Character $character): void

@@ -29,11 +29,10 @@ final class LinkResponseTest extends TestCase
         $event = new DiscordMessageReceived($messageMock);
 
         $expected = 'To link a character, use `link <characterId>`.';
-        // @phpstan-ignore-next-line
-        $messageMock->expects(self::once())
-            ->method('reply')
-            ->with($expected);
-        self::assertSame('', (string)(new LinkResponse($event)));
+        self::assertSame(
+            'To link a character, use `link <characterId>`.',
+            (string)(new LinkResponse($event))
+        );
     }
 
     /**
@@ -52,11 +51,7 @@ final class LinkResponseTest extends TestCase
         $expected = 'This channel must be registered for a system before '
             . 'characters can be linked. Type `/roll register <system>`, where '
             . '<system> is one of: ' . \implode(', ', $systems);
-        // @phpstan-ignore-next-line
-        $messageMock->expects(self::once())
-            ->method('reply')
-            ->with($expected);
-        self::assertSame('', (string)(new LinkResponse($event)));
+        self::assertSame($expected, (string)(new LinkResponse($event)));
     }
 
     /**
@@ -74,10 +69,6 @@ final class LinkResponseTest extends TestCase
         );
 
         $messageMock = $this->createDiscordMessageMock('/roll link 123');
-        // @phpstan-ignore-next-line
-        $messageMock->expects(self::once())
-            ->method('reply')
-            ->with($expected);
         $event = new DiscordMessageReceived($messageMock);
 
         Channel::factory()->create([
@@ -86,7 +77,12 @@ final class LinkResponseTest extends TestCase
             'type' => Channel::TYPE_DISCORD,
         ]);
 
-        self::assertSame('', (string)(new LinkResponse($event)));
+        self::assertSame(
+            'You must have already created an account on Commlink - Test '
+                . '(http://localhost/settings) and linked it to this server '
+                . 'before you can link a character.',
+            (string)(new LinkResponse($event))
+        );
     }
 
     /**

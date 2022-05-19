@@ -65,16 +65,16 @@ abstract class Roll
      * @param string $content
      * @param string $username
      * @param Channel $channel
-     * @phpstan-ignore-next-line
      */
     public function __construct(
         string $content,
         protected string $username,
         protected Channel $channel
     ) {
-        $this->chatUser = $channel->getChatUser();
         $this->campaign = $channel->campaign;
         $this->character = $channel->character();
+        $this->chatUser = $channel->getChatUser();
+        $this->content = $content;
         if (null !== $this->character) {
             $this->username = (string)$this->character;
         }

@@ -13,7 +13,7 @@ use Tests\TestCase;
 /**
  * Tests for trying an unfocused test in Star Trek Adventures.
  * @group star-trek-adventures
- * @small
+ * @medium
  */
 final class UnfocusedTest extends TestCase
 {

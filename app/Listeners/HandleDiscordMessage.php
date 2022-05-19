@@ -118,8 +118,10 @@ class HandleDiscordMessage
                 '\\App\\Http\\Responses\\Discord\\%sResponse',
                 \ucfirst($args[0])
             );
-            $response = new $class($event);
-            $event->channel->sendMessage((string)$response);
+            $response = (string)(new $class($event));
+            if ('' !== $response) {
+                $event->channel->sendMessage($response);
+            }
         } catch (\Error $ex) {
             \Log::debug($ex->getMessage());
             $event->channel->sendMessage('That doesn\'t appear to be a valid command!');
