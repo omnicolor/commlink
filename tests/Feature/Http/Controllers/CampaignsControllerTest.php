@@ -267,7 +267,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
         $user = User::factory()->create();
         $campaign = Campaign::factory()->create([
             'gm' => $user,
-            'system' => 'shadowrun5e',
+            'system' => 'capers',
         ]);
         $this->actingAs($user)
             ->get(route('campaign.gm-screen', $campaign))
@@ -278,13 +278,30 @@ final class CampaignsControllerTest extends \Tests\TestCase
      * Test loading a GM screen as a GM for a supported system.
      * @test
      */
-    public function testViewGmScreen(): void
+    public function testViewCyberpunkRedGmScreen(): void
     {
         /** @var User */
         $user = User::factory()->create();
         $campaign = Campaign::factory()->create([
             'gm' => $user,
             'system' => 'cyberpunkred',
+        ]);
+        $this->actingAs($user)
+            ->get(route('campaign.gm-screen', $campaign))
+            ->assertOk();
+    }
+
+    /**
+     * Test loading a Shadowrun GM screen.
+     * @test
+     */
+    public function testViewShadowrun5eGmScreen(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+        $campaign = Campaign::factory()->create([
+            'gm' => $user,
+            'system' => 'shadowrun5e',
         ]);
         $this->actingAs($user)
             ->get(route('campaign.gm-screen', $campaign))

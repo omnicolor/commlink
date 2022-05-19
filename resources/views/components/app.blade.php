@@ -30,11 +30,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+                @if (isset($navbar))
+                    {!! $navbar !!}
+                @else
                 <li class="nav-item active">
                     <a class="nav-link" href="/dashboard">Home</a>
                 </li>
-                @if (isset($navbar))
-                    {!! $navbar !!}
                 @endif
             </ul>
         </div>
