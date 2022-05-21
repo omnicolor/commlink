@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Shadowrun5e;
 
-use App\Models\Shadowrun5E\ActiveSkill;
-use App\Models\Shadowrun5E\SkillGroup;
+use App\Models\Shadowrun5e\ActiveSkill;
+use App\Models\Shadowrun5e\SkillGroup;
 use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 use RuntimeException;

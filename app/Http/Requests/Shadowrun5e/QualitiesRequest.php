@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Shadowrun5e;
 
-use App\Models\Shadowrun5E\Quality;
+use App\Models\Shadowrun5e\Quality;
 use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 use RuntimeException;

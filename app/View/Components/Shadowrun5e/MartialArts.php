@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\View\Components\Shadowrun5e;
 
-use App\Models\Shadowrun5E\Character;
-use App\Models\Shadowrun5E\MartialArtsStyleArray;
-use App\Models\Shadowrun5E\MartialArtsTechniqueArray;
-use App\Models\Shadowrun5E\PartialCharacter;
+use App\Models\Shadowrun5e\Character;
+use App\Models\Shadowrun5e\MartialArtsStyleArray;
+use App\Models\Shadowrun5e\MartialArtsTechniqueArray;
+use App\Models\Shadowrun5e\PartialCharacter;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 

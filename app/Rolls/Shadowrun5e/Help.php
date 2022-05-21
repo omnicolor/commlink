@@ -50,7 +50,7 @@ class Help extends Roll
                 'color' => TextAttachment::COLOR_INFO,
             ];
         } elseif (null !== $this->character) {
-            /** @var \App\Models\Shadowrun5E\Character */
+            /** @var \App\Models\Shadowrun5e\Character */
             $character = $this->character;
 
             $this->data[] = [

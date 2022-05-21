@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\View\Components\Shadowrun5e;
 
-use App\Models\Shadowrun5E\Character;
-use App\Models\Shadowrun5E\PartialCharacter;
-use App\Models\Shadowrun5E\SkillArray;
-use App\Models\Shadowrun5E\SkillGroup;
+use App\Models\Shadowrun5e\Character;
+use App\Models\Shadowrun5e\PartialCharacter;
+use App\Models\Shadowrun5e\SkillArray;
+use App\Models\Shadowrun5e\SkillGroup;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 

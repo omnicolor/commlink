@@ -99,7 +99,7 @@ class CampaignsController extends Controller
                 );
             case 'shadowrun5e':
                 return view(
-                    'shadowrun5e.gm-screen',
+                    'Shadowrun5e.gm-screen',
                     [
                         'campaign' => $campaign,
                         // @phpstan-ignore-next-line

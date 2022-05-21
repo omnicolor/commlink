@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Shadowrun5e;
 
-use App\Models\Shadowrun5E\MartialArtsStyle;
-use App\Models\Shadowrun5E\MartialArtsTechnique;
+use App\Models\Shadowrun5e\MartialArtsStyle;
+use App\Models\Shadowrun5e\MartialArtsTechnique;
 use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 use RuntimeException;

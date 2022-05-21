@@ -10,7 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscordController;
 use App\Http\Controllers\Expanse\CharactersController as ExpanseCharacterController;
 use App\Http\Controllers\SettingsController;
-use App\Http\Controllers\Shadowrun5E\CharactersController as Shadowrun5ECharacterController;
+use App\Http\Controllers\Shadowrun5e\CharactersController as ShadowrunController;
 use App\Http\Controllers\StarTrekAdventures\CharactersController as StarTrekController;
 use Illuminate\Support\Facades\Route;
 
@@ -100,38 +100,38 @@ Route::middleware('auth')->group(function (): void {
         });
 
         Route::prefix('shadowrun5e')->name('shadowrun5e.')->group(function (): void {
-            Route::get('/', [Shadowrun5ECharacterController::class, 'list']);
+            Route::get('/', [ShadowrunController::class, 'list']);
             Route::get(
                 'create/{step?}',
-                [Shadowrun5ECharacterController::class, 'create'],
+                [ShadowrunController::class, 'create'],
             );
             Route::post(
                 'create/attributes',
-                [Shadowrun5ECharacterController::class, 'storeAttributes'],
+                [ShadowrunController::class, 'storeAttributes'],
             )->name('create-attributes');
             Route::post(
                 'create/martial-arts',
-                [Shadowrun5ECharacterController::class, 'storeMartialArts'],
+                [ShadowrunController::class, 'storeMartialArts'],
             )->name('create-martial-arts');
             Route::post(
                 'create/qualities',
-                [Shadowrun5ECharacterController::class, 'storeQualities'],
+                [ShadowrunController::class, 'storeQualities'],
             )->name('create-qualities');
             Route::post(
                 'create/rules',
-                [Shadowrun5ECharacterController::class, 'storeRules'],
+                [ShadowrunController::class, 'storeRules'],
             )->name('create-rules');
             Route::post(
                 'create/skills',
-                [Shadowrun5ECharacterController::class, 'storeSkills'],
+                [ShadowrunController::class, 'storeSkills'],
             )->name('create-skills');
             Route::post(
                 'create/standard',
-                [Shadowrun5ECharacterController::class, 'storeStandard'],
+                [ShadowrunController::class, 'storeStandard'],
             )->name('create-standard');
             Route::post(
                 'create/vitals',
-                [Shadowrun5ECharacterController::class, 'storeVitals'],
+                [ShadowrunController::class, 'storeVitals'],
             )->name('create-vitals');
         });
 
@@ -170,7 +170,7 @@ Route::get(
 )->name('expanse.character');
 Route::get(
     '/characters/shadowrun5e/{character}',
-    [Shadowrun5ECharacterController::class, 'view']
+    [ShadowrunController::class, 'view']
 )->name('shadowrun5e.character');
 Route::get(
     '/characters/star-trek-adventures/{character}',

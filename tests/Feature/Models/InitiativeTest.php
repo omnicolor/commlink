@@ -7,7 +7,7 @@ namespace Tests\Feature\Models;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\Initiative;
-use App\Models\Shadowrun5E\Character;
+use App\Models\Shadowrun5e\Character;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**

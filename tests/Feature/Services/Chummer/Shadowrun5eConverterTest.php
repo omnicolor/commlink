@@ -7,7 +7,7 @@ namespace Tests\Feature\Services\Chummer;
 use App\Services\Chummer5\Shadowrun5eConverter;
 
 /**
- * Tests for Chummer 5 Shadowrun5E converter.
+ * Tests for Chummer 5 converter.
  * @group chummer5
  * @small
  */

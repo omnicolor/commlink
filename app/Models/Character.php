@@ -96,7 +96,7 @@ class Character extends Model
                 $character = new Expanse\Character($attributes);
                 break;
             case 'shadowrun5e':
-                $character = new Shadowrun5E\Character($attributes);
+                $character = new Shadowrun5e\Character($attributes);
                 break;
             case 'star-trek-adventures':
                 $character = new StarTrekAdventures\Character($attributes);

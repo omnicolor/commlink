@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Services\HeroLab;
 
-use App\Models\Shadowrun5E\Character;
+use App\Models\Shadowrun5e\Character;
 use App\Services\HeroLab\Shadowrun5eConverter;
 
 /**
- * Functional tests for HeroLab Shadowrun5E converter.
+ * Functional tests for HeroLab Shadowrun5e converter.
  * @group herolab
  * @small
  */

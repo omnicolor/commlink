@@ -30,7 +30,7 @@ class Luck extends Number
             return;
         }
 
-        /** @var \App\Models\Shadowrun5E\Character */
+        /** @var \App\Models\Shadowrun5e\Character */
         $character = $this->character;
         $this->dice = $character->edge;
 

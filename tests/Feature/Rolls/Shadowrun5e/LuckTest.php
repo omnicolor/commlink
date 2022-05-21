@@ -8,7 +8,7 @@ use App\Exceptions\SlackException;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
-use App\Models\Shadowrun5E\Character;
+use App\Models\Shadowrun5e\Character;
 use App\Rolls\Shadowrun5e\Luck;
 use phpmock\phpunit\PHPMock;
 use PHPUnit\Framework\MockObject\MockObject;

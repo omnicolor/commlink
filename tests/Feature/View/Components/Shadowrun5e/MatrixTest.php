@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature\View\Components\Shadowrun5e;
 
-use App\Models\Shadowrun5E\Character;
-use App\Models\Shadowrun5E\PartialCharacter;
+use App\Models\Shadowrun5e\Character;
+use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Matrix;
 
 /**

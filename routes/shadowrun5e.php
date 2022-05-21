@@ -2,34 +2,34 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Shadowrun5E\AdeptPowersController;
-use App\Http\Controllers\Shadowrun5E\AmmunitionController;
-use App\Http\Controllers\Shadowrun5E\ArmorController;
-use App\Http\Controllers\Shadowrun5E\ArmorModificationsController;
-use App\Http\Controllers\Shadowrun5E\CharactersController;
-use App\Http\Controllers\Shadowrun5E\ComplexFormsController;
-use App\Http\Controllers\Shadowrun5E\CyberwareController;
-use App\Http\Controllers\Shadowrun5E\GearController;
-use App\Http\Controllers\Shadowrun5E\GearModificationsController;
-use App\Http\Controllers\Shadowrun5E\LifestyleOptionsController;
-use App\Http\Controllers\Shadowrun5E\LifestylesController;
-use App\Http\Controllers\Shadowrun5E\LifestyleZonesController;
-use App\Http\Controllers\Shadowrun5E\MartialArtsStylesController;
-use App\Http\Controllers\Shadowrun5E\MartialArtsTechniquesController;
-use App\Http\Controllers\Shadowrun5E\MentorSpiritsController;
-use App\Http\Controllers\Shadowrun5E\MetamagicsController;
-use App\Http\Controllers\Shadowrun5E\ProgramsController;
-use App\Http\Controllers\Shadowrun5E\QualitiesController;
-use App\Http\Controllers\Shadowrun5E\SkillGroupsController;
-use App\Http\Controllers\Shadowrun5E\SkillsController;
-use App\Http\Controllers\Shadowrun5E\SpellsController;
-use App\Http\Controllers\Shadowrun5E\SpiritsController;
-use App\Http\Controllers\Shadowrun5E\SpritesController;
-use App\Http\Controllers\Shadowrun5E\TraditionsController;
-use App\Http\Controllers\Shadowrun5E\VehicleModificationsController;
-use App\Http\Controllers\Shadowrun5E\VehiclesController;
-use App\Http\Controllers\Shadowrun5E\WeaponModificationsController;
-use App\Http\Controllers\Shadowrun5E\WeaponsController;
+use App\Http\Controllers\Shadowrun5e\AdeptPowersController;
+use App\Http\Controllers\Shadowrun5e\AmmunitionController;
+use App\Http\Controllers\Shadowrun5e\ArmorController;
+use App\Http\Controllers\Shadowrun5e\ArmorModificationsController;
+use App\Http\Controllers\Shadowrun5e\CharactersController;
+use App\Http\Controllers\Shadowrun5e\ComplexFormsController;
+use App\Http\Controllers\Shadowrun5e\CyberwareController;
+use App\Http\Controllers\Shadowrun5e\GearController;
+use App\Http\Controllers\Shadowrun5e\GearModificationsController;
+use App\Http\Controllers\Shadowrun5e\LifestyleOptionsController;
+use App\Http\Controllers\Shadowrun5e\LifestylesController;
+use App\Http\Controllers\Shadowrun5e\LifestyleZonesController;
+use App\Http\Controllers\Shadowrun5e\MartialArtsStylesController;
+use App\Http\Controllers\Shadowrun5e\MartialArtsTechniquesController;
+use App\Http\Controllers\Shadowrun5e\MentorSpiritsController;
+use App\Http\Controllers\Shadowrun5e\MetamagicsController;
+use App\Http\Controllers\Shadowrun5e\ProgramsController;
+use App\Http\Controllers\Shadowrun5e\QualitiesController;
+use App\Http\Controllers\Shadowrun5e\SkillGroupsController;
+use App\Http\Controllers\Shadowrun5e\SkillsController;
+use App\Http\Controllers\Shadowrun5e\SpellsController;
+use App\Http\Controllers\Shadowrun5e\SpiritsController;
+use App\Http\Controllers\Shadowrun5e\SpritesController;
+use App\Http\Controllers\Shadowrun5e\TraditionsController;
+use App\Http\Controllers\Shadowrun5e\VehicleModificationsController;
+use App\Http\Controllers\Shadowrun5e\VehiclesController;
+use App\Http\Controllers\Shadowrun5e\WeaponModificationsController;
+use App\Http\Controllers\Shadowrun5e\WeaponsController;
 
 Route::middleware('auth:sanctum')->prefix('shadowrun5e')->name('shadowrun5e.')->group(
     function (): void {

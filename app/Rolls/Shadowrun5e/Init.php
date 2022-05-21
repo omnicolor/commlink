@@ -9,7 +9,7 @@ use App\Exceptions\SlackException;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Initiative;
-use App\Models\Shadowrun5E\ForceTrait;
+use App\Models\Shadowrun5e\ForceTrait;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use RuntimeException;
@@ -43,8 +43,21 @@ class Init extends Roll
             $this->handleGmCommands();
             return;
         }
+        if (null === $this->campaign) {
+            // For channels without a campaign, anyone can pretend to be the GM.
+            $this->handleGmCommands();
+
+            if ('' !== $this->title) {
+                // Handling the GM commands found a GM command.
+                return;
+            }
+
+            // It looks like the command wasn't a GM command, we'll continue
+            // with normal user initiative.
+            $this->error = null;
+        }
         if (isset($this->character)) {
-            /** @var \App\Models\Shadowrun5E\Character */
+            /** @var \App\Models\Shadowrun5e\Character */
             $character = $this->character;
             $this->initiativeScore = $character->initiative_score;
             $this->initiativeDice = $character->initiative_dice;
@@ -67,7 +80,7 @@ class Init extends Roll
         $initiative = Initiative::updateOrCreate(
             [
                 'campaign_id' => optional($this->campaign)->id,
-                'channel_id' => $this->channel->channel_id,
+                'channel_id' => $this->channel->id,
                 'character_id' => optional($this->channel->character())->id,
                 'character_name' => $this->username,
             ],
@@ -253,6 +266,9 @@ class Init extends Roll
     {
         if (null !== $this->error) {
             return $this->error;
+        }
+        if ('' !== $this->title) {
+            return \sprintf('**%s**', $this->title) . \PHP_EOL . $this->text;
         }
         return sprintf('**Rolling initiative for %s**', $this->username)
             . \PHP_EOL

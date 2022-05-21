@@ -1,0 +1,77 @@
+<x-app>
+    <x-slot name="title">Create character</x-slot>
+    <x-slot name="head">
+        <link rel="stylesheet" href="/css/datatables.min.css">
+        <style>
+            .points {
+                position: fixed;
+                right: 0;
+                top: 5em;
+            }
+            .tooltip-inner {
+                max-width: 600px;
+                text-align: left;
+            }
+            tr.invalid {
+                opacity: .5;
+            }
+            #points-button {
+                position: fixed;
+                right: 0;
+                top: 5rem;
+            }
+            .offcanvas {
+                border-bottom: 1px solid rgba(0, 0, 0, .2);
+                border-top: 1px solid rgba(0, 0, 0, .2);
+                bottom: 5rem;
+                top: 4.5rem;
+                width: 300px;
+            }
+        </style>
+    </x-slot>
+    @include('Shadowrun5e.create-navigation')
+
+    @if ($errors->any())
+        <div class="alert alert-danger mt-4">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form action="" method="POST">
+    @csrf
+
+    <div class="row mt-4">
+        <div class="col-1"></div>
+        <div class="col">
+            <div class="alert alert-danger" role="alert">
+                This page is currently under development.
+            </div>
+
+            <h1>Background</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col">
+        </div>
+        <div class="col-3"></div>
+    </div>
+
+    @include('Shadowrun5e.create-next')
+    </form>
+
+    @include('Shadowrun5e.create-points')
+
+    <x-slot name="javascript">
+        <script>
+            let character = @json($character);
+        </script>
+        <script src="/js/Shadowrun5e/create-common.js"></script>
+        <script src="/js/Shadowrun5e/Points.js"></script>
+    </x-slot>
+</x-app>

@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Services\Chummer5;
 
-use App\Models\Shadowrun5E\ActiveSkill;
-use App\Models\Shadowrun5E\Armor;
-use App\Models\Shadowrun5E\ArmorModification;
-use App\Models\Shadowrun5E\Character;
-use App\Models\Shadowrun5E\Gear;
-use App\Models\Shadowrun5E\GearFactory;
-use App\Models\Shadowrun5E\Lifestyle;
-use App\Models\Shadowrun5E\Quality;
-use App\Models\Shadowrun5E\Spell;
-use App\Models\Shadowrun5E\Tradition;
-use App\Models\Shadowrun5E\Weapon;
+use App\Models\Shadowrun5e\ActiveSkill;
+use App\Models\Shadowrun5e\Armor;
+use App\Models\Shadowrun5e\ArmorModification;
+use App\Models\Shadowrun5e\Character;
+use App\Models\Shadowrun5e\Gear;
+use App\Models\Shadowrun5e\GearFactory;
+use App\Models\Shadowrun5e\Lifestyle;
+use App\Models\Shadowrun5e\Quality;
+use App\Models\Shadowrun5e\Spell;
+use App\Models\Shadowrun5e\Tradition;
+use App\Models\Shadowrun5e\Weapon;
 use App\Services\ConverterInterface;
 use RuntimeException;
 use SimpleXMLElement;

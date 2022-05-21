@@ -6,7 +6,7 @@ namespace App\Rolls;
 
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
-use App\Models\Shadowrun5E\ForceTrait;
+use App\Models\Shadowrun5e\ForceTrait;
 use App\Models\Slack\TextAttachment;
 
 /**

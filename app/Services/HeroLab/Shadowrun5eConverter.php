@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Services\HeroLab;
 
-use App\Models\Shadowrun5E\ActiveSkill;
-use App\Models\Shadowrun5E\AdeptPower;
-use App\Models\Shadowrun5E\Armor;
-use App\Models\Shadowrun5E\Augmentation;
-use App\Models\Shadowrun5E\Gear;
-use App\Models\Shadowrun5E\GearFactory;
-use App\Models\Shadowrun5E\PartialCharacter;
-use App\Models\Shadowrun5E\Quality;
-use App\Models\Shadowrun5E\SkillGroup;
-use App\Models\Shadowrun5E\Weapon;
+use App\Models\Shadowrun5e\ActiveSkill;
+use App\Models\Shadowrun5e\AdeptPower;
+use App\Models\Shadowrun5e\Armor;
+use App\Models\Shadowrun5e\Augmentation;
+use App\Models\Shadowrun5e\Gear;
+use App\Models\Shadowrun5e\GearFactory;
+use App\Models\Shadowrun5e\PartialCharacter;
+use App\Models\Shadowrun5e\Quality;
+use App\Models\Shadowrun5e\SkillGroup;
+use App\Models\Shadowrun5e\Weapon;
 use App\Services\ConverterInterface;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
