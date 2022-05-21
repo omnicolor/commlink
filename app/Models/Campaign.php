@@ -67,13 +67,12 @@ class Campaign extends Model
     }
 
     /**
-     * Get a collection of users playing in the game (or at least invited).
-     * @return BelongsToMany
+     * Return characters playing in the campaign.
+     * @return Collection
      */
-    public function users(): BelongsToMany
+    public function characters(): Collection
     {
-        return $this->belongsToMany(User::class)
-            ->withPivot('status');
+        return Character::where('campaign_id', $this->id)->get();
     }
 
     /**
@@ -86,21 +85,21 @@ class Campaign extends Model
     }
 
     /**
+     * Return the initiatives rolled for the campaign.
+     * @return HasMany
+     */
+    public function initiatives(): HasMany
+    {
+        return $this->hasMany(Initiative::class);
+    }
+
+    /**
      * Get the user that registered the campaign.
      * @return BelongsTo
      */
     public function registeredBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'registered_by');
-    }
-
-    /**
-     * Return characters playing in the campaign.
-     * @return Collection
-     */
-    public function characters(): Collection
-    {
-        return Character::where('campaign_id', $this->id)->get();
     }
 
     /**
@@ -114,5 +113,15 @@ class Campaign extends Model
             throw new \RuntimeException('Invalid system');
         }
         $this->attributes['system'] = $system;
+    }
+
+    /**
+     * Get a collection of users playing in the game (or at least invited).
+     * @return BelongsToMany
+     */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)
+            ->withPivot('status');
     }
 }

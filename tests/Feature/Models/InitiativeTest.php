@@ -64,9 +64,10 @@ final class InitiativeTest extends \Tests\TestCase
         /** @var Channel */
         $channel = Channel::factory()->make();
 
+        Initiative::forChannel($channel)->delete();
         Initiative::factory()->count(3)->create([
             'campaign_id' => null,
-            'channel_id' => $channel->channel_id,
+            'channel_id' => $channel->id,
         ]);
 
         self::assertCount(3, Initiative::forChannel($channel)->get());

@@ -88,6 +88,6 @@ class Initiative extends Model
      */
     public function scopeForChannel(Builder $query, Channel $channel): Builder
     {
-        return $query->where('channel_id', $channel->channel_id);
+        return $query->where('channel_id', $channel->id);
     }
 }
