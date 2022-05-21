@@ -40,9 +40,6 @@
         <server name="MAIL_MAILER" value="array" />
         <server name="QUEUE_CONNECTION" value="sync" />
         <server name="SESSION_DRIVER" value="array" />
-        <server name="CYBERPUNK_DATA_PATH" value="data/CyberpunkRed/" />
-        <server name="EXPANSE_DATA_PATH" value="data/Expanse/" />
-        <server name="SHADOWRUN5E_DATA_PATH" value="data/Shadowrun5E/" />
         <server name="TELESCOPE_ENABLED" value="false" />
     </php>
 
