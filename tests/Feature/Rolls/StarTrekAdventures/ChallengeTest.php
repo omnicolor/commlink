@@ -13,7 +13,7 @@ use Tests\TestCase;
 /**
  * Tests for rolling challenge dice in Star Trek Adventures.
  * @group star-trek-adventures
- * @small
+ * @medium
  */
 final class ChallengeTest extends TestCase
 {

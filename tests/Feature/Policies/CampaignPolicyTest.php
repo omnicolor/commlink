@@ -201,7 +201,6 @@ final class CampaignPolicyTest extends \Tests\TestCase
 
     /**
      * Test whether a normal user can GM a campaign.
-     * @small
      * @test
      */
     public function testNonGmTryingToGm(): void
@@ -216,7 +215,6 @@ final class CampaignPolicyTest extends \Tests\TestCase
 
     /**
      * Test a GM trying to GM a campaign.
-     * @medium
      * @test
      */
     public function testGmTryingToGm(): void
