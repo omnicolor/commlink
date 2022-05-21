@@ -87,5 +87,12 @@
             "phpunit"
         ]
     },
+    "scripts-descriptions": {
+        "all": "Run all unit/feature tests with code coverage, then code style check, then PHPstan",
+        "coverage": "Run all unit/feature tests and create a code coverage report in public/coverage",
+        "cs": "Run PHPCodesniffer and php-cs-fixer on the entire codebase",
+        "phpstan": "Run PHPstan on the entire codebase",
+        "test": "Run all unit/feature tests"
+    },
     "type": "project"
 }
