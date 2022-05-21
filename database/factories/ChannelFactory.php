@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @method mixed hasChannels(int $count, array $parameters)
+ * @method mixed hasInitiatives(int $count)
  */
 class ChannelFactory extends Factory
 {

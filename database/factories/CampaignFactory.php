@@ -8,6 +8,9 @@ use App\Models\Campaign;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @method mixed hasInitiatives(int $count)
+ */
 class CampaignFactory extends Factory
 {
     /**

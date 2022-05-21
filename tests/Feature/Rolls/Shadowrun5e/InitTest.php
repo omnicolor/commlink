@@ -6,8 +6,8 @@ namespace Tests\Feature\Rolls\Shadowrun5e;
 
 use App\Exceptions\SlackException;
 use App\Models\Campaign;
-use App\Models\ChatCharacter;
 use App\Models\Channel;
+use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\Initiative;
 use App\Models\Shadowrun5e\Character;
@@ -202,7 +202,6 @@ final class InitTest extends TestCase
             'That doesn\'t appear to be a valid GM initiative command'
         );
         (new Init('init 12+3d6', 'username', $channel))->forSlack();
-        $response = \json_decode((string)$response)->attachments[0];
     }
 
     /**
