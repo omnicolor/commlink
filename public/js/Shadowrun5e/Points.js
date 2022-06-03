@@ -412,7 +412,7 @@ function Points(character) {
 
     this.updateKarmaForMartialArts = function () {
         const martialArts = character.martialArts;
-        if (0 === martialArts.styles.length) {
+        if (!martialArts || 0 === martialArts.styles.length) {
             return;
         }
         let parent = this;
