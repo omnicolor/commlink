@@ -1,6 +1,9 @@
 <x-slot name="navbar">
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('dashboard') }}">Home</a>
+    </li>
     <li class="nav-item dropdown">
-        <a aria-expanded="false" class="nav-link dropdown-toggle"
+        <a aria-expanded="false" class="active nav-link dropdown-toggle"
             data-bs-toggle="dropdown" href="#" id="creating-dropdown"
             role="button">
             Creating
