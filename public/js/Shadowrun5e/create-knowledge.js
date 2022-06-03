@@ -2,7 +2,7 @@ $(function () {
     'use strict';
 
     function nameToId(name) {
-        return name.replace(/ /g, '-').replace(/[^a-zA-Z0-9-]/g, ''),
+        return name.replace(/ /g, '-').replace(/[^a-zA-Z0-9-]/g, '');
     }
 
     /**
@@ -31,7 +31,7 @@ $(function () {
         const knowledge = $('#choose-language').val();
         let skill = {
             category: 'language',
-            id: knowledge.replace(/ /g, '-').replace(/[^a-zA-Z0-9-]/g, ''),
+            id: nameToId(knowledge),
             name: knowledge,
             level: null
         };
