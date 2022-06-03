@@ -1,6 +1,10 @@
 $(function () {
     'use strict';
 
+    function nameToId(name) {
+        return name.replace(/ /g, '-').replace(/[^a-zA-Z0-9-]/g, ''),
+    }
+
     /**
      * Add the user's input as a knowledge skill.
      */
@@ -8,7 +12,7 @@ $(function () {
         const knowledge = $('#choose-knowledge').val();
         const skill = {
             category: $('#knowledge-type').val(),
-            id: knowledge.replace(/ /g, '-').replace(/[^a-zA-Z0-9-]/g, ''),
+            id: nameToId(knowledge),
             name: knowledge,
             level: parseInt($('#knowledge-level').val(), 10)
         };
@@ -49,7 +53,7 @@ $(function () {
      * @param {!Object} skill Language to add
      */
     function addLanguageRow(skill) {
-        const row = $($('#knowledge-row')[0].content.cloneNode(true));
+        const row = $($('#language-row')[0].content.cloneNode(true));
         row.find('label').attr('for', skill.id);
         row.find('li').attr('data-id', skill.id);
         row.find('.name').html(skill.name);
@@ -75,19 +79,23 @@ $(function () {
      * @param {!Object} skill Skill to add
      */
     function addSkillRow(skill) {
+        window.console.log(skill);
         const row = $($('#skill-row')[0].content.cloneNode(true));
+        row.find('label').attr('for', skill.id);
         row.find('li').attr('data-id', skill.id);
         row.find('.name').html(skill.name);
+        row.find('input[name="skill-names[]"]').val(skill.name);
         row.find('input[name="skill-levels[]"]')
             .prop('id', skill.id)
             .val(skill.level);
+        row.find('input[name="skill-categories[]"]').val(skill.category);
 
         row.insertBefore($('#no-knowledge'));
         $('#no-knowledge').hide();
     }
 
     /**
-     * Reset the knowledge form to it's pristine state.
+     * Reset the knowledge form to its pristine state.
      */
     function clearKnowledgeModal() {
         $('#choose-knowledge').val('').focus();
@@ -219,7 +227,7 @@ $(function () {
             if (character.knowledgeSkills[i].id !== id) {
                 continue;
             }
-            window.conosl.log(character.knowledgeSkills[i].level);
+            //window.conosl.log(character.knowledgeSkills[i].level);
 
             character.knowledgeSkills[i].level = parent.find('.language-level').val();
         }

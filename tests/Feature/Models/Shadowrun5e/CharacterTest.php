@@ -518,6 +518,67 @@ final class CharacterTest extends TestCase
     }
 
     /**
+     * Test filtering knowledge skills to just non-languages.
+     * @test
+     */
+    public function testGetKnowledgeSkillsFilterOnlyKnowledge(): void
+    {
+        $character = new Character(['knowledgeSkills' => [
+            [
+                'name' => 'Elven Wines',
+                'category' => 'interests',
+                'level' => 4,
+            ],
+        ]]);
+        self::assertCount(1, $character->getKnowledgeSkills());
+        self::assertEmpty($character->getKnowledgeSkills(onlyLanguages: true));
+        self::assertCount(1, $character->getKnowledgeSkills(onlyKnowledges: true));
+    }
+
+    /**
+     * Test filtering knowledge skills to just languages.
+     * @test
+     */
+    public function testGetKnowledgesFilterOnlyLanguages(): void
+    {
+        $character = new Character(['knowledgeSkills' => [
+            [
+                'name' => 'English',
+                'category' => 'language',
+                'level' => 'N',
+                'specialization' => 'Spoken',
+            ],
+        ]]);
+        self::assertCount(1, $character->getKnowledgeSkills());
+        self::assertEmpty($character->getKnowledgeSkills(onlyKnowledges: true));
+        self::assertCount(1, $character->getKnowledgeSkills(onlyLanguages: true));
+    }
+
+    /**
+     * Test filtering knowledge skills.
+     * @test
+     */
+    public function testGetKnowledgeSkillsFiltered(): void
+    {
+        $character = new Character(['knowledgeSkills' => [
+            [
+                'name' => 'Elven Wines',
+                'category' => 'interests',
+                'level' => 4,
+            ],
+            [
+                'name' => 'English',
+                'category' => 'language',
+                'level' => 'N',
+                'specialization' => 'Spoken',
+            ],
+        ]]);
+        self::assertCount(2, $character->getKnowledgeSkills());
+        self::assertCount(1, $character->getKnowledgeSkills(onlyKnowledges: true));
+        self::assertCount(1, $character->getKnowledgeSkills(onlyLanguages: true));
+    }
+
+    /**
      * Test getting a character's identities if they have none.
      * @test
      */

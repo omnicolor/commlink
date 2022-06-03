@@ -425,15 +425,26 @@ class Character extends \App\Models\Character
 
     /**
      * Return the character's knowledge skills.
+     * @param ?bool $onlyLanguages Only include languages
+     * @param ?bool $onlyKnowledges Only include non-language knowledge skills
      * @return SkillArray
      */
-    public function getKnowledgeSkills(): SkillArray
-    {
+    public function getKnowledgeSkills(
+        ?bool $onlyLanguages = null,
+        ?bool $onlyKnowledges = null,
+    ): SkillArray {
         $skills = new SkillArray();
         if (null === $this->knowledgeSkills) {
             return $skills;
         }
         foreach ($this->knowledgeSkills as $skill) {
+            if (true === $onlyLanguages && 'language' !== $skill['category']) {
+                continue;
+            }
+            if (true === $onlyKnowledges && 'language' === $skill['category']) {
+                continue;
+            }
+
             try {
                 $skills[] = new KnowledgeSkill(
                     (string)$skill['name'],

@@ -310,10 +310,99 @@
         <div class="col-1"></div>
         <div class="col">
             <ul class="list-group" id="skills">
-                <li class="list-group-item" id="no-knowledge">
+                @php $skills = false; @endphp
+                @foreach ($character->getKnowledgeSkills(onlyKnowledges: true) as $skill)
+                    @php $skills = true; @endphp
+                    <li class="list-group-item" data-id="{{ $skill->id }}">
+                        <div class="row">
+                            <label class="col col-form-label text-nowrap name"
+                                for="{{ $skill->id }}">
+                                {{ $skill }}
+                            </label>
+                            <div class="col">
+                                <input name="skill-names[]" type="hidden"
+                                    value="{{ $skill }}">
+                                <input name="skill-categories[]" type="hidden"
+                                    value="{{ $skill->category }}">
+                                <input class="form-control level text-center"
+                                    id="{{ $skill->id }}" min="0" max="6"
+                                    name="skill-levels[]" step="1" type="number"
+                                    value="{{ $skill->level }}">
+                                <input name="skill-specializations[]"
+                                    type="hidden"
+                                    value="{{ $skill->specialization }}">
+                            </div>
+                            <div class="col text-right text-nowrap">
+                                <button class="btn btn-success btn-sm specialize"
+                                    data-bs-target="#specialize-modal"
+                                    data-bs-toggle="modal" type="button">
+                                    <span aria-hidden="true" class="bi bi-plus"></span>
+                                    Specialization
+                                </button>
+                                <button class="btn btn-danger btn-sm skill"
+                                    type="button">
+                                    <span aria-hidden="true" class="bi bi-dash"></span>
+                                    Knowledge
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                @endforeach
+                <li class="list-group-item" id="no-knowledge"
+                    @if ($skills)
+                        style="display:none;"
+                    @endif
+                    >
                     No knowledge skills
                 </li>
-                <li class="list-group-item" id="no-languages">No languages</li>
+                @php $skills = false; @endphp
+                @foreach ($character->getKnowledgeSkills(onlyLanguages: true) as $skill)
+                    @php $skills = true; @endphp
+                    <li class="list-group-item language" data-id="{{ $skill->id }}">
+                        <div class="row">
+                            <label class="col col-form-label text-nowrap name"
+                                for="{{ $skill->id }}">
+                                {{ $skill }}
+                            </label>
+                            <div class="col text-center">
+                                <input name="skill-names[]" type="hidden"
+                                    value="{{ $skill }}">
+                                <input name="skill-categories[]" type="hidden"
+                                    value="language">
+                                <input class="form-control level text-center"
+                                    id="{{ $skill->id }}" name="skill-levels[]"
+                                    @if ('N' === $skill->level)
+                                        readonly type="text" value="N"
+                                    @else
+                                    min="0" max="6" step="1" type="number"
+                                    value="{{ $skill->level }}"
+                                    @endif
+                                    >
+                                <input name="skill-specializations[]"
+                                    type="hidden"
+                                    value="{{ $skill->specialization }}">
+                            </div>
+                            <div class="col text-right text-nowrap">
+                                <button class="btn btn-success btn-sm specialize"
+                                    data-bs-target="#specialize-modal"
+                                    data-bs-toggle="modal" type="button">
+                                    <span aria-hidden="true" class="bi bi-plus"></span>
+                                    Specialization
+                                </button>
+                                <button class="btn btn-danger btn-sm skill"
+                                    type="button">
+                                    <span aria-hidden="true" class="bi bi-dash"></span>
+                                    Language
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                @endforeach
+                <li class="list-group-item" id="no-languages"
+                    @if ($skills)
+                        style="display:none;"
+                    @endif
+                    >No languages</li>
                 <li class="list-group-item">
                     <button class="btn btn-success mr-1"
                         data-bs-target="#knowledge-modal" data-bs-toggle="modal"
@@ -401,7 +490,7 @@
         </div>
     </div>
 
-    <div class="modal" id="specialize-knowledge-modal" tabindex="-1"
+    <div class="modal" id="specialize-modal" tabindex="-1"
         role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -516,6 +605,7 @@
                 <label class="col col-form-label text-nowrap name"></label>
                 <div class="col">
                     <input name="skill-names[]" type="hidden">
+                    <input name="skill-categories[]" type="hidden">
                     <input class="form-control level text-center" min="0"
                         max="6" name="skill-levels[]" step="1" type="number">
                     <input name="skill-specializations[]" type="hidden">
@@ -536,12 +626,14 @@
         </li>
     </template>
 
-    <template id="knowledge-row">
+    <template id="language-row">
         <li class="list-group-item language">
             <div class="row">
                 <label class="col col-form-label text-nowrap name"></label>
                 <div class="col text-center">
                     <input name="skill-names[]" type="hidden">
+                    <input name="skill-categories[]" type="hidden"
+                        value="language">
                     <input class="form-control level text-center" min="0"
                         max="6" name="skill-levels[]" step="1" type="number">
                     <input name="skill-specializations[]" type="hidden">

@@ -22,6 +22,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
+use Illuminate\Support\MessageBag;
 use Illuminate\View\View;
 
 /**
@@ -314,7 +315,6 @@ class CharactersController extends \App\Http\Controllers\Controller
                 return view(
                     'Shadowrun5e.create-knowledge',
                     [
-                        'books' => $books,
                         'character' => $character,
                         'currentStep' => 'knowledge',
                         'nextStep' => $this->nextStep('knowledge', $character),
@@ -756,6 +756,7 @@ class CharactersController extends \App\Http\Controllers\Controller
                     [
                         'character' => $character,
                         'currentStep' => 'review',
+                        'errors' => new MessageBag($character->errors ?? []),
                         'nextStep' => $this->nextStep('review', $character),
                         'previousStep' => $this->previousStep('review', $character),
                         'user' => $user,
@@ -891,6 +892,28 @@ class CharactersController extends \App\Http\Controllers\Controller
             ->where('owner', $user->email)
             ->firstOrFail();
 
+        $categories = $request->input('skill-categories', []);
+        $names = $request->input('skill-names', []);
+        $levels = $request->input('skill-levels');
+        $specializations = $request->input('skill-specializations');
+        $skills = [];
+        foreach ($names as $key => $id) {
+            $skill = [
+                'category' => $categories[$key],
+                'name' => $names[$key],
+                'level' => $levels[$key],
+            ];
+            if ('N' !== $skill['level']) {
+                $skill['level'] = (int)$skill['level'];
+            }
+            if (array_key_exists($key, $specializations) && null !== $specializations[$key]) {
+                $skill['specialization'] = $specializations[$key];
+            }
+            $skills[] = $skill;
+        }
+
+        $character->knowledgeSkills = $skills;
+        $character->update();
         return $this->redirect($request->input('nav'), 'knowledge', $character);
     }
 

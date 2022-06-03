@@ -15,6 +15,33 @@ class KnowledgeSkillsRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'nav' => [
+                'in:next,prev',
+                'required',
+            ],
+            'skill-levels' => [
+                'array',
+                'sometimes',
+            ],
+            'skill-levels.*' => [
+                'required',
+            ],
+            'skill-names' => [
+                'array',
+                'sometimes',
+            ],
+            'skill-names.*' => [
+                'string',
+                'required',
+            ],
+            'skill-specializations' => [
+                'array',
+                'sometimes',
+            ],
+            'skill-specializations.*' => [
+                'nullable',
+                'string',
+            ],
         ];
     }
 }

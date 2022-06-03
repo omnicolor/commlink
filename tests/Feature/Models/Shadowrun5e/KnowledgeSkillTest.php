@@ -105,4 +105,42 @@ final class KnowledgeSkillTest extends \Tests\TestCase
             'Failed attribute mapping for ' . $category
         );
     }
+
+    /**
+     * @return array<int, array<int, string>>
+     */
+    public function namesProvider(): array
+    {
+        return [
+            ['Or\'zet', 'Orzet'],
+            ['Iñtërnâtiônàlizætiøn', 'Itrntinliztin'],
+            ['20th Century Comic Books', '20th-Century-Comic-Books'],
+            ['Bars (city)', 'Bars-city'],
+            ['<script>alert(\'XSS\');</script>', 'scriptalertXSSscript'],
+        ];
+    }
+
+    /**
+     * Test getting a knowledge skill's ID.
+     * @dataProvider namesProvider
+     * @param string $name
+     * @param string $id
+     * @test
+     */
+    public function testNamesToId(string $name, string $id): void
+    {
+        $skill = new KnowledgeSkill($name, 'academic', 2);
+        self::assertSame($id, $skill->id);
+    }
+
+    /**
+     * Test getting an unknown property.
+     * @test
+     */
+    public function testGetUnknownProperty(): void
+    {
+        $skill = new KnowledgeSkill('Alcohol', 'interests', 5);
+        // @phpstan-ignore-next-line
+        self::assertNull($skill->unknown);
+    }
 }

@@ -993,6 +993,64 @@ final class CharacterControllerTest extends \Tests\TestCase
     }
 
     /**
+     * Test storing knowledge skills.
+     * @test
+     */
+    public function testStoreKnowledgeSkills(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = $this->characters[] = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+            'system' => 'shadowrun5e',
+        ]);
+        session(['shadowrun5epartial' => $character->id]);
+
+        $this->actingAs($user)
+            ->post(
+                route('shadowrun5e.create-knowledge-skills'),
+                [
+                    'nav' => 'next',
+                    'skill-categories' => [
+                        'interests',
+                        'language',
+                        'academic',
+                    ],
+                    'skill-levels' => [
+                        1,
+                        'N',
+                        2,
+                    ],
+                    'skill-names' => [
+                        'Alcohol',
+                        'English',
+                        '20th Century Movies',
+                    ],
+                    'skill-specializations' => [
+                        0 => null,
+                        1 => null,
+                        2 => 'Marvel',
+                    ],
+                ]
+            )
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/augmentations');
+
+        $character->refresh();
+        $skills = $character->getKnowledgeSkills();
+        self::assertCount(3, $skills);
+
+        /** @var \App\Models\Shadowrun5e\KnowledgeSkill */
+        $skill = $skills[0];
+        self::assertSame('interests', $skill->category);
+        self::assertSame('Alcohol', $skill->name);
+        self::assertSame(1, $skill->level);
+        self::assertNull($skill->specialization);
+    }
+
+    /**
      * Test trying to get to the martial arts page if the user chose not to
      * allow Run and Gun as a rulebook.
      * @test

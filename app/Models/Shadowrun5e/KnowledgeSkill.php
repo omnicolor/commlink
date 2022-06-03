@@ -6,6 +6,7 @@ namespace App\Models\Shadowrun5e;
 
 /**
  * Knowledge skill a character possesses.
+ * @property string $id
  */
 class KnowledgeSkill extends Skill
 {
@@ -64,5 +65,17 @@ class KnowledgeSkill extends Skill
                 break;
         }
         $this->specialization = $specializations;
+    }
+
+    public function __get(string $property): mixed
+    {
+        if ('id' === $property) {
+            return preg_replace(
+                ['/ /', '/[^a-zA-Z0-9-]/'],
+                ['-', ''],
+                $this->name
+            );
+        }
+        return null;
     }
 }

@@ -110,6 +110,10 @@ Route::middleware('auth')->group(function (): void {
                 [ShadowrunController::class, 'storeAttributes'],
             )->name('create-attributes');
             Route::post(
+                'create/knowledge',
+                [ShadowrunController::class, 'storeKnowledgeSkills'],
+            )->name('create-knowledge-skills');
+            Route::post(
                 'create/martial-arts',
                 [ShadowrunController::class, 'storeMartialArts'],
             )->name('create-martial-arts');
