@@ -234,7 +234,7 @@ class CharactersController extends \App\Http\Controllers\Controller
             $step = 'rules';
         }
         $books = collect(Rulebook::all());
-        $selectedBooks = [];
+        $selectedBooks = false;
         if (isset($character->priorities, $character->priorities['rulebooks'])) {
             $selectedBooks = explode(',', (string)$character->priorities['rulebooks']);
             $books = $books->filter(

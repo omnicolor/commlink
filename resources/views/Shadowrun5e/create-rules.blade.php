@@ -209,12 +209,22 @@
         <div class="col">
             @foreach ($books['odd'] as $book)
             <div class="form-check">
-                <input checked class="form-check-input"
+                <input
+                    @if ($book->required)
+                        required
+                    @endif
+                    @if ((false !== $selectedBooks && in_array($book->id, $selectedBooks)) || (false === $selectedBooks && $book->default))
+                        checked
+                    @endif
+                    class="form-check-input"
                     id="rulebook-{{ $book->id }}" name="rulebook[]"
                     type="checkbox" value="{{ $book->id }}">
                 <label class="form-check-label" for="rulebook-{{ $book->id }}"
                     title="{{ $book->description }}">
                     {{ $book }}
+                    @if ($book->required)
+                        <small class="text-muted">(Required)</small>
+                    @endif
                 </label>
             </div>
             @endforeach
