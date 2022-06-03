@@ -29,7 +29,8 @@ $(function () {
         skill.level = parseInt($('#skill-level').val(), 10);
         character.skills.push({
             id: skill.id,
-            level: skill.level
+            name: skill.name,
+            level: skill.level,
         });
         addActiveSkillRow(skill);
         resetActiveSkillModal();
