@@ -79,6 +79,59 @@ function setPointsDisplay(points, el, formatter) {
 }
 
 /**
+ * Calculate the karma cost for having too much skill.
+ * @param {array} skills Skills ordered by level ascending
+ * @param {array} specializations Skills with specializations
+ * @param {Number} skillCost Cost per skill rank
+ * @param {Number} deficit Number of skill points to charge karma for
+ * @return {Object} Map of message and karmaSpent
+ */
+function calculateKarmaForTooManySkills(skills, specializations, skillCost, deficit) {
+    window.console.log(skills);
+    let karmaSpent = 0;
+    let message = [];
+    let skill;
+    for (let i = 0, c = skills.length; i < c; i++) {
+        skill = skills[i];
+        if (skill.level * 2 > 7 && specializations.length) {
+            // The next highest skill level costs more than adding a
+            // specialization to a skill, so charge the specialization cost
+            // next.
+            karmaSpent += 7;
+            skill = specializations.pop();
+            deficit++;
+            message.push(
+                '+7₭ for ' + skill.specialization + ' to ' + skill.name
+            );
+            // But don't advance past the current skill since it's still the
+            // cheapest non-specialization option.
+            i--;
+            continue;
+        }
+        karmaSpent += skill.level * skillCost;
+        message.push('+' + (skill.level * skillCost) + '₭ for ' + skill.name +
+            ' to rank ' + skill.level);
+        deficit++;
+        if (0 === deficit) {
+            // We've already charged enough karma, bail out.
+            break;
+        }
+        skill.level--;
+        if (!skill.level) {
+            delete skills[i];
+            continue;
+        }
+        // We haven't exhausted the current skill of its points, and it is
+        // even cheaper now than it was before, so don't move past it.
+        i--;
+    }
+    return {
+        message: message,
+        karmaSpent: karmaSpent
+    };
+}
+
+/**
  * Update the points to spend display.
  * @param {Object} pointsToSpend Map of points that can be spent
  */
@@ -104,11 +157,10 @@ function updatePointsToSpendDisplay(pointsToSpend) {
     if (pointsToSpend.activeSkills < 0) {
         // The user has spent too many points on active skills. Charge them
         // karma to make up the difference.
-        skills = sr.loadActiveSkills(sr.store);
-        specializations = skills;
+        skills = character.skills;
         specializations = skills.filter(skill => skill.specialization);
         skills.sort(compare);
-        results = sr.calculateKarmaForTooManySkills(
+        results = calculateKarmaForTooManySkills(
             skills,
             specializations,
             2,
@@ -130,11 +182,10 @@ function updatePointsToSpendDisplay(pointsToSpend) {
     if (pointsToSpend.knowledgeSkills < 0) {
         // The user has spent too many points on knowledge skills. Charge them
         // karma to make up the difference.
-        skills = sr.loadKnowledgeSkills(sr.store);
-        specializations = skills;
+        skills = character.knowledgeSkills;
         specializations = skills.filter(skill => skill.specialization);
         skills.sort(compare);
-        results = sr.calculateKarmaForTooManySkills(
+        results = calculateKarmaForTooManySkills(
             skills,
             specializations,
             1,
