@@ -87,7 +87,7 @@
         <div class="col">
             <div class="input-group">
                 <input aria-describedby="height-help" class="form-control"
-                    id="height" max="2.5" min="0.5" name="height" step="0.1"
+                    id="height" max="2.5" min="0.5" name="height" step="0.01"
                     type="number" value="{{ $selected['height'] }}">
                 <div class="input-group-append">
                     <span class="input-group-text">
@@ -107,7 +107,7 @@
         <div class="col">
             <div class="input-group">
                 <input aria-describedby="weight-help" class="form-control"
-                    id="weight" max="300" min="50" name="weight" step="5"
+                    id="weight" max="300" min="50" name="weight" step="1"
                     type="number" value="{{ $selected['weight'] }}">
                 <div class="input-group-append">
                     <span class="input-group-text">
