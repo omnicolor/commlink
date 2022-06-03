@@ -7,6 +7,7 @@ namespace Tests\Feature\Policies;
 use App\Models\Campaign;
 use App\Models\User;
 use App\Policies\CampaignPolicy;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * Tests for the Campaigns policy.
@@ -15,6 +16,8 @@ use App\Policies\CampaignPolicy;
  */
 final class CampaignPolicyTest extends \Tests\TestCase
 {
+    use RefreshDatabase;
+
     protected CampaignPolicy $policy;
 
     protected function setUp(): void
@@ -44,7 +47,7 @@ final class CampaignPolicyTest extends \Tests\TestCase
     public function testViewNoConnection(): void
     {
         /** @var User */
-        $user = User::factory()->make();
+        $user = User::factory()->create();
         /** @var Campaign */
         $campaign = Campaign::factory()->make();
         self::assertFalse($this->policy->view($user, $campaign));

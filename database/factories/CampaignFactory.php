@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\Campaign;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @method mixed hasInitiatives(int $count)
@@ -28,8 +26,8 @@ class CampaignFactory extends Factory
         return [
             'name' => $this->faker->company(),
             'description' => $this->faker->text(),
-            'registered_by' => User::factory()->create(),
-            'gm' => User::factory()->create(),
+            'registered_by' => $this->createUser(),
+            'gm' => $this->createUser(),
             'system' => $this->faker->randomElement(
                 \array_keys(config('app.systems'))
             ),
