@@ -51,7 +51,7 @@ final class HandleRollEventTest extends \Tests\TestCase
     public function testNoSource(): void
     {
         Http::fake();
-
+        $this->randomInt->expects(self::any())->willReturn(5);
         $roll = new Generic('1d6', 'unnamed', new Channel());
         (new HandleRollEvent())->handle(new RollEvent($roll, null));
 
@@ -65,6 +65,7 @@ final class HandleRollEventTest extends \Tests\TestCase
     public function testNoCampaign(): void
     {
         Http::fake();
+        $this->randomInt->expects(self::any())->willReturn(4);
 
         /** @var Channel */
         $source = Channel::factory()->make();
@@ -84,6 +85,7 @@ final class HandleRollEventTest extends \Tests\TestCase
     public function testOnlySource(): void
     {
         Http::fake();
+        $this->randomInt->expects(self::any())->willReturn(3);
 
         /** @var Campaign */
         $campaign = Campaign::factory()
@@ -107,6 +109,7 @@ final class HandleRollEventTest extends \Tests\TestCase
     public function testNoWebhooks(): void
     {
         Http::fake();
+        $this->randomInt->expects(self::any())->willReturn(6);
 
         /** @var Campaign */
         $campaign = Campaign::factory()
@@ -132,6 +135,7 @@ final class HandleRollEventTest extends \Tests\TestCase
     public function testSlack(): void
     {
         Http::fake();
+        $this->randomInt->expects(self::any())->willReturn(1);
 
         // @phpstan-ignore-next-line
         $campaign = Campaign::factory()
@@ -163,6 +167,7 @@ final class HandleRollEventTest extends \Tests\TestCase
     public function testDiscord(): void
     {
         Http::fake();
+        $this->randomInt->expects(self::any())->willReturn(6);
 
         $roll = new Generic('1d6', 'unnamed', new Channel());
         // @phpstan-ignore-next-line

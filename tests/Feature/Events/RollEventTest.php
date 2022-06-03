@@ -27,7 +27,7 @@ final class RollEventTest extends \Tests\TestCase
             'App\\Rolls\\Shadowrun5e',
             'random_int'
         );
-        $randomInt->expects(self::any())->willReturn(random_int(1, 6));
+        $randomInt->expects(self::exactly(5))->willReturn(5);
 
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);

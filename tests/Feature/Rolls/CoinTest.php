@@ -6,15 +6,19 @@ namespace Tests\Feature\Rolls;
 
 use App\Models\Channel;
 use App\Rolls\Coin;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use phpmock\phpunit\PHPMock;
 use PHPUnit\Framework\MockObject\MockObject;
+use Tests\TestCase;
 
 /**
  * Tests for flipping a coin.
  * @medium
  */
-final class CoinTest extends \Tests\TestCase
+final class CoinTest extends TestCase
 {
-    use \phpmock\phpunit\PHPMock;
+    use PHPMock;
+    use RefreshDatabase;
 
     /**
      * Mock random_int function to take randomness out of testing.
