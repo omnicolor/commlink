@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\CyberpunkRed;
 
+use App\Models\Character as BaseCharacter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use RuntimeException;
@@ -27,7 +28,7 @@ use RuntimeException;
  * @property int $technique
  * @property int $willpower
  */
-class Character extends \App\Models\Character
+class Character extends BaseCharacter
 {
     use HasFactory;
 

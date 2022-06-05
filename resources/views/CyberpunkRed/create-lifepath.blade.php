@@ -307,7 +307,7 @@
                                 <td><div class="form-check">
                                     <input class="form-check-input"
                                         id="value-{{ $key }}" name="value"
-                                        @if ($valueMost === $key) checked @endif
+                                        @if ($value === $key) checked @endif
                                         type="radio" value="{{ $key }}">
                                     <label class="form-check-label"
                                         for="value-{{ $key }}">
@@ -387,7 +387,7 @@
                                 <td><div class="form-check">
                                     <input class="form-check-input"
                                         id="person-{{ $key }}" name="person"
-                                        @if ($valuePerson === $key) checked @endif
+                                        @if ($person === $key) checked @endif
                                         type="radio" value="{{ $key }}">
                                     <label class="form-check-label"
                                         for="person-{{ $key }}">

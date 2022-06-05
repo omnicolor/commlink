@@ -19,10 +19,7 @@
                             <option
                                 data-ability="{{ $role->abilityDescription }}"
                                 data-description="{{ $role->description }}"
-                                @if ($chosenRole === (string)$role)
-                                    selected
-                                @endif
-                                value="{{ $role }}"
+                                @if ($chosenRole === (string)$role) selected @endif value="{{ $role }}"
                                 >{{ $role }}</option>
                             @endforeach
                     </select>

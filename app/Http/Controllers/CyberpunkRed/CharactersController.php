@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\CyberpunkRed;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CyberpunkRed\HandleRequest;
 use App\Http\Requests\CyberpunkRed\LifepathRequest;
 use App\Http\Requests\CyberpunkRed\RoleRequest;
@@ -23,7 +24,7 @@ use Illuminate\View\View;
 /**
  * Controller for interacting with Cyberpunk Red characters.
  */
-class CharactersController extends \App\Http\Controllers\Controller
+class CharactersController extends Controller
 {
     /**
      * Based on what has been entered, determine the next step.
@@ -170,10 +171,10 @@ class CharactersController extends \App\Http\Controllers\Controller
                         'feeling' => $character->lifepath['feeling']['chosen'],
                         'hair' => $character->lifepath['hair']['chosen'],
                         'origin' => $character->lifepath['origin']['chosen'],
+                        'person' => $character->lifepath['person']['chosen'],
                         'personality' => $character->lifepath['personality']['chosen'],
                         'possession' => $character->lifepath['possession']['chosen'],
-                        'valueMost' => $character->lifepath['value']['chosen'],
-                        'valuePerson' => $character->lifepath['person']['chosen'],
+                        'value' => $character->lifepath['value']['chosen'],
                     ],
                 );
             case 'review':
@@ -203,7 +204,7 @@ class CharactersController extends \App\Http\Controllers\Controller
                 );
             case 'role-based-lifepath':
                 if (
-                    0 === count($character->roles)
+                    null === $character->roles
                     || !isset($character->roles[0])
                 ) {
                     // If the character hasn't picked a role yet, they need to

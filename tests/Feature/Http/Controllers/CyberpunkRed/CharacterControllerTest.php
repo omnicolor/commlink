@@ -50,7 +50,7 @@ final class CharacterControllerTest extends TestCase
      */
     public function testUnauthenticated(): void
     {
-        $this->getJson(route('cyberpunkred.characters.index'))
+        self::getJson(route('cyberpunkred.characters.index'))
             ->assertUnauthorized();
     }
 
@@ -63,7 +63,7 @@ final class CharacterControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('cyberpunkred.characters.index'))
             ->assertOk()
             ->assertJson(['data' => []]);
@@ -79,10 +79,11 @@ final class CharacterControllerTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
         $this->characters[] = Character::factory()->create([
+            'handle' => __FUNCTION__,
             'owner' => $user->email,
             'system' => 'shadowrun5e',
         ]);
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('cyberpunkred.characters.index'))
             ->assertOk()
             ->assertJson(['data' => []]);
@@ -98,15 +99,17 @@ final class CharacterControllerTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
         $this->characters[] = Character::factory()->create([
+            'handle' => __FUNCTION__,
             'owner' => $user->email,
             'system' => 'shadowrun6e',
         ]);
         /** @var Character */
         $character2 = $this->characters[] = Character::factory()->create([
+            'handle' => __FUNCTION__,
             'owner' => $user->email,
             'system' => 'cyberpunkred',
         ]);
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('cyberpunkred.characters.index'))
             ->assertOk()
             ->assertJsonFragment([
@@ -129,10 +132,11 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
         /** @var Character */
         $character = $this->characters[] = Character::factory()->create([
+            'handle' => __FUNCTION__,
             'owner' => $user->email,
             'system' => 'cyberpunkred',
         ]);
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('cyberpunkred.characters.show', $character->id))
             ->assertOk()
             ->assertJsonFragment([
@@ -155,10 +159,11 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
         /** @var Character */
         $character = $this->characters[] = Character::factory()->create([
+            'handle' => __FUNCTION__,
             'owner' => $user->email,
             'system' => 'shadowrun6e',
         ]);
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('cyberpunkred.characters.show', $character->id))
             ->assertNotFound();
     }
@@ -173,16 +178,17 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
         /** @var Character */
         $character = $this->characters[] = Character::factory()->create([
+            'handle' => __FUNCTION__,
             'owner' => $user->email,
             'system' => 'cyberpunkred',
         ]);
-        $view = $this->actingAs($user)
+        self::actingAs($user)
             ->get(
                 \sprintf('/characters/cyberpunkred/%s', $character->id),
                 ['character' => $character, 'user' => $user]
-            );
-        $view->assertSee($user->email);
-        $view->assertSee(e($character->handle), false);
+            )
+            ->assertSee($user->email)
+            ->assertSee(e($character->handle), false);
     }
 
     /**
@@ -196,12 +202,14 @@ final class CharacterControllerTest extends TestCase
 
         $characters = PartialCharacter::where('owner', $user->email)->get();
         self::assertCount(0, $characters);
-        $this->actingAs($user)
+        self::actingAs($user)
             ->get('/characters/cyberpunkred/create')
             ->assertOk()
             ->assertSee('Name your character');
         $characters = PartialCharacter::where('owner', $user->email)->get();
         self::assertCount(1, $characters);
+        // @phpstan-ignore-next-line
+        $this->characters[] = $characters[0];
     }
 
     /**
@@ -214,15 +222,15 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = PartialCharacter::factory()->create([
-            'handle' => 'Terrible name',
+        $character = $this->characters[] = PartialCharacter::factory()->create([
+            'handle' => __FUNCTION__,
             'owner' => $user->email,
         ]);
 
-        $this->actingAs($user)
+        self::actingAs($user)
             ->get('/characters/cyberpunkred/create')
             ->assertOk()
-            ->assertSee('Terrible name');
+            ->assertSee(__FUNCTION__);
     }
 
     /**
@@ -235,12 +243,12 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = PartialCharacter::factory()->create([
-            'handle' => 'Terrible name',
+        $character = $this->characters[] = PartialCharacter::factory()->create([
+            'handle' => __FUNCTION__,
             'owner' => $user->email,
         ]);
 
-        $this->actingAs($user)
+        self::actingAs($user)
             ->get(\sprintf(
                 '/characters/cyberpunkred/create/%s',
                 $character->id
@@ -259,20 +267,45 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = PartialCharacter::factory()->create([
-            'handle' => 'Terrible name',
+        $character = $this->characters[] = PartialCharacter::factory()->create([
+            'handle' => __FUNCTION__,
             'owner' => $user->email,
         ]);
         session(['cyberpunkredpartial' => $character->id]);
 
         $characters = PartialCharacter::where('owner', $user->email)->get();
         self::assertCount(1, $characters);
-        $this->actingAs($user)
+        self::actingAs($user)
             ->get('/characters/cyberpunkred/create/new')
             ->assertOk()
             ->assertSee('Name your character');
         $characters = PartialCharacter::where('owner', $user->email)->get();
         self::assertCount(2, $characters);
+        // @phpstan-ignore-next-line
+        $this->characters[] = $characters[1];
+    }
+
+    /**
+     * Test saving a character for later.
+     * @test
+     */
+    public function testSaveForLater(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = $this->characters[] = PartialCharacter::factory()->create([
+            'handle' => __FUNCTION__,
+            'owner' => $user->email,
+        ]);
+        session(['cyberpunkredpartial' => $character->id]);
+
+        self::actingAs($user)
+            ->get('/characters/cyberpunkred/create/save')
+            ->assertOk()
+            ->assertSee('Create a new Cyberpunk Red character')
+            ->assertSessionMissing('cyberpunkredpartial');
     }
 
     /**
@@ -285,13 +318,13 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = PartialCharacter::factory()->create([
+        $character = $this->characters[] = PartialCharacter::factory()->create([
             'owner' => $user->email,
         ]);
         session(['cyberpunkredpartial' => $character->id]);
 
         $name = $this->faker->name;
-        $this->actingAs($user)
+        self::actingAs($user)
             ->post(
                 route('cyberpunkred-create-handle'),
                 ['handle' => $name]
@@ -306,7 +339,7 @@ final class CharacterControllerTest extends TestCase
     }
 
     /**
-     * Test loading the role page.
+     * Test loading the role page if the character doesn't have a role yet.
      * @test
      */
     public function testLoadRolePage(): void
@@ -315,17 +348,44 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = PartialCharacter::factory()->create([
-            'handle' => 'Name goes here',
+        $character = $this->characters[] = PartialCharacter::factory()->create([
+            'handle' => __FUNCTION__,
             'owner' => $user->email,
-            'role' => 'fixer',
         ]);
         session(['cyberpunkredpartial' => $character->id]);
 
-        $this->actingAs($user)
+        self::actingAs($user)
             ->get('/characters/cyberpunkred/create/role')
             ->assertOk()
             ->assertSee('Choose role');
+    }
+
+    /**
+     * Test loading the role page if the character has chosen a role.
+     * @test
+     */
+    public function testLoadRolePageAlreadyChosen(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = $this->characters[] = PartialCharacter::factory()->create([
+            'handle' => __FUNCTION__,
+            'owner' => $user->email,
+            'roles' => [
+                [
+                    'role' => 'Fixer',
+                    'rank' => 4,
+                ],
+            ],
+        ]);
+        session(['cyberpunkredpartial' => $character->id]);
+
+        self::actingAs($user)
+            ->get('/characters/cyberpunkred/create/role')
+            ->assertOk()
+            ->assertSee('selected  value="Fixer"', false);
     }
 
     /**
@@ -338,8 +398,8 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = PartialCharacter::factory()->create([
-            'handle' => 'Your Name',
+        $character = $this->characters[] = PartialCharacter::factory()->create([
+            'handle' => $this->faker->name,
             'owner' => $user->email,
             'roles' => [
                 [
@@ -350,7 +410,7 @@ final class CharacterControllerTest extends TestCase
         ]);
         session(['cyberpunkredpartial' => $character->id]);
 
-        $this->actingAs($user)
+        self::actingAs($user)
             ->post(
                 route('cyberpunkred-create-role'),
                 ['role' => 'Exec']
@@ -363,5 +423,486 @@ final class CharacterControllerTest extends TestCase
         $character->refresh();
         $roles = $character->getRoles();
         self::assertInstanceOf(Exec::class, $roles[0]);
+    }
+
+    /**
+     * Test loading the lifepath page.
+     * @test
+     */
+    public function testLoadLifepathPage(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = $this->characters[] = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+        ]);
+        session(['cyberpunkredpartial' => $character->id]);
+
+        self::actingAs($user)
+            ->get('/characters/cyberpunkred/create/lifepath')
+            ->assertOk()
+            ->assertSee('Lifepath is a flowchart');
+    }
+
+    /**
+     * Test loading a role-based lifepath page without having chosen a role.
+     * @test
+     */
+    public function testLoadRoleBasedLifepathPageWithoutARole(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = $this->characters[] = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+        ]);
+        session(['cyberpunkredpartial' => $character->id]);
+
+        self::actingAs($user)
+            ->get('/characters/cyberpunkred/create/role-based-lifepath')
+            ->assertRedirect('/characters/cyberpunkred/create/role');
+    }
+
+    /**
+     * Test loading a role-based lifepath page.
+     * @test
+     */
+    public function testLoadRoleBasedLifepathPage(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = $this->characters[] = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+            'roles' => [
+                [
+                    'role' => 'Nomad',
+                    'rank' => 4,
+                ],
+            ],
+        ]);
+        session(['cyberpunkredpartial' => $character->id]);
+
+        self::actingAs($user)
+            ->get('/characters/cyberpunkred/create/role-based-lifepath')
+            ->assertOk()
+            ->assertSee('Different Nomad groups');
+    }
+
+    /**
+     * Test updating a character's lifepath.
+     * @test
+     */
+    public function testAssignLifepath(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = $this->characters[] = PartialCharacter::factory()->create([
+            'handle' => __FUNCTION__,
+            'lifepath' => [
+                'affectation' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'background' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'clothing' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'environment' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'family-crisis' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'feeling' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'hair' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'origin' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'person' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'personality' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'possession' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'value' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+            ],
+            'owner' => $user->email,
+            'roles' => [
+                [
+                    'role' => 'fixer',
+                    'rank' => 4,
+                ],
+            ],
+        ]);
+        session(['cyberpunkredpartial' => $character->id]);
+
+        self::actingAs($user)
+            ->post(
+                route('cyberpunkred-create-lifepath'),
+                [
+                    'affectation' => 2,
+                    'background' => 2,
+                    'clothing' => 2,
+                    'environment' => 2,
+                    'family-crisis' => 2,
+                    'feeling' => 2,
+                    'hair' => 2,
+                    'origin' => 2,
+                    'person' => 2,
+                    'personality' => 2,
+                    'possession' => 2,
+                    'value' => 2,
+                ]
+            )
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(
+                config('app.url') . '/characters/cyberpunkred/create/stats'
+            );
+
+        $character->refresh();
+        foreach ($character->lifepath as $path => $values) {
+            self::assertSame(2, $values['chosen']);
+        }
+    }
+
+    /**
+     * Test loading the stats page.
+     * @test
+     */
+    public function testLoadStatsPage(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = $this->characters[] = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+        ]);
+        session(['cyberpunkredpartial' => $character->id]);
+
+        self::actingAs($user)
+            ->get('/characters/cyberpunkred/create/stats')
+            ->assertOk()
+            ->assertSee('also called STATs');
+    }
+
+    /**
+     * Test storing a character's stats.
+     * @test
+     */
+    public function testStoreStats(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = $this->characters[] = PartialCharacter::factory()->create([
+            'handle' => __FUNCTION__,
+            'lifepath' => [],
+            'owner' => $user->email,
+            'roles' => [
+                [
+                    'role' => 'fixer',
+                    'rank' => 4,
+                ],
+            ],
+        ]);
+        session(['cyberpunkredpartial' => $character->id]);
+
+        self::assertNull($character->body);
+        self::actingAs($user)
+            ->post(
+                route('cyberpunkred-create-stats'),
+                [
+                    'body' => 8,
+                    'cool' => 2,
+                    'dexterity' => 3,
+                    'empathy' => 4,
+                    'intelligence' => 5,
+                    'luck' => 6,
+                    'movement' => 7,
+                    'reflexes' => 8,
+                    'technique' => 2,
+                    'willpower' => 3,
+                ]
+            )
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(
+                config('app.url') . '/characters/cyberpunkred/create/review'
+            );
+
+        $character->refresh();
+        self::assertSame(8, $character->body);
+        self::assertSame(2, $character->cool);
+        self::assertSame(3, $character->dexterity);
+        self::assertSame(4, $character->empathy);
+        self::assertSame(5, $character->intelligence);
+        self::assertSame(6, $character->luck);
+        self::assertSame(7, $character->movement);
+        self::assertSame(8, $character->reflexes);
+        self::assertSame(2, $character->technique);
+        self::assertSame(3, $character->willpower);
+    }
+
+    /**
+     * Test loading a character that has been all the way through chargen but
+     * not saved.
+     * @test
+     */
+    public function testReview(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = $this->characters[] = PartialCharacter::factory()->create([
+            'body' => 4,
+            'handle' => __FUNCTION__,
+            'lifepath' => [
+                'affectation' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'background' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'clothing' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'environment' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'family-crisis' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'feeling' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'hair' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'origin' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'person' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'personality' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'possession' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'value' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+            ],
+            'owner' => $user->email,
+            'roles' => [
+                [
+                    'role' => 'fixer',
+                    'rank' => 4,
+                ],
+            ],
+        ]);
+        session(['cyberpunkredpartial' => $character->id]);
+
+        self::actingAs($user)
+            ->get('/characters/cyberpunkred/create')
+            ->assertSee('metadata');
+    }
+
+    /**
+     * Test loading a character's review page.
+     * @test
+     */
+    public function testLoadReview(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = $this->characters[] = PartialCharacter::factory()->create([
+            'body' => 4,
+            'lifepath' => [
+                'affectation' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'background' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'clothing' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'environment' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'family-crisis' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'feeling' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'hair' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'origin' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'person' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'personality' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'possession' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'value' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+            ],
+            'owner' => $user->email,
+            'roles' => [
+                [
+                    'role' => 'fixer',
+                    'rank' => 4,
+                ],
+            ],
+        ]);
+        session(['cyberpunkredpartial' => $character->id]);
+
+        self::actingAs($user)
+            ->get('/characters/cyberpunkred/create/review')
+            ->assertSee('metadata');
+    }
+
+    /**
+     * Test trying to load an invalid character creation page.
+     * @test
+     */
+    public function testLoadNotFound(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = $this->characters[] = PartialCharacter::factory()->create([
+            'body' => 4,
+            'lifepath' => [
+                'affectation' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'background' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'clothing' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'environment' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'family-crisis' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'feeling' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'hair' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'origin' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'person' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'personality' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'possession' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+                'value' => [
+                    'rolled' => 1,
+                    'chosen' => 1,
+                ],
+            ],
+            'owner' => $user->email,
+            'roles' => [
+                [
+                    'role' => 'fixer',
+                    'rank' => 4,
+                ],
+            ],
+        ]);
+        session(['cyberpunkredpartial' => $character->id]);
+
+        self::actingAs($user)
+            ->get('/characters/cyberpunkred/create/augmentations')
+            ->assertNotFound();
     }
 }

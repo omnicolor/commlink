@@ -52,15 +52,19 @@ final class PartialCharacterTest extends \Tests\TestCase
     }
 
     /**
+     * @medium
      * @test
      */
     public function testNewFromBuilder(): void
     {
-        $character = new PartialCharacter(['handle' => 'Test character']);
+        $character = new PartialCharacter([
+            'handle' => 'Test Cyberpunk character',
+        ]);
         $character->save();
 
         $loaded = PartialCharacter::find($character->id);
         // @phpstan-ignore-next-line
-        self::assertSame('Test character', $loaded->handle);
+        self::assertSame('Test Cyberpunk character', $loaded->handle);
+        $character->delete();
     }
 }
