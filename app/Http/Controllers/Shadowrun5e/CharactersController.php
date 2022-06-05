@@ -13,6 +13,7 @@ use App\Http\Requests\Shadowrun5e\SkillsRequest;
 use App\Http\Requests\Shadowrun5e\StandardPriorityRequest;
 use App\Http\Requests\Shadowrun5e\VitalsRequest;
 use App\Http\Resources\Shadowrun5e\CharacterResource;
+use App\Models\Shadowrun5e\ActiveSkill;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\Models\Shadowrun5e\Quality;
@@ -206,32 +207,38 @@ class CharactersController extends \App\Http\Controllers\Controller
         /** @var User */
         $user = \Auth::user();
 
-        $character = $this->findPartialCharacter($request, $step);
-        if (null !== $character && $step === $character->id) {
-            return redirect('/characters/shadowrun5e/create/rules');
-        }
-        if (null === $character) {
-            // No current character, see if they already have a character they
-            // might want to continue.
-            $characters = PartialCharacter::where('owner', $user->email)->get();
-
-            if (0 !== count($characters)) {
-                return view(
-                    'Shadowrun5e.choose-character',
-                    [
-                        'characters' => $characters,
-                        'user' => $user,
-                    ],
-                );
-            }
-
-            // No in-progress characters, create a new one.
+        if ('new' === $step) {
             $character = PartialCharacter::create(['owner' => $user->email]);
             $request->session()->put('shadowrun5epartial', $character->id);
-        }
-
-        if (null === $step || $step === $character->id) {
             $step = 'rules';
+        } else {
+            $character = $this->findPartialCharacter($request, $step);
+            if (null !== $character && $step === $character->id) {
+                return redirect('/characters/shadowrun5e/create/rules');
+            }
+            if (null === $character) {
+                // No current character, see if they already have a character they
+                // might want to continue.
+                $characters = PartialCharacter::where('owner', $user->email)->get();
+
+                if (0 !== count($characters)) {
+                    return view(
+                        'Shadowrun5e.choose-character',
+                        [
+                            'characters' => $characters,
+                            'user' => $user,
+                        ],
+                    );
+                }
+
+                // No in-progress characters, create a new one.
+                $character = PartialCharacter::create(['owner' => $user->email]);
+                $request->session()->put('shadowrun5epartial', $character->id);
+            }
+
+            if (null === $step || $step === $character->id) {
+                $step = 'rules';
+            }
         }
         $books = collect(Rulebook::all());
         $selectedBooks = false;
@@ -339,7 +346,7 @@ class CharactersController extends \App\Http\Controllers\Controller
                     ]
                 );
             case 'martial-arts':
-                if (!in_array('run-and-gun', $selectedBooks, true)) {
+                if (false === $selectedBooks || !in_array('run-and-gun', $selectedBooks, true)) {
                     return redirect('/characters/shadowrun5e/create/rules')
                         ->withErrors([
                             'error' => 'Martial arts are only available with Run and Gun enabled',
@@ -763,6 +770,20 @@ class CharactersController extends \App\Http\Controllers\Controller
                     ]
                 );
             case 'skills':
+                // Update the character's skills to include the skill's name so
+                // we can show it if the user overspends on skills.
+                $skills = $character->skills ?? [];
+                foreach ($skills as $key => $rawSkill) {
+                    try {
+                        // Level doesn't matter, we're just getting the name.
+                        $skill = new ActiveSkill($rawSkill['id'], 1);
+                    } catch (\RuntimeException) {
+                        continue;
+                    }
+                    $skills[$key]['name'] = (string)$skill;
+                }
+                $character->skills = $skills;
+
                 return view(
                     'Shadowrun5e.create-skills',
                     [
