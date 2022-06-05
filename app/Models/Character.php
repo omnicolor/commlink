@@ -71,9 +71,10 @@ class Character extends Model
 
     /**
      * Create a new Character, subclassed if available.
-     * @param array<mixed, mixed> $attributes
+     * @param array<int|string, mixed> $attributes
      * @param ?string $connection
      * @return static(\Illuminate\Database\Eloquent\Model)
+     * @phpstan-ignore-next-line
      */
     public function newFromBuilder(
         $attributes = [],

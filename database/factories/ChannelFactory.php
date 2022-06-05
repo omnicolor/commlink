@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\Channel;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @method mixed hasChannels(int $count, array $parameters)
@@ -30,7 +28,7 @@ class ChannelFactory extends Factory
             'campaign_id' => null,
             'channel_id' => \Str::random(10),
             'channel_name' => $this->faker->company(),
-            'registered_by' => User::factory()->create(),
+            'registered_by' => $this->createUser(),
             'server_id' => \Str::random(10),
             'server_name' => $this->faker->company(),
             'system' => $this->faker->randomElement(
