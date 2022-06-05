@@ -69,6 +69,12 @@ class Character extends BaseCharacter
     ];
 
     /**
+     * The database connection that should be used by the model.
+     * @var ?string
+     */
+    protected $connection = 'mongodb';
+
+    /**
      * @var array<int, string>
      */
     protected $fillable = [
@@ -97,6 +103,19 @@ class Character extends BaseCharacter
         'vice',
         'virtue',
     ];
+
+    /**
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        '_id',
+    ];
+
+    /**
+     * Table to pull from.
+     * @var string
+     */
+    protected $table = 'characters';
 
     /**
      * Return the character's name.

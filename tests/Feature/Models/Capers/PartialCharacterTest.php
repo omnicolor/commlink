@@ -20,12 +20,13 @@ final class PartialCharacterTest extends TestCase
      */
     public function testNewFromBuilder(): void
     {
-        $character = new PartialCharacter(['name' => 'Test character']);
+        $character = new PartialCharacter(['name' => 'Test Capers character']);
         $character->save();
 
         $loaded = PartialCharacter::find($character->id);
         // @phpstan-ignore-next-line
-        self::assertSame('Test character', $loaded->name);
+        self::assertSame('Test Capers character', $loaded->name);
+        $character->delete();
     }
 
     /**
@@ -91,5 +92,6 @@ final class PartialCharacterTest extends TestCase
         self::assertCount(5, $character->skills);
         self::assertCount(2, $character->powers);
         self::assertCount(1, $character->gear);
+        $partial->delete();
     }
 }

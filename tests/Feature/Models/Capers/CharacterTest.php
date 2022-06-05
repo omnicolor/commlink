@@ -22,12 +22,13 @@ final class CharacterTest extends \Tests\TestCase
      */
     public function testNewFromBuilder(): void
     {
-        $character = new Character(['name' => 'Test character']);
+        $character = new Character(['name' => 'Test Capers character']);
         $character->save();
 
         $loaded = Character::find($character->id);
         // @phpstan-ignore-next-line
-        self::assertSame('Test character', $loaded->name);
+        self::assertSame('Test Capers character', $loaded->name);
+        $character->delete();
     }
 
     /**
@@ -77,7 +78,7 @@ final class CharacterTest extends \Tests\TestCase
     {
         $character = new Character([
             'identity' => 'invalid',
-            'name' => 'Test character',
+            'name' => 'Test Capers unsaved character',
         ]);
         self::assertNull($character->identity);
     }
