@@ -9,15 +9,13 @@ use App\Http\Controllers\CyberpunkRed\CharactersController as CyberpunkRedCharac
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscordController;
 use App\Http\Controllers\Expanse\CharactersController as ExpanseCharacterController;
+use App\Http\Controllers\Import\Chummer5Controller;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Shadowrun5e\CharactersController as ShadowrunController;
 use App\Http\Controllers\StarTrekAdventures\CharactersController as StarTrekController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function (): void {
-    Route::get('/dashboard', [DashboardController::class, 'show'])
-        ->name('dashboard');
-
     Route::get('/campaigns/create', [CampaignsController::class, 'createForm'])
         ->name('campaign.createForm');
     Route::post('/campaigns/create', [CampaignsController::class, 'create'])
@@ -28,11 +26,6 @@ Route::middleware('auth')->group(function (): void {
         '/campaigns/{campaign}/gm-screen',
         [CampaignsController::class, 'gmScreen']
     )->name('campaign.gm-screen');
-
-    Route::get('/discord', [DiscordController::class, 'view'])
-        ->name('discord.view');
-    Route::post('/discord', [DiscordController::class, 'save'])
-        ->name('discord.save');
 
     Route::prefix('characters')->group(function (): void {
         Route::prefix('capers')->name('capers.')->group(function (): void {
@@ -142,6 +135,23 @@ Route::middleware('auth')->group(function (): void {
         Route::prefix('star-trek-adventures')->name('star-trek-adventures.')->group(function (): void {
             Route::get('/', [StarTrekController::class, 'list']);
         });
+    });
+
+    Route::get('/dashboard', [DashboardController::class, 'show'])
+        ->name('dashboard');
+
+    // Routes for setting up Discord within the app, not for integrating with
+    // an actual Discord server, that's done through an Artisan command.
+    Route::get('/discord', [DiscordController::class, 'view'])
+        ->name('discord.view');
+    Route::post('/discord', [DiscordController::class, 'save'])
+        ->name('discord.save');
+
+    Route::prefix('import')->name('import.')->group(function (): void {
+        Route::get('chummer5', [Chummer5Controller::class, 'view'])
+            ->name('chummer5.view');
+        Route::post('chummer5', [Chummer5Controller::class, 'upload'])
+            ->name('chummer5.upload');
     });
 
     Route::get('/settings', [SettingsController::class, 'show'])

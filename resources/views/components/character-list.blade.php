@@ -59,6 +59,12 @@
                         <span class="badge bg-danger">Not complete</span>
                     </a>
                     @endfeature
+                    @feature('chummer-import')
+                    <a class="dropdown-item" href="{{ route('import.chummer5.view') }}">
+                        Import a Chummer 5 character
+                        <span class="badge bg-warning">Beta</span>
+                    </a>
+                    @endfeature
                 </li>
             </ul>
         </div>
