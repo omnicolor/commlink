@@ -36,6 +36,18 @@ return [
         'name' => 'Addiction',
         'severity' => 'Mild',
     ],
+    'albinism-2' => [
+        'id' => 'albinism-2',
+        'description' => 'Albanism II',
+        'incompatible-with' => [
+            'albinism-1',
+            'albinism-2',
+        ],
+        'karma' => 8,
+        'level' => 2,
+        'name' => 'Albinism',
+        'ruleset' => 'run-faster',
+    ],
     'allergy-uncommon-mild' => [
         'id' => 'allergy-uncommon-mild',
         'description' => 'Allergy description.',

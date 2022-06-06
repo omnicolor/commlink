@@ -58,6 +58,7 @@ class Shadowrun5eConverter implements ConverterInterface
      * @var array<string, ?string>
      */
     protected array $mapQualities = [
+        'Albinism II' => 'albinism-2',
         'Magician' => null,
     ];
 
@@ -414,7 +415,9 @@ class Shadowrun5eConverter implements ConverterInterface
                 }
                 // Chummer calls the quality something weird, we've got a map
                 // to the Commlink ID.
-                $qualities = $this->mapQualities[$name];
+                $qualities[] = [
+                    'id' => $this->mapQualities[$name],
+                ];
                 continue;
             }
             try {
@@ -497,11 +500,12 @@ class Shadowrun5eConverter implements ConverterInterface
         $id = $this->createIDFromName((string)$this->xml->tradition->name);
         try {
             new Tradition($id);
-            $magics = $this->character->magics;
-            $magics['tradition'] = $id;
         } catch (RuntimeException $ex) {
             $this->errors[] = $ex->getMessage();
         }
+        $magics = $this->character->magics ?? [];
+        $magics['tradition'] = $id;
+        $this->character->magics = $magics;
         return $this;
     }
 

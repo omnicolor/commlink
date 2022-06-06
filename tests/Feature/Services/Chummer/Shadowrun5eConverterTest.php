@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Services\Chummer;
 
+use App\Models\Shadowrun5e\Identity;
+use App\Models\Shadowrun5e\Tradition;
 use App\Services\Chummer5\Shadowrun5eConverter;
 
 /**
@@ -89,5 +91,164 @@ final class Shadowrun5eConverterTest extends \Tests\TestCase
         self::assertCount(2, $character->getSkills());
         self::assertCount(5, $character->getKnowledgeSkills());
         self::assertCount(55, $converter->getErrors());
+    }
+
+    /**
+     * Test trying to load a Chummer 5 file for a non-magician and non-adept
+     * that has a magic rating.
+     * @test
+     */
+    public function testConvertInvalidMagicAttribute(): void
+    {
+        $converter = new Shadowrun5eConverter(
+            $this->dataDirectory . 'test.chum5'
+        );
+        $character = $converter->convert();
+        self::assertNull($character->magic);
+    }
+
+    /**
+     * Test trying to load a lifestyles if the character doesn't have any SINs.
+     * @test
+     */
+    public function testLifestylesWithoutIdentities(): void
+    {
+        $converter = new Shadowrun5eConverter(
+            $this->dataDirectory . 'test.chum5'
+        );
+        $character = $converter->convert();
+        self::assertEmpty($character->getIdentities());
+    }
+
+    /**
+     * Test trying to load a character's identities.
+     * @test
+     */
+    public function testIdentities(): void
+    {
+        $converter = new Shadowrun5eConverter(
+            $this->dataDirectory . 'sins.chum5'
+        );
+        $character = $converter->convert();
+        self::assertNotEmpty($character->getIdentities());
+        /** @var Identity */
+        $identity = $character->getIdentities()[0];
+        self::assertCount(1, $identity->licenses);
+        self::assertCount(1, $identity->lifestyles);
+        self::assertEmpty($identity->subscriptions);
+        self::assertSame(4, $identity->sin);
+        self::assertSame('joe cotton', $identity->name);
+    }
+
+    /**
+     * Test a character that specialized in a knowledge skill.
+     * @test
+     */
+    public function testKnowledgeSpecializations(): void
+    {
+        $converter = new Shadowrun5eConverter(
+            $this->dataDirectory . 'test.chum5'
+        );
+        $character = $converter->convert();
+        $skills = $character->getKnowledgeSkills();
+        $english = null;
+        foreach ($skills as $skill) {
+            if ('English' === $skill->name) {
+                $english = $skill;
+                break;
+            }
+        }
+        if (null === $english) {
+            self::fail('Could not find knowledge skill under test');
+        }
+        self::assertSame('Written', $english->specialization);
+    }
+
+    /**
+     * Test a character that specialized in an active skill.
+     * @test
+     */
+    public function testActiveSkillSpecializations(): void
+    {
+        $converter = new Shadowrun5eConverter(
+            $this->dataDirectory . 'test.chum5'
+        );
+        $character = $converter->convert();
+        $skills = $character->getSkills();
+        $combat = null;
+        foreach ($skills as $skill) {
+            if ('Astral Combat' === $skill->name) {
+                $combat = $skill;
+                break;
+            }
+        }
+        if (null === $combat) {
+            self::fail('Could not find active skill under test');
+        }
+        self::assertSame(
+            'While high,Opponent - Spirits',
+            $combat->specialization
+        );
+    }
+
+    /**
+     * Test loading a character's magical tradition if they have one.
+     * @test
+     */
+    public function testTradition(): void
+    {
+        $converter = new Shadowrun5eConverter(
+            $this->dataDirectory . 'sins.chum5'
+        );
+        $character = $converter->convert();
+        /** @var Tradition */
+        $tradition = $character->getTradition();
+        self::assertSame('Norse', $tradition->name);
+    }
+
+    /**
+     * Test loading a weapon.
+     * @test
+     */
+    public function testWeapons(): void
+    {
+        $converter = new Shadowrun5eConverter(
+            $this->dataDirectory . 'test.chum5'
+        );
+        $character = $converter->convert();
+        $ak = null;
+        foreach ($character->getWeapons() as $weapon) {
+            if ('AK-98' === $weapon->name) {
+                $ak = $weapon;
+                break;
+            }
+        }
+        if (null === $ak) {
+            self::fail('Could not find weapon under test');
+        }
+        self::assertSame('AK-98', $ak->name);
+    }
+
+    /**
+     * Test loading a character with a mapped quality.
+     * @test
+     */
+    public function testMappedQuality(): void
+    {
+        $converter = new Shadowrun5eConverter(
+            $this->dataDirectory . 'Blindfire.chum5'
+        );
+        $character = $converter->convert();
+        $albinism = null;
+        foreach ($character->getQualities() as $quality) {
+            if ('Albinism' === $quality->name) {
+                $albinism = $quality;
+                break;
+            }
+        }
+        if (null === $albinism) {
+            self::fail('Could not find quality under test');
+        }
+        self::assertSame('Albinism', $albinism->name);
     }
 }
