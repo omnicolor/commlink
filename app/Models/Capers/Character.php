@@ -20,6 +20,7 @@ use RuntimeException;
  * @property string $description
  * @property int $expertise
  * @property ?Identity $identity
+ * @property string $id
  * @property int $level
  * @property string $mannerisms
  * @property-read string $mind
