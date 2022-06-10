@@ -6,6 +6,8 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Weapon;
 use App\Models\Shadowrun5e\WeaponModification;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for weapon modification class.
@@ -14,7 +16,7 @@ use App\Models\Shadowrun5e\WeaponModification;
  * @group shadowrun5e
  * @small
  */
-final class WeaponModificationTest extends \Tests\TestCase
+final class WeaponModificationTest extends TestCase
 {
     /**
      * @var WeaponModification Subject under test
@@ -217,5 +219,28 @@ final class WeaponModificationTest extends \Tests\TestCase
             725,
             $smartlink->getCost(new Weapon('ares-predator-v'))
         );
+    }
+
+    /**
+     * Test findByName with a name that isn't found.
+     * @test
+     */
+    public function testFindByNameNotFound(): void
+    {
+        self::expectException(RuntimeException::class);
+        self::expectExceptionMessage(
+            'Weapon modification "Not Found" was not found'
+        );
+        WeaponModification::findByName('Not Found');
+    }
+
+    /**
+     * Test finding a modification by name.
+     * @test
+     */
+    public function testFindByName(): void
+    {
+        $mod = WeaponModification::findByName('Bayonet');
+        self::assertSame('run-and-gun', $mod->ruleset);
     }
 }

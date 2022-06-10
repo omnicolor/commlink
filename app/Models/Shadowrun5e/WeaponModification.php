@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use RuntimeException;
+
 /**
  * Something to add to a character's weapon.
  */
@@ -84,7 +86,7 @@ class WeaponModification
     /**
      * Construct a new modification object.
      * @param string $id ID to load
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function __construct(string $id)
     {
@@ -93,7 +95,7 @@ class WeaponModification
         self::$modifications ??= require $filename;
 
         if (!isset(self::$modifications[$id])) {
-            throw new \RuntimeException(\sprintf(
+            throw new RuntimeException(\sprintf(
                 'Modification ID "%s" is invalid',
                 $id
             ));
@@ -132,5 +134,29 @@ class WeaponModification
             return ($this->costModifier - 1) * (int)$weapon->cost;
         }
         return $this->cost ?? 0;
+    }
+
+    /**
+     * Find a weapon modification by its name.
+     * @param string $name
+     * @return WeaponModification
+     * @throws RuntimeException
+     */
+    public static function findByName(string $name): WeaponModification
+    {
+        $filename = config('app.data_path.shadowrun5e')
+            . 'weapon-modifications.php';
+        self::$modifications ??= require $filename;
+
+        foreach (self::$modifications as $mod) {
+            if (\strtolower($mod['name']) === \strtolower($name)) {
+                return new WeaponModification($mod['id']);
+            }
+        }
+
+        throw new \RuntimeException(\sprintf(
+            'Weapon modification "%s" was not found',
+            $name
+        ));
     }
 }

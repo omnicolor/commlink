@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use RuntimeException;
+
 /**
  * Something to change a piece of armor's behavior.
  */
@@ -78,7 +80,7 @@ class ArmorModification
     /**
      * Construct a new modification object.
      * @param string $id ID to load
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function __construct(string $id)
     {
@@ -88,7 +90,7 @@ class ArmorModification
 
         $id = \strtolower($id);
         if (!isset(self::$modifications[$id])) {
-            throw new \RuntimeException(\sprintf(
+            throw new RuntimeException(\sprintf(
                 'Modification ID "%s" not found',
                 $id
             ));
@@ -130,5 +132,36 @@ class ArmorModification
             return $this->cost;
         }
         return (int)(($armor->cost * $this->costModifier) - $armor->cost);
+    }
+
+    /**
+     * Find a modification by its name, and optional rating.
+     * @param string $name
+     * @param ?int $rating
+     * @return ArmorModification
+     * @throws RuntimeException
+     */
+    public static function findByName(
+        string $name,
+        ?int $rating = null
+    ): ArmorModification {
+        $filename = config('app.data_path.shadowrun5e')
+            . 'armor-modifications.php';
+        self::$modifications ??= require $filename;
+
+        foreach (self::$modifications as $mod) {
+            if (\strtolower($mod['name']) !== \strtolower($name)) {
+                continue;
+            }
+            if (null !== $rating && $rating !== $mod['rating']) {
+                continue; // @codeCoverageIgnore
+            }
+            return new self($mod['id']);
+        }
+
+        throw new RuntimeException(\sprintf(
+            'Armor modification "%s" was not found',
+            $name
+        ));
     }
 }

@@ -6,6 +6,8 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Armor;
 use App\Models\Shadowrun5e\ArmorModification;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for armor modifications class.
@@ -14,7 +16,7 @@ use App\Models\Shadowrun5e\ArmorModification;
  * @group shadowrun5e
  * @small
  */
-final class ArmorModificationTest extends \Tests\TestCase
+final class ArmorModificationTest extends TestCase
 {
     /**
      * Test loading an invalid modification.
@@ -22,7 +24,7 @@ final class ArmorModificationTest extends \Tests\TestCase
      */
     public function testLoadNotFoundModification(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Modification ID "invalid" not found');
         new ArmorModification('invalid');
     }
@@ -164,5 +166,28 @@ final class ArmorModificationTest extends \Tests\TestCase
     {
         $mod = new ArmorModification('ynt-softweave-armor');
         self::assertSame(1000, $mod->getCost(new Armor('armor-jacket')));
+    }
+
+    /**
+     * Test findByName with a name that isn't found.
+     * @test
+     */
+    public function testFindByNameNotFound(): void
+    {
+        self::expectException(RuntimeException::class);
+        self::expectExceptionMessage(
+            'Armor modification "Not Found" was not found'
+        );
+        ArmorModification::findByName('Not Found');
+    }
+
+    /**
+     * Test findByName returning a weapon modification.
+     * @test
+     */
+    public function testFindByName(): void
+    {
+        $mod = ArmorModification::findByName('Fire Resistance', 2);
+        self::assertSame('fire-resistance-2', $mod->id);
     }
 }

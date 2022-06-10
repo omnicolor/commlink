@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use RuntimeException;
+
 /**
  * An augmentation (either cyberware or bioware) that the character can spend
  * essence on.
@@ -106,7 +108,7 @@ class Augmentation
      * Construct an augmentation.
      * @param string $id ID of the augmentation to load
      * @param ?string $grade Optional grade to set the augmentation to
-     * @throws \RuntimeException If the augmentation isn't valid
+     * @throws RuntimeException If the augmentation isn't valid
      */
     public function __construct(string $id, ?string $grade = null)
     {
@@ -115,7 +117,7 @@ class Augmentation
 
         $id = \strtolower($id);
         if (!isset(self::$augmentations[$id])) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 \sprintf('Augmentation "%s" is invalid', $id)
             );
         }
@@ -169,7 +171,7 @@ class Augmentation
      * Build an augmentation from a Mongo array.
      * @param array<string, mixed> $augmentation
      * @return Augmentation
-     * @throws \RuntimeException If the augmentation isn't valid
+     * @throws RuntimeException If the augmentation isn't valid
      */
     public static function build(array $augmentation): Augmentation
     {
@@ -190,6 +192,44 @@ class Augmentation
             $aug->active = $augmentation['active'] ?? false;
         }
         return $aug;
+    }
+
+    /**
+     * Try to find an augmentation by its name and optional rating.
+     * @param string $name
+     * @param int|null|string $rating
+     * @return Augmentation
+     * @throws RuntimeException
+     */
+    public static function findByName(
+        string $name,
+        int|null|string $rating = null
+    ): Augmentation {
+        $filename = config('app.data_path.shadowrun5e') . 'cyberware.php';
+        self::$augmentations ??= require $filename;
+
+        foreach (self::$augmentations as $aug) {
+            if (strtolower($aug['name']) !== strtolower($name)) {
+                continue;
+            }
+
+            if (null === $rating) {
+                return new self($aug['id']);
+            }
+
+            if (is_int($rating) && $rating === $aug['rating']) {
+                return new self($aug['id']);
+            }
+
+            if (strtolower((string)$rating) === strtolower($aug['rating'])) {
+                return new self($aug['id']);
+            }
+        }
+
+        throw new RuntimeException(sprintf(
+            'Augmentation "%s" was not found',
+            $name
+        ));
     }
 
     /**

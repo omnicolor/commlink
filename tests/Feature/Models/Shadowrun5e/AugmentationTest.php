@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Augmentation;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for Augmentation class.
@@ -13,7 +15,7 @@ use App\Models\Shadowrun5e\Augmentation;
  * @group shadowrun5e
  * @small
  */
-final class AugmentationTest extends \Tests\TestCase
+final class AugmentationTest extends TestCase
 {
     /**
      * @var Augmentation Subject under test
@@ -35,7 +37,7 @@ final class AugmentationTest extends \Tests\TestCase
      */
     public function testLoadInvalid(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Augmentation "invalid" is invalid');
         new Augmentation('invalid');
     }
@@ -148,7 +150,7 @@ final class AugmentationTest extends \Tests\TestCase
      */
     public function testBuildInvalid(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         Augmentation::build(['id' => 'unknown']);
     }
 
@@ -265,5 +267,46 @@ final class AugmentationTest extends \Tests\TestCase
         // @phpstan-ignore-next-line
         self::assertNull($aug->modifications[0]->cost);
         self::assertSame($cost, $aug->getCost());
+    }
+
+    /**
+     * Test trying to find an invalid augmentation by name.
+     * @test
+     */
+    public function testFindByNameNotFound(): void
+    {
+        self::expectException(RuntimeException::class);
+        self::expectExceptionMessage('Augmentation "Not Found" was not found');
+        Augmentation::findByName('Not Found');
+    }
+
+    /**
+     * Test finding an augmentation by name with a string rating.
+     * @test
+     */
+    public function testFindByNameWithStringRating(): void
+    {
+        $augmentation = Augmentation::findByName('Bone Lacing', 'aluminum');
+        self::assertSame(18000, $augmentation->cost);
+    }
+
+    /**
+     * Test finding an augmentation by name with a numeric rating.
+     * @test
+     */
+    public function testFindByNameWithIntRating(): void
+    {
+        $aug = Augmentation::findByName('Bone Density Augmentation', 2);
+        self::assertSame(10000, $aug->cost);
+    }
+
+    /**
+     * Test finding an augmentation by name for an item without a rating.
+     * @test
+     */
+    public function testFindByNameNoRating(): void
+    {
+        $aug = Augmentation::findByName('damper');
+        self::assertSame(2250, $aug->cost);
     }
 }
