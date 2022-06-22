@@ -1,32 +1,7 @@
 <x-app>
     <x-slot name="title">Create character</x-slot>
     <x-slot name="head">
-        <style>
-            .points {
-                position: fixed;
-                right: 0;
-                top: 5em;
-            }
-            .tooltip-inner {
-                max-width: 600px;
-                text-align: left;
-            }
-            tr.invalid {
-                opacity: .5;
-            }
-            #points-button {
-                position: fixed;
-                right: 0;
-                top: 5rem;
-            }
-            .offcanvas {
-                border-bottom: 1px solid rgba(0, 0, 0, .2);
-                border-top: 1px solid rgba(0, 0, 0, .2);
-                bottom: 5rem;
-                top: 4.5rem;
-                width: 300px;
-            }
-        </style>
+        <link href="/css/Shadowrun5e/character-generation.css" rel="stylesheet">
     </x-slot>
     @include('Shadowrun5e.create-navigation')
 
