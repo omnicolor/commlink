@@ -10,9 +10,11 @@ use App\Models\Shadowrun5e\Armor;
 use App\Models\Shadowrun5e\Augmentation;
 use App\Models\Shadowrun5e\Gear;
 use App\Models\Shadowrun5e\GearFactory;
+use App\Models\Shadowrun5e\Metamagic;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\Models\Shadowrun5e\Quality;
 use App\Models\Shadowrun5e\SkillGroup;
+use App\Models\Shadowrun5e\Spell;
 use App\Models\Shadowrun5e\Weapon;
 use App\Services\ConverterInterface;
 use RecursiveDirectoryIterator;
@@ -43,11 +45,31 @@ class Shadowrun5eConverter implements ConverterInterface
     protected array $errors = [];
 
     /**
+     * Map of Hero Lab armor names to Commlink IDs or null for those ignored.
+     * @var array<string, ?string>
+     */
+    protected array $mapArmor = [
+        'Natural Armor' => null,
+        'Licensed Team Jersey' => 'armored-team-jerseys-licensed',
+        'Unlicensed Team Jersey' => 'armored-team-jerseys-unlicensed',
+    ];
+
+    /**
      * Map of Hero Lab gear names to Commlink IDs.
      * @var array<string, ?string>
      */
     protected array $mapGear = [
         'Certified Credstick, Silver' => 'credstick-silver',
+        'Living Persona' => null,
+        'Sim Module' => null,
+    ];
+
+    /**
+     * Map of Hero Lab metamagic names to Commlink IDs.
+     * @var array<string, ?string>
+     */
+    protected array $mapMetamagic = [
+        'Centering +1dicepool' => 'centering',
     ];
 
     /**
@@ -57,6 +79,7 @@ class Shadowrun5eConverter implements ConverterInterface
     protected array $mapQualities = [
         'Adept' => null,
         'Insomnia (Half-Speed Recovery) (7dicepool vs. 4)' => 'insomnia-1',
+        'Technomancer' => null,
     ];
 
     /**
@@ -64,8 +87,16 @@ class Shadowrun5eConverter implements ConverterInterface
      * @var array<string, ?string>
      */
     protected array $mapWeapons = [
+        'AK-98 Grenade Launcher' => null,
+        'Defiance T-250 (short-barrel version)' => 'defiance-t-250-short',
         'Unarmed Strike' => null,
     ];
+
+    /**
+     * Text portfolio.
+     * @var array<int, string>
+     */
+    protected array $text;
 
     /**
      * Hero portfolio.
@@ -160,7 +191,7 @@ class Shadowrun5eConverter implements ConverterInterface
     }
 
     /**
-     * Parse the XML files from the portfolio.
+     * Parse the XML and text files from the portfolio.
      * @throws RuntimeException
      */
     protected function parseFiles(): void
@@ -193,10 +224,16 @@ class Shadowrun5eConverter implements ConverterInterface
             \DIRECTORY_SEPARATOR,
             \DIRECTORY_SEPARATOR
         );
-        $xml = simplexml_load_file($meta);
+        try {
+            $xml = simplexml_load_file($meta);
+        } catch (\ErrorException) {
+            throw new RuntimeException('Portfolio metadata is invalid');
+        }
+        // @codeCoverageIgnoreStart
         if (false === $xml) {
             throw new RuntimeException('Failed to load Portfolio metadata');
         }
+        // @codeCoverageIgnoreEnd
         $this->xmlMeta = $xml;
     }
 
@@ -311,7 +348,12 @@ class Shadowrun5eConverter implements ConverterInterface
             $id = str_replace(' Group', '', $id);
             $id = strtolower($id);
             $level = (int)$group['base'];
-            $group = new SkillGroup($id, $level);
+            try {
+                $group = new SkillGroup($id, $level);
+            } catch (RuntimeException $ex) {
+                $this->errors[] = $ex->getMessage();
+                continue;
+            }
             $skillGroups[$group->id] = $group->level;
         }
         $this->character->skillGroups = $skillGroups;
@@ -330,7 +372,12 @@ class Shadowrun5eConverter implements ConverterInterface
         foreach ($skills as $skill) {
             $id = $this->createIDFromName((string)$skill['name']);
             $level = (int)$skill['base'];
-            $skillObject = new ActiveSkill($id, $level);
+            try {
+                $skillObject = new ActiveSkill($id, $level);
+            } catch (RuntimeException $ex) {
+                $this->errors[] = $ex->getMessage();
+                continue;
+            }
             $skillsArray[] = [
                 'id' => $skillObject->id,
                 'level' => $skillObject->level,
@@ -355,12 +402,13 @@ class Shadowrun5eConverter implements ConverterInterface
         foreach ($skills as $skill) {
             $name = (string)$skill['name'];
             $rating = (int)$skill['base'];
-            if (null !== $skill->specialization) {
-                $specializations = [];
-                foreach ($skill->specialization as $spec) {
-                    $specializations[]
-                        = str_replace(' +2', '', (string)$spec['bonustext']);
-                }
+
+            $specializations = [];
+            foreach ($skill->specialization as $spec) {
+                $specializations[]
+                    = str_replace(' +2', '', (string)$spec['bonustext']);
+            }
+            if (0 !== count($specializations)) {
                 $specializations = implode(',', $specializations);
             } else {
                 $specializations = null;
@@ -379,25 +427,43 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse out the character's spells.
-     * @param SimpleXMLElement $spells
+     * @param ?SimpleXMLElement $spells
      * @return Shadowrun5eConverter
-     * @TODO Implement
+     * @TODO Add support for alchemical spells
      */
     protected function parseSpells(
-        SimpleXMLElement $spells
+        ?SimpleXMLElement $spells
     ): Shadowrun5eConverter {
+        if (null === $spells || 0 === count($spells)) {
+            return $this;
+        }
+        $magics = $this->character->magics;
+        if (!is_array($magics)) {
+            $magics = [];
+        }
+        $magics['spells'] = [];
+        foreach ($spells as $spell) {
+            $name = (string)$spell['name'];
+            try {
+                $magics['spells'][] = Spell::findByName($name)->id;
+            } catch (RuntimeException $ex) {
+                $this->errors[] = $ex->getMessage();
+                continue;
+            }
+        }
+        $this->character->magics = $magics;
         return $this;
     }
 
     /**
      * Parse out the character's powers.
-     * @param SimpleXMLElement $powers
+     * @param ?SimpleXMLElement $powers
      * @return Shadowrun5eConverter
      */
     protected function parsePowers(
-        SimpleXMLElement $powers
+        ?SimpleXMLElement $powers
     ): Shadowrun5eConverter {
-        if (0 === count($powers)) {
+        if (null === $powers || 0 === count($powers)) {
             return $this;
         }
         $powersArray = [];
@@ -423,13 +489,37 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse out the character's metamagics.
-     * @param SimpleXMLElement $meta
+     * @param ?SimpleXMLElement $meta
      * @return Shadowrun5eConverter
      * @TODO Implement
      */
     protected function parseMetamagics(
-        SimpleXMLElement $meta
+        ?SimpleXMLElement $meta
     ): Shadowrun5eConverter {
+        if (null === $meta || 0 === count($meta)) {
+            return $this;
+        }
+
+        $metaArray = [];
+        foreach ($meta as $metamagic) {
+            $name = (string)$metamagic['name'];
+            if (isset($this->mapMetamagic[$name])) {
+                $metaArray[] = $this->mapMetamagic[$name];
+                continue;
+            }
+            try {
+                $metaArray[] = Metamagic::findByName($name)->id;
+            } catch (RuntimeException $ex) {
+                $this->errors[] = $ex->getMessage();
+                continue;
+            }
+        }
+        if (!is_array($this->character->magics)) {
+            $this->character->magics = [];
+        }
+        $magics = $this->character->magics;
+        $magics['metamagics'] = $metaArray;
+        $this->character->magics = $magics;
         return $this;
     }
 
@@ -509,6 +599,15 @@ class Shadowrun5eConverter implements ConverterInterface
         $armorArray = [];
         foreach ($armors as $rawArmor) {
             $name = (string)$rawArmor['name'];
+            if (array_key_exists($name, $this->mapArmor)) {
+                if (null === $this->mapArmor[$name]) {
+                    continue;
+                }
+                $armorArray[] = [
+                    'id' => (new Armor($this->mapArmor[$name]))->id,
+                ];
+                continue;
+            }
             try {
                 $armor = Armor::findByName($name);
             } catch (\RuntimeException $ex) {
@@ -650,7 +749,7 @@ class Shadowrun5eConverter implements ConverterInterface
         // @phpstan-ignore-next-line
         return match ($priority) {
             1 => 'A',
-            2 => 'B',
+            2 => 'B', // @codeCoverageIgnore
             3 => 'C',
             4 => 'D',
             5 => 'E',
@@ -765,9 +864,8 @@ class Shadowrun5eConverter implements ConverterInterface
 
         foreach ($this->xmlMeta->hero->source as $key => $value) {
             $source = (string)$value['source'];
-            $enabled = (bool)$value['count'];
-            if (in_array($source, $map, true)) {
-                // @phpstan-ignore-next-line
+            $enabled = '1' === (string)$value['count'];
+            if (isset($map[$source]) && $enabled) {
                 $books[] = $map[$source];
                 continue;
             }
@@ -800,8 +898,20 @@ class Shadowrun5eConverter implements ConverterInterface
             }
         }
         sort($books);
+        $books = array_unique($books);
         $priorities['rulebooks'] = implode(',', array_unique($books));
         $this->character->priorities = $priorities;
+        return $this;
+    }
+
+    /**
+     * Parse the character's contacts.
+     * @param SimpleXMLElement $journals
+     * @return Shadowrun5eConverter
+     */
+    protected function parseJournals(
+        SimpleXMLElement $journals
+    ): Shadowrun5eConverter {
         return $this;
     }
 
@@ -835,16 +945,17 @@ class Shadowrun5eConverter implements ConverterInterface
             ->parseActiveSkills($this->xml->skills->active->skill)
             ->parseKnowledgeSkills($this->xml->skills->knowledge->skill, false)
             ->parseKnowledgeSkills($this->xml->skills->language->skill, true)
-            ->parseSpells($this->xml->magic->spells->spell)
-            ->parsePowers($this->xml->magic->adeptpowers->adeptpower)
-            ->parseMetamagics($this->xml->magic->metamagics->metamagic)
+            ->parseSpells(optional($this->xml->magic->spells)->spell)
+            ->parsePowers(optional($this->xml->magic->adeptpowers)->adeptpower)
+            ->parseMetamagics(optional($this->xml->magic->metamagics)->metamagic)
             ->parseAugmentations($this->xml->gear->augmentations->cyberware->item)
             ->parseAugmentations($this->xml->gear->augmentations->bioware->item)
             ->parseWeapons($this->xml->gear->weapons->item)
             ->parseArmor($this->xml->gear->armor->item)
             ->parseGear($this->xml->gear->equipment->item)
             ->parseIdentities($this->xml->identities->identity)
-            ->parseContacts($this->xml->contacts->contact);
+            ->parseContacts($this->xml->contacts->contact)
+            ->parseJournals($this->xml->journals->journal);
 
         return $this->character;
     }

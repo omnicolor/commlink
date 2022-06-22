@@ -74,4 +74,15 @@ return [
         'ruleset' => 'run-and-gun',
         'stack-rating' => 1,
     ],
+    'armored-team-jerseys-licensed' => [
+        'availability' => '4',
+        'capacity' => 8,
+        'cost' => 750,
+        'description' => 'Description',
+        'id' => 'armored-team-jerseys-licensed',
+        'name' => 'Armored Team Jerseys (Licensed)',
+        'page' => 136,
+        'rating' => 8,
+        'ruleset' => 'cutting-aces',
+    ],
 ];

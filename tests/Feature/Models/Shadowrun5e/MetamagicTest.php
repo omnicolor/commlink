@@ -53,9 +53,8 @@ final class MetamagicTest extends \Tests\TestCase
      */
     public function testFindByName(): void
     {
-        self::assertInstanceOf(
-            Metamagic::class,
-            Metamagic::findByName('Centering')
-        );
+        $meta = Metamagic::findByName('Centering');
+        self::assertInstanceOf(Metamagic::class, $meta);
+        self::assertSame('centering', $meta->id);
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use RuntimeException;
+
 /**
  * Class representing a spell in Shadowrun 5E.
  */
@@ -98,7 +100,7 @@ class Spell
     /**
      * Construct a new spell object.
      * @param string $id ID to load
-     * @throws \RuntimeException if the ID is invalid
+     * @throws RuntimeException if the ID is invalid
      */
     public function __construct(string $id)
     {
@@ -107,7 +109,7 @@ class Spell
 
         $id = \strtolower($id);
         if (!isset(self::$spells[$id])) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 \sprintf('Spell ID "%s" is invalid', $id)
             );
         }
@@ -137,14 +139,37 @@ class Spell
     }
 
     /**
+     * Try to find a spell by its name.
+     * @param string $name
+     * @return Spell
+     * @throws RuntimeException
+     */
+    public static function findByName(string $name): Spell
+    {
+        $filename = config('app.data_path.shadowrun5e') . 'spells.php';
+        self::$spells ??= require $filename;
+
+        foreach (self::$spells as $spell) {
+            if (\strtolower($name) === \strtolower($spell['name'])) {
+                return new Spell($spell['id']);
+            }
+        }
+
+        throw new RuntimeException(\sprintf(
+            'Spell "%s" was not found',
+            $name
+        ));
+    }
+
+    /**
      * Return the drain value for the spell, based on its force.
      * @return int
-     * @throws \RuntimeException if the force isn't set
+     * @throws RuntimeException if the force isn't set
      */
     public function getDrain(): int
     {
         if (!isset($this->force)) {
-            throw new \RuntimeException('Force has not been set');
+            throw new RuntimeException('Force has not been set');
         }
         return $this->convertFormula($this->drain, 'F', $this->force);
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Spell;
+use RuntimeException;
 
 /**
  * Unit tests for Spell class.
@@ -22,7 +23,7 @@ final class SpellTest extends \Tests\TestCase
     public function testLoadInvalid(): void
     {
         Spell::$spells = null;
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Spell ID "foo" is invalid');
         new Spell('foo');
     }
@@ -64,7 +65,7 @@ final class SpellTest extends \Tests\TestCase
      */
     public function testGetDrainForceNotSet(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Force has not been set');
         $spell = new Spell('control-emotions');
         $spell->getDrain();
@@ -82,5 +83,26 @@ final class SpellTest extends \Tests\TestCase
 
         $spell->setForce(3);
         self::assertEquals(2, $spell->getDrain());
+    }
+
+    /**
+     * Test failing to find a spell by name.
+     * @test
+     */
+    public function testFindByNameNotFound(): void
+    {
+        self::expectException(RuntimeException::class);
+        self::expectExceptionMessage('Spell "Not Found" was not found');
+        Spell::findByName('Not Found');
+    }
+
+    /**
+     * Test finding a spell by name.
+     * @test
+     */
+    public function testFindByName(): void
+    {
+        $spell = Spell::findByName('Control Emotions');
+        self::assertSame('shadow-spells', $spell->ruleset);
     }
 }

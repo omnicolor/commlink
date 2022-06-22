@@ -22,6 +22,12 @@ class Metamagic
     public string $description;
 
     /**
+     * ID of the metamagic.
+     * @var string
+     */
+    public string $id;
+
+    /**
      * Name of the metamagic.
      * @var string
      */
@@ -54,7 +60,7 @@ class Metamagic
         $filename = config('app.data_path.shadowrun5e') . 'metamagics.php';
         self::$metamagics ??= require $filename;
 
-        $id = \strtolower($id);
+        $this->id = \strtolower($id);
         if (!isset(self::$metamagics[$id])) {
             throw new \RuntimeException(
                 \sprintf('Metamagic ID "%s" is invalid', $id)
