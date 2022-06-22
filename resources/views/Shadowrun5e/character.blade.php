@@ -98,6 +98,7 @@
             <x-Shadowrun5e.spells :character="$character"/>
             <x-Shadowrun5e.powers :character="$character"/>
             <x-Shadowrun5e.gear :character="$character"/>
+            <x-Shadowrun5e.knowledge :character="$character"/>
         </div>
         <div class="col">
             <x-Shadowrun5e.armor :character="$character"/>
