@@ -19,6 +19,7 @@ use App\Models\Shadowrun5e\PartialCharacter;
 use App\Models\Shadowrun5e\Quality;
 use App\Models\Shadowrun5e\Rulebook;
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -1223,11 +1224,19 @@ class CharactersController extends \App\Http\Controllers\Controller
 
     /**
      * View a character's sheet.
-     * @param Character $character
+     * @param string $identifier
      * @return View
      */
-    public function view(Character $character): View
+    public function view(string $identifier): View
     {
+        try {
+            $character = Character::where('_id', $identifier)
+                ->firstOrFail();
+        } catch (ModelNotFoundException) {
+            $character = PartialCharacter::where('_id', $identifier)
+                ->firstOrFail();
+        }
+
         $user = \Auth::user();
         return view(
             'Shadowrun5e.character',

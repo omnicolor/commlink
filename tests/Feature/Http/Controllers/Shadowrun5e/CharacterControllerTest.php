@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * Controller for the Shadowrun 5E characters controller.
@@ -18,7 +19,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
  * @group controllers
  * @medium
  */
-final class CharacterControllerTest extends \Tests\TestCase
+final class CharacterControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -193,6 +194,28 @@ final class CharacterControllerTest extends \Tests\TestCase
                 \sprintf('/characters/shadowrun5e/%s', $character->id),
                 ['character' => $character, 'user' => $user]
             )
+            ->assertSee($character->handle);
+    }
+
+    /**
+     * Test trying to view a partial character without being logged in.
+     * @test
+     */
+    public function testViewPartialCharacterNoLogin(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var Character */
+        $character = $this->characters[] = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+            'system' => 'shadowrun5e',
+        ]);
+        self::get(
+            \sprintf('/characters/shadowrun5e/%s', $character->id),
+            ['character' => $character]
+        )
+            ->assertOk()
             ->assertSee($character->handle);
     }
 
@@ -1044,7 +1067,7 @@ final class CharacterControllerTest extends \Tests\TestCase
         $skills = $character->getKnowledgeSkills();
         self::assertCount(3, $skills);
 
-        /** @var \App\Models\Shadowrun5e\KnowledgeSkill */
+        /** @var KnowledgeSkill */
         $skill = $skills[0];
         self::assertSame('interests', $skill->category);
         self::assertSame('Alcohol', $skill->name);
