@@ -24,9 +24,6 @@
                         data-bs-toggle="tooltip"
                         title="<p>{!! str_replace(['||', '"'], ['</p><p>', '&quot;'], $gear->description) !!}</p>">
                         {{ $gear }}
-                        @if (null !== $gear->subname)
-                        &ndash; {{ $gear->subname }}
-                        @endif
                         @if (!empty($gear->modifications))
                         <small class="text-muted">
                         @foreach ($gear->modifications as $mod)
