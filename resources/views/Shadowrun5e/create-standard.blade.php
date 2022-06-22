@@ -97,7 +97,7 @@
                 <option value="">&hellip;</option>
                 @foreach ($races[$priority] as $race => $description)
                 <option
-                    @if (isset($selected['metatype']) && $selected['metatype'] === $race)
+                    @if ($selected['metatype'] === $race)
                         selected
                     @endif
                     value="{{ $race }}">{{ $description }}</option>

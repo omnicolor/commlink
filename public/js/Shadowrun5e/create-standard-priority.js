@@ -264,5 +264,4 @@ $(function () {
 
     $('[data-bs-toggle="tooltip"]').tooltip();
     $priorityElements.on('change', changePriority);
-    $('#priority-e').change();
 });
