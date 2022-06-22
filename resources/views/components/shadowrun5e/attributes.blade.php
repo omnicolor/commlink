@@ -126,6 +126,9 @@
         <li class="list-group-item">
             <span data-bs-toggle="tooltip" title="If you intend to cast spells or use magic in any way, your character needs to have the Magic attribute. Most individuals do not have this attribute, meaning their rating is zero. Mages, who cast spells, and adepts, who channel magic into enhanced physical and mental abilities, need this quality. Their Magic rating measures how capable they are in the arcane arts and how much power they can draw down to help them in their efforts.">
                 Magic
+                @if (null !== $character->getTradition())
+                    ({{ $character->getTradition() }})
+                @endif
             </span>
             <div class="value">
                 <span id="magic-natural">{{ $character->magic }}</span>
