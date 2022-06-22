@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Shadowrun5e;
 
 use App\Http\Requests\Shadowrun5e\AttributesRequest;
+use App\Http\Requests\Shadowrun5e\BackgroundRequest;
 use App\Http\Requests\Shadowrun5e\KnowledgeSkillsRequest;
 use App\Http\Requests\Shadowrun5e\MartialArtsRequest;
 use App\Http\Requests\Shadowrun5e\QualitiesRequest;
@@ -299,9 +300,54 @@ class CharactersController extends \App\Http\Controllers\Controller
                     ]
                 );
             case 'background':
+                $background = [
+                    'age' => $request->old('age')
+                        ?? $character->background['age'] ?? null,
+                    'appearance' => $request->old('appearance')
+                        ?? $character->background['appearance'] ?? null,
+                    'born' => $request->old('born')
+                        ?? $character->background['born'] ?? null,
+                    'description' => $request->old('description')
+                        ?? $character->background['description'] ?? null,
+                    'education' => $request->old('education')
+                        ?? $character->background['education'] ?? null,
+                    'family' => $request->old('family')
+                        ?? $character->background['family'] ?? null,
+                    'gender-identity' => $request->old('gender-identity')
+                        ?? $character->background['gender-identity'] ?? null,
+                    'goals' => $request->old('goals')
+                        ?? $character->background['goals'] ?? null,
+                    'hate' => $request->old('hate')
+                        ?? $character->background['hate'] ?? null,
+                    'limitations' => $request->old('limitations')
+                        ?? $character->background['limitations'] ?? null,
+                    'living' => $request->old('living')
+                        ?? $character->background['living'] ?? null,
+                    'love' => $request->old('love')
+                        ?? $character->background['love'] ?? null,
+                    'married' => $request->old('married')
+                        ?? $character->background['married'] ?? null,
+                    'moral' => $request->old('moral')
+                        ?? $character->background['moral'] ?? null,
+                    'motivation' => $request->old('motivation')
+                        ?? $character->background['motivation'] ?? null,
+                    'name' => $request->old('name')
+                        ?? $character->background['name'] ?? null,
+                    'personality' => $request->old('personality')
+                        ?? $character->background['personality'] ?? null,
+                    'qualities' => $request->old('qualitites')
+                        ?? $character->background['qualitites'] ?? null,
+                    'religion' => $request->old('religion')
+                        ?? $character->background['religion'] ?? null,
+                    'size' => $request->old('size')
+                        ?? $character->background['size'] ?? null,
+                    'why' => $request->old('why')
+                        ?? $character->background['why'] ?? null,
+                ];
                 return view(
                     'Shadowrun5e.create-background',
                     [
+                        'background' => $background,
                         'character' => $character,
                         'currentStep' => 'background',
                         'nextStep' => $this->nextStep('background', $character),
@@ -901,6 +947,51 @@ class CharactersController extends \App\Http\Controllers\Controller
         $character->update();
 
         return $this->redirect($request->input('nav'), 'attributes', $character);
+    }
+
+    public function storeBackground(BackgroundRequest $request): RedirectResponse
+    {
+        /** @var User */
+        $user = \Auth::user();
+
+        $characterId = $request->session()->get('shadowrun5epartial');
+        $character = PartialCharacter::where('_id', $characterId)
+            ->where('owner', $user->email)
+            ->firstOrFail();
+
+        $character->background = array_filter(array_merge(
+            $character->background ?? [],
+            $request->only([
+                'age',
+                'appearance',
+                'born',
+                'description',
+                'education',
+                'family',
+                'gender-identity',
+                'goals',
+                'hate',
+                'limitations',
+                'living',
+                'love',
+                'married',
+                'moral',
+                'motivation',
+                'name',
+                'personality',
+                'qualities',
+                'religion',
+                'size',
+                'why',
+            ]),
+        ));
+        $character->update();
+
+        return $this->redirect(
+            $request->input('nav'),
+            'background',
+            $character,
+        );
     }
 
     public function storeKnowledgeSkills(

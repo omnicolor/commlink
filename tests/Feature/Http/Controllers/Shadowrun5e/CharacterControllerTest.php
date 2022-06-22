@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Controllers\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Character;
+use App\Models\Shadowrun5e\KnowledgeSkill;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -1858,6 +1859,62 @@ final class CharacterControllerTest extends TestCase
             ->assertSessionHasNoErrors()
             ->assertSee('Previous: Social')
             ->assertSee('Next: Review');
+    }
+
+    /**
+     * Test storing a character's background.
+     * @test
+     */
+    public function testStoreBackground(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = $this->characters[] = PartialCharacter::factory()->create([
+            'background' => ['gender' => 'male'],
+            'owner' => $user->email,
+            'system' => 'shadowrun5e',
+        ]);
+        session(['shadowrun5epartial' => $character->id]);
+
+        $background = [
+            'age' => 'Really old.',
+            'appearance' => 'Hair everywhere.',
+            'born' => 'At a very young age.',
+            'description' => 'Funny sense of humor.',
+            'education' => 'School of hard knocks.',
+            'family' => 'I\'m sure there\'s one out there.',
+            'gender-identity' => 'Hyper, almost toxically, masculine.',
+            'goals' => 'Get rich or die trying.',
+            'hate' => 'Evil corps.',
+            'limitations' => 'None that I\'ve found.',
+            'living' => 'Former adult entertainer.',
+            'love' => 'Strong ales.',
+            'married' => 'LOL, no.',
+            'moral' => 'None to speak of.',
+            'motivation' => 'I wanna roll lots of dice.',
+            'name' => 'Phillip J. Fry',
+            'nav' => 'next',
+            'personality' => 'Quirky, and old.',
+            'qualities' => 'Read my character sheet.',
+            'religion' => 'LOL, just no.',
+            'size' => 'Shaped like a bowling pin.',
+            'why' => 'Why not?',
+        ];
+        self::actingAs($user)
+            ->post(route('shadowrun5e.create-background'), $background)
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/review');
+
+        $character->refresh();
+
+        // Navigation is part of the request, but isn't part of the background.
+        unset($background['nav']);
+        // And the character's gender was already set.
+        $background = ['gender' => 'male'] + $background;
+
+        self::assertSame($background, $character->background);
     }
 
     /**
