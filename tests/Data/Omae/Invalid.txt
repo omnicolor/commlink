@@ -1,0 +1,144 @@
+
+# Fastjack – Bob King
+
+##Priority
+
+Metatype | Attributes | Mag/Res | Skills | Resources | Something
+--------|----------|-------|------|---------|-------
+D | A | Q | B | C | R
+
+##Personal Details
+
+**Name/Alias:** Jack Smith/Fastjack
+
+**Metatype:** human
+
+Street Cred | Notoriety | Public Awareness
+-----------|---------|----------------
+0 | 0 | 0
+
+Karma | Total Karma
+-----------|---------
+7 | 7
+
+##Attributes
+
+Bod | Agi | Rea | Str | Wil | Log | Int | Cha | Edg | Mag | Ess
+---|---|---|---|---|---|---|---|---|---|---
+3 | 6 | 5 | 3 | 3 | 3 | 5 | 4 | 5 | – | 5.4
+
+###Limits
+
+Physical | Mental | Social
+--------|------|------
+5 | 5 | 4
+
+##Qualities
+
+Name | Category | Ref
+----|------|---
+Natural Athlete | Positive | SR5 p76
+Quick Healer | Positive | SR5 p77
+Tough and Targeted | Negative | CF p60
+Invalid Quality | Negative | SR5 p99
+
+
+##Magic/Resonance
+
+**Type:** mundane
+
+###Spells/Powers
+
+##Unknown section
+
+##Skills
+
+###Active
+
+Name | Rating | Attribute | Spec | DP
+----|------|---------|----|--
+Computer | 5 | 3 | Searching | 8
+Hardware | 5 | 3 | – | 8
+Software | 5 | 3 | – | 8
+Automatics | 6 | 6 | – | 12
+Sneaking | 6 | 6 | – | 12
+Perception | 6 | 5 | – | 11
+Etiquette | 6 | 4 | – | 10
+Unarmed Combat | 6 | 6 | – | 12
+Blades | 6 | 6 | – | 12
+
+###Inactive
+Name | Rating | Attribute | Spec | DP
+----|------|---------|----|--
+Your mom | 5 | 3 | - | 8
+
+
+##Street Gear
+
+### weapons
+
+Name | Acc | Dam | AP | Reach/RC | Mods | Ref
+----|------|-----|----|----------|------|--
+Ares Predator V | 5 | 8P | -1 | 0 | N/A | SR5 p426,
+Combat Knife | 6 | (STR+2)P | -3 | 0 | N/A | SR5 p422,
+AK-98 | 5 | 10P | -2 | 0 | Smartgun System, Internal; Bayonet | RG p36,
+Ruger Super Warhawk | 5 | 9P | -2 | 0 | N/A | SR5 p427
+
+### armors
+
+Name | Armor | Capacity | Mods | Ref
+----|--------|----------|------|--
+Armor Jacket | 12 | 3/12 | N/A/ | SR5 p437
+
+### Commlinks
+
+Name | Rating | Ref
+-----|--------|--
+Meta Link | N/A | SR5 p438,
+Meta Link | N/A | SR5 p438,
+Transys Avalon | N/A | SR5 p438
+
+### ID/Credsticks
+
+Name | Rating | Ref
+-----|--------|--
+Certified Credstick, Gold | 1 | SR5 p442,
+Fake SIN | 4 | SR5 p442,
+Fake License | 4 | SR5 p443
+
+### Ammunition
+
+Name | Rating | Ref
+-----|--------|--
+Ammo: APDS | N/A | SR5 p434,
+Ammo: Explosive Rounds | N/A | SR5 p434,
+Ammo: Gel Rounds | N/A | SR5 p434,
+Ammo: Regular Ammo | N/A | SR5 p434
+
+### Custom
+
+Name | Rating | Ref
+-----|--------|--
+Custom Item | N/A | SR5 p1
+
+### Contracts/Upkeep
+
+Name | Rating | Ref
+-----|--------|--
+DocWagon Contract, Gold (1 Year Advance Payment) | N/A | SR5 p450
+
+### augmentations
+
+Name | Rating | Ref
+-----|--------|--
+Datajack | N/A | SR5 p452,
+Orientation System | N/A | CF p80,
+Smartlink | N/A | SR5 p453,
+Low-Light Vision | N/A | SR5 p453
+
+### lifestyles
+
+Name | Rating | Ref
+-----|--------|--
+Medium | N/A | SR5 p369
+

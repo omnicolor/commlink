@@ -1,0 +1,85 @@
+
+# [Character Name] – [Player Name]
+
+##Priority
+
+Metatype | Attributes | Mag/Res | Skills | Resources
+--------|----------|-------|------|---------
+D | B | A | C | E
+
+##Personal Details
+
+**Name/Alias:** [Insert name]
+
+**Metatype:** human
+
+Street Cred | Notoriety | Public Awareness
+-----------|---------|----------------
+0 | 0 | 0
+
+Karma | Total Karma
+-----------|---------
+7 | 7
+
+##Attributes
+
+Bod | Agi | Rea | Str | Wil | Log | Int | Cha | Edg | Mag | Ess
+---|---|---|---|---|---|---|---|---|---|---
+3 | 3 | 3 | 3 | 4 | 3 | 3 | 6 | 5 | 6 | 6
+
+###Limits
+
+Physical | Mental | Social
+--------|------|------
+4 | 5 | 6
+
+##Qualities
+
+Name | Category | Ref
+----|------|---
+Natural Athlete | Positive | SR5 p76
+Mentor Spirit | Positive | SR5 p76
+Tough and Targeted | Negative | CF p60
+
+
+##Magic/Resonance
+
+**Type:** Mage
+
+###Spells/Powers
+
+
+name | descriptor | category | type | range | damage | duration | dv | source | page
+---|---|---|---|---|---|---|---|---|---
+Control Pack | Mental, Area | Manipulation | M | LOS(A) | 0 | S | F-1 | SG | 115
+ | Control EmotionsMental | Manipulation | M | LOS(A) | 0 | S | F11 | SSP | 21
+
+
+##Skills
+
+###Active
+
+Name | Rating | Attribute | Spec | DP
+----|------|---------|----|--
+Counterspelling | 5 | 6 | – | 11
+Alchemy | 5 | 6 | – | 11
+
+
+##Street Gear
+
+### weapons
+
+Name | Acc | Dam | AP | Reach/RC | Mods | Ref
+----|------|-----|----|----------|------|--
+Ares Predator V | 5 | 8P | -1 | 0 | N/A | SR5 p426,
+Combat Knife | 6 | (STR+2)P | -3 | 0 | N/A | SR5 p422,
+AK-98 | 5 | 10P | -2 | 0 | Smartgun System, Internal; Bayonet | RG p36,
+Ruger Super Warhawk | 5 | 9P | -2 | 0 | N/A | SR5 p427
+
+### armors
+
+Name | Armor | Capacity | Mods | Ref
+----|--------|----------|------|--
+Armor Jacket | 12 | 4/12 | Fire Resistance 2; Insulation 2 | SR5 p437,
+Armor Jacket (2050) | 12 | undefined/12 | N/A | 2050 p192
+

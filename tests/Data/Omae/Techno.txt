@@ -1,0 +1,90 @@
+
+# [Character Name] – [Player Name]
+
+##Priority
+
+Metatype | Attributes | Mag/Res | Skills | Resources
+--------|----------|-------|------|---------
+D | B | A | C | E
+
+##Personal Details
+
+**Name/Alias:** [Insert name]
+
+**Metatype:** human
+
+Street Cred | Notoriety | Public Awareness
+-----------|---------|----------------
+0 | 0 | 0
+
+Karma | Total Karma
+-----------|---------
+7 | 7
+
+##Attributes
+
+Bod | Agi | Rea | Str | Wil | Log | Int | Cha | Edg | Mag | Ess
+---|---|---|---|---|---|---|---|---|---|---
+3 | 3 | 3 | 3 | 4 | 3 | 3 | 6 | 5 | – | 6
+
+###Limits
+
+Physical | Mental | Social
+--------|------|------
+4 | 5 | 6
+
+##Qualities
+
+Name | Category | Ref
+----|------|---
+Natural Athlete | Positive | SR5 p76
+Tough and Targeted | Negative | CF p60
+
+
+##Magic/Resonance
+
+**Type:** Technomancer
+
+###Spells/Powers
+
+
+name | target | duration | fv | source | page
+---|---|---|---|---|---
+Cleaner | Persona | P | L+1 | SR5 | 252
+
+
+##Skills
+
+###Active
+
+Name | Rating | Attribute | Spec | DP
+----|------|---------|----|--
+Compiling | 5 | undefined | Toaster sprites | NaN (NaN)
+Decompiling | 5 | undefined | – | NaN
+Registering | 1 | 6 | – | 7
+
+
+##Street Gear
+
+### weapons
+
+Name | Acc | Dam | AP | Reach/RC | Mods | Ref
+----|------|-----|----|----------|------|--
+Ares Predator V | 5 | 8P | -1 | 0 | N/A | SR5 p426,
+Combat Knife | 6 | (STR+2)P | -3 | 0 | N/A | SR5 p422,
+AK-98 | 5 | 10P | -2 | 0 | Smartgun System, Internal; Bayonet | RG p36,
+Ruger Super Warhawk | 5 | 9P | -2 | 0 | N/A | SR5 p427
+
+### armors
+
+Name | Armor | Capacity | Mods | Ref
+----|--------|----------|------|--
+Armor Jacket | 12 | 4/12 | Fire Resistance 2; Insulation 2 | SR5 p437,
+Armor Jacket (2050) | 12 | undefined/12 | N/A | 2050 p192
+
+### Contracts/Upkeep
+
+Name | Rating | Ref
+-----|--------|--
+DocWagon Contract, Gold (1 Year Advance Payment) | N/A | SR5 p450
+
