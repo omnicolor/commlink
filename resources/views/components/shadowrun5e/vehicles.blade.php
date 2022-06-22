@@ -34,6 +34,13 @@
                     @if (isset($vehicle->subname))
                         {{ $vehicle->subname }}
                     @endif
+                    @if (!empty($vehicle->modifications))
+                    <br><small class="text-muted">
+                        @foreach ($vehicle->modifications as $mod)
+                            {{ $mod }}@if (!$loop->last), @endif
+                        @endforeach
+                    </small>
+                    @endif
                 </td>
                 <td {!! $class !!}>{{ $vehicle->type }}</td>
                 <td {!! $class !!}>{{ $vehicle->handling }}</td>
