@@ -8,6 +8,7 @@ use App\Models\Shadowrun5e\Identity;
 use App\Models\Shadowrun5e\License;
 use App\Models\Shadowrun5e\Lifestyle;
 use App\Models\Shadowrun5e\LifestyleOption;
+use Tests\TestCase;
 
 /**
  * Tests for Identity class.
@@ -16,7 +17,7 @@ use App\Models\Shadowrun5e\LifestyleOption;
  * @group shadowrun5e
  * @small
  */
-final class IdentityTest extends \Tests\TestCase
+final class IdentityTest extends TestCase
 {
     /**
      * Test creating an identity with the minimum amount of info.
@@ -37,6 +38,22 @@ final class IdentityTest extends \Tests\TestCase
         self::assertEmpty($identity->lifestyles);
         self::assertSame(1, $identity->sin);
         self::assertNull($identity->sinner);
+    }
+
+    /**
+     * Test converting an identity to a string.
+     * @test
+     */
+    public function testToString(): void
+    {
+        $example = [
+            'id' => 42,
+            'licenses' => [],
+            'name' => 'Elvis',
+            'sin' => 1,
+        ];
+        $identity = Identity::fromArray($example);
+        self::assertSame('Elvis', (string) $identity);
     }
 
     /**

@@ -59,6 +59,11 @@ class Identity
      */
     public array $subscriptions = [];
 
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+
     /**
      * Create a new identity from a Mongo blob.
      * @param array<string, mixed> $raw
