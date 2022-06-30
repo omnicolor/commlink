@@ -201,6 +201,15 @@ return [
         'karma' => -7,
         'name' => 'Natural Athlete',
     ],
+    'natural-hardening' => [
+        'description' => 'Natural hardening description.',
+        'id' => 'natural-hardening',
+        'incompatible-with' => ['natural-hardening'],
+        'karma' => -3,
+        'name' => 'Natural hardening',
+        'page' => 76,
+        'ruleset' => 'core',
+    ],
     'prototype-transhuman' => [
         'description' => 'Prototype transhuman description.',
         'id' => 'prototype-transhuman',

@@ -132,4 +132,13 @@ return [
         'name' => 'Goggles',
         'rating' => 2,
     ],
+    'grapple-gun' => [
+        'availability' => '8R',
+        'cost' => 500,
+        'description' => 'Grapple gun description.',
+        'id' => 'grapple-gun',
+        'name' => 'Grapple Gun',
+        'page' => 449,
+        'ruleset' => 'core',
+    ],
 ];
