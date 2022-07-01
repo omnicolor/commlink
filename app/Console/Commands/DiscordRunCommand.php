@@ -32,7 +32,7 @@ class DiscordRunCommand extends Command
      * The name and signature of the console command.
      * @var string
      */
-    protected $signature = 'discord:run';
+    protected $signature = 'commlink:discord-run';
 
     /**
      * Execute the console command.

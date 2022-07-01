@@ -45,7 +45,7 @@ $ ./artisan queue:work
 Assuming you've registered the bot with Discord and configured its token:
 
 ```shell
-$ ./artisan discord:run
+$ ./artisan commlink:discord-run
 ```
 
 ## Running tests
