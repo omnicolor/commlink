@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Avatar;
 
 use App\Models\Character as BaseCharacter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -53,6 +54,19 @@ class Character extends BaseCharacter
     public function __toString(): string
     {
         return $this->attributes['name'] ?? 'Unnamed character';
+    }
+
+    /**
+     * Force this model to only load for Avatar characters.
+     */
+    protected static function booted(): void
+    {
+        static::addGlobalScope(
+            'avatar',
+            function (Builder $builder): void {
+                $builder->where('system', 'avatar');
+            }
+        );
     }
 
     public function setBackgroundAttribute(Background $background): void
