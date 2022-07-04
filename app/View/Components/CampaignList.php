@@ -12,8 +12,6 @@ use Illuminate\View\Component;
 
 class CampaignList extends Component
 {
-    public Collection $registered;
-
     /**
      * Create a new component instance.
      * @param Collection $gmed
@@ -23,7 +21,7 @@ class CampaignList extends Component
      */
     public function __construct(
         public Collection $gmed,
-        Collection $registered,
+        public Collection $registered,
         public Collection $playing,
         public User $user,
     ) {
@@ -41,6 +39,11 @@ class CampaignList extends Component
                 // campaign, so that it will show up as a GMed game, not
                 // a registered game.
                 return $value->gm === $value->registered_by;
+            }
+        );
+        $this->playing = $playing->reject(
+            function (Campaign $value, int $key) use ($user): bool {
+                return $user->id === $value->registered_by;
             }
         );
     }
