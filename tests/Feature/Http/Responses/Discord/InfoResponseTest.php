@@ -75,6 +75,7 @@ final class InfoResponseTest extends \Tests\TestCase
             . 'User ID: ' . optional($event->user)->id . \PHP_EOL
             . 'Server Name: ' . $event->server->name . \PHP_EOL
             . 'Server ID: ' . $event->server->id . \PHP_EOL
+            // @phpstan-ignore-next-line
             . 'Channel Name: ' . $channel->name . \PHP_EOL
             . 'Channel ID: ' . $channel->id . \PHP_EOL
             . 'System: Unregistered' . \PHP_EOL
@@ -99,6 +100,7 @@ final class InfoResponseTest extends \Tests\TestCase
         /** @var Channel */
         $channel = Channel::factory()->create([
             'channel_id' => $textChannel->id,
+            // @phpstan-ignore-next-line
             'channel_name' => $textChannel->name,
             'server_id' => optional($textChannel->guild)->id,
             'server_name' => optional($textChannel->guild)->name,
@@ -141,6 +143,7 @@ final class InfoResponseTest extends \Tests\TestCase
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'channel_id' => $textChannel->id,
+            // @phpstan-ignore-next-line
             'channel_name' => $textChannel->name,
             'server_id' => optional($textChannel->guild)->id,
             'server_name' => optional($textChannel->guild)->name,

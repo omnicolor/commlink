@@ -43,6 +43,7 @@ class InfoResponse
             . 'User ID: ' . optional($this->event->user)->id . \PHP_EOL
             . 'Server Name: ' . $this->event->server->name . \PHP_EOL
             . 'Server ID: ' . $this->event->server->id . \PHP_EOL
+            // @phpstan-ignore-next-line
             . 'Channel Name: ' . $textChannel->name . \PHP_EOL
             . 'Channel ID: ' . $textChannel->id . \PHP_EOL
             . 'System: ' . $system . \PHP_EOL
