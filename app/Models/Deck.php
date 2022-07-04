@@ -208,4 +208,12 @@ abstract class Deck implements Countable
         shuffle($this->currentCards);
         return $this;
     }
+
+    /**
+     * Delete all decks from the database.
+     */
+    public static function truncate(): void
+    {
+        DB::table('decks')->truncate();
+    }
 }

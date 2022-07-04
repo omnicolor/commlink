@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace Tests\Feature\Models;
 
 use App\Models\Campaign;
+use App\Models\Deck;
 use App\Models\StandardDeck;
 use Illuminate\Support\Facades\DB;
 use RuntimeException;
+use Tests\TestCase;
 
 /**
  * @small
  */
-final class StandardDeckTest extends \Tests\TestCase
+final class StandardDeckTest extends TestCase
 {
     /**
      * Test that a new StandardDeck has 52 cards.
@@ -227,5 +229,24 @@ final class StandardDeckTest extends \Tests\TestCase
         $decks = StandardDeck::findForCampaign($campaign);
         self::assertCount(1, $decks);
         self::assertInstanceOf(StandardDeck::class, $decks[0]);
+    }
+
+    /**
+     * Test truncating the deck table.
+     * @medium
+     * @test
+     */
+    public function testTruncate(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+
+        $deck = new StandardDeck();
+        $deck->campaign_id = $campaign->id;
+        $deck->save();
+
+        self::assertNotSame(0, DB::table('decks')->count());
+        Deck::truncate();
+        self::assertSame(0, DB::table('decks')->count());
     }
 }
