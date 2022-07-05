@@ -7,6 +7,8 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\ActiveSkill;
 use App\Models\Shadowrun5e\SkillArray;
 use App\Models\Shadowrun5e\Sprite;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for the Sprite class.
@@ -15,7 +17,7 @@ use App\Models\Shadowrun5e\Sprite;
  * @group shadowrun5e
  * @small
  */
-final class SpriteTest extends \Tests\TestCase
+final class SpriteTest extends TestCase
 {
     /**
      * Test loading an invalid Sprite.
@@ -23,7 +25,7 @@ final class SpriteTest extends \Tests\TestCase
      */
     public function testSpriteNotFound(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Sprite ID "not-found" is invalid');
         new Sprite('not-found');
     }
@@ -37,6 +39,7 @@ final class SpriteTest extends \Tests\TestCase
         $sprite = new Sprite('courier');
         self::assertSame('Courier', $sprite->name);
         self::assertSame('core', $sprite->ruleset);
+        self::assertSame(['cookie', 'hash'], $sprite->powers);
         self::assertNull($sprite->level);
     }
 
@@ -80,7 +83,7 @@ final class SpriteTest extends \Tests\TestCase
      */
     public function testGetAttributeNoLevel(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Level has not been set');
         $sprite = new Sprite('courier');
         $sprite->getFirewall();
@@ -124,7 +127,7 @@ final class SpriteTest extends \Tests\TestCase
     public function testSkillsNoLevel(): void
     {
         $expected = ['computer', 'hacking'];
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Level is not set');
         $sprite = new Sprite('courier');
         self::assertEqualsCanonicalizing($expected, $sprite->skills);
@@ -143,5 +146,17 @@ final class SpriteTest extends \Tests\TestCase
 
         $sprite = new Sprite('courier', 3);
         self::assertEqualsCanonicalizing($expected, $sprite->getSkills());
+    }
+
+    /**
+     * Test getting a sprite's powers.
+     * @test
+     */
+    public function testGetPowers(): void
+    {
+        $sprite = new Sprite('courier');
+        $powers = $sprite->getPowers();
+        self::assertCount(2, $powers);
+        self::assertSame('Cookie', $powers[0]->name);
     }
 }

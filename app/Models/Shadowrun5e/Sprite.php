@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use BadMethodCallException;
+use Illuminate\Support\Facades\Log;
+use RuntimeException;
+
 /**
  * Representation of a Shadowrun sprite.
  * @method int getAttack()
@@ -117,7 +121,7 @@ class Sprite
      * Constructor.
      * @param string $id ID to load
      * @param ?int $level Level of the sprite
-     * @throws \RuntimeException if the ID is not found
+     * @throws RuntimeException if the ID is not found
      */
     public function __construct(string $id, public ?int $level = null)
     {
@@ -125,7 +129,7 @@ class Sprite
         self::$sprites = require $filename;
         $id = \strtolower($id);
         if (!isset(self::$sprites[$id])) {
-            throw new \RuntimeException(\sprintf(
+            throw new RuntimeException(\sprintf(
                 'Sprite ID "%s" is invalid',
                 $id
             ));
@@ -162,8 +166,8 @@ class Sprite
      * @param string $name Name of the method: getFirewall, getSleaze
      * @param array<mixed> $arguments Unused
      * @returns int
-     * @throws \BadMethodCallException
-     * @throws \RuntimeException
+     * @throws BadMethodCallException
+     * @throws RuntimeException
      */
     public function __call(string $name, array $arguments): int
     {
@@ -177,13 +181,13 @@ class Sprite
             'sleaze',
         ];
         if (!\in_array($attribute, $attributes, true)) {
-            throw new \BadMethodCallException(\sprintf(
+            throw new BadMethodCallException(\sprintf(
                 '%s is not an attribute of sprites',
                 \ucfirst($attribute)
             ));
         }
         if (null === $this->level) {
-            throw new \RuntimeException('Level has not been set');
+            throw new RuntimeException('Level has not been set');
         }
         $formula = \str_replace(
             ['L', '(', ')'],
@@ -203,6 +207,29 @@ class Sprite
     {
         $this->level = $level;
         return $this;
+    }
+
+    /**
+     * Return a collection of the sprite's powers.
+     * @return array<int, SpritePower>
+     */
+    public function getPowers(): array
+    {
+        $powers = [];
+        foreach ($this->powers as $power) {
+            try {
+                $powers[] = new SpritePower($power);
+            // @codeCoverageIgnoreStart
+            } catch (RuntimeException) {
+                Log::error(\sprintf(
+                    'Sprite "%s" has invalid power "%s"',
+                    $this->id,
+                    $power,
+                ));
+            // @codeCoverageIgnoreEnd
+            }
+        }
+        return $powers;
     }
 
     /**
