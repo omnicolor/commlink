@@ -219,14 +219,14 @@ class Sprite
         foreach ($this->powers as $power) {
             try {
                 $powers[] = new SpritePower($power);
-            // @codeCoverageIgnoreStart
+                // @codeCoverageIgnoreStart
             } catch (RuntimeException) {
                 Log::error(\sprintf(
                     'Sprite "%s" has invalid power "%s"',
                     $this->id,
                     $power,
                 ));
-            // @codeCoverageIgnoreEnd
+                // @codeCoverageIgnoreEnd
             }
         }
         return $powers;
