@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Expanse;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\Expanse\CharacterResource;
 use App\Models\Expanse\Character;
 use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\View\View;
 
 /**
  * Controller for interacting with Expanse characters.
  */
-class CharactersController extends \App\Http\Controllers\Controller
+class CharactersController extends Controller
 {
     /**
      * Return a collection of Expanse characters for the logged in user.
@@ -24,6 +26,15 @@ class CharactersController extends \App\Http\Controllers\Controller
             // @phpstan-ignore-next-line
             Character::where('owner', \Auth::user()->email)->get()
         );
+    }
+
+    /**
+     * View all of the logged in user's characters.
+     * @return View
+     */
+    public function list(): View
+    {
+        return view('Expanse.characters');
     }
 
     /**
@@ -45,13 +56,13 @@ class CharactersController extends \App\Http\Controllers\Controller
     /**
      * View a character's sheet.
      * @param Character $character
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function view(Character $character): \Illuminate\View\View
+    public function view(Character $character): View
     {
         $user = \Auth::user();
         return view(
-            'expanse.character',
+            'Expanse.character',
             ['character' => $character, 'user' => $user]
         );
     }

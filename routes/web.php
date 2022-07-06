@@ -8,7 +8,7 @@ use App\Http\Controllers\Capers\CharactersController as CapersCharacterControlle
 use App\Http\Controllers\CyberpunkRed\CharactersController as CyberpunkRedCharacterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscordController;
-use App\Http\Controllers\Expanse\CharactersController as ExpanseCharacterController;
+use App\Http\Controllers\Expanse\CharactersController as ExpanseController;
 use App\Http\Controllers\Import\Chummer5Controller;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Shadowrun5e\CharactersController as ShadowrunController;
@@ -90,6 +90,10 @@ Route::middleware('auth')->group(function (): void {
                 'create/stats',
                 [CyberpunkRedCharacterController::class, 'storeStats'],
             )->name('create-stats');
+        });
+
+        Route::prefix('expanse')->name('expanse.')->group(function (): void {
+            Route::get('/', [ExpanseController::class, 'list']);
         });
 
         Route::prefix('shadowrun5e')->name('shadowrun5e.')->group(function (): void {
@@ -184,7 +188,7 @@ Route::get(
 )->name('cyberpunk.character');
 Route::get(
     '/characters/expanse/{character}',
-    [ExpanseCharacterController::class, 'view']
+    [ExpanseController::class, 'view']
 )->name('expanse.character');
 Route::get(
     '/characters/shadowrun5e/{character}',

@@ -90,6 +90,41 @@ final class CharactersControllerTest extends \Tests\TestCase
     }
 
     /**
+     * Test listing a user's Expanse characters if they have none.
+     * @test
+     */
+    public function testListCharactersIfTheyHaveNone(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+        self::actingAs($user)
+            ->get('/characters/expanse')
+            ->assertSee('You don\'t have any characters!', false)
+            ->assertSee('Expanse Characters');
+    }
+
+    /**
+     * Test listing a user's Expanse characters if they've got at least one.
+     * @test
+     */
+    public function testListCharacters(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var Character */
+        $character = Character::factory()->create([
+            'owner' => $user->email,
+            'system' => 'expanse',
+        ]);
+
+        self::actingAs($user)
+            ->get('/characters/expanse')
+            ->assertDontSee('You don\'t have any characters!', false)
+            ->assertSee('Expanse Characters');
+    }
+
+    /**
      * Test loading an individual character.
      * @test
      */

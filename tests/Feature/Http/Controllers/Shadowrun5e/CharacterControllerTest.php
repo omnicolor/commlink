@@ -123,7 +123,7 @@ final class CharacterControllerTest extends TestCase
      * Test listing a user's Shadowrun characters.
      * @test
      */
-    public function testListCharactersIfTheyHaveNOne(): void
+    public function testListCharactersIfTheyHaveNone(): void
     {
         /** @var User */
         $user = User::factory()->create();
