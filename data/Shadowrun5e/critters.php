@@ -1,0 +1,122 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * List of Shadowrun fifth edition critters.
+ */
+return [
+    /*
+    '' => [
+        'agility' => ,
+        'armor' => ,
+        'body' => ,
+        'charisma' => ,
+        'condition_physical' => ,
+        'condition_stun' => ,
+        'description' => '',
+        'edge' => ,
+        'essence' => ,
+        'habitat' => '',
+        'initiative_base' => ,
+        'initiative_dice' => ,
+        'intuition' => ,
+        'logic' => ,
+        'magic' => ,
+        'name' => '',
+        'page' => ,
+        'powers' => [
+            ['id' => '', 'subname' => ''],
+        ],
+        'reaction' => ,
+        'resonance' => ,
+        'ruleset' => '',
+        'skills' => [
+            ['id' => '', 'level' => ],
+        ],
+        'strength' => ,
+        'weaknesses' => [
+            ['id' => '', 'subname' => '']
+        ],
+        'willpower' => ,
+    ],
+     */
+    'barghest' => [
+        'agility' => 5,
+        'armor' => 3,
+        'body' => 8,
+        'charisma' => 5,
+        'condition_physical' => 12,
+        'condition_stun' => 10,
+        'description' => 'The barghest is a metaspecies of the English mastiff, standing about 85 centimeters at the shoulder and weighing approximately 170 kilograms. Its short, sleek fur is either pure white or pure black, and it lies flat on its massively muscled body, creating the illusion of a naked hide. Sharp spines protrude along the length of its back. Its eyes shine red, and its teeth glow slightly in the dark because of luminescent bacteria in its saliva. During their breeding season, they hunt alone or in pairs; at other times they hunt in packs of twelve or more. A number of corps have attempted to use barghests as guard animals, with mixed results.',
+        'edge' => 4,
+        'essence' => 6.0,
+        'habitat' => 'Urban areas in North America and northern Europe, particularly the British Isles. Barghests have also turned up in Australia, Hong Kong, and Nairobi.',
+        'initiative_base' => 11,
+        'initiative_dice' => 2,
+        'intuition' => 5,
+        'logic' => 2,
+        'magic' => 5,
+        'name' => 'Barghest',
+        'page' => 403,
+        'powers' => [
+            ['id' => 'armor', 'subname' => '3'],
+            ['id' => 'dual-natured'],
+            ['id' => 'enhanced-senses', 'subname' => 'hearing, smell, sonar'],
+            ['id' => 'fear'],
+            ['id' => 'immunity', 'subname' => 'barghest howls'],
+            ['id' => 'natural-weapon', 'subname' => 'bite: DV (STR+2)P, AP -1'],
+            ['id' => 'paralyzing-howl'],
+        ],
+        'reaction' => 6,
+        'ruleset' => 'core',
+        'skills' => [
+            ['id' => 'intimidation', 'level' => 7],
+            ['id' => 'perception', 'level' => 6],
+            ['id' => 'running', 'level' => 5],
+            ['id' => 'tracking', 'level' => 6],
+            ['id' => 'unarmed-combat', 'level' => 8],
+        ],
+        'strength' => 6,
+        'willpower' => 4,
+    ],
+    'cockatrice' => [
+        'agility' => 3,
+        'armor' => 7,
+        'body' => 6,
+        'charisma' => 1,
+        'condition_physical' => 11,
+        'condition_stun' => 11,
+        'description' => 'Even though it’s a metaspecies of the chicken, the cockatrice more resembles an emu with a chicken’s head and a long blue tail. Standing two meters in height and weighting approximately 105 kilograms, the cockatrice has long blue legs, yellow plumage, a bright red comb on its head, and a sharp, horny beak. They are predatory and carnivorous, often hunting in groups. They hunt by chasing their prey, leaping into the air, and attacking with their tails. Their prey thus paralyzed, cockatrices can use their talons to tear them apart and dine at their leisure. They are not at all choosy about their diet and will take on just about anything up to the size of an ork if it looks like it might be tasty.||Cockatrices are popular security critters for many corps around the world. Guard specimens are typically imprinted from hatching onto their handlers, of whom they become extremely protective.',
+        'edge' => 1,
+        'essence' => 6.0,
+        'habitat' => 'Originally found in open grassland and scrubland in western Europe, the cockatrice can now be found worldwide in a variety of environments.',
+        'initiative_base' => 6,
+        'initiative_dice' => 1,
+        'intuition' => 3,
+        'logic' => 1,
+        'magic' => 4,
+        'name' => 'Cockatrice',
+        'page' => 404,
+        'powers' => [
+            ['id' => 'armor', 'subname' => '7'],
+            ['id' => 'natural-weapon', 'subname' => 'Bite, Reach -, DV 8P, AP-2'],
+            ['id' => 'petrification'],
+        ],
+        'reaction' => 3,
+        'ruleset' => 'core',
+        'skills' => [
+            ['id' => 'infiltrating', 'level' => 3],
+            ['id' => 'perception', 'level' => 4],
+            ['id' => 'running', 'level' => 2],
+            ['id' => 'sneaking', 'level' => 3],
+            ['id' => 'swimming', 'level' => 8],
+            ['id' => 'unarmed-combat', 'level' => 6],
+        ],
+        'strength' => 7,
+        'weaknesses' => [
+            ['id' => 'vulnerability', 'subname' => 'own gaze'],
+        ],
+        'willpower' => 5,
+    ],
+];

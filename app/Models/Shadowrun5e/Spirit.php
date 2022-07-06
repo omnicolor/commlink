@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use BadMethodCallException;
+use Illuminate\Support\Facades\Log;
+use RuntimeException;
+
 /**
  * Class representing a spirit in Shadowrun.
  * @method int getAgility()
@@ -108,15 +112,14 @@ class Spirit
     public int $page;
 
     /**
-     * Power the spirit has, both innate to the spirit type and optional ones
-     * chosed during summoning.
-     * @var string[]
+     * Powers the spirit innately has.
+     * @var array<int, string>
      */
     public array $powers = [];
 
     /**
      * Collection of powers the spirit can choose.
-     * @var string[]
+     * @var array<int, string>
      */
     public array $powersOptional = [];
 
@@ -172,16 +175,20 @@ class Spirit
      * Constructor.
      * @param string $id ID to load
      * @param ?int $force Force of the spirit
-     * @throws \RuntimeException if the ID is invalid
+     * @param array<int, string> $powersChosen Optional powers chosen
+     * @throws RuntimeException if the ID is invalid
      */
-    public function __construct(string $id, public ?int $force = null)
-    {
+    public function __construct(
+        string $id,
+        public ?int $force = null,
+        public array $powersChosen = []
+    ) {
         $filename = config('app.data_path.shadowrun5e') . 'spirits.php';
         self::$spirits ??= require $filename;
 
         $id = \strtolower($id);
         if (!isset(self::$spirits[$id])) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 \sprintf('Spirit ID "%s" is invalid', $id)
             );
         }
@@ -215,8 +222,8 @@ class Spirit
      * @param string $name Name of the method: getAgility, getBody, etc
      * @param array<mixed> $arguments Unused
      * @returns int
-     * @throws \BadMethodCallException
-     * @throws \RuntimeException
+     * @throws BadMethodCallException
+     * @throws RuntimeException
      */
     public function __call(string $name, array $arguments): int
     {
@@ -235,13 +242,13 @@ class Spirit
             'willpower',
         ];
         if (!\in_array($attribute, $attributes, true)) {
-            throw new \BadMethodCallException(\sprintf(
+            throw new BadMethodCallException(\sprintf(
                 '%s is not an attribute of spirits',
                 \ucfirst($attribute)
             ));
         }
         if (null === $this->force) {
-            throw new \RuntimeException('Force has not been set');
+            throw new RuntimeException('Force has not been set');
         }
         return $this->convertFormula(
             // @phpstan-ignore-next-line
@@ -292,6 +299,29 @@ class Spirit
         list($init, $dice) = $this->convertInitiative($this->initiative);
         $init = $this->convertFormula((string)$init, 'F', (int)$this->force);
         return [$init, (int)$dice];
+    }
+
+    /**
+     * Return all of the spirit's powers.
+     * @return array<int, CritterPower>
+     */
+    public function getPowers(): array
+    {
+        $powers = [];
+        foreach (array_merge($this->powers, $this->powersChosen) as $power) {
+            try {
+                $powers[] = new CritterPower($power);
+                // @codeCoverageIgnoreStart
+            } catch (RuntimeException) {
+                Log::error(\sprintf(
+                    'Spirit "%s" has invalid power "%s"',
+                    $this->id,
+                    $power,
+                ));
+                // @codeCoverageIgnoreEnd
+            }
+        }
+        return $powers;
     }
 
     /**

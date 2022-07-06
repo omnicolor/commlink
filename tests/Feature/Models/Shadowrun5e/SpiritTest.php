@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Spirit;
+use BadMethodCallException;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for the spirit class.
@@ -13,7 +16,7 @@ use App\Models\Shadowrun5e\Spirit;
  * @group shadowrun5e
  * @small
  */
-final class SpiritTest extends \Tests\TestCase
+final class SpiritTest extends TestCase
 {
     /**
      * List of spirits.
@@ -39,7 +42,7 @@ final class SpiritTest extends \Tests\TestCase
     {
         $spirit = new Spirit('air');
         self::assertEquals('F+3', $spirit->agility);
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Force has not been set');
         $spirit->getAgility();
     }
@@ -75,7 +78,7 @@ final class SpiritTest extends \Tests\TestCase
      */
     public function testGettingInvalidAttribute(): void
     {
-        self::expectException(\BadMethodCallException::class);
+        self::expectException(BadMethodCallException::class);
         self::expectExceptionMessage(
             'Resonance is not an attribute of spirits'
         );
@@ -89,7 +92,7 @@ final class SpiritTest extends \Tests\TestCase
      */
     public function testInvalidSpirit(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Spirit ID "foo" is invalid');
         new Spirit('foo');
     }
@@ -150,5 +153,25 @@ final class SpiritTest extends \Tests\TestCase
                 )
             );
         }
+    }
+
+    /**
+     * Test getting a spirit's powers.
+     * @test
+     */
+    public function testGetPowersNoOptional(): void
+    {
+        $spirit = new Spirit('air', 6);
+        self::assertCount(1, $spirit->getPowers());
+    }
+
+    /**
+     * Test getting a spirit's powers if they've chosen an optional power.
+     * @test
+     */
+    public function testGetPowersWithOptional(): void
+    {
+        $spirit = new Spirit('air', 6, ['fear']);
+        self::assertCount(2, $spirit->getPowers());
     }
 }
