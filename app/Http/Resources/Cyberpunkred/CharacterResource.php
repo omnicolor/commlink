@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Resources\CyberpunkRed;
+namespace App\Http\Resources\Cyberpunkred;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
