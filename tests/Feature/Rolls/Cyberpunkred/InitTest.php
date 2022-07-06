@@ -10,7 +10,7 @@ use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
-use App\Models\CyberpunkRed\Character;
+use App\Models\Cyberpunkred\Character;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Cyberpunkred\Init;
 use Illuminate\Foundation\Testing\RefreshDatabase;

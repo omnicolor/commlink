@@ -7,7 +7,7 @@ namespace Tests\Feature\Rolls\Cyberpunkred;
 use App\Exceptions\SlackException;
 use App\Models\Campaign;
 use App\Models\Channel;
-use App\Models\CyberpunkRed\TarotDeck;
+use App\Models\Cyberpunkred\TarotDeck;
 use App\Rolls\Cyberpunkred\Tarot;
 use DB;
 use Illuminate\Foundation\Testing\WithFaker;

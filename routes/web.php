@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Avatar\CharactersController as AvatarController;
 use App\Http\Controllers\CampaignsController;
 use App\Http\Controllers\Capers\CharactersController as CapersCharacterController;
-use App\Http\Controllers\CyberpunkRed\CharactersController as CyberpunkRedCharacterController;
+use App\Http\Controllers\Cyberpunkred\CharactersController as CyberpunkredController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscordController;
 use App\Http\Controllers\Expanse\CharactersController as ExpanseController;
@@ -68,27 +68,26 @@ Route::middleware('auth')->group(function (): void {
             )->name('create-traits');
         });
 
-        // TODO: Change name to "cyberpunkred."
-        Route::prefix('cyberpunkred')->name('cyberpunkred-')->group(function (): void {
+        Route::prefix('cyberpunkred')->name('cyberpunkred.')->group(function (): void {
             Route::get(
                 'create/{step?}',
-                [CyberpunkRedCharacterController::class, 'createForm'],
+                [CyberpunkredController::class, 'createForm'],
             );
             Route::post(
                 'create/role',
-                [CyberpunkRedCharacterController::class, 'storeRole'],
+                [CyberpunkredController::class, 'storeRole'],
             )->name('create-role');
             Route::post(
                 'create/handle',
-                [CyberpunkRedCharacterController::class, 'storeHandle'],
+                [CyberpunkredController::class, 'storeHandle'],
             )->name('create-handle');
             Route::post(
                 'create/lifepath',
-                [CyberpunkRedCharacterController::class, 'storeLifepath'],
+                [CyberpunkredController::class, 'storeLifepath'],
             )->name('create-lifepath');
             Route::post(
                 'create/stats',
-                [CyberpunkRedCharacterController::class, 'storeStats'],
+                [CyberpunkredController::class, 'storeStats'],
             )->name('create-stats');
         });
 
@@ -184,8 +183,8 @@ Route::get(
 )->name('capers.character');
 Route::get(
     '/characters/cyberpunkred/{character}',
-    [CyberpunkRedCharacterController::class, 'view']
-)->name('cyberpunk.character');
+    [CyberpunkredController::class, 'view']
+)->name('cyberpunkred.character');
 Route::get(
     '/characters/expanse/{character}',
     [ExpanseController::class, 'view']

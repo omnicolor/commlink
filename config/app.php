@@ -188,7 +188,7 @@ return [
     'data_path' => [
         'avatar' => env('AVATAR_DATA_PATH', 'data/Avatar/'),
         'capers' => env('CAPERS_DATA_PATH', 'data/Capers/'),
-        'cyberpunkred' => env('CYBERPUNK_DATA_PATH', 'data/CyberpunkRed/'),
+        'cyberpunkred' => env('CYBERPUNK_DATA_PATH', 'data/Cyberpunkred/'),
         'expanse' => env('EXPANSE_DATA_PATH', 'data/Expanse/'),
         'shadowrun5e' => env('SHADOWRUN5E_DATA_PATH', 'data/Shadowrun5e/'),
         'star-trek-adventures' => env(

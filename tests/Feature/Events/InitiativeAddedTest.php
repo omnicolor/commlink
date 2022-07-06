@@ -6,7 +6,7 @@ namespace Tests\Feature\Events;
 
 use App\Events\InitiativeAdded;
 use App\Models\Campaign;
-use App\Models\CyberpunkRed\Character;
+use App\Models\Cyberpunkred\Character;
 use App\Models\Initiative;
 use Illuminate\Broadcasting\PrivateChannel;
 

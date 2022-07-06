@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers\Expanse;
 
-use App\Models\CyberpunkRed\Character as CprCharacter;
+use App\Models\Cyberpunkred\Character as CprCharacter;
 use App\Models\Expanse\Character;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;

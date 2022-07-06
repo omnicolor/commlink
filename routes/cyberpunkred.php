@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\CyberpunkRed\CharactersController;
+use App\Http\Controllers\Cyberpunkred\CharactersController;
 
 Route::middleware('auth:sanctum')->prefix('cyberpunkred')->name('cyberpunkred.')->group(
     function (): void {

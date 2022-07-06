@@ -22,7 +22,7 @@ class ValidateDataFiles extends Command
     protected const SYSTEM_MAP = [
         'avatar' => 'data/Avatar/',
         'capers' => 'data/Capers/',
-        'cyberpunkred' => 'data/CyberpunkRed/',
+        'cyberpunkred' => 'data/Cyberpunkred/',
         'dnd5e' => 'data/Dnd5e/',
         'expanse' => 'data/Expanse/',
         'shadowrun5e' => 'data/Shadowrun5e/',

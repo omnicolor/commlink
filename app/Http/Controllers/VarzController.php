@@ -23,7 +23,7 @@ class VarzController extends Controller
     protected const SYSTEM_MAP = [
         'avatar' => 'data/Avatar/',
         'capers' => 'data/Capers/',
-        'cyberpunkred' => 'data/CyberpunkRed/',
+        'cyberpunkred' => 'data/Cyberpunkred/',
         'dnd5e' => 'data/Dnd5e/',
         'expanse' => 'data/Expanse/',
         'shadowrun5e' => 'data/Shadowrun5e/',
@@ -61,17 +61,10 @@ class VarzController extends Controller
      */
     protected function getSystemMetrics(string $system): array
     {
-        switch ($system) {
-            case 'cyberpunkred':
-                $characterClass = '\\App\\Models\\CyberpunkRed\\Character';
-                break;
-            default:
-                $characterClass = sprintf(
-                    '\\App\\Models\\%s\\Character',
-                    str_replace(' ', '', \ucwords(str_replace('-', ' ', $system)))
-                );
-                break;
-        }
+        $characterClass = sprintf(
+            '\\App\\Models\\%s\\Character',
+            str_replace(' ', '', \ucwords(str_replace('-', ' ', $system)))
+        );
         $metrics = [
             // @phpstan-ignore-next-line
             'campaigns' => Campaign::where('system', $system)->count(),

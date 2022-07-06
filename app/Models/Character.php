@@ -88,7 +88,7 @@ class Character extends Model
                 $character = new Capers\Character($attributes);
                 break;
             case 'cyberpunkred':
-                $character = new CyberpunkRed\Character($attributes);
+                $character = new Cyberpunkred\Character($attributes);
                 break;
             case 'dnd5e':
                 $character = new Dnd5e\Character($attributes);

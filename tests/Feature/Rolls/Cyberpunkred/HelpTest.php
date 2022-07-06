@@ -7,7 +7,7 @@ namespace Tests\Feature\Rolls\Cyberpunkred;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
-use App\Models\CyberpunkRed\Character;
+use App\Models\Cyberpunkred\Character;
 use App\Rolls\Cyberpunkred\Help;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

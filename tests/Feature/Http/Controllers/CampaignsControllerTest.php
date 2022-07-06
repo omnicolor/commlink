@@ -144,7 +144,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
      * Test creating a new Cyberpunk Red campaign with options.
      * @test
      */
-    public function testCreateNewCyberpunkRedCampaign(): void
+    public function testCreateNewCyberpunkredCampaign(): void
     {
         if (!\in_array('cyberpunkred', \array_keys(config('app.systems')), true)) {
             self::markTestSkipped('Cyberpunk Red not enabled');
@@ -278,7 +278,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
      * Test loading a GM screen as a GM for a supported system.
      * @test
      */
-    public function testViewCyberpunkRedGmScreen(): void
+    public function testViewCyberpunkredGmScreen(): void
     {
         /** @var User */
         $user = User::factory()->create();
