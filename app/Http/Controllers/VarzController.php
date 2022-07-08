@@ -13,6 +13,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\UnableToCreateDirectory;
 use ParseError;
+use Throwable;
 
 class VarzController extends Controller
 {
@@ -27,6 +28,7 @@ class VarzController extends Controller
         'dnd5e' => 'data/Dnd5e/',
         'expanse' => 'data/Expanse/',
         'shadowrun5e' => 'data/Shadowrun5e/',
+        'shadowrun6e' => 'data/Shadowrun6e/',
         'star-trek-adventures' => 'data/StarTrekAdventures/',
     ];
 
@@ -65,11 +67,18 @@ class VarzController extends Controller
             '\\App\\Models\\%s\\Character',
             str_replace(' ', '', \ucwords(str_replace('-', ' ', $system)))
         );
-        $metrics = [
-            // @phpstan-ignore-next-line
-            'campaigns' => Campaign::where('system', $system)->count(),
-            'player-characters' => $characterClass::count(),
-        ];
+        try {
+            $metrics = [
+                // @phpstan-ignore-next-line
+                'campaigns' => Campaign::where('system', $system)->count(),
+                'player-characters' => $characterClass::count(),
+            ];
+        } catch (Throwable) {
+            $metrics = [
+                'campaigns' => 0,
+                'player-characters' => 0,
+            ];
+        }
 
         $paths = config('app.data_path');
         try {
@@ -77,8 +86,8 @@ class VarzController extends Controller
                 'driver' => 'local',
                 'root' => $paths[$system],
             ])->files();
-        } catch (UnableToCreateDirectory | ErrorException) {
-            return $metrics;
+        } catch (UnableToCreateDirectory | ErrorException $ex) { // @codeCoverageIgnore
+            return $metrics; // @codeCoverageIgnore
         }
 
         $exampleFiles = Storage::build([

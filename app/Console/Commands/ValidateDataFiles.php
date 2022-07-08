@@ -26,6 +26,7 @@ class ValidateDataFiles extends Command
         'dnd5e' => 'data/Dnd5e/',
         'expanse' => 'data/Expanse/',
         'shadowrun5e' => 'data/Shadowrun5e/',
+        'shadowrun6e' => 'data/Shadowrun6e/',
         'star-trek-adventures' => 'data/StarTrekAdventures/',
     ];
 
