@@ -1,0 +1,63 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Feature\Models\Expanse;
+
+use App\Models\Expanse\Ship;
+use App\Models\Expanse\ShipSize;
+use RuntimeException;
+use Tests\TestCase;
+
+/**
+ * Tests for Expanse ships.
+ * @group expanse
+ * @group models
+ * @small
+ */
+final class ShipTest extends TestCase
+{
+    /**
+     * Test loading an invalid ship.
+     * @test
+     */
+    public function testLoadInvalid(): void
+    {
+        self::expectException(RuntimeException::class);
+        self::expectExceptionMessage('Expanse ship "not-found" is invalid');
+        new Ship('not-found');
+    }
+
+    /**
+     * Testing loading a valid ship that uses mostly defaults.
+     * @test
+     */
+    public function testLoad(): void
+    {
+        $ship = new Ship('DeStRoYeR');
+        self::assertSame('Destroyer', (string)$ship);
+        self::assertSame(16, $ship->crew_minimum);
+        self::assertSame(64, $ship->crew_standard);
+        self::assertNull($ship->favored_range);
+        self::assertSame([], $ship->favored_stunts);
+        self::assertSame([], $ship->flaws);
+        self::assertTrue($ship->has_epstein);
+        self::assertSame('destroyer', $ship->id);
+        self::assertSame('100m', $ship->length);
+        self::assertSame(127, $ship->page);
+        self::assertCount(2, $ship->qualities);
+        self::assertSame('core', $ship->ruleset);
+        self::assertSame(2, $ship->sensors);
+        self::assertSame(ShipSize::Huge, $ship->size);
+        self::assertCount(3, $ship->weapons);
+    }
+
+    /**
+     * Test loading all ships.
+     * @test
+     */
+    public function testAll(): void
+    {
+        self::assertNotEmpty(Ship::all());
+    }
+}
