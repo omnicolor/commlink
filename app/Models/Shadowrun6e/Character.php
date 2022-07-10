@@ -11,6 +11,39 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
+/**
+ * Representation of a Shadowrun 6E character.
+ * @property int $agility
+ * @property array $armor
+ * @property array $augmentations
+ * @property int $body
+ * @property int $charisma
+ * @property array<int, mixed> $complex_forms
+ * @property array<int, mixed> $contacts
+ * @property int $edge
+ * @property array<int, mixed> $gear
+ * @property ?string $handle
+ * @property array<int, mixed> $identities
+ * @property-read int $initiative_base
+ * @property-read int $initiative_dice
+ * @property int $intuition
+ * @property int $karma
+ * @property int $karma_total
+ * @property int $logic
+ * @property ?int $magic
+ * @property ?string $name
+ * @property int $nuyen
+ * @property array<int, mixed> $powers
+ * @property array<int, array<string, int|string>> $qualities
+ * @property int $reaction
+ * @property ?int $resonance
+ * @property array<int, mixed> $skills
+ * @property array<int, mixed> $spells
+ * @property int $strength
+ * @property array<int, mixed> $vehicles
+ * @property array<int, mixed> $weapons
+ * @property int $willpower
+ */
 class Character extends BaseCharacter
 {
     use HasFactory;
@@ -113,7 +146,7 @@ class Character extends BaseCharacter
         $qualities = [];
         foreach ($this->qualities ?? [] as $quality) {
             try {
-                $qualities[] = new Quality($quality['id']);
+                $qualities[] = new Quality((string)$quality['id']);
             } catch (RuntimeException) {
                 Log::warning(\sprintf(
                     'Shadowrun6E character "%s" (%s) has invalid quality ID "%s"',
