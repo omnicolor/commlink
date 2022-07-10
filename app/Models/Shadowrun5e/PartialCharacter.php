@@ -37,6 +37,53 @@ class PartialCharacter extends Character
     }
 
     /**
+     * Return the starting maximum for a character based on their metatype and
+     * qualities.
+     * @param string $attribute
+     * @return int
+     */
+    public function getStartingMaximumAttribute(string $attribute): int
+    {
+        $maximums = [
+            'dwarf' => [
+                'body' => 8,
+                'reaction' => 5,
+                'strength' => 8,
+                'willpower' => 7,
+            ],
+            'elf' => [
+                'agility' => 7,
+                'charisma' => 8,
+            ],
+            'human' => [
+                'edge' => 7,
+            ],
+            'ork' => [
+                'body' => 9,
+                'charisma' => 5,
+                'logic' => 5,
+                'strength' => 8,
+            ],
+            'troll' => [
+                'agility' => 5,
+                'body' => 10,
+                'charisma' => 4,
+                'intuition' => 5,
+                'logic' => 5,
+                'strength' => 10,
+            ],
+        ];
+        $max = $maximums[$this->metatype][$attribute] ?? 6;
+        foreach ($this->getQualities() as $quality) {
+            if (!isset($quality->effects['maximum-' . $attribute])) {
+                continue;
+            }
+            $max += $quality->effects['maximum-' . $attribute];
+        }
+        return $max;
+    }
+
+    /**
      * Return whether the given character is awakened and not a techno.
      * @return bool
      */

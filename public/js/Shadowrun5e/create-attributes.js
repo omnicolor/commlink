@@ -121,50 +121,6 @@ $(function () {
     }
 
     /**
-     * Set the minimum and maximums for attributes based on metatype.
-     * @param {Object} limits Racial limit modifiers
-     */
-    function setAttributeLimits(limits) {
-        let $attributeEl;
-        let combined = attributes.concat(specialAttributes);
-
-        $.each(combined, function (unused, attribute) {
-            let min = 1;
-            let max = 6;
-            if (!limits) {
-                return;
-            }
-            $attributeEl = $('#' + attribute);
-            if (limits[attribute]) {
-                // Metatype has a different minimum and/or maximum for the
-                // given attribute.
-                min = limits[attribute].min;
-                max = limits[attribute].max;
-            }
-
-            $.each(character.qualitites, function (unused, quality) {
-                if (!quality.effects) {
-                    // Quality has no effects.
-                    return;
-                }
-
-                if (!quality.effects['maximum-' + attribute]) {
-                    // Quality has effects, but doesn't affect this
-                    // attribute.
-                    return;
-                }
-
-                max += quality.effects['maximum-' + attribute];
-            });
-
-            $attributeEl.parent().next().html(min + '/' + max);
-            $attributeEl
-                .attr('min', min)
-                .attr('max', max);
-        });
-    }
-
-    /**
      * Set up change handlers for all of the attribute inputs.
      * @param {number} unused
      * @param {string} attribute Name of the attribute
@@ -191,7 +147,8 @@ $(function () {
     }
 
     let points = new Points(character);
-    setAttributeLimits(raceLimits[character.priorities.metatype]);
+    updatePointsToSpendDisplay(points);
+
     $('[data-bs-toggle="tooltip"]').tooltip();
     $.each(attributes, setupAttributeHandler);
     $.each(specialAttributes, setupSpecialHandler);

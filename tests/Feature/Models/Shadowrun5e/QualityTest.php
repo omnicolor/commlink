@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Quality;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for Quality class.
@@ -13,7 +15,7 @@ use App\Models\Shadowrun5e\Quality;
  * @group shadowrun5e
  * @small
  */
-final class QualityTest extends \Tests\TestCase
+final class QualityTest extends TestCase
 {
     /**
      * Test that loading an invalid quality throws an exception.
@@ -22,7 +24,7 @@ final class QualityTest extends \Tests\TestCase
     public function testLoadingInvalidQualityThrowsException(): void
     {
         Quality::$qualities = null;
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Quality ID "not-found-id" is invalid');
         new Quality('not-found-id');
     }
@@ -58,7 +60,7 @@ final class QualityTest extends \Tests\TestCase
      */
     public function testLoadingLuckySetsEffects(Quality $quality): void
     {
-        $expected = ['maximum-edge' => 7, 'notoriety' => -1];
+        $expected = ['maximum-edge' => 1, 'notoriety' => -1];
         self::assertEquals($expected, $quality->effects);
     }
 
@@ -174,7 +176,7 @@ final class QualityTest extends \Tests\TestCase
      */
     public function testFindByNameNotFound(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Quality name "Not Found" was not found');
         Quality::findByName('Not Found');
     }

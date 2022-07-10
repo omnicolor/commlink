@@ -36,6 +36,27 @@ return [
         'name' => 'Addiction',
         'severity' => 'Mild',
     ],
+    'aged-2' => [
+        'id' => 'aged-2',
+        'description' => 'Aged description',
+        'effects' => [
+            'knowledge-skill-points' => 10,
+            'maximum-agility' => -2,
+            'maximum-body' => -2,
+            'maximum-reaction' => -2,
+            'maximum-strength' => -2,
+        ],
+        'incompatible-with' => [
+            'aged-1',
+            'aged-2',
+            'aged-3',
+        ],
+        'karma' => 14,
+        'level' => 2,
+        'name' => 'Aged',
+        'page' => 12,
+        'ruleset' => 'bullets-and-bandages',
+    ],
     'albinism-2' => [
         'id' => 'albinism-2',
         'description' => 'Albanism II',
@@ -173,7 +194,7 @@ return [
         'id' => 'lucky',
         'description' => 'Lucky description.',
         'effects' => [
-            'maximum-edge' => 7,
+            'maximum-edge' => 1,
             'notoriety' => -1,
         ],
         'incompatible-with' => [

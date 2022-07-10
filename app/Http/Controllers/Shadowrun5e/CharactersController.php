@@ -278,11 +278,23 @@ class CharactersController extends \App\Http\Controllers\Controller
                     'strength' => $request->old('strength') ?? $character->strength ?? null,
                     'willpower' => $request->old('willpower') ?? $character->willpower ?? null,
                 ];
+                $max = [
+                    'agility' => $character->getStartingMaximumAttribute('agility'),
+                    'body' => $character->getStartingMaximumAttribute('body'),
+                    'charisma' => $character->getStartingMaximumAttribute('charisma'),
+                    'edge' => $character->getStartingMaximumAttribute('edge'),
+                    'intuition' => $character->getStartingMaximumAttribute('intuition'),
+                    'logic' => $character->getStartingMaximumAttribute('logic'),
+                    'reaction' => $character->getStartingMaximumAttribute('reaction'),
+                    'strength' => $character->getStartingMaximumAttribute('strength'),
+                    'willpower' => $character->getStartingMaximumAttribute('willpower'),
+                ];
                 return view(
                     'Shadowrun5e.create-attributes',
                     [
                         'character' => $character,
                         'currentStep' => 'attributes',
+                        'max' => $max,
                         'nextStep' => $this->nextStep('attributes', $character),
                         'previousStep' => $this->previousStep('attributes', $character),
                         'selected' => $selected,
@@ -335,8 +347,8 @@ class CharactersController extends \App\Http\Controllers\Controller
                         ?? $character->background['name'] ?? null,
                     'personality' => $request->old('personality')
                         ?? $character->background['personality'] ?? null,
-                    'qualities' => $request->old('qualitites')
-                        ?? $character->background['qualitites'] ?? null,
+                    'qualities' => $request->old('qualities')
+                        ?? $character->background['qualities'] ?? null,
                     'religion' => $request->old('religion')
                         ?? $character->background['religion'] ?? null,
                     'size' => $request->old('size')

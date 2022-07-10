@@ -59,14 +59,16 @@
             Body
         </label>
         <div class="col">
-            <input autofocus class="form-control text-center" id="body" max="6"
-                min="1" name="body" required step="1" type="number"
-                value="{{ $selected['body'] }}">
+            <input autofocus class="form-control text-center" id="body"
+                max="{{ $max['body'] }}" min="1" name="body" required step="1"
+                type="number" value="{{ $selected['body'] }}">
             <div class="invalid-feedback">
                 You may only have one attribute at your race's natural maximum.
             </div>
         </div>
-        <div class="col col-form-label limit">1/6</div>
+        <div class="col col-form-label limit">
+            1/{{ $max['body'] }}
+        </div>
     </div>
     <div class="row mb-1">
         <div class="col-1"></div>
@@ -76,14 +78,16 @@
             Agility
         </label>
         <div class="col">
-            <input class="form-control text-center" id="agility" max="6" min="1"
-                name="agility" required step="1" type="number"
-                value="{{ $selected['agility'] }}">
+            <input class="form-control text-center" id="agility"
+                max="{{ $max['agility'] }}" min="1" name="agility" required
+                step="1" type="number" value="{{ $selected['agility'] }}">
             <div class="invalid-feedback">
                 You may only have one attribute at your race's natural maximum.
             </div>
         </div>
-        <div class="col col-form-label limit">1/6</div>
+        <div class="col col-form-label limit">
+            1/{{ $max['agility'] }}
+        </div>
     </div>
     <div class="row mb-1">
         <div class="col-1"></div>
@@ -93,14 +97,16 @@
             Reaction
         </label>
         <div class="col">
-            <input class="col form-control text-center" id="reaction" max="6"
-                min="1" name="reaction" required step="1" type="number"
-                value="{{ $selected['reaction'] }}">
+            <input class="col form-control text-center" id="reaction"
+                max="{{ $max['reaction'] }}" min="1" name="reaction" required
+                step="1" type="number" value="{{ $selected['reaction'] }}">
             <div class="invalid-feedback">
                 You may only have one attribute at your race's natural maximum.
             </div>
         </div>
-        <div class="col col-form-label limit">1/6</div>
+        <div class="col col-form-label limit">
+            1/{{ $max['reaction'] }}
+        </div>
     </div>
     <div class="row mb-1">
         <div class="col-1"></div>
@@ -110,14 +116,16 @@
             Strength
         </label>
         <div class="col">
-            <input class="form-control text-center" id="strength" max="6"
-                min="1" name="strength" required step="1" type="number"
-                value="{{ $selected['strength'] }}">
+            <input class="form-control text-center" id="strength"
+                max="{{ $max['strength'] }}" min="1" name="strength" required
+                step="1" type="number" value="{{ $selected['strength'] }}">
             <div class="invalid-feedback">
                 You may only have one attribute at your race's natural maximum.
             </div>
         </div>
-        <div class="col col-form-label limit">1/6</div>
+        <div class="col col-form-label limit">
+            1/{{ $max['strength'] }}
+        </div>
     </div>
     <div class="row mb-1">
         <div class="col-1"></div>
@@ -127,14 +135,17 @@
             Willpower
         </label>
         <div class="col">
-            <input class="form-control text-center" id="willpower" max="6"
-                min="1" name="willpower" required step="1" type="number"
+            <input class="form-control text-center" id="willpower"
+                max="{{ $max['willpower'] }}" min="1" name="willpower" required
+                step="1" type="number"
                 value="{{ $selected['willpower'] ?? null }}">
             <div class="invalid-feedback">
                 You may only have one attribute at your race's natural maximum.
             </div>
         </div>
-        <div class="col col-form-label limit">1/6</div>
+        <div class="col col-form-label limit">
+            1/{{ $max['willpower'] }}
+        </div>
     </div>
     <div class="row mb-1">
         <div class="col-1"></div>
@@ -144,14 +155,16 @@
             Logic
         </label>
         <div class="col">
-            <input class="form-control text-center" id="logic" max="6" min="1"
-                name="logic" required step="1" type="number"
-                value="{{ $selected['logic'] ?? null }}">
+            <input class="form-control text-center" id="logic"
+                max="{{ $max['logic'] }}" min="1" name="logic" required step="1"
+                type="number" value="{{ $selected['logic'] ?? null }}">
             <div class="invalid-feedback">
                 You may only have one attribute at your race's natural maximum.
             </div>
         </div>
-        <div class="col col-form-label limit">1/6</div>
+        <div class="col col-form-label limit">
+            1/{{ $max['logic'] }}
+        </div>
     </div>
     <div class="row mb-1">
         <div class="col-1"></div>
@@ -161,14 +174,17 @@
             Intuition
         </label>
         <div class="col">
-            <input class="form-control text-center" id="intuition" max="6"
-                min="1" name="intuition" required step="1" type="number"
+            <input class="form-control text-center" id="intuition"
+                max="{{ $max['intuition'] }}" min="1" name="intuition" required
+                step="1" type="number"
                 value="{{ $selected['intuition'] ?? null }}">
             <div class="invalid-feedback">
                 You may only have one attribute at your race's natural maximum.
             </div>
         </div>
-        <div class="col col-form-label limit">1/6</div>
+        <div class="col col-form-label limit">
+            1/{{ $max['intuition'] }}
+        </div>
     </div>
     <div class="row mb-1">
         <div class="col-1"></div>
@@ -178,14 +194,17 @@
             Charisma
         </label>
         <div class="col">
-            <input class="col form-control text-center" id="charisma" max="6"
+            <input class="col form-control text-center" id="charisma"
+                max="{{ $max['charisma'] }}"
                 min="1" name="charisma" required step="1" type="number"
                 value="{{ $selected['charisma'] }}">
             <div class="invalid-feedback">
                 You may only have one attribute at your race's natural maximum.
             </div>
         </div>
-        <div class="col col-form-label limit">1/6</div>
+        <div class="col col-form-label limit">
+            1/{{ $max['charisma'] }}
+        </div>
     </div>
     <div class="row mb-1">
         <div class="col-1"></div>
@@ -195,11 +214,13 @@
             Edge
         </label>
         <div class="col">
-            <input class="form-control text-center" id="edge" max="6" min="1"
-                name="edge" required step="1" type="number"
-                value="{{ $selected['edge'] }}">
+            <input class="form-control text-center" id="edge"
+                max="{{ $max['edge']}}" min="1" name="edge" required step="1"
+                type="number" value="{{ $selected['edge'] }}">
         </div>
-        <div class="col col-form-label limit">1/6</div>
+        <div class="col col-form-label limit">
+            1/{{ $max['edge'] }}
+        </div>
     </div>
     @if (in_array($character->priorities['magic'] ?? '', ['adept', 'aspected', 'magician', 'mystic'], true))
     <div class="row mb-1">
