@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use App\Models\Character as BaseCharacter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use RuntimeException;
 
@@ -12,6 +14,7 @@ use RuntimeException;
  * Representation of a Shadowrun 5E character.
  * @property int $agility
  * @property ?array<int, array<string, mixed>> $armor
+ * @property-read int $astral_limit
  * @property ?array<int, array<string, mixed>> $augmentations
  * @property ?array<string, mixed> $background
  * @property int $body
@@ -37,23 +40,26 @@ use RuntimeException;
  * @property int $logic
  * @property ?array<string, array<int, string>> $martialArts
  * @property int $memory
+ * @property-read int $mental_limit
  * @property ?array<string, boolean|null|string> $priorities
  * @property ?int $magic
  * @property ?array<string, mixed> $magics
  * @property int $nuyen
+ * @property-read int $physical_limit
  * @property ?array<int, array<string, mixed>> $qualities
  * @property int $reaction
  * @property ?string $realName
  * @property ?int $resonance
  * @property ?array<int, array<string, mixed>> $skills
  * @property ?array<string, ?int> $skillGroups
+ * @property-read int $social_limit
  * @property int $strength
  * @property ?array<string, mixed> $technomancer
  * @property ?array<int, array<string, mixed>> $vehicles
  * @property ?array<int, array<string, mixed>> $weapons
  * @property int $willpower
  */
-class Character extends \App\Models\Character
+class Character extends BaseCharacter
 {
     use HasFactory;
 
@@ -252,16 +258,17 @@ class Character extends \App\Models\Character
 
     /**
      * Return the character's astral limit if they have one.
-     * @return int
+     * @return Attribute
      */
-    public function getAstralLimit(): int
+    public function astralLimit(): Attribute
     {
-        if (!(bool)$this->magic) {
-            return 0;
-        }
-        return \max(
-            $this->getMentalLimit(),
-            $this->getSocialLimit()
+        return Attribute::make(
+            get: function (): int {
+                if (!(bool)$this->magic) {
+                    return 0;
+                }
+                return \max($this->mental_limit, $this->social_limit);
+            },
         );
     }
 
@@ -339,7 +346,7 @@ class Character extends \App\Models\Character
      * Return the character's effective essence.
      * @return float
      */
-    public function getEssence(): float
+    public function getEssenceAttribute(): float
     {
         $essence = 6;
         foreach ($this->getAugmentations() as $augmentation) {
@@ -385,28 +392,40 @@ class Character extends \App\Models\Character
 
     /**
      * Return the character's real-world initiative.
-     * @return int
+     * @return Attribute
      */
-    public function getInitiativeScoreAttribute(): int
+    public function initiativeScore(): Attribute
     {
-        return $this->getModifiedAttribute('reaction')
-            + $this->getModifiedAttribute('intuition')
-            + $this->getModifiedAttribute('initiative');
+        return Attribute::make(
+            get: function () {
+                return $this->getModifiedAttribute('reaction')
+                    + $this->getModifiedAttribute('intuition')
+                    + $this->getModifiedAttribute('initiative');
+            },
+        );
     }
 
-    public function getInitiativeDiceAttribute(): int
+    public function initiativeDice(): Attribute
     {
-        return 1 + $this->getModifiedAttribute('initiative-dice');
+        return Attribute::make(
+            get: function () {
+                return 1 + $this->getModifiedAttribute('initiative-dice');
+            },
+        );
     }
 
     /**
      * Get the character's judge intentions derived stat.
-     * @return int
+     * @return Attribute
      */
-    public function getJudgeIntentionsAttribute(): int
+    public function judgeIntentions(): Attribute
     {
-        return $this->getModifiedAttribute('intuition') +
-            $this->getModifiedAttribute('charisma');
+        return Attribute::make(
+            get: function () {
+                return $this->getModifiedAttribute('intuition') +
+                    $this->getModifiedAttribute('charisma');
+            },
+        );
     }
 
     /**
@@ -468,12 +487,16 @@ class Character extends \App\Models\Character
 
     /**
      * Return the character's lift/carry derived stat.
-     * @return int
+     * @return Attribute
      */
-    public function getLiftCarryAttribute(): int
+    public function liftCarry(): Attribute
     {
-        return $this->getModifiedAttribute('body') +
-            $this->getModifiedAttribute('strength');
+        return Attribute::make(
+            get: function (): int {
+                return $this->getModifiedAttribute('body') +
+                    $this->getModifiedAttribute('strength');
+            },
+        );
     }
 
     /**
@@ -538,17 +561,21 @@ class Character extends \App\Models\Character
 
     /**
      * Return the character's mental limit.
-     * @return int
+     * @return Attribute
      */
-    public function getMentalLimit(): int
+    public function mentalLimit(): Attribute
     {
-        return (int)\ceil(
-            (
-                $this->getModifiedAttribute('logic') * 2
-                + $this->getModifiedAttribute('intuition')
-                + $this->getModifiedAttribute('willpower')
-            ) / 3
-        ) + $this->getModifiedAttribute('mental-limit');
+        return Attribute::make(
+            get: function (): int {
+                return (int)\ceil(
+                    (
+                        $this->getModifiedAttribute('logic') * 2
+                        + $this->getModifiedAttribute('intuition')
+                        + $this->getModifiedAttribute('willpower')
+                    ) / 3
+                ) + $this->getModifiedAttribute('mental-limit');
+            },
+        );
     }
 
     /**
@@ -647,17 +674,21 @@ class Character extends \App\Models\Character
 
     /**
      * Return the character's physical limit.
-     * @return int
+     * @return Attribute
      */
-    public function getPhysicalLimit(): int
+    public function physicalLimit(): Attribute
     {
-        return (int)\ceil(
-            (
-                $this->getModifiedAttribute('strength') * 2
-                + $this->getModifiedAttribute('body')
-                + $this->getModifiedAttribute('reaction')
-            ) / 3
-        ) + $this->getModifiedAttribute('physical-limit');
+        return Attribute::make(
+            get: function () {
+                return (int)\ceil(
+                    (
+                        $this->getModifiedAttribute('strength') * 2
+                        + $this->getModifiedAttribute('body')
+                        + $this->getModifiedAttribute('reaction')
+                    ) / 3
+                ) + $this->getModifiedAttribute('physical-limit');
+            },
+        );
     }
 
     /**
@@ -695,7 +726,7 @@ class Character extends \App\Models\Character
         $limitModifier = $this->getSkillLimitModifierFromQualities($skill);
         switch ($skill->limit) {
             case 'astral':
-                return (string)($this->getAstralLimit() + $limitModifier);
+                return (string)($this->astral_limit + $limitModifier);
             case 'force':
                 return 'F';
             case 'handling':
@@ -705,11 +736,11 @@ class Character extends \App\Models\Character
             case 'matrix':
                 return 'M';
             case 'mental':
-                return (string)($this->getMentalLimit() + $limitModifier);
+                return (string)($this->mental_limit + $limitModifier);
             case 'physical':
-                return (string)($this->getPhysicalLimit() + $limitModifier);
+                return (string)($this->physical_limit + $limitModifier);
             case 'social':
-                return (string)($this->getSocialLimit() + $limitModifier);
+                return (string)($this->social_limit + $limitModifier);
             case 'weapon':
                 return 'W';
             default:
@@ -812,17 +843,21 @@ class Character extends \App\Models\Character
 
     /**
      * Return the character's social limit.
-     * @return int
+     * @return Attribute
      */
-    public function getSocialLimit(): int
+    public function socialLimit(): Attribute
     {
-        return (int)\ceil(
-            (
-                \ceil($this->getEssence())
-                + $this->getModifiedAttribute('willpower')
-                + ($this->getModifiedAttribute('charisma') * 2)
-            ) / 3
-        ) + $this->getModifiedAttribute('social-limit');
+        return Attribute::make(
+            get: function () {
+                return (int)\ceil(
+                    (
+                        \ceil($this->essence)
+                        + $this->getModifiedAttribute('willpower')
+                        + ($this->getModifiedAttribute('charisma') * 2)
+                    ) / 3
+                ) + $this->getModifiedAttribute('social-limit');
+            }
+        );
     }
 
     /**

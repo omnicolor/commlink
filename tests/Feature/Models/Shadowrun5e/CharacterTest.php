@@ -215,7 +215,7 @@ final class CharacterTest extends TestCase
         $character->logic = 6;
         $character->intuition = 7;
         $character->charisma = 8;
-        self::assertEquals(0, $character->getAstralLimit());
+        self::assertEquals(0, $character->astral_limit);
     }
 
     /**
@@ -237,7 +237,7 @@ final class CharacterTest extends TestCase
         $character->charisma = 8;
         // Essence should be 6, added to Willpower 5 and twice Charisma 8 all
         // divided by 3: (6+5+(8*2))/3 = 26/3 = 8.6, rounded up.
-        self::assertEquals(9, $character->getAstralLimit());
+        self::assertEquals(9, $character->astral_limit);
     }
 
     /**
@@ -259,7 +259,7 @@ final class CharacterTest extends TestCase
         $character->charisma = 1;
         // Should be twice Logic 6 plus Intuition 7 plus Willpower 5 all divided
         // by 3: ((6*2)+7+5)/3 = 24/3 = 8, rounded up
-        self::assertEquals(8, $character->getAstralLimit());
+        self::assertEquals(8, $character->astral_limit);
     }
 
     /**
@@ -385,9 +385,9 @@ final class CharacterTest extends TestCase
     public function testEssenceLoss(): void
     {
         $character = new Character();
-        self::assertEquals(6, $character->getEssence());
+        self::assertEquals(6, $character->essence);
         $character->augmentations = [['id' => 'bone-lacing-aluminum']];
-        self::assertEquals(5, $character->getEssence());
+        self::assertEquals(5, $character->essence);
     }
 
     /**
@@ -397,12 +397,12 @@ final class CharacterTest extends TestCase
     public function testEssenceLossWithGrade(): void
     {
         $character = new Character();
-        self::assertEquals(6, $character->getEssence());
+        self::assertEquals(6, $character->essence);
         $character->augmentations = [[
             'id' => 'bone-lacing-aluminum',
             'grade' => Augmentation::GRADE_ALPHA,
         ]];
-        self::assertEquals(5.2, $character->getEssence());
+        self::assertEquals(5.2, $character->essence);
     }
 
     /**
@@ -445,7 +445,7 @@ final class CharacterTest extends TestCase
     public function testGetJudgeIntentions(): void
     {
         $character = new Character();
-        self::assertSame(0, $character->judgeIntentions);
+        self::assertSame(0, $character->judge_intentions);
         $character->body = 1;
         $character->agility = 2;
         $character->reaction = 3;
@@ -454,7 +454,7 @@ final class CharacterTest extends TestCase
         $character->logic = 6;
         $character->intuition = 7;
         $character->charisma = 8;
-        self::assertSame(7 + 8, $character->judgeIntentions);
+        self::assertSame(7 + 8, $character->judge_intentions);
     }
 
     /**
@@ -623,7 +623,7 @@ final class CharacterTest extends TestCase
         $character->logic = 6;
         $character->intuition = 7;
         $character->charisma = 8;
-        self::assertSame(1 + 4, $character->liftCarry);
+        self::assertSame(1 + 4, $character->lift_carry);
     }
 
     /**
@@ -1271,7 +1271,7 @@ final class CharacterTest extends TestCase
             'body' => 4,
             'reaction' => 4,
         ]);
-        self::assertEquals(6, $character->getPhysicalLimit());
+        self::assertEquals(6, $character->physical_limit);
     }
 
     /**
@@ -1298,7 +1298,7 @@ final class CharacterTest extends TestCase
         $character->reaction = 4;
         $character->strength = 4;
 
-        self::assertEquals(8, $character->getPhysicalLimit());
+        self::assertEquals(8, $character->physical_limit);
     }
 
     /**
