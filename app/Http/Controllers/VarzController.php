@@ -73,8 +73,8 @@ class VarzController extends Controller
                 'campaigns' => Campaign::where('system', $system)->count(),
                 'player-characters' => $characterClass::count(),
             ];
-        } catch (Throwable) {
-            $metrics = [
+        } catch (Throwable) { // @codeCoverageIgnore
+            $metrics = [ // @codeCoverageIgnore
                 'campaigns' => 0,
                 'player-characters' => 0,
             ];
