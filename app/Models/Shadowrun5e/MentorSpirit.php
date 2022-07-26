@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use RuntimeException;
+
 /**
  * Mentor spirit class.
  */
@@ -54,7 +56,7 @@ class MentorSpirit
     /**
      * Constructor.
      * @param string $id ID to load
-     * @throws \RuntimeException if the ID is invalid
+     * @throws RuntimeException if the ID is invalid
      */
     public function __construct(string $id)
     {
@@ -63,7 +65,7 @@ class MentorSpirit
 
         $id = \strtolower($id);
         if (!isset(self::$spirits[$id])) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 \sprintf('Mentor spirit ID "%s" is invalid', $id)
             );
         }
