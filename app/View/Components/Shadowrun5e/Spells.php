@@ -40,7 +40,7 @@ class Spells extends Component
             $this->charGen = true;
             return;
         }
-        if (null === $character->priorities['magic']) {
+        if (!isset($character->priorities['magic']) || null === $character->priorities['magic']) {
             return;
         }
         if ('technomancer' === $character->priorities['magic']) {
