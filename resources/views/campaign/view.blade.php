@@ -3,7 +3,7 @@
 
     <h1>
         {{ $campaign }}
-        @if (optional($campaign->gamemaster)->id === $user->id && \Illuminate\Support\Facades\View::exists(sprintf('%s.gm-screen', $campaign->system)))
+        @if ($user->is($campaign->gamemaster) && \Illuminate\Support\Facades\View::exists(sprintf('%s.gm-screen', ucfirst($campaign->system))))
             <a class="btn btn-primary" href="{{ route('campaign.gm-screen', $campaign) }}">
                 Launch GM screen
             </a>
