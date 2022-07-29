@@ -122,7 +122,17 @@
                 {{ $character->edge }}
             </div>
         </li>
-        @if (in_array($character->priorities['magic'] ?? '', ['adept', 'aspected', 'magician', 'mystic'], true))
+        <li class="list-group-item">
+            <span data-bs-toggle="tooltip" title="Essence is your metahumanity encapsulated in a number. In Shadowrun, you have ample opportunities to alter your body or push it beyond its normal limits. Such actions often have a cost, and they can result in a loss of a portion of your metahumanity, which means a loss of Essence points. Each character starts with an Essence rating of 6, and it acts as a cap on the amount of alterations you can adopt. When it’s gone, it doesn’t come back. It also affects the Magic and Resonance attributes, as losses in Essence are reflected by losses in Magic and Resonance.">
+                Essence
+            </span>
+            <div class="value">
+                <span></span>
+                <span></span>
+                <span>{{ $character->essence }}</span>
+            </div>
+        </li>
+        @if (isset($character->magic))
         <li class="list-group-item">
             <span data-bs-toggle="tooltip" title="If you intend to cast spells or use magic in any way, your character needs to have the Magic attribute. Most individuals do not have this attribute, meaning their rating is zero. Mages, who cast spells, and adepts, who channel magic into enhanced physical and mental abilities, need this quality. Their Magic rating measures how capable they are in the arcane arts and how much power they can draw down to help them in their efforts.">
                 Magic

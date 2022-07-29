@@ -20,8 +20,8 @@ final class AttributesTest extends \Tests\TestCase
     public function testMundaneCharacter(): void
     {
         $this->component(Attributes::class, ['character' => new Character()])
-            ->assertDontSee('Magic')
-            ->assertDontSee('Resonance');
+            ->assertDontSee("Magic\n")
+            ->assertDontSee("Resonance\n");
     }
 
     /**
@@ -34,8 +34,8 @@ final class AttributesTest extends \Tests\TestCase
             Attributes::class,
             ['character' => new PartialCharacter()]
         )
-            ->assertDontSee('Magic')
-            ->assertDontSee('Resonance');
+            ->assertDontSee("Magic\n")
+            ->assertDontSee("Resonance\n");
     }
 
     /**
@@ -57,6 +57,6 @@ final class AttributesTest extends \Tests\TestCase
         )
             ->assertSee('Magic')
             ->assertSee('magic-natural">6', false)
-            ->assertDontSee('Resonance');
+            ->assertDontSee("Resonance\n");
     }
 }
