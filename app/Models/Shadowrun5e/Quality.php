@@ -120,6 +120,10 @@ class Quality
         } elseif (0 === \strpos($quality['id'], 'exceptional-attribute-')) {
             $start = (int)\strrpos($quality['id'], '-') + 1;
             $this->name .= ' (' . \ucfirst(\substr($quality['id'], $start)) . ')';
+        } elseif ('mentor-spirit' === $id && isset($raw['severity'])) {
+            $spirit = MentorSpirit::findByName($raw['severity']);
+            $this->description = $spirit->description;
+            $this->name .= ' - ' . $spirit;
         } elseif (isset($quality['severity'])) {
             $this->name .= ' (' . \ucfirst($quality['severity']) . ')';
         }

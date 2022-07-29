@@ -219,4 +219,18 @@ final class QualityTest extends TestCase
         $quality = new Quality('fame-local');
         self::assertSame('Fame (Local)', (string)$quality);
     }
+
+    /**
+     * Test loading a mentor spirit quality.
+     * @test
+     */
+    public function testMentorSpiritQuality(): void
+    {
+        $rawQuality = [
+            'id' => 'mentor-spirit',
+            'severity' => 'bear',
+        ];
+        $quality = new Quality($rawQuality['id'], $rawQuality);
+        self::assertSame('Mentor Spirit - Bear', (string)$quality);
+    }
 }
