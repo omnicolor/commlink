@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\MentorSpirit;
+use RuntimeException;
 
 /**
  * Unit tests for MentorSpirit class.
@@ -50,5 +51,28 @@ final class MentorSpiritTest extends \Tests\TestCase
     {
         $mentor = new MentorSpirit('goddess');
         self::assertSame('Goddess', (string)$mentor);
+    }
+
+    /**
+     * Test trying to find a mentor spirit by name with an invalid name.
+     * @test
+     */
+    public function testFindByNameNotFound(): void
+    {
+        self::expectException(RuntimeException::class);
+        self::expectExceptionMessage(
+            'Mentor spirit name "invalid" was not found',
+        );
+        MentorSpirit::findByName('invalid');
+    }
+
+    /**
+     * Test finding a mentor spirit by name.
+     * @test
+     */
+    public function testFindByName(): void
+    {
+        $spirit = MentorSpirit::findByName('bear');
+        self::assertSame('Bear', $spirit->name);
     }
 }

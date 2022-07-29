@@ -87,4 +87,26 @@ class MentorSpirit
     {
         return $this->name;
     }
+
+    /**
+     * Return a mentor spirit based on its name.
+     * @param string $name
+     * @return MentorSpirit
+     * @throws RuntimeException
+     */
+    public static function findByName(string $name): MentorSpirit
+    {
+        $filename = config('app.data_path.shadowrun5e') . 'mentor-spirits.php';
+        self::$spirits ??= require $filename;
+
+        foreach (self::$spirits as $id => $spirit) {
+            if (\strtolower($spirit['name']) === \strtolower($name)) {
+                return new MentorSpirit($id);
+            }
+        }
+        throw new RuntimeException(\sprintf(
+            'Mentor spirit name "%s" was not found',
+            $name
+        ));
+    }
 }
