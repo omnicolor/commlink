@@ -1721,4 +1721,63 @@ final class CharacterTest extends TestCase
         $character = new Character(['weapons' => [['id' => 'ak-98']]]);
         self::assertNotEmpty($character->getWeapons());
     }
+
+    /**
+     * Test getting a character's melee defense.
+     * @test
+     */
+    public function testMeleeDefense(): void
+    {
+        $character = new Character([
+            'augmentations' => [
+                ['id' => 'synaptic-booster-1'],
+            ],
+            'intuition' => 1,
+            'reaction' => 2,
+        ]);
+        self::assertSame(4, $character->melee_defense);
+    }
+
+    /**
+     * Test getting a character's overflow monitor.
+     * @test
+     */
+    public function testOverflow(): void
+    {
+        $character = new Character(['body' => 5]);
+        self::assertSame(5, $character->overflow_monitor);
+    }
+
+    /**
+     * Test getting a character's physical damage monitor.
+     * @test
+     */
+    public function testPhysical(): void
+    {
+        $character = new Character(['body' => 3]);
+        self::assertSame(10, $character->physical_monitor);
+    }
+
+    /**
+     * Test getting a character's ranged defense.
+     * @test
+     */
+    public function testRangedDefense(): void
+    {
+        $character = new Character([
+            'reaction' => 3,
+            'intuition' => 4,
+        ]);
+        self::assertSame(7, $character->ranged_defense);
+    }
+
+    /**
+     * Test getting a character's stun monitor.
+     * @test
+     */
+    public function testStun(): void
+    {
+        $character = new Character(['willpower' => 6]);
+        self::assertSame(11, $character->stun_monitor);
+    }
 }

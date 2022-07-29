@@ -21,6 +21,10 @@ use RuntimeException;
  * @property int $charisma
  * @property ?array<int, string> $complexForms
  * @property ?array<int, array<string, string|int>> $contacts
+ * @property int $damageOverflow
+ * @property int $damagePhysical
+ * @property int $damageStun
+ * @property-read int $defense_melee
  * @property int $edge
  * @property int $edgeCurrent
  * @property ?array<int, array<string, mixed>> $gear
@@ -40,13 +44,17 @@ use RuntimeException;
  * @property int $logic
  * @property ?array<string, array<int, string>> $martialArts
  * @property int $memory
+ * @property-read int $melee_defense
  * @property-read int $mental_limit
+ * @property-read int $overflow_monitor
  * @property ?array<string, boolean|null|string> $priorities
  * @property ?int $magic
  * @property ?array<string, mixed> $magics
  * @property int $nuyen
  * @property-read int $physical_limit
+ * @property-read int $physical_monitor
  * @property ?array<int, array<string, mixed>> $qualities
+ * @property-read int $ranged_defense
  * @property int $reaction
  * @property ?string $realName
  * @property ?int $resonance
@@ -54,6 +62,7 @@ use RuntimeException;
  * @property ?array<string, ?int> $skillGroups
  * @property-read int $social_limit
  * @property int $strength
+ * @property-read int $stun_monitor
  * @property ?array<string, mixed> $technomancer
  * @property ?array<int, array<string, mixed>> $vehicles
  * @property ?array<int, array<string, mixed>> $weapons
@@ -103,6 +112,9 @@ class Character extends BaseCharacter
         'charisma',
         'complexForms',
         'contacts',
+        'damageOverflow',
+        'damagePhysical',
+        'damageStun',
         'edge',
         'edgeCurrent',
         'eyes',
@@ -673,25 +685,6 @@ class Character extends BaseCharacter
     }
 
     /**
-     * Return the character's physical limit.
-     * @return Attribute
-     */
-    public function physicalLimit(): Attribute
-    {
-        return Attribute::make(
-            get: function () {
-                return (int)\ceil(
-                    (
-                        $this->getModifiedAttribute('strength') * 2
-                        + $this->getModifiedAttribute('body')
-                        + $this->getModifiedAttribute('reaction')
-                    ) / 3
-                ) + $this->getModifiedAttribute('physical-limit');
-            },
-        );
-    }
-
-    /**
      * Return the character's qualities (if they have any).
      * @return QualityArray
      */
@@ -1002,5 +995,94 @@ class Character extends BaseCharacter
             }
         }
         return $weapons;
+    }
+
+    /**
+     * Return the character's melee defense.
+     * @return Attribute
+     */
+    public function meleeDefense(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->getModifiedAttribute('reaction')
+                    + $this->getModifiedAttribute('intuition')
+                    + $this->getModifiedAttribute('melee-defense');
+            },
+        );
+    }
+
+    /**
+     * Return the character's physical limit.
+     * @return Attribute
+     */
+    public function physicalLimit(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return (int)\ceil(
+                    (
+                        $this->getModifiedAttribute('strength') * 2
+                        + $this->getModifiedAttribute('body')
+                        + $this->getModifiedAttribute('reaction')
+                    ) / 3
+                ) + $this->getModifiedAttribute('physical-limit');
+            },
+        );
+    }
+
+    /**
+     * Return the character's overflow monitor.
+     * @return Attribute
+     */
+    public function overflowMonitor(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->getModifiedAttribute('body')
+                    + $this->getModifiedAttribute('damage-overflow');
+            },
+        );
+    }
+
+    /**
+     * Return the amount of physical damage a character can take.
+     * @return Attribute
+     */
+    public function physicalMonitor(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return (int)\ceil($this->getModifiedAttribute('body') / 2) + 8;
+            },
+        );
+    }
+
+    /**
+     * Return the character's ranged defense.
+     * @return Attribute
+     */
+    public function rangedDefense(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->getModifiedAttribute('reaction')
+                    + $this->getModifiedAttribute('intuition')
+                    + $this->getModifiedAttribute('range-defense');
+            },
+        );
+    }
+
+    /**
+     * Return the amount of stun damage a character can take.
+     * @return Attribute
+     */
+    public function stunMonitor(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return (int)\ceil($this->getModifiedAttribute('willpower') / 2) + 8;
+            },
+        );
     }
 }
