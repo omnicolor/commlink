@@ -83,7 +83,7 @@
                     Judge Intentions
                 </span>
                 <div class="value">
-                    {{ $character->judgeIntentions }}
+                    {{ $character->judge_intentions }}
                 </div>
             </li>
             <li class="list-group-item" id="memory">
@@ -103,7 +103,7 @@
                     Lift/Carry
                 </span>
                 <div class="value">
-                    {{ $character->liftCarry }}
+                    {{ $character->lift_carry }}
                 </div>
             </li>
         </ul>
