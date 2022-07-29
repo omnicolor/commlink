@@ -110,7 +110,7 @@ class Identity
         if (isset($raw['sinner'])) {
             $identity->sin = null;
             $identity->sinner = $raw['sin'];
-        } else {
+        } elseif (isset($raw['sin'])) {
             $identity->sin = (int)$raw['sin'];
             $identity->sinner = null;
         }
