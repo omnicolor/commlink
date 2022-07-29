@@ -10,7 +10,7 @@ use App\Http\Responses\Slack\SlackResponse;
 /**
  * Tests for the Slack Exception.
  * @group exception
- * @small
+ * @medium
  */
 class SlackExceptionTest extends \Tests\TestCase
 {

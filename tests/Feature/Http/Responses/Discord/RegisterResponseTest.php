@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Http;
 
 /**
  * @group discord
- * @small
+ * @medium
  */
 final class RegisterResponseTest extends \Tests\TestCase
 {
@@ -73,7 +73,6 @@ final class RegisterResponseTest extends \Tests\TestCase
 
     /**
      * Test trying to register a channel that's already registered.
-     * @medium
      * @test
      */
     public function testRegisterAlreadyRegistered(): void
@@ -134,7 +133,6 @@ final class RegisterResponseTest extends \Tests\TestCase
 
     /**
      * Test successfully registering a channel, but Discord's API fails.
-     * @medium
      * @test
      */
     public function testRegisterDiscordFails(): void
@@ -185,7 +183,6 @@ final class RegisterResponseTest extends \Tests\TestCase
 
     /**
      * Test successfully registering a channel.
-     * @medium
      * @test
      */
     public function testRegister(): void

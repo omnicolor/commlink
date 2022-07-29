@@ -28,7 +28,6 @@ final class CampaignPolicyTest extends \Tests\TestCase
 
     /**
      * Test the viewAny method. It doesn't matter what the user is.
-     * @small
      * @test
      */
     public function testViewAny(): void
@@ -41,7 +40,6 @@ final class CampaignPolicyTest extends \Tests\TestCase
     /**
      * Test trying to view a campaign if the user isn't the one that registered
      * it, or the GM, or a player.
-     * @small
      * @test
      */
     public function testViewNoConnection(): void
@@ -116,7 +114,6 @@ final class CampaignPolicyTest extends \Tests\TestCase
 
     /**
      * Any user can create a campaign.
-     * @small
      * @test
      */
     public function testCreate(): void

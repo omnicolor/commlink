@@ -23,7 +23,7 @@ use phpmock\phpunit\PHPMock;
  * Tests for Discord message event listener.
  * @group discord
  * @group events
- * @small
+ * @medium
  */
 final class HandleDiscordMessageTest extends \Tests\TestCase
 {
@@ -56,7 +56,6 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
 
     /**
      * Test handling a Discord event with an invalid command.
-     * @medium
      * @test
      */
     public function testHandleInvalidCommand(): void
@@ -259,7 +258,6 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
 
     /**
      * Test handling a Discord event for linking a user with a wrong hash.
-     * @medium
      * @test
      */
     public function testHandleValidateUserWrongHash(): void
@@ -326,7 +324,6 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
 
     /**
      * Test handling a Discord event for linking a user already linked.
-     * @medium
      * @test
      */
     public function testHandleValidateUserAlreadyLinked(): void
@@ -384,7 +381,6 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
 
     /**
      * Test handling a Discord event for linking a user.
-     * @medium
      * @test
      */
     public function testHandleValidateUser(): void
@@ -444,7 +440,6 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
 
     /**
      * Test handling a Discord message asking for a system-specific number roll.
-     * @medium
      * @test
      */
     public function testHandleSystemNumberRoll(): void
@@ -494,7 +489,6 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
     /**
      * Test handling a Discord message asking for a system-specific, non-help
      * roll.
-     * @medium
      * @test
      */
     public function testHandleSystemNonNumberRoll(): void
@@ -543,7 +537,6 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
 
     /**
      * Test handling a Discord message asking for a system-specific help roll.
-     * @medium
      * @test
      */
     public function testHandleSystemHelpRoll(): void
@@ -587,7 +580,6 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
 
     /**
      * Test handling a Discord message asking for a generic help roll.
-     * @medium
      * @test
      */
     public function testHandleNonSystemHelpRoll(): void

@@ -38,7 +38,6 @@ final class ChannelTest extends \Tests\TestCase
 
     /**
      * Test getting the server's name if we've already retrieved it.
-     * @small
      * @test
      */
     public function testGetServerNameAlreadyHave(): void
@@ -52,7 +51,6 @@ final class ChannelTest extends \Tests\TestCase
     /**
      * Test getting the server's name for a Slack instance that hasn't been
      * saved.
-     * @medium
      * @test
      */
     public function testGetServerNameNewSlackInstance(): void
@@ -93,7 +91,6 @@ final class ChannelTest extends \Tests\TestCase
     /**
      * Test that getting a server's name for the first time on a saved instance
      * updates the database.
-     * @medium
      * @test
      */
     public function testGetServerNameSlackInstance(): void
@@ -144,7 +141,6 @@ final class ChannelTest extends \Tests\TestCase
     /**
      * Test getting the server's name for a Discord instance that hasn't been
      * saved.
-     * @medium
      * @test
      */
     public function testGetServerNameNewDiscordInstance(): void
@@ -180,7 +176,6 @@ final class ChannelTest extends \Tests\TestCase
     /**
      * Test that getting a server's name for the first time on a saved instance
      * updates the database.
-     * @medium
      * @test
      */
     public function testGetServerNameDiscordInstance(): void
@@ -225,7 +220,6 @@ final class ChannelTest extends \Tests\TestCase
 
     /**
      * Test trying to get a server's name if the type isn't set.
-     * @small
      * @test
      */
     public function testGetServerNameUnknownType(): void
@@ -236,7 +230,6 @@ final class ChannelTest extends \Tests\TestCase
 
     /**
      * Test that trying to set an invalid system throws an exception.
-     * @small
      * @test
      */
     public function testSetInvalidSystem(): void
@@ -249,7 +242,6 @@ final class ChannelTest extends \Tests\TestCase
 
     /**
      * Test setting the system to a valid value sets it.
-     * @small
      * @test
      */
     public function testSetSystem(): void
@@ -262,7 +254,6 @@ final class ChannelTest extends \Tests\TestCase
 
     /**
      * Test setting the type of channel to an invalid type throws an exception.
-     * @small
      * @test
      */
     public function testSetTypeInvalid(): void
@@ -276,7 +267,6 @@ final class ChannelTest extends \Tests\TestCase
 
     /**
      * Test setting the type of channel to a valid type.
-     * @small
      * @test
      */
     public function testSetType(): void
@@ -288,7 +278,6 @@ final class ChannelTest extends \Tests\TestCase
 
     /**
      * Test scoping results to just Slack.
-     * @medium
      * @test
      */
     public function testScopeSlack(): void
@@ -320,7 +309,6 @@ final class ChannelTest extends \Tests\TestCase
 
     /**
      * Test scoping results to just Discord.
-     * @medium
      * @test
      */
     public function testScopeDiscord(): void
@@ -352,7 +340,6 @@ final class ChannelTest extends \Tests\TestCase
 
     /**
      * Test getting the characters linked to this user and channel.
-     * @medium
      * @test
      */
     public function testCharacterNone(): void

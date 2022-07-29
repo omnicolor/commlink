@@ -38,6 +38,7 @@ final class CharacterTest extends \Tests\TestCase
 
     /**
      * Characters are required to have an owner.
+     * @medium
      * @test
      */
     public function testNoUser(): void

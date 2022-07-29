@@ -61,7 +61,6 @@ final class HelpResponseTest extends \Tests\TestCase
     /**
      * Test trying to get help in an unregistered channel as an unregistered
      * user.
-     * @small
      * @test
      */
     public function testHelpUnregistered(): void
