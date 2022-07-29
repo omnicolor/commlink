@@ -33,6 +33,26 @@
     <div class="row">
         <div class="col-1"></div>
         <div class="col">
+            <ul class="list-group" id="weapons">
+                @foreach ($character->getWeapons() as $index => $weapon)
+                <li class="list-group-item">
+                    {{ $weapon }}
+                </li>
+                @endforeach
+                <li class="list-group-item" id="no-weapons"
+                    @if (0 !== count($character->getWeapons()))
+                        style="display:none"
+                    @endif>No weapons</li>
+                <!--
+                <li class="list-group-item">
+                    <button class="btn btn-success" data-target="#weapon-modal"
+                        data-toggle="modal" type="button">
+                        <span aria-hidden="true" class="oi oi-plus"></span>
+                        Add weapon
+                    </button>
+                </li>
+                -->
+            </ul>
         </div>
         <div class="col-3"></div>
     </div>

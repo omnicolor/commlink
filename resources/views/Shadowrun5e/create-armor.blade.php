@@ -33,6 +33,40 @@
     <div class="row">
         <div class="col-1"></div>
         <div class="col">
+            <ul class="list-group" id="armor">
+                @foreach ($character->getArmor() as $index => $armor)
+                    <li class="list-group-item" data-index="{{ $index }}">
+                        {{ $armor }}
+                        <!--
+                        <div class="float-end">
+                            <button class="btn btn-primary btn-sm modify mr-1"
+                                data-bs-target="#modification-modal"
+                                data-bs-toggle="modal" type="button">
+                                <span aria-hidden="true" class="bi bi-wrench"></span>
+                                Modify
+                            </button>
+                            <button class="btn btn-danger btn-sm" type="button">
+                                <span aria-hidden="true" class="bi bi-dash"></span>
+                                Remove
+                            </button>
+                        </div>
+                        -->
+                    </li>
+                @endforeach
+                <li class="list-group-item" id="no-armor"
+                    @if (0 === count($character->getArmor()))
+                        style="display:none"
+                    @endif>No armor</li>
+                <!--
+                <li class="list-group-item">
+                    <button class="btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#armor-modal" type="button">
+                        <span aria-hidden="true" class="bi bi-plus"></span>
+                        Add armor
+                    </button>
+                </li>
+                -->
+            </ul>
         </div>
         <div class="col-3"></div>
     </div>
@@ -45,7 +79,6 @@
     <x-slot name="javascript">
         <script>
             let character = @json($character);
-            let rulebooks = @json($books);
         </script>
         <script src="/js/Shadowrun5e/create-common.js"></script>
         <script src="/js/Shadowrun5e/Points.js"></script>

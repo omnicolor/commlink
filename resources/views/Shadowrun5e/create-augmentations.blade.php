@@ -33,6 +33,28 @@
     <div class="row">
         <div class="col-1"></div>
         <div class="col">
+            <p>Current essence: <span id="essence">{{ $character->essence }}</span></p>
+
+            <ul class="list-group" id="augmentations">
+                @foreach ($character->getAugmentations() as $index => $augmentation)
+                <li class="list-group-item">
+                    {{ $augmentation }}
+                </li>
+                @endforeach
+                <li class="list-group-item" id="no-augmentations"
+                    @if (0 !== count($character->getAugmentations()))
+                        style="display:none"
+                    @endif>No augmentations</li>
+                <!--
+                <li class="list-group-item">
+                    <button class="btn btn-success" data-target="#augmentations-modal"
+                                                    data-toggle="modal" type="button">
+                        <span aria-hidden="true" class="oi oi-plus"></span>
+                        Add augmentation
+                    </button>
+                </li>
+                -->
+            </ul>
         </div>
         <div class="col-3"></div>
     </div>
