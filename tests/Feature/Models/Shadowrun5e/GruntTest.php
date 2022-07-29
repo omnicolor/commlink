@@ -175,4 +175,14 @@ final class GruntTest extends TestCase
 
         self::assertCount(1, $grunt->knowledge);
     }
+
+    /**
+     * Test getting all grunts.
+     * @test
+     */
+    public function testLoadAll(): void
+    {
+        $grunts = Grunt::all();
+        self::assertNotEmpty($grunts);
+    }
 }

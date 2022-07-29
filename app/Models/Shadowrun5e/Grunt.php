@@ -186,4 +186,19 @@ class Grunt
 
         return $rating;
     }
+
+    /**
+     * @return array<int, Grunt>
+     */
+    public static function all(): array
+    {
+        $filename = config('app.data_path.shadowrun5e') . 'grunts.php';
+        self::$grunts ??= require $filename;
+
+        $grunts = [];
+        foreach (self::$grunts ?? [] as $id => $grunt) {
+            $grunts[] = new Grunt($id);
+        }
+        return $grunts;
+    }
 }
