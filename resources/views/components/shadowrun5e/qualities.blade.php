@@ -8,9 +8,6 @@
                         data-bs-placement="right"
                         title="<p>{{ str_replace('||', '</p><p>', $quality->description) }}</p>">
                         {{ $quality }}
-                        @if ('mentor-spirit' === $quality->id)
-                            ({{ $character->getMentorSpirit() }})
-                        @endif
                     </span>
                 </li>
             @endforeach
