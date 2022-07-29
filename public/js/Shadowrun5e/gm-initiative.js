@@ -98,7 +98,7 @@ $('.bi-stop-circle').on('click', function () {
     const url = '/api/campaigns/' + campaign + '/initiatives';
     $.ajax({
         data: {
-            _token: '{{ csrf_token() }}'
+            _token: csrfToken
         },
         success: clearInitiatives,
         type: 'DELETE',
@@ -119,7 +119,8 @@ $('input[name="initiative-type"]').on('change', function (e) {
 $('#add-combatant .btn-primary').on('click', function () {
     const payload = {
         character_name: $('#name').val(),
-        _token: '{{ csrf_token() }}'
+        grunt_id: $('#grunt-id').val(),
+        _token: csrfToken
     };
 
     if ('roll' === $('input[name="initiative-type"]:checked').val()) {
@@ -200,7 +201,7 @@ $('#combatants').on('click', '.remove', function (e) {
     const url = '/api/campaigns/' + campaign + '/initiatives/' + id;
     $.ajax({
         data: {
-            _token: '{{ csrf_token() }}'
+            _token: csrfToken
         },
         type: 'DELETE',
         url: url
@@ -225,7 +226,7 @@ $('#change-initiative form').on('submit', function (e) {
     $.ajax({
         data: {
             initiative: initiative,
-            _token: '{{ csrf_token() }}'
+            _token: csrfToken
         },
         type: 'PATCH',
         url: url
@@ -253,7 +254,7 @@ $('#rename-combatant form').on('submit', function (e) {
     $.ajax({
         data: {
             character_name: name,
-            _token: '{{ csrf_token() }}'
+            _token: csrfToken
         },
         type: 'PATCH',
         url: url
