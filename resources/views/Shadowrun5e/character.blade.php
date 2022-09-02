@@ -64,6 +64,15 @@
         </style>
     </x-slot>
 
+    <x-slot name="navbar">
+        <li class="nav-item">
+            <a class="nav-link" href="/dashboard">Home</a>
+        </li>
+        <li class="nav-item">
+            <span class="nav-link active">{{ $character }}</span>
+        </li>
+    </x-slot>
+
     @if ($errors->any())
         <div class="alert alert-danger mt-4">
             <ul>

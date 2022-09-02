@@ -65,6 +65,14 @@
             }
         </style>
     </x-slot>
+    <x-slot name="navbar">
+        <li class="nav-item">
+            <a class="nav-link" href="/dashboard">Home</a>
+        </li>
+        <li class="nav-item">
+            <span class="nav-link active">{{ $character }}</span>
+        </li>
+    </x-slot>
 
     <div class="row">
         <div class="col-1"></div>

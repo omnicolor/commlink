@@ -1,7 +1,5 @@
 <x-app>
     <x-slot name="title">{{ $character->handle }}</x-slot>
-    @includeWhen($creating, 'Cyberpunkred.create-navigation')
-
     <x-slot name="head">
         <style>
             .value {
@@ -18,6 +16,16 @@
                 text-align: right;
             }
         </style>
+    </x-slot>
+
+    @includeWhen($creating, 'Cyberpunkred.create-navigation')
+    <x-slot name="navbar">
+        <li class="nav-item">
+            <a class="nav-link" href="/dashboard">Home</a>
+        </li>
+        <li class="nav-item">
+            <span class="nav-link active">{{ $character }}</span>
+        </li>
     </x-slot>
 
     <div class="row">

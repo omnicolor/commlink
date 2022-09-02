@@ -8,7 +8,7 @@
             <a class="nav-link" href="/campaigns/{{ $campaign->id }}">{{ $campaign }}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" href="#">GM Screen</a>
+            <span class="nav-link active">GM Screen</span>
         </li>
     </x-slot>
 

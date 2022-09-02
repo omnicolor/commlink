@@ -1,5 +1,13 @@
 <x-app>
     <x-slot name="title">Campaign: {{ $campaign }}</x-slot>
+    <x-slot name="navbar">
+        <li class="nav-item">
+            <a class="nav-link" href="/dashboard">Home</a>
+        </li>
+        <li class="nav-item">
+            <span class="nav-link active">{{ $campaign }}</span>
+        </li>
+    </x-slot>
 
     <h1>
         {{ $campaign }}

@@ -1,6 +1,9 @@
 <x-slot name="navbar">
+    <li class="nav-item">
+        <a class="nav-link" href="/dashboard">Home</a>
+    </li>
     <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="creating-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <a class="active nav-link dropdown-toggle" href="#" id="creating-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Creating
             @if ($character->handle)
                 &ldquo;{{ $character->handle }}&rdquo;

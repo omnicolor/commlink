@@ -45,6 +45,14 @@
     </x-slot>
 
     @includeWhen($creating ?? false, 'Capers.create-navigation')
+    <x-slot name="navbar">
+        <li class="nav-item">
+            <a class="nav-link" href="/dashboard">Home</a>
+        </li>
+        <li class="nav-item">
+            <span class="nav-link active">{{ $character }}</span>
+        </li>
+    </x-slot>
 
     <div class="row my-4">
         <div class="col-1"></div>

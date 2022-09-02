@@ -1,5 +1,13 @@
 <x-app>
     <x-slot name="title">Create campaign</x-slot>
+    <x-slot name="navbar">
+        <li class="nav-item">
+            <a class="nav-link" href="/dashboard">Home</a>
+        </li>
+        <li class="nav-item">
+            <span class="active nav-link">Create campaign</span>
+        </li>
+    </x-slot>
 
     <h1>Create campaign</h1>
 
