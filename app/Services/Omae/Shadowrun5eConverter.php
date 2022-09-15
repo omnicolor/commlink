@@ -290,7 +290,7 @@ class Shadowrun5eConverter implements ConverterInterface
 
         $skills = [];
         while ($this->nextLineIsData()) {
-            [$name, $level, , $specialization, ] = explode(
+            [$name, $level, , $specialization] = explode(
                 ' | ',
                 (string)array_shift($this->file)
             );
@@ -356,7 +356,7 @@ class Shadowrun5eConverter implements ConverterInterface
         $this->removeHeader();
         $armors = [];
         while (!$this->endOfFile() && !$this->nextLineIsMinorHeading()) {
-            [$name, , , $mods, ] = explode(
+            [$name, , , $mods] = explode(
                 ' | ',
                 (string)array_shift($this->file)
             );
@@ -401,7 +401,7 @@ class Shadowrun5eConverter implements ConverterInterface
         $this->removeHeader();
         $augmentations = [];
         while (!$this->endOfFile() && !$this->nextLineIsMinorHeading()) {
-            [$name, , ] = explode(' | ', (string)array_shift($this->file));
+            [$name] = explode(' | ', (string)array_shift($this->file));
 
             if (isset(self::AUGMENTATION_MAP[$name])) {
                 $augmentations[] = ['id' => self::AUGMENTATION_MAP[$name]];
@@ -436,7 +436,7 @@ class Shadowrun5eConverter implements ConverterInterface
         $this->removeHeader();
         $weapons = [];
         while (!$this->endOfFile() && !$this->nextLineIsMinorHeading()) {
-            [$name, , , , , $mods, ] = explode(
+            [$name, , , , , $mods] = explode(
                 ' | ',
                 (string)array_shift($this->file)
             );

@@ -517,7 +517,6 @@ class KarmaLog extends \ArrayObject
         $techniques = (array)$this->character->getMartialArtsTechniques();
         // Only techniques past the first cost karma.
         \array_shift($techniques);
-        // @phpstan-ignore-next-line
         foreach ($techniques as $technique) {
             $this[] = new KarmaLogEntry(
                 \sprintf('Add technique %s', $technique->name),
@@ -642,9 +641,7 @@ class KarmaLog extends \ArrayObject
             $skill->level = $skill->level;
 
             if (
-                // @phpstan-ignore-next-line
                 (int)$skill->level * self::KARMA_SKILL > self::KARMA_SPECIALIZATION
-                // @phpstan-ignore-next-line
                 && 0 !== \count($specializations)
             ) {
                 // The next cheapest skill, karma-wise, is a specialization.
@@ -673,7 +670,6 @@ class KarmaLog extends \ArrayObject
                 ),
                 (int)$skill->level * self::KARMA_SKILL * -1,
             );
-            // @phpstan-ignore-next-line
             $skill->level--;
             $deficit--;
         }
@@ -711,9 +707,7 @@ class KarmaLog extends \ArrayObject
             $skill->level = (int)$skill->level;
 
             if (
-                // @phpstan-ignore-next-line
                 $skill->level * self::KARMA_KNOWLEDGE > self::KARMA_SPECIALIZATION
-                // @phpstan-ignore-next-line
                 && 0 !== \count($specializations)
             ) {
                 // The next cheapest skill, karma-wise, is a specialization.
@@ -809,8 +803,6 @@ class KarmaLog extends \ArrayObject
             (array)$this->character->getWeapons()
         );
 
-        // PHPstan seems to think $items will always be empty.
-        // @phpstan-ignore-next-line
         foreach ($items as $item) {
             $spent += $item->getCost();
         }

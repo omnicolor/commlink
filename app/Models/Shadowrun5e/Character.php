@@ -643,7 +643,6 @@ class Character extends BaseCharacter
         );
 
         // PHPstan seems to think $modifiers will always be an empty array.
-        // @phpstan-ignore-next-line
         foreach ($modifiers as $modifier) {
             foreach ($modifier->effects as $effect => $value) {
                 if (\is_int($effect)) {

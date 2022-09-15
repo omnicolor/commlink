@@ -155,7 +155,6 @@ class CharactersController extends Controller
                 array_walk(
                     $types,
                     function (string &$value): void {
-                        // @phpstan-ignore-next-line
                         $value = ucfirst(str_replace('-', ' ', $value));
                     }
                 );

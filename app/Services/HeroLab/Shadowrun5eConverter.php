@@ -479,7 +479,7 @@ class Shadowrun5eConverter implements ConverterInterface
             $powersArray[] = (new AdeptPower($id))->id;
         }
         if (!is_array($this->character->magics)) {
-            $this->character->magics = [];
+            $this->character->magics = []; // @codeCoverageIgnore
         }
         $magics = $this->character->magics;
         $magics['powers'] = $powersArray;
@@ -515,7 +515,7 @@ class Shadowrun5eConverter implements ConverterInterface
             }
         }
         if (!is_array($this->character->magics)) {
-            $this->character->magics = [];
+            $this->character->magics = []; // @codeCoverageIgnore
         }
         $magics = $this->character->magics;
         $magics['metamagics'] = $metaArray;

@@ -90,6 +90,7 @@ class PartialCharacter extends Character
     public function isMagicallyActive(): bool
     {
         return isset($this->priorities, $this->priorities['magic'])
+            // @phpstan-ignore-next-line
             && null !== $this->priorities['magic']
             && 'technomancer' !== $this->priorities['magic'];
     }
@@ -101,6 +102,7 @@ class PartialCharacter extends Character
     public function isTechnomancer(): bool
     {
         return isset($this->priorities, $this->priorities['magic'])
+            // @phpstan-ignore-next-line
             && null !== $this->priorities['magic']
             && 'technomancer' === $this->priorities['magic'];
     }
