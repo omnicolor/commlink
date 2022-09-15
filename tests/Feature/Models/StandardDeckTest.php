@@ -187,6 +187,7 @@ final class StandardDeckTest extends TestCase
         $deck->id = 42;
         $deck->draw(51);
         $deck->save();
+        self::assertCount(1, $deck);
     }
 
     /**
