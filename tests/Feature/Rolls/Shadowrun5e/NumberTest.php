@@ -7,6 +7,9 @@ namespace Tests\Feature\Rolls\Shadowrun5e;
 use App\Exceptions\SlackException;
 use App\Models\Channel;
 use App\Rolls\Shadowrun5e\Number;
+use phpmock\phpunit\PHPMock;
+use PHPUnit\Framework\MockObject\MockObject;
+use Tests\TestCase;
 
 /**
  * Tests for rolling dice in Shadowrun 5E.
@@ -16,15 +19,15 @@ use App\Rolls\Shadowrun5e\Number;
  * @group slack
  * @medium
  */
-final class NumberTest extends \Tests\TestCase
+final class NumberTest extends TestCase
 {
-    use \phpmock\phpunit\PHPMock;
+    use PHPMock;
 
     /**
      * Mock random_int function to take randomness out of testing.
-     * @var \PHPUnit\Framework\MockObject\MockObject
+     * @var MockObject
      */
-    protected \PHPUnit\Framework\MockObject\MockObject $randomInt;
+    protected MockObject $randomInt;
 
     /**
      * Set up the mock random function each time.
@@ -200,5 +203,19 @@ final class NumberTest extends \Tests\TestCase
             'Loftwyr, you can\'t roll more than 100 dice!',
             $response->forDiscord()
         );
+    }
+
+    /**
+     * Test rolling with too many initial spaces.
+     * @test
+     */
+    public function testTooManySpaces(): void
+    {
+        $expected = '**username rolled 1 die**' . \PHP_EOL
+            . 'Rolled 1 successes' . \PHP_EOL
+            . 'Rolls: 6';
+        $this->randomInt->expects(self::exactly(1))->willReturn(6);
+        $response = new Number(' 1', 'username', new Channel());
+        self::assertSame($expected, $response->forDiscord());
     }
 }

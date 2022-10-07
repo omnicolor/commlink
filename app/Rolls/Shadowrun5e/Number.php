@@ -64,7 +64,7 @@ class Number extends Roll
     ) {
         parent::__construct($content, $username, $channel);
 
-        $args = \explode(' ', $content);
+        $args = \explode(' ', \trim($content));
         $this->dice = (int)\array_shift($args);
         if (isset($args[0]) && \is_numeric($args[0])) {
             $this->limit = (int)\array_shift($args);
