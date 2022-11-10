@@ -9,6 +9,7 @@ use App\Listeners\HandleRollEvent;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Rolls\Generic;
+use App\Rolls\Shadowrun5e\Number;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
@@ -188,5 +189,36 @@ final class HandleRollEventTest extends \Tests\TestCase
         Http::assertSent(function (Request $request): bool {
             return 'http://example.org' === $request->url();
         });
+    }
+
+    /**
+     * Test an event that throws a Slack exception from another channel's
+     * command.
+     * @medium
+     * @test
+     */
+    public function testSlackException(): void
+    {
+        Http::fake();
+
+        $roll = new Number('101', 'unnamed', new Channel());
+
+        // @phpstan-ignore-next-line
+        $campaign = Campaign::factory()
+            ->has(Channel::factory())
+            ->hasChannels(
+                1,
+                [
+                    'type' => Channel::TYPE_SLACK,
+                    'webhook' => 'http://example.com',
+                ]
+            )
+            ->create();
+
+        $source = $campaign->channels->first();
+        $rollEvent = new RollEvent($roll, $source);
+        (new HandleRollEvent())->handle($rollEvent);
+
+        Http::assertNothingSent();
     }
 }

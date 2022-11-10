@@ -60,7 +60,11 @@ class HandleRollEvent
      */
     protected function sendToSlack(Roll $roll, Channel $channel): void
     {
-        $data = $roll->forSlack()->getData();
+        try {
+            $data = $roll->forSlack()->getData();
+        } catch (\Exception) {
+            return;
+        }
         $data->response_type = null;
         $data->channel = $channel->channel_id;
 
