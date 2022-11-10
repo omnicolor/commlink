@@ -89,7 +89,6 @@ class Rulebook
         self::$books ??= require $filename;
 
         $books = [];
-        // @phpstan-ignore-next-line
         foreach (self::$books as $id => $book) {
             $books[(string)$id] = new Rulebook($id);
         }

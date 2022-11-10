@@ -73,7 +73,6 @@ class Quality
 
         $qualities = [];
         foreach (self::$qualities as $id => $quality) {
-            // @phpstan-ignore-next-line
             if (\strtolower($quality['name']) === \strtolower($name)) {
                 $qualities[] = new Quality($id);
             }

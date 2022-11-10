@@ -71,7 +71,7 @@ class Identity
 
         $identities = [];
         foreach (self::$identities as $id => $identity) {
-            $identities[$id] = new self($id);
+            $identities[(string)$id] = new self($id);
         }
         return $identities;
     }

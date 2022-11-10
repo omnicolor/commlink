@@ -60,7 +60,7 @@ class Vice
 
         $vices = [];
         foreach (self::$vices as $id => $vice) {
-            $vices[$id] = new self($id);
+            $vices[(string)$id] = new self($id);
         }
         return $vices;
     }

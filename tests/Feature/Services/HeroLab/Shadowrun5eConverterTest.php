@@ -222,7 +222,6 @@ final class Shadowrun5eConverterTest extends TestCase
         );
         // @phpstan-ignore-next-line
         self::assertSame('street', $character->priorities['gameplay']);
-        // @phpstan-ignore-next-line
         self::assertSame('Troll', $character->priorities['metatype']);
         self::assertSame(7, $character->body);
         self::assertSame(4, $character->agility);

@@ -98,15 +98,10 @@ final class Shadowrun5eConverterTest extends TestCase
         $priorities = $character->priorities;
         // @phpstan-ignore-next-line
         self::assertSame('D', $priorities['metatypePriority']);
-        // @phpstan-ignore-next-line
         self::assertSame('A', $priorities['attributePriority']);
-        // @phpstan-ignore-next-line
         self::assertSame('E', $priorities['magicPriority']);
-        // @phpstan-ignore-next-line
         self::assertSame('B', $priorities['skillPriority']);
-        // @phpstan-ignore-next-line
         self::assertSame('C', $priorities['resourcePriority']);
-        // @phpstan-ignore-next-line
         self::assertSame('human', $priorities['metatype']);
     }
 
@@ -232,7 +227,6 @@ final class Shadowrun5eConverterTest extends TestCase
         );
 
         // The other has none.
-        // @phpstan-ignore-next-line
         self::assertSame(['id' => 'armor-jacket'], $armor[1]);
     }
 

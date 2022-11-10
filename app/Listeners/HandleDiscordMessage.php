@@ -118,6 +118,7 @@ class HandleDiscordMessage
                 '\\App\\Http\\Responses\\Discord\\%sResponse',
                 \ucfirst($args[0])
             );
+            // @phpstan-ignore-next-line
             $response = (string)(new $class($event));
             if ('' !== $response) {
                 $event->channel->sendMessage($response);

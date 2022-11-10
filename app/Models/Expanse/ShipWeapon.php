@@ -74,7 +74,7 @@ class ShipWeapon
 
         $weapons = [];
         foreach (self::$weapons as $id => $weapon) {
-            $weapons[$id] = new self($id, 'fore');
+            $weapons[(string)$id] = new self($id, 'fore');
         }
         return $weapons;
     }

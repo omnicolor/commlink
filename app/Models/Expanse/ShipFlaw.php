@@ -68,7 +68,7 @@ class ShipFlaw
 
         $flaws = [];
         foreach (self::$flaws as $id => $flaw) {
-            $flaws[$id] = new self($id);
+            $flaws[(string)$id] = new self($id);
         }
         return $flaws;
     }

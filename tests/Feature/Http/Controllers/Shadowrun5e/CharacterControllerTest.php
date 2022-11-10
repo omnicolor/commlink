@@ -380,9 +380,7 @@ final class CharacterControllerTest extends TestCase
         $character->refresh();
         // @phpstan-ignore-next-line
         self::assertSame('priority', $character->priorities['system']);
-        // @phpstan-ignore-next-line
         self::assertSame('established', $character->priorities['gameplay']);
-        // @phpstan-ignore-next-line
         self::assertSame('core', $character->priorities['rulebooks']);
     }
 

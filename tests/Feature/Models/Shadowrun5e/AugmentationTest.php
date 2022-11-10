@@ -263,8 +263,6 @@ final class AugmentationTest extends TestCase
         $aug = new Augmentation('cybereyes-1', $grade);
         self::assertNotEmpty($aug->modifications);
         self::assertInstanceOf(Augmentation::class, $aug->modifications[0]);
-        // PHPStan thinks that AugmentationArray can hold nulls. It's wrong.
-        // @phpstan-ignore-next-line
         self::assertNull($aug->modifications[0]->cost);
         self::assertSame($cost, $aug->getCost());
     }

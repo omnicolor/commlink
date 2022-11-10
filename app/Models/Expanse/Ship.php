@@ -124,7 +124,7 @@ class Ship
 
         $ships = [];
         foreach (self::$ships as $id => $ship) {
-            $ships[$id] = new Ship($id);
+            $ships[(string)$id] = new Ship($id);
         }
         return $ships;
     }

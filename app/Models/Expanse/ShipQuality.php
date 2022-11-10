@@ -68,7 +68,7 @@ class ShipQuality
 
         $qualities = [];
         foreach (self::$qualities as $id => $quality) {
-            $qualities[$id] = new self($id);
+            $qualities[(string)$id] = new self($id);
         }
         return $qualities;
     }

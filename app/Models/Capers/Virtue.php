@@ -63,7 +63,7 @@ class Virtue
 
         $virtues = [];
         foreach (self::$virtues as $id => $virtue) {
-            $virtues[$id] = new self($id);
+            $virtues[(string)$id] = new self($id);
         }
         return $virtues;
     }
