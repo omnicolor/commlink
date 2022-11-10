@@ -1,0 +1,319 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Feature\Rolls\Shadowrun5e;
+
+use App\Exceptions\SlackException;
+use App\Http\Responses\Slack\SlackResponse;
+use App\Models\Channel;
+use App\Models\ChatCharacter;
+use App\Models\ChatUser;
+use App\Models\Shadowrun5e\Character;
+use App\Rolls\Shadowrun5e\Push;
+use phpmock\phpunit\PHPMock;
+use PHPUnit\Framework\MockObject\MockObject;
+use Tests\TestCase;
+
+/**
+ * Tests for pushing the limit in Shadowrun 5E.
+ * @group discord
+ * @group shadowrun
+ * @group shadowrun5e
+ * @group slack
+ * @medium
+ */
+final class PushTest extends TestCase
+{
+    use PHPMock;
+
+    /**
+     * Mock random_int function to take randomness out of testing.
+     * @var MockObject
+     */
+    protected MockObject $randomInt;
+
+    /**
+     * Set up the mock random function each time.
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->randomInt = $this->getFunctionMock(
+            'App\\Rolls\\Shadowrun5e',
+            'random_int'
+        );
+    }
+
+    /**
+     * Test trying to push the limit without having a linked character.
+     * @test
+     */
+    public function testPushNoCharacter(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
+        self::expectException(SlackException::class);
+        self::expectExceptionMessage(
+            'You must have a character linked to push the limit'
+        );
+        (new Push('push 5', 'user', $channel))->forSlack();
+    }
+
+    /**
+     * Test trying to push the limit without saying how many dice to roll.
+     * @test
+     */
+    public function testPushNoDice(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'type' => Channel::TYPE_SLACK,
+            'system' => 'shadowrun5e',
+        ]);
+
+        /** @var ChatUser */
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_SLACK,
+            'verified' => true,
+        ]);
+
+        /** @var Character */
+        $character = Character::factory()->create();
+
+        ChatCharacter::factory()->create([
+            'channel_id' => $channel->id,
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser->id,
+        ]);
+
+        self::expectException(SlackException::class);
+        self::expectExceptionMessage(
+            'Pushing the limit requires the number of dice to roll (not '
+            . 'including your edge)'
+        );
+        (new Push('push foo', 'username', $channel))->forSlack();
+    }
+
+    /**
+     * Test trying to push the limit in Slack with more than 100 dice.
+     * @test
+     */
+    public function testPushTooManyDice(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'type' => Channel::TYPE_DISCORD,
+            'system' => 'shadowrun5e',
+        ]);
+
+        /** @var ChatUser */
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_DISCORD,
+            'verified' => true,
+        ]);
+
+        /** @var Character */
+        $character = Character::factory()->create(['edge' => 2]);
+
+        ChatCharacter::factory()->create([
+            'channel_id' => $channel->id,
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser->id,
+        ]);
+
+        $response = (new Push('push 101', 'username', $channel))->forDiscord();
+        self::assertSame('You can\'t roll more than 100 dice', $response);
+    }
+
+    /**
+     * Test trying to push the limit on a character with no edge.
+     * @test
+     */
+    public function testPushOutOfEdge(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'type' => Channel::TYPE_SLACK,
+            'system' => 'shadowrun5e',
+        ]);
+
+        /** @var ChatUser */
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_SLACK,
+            'verified' => true,
+        ]);
+
+        /** @var Character */
+        $character = Character::factory()->create([
+            'edgeCurrent' => 0,
+        ]);
+
+        ChatCharacter::factory()->create([
+            'channel_id' => $channel->id,
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser->id,
+        ]);
+
+        self::expectException(SlackException::class);
+        self::expectExceptionMessage('It looks like you\'re out of edge!');
+        (new Push('push 10', 'username', $channel))->forSlack();
+    }
+
+    /**
+     * Test pushing the limit and blowing past the limit.
+     * @test
+     */
+    public function testPushPastLimit(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'type' => Channel::TYPE_DISCORD,
+            'system' => 'shadowrun5e',
+        ]);
+
+        /** @var ChatUser */
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_DISCORD,
+            'verified' => true,
+        ]);
+
+        /** @var Character */
+        $character = Character::factory()->create([
+            'edge' => 4,
+            'edgeCurrent' => 3,
+        ]);
+
+        ChatCharacter::factory()->create([
+            'channel_id' => $channel->id,
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser->id,
+        ]);
+
+        $this->randomInt->expects(self::exactly(8))->willReturn(5);
+        $response = (new Push('push 4 5', 'username', $channel))->forDiscord();
+        $expected = '**' . $character->handle . ' rolled 8 (4 requested + 4 '
+            . 'edge) dice with a limit of 5**' . \PHP_EOL
+            . 'Rolled 8 successes, blew past limit' . \PHP_EOL
+            . 'Rolls: 5 5 5 5 5 5 5 5 (0 exploded), Limit: 5';
+        self::assertSame($expected, $response);
+
+        $character->refresh();
+        self::assertSame(2, $character->edgeCurrent);
+    }
+
+    /**
+     * Test pushing the limit with some exploding sixes.
+     * @test
+     */
+    public function testExplodingSixes(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'type' => Channel::TYPE_SLACK,
+            'system' => 'shadowrun5e',
+        ]);
+
+        /** @var ChatUser */
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_SLACK,
+            'verified' => true,
+        ]);
+
+        /** @var Character */
+        $character = Character::factory()->create([
+            'edge' => 1,
+        ]);
+        self::assertNull($character->edgeCurrent);
+
+        ChatCharacter::factory()->create([
+            'channel_id' => $channel->id,
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser->id,
+        ]);
+
+        $this->randomInt->expects(self::exactly(4))
+            ->willReturnOnConsecutiveCalls(6, 5, 6, 1);
+        $response = (new Push('push 1 6 testing', 'username', $channel))
+            ->forSlack();
+        $response = json_decode((string)$response);
+        self::assertSame('in_channel', $response->response_type);
+        $attachment = $response->attachments[0];
+        self::assertSame(SlackResponse::COLOR_SUCCESS, $attachment->color);
+        self::assertSame(
+            '*6* *6* *5* ~1~ (2 exploded), limit: 6',
+            $attachment->footer,
+        );
+        self::assertSame(
+            $character->handle . ' rolled 2 (1 requested + 1 edge) dice for '
+            . '"testing" with a limit of 6',
+            $attachment->title
+        );
+        self::assertSame('Rolled 3 successes', $attachment->text);
+
+        // Verify character used some edge.
+        $character->refresh();
+        self::assertSame(0, $character->edgeCurrent);
+    }
+
+    /**
+     * Test a character managing to still critical glitch when pushing the
+     * limit.
+     * @test
+     */
+    public function testPushCriticalGlitch(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'type' => Channel::TYPE_SLACK,
+            'system' => 'shadowrun5e',
+        ]);
+
+        /** @var ChatUser */
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_SLACK,
+            'verified' => true,
+        ]);
+
+        /** @var Character */
+        $character = Character::factory()->create(['edge' => 1]);
+        self::assertNull($character->edgeCurrent);
+
+        ChatCharacter::factory()->create([
+            'channel_id' => $channel->id,
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser->id,
+        ]);
+
+        $this->randomInt->expects(self::exactly(3))
+            ->willReturnOnConsecutiveCalls(2, 1, 1);
+        $response = (new Push('push 2', 'username', $channel))->forSlack();
+        $response = json_decode((string)$response);
+        self::assertSame('in_channel', $response->response_type);
+        $attachment = $response->attachments[0];
+        self::assertSame(SlackResponse::COLOR_DANGER, $attachment->color);
+        self::assertSame('2 ~1~ ~1~ (0 exploded)', $attachment->footer);
+        self::assertSame(
+            $character->handle . ' rolled a critical glitch on 3 (2 requested '
+            . '+ 1 edge) dice!',
+            $attachment->title
+        );
+        self::assertSame('Rolled 2 ones with no successes!', $attachment->text);
+
+        // Make sure it still used some edge.
+        $character->refresh();
+        self::assertSame(0, $character->edgeCurrent);
+    }
+}

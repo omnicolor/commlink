@@ -194,7 +194,8 @@ final class HelpTest extends TestCase
                     . '· `memory` - Make a memory test (6)' . \PHP_EOL
                     . '· `soak` - Make a soak test (1)' . \PHP_EOL
                     . '· `luck` - Make a luck (edge) test (6)' . \PHP_EOL
-                    . '· `init` - Roll your initiative (1d6+7)' . \PHP_EOL,
+                    . '· `init` - Roll your initiative (1d6+7)' . \PHP_EOL
+                    . '· `push 6 [limit] [text]` - Push the limit with 6 + your edge (6)' . \PHP_EOL,
                 (string)$character,
             ),
             $response->attachments[1]->text

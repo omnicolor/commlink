@@ -65,7 +65,8 @@ class Help extends Roll
                         . '· `memory` - Make a memory test (%d)' . \PHP_EOL
                         . '· `soak` - Make a soak test (%d)' . \PHP_EOL
                         . '· `luck` - Make a luck (edge) test (%d)' . \PHP_EOL
-                        . '· `init` - Roll your initiative (%dd6+%d)' . \PHP_EOL,
+                        . '· `init` - Roll your initiative (%dd6+%d)' . \PHP_EOL
+                        . '· `push 6 [limit] [text]` - Push the limit with 6 + your edge (%d)' . \PHP_EOL,
                         $character->composure,
                         $character->judge_intentions,
                         $character->lift_carry,
@@ -74,6 +75,7 @@ class Help extends Roll
                         $character->edge,
                         $character->initiative_dice,
                         $character->initiative_score,
+                        $character->edge,
                     ),
                 'color' => TextAttachment::COLOR_INFO,
             ];

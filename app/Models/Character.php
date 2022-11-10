@@ -108,7 +108,7 @@ class Character extends Model
         }
         $character->exists = true;
         $character->setRawAttributes($attributes, true);
-        $character->setConnection($connection);
+        $character->setConnection($this->connection);
         $character->fireModelEvent('retrieved', false);
         // @phpstan-ignore-next-line
         return $character;
