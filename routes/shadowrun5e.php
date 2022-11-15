@@ -42,7 +42,7 @@ Route::middleware('auth:sanctum')->prefix('shadowrun5e')->name('shadowrun5e.')->
         Route::resource('armor-modifications', ArmorModificationsController::class)
             ->only(['index', 'show']);
         Route::resource('characters', CharactersController::class)
-            ->only(['index', 'show']);
+            ->only(['index', 'show', 'update']);
         Route::resource('complex-forms', ComplexFormsController::class)
             ->only(['index', 'show']);
         Route::resource('cyberware', CyberwareController::class)

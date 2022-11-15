@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers\Shadowrun5e;
 
+use App\Models\Campaign;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\KnowledgeSkill;
 use App\Models\Shadowrun5e\PartialCharacter;
@@ -11,6 +12,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Response;
 use Tests\TestCase;
 
 /**
@@ -1987,5 +1989,205 @@ final class CharacterControllerTest extends TestCase
             );
         // @phpstan-ignore-next-line
         $this->characters[] = PartialCharacter::find(session('shadowrun5epartial'));
+    }
+
+    /**
+     * Test trying to update a character without being logged in.
+     * @test
+     */
+    public function testUpdateUnauthenticated(): void
+    {
+        /** @var Character */
+        $character = $this->characters[] = Character::factory()->create();
+        self::patchJson(route('shadowrun5e.characters.update', $character))
+            ->assertUnauthorized();
+    }
+
+    /**
+     * Test trying to update a character that isn't part of a campaign.
+     * @test
+     */
+    public function testUpdateCharacterWithoutCampaign(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var Character */
+        $character = $this->characters[] = Character::factory()->create();
+
+        self::actingAs($user)
+            ->patchJson(route('shadowrun5e.characters.update', $character))
+            ->assertForbidden()
+            ->assertSee('Only characters in campaigns can be updated this way');
+    }
+
+    /**
+     * Test trying to update a character that's part of a campaign, but the user
+     * isn't the GM.
+     * @test
+     */
+    public function testUpdateNotGm(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
+
+        /** @var Character */
+        $character = $this->characters[] = Character::factory()
+            ->create(['campaign_id' => $campaign]);
+
+        self::actingAs($user)
+            ->patchJson(route('shadowrun5e.characters.update', $character))
+            ->assertForbidden()
+            ->assertSee('You can not update another user\'s character', false);
+    }
+
+    /**
+     * Test trying to patch a character with an invalid patch document.
+     * @test
+     */
+    public function testUpdateInvalidPatch(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create([
+            'gm' => $user->id,
+            'system' => 'shadowrun5e',
+        ]);
+
+        /** @var Character */
+        $character = $this->characters[] = Character::factory()
+            ->create(['campaign_id' => $campaign]);
+
+        self::actingAs($user)
+            ->patch(route('shadowrun5e.characters.update', $character))
+            ->assertStatus(Response::HTTP_BAD_REQUEST)
+            ->assertSee('Unable to extract patch operations from \'null\'', true);
+    }
+
+    /**
+     * Test trying to patch a character with a valid patch document using an
+     * invalid operation.
+     * @test
+     */
+    public function testUpdateInvalidPatchOperation(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create([
+            'gm' => $user->id,
+            'system' => 'shadowrun5e',
+        ]);
+
+        /** @var Character */
+        $character = $this->characters[] = Character::factory()
+            ->create(['campaign_id' => $campaign]);
+
+        self::actingAs($user)
+            ->patch(
+                route('shadowrun5e.characters.update', $character),
+                [
+                    'patch' => [
+                        [
+                            'path' => 'test',
+                            'value' => '1',
+                        ],
+                    ],
+                ],
+            )
+            ->assertStatus(Response::HTTP_BAD_REQUEST)
+            ->assertSee('No operation set for patch operation');
+    }
+
+    /**
+     * Test trying to patch a character using an invalid path.
+     * @test
+     */
+    public function testUpdateInvalidPath(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create([
+            'gm' => $user->id,
+            'system' => 'shadowrun5e',
+        ]);
+
+        /** @var Character */
+        $character = $this->characters[] = Character::factory()
+            ->create(['campaign_id' => $campaign]);
+
+        self::actingAs($user)
+            ->patch(
+                route('shadowrun5e.characters.update', $character),
+                [
+                    'patch' => [
+                        [
+                            'op' => 'replace',
+                            'path' => 'test',
+                            'value' => '1',
+                        ],
+                    ],
+                ],
+            )
+            ->assertStatus(Response::HTTP_BAD_REQUEST)
+            ->assertSee('Pointer starts with invalid character');
+    }
+
+    /**
+     * Test killing a character with stun damage.
+     * @test
+     */
+    public function testUpdateLotsOfStun(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create([
+            'gm' => $user->id,
+            'system' => 'shadowrun5e',
+        ]);
+
+        /** @var Character */
+        $character = $this->characters[] = Character::factory()
+            ->create([
+                'body' => 4,
+                'campaign_id' => $campaign,
+                'willpower' => 4,
+            ]);
+
+        // A character with willpower 4 gets 10 boxen of stun damage, leaving 90
+        // for physical at 2:1. Take out 20 to fill up their 10 boxen of
+        // physical damage, and they've got 70 stun to take into overflow at
+        // 2:1, so expect overflow to be 35. Ouch, don't fight with dragons.
+        self::actingAs($user)
+            ->patch(
+                route('shadowrun5e.characters.update', $character),
+                [
+                    'patch' => [
+                        [
+                            'op' => 'replace',
+                            'path' => '/damageStun',
+                            'value' => '100',
+                        ],
+                    ],
+                ],
+            )
+            ->assertStatus(Response::HTTP_OK)
+            ->assertJson([
+                'data' => [
+                    'damageOverflow' => 35,
+                    'damagePhysical' => 10,
+                    'damageStun' => 10,
+                ],
+            ]);
     }
 }

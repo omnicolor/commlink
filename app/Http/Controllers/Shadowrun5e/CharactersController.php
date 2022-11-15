@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shadowrun5e;
 
+use App\Events\Shadowrun5e\DamageEvent;
 use App\Http\Requests\Shadowrun5e\AttributesRequest;
 use App\Http\Requests\Shadowrun5e\BackgroundRequest;
 use App\Http\Requests\Shadowrun5e\KnowledgeSkillsRequest;
@@ -27,6 +28,10 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\MessageBag;
 use Illuminate\View\View;
+use Rs\Json\Patch;
+use Rs\Json\Patch\InvalidOperationException;
+use Rs\Json\Patch\InvalidPatchDocumentJsonException;
+use Rs\Json\Pointer\InvalidPointerException;
 
 /**
  * Controller for interacting with Shadowrun 5E characters.
@@ -1323,6 +1328,92 @@ class CharactersController extends \App\Http\Controllers\Controller
                 ->where('owner', $email)
                 ->firstOrFail()
         );
+    }
+
+    public function update(Request $request, Character $character): JsonResource
+    {
+        /** @var ?User */
+        $user = \Auth::user();
+
+        abort_if(
+            null === $user,
+            Response::HTTP_UNAUTHORIZED,
+            'You must be logged in to update a character',
+        );
+        /*
+        abort_if(
+            $user->email === $character->owner,
+            Response::HTTP_FORBIDDEN,
+            'You can not update your own character (yet)',
+        );
+         */
+
+        $campaign = $character->campaign();
+        abort_if(
+            null === $campaign,
+            Response::HTTP_FORBIDDEN,
+            'Only characters in campaigns can be updated this way',
+        );
+        abort_unless(
+            $user->is($campaign->gamemaster),
+            Response::HTTP_FORBIDDEN,
+            'You can not update another user\'s character',
+        );
+
+        $document = [
+            'damageOverflow' => $character->damageOverflow ?? 0,
+            'damagePhysical' => $character->damagePhysical ?? 0,
+            'damageStun' => $character->damageStun ?? 0,
+            'edgeCurrent' => $character->edgeCurrent ?? $character->edge ?? 0,
+        ];
+
+        try {
+            $change = json_decode(
+                (new Patch(
+                    (string)json_encode($document),
+                    (string)json_encode($request->input('patch')),
+                ))->apply()
+            );
+        } catch (InvalidPatchDocumentJsonException $ex) {
+            // Will be thrown when using invalid JSON in a patch document.
+            abort(Response::HTTP_BAD_REQUEST, $ex->getMessage()); // @codeCoverageIgnore
+        } catch (InvalidOperationException $ex) {
+            // Will be thrown when using an invalid JSON Pointer operation (i.e.
+            // missing property)
+            abort(Response::HTTP_BAD_REQUEST, $ex->getMessage());
+        } catch (InvalidPointerException $ex) {
+            abort(Response::HTTP_BAD_REQUEST, $ex->getMessage());
+        }
+
+        // If we go past the max for stun, it becomes physical at half rate.
+        if ($change->damageStun > $character->stun_monitor) {
+            $overflow = floor(($change->damageStun - $character->stun_monitor) / 2);
+            $change->damagePhysical += $overflow;
+            $change->damageStun = $character->stun_monitor;
+        }
+        // If we go past the max for physical, it goes to overflow.
+        if ($change->damagePhysical > $character->physical_monitor) {
+            $overflow = $change->damagePhysical - $character->physical_monitor;
+            $change->damageOverflow = $character->damageOverflow + $overflow;
+            $change->damagePhysical = $character->physical_monitor;
+        }
+
+        // For some reason PHPunit thinks the middle condition is never tested.
+        if (
+            ($change->damageStun > $character->damageStun)
+            || ($change->damagePhysical > $character->damagePhysical) // @codeCoverageIgnore
+            || ($change->damageOverflow > $character->damageOverflow)
+        ) {
+            $damage = [
+                'stun' => $change->damageStun - $character->damageStun,
+                'physical' => $change->damagePhysical - $character->damagePhysical,
+                'overflow' => $change->damageOverflow - $character->damageOverflow,
+            ];
+            DamageEvent::dispatch($character, $campaign, (object)$damage);
+        }
+
+        $character->update((array)$change);
+        return new CharacterResource($character);
     }
 
     /**

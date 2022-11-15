@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Campaign;
+use App\Models\Shadowrun5e\Character;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -222,6 +223,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
         $campaign = Campaign::factory()->create([
             'registered_by' => $user->id,
         ]);
+
         $this->actingAs($user)
             ->get(route('campaign.view', $campaign))
             ->assertOk();
@@ -238,6 +240,7 @@ final class CampaignsControllerTest extends \Tests\TestCase
         $campaign = Campaign::factory()->create([
             'gm' => $user,
         ]);
+
         $this->actingAs($user)
             ->get(route('campaign.view', $campaign))
             ->assertOk();
@@ -299,12 +302,19 @@ final class CampaignsControllerTest extends \Tests\TestCase
     {
         /** @var User */
         $user = User::factory()->create();
+        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $user,
             'system' => 'shadowrun5e',
         ]);
+        $character = Character::factory()->create([
+            'campaign_id' => $campaign,
+            'system' => 'shadowrun5e',
+        ]);
+
         $this->actingAs($user)
             ->get(route('campaign.gm-screen', $campaign))
-            ->assertOk();
+            ->assertOk()
+            ->assertSee((string)$character, false);
     }
 }

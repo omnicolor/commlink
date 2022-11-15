@@ -7,9 +7,11 @@ namespace App\Providers;
 use App\Events\DiscordMessageReceived;
 use App\Events\InitiativeAdded;
 use App\Events\RollEvent;
+use App\Events\Shadowrun5e\DamageEvent;
 use App\Listeners\HandleDiscordMessage;
 use App\Listeners\HandleInitiativeEvent;
 use App\Listeners\HandleRollEvent;
+use App\Listeners\Shadowrun5e\HandleDamageEvent;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -24,6 +26,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        DamageEvent::class => [
+            HandleDamageEvent::class,
         ],
         DiscordMessageReceived::class => [
             HandleDiscordMessage::class,

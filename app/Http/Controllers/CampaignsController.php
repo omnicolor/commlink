@@ -98,14 +98,29 @@ class CampaignsController extends Controller
                     ]
                 );
             case 'shadowrun5e':
+                $characters = $campaign->characters();
+                // Figure out the what the largest monitor row will be.
+                $maxMonitor = 0;
+                foreach ($characters as $character) {
+                    $maxMonitor = \max(
+                        $maxMonitor,
+                        $character->physical_monitor,
+                        $character->stun_monitor,
+                        $character->overflow_monitor,
+                        $character->edge
+                    );
+                }
+
                 return view(
                     'Shadowrun5e.gm-screen',
                     [
                         'campaign' => $campaign,
+                        'characters' => $characters,
                         // @phpstan-ignore-next-line
                         'initiative' => Initiative::forCampaign($campaign)
                             ->orderByDesc('initiative')
                             ->get(),
+                        'max_monitor' => $maxMonitor,
                         'user' => \Auth::user(),
                     ]
                 );

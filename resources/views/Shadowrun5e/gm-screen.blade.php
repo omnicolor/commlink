@@ -1,5 +1,19 @@
 <x-app>
     <x-slot name="title">Campaign: {{ $campaign }}</x-slot>
+    <x-slot name="head">
+        <style>
+            .box {
+                height: 1em;
+                padding: 0 !important;
+                width: 1em;
+                border: 1px solid #dee2e6;
+            }
+            .box.used {
+                background: #e66465;
+            }
+        </style>
+    </x-slot>
+
     <x-slot name="navbar">
         <li class="nav-item">
             <a class="nav-link" href="/dashboard">Home</a>
@@ -12,7 +26,7 @@
         </li>
     </x-slot>
 
-    <div class="card mt-4" style="width: 18rem;">
+    <div class="card float-start m-2">
         <div class="card-header">
             <h5 class="card-title">Initiative</h5>
         </div>
@@ -76,6 +90,109 @@
             </button>
         </div>
     </div>
+
+    <div class="card float-start m-2">
+        <div class="card-header">
+            <h5 class="card-title">Monitors</h5>
+        </div>
+        <table class="card-body m-1">
+            <tbody>
+            @foreach ($characters as $character)
+                <tr id="physical-{{ $character->id }}">
+                    <td>
+                        <a class="character-row" data-bs-target="#damage-modal"
+                            data-bs-toggle="modal"
+                            data-id="{{ $character->id }}" href="#">
+                            {{ $character }}
+                        </a>
+                    </td>
+                    <td>Physical: {{ $character->physical_monitor }}</td>
+                @for ($i = 1; $i <= $max_monitor; $i++)
+                    @if ($i > $character->physical_monitor)
+                        <td>&nbsp;</td>
+                        @php continue @endphp
+                    @endif
+                    <td class="box text-muted
+                    @if ($i <= $character->damagePhysical ?? 0)
+                        used
+                    @endif
+                        ">
+                    @if ($i > 0 && $i % 3 === 0)
+                        <small>-{{ $i / 3 }}</small>
+                    @else
+                        &nbsp;
+                    @endif
+                    </td>
+                @endfor
+                </tr>
+                <tr id="stun-{{ $character->id }}">
+                    <td class="ps-4">
+                        <small>Melee Dodge: {{ $character->melee_defense }}</small>
+                    </td>
+                    <td>Stun: {{ $character->stun_monitor }}</td>
+                @for ($i = 1; $i <= $max_monitor; $i++)
+                    @if ($i > $character->stun_monitor)
+                        <td>&nbsp;</td>
+                        @php continue @endphp
+                    @endif
+                    <td class="box text-muted
+                    @if ($i <= $character->damageStun ?? 0)
+                        used
+                    @endif
+                        ">
+                    @if ($i > 0 && $i % 3 === 0)
+                        <small>-{{ $i / 3 }}</small>
+                    @else
+                        &nbsp;
+                    @endif
+                    </td>
+                @endfor
+                </tr>
+                <tr id="overflow-{{ $character->id }}">
+                    <td class="ps-4">
+                        <small>Ranged Dodge: {{ $character->ranged_defense }}</small>
+                    </td>
+                    <td>Overflow</td>
+                    @for ($i = 1; $i <= $max_monitor; $i++)
+                        @if ($i > $character->overflow_monitor)
+                            <td>&nbsp;</td>
+                            @php continue @endphp
+                        @endif
+                        <td class="box
+                        @if ($i < $character->damageOverflow ?? 0)
+                            used
+                        @endif
+                            ">&nbsp;</td>
+                    @endfor
+                </tr>
+                <tr id="edge-{{ $character->id }}">
+                    <td class="ps-4">
+                        <small>Soak: {{ $character->soak }}</small>
+                    </td>
+                    <td>Edge: {{ $character->edge }}</td>
+                    @for ($i = 1; $i <= $max_monitor; $i++)
+                        @if ($i > $character->edge)
+                            <td>&nbsp;</td>
+                            @php continue @endphp
+                        @endif
+                        <td class="box
+                        @if ($i <= $character->edge - $character->edgeCurrent ?? 0)
+                            used
+                        @endif
+                            ">&nbsp;</td>
+                    @endfor
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+        <div class="card-footer">
+            <button type="button" class="btn btn-link" id="heal-all" title="Heal all">
+                <i class="bi bi-bandaid"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
 
     <div aria-hidden="true" aria-labelledby="add-combatant-label"
         class="modal fade" id="add-combatant" tabindex="-1">
@@ -192,10 +309,72 @@
         </div>
     </div>
 
+    <form class="needs-validation" id="damage-form" novalidate>
+    <div aria-hidden="true" aria-labelledby="damage-header"
+        class="modal" id="damage-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="damage-header">
+                        Apply damage/healing or use edge
+                    </h5>
+                    <button type="button" class="btn-close"
+                        data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-form-label col-4">Character</div>
+                        <div class="col" id="damage-handle"></div>
+                    </div>
+                    <div class="row">
+                        <label class="col-form-label col-4" for="damage-type">
+                            Damage type
+                        </label>
+                        <div class="col">
+                            <select class="form-control" id="damage-type" required>
+                                <option value="">&nbsp;
+                                <option>Physical
+                                <option>Stun
+                                <option>Edge
+                            </select>
+                            <div class="invalid-feedback">
+                                Please choose what kind of damage (or edge) to take.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-form-label col-4" for="damage-amount">
+                            Amount
+                        </label>
+                        <div class="col">
+                            <input class="form-control" id="damage-amount" required
+                                step="1" type="number">
+                            <div class="invalid-feedback">
+                                Please enter a non-zero number.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="damage-save" class="btn btn-success">
+                        Save
+                    </button>
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+
     <x-slot name="javascript">
         <script>
             const campaign = {{ $campaign->id }};
+            const csrfToken = '{{ csrf_token() }}';
         </script>
+        <script src="/js/Shadowrun5e/gm-damage.js"></script>
         <script src="/js/Shadowrun5e/gm-initiative.js"></script>
     </x-slot>
 </x-app>
