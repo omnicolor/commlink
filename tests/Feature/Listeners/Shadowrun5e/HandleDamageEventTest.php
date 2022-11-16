@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Listeners;
+namespace Tests\Feature\Listeners\Shadowrun5e;
 
 use App\Events\Shadowrun5e\DamageEvent;
 use App\Listeners\Shadowrun5e\HandleDamageEvent;
