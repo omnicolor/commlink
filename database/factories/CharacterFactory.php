@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\Character;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CharacterFactory extends Factory
@@ -35,7 +36,7 @@ class CharacterFactory extends Factory
         return [
             'handle' => $name,
             'name' => $name,
-            'owner' => $this->faker->safeEmail,
+            'owner' => (User::factory()->create())->email,
             'system' => $this->faker->randomElement(\array_keys(config('app.systems'))),
         ];
     }

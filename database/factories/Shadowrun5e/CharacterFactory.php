@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Character;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CharacterFactory extends Factory
@@ -23,7 +24,7 @@ class CharacterFactory extends Factory
     {
         return [
             'handle' => $this->faker->name,
-            'owner' => $this->faker->email,
+            'owner' => (User::factory()->create())->email,
             'system' => 'shadowrun5e',
         ];
     }
