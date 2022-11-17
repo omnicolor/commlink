@@ -49,6 +49,9 @@ class Character extends Model
 
     /**
      * Returns the campaign the character is playing in (if any).
+     *
+     * Note: This is effectively a BelongsTo relationship, but that doesn't seem
+     * to work between MySQL and MongoDB.
      * @return ?Campaign
      */
     public function campaign(): ?Campaign
