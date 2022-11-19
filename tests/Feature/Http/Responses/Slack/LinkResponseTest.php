@@ -12,13 +12,14 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * Tests for linking a character to a channel.
  * @group slack
  * @medium
  */
-final class LinkResponseTest extends \Tests\TestCase
+final class LinkResponseTest extends TestCase
 {
     use RefreshDatabase;
 

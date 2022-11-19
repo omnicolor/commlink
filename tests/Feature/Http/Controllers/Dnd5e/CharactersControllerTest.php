@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * Tests for the D&D 5E characters controller.
@@ -16,7 +17,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
  * @group controllers
  * @medium
  */
-final class CharactersControllerTest extends \Tests\TestCase
+final class CharactersControllerTest extends TestCase
 {
     use RefreshDatabase;
 

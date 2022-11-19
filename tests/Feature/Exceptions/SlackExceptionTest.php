@@ -6,13 +6,14 @@ namespace Tests\Feature\Exceptions;
 
 use App\Exceptions\SlackException;
 use App\Http\Responses\Slack\SlackResponse;
+use Tests\TestCase;
 
 /**
  * Tests for the Slack Exception.
  * @group exception
  * @medium
  */
-class SlackExceptionTest extends \Tests\TestCase
+class SlackExceptionTest extends TestCase
 {
     /**
      * Test the exception's render method.

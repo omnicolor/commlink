@@ -11,13 +11,14 @@ use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
+use Tests\TestCase;
 
 /**
  * Tests for getting info about the channel.
  * @group slack
  * @medium
  */
-final class InfoResponseTest extends \Tests\TestCase
+final class InfoResponseTest extends TestCase
 {
     /**
      * Test getting info for an unregistered channel.

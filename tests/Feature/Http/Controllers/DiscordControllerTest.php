@@ -9,11 +9,12 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
+use Tests\TestCase;
 
 /**
  * @medium
  */
-final class DiscordControllerTest extends \Tests\TestCase
+final class DiscordControllerTest extends TestCase
 {
     use InteractsWithDiscord;
     use RefreshDatabase;

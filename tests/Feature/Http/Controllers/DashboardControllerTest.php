@@ -10,13 +10,14 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * Tests for the main dashboard.
  * @group controllers
  * @medium
  */
-final class DashboardControllerTest extends \Tests\TestCase
+final class DashboardControllerTest extends TestCase
 {
     use RefreshDatabase;
 

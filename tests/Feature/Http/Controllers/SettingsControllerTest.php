@@ -8,6 +8,7 @@ use App\Models\ChatUser;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
+use Tests\TestCase;
 
 /**
  * Tests for the settings controller.
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Http;
  * @group settings
  * @medium
  */
-final class SettingsControllerTest extends \Tests\TestCase
+final class SettingsControllerTest extends TestCase
 {
     protected const API_DISCORD_GUILDS = 'discord.com/api/guilds/';
     protected const API_DISCORD_USERS = 'discord.com/api/users/';

@@ -9,15 +9,17 @@ use App\Models\Campaign;
 use App\Models\Cyberpunkred\Character;
 use App\Models\Initiative;
 use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * Tests for initiative getting added and broadcast.
  * @group events
  * @medium
  */
-final class InitiativeAddedTest extends \Tests\TestCase
+final class InitiativeAddedTest extends TestCase
 {
-    use \phpmock\phpunit\PHPMock;
+    use RefreshDatabase;
 
     /**
      * Test the constructor.

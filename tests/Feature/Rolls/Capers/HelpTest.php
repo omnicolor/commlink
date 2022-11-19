@@ -12,13 +12,14 @@ use App\Models\ChatUser;
 use App\Models\User;
 use App\Rolls\Capers\Help;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 /**
  * Tests asking for help in a channel registered to the Capers RPG.
  * @group capers
  * @medium
  */
-final class HelpTest extends \Tests\TestCase
+final class HelpTest extends TestCase
 {
     use WithFaker;
 

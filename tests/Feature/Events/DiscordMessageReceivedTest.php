@@ -9,6 +9,7 @@ use Discord\Parts\Channel\Channel as TextChannel;
 use Discord\Parts\Channel\Message;
 use Discord\Parts\Guild\Guild;
 use Discord\Parts\User\User;
+use Tests\TestCase;
 
 /**
  * Tests for Discord message events.
@@ -16,7 +17,7 @@ use Discord\Parts\User\User;
  * @group events
  * @small
  */
-final class DiscordMessageReceivedTest extends \Tests\TestCase
+final class DiscordMessageReceivedTest extends TestCase
 {
     /**
      * Test the constructor.

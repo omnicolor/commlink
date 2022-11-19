@@ -7,15 +7,19 @@ namespace Tests\Feature\Events;
 use App\Events\RollEvent;
 use App\Models\Channel;
 use App\Rolls\Shadowrun5e\Number;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use phpmock\phpunit\PHPMock;
+use Tests\TestCase;
 
 /**
  * Tests for RollEvents.
  * @group events
  * @medium
  */
-final class RollEventTest extends \Tests\TestCase
+final class RollEventTest extends TestCase
 {
-    use \phpmock\phpunit\PHPMock;
+    use PHPMock;
+    use RefreshDatabase;
 
     /**
      * Test the constructor.

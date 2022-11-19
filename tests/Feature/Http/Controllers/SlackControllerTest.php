@@ -11,8 +11,12 @@ use App\Models\Channel;
 use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
+use phpmock\phpunit\PHPMock;
+use PHPUnit\Framework\MockObject\MockObject;
 use Str;
+use Tests\TestCase;
 
 /**
  * Tests for the SlackController.
@@ -20,19 +24,13 @@ use Str;
  * @group slack
  * @medium
  */
-final class SlackControllerTest extends \Tests\TestCase
+final class SlackControllerTest extends TestCase
 {
-    use \phpmock\phpunit\PHPMock;
+    use PHPMock;
+    use RefreshDatabase;
 
-    /**
-     * Mock random_int function to take randomness out of testing.
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected \PHPUnit\Framework\MockObject\MockObject $randomInt;
+    protected MockObject $randomInt;
 
-    /**
-     * Set up the mock random function each time.
-     */
     public function setUp(): void
     {
         parent::setUp();

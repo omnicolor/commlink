@@ -11,6 +11,7 @@ use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -19,6 +20,8 @@ use Tests\TestCase;
  */
 final class LinkResponseTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * Test trying to link a character without sending their ID.
      * @test

@@ -9,6 +9,7 @@ use App\Models\Shadowrun5e\Character;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 /**
  * Tests for the campaigns controller.
@@ -16,7 +17,7 @@ use Illuminate\Foundation\Testing\WithFaker;
  * @group controllers
  * @medium
  */
-final class CampaignsControllerTest extends \Tests\TestCase
+final class CampaignsControllerTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;

@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * Tests for the user class.
@@ -18,7 +19,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
  * @group user
  * @medium
  */
-final class UserTest extends \Tests\TestCase
+final class UserTest extends TestCase
 {
     use RefreshDatabase;
 

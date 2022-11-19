@@ -10,6 +10,7 @@ use App\Models\ChatUser;
 use App\Models\Cyberpunkred\Character;
 use App\Rolls\Cyberpunkred\Help;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * Tests for getting help in Cyberpunk Red.
@@ -18,7 +19,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
  * @group slack
  * @medium
  */
-final class HelpTest extends \Tests\TestCase
+final class HelpTest extends TestCase
 {
     use RefreshDatabase;
 

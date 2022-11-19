@@ -8,6 +8,7 @@ use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * Tests for the campaign model.
@@ -15,7 +16,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
  * @group models
  * @medium
  */
-final class CampaignTest extends \Tests\TestCase
+final class CampaignTest extends TestCase
 {
     use RefreshDatabase;
 

@@ -7,6 +7,8 @@ namespace Tests\Feature\Events;
 use App\Events\DiscordUserLinked;
 use App\Models\ChatUser;
 use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * Tests for the event fired when a Discord user gets linked.
@@ -14,8 +16,10 @@ use Illuminate\Broadcasting\PrivateChannel;
  * @group events
  * @medium
  */
-final class DiscordUserLinkedTest extends \Tests\TestCase
+final class DiscordUserLinkedTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testBroadcast(): void
     {
         /** @var ChatUser */

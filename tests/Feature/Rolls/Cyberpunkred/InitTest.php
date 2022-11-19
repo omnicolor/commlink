@@ -18,6 +18,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use phpmock\phpunit\PHPMock;
 use PHPUnit\Framework\MockObject\MockObject;
+use Tests\TestCase;
 
 /**
  * Tests for rolling initiative in Cyberpunk Red.
@@ -26,7 +27,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @group slack
  * @medium
  */
-final class InitTest extends \Tests\TestCase
+final class InitTest extends TestCase
 {
     use PHPMock;
     use RefreshDatabase;

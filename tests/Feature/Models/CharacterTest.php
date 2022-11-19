@@ -8,13 +8,14 @@ use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 /**
  * Tests for the top-level Character class.
  * @group character
  * @small
  */
-final class CharacterTest extends \Tests\TestCase
+final class CharacterTest extends TestCase
 {
     use WithFaker;
 

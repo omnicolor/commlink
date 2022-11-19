@@ -21,15 +21,8 @@ final class InitiativesControllerTest extends TestCase
 {
     use PHPMock;
 
-    /**
-     * Mock random_int function to take randomness out of testing.
-     * @var MockObject
-     */
     protected MockObject $randomInt;
 
-    /**
-     * Set up the mock random function each time.
-     */
     public function setUp(): void
     {
         parent::setUp();

@@ -11,13 +11,14 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Tests\TestCase;
 
 /**
  * Tests for the channels controller.
  * @group controllers
  * @medium
  */
-final class ChannelsControllerTest extends \Tests\TestCase
+final class ChannelsControllerTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;

@@ -9,13 +9,14 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * Tests for the ChatUser test.
  * @group models
  * @medium
  */
-final class ChatUserTest extends \Tests\TestCase
+final class ChatUserTest extends TestCase
 {
     use RefreshDatabase;
 
