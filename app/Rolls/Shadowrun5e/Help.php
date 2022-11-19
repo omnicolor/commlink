@@ -79,6 +79,17 @@ class Help extends Roll
                     ),
                 'color' => TextAttachment::COLOR_INFO,
             ];
+
+            if (null !== $character->resonance) {
+                $this->data[] = [
+                    'title' => 'Technomancer',
+                    'text' => \sprintf(
+                        '· `fade` - Make a test to resist fading (%d)' . \PHP_EOL,
+                        $character->resonance + $character->willpower,
+                    ),
+                    'color' => TextAttachment::COLOR_INFO,
+                ];
+            }
         } else {
             $this->data[] = [
                 'title' => 'Player',
