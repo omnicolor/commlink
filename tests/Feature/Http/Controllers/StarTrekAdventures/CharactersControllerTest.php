@@ -40,12 +40,17 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var Character */
-        $character = Character::factory()->create(['owner' => $user->email]);
+        $character = Character::factory()->create([
+            'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
-        $view = $this->actingAs($user)
+        $this->actingAs($user)
             ->get('/characters/star-trek-adventures')
             ->assertSee(e($character->name), false)
             ->assertSee('Star Trek Adventures Characters');
+
+        $character->delete();
     }
 
     /**
@@ -58,7 +63,10 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var Character */
-        $character = Character::factory()->create(['owner' => $user->email]);
+        $character = Character::factory()->create([
+            'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         $this->actingAs($user)
             ->get(
@@ -67,5 +75,7 @@ final class CharactersControllerTest extends TestCase
             )
             ->assertSee($user->email)
             ->assertSee(e($character->name), false);
+
+        $character->delete();
     }
 }

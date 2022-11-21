@@ -102,6 +102,7 @@ final class LiftTest extends TestCase
         $character = Character::factory()->create([
             'body' => 4,
             'strength' => 2,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -121,6 +122,8 @@ final class LiftTest extends TestCase
             $response->title
         );
         self::assertSame('Rolled 6 ones with no successes!', $response->text);
+
+        $character->delete();
     }
 
     /**
@@ -147,6 +150,7 @@ final class LiftTest extends TestCase
         $character = Character::factory()->create([
             'body' => 5,
             'strength' => 3,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -166,5 +170,7 @@ final class LiftTest extends TestCase
             ),
             $response
         );
+
+        $character->delete();
     }
 }

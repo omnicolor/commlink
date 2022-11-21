@@ -22,7 +22,10 @@ final class CharacterTest extends \Tests\TestCase
      */
     public function testNewFromBuilder(): void
     {
-        $character = new Character(['name' => 'Test Capers character']);
+        $character = new Character([
+            'name' => 'Test Capers character',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
         $character->save();
 
         $loaded = Character::find($character->id);

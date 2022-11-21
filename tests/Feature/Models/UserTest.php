@@ -8,8 +8,6 @@ use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\ChatUser;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -22,33 +20,6 @@ use Tests\TestCase;
 final class UserTest extends TestCase
 {
     use RefreshDatabase;
-
-    /**
-     * Collection of characters creates during tests.
-     * @var Collection<Character|Model>
-     */
-    protected Collection $characters;
-
-    /**
-     * Set up a clean test environment.
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->characters = new Collection();
-    }
-
-    /**
-     * Clean up after testing.
-     */
-    public function tearDown(): void
-    {
-        foreach ($this->characters as $key => $character) {
-            $character->delete();
-            unset($this->characters[$key]);
-        }
-        parent::tearDown();
-    }
 
     /**
      * Test getting a user's campaigns if they have none.
@@ -98,12 +69,20 @@ final class UserTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $this->characters[] = Character::factory()
-            ->create(['owner' => $user->email]);
-        $this->characters[] = Character::factory()
-            ->create(['owner' => $user->email]);
+        $character1 = Character::factory()->create([
+            'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+        $character2 = Character::factory()->create([
+            'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+
         // @phpstan-ignore-next-line
         self::assertSame(2, $user->characters()->count());
+
+        $character1->delete();
+        $character2->delete();
     }
 
     /**
@@ -114,16 +93,21 @@ final class UserTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $this->characters[] = Character::factory()->create([
+        $character1 = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        $this->characters[] = Character::factory()->create([
+        $character2 = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'cyberpunk2077',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         // @phpstan-ignore-next-line
         self::assertSame(1, $user->characters('shadowrun5e')->count());
+
+        $character1->delete();
+        $character2->delete();
     }
 
     /**

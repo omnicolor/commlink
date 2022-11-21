@@ -40,7 +40,9 @@ final class HandleDamageEventTest extends TestCase
             ->create();
 
         /** @var Character */
-        $character = Character::factory()->create();
+        $character = Character::factory()->create([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         $damage = (object)[
             'stun' => 1,
@@ -52,6 +54,8 @@ final class HandleDamageEventTest extends TestCase
         (new HandleDamageEvent())->handle($event);
 
         Http::assertNothingSent();
+
+        $character->delete();
     }
 
     /**
@@ -71,7 +75,9 @@ final class HandleDamageEventTest extends TestCase
             ->create();
 
         /** @var Character */
-        $character = Character::factory()->create();
+        $character = Character::factory()->create([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         $damage = (object)[
             'stun' => 1,
@@ -90,6 +96,8 @@ final class HandleDamageEventTest extends TestCase
             return 'http://example.org' === $request->url()
                 && $expected === $request['content'];
         });
+
+        $character->delete();
     }
 
     /**
@@ -109,7 +117,10 @@ final class HandleDamageEventTest extends TestCase
             ->create();
 
         /** @var Character */
-        $character = Character::factory()->create(['willpower' => 4]);
+        $character = Character::factory()->create([
+            'willpower' => 4,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         // A character with 4 willpower will have 10 boxes of stun. So taking
         // 12 will result in a full stun track plus 1 box of physical.
@@ -131,6 +142,8 @@ final class HandleDamageEventTest extends TestCase
             return 'http://example.org' === $request->url()
                 && $expected === $request['content'];
         });
+
+        $character->delete();
     }
 
     /**
@@ -154,6 +167,7 @@ final class HandleDamageEventTest extends TestCase
             'body' => 2,
             'damageStun' => 9,
             'willpower' => 4,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         // A character with 4 willpower will have 10 boxen of stun, of which
@@ -177,6 +191,8 @@ final class HandleDamageEventTest extends TestCase
             return 'http://example.org' === $request->url()
                 && $expected === $request['content'];
         });
+
+        $character->delete();
     }
 
     /**
@@ -193,7 +209,9 @@ final class HandleDamageEventTest extends TestCase
             ->create();
 
         /** @var Character */
-        $character = Character::factory()->create();
+        $character = Character::factory()->create([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         $damage = (object)[
             'stun' => 0,
@@ -211,6 +229,8 @@ final class HandleDamageEventTest extends TestCase
                 && $attachment->text === $expected
                 && 'Stun: 0 Physical: 1 Overflow: 0' === $attachment->footer;
         });
+
+        $character->delete();
     }
 
     /**
@@ -227,7 +247,9 @@ final class HandleDamageEventTest extends TestCase
             ->create();
 
         /** @var Character */
-        $character = Character::factory()->create();
+        $character = Character::factory()->create([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         $damage = (object)[
             'stun' => 0,
@@ -249,6 +271,8 @@ final class HandleDamageEventTest extends TestCase
                 && $attachment->text === $expected
                 && 'Stun: 0 Physical: 2 Overflow: 1' === $attachment->footer;
         });
+
+        $character->delete();
     }
 
     /**
@@ -265,7 +289,9 @@ final class HandleDamageEventTest extends TestCase
             ->create();
 
         /** @var Character */
-        $character = Character::factory()->create();
+        $character = Character::factory()->create([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         $damage = (object)[
             'stun' => 0,
@@ -286,5 +312,7 @@ final class HandleDamageEventTest extends TestCase
                 && $attachment->text === $expected
                 && 'Stun: 0 Physical: 0 Overflow: 2' === $attachment->footer;
         });
+
+        $character->delete();
     }
 }

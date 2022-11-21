@@ -178,7 +178,9 @@ final class HelpTest extends TestCase
         ]);
 
         /** @var Character */
-        $character = Character::factory()->create();
+        $character = Character::factory()->create([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,
@@ -189,5 +191,7 @@ final class HelpTest extends TestCase
         $response = (new Help('help', $channel->username, $channel))
             ->forDiscord();
         self::assertStringContainsString($character->name, $response);
+
+        $character->delete();
     }
 }

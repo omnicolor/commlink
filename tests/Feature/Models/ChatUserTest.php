@@ -194,7 +194,9 @@ final class ChatUserTest extends TestCase
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create();
         /** @var Character */
-        $character = Character::factory()->create();
+        $character = Character::factory()->create([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
         $chatCharacter = ChatCharacter::factory()->create([
             'character_id' => $character->id,
             'chat_user_id' => $chatUser->id,
@@ -205,6 +207,7 @@ final class ChatUserTest extends TestCase
             // @phpstan-ignore-next-line
             $chatUser->chatCharacter->getCharacter()->id,
         );
+        $character->delete();
     }
 
     /**

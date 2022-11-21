@@ -250,6 +250,7 @@ final class InfoResponseTest extends TestCase
         $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => $channel->system,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,
@@ -338,6 +339,7 @@ final class InfoResponseTest extends TestCase
         $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => $channel->system,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,

@@ -28,7 +28,10 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var Character */
-        $character = Character::factory()->create(['owner' => $user->email]);
+        $character = Character::factory()->create([
+            'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         $this->actingAs($user)
             ->get(
@@ -37,5 +40,6 @@ final class CharactersControllerTest extends TestCase
             )
             ->assertSee($user->email)
             ->assertSee(e($character->name), false);
+        $character->delete();
     }
 }

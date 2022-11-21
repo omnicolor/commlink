@@ -13,6 +13,7 @@ use App\Models\Initiative;
 use App\Models\Shadowrun5e\Character;
 use App\Models\User;
 use App\Rolls\Shadowrun5e\Init;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use phpmock\phpunit\PHPMock;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
@@ -26,6 +27,7 @@ use Tests\TestCase;
 final class InitTest extends TestCase
 {
     use PHPMock;
+    use RefreshDatabase;
 
     /**
      * Mock random_int function to take randomness out of testing.
@@ -310,6 +312,7 @@ final class InitTest extends TestCase
         $character = Character::factory()->create([
             'intuition' => 4,
             'reaction' => 5,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -337,6 +340,8 @@ final class InitTest extends TestCase
                 'initiative' => 15,
             ]
         );
+
+        $character->delete();
     }
 
     /**

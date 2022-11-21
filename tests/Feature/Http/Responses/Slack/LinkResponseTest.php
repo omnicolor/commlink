@@ -80,6 +80,7 @@ final class LinkResponseTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         /** @var Channel */
         $channel = Channel::factory()->create([
@@ -149,6 +150,7 @@ final class LinkResponseTest extends TestCase
         $character = Character::factory()->create([
             '_id' => sha1(\Str::random(10)),
             'owner' => $otherUser->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         /** @var Channel */
         $channel = Channel::factory()->create([
@@ -186,6 +188,7 @@ final class LinkResponseTest extends TestCase
             '_id' => sha1(\Str::random(10)),
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         /** @var Channel */
@@ -229,6 +232,7 @@ final class LinkResponseTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         /** @var Channel */
         $channel = Channel::factory()->create([

@@ -29,10 +29,14 @@ final class InitiativeTest extends TestCase
     public function testToStringWithCharacter(): void
     {
         /** @var Character */
-        $character = Character::factory()->create();
+        $character = Character::factory()->create([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         $initiative = new Initiative(['character_id' => $character->id]);
         self::assertSame($character->handle, (string)$initiative);
+
+        $character->delete();
     }
 
     public function testCampaign(): void

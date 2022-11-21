@@ -40,24 +40,30 @@ final class CharacterTest extends TestCase
      * Test getting the hidden Mongo _id field.
      *
      * It's hidden, but still gettable.
+     * @medium
      * @test
      */
     public function testHiddenId(): void
     {
         /** @var Character */
-        $character = Character::factory()->create();
+        $character = Character::factory()->create([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
         self::assertNotNull($character->_id);
         $character->delete();
     }
 
     /**
      * Test getting the character's ID.
+     * @medium
      * @test
      */
     public function testGetId(): void
     {
         /** @var Character */
-        $character = Character::factory()->create();
+        $character = Character::factory()->create([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
         self::assertNotNull($character->id);
         self::assertSame($character->_id, $character->id);
         $character->delete();

@@ -24,15 +24,8 @@ final class SoakTest extends TestCase
 {
     use PHPMock;
 
-    /**
-     * Mock random_int function to take randomness out of testing.
-     * @var MockObject
-     */
     protected MockObject $randomInt;
 
-    /**
-     * Set up the mock random function each time.
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -100,6 +93,7 @@ final class SoakTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'body' => 4,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -116,6 +110,7 @@ final class SoakTest extends TestCase
             $response->title
         );
         self::assertSame('Rolled 0 successes', $response->text);
+        $character->delete();
     }
 
     /**
@@ -141,6 +136,7 @@ final class SoakTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'body' => 8,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -160,5 +156,6 @@ final class SoakTest extends TestCase
             ),
             $response
         );
+        $character->delete();
     }
 }

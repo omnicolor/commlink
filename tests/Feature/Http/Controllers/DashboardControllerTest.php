@@ -7,8 +7,6 @@ namespace Tests\Feature\Http\Controllers;
 use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -20,25 +18,6 @@ use Tests\TestCase;
 final class DashboardControllerTest extends TestCase
 {
     use RefreshDatabase;
-
-    /**
-     * Characters we're testing on.
-     * @var array<int, Character|Collection|Model>
-     */
-    protected array $characters = [];
-
-    /**
-     * Clean up after the tests.
-     */
-    public function tearDown(): void
-    {
-        foreach ($this->characters as $key => $character) {
-            // @phpstan-ignore-next-line
-            $character->delete();
-            unset($this->characters[$key]);
-        }
-        parent::tearDown();
-    }
 
     /**
      * Test an unauthenticated request.
@@ -73,11 +52,15 @@ final class DashboardControllerTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
         /** @var Character */
-        $character1 = $this->characters[] = Character::factory()
-            ->create(['owner' => $user->email]);
+        $character1 = Character::factory()->create([
+            'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
         /** @var Character */
-        $character2 = $this->characters[] = Character::factory()
-            ->create(['owner' => $user->email]);
+        $character2 = Character::factory()->create([
+            'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
         $this->actingAs($user)
             ->get('/dashboard')
             ->assertSee($user->email)
@@ -85,6 +68,8 @@ final class DashboardControllerTest extends TestCase
             ->assertSee(config('app.systems')[$character1->system])
             ->assertSee($character2->handle)
             ->assertSee(config('app.systems')[$character2->system]);
+        $character1->delete();
+        $character2->delete();
     }
 
     /**

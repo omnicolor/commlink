@@ -101,6 +101,7 @@ final class MemoryTest extends TestCase
         $character = Character::factory()->create([
             'logic' => 4,
             'willpower' => 2,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -120,6 +121,8 @@ final class MemoryTest extends TestCase
             $response->title
         );
         self::assertSame('Rolled 6 ones with no successes!', $response->text);
+
+        $character->delete();
     }
 
     /**
@@ -146,6 +149,7 @@ final class MemoryTest extends TestCase
         $character = Character::factory()->create([
             'logic' => 5,
             'willpower' => 3,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -165,5 +169,7 @@ final class MemoryTest extends TestCase
             ),
             $response
         );
+
+        $character->delete();
     }
 }

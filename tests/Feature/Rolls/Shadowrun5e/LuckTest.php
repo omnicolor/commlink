@@ -10,6 +10,7 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\Shadowrun5e\Character;
 use App\Rolls\Shadowrun5e\Luck;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use phpmock\phpunit\PHPMock;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
@@ -23,16 +24,10 @@ use Tests\TestCase;
 final class LuckTest extends TestCase
 {
     use PHPMock;
+    use RefreshDatabase;
 
-    /**
-     * Mock random_int function to take randomness out of testing.
-     * @var MockObject
-     */
     protected MockObject $randomInt;
 
-    /**
-     * Set up the mock random function each time.
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -96,7 +91,10 @@ final class LuckTest extends TestCase
         ]);
 
         /** @var Character */
-        $character = Character::factory()->create(['edge' => 3]);
+        $character = Character::factory()->create([
+            'edge' => 3,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,
@@ -112,6 +110,7 @@ final class LuckTest extends TestCase
             $response->title
         );
         self::assertSame('Rolled 0 successes', $response->text);
+        $character->delete();
     }
 
     /**
@@ -135,7 +134,10 @@ final class LuckTest extends TestCase
         ]);
 
         /** @var Character */
-        $character = Character::factory()->create(['edge' => 7]);
+        $character = Character::factory()->create([
+            'edge' => 7,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,
@@ -154,5 +156,6 @@ final class LuckTest extends TestCase
             ),
             $response
         );
+        $character->delete();
     }
 }

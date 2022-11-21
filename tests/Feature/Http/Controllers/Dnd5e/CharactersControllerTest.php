@@ -6,8 +6,6 @@ namespace Tests\Feature\Http\Controllers\Dnd5e;
 
 use App\Models\Dnd5e\Character;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -20,25 +18,6 @@ use Tests\TestCase;
 final class CharactersControllerTest extends TestCase
 {
     use RefreshDatabase;
-
-    /**
-     * Characters we're testing on.
-     * @var array<int, Character|Collection|Model>
-     */
-    protected array $characters = [];
-
-    /**
-     * Clean up after the tests.
-     */
-    public function tearDown(): void
-    {
-        foreach ($this->characters as $key => $character) {
-            // @phpstan-ignore-next-line
-            $character->delete();
-            unset($this->characters[$key]);
-        }
-        parent::tearDown();
-    }
 
     /**
      * Test loading D&D 5E characters if unauthenticated.
@@ -74,14 +53,17 @@ final class CharactersControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $this->characters[] = Character::factory()->create([
+        $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'cyberpunkred',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         $this->actingAs($user)
             ->getJson(route('dnd5e.characters.index'))
             ->assertOk()
             ->assertJson(['data' => []]);
+
+        $character->delete();
     }
 
     /**
@@ -94,14 +76,16 @@ final class CharactersControllerTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
         /** @var Character */
-        $character1 = $this->characters[] = Character::factory()->create([
+        $character1 = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun6e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         /** @var Character */
-        $character2 = $this->characters[] = Character::factory()->create([
+        $character2 = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'dnd5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         $this->actingAs($user)
             ->getJson(route('dnd5e.characters.index'))
@@ -114,6 +98,9 @@ final class CharactersControllerTest extends TestCase
                 'updated_at' => $character2->updated_at,
                 'created_at' => $character2->created_at,
             ]);
+
+        $character1->delete();
+        $character2->delete();
     }
 
     /**
@@ -125,9 +112,10 @@ final class CharactersControllerTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
         /** @var Character */
-        $character = $this->characters[] = Character::factory()->create([
+        $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'dnd5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         $this->actingAs($user)
             ->getJson(route('dnd5e.characters.show', $character->id))
@@ -140,6 +128,8 @@ final class CharactersControllerTest extends TestCase
                 'updated_at' => $character->updated_at,
                 'created_at' => $character->created_at,
             ]);
+
+        $character->delete();
     }
 
     /**
@@ -151,12 +141,15 @@ final class CharactersControllerTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
         /** @var Character */
-        $character = $this->characters[] = Character::factory()->create([
+        $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun6e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         $this->actingAs($user)
             ->getJson(route('dnd5e.characters.show', $character->id))
             ->assertNotFound();
+
+        $character->delete();
     }
 }

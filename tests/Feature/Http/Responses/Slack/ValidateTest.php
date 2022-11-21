@@ -248,6 +248,7 @@ final class ValidateTest extends TestCase
         $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => $channel->system,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         /** @var ChatUser */
@@ -267,5 +268,6 @@ final class ValidateTest extends TestCase
                 . 'to this channel, where <characterId> is one of:',
             $response
         );
+        $character->delete();
     }
 }

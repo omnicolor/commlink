@@ -53,7 +53,10 @@ final class CharactersControllerTest extends \Tests\TestCase
         /** @var User */
         $user = User::factory()->create();
 
-        CprCharacter::factory()->create(['owner' => $user->email]);
+        CprCharacter::factory()->create([
+            'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         $this->actingAs($user)
             ->getJson(route('expanse.characters.index'))
@@ -71,10 +74,16 @@ final class CharactersControllerTest extends \Tests\TestCase
         /** @var User */
         $user = User::factory()->create();
 
-        CprCharacter::factory()->create(['owner' => $user->email]);
+        CprCharacter::factory()->create([
+            'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         /** @var Character */
-        $character = Character::factory()->create(['owner' => $user->email]);
+        $character = Character::factory()->create([
+            'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         $this->actingAs($user)
             ->getJson(route('expanse.characters.index'))
@@ -87,6 +96,8 @@ final class CharactersControllerTest extends \Tests\TestCase
                 'updated_at' => $character->updated_at,
                 'created_at' => $character->created_at,
             ]);
+
+        $character->delete();
     }
 
     /**
@@ -116,12 +127,15 @@ final class CharactersControllerTest extends \Tests\TestCase
         $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'expanse',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
             ->get('/characters/expanse')
             ->assertDontSee('You don\'t have any characters!', false)
             ->assertSee('Expanse Characters');
+
+        $character->delete();
     }
 
     /**
@@ -137,6 +151,7 @@ final class CharactersControllerTest extends \Tests\TestCase
         $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'expanse',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         $this->actingAs($user)
@@ -150,6 +165,8 @@ final class CharactersControllerTest extends \Tests\TestCase
                 'updated_at' => $character->updated_at,
                 'created_at' => $character->created_at,
             ]);
+
+        $character->delete();
     }
 
     /**
@@ -162,11 +179,16 @@ final class CharactersControllerTest extends \Tests\TestCase
         $user = User::factory()->create();
 
         /** @var CprCharacter */
-        $character = CprCharacter::factory()->create(['owner' => $user->email]);
+        $character = CprCharacter::factory()->create([
+            'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         $this->actingAs($user)
             ->getJson(route('expanse.characters.show', $character))
             ->assertNotFound();
+
+        $character->delete();
     }
 
     /**
@@ -179,7 +201,10 @@ final class CharactersControllerTest extends \Tests\TestCase
         $user = User::factory()->create();
 
         /** @var Character */
-        $character = Character::factory()->create(['owner' => $user->email]);
+        $character = Character::factory()->create([
+            'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         $this->actingAs($user)
             ->get(
@@ -188,5 +213,7 @@ final class CharactersControllerTest extends \Tests\TestCase
             )
             ->assertSee($user->email)
             ->assertSee(e($character->name), false);
+
+        $character->delete();
     }
 }

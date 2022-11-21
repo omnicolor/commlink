@@ -109,7 +109,9 @@ final class HelpTest extends TestCase
         ]);
 
         /** @var Character */
-        $character = Character::factory()->create([]);
+        $character = Character::factory()->create([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel,
@@ -127,6 +129,7 @@ final class HelpTest extends TestCase
             sprintf('Cyberpunk Red commands (as %s):', (string)$character),
             $response['attachments'][1]['title']
         );
+        $character->delete();
     }
 
     /**
@@ -153,7 +156,9 @@ final class HelpTest extends TestCase
         ]);
 
         /** @var Character */
-        $character = Character::factory()->create([]);
+        $character = Character::factory()->create([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel,
@@ -170,5 +175,6 @@ final class HelpTest extends TestCase
             sprintf('Cyberpunk Red commands (as %s):', (string)$character),
             $response
         );
+        $character->delete();
     }
 }

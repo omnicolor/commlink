@@ -8,8 +8,6 @@ use App\Models\Cyberpunkred\Character;
 use App\Models\Cyberpunkred\PartialCharacter;
 use App\Models\Cyberpunkred\Role\Exec;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -24,25 +22,6 @@ final class CharacterControllerTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
-
-    /**
-     * Characters we're testing on.
-     * @var array<int, Character|Collection|Model>
-     */
-    protected array $characters = [];
-
-    /**
-     * Clean up after the tests.
-     */
-    public function tearDown(): void
-    {
-        foreach ($this->characters as $key => $character) {
-            // @phpstan-ignore-next-line
-            $character->delete();
-            unset($this->characters[$key]);
-        }
-        parent::tearDown();
-    }
 
     /**
      * Test loading Cyberpunk Red characters if unauthenticated.
@@ -78,15 +57,18 @@ final class CharacterControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $this->characters[] = Character::factory()->create([
+        $character = Character::factory()->create([
             'handle' => __FUNCTION__,
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         self::actingAs($user)
             ->getJson(route('cyberpunkred.characters.index'))
             ->assertOk()
             ->assertJson(['data' => []]);
+
+        $character->delete();
     }
 
     /**
@@ -98,17 +80,23 @@ final class CharacterControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $this->characters[] = Character::factory()->create([
+
+        /** @var Character */
+        $character1 = Character::factory()->create([
             'handle' => __FUNCTION__,
             'owner' => $user->email,
             'system' => 'shadowrun6e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
+
         /** @var Character */
-        $character2 = $this->characters[] = Character::factory()->create([
+        $character2 = Character::factory()->create([
             'handle' => __FUNCTION__,
             'owner' => $user->email,
             'system' => 'cyberpunkred',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
+
         self::actingAs($user)
             ->getJson(route('cyberpunkred.characters.index'))
             ->assertOk()
@@ -120,6 +108,9 @@ final class CharacterControllerTest extends TestCase
                 'updated_at' => $character2->updated_at,
                 'created_at' => $character2->created_at,
             ]);
+
+        $character1->delete();
+        $character2->delete();
     }
 
     /**
@@ -130,12 +121,15 @@ final class CharacterControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
+
         /** @var Character */
-        $character = $this->characters[] = Character::factory()->create([
+        $character = Character::factory()->create([
             'handle' => __FUNCTION__,
             'owner' => $user->email,
             'system' => 'cyberpunkred',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
+
         self::actingAs($user)
             ->getJson(route('cyberpunkred.characters.show', $character->id))
             ->assertOk()
@@ -147,6 +141,8 @@ final class CharacterControllerTest extends TestCase
                 'updated_at' => $character->updated_at,
                 'created_at' => $character->created_at,
             ]);
+
+        $character->delete();
     }
 
     /**
@@ -157,15 +153,20 @@ final class CharacterControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
+
         /** @var Character */
-        $character = $this->characters[] = Character::factory()->create([
+        $character = Character::factory()->create([
             'handle' => __FUNCTION__,
             'owner' => $user->email,
             'system' => 'shadowrun6e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
+
         self::actingAs($user)
             ->getJson(route('cyberpunkred.characters.show', $character->id))
             ->assertNotFound();
+
+        $character->delete();
     }
 
     /**
@@ -176,12 +177,15 @@ final class CharacterControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
+
         /** @var Character */
-        $character = $this->characters[] = Character::factory()->create([
+        $character = Character::factory()->create([
             'handle' => __FUNCTION__,
             'owner' => $user->email,
             'system' => 'cyberpunkred',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
+
         self::actingAs($user)
             ->get(
                 \sprintf('/characters/cyberpunkred/%s', $character->id),
@@ -189,6 +193,8 @@ final class CharacterControllerTest extends TestCase
             )
             ->assertSee($user->email)
             ->assertSee(e($character->handle), false);
+
+        $character->delete();
     }
 
     /**
@@ -206,10 +212,12 @@ final class CharacterControllerTest extends TestCase
             ->get('/characters/cyberpunkred/create')
             ->assertOk()
             ->assertSee('Name your character');
+
         $characters = PartialCharacter::where('owner', $user->email)->get();
         self::assertCount(1, $characters);
+
         // @phpstan-ignore-next-line
-        $this->characters[] = $characters[0];
+        $characters[0]->delete();
     }
 
     /**
@@ -222,15 +230,18 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'handle' => __FUNCTION__,
             'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
             ->get('/characters/cyberpunkred/create')
             ->assertOk()
             ->assertSee(__FUNCTION__);
+
+        $character->delete();
     }
 
     /**
@@ -243,9 +254,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'handle' => __FUNCTION__,
             'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -255,6 +267,8 @@ final class CharacterControllerTest extends TestCase
             ))
             ->assertOk()
             ->assertSee('Choose role');
+
+        $character->delete();
     }
 
     /**
@@ -267,9 +281,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'handle' => __FUNCTION__,
             'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkredpartial' => $character->id]);
 
@@ -281,8 +296,11 @@ final class CharacterControllerTest extends TestCase
             ->assertSee('Name your character');
         $characters = PartialCharacter::where('owner', $user->email)->get();
         self::assertCount(2, $characters);
+
         // @phpstan-ignore-next-line
-        $this->characters[] = $characters[1];
+        $characters[0]->delete();
+        // @phpstan-ignore-next-line
+        $characters[1]->delete();
     }
 
     /**
@@ -295,9 +313,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'handle' => __FUNCTION__,
             'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkredpartial' => $character->id]);
 
@@ -306,6 +325,8 @@ final class CharacterControllerTest extends TestCase
             ->assertOk()
             ->assertSee('Create a new Cyberpunk Red character')
             ->assertSessionMissing('cyberpunkredpartial');
+
+        $character->delete();
     }
 
     /**
@@ -318,8 +339,9 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkredpartial' => $character->id]);
 
@@ -336,6 +358,7 @@ final class CharacterControllerTest extends TestCase
         $character->refresh();
 
         self::assertSame($name, $character->handle);
+        $character->delete();
     }
 
     /**
@@ -348,9 +371,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'handle' => __FUNCTION__,
             'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkredpartial' => $character->id]);
 
@@ -358,6 +382,8 @@ final class CharacterControllerTest extends TestCase
             ->get('/characters/cyberpunkred/create/role')
             ->assertOk()
             ->assertSee('Choose role');
+
+        $character->delete();
     }
 
     /**
@@ -370,7 +396,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'handle' => __FUNCTION__,
             'owner' => $user->email,
             'roles' => [
@@ -379,6 +405,7 @@ final class CharacterControllerTest extends TestCase
                     'rank' => 4,
                 ],
             ],
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkredpartial' => $character->id]);
 
@@ -386,6 +413,8 @@ final class CharacterControllerTest extends TestCase
             ->get('/characters/cyberpunkred/create/role')
             ->assertOk()
             ->assertSee('selected  value="Fixer"', false);
+
+        $character->delete();
     }
 
     /**
@@ -398,7 +427,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'handle' => $this->faker->name,
             'owner' => $user->email,
             'roles' => [
@@ -407,6 +436,7 @@ final class CharacterControllerTest extends TestCase
                     'rank' => 4,
                 ],
             ],
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkredpartial' => $character->id]);
 
@@ -423,6 +453,8 @@ final class CharacterControllerTest extends TestCase
         $character->refresh();
         $roles = $character->getRoles();
         self::assertInstanceOf(Exec::class, $roles[0]);
+
+        $character->delete();
     }
 
     /**
@@ -435,8 +467,9 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkredpartial' => $character->id]);
 
@@ -444,6 +477,8 @@ final class CharacterControllerTest extends TestCase
             ->get('/characters/cyberpunkred/create/lifepath')
             ->assertOk()
             ->assertSee('Lifepath is a flowchart');
+
+        $character->delete();
     }
 
     /**
@@ -456,14 +491,17 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkredpartial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/cyberpunkred/create/role-based-lifepath')
             ->assertRedirect('/characters/cyberpunkred/create/role');
+
+        $character->delete();
     }
 
     /**
@@ -476,7 +514,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'roles' => [
                 [
@@ -484,6 +522,7 @@ final class CharacterControllerTest extends TestCase
                     'rank' => 4,
                 ],
             ],
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkredpartial' => $character->id]);
 
@@ -491,6 +530,8 @@ final class CharacterControllerTest extends TestCase
             ->get('/characters/cyberpunkred/create/role-based-lifepath')
             ->assertOk()
             ->assertSee('Different Nomad groups');
+
+        $character->delete();
     }
 
     /**
@@ -503,7 +544,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'handle' => __FUNCTION__,
             'lifepath' => [
                 'affectation' => [
@@ -562,6 +603,7 @@ final class CharacterControllerTest extends TestCase
                     'rank' => 4,
                 ],
             ],
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkredpartial' => $character->id]);
 
@@ -592,6 +634,8 @@ final class CharacterControllerTest extends TestCase
         foreach ($character->lifepath as $path => $values) {
             self::assertSame(2, $values['chosen']);
         }
+
+        $character->delete();
     }
 
     /**
@@ -604,8 +648,9 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkredpartial' => $character->id]);
 
@@ -613,6 +658,8 @@ final class CharacterControllerTest extends TestCase
             ->get('/characters/cyberpunkred/create/stats')
             ->assertOk()
             ->assertSee('also called STATs');
+
+        $character->delete();
     }
 
     /**
@@ -625,7 +672,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'handle' => __FUNCTION__,
             'lifepath' => [],
             'owner' => $user->email,
@@ -635,6 +682,7 @@ final class CharacterControllerTest extends TestCase
                     'rank' => 4,
                 ],
             ],
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkredpartial' => $character->id]);
 
@@ -671,6 +719,8 @@ final class CharacterControllerTest extends TestCase
         self::assertSame(8, $character->reflexes);
         self::assertSame(2, $character->technique);
         self::assertSame(3, $character->willpower);
+
+        $character->delete();
     }
 
     /**
@@ -684,7 +734,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'body' => 4,
             'handle' => __FUNCTION__,
             'lifepath' => [
@@ -744,12 +794,15 @@ final class CharacterControllerTest extends TestCase
                     'rank' => 4,
                 ],
             ],
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkredpartial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/cyberpunkred/create')
             ->assertSee('metadata');
+
+        $character->delete();
     }
 
     /**
@@ -762,7 +815,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'body' => 4,
             'lifepath' => [
                 'affectation' => [
@@ -821,12 +874,15 @@ final class CharacterControllerTest extends TestCase
                     'rank' => 4,
                 ],
             ],
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkredpartial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/cyberpunkred/create/review')
             ->assertSee('metadata');
+
+        $character->delete();
     }
 
     /**
@@ -839,7 +895,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'body' => 4,
             'lifepath' => [
                 'affectation' => [
@@ -898,11 +954,14 @@ final class CharacterControllerTest extends TestCase
                     'rank' => 4,
                 ],
             ],
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkredpartial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/cyberpunkred/create/augmentations')
             ->assertNotFound();
+
+        $character->delete();
     }
 }

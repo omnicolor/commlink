@@ -7,6 +7,7 @@ namespace Tests\Feature\Models;
 use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -17,25 +18,8 @@ use Tests\TestCase;
  */
 final class CharacterTest extends TestCase
 {
+    use RefreshDatabase;
     use WithFaker;
-
-    /**
-     * Character we're testing with.
-     * @var ?Character
-     */
-    protected ?Character $character;
-
-    /**
-     * Clean up.
-     */
-    public function tearDown(): void
-    {
-        if (isset($this->character)) {
-            $this->character->delete();
-            $this->character = null;
-        }
-        parent::tearDown();
-    }
 
     /**
      * Characters are required to have an owner.
@@ -72,11 +56,12 @@ final class CharacterTest extends TestCase
      */
     public function testBuildDefault(): void
     {
+        $character = Character::factory()->create([
+            'system' => 'unknown',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
         // @phpstan-ignore-next-line
-        $this->character = Character::factory()
-            ->create(['system' => 'unknown']);
-        // @phpstan-ignore-next-line
-        $character = Character::where('_id', $this->character->id)
+        $character = Character::where('_id', $character->id)
             ->firstOrFail();
         self::assertSame('unknown', $character->system);
 
@@ -84,6 +69,8 @@ final class CharacterTest extends TestCase
         // not.
         // @phpstan-ignore-next-line
         self::assertFalse(\is_subclass_of($character, Character::class));
+
+        $character->delete();
     }
 
     /**
@@ -93,11 +80,13 @@ final class CharacterTest extends TestCase
      */
     public function testBuildSubclass(): void
     {
+        $character = Character::factory()->create([
+            'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+
         // @phpstan-ignore-next-line
-        $this->character = Character::factory()
-            ->create(['system' => 'shadowrun5e']);
-        // @phpstan-ignore-next-line
-        $character = Character::where('_id', $this->character->id)
+        $character = Character::where('_id', $character->id)
             ->firstOrFail();
         self::assertSame('shadowrun5e', $character->system);
         self::assertInstanceOf(
@@ -109,6 +98,8 @@ final class CharacterTest extends TestCase
         // that it's not.
         // @phpstan-ignore-next-line
         self::assertTrue(\is_subclass_of($character, Character::class));
+
+        $character->delete();
     }
 
     /**
@@ -118,7 +109,9 @@ final class CharacterTest extends TestCase
     public function testCampaignNone(): void
     {
         /** @var Character */
-        $character = Character::factory()->make();
+        $character = Character::factory()->make([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
         self::assertNull($character->campaign());
     }
 
@@ -136,6 +129,7 @@ final class CharacterTest extends TestCase
         $character = Character::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         self::assertNotNull($character->campaign());
     }
@@ -147,7 +141,10 @@ final class CharacterTest extends TestCase
     public function testGameSystem(): void
     {
         /** @var Character */
-        $character = Character::factory()->make(['system' => 'shadowrun5e']);
+        $character = Character::factory()->make([
+            'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
         self::assertSame('Shadowrun 5th Edition', $character->getSystem());
     }
 
@@ -158,7 +155,10 @@ final class CharacterTest extends TestCase
     public function testGameSystemNotFound(): void
     {
         /** @var Character */
-        $character = Character::factory()->make(['system' => 'unknown']);
+        $character = Character::factory()->make([
+            'system' => 'unknown',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
         self::assertSame('unknown', $character->getSystem());
     }
 }

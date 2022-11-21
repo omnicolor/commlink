@@ -31,7 +31,9 @@ final class ChatCharacterTest extends TestCase
         /** @var Channel */
         $channel = Channel::factory()->create();
         /** @var Character */
-        $character = Character::factory()->create();
+        $character = Character::factory()->create([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create();
 
@@ -47,6 +49,7 @@ final class ChatCharacterTest extends TestCase
             $chatCharacter->getCharacter()
         );
         self::assertInstanceOf(ChatUser::class, $chatCharacter->chatUser);
+
         $character->delete();
     }
 }

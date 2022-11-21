@@ -311,11 +311,13 @@ final class CampaignsControllerTest extends TestCase
         $character = Character::factory()->create([
             'campaign_id' => $campaign,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         $this->actingAs($user)
             ->get(route('campaign.gm-screen', $campaign))
             ->assertOk()
-            ->assertSee((string)$character, false);
+            ->assertSee((string)$character, true);
+        $character->delete();
     }
 }

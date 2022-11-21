@@ -20,7 +20,10 @@ final class PartialCharacterTest extends TestCase
      */
     public function testNewFromBuilder(): void
     {
-        $character = new PartialCharacter(['handle' => 'Test SR5E character']);
+        $character = new PartialCharacter([
+            'handle' => 'Test SR5E character',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
         $character->save();
 
         $loaded = PartialCharacter::find($character->id);

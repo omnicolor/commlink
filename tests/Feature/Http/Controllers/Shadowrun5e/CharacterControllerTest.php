@@ -9,8 +9,6 @@ use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\KnowledgeSkill;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\TestCase;
@@ -25,25 +23,6 @@ use Tests\TestCase;
 final class CharacterControllerTest extends TestCase
 {
     use RefreshDatabase;
-
-    /**
-     * Characters we're testing on.
-     * @var array<int, Character|Collection|Model>
-     */
-    protected array $characters = [];
-
-    /**
-     * Clean up after the tests.
-     */
-    public function tearDown(): void
-    {
-        foreach ($this->characters as $key => $character) {
-            // @phpstan-ignore-next-line
-            $character->delete();
-        }
-        $this->characters = [];
-        parent::tearDown();
-    }
 
     /**
      * Test loading Shadowrun 5E characters if unauthenticated.
@@ -79,14 +58,20 @@ final class CharacterControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $this->characters[] = Character::factory()->create([
+
+        /** @var Character */
+        $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'cyberpunkred',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
+
         self::actingAs($user)
             ->getJson(route('shadowrun5e.characters.index'))
             ->assertOk()
             ->assertJson(['data' => []]);
+
+        $character->delete();
     }
 
     /**
@@ -98,16 +83,21 @@ final class CharacterControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
+
         /** @var Character */
-        $character1 = $this->characters[] = Character::factory()->create([
+        $character1 = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun6e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
+
         /** @var Character */
-        $character2 = $this->characters[] = Character::factory()->create([
+        $character2 = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
+
         self::actingAs($user)
             ->getJson(route('shadowrun5e.characters.index'))
             ->assertOk()
@@ -119,6 +109,9 @@ final class CharacterControllerTest extends TestCase
                 'updated_at' => $character2->updated_at,
                 'created_at' => $character2->created_at,
             ]);
+
+        $character1->delete();
+        $character2->delete();
     }
 
     /**
@@ -143,11 +136,14 @@ final class CharacterControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
+
         /** @var Character */
-        $character = $this->characters[] = Character::factory()->create([
+        $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
+
         self::actingAs($user)
             ->getJson(route('shadowrun5e.characters.show', $character->id))
             ->assertOk()
@@ -159,6 +155,8 @@ final class CharacterControllerTest extends TestCase
                 'updated_at' => $character->updated_at,
                 'created_at' => $character->created_at,
             ]);
+
+        $character->delete();
     }
 
     /**
@@ -169,14 +167,19 @@ final class CharacterControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
+
         /** @var Character */
-        $character = $this->characters[] = Character::factory()->create([
+        $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun6e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
+
         self::actingAs($user)
             ->getJson(route('shadowrun5e.characters.show', $character->id))
             ->assertNotFound();
+
+        $character->delete();
     }
 
     /**
@@ -187,17 +190,22 @@ final class CharacterControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
+
         /** @var Character */
-        $character = $this->characters[] = Character::factory()->create([
+        $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
+
         self::actingAs($user)
             ->get(
                 \sprintf('/characters/shadowrun5e/%s', $character->id),
                 ['character' => $character, 'user' => $user]
             )
             ->assertSee($character->handle);
+
+        $character->delete();
     }
 
     /**
@@ -210,16 +218,20 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var Character */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
+
         self::get(
             \sprintf('/characters/shadowrun5e/%s', $character->id),
             ['character' => $character]
         )
             ->assertOk()
             ->assertSee($character->handle);
+
+        $character->delete();
     }
 
     /**
@@ -232,14 +244,17 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
             ->get(\sprintf('/characters/shadowrun5e/create/%s', $character->id))
             ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/rules');
+
+        $character->delete();
     }
 
     /**
@@ -257,10 +272,12 @@ final class CharacterControllerTest extends TestCase
             ->get('/characters/shadowrun5e/create')
             ->assertOk()
             ->assertSee('Rules');
+
         $characters = PartialCharacter::where('owner', $user->email)->get();
         self::assertCount(1, $characters);
+
         // @phpstan-ignore-next-line
-        $this->characters[] = $characters[0];
+        $characters[0]->delete();
     }
 
     /**
@@ -272,19 +289,27 @@ final class CharacterControllerTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
 
-        $this->characters[] = PartialCharacter::factory()->create([
+        /** @var PartialCharacter */
+        $character1 = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        $this->characters[] = PartialCharacter::factory()->create([
+
+        /** @var PartialCharacter */
+        $character2 = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create')
             ->assertOk()
             ->assertSee('Choose character');
+
+        $character1->delete();
+        $character2->delete();
     }
 
     /**
@@ -359,9 +384,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -384,6 +410,8 @@ final class CharacterControllerTest extends TestCase
         self::assertSame('priority', $character->priorities['system']);
         self::assertSame('established', $character->priorities['gameplay']);
         self::assertSame('core', $character->priorities['rulebooks']);
+
+        $character->delete();
     }
 
     /**
@@ -396,9 +424,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -406,6 +435,8 @@ final class CharacterControllerTest extends TestCase
             ->get('/characters/shadowrun5e/create/priorities')
             ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/rules')
             ->assertSessionHasErrors();
+
+        $character->delete();
     }
 
     /**
@@ -419,7 +450,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'priorities' => [
                 'gameplay' => 'established',
@@ -427,6 +458,7 @@ final class CharacterControllerTest extends TestCase
                 'system' => 'sum-to-ten',
             ],
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -434,6 +466,8 @@ final class CharacterControllerTest extends TestCase
             ->get('/characters/shadowrun5e/create/priorities')
             ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/rules')
             ->assertSessionHasErrors();
+
+        $character->delete();
     }
 
     /**
@@ -447,7 +481,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'priorities' => [
                 'gameplay' => 'established',
@@ -455,6 +489,7 @@ final class CharacterControllerTest extends TestCase
                 'system' => 'priority',
             ],
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -465,6 +500,8 @@ final class CharacterControllerTest extends TestCase
             ->assertSee('Standard priority')
             ->assertSee('Previous: Rules')
             ->assertSee('Next: Vitals');
+
+        $character->delete();
     }
 
     /**
@@ -574,9 +611,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -610,6 +648,8 @@ final class CharacterControllerTest extends TestCase
             ],
             $character->priorities
         );
+
+        $character->delete();
     }
 
     /**
@@ -622,9 +662,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -636,6 +677,8 @@ final class CharacterControllerTest extends TestCase
             ->assertSee('Real name')
             ->assertSee('Next: Attributes')
             ->assertSee('Previous: Priorities');
+
+        $character->delete();
     }
 
     /**
@@ -662,9 +705,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -702,6 +746,8 @@ final class CharacterControllerTest extends TestCase
         );
         self::assertSame('Slamm-O', $character->handle);
         self::assertSame('Bob Smith', $character->realName);
+
+        $character->delete();
     }
 
     /**
@@ -714,7 +760,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'priorities' => [
                 'a' => 'magic',
                 'b' => 'attributes',
@@ -724,6 +770,7 @@ final class CharacterControllerTest extends TestCase
             ],
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -733,6 +780,8 @@ final class CharacterControllerTest extends TestCase
             ->assertSessionHasNoErrors()
             ->assertSee('Previous: Vitals')
             ->assertSee('Next: Qualities');
+
+        $character->delete();
     }
 
     /**
@@ -769,9 +818,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -807,6 +857,8 @@ final class CharacterControllerTest extends TestCase
         self::assertSame(2, $character->willpower);
         self::assertNull($character->magic);
         self::assertNull($character->resonance);
+
+        $character->delete();
     }
 
     /**
@@ -820,7 +872,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'qualities' => [
                 [
@@ -828,6 +880,7 @@ final class CharacterControllerTest extends TestCase
                 ],
             ],
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -838,6 +891,8 @@ final class CharacterControllerTest extends TestCase
             ->assertSee('Lucky')
             ->assertSee('Previous: Attributes')
             ->assertSee('Next: Skills');
+
+        $character->delete();
     }
 
     /**
@@ -850,12 +905,13 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'priorities' => [
                 'rulebooks' => 'core,run-and-gun',
             ],
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -865,6 +921,8 @@ final class CharacterControllerTest extends TestCase
             ->assertSessionHasNoErrors()
             ->assertSee('Previous: Attributes')
             ->assertSee('Next: Martial-arts');
+
+        $character->delete();
     }
 
     /**
@@ -923,9 +981,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -946,6 +1005,8 @@ final class CharacterControllerTest extends TestCase
         $qualities = $character->getQualities();
         // @phpstan-ignore-next-line
         self::assertSame('Impassive', $qualities[0]->name);
+
+        $character->delete();
     }
 
     /**
@@ -958,9 +1019,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -981,6 +1043,8 @@ final class CharacterControllerTest extends TestCase
         $qualities = $character->getQualities();
         // @phpstan-ignore-next-line
         self::assertSame('Allergy (Uncommon Mild - hay and grass)', $qualities[0]->name);
+
+        $character->delete();
     }
 
     /**
@@ -993,9 +1057,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1016,6 +1081,8 @@ final class CharacterControllerTest extends TestCase
         $qualities = $character->getQualities();
         // @phpstan-ignore-next-line
         self::assertSame('Addiction (Mild - alcohol)', $qualities[0]->name);
+
+        $character->delete();
     }
 
     /**
@@ -1028,9 +1095,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1074,6 +1142,8 @@ final class CharacterControllerTest extends TestCase
         self::assertSame('Alcohol', $skill->name);
         self::assertSame(1, $skill->level);
         self::assertNull($skill->specialization);
+
+        $character->delete();
     }
 
     /**
@@ -1087,9 +1157,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1097,6 +1168,8 @@ final class CharacterControllerTest extends TestCase
             ->get('/characters/shadowrun5e/create/martial-arts')
             ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/rules')
             ->assertSessionHasErrors();
+
+        $character->delete();
     }
 
     /**
@@ -1109,7 +1182,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'priorities' => [
                 'rulebooks' => 'core,run-and-gun',
             ],
@@ -1120,6 +1193,7 @@ final class CharacterControllerTest extends TestCase
             ],
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1129,6 +1203,8 @@ final class CharacterControllerTest extends TestCase
             ->assertSee('Aikido')
             ->assertSee('Previous: Qualities')
             ->assertSee('Next: Skills');
+
+        $character->delete();
     }
 
     /**
@@ -1186,9 +1262,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1216,6 +1293,8 @@ final class CharacterControllerTest extends TestCase
         self::assertSame('Called Shot', $techniques[0]->name);
         // @phpstan-ignore-next-line
         self::assertSame('Constrictor\'s Crush', $techniques[1]->name);
+
+        $character->delete();
     }
 
     /**
@@ -1228,13 +1307,14 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'martialArts' => [
                 'styles' => ['foo'],
                 'techniques' => ['called-shot-disarm'],
             ],
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1253,6 +1333,8 @@ final class CharacterControllerTest extends TestCase
         $techniques = $character->getMartialArtsTechniques();
         self::assertCount(0, $styles);
         self::assertCount(0, $techniques);
+
+        $character->delete();
     }
 
     /**
@@ -1265,7 +1347,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'skills' => [
                 [
@@ -1279,6 +1361,7 @@ final class CharacterControllerTest extends TestCase
                 ],
             ],
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1289,6 +1372,8 @@ final class CharacterControllerTest extends TestCase
             ->assertSee('+2 AK-97')
             ->assertSee('Previous: Qualities')
             ->assertSee('Next: Knowledge');
+
+        $character->delete();
     }
 
     /**
@@ -1302,12 +1387,13 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'priorities' => [
                 'rulebooks' => 'core,run-and-gun',
             ],
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1316,6 +1402,8 @@ final class CharacterControllerTest extends TestCase
             ->assertOk()
             ->assertSee('Previous: Martial-arts')
             ->assertSee('Next: Knowledge');
+
+        $character->delete();
     }
 
     /**
@@ -1382,9 +1470,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1432,6 +1521,8 @@ final class CharacterControllerTest extends TestCase
         self::assertSame(2, $skills[1]->level);
         // @phpstan-ignore-next-line
         self::assertSame('AK-97', $skills[1]->specialization);
+
+        $character->delete();
     }
 
     /**
@@ -1445,7 +1536,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'knowledgeSkills' => [
                 [
                     'category' => 'interests',
@@ -1455,6 +1546,7 @@ final class CharacterControllerTest extends TestCase
             ],
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1465,6 +1557,8 @@ final class CharacterControllerTest extends TestCase
             ->assertSee('Next: Augmentations')
             ->assertDontSee('Next: Magic')
             ->assertDontSee('Next: Resonance');
+
+        $character->delete();
     }
 
     /**
@@ -1478,12 +1572,13 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'priorities' => [
                 'magic' => 'magician',
             ],
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1493,6 +1588,8 @@ final class CharacterControllerTest extends TestCase
             ->assertDontSee('Next: Augmentations')
             ->assertSee('Next: Magic')
             ->assertDontSee('Next: Resonance');
+
+        $character->delete();
     }
 
     /**
@@ -1506,12 +1603,13 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'priorities' => [
                 'magic' => 'technomancer',
             ],
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1521,6 +1619,8 @@ final class CharacterControllerTest extends TestCase
             ->assertDontSee('Next: Augmentations')
             ->assertDontSee('Next: Magic')
             ->assertSee('Next: Resonance');
+
+        $character->delete();
     }
 
     /**
@@ -1533,9 +1633,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1543,6 +1644,8 @@ final class CharacterControllerTest extends TestCase
             ->get('/characters/shadowrun5e/create/magic')
             ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/priority')
             ->assertSessionHasErrors();
+
+        $character->delete();
     }
 
     /**
@@ -1555,12 +1658,13 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'priorities' => [
                 'magic' => 'magician',
             ],
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1569,6 +1673,8 @@ final class CharacterControllerTest extends TestCase
             ->assertOk()
             ->assertSee('Next: Augmentations')
             ->assertSee('Previous: Knowledge');
+
+        $character->delete();
     }
 
     /**
@@ -1581,9 +1687,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1591,6 +1698,8 @@ final class CharacterControllerTest extends TestCase
             ->get('/characters/shadowrun5e/create/resonance')
             ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/priority')
             ->assertSessionHasErrors();
+
+        $character->delete();
     }
 
     /**
@@ -1603,12 +1712,13 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'priorities' => [
                 'magic' => 'technomancer',
             ],
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1617,6 +1727,8 @@ final class CharacterControllerTest extends TestCase
             ->assertOk()
             ->assertSee('Next: Augmentations')
             ->assertSee('Previous: Knowledge');
+
+        $character->delete();
     }
 
     /**
@@ -1629,7 +1741,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'augmentations' => [
                 [
                     'id' => 'bone-lacing-aluminum',
@@ -1637,6 +1749,7 @@ final class CharacterControllerTest extends TestCase
             ],
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1647,6 +1760,8 @@ final class CharacterControllerTest extends TestCase
             //->assertSee('Bone Lacing')
             ->assertSee('Previous: Knowledge')
             ->assertSee('Next: Weapons');
+
+        $character->delete();
     }
 
     /**
@@ -1659,12 +1774,13 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'priorities' => [
                 'magic' => 'magician',
             ],
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1673,6 +1789,8 @@ final class CharacterControllerTest extends TestCase
             ->assertOk()
             ->assertSee('Next: Weapons')
             ->assertSee('Previous: Magic');
+
+        $character->delete();
     }
 
     /**
@@ -1685,12 +1803,13 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'priorities' => [
                 'magic' => 'technomancer',
             ],
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1699,6 +1818,8 @@ final class CharacterControllerTest extends TestCase
             ->assertOk()
             ->assertSee('Previous: Resonance')
             ->assertSee('Next: Weapons');
+
+        $character->delete();
     }
 
     /**
@@ -1711,12 +1832,13 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
             'weapons' => [
                 ['id' => 'ak-98'],
             ],
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1727,6 +1849,8 @@ final class CharacterControllerTest extends TestCase
             //->assertSee('AK-98')
             ->assertSee('Previous: Augmentations')
             ->assertSee('Next: Armor');
+
+        $character->delete();
     }
 
     /**
@@ -1739,12 +1863,13 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'armor' => [
                 ['id' => 'armor-jacket'],
             ],
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1755,6 +1880,8 @@ final class CharacterControllerTest extends TestCase
             //->assertSee('Armor Jacket')
             ->assertSee('Previous: Weapons')
             ->assertSee('Next: Gear');
+
+        $character->delete();
     }
 
     /**
@@ -1767,12 +1894,13 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'gear' => [
                 ['id' => 'ear-buds-1'],
             ],
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1783,6 +1911,8 @@ final class CharacterControllerTest extends TestCase
             //->assertSee('Ear Buds')
             ->assertSee('Previous: Armor')
             ->assertSee('Next: Vehicles');
+
+        $character->delete();
     }
 
     /**
@@ -1795,12 +1925,13 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
             'vehicles' => [
                 ['id' => 'dodge-scoot'],
             ],
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1811,6 +1942,8 @@ final class CharacterControllerTest extends TestCase
             //->assertSee('Dodge Scoot')
             ->assertSee('Previous: Gear')
             ->assertSee('Next: Social');
+
+        $character->delete();
     }
 
     /**
@@ -1823,9 +1956,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1835,6 +1969,8 @@ final class CharacterControllerTest extends TestCase
             ->assertSessionHasNoErrors()
             ->assertSee('Previous: Vehicles')
             ->assertSee('Next: Background');
+
+        $character->delete();
     }
 
     /**
@@ -1847,9 +1983,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1859,6 +1996,8 @@ final class CharacterControllerTest extends TestCase
             ->assertSessionHasNoErrors()
             ->assertSee('Previous: Social')
             ->assertSee('Next: Review');
+
+        $character->delete();
     }
 
     /**
@@ -1871,10 +2010,11 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'background' => ['gender' => 'male'],
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1915,6 +2055,8 @@ final class CharacterControllerTest extends TestCase
         $background = ['gender' => 'male'] + $background;
 
         self::assertSame($background, $character->background);
+
+        $character->delete();
     }
 
     /**
@@ -1927,9 +2069,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1939,6 +2082,8 @@ final class CharacterControllerTest extends TestCase
             //->assertSee('Previous: Background')
             //->assertSee('Next: Save')
             ->assertSessionHasNoErrors();
+
+        $character->delete();
     }
 
     /**
@@ -1951,14 +2096,17 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/unknown')
             ->assertNotFound();
+
+        $character->delete();
     }
 
     /**
@@ -1971,9 +2119,10 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
-        $character = $this->characters[] = PartialCharacter::factory()->create([
+        $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         session(['shadowrun5epartial' => $character->id]);
 
@@ -1987,8 +2136,8 @@ final class CharacterControllerTest extends TestCase
                     return $value !== $character->id;
                 }
             );
-        // @phpstan-ignore-next-line
-        $this->characters[] = PartialCharacter::find(session('shadowrun5epartial'));
+
+        $character->delete();
     }
 
     /**
@@ -1998,9 +2147,13 @@ final class CharacterControllerTest extends TestCase
     public function testUpdateUnauthenticated(): void
     {
         /** @var Character */
-        $character = $this->characters[] = Character::factory()->create();
+        $character = Character::factory()->create([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
         self::patchJson(route('shadowrun5e.characters.update', $character))
             ->assertUnauthorized();
+
+        $character->delete();
     }
 
     /**
@@ -2013,12 +2166,16 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var Character */
-        $character = $this->characters[] = Character::factory()->create();
+        $character = Character::factory()->create([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         self::actingAs($user)
             ->patchJson(route('shadowrun5e.characters.update', $character))
             ->assertForbidden()
             ->assertSee('Only characters in campaigns can be updated this way');
+
+        $character->delete();
     }
 
     /**
@@ -2035,13 +2192,17 @@ final class CharacterControllerTest extends TestCase
         $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
 
         /** @var Character */
-        $character = $this->characters[] = Character::factory()
-            ->create(['campaign_id' => $campaign]);
+        $character = Character::factory()->create([
+            'campaign_id' => $campaign,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         self::actingAs($user)
             ->patchJson(route('shadowrun5e.characters.update', $character))
             ->assertForbidden()
             ->assertSee('You can not update another user\'s character', false);
+
+        $character->delete();
     }
 
     /**
@@ -2060,13 +2221,17 @@ final class CharacterControllerTest extends TestCase
         ]);
 
         /** @var Character */
-        $character = $this->characters[] = Character::factory()
-            ->create(['campaign_id' => $campaign]);
+        $character = Character::factory()->create([
+            'campaign_id' => $campaign,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         self::actingAs($user)
             ->patch(route('shadowrun5e.characters.update', $character))
             ->assertStatus(Response::HTTP_BAD_REQUEST)
             ->assertSee('Unable to extract patch operations from \'null\'', true);
+
+        $character->delete();
     }
 
     /**
@@ -2086,8 +2251,10 @@ final class CharacterControllerTest extends TestCase
         ]);
 
         /** @var Character */
-        $character = $this->characters[] = Character::factory()
-            ->create(['campaign_id' => $campaign]);
+        $character = Character::factory()->create([
+            'campaign_id' => $campaign,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         self::actingAs($user)
             ->patch(
@@ -2103,6 +2270,8 @@ final class CharacterControllerTest extends TestCase
             )
             ->assertStatus(Response::HTTP_BAD_REQUEST)
             ->assertSee('No operation set for patch operation');
+
+        $character->delete();
     }
 
     /**
@@ -2121,8 +2290,10 @@ final class CharacterControllerTest extends TestCase
         ]);
 
         /** @var Character */
-        $character = $this->characters[] = Character::factory()
-            ->create(['campaign_id' => $campaign]);
+        $character = Character::factory()->create([
+            'campaign_id' => $campaign,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         self::actingAs($user)
             ->patch(
@@ -2139,6 +2310,8 @@ final class CharacterControllerTest extends TestCase
             )
             ->assertStatus(Response::HTTP_BAD_REQUEST)
             ->assertSee('Pointer starts with invalid character');
+
+        $character->delete();
     }
 
     /**
@@ -2157,12 +2330,12 @@ final class CharacterControllerTest extends TestCase
         ]);
 
         /** @var Character */
-        $character = $this->characters[] = Character::factory()
-            ->create([
-                'body' => 4,
-                'campaign_id' => $campaign,
-                'willpower' => 4,
-            ]);
+        $character = Character::factory()->create([
+            'body' => 4,
+            'campaign_id' => $campaign,
+            'willpower' => 4,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         // A character with willpower 4 gets 10 boxen of stun damage, leaving 90
         // for physical at 2:1. Take out 20 to fill up their 10 boxen of
@@ -2189,5 +2362,7 @@ final class CharacterControllerTest extends TestCase
                     'damageStun' => 10,
                 ],
             ]);
+
+        $character->delete();
     }
 }

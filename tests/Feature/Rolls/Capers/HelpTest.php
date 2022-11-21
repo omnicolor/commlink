@@ -11,6 +11,7 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
 use App\Rolls\Capers\Help;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -21,6 +22,7 @@ use Tests\TestCase;
  */
 final class HelpTest extends TestCase
 {
+    use RefreshDatabase;
     use WithFaker;
 
     /**
@@ -160,6 +162,7 @@ final class HelpTest extends TestCase
         $character = Character::factory()->create([
             'name' => $this->faker->name,
             'system' => 'capers',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -174,5 +177,7 @@ final class HelpTest extends TestCase
             '**Player**' . \PHP_EOL . $character->name,
             $response
         );
+
+        $character->delete();
     }
 }

@@ -96,7 +96,9 @@ final class LinkResponseTest extends TestCase
     public function testLinkCharacterAlreadyLinked(): void
     {
         /** @var Character */
-        $alreadyLinkedCharacter = Character::factory()->create();
+        $alreadyLinkedCharacter = Character::factory()->create([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         $expected = \sprintf(
             'It looks like you\'ve already linked "%s" to this channel.',
@@ -129,6 +131,7 @@ final class LinkResponseTest extends TestCase
         ]);
 
         self::assertSame('', (string)(new LinkResponse($event)));
+        $alreadyLinkedCharacter->delete();
     }
 
     /**
@@ -168,7 +171,9 @@ final class LinkResponseTest extends TestCase
     public function testLinkCharacterNotYours(): void
     {
         /** @var Character */
-        $character = Character::factory()->create();
+        $character = Character::factory()->create([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         $expected = 'You don\'t own that character.';
         $messageMock = $this->createDiscordMessageMock(\sprintf(
@@ -195,6 +200,8 @@ final class LinkResponseTest extends TestCase
         ]);
 
         self::assertSame('', (string)(new LinkResponse($event)));
+
+        $character->delete();
     }
 
     /**
@@ -210,6 +217,7 @@ final class LinkResponseTest extends TestCase
         $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'capers',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         $expected = \sprintf(
@@ -242,6 +250,8 @@ final class LinkResponseTest extends TestCase
         ]);
 
         self::assertSame('', (string)(new LinkResponse($event)));
+
+        $character->delete();
     }
 
     /**
@@ -255,6 +265,7 @@ final class LinkResponseTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         $expected = \sprintf(
@@ -287,5 +298,7 @@ final class LinkResponseTest extends TestCase
         ]);
 
         self::assertSame('', (string)(new LinkResponse($event)));
+
+        $character->delete();
     }
 }

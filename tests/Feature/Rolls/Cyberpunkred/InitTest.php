@@ -185,7 +185,9 @@ final class InitTest extends TestCase
         ]);
 
         /** @var Character */
-        $character = Character::factory()->create([]);
+        $character = Character::factory()->create([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel,
@@ -218,6 +220,8 @@ final class InitTest extends TestCase
         self::assertSame($expected, $response->original);
 
         Event::assertNotDispatched(InitiativeAdded::class);
+
+        $character->delete();
     }
 
     /**
@@ -246,7 +250,9 @@ final class InitTest extends TestCase
         ]);
 
         /** @var Character */
-        $character = Character::factory()->create([]);
+        $character = Character::factory()->create([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel,
@@ -269,6 +275,8 @@ final class InitTest extends TestCase
         self::assertSame($expected, $response);
 
         Event::assertNotDispatched(InitiativeAdded::class);
+
+        $character->delete();
     }
 
     /**
@@ -302,7 +310,9 @@ final class InitTest extends TestCase
         ]);
 
         /** @var Character */
-        $character = Character::factory()->create([]);
+        $character = Character::factory()->create([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel,
@@ -325,5 +335,7 @@ final class InitTest extends TestCase
         self::assertSame($expected, $response);
 
         Event::assertDispatched(InitiativeAdded::class);
+
+        $character->delete();
     }
 }

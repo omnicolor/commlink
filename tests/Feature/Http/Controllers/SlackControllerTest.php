@@ -81,7 +81,7 @@ final class SlackControllerTest extends TestCase
      */
     public function testPostFullPayload(): void
     {
-        $response = $this->post(
+        $this->post(
             route('roll'),
             [
                 'channel_id' => Str::random(12),
@@ -232,6 +232,7 @@ final class SlackControllerTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         $chatUser = ChatUser::factory()->create([
@@ -264,6 +265,7 @@ final class SlackControllerTest extends TestCase
             ->assertSee('Rolled 5 successes')
             ->assertDontSee('Bob rolled 5 dice')
             ->assertSee(sprintf('%s rolled 5 dice', (string)$character), false);
+        $character->delete();
     }
 
     /**
@@ -292,6 +294,7 @@ final class SlackControllerTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'system' => 'cyberpunkred',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         $chatUser = ChatUser::factory()->create([
@@ -319,6 +322,7 @@ final class SlackControllerTest extends TestCase
             ->assertSee('21 cards remain');
 
         Event::assertDispatched(RollEvent::class);
+        $character->delete();
     }
 
     /**
@@ -438,6 +442,11 @@ final class SlackControllerTest extends TestCase
     {
         Event::fake();
 
+        $randomInt = $this->getFunctionMock(
+            'App\\Rolls',
+            'random_int'
+        );
+        $randomInt->expects(self::exactly(1))->willReturn(1);
         $this->post(
             route('roll'),
             [

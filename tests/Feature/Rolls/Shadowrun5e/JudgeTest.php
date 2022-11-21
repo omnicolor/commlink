@@ -102,6 +102,7 @@ final class JudgeTest extends TestCase
         $character = Character::factory()->create([
             'charisma' => 4,
             'intuition' => 2,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -121,6 +122,8 @@ final class JudgeTest extends TestCase
             $response->title
         );
         self::assertSame('Rolled 6 ones with no successes!', $response->text);
+
+        $character->delete();
     }
 
     /**
@@ -147,6 +150,7 @@ final class JudgeTest extends TestCase
         $character = Character::factory()->create([
             'charisma' => 5,
             'intuition' => 3,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -166,5 +170,7 @@ final class JudgeTest extends TestCase
             ),
             $response
         );
+
+        $character->delete();
     }
 }
