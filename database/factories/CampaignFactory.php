@@ -31,7 +31,10 @@ class CampaignFactory extends Factory
             'system' => $this->faker->randomElement(
                 \array_keys(config('app.systems'))
             ),
-            'options' => '{"start-date":"2080-01-01","gameplay":"established"}',
+            'options' => [
+                'gameplay' => 'established',
+                'startDate' => '2080-01-01',
+            ],
         ];
     }
 }
