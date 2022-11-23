@@ -35,6 +35,11 @@ class InitiativeCreateRequest extends FormRequest
                 'required_with:initiative_dice',
                 'required_without:initiative',
             ],
+            'grunt_id' => [
+                'max:100',
+                'nullable',
+                'string',
+            ],
         ];
     }
 }

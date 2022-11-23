@@ -75,17 +75,17 @@
             @endforelse
         </ul>
         <div class="card-footer">
-            <button type="button" class="btn btn-link">
+            <button type="button" class="btn btn-link" title="Clear initiatives">
                 <i class="bi bi-stop-circle"></i>
             </button>
-            <button type="button" class="btn btn-link">
+            <button type="button" class="btn btn-link" title="Start/advance initiative">
                 <i class="bi bi-play-circle"></i>
             </button>
             <button type="button" class="btn btn-link" data-bs-toggle="modal"
-                data-bs-target="#add-combatant">
+                data-bs-target="#add-combatant" title="Add combatant">
                 <i class="bi bi-plus-circle"></i>
             </button>
-            <button type="button" class="btn btn-link" id="reload">
+            <button type="button" class="btn btn-link" id="reload" title="Next round">
                 <i class="bi bi-arrow-clockwise"></i>
             </button>
         </div>
@@ -211,6 +211,24 @@
                         <input type="text" class="form-control" id="name">
                     </div>
                     <div class="mb-3">
+                        <label for="grunt-id" class="form-label">
+                            Grunt ID (optional)
+                        </label>
+                        <select class="form-control" id="grunt-id">
+                            <option id="grunt-id-null" value="">&hellip;</option>
+                        @foreach ($grunts as $grunt)
+                            <option data-base="{{ $grunt->initiative_base ?? 1 }}"
+                                data-dice="{{ $grunt->initiative_dice ?? 1 }}"
+                                value="{{ $grunt->id }}">
+                                {{ $grunt }} (PR-{{ $grunt->professional_rating }})
+                            </option>
+                        @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-label">
+                            Initiative type
+                        </div>
                         <div class="form-check form-check-inline">
                             <input checked class="form-check-input" id="roll"
                                 name="initiative-type" type="radio"

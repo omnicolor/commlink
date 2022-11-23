@@ -15,10 +15,9 @@ function makeSafeForId(string) {
  * @param {string} name Combatant's name
  * @param {Number} initiative
  */
-function addInitiativeRow(name, initiative) {
+function addInitiativeRow(name, initiative, id) {
     $('#combatants').append(
-        '<li class="list-group-item" id="init-'
-        + makeSafeForId(name) + '">' + name
+        '<li class="list-group-item" data-id="' + id + '">' + name
         + '<span class="float-end"><span class="score">'
         + initiative + '</span>'
         + '<span class="dropdown">'
@@ -35,6 +34,7 @@ function addInitiativeRow(name, initiative) {
         + '</span>'
         + '</li>'
     );
+    sortInitiatives();
 }
 
 /**
@@ -54,6 +54,18 @@ function clearInitiatives() {
  */
 function updateInitiative(el, initiative) {
     el.find('.score').html(initiative);
+}
+
+/**
+ * After adding a grunt to the initiative tracker, clear the form.
+ */
+function clearAddCombatantForm() {
+    $('#name').val('');
+    $('#grunt-id-null').prop('selected', true);
+    $('#roll').prop('checked', true).change();
+    $('#assign').prop('disabled', false);
+    $('#base').val('');
+    $('#dice').val('');
 }
 
 /**
@@ -87,11 +99,10 @@ Echo.private(`campaign.{{ $campaign->id }}`)
         $('#no-combatants').hide();
         const el = $('#init-' + makeSafeForId(e.name));
         if (0 === el.length) {
-            addInitiativeRow(e.name, e.initiative.initiative);
+            addInitiativeRow(e.name, e.initiative.initiative, e.id);
         } else {
             updateInitiative(el, e.initiative.initiative);
         }
-        sortInitiatives();
     });
 
 $('.bi-stop-circle').on('click', function () {
@@ -116,6 +127,20 @@ $('input[name="initiative-type"]').on('change', function (e) {
     $('#assign-form').show();
 });
 
+$('#grunt-id').on('change', function (e) {
+    const el = $(e.target);
+    const id = el.val();
+    if ('' === el.val()) {
+        $('#assign').prop('disabled', false);
+        return;
+    }
+    const option = $('#grunt-id option:selected');
+    $('#base').val(option.data('base'));
+    $('#dice').val(option.data('dice'));
+    $('#roll').prop('checked', true).change();
+    $('#assign').prop('disabled', true);
+});
+
 $('#add-combatant .btn-primary').on('click', function () {
     const payload = {
         character_name: $('#name').val(),
@@ -131,7 +156,16 @@ $('#add-combatant .btn-primary').on('click', function () {
     }
 
     const url = '/api/campaigns/' + campaign + '/initiatives';
-    $.post(url, payload, function () { $('#name').focus(); });
+    $.post(url, payload, function (data) {
+        addInitiativeRow(
+            data.initiative.character_name,
+            data.initiative.initiative,
+            data.initiative.id
+        );
+        $('#name').focus();
+    });
+
+    clearAddCombatantForm();
 });
 
 $('.bi-play-circle').on('click', function () {
@@ -187,7 +221,6 @@ function reloadInitiatives(data) {
     $.each(data.initiatives, function (index, initiative) {
         addInitiativeRow(initiative.character_name, initiative.initiative);
     });
-    sortInitiatives();
 }
 
 $('.bi-arrow-clockwise').on('click', function () {

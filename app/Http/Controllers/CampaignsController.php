@@ -116,6 +116,7 @@ class CampaignsController extends Controller
                     [
                         'campaign' => $campaign,
                         'characters' => $characters,
+                        'grunts' => \App\Models\Shadowrun5e\Grunt::all(),
                         // @phpstan-ignore-next-line
                         'initiative' => Initiative::forCampaign($campaign)
                             ->orderByDesc('initiative')

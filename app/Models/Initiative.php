@@ -24,6 +24,7 @@ class Initiative extends Model
         // Either character_id or name must be filled
         'character_id',
         'character_name',
+        'grunt_id',
         'initiative',
     ];
 

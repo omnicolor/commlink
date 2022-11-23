@@ -80,6 +80,7 @@ class InitiativesController extends Controller
             'campaign_id' => $campaign->id,
             'character_name' => $request->character_name,
             'initiative' => $score,
+            'grunt_id' => $request->grunt_id,
         ]);
         $initiative->refresh();
         InitiativeAdded::dispatch($initiative, $campaign, null);
