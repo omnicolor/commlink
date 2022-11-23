@@ -258,4 +258,57 @@ final class Shadowrun5eConverterTest extends TestCase
         // @phpstan-ignore-next-line
         self::assertCount(1, $character->magics['metamagics']);
     }
+
+    /**
+     * Test converting a portfolio that uses the life module system.
+     * @test
+     */
+    public function testLifeModule(): void
+    {
+        $hl = new Shadowrun5eConverter($this->dataDirectory . 'LifeModule.por');
+        $character = $hl->convert();
+
+        self::assertStringContainsString(
+            'run-faster',
+            // @phpstan-ignore-next-line
+            $character->priorities['rulebooks'],
+        );
+        // @phpstan-ignore-next-line
+        self::assertSame('life-module', $character->priorities['system']);
+    }
+
+    /**
+     * Test converting a portfolio that uses the point buy system.
+     * @test
+     */
+    public function testPointBuy(): void
+    {
+        $hl = new Shadowrun5eConverter($this->dataDirectory . 'PointBuy.por');
+        $character = $hl->convert();
+
+        self::assertStringContainsString(
+            'run-faster',
+            // @phpstan-ignore-next-line
+            (string)$character->priorities['rulebooks'],
+        );
+        // @phpstan-ignore-next-line
+        self::assertSame('point-buy', $character->priorities['system']);
+    }
+
+    /**
+     * Test a portfolio for a seasoned mage that has initiated and gained a
+     * metamagic.
+     * @test
+     */
+    public function testMetamagic(): void
+    {
+        $hl = new Shadowrun5eConverter($this->dataDirectory . 'Metamagic.por');
+        $character = $hl->convert();
+
+        self::assertSame(
+            ['astral-bluff', 'channeling'],
+            // @phpstan-ignore-next-line
+            $character->magics['metamagics']
+        );
+    }
 }

@@ -95,8 +95,9 @@ class Metamagic
         $filename = config('app.data_path.shadowrun5e') . 'metamagics.php';
         self::$metamagics ??= require $filename;
 
+        $name = \strtolower($name);
         foreach (self::$metamagics as $meta) {
-            if ($meta['name'] === $name) {
+            if (\strtolower($meta['name']) === $name) {
                 return new self($meta['id']);
             }
         }

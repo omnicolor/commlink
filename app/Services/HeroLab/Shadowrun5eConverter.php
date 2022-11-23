@@ -507,11 +507,22 @@ class Shadowrun5eConverter implements ConverterInterface
                 $metaArray[] = $this->mapMetamagic[$name];
                 continue;
             }
+
+            if (false !== strpos($name, '(')) {
+                try {
+                    $noParenthesisName = explode(' (', $name)[0];
+                    $metaArray[] = Metamagic::findByName($noParenthesisName)->id;
+                    continue;
+                } catch (RuntimeException) { // @codeCoverageIgnore
+                    // Ignore.
+                }
+            }
+
             try {
                 $metaArray[] = Metamagic::findByName($name)->id;
-            } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
-                continue;
+            } catch (RuntimeException $ex) { // @codeCoverageIgnore
+                $this->errors[] = $ex->getMessage(); // @codeCoverageIgnore
+                continue; // @codeCoverageIgnore
             }
         }
         if (!is_array($this->character->magics)) {
@@ -888,7 +899,7 @@ class Shadowrun5eConverter implements ConverterInterface
                 continue;
             }
             if ('LifeModule' === $source && $enabled) {
-                $priorities['lifeModule'] = true;
+                $priorities['system'] = 'life-module';
                 $books[] = 'run-faster';
                 continue;
             }
