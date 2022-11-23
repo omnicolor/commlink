@@ -122,6 +122,7 @@
             </ul>
         </div>
         <div class="col">
+            <x-campaign-options :campaign=$campaign/>
         </div>
     </div>
 
