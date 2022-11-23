@@ -1,3 +1,3 @@
 <div>
-Generic campaign options...
+    <!-- generic campaign options -->
 </div>
