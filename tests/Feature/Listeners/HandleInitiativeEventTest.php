@@ -136,7 +136,7 @@ final class HandleInitiativeEventTest extends TestCase
      * Test an event that has an attached Discord channel.
      * @test
      */
-    public function testDiscordChannel(): void
+    public function testAttachedDiscordChannel(): void
     {
         Http::fake();
 

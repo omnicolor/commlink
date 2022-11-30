@@ -11,8 +11,10 @@ use App\Models\Initiative;
 use App\Models\Slack\TextAttachment;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class HandleInitiativeEvent
 {
@@ -63,10 +65,15 @@ class HandleInitiativeEvent
         $data->response_type = null;
         $data->channel = $channel->channel_id;
 
-        // TODO: Add error handling.
-        $response = Http::withHeaders([
-            'Authorization' => \sprintf('Bearer %s', config('app.slack_token')),
-        ])->post('https://slack.com/api/chat.postMessage', (array)$data);
+        try {
+            Http::retry(3, 100, throw: false)
+                ->withHeaders([
+                    'Authorization' => \sprintf('Bearer %s', config('app.slack_token')),
+                ])
+                ->post('https://slack.com/api/chat.postMessage', (array)$data);
+        } catch (RequestException $ex) { // @codeCoverageIgnore
+            Log::error('Send to Slack failed: ' . $ex->getMessage()); // @codeCoverageIgnore
+        }
     }
 
     /**
@@ -87,9 +94,14 @@ class HandleInitiativeEvent
         /** @var string */
         $url = $channel->webhook;
 
-        // TODO: Add error handling.
-        Http::withHeaders([
-            'Authorization' => sprintf('Bot %s', config('discord_token')),
-        ])->post($url, $data);
+        try {
+            Http::retry(3, 100, throw: false)
+                ->withHeaders([
+                    'Authorization' => sprintf('Bot %s', config('discord_token')),
+                ])
+                ->post($url, $data);
+        } catch (RequestException $ex) { // @codeCoverageIgnore
+            Log::error('Send to Slack failed: ' . $ex->getMessage()); // @codeCoverageIgnore
+        }
     }
 }
