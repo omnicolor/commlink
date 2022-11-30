@@ -66,7 +66,8 @@ class Help extends Roll
                         . '· `soak` - Make a soak test (%d)' . \PHP_EOL
                         . '· `luck` - Make a luck (edge) test (%d)' . \PHP_EOL
                         . '· `init` - Roll your initiative (%dd6+%d)' . \PHP_EOL
-                        . '· `push 6 [limit] [text]` - Push the limit with 6 + your edge (%d)' . \PHP_EOL,
+                        . '· `push 6 [limit] [text]` - Push the limit with 6 + your edge (%d)' . \PHP_EOL
+                        . '· `blitz` - Blitz initiative (5d6+%8$d)' . \PHP_EOL,
                         $character->composure,
                         $character->judge_intentions,
                         $character->lift_carry,
