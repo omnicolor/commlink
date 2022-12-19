@@ -8,16 +8,18 @@ use App\Events\DiscordMessageReceived;
 use App\Http\Responses\Discord\HelpResponse;
 use App\Models\Channel;
 use App\Models\ChatUser;
+use Discord\Discord;
 use Discord\Parts\Channel\Channel as TextChannel;
 use Discord\Parts\Channel\Message;
 use Discord\Parts\Guild\Guild;
 use Discord\Parts\User\User;
+use Tests\TestCase;
 
 /**
  * @group discord
  * @medium
  */
-final class HelpResponseTest extends \Tests\TestCase
+final class HelpResponseTest extends TestCase
 {
     /**
      * Create a mock Discord message.
@@ -66,7 +68,10 @@ final class HelpResponseTest extends \Tests\TestCase
     public function testHelpUnregistered(): void
     {
         $messageMock = $this->createMessageMock();
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
 
         $systems = [];
         foreach (config('app.systems') as $code => $name) {
@@ -154,7 +159,10 @@ final class HelpResponseTest extends \Tests\TestCase
             'system' => 'shadowrun5e',
             'type' => 'discord',
         ]);
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
         $response = new HelpResponse($event);
         self::assertSame($expected, (string)$response);
     }
@@ -202,7 +210,10 @@ final class HelpResponseTest extends \Tests\TestCase
         ]);
         // @phpstan-ignore-next-line
         $channel->user = (string)$messageMock->author->id;
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
         $response = new HelpResponse($event);
         self::assertSame($expected, (string)$response);
     }

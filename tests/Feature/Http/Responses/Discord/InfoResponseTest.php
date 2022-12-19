@@ -8,16 +8,18 @@ use App\Events\DiscordMessageReceived;
 use App\Http\Responses\Discord\InfoResponse;
 use App\Models\Campaign;
 use App\Models\Channel;
+use Discord\Discord;
 use Discord\Parts\Channel\Channel as TextChannel;
 use Discord\Parts\Channel\Message;
 use Discord\Parts\Guild\Guild;
 use Discord\Parts\User\User;
+use Tests\TestCase;
 
 /**
  * @group discord
  * @medium
  */
-final class InfoResponseTest extends \Tests\TestCase
+final class InfoResponseTest extends TestCase
 {
     /**
      * Create a mock Discord message.
@@ -65,7 +67,10 @@ final class InfoResponseTest extends \Tests\TestCase
     public function testInfoUnregistered(): void
     {
         $messageMock = $this->createMessageMock();
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
 
         /** @var TextChannel */
         $channel = $event->channel;
@@ -108,7 +113,10 @@ final class InfoResponseTest extends \Tests\TestCase
             'type' => 'discord',
         ]);
 
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
 
         $expected = '**Debugging info**' . \PHP_EOL
             . 'User Tag: ' . optional($event->user)->displayname . \PHP_EOL
@@ -151,7 +159,10 @@ final class InfoResponseTest extends \Tests\TestCase
             'type' => 'discord',
         ]);
 
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
 
         $expected = '**Debugging info**' . \PHP_EOL
             . 'User Tag: ' . optional($event->user)->displayname . \PHP_EOL

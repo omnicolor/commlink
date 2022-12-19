@@ -11,6 +11,7 @@ use App\Listeners\HandleDiscordMessage;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\ChatUser;
+use Discord\Discord;
 use Discord\Parts\Channel\Channel as TextChannel;
 use Discord\Parts\Channel\Message;
 use Discord\Parts\Guild\Guild;
@@ -18,6 +19,8 @@ use Discord\Parts\User\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use phpmock\phpunit\PHPMock;
+use PHPUnit\Framework\MockObject\MockObject;
+use Tests\TestCase;
 
 /**
  * Tests for Discord message event listener.
@@ -25,16 +28,16 @@ use phpmock\phpunit\PHPMock;
  * @group events
  * @medium
  */
-final class HandleDiscordMessageTest extends \Tests\TestCase
+final class HandleDiscordMessageTest extends TestCase
 {
     use PHPMock;
     use WithFaker;
 
     /**
      * Mock random_int function to take randomness out of testing.
-     * @var \PHPUnit\Framework\MockObject\MockObject
+     * @var MockObject
      */
-    protected \PHPUnit\Framework\MockObject\MockObject $randomInt;
+    protected MockObject $randomInt;
 
     /**
      * Set up the mock random function each time.
@@ -96,7 +99,10 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $messageStub = $this->createStub(Message::class);
         $messageStub->method('__get')->willReturnMap($messageMap);
 
-        $event = new DiscordMessageReceived($messageStub);
+        $event = new DiscordMessageReceived(
+            $messageStub,
+            $this->createStub(Discord::class)
+        );
         self::assertTrue((new HandleDiscordMessage())->handle($event));
     }
 
@@ -140,7 +146,10 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $messageStub = $this->createStub(Message::class);
         $messageStub->method('__get')->willReturnMap($messageMap);
 
-        $event = new DiscordMessageReceived($messageStub);
+        $event = new DiscordMessageReceived(
+            $messageStub,
+            $this->createStub(Discord::class)
+        );
         self::assertTrue((new HandleDiscordMessage())->handle($event));
     }
 
@@ -194,7 +203,10 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $messageStub = $this->createStub(Message::class);
         $messageStub->method('__get')->willReturnMap($messageMap);
 
-        $event = new DiscordMessageReceived($messageStub);
+        $event = new DiscordMessageReceived(
+            $messageStub,
+            $this->createStub(Discord::class)
+        );
         self::assertTrue((new HandleDiscordMessage())->handle($event));
     }
 
@@ -251,7 +263,10 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
             ->method('reply')
             ->with($expected);
 
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
         self::assertTrue((new HandleDiscordMessage())->handle($event));
         Event::assertNotDispatched(DiscordUserLinked::class);
     }
@@ -317,7 +332,10 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
             ->method('reply')
             ->with($expected);
 
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
         self::assertTrue((new HandleDiscordMessage())->handle($event));
         Event::assertNotDispatched(DiscordUserLinked::class);
     }
@@ -374,7 +392,10 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
             ->method('reply')
             ->with($expected);
 
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
         self::assertTrue((new HandleDiscordMessage())->handle($event));
         Event::assertNotDispatched(DiscordUserLinked::class);
     }
@@ -433,7 +454,10 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
             ->method('reply')
             ->with($expected);
 
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
         self::assertTrue((new HandleDiscordMessage())->handle($event));
         Event::assertDispatched(DiscordUserLinked::class);
     }
@@ -461,14 +485,11 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         ];
         $channelMock = $this->createMock(TextChannel::class);
         $channelMock->method('__get')->willReturnMap($channelMap);
-        $channelMock->expects(self::once())
-            ->method('sendMessage')
-            ->with(self::equalTo($expected));
         Channel::factory()->create([
             'channel_id' => $channelMock->id,
             'server_id' => $serverStub->id,
             'system' => 'cyberpunkred',
-            'type' => 'discord',
+            'type' => Channel::TYPE_DISCORD,
         ]);
 
         $userMock = $this->createMock(User::class);
@@ -479,10 +500,16 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
             ['channel', $channelMock],
             ['content', '/roll 6'],
         ];
-        $messageStub = $this->createStub(Message::class);
-        $messageStub->method('__get')->willReturnMap($messageMap);
+        $messageMock = $this->createMock(Message::class);
+        $messageMock->method('__get')->willReturnMap($messageMap);
+        $messageMock->expects(self::once())
+            ->method('reply')
+            ->with(self::equalTo($expected));
 
-        $event = new DiscordMessageReceived($messageStub);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
         self::assertTrue((new HandleDiscordMessage())->handle($event));
     }
 
@@ -530,7 +557,10 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $messageStub = $this->createStub(Message::class);
         $messageStub->method('__get')->willReturnMap($messageMap);
 
-        $event = new DiscordMessageReceived($messageStub);
+        $event = new DiscordMessageReceived(
+            $messageStub,
+            $this->createStub(Discord::class)
+        );
         self::assertTrue((new HandleDiscordMessage())->handle($event));
         Event::assertDispatched(RollEvent::class);
     }
@@ -574,7 +604,10 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $messageStub = $this->createStub(Message::class);
         $messageStub->method('__get')->willReturnMap($messageMap);
 
-        $event = new DiscordMessageReceived($messageStub);
+        $event = new DiscordMessageReceived(
+            $messageStub,
+            $this->createStub(Discord::class)
+        );
         self::assertTrue((new HandleDiscordMessage())->handle($event));
     }
 
@@ -611,7 +644,10 @@ final class HandleDiscordMessageTest extends \Tests\TestCase
         $messageStub = $this->createStub(Message::class);
         $messageStub->method('__get')->willReturnMap($messageMap);
 
-        $event = new DiscordMessageReceived($messageStub);
+        $event = new DiscordMessageReceived(
+            $messageStub,
+            $this->createStub(Discord::class)
+        );
         self::assertTrue((new HandleDiscordMessage())->handle($event));
     }
 }

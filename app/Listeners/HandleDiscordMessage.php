@@ -63,9 +63,11 @@ class HandleDiscordMessage
                 $roll = new $class(
                     $event->content,
                     optional($event->user)->username,
-                    $channel
+                    $channel,
+                    $event
                 );
-                $event->channel->sendMessage($roll->forDiscord());
+
+                $event->message->reply($roll->forDiscord());
                 RollEvent::dispatch($roll, $channel);
                 return true;
             } catch (\Error $ex) {

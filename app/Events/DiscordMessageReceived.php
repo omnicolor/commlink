@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Events;
 
+use Discord\Discord;
 use Discord\Parts\Channel\Channel;
 use Discord\Parts\Channel\Message;
 use Discord\Parts\Guild\Guild;
@@ -42,11 +43,7 @@ class DiscordMessageReceived
      */
     public ?User $user;
 
-    /**
-     * Create a new event instance.
-     * @param Message $message
-     */
-    public function __construct(public Message $message)
+    public function __construct(public Message $message, public Discord $discord)
     {
         // @phpstan-ignore-next-line
         $this->channel = $this->message->channel;

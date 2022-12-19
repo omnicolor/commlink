@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Events;
 
 use App\Events\DiscordMessageReceived;
+use Discord\Discord;
 use Discord\Parts\Channel\Channel as TextChannel;
 use Discord\Parts\Channel\Message;
 use Discord\Parts\Guild\Guild;
@@ -37,7 +38,10 @@ final class DiscordMessageReceivedTest extends TestCase
         $messageStub = $this->createStub(Message::class);
         $messageStub->method('__get')->willReturnMap($map);
 
-        $event = new DiscordMessageReceived($messageStub);
+        $event = new DiscordMessageReceived(
+            $messageStub,
+            $this->createStub(Discord::class)
+        );
         self::assertSame('foo', $event->content);
     }
 }

@@ -8,6 +8,7 @@ use App\Exceptions\SlackException;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Rolls\Roll;
+use Discord\Builders\MessageBuilder;
 
 /**
  * Roll a Shadowrun 5E memory test.
@@ -69,7 +70,7 @@ class Memory extends Number
         return parent::forSlack();
     }
 
-    public function forDiscord(): string
+    public function forDiscord(): string | MessageBuilder
     {
         if (null !== $this->error) {
             return \sprintf(

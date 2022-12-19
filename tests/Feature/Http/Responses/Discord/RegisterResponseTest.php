@@ -9,16 +9,18 @@ use App\Events\DiscordMessageReceived;
 use App\Http\Responses\Discord\RegisterResponse;
 use App\Models\Channel;
 use App\Models\ChatUser;
+use Discord\Discord;
 use Illuminate\Http\Client\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
+use Tests\TestCase;
 
 /**
  * @group discord
  * @medium
  */
-final class RegisterResponseTest extends \Tests\TestCase
+final class RegisterResponseTest extends TestCase
 {
     /**
      * Test trying to handle a response missing the system code.
@@ -37,7 +39,10 @@ final class RegisterResponseTest extends \Tests\TestCase
         $messageMock->expects(self::once())
             ->method('reply')
             ->with($expected);
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
         self::assertSame('', (string)(new RegisterResponse($event)));
 
         Event::assertNotDispatched(ChannelLinked::class);
@@ -63,7 +68,10 @@ final class RegisterResponseTest extends \Tests\TestCase
         $messageMock->expects(self::once())
             ->method('reply')
             ->with($expected);
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
 
         self::assertSame('', (string)(new RegisterResponse($event)));
 
@@ -87,7 +95,10 @@ final class RegisterResponseTest extends \Tests\TestCase
             ->method('reply')
             ->with($expected);
 
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
         Channel::factory()->create([
             'channel_id' => $event->channel->id,
             'server_id' => $event->server->id,
@@ -124,7 +135,10 @@ final class RegisterResponseTest extends \Tests\TestCase
             ->method('reply')
             ->with($expected);
 
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
         self::assertSame('', (string)(new RegisterResponse($event)));
 
         Event::assertNotDispatched(ChannelLinked::class);
@@ -141,7 +155,10 @@ final class RegisterResponseTest extends \Tests\TestCase
 
         $messageMock = $this->createDiscordMessageMock('/roll register shadowrun5e');
 
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
         // @phpstan-ignore-next-line
         $event->channel->expects(self::once())->method('sendMessage');
         ChatUser::factory()->create([
@@ -191,7 +208,10 @@ final class RegisterResponseTest extends \Tests\TestCase
 
         $messageMock = $this->createDiscordMessageMock('/roll register shadowrun5e');
 
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
         // @phpstan-ignore-next-line
         $event->channel->expects(self::once())->method('sendMessage');
         ChatUser::factory()->create([

@@ -9,6 +9,7 @@ use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\Character;
 use App\Models\ChatUser;
+use Discord\Builders\MessageBuilder;
 
 abstract class Roll
 {
@@ -90,7 +91,7 @@ abstract class Roll
      * Return the roll's output, formatted for Discord.
      * @return string
      */
-    abstract public function forDiscord(): string;
+    abstract public function forDiscord(): string | MessageBuilder;
 
     /**
      * Return whether the current user is the GM of the campaign attached to the

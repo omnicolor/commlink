@@ -9,6 +9,7 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Shadowrun5e\Character;
 use App\Rolls\Roll;
+use Discord\Builders\MessageBuilder;
 
 class Fade extends Number
 {
@@ -60,7 +61,7 @@ class Fade extends Number
         return parent::forSlack();
     }
 
-    public function forDiscord(): string
+    public function forDiscord(): string | MessageBuilder
     {
         if (null !== $this->error) {
             return \sprintf(

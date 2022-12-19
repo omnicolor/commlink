@@ -11,6 +11,7 @@ use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
+use Discord\Discord;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -29,7 +30,10 @@ final class LinkResponseTest extends TestCase
     public function testLinkWithoutId(): void
     {
         $messageMock = $this->createDiscordMessageMock('/roll link');
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
 
         $expected = 'To link a character, use `link <characterId>`.';
         self::assertSame(
@@ -45,7 +49,10 @@ final class LinkResponseTest extends TestCase
     public function testLinkUnregisteredChannel(): void
     {
         $messageMock = $this->createDiscordMessageMock('/roll link 123');
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
 
         $systems = [];
         foreach (config('app.systems') as $code => $name) {
@@ -72,7 +79,10 @@ final class LinkResponseTest extends TestCase
         );
 
         $messageMock = $this->createDiscordMessageMock('/roll link 123');
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
 
         Channel::factory()->create([
             'channel_id' => $event->channel->id,
@@ -109,7 +119,10 @@ final class LinkResponseTest extends TestCase
         $messageMock->expects(self::once())
             ->method('reply')
             ->with($expected);
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
 
         $channel = Channel::factory()->create([
             'channel_id' => $event->channel->id,
@@ -146,7 +159,10 @@ final class LinkResponseTest extends TestCase
         $messageMock->expects(self::once())
             ->method('reply')
             ->with($expected);
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
 
         $channel = Channel::factory()->create([
             'channel_id' => $event->channel->id,
@@ -184,7 +200,10 @@ final class LinkResponseTest extends TestCase
         $messageMock->expects(self::once())
             ->method('reply')
             ->with($expected);
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
 
         $channel = Channel::factory()->create([
             'channel_id' => $event->channel->id,
@@ -232,7 +251,10 @@ final class LinkResponseTest extends TestCase
         $messageMock->expects(self::once())
             ->method('reply')
             ->with($expected);
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
 
         $channel = Channel::factory()->create([
             'channel_id' => $event->channel->id,
@@ -280,7 +302,10 @@ final class LinkResponseTest extends TestCase
         $messageMock->expects(self::once())
             ->method('reply')
             ->with($expected);
-        $event = new DiscordMessageReceived($messageMock);
+        $event = new DiscordMessageReceived(
+            $messageMock,
+            $this->createStub(Discord::class)
+        );
 
         $channel = Channel::factory()->create([
             'channel_id' => $event->channel->id,
