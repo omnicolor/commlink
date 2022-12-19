@@ -23,12 +23,6 @@ class DiscordRunCommand extends Command
     protected $description = 'Start the Discord bot server';
 
     /**
-     * The tag for the bot.
-     * @var string
-     */
-    protected string $myTag;
-
-    /**
      * The name and signature of the console command.
      * @var string
      */
@@ -40,22 +34,28 @@ class DiscordRunCommand extends Command
      */
     public function handle(): int
     {
-        $discord = new Discord(['token' => config('app.discord_token')]);
+        $discord = new Discord([
+            'storeMessages' => true,
+            'token' => config('app.discord_token'),
+        ]);
         $discord->on('ready', function (Discord $discord): void {
             echo 'Logged in to Discord', \PHP_EOL;
         });
-        $discord->on(Event::MESSAGE_CREATE, function (Message $message, Discord $discord): void {
-            // @phpstan-ignore-next-line
-            if ($message->author->bot) {
-                // Ignore messages from bots.
-                return;
+        $discord->on(
+            Event::MESSAGE_CREATE,
+            function (Message $message, Discord $discord): void {
+                // @phpstan-ignore-next-line
+                if ($message->author->bot) {
+                    // Ignore messages from bots.
+                    return;
+                }
+                if ('/' !== \substr($message->content, 0, 1)) {
+                    // Ignore non-command chatter.
+                    return;
+                }
+                DiscordMessageReceived::dispatch($message, $discord);
             }
-            if ('/' !== \substr($message->content, 0, 1)) {
-                // Ignore non-command chatter.
-                return;
-            }
-            DiscordMessageReceived::dispatch($message);
-        });
+        );
 
         $discord->run();
         return self::SUCCESS;
