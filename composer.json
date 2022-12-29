@@ -17,7 +17,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "wyrihaximus/composer-update-bin-autoload-path": false,
-            "icanhazstring/composer-unused": true
+            "icanhazstring/composer-unused": true,
+            "infection/extension-installer": false
         }
     },
     "description": "Commlink RPG manager.",
