@@ -73,7 +73,7 @@
             "Composer\\Config::disableProcessTimeout",
             "phpunit --coverage-html=public/coverage"
         ],
-        "cs": "phpcs && php-cs-fixer fix --dry-run --config=php_cs.php -v --using-cache=no --diff",
+        "cs": "phpcs && PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --config=php_cs.php -v --using-cache=no --diff",
         "phpstan": "phpstan --xdebug analyze",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
