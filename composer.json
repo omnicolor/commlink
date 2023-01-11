@@ -74,7 +74,10 @@
             "phpunit --coverage-html=public/coverage"
         ],
         "cs": "phpcs && PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --config=php_cs.php -v --using-cache=no --diff",
-        "phpstan": "phpstan --xdebug analyze",
+        "phpstan": [
+            "Composer\\Config::disableProcessTimeout",
+            "phpstan --xdebug analyze"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
