@@ -43,7 +43,7 @@ final class MetamagicTest extends \Tests\TestCase
     public function testFindByNameNotFound(): void
     {
         self::expectException(\RuntimeException::class);
-        self::expectExceptionMessage('Metamagic "Not Found" was not found');
+        self::expectExceptionMessage('Metamagic "not found" was not found');
         Metamagic::findByName('Not Found');
     }
 
