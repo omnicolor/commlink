@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\Channel;
-use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -25,7 +24,7 @@ class ChatCharacterFactory extends Factory
     public function definition(): array
     {
         return [
-            'channel_id' => Channel::factory()->create(),
+            'channel_id' => Channel::factory()->create(['type' => Channel::TYPE_SLACK]),
             'chat_user_id' => ChatUser::factory()->create(),
         ];
     }

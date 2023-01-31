@@ -24,10 +24,12 @@ class Channel extends Model
     use InteractsWithSlack;
 
     public const TYPE_DISCORD = 'discord';
+    public const TYPE_IRC = 'irc';
     public const TYPE_SLACK = 'slack';
 
     public const VALID_TYPES = [
         self::TYPE_DISCORD,
+        self::TYPE_IRC,
         self::TYPE_SLACK,
     ];
 
@@ -140,6 +142,11 @@ class Channel extends Model
     public function scopeDiscord(Builder $query): Builder
     {
         return $query->where('type', self::TYPE_DISCORD);
+    }
+
+    public function scopeIrc(Builder $query): Builder
+    {
+        return $query->where('type', self::TYPE_IRC);
     }
 
     /**

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bb8a26d01c67b6d2825b08fe50a3a79a",
+    "content-hash": "34ecdfe6f642b82c718a891e809e53fe",
     "packages": [
         {
             "name": "brick/math",
@@ -305,16 +305,16 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "2.2.0",
+            "version": "2.2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "1ca8f21980e770095a31456042471a57bc4c68fb"
+                "reference": "7e6ea80079a053064d0934d468e6c2570d59dc93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/1ca8f21980e770095a31456042471a57bc4c68fb",
-                "reference": "1ca8f21980e770095a31456042471a57bc4c68fb",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/7e6ea80079a053064d0934d468e6c2570d59dc93",
+                "reference": "7e6ea80079a053064d0934d468e6c2570d59dc93",
                 "shasum": ""
             },
             "require": {
@@ -331,6 +331,7 @@
                 "symfony/cache": "^4.4 || ^5.4 || ^6",
                 "symfony/var-exporter": "^4.4 || ^5.4 || ^6"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -378,7 +379,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/cache/issues",
-                "source": "https://github.com/doctrine/cache/tree/2.2.0"
+                "source": "https://github.com/doctrine/cache/tree/2.2.x"
             },
             "funding": [
                 {
@@ -394,20 +395,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-20T20:07:39+00:00"
+            "time": "2022-12-19T11:27:20+00:00"
         },
         {
             "name": "doctrine/dbal",
-            "version": "3.5.2",
+            "version": "3.6.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "63e513cebbbaf96a6795e5c5ee34d205831bfc85"
+                "reference": "d54b3d02f9345c39c5b987d7edc9f064adf01d00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/63e513cebbbaf96a6795e5c5ee34d205831bfc85",
-                "reference": "63e513cebbbaf96a6795e5c5ee34d205831bfc85",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/d54b3d02f9345c39c5b987d7edc9f064adf01d00",
+                "reference": "d54b3d02f9345c39c5b987d7edc9f064adf01d00",
                 "shasum": ""
             },
             "require": {
@@ -489,7 +490,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/3.5.2"
+                "source": "https://github.com/doctrine/dbal/tree/3.6.x"
             },
             "funding": [
                 {
@@ -505,7 +506,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-12-19T08:17:34+00:00"
+            "time": "2022-12-30T09:29:37+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -552,16 +553,16 @@
         },
         {
             "name": "doctrine/event-manager",
-            "version": "2.0.0",
+            "version": "2.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/event-manager.git",
-                "reference": "750671534e0241a7c50ea5b43f67e23eb5c96f32"
+                "reference": "fe71bc032e5de972b8d18939abfa87d23f43ebd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/event-manager/zipball/750671534e0241a7c50ea5b43f67e23eb5c96f32",
-                "reference": "750671534e0241a7c50ea5b43f67e23eb5c96f32",
+                "url": "https://api.github.com/repos/doctrine/event-manager/zipball/fe71bc032e5de972b8d18939abfa87d23f43ebd3",
+                "reference": "fe71bc032e5de972b8d18939abfa87d23f43ebd3",
                 "shasum": ""
             },
             "require": {
@@ -576,6 +577,7 @@
                 "phpunit/phpunit": "^9.5",
                 "vimeo/psalm": "^4.28"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -623,7 +625,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/event-manager/issues",
-                "source": "https://github.com/doctrine/event-manager/tree/2.0.0"
+                "source": "https://github.com/doctrine/event-manager/tree/2.0.x"
             },
             "funding": [
                 {
@@ -639,7 +641,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-10-12T20:59:15+00:00"
+            "time": "2022-10-13T11:16:49+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -1782,6 +1784,59 @@
                 }
             ],
             "time": "2022-09-01T13:20:31+00:00"
+        },
+        {
+            "name": "jerodev/php-irc-client",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/omnicolor/php-irc-client.git",
+                "reference": "4daaa7e565d8d72ded92fd9032556e4661e70a1f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/omnicolor/php-irc-client/zipball/4daaa7e565d8d72ded92fd9032556e4661e70a1f",
+                "reference": "4daaa7e565d8d72ded92fd9032556e4661e70a1f",
+                "shasum": ""
+            },
+            "require": {
+                "react/socket": "^1.12.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.9",
+                "phpstan/phpstan-phpunit": "^1.3.3",
+                "phpunit/phpunit": "^9.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jerodev\\PhpIrcClient\\": "src/",
+                    "Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "phpstan": [
+                    "./vendor/bin/phpstan analyse src tests --level=5"
+                ],
+                "test": [
+                    "./vendor/bin/phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeroen Deviaene",
+                    "email": "jeroen@deviaene.eu"
+                }
+            ],
+            "description": "PHP IRC client based on react",
+            "support": {
+                "source": "https://github.com/omnicolor/php-irc-client/tree/main"
+            },
+            "time": "2022-12-29T22:42:00+00:00"
         },
         {
             "name": "juststeveking/laravel-feature-flags",
@@ -13847,9 +13902,10 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "jerodev/php-irc-client": 20,
         "roave/security-advisories": 20
     },
-    "prefer-stable": true,
+    "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.0"

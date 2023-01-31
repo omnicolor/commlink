@@ -226,6 +226,12 @@ return [
         'redirect_uri' => env('DISCORD_REDIRECT_URI'),
     ],
 
+    'irc' => [
+        'bot_name' => env('IRC_BOT_NAME', env('APP_NAME', 'Commlink')),
+        'server' => env('IRC_SERVER'),
+        'port' => env('IRC_PORT', '6667'),
+    ],
+
     /*
      * Oauth token for Slack interaction.
      */
