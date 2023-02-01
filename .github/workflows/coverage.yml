@@ -40,7 +40,7 @@ jobs:
         run: vendor/bin/phpunit --coverage-clover 'clover.xml'
 
       - name: "Generate coverage badge"
-        uses: phpunit-coverage-badge@v1.2.1
+        uses: timkrase/phpunit-coverage-badge@v1.2.1
         with:
           push_badge: true
           repo_token: ${{ secrets.GITHUB_TOKEN }}
