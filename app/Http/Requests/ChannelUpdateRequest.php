@@ -21,6 +21,7 @@ class ChannelUpdateRequest extends FormRequest
         // @phpstan-ignore-next-line
         $channel = Channel::find($this->channel)->first();
         // @phpstan-ignore-next-line
+        echo (int)$channel->registered_by, ' ', $this->user()->id, PHP_EOL;
         return (int)$channel->registered_by === $this->user()->id;
     }
 
