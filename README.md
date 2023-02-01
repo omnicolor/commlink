@@ -1,5 +1,7 @@
 # Commlink
 
+![Code Coverage Badge](./coverage_badge.svg)
+
 Commlink is a manager for characters and campaigns for various table top role
 playing games. Originally written as a character builder for Shadowrun 5E, it
 later expanded to a GM tool allowing the game master to keep details about the
