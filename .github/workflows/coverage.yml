@@ -26,6 +26,9 @@ jobs:
         uses: supercharge/mongodb-github-action@1.8.0
         with:
           mongodb-version: ${{ matrix.mongodb-version }}
+          mongodb-username: commlink
+          mongodb-password: secret-password
+          mongodb-db: commlink-test
 
       - name: "Install Composer dependencies & app config"
         run: |
