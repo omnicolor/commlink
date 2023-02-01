@@ -37,13 +37,13 @@ jobs:
           composer install --no-progress --no-interaction
 
       - name: "Execute unit tests with code coverage"
-        run: vendor/bin/phpunit --coverage-html coverage --coverage-clover 'coverage/clover.xml'
+        run: vendor/bin/phpunit --coverage-clover 'coverage/clover.xml'
 
       - name: "Upload test coverage"
         uses: actions/upload-artifact@v3
         with:
           name: Test Coverage Report
-          path: ./coverage/
+          path: ./coverage/clover.xml
 
       - name: "Comment coverage report"
         uses: danhunsaker/clover-reporter-action@v0.2.17-clover
