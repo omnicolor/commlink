@@ -100,7 +100,7 @@ final class ChannelsControllerTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->create([
-            'registered_by' => $user,
+            'registered_by' => $user->id,
         ]);
         $this->actingAs($user)
             ->patchJson(
@@ -123,7 +123,7 @@ final class ChannelsControllerTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->create([
-            'registered_by' => $user,
+            'registered_by' => $user->id,
         ]);
         $this->actingAs($user)
             ->patchJson(
