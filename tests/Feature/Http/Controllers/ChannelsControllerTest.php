@@ -80,14 +80,14 @@ final class ChannelsControllerTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->create([
-            'registered_by' => $user,
+            'registered_by' => $user->id,
         ]);
         $this->actingAs($user)
             ->patchJson(
                 route('channels.update', $channel),
                 []
             )
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+            ->assertUnprocessable();
     }
 
     /**
@@ -100,14 +100,14 @@ final class ChannelsControllerTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->create([
-            'registered_by' => $user,
+            'registered_by' => $user->id,
         ]);
         $this->actingAs($user)
             ->patchJson(
                 route('channels.update', $channel),
                 ['auto' => 1, 'webhook' => 'test']
             )
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+            ->assertUnprocessable();
     }
 
     /**
@@ -123,7 +123,7 @@ final class ChannelsControllerTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->create([
-            'registered_by' => $user,
+            'registered_by' => $user->id,
         ]);
         $this->actingAs($user)
             ->patchJson(
@@ -147,7 +147,7 @@ final class ChannelsControllerTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->create([
-            'registered_by' => $user,
+            'registered_by' => $user->id,
             'type' => Channel::TYPE_SLACK,
         ]);
         $this->actingAs($user)
@@ -155,7 +155,8 @@ final class ChannelsControllerTest extends TestCase
                 route('channels.update', $channel),
                 ['auto' => 1]
             )
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+            ->assertJson(['message' => 'Auto only works for Discord channels.'])
+            ->assertUnprocessable();
     }
 
     /**
@@ -169,7 +170,7 @@ final class ChannelsControllerTest extends TestCase
         /** @var Channel */
         $channel = Channel::factory()->create([
             'channel_id' => (string)$this->faker->randomNumber(8, true),
-            'registered_by' => $user,
+            'registered_by' => $user->id,
             'type' => Channel::TYPE_DISCORD,
         ]);
 
@@ -189,6 +190,7 @@ final class ChannelsControllerTest extends TestCase
                 route('channels.update', $channel),
                 ['auto' => 1]
             )
+            ->assertJsonMissing(['errors' => []])
             ->assertOk();
         $channel->refresh();
         self::assertSame(
