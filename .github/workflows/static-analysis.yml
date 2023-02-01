@@ -5,10 +5,20 @@ on: pull_request
 jobs:
   PHP-Code-Sniffer:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version:
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
+      - name: "Install PHP w/ Extensions"
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+          extensions: "json, mbstring, mongodb, pdo"
 
       - name: "Install PHP Code Sniffer"
         run: COMPOSER=.github/workflows/composer.phpcs.json composer install --no-interaction --no-progress
