@@ -1,8 +1,7 @@
 name: Unit Tests & Coverage
-on:
-  pull_request:
-    paths-ignore:
-      - '**/*.md'
+
+on: [push]
+
 jobs:
   Test-Service:
     runs-on: ubuntu-latest
@@ -10,6 +9,8 @@ jobs:
       matrix:
         php-version:
           - 8.2
+        mongodb-version:
+          - 3.6.3
     steps:
       - name: "Checkout repository"
         uses: actions/checkout@v3
@@ -20,6 +21,11 @@ jobs:
           tools: composer:v2
           php-version: ${{ matrix.php-version }}
           extensions: "json, mbstring, mongodb, pdo"
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.8.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
 
       - name: "Install Composer dependencies & app config"
         run: |
