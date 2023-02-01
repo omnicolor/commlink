@@ -22,11 +22,11 @@
     </div>
     <div class="row">
         <div class="col-3">Creation systems</div>
-        <div class="col">{{ implode(', ', $campaign->options['creation']) }}</div>
+        <div class="col">{{ implode(', ', $campaign->options['creation'] ?? []) }}</div>
     </div>
     @php
         $books = \App\Models\Shadowrun5e\Rulebook::all();
-        $enabled = $campaign->options['rulesets'];
+        $enabled = $campaign->options['rulesets'] ?? [];
         foreach ($books as $key => $book) {
             if (!in_array($key, $enabled, true) && !$book->required) {
                 // Book is not enabled.

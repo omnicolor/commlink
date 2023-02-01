@@ -154,7 +154,6 @@ class Character extends BaseCharacter
             ],
             true
         );
-        // @phpstan-ignore-next-line
         if (false === $key) {
             return null;
         }

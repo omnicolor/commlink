@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\Channel;
-use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use Illuminate\Database\Eloquent\Factories\Factory;

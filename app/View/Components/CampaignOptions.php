@@ -25,7 +25,7 @@ class CampaignOptions extends Component
             'components.%s.campaign-metadata',
             $this->campaign->system
         );
-        if (ViewFacade::exists($systemView)) {
+        if (view()->exists($systemView)) {
             return view($systemView);
         }
         return view('components.campaign-options');
