@@ -3,7 +3,7 @@ name: Unit Tests & Coverage
 on: [push]
 
 jobs:
-  Test-Service:
+  Code-Coverage:
     runs-on: ubuntu-latest
     strategy:
       matrix:
