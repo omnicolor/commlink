@@ -24,4 +24,4 @@ jobs:
         run: COMPOSER=.github/workflows/composer.php-cs-fixer.json composer install --no-interaction --no-progress
 
       - name: "Run php-cs-fixer"
-        run: vendor/bin/php-cs-fixer fix --dry-run --config=./php_cs.php -v --using-cache=no --diff --ansi $(git diff --name-only --diff-filter=d $GITHUB_BASE_REF)
+        run: vendor/bin/php-cs-fixer fix --dry-run --config=./php_cs.php -v --using-cache=no --diff --ansi
