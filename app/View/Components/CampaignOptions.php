@@ -6,7 +6,6 @@ namespace App\View\Components;
 
 use App\Models\Campaign;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\View\Component;
 
 class CampaignOptions extends Component
