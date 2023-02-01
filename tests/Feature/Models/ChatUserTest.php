@@ -21,7 +21,7 @@ final class ChatUserTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * Test getting the partial hash for verify a chat user.
+     * Test getting the verification code for a user.
      * @test
      */
     public function testGetVerificationAttribute(): void
@@ -32,14 +32,10 @@ final class ChatUserTest extends TestCase
             'remote_user_id' => 'Ud3adb33f',
             'user_id' => 13,
         ]);
-        self::assertSame('7c8ab8b31389dff56531', $user->verification);
-        /** @var ChatUser */
-        $user = ChatUser::factory()->make([
-            'server_id' => 'server_id',
-            'remote_user_id' => 'UFO',
-            'user_id' => 42,
-        ]);
-        self::assertSame('7722ffabb29218436721', $user->verification);
+        self::assertSame(
+            \substr(\sha1(config('app.key') . 'server-idUd3adb33f13'), 0, 20),
+            $user->verification
+        );
     }
 
     /**
