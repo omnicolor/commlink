@@ -80,14 +80,14 @@ final class ChannelsControllerTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->create([
-            'registered_by' => $user,
+            'registered_by' => $user->id,
         ]);
         $this->actingAs($user)
             ->patchJson(
                 route('channels.update', $channel),
                 []
             )
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+            ->assertUnprocessable();
     }
 
     /**
@@ -107,7 +107,7 @@ final class ChannelsControllerTest extends TestCase
                 route('channels.update', $channel),
                 ['auto' => 1, 'webhook' => 'test']
             )
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+            ->assertUnprocessable();
     }
 
     /**
