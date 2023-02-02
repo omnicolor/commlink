@@ -6,11 +6,14 @@ namespace Tests\Feature\Models;
 
 use App\Models\Campaign;
 use App\Models\Channel;
+use App\Models\Character;
+use App\Models\ChatCharacter;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
+use Tests\TestCase;
 
 /**
  * Tests for the channel model class.
@@ -19,7 +22,7 @@ use Illuminate\Support\Facades\Http;
  * @group slack
  * @medium
  */
-final class ChannelTest extends \Tests\TestCase
+final class ChannelTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
@@ -374,5 +377,37 @@ final class ChannelTest extends \Tests\TestCase
         ]);
         // @phpstan-ignore-next-line
         self::assertSame($campaign->id, $channel->campaign->id);
+    }
+
+    public function testCharactersWithoutAny(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->make();
+        self::assertEmpty($channel->characters());
+    }
+
+    public function testCharacters(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->create();
+
+        // Add a character to the channel.
+        /** @var Character */
+        $character = Character::factory()->create([
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+        ChatCharacter::factory()->create([
+            'channel_id' => $channel->id,
+            'character_id' => $character->_id,
+        ]);
+
+        // And an invalid character.
+        ChatCharacter::factory()->create([
+            'channel_id' => $channel->id,
+            'character_id' => 'not-found',
+        ]);
+
+        self::assertCount(1, $channel->characters());
+        $character->delete();
     }
 }

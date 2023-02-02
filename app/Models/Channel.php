@@ -92,6 +92,24 @@ class Channel extends Model
     }
 
     /**
+     * Get the characters registered to this channel.
+     * @return array<int, Character>
+     */
+    public function characters(): array
+    {
+        $characters = [];
+        $chatCharacters = ChatCharacter::where('channel_id', $this->id)->get();
+        foreach ($chatCharacters as $chatCharacter) {
+            $character = $chatCharacter->getCharacter();
+            if (null === $character) {
+                continue;
+            }
+            $characters[] = $character;
+        }
+        return $characters;
+    }
+
+    /**
      * Return the server's name.
      * @return ?string
      */

@@ -10,25 +10,11 @@ jobs:
         php-version:
           - 8.2
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+      - name: "Checkout"
+        uses: actions/checkout@v3
 
-      - name: "Install PHP w/ Extensions"
-        uses: shivammathur/setup-php@master
-        with:
-          php-version: ${{ matrix.php-version }}
-          coverage: none
-          extensions: "json, mbstring, mongodb, pdo"
-
-      - name: "Install PHP Code Sniffer"
-        run: COMPOSER=.github/workflows/composer.phpcs.json composer install --no-interaction --no-progress
-
-      - uses: thenabeel/action-phpcs@v8
-        with:
-          files: "**.php"
-          phpcs_path: vendor/bin/phpcs
-          standard: phpcs.xml
+      - name: PHP Code Style (phpcs)
+        uses: chindit/actions-phpcs@1.0.1
 
   PHP-CS-Fixer:
     runs-on: ubuntu-latest
