@@ -1,5 +1,6 @@
 .env
 .env.testing
+.phpcs.cache
 .phpunit.result.cache
 node_modules
 npm-debug.log

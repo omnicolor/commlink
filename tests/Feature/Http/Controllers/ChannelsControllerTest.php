@@ -29,7 +29,7 @@ final class ChannelsControllerTest extends TestCase
      */
     public function testUnauthenticated(): void
     {
-        $this->patchJson(
+        self::patchJson(
             route('channels.update', Channel::factory()->create()),
             []
         )
@@ -44,11 +44,8 @@ final class ChannelsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
-            ->patchJson(
-                route('channels.update', 0),
-                []
-            )
+        self::actingAs($user)
+            ->patchJson(route('channels.update', 0), [])
             ->assertNotFound();
     }
 
@@ -62,11 +59,8 @@ final class ChannelsControllerTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->create();
-        $this->actingAs($user)
-            ->patchJson(
-                route('channels.update', $channel),
-                []
-            )
+        self::actingAs($user)
+            ->patchJson(route('channels.update', $channel), [])
             ->assertForbidden();
     }
 
@@ -80,14 +74,12 @@ final class ChannelsControllerTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->create([
-            'registered_by' => $user,
+            'registered_by' => $user->id,
         ]);
-        $this->actingAs($user)
-            ->patchJson(
-                route('channels.update', $channel),
-                []
-            )
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        self::assertSame($user->id, $channel->registered_by);
+        self::actingAs($user)
+            ->patchJson(route('channels.update', $channel), [])
+            ->assertUnprocessable();
     }
 
     /**
@@ -100,14 +92,15 @@ final class ChannelsControllerTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->create([
-            'registered_by' => $user,
+            'registered_by' => $user->id,
         ]);
-        $this->actingAs($user)
+        self::assertSame($user->id, $channel->registered_by);
+        self::actingAs($user)
             ->patchJson(
                 route('channels.update', $channel),
                 ['auto' => 1, 'webhook' => 'test']
             )
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+            ->assertUnprocessable();
     }
 
     /**
@@ -123,13 +116,12 @@ final class ChannelsControllerTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->create([
-            'registered_by' => $user,
+            'registered_by' => $user->id,
         ]);
-        $this->actingAs($user)
-            ->patchJson(
-                route('channels.update', $channel),
-                ['webhook' => $url]
-            )
+
+        self::assertSame($user->id, $channel->registered_by);
+        self::actingAs($user)
+            ->patchJson(route('channels.update', $channel), ['webhook' => $url])
             ->assertOk();
         $channel->refresh();
         self::assertSame($url, $channel->webhook);
@@ -147,15 +139,13 @@ final class ChannelsControllerTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->create([
-            'registered_by' => $user,
+            'registered_by' => $user->id,
             'type' => Channel::TYPE_SLACK,
         ]);
-        $this->actingAs($user)
-            ->patchJson(
-                route('channels.update', $channel),
-                ['auto' => 1]
-            )
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        self::assertSame($user->id, $channel->registered_by);
+        self::actingAs($user)
+            ->patchJson(route('channels.update', $channel), ['auto' => 1])
+            ->assertUnprocessable();
     }
 
     /**
@@ -169,7 +159,7 @@ final class ChannelsControllerTest extends TestCase
         /** @var Channel */
         $channel = Channel::factory()->create([
             'channel_id' => (string)$this->faker->randomNumber(8, true),
-            'registered_by' => $user,
+            'registered_by' => $user->id,
             'type' => Channel::TYPE_DISCORD,
         ]);
 
@@ -184,11 +174,8 @@ final class ChannelsControllerTest extends TestCase
             ),
         ]);
 
-        $this->actingAs($user)
-            ->patchJson(
-                route('channels.update', $channel),
-                ['auto' => 1]
-            )
+        self::actingAs($user)
+            ->patchJson(route('channels.update', $channel), ['auto' => 1])
             ->assertOk();
         $channel->refresh();
         self::assertSame(

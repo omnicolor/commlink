@@ -109,6 +109,13 @@
                                 <i class="bi bi-question-square-fill text-danger"></i>
                             </button>
                         @endif
+                        <ul>
+                        @forelse ($channel->characters() as $character)
+                            <li>{{ $character }}</li>
+                        @empty
+                            <li>No characters</li>
+                        @endforelse
+                        </ul>
                     </li>
                 @empty
                     <li class="list-group-item">Campaign has no channels</li>

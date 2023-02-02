@@ -1,0 +1,6 @@
+{
+    "require": {
+        "php": "^8.2",
+        "squizlabs/php_codesniffer": "~3.7"
+    }
+}
