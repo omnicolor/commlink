@@ -37,14 +37,15 @@ jobs:
           composer install --no-progress --no-interaction
 
       - name: "Execute unit tests with code coverage"
-        run: vendor/bin/phpunit --coverage-clover 'public/coverage/clover.xml'
+        run: vendor/bin/phpunit --coverage-clover public/coverage/clover.xml
 
-      - name: "Generate coverage badge"
-        uses: timkrase/phpunit-coverage-badge@v1.2.1
+      - name: Monitor coverage
+        uses: slavcodev/coverage-monitor-action@v1
         with:
-          push_badge: true
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          report: public/coverage/clover.xml
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          coverage_path: public/coverage/clover.xml
+          threshold_alert: 80
+          threshold_warning: 95
 
       - name: "Retrieve the logs"
         if: ${{ failure() }}
