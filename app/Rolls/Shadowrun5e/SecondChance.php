@@ -8,11 +8,14 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Slack\TextAttachment;
+use App\Traits\PrettifyRollsForSlack;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Http;
 
 class SecondChance
 {
+    use PrettifyRollsForSlack;
+
     protected Channel $channel;
     protected ?Character $character;
 
@@ -109,23 +112,5 @@ class SecondChance
                 'type' => Channel::TYPE_SLACK,
             ]);
         }
-    }
-
-    /**
-     * Bold successes, strike out failures in the roll list.
-     * @param array<int, int> $rolls
-     * @return array<int, string>
-     */
-    protected function prettifyRolls(array $rolls): array
-    {
-        \array_walk($rolls, function (int | string &$value, int $key): void {
-            if ($value >= 5) {
-                $value = \sprintf('*%d*', $value);
-            } elseif (1 == $value) {
-                $value = \sprintf('~%d~', $value);
-            }
-        });
-        // @phpstan-ignore-next-line
-        return $rolls;
     }
 }

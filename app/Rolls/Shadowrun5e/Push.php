@@ -9,6 +9,7 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
+use App\Traits\PrettifyRollsForSlack;
 
 /**
  * Roll a Shadowrun 5e push the limit test.
@@ -24,6 +25,8 @@ use App\Rolls\Roll;
  */
 class Push extends Number
 {
+    use PrettifyRollsForSlack;
+
     /**
      * User's description of what they're rolling for.
      */

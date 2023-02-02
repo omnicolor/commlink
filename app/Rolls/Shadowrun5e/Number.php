@@ -11,6 +11,7 @@ use App\Models\Channel;
 use App\Models\Slack\ActionAttachment;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
+use App\Traits\PrettifyRollsForSlack;
 use Discord\Builders\Components\ActionRow;
 use Discord\Builders\Components\Button;
 use Discord\Builders\MessageBuilder;
@@ -21,6 +22,8 @@ use Discord\Parts\Interactions\Interaction;
  */
 class Number extends Roll
 {
+    use PrettifyRollsForSlack;
+
     protected Button $button;
 
     /**
@@ -162,24 +165,6 @@ class Number extends Roll
     }
 
     /**
-     * Bold successes, strike out failures in the roll list.
-     * @return array<int, string>
-     */
-    protected function prettifyRolls(): array
-    {
-        $rolls = $this->rolls;
-        \array_walk($rolls, function (int &$value, int $key): void {
-            if ($value >= 5) {
-                $value = \sprintf('*%d*', $value);
-            } elseif (1 == $value) {
-                $value = \sprintf('~%d~', $value);
-            }
-        });
-        // @phpstan-ignore-next-line
-        return $rolls;
-    }
-
-    /**
      * Return whether the roll was a glitch.
      * @return bool
      */
@@ -217,7 +202,7 @@ class Number extends Roll
         if ($this->isCriticalGlitch() || $this->isGlitch()) {
             $color = TextAttachment::COLOR_DANGER;
         }
-        $footer = \implode(' ', $this->prettifyRolls());
+        $footer = \implode(' ', $this->prettifyRolls(this->rolls));
         if (null !== $this->limit) {
             $footer .= \sprintf(', limit: %d', $this->limit);
         }

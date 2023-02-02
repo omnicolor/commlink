@@ -12,6 +12,7 @@ use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Generic;
 use App\Rolls\Roll;
+use App\Traits\PrettifyRollsForSlack;
 use Error;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Response;
@@ -23,6 +24,8 @@ use Illuminate\Support\Facades\Log;
  */
 class SlackController extends Controller
 {
+    use PrettifyRollsForSlack;
+
     /**
      * Arguments to the roll bot.
      * @var string[]
