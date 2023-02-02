@@ -97,7 +97,7 @@ class Channel extends Model
      */
     public function characters(): array
     {
-        $characters = [];
+            $characters = [];
         $chatCharacters = ChatCharacter::where('channel_id', $this->id)->get();
         foreach ($chatCharacters as $chatCharacter) {
             $character = $chatCharacter->getCharacter();
