@@ -26,13 +26,7 @@ jobs:
 
       - uses: thenabeel/action-phpcs@v8
         with:
-          files: "app/**.php"
-          phpcs_path: vendor/bin/phpcs
-          standard: phpcs.xml
-
-      - uses: thenabeel/action-phpcs@v8
-        with:
-          files: "tests/**.php"
+          files: "app/**/*.php,tests/**/*.php"
           phpcs_path: vendor/bin/phpcs
           standard: phpcs.xml
 
