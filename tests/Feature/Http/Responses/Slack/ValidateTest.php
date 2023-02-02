@@ -170,7 +170,7 @@ final class ValidateTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
         /** @var Channel */
-        $channel = Channel::factory()->create();
+        $channel = Channel::factory()->create(['type' => Channel::TYPE_SLACK]);
         $channel->user = \Str::random(10);
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
@@ -241,7 +241,7 @@ final class ValidateTest extends TestCase
         $user = User::factory()->create();
 
         /** @var Channel */
-        $channel = Channel::factory()->create();
+        $channel = Channel::factory()->create(['type' => Channel::TYPE_SLACK]);
         $channel->user = \Str::random(10);
 
         /** @var Character */

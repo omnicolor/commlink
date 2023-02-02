@@ -90,7 +90,7 @@ final class HandleRollEventTest extends \Tests\TestCase
 
         /** @var Campaign */
         $campaign = Campaign::factory()
-            ->has(Channel::factory())
+            ->has(Channel::factory(['type' => Channel::TYPE_SLACK]))
             ->create();
         /** @var Channel */
         $source = $campaign->channels->first();
@@ -140,7 +140,7 @@ final class HandleRollEventTest extends \Tests\TestCase
 
         // @phpstan-ignore-next-line
         $campaign = Campaign::factory()
-            ->has(Channel::factory())
+            ->has(Channel::factory(['type' => Channel::TYPE_SLACK]))
             ->hasChannels(
                 1,
                 [
@@ -173,7 +173,7 @@ final class HandleRollEventTest extends \Tests\TestCase
         $roll = new Generic('1d6', 'unnamed', new Channel());
         // @phpstan-ignore-next-line
         $campaign = Campaign::factory()
-            ->has(Channel::factory())
+            ->has(Channel::factory(['type' => Channel::TYPE_SLACK]))
             ->hasChannels(
                 1,
                 [
@@ -205,7 +205,7 @@ final class HandleRollEventTest extends \Tests\TestCase
 
         // @phpstan-ignore-next-line
         $campaign = Campaign::factory()
-            ->has(Channel::factory())
+            ->has(Channel::factory(['type' => Channel::TYPE_DISCORD]))
             ->hasChannels(
                 1,
                 [

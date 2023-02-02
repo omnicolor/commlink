@@ -25,17 +25,6 @@ class TextAttachment extends Attachment
     }
 
     /**
-     * Add a footer to the attachment.
-     * @param string $footer
-     * @return TextAttachment
-     */
-    public function addFooter(string $footer): TextAttachment
-    {
-        $this->footer = $footer;
-        return $this;
-    }
-
-    /**
      * Return the attachment as an array.
      * @return array<string, mixed>
      */

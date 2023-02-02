@@ -9,11 +9,14 @@ use App\Exceptions\SlackException;
 use App\Http\Requests\SlackRequest;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
+use App\Models\Slack\TextAttachment;
 use App\Rolls\Generic;
 use App\Rolls\Roll;
 use Error;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Controller for handling Slack requests.
@@ -42,12 +45,91 @@ class SlackController extends Controller
     }
 
     /**
+     * Handle a user clicking a button attached to a response.
+     * @param string $payload Payload Slack sent
+     * @return ?SlackResponse
+     */
+    protected function handleAction(string $payload): ?SlackResponse
+    {
+        $request = json_decode($payload);
+        $class = $request->actions[0]->name;
+        $action = new $class($request);
+
+        $channel = $this->getChannel($request->team->id, $request->channel->id);
+        $channel->user = $request->user->id;
+        $character = $channel->character();
+
+        if (null === $character) {
+            $response_url = $request->response_url;
+            $error_response = [
+                'color' => TextAttachment::COLOR_DANGER,
+                'delete_original' => false,
+                'replace_original' => false,
+                'response_type' => 'ephemeral',
+                'text' => 'Only registered users can click action buttons',
+            ];
+            Http::post($response_url, $error_response);
+            return null;
+        }
+
+        if ($character->id !== $request->callback_id) {
+            $response_url = $request->response_url;
+            $error_response = [
+                'color' => TextAttachment::COLOR_DANGER,
+                'delete_original' => false,
+                'replace_original' => false,
+                'response_type' => 'ephemeral',
+                'text' => 'Only the user that rolled can use this action',
+            ];
+            Http::post($response_url, $error_response);
+            return null;
+        }
+
+        $original_message = $request->original_message->attachments[0];
+        $original_roll = $original_message->footer;
+        $original_roll = str_replace(['*', '~'], ['', ''], $original_roll);
+        $original_roll = explode(' ', $original_roll);
+
+        $successes = 0;
+        $rerolled = 0;
+        foreach ($original_roll as $key => $roll) {
+            if (5 <= $roll) {
+                $successes++;
+                continue;
+            }
+            $rerolled++;
+            $roll = random_int(1, 6);
+            if (5 <= $roll) {
+                $successes++;
+            }
+            $original_roll[$key] = $roll;
+        }
+
+        \rsort($original_roll);
+        return (new SlackResponse(channel: $channel))
+            ->addAttachment(new TextAttachment(
+                title: $original_message->title . ' with second chance',
+                text: sprintf(
+                    'Rolled %d successes (originally %s), rerolled %d',
+                    $successes,
+                    strtolower($original_message->text),
+                    $rerolled
+                ),
+                color: TextAttachment::COLOR_SUCCESS,
+                footer: implode(' ', $this->prettifyRolls($original_roll)),
+            ));
+    }
+
+    /**
      * Handle a POST from Slack.
      * @param SlackRequest $request
      * @return SlackResponse
      */
-    public function post(SlackRequest $request): SlackResponse
+    public function post(SlackRequest $request): ?SlackResponse
     {
+        if (isset($request->payload)) {
+            return $this->handleAction($request->payload);
+        }
         $this->args = \explode(' ', $request->text);
         $this->text = $request->text;
 
@@ -73,7 +155,7 @@ class SlackController extends Controller
                 return $roll->forSlack();
             } catch (Error $ex) {
                 // Ignore errors here, they might want a generic command.
-                \Log::debug($ex->getMessage());
+                Log::debug($ex->getMessage());
             }
         }
 
@@ -93,7 +175,7 @@ class SlackController extends Controller
                 return $roll->forSlack();
             } catch (Error $ex) {
                 // Again, ignore errors, they might want a generic command.
-                \Log::debug($ex->getMessage());
+                Log::debug($ex->getMessage());
             }
         }
 
@@ -116,7 +198,7 @@ class SlackController extends Controller
             return $roll->forSlack();
         } catch (Error $ex) {
             // Again, ignore errors, they might want an old-school response.
-            \Log::debug($ex->getMessage());
+            Log::debug($ex->getMessage());
         }
 
         // Finally, see if there's a Slack response that isn't system-specific.
@@ -129,7 +211,7 @@ class SlackController extends Controller
             $response = new $class(content: $this->text, channel: $channel);
             return $response;
         } catch (Error $ex) {
-            \Log::debug($ex->getMessage());
+            Log::debug($ex->getMessage());
             throw new SlackException(
                 'That doesn\'t appear to be a valid Commlink command.'
                 . \PHP_EOL . \PHP_EOL . 'Type `/roll help` for more help.'

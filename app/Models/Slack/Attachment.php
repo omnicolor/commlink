@@ -15,6 +15,17 @@ abstract class Attachment
     public const COLOR_WARNING = 'warning';
 
     /**
+     * Add a footer to the attachment.
+     * @param string $footer
+     * @return TextAttachment
+     */
+    public function addFooter(string $footer): Attachment
+    {
+        $this->footer = $footer;
+        return $this;
+    }
+
+    /**
      * Render the attachment as an array.
      * @return array<string, mixed>
      */

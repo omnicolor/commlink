@@ -38,19 +38,22 @@ class SlackRequest extends FormRequest
         return [
             'channel_id' => [
                 'filled',
-                'required',
+                'required_without:payload',
+            ],
+            'payload' => [
+                'required_without_all:channel_id,team_id,text,user_id',
             ],
             'team_id' => [
                 'filled',
-                'required',
+                'required_without:payload',
             ],
             'text' => [
                 'filled',
-                'required',
+                'required_without:payload',
             ],
             'user_id' => [
                 'filled',
-                'required',
+                'required_without:payload',
             ],
         ];
     }

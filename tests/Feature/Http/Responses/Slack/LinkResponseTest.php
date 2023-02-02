@@ -54,7 +54,7 @@ final class LinkResponseTest extends TestCase
                 . 'system.'
         );
         /** @var Channel */
-        $channel = Channel::factory()->create();
+        $channel = Channel::factory()->create(['type' => Channel::TYPE_SLACK]);
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,

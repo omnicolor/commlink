@@ -8,6 +8,7 @@ use App\Events\DiscordMessageReceived;
 use App\Exceptions\SlackException;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
+use App\Models\Slack\ActionAttachment;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Discord\Builders\Components\ActionRow;
@@ -220,9 +221,27 @@ class Number extends Roll
         if (null !== $this->limit) {
             $footer .= \sprintf(', limit: %d', $this->limit);
         }
-        $attachment = new TextAttachment($this->title, $this->text, $color);
-        $attachment->addFooter($footer);
         $response = new SlackResponse(channel: $this->channel);
+
+        if (null !== $this->character) {
+            $attachment = new ActionAttachment(
+                title: $this->title,
+                text: $this->text,
+                color: $color,
+                footer: $footer,
+                callback_id: $this->character->id,
+            );
+            $attachment->addAction(
+                '\\App\\Rolls\Shadowrun5e\\SecondChance',
+                '2nd chance',
+                'second'
+            );
+            $attachment->addAction('unknown', 'Unknown', 'unknown');
+        } else {
+            $attachment = new TextAttachment($this->title, $this->text, $color);
+        }
+
+        $attachment->addFooter($footer);
         return $response->addAttachment($attachment)->sendToChannel();
     }
 

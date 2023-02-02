@@ -65,6 +65,7 @@ final class HandleInitiativeEventTest extends TestCase
         /** @var Channel */
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
+            'type' => Channel::TYPE_SLACK,
         ]);
 
         $event = new InitiativeAdded($initiative, $campaign, $channel);
