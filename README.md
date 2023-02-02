@@ -1,5 +1,7 @@
 # Commlink
 
+![Code Coverage Badge](./coverage_badge.svg)
+
 Commlink is a manager for characters and campaigns for various table top role
 playing games. Originally written as a character builder for Shadowrun 5E, it
 later expanded to a GM tool allowing the game master to keep details about the
@@ -48,13 +50,22 @@ Assuming you've registered the bot with Discord and configured its token:
 $ ./artisan commlink:discord-run
 ```
 
-## Running tests
+## Running tests and static analysis
 
-Running unit tests is done through Composer:
+All of the automated tests can be run through composer:
 
 ```shell
-$ composer test
+$ composer all
 ```
+
+If you'd like to run an individual check:
+* coverage - Build a PHPUnit code coverage report that will be available in
+    `public/coverage` or on your site at `<host>/coverage/index.html`.
+* phpcs - Run PHP Code Sniffer on the entire codebase.
+* php-cs-fixer - Run PHP-CS-Fixer's dry run on the entire codebase.
+* phpstan - Run PHPstan's highest level across the entire codebase.
+* style - Run both phpcs and php-cs-fixer.
+* test - Run PHPUnit tests without generating a code coverage report.
 
 # Credits
 

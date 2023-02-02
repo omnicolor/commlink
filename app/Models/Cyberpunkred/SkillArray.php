@@ -6,13 +6,13 @@ namespace App\Models\Cyberpunkred;
 
 /**
  * Collection of Skills.
- * @extends \ArrayObject<int, Skill>
+ * @extends \ArrayObject<int|string, Skill>
  */
 class SkillArray extends \ArrayObject
 {
     /**
      * Add a skill to the array.
-     * @param ?int $index
+     * @param int|null|string $index
      * @param ?Skill $skill
      * @throws \TypeError
      */

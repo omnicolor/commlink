@@ -6,7 +6,6 @@ namespace App\View\Components;
 
 use App\Models\Campaign;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\View\Component;
 
 class CampaignOptions extends Component
@@ -25,7 +24,7 @@ class CampaignOptions extends Component
             'components.%s.campaign-metadata',
             $this->campaign->system
         );
-        if (ViewFacade::exists($systemView)) {
+        if (view()->exists($systemView)) {
             return view($systemView);
         }
         return view('components.campaign-options');
