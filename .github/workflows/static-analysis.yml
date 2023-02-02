@@ -4,10 +4,16 @@ on: pull_request
 
 jobs:
   PHP-Code-Sniffer:
-    stage: linting
-    image: registry.gitlab.com/pipeline-components/php-codesniffer:latest
-    script:
-      - phpcs -s -p --colors --extensions=php --standard=PSR2 .
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version:
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
+
+      - name: PHP Code Style (phpcs)
+        uses: chindit/actions-phpcs@1.0.1
 
   PHP-CS-Fixer:
     runs-on: ubuntu-latest
