@@ -404,12 +404,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "ce82b0619688fa5847a62eb70408e8b6b5a4d692"
+                "reference": "11683d16d77242f696a64298cf8c8d81e02f6bd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/ce82b0619688fa5847a62eb70408e8b6b5a4d692",
-                "reference": "ce82b0619688fa5847a62eb70408e8b6b5a4d692",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/11683d16d77242f696a64298cf8c8d81e02f6bd3",
+                "reference": "11683d16d77242f696a64298cf8c8d81e02f6bd3",
                 "shasum": ""
             },
             "require": {
@@ -507,7 +507,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-02-02T14:19:56+00:00"
+            "time": "2023-02-03T12:00:04+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -1922,12 +1922,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "efcf3a620b7e461e53c03ea16efda28bfc34a1d6"
+                "reference": "4f6db68d93ebfafd9f1569637dd7bcf4d87b1db0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/efcf3a620b7e461e53c03ea16efda28bfc34a1d6",
-                "reference": "efcf3a620b7e461e53c03ea16efda28bfc34a1d6",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/4f6db68d93ebfafd9f1569637dd7bcf4d87b1db0",
+                "reference": "4f6db68d93ebfafd9f1569637dd7bcf4d87b1db0",
                 "shasum": ""
             },
             "require": {
@@ -2103,7 +2103,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-02-02T17:12:18+00:00"
+            "time": "2023-02-03T19:27:44+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -9442,12 +9442,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "508c71c22eeb2b678cfdfece37981e242cbc9665"
+                "reference": "e157ef3f3124bbf6fe7ce0ffd109e8a8ef284e7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/508c71c22eeb2b678cfdfece37981e242cbc9665",
-                "reference": "508c71c22eeb2b678cfdfece37981e242cbc9665",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/e157ef3f3124bbf6fe7ce0ffd109e8a8ef284e7f",
+                "reference": "e157ef3f3124bbf6fe7ce0ffd109e8a8ef284e7f",
                 "shasum": ""
             },
             "require": {
@@ -9509,9 +9509,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/annotations/issues",
-                "source": "https://github.com/doctrine/annotations/tree/2.0.x"
+                "source": "https://github.com/doctrine/annotations/tree/2.0.1"
             },
-            "time": "2023-01-16T14:44:57+00:00"
+            "time": "2023-02-02T22:02:53+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -9797,21 +9797,21 @@
         },
         {
             "name": "icanhazstring/composer-unused",
-            "version": "0.8.5",
+            "version": "0.8.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer-unused/composer-unused.git",
-                "reference": "8c559d4aeac59291f01aea9160f093b208276bbf"
+                "reference": "4d5ba999f365b9d5f1b474516c004d150915ba9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer-unused/composer-unused/zipball/8c559d4aeac59291f01aea9160f093b208276bbf",
-                "reference": "8c559d4aeac59291f01aea9160f093b208276bbf",
+                "url": "https://api.github.com/repos/composer-unused/composer-unused/zipball/4d5ba999f365b9d5f1b474516c004d150915ba9b",
+                "reference": "4d5ba999f365b9d5f1b474516c004d150915ba9b",
                 "shasum": ""
             },
             "require": {
                 "composer-unused/contracts": "^0.2",
-                "composer-unused/symbol-parser": "^0.1.10",
+                "composer-unused/symbol-parser": "^0.1.11",
                 "ext-json": "*",
                 "nikic/php-parser": "^4.15",
                 "ondram/ci-detector": "^4.1",
@@ -9831,10 +9831,12 @@
                 "dg/bypass-finals": "^1.4",
                 "ext-ds": "*",
                 "ext-zend-opcache": "*",
-                "jangregor/phpstan-prophecy": "^0.8.1",
+                "jangregor/phpstan-prophecy": "^1.0",
                 "phpspec/prophecy-phpunit": "^2.0.1",
-                "phpstan/phpstan": "^0.12.99",
-                "phpunit/phpunit": "^9.5.26",
+                "phpstan/extension-installer": "^1.2",
+                "phpstan/phpstan": "^1.9",
+                "phpstan/phpstan-phpunit": "^1.3",
+                "phpunit/phpunit": "^9.5.28",
                 "roave/security-advisories": "dev-master",
                 "squizlabs/php_codesniffer": "^3.7"
             },
@@ -9878,7 +9880,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2022-12-02T10:46:30+00:00"
+            "time": "2023-02-03T13:47:20+00:00"
         },
         {
             "name": "laravel/breeze",
@@ -11194,12 +11196,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "2b3bfefa41ab83089fd8e061bd3286c94dfe99c4"
+                "reference": "c53383c84885cc563b34110039ba083af86d837a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2b3bfefa41ab83089fd8e061bd3286c94dfe99c4",
-                "reference": "2b3bfefa41ab83089fd8e061bd3286c94dfe99c4",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c53383c84885cc563b34110039ba083af86d837a",
+                "reference": "c53383c84885cc563b34110039ba083af86d837a",
                 "shasum": ""
             },
             "require": {
@@ -11288,7 +11290,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-02-01T06:43:16+00:00"
+            "time": "2023-02-03T16:49:59+00:00"
         },
         {
             "name": "roave/security-advisories",
@@ -11296,12 +11298,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "94bac22571ef122c0695eeef7002e0a8f0ca976c"
+                "reference": "92f4424ad5419a427f950f7d1df1aae30b02687d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/94bac22571ef122c0695eeef7002e0a8f0ca976c",
-                "reference": "94bac22571ef122c0695eeef7002e0a8f0ca976c",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/92f4424ad5419a427f950f7d1df1aae30b02687d",
+                "reference": "92f4424ad5419a427f950f7d1df1aae30b02687d",
                 "shasum": ""
             },
             "conflict": {
@@ -11335,6 +11337,7 @@
                 "barryvdh/laravel-translation-manager": "<0.6.2",
                 "barzahlen/barzahlen-php": "<2.0.1",
                 "baserproject/basercms": "<4.7.2",
+                "bassjobsen/bootstrap-3-typeahead": ">4.0.2",
                 "billz/raspap-webgui": "<=2.6.6",
                 "bk2k/bootstrap-package": ">=7.1,<7.1.2|>=8,<8.0.8|>=9,<9.0.4|>=9.1,<9.1.3|>=10,<10.0.10|>=11,<11.0.3",
                 "bmarshall511/wordpress_zero_spam": "<5.2.13",
@@ -11767,6 +11770,7 @@
                 "vova07/yii2-fileapi-widget": "<0.1.9",
                 "vrana/adminer": "<4.8.1",
                 "wallabag/tcpdf": "<6.2.22",
+                "wallabag/wallabag": ">=2-alpha.1,<2.5.3",
                 "wanglelecc/laracms": "<=1.0.3",
                 "web-auth/webauthn-framework": ">=3.3,<3.3.4",
                 "webcoast/deferred-image-processing": "<1.0.2",
@@ -11778,7 +11782,7 @@
                 "wp-cli/wp-cli": "<2.5",
                 "wp-graphql/wp-graphql": "<0.3.5",
                 "wpanel/wpanel4-cms": "<=4.3.1",
-                "wwbn/avideo": "<=11.6",
+                "wwbn/avideo": "<12.4",
                 "xataface/xataface": "<3",
                 "yeswiki/yeswiki": "<4.1",
                 "yetiforce/yetiforce-crm": "<=6.4",
@@ -11856,7 +11860,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-02-02T17:04:15+00:00"
+            "time": "2023-02-03T01:33:09+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -12228,12 +12232,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "3fade0c8462024d0426a00dc1ad0a2fda0df733f"
+                "reference": "830c43a844f1f8d5b7a1f6d6076b784454d8b7ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/3fade0c8462024d0426a00dc1ad0a2fda0df733f",
-                "reference": "3fade0c8462024d0426a00dc1ad0a2fda0df733f",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/830c43a844f1f8d5b7a1f6d6076b784454d8b7ed",
+                "reference": "830c43a844f1f8d5b7a1f6d6076b784454d8b7ed",
                 "shasum": ""
             },
             "require": {
@@ -12283,7 +12287,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-04-14T11:24:33+00:00"
+            "time": "2023-02-03T06:03:51+00:00"
         },
         {
             "name": "sebastian/exporter",
@@ -12601,12 +12605,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/recursion-context.git",
-                "reference": "e3a614438af7f71eaa6fc8e406be8a3aa5c34595"
+                "reference": "e75bd0f07204fec2a0af9b0f3cfe97d05f92efc1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/e3a614438af7f71eaa6fc8e406be8a3aa5c34595",
-                "reference": "e3a614438af7f71eaa6fc8e406be8a3aa5c34595",
+                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/e75bd0f07204fec2a0af9b0f3cfe97d05f92efc1",
+                "reference": "e75bd0f07204fec2a0af9b0f3cfe97d05f92efc1",
                 "shasum": ""
             },
             "require": {
@@ -12648,7 +12652,7 @@
             "homepage": "https://github.com/sebastianbergmann/recursion-context",
             "support": {
                 "issues": "https://github.com/sebastianbergmann/recursion-context/issues",
-                "source": "https://github.com/sebastianbergmann/recursion-context/tree/4.0"
+                "source": "https://github.com/sebastianbergmann/recursion-context/tree/4.0.5"
             },
             "funding": [
                 {
@@ -12656,7 +12660,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-07-30T08:13:09+00:00"
+            "time": "2023-02-03T06:07:39+00:00"
         },
         {
             "name": "sebastian/resource-operations",
@@ -12719,12 +12723,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/type.git",
-                "reference": "dd52163b81c8723409607f481ac6edb1c3e7c062"
+                "reference": "75e2c2a32f5e0b3aef905b9ed0b179b953b3d7c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/dd52163b81c8723409607f481ac6edb1c3e7c062",
-                "reference": "dd52163b81c8723409607f481ac6edb1c3e7c062",
+                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/75e2c2a32f5e0b3aef905b9ed0b179b953b3d7c7",
+                "reference": "75e2c2a32f5e0b3aef905b9ed0b179b953b3d7c7",
                 "shasum": ""
             },
             "require": {
@@ -12767,7 +12771,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-01-30T14:46:43+00:00"
+            "time": "2023-02-03T06:13:03+00:00"
         },
         {
             "name": "sebastian/version",
