@@ -1,6 +1,6 @@
 name: Unit Tests & Coverage
 
-on: [push]
+on: pull_request
 
 jobs:
   Code-Coverage:
@@ -20,7 +20,7 @@ jobs:
         with:
           tools: composer:v2
           php-version: ${{ matrix.php-version }}
-          extensions: "json, mbstring, mongodb, pdo"
+          extensions: "json, mbstring, mongodb, pdo, xdebug"
 
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.8.0
@@ -43,7 +43,7 @@ jobs:
         uses: slavcodev/coverage-monitor-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          coverage_path: public/coverage/clover.xml
+          coverage_path: "public/coverage/clover.xml"
           threshold_alert: 80
           threshold_warning: 95
 
