@@ -7,9 +7,12 @@ namespace App\Http\Controllers;
 use App\Models\ChatUser;
 use App\Models\Traits\InteractsWithDiscord;
 use App\Models\User;
+use Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Laravel\Socialite\Facades\Socialite;
+use RuntimeException;
 
 class DiscordController extends Controller
 {
@@ -19,13 +22,11 @@ class DiscordController extends Controller
      * Handles a POST from the Discord view.
      *
      * Should receive a list of Guild IDs that the user wants to register.
-     * @param Request $request
-     * @return RedirectResponse
      */
     public function save(Request $request): RedirectResponse
     {
         /** @var User */
-        $commlinkUser = \Auth::user();
+        $commlinkUser = Auth::user();
 
         // @phpstan-ignore-next-line
         $potentialGuilds = collect($request->session()->pull('guilds'))
@@ -68,6 +69,42 @@ class DiscordController extends Controller
     }
 
     /**
+     * Handle a successful login from Discord.
+     */
+    public function handleCallback(): RedirectResponse
+    {
+        $socialUser = Socialite::driver('discord')->user();
+        $user = User::where('email', $socialUser->email)->first();
+
+        if (null === $user) {
+            // The user wasn't found, create a new one.
+            $user = User::create([
+                'email' => $socialUser->email,
+                'name' => $socialUser->name,
+                'password' => 'reset me',
+            ]);
+        }
+
+        Auth::login($user);
+        session(['discordUser' => [
+            'token' => $socialUser->token,
+            'avatar' => $socialUser->avatar,
+            'snowflake' => $socialUser->id,
+            'username' => $socialUser->name,
+            'discriminator' => $socialUser->user['discriminator'],
+        ]]);
+        return redirect('/discord');
+    }
+
+    /**
+     * The user wants to login to Commlink using their Discord login.
+     */
+    public function redirectToDiscord(): RedirectResponse
+    {
+        return Socialite::driver('discord')->redirect();
+    }
+
+    /**
      * View the Discord linking page.
      *
      * Handles a redirect from the Oauth2 login page from Discord, then uses the
@@ -75,32 +112,45 @@ class DiscordController extends Controller
      * information about them as well as the list of Guilds they're in. We then
      * present that to the user to allow them to automatically link a number of
      * Guilds for that Discord user.
-     * @param Request $request
-     * @return RedirectResponse | View
      */
     public function view(Request $request): RedirectResponse | View
     {
-        if (null === $request->input('code')) {
+        $wasDiscordLogin = false;
+        if ($request->session()->has('discordUser')) {
+            $discordUser = $request->session()->pull('discordUser');
+            $accessToken = $discordUser['token'];
+            $wasDiscordLogin = true;
+        } elseif (null === $request->input('code')) {
             return redirect()->route('settings')->withErrors([
                 'error' => 'Discord login failed, no Oauth code supplied',
             ]);
-        }
-
-        if (30 !== strlen($request->input('code'))) {
+        } elseif (30 !== strlen($request->input('code'))) {
             return redirect()->route('settings')->withErrors([
                 'error' => 'Discord login failed, invalid Oauth code',
             ]);
+        } else {
+            try {
+                $accessToken = $this->getDiscordAccessToken($request->input('code'));
+                $discordUser = $this->getDiscordUser($accessToken);
+            } catch (RuntimeException) {
+                return redirect()
+                    ->route('settings')
+                    ->withErrors([
+                        'error' => \sprintf(
+                            'Request to Discord failed. Please <a href="%s">try again</a>.',
+                            $this->getDiscordOauthURL(),
+                        ),
+                    ]);
+            }
         }
 
         try {
-            $accessToken = $this->getDiscordAccessToken($request->input('code'));
-            $discordUser = $this->getDiscordUser($accessToken);
             $guilds = $this->getDiscordGuilds($accessToken);
             session([
                 'guilds' => $guilds,
                 'discordUser' => $discordUser,
             ]);
-        } catch (\RuntimeException) {
+        } catch (RuntimeException) {
             return redirect()
                 ->route('settings')
                 ->withErrors([
@@ -112,12 +162,30 @@ class DiscordController extends Controller
         }
 
         /** @var User */
-        $commlinkUser = \Auth::user();
+        $commlinkUser = Auth::user();
         $registeredGuilds = ChatUser::discord()
             ->where('user_id', $commlinkUser->id)
             ->where('remote_user_id', $discordUser['snowflake'])
             ->pluck('server_id')
             ->flip();
+
+        if ($wasDiscordLogin) {
+            $allGuildsRegistered = true;
+            // Check to see if all guilds have already been registered.
+            foreach ($guilds as $guild) {
+                // @phpstan-ignore-next-line
+                if (!$registeredGuilds->has($guild['snowflake'])) {
+                    $allGuildsRegistered = false;
+                    break;
+                }
+            }
+
+            // If the user has already registered all of their guilds, don't
+            // show the guild registration page, just go to the dashboard.
+            if ($allGuildsRegistered) {
+                return redirect()->route('dashboard');
+            }
+        }
 
         return view(
             'discord-choose-guild',

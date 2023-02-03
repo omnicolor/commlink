@@ -147,6 +147,7 @@ trait InteractsWithDiscord
      * Gets a user's information from the Discord API from the Oauth2 token.
      * @param string $token
      * @return array<string, ?string>
+     * @throws RuntimeException
      */
     public function getDiscordUser(string $token): array
     {

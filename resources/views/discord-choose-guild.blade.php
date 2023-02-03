@@ -5,7 +5,7 @@
 
     <div class="row">
         <div class="col">
-            <h1>Choose Discord
+            <h1 class="mt-4">Choose Discord
                 @if (1 === count($guilds))
                     guild
                 @else
