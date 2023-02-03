@@ -202,7 +202,7 @@ class Number extends Roll
         if ($this->isCriticalGlitch() || $this->isGlitch()) {
             $color = TextAttachment::COLOR_DANGER;
         }
-        $footer = \implode(' ', $this->prettifyRolls(this->rolls));
+        $footer = \implode(' ', $this->prettifyRolls($this->rolls));
         if (null !== $this->limit) {
             $footer .= \sprintf(', limit: %d', $this->limit);
         }
