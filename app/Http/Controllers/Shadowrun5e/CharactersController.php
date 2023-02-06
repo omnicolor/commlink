@@ -1194,6 +1194,39 @@ class CharactersController extends \App\Http\Controllers\Controller
         return $this->redirect($request->input('nav'), 'skills', $character);
     }
 
+    public function storeSocial(Request $request): RedirectResponse
+    {
+        /** @var User */
+        $user = \Auth::user();
+
+        $characterId = $request->session()->get('shadowrun5epartial');
+        $character = PartialCharacter::where('_id', $characterId)
+            ->where('owner', $user->email)
+            ->firstOrFail();
+
+        $contactNames = $request->input('contact-names', []);
+        $contactArchetypes = $request->input('contact-archetypes');
+        $contactConnections = $request->input('contact-connections');
+        $contactLoyalties = $request->input('contact-loyalties');
+        $contactNotes = $request->input('contact-notes');
+
+        $contacts = [];
+        foreach ($contactNames as $key => $name) {
+            $contacts[] = [
+                'name' => $name,
+                'archetype' => $contactArchetypes[$key],
+                'connection' => (int)$contactConnections[$key],
+                'loyalty' => (int)$contactLoyalties[$key],
+                'notes' => $contactNotes[$key] ?? null,
+            ];
+        }
+        $character->contacts = $contacts;
+
+        $character->update();
+
+        return $this->redirect($request->input('nav'), 'social', $character);
+    }
+
     public function storeStandard(
         StandardPriorityRequest $request
     ): RedirectResponse {

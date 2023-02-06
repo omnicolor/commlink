@@ -133,6 +133,10 @@ Route::middleware('auth')->group(function (): void {
                 [ShadowrunController::class, 'storeSkills'],
             )->name('create-skills');
             Route::post(
+                'create/social',
+                [ShadowrunController::class, 'storeSocial'],
+            )->name('create-social');
+            Route::post(
                 'create/standard',
                 [ShadowrunController::class, 'storeStandard'],
             )->name('create-standard');

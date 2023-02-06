@@ -87,7 +87,6 @@ function setPointsDisplay(points, el, formatter) {
  * @return {Object} Map of message and karmaSpent
  */
 function calculateKarmaForTooManySkills(skills, specializations, skillCost, deficit) {
-    window.console.log(skills);
     let karmaSpent = 0;
     let message = [];
     let skill;
@@ -305,7 +304,4 @@ $(function () {
         event.preventDefault();
         $('#points').show();
     });
-
-    let points = new Points(character);
-    updatePointsToSpendDisplay(points);
 });
