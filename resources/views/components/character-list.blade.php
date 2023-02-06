@@ -66,6 +66,12 @@
                         <span class="badge bg-warning">Beta</span>
                     </a>
                     @endfeature
+                    @feature('herolab-import')
+                    <a class="dropdown-item" href="{{ route('import.herolab.view') }}">
+                        Import a Hero Lab portfolio
+                        <span class="badge bg-warning">Beta</span>
+                    </a>
+                    @endfeature
                 </li>
             </ul>
         </div>
