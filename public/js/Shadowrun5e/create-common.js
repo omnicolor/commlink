@@ -307,7 +307,4 @@ $(function () {
         event.preventDefault();
         $('#points').show();
     });
-
-    let points = new Points(character);
-    updatePointsToSpendDisplay(points);
 });
