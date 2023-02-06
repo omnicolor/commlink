@@ -822,6 +822,7 @@ class CharactersController extends \App\Http\Controllers\Controller
                     ]
                 );
             case 'review':
+                $character->validate();
                 return view(
                     'Shadowrun5e.character',
                     [
