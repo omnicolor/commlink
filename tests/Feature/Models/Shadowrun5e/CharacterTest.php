@@ -412,6 +412,48 @@ final class CharacterTest extends TestCase
     }
 
     /**
+     * Test essence loss for a character with biocompatibility (cyberware).
+     * @tst
+     */
+    public function testEssenceLossWithBiocompatibilityCyberware(): void
+    {
+        $character = new Character();
+        self::assertEquals(6, $character->essence);
+
+        $character->augmentations = [[
+            'id' => 'bone-lacing-aluminum',
+        ]];
+
+        self::assertEquals(5, $character->essence);
+
+        $character->qualities = [[
+            'id' => 'biocompatibility-cyberware',
+        ]];
+        self::assertEquals(5.1, $character->essence);
+    }
+
+    /**
+     * Test essence loss for a character with biocompatibility (bioware).
+     * @tst
+     */
+    public function testEssenceLossWithBiocompatibilityBioware(): void
+    {
+        $character = new Character();
+        self::assertEquals(6, $character->essence);
+
+        $character->augmentations = [[
+            'id' => 'bone-density-augmentation-2',
+        ]];
+
+        self::assertEquals(5.4, $character->essence);
+
+        $character->qualities = [[
+            'id' => 'biocompatibility-bioware',
+        ]];
+        self::assertEquals(5.46, $character->essence);
+    }
+
+    /**
      * Test getting a character's gear if they have none.
      * @test
      */

@@ -79,7 +79,7 @@ final class AugmentationTest extends TestCase
     }
 
     /**
-     * Test that loading an augmentation sets it incompatabilities.
+     * Test that loading an augmentation sets its incompatabilities.
      * @test
      */
     public function testLoadSetsIncompatibilities(): void
@@ -100,6 +100,18 @@ final class AugmentationTest extends TestCase
     public function testLoadSetsName(): void
     {
         self::assertSame('Cyberears', $this->augmentation->name);
+    }
+
+    /**
+     * Test that loading an augmentation sets the type of augmentation.
+     * @test
+     */
+    public function testLoadSetsType(): void
+    {
+        self::assertSame(Augmentation::TYPE_CYBERWARE, $this->augmentation->type);
+
+        $augmentation = new Augmentation('bone-density-augmentation-2');
+        self::assertSame(Augmentation::TYPE_BIOWARE, $augmentation->type);
     }
 
     /**
