@@ -1,6 +1,6 @@
 name: Unit Tests & Coverage
 
-on: pull_request
+on: [push]
 
 jobs:
   Code-Coverage:
@@ -39,7 +39,8 @@ jobs:
       - name: Execute unit tests with code coverage
         run: vendor/bin/phpunit --coverage-clover public/coverage/clover.xml
 
-      - name: Monitor coverage
+      - if: github.event_name == 'push' && ! contains(github.event.push.user.login, 'dependabot[bot]')
+        name: Monitor coverage
         uses: slavcodev/coverage-monitor-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

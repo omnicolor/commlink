@@ -15,6 +15,9 @@ use App\Http\Controllers\Shadowrun5e\CharactersController as ShadowrunController
 use App\Http\Controllers\StarTrekAdventures\CharactersController as StarTrekController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('discord/auth', [DiscordController::class, 'redirectToDiscord']);
+Route::get('discord/callback', [DiscordController::class, 'handleCallback']);
+
 Route::middleware('auth')->group(function (): void {
     Route::get('/campaigns/create', [CampaignsController::class, 'createForm'])
         ->name('campaign.createForm');

@@ -361,8 +361,23 @@ class Character extends BaseCharacter
     public function getEssenceAttribute(): float
     {
         $essence = 6;
+        $modifierBioware = 1;
+        $modifierCyberware = 1;
+        foreach ($this->getQualities() as $quality) {
+            if (isset($quality->effects['cyberware-essence-multiplier'])) {
+                $modifierCyberware *= $quality->effects['cyberware-essence-multiplier'];
+            }
+            if (isset($quality->effects['bioware-essence-multiplier'])) {
+                $modifierBioware *= $quality->effects['bioware-essence-multiplier'];
+            }
+        }
+
         foreach ($this->getAugmentations() as $augmentation) {
-            $essence -= $augmentation->essence;
+            if (Augmentation::TYPE_CYBERWARE === $augmentation->type) {
+                $essence -= $augmentation->essence * $modifierCyberware;
+                continue;
+            }
+            $essence -= $augmentation->essence * $modifierBioware;
         }
         return $essence;
     }
@@ -747,6 +762,7 @@ class Character extends BaseCharacter
      */
     protected function getSkillLimitModifierFromQualities(Skill $skill): int
     {
+        // Ignore knowledge skills.
         if (!isset($skill->id)) {
             return 0;
         }
