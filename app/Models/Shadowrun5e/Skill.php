@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * Base class for active and knowledge skills.
  */
-abstract class Skill
+abstract class Skill extends Model
 {
     /**
      * Attribute linked to this skill.
