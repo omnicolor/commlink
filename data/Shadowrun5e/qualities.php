@@ -97,6 +97,38 @@ return [
         'ruleset' => 'core',
         'skill' => 'Alchemy',
     ],
+    'biocompatibility-bioware' => [
+        'id' => 'biocompatibility-bioware',
+        'description' => 'Biocompatibility description.',
+        'effects' => [
+            'bioware-essence-multiplier' => .9,
+        ],
+        'incompatible-with' => [
+            'biocompatibility-bioware',
+            'biocompatibility-cyberware',
+        ],
+        'karma' => -5,
+        'name' => 'Biocompatibility',
+        'page' => 54,
+        'ruleset' => 'chrome-flesh',
+        'severity' => 'Bioware',
+    ],
+    'biocompatibility-cyberware' => [
+        'id' => 'biocompatibility-cyberware',
+        'description' => 'Biocompatibility description.',
+        'effects' => [
+            'cyberware-essence-multiplier' => .9,
+        ],
+        'incompatible-with' => [
+            'biocompatibility-bioware',
+            'biocompatibility-cyberware',
+        ],
+        'karma' => -5,
+        'name' => 'Biocompatibility',
+        'page' => 54,
+        'ruleset' => 'chrome-flesh',
+        'severity' => 'Cyberware',
+    ],
     'exceptional-attribute-body' => [
         'id' => 'exceptional-attribute-body',
         'attribute' => 'Body',

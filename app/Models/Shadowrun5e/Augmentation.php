@@ -20,6 +20,9 @@ class Augmentation
     public const GRADE_STANDARD = 'Standard';
     public const GRADE_USED = 'Used';
 
+    public const TYPE_BIOWARE = 'bioware';
+    public const TYPE_CYBERWARE = 'cyberware';
+
     /**
      * Whether the augmentation is currently active.
      * @var bool
@@ -93,6 +96,12 @@ class Augmentation
     public $rating;
 
     /**
+     * Type of augmentation, which should be either cyberware or bioware.
+     * @var string
+     */
+    public string $type;
+
+    /**
      * Loaded know- or skill- softs for Skilljacks.
      * @var ?array<mixed>
      */
@@ -140,6 +149,7 @@ class Augmentation
         }
         $this->name = $augmentation['name'];
         $this->rating = $augmentation['rating'] ?? null;
+        $this->type = $augmentation['type'] ?? self::TYPE_CYBERWARE;
 
         $this->grade = $grade;
         switch ($grade) {

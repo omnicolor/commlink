@@ -40,10 +40,12 @@
         "juststeveking/laravel-feature-flags": "^1.0",
         "laravel/framework": "^9.0",
         "laravel/sanctum": "^3.0",
+        "laravel/socialite": "^5.6",
         "laravel/tinker": "^2.7",
         "php-jsonpatch/php-jsonpatch": "^4.1",
         "pusher/pusher-php-server": "^7.0",
         "sentry/sentry-laravel": "^3.1.2",
+        "socialiteproviders/discord": "^4.1",
         "team-reflex/discord-php": "^7.0"
     },
     "require-dev": {
@@ -75,7 +77,10 @@
         ],
         "phpcs": "phpcs --cache=.phpcs.cache -p",
         "php-cs-fixer": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --config=php_cs.php -v --using-cache=no --diff",
-        "phpstan": "phpstan --xdebug analyze",
+        "phpstan": [
+            "Composer\\Config::disableProcessTimeout",
+            "phpstan --xdebug analyze"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
