@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\KnowledgeSkill;
+use Tests\TestCase;
 
 /**
  * Unit tests for knowledge skills class.
@@ -13,7 +14,7 @@ use App\Models\Shadowrun5e\KnowledgeSkill;
  * @group shadowrun5e
  * @small
  */
-final class KnowledgeSkillTest extends \Tests\TestCase
+final class KnowledgeSkillTest extends TestCase
 {
     /**
      * @var KnowledgeSkill Subject under test
@@ -104,6 +105,34 @@ final class KnowledgeSkillTest extends \Tests\TestCase
             $skill->attribute,
             'Failed attribute mapping for ' . $category
         );
+    }
+
+    /**
+     * Return a mapping of full category names to short names.
+     * @return array<int, array<int, string>>
+     */
+    public function provideShortCategoryMappings(): array
+    {
+        return [
+            ['academic', 'acad'],
+            ['interests', 'int'],
+            ['language', 'lang'],
+            ['professional', 'prof'],
+            ['street', 'str'],
+        ];
+    }
+
+    /**
+     * Test getting the short category names.
+     * @dataProvider provideShortCategoryMappings
+     * @param string $category
+     * @param string $short
+     * @test
+     */
+    public function testShortCategory(string $category, string $short): void
+    {
+        $skill = new KnowledgeSkill('unused', $category, 1);
+        self::assertSame($short, $skill->short_category);
     }
 
     /**

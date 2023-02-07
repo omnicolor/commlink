@@ -68,15 +68,14 @@
     "scripts": {
         "all": [
             "@coverage",
-            "@phpstan",
-            "@style"
+            "@cs",
+            "@phpstan"
         ],
         "coverage": [
             "Composer\\Config::disableProcessTimeout",
             "phpunit --coverage-html=public/coverage"
         ],
-        "phpcs": "phpcs --cache=.phpcs.cache -p",
-        "php-cs-fixer": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --config=php_cs.php -v --using-cache=no --diff",
+        "cs": "phpcs && PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --config=php_cs.php -v --using-cache=no --diff",
         "phpstan": [
             "Composer\\Config::disableProcessTimeout",
             "phpstan --xdebug analyze"
@@ -91,10 +90,6 @@
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
-        "style": [
-            "@phpcs",
-            "@php-cs-fixer"
-        ],
         "test": [
             "Composer\\Config::disableProcessTimeout",
             "phpunit"
@@ -103,10 +98,9 @@
     "scripts-descriptions": {
         "all": "Run all unit/feature tests with code coverage, then code style check, then PHPstan",
         "coverage": "Run all unit/feature tests and create a code coverage report in public/coverage",
-        "phpcs": "Run PHP Code Sniffer and php-cs-fixer on the entire codebase",
+        "cs": "Run PHPCodesniffer and php-cs-fixer on the entire codebase",
         "phpstan": "Run PHPstan on the entire codebase",
-        "style": "Run PHP Code Sniffer and php-cs-fixer on the entire codebase",
-        "test": "Run all unit/feature tests (without creating a code coverage report)"
+        "test": "Run all unit/feature tests"
     },
     "type": "project"
 }
