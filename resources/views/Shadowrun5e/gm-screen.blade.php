@@ -262,15 +262,17 @@ use App\Models\Shadowrun5e\ActiveSkill;
             <h5 class="card-title">Active skills</h5>
         </div>
         <table class="card-body m-1">
-            <thead>
+            <thead class="border-bottom">
                 <th scope="col">Skill</th>
                 <th scope="col">Att</th>
                 <th scope="col">Def</th>
                 <th scope="col">Lim</th>
                 @foreach ($characters as $character)
+                    @php
+                        $character->renderedSkills = $character->getSkills();
+                    @endphp
                     <th colspan="2" scope="col">{{ $character }}</th>
                 @endforeach
-                <th scope="col">
             </thead>
             <tbody>
                 @foreach (ActiveSkill::all() as $skill)
@@ -278,7 +280,33 @@ use App\Models\Shadowrun5e\ActiveSkill;
                     <td>{{ $skill }}</td>
                     <td>{{ strtoupper(substr($skill->attribute, 0, 3)) }}</td>
                     <td>{{ $skill->default ? 'Y' : 'N' }}</td>
-                    <td>{{ $skill->limit }}</td>
+                    <td class="border-end">{{ $skill->limit }}</td>
+                    @foreach ($characters as $character)
+                        @if (isset($character->renderedSkills[$skill->id]))
+                            @php
+                                $activeSkill = $character->renderedSkills[$skill->id];
+                            @endphp
+                            <td class="text-center fw-bold">
+                                {{ $activeSkill->level }}
+                            </td>
+                            <td class="text-center fw-bold
+                                @if (!$loop->last) border-end @endif
+                                    ">
+                                    {{ $activeSkill->level + $character->getModifiedAttribute($skill->attribute) }}
+                                    [{{ $character->getSkillLimit($activeSkill) }}]
+                                </td>
+                        @elseif ($skill->default)
+                            <td class="text-center"><small class="text-muted fs-6 fw-light">0</small></td>
+                            <td class="text-center @if (!$loop->last) border-end @endif ">
+                                <small class="text-muted fs-6 fw-light">
+                                {{ $character->getModifiedAttribute($skill->attribute) - 1 }}
+                                [{{ $character->getSkillLimit($skill) }}]
+                                </small>
+                            </td>
+                        @else
+                            <td colspan="2" @if (!$loop->last) class="border-end" @endif>&nbsp;</td>
+                        @endif
+                    @endforeach
                 </tr>
                 @endforeach
             </tbody>

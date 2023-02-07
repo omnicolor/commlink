@@ -789,7 +789,7 @@ class Character extends BaseCharacter
         }
         foreach ($this->skills as $skill) {
             try {
-                $skills[] = new ActiveSkill(
+                $skills[$skill['id']] = new ActiveSkill(
                     $skill['id'],
                     $skill['level'],
                     $skill['specialization'] ?? null

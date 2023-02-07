@@ -45,7 +45,6 @@ class ActiveSkill extends Skill
      * @param int $level Level the character has for the skill
      * @param string $specialization Optional specialization
      * @throws \RuntimeException If the skill isn't valid
-     * @phpstan-ignore-next-line
      */
     public function __construct(string $id, int $level, $specialization = null)
     {
@@ -93,7 +92,11 @@ class ActiveSkill extends Skill
         ));
     }
 
-    public static function all($columns = []): SkillArray
+    /**
+     * Return all available active skills.
+     * @return SkillArray
+     */
+    public static function all(): SkillArray
     {
         $filename = config('app.data_path.shadowrun5e') . 'skills.php';
         self::$skills ??= require $filename;

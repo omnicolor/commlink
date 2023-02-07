@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
-
 /**
  * Knowledge skill a character possesses.
  * @property string $id
@@ -26,7 +24,6 @@ class KnowledgeSkill extends Skill
      * @param int|string $level Level for the skill
      * @param ?string $specializations Optional specializations
      * @throws \RuntimeException
-     * @phpstan-ignore-next-line
      */
     public function __construct(
         string $name,
@@ -71,32 +68,33 @@ class KnowledgeSkill extends Skill
         $this->specialization = $specializations;
     }
 
-    public function id(): Attribute
+    public function __get(string $name): mixed
     {
-        return Attribute::make(
-            get: function (): string {
-                return (string)preg_replace(
-                    ['/ /', '/[^a-zA-Z0-9-]/'],
-                    ['-', ''],
-                    $this->name
-                );
-            },
+        return match ($name) {
+            'id' => $this->id(),
+            'short_category' => $this->shortCategory(),
+            default => null,
+        };
+    }
+
+    public function id(): string
+    {
+        return (string)preg_replace(
+            ['/ /', '/[^a-zA-Z0-9-]/'],
+            ['-', ''],
+            $this->name
         );
     }
 
-    public function shortCategory(): Attribute
+    public function shortCategory(): string
     {
-        return Attribute::make(
-            get: function () {
-                // @phpstan-ignore-next-line
-                return match ($this->category) {
-                    'academic' => 'acad',
-                    'interests' => 'int',
-                    'language' => 'lang',
-                    'professional' => 'prof',
-                    'street' => 'str',
-                };
-            },
-        );
+        // @phpstan-ignore-next-line
+        return match ($this->category) {
+            'academic' => 'acad',
+            'interests' => 'int',
+            'language' => 'lang',
+            'professional' => 'prof',
+            'street' => 'str',
+        };
     }
 }
