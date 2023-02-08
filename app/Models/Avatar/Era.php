@@ -6,11 +6,16 @@ declare(strict_types=1);
 
 namespace App\Models\Avatar;
 
-enum Era
+enum Era: string
 {
-    case Aang;
-    case HundredYearWar;
-    case Korra;
-    case Kyoshi;
-    case Roku;
+    case Aang = 'aang';
+    case HundredYearWar = 'hundred-year-war';
+    case Korra = 'korra';
+    case Kyoshi = 'kyoshi';
+    case Roku = 'roku';
+
+    public static function values(): array
+    {
+        return array_column(self::cases(), 'value');
+    }
 }
