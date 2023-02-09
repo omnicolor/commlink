@@ -21,7 +21,7 @@
             "infection/extension-installer": false
         }
     },
-    "description": "Commlink RPG manager.",
+    "description": "Commlink is a manager for characters and campaigns for various table top role playing games.",
     "extra": {
         "laravel": {
             "dont-discover": []
@@ -68,14 +68,16 @@
     "scripts": {
         "all": [
             "@coverage",
-            "@cs",
+            "@phpcs",
+            "@php-cs-fixer",
             "@phpstan"
         ],
         "coverage": [
             "Composer\\Config::disableProcessTimeout",
             "phpunit --coverage-html=public/coverage"
         ],
-        "cs": "phpcs && PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --config=php_cs.php -v --using-cache=no --diff",
+        "php-cs-fixer": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --config=php_cs.php -v --using-cache=no --diff",
+        "phpcs": "phpcs",
         "phpstan": [
             "Composer\\Config::disableProcessTimeout",
             "phpstan --xdebug analyze"
@@ -90,6 +92,10 @@
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
+        "style": [
+            "@phpcs",
+            "@php-cs-fixer"
+        ],
         "test": [
             "Composer\\Config::disableProcessTimeout",
             "phpunit"
@@ -98,8 +104,10 @@
     "scripts-descriptions": {
         "all": "Run all unit/feature tests with code coverage, then code style check, then PHPstan",
         "coverage": "Run all unit/feature tests and create a code coverage report in public/coverage",
-        "cs": "Run PHPCodesniffer and php-cs-fixer on the entire codebase",
-        "phpstan": "Run PHPstan on the entire codebase",
+        "php-cs-fixer": "Run php-cs-fixer",
+        "phpcs": "Run PHPCodesniffer",
+        "phpstan": "Run PHPstan",
+        "style": "Run PHPCodesniffer and php-cs-fixer",
         "test": "Run all unit/feature tests"
     },
     "type": "project"
