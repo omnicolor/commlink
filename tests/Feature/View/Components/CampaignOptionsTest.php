@@ -25,7 +25,7 @@ final class CampaignOptionsTest extends TestCase
             ->assertDontSee('Start date');
     }
 
-    public function testCampaignWithOptions(): void
+    public function testShadowrun5EOptions(): void
     {
         $user = User::factory()->create();
         $campaign = Campaign::factory()->make([
