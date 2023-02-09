@@ -9,6 +9,9 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<ChatCharacter>
+ */
 class ChatCharacterFactory extends Factory
 {
     /**
@@ -19,13 +22,13 @@ class ChatCharacterFactory extends Factory
 
     /**
      * Define the model's default state.
-     * @return array
+     * @return array<string, int>
      */
     public function definition(): array
     {
         return [
-            'channel_id' => Channel::factory()->create(),
-            'chat_user_id' => ChatUser::factory()->create(),
+            'channel_id' => Channel::factory()->create()->id,
+            'chat_user_id' => ChatUser::factory()->create()->id,
         ];
     }
 }

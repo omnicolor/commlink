@@ -7,6 +7,9 @@ namespace Database\Factories\Shadowrun5e;
 use App\Models\Shadowrun5e\PartialCharacter;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<PartialCharacter>
+ */
 class PartialCharacterFactory extends Factory
 {
     /**
