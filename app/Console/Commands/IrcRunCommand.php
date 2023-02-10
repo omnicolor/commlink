@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Events\IrcMessageReceived;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use Jerodev\PhpIrcClient\IrcChannel;
 use Jerodev\PhpIrcClient\IrcClient;
 use Jerodev\PhpIrcClient\Options\ClientOptions;
@@ -46,7 +48,9 @@ class IrcRunCommand extends Command
         );
 
         $client->on('registered', function () use ($server, $port): void {
-            $this->line(\sprintf('Connected to %s, port %s', $server, $port));
+            $message = \sprintf('Connected to %s, port %s', $server, $port);
+            $this->line($message);
+            Log::info($message);
         });
 
         $client->on(
@@ -54,15 +58,21 @@ class IrcRunCommand extends Command
             function (string $from, IrcChannel $channel, string $message) use ($client): void {
                 if (':roll' !== substr($message, 0, 5)) {
                     // Ignore non-colon messages.
+                    Log::debug(
+                        'IRC - Ignoring message in ' . $channel->getName()
+                            . ' - ' . $from . ' - ' . $message
+                    );
                     return;
                 }
 
-                $this->line(\sprintf(
+                $logMessage = \sprintf(
                     ' . %10s - %12s - %s',
                     $channel->getName(),
                     $from,
                     $message,
-                ));
+                );
+                $this->line($logMessage);
+                Log::debug('IRC ' . $logMessage);
 
                 IrcMessageReceived::dispatch($message, $from, $client, $channel);
             }

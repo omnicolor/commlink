@@ -6,10 +6,12 @@ namespace App\Providers;
 
 use App\Events\DiscordMessageReceived;
 use App\Events\InitiativeAdded;
+use App\Events\IrcMessageReceived;
 use App\Events\RollEvent;
 use App\Events\Shadowrun5e\DamageEvent;
 use App\Listeners\HandleDiscordMessage;
 use App\Listeners\HandleInitiativeEvent;
+use App\Listeners\HandleIrcMessage;
 use App\Listeners\HandleRollEvent;
 use App\Listeners\Shadowrun5e\HandleDamageEvent;
 use Illuminate\Auth\Events\Registered;
@@ -34,6 +36,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         InitiativeAdded::class => [
             HandleInitiativeEvent::class,
+        ],
+        IrcMessageReceived::class => [
+            HandleIrcMessage::class,
         ],
         Registered::class => [
             SendEmailVerificationNotification::class,

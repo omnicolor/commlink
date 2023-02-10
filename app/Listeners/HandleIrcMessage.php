@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Listeners;
 
 use App\Events\IrcMessageReceived;
+use Illuminate\Support\Facades\Log;
 
 class HandleIrcMessage
 {
@@ -17,6 +18,7 @@ class HandleIrcMessage
     {
         $args = \explode(' ', $event->content);
 
+        $event->client->say('#commlink', 'You said "' . $event->content . '".');
         return true;
     }
 }

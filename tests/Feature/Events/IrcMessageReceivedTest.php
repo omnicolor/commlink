@@ -22,11 +22,14 @@ final class IrcMessageReceivedTest extends TestCase
      */
     public function testConstructor(): void
     {
-        $event = new DiscordMessageReceived(
+        $clientStub = $this->createStub(IrcClient::class);
+        $channelStub = $this->createStub(IrcChannel::class);
+
+        $event = new IrcMessageReceived(
             ':roll foo',
             'username',
-            $client,
-            $channel,
+            $clientStub,
+            $channelStub,
         );
         self::assertSame('foo', $event->content);
     }
