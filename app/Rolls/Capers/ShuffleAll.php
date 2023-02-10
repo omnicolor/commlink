@@ -11,8 +11,8 @@ use App\Models\Card;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
-use DB;
 use Error;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Handle a user asking everyone to shuffle their decks.

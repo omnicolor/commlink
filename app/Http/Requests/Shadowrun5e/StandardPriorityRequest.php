@@ -64,7 +64,7 @@ class StandardPriorityRequest extends FormRequest
                 Rule::requiredIf(function () use ($request): bool {
                     return 'magic' !== $request->input('priority-e');
                 }),
-                function (string $attribute, string $value, Closure $fail) use ($request, $validMagic): void {
+                function (string $_attribute, string $value, Closure $fail) use ($request, $validMagic): void {
                     for ($i = ord('a'); $i <= ord('e'); $i++) {
                         if (
                             'magic' === $request->input('priority-' . chr($i))

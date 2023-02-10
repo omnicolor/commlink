@@ -24,8 +24,6 @@ class Number extends Roll
 {
     use PrettifyRollsForSlack;
 
-    protected Button $button;
-
     /**
      * Number of dice to roll.
      * @var int
@@ -47,12 +45,6 @@ class Number extends Roll
     protected ?int $limit = null;
 
     /**
-     * Who's doing the rolling.
-     * @var string
-     */
-    protected string $name;
-
-    /**
      * Array of individual dice rolls.
      * @var array<int, int>
      */
@@ -64,6 +56,9 @@ class Number extends Roll
      */
     protected int $successes = 0;
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function __construct(
         string $content,
         string $username,
@@ -230,6 +225,11 @@ class Number extends Roll
         return $response->addAttachment($attachment)->sendToChannel();
     }
 
+    /**
+     * Return the roll formatted for Discord.
+     * @psalm-suppress InvalidReturnType
+     * @return string|MessageBuilder
+     */
     public function forDiscord(): string | MessageBuilder
     {
         if (null !== $this->error) {
@@ -269,6 +269,7 @@ class Number extends Roll
         $row = ActionRow::new()->addComponent($button);
         $message = new MessageBuilder();
         $message->setContent($content)->addComponent($row);
+        /** @psalm-suppress InvalidReturnStatement */
         return $message;
     }
 
@@ -320,6 +321,7 @@ class Number extends Roll
         $row = ActionRow::new()->addComponent($button);
         $message = MessageBuilder::new()->setContent($content)
             ->addComponent($row);
+        /** @psalm-suppress TooManyTemplateParams */
         // @phpstan-ignore-next-line
         $interaction->message->edit($message);
     }

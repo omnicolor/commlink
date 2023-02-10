@@ -50,7 +50,8 @@ class Skill
         self::$skills ??= require $filename;
 
         $skills = new SkillArray();
-        foreach (self::$skills ?? [] as $id => $skill) {
+        /** @var string $id */
+        foreach (array_keys(self::$skills ?? []) as $id) {
             $skills[$id] = new self($id);
         }
         return $skills;

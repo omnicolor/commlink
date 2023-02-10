@@ -89,13 +89,9 @@ class Draw extends Roll
      */
     protected function findOrCreateDeck(): void
     {
-        // @codeCoverageIgnoreStart
-        if (!isset($this->campaign)) {
-            return;
-        }
-        // @codeCoverageIgnoreEnd
         try {
             $this->deck = StandardDeck::findForCampaignAndPlayer(
+                // @phpstan-ignore-next-line
                 $this->campaign,
                 $this->username
             );
@@ -105,6 +101,7 @@ class Draw extends Roll
         }
 
         $this->deck = new StandardDeck();
+        // @phpstan-ignore-next-line
         $this->deck->campaign_id = $this->campaign->id;
         $this->deck->character_id = $this->username;
         $this->deck->shuffle();

@@ -67,8 +67,9 @@ class ShipFlaw
         self::$flaws ??= require $filename;
 
         $flaws = [];
-        foreach (self::$flaws as $id => $flaw) {
-            $flaws[(string)$id] = new self($id);
+        /** @var string $id */
+        foreach (array_keys(self::$flaws) as $id) {
+            $flaws[$id] = new self($id);
         }
         return $flaws;
     }
