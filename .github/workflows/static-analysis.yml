@@ -24,6 +24,7 @@ jobs:
         run: |
           cp .github/workflows/env.testing .env.testing
           cp .github/workflows/env.testing .env
+          touch storage/framework/db.sqlite
           composer install --no-progress --no-interaction
 
       - name: "Run PHPStan analysis"
