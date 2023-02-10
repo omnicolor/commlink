@@ -30,6 +30,8 @@ class CampaignOptions extends Component
      */
     public function render(): View
     {
-        return view('components.shadowrun5e.campaign-options');
+        /** @var View */
+        $view = view('components.shadowrun5e.campaign-options');
+        return $view;
     }
 }

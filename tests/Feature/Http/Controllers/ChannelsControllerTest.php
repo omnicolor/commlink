@@ -167,6 +167,7 @@ final class ChannelsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
+
         /** @var Channel */
         $channel = Channel::factory()->create([
             'channel_id' => (string)$this->faker->randomNumber(8, true),
@@ -185,7 +186,8 @@ final class ChannelsControllerTest extends TestCase
             ),
         ]);
 
-        $this->actingAs($user)
+        self::assertSame(Channel::TYPE_DISCORD, $channel->type);
+        self::actingAs($user)
             ->patchJson(
                 route('channels.update', $channel),
                 ['auto' => 1]

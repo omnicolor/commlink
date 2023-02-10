@@ -8,7 +8,7 @@ use App\Events\DiscordMessageReceived;
 use App\Events\RollEvent;
 use App\Models\Channel;
 use App\Rolls\Roll;
-use Discord\Parts\Channel\Channel as TextChannel;
+use Illuminate\Support\Facades\Log;
 
 class HandleDiscordMessage
 {
@@ -21,7 +21,6 @@ class HandleDiscordMessage
     {
         $args = \explode(' ', $event->content);
 
-        /** @var TextChannel */
         $textChannel = $event->channel;
 
         $channel = Channel::discord()
@@ -67,12 +66,13 @@ class HandleDiscordMessage
                     $event
                 );
 
+                /** @psalm-suppress TooManyTemplateParams */
                 $event->message->reply($roll->forDiscord());
                 RollEvent::dispatch($roll, $channel);
                 return true;
             } catch (\Error $ex) {
                 // Ignore.
-                \Log::debug($ex->getMessage());
+                Log::debug($ex->getMessage());
             }
         }
 
@@ -96,7 +96,7 @@ class HandleDiscordMessage
             }
             return true;
         } catch (\Error $ex) {
-            \Log::debug($ex->getMessage());
+            Log::debug($ex->getMessage());
         }
 
         // Try generic rolls.
@@ -111,7 +111,7 @@ class HandleDiscordMessage
             $event->channel->sendMessage($roll->forDiscord());
             return true;
         } catch (\Error $ex) {
-            \Log::debug($ex->getMessage());
+            Log::debug($ex->getMessage());
         }
 
         // Try an old-format HTTP Response
@@ -120,13 +120,14 @@ class HandleDiscordMessage
                 '\\App\\Http\\Responses\\Discord\\%sResponse',
                 \ucfirst($args[0])
             );
+            /** @psalm-suppress InvalidCast */
             // @phpstan-ignore-next-line
             $response = (string)(new $class($event));
             if ('' !== $response) {
                 $event->channel->sendMessage($response);
             }
         } catch (\Error $ex) {
-            \Log::debug($ex->getMessage());
+            Log::debug($ex->getMessage());
             $event->channel->sendMessage('That doesn\'t appear to be a valid command!');
         }
         return true;

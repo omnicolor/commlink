@@ -210,9 +210,10 @@ final class Shadowrun5eConverterTest extends TestCase
      */
     public function testArmor(PartialCharacter $character): void
     {
-        /** @var array<string, string|array<int, string>> */
+        /** @var array<int, array<string, string>> */
         $armor = $character->armor;
         self::assertCount(2, $armor);
+
         // One of the armor jackets has modifications.
         self::assertSame(
             [
@@ -222,7 +223,6 @@ final class Shadowrun5eConverterTest extends TestCase
                     'gel-packs',
                 ],
             ],
-            // @phpstan-ignore-next-line
             $armor[0]
         );
 

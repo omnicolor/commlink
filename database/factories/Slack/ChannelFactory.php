@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Database\Factories\Slack;
 
-use App\Models\Slack\Channel;
+use App\Models\Channel;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Str;
+use Illuminate\Support\Str;
 
+/**
+ * @extends Factory<Channel>
+ */
 class ChannelFactory extends Factory
 {
     /**
@@ -18,7 +21,7 @@ class ChannelFactory extends Factory
 
     /**
      * Define the model's default state.
-     * @return array<int, string>
+     * @return array<string, string>
      */
     public function definition(): array
     {

@@ -34,7 +34,7 @@ class SkillsRequest extends FormRequest
             'group-names.*' => [
                 'alpha_dash',
                 'required',
-                function (string $attribute, string $id, Closure $fail): void {
+                function (string $_attribute, string $id, Closure $fail): void {
                     try {
                         new SkillGroup($id, 1);
                     } catch (RuntimeException $ex) {
@@ -61,7 +61,7 @@ class SkillsRequest extends FormRequest
             'skill-names.*' => [
                 'alpha_dash',
                 'required',
-                function (string $attribute, string $id, Closure $fail): void {
+                function (string $_attribute, string $id, Closure $fail): void {
                     try {
                         new ActiveSkill($id, 1);
                     } catch (RuntimeException $ex) {

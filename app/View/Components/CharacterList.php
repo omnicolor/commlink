@@ -12,7 +12,6 @@ class CharacterList extends Component
 {
     /**
      * Create a new component instance.
-     * @param Collection $characters
      */
     public function __construct(public Collection $characters)
     {
@@ -24,6 +23,8 @@ class CharacterList extends Component
      */
     public function render(): View
     {
-        return view('components.character-list');
+        /** @var View */
+        $view = view('components.character-list');
+        return $view;
     }
 }

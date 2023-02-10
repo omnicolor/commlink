@@ -7,6 +7,7 @@ namespace App\Models\Shadowrun5e;
 /**
  * Knowledge skill a character possesses.
  * @property string $id
+ * @property string $short_category
  */
 class KnowledgeSkill extends Skill
 {
@@ -67,15 +68,33 @@ class KnowledgeSkill extends Skill
         $this->specialization = $specializations;
     }
 
-    public function __get(string $property): mixed
+    public function __get(string $name): mixed
     {
-        if ('id' === $property) {
-            return preg_replace(
-                ['/ /', '/[^a-zA-Z0-9-]/'],
-                ['-', ''],
-                $this->name
-            );
-        }
-        return null;
+        return match ($name) {
+            'id' => $this->id(),
+            'short_category' => $this->shortCategory(),
+            default => null,
+        };
+    }
+
+    public function id(): string
+    {
+        return (string)preg_replace(
+            ['/ /', '/[^a-zA-Z0-9-]/'],
+            ['-', ''],
+            $this->name
+        );
+    }
+
+    public function shortCategory(): string
+    {
+        // @phpstan-ignore-next-line
+        return match ($this->category) {
+            'academic' => 'acad',
+            'interests' => 'int',
+            'language' => 'lang',
+            'professional' => 'prof',
+            'street' => 'str',
+        };
     }
 }

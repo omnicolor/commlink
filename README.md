@@ -14,6 +14,20 @@ registered to multiple chat channels, rolls can be broadcast to other channels.
 For example, if your Shadowrun campaign is using both Slack and Discord, users
 can roll dice in Slack and have the results appear in Discord, and vice versa.
 
+## Supported systems
+
+Commlink is very much a work in progress, and each of the systems has varying
+levels of completeness.
+
+* [Avatar Legends](https://magpiegames.com/pages/avatar-legends)
+* [Capers](https://www.nerdburgergames.com/capers)
+* [Cyberpunk Red](https://rtalsoriangames.com/cyberpunk/)
+* [Dungeons & Dragons 5th Edition](https://dnd.wizards.com/)
+* [The Expanse](https://greenroninstore.com/collections/the-expanse-rpg)
+* [Shadowrun 5th Edition](https://www.catalystgamelabs.com/brands/shadowrun)
+* [Shadowrun 6th Edition](https://www.catalystgamelabs.com/brands/shadowrun)
+* [Star Trek Adventures](https://www.modiphius.net/collections/star-trek-adventures/star-trek_core)
+
 ## Building Commlink
 
 Commlink requires [Composer](https://getcomposer.org) and is built on Laravel.
@@ -70,3 +84,5 @@ If you'd like to run an individual check:
 # Credits
 
 * Favicon: https://commons.wikimedia.org/wiki/File:Sixsided_Dice_inJapan.jpg
+* All of the game systems supported are trademarked by their respective owners,
+  and Commlink is not affiliated with any of them in any way.

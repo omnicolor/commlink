@@ -25,6 +25,7 @@ use ZipArchive;
 
 /**
  * Importer class for Hero Lab Shadowrun 5E profiles.
+ * @psalm-suppress UnusedClass
  */
 class Shadowrun5eConverter implements ConverterInterface
 {
@@ -776,7 +777,7 @@ class Shadowrun5eConverter implements ConverterInterface
         $priorities = [
             'metatype' => (string)$this->xml->race['name'],
         ];
-        foreach ($this->xmlMeta->hero->container->pick as $key => $value) {
+        foreach ($this->xmlMeta->hero->container->pick as $value) {
             $priority = 0;
             foreach ($value->field as $field) {
                 if ('priSmOrder' === (string)$field['id']) {
@@ -871,9 +872,8 @@ class Shadowrun5eConverter implements ConverterInterface
 
         $priorities = $this->character->priorities ?? [];
         $books = ['core'];
-        $lifeModules = false;
 
-        foreach ($this->xmlMeta->hero->source as $key => $value) {
+        foreach ($this->xmlMeta->hero->source as $value) {
             $source = (string)$value['source'];
             $enabled = '1' === (string)$value['count'];
             if (isset($map[$source]) && $enabled) {
@@ -918,6 +918,7 @@ class Shadowrun5eConverter implements ConverterInterface
     /**
      * Parse the character's contacts.
      * @param SimpleXMLElement $journals
+     * @psalm-suppress PossiblyUnusedParam
      * @return Shadowrun5eConverter
      */
     protected function parseJournals(
