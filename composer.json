@@ -33,6 +33,7 @@
     "prefer-stable": true,
     "require": {
         "php": "^8.0",
+        "ext-mongodb": "^1.15",
         "ext-random": "*",
         "ext-redis": "*",
         "doctrine/dbal": "^3.1",
