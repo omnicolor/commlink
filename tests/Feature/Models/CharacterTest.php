@@ -60,7 +60,6 @@ final class CharacterTest extends TestCase
             'system' => 'unknown',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        // @phpstan-ignore-next-line
         $character = Character::where('_id', $character->id)
             ->firstOrFail();
         self::assertSame('unknown', $character->system);
@@ -85,7 +84,6 @@ final class CharacterTest extends TestCase
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
-        // @phpstan-ignore-next-line
         $character = Character::where('_id', $character->id)
             ->firstOrFail();
         self::assertSame('shadowrun5e', $character->system);

@@ -64,7 +64,8 @@ class Gear
         self::$gear ??= require $filename;
 
         $gear = new GearArray();
-        foreach (self::$gear ?? [] as $id => $item) {
+        /** @var string $id */
+        foreach (array_keys(self::$gear ?? []) as $id) {
             $gear[$id] = Gear::get($id);
         }
         return $gear;

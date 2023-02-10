@@ -7,6 +7,9 @@ namespace Database\Factories\Capers;
 use App\Models\Capers\Character;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<Character>
+ */
 class CharacterFactory extends Factory
 {
     /**
@@ -17,7 +20,7 @@ class CharacterFactory extends Factory
 
     /**
      * Define the model's default state.
-     * @return array
+     * @return array<string, array<int, string>,int|string>
      */
     public function definition(): array
     {

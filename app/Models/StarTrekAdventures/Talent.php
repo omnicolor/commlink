@@ -8,6 +8,7 @@ use RuntimeException;
 
 /**
  * Class representing a Talent.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class Talent
 {
