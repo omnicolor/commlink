@@ -7,9 +7,10 @@ namespace App\Http\Controllers;
 use App\Models\ChatUser;
 use App\Models\Traits\InteractsWithDiscord;
 use App\Models\User;
-use Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Laravel\Socialite\Facades\Socialite;
 use RuntimeException;
@@ -62,14 +63,16 @@ class DiscordController extends Controller
             'success',
             sprintf(
                 '%d Discord %s linked!',
-                \Str::plural('user', $count),
                 $count,
+                Str::plural('user', $count),
             )
         );
     }
 
     /**
      * Handle a successful login from Discord.
+     * @psalm-suppress InvalidReturnType
+     * @psalm-suppress InvalidReturnStatement
      */
     public function handleCallback(): RedirectResponse
     {

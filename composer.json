@@ -49,6 +49,7 @@
         "pusher/pusher-php-server": "^7.0",
         "sentry/sentry-laravel": "^3.1.2",
         "socialiteproviders/discord": "^4.1",
+        "socialiteproviders/slack": "^4.1",
         "team-reflex/discord-php": "^7.0"
     },
     "require-dev": {
