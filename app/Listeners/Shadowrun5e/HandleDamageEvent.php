@@ -19,7 +19,6 @@ class HandleDamageEvent
 
     public function handle(DamageEvent $event): void
     {
-        $campaign = $event->campaign;
         foreach ($event->campaign->channels ?? [] as $channel) {
             if ('slack' === $channel->type) {
                 $this->sendToSlack($event->character, $event->damage, $channel);

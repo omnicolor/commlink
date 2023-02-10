@@ -6,7 +6,7 @@ namespace App\Models\Capers;
 
 /**
  * Collection of Gear.
- * @extends \ArrayObject<int, Gear>
+ * @extends \ArrayObject<int|string, Gear>
  */
 class GearArray extends \ArrayObject
 {

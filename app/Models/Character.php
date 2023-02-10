@@ -76,8 +76,9 @@ class Character extends Model
      * Create a new Character, subclassed if available.
      * @param array<int|string, mixed> $attributes
      * @param ?string $connection
-     * @return static(\Illuminate\Database\Eloquent\Model)
+     * @return Character
      * @phpstan-ignore-next-line
+     * @psalm-suppress LessSpecificImplementedReturnType
      */
     public function newFromBuilder(
         $attributes = [],
@@ -113,7 +114,6 @@ class Character extends Model
         $character->setRawAttributes($attributes, true);
         $character->setConnection($this->connection);
         $character->fireModelEvent('retrieved', false);
-        // @phpstan-ignore-next-line
         return $character;
     }
 }

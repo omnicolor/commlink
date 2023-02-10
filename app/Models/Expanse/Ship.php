@@ -7,6 +7,9 @@ namespace App\Models\Expanse;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
+/**
+ * @psalm-suppress UndefinedClass
+ */
 class Ship
 {
     public ?CrewCompetence $competence;
@@ -123,8 +126,9 @@ class Ship
         self::$ships ??= require $filename;
 
         $ships = [];
-        foreach (self::$ships as $id => $ship) {
-            $ships[(string)$id] = new Ship($id);
+        /** @var string $id */
+        foreach (array_keys(self::$ships) as $id) {
+            $ships[$id] = new Ship($id);
         }
         return $ships;
     }

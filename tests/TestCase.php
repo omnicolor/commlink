@@ -9,6 +9,7 @@ use Discord\Parts\Channel\Message;
 use Discord\Parts\Guild\Guild;
 use Discord\Parts\User\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Support\Str;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -21,7 +22,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function createDiscordMessageMock(string $content): Message
     {
-        $serverNameAndId = \Str::random(10);
+        $serverNameAndId = Str::random(10);
         $serverStub = $this->createStub(Guild::class);
         $serverStub->method('__get')->willReturn($serverNameAndId);
 
@@ -34,8 +35,8 @@ abstract class TestCase extends BaseTestCase
         $userMock = $this->createMock(User::class);
         $userMock->method('__get')->willReturnMap($userMap);
 
-        $channelName = \Str::random(12);
-        $channelId = \Str::random(10);
+        $channelName = Str::random(12);
+        $channelId = Str::random(10);
         $channelMap = [
             ['guild', $serverStub],
             ['id', $channelId],

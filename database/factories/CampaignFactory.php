@@ -7,6 +7,7 @@ namespace Database\Factories;
 use App\Models\Campaign;
 
 /**
+ * @extends Factory<Campaign>
  * @method mixed hasInitiatives(int $count)
  */
 class CampaignFactory extends Factory

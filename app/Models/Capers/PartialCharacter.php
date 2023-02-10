@@ -6,7 +6,9 @@ namespace App\Models\Capers;
 
 /**
  * Representation of a character currently being built.
+ * @property array<int, object> $gear
  * @property array<string, string> $meta
+ * @property object $powers
  */
 class PartialCharacter extends Character
 {
@@ -51,7 +53,6 @@ class PartialCharacter extends Character
      */
     protected $table = 'characters-partial';
 
-    // @phpstan-ignore-next-line
     public function newFromBuilder(
         $attributes = [],
         $connection = null
@@ -79,7 +80,7 @@ class PartialCharacter extends Character
         $rawCharacter['skills'] = $skills;
 
         $powers = [];
-        foreach ($this->powers as $id => $power) {
+        foreach ($this->powers as $power) {
             $boosts = [];
             foreach ($power->boosts as $boost) {
                 $boosts[] = $boost->id;

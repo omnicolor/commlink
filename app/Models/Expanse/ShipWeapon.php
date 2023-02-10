@@ -73,8 +73,9 @@ class ShipWeapon
         self::$weapons ??= require $filename;
 
         $weapons = [];
-        foreach (self::$weapons as $id => $weapon) {
-            $weapons[(string)$id] = new self($id, 'fore');
+        /** @var string $id */
+        foreach (array_keys(self::$weapons) as $id) {
+            $weapons[$id] = new self($id, 'fore');
         }
         return $weapons;
     }

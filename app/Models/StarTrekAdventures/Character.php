@@ -7,8 +7,12 @@ namespace App\Models\StarTrekAdventures;
 use App\Models\Character as BaseCharacter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
+/**
+ * @property-read string $id
+ */
 class Character extends BaseCharacter
 {
     use HasFactory;
@@ -105,7 +109,7 @@ class Character extends BaseCharacter
             try {
                 $talents[] = new Talent($talent['id'], $talent['extra'] ?? null);
             } catch (RuntimeException $ex) {
-                \Log::warning(\sprintf(
+                Log::warning(\sprintf(
                     'Star Wars Adventures character "%s" (%s) has invalid talent "%s"',
                     $this->name,
                     $this->id,
