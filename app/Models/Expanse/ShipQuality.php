@@ -67,8 +67,9 @@ class ShipQuality
         self::$qualities ??= require $filename;
 
         $qualities = [];
-        foreach (self::$qualities as $id => $quality) {
-            $qualities[(string)$id] = new self($id);
+        /** @var string $id */
+        foreach (array_keys(self::$qualities) as $id) {
+            $qualities[$id] = new self($id);
         }
         return $qualities;
     }

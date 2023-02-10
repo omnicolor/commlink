@@ -23,21 +23,26 @@ class InfoResponse
      */
     public function __toString(): string
     {
-        /** @var \Discord\Parts\Channel\Channel */
         $textChannel = $this->event->channel;
         $channel = Channel::discord()
             ->where('channel_id', $textChannel->id)
             ->where('server_id', $this->event->server->id)
             ->first();
+
+        $character = 'No character';
         $campaignName = 'No campaign';
         $system = 'Unregistered';
-        $character = 'No character';
         if (null !== $channel) {
+            $channel->user = $this->event->user->id;
             $system = $channel->getSystem();
             if (null !== $channel->campaign) {
                 $campaignName = $channel->campaign->name;
             }
+            if (null !== $channel->character()) {
+                $character = (string)$channel->character();
+            }
         }
+
         return '**Debugging info**' . \PHP_EOL
             . 'User Tag: ' . optional($this->event->user)->displayname . \PHP_EOL
             . 'User ID: ' . optional($this->event->user)->id . \PHP_EOL
@@ -47,7 +52,7 @@ class InfoResponse
             . 'Channel Name: ' . $textChannel->name . \PHP_EOL
             . 'Channel ID: ' . $textChannel->id . \PHP_EOL
             . 'System: ' . $system . \PHP_EOL
-            . 'Character: ' . 'Unlinked' . \PHP_EOL
+            . 'Character: ' . $character . \PHP_EOL
             . 'Campaign: ' . $campaignName;
     }
 }

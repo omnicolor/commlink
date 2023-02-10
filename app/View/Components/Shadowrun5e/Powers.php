@@ -38,7 +38,6 @@ class Powers extends Component
 
     /**
      * Create a new component instance.
-     * @param Character $character
      */
     public function __construct(public Character $character)
     {
@@ -81,6 +80,8 @@ class Powers extends Component
      */
     public function render(): View
     {
-        return view('components.shadowrun5e.powers');
+        /** @var View */
+        $view = view('components.shadowrun5e.powers');
+        return $view;
     }
 }

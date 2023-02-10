@@ -264,7 +264,6 @@ final class ChannelTest extends TestCase
         $channel = new Channel();
         self::expectException(\RuntimeException::class);
         self::expectExceptionMessage('Invalid channel type');
-        // @phpstan-ignore-next-line
         $channel->type = 'aol';
     }
 
