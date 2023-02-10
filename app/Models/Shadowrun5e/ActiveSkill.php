@@ -102,7 +102,8 @@ class ActiveSkill extends Skill
         self::$skills ??= require $filename;
 
         $skills = new SkillArray();
-        foreach (self::$skills as $id => $skill) {
+        /** @var string $id */
+        foreach (array_keys(self::$skills) as $id) {
             $skills[] = new self($id, 1);
         }
         return $skills;

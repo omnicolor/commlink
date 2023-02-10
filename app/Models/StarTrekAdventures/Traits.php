@@ -10,6 +10,7 @@ use RuntimeException;
  * Class representing a species' trait.
  *
  * Plural since trait is a PHP reserved-word.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class Traits
 {
@@ -18,6 +19,12 @@ class Traits
      * @var string
      */
     public string $description;
+
+    /**
+     * ID of the trait.
+     * @var string
+     */
+    public string $id;
 
     /**
      * Name of the trait.
@@ -43,12 +50,13 @@ class Traits
      */
     public static ?array $traits;
 
-    public function __construct(public string $id)
+    public function __construct(string $id)
     {
         $filename = config('app.data_path.star-trek-adventures')
             . 'traits.php';
         self::$traits ??= require $filename;
 
+        $id = \strtolower($id);
         if (!isset(self::$traits[$id])) {
             throw new RuntimeException(
                 \sprintf('Trait ID "%s" is invalid', $id)
@@ -57,6 +65,7 @@ class Traits
 
         $trait = self::$traits[$id];
         $this->description = $trait['description'];
+        $this->id = $id;
         $this->name = $trait['name'];
         $this->page = (int)$trait['page'];
         $this->ruleset = $trait['ruleset'];

@@ -24,20 +24,28 @@ final class CampaignListTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->make();
+
+        /** @var Collection<int|string, Campaign> */
         $gmCampaigns = new Collection([
             Campaign::factory()->make([
                 'gm' => $user,
             ]),
         ]);
+
+        /** @var Collection<int|string, Campaign> */
         $registeredCampaigns = new Collection([
             Campaign::factory()->make([
                 'registered_by' => $user,
             ]),
         ]);
+
+        /** @var Collection<int|string, Campaign> */
+        $playingCampaigns = new Collection([]);
+
         $list = new CampaignList(
             $gmCampaigns,
             $registeredCampaigns,
-            new Collection([]),
+            $playingCampaigns,
             $user
         );
         self::assertCount(1, $list->gmed);
@@ -53,12 +61,18 @@ final class CampaignListTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
+
+        /** @var Campaign */
         $commonCampaign = Campaign::factory()->make([
             'name' => 'GMing and registered by',
             'gm' => $user,
             'registered_by' => $user,
         ]);
+
+        /** @var Collection<int|string, Campaign> */
         $gmCampaigns = new Collection([$commonCampaign]);
+
+        /** @var Collection<int|string, Campaign> */
         $registeredCampaigns = new Collection([
             $commonCampaign,
             Campaign::factory()->make([
@@ -71,10 +85,14 @@ final class CampaignListTest extends TestCase
                 'name' => 'Neither GMing nor registered',
             ]),
         ]);
+
+        /** @var Collection<int|string, Campaign> */
+        $playingCampaigns = new Collection([]);
+
         $list = new CampaignList(
             $gmCampaigns,
             $registeredCampaigns,
-            new Collection([]),
+            $playingCampaigns,
             $user
         );
         self::assertCount(1, $list->gmed);
@@ -90,11 +108,20 @@ final class CampaignListTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
+
+        /** @var Collection<int|string, Campaign> */
+        $gmedCampaigns = new Collection([]);
+
+        /** @var Campaign */
         $commonCampaign = Campaign::factory()->make([
             'name' => 'GMing and registered by',
             'registered_by' => $user,
         ]);
+
+        /** @var Collection<int|string, Campaign> */
         $playedCampaigns = new Collection([$commonCampaign]);
+
+        /** @var Collection<int|string, Campaign> */
         $registeredCampaigns = new Collection([
             $commonCampaign,
             Campaign::factory()->make([
@@ -107,12 +134,14 @@ final class CampaignListTest extends TestCase
                 'name' => 'Neither GMing nor registered',
             ]),
         ]);
+
         $list = new CampaignList(
-            new Collection([]),
+            $gmedCampaigns,
             $registeredCampaigns,
             $playedCampaigns,
             $user
         );
+
         self::assertCount(0, $list->gmed);
         self::assertCount(2, $list->registered);
         self::assertCount(0, $list->playing);

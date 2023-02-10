@@ -8,7 +8,7 @@ use App\Models\Campaign;
 use App\Models\Card;
 use App\Models\StandardDeck as BaseDeck;
 use Countable;
-use DB;
+use Illuminate\Support\Facades\DB;
 use RuntimeException;
 
 class StandardDeck extends BaseDeck implements Countable
