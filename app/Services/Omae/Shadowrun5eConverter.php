@@ -18,6 +18,7 @@ use RuntimeException;
 
 /**
  * Importer class for Omae Shadowrun 5E profiles.
+ * @psalm-suppress UnusedClass
  * @small
  */
 class Shadowrun5eConverter implements ConverterInterface

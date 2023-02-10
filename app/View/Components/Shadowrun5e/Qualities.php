@@ -17,7 +17,6 @@ class Qualities extends Component
 
     /**
      * Create a new component instance.
-     * @param Character $character
      */
     public function __construct(public Character $character)
     {
@@ -29,8 +28,10 @@ class Qualities extends Component
      * Get the view that represents the component.
      * @return View
      */
-    public function render()
+    public function render(): View
     {
-        return view('components.shadowrun5e.qualities');
+        /** @var View */
+        $view = view('components.shadowrun5e.qualities');
+        return $view;
     }
 }

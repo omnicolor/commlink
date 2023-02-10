@@ -506,7 +506,6 @@ class KarmaLog extends \ArrayObject
             return;
         }
 
-        /** @var MartialArtsStyle $style */
         foreach ($styles as $style) {
             $this[] = new KarmaLogEntry(
                 \sprintf('Add martial art %s', $style->name),

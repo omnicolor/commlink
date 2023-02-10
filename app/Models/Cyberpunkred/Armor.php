@@ -6,6 +6,9 @@ namespace App\Models\Cyberpunkred;
 
 use RuntimeException;
 
+/**
+ * @psalm-suppress UndefinedClass (Psalm can't handle enums)
+ */
 class Armor
 {
     public CostCategory $cost_category;

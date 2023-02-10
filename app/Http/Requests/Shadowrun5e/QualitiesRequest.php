@@ -40,7 +40,7 @@ class QualitiesRequest extends FormRequest
             'quality.*' => [
                 'alpha_dash',
                 'required',
-                function (string $attribute, string $id, Closure $fail): void {
+                function (string $_attribute, string $id, Closure $fail): void {
                     $id = explode('_', $id);
                     $id = $id[0];
 

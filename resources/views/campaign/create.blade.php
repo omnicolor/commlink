@@ -49,9 +49,7 @@
             <div class="col">
                 <textarea aria-describedby="description-help"
                     class="form-control" id="description" maxlength="255"
-                    name="description">
-                    {{ old('description') }}
-                </textarea>
+                    name="description">{{ old('description') }}</textarea>
                 <div class="form-text" id="description-help">
                     Extra information you'd like to give to the players: what
                     nights you play, the tone of the table, or the themes of the
@@ -84,15 +82,19 @@
             </div>
         </div>
 
-        <div id="shadowrun5e-options" style="display:none;">
-            <x-shadowrun5e.campaign-options />
+        <div class="campaign-system" id="avatar-options" style="display:none;">
+            <x-avatar.campaign-options />
         </div>
 
-        <div id="cyberpunkred-options" style="display:none;">
+        <div class="campaign-system" id="cyberpunkred-options" style="display:none;">
             <x-cyberpunkred.campaign-options />
         </div>
 
-        <div>
+        <div class="campaign-system" id="shadowrun5e-options" style="display:none;">
+            <x-shadowrun5e.campaign-options />
+        </div>
+
+        <div class="mt-3 mb-4">
             <button class="btn btn-primary" type="submit">
                 Create campaign
             </button>
@@ -137,7 +139,14 @@
 
             $('#system').on('change', function (e) {
                 $('input[name="creation[]"]').off();
+                $('.campaign-system').hide();
                 switch ($(e.target).val()) {
+                    case 'avatar':
+                        $('#avatar-options').show();
+                        break;
+                    case 'cyberpunkred':
+                        $('#cyberpunkred-options').show();
+                        break;
                     case 'shadowrun5e':
                         $('input[name="creation[]"]').on('change', function() {
                             if (0 === $('input[name="creation[]"]:checked').length) {
@@ -149,15 +158,8 @@
                             }
                         });
                         $('#shadowrun5e-options').show();
-                        $('#cyberpunkred-options').hide();
-                        break;
-                    case 'cyberpunkred':
-                        $('#shadowrun5e-options').hide();
-                        $('#cyberpunkred-options').show();
                         break;
                     default:
-                        $('#shadowrun5e-options').hide();
-                        $('#cyberpunkred-options').hide();
                         break;
                 }
             }).change();
@@ -169,6 +171,29 @@
                 var description = el.getAttribute('data-bs-description');
                 modal.querySelector('.modal-title').textContent = title;
                 modal.querySelector('.modal-body').innerHTML = description;
+            });
+
+            $('.avatar-foci input[type="text"]').on('focus', function (e) {
+                $(e.target).parents('.row').first().find('input[type="radio"]')
+                    .prop('checked', true)
+                    .change();
+            });
+            $('input[name="avatar-focus"]').on('change', function (e) {
+                const selected = $(e.target)[0].id;
+                const parent = $('.avatar-foci');
+                parent.find('input[type="text"]').map(function () {
+                    if (selected + '-object' === this.id) {
+                        $(this).removeClass('form-control-plaintext')
+                            .addClass('form-control')
+                        if (this !== document.activeElement) {
+                            $(this).focus();
+                        }
+                        return;
+                    }
+                    $(this).addClass('form-control-plaintext')
+                        .removeClass('form-control')
+                        .val('');
+                });
             });
         });
     </script>

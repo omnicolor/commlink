@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Models\Avatar\Era;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -27,6 +28,31 @@ class CampaignCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'avatar-era' => [
+                Rule::in(Era::values()),
+                'required_if:system,avatar',
+            ],
+            'avatar-focus' => [
+                Rule::in(['defeat', 'protect', 'change', 'deliver', 'rescue', 'learn']),
+            ],
+            'avatar-focus-defeat-object' => [
+                'required_if:avatar-focus,defeat',
+            ],
+            'avatar-focus-protect-object' => [
+                'required_if:avatar-focus,protect',
+            ],
+            'avatar-focus-change-object' => [
+                'required_if:avatar-focus,change',
+            ],
+            'avatar-focus-deliver-object' => [
+                'required_if:avatar-focus,deliver',
+            ],
+            'avatar-focus-rescue-object' => [
+                'required_if:avatar-focus,rescue',
+            ],
+            'avatar-focus-learn-object' => [
+                'required_if:avatar-focus,learn',
+            ],
             'description' => [
                 'max:255',
                 'nullable',

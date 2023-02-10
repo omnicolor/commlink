@@ -52,6 +52,7 @@ class User extends Authenticatable
 
     /**
      * Get the campaigns for the user.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return BelongsToMany
      */
     public function campaigns(): BelongsToMany
@@ -62,6 +63,7 @@ class User extends Authenticatable
 
     /**
      * Get the campaigns the user has registered.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return HasMany
      */
     public function campaignsRegistered(): HasMany
@@ -71,6 +73,7 @@ class User extends Authenticatable
 
     /**
      * Get the campaigns the user is gamemastering.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return HasMany
      */
     public function campaignsGmed(): HasMany
@@ -80,6 +83,7 @@ class User extends Authenticatable
 
     /**
      * Get the user's channels.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return HasMany
      */
     public function channels(): HasMany
@@ -103,6 +107,7 @@ class User extends Authenticatable
 
     /**
      * Get the user's chat server links.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return HasMany
      */
     public function chatUsers(): HasMany

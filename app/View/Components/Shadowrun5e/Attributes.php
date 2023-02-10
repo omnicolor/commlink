@@ -12,7 +12,6 @@ class Attributes extends Component
 {
     /**
      * Create a new component instance.
-     * @param Character $character
      */
     public function __construct(public Character $character)
     {
@@ -20,11 +19,12 @@ class Attributes extends Component
 
     /**
      * Get the view / contents that represent the component.
-     *
      * @return View
      */
     public function render(): View
     {
-        return view('components.shadowrun5e.attributes');
+        /** @var View */
+        $view = view('components.shadowrun5e.attributes');
+        return $view;
     }
 }

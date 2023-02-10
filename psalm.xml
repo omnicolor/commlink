@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<psalm errorLevel="5"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    findUnusedBaselineEntry="true"
+    findUnusedCode="true"
+    errorBaseline="psalm-baseline.xml"
+>
+    <projectFiles>
+        <directory name="app" />
+        <directory name="data" />
+        <directory name="database/factories" />
+        <directory name="database/seeders" />
+        <ignoreFiles>
+            <file name="app/Models/Avatar/Background.php" />
+            <file name="app/Models/Avatar/Era.php" />
+            <file name="app/Models/Cyberpunkred/CostCategory.php" />
+            <file name="app/Models/Expanse/CrewCompetence.php" />
+            <file name="app/Models/Expanse/ShipSize.php" />
+            <directory name="tests" />
+            <directory name="vendor" />
+        </ignoreFiles>
+    </projectFiles>
+
+    <issueHandlers>
+        <TooManyTemplateParams>
+            <errorLevel type="suppress">
+                <directory name="app/Http/Responses/Discord" />
+            </errorLevel>
+        </TooManyTemplateParams>
+        <UnusedClass>
+            <errorLevel type="suppress">
+                <directory name="tests" />
+                <directory name="database" />
+                <directory name="app/Models/StarTrekAdventures/Species" />
+                <directory name="app/Providers" />
+                <directory name="app/Rolls" />
+                <directory name="app/View/Components" />
+            </errorLevel>
+        </UnusedClass>
+        <UndefinedClass>
+            <errorLevel type="suppress">
+                <file name="app/Models/Avatar/Character.php" />
+            </errorLevel>
+        </UndefinedClass>
+    </issueHandlers>
+</psalm>

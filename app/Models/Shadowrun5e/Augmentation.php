@@ -79,7 +79,7 @@ class Augmentation
 
     /**
      * List of modifications to this augmentation.
-     * @var AugmentationArray<int, Augmentation>
+     * @var AugmentationArray
      */
     public AugmentationArray $modifications;
 

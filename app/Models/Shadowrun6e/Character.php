@@ -23,6 +23,7 @@ use RuntimeException;
  * @property int $edge
  * @property array<int, mixed> $gear
  * @property ?string $handle
+ * @property-read string $id
  * @property array<int, mixed> $identities
  * @property-read int $initiative_base
  * @property-read int $initiative_dice

@@ -103,10 +103,6 @@ class Identity
             $identity->lifestyles[] = $lifestyle;
         }
 
-        foreach ($raw['subscriptions'] ?? [] as $rawSubscription) {
-            // TODO
-        }
-
         if (isset($raw['sinner'])) {
             $identity->sin = null;
             $identity->sinner = $raw['sin'];

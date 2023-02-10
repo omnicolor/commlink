@@ -10,6 +10,7 @@ use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\KarmaLog;
 use App\Models\Shadowrun5e\KarmaLogEntry;
 use App\Models\Shadowrun5e\KnowledgeSkill;
+use Tests\TestCase;
 
 /**
  * Tests for Karma Log.
@@ -18,7 +19,7 @@ use App\Models\Shadowrun5e\KnowledgeSkill;
  * @group shadowrun5e
  * @small
  */
-final class KarmaLogTest extends \Tests\TestCase
+final class KarmaLogTest extends TestCase
 {
     /**
      * Subject under test.
@@ -41,7 +42,7 @@ final class KarmaLogTest extends \Tests\TestCase
      */
     protected function createCharacter(): Character
     {
-        $character = new Character([
+        return new Character([
             'priorities' => [
                 'a' => 'attributes',
                 'b' => 'skills',
@@ -61,7 +62,6 @@ final class KarmaLogTest extends \Tests\TestCase
             'strength' => 3,
             'willpower' => 3,
         ]);
-        return $character;
     }
 
     /**
@@ -530,14 +530,14 @@ final class KarmaLogTest extends \Tests\TestCase
             ['id' => 'automatics', 'level' => 4],
             ['id' => 'computer', 'level' => 6],
             ['id' => 'hacking', 'level' => 2],
-            ['id' => 'automatics', 'level' => 1, 'specialization' => 'Special'],
+            ['id' => 'pistols', 'level' => 1, 'specialization' => 'Special'],
         ];
         $this->log->initialize($character);
         self::assertSame(19, $this->log->getKarma());
         self::assertCount(3, $this->log);
         /** @var KarmaLogEntry */
         $entry = $this->log[1];
-        self::assertSame('2₭ for Automatics (1)', $entry->description);
+        self::assertSame('2₭ for Pistols (1)', $entry->description);
         self::assertSame(-2, $entry->karma);
         /** @var KarmaLogEntry */
         $entry = $this->log[2];

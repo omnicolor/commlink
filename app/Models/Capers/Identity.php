@@ -70,8 +70,9 @@ class Identity
         self::$identities ??= require $filename;
 
         $identities = [];
-        foreach (self::$identities as $id => $identity) {
-            $identities[(string)$id] = new self($id);
+        /** @var string $id */
+        foreach (array_keys(self::$identities) as $id) {
+            $identities[$id] = new self($id);
         }
         return $identities;
     }

@@ -149,8 +149,9 @@ class Power
         self::$powers ??= require $filename;
 
         $powers = new PowerArray();
-        foreach (self::$powers ?? [] as $powerId => $power) {
-            $powers[$powerId] = new self($powerId);
+        /** @var string $id */
+        foreach (array_keys(self::$powers ?? []) as $id) {
+            $powers[$id] = new self($id);
         }
         return $powers;
     }

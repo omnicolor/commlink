@@ -14,19 +14,12 @@ class Augmentations extends Component
 {
     /**
      * Whether the character is still being built.
-     * @var bool
      */
     public bool $charGen;
-
-    /**
-     * Character's augmentations.
-     * @var AugmentationArray
-     */
     public AugmentationArray $augmentations;
 
     /**
      * Create a new component instance.
-     * @param Character $character
      */
     public function __construct(public Character $character)
     {
@@ -40,6 +33,8 @@ class Augmentations extends Component
      */
     public function render(): View
     {
-        return view('components.shadowrun5e.augmentations');
+        /** @var View */
+        $view = view('components.shadowrun5e.augmentations');
+        return $view;
     }
 }

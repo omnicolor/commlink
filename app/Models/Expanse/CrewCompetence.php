@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models\Expanse;
 
+/**
+ * @psalm-suppress all
+ */
 enum CrewCompetence: string
 {
     case Incompetent = 'Incompetent';

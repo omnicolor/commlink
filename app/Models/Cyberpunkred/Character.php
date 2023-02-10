@@ -7,6 +7,7 @@ namespace App\Models\Cyberpunkred;
 use App\Models\Character as BaseCharacter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
 /**
@@ -17,7 +18,9 @@ use RuntimeException;
  * @property int $empathy
  * @property string $handle
  * @property int $hitPointsCurrent
- * @property int $hitPointsMax
+ * @property-read int $hitPointsMax
+ * @property-read int $humanity
+ * @property-read string $id
  * @property int $intelligence
  * @property array<string, array<string, int>> $lifepath
  * @property int $luck
@@ -168,10 +171,10 @@ class Character extends BaseCharacter
             try {
                 $roles[] = Role::fromArray($role);
             } catch (RuntimeException) {
-                \Log::warning(\sprintf(
+                Log::warning(\sprintf(
                     'Cyberpunk character "%s" (%s) has invalid role "%s"',
                     $this->handle,
-                    $this->_id,
+                    $this->id,
                     (string)$role['role']
                 ));
             }
@@ -185,7 +188,7 @@ class Character extends BaseCharacter
      */
     public function getSeriouslyWoundedThresholdAttribute(): int
     {
-        return (int)\ceil($this->hit_points_max / 2);
+        return (int)\ceil($this->getHitPointsMaxAttribute() / 2);
     }
 
     /**
@@ -199,10 +202,10 @@ class Character extends BaseCharacter
             try {
                 $skills[] = new Skill($skill, $level);
             } catch (RuntimeException $ex) {
-                \Log::warning(\sprintf(
+                Log::warning(\sprintf(
                     'Cyberpunk character "%s" (%s) has invalid skill "%s"',
                     $this->handle,
-                    $this->_id,
+                    $this->id,
                     $skill
                 ));
             }
@@ -219,7 +222,8 @@ class Character extends BaseCharacter
         $filename = config('app.data_path.cyberpunkred') . 'skills.php';
         $rawSkills = require $filename;
         $skills = new SkillArray();
-        foreach ($rawSkills as $id => $skillInfo) {
+        /** @var string $id */
+        foreach (array_keys($rawSkills) as $id) {
             if (\array_key_exists($id, $this->skills ?? [])) {
                 $skills[$id] = new Skill($id, $this->skills[$id]);
                 continue;
@@ -278,7 +282,7 @@ class Character extends BaseCharacter
                     continue;
                 }
             } catch (RuntimeException $ex) {
-                \Log::warning(sprintf(
+                Log::warning(sprintf(
                     'Cyberpunk Red character %s (%s) has invalid weapon ID "%s"',
                     $this->name,
                     $this->id,

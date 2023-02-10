@@ -31,16 +31,17 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
+        /** @psalm-suppress UnusedClosureParam */
         $this->reportable(function (Throwable $e): void {
         });
     }
 
-    public function report(Throwable $exception): void
+    public function report(Throwable $e): void
     {
-        if (app()->bound('sentry') && $this->shouldReport($exception)) {
-            app('sentry')->captureException($exception);
+        if (app()->bound('sentry') && $this->shouldReport($e)) {
+            app('sentry')->captureException($e);
         }
 
-        parent::report($exception);
+        parent::report($e);
     }
 }

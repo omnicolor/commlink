@@ -56,7 +56,6 @@ class HelpResponse
             ) . \PHP_EOL . \PHP_EOL;
         }
 
-        /** @var \Discord\Parts\Channel\Channel */
         $discordChannel = $this->event->channel;
         $channel = Channel::discord()
             ->where('channel_id', $discordChannel->id)

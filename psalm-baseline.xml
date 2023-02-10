@@ -1,0 +1,1815 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="5.6.0@e784128902dfe01d489c4123d69918a9f3c1eac5">
+  <file src="app/Console/Commands/DiscordRunCommand.php">
+    <UnusedClass>
+      <code>DiscordRunCommand</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Console/Commands/MakeRollCommand.php">
+    <UnusedClass>
+      <code>MakeRollCommand</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Console/Commands/ValidateDataFiles.php">
+    <UnusedClass>
+      <code>ValidateDataFiles</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Console/Kernel.php">
+    <UnusedClass>
+      <code>Kernel</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Events/CampaignCreated.php">
+    <PossiblyUnusedProperty>
+      <code>$campaign</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Events/ChannelLinked.php">
+    <PossiblyUnusedMethod>
+      <code>broadcastWith</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Events/InitiativeAdded.php">
+    <PossiblyUnusedProperty>
+      <code>$name</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Exceptions/Handler.php">
+    <UnusedClass>
+      <code>Handler</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Exceptions/SlackException.php">
+    <PossiblyUnusedMethod>
+      <code>render</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Http/Controllers/Auth/AuthenticatedSessionController.php">
+    <InvalidReturnStatement>
+      <code>redirect('/')</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code>\Illuminate\Http\RedirectResponse</code>
+    </InvalidReturnType>
+    <UnusedClass>
+      <code>AuthenticatedSessionController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/Auth/ConfirmablePasswordController.php">
+    <PossiblyUnusedParam>
+      <code>$request</code>
+    </PossiblyUnusedParam>
+    <UnusedClass>
+      <code>ConfirmablePasswordController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/Auth/EmailVerificationNotificationController.php">
+    <UnusedClass>
+      <code>EmailVerificationNotificationController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/Auth/EmailVerificationPromptController.php">
+    <UnusedClass>
+      <code>EmailVerificationPromptController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/Auth/NewPasswordController.php">
+    <UnusedClass>
+      <code>NewPasswordController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/Auth/PasswordResetLinkController.php">
+    <UnusedClass>
+      <code>PasswordResetLinkController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/Auth/RegisteredUserController.php">
+    <InvalidReturnStatement>
+      <code>redirect(RouteServiceProvider::HOME)</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code>\Illuminate\Http\RedirectResponse</code>
+    </InvalidReturnType>
+    <UnusedClass>
+      <code>RegisteredUserController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/Auth/VerifyEmailController.php">
+    <UnusedClass>
+      <code>VerifyEmailController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/Avatar/CharactersController.php">
+    <PossiblyUnusedParam>
+      <code>$character</code>
+    </PossiblyUnusedParam>
+    <UndefinedClass>
+      <code>Auth</code>
+    </UndefinedClass>
+    <UnusedClass>
+      <code>CharactersController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/CampaignsController.php">
+    <PossiblyUnusedParam>
+      <code>$campaign</code>
+      <code>$campaign</code>
+    </PossiblyUnusedParam>
+    <UndefinedClass>
+      <code>Gate</code>
+      <code>Gate</code>
+      <code>\Auth</code>
+    </UndefinedClass>
+    <UnusedClass>
+      <code>CampaignsController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/Capers/CharactersController.php">
+    <PossiblyUnusedParam>
+      <code>$character</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$step</code>
+      <code>$step</code>
+    </PossiblyUnusedParam>
+    <UndefinedClass>
+      <code>Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+    </UndefinedClass>
+    <UnusedClass>
+      <code>CharactersController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/ChannelsController.php">
+    <UnusedClass>
+      <code>ChannelsController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/Cyberpunkred/CharactersController.php">
+    <PossiblyUnusedParam>
+      <code>$character</code>
+      <code>$identifier</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$step</code>
+      <code>$step</code>
+    </PossiblyUnusedParam>
+    <TooManyTemplateParams>
+      <code>AnonymousResourceCollection&lt;Character&gt;</code>
+    </TooManyTemplateParams>
+    <UndefinedClass>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+    </UndefinedClass>
+    <UnusedClass>
+      <code>CharactersController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/DashboardController.php">
+    <UndefinedClass>
+      <code>\Auth</code>
+    </UndefinedClass>
+    <UnusedClass>
+      <code>DashboardController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/DiscordController.php">
+    <PossiblyUnusedParam>
+      <code>$request</code>
+    </PossiblyUnusedParam>
+    <UndefinedClass>
+      <code>Auth</code>
+      <code>Auth</code>
+      <code>Auth</code>
+    </UndefinedClass>
+    <UnusedClass>
+      <code>DiscordController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/Dnd5e/CharactersController.php">
+    <PossiblyUnusedParam>
+      <code>$identifier</code>
+    </PossiblyUnusedParam>
+    <UndefinedClass>
+      <code>\Auth</code>
+      <code>\Auth</code>
+    </UndefinedClass>
+    <UnusedClass>
+      <code>CharactersController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/Expanse/BackgroundsController.php">
+    <UnusedClass>
+      <code>BackgroundsController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$unused</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Expanse/CharactersController.php">
+    <PossiblyUnusedParam>
+      <code>$character</code>
+      <code>$identifier</code>
+    </PossiblyUnusedParam>
+    <UndefinedClass>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+    </UndefinedClass>
+    <UnusedClass>
+      <code>CharactersController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/Expanse/ConditionsController.php">
+    <UnusedClass>
+      <code>ConditionsController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$unused</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Expanse/FocusesController.php">
+    <UnusedClass>
+      <code>FocusesController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$unused</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Expanse/SocialClassesController.php">
+    <UnusedClass>
+      <code>SocialClassesController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$unused</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Expanse/TalentsController.php">
+    <UnusedClass>
+      <code>TalentsController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$unused</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Import/Chummer5Controller.php">
+    <PossiblyUnusedParam>
+      <code>$request</code>
+    </PossiblyUnusedParam>
+    <UndefinedClass>
+      <code>\Auth</code>
+      <code>\Auth</code>
+    </UndefinedClass>
+    <UnusedClass>
+      <code>Chummer5Controller</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/InitiativesController.php">
+    <InvalidReturnStatement>
+      <code>response([
+            'initiative' =&gt; $initiative,
+        ])</code>
+      <code>response([
+            'initiatives' =&gt; $initiatives,
+        ])</code>
+      <code>response(['initiative' =&gt; $initiative])</code>
+      <code>response(['initiative' =&gt; $initiative], Response::HTTP_CREATED)</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code>Response</code>
+      <code>Response</code>
+      <code>Response</code>
+      <code>Response</code>
+    </InvalidReturnType>
+    <UnusedClass>
+      <code>InitiativesController</code>
+    </UnusedClass>
+    <UnusedVariable>
+      <code>$initiatives</code>
+    </UnusedVariable>
+  </file>
+  <file src="app/Http/Controllers/SettingsController.php">
+    <UndefinedClass>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+    </UndefinedClass>
+    <UnusedClass>
+      <code>SettingsController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/AdeptPowersController.php">
+    <UnusedClass>
+      <code>AdeptPowersController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$value</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/AmmunitionController.php">
+    <UnusedClass>
+      <code>AmmunitionController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$value</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/ArmorController.php">
+    <UnusedClass>
+      <code>ArmorController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$value</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/ArmorModificationsController.php">
+    <UnusedClass>
+      <code>ArmorModificationsController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$value</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/CharactersController.php">
+    <InvalidReturnStatement>
+      <code>redirect(\sprintf(
+                '/characters/shadowrun5e/create/%s',
+                $this-&gt;previousStep($step, $character),
+            ))</code>
+      <code>redirect(\sprintf(
+            '/characters/shadowrun5e/create/%s',
+            $this-&gt;nextStep($step, $character),
+        ))</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code>RedirectResponse</code>
+    </InvalidReturnType>
+    <PossiblyUnusedParam>
+      <code>$character</code>
+      <code>$identifier</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$step</code>
+      <code>$step</code>
+    </PossiblyUnusedParam>
+    <UndefinedClass>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+      <code>\Auth</code>
+    </UndefinedClass>
+    <UnusedClass>
+      <code>CharactersController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/ComplexFormsController.php">
+    <UnusedClass>
+      <code>ComplexFormsController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$unused</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/CyberwareController.php">
+    <UnusedClass>
+      <code>CyberwareController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$unused</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/GearController.php">
+    <UnusedClass>
+      <code>GearController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$unused</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/GearModificationsController.php">
+    <UnusedClass>
+      <code>GearModificationsController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/LifestyleOptionsController.php">
+    <UnusedClass>
+      <code>LifestyleOptionsController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$value</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/LifestyleZonesController.php">
+    <UnusedClass>
+      <code>LifestyleZonesController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$value</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/LifestylesController.php">
+    <UnusedClass>
+      <code>LifestylesController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$value</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/MartialArtsStylesController.php">
+    <UnusedClass>
+      <code>MartialArtsStylesController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$value</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/MartialArtsTechniquesController.php">
+    <UnusedClass>
+      <code>MartialArtsTechniquesController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$value</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/MentorSpiritsController.php">
+    <UnusedClass>
+      <code>MentorSpiritsController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$unused</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/MetamagicsController.php">
+    <UnusedClass>
+      <code>MetamagicsController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$unused</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/ProgramsController.php">
+    <UnusedClass>
+      <code>ProgramsController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$value</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/QualitiesController.php">
+    <UnusedClass>
+      <code>QualitiesController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$value</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/SkillGroupsController.php">
+    <UnusedClass>
+      <code>SkillGroupsController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/SkillsController.php">
+    <UnusedClass>
+      <code>SkillsController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$value</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/SpellsController.php">
+    <UnusedClass>
+      <code>SpellsController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$value</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/SpiritsController.php">
+    <UnusedClass>
+      <code>SpiritsController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$value</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/SpritesController.php">
+    <UnusedClass>
+      <code>SpritesController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$unused</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/TraditionsController.php">
+    <UnusedClass>
+      <code>TraditionsController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$unused</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/VehicleModificationsController.php">
+    <UnusedClass>
+      <code>VehicleModificationsController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$value</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/VehiclesController.php">
+    <UnusedClass>
+      <code>VehiclesController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$value</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/WeaponModificationsController.php">
+    <UnusedClass>
+      <code>WeaponModificationsController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$value</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/Shadowrun5e/WeaponsController.php">
+    <UnusedClass>
+      <code>WeaponsController</code>
+    </UnusedClass>
+    <UnusedForeachValue>
+      <code>$value</code>
+    </UnusedForeachValue>
+  </file>
+  <file src="app/Http/Controllers/SlackController.php">
+    <InvalidReturnStatement>
+      <code>response('OK')</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code>Response</code>
+    </InvalidReturnType>
+    <UndefinedClass>
+      <code>\Log</code>
+      <code>\Log</code>
+      <code>\Log</code>
+      <code>\Log</code>
+    </UndefinedClass>
+    <UnusedClass>
+      <code>SlackController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/StarTrekAdventures/CharactersController.php">
+    <UnusedClass>
+      <code>CharactersController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Controllers/VarzController.php">
+    <InvalidReturnStatement>
+      <code>response($data)</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code>Response</code>
+    </InvalidReturnType>
+    <UnusedClass>
+      <code>VarzController</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Kernel.php">
+    <UnusedClass>
+      <code>Kernel</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Middleware/RedirectIfAuthenticated.php">
+    <PossiblyUnusedMethod>
+      <code>handle</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Http/Middleware/TrustHosts.php">
+    <UnusedClass>
+      <code>TrustHosts</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Requests/Auth/LoginRequest.php">
+    <PossiblyUnusedMethod>
+      <code>authorize</code>
+      <code>rules</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Http/Requests/CampaignCreateRequest.php">
+    <PossiblyUnusedMethod>
+      <code>rules</code>
+    </PossiblyUnusedMethod>
+    <UndefinedClass>
+      <code>Era</code>
+    </UndefinedClass>
+  </file>
+  <file src="app/Http/Requests/Capers/BoostsRequest.php">
+    <UndefinedClass>
+      <code>\Auth</code>
+    </UndefinedClass>
+  </file>
+  <file src="app/Http/Requests/Capers/PowersRequest.php">
+    <UnusedClosureParam>
+      <code>$attribute</code>
+      <code>$value</code>
+    </UnusedClosureParam>
+  </file>
+  <file src="app/Http/Requests/ChannelUpdateRequest.php">
+    <PossiblyUnusedMethod>
+      <code>authorize</code>
+      <code>rules</code>
+    </PossiblyUnusedMethod>
+    <UnusedClosureParam>
+      <code>$attribute</code>
+      <code>$value</code>
+    </UnusedClosureParam>
+  </file>
+  <file src="app/Http/Requests/Cyberpunkred/HandleRequest.php">
+    <PossiblyUnusedMethod>
+      <code>rules</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Http/Requests/Cyberpunkred/LifepathRequest.php">
+    <PossiblyUnusedMethod>
+      <code>rules</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Http/Requests/Cyberpunkred/RoleRequest.php">
+    <PossiblyUnusedMethod>
+      <code>rules</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Http/Requests/Cyberpunkred/StatsRequest.php">
+    <PossiblyUnusedMethod>
+      <code>rules</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Http/Requests/FormRequest.php">
+    <UnusedClass>
+      <code>FormRequest</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Requests/InitiativeCreateRequest.php">
+    <PossiblyUnusedMethod>
+      <code>rules</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Http/Requests/LinkUserRequest.php">
+    <PossiblyUnusedMethod>
+      <code>rules</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Http/Requests/Shadowrun5e/AttributesRequest.php">
+    <PossiblyUnusedMethod>
+      <code>rules</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Http/Requests/Shadowrun5e/BackgroundRequest.php">
+    <PossiblyUnusedMethod>
+      <code>rules</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Http/Requests/Shadowrun5e/KnowledgeSkillsRequest.php">
+    <PossiblyUnusedMethod>
+      <code>rules</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Http/Requests/Shadowrun5e/MartialArtsRequest.php">
+    <PossiblyUnusedMethod>
+      <code>rules</code>
+    </PossiblyUnusedMethod>
+    <UnusedClosureParam>
+      <code>$attribute</code>
+    </UnusedClosureParam>
+  </file>
+  <file src="app/Http/Requests/Shadowrun5e/QualitiesRequest.php">
+    <PossiblyUnusedMethod>
+      <code>rules</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Http/Requests/Shadowrun5e/RulesRequest.php">
+    <PossiblyUnusedMethod>
+      <code>rules</code>
+    </PossiblyUnusedMethod>
+    <UnusedClosureParam>
+      <code>$attribute</code>
+    </UnusedClosureParam>
+  </file>
+  <file src="app/Http/Requests/Shadowrun5e/SkillsRequest.php">
+    <PossiblyUnusedMethod>
+      <code>rules</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Http/Requests/Shadowrun5e/StandardPriorityRequest.php">
+    <PossiblyUnusedMethod>
+      <code>rules</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Http/Requests/Shadowrun5e/VitalsRequest.php">
+    <PossiblyUnusedMethod>
+      <code>rules</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Http/Requests/SlackRequest.php">
+    <PossiblyUnusedMethod>
+      <code>authorize</code>
+      <code>rules</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Http/Responses/Discord/HelpResponse.php">
+    <UnusedClass>
+      <code>HelpResponse</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Responses/Discord/InfoResponse.php">
+    <UnusedClass>
+      <code>InfoResponse</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Responses/Discord/LinkResponse.php">
+    <UnusedClass>
+      <code>LinkResponse</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Responses/Discord/RegisterResponse.php">
+    <UnusedClass>
+      <code>RegisterResponse</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Responses/Discord/ValidateResponse.php">
+    <UnusedClass>
+      <code>ValidateResponse</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Responses/Slack/InfoResponse.php">
+    <UnusedClass>
+      <code>InfoResponse</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Responses/Slack/LinkResponse.php">
+    <UnusedClass>
+      <code>LinkResponse</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Responses/Slack/RegisterResponse.php">
+    <UnusedClass>
+      <code>RegisterResponse</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Http/Responses/Slack/SlackResponse.php">
+    <PossiblyUnusedMethod>
+      <code>deleteOriginal</code>
+      <code>replaceOriginal</code>
+      <code>setText</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$chatUser</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Http/Responses/Slack/ValidateResponse.php">
+    <UnusedClass>
+      <code>ValidateResponse</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Listeners/HandleDiscordMessage.php">
+    <PossiblyUnusedMethod>
+      <code>handle</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Listeners/HandleInitiativeEvent.php">
+    <PossiblyUnusedMethod>
+      <code>handle</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Listeners/HandleRollEvent.php">
+    <PossiblyUnusedMethod>
+      <code>handle</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Listeners/Shadowrun5e/HandleDamageEvent.php">
+    <PossiblyUnusedMethod>
+      <code>handle</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Models/Avatar/Character.php">
+    <PossiblyUnusedMethod>
+      <code>setBackgroundAttribute</code>
+      <code>setEraAttribute</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Models/Avatar/Moves/Move.php">
+    <UnusedClass>
+      <code>Move</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Models/Avatar/Playbook.php">
+    <UnusedClass>
+      <code>Playbook</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Models/Avatar/Status.php">
+    <UnusedClass>
+      <code>Status</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Models/Campaign.php">
+    <PossiblyUnusedMethod>
+      <code>channels</code>
+      <code>characters</code>
+      <code>gamemaster</code>
+      <code>initiatives</code>
+      <code>registeredBy</code>
+      <code>setSystemAttribute</code>
+      <code>users</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Models/Capers/Boost.php">
+    <PossiblyUnusedProperty>
+      <code>$description</code>
+      <code>$id</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Capers/Character.php">
+    <PossiblyUnusedMethod>
+      <code>findAttributeAt</code>
+      <code>getBodyAttribute</code>
+      <code>getGearAttribute</code>
+      <code>getIdentityAttribute</code>
+      <code>getMaximumHitsAttribute</code>
+      <code>getMindAttribute</code>
+      <code>getPowersAttribute</code>
+      <code>getSkillsAttribute</code>
+      <code>getSpeedAttribute</code>
+      <code>getStrengthAttribute</code>
+      <code>getViceAttribute</code>
+      <code>getVirtueAttribute</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Models/Capers/Explosive.php">
+    <PossiblyUnusedProperty>
+      <code>$blast</code>
+      <code>$damage</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Capers/Gear.php">
+    <PossiblyUnusedMethod>
+      <code>explosives</code>
+      <code>getType</code>
+      <code>normalGear</code>
+      <code>weapons</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$cost</code>
+      <code>$id</code>
+      <code>$quantity</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Capers/Identity.php">
+    <PossiblyUnusedMethod>
+      <code>findForCard</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$card</code>
+      <code>$description</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Capers/PartialCharacter.php">
+    <PossiblyUnusedMethod>
+      <code>toCharacter</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Models/Capers/Perk.php">
+    <PossiblyUnusedProperty>
+      <code>$description</code>
+      <code>$skillId</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Capers/Power.php">
+    <PossiblyUnusedMethod>
+      <code>all</code>
+      <code>major</code>
+      <code>minor</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$activation</code>
+      <code>$description</code>
+      <code>$duration</code>
+      <code>$effect</code>
+      <code>$maxRank</code>
+      <code>$range</code>
+      <code>$target</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Capers/Skill.php">
+    <PossiblyUnusedProperty>
+      <code>$description</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Capers/Vice.php">
+    <PossiblyUnusedMethod>
+      <code>findForCard</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$card</code>
+      <code>$description</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Capers/Virtue.php">
+    <PossiblyUnusedMethod>
+      <code>findForCard</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$card</code>
+      <code>$description</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Capers/Weapon.php">
+    <PossiblyUnusedProperty>
+      <code>$damage</code>
+      <code>$range</code>
+      <code>$rounds</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Channel.php">
+    <PossiblyUnusedMethod>
+      <code>campaign</code>
+      <code>characters</code>
+      <code>getServerNameAttribute</code>
+      <code>initiatives</code>
+      <code>scopeDiscord</code>
+      <code>scopeSlack</code>
+      <code>setSystemAttribute</code>
+      <code>setTypeAttribute</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Models/Character.php">
+    <PossiblyUnusedMethod>
+      <code>campaign</code>
+      <code>user</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Models/ChatCharacter.php">
+    <PossiblyUnusedMethod>
+      <code>channel</code>
+      <code>chatUser</code>
+      <code>getCharacter</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Models/ChatUser.php">
+    <PossiblyUnusedMethod>
+      <code>chatCharacter</code>
+      <code>getVerificationAttribute</code>
+      <code>scopeDiscord</code>
+      <code>scopeSlack</code>
+      <code>scopeUnverified</code>
+      <code>scopeVerified</code>
+      <code>user</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Models/Cyberpunkred/Armor.php">
+    <UnusedClass>
+      <code>Armor</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Models/Cyberpunkred/Character.php">
+    <PossiblyUnusedMethod>
+      <code>getDeathSaveAttribute</code>
+      <code>getEmpathyAttribute</code>
+      <code>getEmpathyOriginalAttribute</code>
+      <code>getHumanityAttribute</code>
+      <code>getRoles</code>
+      <code>getSeriouslyWoundedThresholdAttribute</code>
+      <code>getSkills</code>
+      <code>getSkillsByCategory</code>
+      <code>getWeapons</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Models/Cyberpunkred/Lifepath.php">
+    <UnusedClass>
+      <code>Lifepath</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Models/Cyberpunkred/PartialCharacter.php">
+    <PossiblyUnusedMethod>
+      <code>initializeLifepath</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Models/Cyberpunkred/RangedWeapon.php">
+    <PossiblyUnusedProperty>
+      <code>$ammoRemaining</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Cyberpunkred/Role.php">
+    <PossiblyUnusedMethod>
+      <code>__construct</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$abilityDescription</code>
+      <code>$abilityName</code>
+      <code>$description</code>
+      <code>$rank</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Cyberpunkred/Role/Fixer.php">
+    <PossiblyUnusedMethod>
+      <code>getType</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Models/Cyberpunkred/Role/Rockerboy.php">
+    <PossiblyUnusedMethod>
+      <code>getAct</code>
+      <code>getType</code>
+      <code>getWhosGunning</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$perform</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Cyberpunkred/Skill.php">
+    <PossiblyUnusedMethod>
+      <code>getBase</code>
+      <code>getShortAttribute</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$description</code>
+      <code>$examples</code>
+      <code>$id</code>
+      <code>$page</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Cyberpunkred/Weapon.php">
+    <PossiblyUnusedMethod>
+      <code>getCost</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$concealable</code>
+      <code>$damage</code>
+      <code>$examples</code>
+      <code>$handsRequired</code>
+      <code>$rateOfFire</code>
+      <code>$skill</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Deck.php">
+    <PossiblyUnusedMethod>
+      <code>count</code>
+      <code>find</code>
+      <code>peek</code>
+      <code>truncate</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Models/Dnd5e/Character.php">
+    <PossiblyUnusedMethod>
+      <code>getArmorClass</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Models/Expanse/Background.php">
+    <PossiblyUnusedMethod>
+      <code>getFocuses</code>
+      <code>getTalents</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$ability</code>
+      <code>$benefits</code>
+      <code>$description</code>
+      <code>$id</code>
+      <code>$page</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Expanse/Character.php">
+    <PossiblyUnusedMethod>
+      <code>getBackgroundAttribute</code>
+      <code>getOriginAttribute</code>
+      <code>getSocialClassAttribute</code>
+      <code>getTalents</code>
+      <code>hasFocus</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Models/Expanse/Condition.php">
+    <PossiblyUnusedMethod>
+      <code>__construct</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$description</code>
+      <code>$id</code>
+      <code>$page</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Expanse/ConditionArray.php">
+    <UnusedClass>
+      <code>ConditionArray</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Models/Expanse/Focus.php">
+    <PossiblyUnusedProperty>
+      <code>$attribute</code>
+      <code>$description</code>
+      <code>$id</code>
+      <code>$level</code>
+      <code>$page</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Expanse/Origin.php">
+    <PossiblyUnusedProperty>
+      <code>$description</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Expanse/Ship.php">
+    <PossiblyUnusedMethod>
+      <code>all</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$competence</code>
+      <code>$crew_minimum</code>
+      <code>$crew_standard</code>
+      <code>$favored_range</code>
+      <code>$favored_stunts</code>
+      <code>$flaws</code>
+      <code>$has_epstein</code>
+      <code>$length</code>
+      <code>$page</code>
+      <code>$ruleset</code>
+      <code>$sensors</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Expanse/ShipFlaw.php">
+    <PossiblyUnusedMethod>
+      <code>all</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$description</code>
+      <code>$effects</code>
+      <code>$page</code>
+      <code>$ruleset</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Expanse/ShipQuality.php">
+    <PossiblyUnusedMethod>
+      <code>all</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$description</code>
+      <code>$effects</code>
+      <code>$page</code>
+      <code>$ruleset</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Expanse/ShipWeapon.php">
+    <PossiblyUnusedMethod>
+      <code>all</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$damage</code>
+      <code>$description</code>
+      <code>$mount</code>
+      <code>$page</code>
+      <code>$quality</code>
+      <code>$range</code>
+      <code>$ruleset</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Expanse/SocialClass.php">
+    <PossiblyUnusedProperty>
+      <code>$description</code>
+      <code>$id</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Expanse/Talent.php">
+    <PossiblyUnusedProperty>
+      <code>$benefits</code>
+      <code>$description</code>
+      <code>$id</code>
+      <code>$level</code>
+      <code>$page</code>
+      <code>$requirements</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Initiative.php">
+    <PossiblyUnusedMethod>
+      <code>campaign</code>
+      <code>getNameAttribute</code>
+      <code>scopeForCampaign</code>
+      <code>scopeForChannel</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Models/Shadowrun5e/ActiveSkill.php">
+    <PossiblyUnusedMethod>
+      <code>all</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$default</code>
+      <code>$description</code>
+      <code>$group</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/AdeptPower.php">
+    <PossiblyUnusedProperty>
+      <code>$cost</code>
+      <code>$description</code>
+      <code>$effects</code>
+      <code>$level</code>
+      <code>$page</code>
+      <code>$ruleset</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/Armor.php">
+    <PossiblyUnusedMethod>
+      <code>getCost</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$availability</code>
+      <code>$description</code>
+      <code>$page</code>
+      <code>$ruleset</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/ArmorModification.php">
+    <PossiblyUnusedProperty>
+      <code>$availability</code>
+      <code>$description</code>
+      <code>$incompatibleWith</code>
+      <code>$rating</code>
+      <code>$ruleset</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/Augmentation.php">
+    <PossiblyUnusedMethod>
+      <code>getCost</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$active</code>
+      <code>$availability</code>
+      <code>$description</code>
+      <code>$incompatibilities</code>
+      <code>$rating</code>
+      <code>$softs</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/Character.php">
+    <PossiblyUnusedMethod>
+      <code>astralLimit</code>
+      <code>getComposureAttribute</code>
+      <code>getKarmaLog</code>
+      <code>getMemoryAttribute</code>
+      <code>getMetatypeAttribute</code>
+      <code>getSkillLimit</code>
+      <code>getSoakAttribute</code>
+      <code>getSpirits</code>
+      <code>getSprites</code>
+      <code>getTradition</code>
+      <code>initiativeDice</code>
+      <code>initiativeScore</code>
+      <code>judgeIntentions</code>
+      <code>liftCarry</code>
+      <code>meleeDefense</code>
+      <code>mentalLimit</code>
+      <code>overflowMonitor</code>
+      <code>physicalLimit</code>
+      <code>physicalMonitor</code>
+      <code>rangedDefense</code>
+      <code>socialLimit</code>
+      <code>stunMonitor</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Models/Shadowrun5e/Commlink.php">
+    <PossiblyUnusedMethod>
+      <code>getConditionMonitor</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$configurable</code>
+      <code>$marks</code>
+      <code>$overwatch</code>
+      <code>$programsAllowed</code>
+      <code>$programsInstalled</code>
+      <code>$setAttributes</code>
+      <code>$sin</code>
+      <code>$slavedDevices</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/ComplexForm.php">
+    <PossiblyUnusedMethod>
+      <code>getFade</code>
+      <code>setLevel</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$description</code>
+      <code>$duration</code>
+      <code>$identifier</code>
+      <code>$page</code>
+      <code>$ruleset</code>
+      <code>$stream</code>
+      <code>$target</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/Contact.php">
+    <PossiblyUnusedProperty>
+      <code>$archetype</code>
+      <code>$gmNotes</code>
+      <code>$notes</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/Critter.php">
+    <UnusedClass>
+      <code>Critter</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Models/Shadowrun5e/CritterPower.php">
+    <PossiblyUnusedProperty>
+      <code>$action</code>
+      <code>$description</code>
+      <code>$duration</code>
+      <code>$page</code>
+      <code>$range</code>
+      <code>$ruleset</code>
+      <code>$subname</code>
+      <code>$type</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/CritterWeakness.php">
+    <PossiblyUnusedProperty>
+      <code>$description</code>
+      <code>$page</code>
+      <code>$ruleset</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/Gear.php">
+    <PossiblyUnusedProperty>
+      <code>$active</code>
+      <code>$availability</code>
+      <code>$damage</code>
+      <code>$description</code>
+      <code>$effects</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/GearModification.php">
+    <PossiblyUnusedProperty>
+      <code>$availability</code>
+      <code>$capacityCost</code>
+      <code>$containerType</code>
+      <code>$description</code>
+      <code>$id</code>
+      <code>$page</code>
+      <code>$rating</code>
+      <code>$ruleset</code>
+      <code>$wirelessEffects</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/Grunt.php">
+    <PossiblyUnusedMethod>
+      <code>all</code>
+      <code>getArmorValue</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$agility</code>
+      <code>$augmentations</code>
+      <code>$body</code>
+      <code>$charisma</code>
+      <code>$condition_monitor</code>
+      <code>$description</code>
+      <code>$essence</code>
+      <code>$id</code>
+      <code>$initiate_grade</code>
+      <code>$initiative_base</code>
+      <code>$initiative_dice</code>
+      <code>$intuition</code>
+      <code>$logic</code>
+      <code>$magic</code>
+      <code>$page</code>
+      <code>$professional_rating</code>
+      <code>$reaction</code>
+      <code>$ruleset</code>
+      <code>$spells</code>
+      <code>$strength</code>
+      <code>$willpower</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/Identity.php">
+    <PossiblyUnusedMethod>
+      <code>getCost</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$identifier</code>
+      <code>$sinner</code>
+      <code>$subscriptions</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/IntrusionCountermeasure.php">
+    <UnusedClass>
+      <code>IntrusionCountermeasure</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Models/Shadowrun5e/KarmaLog.php">
+    <PossiblyUnusedMethod>
+      <code>getKarma</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$specialPoints</code>
+    </PossiblyUnusedProperty>
+    <PossiblyUnusedReturnValue>
+      <code>int</code>
+    </PossiblyUnusedReturnValue>
+  </file>
+  <file src="app/Models/Shadowrun5e/KarmaLogEntry.php">
+    <PossiblyUnusedProperty>
+      <code>$description</code>
+      <code>$gameDate</code>
+      <code>$realDate</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/KnowledgeSkill.php">
+    <PossiblyUnusedMethod>
+      <code>__get</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Models/Shadowrun5e/Lifestyle.php">
+    <PossiblyUnusedMethod>
+      <code>getZone</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$description</code>
+      <code>$id</code>
+      <code>$notes</code>
+      <code>$page</code>
+      <code>$points</code>
+      <code>$quantity</code>
+      <code>$ruleset</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/LifestyleAttributes.php">
+    <PossiblyUnusedProperty>
+      <code>$comforts</code>
+      <code>$comfortsMax</code>
+      <code>$neighborhoodMax</code>
+      <code>$security</code>
+      <code>$securityMax</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/LifestyleOption.php">
+    <PossiblyUnusedProperty>
+      <code>$description</code>
+      <code>$id</code>
+      <code>$page</code>
+      <code>$points</code>
+      <code>$ruleset</code>
+      <code>$type</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/LifestyleZone.php">
+    <PossiblyUnusedProperty>
+      <code>$description</code>
+      <code>$id</code>
+      <code>$responseTime</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/MartialArtsStyle.php">
+    <PossiblyUnusedProperty>
+      <code>$allowedTechniques</code>
+      <code>$description</code>
+      <code>$id</code>
+      <code>$page</code>
+      <code>$ruleset</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/MartialArtsTechnique.php">
+    <PossiblyUnusedProperty>
+      <code>$description</code>
+      <code>$id</code>
+      <code>$page</code>
+      <code>$ruleset</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/MentorSpirit.php">
+    <PossiblyUnusedProperty>
+      <code>$id</code>
+      <code>$page</code>
+      <code>$ruleset</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/Metamagic.php">
+    <PossiblyUnusedProperty>
+      <code>$adeptOnly</code>
+      <code>$description</code>
+      <code>$page</code>
+      <code>$ruleset</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/PartialCharacter.php">
+    <PossiblyUnusedMethod>
+      <code>getStartingMaximumAttribute</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Models/Shadowrun5e/Preparation.php">
+    <UnusedClass>
+      <code>Preparation</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Models/Shadowrun5e/Program.php">
+    <PossiblyUnusedProperty>
+      <code>$allowedDevices</code>
+      <code>$availability</code>
+      <code>$description</code>
+      <code>$effects</code>
+      <code>$page</code>
+      <code>$rating</code>
+      <code>$ruleset</code>
+      <code>$running</code>
+      <code>$vehicle</code>
+      <code>$weapon</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/Quality.php">
+    <PossiblyUnusedProperty>
+      <code>$description</code>
+      <code>$incompatibilities</code>
+      <code>$ruleset</code>
+      <code>$type</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/Rulebook.php">
+    <PossiblyUnusedProperty>
+      <code>$default</code>
+      <code>$description</code>
+      <code>$id</code>
+      <code>$required</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/Skill.php">
+    <PossiblyUnusedProperty>
+      <code>$attribute</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/SkillGroup.php">
+    <PossiblyUnusedProperty>
+      <code>$skills</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/Spell.php">
+    <PossiblyUnusedMethod>
+      <code>getDrain</code>
+      <code>setForce</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$category</code>
+      <code>$damage</code>
+      <code>$description</code>
+      <code>$duration</code>
+      <code>$page</code>
+      <code>$range</code>
+      <code>$ruleset</code>
+      <code>$tags</code>
+      <code>$type</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/Spirit.php">
+    <PossiblyUnusedMethod>
+      <code>__call</code>
+      <code>getAstralInitiative</code>
+      <code>getInitiative</code>
+      <code>getPowers</code>
+      <code>setForce</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedParam>
+      <code>$arguments</code>
+    </PossiblyUnusedParam>
+    <PossiblyUnusedProperty>
+      <code>$agility</code>
+      <code>$body</code>
+      <code>$bound</code>
+      <code>$charisma</code>
+      <code>$edge</code>
+      <code>$essence</code>
+      <code>$intuition</code>
+      <code>$logic</code>
+      <code>$magic</code>
+      <code>$page</code>
+      <code>$powersOptional</code>
+      <code>$reaction</code>
+      <code>$ruleset</code>
+      <code>$services</code>
+      <code>$skills</code>
+      <code>$special</code>
+      <code>$strength</code>
+      <code>$willpower</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/Sprite.php">
+    <PossiblyUnusedMethod>
+      <code>__call</code>
+      <code>getPowers</code>
+      <code>getSkills</code>
+      <code>setLevel</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedParam>
+      <code>$arguments</code>
+    </PossiblyUnusedParam>
+    <PossiblyUnusedProperty>
+      <code>$attack</code>
+      <code>$dataProcessing</code>
+      <code>$description</code>
+      <code>$firewall</code>
+      <code>$initiative</code>
+      <code>$page</code>
+      <code>$registered</code>
+      <code>$resonance</code>
+      <code>$ruleset</code>
+      <code>$sleaze</code>
+      <code>$tasks</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/SpritePower.php">
+    <PossiblyUnusedProperty>
+      <code>$description</code>
+      <code>$page</code>
+      <code>$ruleset</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/TarotDeck.php">
+    <UnusedClass>
+      <code>TarotDeck</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Models/Shadowrun5e/Tradition.php">
+    <PossiblyUnusedMethod>
+      <code>getDrainAttributes</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$description</code>
+      <code>$elements</code>
+      <code>$id</code>
+      <code>$page</code>
+      <code>$ruleset</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/Vehicle.php">
+    <PossiblyUnusedMethod>
+      <code>getCost</code>
+      <code>getMatrixConditionMonitor</code>
+      <code>getPhysicalConditionMonitor</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$acceleration</code>
+      <code>$active</code>
+      <code>$armor</code>
+      <code>$autosofts</code>
+      <code>$availability</code>
+      <code>$damageMatrix</code>
+      <code>$damagePhysical</code>
+      <code>$description</code>
+      <code>$handling</code>
+      <code>$id</code>
+      <code>$pilot</code>
+      <code>$seats</code>
+      <code>$sensor</code>
+      <code>$speed</code>
+      <code>$subname</code>
+      <code>$type</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/VehicleModification.php">
+    <PossiblyUnusedProperty>
+      <code>$availability</code>
+      <code>$description</code>
+      <code>$id</code>
+      <code>$page</code>
+      <code>$rating</code>
+      <code>$ruleset</code>
+      <code>$slotType</code>
+      <code>$slots</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/Weapon.php">
+    <PossiblyUnusedMethod>
+      <code>getDamage</code>
+      <code>getRange</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$accuracy</code>
+      <code>$ammoCapacity</code>
+      <code>$ammoContainer</code>
+      <code>$ammunition</code>
+      <code>$armorPiercing</code>
+      <code>$availability</code>
+      <code>$description</code>
+      <code>$link</code>
+      <code>$loaded</code>
+      <code>$modes</code>
+      <code>$modificationsAdded</code>
+      <code>$page</code>
+      <code>$reach</code>
+      <code>$recoilCompensation</code>
+      <code>$ruleset</code>
+      <code>$skill</code>
+      <code>$subname</code>
+      <code>$type</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun5e/WeaponModification.php">
+    <PossiblyUnusedProperty>
+      <code>$availability</code>
+      <code>$description</code>
+      <code>$effects</code>
+      <code>$incompatibleWith</code>
+      <code>$mount</code>
+      <code>$ruleset</code>
+      <code>$type</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/Shadowrun6e/ActiveSkill.php">
+    <UnusedClass>
+      <code>ActiveSkill</code>
+    </UnusedClass>
+  </file>
+  <file src="app/Models/Shadowrun6e/Character.php">
+    <PossiblyUnusedMethod>
+      <code>getQualities</code>
+      <code>initiativeBase</code>
+      <code>initiativeDice</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Models/Shadowrun6e/Quality.php">
+    <PossiblyUnusedMethod>
+      <code>findByName</code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedProperty>
+      <code>$description</code>
+      <code>$effects</code>
+      <code>$karma_cost</code>
+      <code>$level</code>
+      <code>$page</code>
+      <code>$ruleset</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/StarTrekAdventures/Attributes.php">
+    <PossiblyUnusedProperty>
+      <code>$control</code>
+      <code>$daring</code>
+      <code>$insight</code>
+      <code>$presence</code>
+      <code>$reason</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/StarTrekAdventures/Character.php">
+    <PossiblyUnusedMethod>
+      <code>getSpeciesAttribute</code>
+      <code>getStressAttribute</code>
+      <code>getTalentsAttribute</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="app/Models/StarTrekAdventures/Disciplines.php">
+    <PossiblyUnusedProperty>
+      <code>$command</code>
+      <code>$conn</code>
+      <code>$engineering</code>
+      <code>$medicine</code>
+      <code>$science</code>
+    </PossiblyUnusedProperty>
+  </file>
+  <file src="app/Models/StarTrekAdventures/Species.php">
+    <PossiblyUnusedProperty>
+      <code>$attributes</code>
+      <code>$description</code>
+      <code>$talents</code>
+      <code>$trait</code>
+    </PossiblyUnusedProperty>
+  </file>
+</files>

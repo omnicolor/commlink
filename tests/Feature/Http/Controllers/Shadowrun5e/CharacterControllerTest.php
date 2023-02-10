@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Controllers\Shadowrun5e;
 
 use App\Models\Campaign;
+use App\Models\Shadowrun5e\ActiveSkill;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\KnowledgeSkill;
 use App\Models\Shadowrun5e\PartialCharacter;
@@ -1508,19 +1509,19 @@ final class CharacterControllerTest extends TestCase
         $groups = $character->getSkillGroups();
         self::assertSame('Electronics', $groups[0]->name);
 
-        $skills = $character->getSkills();
-        // @phpstan-ignore-next-line
-        self::assertSame('Blades', $skills[0]->name);
-        // @phpstan-ignore-next-line
-        self::assertSame(1, $skills[0]->level);
-        // @phpstan-ignore-next-line
-        self::assertNull($skills[0]->specialization);
-        // @phpstan-ignore-next-line
-        self::assertSame('Automatics', $skills[1]->name);
-        // @phpstan-ignore-next-line
-        self::assertSame(2, $skills[1]->level);
-        // @phpstan-ignore-next-line
-        self::assertSame('AK-97', $skills[1]->specialization);
+        $skills = (array)$character->getSkills();
+
+        /** @var ActiveSkill */
+        $skill = array_shift($skills);
+        self::assertSame('Blades', $skill->name);
+        self::assertSame(1, $skill->level);
+        self::assertNull($skill->specialization);
+
+        /** @var ActiveSkill */
+        $skill = array_shift($skills);
+        self::assertSame('Automatics', $skill->name);
+        self::assertSame(2, $skill->level);
+        self::assertSame('AK-97', $skill->specialization);
 
         $character->delete();
     }

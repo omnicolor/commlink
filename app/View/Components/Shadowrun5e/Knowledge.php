@@ -32,7 +32,6 @@ class Knowledge extends Component
 
     /**
      * Create a new component instance.
-     * @param Character $character
      */
     public function __construct(public Character $character)
     {
@@ -45,8 +44,10 @@ class Knowledge extends Component
      * Get the view that represents the component.
      * @return View
      */
-    public function render(): view
+    public function render(): View
     {
-        return view('components.shadowrun5e.knowledge');
+        /** @var View */
+        $view = view('components.shadowrun5e.knowledge');
+        return $view;
     }
 }

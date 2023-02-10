@@ -59,8 +59,9 @@ class Vice
         self::$vices ??= require $filename;
 
         $vices = [];
-        foreach (self::$vices as $id => $vice) {
-            $vices[(string)$id] = new self($id);
+        /** @var string $id */
+        foreach (array_keys(self::$vices) as $id) {
+            $vices[$id] = new self($id);
         }
         return $vices;
     }

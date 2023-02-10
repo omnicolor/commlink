@@ -8,6 +8,9 @@ use App\Models\Character;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<Character>
+ */
 class CharacterFactory extends Factory
 {
     /**
@@ -28,7 +31,7 @@ class CharacterFactory extends Factory
 
     /**
      * Define the model's default state.
-     * @return array
+     * @return array<string, string>
      */
     public function definition(): array
     {
@@ -44,7 +47,6 @@ class CharacterFactory extends Factory
     /**
      * Configure the model factory to properly set the handle or name depending
      * on the system.
-     * @return CharacterFactory
      */
     public function configure(): CharacterFactory
     {

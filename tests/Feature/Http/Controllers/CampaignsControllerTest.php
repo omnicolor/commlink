@@ -86,6 +86,59 @@ final class CampaignsControllerTest extends TestCase
     }
 
     /**
+     * Test creating a new Avatar Legends campaign with options.
+     * @test
+     */
+    public function testCreateNewAvatarCampaign(): void
+    {
+        if (!\in_array('avatar', \array_keys(config('app.systems')), true)) {
+            self::markTestSkipped('Avatar Legends system not enabled');
+        }
+        // @phpstan-ignore-next-line
+        $name = $this->faker->catchPhrase();
+
+        // @phpstan-ignore-next-line
+        $description = $this->faker->bs();
+
+        /** @var User */
+        $user = User::factory()->create();
+        $this->actingAs($user)
+            ->postJson(
+                route('campaign.createForm'),
+                [
+                    'description' => $description,
+                    'name' => $name,
+                    'system' => 'avatar',
+                    'avatar-era' => 'aang',
+                    'avatar-scope' => 'Scope of the campaign',
+                    'avatar-focus' => 'defeat',
+                    'avatar-focus-details' => 'Details about the focus',
+                    'avatar-focus-defeat-object' => 'the big bad guy',
+                ]
+            )
+            ->assertRedirect('/dashboard');
+
+        $expectedOptions = \json_encode([
+            'era' => 'aang',
+            'scope' => 'Scope of the campaign',
+            'focus' => 'defeat',
+            'focusDetails' => 'Details about the focus',
+            'focusObject' => 'the big bad guy',
+        ]);
+        $this->assertDatabaseHas(
+            'campaigns',
+            [
+                'description' => $description,
+                'gm' => null,
+                'name' => $name,
+                'options' => $expectedOptions,
+                'registered_by' => $user->id,
+                'system' => 'avatar',
+            ]
+        );
+    }
+
+    /**
      * Test creating a new Shadowrun 5E campaign with options.
      * @test
      */

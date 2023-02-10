@@ -7,6 +7,9 @@ namespace Database\Factories\Expanse;
 use App\Models\Expanse\Character;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<Character>
+ */
 class CharacterFactory extends Factory
 {
     /**
@@ -55,7 +58,7 @@ class CharacterFactory extends Factory
 
     /**
      * Define the model's default state.
-     * @return array
+     * @return array<string, string>
      */
     public function definition(): array
     {

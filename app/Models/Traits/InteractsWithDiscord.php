@@ -80,6 +80,7 @@ trait InteractsWithDiscord
     /**
      * Given a Discord User ID (snowflake), return the user's discriminator.
      * @param string $snowflake
+     * @psalm-suppress PossiblyUnusedMethod
      * @return ?string
      */
     public function getDiscordUserName(string $snowflake): ?string

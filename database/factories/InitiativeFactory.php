@@ -7,6 +7,9 @@ namespace Database\Factories;
 use App\Models\Initiative;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<Initiative>
+ */
 class InitiativeFactory extends Factory
 {
     /**
@@ -17,7 +20,7 @@ class InitiativeFactory extends Factory
 
     /**
      * Define the model's default state.
-     * @return array<string, string>
+     * @return array<string, int|null|string>
      */
     public function definition(): array
     {

@@ -91,4 +91,21 @@ class ActiveSkill extends Skill
             $name
         ));
     }
+
+    /**
+     * Return all available active skills.
+     * @return SkillArray
+     */
+    public static function all(): SkillArray
+    {
+        $filename = config('app.data_path.shadowrun5e') . 'skills.php';
+        self::$skills ??= require $filename;
+
+        $skills = new SkillArray();
+        /** @var string $id */
+        foreach (array_keys(self::$skills) as $id) {
+            $skills[] = new self($id, 1);
+        }
+        return $skills;
+    }
 }

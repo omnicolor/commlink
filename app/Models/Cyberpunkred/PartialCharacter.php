@@ -21,7 +21,6 @@ class PartialCharacter extends Character
      */
     protected $table = 'characters-partial';
 
-    // @phpstan-ignore-next-line
     public function newFromBuilder(
         $attributes = [],
         $connection = null

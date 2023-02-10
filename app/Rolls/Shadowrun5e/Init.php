@@ -31,6 +31,7 @@ class Init extends Roll
      * @param string $content
      * @param string $username
      * @param Channel $channel
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function __construct(
         string $content,

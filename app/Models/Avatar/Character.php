@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * @property Background $background
  * @property Era $era
+ * @psalm-suppress UndefinedClass
  */
 class Character extends BaseCharacter
 {

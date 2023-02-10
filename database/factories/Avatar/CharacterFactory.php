@@ -7,6 +7,9 @@ namespace Database\Factories\Avatar;
 use App\Models\Avatar\Character;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<Character>
+ */
 class CharacterFactory extends Factory
 {
     /**

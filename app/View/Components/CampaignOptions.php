@@ -18,15 +18,19 @@ class CampaignOptions extends Component
      * Get the view that represents the component.
      * @return View
      */
-    public function render(): view
+    public function render(): View
     {
         $systemView = \sprintf(
             'components.%s.campaign-metadata',
             $this->campaign->system
         );
         if (view()->exists($systemView)) {
-            return view($systemView);
+            /** @var View */
+            $view = view($systemView);
+            return $view;
         }
-        return view('components.campaign-options');
+        /** @var View */
+        $view = view('components.campaign-options');
+        return $view;
     }
 }

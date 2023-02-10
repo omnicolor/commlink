@@ -29,7 +29,7 @@ abstract class Species
 
     /**
      * Collection of talents the character receives access to.
-     * @var TalentArray<int, Talent>
+     * @var TalentArray
      */
     public TalentArray $talents;
 

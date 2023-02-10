@@ -26,7 +26,7 @@ class MartialArtsRequest extends FormRequest
             'style' => [
                 'nullable',
                 'alpha_dash',
-                function (string $attribute, $id, Closure $fail): void {
+                function (string $_attribute, $id, Closure $fail): void {
                     try {
                         new MartialArtsStyle($id);
                     } catch (RuntimeException $ex) {

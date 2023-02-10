@@ -62,8 +62,9 @@ class Virtue
         self::$virtues ??= require $filename;
 
         $virtues = [];
-        foreach (self::$virtues as $id => $virtue) {
-            $virtues[(string)$id] = new self($id);
+        /** @var string $id */
+        foreach (array_keys(self::$virtues) as $id) {
+            $virtues[$id] = new self($id);
         }
         return $virtues;
     }

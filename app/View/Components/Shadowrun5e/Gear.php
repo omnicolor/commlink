@@ -19,22 +19,16 @@ class Gear extends Component
      * @var bool
      */
     public bool $charGen;
-
-    /**
-     * Character's gear.
-     * @var Collection
-     */
     public Collection $gears;
 
     /**
      * Create a new component instance.
-     * @param Character $character
      */
     public function __construct(public Character $character)
     {
         $this->charGen = $character instanceof PartialCharacter;
         $this->gears = collect($character->getGear())
-            ->filter(function (GearModel $item, int $key): bool {
+            ->filter(function (GearModel $item): bool {
                 // Filter matrix devices out, they're shown in a different
                 // section.
                 return !($item instanceof Commlink);
@@ -45,8 +39,10 @@ class Gear extends Component
      * Get the view that represents the component.
      * @return View
      */
-    public function render(): view
+    public function render(): View
     {
-        return view('components.shadowrun5e.gear');
+        /** @var View */
+        $view = view('components.shadowrun5e.gear');
+        return $view;
     }
 }

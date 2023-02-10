@@ -14,6 +14,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
+ * @property-read int $id
+ * @property string $server_id
+ * @property string $type
  * @property ?string $system
  */
 class Channel extends Model

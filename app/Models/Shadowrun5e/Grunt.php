@@ -196,7 +196,8 @@ class Grunt
         self::$grunts ??= require $filename;
 
         $grunts = [];
-        foreach (self::$grunts ?? [] as $id => $grunt) {
+        /** @var string $id */
+        foreach (array_keys(self::$grunts ?? []) as $id) {
             $grunts[] = new Grunt($id);
         }
         return $grunts;

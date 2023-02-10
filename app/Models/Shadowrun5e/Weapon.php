@@ -264,7 +264,7 @@ class Weapon
             // @phpstan-ignore-next-line
             $cost += $mod->getCost($this);
         }
-        foreach ($this->accessories as $slot => $mod) {
+        foreach ($this->accessories as $mod) {
             // Accessories are might be null for a given slot.
             if (null === $mod) {
                 continue;

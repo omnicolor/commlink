@@ -24,7 +24,6 @@ class HandleInitiativeEvent
 
     public function handle(InitiativeAdded $event): void
     {
-        $campaign = $event->campaign;
         foreach ($event->campaign->channels ?? [] as $channel) {
             if (null !== $event->source && $event->source->id === $channel->id) {
                 // Don't broadcast back to the original channel. The event's

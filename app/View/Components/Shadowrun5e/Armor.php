@@ -26,7 +26,6 @@ class Armor extends Component
 
     /**
      * Create a new component instance.
-     * @param Character $character
      */
     public function __construct(public Character $character)
     {
@@ -40,6 +39,8 @@ class Armor extends Component
      */
     public function render(): View
     {
-        return view('components.shadowrun5e.armor');
+        /** @var View */
+        $view = view('components.shadowrun5e.armor');
+        return $view;
     }
 }

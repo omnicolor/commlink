@@ -72,6 +72,7 @@ class Shadowrun5eConverter implements ConverterInterface
      * Constructor.
      * @param string $filename
      * @throws RuntimeException
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function __construct(string $filename)
     {
@@ -270,7 +271,7 @@ class Shadowrun5eConverter implements ConverterInterface
     {
         $identities = [];
         $i = 0;
-        $highest = null;
+
         // First, find out whether the character has a fake SIN.
         foreach ($this->xml->gears->gear as $item) {
             if ('Fake SIN' !== (string)$item->name) {

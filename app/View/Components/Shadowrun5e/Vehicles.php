@@ -26,7 +26,6 @@ class Vehicles extends Component
 
     /**
      * Create a new component instance.
-     * @param Character $character
      */
     public function __construct(Character $character)
     {
@@ -40,6 +39,8 @@ class Vehicles extends Component
      */
     public function render(): View
     {
-        return view('components.shadowrun5e.vehicles');
+        /** @var View */
+        $view = view('components.shadowrun5e.vehicles');
+        return $view;
     }
 }

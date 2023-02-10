@@ -12,7 +12,6 @@ class Metadata extends Component
 {
     /**
      * Create a new component instance.
-     * @param Character $character
      */
     public function __construct(public Character $character)
     {
@@ -24,6 +23,8 @@ class Metadata extends Component
      */
     public function render(): View
     {
-        return view('components.shadowrun5e.metadata');
+        /** @var View */
+        $view = view('components.shadowrun5e.metadata');
+        return $view;
     }
 }

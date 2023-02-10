@@ -7,6 +7,9 @@ namespace Database\Factories\Capers;
 use App\Models\Capers\PartialCharacter;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<PartialCharacter>
+ */
 class PartialCharacterFactory extends Factory
 {
     /**

@@ -40,6 +40,21 @@ class CampaignsController extends Controller
         $campaign->registered_by = \Auth::user()->id;
 
         switch ($request->input('system')) {
+            case 'avatar':
+                $options = [
+                    'era' => $request->input('avatar-era'),
+                    'scope' => $request->input('avatar-scope'),
+                    'focus' => $request->input('avatar-focus'),
+                    'focusDetails' => $request->input('avatar-focus-details'),
+                ];
+                if (null !== $request->input('avatar-focus')) {
+                    $options['focusObject'] = $request->input(\sprintf(
+                        'avatar-focus-%s-object',
+                        $request->input('avatar-focus')
+                    ));
+                }
+                $campaign->options = $options;
+                break;
             case 'cyberpunkred':
                 $campaign->options = [
                     'nightCityTarot' => $request->boolean('night-city-tarot'),

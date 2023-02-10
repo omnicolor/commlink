@@ -26,7 +26,6 @@ class Spells extends Component
 
     /**
      * Create a new component instance.
-     * @param Character $character
      */
     public function __construct(public Character $character)
     {
@@ -54,8 +53,10 @@ class Spells extends Component
      * Get the view that represents the component.
      * @return View
      */
-    public function render(): view
+    public function render(): View
     {
-        return view('components.shadowrun5e.spells');
+        /** @var View */
+        $view = view('components.shadowrun5e.spells');
+        return $view;
     }
 }

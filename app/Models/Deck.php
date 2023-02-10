@@ -114,12 +114,15 @@ abstract class Deck implements Countable
         }
         try {
             /** @var Deck */
+            /** @psalm-suppress UndefinedPropertyFetch */
             $deck = new $row->type();
         } catch (Error) {
             throw new RuntimeException('Deck type not found');
         }
 
+        /** @psalm-suppress UndefinedPropertyFetch */
         $deck->campaign_id = $row->campaign_id;
+        /** @psalm-suppress UndefinedPropertyFetch */
         $deck->currentCards = unserialize($row->cards);
         $deck->id = $id;
         return $deck;
