@@ -23,7 +23,7 @@ jobs:
           extensions: "json, mbstring, mongodb, pdo, xdebug"
 
       - name: Start MongoDB
-        uses: supercharge/mongodb-github-action@1.8.0
+        uses: supercharge/mongodb-github-action@1.9.0
         with:
           mongodb-version: ${{ matrix.mongodb-version }}
           mongodb-username: commlink
