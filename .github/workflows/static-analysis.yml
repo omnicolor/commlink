@@ -25,16 +25,32 @@ jobs:
           cp .github/workflows/env.testing .env.testing
           cp .github/workflows/env.testing .env
           composer install --no-progress --no-interaction
-          composer install --no-progress --no-interaction
 
       - name: "Run PHPStan analysis"
         run: vendor/bin/phpstan analyze
 
   Psalm:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version:
+          - 8.2
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: "Install PHP w/ Extensions"
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+          extensions: "json, mbstring, mongodb, pdo"
+
+      - name: "Install Composer dependencies & app config"
+        run: |
+          cp .github/workflows/env.testing .env.testing
+          cp .github/workflows/env.testing .env
+          composer install --no-progress --no-interaction
+
       - name: Psalm
-        uses: docker://vimeo/psalm-github-actions
+        run: vendor/bin/psalm
