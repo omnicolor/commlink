@@ -194,14 +194,6 @@
     </UnusedClass>
   </file>
   <file src="app/Http/Controllers/DiscordController.php">
-    <PossiblyUnusedParam>
-      <code>$request</code>
-    </PossiblyUnusedParam>
-    <UndefinedClass>
-      <code>Auth</code>
-      <code>Auth</code>
-      <code>Auth</code>
-    </UndefinedClass>
     <UnusedClass>
       <code>DiscordController</code>
     </UnusedClass>

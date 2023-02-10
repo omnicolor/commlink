@@ -12,11 +12,14 @@ use App\Http\Controllers\Expanse\CharactersController as ExpanseController;
 use App\Http\Controllers\Import\Chummer5Controller;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Shadowrun5e\CharactersController as ShadowrunController;
+use App\Http\Controllers\SlackController;
 use App\Http\Controllers\StarTrekAdventures\CharactersController as StarTrekController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('discord/auth', [DiscordController::class, 'redirectToDiscord']);
 Route::get('discord/callback', [DiscordController::class, 'handleCallback']);
+Route::get('slack/auth', [SlackController::class, 'redirectToSlack']);
+Route::get('slack/callback', [SlackController::class, 'handleCallback']);
 
 Route::middleware('auth')->group(function (): void {
     Route::get('/campaigns/create', [CampaignsController::class, 'createForm'])
