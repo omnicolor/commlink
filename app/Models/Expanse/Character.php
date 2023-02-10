@@ -6,6 +6,7 @@ namespace App\Models\Expanse;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
 /**
@@ -137,10 +138,10 @@ class Character extends \App\Models\Character
                         $focus['level'] ?? 1
                     );
                 } catch (RuntimeException) {
-                    \Log::warning(\sprintf(
+                    Log::warning(\sprintf(
                         'Expanse character "%s" (%s) has invalid focus "%s"',
                         $this->name,
-                        $this->_id,
+                        $this->id,
                         $focus['id']
                     ));
                 }
@@ -183,10 +184,10 @@ class Character extends \App\Models\Character
                     (int)($talent['level'] ?? Talent::NOVICE)
                 );
             } catch (RuntimeException $ex) {
-                \Log::warning(\sprintf(
+                Log::warning(\sprintf(
                     'Expanse character "%s" (%s) has invalid talent "%s"',
                     $this->name,
-                    $this->_id,
+                    $this->id,
                     $talent['name']
                 ));
             }

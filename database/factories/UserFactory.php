@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
 
-
 /**
  * @extends Factory<User>
  */

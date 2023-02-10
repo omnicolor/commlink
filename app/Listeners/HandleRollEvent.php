@@ -69,7 +69,7 @@ class HandleRollEvent
         $data->channel = $channel->channel_id;
 
         // TODO: Add error handling.
-        $response = Http::withHeaders([
+        Http::withHeaders([
             'Authorization' => \sprintf('Bearer %s', config('app.slack_token')),
         ])->post('https://slack.com/api/chat.postMessage', (array)$data);
     }
@@ -90,7 +90,7 @@ class HandleRollEvent
         $url = $channel->webhook;
 
         // TODO: Add error handling.
-        $response = Http::withHeaders([
+        Http::withHeaders([
             'Authorization' => sprintf('Bot %s', config('discord_token')),
         ])
             ->post($url, $data);

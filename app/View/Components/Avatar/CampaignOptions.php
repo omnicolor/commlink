@@ -10,18 +10,13 @@ use Illuminate\View\Component;
 class CampaignOptions extends Component
 {
     /**
-     * Create a new component instance.
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Get the view that represents the component.
      * @return View
      */
-    public function render(): view
+    public function render(): View
     {
-        return view('components.avatar.campaign-options');
+        /** @var View */
+        $view = view('components.avatar.campaign-options');
+        return $view;
     }
 }

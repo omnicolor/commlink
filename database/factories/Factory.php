@@ -20,7 +20,8 @@ abstract class Factory extends BaseFactory
         while (true) {
             try {
                 /** @var User */
-                return User::factory()->create();
+                $user = User::factory()->create();
+                return $user;
             } catch (QueryException) {
             }
         }

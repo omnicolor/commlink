@@ -74,7 +74,8 @@
             "@coverage",
             "@phpcs",
             "@php-cs-fixer",
-            "@phpstan"
+            "@phpstan",
+            "@psalm"
         ],
         "coverage": [
             "Composer\\Config::disableProcessTimeout",
@@ -86,6 +87,7 @@
             "Composer\\Config::disableProcessTimeout",
             "phpstan --xdebug analyze"
         ],
+        "psalm": "psalm",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
@@ -95,6 +97,10 @@
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "static": [
+            "@phpstan",
+            "@psalm"
         ],
         "style": [
             "@phpcs",
@@ -111,6 +117,8 @@
         "php-cs-fixer": "Run php-cs-fixer",
         "phpcs": "Run PHPCodesniffer",
         "phpstan": "Run PHPstan",
+        "psalm": "Run Psalm",
+        "static": "Run static analysis",
         "style": "Run PHPCodesniffer and php-cs-fixer",
         "test": "Run all unit/feature tests"
     },
