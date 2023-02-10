@@ -8,6 +8,7 @@ use App\Models\Character as BaseCharacter;
 use ErrorException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
 /**
@@ -172,7 +173,7 @@ class Character extends BaseCharacter
             try {
                 $gear[] = Gear::get($item['id'], $item['quantity'] ?? 1);
             } catch (RuntimeException) {
-                \Log::warning(sprintf(
+                Log::warning(sprintf(
                     'Capers character "%s" has invalid gear "%s"',
                     (string)$this,
                     $item['id']
@@ -189,7 +190,7 @@ class Character extends BaseCharacter
         } catch (ErrorException) {
             return null;
         } catch (RuntimeException) {
-            \Log::warning(sprintf(
+            Log::warning(sprintf(
                 'Caper character "%s" has invalid identity "%s"',
                 (string)$this,
                 $this->attributes['identity']
@@ -216,7 +217,7 @@ class Character extends BaseCharacter
             try {
                 $perkArray[] = new Perk($rawPerk['id'], $rawPerk);
             } catch (RuntimeException $ex) {
-                \Log::warning(sprintf(
+                Log::warning(sprintf(
                     'Capers character "%s" has invalid perk "%s"',
                     (string)$this,
                     $rawPerk['id']
@@ -237,7 +238,7 @@ class Character extends BaseCharacter
                     $power['boosts'] ?? []
                 );
             } catch (RuntimeException) {
-                \Log::warning(sprintf(
+                Log::warning(sprintf(
                     'Capers character "%s" has invalid power "%s"',
                     (string)$this,
                     $power['id']
@@ -254,7 +255,7 @@ class Character extends BaseCharacter
             try {
                 $skills[$skillId] = new Skill($skillId);
             } catch (RuntimeException) {
-                \Log::warning(\sprintf(
+                Log::warning(\sprintf(
                     'Capers character "%s" has invalid skill "%s"',
                     (string)$this,
                     $skillId
@@ -323,7 +324,7 @@ class Character extends BaseCharacter
         try {
             return new Vice($this->attributes['vice'] ?? '');
         } catch (RuntimeException) {
-            \Log::warning(sprintf(
+            Log::warning(sprintf(
                 'Caper character "%s" has invalid vice "%s"',
                 (string)$this,
                 $this->attributes['vice'] ?? ''
@@ -337,7 +338,7 @@ class Character extends BaseCharacter
         try {
             return new Virtue($this->attributes['virtue'] ?? '');
         } catch (RuntimeException) {
-            \Log::warning(sprintf(
+            Log::warning(sprintf(
                 'Caper character "%s" has invalid virtue "%s"',
                 (string)$this,
                 $this->attributes['virtue'] ?? ''

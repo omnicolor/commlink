@@ -14,9 +14,9 @@ class CampaignList extends Component
 {
     /**
      * Create a new component instance.
-     * @param Collection $gmed
-     * @param Collection $registered
-     * @param Collection $playing
+     * @param Collection<int|string, Campaign> $gmed
+     * @param Collection<int|string, Campaign> $registered
+     * @param Collection<int|string, Campaign> $playing
      * @param User $user
      */
     public function __construct(
@@ -26,7 +26,7 @@ class CampaignList extends Component
         public User $user,
     ) {
         $this->registered = $registered->reject(
-            function (Campaign $value, int $key) use ($user): bool {
+            function (Campaign $value) use ($user): bool {
                 if ($value->registered_by !== $user->id) {
                     // Registered by another user, shouldn't have been included.
                     return true;
@@ -42,7 +42,7 @@ class CampaignList extends Component
             }
         );
         $this->playing = $playing->reject(
-            function (Campaign $value, int $key) use ($user): bool {
+            function (Campaign $value) use ($user): bool {
                 return $user->id === $value->registered_by;
             }
         );
@@ -54,6 +54,8 @@ class CampaignList extends Component
      */
     public function render(): View
     {
-        return view('components.campaign-list');
+        /** @var View */
+        $view = view('components.campaign-list');
+        return $view;
     }
 }

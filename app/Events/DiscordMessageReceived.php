@@ -39,15 +39,17 @@ class DiscordMessageReceived
 
     /**
      * User that sent the message we're reacting to.
-     * @var ?User
+     * @var User
      */
-    public ?User $user;
+    public User $user;
 
     public function __construct(public Message $message, public Discord $discord)
     {
         // @phpstan-ignore-next-line
         $this->channel = $this->message->channel;
         $this->content = \str_replace('/roll ', '', $this->message->content);
+
+        // @phpstan-ignore-next-line
         $this->user = $this->message->author;
 
         // @phpstan-ignore-next-line

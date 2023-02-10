@@ -47,7 +47,7 @@ class Lifestyle
 
     /**
      * Options added to the lifestyle.
-     * @var LifestyleOptionArray<LifestyleOption>
+     * @var LifestyleOptionArray
      */
     public LifestyleOptionArray $options;
 

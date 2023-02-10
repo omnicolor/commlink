@@ -35,7 +35,6 @@ class RegisterResponse
             return;
         }
 
-        /** @var TextChannel */
         $discordChannel = $event->channel;
         $channel = Channel::discord()
             ->where('channel_id', $discordChannel->id)
