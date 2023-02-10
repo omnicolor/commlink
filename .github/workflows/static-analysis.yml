@@ -31,10 +31,10 @@ jobs:
         run: vendor/bin/phpstan analyze
 
   Psalm:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Psalm
         uses: docker://vimeo/psalm-github-actions
-
