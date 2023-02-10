@@ -1,3 +1,6 @@
+<?php
+use App\Models\Shadowrun5e\ActiveSkill;
+?>
 <x-app>
     <x-slot name="title">Campaign: {{ $campaign }}</x-slot>
     <x-slot name="head">
@@ -207,6 +210,122 @@
     </div>
 
     <div class="clearfix"></div>
+
+    <div class="card float-start m-2">
+        <div class="card-header">
+            <h5 class="card-title">Knowledge skills</h5>
+        </div>
+        <table class="card-body m-1">
+            <thead>
+                <th scope="col">Character</th>
+                <th scope="col">Skill</th>
+                <th scope="col"><small>Cat / Att<small></th>
+                <th scope="col">Rat</th>
+                <th scope="col">Att</th>
+                <th class="text-end" scope="col">Dice</th>
+            </thead>
+            <tbody>
+                @foreach ($characters as $character)
+                @php
+                    $knowledges = (array)$character->getKnowledgeSkills(onlyKnowledges: true);
+                    $languages = (array)$character->getKnowledgeSkills(onlyLanguages: true);
+                    $count = count($knowledges) + count($languages);
+                @endphp
+                @foreach (array_merge($languages, $knowledges) as $skill)
+                    @if ($loop->first)
+                    <tr class="border-top">
+                        <td>{{ $character }}</td>
+                    @else
+                    <tr>
+                    @endif
+                    @if ($loop->index === 1)
+                        <td class="align-top" rowspan="{{ $count - 1 }}">
+                            <small class="text-muted">
+                                Mental limit: {{ $character->mental_limit }}
+                            </small>
+                        </td>
+                    @endif
+                        <td>
+                            {{ $skill }}
+                            @if ($skill->specialization)
+                                <br><small class="ps-4 text-muted">
+                                    Specialization: {{ $skill->specialization }}
+                                </small>
+                            @endif
+                        </td>
+                        <td class="align-top">
+                            <small>
+                                {{ ucfirst($skill->short_category) }} /
+                                {{ strtoupper(substr($skill->attribute, 0, 3)) }}
+                            </small>
+                        </td>
+                        <td class="align-top text-center">{{ $skill->level }}</td>
+                        <td class="align-top">{{ $character->{$skill->attribute} }}</td>
+                        <td class="align-top text-end">
+                            {{ ($skill->level === 'N' ? 12 : (int)$skill->level) + $character->{$skill->attribute} }}
+                        </td>
+                    </tr>
+                @endforeach
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card float-start m-2">
+        <div class="card-header">
+            <h5 class="card-title">Active skills</h5>
+        </div>
+        <table class="card-body m-1">
+            <thead class="border-bottom">
+                <th scope="col">Skill</th>
+                <th scope="col">Att</th>
+                <th scope="col">Def</th>
+                <th scope="col">Lim</th>
+                @foreach ($characters as $character)
+                    @php
+                        $character->renderedSkills = $character->getSkills();
+                    @endphp
+                    <th colspan="2" scope="col">{{ $character }}</th>
+                @endforeach
+            </thead>
+            <tbody>
+                @foreach (ActiveSkill::all() as $skill)
+                <tr>
+                    <td>{{ $skill }}</td>
+                    <td>{{ strtoupper(substr($skill->attribute, 0, 3)) }}</td>
+                    <td>{{ $skill->default ? 'Y' : 'N' }}</td>
+                    <td class="border-end">{{ $skill->limit }}</td>
+                    @foreach ($characters as $character)
+                        @if (isset($character->renderedSkills[$skill->id]))
+                            @php
+                                $activeSkill = $character->renderedSkills[$skill->id];
+                            @endphp
+                            <td class="text-center fw-bold">
+                                {{ $activeSkill->level }}
+                            </td>
+                            <td class="text-center fw-bold
+                                @if (!$loop->last) border-end @endif
+                                    ">
+                                    {{ $activeSkill->level + $character->getModifiedAttribute($skill->attribute) }}
+                                    [{{ $character->getSkillLimit($activeSkill) }}]
+                                </td>
+                        @elseif ($skill->default)
+                            <td class="text-center"><small class="text-muted fs-6 fw-light">0</small></td>
+                            <td class="text-center @if (!$loop->last) border-end @endif ">
+                                <small class="text-muted fs-6 fw-light">
+                                {{ $character->getModifiedAttribute($skill->attribute) - 1 }}
+                                [{{ $character->getSkillLimit($skill) }}]
+                                </small>
+                            </td>
+                        @else
+                            <td colspan="2" @if (!$loop->last) class="border-end" @endif>&nbsp;</td>
+                        @endif
+                    @endforeach
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
     <div aria-hidden="true" aria-labelledby="add-combatant-label"
         class="modal fade" id="add-combatant" tabindex="-1">
@@ -538,6 +657,10 @@
         <script>
             const campaign = {{ $campaign->id }};
             const csrfToken = '{{ csrf_token() }}';
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
         </script>
         <script src="/js/Shadowrun5e/gm-damage.js"></script>
         <script src="/js/Shadowrun5e/gm-initiative.js"></script>

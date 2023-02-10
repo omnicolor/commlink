@@ -182,7 +182,7 @@ final class HandleDiscordMessageTest extends TestCase
             . 'Channel Name: ' . $channelName . \PHP_EOL
             . 'Channel ID: ' . $channelId . \PHP_EOL
             . 'System: Unregistered' . \PHP_EOL
-            . 'Character: Unlinked' . \PHP_EOL
+            . 'Character: No character' . \PHP_EOL
             . 'Campaign: No campaign';
         $channelMap = [
             ['guild', $serverStub],

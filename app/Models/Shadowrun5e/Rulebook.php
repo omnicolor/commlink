@@ -89,8 +89,9 @@ class Rulebook
         self::$books ??= require $filename;
 
         $books = [];
-        foreach (self::$books as $id => $book) {
-            $books[(string)$id] = new Rulebook($id);
+        /** @var string $id */
+        foreach (array_keys(self::$books) as $id) {
+            $books[$id] = new Rulebook($id);
         }
         return $books;
     }

@@ -7,6 +7,9 @@ namespace Database\Factories\StarTrekAdventures;
 use App\Models\StarTrekAdventures\Character;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<Character>
+ */
 class CharacterFactory extends Factory
 {
     /**
@@ -17,7 +20,7 @@ class CharacterFactory extends Factory
 
     /**
      * Define the model's default state.
-     * @return array
+     * @return array<string, string|array<string, int|string>>
      */
     public function definition(): array
     {
@@ -50,7 +53,7 @@ class CharacterFactory extends Factory
             'owner' => $this->faker->email,
             'species' => $this->faker->randomElement($species),
             'system' => 'star-trek-adventures',
-            'talents' => [],
+            'talents' => $talents,
             'values' => [],
             'weapons' => [],
         ];

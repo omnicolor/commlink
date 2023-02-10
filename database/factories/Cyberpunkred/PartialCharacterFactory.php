@@ -7,6 +7,9 @@ namespace Database\Factories\Cyberpunkred;
 use App\Models\Cyberpunkred\PartialCharacter;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<PartialCharacter>
+ */
 class PartialCharacterFactory extends Factory
 {
     /**
