@@ -97,25 +97,42 @@
                     <div class="row">
                         <div class="col">
                             <div class="card">
-                                <div class="card-body d-grid gap-2">
-                                    <a class="btn btn-outline-secondary"
-                                        href="/discord/auth">
-                                        <i class="bi bi-discord"></i>
-                                        Sign in with Discord
-                                    </a>
-                                    <a class="btn btn-outline-secondary"
-                                        href="/slack/auth">
-                                        <i class="bi bi-slack"></i>
-                                        Sign in with Slack
-                                    </a>
-                                    <a class="btn btn-outline-secondary"
-                                        href="{{ route('register') }}">
-                                        Create a new account
-                                    </a>
-                                    <a class="btn btn-outline-secondary"
-                                        href="{{ route('password.request') }}">
-                                        Forgot password?
-                                    </a>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4 d-grid">
+                                            <a class="btn btn-outline-secondary"
+                                               href="/discord/auth">
+                                                <i class="bi bi-discord"></i>
+                                                Discord sign in
+                                            </a>
+                                        </div>
+                                        <div class="col-4 d-grid">
+                                            <a class="btn btn-outline-secondary"
+                                               href="/slack/auth">
+                                                <i class="bi bi-slack"></i>
+                                                Slack sign in
+                                            </a>
+                                        </div>
+                                        <div class="col-4 d-grid">
+                                            <a class="btn btn-outline-secondary"
+                                                href="/google/auth">
+                                                <i class="bi bi-google"></i>
+                                                Google sign in
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2 row">
+                                        <div class="col d-grid gap-2">
+                                            <a class="btn btn-outline-secondary"
+                                               href="{{ route('register') }}">
+                                                Create a new account
+                                            </a>
+                                            <a class="btn btn-outline-secondary"
+                                                href="{{ route('password.request') }}">
+                                                Forgot password?
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
