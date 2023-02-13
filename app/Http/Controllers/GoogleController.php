@@ -9,6 +9,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class GoogleController extends Controller
 {
     /**
