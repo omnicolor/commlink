@@ -29,7 +29,7 @@ class ChatCharacterFactory extends Factory
         return [
             'channel_id' => Channel::factory()->create([
                 'type' => Channel::TYPE_SLACK,
-            ]),
+            ])->id,
             'chat_user_id' => ChatUser::factory()->create()->id,
         ];
     }

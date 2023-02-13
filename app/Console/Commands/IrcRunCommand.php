@@ -14,6 +14,7 @@ use Jerodev\PhpIrcClient\Options\ClientOptions;
 /**
  * Start an IRC bot.
  * @codeCoverageIgnore
+ * @psalm-suppress UnusedClass
  */
 class IrcRunCommand extends Command
 {

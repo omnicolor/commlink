@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Listeners;
 
 use App\Events\IrcMessageReceived;
-use Illuminate\Support\Facades\Log;
 
 class HandleIrcMessage
 {

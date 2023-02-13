@@ -165,6 +165,11 @@ class Channel extends Model
         return $query->where('type', self::TYPE_DISCORD);
     }
 
+    /**
+     * Scope the query to only include IRC accounts.
+     * @param Builder $query
+     * @return Builder
+     */
     public function scopeIrc(Builder $query): Builder
     {
         return $query->where('type', self::TYPE_IRC);
