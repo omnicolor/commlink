@@ -115,7 +115,7 @@
                                         </div>
                                         <div class="col-4 d-grid">
                                             <a class="btn btn-outline-secondary"
-                                                href="#">
+                                                href="/google/auth">
                                                 <i class="bi bi-google"></i>
                                                 Google sign in
                                             </a>
