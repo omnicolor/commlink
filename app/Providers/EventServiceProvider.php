@@ -19,7 +19,9 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use SocialiteProviders\Discord\DiscordExtendSocialite;
+use SocialiteProviders\Google\GoogleExtendSocialite;
 use SocialiteProviders\Manager\SocialiteWasCalled;
+use SocialiteProviders\Slack\SlackExtendSocialite;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -48,6 +50,8 @@ class EventServiceProvider extends ServiceProvider
         ],
         SocialiteWasCalled::class => [
             DiscordExtendSocialite::class . '@handle',
+            GoogleExtendSocialite::class . '@handle',
+            SlackExtendSocialite::class . '@handle',
         ],
     ];
 
