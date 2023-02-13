@@ -19,7 +19,11 @@ return [
         'allow_gif_avatars' => (bool)env('DISCORD_AVATAR_GIF', true),
         'avatar_default_extension' => env('DISCORD_EXTENSION_DEFAULT', 'png'),
     ],
-
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URI'),
+    ],
     'slack' => [
         'client_id' => env('SLACK_CLIENT_ID'),
         'client_secret' => env('SLACK_CLIENT_SECRET'),
