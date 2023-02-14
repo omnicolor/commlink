@@ -1938,16 +1938,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v9.51.0",
+            "version": "v9.52.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "b81123134349a013a738a9f7f715c6ce99d5a414"
+                "reference": "eb85cd9d72e5bfa54b4d0d9040786f26d6184a9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/b81123134349a013a738a9f7f715c6ce99d5a414",
-                "reference": "b81123134349a013a738a9f7f715c6ce99d5a414",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/eb85cd9d72e5bfa54b4d0d9040786f26d6184a9e",
+                "reference": "eb85cd9d72e5bfa54b4d0d9040786f26d6184a9e",
                 "shasum": ""
             },
             "require": {
@@ -2132,7 +2132,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-02-07T15:37:18+00:00"
+            "time": "2023-02-14T14:51:14+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -9607,16 +9607,16 @@
         },
         {
             "name": "barryvdh/laravel-ide-helper",
-            "version": "dev-master",
+            "version": "v2.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-ide-helper.git",
-                "reference": "97fd0e0a2d6e76d4c574ae982863214dd7ea0963"
+                "reference": "81d5b223ff067a1f38e14c100997e153b837fe4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/97fd0e0a2d6e76d4c574ae982863214dd7ea0963",
-                "reference": "97fd0e0a2d6e76d4c574ae982863214dd7ea0963",
+                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/81d5b223ff067a1f38e14c100997e153b837fe4a",
+                "reference": "81d5b223ff067a1f38e14c100997e153b837fe4a",
                 "shasum": ""
             },
             "require": {
@@ -9640,16 +9640,15 @@
                 "orchestra/testbench": "^6 || ^7 || ^8",
                 "phpunit/phpunit": "^8.5 || ^9",
                 "spatie/phpunit-snapshot-assertions": "^3 || ^4",
-                "vimeo/psalm": "^5.4"
+                "vimeo/psalm": "^3.12"
             },
             "suggest": {
                 "illuminate/events": "Required for automatic helper generation (^6|^7|^8|^9|^10)."
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.13-dev"
+                    "dev-master": "2.12-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -9686,7 +9685,7 @@
             ],
             "support": {
                 "issues": "https://github.com/barryvdh/laravel-ide-helper/issues",
-                "source": "https://github.com/barryvdh/laravel-ide-helper/tree/master"
+                "source": "https://github.com/barryvdh/laravel-ide-helper/tree/v2.13.0"
             },
             "funding": [
                 {
@@ -9698,7 +9697,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-02-04T21:04:42+00:00"
+            "time": "2023-02-04T13:56:40+00:00"
         },
         {
             "name": "barryvdh/reflection-docblock",
@@ -12748,32 +12747,34 @@
         },
         {
             "name": "psalm/plugin-laravel",
-            "version": "v2.7.0",
+            "version": "v2.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/psalm/psalm-plugin-laravel.git",
-                "reference": "c49a4cbdb4a7e3e5719748d4125f4da88c9ae502"
+                "reference": "a186913185bab419663bc97c7b85cf4ca86cae3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/psalm/psalm-plugin-laravel/zipball/c49a4cbdb4a7e3e5719748d4125f4da88c9ae502",
-                "reference": "c49a4cbdb4a7e3e5719748d4125f4da88c9ae502",
+                "url": "https://api.github.com/repos/psalm/psalm-plugin-laravel/zipball/a186913185bab419663bc97c7b85cf4ca86cae3e",
+                "reference": "a186913185bab419663bc97c7b85cf4ca86cae3e",
                 "shasum": ""
             },
             "require": {
-                "barryvdh/laravel-ide-helper": "dev-master as 2.12.4",
+                "barryvdh/laravel-ide-helper": "^2.13",
                 "ext-simplexml": "*",
-                "illuminate/config": "^9.48 || ^10.0.0",
-                "illuminate/container": "^9.48 || ^10.0.0",
-                "illuminate/contracts": "^9.48 || ^10.0.0",
-                "illuminate/database": "^9.48 || ^10.0.0",
-                "illuminate/events": "^9.48 || ^10.0.0",
-                "illuminate/http": "^9.48 || ^10.0.0",
-                "illuminate/routing": "^9.48 || ^10.0.0",
-                "illuminate/support": "^9.48 || ^10.0.0",
-                "illuminate/view": "^9.48 || ^10.0.0",
-                "orchestra/testbench": "^7.19 || ^8.0.0",
+                "illuminate/config": "^9.48 || ^10.0",
+                "illuminate/container": "^9.48 || ^10.0",
+                "illuminate/contracts": "^9.48 || ^10.0",
+                "illuminate/database": "^9.48 || ^10.0",
+                "illuminate/events": "^9.48 || ^10.0",
+                "illuminate/http": "^9.48 || ^10.0",
+                "illuminate/routing": "^9.48 || ^10.0",
+                "illuminate/support": "^9.48 || ^10.0",
+                "illuminate/view": "^9.48 || ^10.0",
+                "nikic/php-parser": "^4.13",
+                "orchestra/testbench": "^7.19 || ^8.0",
                 "php": "^8.0.2",
+                "symfony/console": "^6.0",
                 "vimeo/psalm": "^4.30 || ^5.1"
             },
             "require-dev": {
@@ -12782,7 +12783,7 @@
                 "codeception/module-cli": "^2.0",
                 "codeception/module-filesystem": "^3.0",
                 "codeception/module-phpbrowser": "^3.0",
-                "phpunit/phpunit": "^9.5",
+                "phpunit/phpunit": "^9.6 || ^10.0",
                 "ramsey/collection": "^1.3",
                 "slevomat/coding-standard": "^8.8",
                 "squizlabs/php_codesniffer": "*",
@@ -12813,9 +12814,9 @@
             "homepage": "https://github.com/psalm/psalm-plugin-laravel",
             "support": {
                 "issues": "https://github.com/psalm/psalm-plugin-laravel/issues",
-                "source": "https://github.com/psalm/psalm-plugin-laravel/tree/v2.7.0"
+                "source": "https://github.com/psalm/psalm-plugin-laravel/tree/v2.7.1"
             },
-            "time": "2023-02-01T14:04:08+00:00"
+            "time": "2023-02-14T16:30:12+00:00"
         },
         {
             "name": "roave/security-advisories",
