@@ -17,6 +17,12 @@ use App\Models\Shadowrun5e\ActiveSkill;
         </style>
     </x-slot>
 
+    <datalist id="archetypes">
+        @foreach (\App\Models\Shadowrun5e\Contact::archetypes() as $archetype)
+        <option value="{{ $archetype }}">
+        @endforeach
+    </datalist>
+
     <x-slot name="navbar">
         <li class="nav-item">
             <a class="nav-link" href="/dashboard">Home</a>
@@ -24,8 +30,16 @@ use App\Models\Shadowrun5e\ActiveSkill;
         <li class="nav-item">
             <a class="nav-link" href="/campaigns/{{ $campaign->id }}">{{ $campaign }}</a>
         </li>
-        <li class="nav-item">
-            <span class="nav-link active">GM Screen</span>
+        <li class="nav-item dropdown">
+            <a class="active nav-link dropdown-toggle" href="#"
+                id="gm-screen-dropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                GM screen
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="gm-screen-dropdown">
+                <li><a class="dropdown-item" data-bs-target="#contact-modal"
+                    data-bs-toggle="modal" href="#">Add contact</a></li>
+            </ul>
         </li>
     </x-slot>
 
@@ -506,6 +520,139 @@ use App\Models\Shadowrun5e\ActiveSkill;
     </div>
     </form>
 
+    <form class="needs-validation" id="contact-form" novalidate>
+        <input id="contact-character-id" type="hidden">
+        <input id="contact-id" type="hidden">
+        <div class="modal" id="contact-modal" tabindex="-1"
+            aria-labelledby="contact-header" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="contact-header">
+                            Add a contact
+                        </h5>
+                        <button type="button" class="btn-close"
+                            data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="contact-characters">
+                            <div class="form-label">
+                                Contact should be added for
+                            </div>
+                            @foreach ($characters as $character)
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox"
+                                    value="{{ $character->id }}"
+                                    id="contact-character-{{ $character->id }}"
+                                    checked>
+                                    <label class="form-check-label"
+                                        for="contact-character-{{ $character->id }}">
+                                        {{ $character }}
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="my-3">
+                            <label class="form-label" for="contact-name">
+                                Name
+                                <small class="text-muted">(required)</small>
+                            </label>
+                            <input aria-describedby="contact-name-help"
+                                class="form-control" id="contact-name"
+                                type="text">
+                            <div id="contact-name-help" class="form-text">
+                                Name the 'runners know the contact as.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="contact-archetype">
+                                Archetype
+                                <small class="text-muted">(required)</small>
+                            </label>
+                            <input aria-describedby="archetype-help"
+                                class="form-control" id="contact-archetype"
+                                list="archetypes" required type="text">
+                            <div id="archetype-help" class="form-text">
+                                Generic description of the contact's role in
+                                'runner society.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="contact-connection">
+                                Connection
+                            </label>
+                            <input aria-describedby="connection-help"
+                                class="form-control" id="contact-connection"
+                                max="6" min="0" type="number">
+                            <div id="connection-help" class="form-text">
+                                Connection represents how much reach and
+                                influence a Contact has, both within the shadows
+                                and in the world at large, to get things done or
+                                to make things happen. See the
+                                <a data-bs-toggle="tooltip" data-bs-html="true"
+                                    href="#" title="<img src='/images/Shadowrun5e/contact-connection.png'>">
+                                    connection rating table
+                                </a> for more information.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="contact-loyalty">
+                                Loyalty
+                            </label>
+                            <input aria-describedby="loyalty-help"
+                                class="form-control" id="contact-loyalty"
+                                max="6" min="0" type="number">
+                            <div id="loyalty-help" class="form-text">
+                                Loyalty reflects how loyal the contact is to the
+                                runner and how much they'll endure without
+                                shattering whatever bond the two have. See the
+                                <a data-bs-toggle="tooltip" data-bs-html="true"
+                                    href="#" title="<img src='/images/Shadowrun5e/contact-loyalty.png'>">
+                                    loyalty rating table
+                                </a> for more information.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="contact-notes">
+                                Player notes
+                            </label>
+                            <textarea aria-describedby="contact-notes-help"
+                                class="form-control" id="contact-notes"
+                                row="3"></textarea>
+                            <div class="form-text" id="contact-notes-help">
+                                Notes that you want available to the player(s)
+                                that have met the contact. This might be where
+                                they met, a physical description, or favors
+                                owed, for example.
+                                <strong>This field is editable by players.</strong>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="contact-gm-notes">
+                                Gamemaster notes
+                            </label>
+                            <textarea aria-describedby="contact-gm-notes-help"
+                                class="form-control" id="contact-gm-notes"
+                                row="3"></textarea>
+                            <div class="form-text" id="contact-gm-notes-help">
+                                Notes you want to make about the contact, but
+                                not show to the players. Might be things like
+                                motivations or the voice you use when
+                                roleplaying them, for example.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" disabled
+                            id="contact-submit">Save contact</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
     <x-slot name="javascript">
         <script>
             const campaign = {{ $campaign->id }};
@@ -517,5 +664,6 @@ use App\Models\Shadowrun5e\ActiveSkill;
         </script>
         <script src="/js/Shadowrun5e/gm-damage.js"></script>
         <script src="/js/Shadowrun5e/gm-initiative.js"></script>
+        <script src="/js/Shadowrun5e/gm-contacts.js"></script>
     </x-slot>
 </x-app>
