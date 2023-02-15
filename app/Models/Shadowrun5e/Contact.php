@@ -67,4 +67,57 @@ class Contact
     {
         return $this->name;
     }
+
+    /**
+     * Return a collection of sample archetypes.
+     * @psalm-suppress PossiblyUnusedMethod
+     * @return array<int, string>
+     */
+    public static function archetypes(): array
+    {
+        return [
+            'Ambulance driver',
+            'Arms Dealer',
+            'Bartender',
+            'Beat cop',
+            'Border patrol agent',
+            'Bouncer',
+            'Company man',
+            'Corporate wagemage',
+            'Coyote',
+            'Decker',
+            'Detective',
+            'EMT',
+            'Fench',
+            'Fixer',
+            'Forger',
+            'Gang boss',
+            'Government agent',
+            'Loan Shark',
+            'Mafia consigliere',
+            'Mechanic',
+            'Mr. Johnson',
+            'Nightclub owner',
+            'Nurse',
+            'Rent-a-cop',
+            'Reporter',
+            'Rigger',
+            'Shadowrunner',
+            'Simsense Star',
+            'Smuggler',
+            'Snitch',
+            'Street doc',
+            'Street mage',
+            'Street Sam',
+            'Street Shaman',
+            'Stripper',
+            'Talismonger',
+            'Tech wizard',
+            'Triad incense aster',
+            'Trid actor',
+            'Undercover cop',
+            'Waitress',
+            'Yakuza wakagashira',
+        ];
+    }
 }
