@@ -14,16 +14,61 @@ class ContactCreateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        /** @var \App\Models\Shadowrun5e\Character */
+        $character = $this->route('character');
+
+        /** @var \App\Models\User */
+        $user = $this->user();
+
+        $campaign = $character->campaign();
+
+        // Only GMs can create a contact. Without a campaign, there's no GM.
+        if (null === $campaign) {
+            return false;
+        }
+
+        if ($user->isNot($campaign->gamemaster)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
-     * @return array
+     * @return array<string, array<int, string>>
      */
     public function rules(): array
     {
         return [
+            'archetype' => [
+                'required',
+                'string',
+            ],
+            'connection' => [
+                'integer',
+                'max:12',
+                'min:1',
+                'nullable',
+            ],
+            'loyalty' => [
+                'integer',
+                'max:6',
+                'min:1',
+                'nullable',
+            ],
+            'gmNotes' => [
+                'string',
+                'nullable',
+            ],
+            'name' => [
+                'required',
+                'string',
+            ],
+            'notes' => [
+                'string',
+                'nullable',
+            ],
         ];
     }
 }

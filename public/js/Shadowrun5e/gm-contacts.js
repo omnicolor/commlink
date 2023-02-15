@@ -65,12 +65,21 @@ function saveContact(e) {
         const settings = {
             data: {
                 _token: csrfToken,
-                contact: contact
+                archetype: contact.archetype,
+                connection: contact.connection,
+                loyalty: contact.loyalty,
+                gmNotes: contact.gmNotes,
+                name: contact.name,
+                notes: contact.notes,
             },
             method: 'POST',
+            success: function (data) {
+                window.console.log(data);
+            },
             url: '/api/shadowrun5e/characters/' + characterId + '/contacts'
         };
-        window.console.log(settings);
+        $.ajax(settings)
+            .fail(function () { window.console.log('Error saving contact'); });
     });
 }
 

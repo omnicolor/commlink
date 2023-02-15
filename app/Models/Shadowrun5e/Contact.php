@@ -70,6 +70,7 @@ class Contact
 
     /**
      * Return a collection of sample archetypes.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, string>
      */
     public static function archetypes(): array
