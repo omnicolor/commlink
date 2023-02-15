@@ -57,7 +57,6 @@
         "friendsofphp/php-cs-fixer": "^3.0",
         "icanhazstring/composer-unused": "^0.8",
         "laravel/breeze": "^1.0",
-        "laravel/sail": "^1.0",
         "laravel/tinker": "^2.7",
         "mockery/mockery": "^1.4",
         "nunomaduro/larastan": "^2.0",
