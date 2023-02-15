@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Shadowrun5e;
 
 use App\Events\Shadowrun5e\DamageEvent;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Shadowrun5e\AttributesRequest;
 use App\Http\Requests\Shadowrun5e\BackgroundRequest;
 use App\Http\Requests\Shadowrun5e\KnowledgeSkillsRequest;
@@ -26,17 +27,20 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\MessageBag;
 use Illuminate\View\View;
 use Rs\Json\Patch;
 use Rs\Json\Patch\InvalidOperationException;
 use Rs\Json\Patch\InvalidPatchDocumentJsonException;
 use Rs\Json\Pointer\InvalidPointerException;
+use RuntimeException;
 
 /**
  * Controller for interacting with Shadowrun 5E characters.
  */
-class CharactersController extends \App\Http\Controllers\Controller
+class CharactersController extends Controller
 {
     /**
      * Return the next step for the character.
@@ -203,16 +207,15 @@ class CharactersController extends \App\Http\Controllers\Controller
     /**
      * Show the selected step of character creation, or the first step if none
      * is explicitly chosen.
-     * @param Request $request
-     * @param string $step
-     * @return RedirectResponse|View
+     * @psalm-suppress InvalidArgument
+     * @psalm-suppress NoValue
      */
     public function create(
         Request $request,
         ?string $step = null
-    ): RedirectResponse | View {
+    ): RedirectResponse | Redirector | View {
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
 
         if ('new' === $step) {
             $character = PartialCharacter::create(['owner' => $user->email]);
@@ -252,7 +255,7 @@ class CharactersController extends \App\Http\Controllers\Controller
         if (isset($character->priorities, $character->priorities['rulebooks'])) {
             $selectedBooks = explode(',', (string)$character->priorities['rulebooks']);
             $books = $books->filter(
-                function (Rulebook $value, string $key) use ($selectedBooks): bool {
+                function (Rulebook $_value, string $key) use ($selectedBooks): bool {
                     return in_array($key, $selectedBooks, true);
                 }
             );
@@ -841,7 +844,7 @@ class CharactersController extends \App\Http\Controllers\Controller
                     try {
                         // Level doesn't matter, we're just getting the name.
                         $skill = new ActiveSkill($rawSkill['id'], 1);
-                    } catch (\RuntimeException) {
+                    } catch (RuntimeException) {
                         continue;
                     }
                     $skills[$key]['name'] = (string)$skill;
@@ -925,7 +928,7 @@ class CharactersController extends \App\Http\Controllers\Controller
         AttributesRequest $request
     ): RedirectResponse {
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
 
         $characterId = $request->session()->get('shadowrun5epartial');
         $character = PartialCharacter::where('_id', $characterId)
@@ -945,7 +948,7 @@ class CharactersController extends \App\Http\Controllers\Controller
             'strength',
             'willpower',
         ]);
-        array_walk($attributes, function (&$value, $key): void {
+        array_walk($attributes, function (&$value): void {
             $value = (int)$value;
         });
         $character->fill($attributes);
@@ -969,7 +972,7 @@ class CharactersController extends \App\Http\Controllers\Controller
     public function storeBackground(BackgroundRequest $request): RedirectResponse
     {
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
 
         $characterId = $request->session()->get('shadowrun5epartial');
         $character = PartialCharacter::where('_id', $characterId)
@@ -1015,7 +1018,7 @@ class CharactersController extends \App\Http\Controllers\Controller
         KnowledgeSkillsRequest $request
     ): RedirectResponse {
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
 
         $characterId = $request->session()->get('shadowrun5epartial');
         $character = PartialCharacter::where('_id', $characterId)
@@ -1027,7 +1030,8 @@ class CharactersController extends \App\Http\Controllers\Controller
         $levels = $request->input('skill-levels');
         $specializations = $request->input('skill-specializations');
         $skills = [];
-        foreach ($names as $key => $id) {
+        /** @var string */
+        foreach (\array_keys($names) as $key) {
             $skill = [
                 'category' => $categories[$key],
                 'name' => $names[$key],
@@ -1051,7 +1055,7 @@ class CharactersController extends \App\Http\Controllers\Controller
         MartialArtsRequest $request
     ): RedirectResponse {
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
 
         $characterId = $request->session()->get('shadowrun5epartial');
         $character = PartialCharacter::where('_id', $characterId)
@@ -1077,7 +1081,7 @@ class CharactersController extends \App\Http\Controllers\Controller
     public function storeQualities(QualitiesRequest $request): RedirectResponse
     {
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
 
         $characterId = $request->session()->get('shadowrun5epartial');
         $character = PartialCharacter::where('_id', $characterId)
@@ -1129,7 +1133,7 @@ class CharactersController extends \App\Http\Controllers\Controller
     public function storeRules(RulesRequest $request): RedirectResponse
     {
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
 
         $characterId = $request->session()->get('shadowrun5epartial');
         $character = PartialCharacter::where('_id', $characterId)
@@ -1158,7 +1162,7 @@ class CharactersController extends \App\Http\Controllers\Controller
     public function storeSkills(SkillsRequest $request): RedirectResponse
     {
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
 
         $characterId = $request->session()->get('shadowrun5epartial');
         $character = PartialCharacter::where('_id', $characterId)
@@ -1198,7 +1202,7 @@ class CharactersController extends \App\Http\Controllers\Controller
         StandardPriorityRequest $request
     ): RedirectResponse {
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
 
         $characterId = $request->session()->get('shadowrun5epartial');
         $character = PartialCharacter::where('_id', $characterId)
@@ -1229,7 +1233,7 @@ class CharactersController extends \App\Http\Controllers\Controller
     public function storeVitals(VitalsRequest $request): RedirectResponse
     {
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
 
         $characterId = $request->session()->get('shadowrun5epartial');
         $character = PartialCharacter::where('_id', $characterId)
@@ -1269,7 +1273,7 @@ class CharactersController extends \App\Http\Controllers\Controller
         ?string $step,
     ): ?PartialCharacter {
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
 
         // See if the user has already chosen to continue a character.
         $characterId = $request->session()->get('shadowrun5epartial');
@@ -1301,7 +1305,7 @@ class CharactersController extends \App\Http\Controllers\Controller
     {
         return CharacterResource::collection(
             // @phpstan-ignore-next-line
-            Character::where('owner', \Auth::user()->email)->get()
+            Character::where('owner', Auth::user()->email)->get()
         );
     }
 
@@ -1316,24 +1320,25 @@ class CharactersController extends \App\Http\Controllers\Controller
 
     /**
      * Return a single Shadowrun 5E character.
-     * @param string $identifier
-     * @return JsonResource
      */
-    public function show(string $identifier): JsonResource
+    public function show(Character $character): JsonResource
     {
-        // @phpstan-ignore-next-line
-        $email = \Auth::user()->email;
-        return new CharacterResource(
-            Character::where('_id', $identifier)
-                ->where('owner', $email)
-                ->firstOrFail()
+        /** @var User */
+        $user = Auth::user();
+
+        $campaign = $character->campaign();
+        abort_if(
+            $user->email !== $character->owner
+            && (null === $campaign || $user->isNot($campaign->gamemaster)),
+            Response::HTTP_NOT_FOUND
         );
+        return new CharacterResource($character);
     }
 
     public function update(Request $request, Character $character): JsonResource
     {
         /** @var ?User */
-        $user = \Auth::user();
+        $user = Auth::user();
 
         abort_if(
             null === $user,
@@ -1431,7 +1436,7 @@ class CharactersController extends \App\Http\Controllers\Controller
                 ->firstOrFail();
         }
 
-        $user = \Auth::user();
+        $user = Auth::user();
         return view(
             'Shadowrun5e.character',
             ['character' => $character, 'user' => $user]
