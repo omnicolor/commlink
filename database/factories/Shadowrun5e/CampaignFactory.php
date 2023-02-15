@@ -8,6 +8,7 @@ use App\Models\Shadowrun5e\Campaign;
 use Database\Factories\Factory;
 
 /**
+ * @extends Factory<Campaign>
  * @method mixed hasInitiatives(int $count)
  */
 class CampaignFactory extends Factory

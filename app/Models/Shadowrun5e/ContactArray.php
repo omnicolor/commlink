@@ -6,13 +6,13 @@ namespace App\Models\Shadowrun5e;
 
 /**
  * Collection of Contacts.
- * @extends \ArrayObject<int, Contact>
+ * @extends \ArrayObject<int|string, Contact>
  */
 class ContactArray extends \ArrayObject
 {
     /**
      * Add a contact to the array.
-     * @param ?int $index
+     * @param int|null|string $index
      * @param Contact $contact
      * @throws \TypeError
      */
