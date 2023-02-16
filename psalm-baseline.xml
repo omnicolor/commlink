@@ -722,7 +722,6 @@
   <file src="app/Models/Campaign.php">
     <PossiblyUnusedMethod>
       <code>channels</code>
-      <code>characters</code>
       <code>gamemaster</code>
       <code>initiatives</code>
       <code>registeredBy</code>
@@ -1211,7 +1210,6 @@
     <PossiblyUnusedProperty>
       <code>$archetype</code>
       <code>$gmNotes</code>
-      <code>$notes</code>
     </PossiblyUnusedProperty>
   </file>
   <file src="app/Models/Shadowrun5e/Critter.php">

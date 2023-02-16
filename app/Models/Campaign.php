@@ -94,6 +94,36 @@ class Campaign extends Model
     }
 
     /**
+     * Create a new Campaign, subclassed if available.
+     * @phpstan-ignore-next-line
+     * @param array<mixed, mixed> $attributes
+     * @param ?string $connection
+     * @psalm-suppress InvalidPropertyFetch
+     * @return static
+     */
+    public function newFromBuilder(
+        $attributes = [],
+        $connection = null
+    ): static {
+        // @phpstan-ignore-next-line
+        switch ($attributes->system ?? null) {
+            case 'shadowrun5e':
+                $campaign = new Shadowrun5e\Campaign((array)$attributes);
+                break;
+            default:
+                $campaign = new Campaign((array)$attributes);
+                break;
+        }
+
+        $campaign->exists = true;
+        $campaign->setRawAttributes((array)$attributes, true);
+        $campaign->setConnection($this->connection);
+        $campaign->fireModelEvent('retrieved', false);
+        // @phpstan-ignore-next-line
+        return $campaign;
+    }
+
+    /**
      * Get the user that registered the campaign.
      * @return BelongsTo
      */
