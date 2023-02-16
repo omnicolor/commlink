@@ -94,6 +94,32 @@ class Campaign extends Model
     }
 
     /**
+     * Create a new Campaign, subclassed if available.
+     * @param array<int|string, mixed> $attributes
+     * @param ?string $connection
+     * @return Campaign
+     */
+    public function newFromBuilder(
+        $attributes = [],
+        $connection = null
+    ): Campaign {
+        switch ($attributes->system ?? null) {
+            case 'shadowrun5e':
+                $campaign = new Shadowrun5e\Campaign((array)$attributes);
+                break;
+            default:
+                $campaign = new Campaign((array)$attributes);
+                break;
+        }
+
+        $campaign->exists = true;
+        $campaign->setRawAttributes((array)$attributes, true);
+        $campaign->setConnection($this->connection);
+        $campaign->fireModelEvent('retrieved', false);
+        return $campaign;
+    }
+
+    /**
      * Get the user that registered the campaign.
      * @return BelongsTo
      */

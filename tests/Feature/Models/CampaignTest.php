@@ -6,6 +6,7 @@ namespace Tests\Feature\Models;
 
 use App\Models\Campaign;
 use App\Models\Channel;
+use App\Models\Shadowrun5e\Campaign as ShadowrunCampaign;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -99,5 +100,23 @@ final class CampaignTest extends TestCase
             'campaign_id' => $campaign,
         ]);
         self::assertCount(2, $campaign->channels);
+    }
+
+    /**
+     * Test that getting a campaign that's been subclassed returns the
+     * subclass.
+     * @test
+     */
+    public function testGetSubclass(): void
+    {
+        $campaign = Campaign::factory()->create(['system' => 'dnd5e']);
+        $campaign = Campaign::find($campaign->id);
+        self::assertInstanceOf(Campaign::class, $campaign);
+        self::assertNotInstanceOf(ShadowrunCampaign::class, $campaign);
+
+        $srCampaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
+        $srCampaign = Campaign::find($srCampaign->id);
+        self::assertInstanceOf(Campaign::class, $srCampaign);
+        self::assertInstanceOf(ShadowrunCampaign::class, $srCampaign);
     }
 }

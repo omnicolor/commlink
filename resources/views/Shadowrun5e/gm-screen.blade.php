@@ -327,6 +327,37 @@ use App\Models\Shadowrun5e\ActiveSkill;
         </table>
     </div>
 
+    <div class="card float-start m-2">
+        <div class="card-header">
+            <h5 class="card-title">Contacts</h5>
+        </div>
+        <table class="card-body m-1">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Archetype</th>
+                    <th scope="col">Con/Loy</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($campaign->contacts() as $contact)
+                <tr class="bg-light">
+                    <td>{{ $contact }}</td>
+                    <td>{{ $contact->archetype }}</td>
+                    <td>Con: {{ $contact->connection }}</td>
+                </tr>
+                    @foreach ($contact->characters as $character)
+                        <tr>
+                            <td class="ps-4">{{ $character['character'] }}</td>
+                            <td>&nbsp;</td>
+                            <td>Loy: {{ $character['loyalty'] }}</td>
+                        </tr>
+                    @endforeach
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
     <div aria-hidden="true" aria-labelledby="add-combatant-label"
         class="modal fade" id="add-combatant" tabindex="-1">
         <div class="modal-dialog">
