@@ -109,11 +109,13 @@ final class CampaignTest extends TestCase
      */
     public function testGetSubclass(): void
     {
+        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'dnd5e']);
         $campaign = Campaign::find($campaign->id);
         self::assertInstanceOf(Campaign::class, $campaign);
         self::assertNotInstanceOf(ShadowrunCampaign::class, $campaign);
 
+        /** @var Campaign */
         $srCampaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
         $srCampaign = Campaign::find($srCampaign->id);
         self::assertInstanceOf(Campaign::class, $srCampaign);
