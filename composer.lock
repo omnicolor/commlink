@@ -1787,16 +1787,16 @@
         },
         {
             "name": "jenssegers/mongodb",
-            "version": "v3.9.4",
+            "version": "v3.9.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jenssegers/laravel-mongodb.git",
-                "reference": "0b03010682e5041ea80177a3db2d6509da92a9a5"
+                "reference": "6ce35ace85a5946f943d7f493f93aebb9a6d129d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jenssegers/laravel-mongodb/zipball/0b03010682e5041ea80177a3db2d6509da92a9a5",
-                "reference": "0b03010682e5041ea80177a3db2d6509da92a9a5",
+                "url": "https://api.github.com/repos/jenssegers/laravel-mongodb/zipball/6ce35ace85a5946f943d7f493f93aebb9a6d129d",
+                "reference": "6ce35ace85a5946f943d7f493f93aebb9a6d129d",
                 "shasum": ""
             },
             "require": {
@@ -1853,7 +1853,7 @@
             ],
             "support": {
                 "issues": "https://github.com/jenssegers/laravel-mongodb/issues",
-                "source": "https://github.com/jenssegers/laravel-mongodb/tree/v3.9.4"
+                "source": "https://github.com/jenssegers/laravel-mongodb/tree/v3.9.5"
             },
             "funding": [
                 {
@@ -1865,7 +1865,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-02-10T13:18:35+00:00"
+            "time": "2023-02-16T12:20:36+00:00"
         },
         {
             "name": "juststeveking/laravel-feature-flags",
