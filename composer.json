@@ -74,11 +74,12 @@
     },
     "scripts": {
         "all": [
-            "@coverage",
+            "@lint",
             "@phpcs",
             "@php-cs-fixer",
             "@phpstan",
-            "@psalm"
+            "@psalm",
+            "@coverage"
         ],
         "coverage": [
             "Composer\\Config::disableProcessTimeout",
@@ -89,7 +90,7 @@
         "phpcs": "phpcs",
         "phpstan": [
             "Composer\\Config::disableProcessTimeout",
-            "phpstan --xdebug analyze"
+            "phpstan analyze"
         ],
         "psalm": "psalm",
         "post-autoload-dump": [

@@ -97,7 +97,6 @@ class RegisterResponse
             'type' => Channel::TYPE_DISCORD,
         ]);
 
-        // @phpstan-ignore-next-line
         $channel->user = (string)$this->event->user->id;
         $channel->username = optional($this->event->user)->displayname;
         return $channel;
