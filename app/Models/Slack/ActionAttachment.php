@@ -6,6 +6,9 @@ namespace App\Models\Slack;
 
 class ActionAttachment extends Attachment
 {
+    /**
+     * @var array<int, array<string, string>>
+     */
     protected array $actions = [];
 
     public function __construct(

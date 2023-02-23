@@ -26,6 +26,7 @@ class SecondChance
             $request->channel->id
         );
         $this->channel->user = $request->user->id;
+        // @phpstan-ignore-next-line
         $this->character = $this->channel->character();
     }
 
@@ -60,12 +61,14 @@ class SecondChance
         $original_message = $this->request->original_message->attachments[0];
         $original_roll = $original_message->footer;
         $original_roll = str_replace(['*', '~'], ['', ''], $original_roll);
+        /** @var array<int, int> */
         $original_roll = explode(' ', $original_roll);
 
         $successes = 0;
         $rerolled = 0;
         foreach ($original_roll as $key => $roll) {
             if (5 <= $roll) {
+                $original_roll[$key] = (int)$roll;
                 $successes++;
                 continue;
             }
@@ -74,7 +77,7 @@ class SecondChance
             if (5 <= $roll) {
                 $successes++;
             }
-            $original_roll[$key] = (int)$roll;
+            $original_roll[$key] = $roll;
         }
 
         \rsort($original_roll);

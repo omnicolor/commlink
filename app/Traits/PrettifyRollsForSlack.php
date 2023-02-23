@@ -15,7 +15,7 @@ trait PrettifyRollsForSlack
      */
     public function prettifyRolls(array $rolls): array
     {
-        \array_walk($rolls, function (int | string &$value, int $key): void {
+        array_walk($rolls, function (int | string &$value): void {
             if ($value >= 5) {
                 $value = \sprintf('*%d*', $value);
             } elseif (1 == $value) {

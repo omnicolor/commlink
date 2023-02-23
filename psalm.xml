@@ -25,6 +25,11 @@
     </projectFiles>
 
     <issueHandlers>
+        <InvalidArgument>
+            <errorLevel type="suppress">
+                <file name="app/Rolls/Shadowrun5e/SecondChance.php" />
+            </errorLevel>
+        </InvalidArgument>
         <PossiblyUnusedMethod>
             <errorLevel type="suppress">
                 <directory name="app/Http/Requests" />

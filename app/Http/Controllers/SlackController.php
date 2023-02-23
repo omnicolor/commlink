@@ -19,9 +19,9 @@ use Error;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\AbstractUser as SocialiteUser;
 use Laravel\Socialite\Facades\Socialite;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
@@ -62,8 +62,6 @@ class SlackController extends Controller
     protected function handleAction(string $payload): ?SlackResponse
     {
         $request = json_decode($payload);
-        $class = $request->actions[0]->name;
-        $action = new $class($request);
 
         $channel = $this->getChannel($request->team->id, $request->channel->id);
         $channel->user = $request->user->id;
@@ -98,12 +96,14 @@ class SlackController extends Controller
         $original_message = $request->original_message->attachments[0];
         $original_roll = $original_message->footer;
         $original_roll = str_replace(['*', '~'], ['', ''], $original_roll);
+        /** @var array<int, int> */
         $original_roll = explode(' ', $original_roll);
 
         $successes = 0;
         $rerolled = 0;
         foreach ($original_roll as $key => $roll) {
             if (5 <= $roll) {
+                $original_roll[$key] = (int)$roll;
                 $successes++;
                 continue;
             }
@@ -126,6 +126,9 @@ class SlackController extends Controller
                     $rerolled
                 ),
                 color: TextAttachment::COLOR_SUCCESS,
+                /**
+                 * @psalm-suppress InvalidArgument
+                 */
                 footer: implode(' ', $this->prettifyRolls($original_roll)),
             ));
     }

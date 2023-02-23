@@ -226,7 +226,7 @@ class Push extends Number
         if ($this->isCriticalGlitch() || $this->isGlitch()) {
             $color = TextAttachment::COLOR_DANGER;
         }
-        $footer = \implode(' ', $this->prettifyRolls())
+        $footer = \implode(' ', $this->prettifyRolls($this->rolls))
             . ' (' . $this->exploded . ' exploded)';
         if (null !== $this->limit) {
             $footer .= \sprintf(', limit: %d', $this->limit);

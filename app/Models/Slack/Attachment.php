@@ -15,9 +15,14 @@ abstract class Attachment
     public const COLOR_WARNING = 'warning';
 
     /**
+     * @psalm-suppress PossiblyUnusedProperty
+     */
+    protected ?string $footer = null;
+
+    /**
      * Add a footer to the attachment.
      * @param string $footer
-     * @return TextAttachment
+     * @return Attachment
      */
     public function addFooter(string $footer): Attachment
     {
