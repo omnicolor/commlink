@@ -68,28 +68,30 @@ class SlackController extends Controller
         $character = $channel->character();
 
         if (null === $character) {
-            $response_url = $request->response_url;
-            $error_response = [
-                'color' => TextAttachment::COLOR_DANGER,
-                'delete_original' => false,
-                'replace_original' => false,
-                'response_type' => 'ephemeral',
-                'text' => 'Only registered users can click action buttons',
-            ];
-            Http::post($response_url, $error_response);
+            Http::post(
+                $request->response_url,
+                [
+                    'color' => TextAttachment::COLOR_DANGER,
+                    'delete_original' => false,
+                    'replace_original' => false,
+                    'response_type' => 'ephemeral',
+                    'text' => 'Only registered users can click action buttons',
+                ]
+            );
             return null;
         }
 
         if ($character->id !== $request->callback_id) {
-            $response_url = $request->response_url;
-            $error_response = [
-                'color' => TextAttachment::COLOR_DANGER,
-                'delete_original' => false,
-                'replace_original' => false,
-                'response_type' => 'ephemeral',
-                'text' => 'Only the user that rolled can use this action',
-            ];
-            Http::post($response_url, $error_response);
+            Http::post(
+                $request->response_url,
+                [
+                    'color' => TextAttachment::COLOR_DANGER,
+                    'delete_original' => false,
+                    'replace_original' => false,
+                    'response_type' => 'ephemeral',
+                    'text' => 'Only the user that rolled can use this action',
+                ]
+            );
             return null;
         }
 

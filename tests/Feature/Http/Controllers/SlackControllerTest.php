@@ -14,7 +14,9 @@ use App\Models\ChatUser;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use phpmock\phpunit\PHPMock;
@@ -280,7 +282,7 @@ final class SlackControllerTest extends TestCase
     {
         Event::fake();
 
-        $slackUserId = 'U' . \Str::random(8);
+        $slackUserId = 'U' . Str::random(8);
 
         /** @var Campaign */
         $campaign = Campaign::factory()->create([
@@ -338,10 +340,10 @@ final class SlackControllerTest extends TestCase
         $this->post(
             route('roll'),
             [
-                'channel_id' => \Str::random(11),
-                'team_id' => \Str::random(12),
+                'channel_id' => Str::random(11),
+                'team_id' => Str::random(12),
                 'text' => '5',
-                'user_id' => \Str::random(9),
+                'user_id' => Str::random(9),
             ]
         )
             ->assertOk()
@@ -401,7 +403,7 @@ final class SlackControllerTest extends TestCase
                 'channel_id' => $channel->channel_id,
                 'team_id' => $channel->server_id,
                 'text' => '5',
-                'user_id' => \Str::random(9),
+                'user_id' => Str::random(9),
             ]
         )
             ->assertOk()
@@ -429,7 +431,7 @@ final class SlackControllerTest extends TestCase
                 'channel_id' => $channel->channel_id,
                 'team_id' => $channel->server_id,
                 'text' => 'info',
-                'user_id' => \Str::random(9),
+                'user_id' => Str::random(9),
             ]
         )
             ->assertOk()
@@ -468,6 +470,99 @@ final class SlackControllerTest extends TestCase
             ->assertSee('flipped a coin: ');
 
         Event::assertDispatched(RollEvent::class);
+    }
+
+    /**
+     * Test trying to handle a button push.
+     * @test
+     */
+    public function testSecondChanceUnregistered(): void
+    {
+        Http::preventStrayRequests();
+        Http::fake();
+
+        $this->withHeaders(['Accept' => 'application/json'])
+            ->post(
+                route('roll'),
+                [
+                    'payload' => json_encode([
+                        'channel' => [
+                            'id' => 'C' . Str::random(12),
+                        ],
+                        'response_url' => 'https://example.com',
+                        'team' => [
+                            'id' => 'T' . Str::random(12),
+                        ],
+                        'user' => [
+                            'id' => 'U' . Str::random(12),
+                        ],
+                    ]),
+                ]
+            )
+            ->assertOk();
+        Http::assertSent(function (Request $request): bool {
+            return 'https://example.com' === $request->url()
+                && 'Only registered users can click action buttons' === $request['text'];
+        });
+    }
+
+    public function testSecondChanceWrongCharacter(): void
+    {
+        $slackUserId = 'U' . Str::random(8);
+
+        $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
+        $channel = Channel::factory()->create([
+            'campaign_id' => $campaign,
+            'system' => 'shadowrun5e',
+            'type' => Channel::TYPE_SLACK,
+        ]);
+
+        $character = Character::factory()->create([
+            'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $slackUserId,
+            'server_id' => $channel->server_id,
+            'server_type' => Channel::TYPE_SLACK,
+            'verified' => true,
+        ]);
+
+        ChatCharacter::factory()->create([
+            'channel_id' => $channel,
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser,
+        ]);
+
+        Http::preventStrayRequests();
+        Http::fake();
+
+        $this->withHeaders(['Accept' => 'application/json'])
+            ->post(
+                route('roll'),
+                [
+                    'payload' => json_encode([
+                        'callback_id' => '1', // Shouldn't be the character's ID
+                        'channel' => [
+                            'id' => $channel->channel_id,
+                        ],
+                        'response_url' => 'https://example.com',
+                        'team' => [
+                            'id' => $channel->server_id,
+                        ],
+                        'user' => [
+                            'id' => $slackUserId,
+                        ],
+                    ]),
+                ]
+            )
+            ->assertOk();
+        Http::assertSent(function (Request $request): bool {
+            return 'https://example.com' === $request->url()
+                && 'Only the user that rolled can use this action' === $request['text'];
+        });
+        $character->delete();
     }
 
     public function testAuthThroughSlack(): void
