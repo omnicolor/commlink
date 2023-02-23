@@ -18,7 +18,9 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\AbstractUser as SocialiteUser;
 use Laravel\Socialite\Facades\Socialite;
+use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
 /**
  * Controller for handling Slack requests.
@@ -171,6 +173,7 @@ class SlackController extends Controller
      */
     public function handleCallback(): RedirectResponse
     {
+        /** @var SocialiteUser */
         $socialUser = Socialite::driver('slack')->user();
 
         $user = User::where('email', $socialUser->email)->first();
@@ -206,7 +209,7 @@ class SlackController extends Controller
     /**
      * The user wants to login to Commlink using their Slack login.
      */
-    public function redirectToSlack(): RedirectResponse
+    public function redirectToSlack(): SymfonyRedirectResponse
     {
         return Socialite::driver('slack')->redirect();
     }

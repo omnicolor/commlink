@@ -89,7 +89,7 @@
         "phpcs": "phpcs",
         "phpstan": [
             "Composer\\Config::disableProcessTimeout",
-            "phpstan --xdebug analyze"
+            "phpstan analyze"
         ],
         "psalm": "psalm",
         "post-autoload-dump": [
