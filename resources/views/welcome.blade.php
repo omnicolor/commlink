@@ -6,17 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <title>Commlink RPG Manager - Login</title>
+    <title>{{ config('app.name') }} RPG Manager - Login</title>
 </head>
 
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand active" href="/">Commlink</a>
+        <a class="navbar-brand active" href="/">{{ config('app.name') }}</a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="/about">What is Commlink?</a>
+                    <a class="nav-link" href="/about">What is {{ config('app.name') }}?</a>
                 </li>
             </ul>
         </div>
@@ -97,20 +97,42 @@
                     <div class="row">
                         <div class="col">
                             <div class="card">
-                                <div class="card-body d-grid gap-2">
-                                    <a class="btn btn-outline-secondary"
-                                        href="/discord/auth">
-                                        <i class="bi bi-discord"></i>
-                                        Sign in with Discord
-                                    </a>
-                                    <a class="btn btn-outline-secondary"
-                                        href="{{ route('register') }}">
-                                        Create a new {{ config('app.name') }} account
-                                    </a>
-                                    <a class="btn btn-outline-secondary"
-                                        href="{{ route('password.request') }}">
-                                        Forgot password?
-                                    </a>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4 d-grid">
+                                            <a class="btn btn-outline-secondary"
+                                               href="/discord/auth">
+                                                <i class="bi bi-discord"></i>
+                                                Discord sign in
+                                            </a>
+                                        </div>
+                                        <div class="col-4 d-grid">
+                                            <a class="btn btn-outline-secondary"
+                                               href="/slack/auth">
+                                                <i class="bi bi-slack"></i>
+                                                Slack sign in
+                                            </a>
+                                        </div>
+                                        <div class="col-4 d-grid">
+                                            <a class="btn btn-outline-secondary"
+                                                href="/google/auth">
+                                                <i class="bi bi-google"></i>
+                                                Google sign in
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2 row">
+                                        <div class="col d-grid gap-2">
+                                            <a class="btn btn-outline-secondary"
+                                               href="{{ route('register') }}">
+                                                Create a new account
+                                            </a>
+                                            <a class="btn btn-outline-secondary"
+                                                href="{{ route('password.request') }}">
+                                                Forgot password?
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

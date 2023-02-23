@@ -11,11 +11,14 @@ use App\Models\Channel;
 use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
 use phpmock\phpunit\PHPMock;
 use PHPUnit\Framework\MockObject\MockObject;
-use Str;
 use Tests\TestCase;
 
 /**
@@ -28,6 +31,7 @@ final class SlackControllerTest extends TestCase
 {
     use PHPMock;
     use RefreshDatabase;
+    use WIthFaker;
 
     protected MockObject $randomInt;
 
@@ -464,5 +468,112 @@ final class SlackControllerTest extends TestCase
             ->assertSee('flipped a coin: ');
 
         Event::assertDispatched(RollEvent::class);
+    }
+
+    public function testAuthThroughSlack(): void
+    {
+        self::get('/slack/auth')
+            ->assertRedirectContains('https://slack.com/oauth/authorize?');
+    }
+
+    public function testLoginThroughSlackExistingUserNewChatUser(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        $slackUserId = 'U' . Str::random(8);
+        $slackUserName = $this->faker->name();
+        $teamId = Str::random(12);
+        $teamName = $this->faker->word();
+        Socialite::shouldReceive('driver->user')
+            ->andReturn((object)[
+                'email' => $user->email,
+                'id' => $slackUserId,
+                'name' => $slackUserName,
+                'attributes' => [
+                    'organization_id' => $teamId,
+                ],
+                'user' => [
+                    'team' => [
+                        'name' => $teamName,
+                    ],
+                ],
+            ]);
+
+        self::assertDatabaseMissing(
+            'chat_users',
+            [
+                'server_id' => $teamId,
+                'server_name' => $teamName,
+                'server_type' => ChatUser::TYPE_SLACK,
+                'remote_user_id' => $slackUserId,
+                'remote_user_name' => $slackUserName,
+                'user_id' => $user->id,
+            ]
+        );
+        self::get('slack/callback')->assertRedirect('/dashboard');
+        self::assertAuthenticatedAs($user);
+        self::assertDatabaseHas(
+            'chat_users',
+            [
+                'server_id' => $teamId,
+                'server_name' => $teamName,
+                'server_type' => ChatUser::TYPE_SLACK,
+                'remote_user_id' => $slackUserId,
+                'remote_user_name' => $slackUserName,
+                'user_id' => $user->id,
+            ]
+        );
+    }
+
+    /**
+     * Test that logging in through Slack as a new user creates a User and
+     * a ChatUser.
+     * @test
+     */
+    public function testLoginThroughSlackNewUser(): void
+    {
+        // Find an email that hasn't been used yet.
+        do {
+            $email = $this->faker->email();
+        } while (null !== User::where('email', $email)->first());
+
+        $slackUserId = 'U' . Str::random(8);
+        $slackUserName = $this->faker->name();
+        $teamId = Str::random(12);
+        $teamName = $this->faker->word();
+        Socialite::shouldReceive('driver->user')
+            ->andReturn((object)[
+                'email' => $email,
+                'id' => $slackUserId,
+                'name' => $slackUserName,
+                'attributes' => [
+                    'organization_id' => $teamId,
+                ],
+                'user' => [
+                    'team' => [
+                        'name' => $teamName,
+                    ],
+                ],
+            ]);
+        self::get('/slack/callback')->assertRedirect('/dashboard');
+
+        /** @user */
+        $user = User::where('email', $email)->first();
+        self::assertNotNull($user);
+        self::assertSame($slackUserName, $user->name);
+        self::assertSame('reset me', $user->password);
+        self::assertAuthenticatedAs($user);
+        self::assertDatabaseHas(
+            'chat_users',
+            [
+                'server_id' => $teamId,
+                'server_name' => $teamName,
+                'server_type' => ChatUser::TYPE_SLACK,
+                'remote_user_id' => $slackUserId,
+                'remote_user_name' => $slackUserName,
+                'user_id' => $user->id,
+            ]
+        );
     }
 }
