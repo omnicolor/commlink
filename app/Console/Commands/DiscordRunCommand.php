@@ -36,7 +36,7 @@ class DiscordRunCommand extends Command
     {
         $discord = new Discord([
             'storeMessages' => true,
-            'token' => config('app.discord_token'),
+            'token' => config('services.discord.token'),
         ]);
         $discord->on('ready', function (): void {
             echo 'Logged in to Discord', \PHP_EOL;
