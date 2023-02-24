@@ -9,6 +9,7 @@ use Discord\Discord;
 use Discord\Parts\Channel\Message;
 use Discord\WebSockets\Event;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Start a Discord bot.
@@ -35,6 +36,7 @@ class DiscordRunCommand extends Command
     public function handle(): int
     {
         $discord = new Discord([
+            'logger' => Log::getLogger(),
             'storeMessages' => true,
             'token' => config('services.discord.token'),
         ]);
