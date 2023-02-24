@@ -33,7 +33,7 @@ trait InteractsWithDiscord
         fclose($fileHandle);
 
         $response = Http::withHeaders([
-            'Authorization' => sprintf('Bot %s', config('app.discord_token')),
+            'Authorization' => sprintf('Bot %s', config('services.discord.token')),
         ])
             ->post(
                 sprintf(
@@ -66,7 +66,7 @@ trait InteractsWithDiscord
     public function getDiscordChannelName(string $snowflake): ?string
     {
         $response = Http::withHeaders([
-            'Authorization' => \sprintf('Bot %s', config('app.discord_token')),
+            'Authorization' => \sprintf('Bot %s', config('services.discord.token')),
         ])
             ->get(sprintf('https://discord.com/api/channels/%s', $snowflake));
 
@@ -86,7 +86,7 @@ trait InteractsWithDiscord
     public function getDiscordUserName(string $snowflake): ?string
     {
         $response = Http::withHeaders([
-            'Authorization' => \sprintf('Bot %s', config('app.discord_token')),
+            'Authorization' => \sprintf('Bot %s', config('services.discord.token')),
         ])
             ->get(sprintf('https://discord.com/api/users/%s', $snowflake));
 
@@ -105,7 +105,7 @@ trait InteractsWithDiscord
     public function getDiscordServerName(string $serverId): ?string
     {
         $response = Http::withHeaders([
-            'Authorization' => \sprintf('Bot %s', config('app.discord_token')),
+            'Authorization' => \sprintf('Bot %s', config('services.discord.token')),
         ])
             ->get(sprintf('https://discord.com/api/guilds/%s', $serverId));
 
@@ -128,11 +128,11 @@ trait InteractsWithDiscord
             ->post(
                 'https://discord.com/api/oauth2/token',
                 [
-                    'client_id' => config('app.discord.client_id'),
-                    'client_secret' => config('app.discord.client_secret'),
+                    'client_id' => config('services.discord.client_id'),
+                    'client_secret' => config('services.discord.client_secret'),
                     'code' => $code,
                     'grant_type' => 'authorization_code',
-                    'redirect_uri' => config('app.discord.redirect_uri'),
+                    'redirect_uri' => config('services.discord.redirect_uri'),
                 ],
             );
 
@@ -222,8 +222,8 @@ trait InteractsWithDiscord
     public function getDiscordOauthURL(): string
     {
         return 'https://discord.com/api/oauth2/authorize?' . \http_build_query([
-            'client_id' => config('app.discord.client_id'),
-            'redirect_uri' => config('app.discord.redirect_uri'),
+            'client_id' => config('services.discord.client_id'),
+            'redirect_uri' => config('services.discord.redirect'),
             'response_type' => 'code',
             'scope' => 'identify guilds',
         ]);
