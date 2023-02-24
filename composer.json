@@ -37,7 +37,6 @@
         "ext-random": "*",
         "ext-redis": "*",
         "doctrine/dbal": "^3.1",
-        "fruitcake/laravel-cors": "^3.0",
         "guzzlehttp/guzzle": "^7.3",
         "jenssegers/mongodb": "^3.8",
         "juststeveking/laravel-feature-flags": "^1.0",
