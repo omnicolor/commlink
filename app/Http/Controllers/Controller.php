@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
@@ -13,7 +12,6 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests;
-    use DispatchesJobs;
     use ValidatesRequests;
 
     /**
@@ -45,7 +43,6 @@ class Controller extends BaseController
     /**
      * Return a JSON-API error.
      * @param array<string, string|int> $error
-     * @return \Illuminate\Http\Response
      */
     public function error(array $error): Response
     {
