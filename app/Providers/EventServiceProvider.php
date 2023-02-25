@@ -55,4 +55,19 @@ class EventServiceProvider extends ServiceProvider
      * @var array<int, string>
      */
     protected $subscribe = [];
+
+    /**
+     * Register any events for your application.
+     */
+    public function boot(): void
+    {
+    }
+
+    /**
+     * Determine if events and listeners should be automatically discovered.
+     */
+    public function showDiscoverEvents(): bool
+    {
+        return false;
+    }
 }
