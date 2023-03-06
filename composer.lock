@@ -11487,25 +11487,25 @@
         },
         {
             "name": "php-mock/php-mock-phpunit",
-            "version": "2.6.1",
+            "version": "2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-mock/php-mock-phpunit.git",
-                "reference": "b9ba2db21e7e1c7deba98bc86dcfc6425fb4647d"
+                "reference": "97b3278e65863e53066f31adb85d92334c0ea07b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-mock/php-mock-phpunit/zipball/b9ba2db21e7e1c7deba98bc86dcfc6425fb4647d",
-                "reference": "b9ba2db21e7e1c7deba98bc86dcfc6425fb4647d",
+                "url": "https://api.github.com/repos/php-mock/php-mock-phpunit/zipball/97b3278e65863e53066f31adb85d92334c0ea07b",
+                "reference": "97b3278e65863e53066f31adb85d92334c0ea07b",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7",
-                "php-mock/php-mock-integration": "^2.1",
-                "phpunit/phpunit": "^6 || ^7 || ^8 || ^9"
+                "php-mock/php-mock-integration": "^2.2.1",
+                "phpunit/phpunit": "^6 || ^7 || ^8 || ^9 || ^10"
             },
             "require-dev": {
-                "phpspec/prophecy": "^1.10.3"
+                "mockery/mockery": "^1.3.6"
             },
             "type": "library",
             "autoload": {
@@ -11542,7 +11542,7 @@
             ],
             "support": {
                 "issues": "https://github.com/php-mock/php-mock-phpunit/issues",
-                "source": "https://github.com/php-mock/php-mock-phpunit/tree/2.6.1"
+                "source": "https://github.com/php-mock/php-mock-phpunit/tree/2.7.0"
             },
             "funding": [
                 {
@@ -11550,7 +11550,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-09-07T20:40:07+00:00"
+            "time": "2023-03-06T17:25:07+00:00"
         },
         {
             "name": "php-parallel-lint/php-parallel-lint",
