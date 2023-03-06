@@ -10,6 +10,7 @@ use App\Models\Character;
 use App\Models\User;
 use ErrorException;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\UnableToCreateDirectory;
 use ParseError;
@@ -30,6 +31,7 @@ class VarzController extends Controller
         'shadowrun5e' => 'data/Shadowrun5e/',
         'shadowrun6e' => 'data/Shadowrun6e/',
         'star-trek-adventures' => 'data/StarTrekAdventures/',
+        'subversion' => 'data/Subversion/',
     ];
 
     public function index(): Response
@@ -90,10 +92,18 @@ class VarzController extends Controller
             return $metrics; // @codeCoverageIgnore
         }
 
-        $exampleFiles = Storage::build([
-            'driver' => 'local',
-            'root' => base_path(self::SYSTEM_MAP[$system]),
-        ])->files();
+        if (!array_key_exists($system, self::SYSTEM_MAP)) {
+            Log::warning(
+                'Varz: Missing system example directory',
+                ['system' => $system],
+            );
+            $exampleFiles = [];
+        } else {
+            $exampleFiles = Storage::build([
+                'driver' => 'local',
+                'root' => base_path(self::SYSTEM_MAP[$system]),
+            ])->files();
+        }
         foreach ($dataFiles as $file) {
             if (!in_array($file, $exampleFiles, true)) {
                 continue; // @codeCoverageIgnore
