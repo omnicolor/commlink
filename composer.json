@@ -64,6 +64,7 @@
         "phpstan/phpstan": "^1.2",
         "phpstan/phpstan-strict-rules": "^1.1",
         "phpunit/phpunit": "^9.3",
+        "povils/phpmnd": "^3.0",
         "psalm/plugin-laravel": "^2.7",
         "ramsey/uuid": "^4.3",
         "roave/security-advisories": "dev-latest",
@@ -87,6 +88,7 @@
         "lint": "parallel-lint --colors app config data tests",
         "php-cs-fixer": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --config=php_cs.php -v --using-cache=no --diff",
         "phpcs": "phpcs",
+        "phpmnd": "phpmnd --progress app",
         "phpstan": [
             "Composer\\Config::disableProcessTimeout",
             "phpstan analyze"
@@ -122,6 +124,7 @@
         "lint": "Run lint across code to make sure it's syntactically valid",
         "php-cs-fixer": "Run php-cs-fixer",
         "phpcs": "Run PHPCodesniffer",
+        "phpmnd": "Run PHP Magic Number Detector",
         "phpstan": "Run PHPstan",
         "psalm": "Run Psalm",
         "static": "Run static analysis",
