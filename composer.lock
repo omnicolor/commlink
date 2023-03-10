@@ -11151,16 +11151,16 @@
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v8.0.4",
+            "version": "v8.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "7ca8d678ff5c4aab40af0e72b2592b540602ab5c"
+                "reference": "b8364097ee6d6d16c59ea86ce9e138b53935fc2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/7ca8d678ff5c4aab40af0e72b2592b540602ab5c",
-                "reference": "7ca8d678ff5c4aab40af0e72b2592b540602ab5c",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/b8364097ee6d6d16c59ea86ce9e138b53935fc2f",
+                "reference": "b8364097ee6d6d16c59ea86ce9e138b53935fc2f",
                 "shasum": ""
             },
             "require": {
@@ -11169,7 +11169,7 @@
             },
             "require-dev": {
                 "fakerphp/faker": "^1.21",
-                "laravel/framework": "^10.3.1",
+                "laravel/framework": "^10.3.3",
                 "laravel/pint": "^1.6",
                 "mockery/mockery": "^1.5.1",
                 "orchestra/canvas": "^8.0",
@@ -11183,7 +11183,7 @@
             "suggest": {
                 "brianium/paratest": "Allow using parallel tresting (^6.4 || ^7.0).",
                 "fakerphp/faker": "Allow using Faker for testing (^1.21).",
-                "laravel/framework": "Required for testing (^10.3.1).",
+                "laravel/framework": "Required for testing (^10.3.3).",
                 "mockery/mockery": "Allow using Mockery for testing (^1.5.1).",
                 "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^6.4 || ^7.0).",
                 "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^8.0).",
@@ -11234,7 +11234,7 @@
                 "issues": "https://github.com/orchestral/testbench/issues",
                 "source": "https://github.com/orchestral/testbench-core"
             },
-            "time": "2023-03-09T03:53:39+00:00"
+            "time": "2023-03-10T00:01:53+00:00"
         },
         {
             "name": "phar-io/manifest",
