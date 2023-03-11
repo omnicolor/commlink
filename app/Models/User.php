@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use JustSteveKing\Laravel\FeatureFlags\Concerns\HasFeatures;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
@@ -20,7 +19,6 @@ class User extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
-    use HasFeatures;
     use Notifiable;
 
     /**

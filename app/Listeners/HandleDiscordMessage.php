@@ -34,7 +34,6 @@ class HandleDiscordMessage
                 'type' => Channel::TYPE_DISCORD,
             ]);
         }
-        // @phpstan-ignore-next-line
         $channel->user = (string)$event->user->id;
         $channel->username = optional($event->user)->displayname;
 

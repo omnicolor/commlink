@@ -9,15 +9,21 @@ use App\Http\Controllers\Cyberpunkred\CharactersController as CyberpunkredContro
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscordController;
 use App\Http\Controllers\Expanse\CharactersController as ExpanseController;
+use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\Import\Chummer5Controller;
 use App\Http\Controllers\Import\HeroLabController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Shadowrun5e\CharactersController as ShadowrunController;
+use App\Http\Controllers\SlackController;
 use App\Http\Controllers\StarTrekAdventures\CharactersController as StarTrekController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('discord/auth', [DiscordController::class, 'redirectToDiscord']);
 Route::get('discord/callback', [DiscordController::class, 'handleCallback']);
+Route::get('google/auth', [GoogleController::class, 'redirectToGoogle']);
+Route::get('google/callback', [GoogleController::class, 'handleCallback']);
+Route::get('slack/auth', [SlackController::class, 'redirectToSlack']);
+Route::get('slack/callback', [SlackController::class, 'handleCallback']);
 
 Route::middleware('auth')->group(function (): void {
     Route::get('/campaigns/create', [CampaignsController::class, 'createForm'])

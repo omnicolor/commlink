@@ -8,6 +8,7 @@ use App\Http\Controllers\Shadowrun5e\ArmorController;
 use App\Http\Controllers\Shadowrun5e\ArmorModificationsController;
 use App\Http\Controllers\Shadowrun5e\CharactersController;
 use App\Http\Controllers\Shadowrun5e\ComplexFormsController;
+use App\Http\Controllers\Shadowrun5e\ContactsController;
 use App\Http\Controllers\Shadowrun5e\CyberwareController;
 use App\Http\Controllers\Shadowrun5e\GearController;
 use App\Http\Controllers\Shadowrun5e\GearModificationsController;
@@ -41,6 +42,8 @@ Route::middleware('auth:sanctum')->prefix('shadowrun5e')->name('shadowrun5e.')->
             ->only(['index', 'show']);
         Route::resource('armor-modifications', ArmorModificationsController::class)
             ->only(['index', 'show']);
+        Route::resource('characters/{character}/contacts', ContactsController::class)
+            ->only(['index', 'store']);
         Route::resource('characters', CharactersController::class)
             ->only(['index', 'show', 'update']);
         Route::resource('complex-forms', ComplexFormsController::class)
