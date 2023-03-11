@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace App\View\Components;
 
 use Illuminate\View\Component;
+use Illuminate\View\View;
 
 class AppLayout extends Component
 {
     /**
      * Get the view / contents that represents the component.
      * @codeCoverageIgnore
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function render(): \Illuminate\View\View
+    public function render(): View
     {
-        // @phpstan-ignore-next-line
         return view('layouts.app');
     }
 }

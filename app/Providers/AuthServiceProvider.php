@@ -12,7 +12,6 @@ class AuthServiceProvider extends ServiceProvider
 {
     /**
      * The policy mappings for the application.
-     *
      * @var array<class-string, class-string>
      */
     protected $policies = [

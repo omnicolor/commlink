@@ -60,15 +60,9 @@ final class CharacterTest extends TestCase
             'system' => 'unknown',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        $character = Character::where('_id', $character->id)
-            ->firstOrFail();
+        $character = Character::where('_id', $character->id)->firstOrFail();
         self::assertSame('unknown', $character->system);
-
-        // PHPStan reports that this is always true. We're asserting that it's
-        // not.
-        // @phpstan-ignore-next-line
         self::assertFalse(\is_subclass_of($character, Character::class));
-
         $character->delete();
     }
 

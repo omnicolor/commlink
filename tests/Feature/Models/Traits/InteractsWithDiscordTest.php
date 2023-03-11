@@ -8,15 +8,17 @@ use App\Models\Traits\InteractsWithDiscord;
 use Illuminate\Http\Client\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
+use PHPUnit\Framework\MockObject\MockObject;
+use Tests\TestCase;
 
 /**
  * @small
  */
-final class InteractsWithDiscordTest extends \Tests\TestCase
+final class InteractsWithDiscordTest extends TestCase
 {
     /**
      * Subject under test.
-     * @var \PHPUnit\Framework\MockObject\MockObject
+     * @var MockObject
      */
     protected $mock;
 
@@ -409,8 +411,8 @@ final class InteractsWithDiscordTest extends \Tests\TestCase
         $expected = sprintf(
             'https://discord.com/api/oauth2/authorize?client_id=%s'
                 . '&redirect_uri=%s&response_type=code&scope=identify+guilds',
-            config('app.discord.client_id'),
-            urlencode(config('app.discord.redirect_uri')),
+            config('services.discord.client_id'),
+            urlencode(config('services.discord.redirect')),
         );
         // @phpstan-ignore-next-line
         self::assertSame($expected, $this->mock->getDiscordOauthURL());

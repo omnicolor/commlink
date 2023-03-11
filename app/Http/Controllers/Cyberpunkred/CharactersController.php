@@ -213,7 +213,6 @@ class CharactersController extends Controller
                 }
                 $role = $character->roles[0]['role'];
                 return view(
-                    // @phpstan-ignore-next-line
                     sprintf(
                         'Cyberpunkred.create-lifepath-%s',
                         strtolower((string)$role),

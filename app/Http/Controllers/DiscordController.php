@@ -7,12 +7,15 @@ namespace App\Http\Controllers;
 use App\Models\ChatUser;
 use App\Models\Traits\InteractsWithDiscord;
 use App\Models\User;
-use Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Laravel\Socialite\AbstractUser as SocialiteUser;
 use Laravel\Socialite\Facades\Socialite;
 use RuntimeException;
+use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
 class DiscordController extends Controller
 {
@@ -62,17 +65,20 @@ class DiscordController extends Controller
             'success',
             sprintf(
                 '%d Discord %s linked!',
-                \Str::plural('user', $count),
                 $count,
+                Str::plural('user', $count),
             )
         );
     }
 
     /**
      * Handle a successful login from Discord.
+     * @psalm-suppress InvalidReturnType
+     * @psalm-suppress InvalidReturnStatement
      */
     public function handleCallback(): RedirectResponse
     {
+        /** @var SocialiteUser */
         $socialUser = Socialite::driver('discord')->user();
         $user = User::where('email', $socialUser->email)->first();
 
@@ -87,6 +93,7 @@ class DiscordController extends Controller
 
         Auth::login($user);
         session(['discordUser' => [
+            // @phpstan-ignore-next-line
             'token' => $socialUser->token,
             'avatar' => $socialUser->avatar,
             'snowflake' => $socialUser->id,
@@ -99,7 +106,7 @@ class DiscordController extends Controller
     /**
      * The user wants to login to Commlink using their Discord login.
      */
-    public function redirectToDiscord(): RedirectResponse
+    public function redirectToDiscord(): SymfonyRedirectResponse
     {
         return Socialite::driver('discord')->redirect();
     }

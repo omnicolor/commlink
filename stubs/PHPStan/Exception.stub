@@ -1,9 +1,0 @@
-<?php
-
-class Exception
-{
-    /**
-     * @var int
-     */
-    protected $code;
-}

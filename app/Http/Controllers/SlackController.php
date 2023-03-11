@@ -9,11 +9,18 @@ use App\Exceptions\SlackException;
 use App\Http\Requests\SlackRequest;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
+use App\Models\ChatUser;
+use App\Models\User;
 use App\Rolls\Generic;
 use App\Rolls\Roll;
 use Error;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\AbstractUser as SocialiteUser;
+use Laravel\Socialite\Facades\Socialite;
+use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
 /**
  * Controller for handling Slack requests.
@@ -157,5 +164,53 @@ class SlackController extends Controller
                 'type' => Channel::TYPE_SLACK,
             ]);
         }
+    }
+
+    /**
+     * Handle a successful login from Slack.
+     * @psalm-suppress InvalidReturnStatement
+     * @psalm-suppress InvalidReturnType
+     */
+    public function handleCallback(): RedirectResponse
+    {
+        /** @var SocialiteUser */
+        $socialUser = Socialite::driver('slack')->user();
+
+        $user = User::where('email', $socialUser->email)->first();
+        if (null === $user) {
+            // The user wasn't found, create a new one.
+            $user = User::create([
+                'email' => $socialUser->email,
+                'name' => $socialUser->name,
+                'password' => 'reset me',
+            ]);
+        }
+
+        $chatUser = ChatUser::slack()
+            ->where('server_id', $socialUser->attributes['organization_id'])
+            ->where('remote_user_id', $socialUser->id)
+            ->where('user_id', $user->id)
+            ->first();
+        if (null === $chatUser) {
+            ChatUser::create([
+                'server_id' => $socialUser->attributes['organization_id'],
+                'server_name' => $socialUser->user['team']['name'],
+                'server_type' => ChatUser::TYPE_SLACK,
+                'remote_user_id' => $socialUser->id,
+                'remote_user_name' => $socialUser->name,
+                'user_id' => $user->id,
+            ]);
+        }
+
+        Auth::login($user);
+        return redirect('/dashboard');
+    }
+
+    /**
+     * The user wants to login to Commlink using their Slack login.
+     */
+    public function redirectToSlack(): SymfonyRedirectResponse
+    {
+        return Socialite::driver('slack')->redirect();
     }
 }
