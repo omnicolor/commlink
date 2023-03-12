@@ -11,12 +11,11 @@ class HandleIrcMessage
     /**
      * Handle the event.
      * @param IrcMessageReceived $event
+     * @psalm-suppress PossiblyUnusedMethod
      * @return bool
      */
     public function handle(IrcMessageReceived $event): bool
     {
-        $args = \explode(' ', $event->content);
-
         $event->client->say('#commlink', 'You said "' . $event->content . '".');
         return true;
     }

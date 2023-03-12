@@ -168,6 +168,7 @@ class Channel extends Model
     /**
      * Scope the query to only include IRC accounts.
      * @param Builder $query
+     * @psalm-suppress PossiblyUnusedMethod
      * @return Builder
      */
     public function scopeIrc(Builder $query): Builder

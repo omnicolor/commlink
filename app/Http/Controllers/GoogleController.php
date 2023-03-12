@@ -7,7 +7,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\AbstractUser as SocialiteUser;
 use Laravel\Socialite\Facades\Socialite;
+use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
 /**
  * @psalm-suppress UnusedClass
@@ -21,6 +23,7 @@ class GoogleController extends Controller
      */
     public function handleCallback(): RedirectResponse
     {
+        /** @var SocialiteUser */
         $socialUser = Socialite::driver('google')->user();
         $user = User::where('email', $socialUser->email)->first();
 
@@ -40,7 +43,7 @@ class GoogleController extends Controller
     /**
      * The user wants to login to Commlink using their Google login.
      */
-    public function redirectToGoogle(): RedirectResponse
+    public function redirectToGoogle(): SymfonyRedirectResponse
     {
         return Socialite::driver('google')->redirect();
     }

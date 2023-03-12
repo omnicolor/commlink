@@ -10,6 +10,9 @@ use Illuminate\Queue\SerializesModels;
 use Jerodev\PhpIrcClient\IrcChannel;
 use Jerodev\PhpIrcClient\IrcClient;
 
+/**
+ * @psalm-suppress PossiblyUnusedProperty
+ */
 class IrcMessageReceived
 {
     use Dispatchable;
