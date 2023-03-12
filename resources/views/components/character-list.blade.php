@@ -1,3 +1,8 @@
+@php
+use App\Features\ChummerImport;
+use App\Features\CyberpunkCharacterGeneration;
+use App\Features\Shadowrun5eCharacterGeneration;
+@endphp
 <ul class="list-group">
     @forelse ($characters as $character)
         <li class="list-group-item">
@@ -48,19 +53,19 @@
                         Capers
                         <span class="badge bg-success">New!</span>
                     </a>
-                    @feature('cyberpunkred-chargen')
+                    @feature(CyberpunkCharacterGeneration::class)
                     <a class="dropdown-item" href="/characters/cyberpunkred/create">
                         Cyberpunk Red
                         <span class="badge bg-danger">Not complete</span>
                     </a>
                     @endfeature
-                    @feature('shadowrun5e-chargen')
+                    @feature(Shadowrun5eCharacterGeneration::class)
                     <a class="dropdown-item" href="/characters/shadowrun5e/create">
                         Shadowrun 5th Edition
                         <span class="badge bg-danger">Not complete</span>
                     </a>
                     @endfeature
-                    @feature('chummer-import')
+                    @feature(ChummerImport::class)
                     <a class="dropdown-item" href="{{ route('import.chummer5.view') }}">
                         Import a Chummer 5 character
                         <span class="badge bg-warning">Beta</span>

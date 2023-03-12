@@ -42,6 +42,7 @@
         </TooManyTemplateParams>
         <UnusedClass>
             <errorLevel type="suppress">
+                <directory name="app/Features" />
                 <directory name="app/Models/StarTrekAdventures/Species" />
                 <directory name="app/Providers" />
                 <directory name="app/Rolls" />

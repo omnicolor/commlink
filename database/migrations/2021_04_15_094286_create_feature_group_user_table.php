@@ -13,6 +13,7 @@ class CreateFeatureGroupUserTable extends Migration
      */
     public function up(): void
     {
+        /*
         Schema::create('feature_group_user', function (Blueprint $table): void {
             $table->unsignedBigInteger('feature_group_id');
             $table->unsignedBigInteger('user_id');
@@ -22,6 +23,7 @@ class CreateFeatureGroupUserTable extends Migration
 
             $table->primary(['feature_group_id', 'user_id']);
         });
+         */
     }
 
     /**

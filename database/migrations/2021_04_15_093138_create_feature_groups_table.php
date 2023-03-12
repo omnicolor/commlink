@@ -10,6 +10,7 @@ class CreateFeatureGroupsTable extends Migration
 {
     public function up(): void
     {
+        /*
         Schema::create('feature_groups', function (Blueprint $table): void {
             $table->id();
             $table->string('name');
@@ -17,6 +18,7 @@ class CreateFeatureGroupsTable extends Migration
             $table->boolean('active')->default(true);
             $table->timestamps();
         });
+         */
     }
 
     public function down(): void
