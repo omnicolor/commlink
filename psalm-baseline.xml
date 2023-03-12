@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.6.0@e784128902dfe01d489c4123d69918a9f3c1eac5">
+<files psalm-version="5.7.6@ae4ec68e00e4880e3f00b1edd2da891236d749ab">
   <file src="app/Console/Commands/DiscordRunCommand.php">
     <UnusedClass>
       <code>DiscordRunCommand</code>
@@ -47,7 +47,7 @@
   </file>
   <file src="app/Http/Controllers/Auth/AuthenticatedSessionController.php">
     <InvalidReturnStatement>
-      <code>redirect('/')</code>
+      <code><![CDATA[redirect('/')]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code>\Illuminate\Http\RedirectResponse</code>
@@ -168,7 +168,7 @@
       <code>$step</code>
     </PossiblyUnusedParam>
     <TooManyTemplateParams>
-      <code>AnonymousResourceCollection&lt;Character&gt;</code>
+      <code><![CDATA[AnonymousResourceCollection<Character>]]></code>
     </TooManyTemplateParams>
     <UndefinedClass>
       <code>\Auth</code>
@@ -194,14 +194,6 @@
     </UnusedClass>
   </file>
   <file src="app/Http/Controllers/DiscordController.php">
-    <PossiblyUnusedParam>
-      <code>$request</code>
-    </PossiblyUnusedParam>
-    <UndefinedClass>
-      <code>Auth</code>
-      <code>Auth</code>
-      <code>Auth</code>
-    </UndefinedClass>
     <UnusedClass>
       <code>DiscordController</code>
     </UnusedClass>
@@ -286,14 +278,14 @@
   </file>
   <file src="app/Http/Controllers/InitiativesController.php">
     <InvalidReturnStatement>
-      <code>response([
-            'initiative' =&gt; $initiative,
-        ])</code>
-      <code>response([
-            'initiatives' =&gt; $initiatives,
-        ])</code>
-      <code>response(['initiative' =&gt; $initiative])</code>
-      <code>response(['initiative' =&gt; $initiative], Response::HTTP_CREATED)</code>
+      <code><![CDATA[response([
+            'initiative' => $initiative,
+        ])]]></code>
+      <code><![CDATA[response([
+            'initiatives' => $initiatives,
+        ])]]></code>
+      <code><![CDATA[response(['initiative' => $initiative])]]></code>
+      <code><![CDATA[response(['initiative' => $initiative], Response::HTTP_CREATED)]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code>Response</code>
@@ -352,53 +344,18 @@
   </file>
   <file src="app/Http/Controllers/Shadowrun5e/CharactersController.php">
     <InvalidReturnStatement>
-      <code>redirect(\sprintf(
+      <code><![CDATA[redirect(\sprintf(
                 '/characters/shadowrun5e/create/%s',
-                $this-&gt;previousStep($step, $character),
-            ))</code>
-      <code>redirect(\sprintf(
+                $this->previousStep($step, $character),
+            ))]]></code>
+      <code><![CDATA[redirect(\sprintf(
             '/characters/shadowrun5e/create/%s',
-            $this-&gt;nextStep($step, $character),
-        ))</code>
+            $this->nextStep($step, $character),
+        ))]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code>RedirectResponse</code>
     </InvalidReturnType>
-    <PossiblyUnusedParam>
-      <code>$character</code>
-      <code>$identifier</code>
-      <code>$request</code>
-      <code>$request</code>
-      <code>$request</code>
-      <code>$request</code>
-      <code>$request</code>
-      <code>$request</code>
-      <code>$request</code>
-      <code>$request</code>
-      <code>$request</code>
-      <code>$request</code>
-      <code>$request</code>
-      <code>$request</code>
-      <code>$step</code>
-      <code>$step</code>
-    </PossiblyUnusedParam>
-    <UndefinedClass>
-      <code>\Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-    </UndefinedClass>
     <UnusedClass>
       <code>CharactersController</code>
     </UnusedClass>
@@ -583,7 +540,7 @@
   </file>
   <file src="app/Http/Controllers/SlackController.php">
     <InvalidReturnStatement>
-      <code>response('OK')</code>
+      <code><![CDATA[response('OK')]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code>Response</code>
@@ -629,20 +586,6 @@
       <code>TrustHosts</code>
     </UnusedClass>
   </file>
-  <file src="app/Http/Requests/Auth/LoginRequest.php">
-    <PossiblyUnusedMethod>
-      <code>authorize</code>
-      <code>rules</code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="app/Http/Requests/CampaignCreateRequest.php">
-    <PossiblyUnusedMethod>
-      <code>rules</code>
-    </PossiblyUnusedMethod>
-    <UndefinedClass>
-      <code>Era</code>
-    </UndefinedClass>
-  </file>
   <file src="app/Http/Requests/Capers/BoostsRequest.php">
     <UndefinedClass>
       <code>\Auth</code>
@@ -655,106 +598,25 @@
     </UnusedClosureParam>
   </file>
   <file src="app/Http/Requests/ChannelUpdateRequest.php">
-    <PossiblyUnusedMethod>
-      <code>authorize</code>
-      <code>rules</code>
-    </PossiblyUnusedMethod>
     <UnusedClosureParam>
       <code>$attribute</code>
       <code>$value</code>
     </UnusedClosureParam>
-  </file>
-  <file src="app/Http/Requests/Cyberpunkred/HandleRequest.php">
-    <PossiblyUnusedMethod>
-      <code>rules</code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="app/Http/Requests/Cyberpunkred/LifepathRequest.php">
-    <PossiblyUnusedMethod>
-      <code>rules</code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="app/Http/Requests/Cyberpunkred/RoleRequest.php">
-    <PossiblyUnusedMethod>
-      <code>rules</code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="app/Http/Requests/Cyberpunkred/StatsRequest.php">
-    <PossiblyUnusedMethod>
-      <code>rules</code>
-    </PossiblyUnusedMethod>
   </file>
   <file src="app/Http/Requests/FormRequest.php">
     <UnusedClass>
       <code>FormRequest</code>
     </UnusedClass>
   </file>
-  <file src="app/Http/Requests/InitiativeCreateRequest.php">
-    <PossiblyUnusedMethod>
-      <code>rules</code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="app/Http/Requests/LinkUserRequest.php">
-    <PossiblyUnusedMethod>
-      <code>rules</code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="app/Http/Requests/Shadowrun5e/AttributesRequest.php">
-    <PossiblyUnusedMethod>
-      <code>rules</code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="app/Http/Requests/Shadowrun5e/BackgroundRequest.php">
-    <PossiblyUnusedMethod>
-      <code>rules</code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="app/Http/Requests/Shadowrun5e/KnowledgeSkillsRequest.php">
-    <PossiblyUnusedMethod>
-      <code>rules</code>
-    </PossiblyUnusedMethod>
-  </file>
   <file src="app/Http/Requests/Shadowrun5e/MartialArtsRequest.php">
-    <PossiblyUnusedMethod>
-      <code>rules</code>
-    </PossiblyUnusedMethod>
     <UnusedClosureParam>
       <code>$attribute</code>
     </UnusedClosureParam>
-  </file>
-  <file src="app/Http/Requests/Shadowrun5e/QualitiesRequest.php">
-    <PossiblyUnusedMethod>
-      <code>rules</code>
-    </PossiblyUnusedMethod>
   </file>
   <file src="app/Http/Requests/Shadowrun5e/RulesRequest.php">
-    <PossiblyUnusedMethod>
-      <code>rules</code>
-    </PossiblyUnusedMethod>
     <UnusedClosureParam>
       <code>$attribute</code>
     </UnusedClosureParam>
-  </file>
-  <file src="app/Http/Requests/Shadowrun5e/SkillsRequest.php">
-    <PossiblyUnusedMethod>
-      <code>rules</code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="app/Http/Requests/Shadowrun5e/StandardPriorityRequest.php">
-    <PossiblyUnusedMethod>
-      <code>rules</code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="app/Http/Requests/Shadowrun5e/VitalsRequest.php">
-    <PossiblyUnusedMethod>
-      <code>rules</code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="app/Http/Requests/SlackRequest.php">
-    <PossiblyUnusedMethod>
-      <code>authorize</code>
-      <code>rules</code>
-    </PossiblyUnusedMethod>
   </file>
   <file src="app/Http/Responses/Discord/HelpResponse.php">
     <UnusedClass>
@@ -855,7 +717,6 @@
   <file src="app/Models/Campaign.php">
     <PossiblyUnusedMethod>
       <code>channels</code>
-      <code>characters</code>
       <code>gamemaster</code>
       <code>initiatives</code>
       <code>registeredBy</code>
@@ -984,7 +845,6 @@
   </file>
   <file src="app/Models/Character.php">
     <PossiblyUnusedMethod>
-      <code>campaign</code>
       <code>user</code>
     </PossiblyUnusedMethod>
   </file>
@@ -1345,7 +1205,6 @@
     <PossiblyUnusedProperty>
       <code>$archetype</code>
       <code>$gmNotes</code>
-      <code>$notes</code>
     </PossiblyUnusedProperty>
   </file>
   <file src="app/Models/Shadowrun5e/Critter.php">
@@ -1532,11 +1391,6 @@
       <code>$page</code>
       <code>$ruleset</code>
     </PossiblyUnusedProperty>
-  </file>
-  <file src="app/Models/Shadowrun5e/PartialCharacter.php">
-    <PossiblyUnusedMethod>
-      <code>getStartingMaximumAttribute</code>
-    </PossiblyUnusedMethod>
   </file>
   <file src="app/Models/Shadowrun5e/Preparation.php">
     <UnusedClass>

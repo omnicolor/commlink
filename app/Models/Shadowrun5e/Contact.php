@@ -22,6 +22,13 @@ class Contact
     public ?int $connection;
 
     /**
+     * Characters that the contact shares.
+     * @psalm-suppress PossiblyUnusedProperty
+     * @var array<int, array<string, int|null|string>>
+     */
+    public array $characters = [];
+
+    /**
      * Notes the GM has made about the contect, not shown to players.
      * @var string
      */
@@ -70,6 +77,7 @@ class Contact
 
     /**
      * Return a collection of sample archetypes.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, string>
      */
     public static function archetypes(): array

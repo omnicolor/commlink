@@ -10,6 +10,7 @@ class CreateFeatureFlagsTable extends Migration
 {
     public function up(): void
     {
+        /*
         Schema::create('features', function (Blueprint $table): void {
             $table->id();
             $table->string('name');
@@ -17,6 +18,7 @@ class CreateFeatureFlagsTable extends Migration
             $table->boolean('active')->default(true);
             $table->timestamps();
         });
+         */
     }
 
     public function down(): void
