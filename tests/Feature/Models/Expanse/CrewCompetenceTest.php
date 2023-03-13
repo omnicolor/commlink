@@ -19,7 +19,7 @@ final class CrewCompetenceTest extends TestCase
      * Data provider for testing crew competence bonuses.
      * @return array<int, array<int, CrewCompetence|int>>
      */
-    public function competenceProvider(): array
+    public static function competenceProvider(): array
     {
         return [
             [CrewCompetence::Incompetent, 0],
