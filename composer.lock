@@ -5473,16 +5473,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "3.14.0",
+            "version": "3.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "60dd3f74ab21cc2bf53f39bf7c342798bc185c23"
+                "reference": "c6a0e24d2f8da8d8f57cdcc87ca635248c1a91c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/60dd3f74ab21cc2bf53f39bf7c342798bc185c23",
-                "reference": "60dd3f74ab21cc2bf53f39bf7c342798bc185c23",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/c6a0e24d2f8da8d8f57cdcc87ca635248c1a91c5",
+                "reference": "c6a0e24d2f8da8d8f57cdcc87ca635248c1a91c5",
                 "shasum": ""
             },
             "require": {
@@ -5561,7 +5561,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-php/issues",
-                "source": "https://github.com/getsentry/sentry-php/tree/3.14.0"
+                "source": "https://github.com/getsentry/sentry-php/tree/3.15.0"
             },
             "funding": [
                 {
@@ -5573,7 +5573,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-03-05T21:31:25+00:00"
+            "time": "2023-03-13T11:45:26+00:00"
         },
         {
             "name": "sentry/sentry-laravel",
@@ -10183,16 +10183,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.14.4",
+            "version": "v3.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "1b3d9dba63d93b8a202c31e824748218781eae6b"
+                "reference": "7306744c63e9cc1337894252b4eec4920c38b053"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/1b3d9dba63d93b8a202c31e824748218781eae6b",
-                "reference": "1b3d9dba63d93b8a202c31e824748218781eae6b",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/7306744c63e9cc1337894252b4eec4920c38b053",
+                "reference": "7306744c63e9cc1337894252b4eec4920c38b053",
                 "shasum": ""
             },
             "require": {
@@ -10259,9 +10259,15 @@
                 }
             ],
             "description": "A tool to automatically fix PHP code style",
+            "keywords": [
+                "Static code analysis",
+                "fixer",
+                "standards",
+                "static analysis"
+            ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.14.4"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.15.0"
             },
             "funding": [
                 {
@@ -10269,7 +10275,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-02-09T21:49:13+00:00"
+            "time": "2023-03-12T22:44:55+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
