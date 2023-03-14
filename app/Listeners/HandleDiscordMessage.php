@@ -111,7 +111,6 @@ class HandleDiscordMessage
             return true;
         } catch (Error) {
             // Again, ignore errors, they might want an old-school response.
-            Log::debug($ex->getMessage());
         }
 
         // Try an old-format HTTP Response

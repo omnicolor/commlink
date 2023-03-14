@@ -213,12 +213,14 @@ class Character extends BaseCharacter
             try {
                 $powers[] = new AdeptPower($power);
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Shadowrun5E character "%s" (%s) has invalid adept power "%s"',
-                    $this->handle,
-                    $this->id,
-                    $power
-                ));
+                Log::warning(
+                    'Shadowrun 5E character "{name}" ({id}) has invalid adept power "{power}"',
+                    [
+                        'name' => $this->handle,
+                        'id' => $this->id,
+                        'power' => $power,
+                    ]
+                );
             }
         }
         return $powers;
@@ -238,12 +240,14 @@ class Character extends BaseCharacter
             try {
                 $armor[] = Armor::build($rawArmor);
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Shadowrun5E character "%s" (%s) has invalid armor "%s"',
-                    $this->handle,
-                    $this->id,
-                    $rawArmor['id']
-                ));
+                Log::warning(
+                    'Shadowrun 5E character "{name}" ({id}) has invalid armor "{armor}"',
+                    [
+                        'handle' => $this->handle,
+                        'id' => $this->id,
+                        'armor' => $rawArmor['id'],
+                    ]
+                );
             }
         }
         return $armor;
@@ -299,12 +303,14 @@ class Character extends BaseCharacter
             try {
                 $augmentations[] = Augmentation::build($augmentation);
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Shadowrun5E character "%s" (%s) has invalid augmentation "%s"',
-                    $this->handle,
-                    $this->id,
-                    $augmentation['id']
-                ));
+                Log::warning(
+                    'Shadowrun 5E character "{name}" ({id}) has invalid augmentation "{augmentation}"',
+                    [
+                        'name' => $this->handle,
+                        'id' => $this->id,
+                        'augmentation' => $augmentation['id'],
+                    ]
+                );
             }
         }
         return $augmentations;
@@ -334,12 +340,14 @@ class Character extends BaseCharacter
             try {
                 $forms[] = new ComplexForm($form);
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Shadowrun5E character "%s" (%s) has invalid complex form "%s"',
-                    $this->handle,
-                    $this->id,
-                    $form
-                ));
+                Log::warning(
+                    'Shadowrun 5E character "{name}" ({id}) has invalid complex form "{form}"',
+                    [
+                        'name' => $this->handle,
+                        'id' => $this->id,
+                        'form' => $form,
+                    ]
+                );
             }
         }
         return $forms;
@@ -394,12 +402,14 @@ class Character extends BaseCharacter
             try {
                 $gear[] = Gear::build($item);
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Shadowrun5E character "%s" (%s) has invalid item "%s"',
-                    $this->handle,
-                    $this->id,
-                    $item['id']
-                ));
+                Log::warning(
+                    'Shadowrun 5E character "{name}" ({id}) has invalid item "{item}"',
+                    [
+                        'name' => $this->handle,
+                        'id' => $this->id,
+                        'item' => $item['id'],
+                    ]
+                );
             }
         }
         return $gear;
@@ -502,12 +512,14 @@ class Character extends BaseCharacter
                     $skill['specialization'] ?? null
                 );
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Shadowrun5E character "%s" (%s) has invalid skill category "%s"',
-                    $this->handle,
-                    $this->id,
-                    $skill['category']
-                ));
+                Log::warning(
+                    'Shadowrun 5E character "{name}" ({id}) has invalid skill category "{category}"',
+                    [
+                        'name' => $this->handle,
+                        'id' => $this->id,
+                        'category' => $skill['category'],
+                    ]
+                );
             }
         }
         return $skills;
@@ -541,12 +553,14 @@ class Character extends BaseCharacter
             try {
                 $styles[] = new MartialArtsStyle($style);
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Shadowrun5E character "%s" (%s) has invalid martial arts style "%s"',
-                    $this->handle,
-                    $this->id,
-                    $style
-                ));
+                Log::warning(
+                    'Shadowrun 5E character "{name}" ({id}) has invalid martial arts style "{style}"',
+                    [
+                        'name' => $this->handle,
+                        'id' => $this->id,
+                        'style' => $style,
+                    ]
+                );
             }
         }
         return $styles;
@@ -566,12 +580,14 @@ class Character extends BaseCharacter
             try {
                 $techniques[] = new MartialArtsTechnique($technique);
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Shadowrun5E character "%s" (%s) has invalid martial arts technique "%s"',
-                    $this->handle,
-                    $this->id,
-                    $technique
-                ));
+                Log::warning(
+                    'Shadowrun 5E character "{name}" ({id}) has invalid martial arts technique "{technique}"',
+                    [
+                        'name' => $this->handle,
+                        'id' => $this->id,
+                        'technique' => $technique,
+                    ]
+                );
             }
         }
         return $techniques;
@@ -621,12 +637,14 @@ class Character extends BaseCharacter
         try {
             return new MentorSpirit($this->magics['mentorSpirit']);
         } catch (RuntimeException) {
-            Log::warning(\sprintf(
-                'Shadowrun5E character "%s" (%s) has invalid mentor spirit "%s"',
-                $this->handle,
-                $this->id,
-                $this->magics['mentorSpirit']
-            ));
+            Log::warning(
+                'Shadowrun 5E character "{name}" ({id}) has invalid mentor spirit "{spirit}"',
+                [
+                    'name' => $this->handle,
+                    'id' => $this->id,
+                    'spirit' => $this->magics['mentorSpirit'],
+                ]
+            );
         }
         return null;
     }
@@ -713,12 +731,14 @@ class Character extends BaseCharacter
             try {
                 $qualities[] = new Quality($quality['id'], $quality);
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Shadowrun5E character "%s" (%s) has invalid quality "%s"',
-                    $this->handle,
-                    $this->id,
-                    $quality['id']
-                ));
+                Log::warning(
+                    'Shadowrun 5E character "{name}" ({id}) has invalid quality "{quality}"',
+                    [
+                        'name' => $this->handle,
+                        'id' => $this->id,
+                        'quality' => $quality['id'],
+                    ]
+                );
             }
         }
         return $qualities;
@@ -796,12 +816,14 @@ class Character extends BaseCharacter
                     $skill['specialization'] ?? null
                 );
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Shadowrun5E character "%s" (%s) has invalid skill "%s"',
-                    $this->handle,
-                    $this->id,
-                    $skill['id']
-                ));
+                Log::warning(
+                    'Shadowrun 5E character "{name}" ({id}) has invalid skill "{skill}"',
+                    [
+                        'name' => $this->handle,
+                        'id' => $this->id,
+                        'skill' => $skill['id'],
+                    ]
+                );
             }
         }
         return $skills;
@@ -818,12 +840,14 @@ class Character extends BaseCharacter
             try {
                 $groups[] = new SkillGroup($group, (int)$level);
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Shadowrun5E character "%s" (%s) has invalid skill group "%s"',
-                    $this->handle,
-                    $this->id,
-                    $group
-                ));
+                Log::warning(
+                    'Shadowrun 5E character "{name}" ({id}) has invalid skill group "{group}"',
+                    [
+                        'name' => $this->handle,
+                        'id' => $this->id,
+                        'group' => $group,
+                    ]
+                );
             }
         }
         return $groups;
@@ -883,12 +907,14 @@ class Character extends BaseCharacter
             try {
                 $spells[] = new Spell($spell);
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Shadowrun5E character "%s" (%s) has invalid spell "%s"',
-                    $this->handle,
-                    $this->id,
-                    $spell
-                ));
+                Log::warning(
+                    'Shadowrun 5E character "{name}" ({id}) has invalid spell "{spell}"',
+                    [
+                        'name' => $this->handle,
+                        'id' => $this->id,
+                        'spell' => $spell,
+                    ]
+                );
             }
         }
         return $spells;
@@ -896,6 +922,7 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's spirits.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return SpiritArray
      */
     public function getSpirits(): SpiritArray
@@ -911,12 +938,14 @@ class Character extends BaseCharacter
                     $spirit['force'] ?? null
                 );
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Shadowrun5E character "%s" (%s) has invalid spirit "%s"',
-                    $this->handle,
-                    $this->id,
-                    $spirit['id']
-                ));
+                Log::warning(
+                    'Shadowrun 5E character "{name}" ({id}) has invalid spirit "{spirit}"',
+                    [
+                        'name' => $this->handle,
+                        'id' => $this->id,
+                        'spirit' => $spirit['id'],
+                    ]
+                );
             }
         }
         return $spirits;
@@ -936,12 +965,14 @@ class Character extends BaseCharacter
             try {
                 $sprites[] = new Sprite($sprite);
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Shadowrun5E character "%s" (%s) has invalid sprite "%s"',
-                    $this->handle,
-                    $this->id,
-                    $sprite
-                ));
+                Log::warning(
+                    'Shadowrun 5E character "{name}" ({id}) has invalid sprite "{sprite}"',
+                    [
+                        'name' => $this->handle,
+                        'id' => $this->id,
+                        'sprite' => $sprite,
+                    ]
+                );
             }
         }
         return $sprites;
@@ -959,12 +990,14 @@ class Character extends BaseCharacter
         try {
             return new Tradition($this->magics['tradition']);
         } catch (RuntimeException) {
-            Log::warning(\sprintf(
-                'Shadowrun5E character "%s" (%s) has invalid tradition "%s"',
-                $this->handle,
-                $this->id,
-                $this->magics['tradition']
-            ));
+            Log::warning(
+                'Shadowrun 5E character "{name}" ({id}) has invalid tradition "{tradition}"',
+                [
+                    'name' => $this->handle,
+                    'id' => $this->id,
+                    'tradition' => $this->magics['tradition'],
+                ]
+            );
         }
         return null;
     }
@@ -980,12 +1013,14 @@ class Character extends BaseCharacter
             try {
                 $vehicles[] = new Vehicle($vehicle);
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Shadowrun5E character "%s" (%s) has invalid vehicle "%s"',
-                    $this->handle,
-                    $this->id,
-                    $vehicle['id']
-                ));
+                Log::warning(
+                    'Shadowrun 5E character "{name}" ({id}) has invalid vehicle "{vehicle}"',
+                    [
+                        'name' => $this->handle,
+                        'id' => $this->id,
+                        'vehicle' => $vehicle['id'],
+                    ]
+                );
             }
         }
         return $vehicles;
@@ -1002,12 +1037,14 @@ class Character extends BaseCharacter
             try {
                 $weapons[] = Weapon::buildWeapon($weapon);
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Shadowrun5E character "%s" (%s) has invalid weapon "%s"',
-                    $this->handle,
-                    $this->id,
-                    $weapon['id']
-                ));
+                Log::warning(
+                    'Shadowrun 5E character "{name}" ({id}) has invalid weapon "{weapon}"',
+                    [
+                        'name' => $this->handle,
+                        'id' => $this->id,
+                        'weapon' => $weapon['id'],
+                    ]
+                );
             }
         }
         return $weapons;

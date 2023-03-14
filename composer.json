@@ -85,7 +85,7 @@
             "phpunit --coverage-html=public/coverage"
         ],
         "lint": "parallel-lint --colors app config data tests",
-        "php-cs-fixer": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --config=php_cs.php -v --using-cache=no --diff",
+        "php-cs-fixer": "php-cs-fixer fix --dry-run --config=php_cs.php -v --using-cache=no --diff",
         "phpcs": "phpcs",
         "phpstan": [
             "Composer\\Config::disableProcessTimeout",

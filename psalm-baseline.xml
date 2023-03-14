@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.7.6@ae4ec68e00e4880e3f00b1edd2da891236d749ab">
+<files psalm-version="5.8.0@9cf4f60a333f779ad3bc704a555920e81d4fdcda">
   <file src="app/Console/Commands/DiscordRunCommand.php">
     <UnusedClass>
       <code>DiscordRunCommand</code>
@@ -545,12 +545,6 @@
     <InvalidReturnType>
       <code>Response</code>
     </InvalidReturnType>
-    <UndefinedClass>
-      <code>\Log</code>
-      <code>\Log</code>
-      <code>\Log</code>
-      <code>\Log</code>
-    </UndefinedClass>
     <UnusedClass>
       <code>SlackController</code>
     </UnusedClass>
@@ -742,8 +736,6 @@
       <code>getSkillsAttribute</code>
       <code>getSpeedAttribute</code>
       <code>getStrengthAttribute</code>
-      <code>getViceAttribute</code>
-      <code>getVirtueAttribute</code>
     </PossiblyUnusedMethod>
   </file>
   <file src="app/Models/Capers/Explosive.php">
@@ -881,7 +873,6 @@
       <code>getSeriouslyWoundedThresholdAttribute</code>
       <code>getSkills</code>
       <code>getSkillsByCategory</code>
-      <code>getWeapons</code>
     </PossiblyUnusedMethod>
   </file>
   <file src="app/Models/Cyberpunkred/Lifepath.php">
@@ -1154,7 +1145,6 @@
       <code>getMetatypeAttribute</code>
       <code>getSkillLimit</code>
       <code>getSoakAttribute</code>
-      <code>getSpirits</code>
       <code>getSprites</code>
       <code>getTradition</code>
       <code>initiativeDice</code>

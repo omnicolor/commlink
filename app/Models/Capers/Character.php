@@ -173,11 +173,13 @@ class Character extends BaseCharacter
             try {
                 $gear[] = Gear::get($item['id'], $item['quantity'] ?? 1);
             } catch (RuntimeException) {
-                Log::warning(sprintf(
-                    'Capers character "%s" has invalid gear "%s"',
-                    (string)$this,
-                    $item['id']
-                ));
+                Log::warning(
+                    'Capers character "{name}" has invalid gear "{gear}"',
+                    [
+                        'name' => (string)$this,
+                        'gear' => $item['id'],
+                    ]
+                );
             }
         }
         return $gear;
@@ -190,11 +192,13 @@ class Character extends BaseCharacter
         } catch (ErrorException) {
             return null;
         } catch (RuntimeException) {
-            Log::warning(sprintf(
-                'Caper character "%s" has invalid identity "%s"',
-                (string)$this,
-                $this->attributes['identity']
-            ));
+            Log::warning(
+                'Capers character "{name}" has invalid identity "{identity}"',
+                [
+                    'name' => (string)$this,
+                    'identity' => $this->attributes['identity'],
+                ]
+            );
             return null;
         }
     }
@@ -216,11 +220,13 @@ class Character extends BaseCharacter
             try {
                 $perkArray[] = new Perk($rawPerk['id'], $rawPerk);
             } catch (RuntimeException $ex) {
-                Log::warning(sprintf(
-                    'Capers character "%s" has invalid perk "%s"',
-                    (string)$this,
-                    $rawPerk['id']
-                ));
+                Log::warning(
+                    'Capers character "{name}" has invalid perk "{perk}"',
+                    [
+                        'name' => (string)$this,
+                        'perk' => $rawPerk['id'],
+                    ]
+                );
             }
         }
         return $perkArray;
@@ -237,11 +243,13 @@ class Character extends BaseCharacter
                     $power['boosts'] ?? []
                 );
             } catch (RuntimeException) {
-                Log::warning(sprintf(
-                    'Capers character "%s" has invalid power "%s"',
-                    (string)$this,
-                    $power['id']
-                ));
+                Log::warning(
+                    'Capers character "{name}" has invalid power "{power}"',
+                    [
+                        'name' => (string)$this,
+                        'power' => $power['id'],
+                    ]
+                );
             }
         }
         return $powers;
@@ -254,11 +262,13 @@ class Character extends BaseCharacter
             try {
                 $skills[$skillId] = new Skill($skillId);
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Capers character "%s" has invalid skill "%s"',
-                    (string)$this,
-                    $skillId
-                ));
+                Log::warning(
+                    'Capers character "{name}" has invalid skill "{skill}"',
+                    [
+                        'name' => (string)$this,
+                        'skill' => $skillId,
+                    ]
+                );
             }
         }
         return $skills;
@@ -318,30 +328,40 @@ class Character extends BaseCharacter
         }
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function getViceAttribute(): ?Vice
     {
         try {
             return new Vice($this->attributes['vice'] ?? '');
         } catch (RuntimeException) {
-            Log::warning(sprintf(
-                'Caper character "%s" has invalid vice "%s"',
-                (string)$this,
-                $this->attributes['vice'] ?? ''
-            ));
+            Log::warning(
+                'Capers character "{name}" has invalid vice "{vice}"',
+                [
+                    'name' => (string)$this,
+                    'vice' => $this->attributes['vice'] ?? '',
+                ]
+            );
             return null;
         }
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function getVirtueAttribute(): ?Virtue
     {
         try {
             return new Virtue($this->attributes['virtue'] ?? '');
         } catch (RuntimeException) {
-            Log::warning(sprintf(
-                'Caper character "%s" has invalid virtue "%s"',
-                (string)$this,
-                $this->attributes['virtue'] ?? ''
-            ));
+            Log::warning(
+                'Capers character "{name}" has invalid virtue "{virtue}"',
+                [
+                    'name' => (string)$this,
+                    'virtue' => $this->attributes['virtue'] ?? '',
+                ]
+            );
             return null;
         }
     }
