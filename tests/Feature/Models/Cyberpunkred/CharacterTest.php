@@ -76,7 +76,7 @@ final class CharacterTest extends \Tests\TestCase
      * Return different datasets for testing hit points.
      * @return array<int, array<int, int>>
      */
-    public function hitPointsProvider(): array
+    public static function hitPointsProvider(): array
     {
         return [
             [0, 0, 10],
@@ -104,7 +104,7 @@ final class CharacterTest extends \Tests\TestCase
      * Return different data sets for calculating the character's humanity.
      * @return array<int, array<int, int>>
      */
-    public function humanityProvider(): array
+    public static function humanityProvider(): array
     {
         return [
             [0, 0],
@@ -130,7 +130,7 @@ final class CharacterTest extends \Tests\TestCase
      * Return different datasets for testing getting the threshold.
      * @return array<int, array<int, int>>
      */
-    public function woundThresholdProvider(): array
+    public static function woundThresholdProvider(): array
     {
         return [
             [0, 0, 5],

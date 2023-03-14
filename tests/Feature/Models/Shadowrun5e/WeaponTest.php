@@ -192,7 +192,7 @@ final class WeaponTest extends \Tests\TestCase
      * Data provider for weapons of each class along with its range.
      * @return array<int, array<int, string>>
      */
-    public function weaponRangeDataProvider(): array
+    public static function weaponRangeDataProvider(): array
     {
         return [
             ['Melee Weapon', '???'],

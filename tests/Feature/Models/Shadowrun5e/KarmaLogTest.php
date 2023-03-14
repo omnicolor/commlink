@@ -246,7 +246,7 @@ final class KarmaLogTest extends TestCase
      * CompareSkill provider.
      * @return array<int, array<int, callable>>
      */
-    public function skillProvider(): array
+    public static function skillProvider(): array
     {
         return [
             [
