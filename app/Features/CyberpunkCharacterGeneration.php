@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Features;
 
-class CyberpunkCharacterGeneration
+use Stringable;
+
+class CyberpunkCharacterGeneration implements Stringable
 {
     /**
      * Resolve the feature's initial value.
@@ -12,5 +14,10 @@ class CyberpunkCharacterGeneration
     public function resolve(): bool
     {
         return false;
+    }
+
+    public function __toString(): string
+    {
+        return 'Cyberpunk Character Generation';
     }
 }
