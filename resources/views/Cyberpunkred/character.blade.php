@@ -126,7 +126,12 @@
                         @endif
                         <ul>
                         @foreach ($roles as $role)
-                            <li title="{{ $role->description }}">
+                            @can('view data')
+                            <li data-bs-toggle="tooltip"
+                                title="{{ $role->description }}">
+                            @else
+                                <li>
+                            @endcan
                                 {{ $role }}
                             </li>
                         @endforeach
@@ -283,4 +288,12 @@
             </table>
         </div>
     </div>
+
+    <x-slot name="javascript">
+        <script>
+            $(function () {
+                $('[data-bs-toggle="tooltip"]').tooltip();
+            });
+        </script>
+    </x-slot>
 </x-app>

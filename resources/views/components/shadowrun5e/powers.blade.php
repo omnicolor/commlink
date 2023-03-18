@@ -4,10 +4,14 @@
     <ul class="card-body list-group list-group-flush" id="powers">
     @foreach ($powers as $power)
         <li class="list-group-item">
-            <span data-bs-placement="right" data-bs-toggle="tooltip"
-                title="{{ $power->description }}">
+            @can('view data')
+            <span data-bs-html="true" data-bs-toggle="tooltip"
+                title="<p>{{ str_replace('||', '</p><p>', $power->description) }}</p>">
                 {{ $power }}
             </span>
+            @else
+                {{ $power }}
+            @endcan
         </li>
     @endforeach
     </ul>
