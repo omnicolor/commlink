@@ -24,13 +24,25 @@
                     }
                 @endphp
                 <tr>
-                    <td {!! $class !!} data-bs-html="true" data-bs-placement="right"
-                        data-toggle="tooltip" title="<p>{{ str_replace('||', '</p><p>', $weapon->description) }}</p>">
-                        {{ $weapon }}
+                    <td {!! $class !!}">
+                        @can('view data')
+                        <span data-bs-html="true" data-bs-toggle="tooltip"
+                            title="<p>{{ str_replace('||', '</p><p>', $weapon->description) }}</p>">
+                            {{ $weapon }}
+                        </span>
+                        @else
+                            {{ $weapon }}
+                        @endcan
                         @if (!empty($weapon->modifications))
                             <br><small class="text-muted">
                                 @foreach ($weapon->modifications as $mod)
-                                    {{ $mod }}@if (!$loop->last), @endif
+                                    @can('view data')
+                                    <span data-bs-html="true" data-bs-toggle="tooltip"
+                                        title="<p>{{ str_replace('||', '</p><p>', $mod->description) }}</p>">
+                                        {{ $mod }}</span>@if (!$loop->last), @endif
+                                    @else
+                                        {{ $mod }}@if (!$loop->last), @endif
+                                    @endcan
                                 @endforeach
                             </small>
                         @endif
