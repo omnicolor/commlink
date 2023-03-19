@@ -84,8 +84,9 @@
         ],
         "coverage": [
             "Composer\\Config::disableProcessTimeout",
-            "phpunit --coverage-html=public/coverage"
+            "phpunit --coverage-html=public/coverage --coverage-xml=public/coverage/coverage-xml --log-junit=public/coverage/junit.xml"
         ],
+        "infection": "infection --coverage=public/coverage",
         "lint": "parallel-lint --colors app config data tests",
         "php-cs-fixer": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --config=php_cs.php -v --using-cache=no --diff",
         "phpcs": "phpcs",
@@ -121,12 +122,13 @@
     "scripts-descriptions": {
         "all": "Run all unit/feature tests with code coverage, then code style check, then PHPstan",
         "coverage": "Run all unit/feature tests and create a code coverage report in public/coverage",
+        "infection": "Test the test suite with Infection",
         "lint": "Run lint across code to make sure it's syntactically valid",
         "php-cs-fixer": "Run php-cs-fixer",
         "phpcs": "Run PHPCodesniffer",
         "phpstan": "Run PHPstan",
         "psalm": "Run Psalm",
-        "static": "Run static analysis",
+        "static": "Run static analysis (Lint, PHPStan, and Psalm)",
         "style": "Run PHPCodesniffer and php-cs-fixer",
         "test": "Run all unit/feature tests"
     },
