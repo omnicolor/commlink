@@ -10,7 +10,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Pennant\Concerns\HasFeatures;
+use Laravel\Pennant\Feature;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * @property string $email
@@ -19,6 +22,8 @@ class User extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
+    use HasFeatures;
+    use HasRoles;
     use Notifiable;
 
     /**
@@ -111,5 +116,23 @@ class User extends Authenticatable
     public function chatUsers(): HasMany
     {
         return $this->hasMany(ChatUser::class);
+    }
+
+    /**
+     * Return all feature flags enabled for the user.
+     * @return array<int, string>
+     */
+    public function getFeatures(): array
+    {
+        $features = Feature::for($this)->all();
+        $features = array_filter($features, function (bool $feature): bool {
+            return $feature;
+        });
+        $features = array_keys($features);
+        array_walk($features, function (string &$value): void {
+            $value = str_replace('App\\Features\\', '', $value);
+        });
+        sort($features);
+        return $features;
     }
 }
