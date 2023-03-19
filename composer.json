@@ -31,6 +31,12 @@
     "minimum-stability": "stable",
     "name": "omnicolor/commlink",
     "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/omnicolor/phpmnd"
+        }
+    ],
     "require": {
         "php": "^8.1",
         "ext-mongodb": "^1.15",
@@ -64,7 +70,7 @@
         "phpstan/phpstan": "^1.2",
         "phpstan/phpstan-strict-rules": "^1.1",
         "phpunit/phpunit": "^9.3",
-        "povils/phpmnd": "^3.0",
+        "povils/phpmnd": "dev-master",
         "psalm/plugin-laravel": "^2.7",
         "ramsey/uuid": "^4.3",
         "roave/security-advisories": "dev-latest",
@@ -79,6 +85,7 @@
             "@php-cs-fixer",
             "@phpstan",
             "@psalm",
+            "@phpmnd",
             "@coverage"
         ],
         "coverage": [
@@ -107,7 +114,8 @@
         "static": [
             "@lint",
             "@phpstan",
-            "@psalm"
+            "@psalm",
+            "@phpmnd"
         ],
         "style": [
             "@phpcs",
