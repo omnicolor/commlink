@@ -105,7 +105,7 @@ final class RangedWeaponTest extends \Tests\TestCase
      * should cost.
      * @return array<int, array<int, int|string>>
      */
-    public function costDataProvider(): array
+    public static function costDataProvider(): array
     {
         return [
             [50, RangedWeapon::QUALITY_POOR, 20],

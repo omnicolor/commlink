@@ -68,9 +68,23 @@
 <script src="/js/jquery.min.js"></script>
 <script src="/js/app.js"></script>
 <script>
+const broadcast = new BroadcastChannel('commlink');
 $('#logout').on('click', function (e) {
     e.preventDefault();
     $('#logout-form').submit();
+    broadcast.postMessage('logout');
+});
+$(function () {
+    broadcast.onmessage = (event) => {
+        switch (event.data) {
+            case 'logout':
+                window.location.href = '/';
+                break;
+            default:
+                window.console.log(event);
+                break;
+        };
+    };
 });
 </script>
 @if (isset($javascript))

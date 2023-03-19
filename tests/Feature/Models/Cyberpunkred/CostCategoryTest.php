@@ -49,7 +49,7 @@ final class CostCategoryTest extends TestCase
      * Provider for testing cost category to EB mapping.
      * @return array<int, array<int, int|string>>
      */
-    public function categoryProvider(): array
+    public static function categoryProvider(): array
     {
         return [
             ['Cheap', 10],

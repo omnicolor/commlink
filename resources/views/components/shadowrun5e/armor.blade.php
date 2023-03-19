@@ -12,17 +12,27 @@
             @else
             <span class="oi oi-shield text-muted"></span>
             @endif
-            <span data-toggle="tooltip" data-placement="right"
-                title="{{ $armor->description }}">{{ $armor }}</span>
+            @can('view data')
+            <span data-bs-html="true" data-bs-toggle="tooltip"
+                title="<p>{{ str_replace('||', '</p><p>', $armor->description) }}</p>">
+                {{ $armor }}
+            </span>
+            @else
+                {{ $armor }}
+            @endcan
             <div class="value">{{ $armor->rating }}</div>
             @if ($armor->modifications)
                 <ul class="list-group list-group-flush">
                 @foreach ($armor->modifications as $modification)
                     <li class="list-group-item">
-                        <span data-toggle="tooltip" data-placement="right"
-                            title="{{ $modification->description }}">
+                        @can('view data')
+                        <span data-bs-toggle="tooltip" data-bs-html="true"
+                            title="<p>{{ str_replace('||', '</p><p>', $modification->description) }}</p>">
                             {{ $modification }}
                         </span>
+                        @else
+                            {{ $modification }}
+                        @endcan
                         <div class="value">{{ $modification->rating }}</div>
                     </li>
                 @endforeach

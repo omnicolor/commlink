@@ -1,7 +1,9 @@
 .env
 .env.testing
 .phpcs.cache
+.phpunit.cache
 .phpunit.result.cache
+infection.json5
 node_modules
 npm-debug.log
 public/coverage

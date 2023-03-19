@@ -30,11 +30,16 @@
                         @else
                         <span class="oi oi-signal text-muted"></span>
                         @endif
-                        <span data-bs-toggle="tooltip" data-bs-placement="right"
-                            title="{{ $item->description }}">
+                        @can('view data')
+                        <span data-bs-toggle="tooltip" data-bs-html="true"
+                            title="<p>{{ str_replace('||', '</p><p>', $item->description) }}</p>">
                             {{ $item->subname }}
                             <small class="text-muted">({{ $item->name }})</small>
                         </span>
+                        @else
+                            {{ $item->subname }}
+                            <small class="text-muted">({{ $item->name }})</small>
+                        @endcan
                     </td>
                     <td {!! $class !!}>{{ $item->rating }}</td>
                     @foreach ($item->attributes as $stat)
