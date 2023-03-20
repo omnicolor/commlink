@@ -87,7 +87,6 @@
             "@php-cs-fixer",
             "@phpstan",
             "@psalm",
-            "@phpmnd",
             "@coverage"
         ],
         "coverage": [
@@ -117,8 +116,7 @@
         "static": [
             "@lint",
             "@phpstan",
-            "@psalm",
-            "@phpmnd"
+            "@psalm"
         ],
         "style": [
             "@phpcs",
