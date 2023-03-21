@@ -21,6 +21,8 @@ class DiscordController extends Controller
 {
     use InteractsWithDiscord;
 
+    protected const DISCORD_CODE_LENGTH = 30;
+
     /**
      * Handles a POST from the Discord view.
      *
@@ -131,24 +133,24 @@ class DiscordController extends Controller
             return redirect()->route('settings')->withErrors([
                 'error' => 'Discord login failed, no Oauth code supplied',
             ]);
-        } elseif (30 !== strlen($request->input('code'))) {
+        }
+        if (self::DISCORD_CODE_LENGTH !== strlen($request->input('code'))) {
             return redirect()->route('settings')->withErrors([
                 'error' => 'Discord login failed, invalid Oauth code',
             ]);
-        } else {
-            try {
-                $accessToken = $this->getDiscordAccessToken($request->input('code'));
-                $discordUser = $this->getDiscordUser($accessToken);
-            } catch (RuntimeException) {
-                return redirect()
-                    ->route('settings')
-                    ->withErrors([
-                        'error' => \sprintf(
-                            'Request to Discord failed. Please <a href="%s">try again</a>.',
-                            $this->getDiscordOauthURL(),
-                        ),
-                    ]);
-            }
+        }
+        try {
+            $accessToken = $this->getDiscordAccessToken($request->input('code'));
+            $discordUser = $this->getDiscordUser($accessToken);
+        } catch (RuntimeException) {
+            return redirect()
+                ->route('settings')
+                ->withErrors([
+                    'error' => \sprintf(
+                        'Request to Discord failed. Please <a href="%s">try again</a>.',
+                        $this->getDiscordOauthURL(),
+                    ),
+                ]);
         }
 
         try {

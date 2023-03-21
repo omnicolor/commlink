@@ -22,6 +22,7 @@ class Number extends Roll
 {
     protected const MAX_DICE = 100;
     protected const MIN_SUCCESS = 5;
+    protected const FAILURE = 1;
 
     /**
      * Number of dice to roll.
@@ -151,7 +152,7 @@ class Number extends Roll
             if (self::MIN_SUCCESS <= $roll) {
                 $this->successes++;
             }
-            if (1 === $roll) {
+            if (self::FAILURE === $roll) {
                 $this->fails++;
             }
         }
@@ -168,7 +169,7 @@ class Number extends Roll
         \array_walk($rolls, function (int &$value): void {
             if ($value >= self::MIN_SUCCESS) {
                 $value = \sprintf('*%d*', $value);
-            } elseif (1 == $value) {
+            } elseif (self::FAILURE == $value) {
                 $value = \sprintf('~%d~', $value);
             }
         });
@@ -284,7 +285,7 @@ class Number extends Roll
         $rerolled = 0;
         $this->fails = 0;
         foreach ($this->rolls as $key => $roll) {
-            if (5 === $roll || 6 === $roll) {
+            if (self::SUCCESS <= $roll) {
                 continue;
             }
             $rerolled++;
@@ -292,7 +293,7 @@ class Number extends Roll
             if (self::MIN_SUCCESS <= $roll) {
                 $this->successes++;
             }
-            if (1 === $roll) {
+            if (self::FAILURE === $roll) {
                 $this->fails++;
             }
         }
