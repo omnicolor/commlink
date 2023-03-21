@@ -5577,16 +5577,16 @@
         },
         {
             "name": "sentry/sentry-laravel",
-            "version": "3.3.0",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-laravel.git",
-                "reference": "e9c87d6580fc56147f580e1d714d8eb4e06d2752"
+                "reference": "a530699461d6bcc9d11515ad0c97d683173d85b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-laravel/zipball/e9c87d6580fc56147f580e1d714d8eb4e06d2752",
-                "reference": "e9c87d6580fc56147f580e1d714d8eb4e06d2752",
+                "url": "https://api.github.com/repos/getsentry/sentry-laravel/zipball/a530699461d6bcc9d11515ad0c97d683173d85b5",
+                "reference": "a530699461d6bcc9d11515ad0c97d683173d85b5",
                 "shasum": ""
             },
             "require": {
@@ -5654,7 +5654,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-laravel/issues",
-                "source": "https://github.com/getsentry/sentry-laravel/tree/3.3.0"
+                "source": "https://github.com/getsentry/sentry-laravel/tree/3.3.1"
             },
             "funding": [
                 {
@@ -5666,7 +5666,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-03-16T12:25:43+00:00"
+            "time": "2023-03-20T14:21:23+00:00"
         },
         {
             "name": "socialiteproviders/discord",
@@ -10974,27 +10974,28 @@
         },
         {
             "name": "laravel/breeze",
-            "version": "v1.19.2",
+            "version": "v1.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/breeze.git",
-                "reference": "725e0c4fb1f630afdd90b5fba2a7f6d8d547ac29"
+                "reference": "3d8955fc1b68d5cee7ab7ee8a6ca9e302fd20c30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/breeze/zipball/725e0c4fb1f630afdd90b5fba2a7f6d8d547ac29",
-                "reference": "725e0c4fb1f630afdd90b5fba2a7f6d8d547ac29",
+                "url": "https://api.github.com/repos/laravel/breeze/zipball/3d8955fc1b68d5cee7ab7ee8a6ca9e302fd20c30",
+                "reference": "3d8955fc1b68d5cee7ab7ee8a6ca9e302fd20c30",
                 "shasum": ""
             },
             "require": {
-                "illuminate/console": "^9.21|^10.0",
-                "illuminate/filesystem": "^9.21|^10.0",
-                "illuminate/support": "^9.21|^10.0",
-                "illuminate/validation": "^9.21|^10.0",
-                "php": "^8.0.2"
+                "illuminate/console": "^10.0",
+                "illuminate/filesystem": "^10.0",
+                "illuminate/support": "^10.0",
+                "illuminate/validation": "^10.0",
+                "php": "^8.1.0"
             },
-            "conflict": {
-                "laravel/framework": "<9.37.0"
+            "require-dev": {
+                "orchestra/testbench": "^8.0",
+                "phpstan/phpstan": "^1.10"
             },
             "type": "library",
             "extra": {
@@ -11031,7 +11032,7 @@
                 "issues": "https://github.com/laravel/breeze/issues",
                 "source": "https://github.com/laravel/breeze"
             },
-            "time": "2023-02-18T20:55:43+00:00"
+            "time": "2023-03-20T11:31:54+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -11570,16 +11571,16 @@
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v8.1.0",
+            "version": "v8.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "b7785ad15ff83259457b7b70da21b2b89bddfa7b"
+                "reference": "9ec213fb981eda7ba35d1996a2716ee7e24dc0ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/b7785ad15ff83259457b7b70da21b2b89bddfa7b",
-                "reference": "b7785ad15ff83259457b7b70da21b2b89bddfa7b",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/9ec213fb981eda7ba35d1996a2716ee7e24dc0ac",
+                "reference": "9ec213fb981eda7ba35d1996a2716ee7e24dc0ac",
                 "shasum": ""
             },
             "require": {
@@ -11653,7 +11654,7 @@
                 "issues": "https://github.com/orchestral/testbench/issues",
                 "source": "https://github.com/orchestral/testbench-core"
             },
-            "time": "2023-03-17T23:45:21+00:00"
+            "time": "2023-03-20T10:00:27+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -11906,22 +11907,22 @@
         },
         {
             "name": "php-mock/php-mock-phpunit",
-            "version": "2.7.0",
+            "version": "2.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-mock/php-mock-phpunit.git",
-                "reference": "97b3278e65863e53066f31adb85d92334c0ea07b"
+                "reference": "dc4cf8896bf47647080dc5709a2c67ee9d437c21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-mock/php-mock-phpunit/zipball/97b3278e65863e53066f31adb85d92334c0ea07b",
-                "reference": "97b3278e65863e53066f31adb85d92334c0ea07b",
+                "url": "https://api.github.com/repos/php-mock/php-mock-phpunit/zipball/dc4cf8896bf47647080dc5709a2c67ee9d437c21",
+                "reference": "dc4cf8896bf47647080dc5709a2c67ee9d437c21",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7",
                 "php-mock/php-mock-integration": "^2.2.1",
-                "phpunit/phpunit": "^6 || ^7 || ^8 || ^9 || ^10"
+                "phpunit/phpunit": "^6 || ^7 || ^8 || ^9 || ^10.0.17"
             },
             "require-dev": {
                 "mockery/mockery": "^1.3.6"
@@ -11961,7 +11962,7 @@
             ],
             "support": {
                 "issues": "https://github.com/php-mock/php-mock-phpunit/issues",
-                "source": "https://github.com/php-mock/php-mock-phpunit/tree/2.7.0"
+                "source": "https://github.com/php-mock/php-mock-phpunit/tree/2.7.1"
             },
             "funding": [
                 {
@@ -11969,7 +11970,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-03-06T17:25:07+00:00"
+            "time": "2023-03-21T06:55:31+00:00"
         },
         {
             "name": "php-parallel-lint/php-console-color",
@@ -12857,16 +12858,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.0.16",
+            "version": "10.0.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "07d386a11ac7094032900f07cada1c8975d16607"
+                "reference": "b75eddcabca052312ae38c8a2bc69ff1a7b89b77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/07d386a11ac7094032900f07cada1c8975d16607",
-                "reference": "07d386a11ac7094032900f07cada1c8975d16607",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b75eddcabca052312ae38c8a2bc69ff1a7b89b77",
+                "reference": "b75eddcabca052312ae38c8a2bc69ff1a7b89b77",
                 "shasum": ""
             },
             "require": {
@@ -12937,7 +12938,8 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.0.16"
+                "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.0.17"
             },
             "funding": [
                 {
@@ -12953,7 +12955,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-13T09:02:40+00:00"
+            "time": "2023-03-20T14:42:33+00:00"
         },
         {
             "name": "pimple/pimple",
@@ -13200,16 +13202,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.11.12",
+            "version": "v0.11.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "52cb7c47d403c31c0adc9bf7710fc355f93c20f7"
+                "reference": "722317c9f5627e588788e340f29b923e58f92f54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/52cb7c47d403c31c0adc9bf7710fc355f93c20f7",
-                "reference": "52cb7c47d403c31c0adc9bf7710fc355f93c20f7",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/722317c9f5627e588788e340f29b923e58f92f54",
+                "reference": "722317c9f5627e588788e340f29b923e58f92f54",
                 "shasum": ""
             },
             "require": {
@@ -13270,9 +13272,9 @@
             ],
             "support": {
                 "issues": "https://github.com/bobthecow/psysh/issues",
-                "source": "https://github.com/bobthecow/psysh/tree/v0.11.12"
+                "source": "https://github.com/bobthecow/psysh/tree/v0.11.13"
             },
-            "time": "2023-01-29T21:24:40+00:00"
+            "time": "2023-03-21T14:22:44+00:00"
         },
         {
             "name": "roave/security-advisories",
