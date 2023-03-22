@@ -7,6 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="icon" type="image/png" href="/favicon.ico" />
     <title>
         {{ config('app.name') }}
         @if (isset($title))
@@ -85,6 +86,11 @@ $(function () {
                 break;
         };
     };
+    const favicon = document.querySelector('link[rel="icon"]');
+    document.addEventListener('visibilitychange', () => {
+        const hidden = document.hidden;
+        favicon.setAttribute('href', `/favicon${hidden ? '-hidden' : ''}.ico`);
+    });
 });
 </script>
 @if (isset($javascript))
