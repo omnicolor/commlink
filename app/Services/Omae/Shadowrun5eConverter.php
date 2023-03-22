@@ -23,6 +23,8 @@ use RuntimeException;
  */
 class Shadowrun5eConverter implements ConverterInterface
 {
+    protected const REQUIRED_NUM_PRIORITIES = 5;
+
     /**
      * @var PartialCharacter Character being converted.
      */
@@ -154,7 +156,7 @@ class Shadowrun5eConverter implements ConverterInterface
         $this->removeHeader();
 
         $priorities = explode(' | ', (string)array_shift($this->file));
-        if (5 !== count($priorities)) {
+        if (self::REQUIRED_NUM_PRIORITIES !== count($priorities)) {
             $this->errors[] = 'Invalid priorities listed';
             return;
         }

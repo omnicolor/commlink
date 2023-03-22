@@ -14,6 +14,9 @@ use App\Rolls\Roll;
  */
 class Number extends Roll
 {
+    protected const CRIT_FAILURE = 1;
+    protected const CRIT_SUCCESS = 10;
+
     /**
      * Amount to add (or subtract) from the result.
      * @var int
@@ -176,12 +179,10 @@ class Number extends Roll
         $this->dice = [
             random_int(1, 10),
         ];
-        if (1 === $this->dice[0]) {
-            // Critical failure.
+        if (self::CRIT_FAILURE === $this->dice[0]) {
             $this->critFailure = true;
             $this->dice[] = -1 * random_int(1, 10);
-        } elseif (10 === $this->dice[0]) {
-            // Critical success.
+        } elseif (self::CRIT_SUCCESS === $this->dice[0]) {
             $this->critSuccess = true;
             $this->dice[] = random_int(1, 10);
         }
