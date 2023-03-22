@@ -10,6 +10,8 @@ namespace App\Models\Shadowrun5e;
  */
 class PartialCharacter extends Character
 {
+    protected const DEFAULT_MAX_ATTRIBUTE = 6;
+
     /**
      * The database connection that should be used by the model.
      * @var ?string
@@ -72,7 +74,7 @@ class PartialCharacter extends Character
                 'strength' => 10,
             ],
         ];
-        $max = $maximums[$this->metatype][$attribute] ?? 6;
+        $max = $maximums[$this->metatype][$attribute] ?? self::DEFAULT_MAX_ATTRIBUTE;
         foreach ($this->getQualities() as $quality) {
             if (!isset($quality->effects['maximum-' . $attribute])) {
                 continue;
