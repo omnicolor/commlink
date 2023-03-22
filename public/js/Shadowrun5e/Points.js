@@ -524,6 +524,48 @@ function Points(character) {
         });
     };
 
+    function calculateIdentityCost(identity) {
+        let cost = 0;
+        const lifestyles = {
+            street: 0,
+            squatter: 500,
+            low: 2000,
+            middle: 5000,
+            high: 10000,
+            luxury: 100000
+        };
+
+        // Everything that costs is attached to a SIN, so without one they can't
+        // own any lifestyles or subscriptions.
+        if (!identity.sin) {
+            return 0;
+        }
+
+        // Real SINs are free, chummer. But if it has a rating, you must pay.
+        if ('number' == typeof(identity.sin)) {
+            cost += identity.sin * 2500;
+        }
+
+        $.each(identity.lifestyles, function (unused, lifestyle) {
+            let name = lifestyle.name;
+            name = name.substring(0, 1).toLowerCase() + name.substring(1);
+            cost += lifestyles[name] * lifestyle.quantity;
+        });
+
+        $.each(identity.subscriptions, function (unused, subscription) {
+            let months = subscription.quantity;
+            const years = parseInt(months / 12, 10);
+            months = months % 12;
+            cost += months * subscription.month + years * subscription.year;
+        });
+
+        $.each(identity.licenses, function (unused, license) {
+            cost += license.rating * 200;
+        });
+
+        return cost;
+    };
+
     this.updateNuyen = function () {
         this.updateNuyenFromAugmentations();
 
@@ -640,7 +682,13 @@ function Points(character) {
             });
         });
         $.each(this.character.identities, function (unused, identity) {
-            this.resources -= sr.calculateIdentityCost(identity);
+            if (!identity) {
+                return;
+            }
+            window.console.log(calculateIdentityCost(identity));
+            window.console.log(this.resources);
+            this.resources = this.resources - calculateIdentityCost(identity);
+            window.console.log(this.resources);
         });
 
         if (this.resources < 0) {

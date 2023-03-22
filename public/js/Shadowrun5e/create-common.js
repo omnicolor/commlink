@@ -219,6 +219,7 @@ function updatePointsToSpendDisplay(pointsToSpend) {
         setPointsDisplay(pointsToSpend.skillGroups, $('#skill-groups'));
     }
 
+    window.console.log(pointsToSpend.resources);
     if (pointsToSpend.resources < 0) {
         const resources = pointsToSpend.resources +
             Math.floor(pointsToSpend.resources / 2000) * -2000;
@@ -307,5 +308,6 @@ $(function () {
     });
 
     let points = new Points(character);
+    window.console.log('Running update');
     updatePointsToSpendDisplay(points);
 });
