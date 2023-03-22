@@ -16,6 +16,8 @@ use Discord\Parts\Channel\Channel as TextChannel;
  */
 class LinkResponse
 {
+    protected const MIN_NUM_ARGUMENTS = 2;
+
     protected ?Channel $channel;
     protected TextChannel $textChannel;
     protected string $message = '';
@@ -27,7 +29,7 @@ class LinkResponse
     public function __construct(protected DiscordMessageReceived $event)
     {
         $arguments = \explode(' ', trim($this->event->content));
-        if (2 !== \count($arguments)) {
+        if (self::MIN_NUM_ARGUMENTS !== \count($arguments)) {
             $this->sendMissingArgumentError();
             return;
         }

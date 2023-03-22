@@ -53,7 +53,7 @@ class Medtech extends Role
             . 'you\'re here, on The Street, doing the job. And you\'d be doing '
             . 'it no matter what the reason. It\'s what marks you as a '
             . 'Medtech.';
-        $this->rank = $role['rank'] ?? 4;
+        $this->rank = $role['rank'] ?? self::DEFAULT_ROLE_RANK;
     }
 
     /**

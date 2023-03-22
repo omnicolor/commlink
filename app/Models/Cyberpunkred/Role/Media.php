@@ -49,7 +49,7 @@ class Media extends Role
             . 'Your ‘Runner\'s just phoned in with a hot lead. You grab your '
             . 'gear and flag your backup. You\'re going to break those '
             . 'bastards. This time, for sure.';
-        $this->rank = $role['rank'] ?? 4;
+        $this->rank = $role['rank'] ?? self::DEFAULT_ROLE_RANK;
     }
 
     /**
