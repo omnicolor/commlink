@@ -285,7 +285,7 @@ class Number extends Roll
         $rerolled = 0;
         $this->fails = 0;
         foreach ($this->rolls as $key => $roll) {
-            if (self::SUCCESS <= $roll) {
+            if (self::MIN_SUCCESS <= $roll) {
                 continue;
             }
             $rerolled++;
