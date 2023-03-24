@@ -69,7 +69,7 @@ final class IdentityTest extends \Tests\TestCase
     /**
      * @return array<int, array<int, Card|string>>
      */
-    public function findForCardProvider(): array
+    public static function findForCardProvider(): array
     {
         return [
             [new Card('5', '♦'), 'Crackerjack'],

@@ -17,8 +17,16 @@
         <tbody style="font-size: 90%">
         @foreach ($spells as $spell)
             <tr>
-                <td data-toggle="tooltip" data-placement="right"
-                    title="{{ $spell->description }}">{{ $spell }}</td>
+                <td>
+                    @can('view data')
+                    <span data-bs-toggle="tooltip" data-bs-html="true"
+                        title="<p>{{ str_replace('||', '</p><p>', $spell->description) }}</p>">
+                        {{ $spell }}
+                    </span>
+                    @else
+                        {{ $spell }}
+                    @endcan
+                </td>
                 <td>{{ $spell->category }}</td>
                 <td>{!! implode('<br>', $spell->tags) !!}</td>
                 <td>{{ $spell->damage }}</td>

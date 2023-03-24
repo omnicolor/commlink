@@ -15,9 +15,9 @@ use App\Services\Chummer5\Shadowrun5eConverter;
  */
 final class Shadowrun5eConverterTest extends \Tests\TestCase
 {
-    protected string $dataDirectory;
+    protected static string $dataDirectory;
 
-    public function __construct()
+    public static function setUpBeforeClass(): void
     {
         $path = explode(
             \DIRECTORY_SEPARATOR,
@@ -26,8 +26,7 @@ final class Shadowrun5eConverterTest extends \Tests\TestCase
         $path[] = 'Data';
         $path[] = 'Chummer5';
         $path[] = null;
-        $this->dataDirectory = implode(\DIRECTORY_SEPARATOR, $path);
-        parent::__construct();
+        self::$dataDirectory = implode(\DIRECTORY_SEPARATOR, $path);
     }
 
     /**
@@ -59,7 +58,7 @@ final class Shadowrun5eConverterTest extends \Tests\TestCase
     public function testConvertBirdman(): void
     {
         $converter = new Shadowrun5eConverter(
-            $this->dataDirectory . 'birdman.chum5'
+            self::$dataDirectory . 'birdman.chum5'
         );
         $character = $converter->convert();
         self::assertSame('human', $character->metatype);
@@ -101,7 +100,7 @@ final class Shadowrun5eConverterTest extends \Tests\TestCase
     public function testConvertInvalidMagicAttribute(): void
     {
         $converter = new Shadowrun5eConverter(
-            $this->dataDirectory . 'test.chum5'
+            self::$dataDirectory . 'test.chum5'
         );
         $character = $converter->convert();
         self::assertNull($character->magic);
@@ -114,7 +113,7 @@ final class Shadowrun5eConverterTest extends \Tests\TestCase
     public function testLifestylesWithoutIdentities(): void
     {
         $converter = new Shadowrun5eConverter(
-            $this->dataDirectory . 'test.chum5'
+            self::$dataDirectory . 'test.chum5'
         );
         $character = $converter->convert();
         self::assertEmpty($character->getIdentities());
@@ -127,7 +126,7 @@ final class Shadowrun5eConverterTest extends \Tests\TestCase
     public function testIdentities(): void
     {
         $converter = new Shadowrun5eConverter(
-            $this->dataDirectory . 'sins.chum5'
+            self::$dataDirectory . 'sins.chum5'
         );
         $character = $converter->convert();
         self::assertNotEmpty($character->getIdentities());
@@ -147,7 +146,7 @@ final class Shadowrun5eConverterTest extends \Tests\TestCase
     public function testKnowledgeSpecializations(): void
     {
         $converter = new Shadowrun5eConverter(
-            $this->dataDirectory . 'test.chum5'
+            self::$dataDirectory . 'test.chum5'
         );
         $character = $converter->convert();
         $skills = $character->getKnowledgeSkills();
@@ -171,7 +170,7 @@ final class Shadowrun5eConverterTest extends \Tests\TestCase
     public function testActiveSkillSpecializations(): void
     {
         $converter = new Shadowrun5eConverter(
-            $this->dataDirectory . 'test.chum5'
+            self::$dataDirectory . 'test.chum5'
         );
         $character = $converter->convert();
         $skills = $character->getSkills();
@@ -198,7 +197,7 @@ final class Shadowrun5eConverterTest extends \Tests\TestCase
     public function testTradition(): void
     {
         $converter = new Shadowrun5eConverter(
-            $this->dataDirectory . 'sins.chum5'
+            self::$dataDirectory . 'sins.chum5'
         );
         $character = $converter->convert();
         /** @var Tradition */
@@ -213,7 +212,7 @@ final class Shadowrun5eConverterTest extends \Tests\TestCase
     public function testWeapons(): void
     {
         $converter = new Shadowrun5eConverter(
-            $this->dataDirectory . 'test.chum5'
+            self::$dataDirectory . 'test.chum5'
         );
         $character = $converter->convert();
         $ak = null;
@@ -236,7 +235,7 @@ final class Shadowrun5eConverterTest extends \Tests\TestCase
     public function testMappedQuality(): void
     {
         $converter = new Shadowrun5eConverter(
-            $this->dataDirectory . 'Blindfire.chum5'
+            self::$dataDirectory . 'Blindfire.chum5'
         );
         $character = $converter->convert();
         $albinism = null;

@@ -51,7 +51,7 @@ class Solo extends Role
             . 'next in a filthy alley on The Street. But that\'s the price of '
             . 'being the best. And you\'re willing to pay it. Because you\'re '
             . 'a Solo.';
-        $this->rank = $role['rank'] ?? 4;
+        $this->rank = $role['rank'] ?? self::DEFAULT_ROLE_RANK;
     }
 
     /**

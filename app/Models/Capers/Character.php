@@ -46,6 +46,9 @@ class Character extends BaseCharacter
     public const TYPE_EXCEPTIONAL = 'exceptional';
     public const TYPE_REGULAR = 'regular';
 
+    protected const SPEED_DEFAULT = 30;
+    protected const SPEED_FLEET_OF_FOOT = 40;
+
     /**
      * @var array<string, mixed>
      */
@@ -268,10 +271,10 @@ class Character extends BaseCharacter
     {
         foreach ($this->getPerks() as $perk) {
             if ('fleet-of-foot' === $perk->id) {
-                return 40;
+                return self::SPEED_FLEET_OF_FOOT;
             }
         }
-        return 30;
+        return self::SPEED_DEFAULT;
     }
 
     public function getStrengthAttribute(): int
@@ -298,24 +301,18 @@ class Character extends BaseCharacter
             return '?';
         }
 
-        switch ((int)$this->attributes[$trait]) {
-            case 1:
-                return '8';
-            case 2:
-                return '9';
-            case 3:
-                return '10';
-            case 4:
-                return 'J';
-            case 5:
-                return 'Q';
-            default:
-                throw new RuntimeException(sprintf(
-                    'Invalid trait value for trait %s: %d',
-                    $trait,
-                    $this->attributes[$trait]
-                ));
-        }
+        return match ((int)$this->attributes[$trait]) {
+            1 => '8',
+            2 => '9',
+            3 => '10',
+            4 => 'J',
+            5 => 'Q',
+            default => throw new RuntimeException(sprintf(
+                'Invalid trait value for trait %s: %d',
+                $trait,
+                $this->attributes[$trait]
+            )),
+        };
     }
 
     public function getViceAttribute(): ?Vice

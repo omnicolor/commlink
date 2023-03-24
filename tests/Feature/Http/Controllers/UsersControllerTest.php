@@ -1,0 +1,267 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Feature\Http\Controllers;
+
+use App\Features\ChummerImport;
+use App\Models\Campaign;
+use App\Models\Character;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\JsonResponse;
+use Laravel\Pennant\Feature;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Tests\TestCase;
+
+/**
+ * Tests for the users controller.
+ * @group controllers
+ * @group user
+ * @medium
+ */
+final class UsersControllerTest extends TestCase
+{
+    use RefreshDatabase;
+
+    protected function createAdmin(): User
+    {
+        $user = User::factory()->create();
+        $admin = Role::create(['name' => 'admin']);
+        $admin->givePermissionTo(Permission::create(['name' => 'admin users']));
+        $user->assignRole($admin);
+        return $user;
+    }
+
+    /**
+     * Test an authenticated request that's missing the admin role.
+     * @test
+     */
+    public function testNonAdminIndex(): void
+    {
+        $user = User::factory()->create();
+        self::actingAs($user)
+            ->get(route('users.index'))
+            ->assertForbidden();
+    }
+
+    /**
+     * Test that an admin can load the user admin page.
+     * @large
+     * @test
+     */
+    public function testAdminIndex(): void
+    {
+        $user = $this->createAdmin();
+        self::actingAs($user)
+            ->get(route('users.index'))
+            ->assertOk()
+            ->assertSee($user->email);
+    }
+
+    /**
+     * Test loading the API index.
+     * @large
+     * @test
+     */
+    public function testIndexApi(): void
+    {
+        $user = User::factory()->hasCampaigns(1)->create();
+        $admin = Role::create(['name' => 'admin']);
+        $admin->givePermissionTo(Permission::create(['name' => 'admin users']));
+        $user->assignRole($admin);
+        $character = Character::factory()->create(['owner' => $user->email]);
+        $campaign = Campaign::factory()->create(['gm' => $user->id]);
+
+        self::actingAs($user)
+            ->withHeaders(['Accept' => 'application/json'])
+            ->get(route('users.index'))
+            ->assertJsonFragment(['id' => $character->id]);
+    }
+
+    /**
+     * Test getting a user's information.
+     * @test
+     */
+    public function testShowUser(): void
+    {
+        $user = $this->createAdmin();
+        self::actingAs($user)
+            ->get(route('users.show', ['user' => $user]))
+            ->assertOk()
+            ->assertJson(['data' => ['email' => $user->email]]);
+    }
+
+    /**
+     * Test trying to patch a user with an invalid patch.
+     * @test
+     */
+    public function testInvalidPatch(): void
+    {
+        $user = $this->createAdmin();
+        $patch = [
+            'patch' => [
+                [
+                    'invalid' => 'foo',
+                ],
+            ],
+        ];
+        self::actingAs($user)
+            ->patchJson(route('users.update', ['user' => $user]), $patch)
+            ->assertStatus(JsonResponse::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * Test trying to give a user a Feature that isn't found.
+     * @test
+     */
+    public function testPatchForInvalidFeature(): void
+    {
+        $user = $this->createAdmin();
+        $patch = [
+            'patch' => [
+                [
+                    'path' => '/features/NotFound',
+                    'op' => 'replace',
+                    'value' => 'true',
+                ],
+            ],
+        ];
+        self::actingAs($user)
+            ->patchJson(route('users.update', ['user' => $user]), $patch)
+            ->assertNotFound();
+    }
+
+    /**
+     * Test adding a feature to a user.
+     * @test
+     */
+    public function testPatchUserAddFeature(): void
+    {
+        $user = $this->createAdmin();
+        $patch = [
+            'patch' => [
+                [
+                    'path' => '/features/ChummerImport',
+                    'op' => 'replace',
+                    'value' => 'true',
+                ],
+            ],
+        ];
+
+        self::actingAs($user)
+            ->patchJson(route('users.update', ['user' => $user]), $patch)
+            ->assertStatus(JsonResponse::HTTP_ACCEPTED)
+            ->assertJson(['features' => ['ChummerImport']]);
+    }
+
+    /**
+     * Test removing a feature from a user.
+     * @test
+     */
+    public function testPatchUserRemoveFeature(): void
+    {
+        $user = $this->createAdmin();
+        Feature::for($user)->activate(ChummerImport::class);
+        $patch = [
+            'patch' => [
+                [
+                    'path' => '/features/ChummerImport',
+                    'op' => 'replace',
+                    'value' => 'false',
+                ],
+            ],
+        ];
+
+        self::actingAs($user)
+            ->patchJson(route('users.update', ['user' => $user]), $patch)
+            ->assertStatus(JsonResponse::HTTP_ACCEPTED)
+            ->assertJson(['features' => []]);
+
+        $user->refresh();
+        Feature::flushCache();
+        self::assertCount(0, $user->getFeatures());
+        self::assertFalse(Feature::for($user)->active(ChummerImport::class));
+    }
+
+    /**
+     * Test trying to add an invalid role.
+     * @test
+     */
+    public function testPatchAddInvalidRole(): void
+    {
+        $user = $this->createAdmin();
+        $patch = [
+            'patch' => [
+                [
+                    'path' => '/roles/NotFound',
+                    'op' => 'replace',
+                    'value' => 'true',
+                ],
+            ],
+        ];
+
+        self::actingAs($user)
+            ->patchJson(route('users.update', ['user' => $user]), $patch)
+            ->assertNotFound()
+            ->assertJson(['error' => 'Invalid role']);
+    }
+
+    /**
+     * Test giving a user a new role.
+     * @test
+     */
+    public function testPatchAddRole(): void
+    {
+        $user = $this->createAdmin();
+        $role = Role::create(['name' => 'trusted']);
+
+        $patch = [
+            'patch' => [
+                [
+                    'path' => '/roles/' . $role->id,
+                    'op' => 'replace',
+                    'value' => 'true',
+                ],
+            ],
+        ];
+
+        self::actingAs($user)
+            ->patchJson(route('users.update', ['user' => $user]), $patch)
+            ->assertStatus(JsonREsponse::HTTP_ACCEPTED)
+            ->assertJson(['roles' => [
+                ['name' => 'admin'],
+                ['name' => 'trusted'],
+            ]]);
+        $user->refresh();
+        self::assertCount(2, $user->roles);
+    }
+
+    /**
+     * Test removing a role from a user.
+     * @test
+     */
+    public function testPatchRemoveRole(): void
+    {
+        $user = $this->createAdmin();
+        $role = Role::where('name', 'admin')->first();
+        $patch = [
+            'patch' => [
+                [
+                    // @phpstan-ignore-next-line
+                    'path' => '/roles/' . $role->id,
+                    'op' => 'replace',
+                    'value' => 'false',
+                ],
+            ],
+        ];
+
+        self::actingAs($user)
+            ->patchJson(route('users.update', ['user' => $user]), $patch)
+            ->assertStatus(JsonResponse::HTTP_ACCEPTED)
+            ->assertJson(['roles' => []]);
+        $user->refresh();
+        self::assertCount(0, $user->roles);
+    }
+}

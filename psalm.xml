@@ -25,16 +25,39 @@
     </projectFiles>
 
     <issueHandlers>
+        <NonInvariantDocblockPropertyType>
+            <errorLevel type="suppress">
+                <directory name="app/Models" />
+                <directory name="database/factories" />
+            </errorLevel>
+        </NonInvariantDocblockPropertyType>
         <PossiblyUnusedMethod>
             <errorLevel type="suppress">
+                <file name="app/Models/StarTrekAdventures/Character.php" />
                 <directory name="app/Http/Requests" />
             </errorLevel>
         </PossiblyUnusedMethod>
+        <PossiblyUnusedProperty>
+            <errorLevel type="suppress">
+                <file name="app/Models/StarTrekAdventures/Character.php" />
+            </errorLevel>
+        </PossiblyUnusedProperty>
         <TooManyTemplateParams>
             <errorLevel type="suppress">
                 <directory name="app/Http/Responses/Discord" />
             </errorLevel>
         </TooManyTemplateParams>
+        <UnresolvableInclude>
+            <errorLevel type="suppress">
+                <file name="app/Console/Commands/ValidateDataFiles.php" />
+                <file name="app/Console/Kernel.php" />
+                <file name="app/Providers/BroadcastServiceProvider.php" />
+                <file name="app/View/Components/Shadowrun5e/CampaignOptions.php" />
+                <directory name="app/Models" />
+                <directory name="app/Http/Controllers" />
+                <directory name="database/factories" />
+            </errorLevel>
+        </UnresolvableInclude>
         <UnusedClass>
             <errorLevel type="suppress">
                 <directory name="app/Features" />

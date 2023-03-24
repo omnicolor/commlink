@@ -44,7 +44,7 @@ class Tech extends Role
             . 'come back to you with a complaint but that might be because of '
             . 'the turrets guarding your front door. You\'re addicted to '
             . 'technology in all its forms and that\'s what makes you a Tech.';
-        $this->rank = $role['rank'] ?? 4;
+        $this->rank = $role['rank'] ?? self::DEFAULT_ROLE_RANK;
     }
 
     /**
