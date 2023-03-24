@@ -55,7 +55,7 @@ class VarzController extends Controller
                 'data' => $this->getSystemMetrics($code),
             ];
         }
-        return response($data);
+        return new Response($data);
     }
 
     /**

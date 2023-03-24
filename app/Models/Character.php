@@ -13,8 +13,8 @@ use Jenssegers\Mongodb\Eloquent\Model;
  * @method string getSystem()
  * @property int $campaign_id
  * @property string $created_at
- * @property string $handle
- * @property string $name
+ * @property ?string $handle
+ * @property ?string $name
  * @property string $owner
  * @property string $system
  * @property string $updated_at
