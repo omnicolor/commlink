@@ -142,9 +142,9 @@ final class ChannelsControllerTest extends TestCase
             'registered_by' => $user->id,
             'type' => Channel::TYPE_SLACK,
         ]);
-        self::assertSame($user->id, $channel->registered_by);
         self::actingAs($user)
             ->patchJson(route('channels.update', $channel), ['auto' => 1])
+            ->assertJson(['message' => 'Auto only works for Discord channels.'])
             ->assertUnprocessable();
     }
 
@@ -175,9 +175,9 @@ final class ChannelsControllerTest extends TestCase
             ),
         ]);
 
-        self::assertSame(Channel::TYPE_DISCORD, $channel->type);
         self::actingAs($user)
             ->patchJson(route('channels.update', $channel), ['auto' => 1])
+            ->assertJsonMissing(['errors' => []])
             ->assertOk();
         $channel->refresh();
         self::assertSame(

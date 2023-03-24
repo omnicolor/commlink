@@ -24,6 +24,10 @@ class Number extends Roll
 {
     use PrettifyRollsForSlack;
 
+    protected const MAX_DICE = 100;
+    protected const MIN_SUCCESS = 5;
+    protected const FAILURE = 1;
+
     /**
      * Number of dice to roll.
      * @var int
@@ -69,7 +73,7 @@ class Number extends Roll
 
         $args = \explode(' ', \trim($content));
         $this->dice = (int)\array_shift($args);
-        if ($this->dice > 100) {
+        if ($this->dice > self::MAX_DICE) {
             $this->error = 'You can\'t roll more than 100 dice!';
             return;
         }
@@ -149,10 +153,10 @@ class Number extends Roll
     {
         for ($i = 0; $i < $this->dice; $i++) {
             $this->rolls[] = $roll = random_int(1, 6);
-            if (5 <= $roll) {
+            if (self::MIN_SUCCESS <= $roll) {
                 $this->successes++;
             }
-            if (1 === $roll) {
+            if (self::FAILURE === $roll) {
                 $this->fails++;
             }
         }
@@ -285,15 +289,15 @@ class Number extends Roll
         $rerolled = 0;
         $this->fails = 0;
         foreach ($this->rolls as $key => $roll) {
-            if (5 === $roll || 6 === $roll) {
+            if (self::MIN_SUCCESS <= $roll) {
                 continue;
             }
             $rerolled++;
             $this->rolls[$key] = $roll = random_int(1, 6);
-            if (5 <= $roll) {
+            if (self::MIN_SUCCESS <= $roll) {
                 $this->successes++;
             }
-            if (1 === $roll) {
+            if (self::FAILURE === $roll) {
                 $this->fails++;
             }
         }

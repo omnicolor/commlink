@@ -47,7 +47,7 @@ class Nomad extends Role
             . 'to use a rifle, and everyone packs a knife. Like modern-day '
             . 'cowboys, you ride the hard trail. You\'ve got a gun, a bike, '
             . 'and your Family, and that\'s all you need. You\'re a Nomad.';
-        $this->rank = $role['rank'] ?? 4;
+        $this->rank = $role['rank'] ?? self::DEFAULT_ROLE_RANK;
     }
 
     /**
