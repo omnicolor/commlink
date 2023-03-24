@@ -25,14 +25,12 @@ use App\Traits\PrettifyRollsForSlack;
  */
 class Push extends Number
 {
-
     use PrettifyRollsForSlack;
 
     protected const MAX_DICE = 100;
     protected const MIN_SUCCESS = 5;
     protected const EXPLODING_SIX = 6;
     protected const FAILURE = 1;
-
 
     /**
      * User's description of what they're rolling for.

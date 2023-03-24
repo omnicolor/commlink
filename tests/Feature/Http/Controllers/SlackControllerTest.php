@@ -511,6 +511,8 @@ final class SlackControllerTest extends TestCase
         $slackUserId = 'U' . Str::random(8);
 
         $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
+
+        /** @var Channel */
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'system' => 'shadowrun5e',

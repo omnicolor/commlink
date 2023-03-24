@@ -487,12 +487,6 @@
     </UnusedForeachValue>
   </file>
   <file src="app/Http/Controllers/SlackController.php">
-    <UndefinedClass>
-      <code>\Log</code>
-      <code>\Log</code>
-      <code>\Log</code>
-      <code>\Log</code>
-    </UndefinedClass>
     <UnusedClass>
       <code>SlackController</code>
     </UnusedClass>
