@@ -30,10 +30,15 @@
     "license": "MIT",
     "minimum-stability": "stable",
     "name": "omnicolor/commlink",
+    "prefer-stable": true,
     "repositories": [
         {
             "type": "vcs",
             "url": "https://github.com/omnicolor/php-irc-client"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/omnicolor/phpmnd"
         }
     ],
     "require": {
@@ -72,6 +77,7 @@
         "phpstan/phpstan": "^1.2",
         "phpstan/phpstan-strict-rules": "^1.1",
         "phpunit/phpunit": "^10.0",
+        "povils/phpmnd": "dev-master",
         "psalm/plugin-laravel": "^2.7",
         "ramsey/uuid": "^4.3",
         "roave/security-advisories": "dev-latest",
@@ -94,8 +100,9 @@
         ],
         "infection": "infection --coverage=public/coverage",
         "lint": "parallel-lint --colors app config data tests",
-        "php-cs-fixer": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --config=php_cs.php -v --using-cache=no --diff",
-        "phpcs": "phpcs",
+        "php-cs-fixer": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --config=php_cs.php -v --diff",
+        "phpcs": "phpcs -p --colors --cache",
+        "phpmnd": "phpmnd --progress app",
         "phpstan": [
             "Composer\\Config::disableProcessTimeout",
             "phpstan analyze"
@@ -132,6 +139,7 @@
         "lint": "Run lint across code to make sure it's syntactically valid",
         "php-cs-fixer": "Run php-cs-fixer",
         "phpcs": "Run PHPCodesniffer",
+        "phpmnd": "Run PHP Magic Number Detector",
         "phpstan": "Run PHPstan",
         "psalm": "Run Psalm",
         "static": "Run static analysis (Lint, PHPStan, and Psalm)",

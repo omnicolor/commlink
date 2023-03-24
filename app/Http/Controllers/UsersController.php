@@ -31,8 +31,10 @@ class UsersController extends Controller
                 continue;
             }
 
+            // Unlikely to happen, but just in case there's something non-PHP in
+            // the Features directory...
             if ('text/x-php' !== mime_content_type($file->getPathname())) {
-                continue;
+                continue; // @codeCoverageIgnore
             }
 
             $class = 'App\\Features\\' . $file->getBasename('.php');

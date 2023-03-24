@@ -1,13 +1,15 @@
 .env
 .env.testing
+.php-cs-fixer.cache
 .phpcs.cache
 .phpunit.cache
-.phpunit.result.cache
 infection.json5
+infection.log
 node_modules
 npm-debug.log
 public/coverage
 public/hot
+public/infection.html
 public/storage
 storage/*.key
 storage/framework/db.sqlite

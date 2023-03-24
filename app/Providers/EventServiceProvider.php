@@ -57,7 +57,7 @@ class EventServiceProvider extends ServiceProvider
 
     /**
      * Subscriber classes to listen for.
-     * @var array<int, string>
+     * @var array<array-key, mixed>
      */
     protected $subscribe = [];
 
