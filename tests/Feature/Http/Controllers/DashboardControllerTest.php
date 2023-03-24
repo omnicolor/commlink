@@ -64,9 +64,9 @@ final class DashboardControllerTest extends TestCase
         $this->actingAs($user)
             ->get('/dashboard')
             ->assertSee($user->email)
-            ->assertSee($character1->handle)
+            ->assertSee((string)$character1->handle)
             ->assertSee(config('app.systems')[$character1->system])
-            ->assertSee($character2->handle)
+            ->assertSee((string)$character2->handle)
             ->assertSee(config('app.systems')[$character2->system]);
         $character1->delete();
         $character2->delete();

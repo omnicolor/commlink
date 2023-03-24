@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="icon" type="image/png" href="/favicon.ico" />
     <title>{{ config('app.name') }} RPG Manager - Login</title>
 </head>
 
@@ -160,6 +161,11 @@
         var password = $('#password');
         password.toggleClass('is-invalid', password === '');
         form.addClass('was-validated');
+    });
+    const favicon = document.querySelector('link[rel="icon"]');
+    document.addEventListener('visibilitychange', () => {
+        const hidden = document.hidden;
+        favicon.setAttribute('href', `/favicon${hidden ? '-hidden' : ''}.ico`);
     });
 </script>
 </body>

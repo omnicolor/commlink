@@ -144,6 +144,8 @@ class Number extends Roll
      */
     protected function getStuntPoints(): int
     {
+        // Count number of distinct values rolled to see if there are any that
+        // are the same.
         $values = \array_count_values($this->dice);
         if (3 === \count($values)) {
             // No doubles, no stunt points.

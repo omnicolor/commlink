@@ -4,25 +4,32 @@
         <ul class="card-body list-group list-group-flush" id="augmentations">
             @foreach ($augmentations as $augmentation)
                 <li class="list-group-item">
+                    @can('view data')
                     <span data-bs-html="true" data-bs-toggle="tooltip"
-                        data-bs-placement="right"
                         title="<p>{{ str_replace('||', '</p><p>', $augmentation->description) }}</p>">
                         {{ $augmentation }}
-                        @if (!is_null($augmentation->rating))
-                            - {{ $augmentation->rating }}
-                        @endif
-                        @if (!is_null($augmentation->grade))
-                            ({{ $augmentation->grade }})
-                        @endif
                     </span>
+                    @else
+                        {{ $augmentation }}
+                    @endcan
+                    @if (!is_null($augmentation->rating))
+                        - {{ $augmentation->rating }}
+                    @endif
+                    @if (!is_null($augmentation->grade))
+                        ({{ $augmentation->grade }})
+                    @endif
                     @if (!empty($augmentation->modifications))
                         <ul class="list-group list-group-flush">
                             @foreach ($augmentation->modifications as $mod)
                                 <li class="list-group-item">
+                                    @can('view data')
                                     <span data-bs-toggle="tooltip" data-bs-placement="right"
-                                        title="{{ $mod->description }}">
+                                        title="<p>{{ str_replace('||', '</p><p>', $mod->description) }}</p>">
                                         {{ $mod }}
                                     </span>
+                                    @else
+                                        {{ $mod }}
+                                    @endcan
                                 </li>
                             @endforeach
                         </ul>

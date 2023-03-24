@@ -71,7 +71,7 @@ final class SkillTest extends \Tests\TestCase
      * Return attributes and what the short form should be.
      * @return array<int, array<int, string>>
      */
-    public function attributeProvider(): array
+    public static function attributeProvider(): array
     {
         return [
             ['body', 'BOD'],

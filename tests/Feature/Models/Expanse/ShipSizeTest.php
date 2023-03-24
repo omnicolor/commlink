@@ -19,7 +19,7 @@ final class ShipSizeTest extends TestCase
      * Data provider for length tests.
      * @return array<int, array<ShipSize|string>>
      */
-    public function lengthProvider(): array
+    public static function lengthProvider(): array
     {
         return [
             [ShipSize::Tiny, '5m'],
@@ -48,7 +48,7 @@ final class ShipSizeTest extends TestCase
      * Data provider for hull tests.
      * @return array<int, array<ShipSize|string>>
      */
-    public function hullProvider(): array
+    public static function hullProvider(): array
     {
         return [
             [ShipSize::Tiny, '1d1'],
@@ -77,7 +77,7 @@ final class ShipSizeTest extends TestCase
      * Data provider for crew tests.
      * @return array<int, array<ShipSize|int>>
      */
-    public function crewProvider(): array
+    public static function crewProvider(): array
     {
         return [
             [ShipSize::Tiny, 1, 2],

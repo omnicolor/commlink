@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\ChannelsController;
 use App\Http\Controllers\InitiativesController;
 use App\Http\Controllers\SlackController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VarzController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,7 @@ Route::middleware('auth:sanctum')->group(function (): void {
         '/campaigns/{campaign}/initiatives',
         [InitiativesController::class, 'truncate']
     );
+    Route::resource('users', UsersController::class);
 });
 
 Route::options('/roll', [SlackController::class, 'options'])

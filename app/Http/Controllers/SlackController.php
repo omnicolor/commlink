@@ -45,7 +45,7 @@ class SlackController extends Controller
      */
     public function options(): Response
     {
-        return response('OK');
+        return new Response('OK');
     }
 
     /**

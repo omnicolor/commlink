@@ -16,6 +16,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Shadowrun5e\CharactersController as ShadowrunController;
 use App\Http\Controllers\SlackController;
 use App\Http\Controllers\StarTrekAdventures\CharactersController as StarTrekController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('discord/auth', [DiscordController::class, 'redirectToDiscord']);
@@ -179,6 +180,10 @@ Route::middleware('auth')->group(function (): void {
         ->name('settings')->middleware('web');
     Route::post('/settings/link-user', [SettingsController::class, 'linkUser'])
         ->name('settings-link-user');
+});
+
+Route::group(['middleware' => ['auth', 'permission:admin users']], function (): void {
+    Route::resource('users', UsersController::class);
 });
 
 Route::get('/', function () {
