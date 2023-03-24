@@ -13,6 +13,7 @@ use App\Http\Requests\Shadowrun5e\MartialArtsRequest;
 use App\Http\Requests\Shadowrun5e\QualitiesRequest;
 use App\Http\Requests\Shadowrun5e\RulesRequest;
 use App\Http\Requests\Shadowrun5e\SkillsRequest;
+use App\Http\Requests\Shadowrun5e\SocialRequest;
 use App\Http\Requests\Shadowrun5e\StandardPriorityRequest;
 use App\Http\Requests\Shadowrun5e\VitalsRequest;
 use App\Http\Resources\Shadowrun5e\CharacterResource;
@@ -1198,10 +1199,10 @@ class CharactersController extends Controller
         return $this->redirect($request->input('nav'), 'skills', $character);
     }
 
-    public function storeSocial(Request $request): RedirectResponse
+    public function storeSocial(SocialRequest $request): RedirectResponse
     {
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
 
         $characterId = $request->session()->get('shadowrun5epartial');
         $character = PartialCharacter::where('_id', $characterId)
