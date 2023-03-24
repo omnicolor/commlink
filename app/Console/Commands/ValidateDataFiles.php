@@ -38,7 +38,7 @@ class ValidateDataFiles extends Command
 
     /**
      * The console command description.
-     * @var string
+     * @var ?string
      */
     protected $description = 'Check data files installed for all enabled systems';
 

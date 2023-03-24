@@ -22,20 +22,21 @@ class InitiativesController extends Controller
             'Requested initiative is for a different campaign'
         );
         $initiative->delete();
-        return response()->noContent();
+        return new Response('', Response::HTTP_NO_CONTENT);
     }
 
     public function index(Campaign $campaign): Response
     {
         $this->authorize('gm', $campaign);
         $initiatives = Initiative::forCampaign($campaign)->get();
-        return response([
-            'initiatives' => $initiatives,
-        ]);
+        return new Response(['initiatives' => $initiatives]);
     }
 
-    public function update(Campaign $campaign, Initiative $initiative, Request $request): Response
-    {
+    public function update(
+        Campaign $campaign,
+        Initiative $initiative,
+        Request $request
+    ): Response {
         $this->authorize('gm', $campaign);
         abort_if(
             $campaign->id !== $initiative->campaign_id,
@@ -45,9 +46,7 @@ class InitiativesController extends Controller
         $initiative->update($request->only(['initiative', 'character_name']));
         $initiative->updated_at = now();
         $initiative->save();
-        return response([
-            'initiative' => $initiative,
-        ]);
+        return new Response(['initiative' => $initiative]);
     }
 
     public function show(Campaign $campaign, Initiative $initiative): Response
@@ -58,7 +57,7 @@ class InitiativesController extends Controller
             Response::HTTP_FORBIDDEN,
             'Requested initiative is for a different campaign'
         );
-        return response(['initiative' => $initiative]);
+        return new Response(['initiative' => $initiative]);
     }
 
     public function store(
@@ -84,13 +83,16 @@ class InitiativesController extends Controller
         ]);
         $initiative->refresh();
         InitiativeAdded::dispatch($initiative, $campaign, null);
-        return response(['initiative' => $initiative], Response::HTTP_CREATED);
+        return new Response(
+            ['initiative' => $initiative],
+            Response::HTTP_CREATED
+        );
     }
 
     public function truncate(Campaign $campaign): Response
     {
         $this->authorize('gm', $campaign);
         $initiatives = Initiative::forCampaign($campaign)->delete();
-        return response()->noContent();
+        return new Response('', Response::HTTP_NO_CONTENT);
     }
 }

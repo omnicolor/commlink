@@ -31,7 +31,7 @@ class CharacterFactory extends Factory
     /**
      * @var array<int, string>
      */
-    protected static array $socialClasses;
+    protected static ?array $socialClasses;
 
     public function __construct(...$args)
     {

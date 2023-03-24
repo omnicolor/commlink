@@ -190,7 +190,7 @@ final class HelpTest extends TestCase
 
         $response = (new Help('help', $channel->username, $channel))
             ->forDiscord();
-        self::assertStringContainsString($character->name, $response);
+        self::assertStringContainsString((string)$character->name, $response);
 
         $character->delete();
     }

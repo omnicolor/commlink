@@ -11,7 +11,6 @@ return [
      * for this type of information, allowing packages to have a conventional
      * file to locate the various service credentials.
      */
-
     'discord' => [
         'avatar_default_extension' => env('DISCORD_EXTENSION_DEFAULT', 'png'),
         'allow_gif_avatars' => (bool)env('DISCORD_AVATAR_GIF', true),

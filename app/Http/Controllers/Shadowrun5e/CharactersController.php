@@ -181,7 +181,7 @@ class CharactersController extends Controller
     /**
      * Redirect the user where they need to go based on which save button they
      * clicked.
-     * @param string $direction next or prev
+     * @param string $direction Next or prev
      * @param string $step Current step
      * @param PartialCharacter $character
      * @return RedirectResponse
@@ -192,13 +192,13 @@ class CharactersController extends Controller
         PartialCharacter $character
     ): RedirectResponse {
         if ('prev' === $direction) {
-            return redirect(\sprintf(
+            return new RedirectResponse(\sprintf(
                 '/characters/shadowrun5e/create/%s',
                 $this->previousStep($step, $character),
             ));
         }
 
-        return redirect(\sprintf(
+        return new RedirectResponse(\sprintf(
             '/characters/shadowrun5e/create/%s',
             $this->nextStep($step, $character),
         ));

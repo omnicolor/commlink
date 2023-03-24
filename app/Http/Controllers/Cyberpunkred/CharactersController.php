@@ -28,8 +28,6 @@ class CharactersController extends Controller
 {
     /**
      * Based on what has been entered, determine the next step.
-     * @param PartialCharacter $character
-     * @return string
      */
     protected function nextStep(PartialCharacter $character): string
     {
@@ -50,8 +48,6 @@ class CharactersController extends Controller
 
     /**
      * Find a partial character if the user has already chosen one.
-     * @param Request $request
-     * @return ?PartialCharacter
      */
     protected function findPartialCharacter(
         Request $request,
@@ -84,9 +80,6 @@ class CharactersController extends Controller
 
     /**
      * Show the form for creating a new character.
-     * @param Request $request
-     * @param string $step
-     * @return RedirectResponse|View
      */
     public function createForm(
         Request $request,
@@ -209,7 +202,9 @@ class CharactersController extends Controller
                 ) {
                     // If the character hasn't picked a role yet, they need to
                     // do that first.
-                    return redirect('/characters/cyberpunkred/create/role');
+                    return new RedirectResponse(
+                        '/characters/cyberpunkred/create/role'
+                    );
                 }
                 $role = $character->roles[0]['role'];
                 return view(
@@ -240,8 +235,6 @@ class CharactersController extends Controller
 
     /**
      * Store the character's handle.
-     * @param HandleRequest $request
-     * @return RedirectResponse
      */
     public function storeHandle(HandleRequest $request): RedirectResponse
     {
@@ -253,7 +246,7 @@ class CharactersController extends Controller
             ->firstOrFail();
         $character->handle = $request->input('handle');
         $character->update();
-        return redirect(sprintf(
+        return new RedirectResponse(sprintf(
             '/characters/cyberpunkred/create/%s',
             $this->nextStep($character)
         ));
@@ -261,8 +254,6 @@ class CharactersController extends Controller
 
     /**
      * Store the character's lifepath.
-     * @param LifepathRequest $request
-     * @return RedirectResponse
      */
     public function storeLifepath(LifepathRequest $request): RedirectResponse
     {
@@ -280,7 +271,7 @@ class CharactersController extends Controller
         $character->lifepath = $lifepath;
         $character->update();
 
-        return redirect(sprintf(
+        return new RedirectResponse(sprintf(
             '/characters/cyberpunkred/create/%s',
             $this->nextStep($character)
         ));
@@ -288,8 +279,6 @@ class CharactersController extends Controller
 
     /**
      * Store the character's role.
-     * @param RoleRequest $request
-     * @return RedirectResponse
      */
     public function storeRole(RoleRequest $request): RedirectResponse
     {
@@ -306,7 +295,7 @@ class CharactersController extends Controller
             ],
         ];
         $character->update();
-        return redirect(sprintf(
+        return new RedirectResponse(sprintf(
             '/characters/cyberpunkred/create/%s',
             $this->nextStep($character)
         ));
@@ -314,8 +303,6 @@ class CharactersController extends Controller
 
     /**
      * Store the character's base stats.
-     * @param StatsRequest $request
-     * @return RedirectResponse
      */
     public function storeStats(StatsRequest $request): RedirectResponse
     {
@@ -338,7 +325,7 @@ class CharactersController extends Controller
             'willpower',
         ]));
         $character->update();
-        return redirect(sprintf(
+        return new RedirectResponse(sprintf(
             '/characters/cyberpunkred/create/%s',
             $this->nextStep($character)
         ));
@@ -358,8 +345,6 @@ class CharactersController extends Controller
 
     /**
      * Return a single Cyberpunk Red character.
-     * @param string $identifier
-     * @return JsonResource
      */
     public function show(string $identifier): JsonResource
     {
@@ -374,8 +359,6 @@ class CharactersController extends Controller
 
     /**
      * View a character's sheet.
-     * @param Character $character
-     * @return View
      */
     public function view(Character $character): View
     {
