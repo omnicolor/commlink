@@ -94,12 +94,6 @@ class Shadowrun5eConverter implements ConverterInterface
     ];
 
     /**
-     * Text portfolio.
-     * @var array<int, string>
-     */
-    protected array $text;
-
-    /**
      * Hero portfolio.
      * @var SimpleXMLElement
      */

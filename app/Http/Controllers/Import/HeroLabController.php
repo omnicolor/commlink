@@ -8,15 +8,19 @@ use App\Http\Controllers\Controller;
 use App\Services\HeroLab\Shadowrun5eConverter;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\MessageBag;
 use Illuminate\View\View;
 use RuntimeException;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class HeroLabController extends Controller
 {
     public function upload(Request $request): RedirectResponse | View
     {
-        $user = \Auth::user();
+        $user = Auth::user();
         try {
             $herolab = new Shadowrun5eConverter($request->character->path());
             $character = $herolab->convert();
@@ -36,7 +40,7 @@ class HeroLabController extends Controller
 
     public function view(): View
     {
-        $user = \Auth::user();
+        $user = Auth::user();
         return view('Import.herolab', ['user' => $user]);
     }
 }
