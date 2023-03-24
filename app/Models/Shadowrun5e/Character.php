@@ -8,6 +8,7 @@ use App\Models\Character as BaseCharacter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
@@ -72,6 +73,7 @@ use RuntimeException;
 class Character extends BaseCharacter
 {
     use HasFactory;
+    use Notifiable;
 
     /**
      * @var array<string, mixed>

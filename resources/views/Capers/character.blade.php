@@ -73,8 +73,10 @@
     <div class="row mt-4">
         <div class="col-1"></div>
         <div class="attribute-card border col d-flex mx-1 rounded"
+            @can('view data')
             title="Charisma is your character’s personality and force of will. It defines how your character interacts with others, regardless of whether they’re telling the truth or lying. It also governs their maximum Hits."
-            data-bs-toggle="tooltip">
+            data-bs-toggle="tooltip"
+            @endcan>
             <div class="circle d-flex float-end">
                 <div class="align-self-center flex-fill text-center">
                     {{ $character->getTraitDefense('charisma') }}
@@ -87,8 +89,10 @@
             <div class="align-self-end"><span class="rotated">C</span></div>
         </div>
         <div class="attribute-card border col d-flex mx-1 rounded"
+            @can('view data')
             title="Agility is your character’s physical dexterity. It governs both their flexibility and hand-eye coordination. It comes into play with ranged combat, as well as tumbling, balancing, and sleight of hand. It also governs their Body score."
-            data-bs-toggle="tooltip">
+            data-bs-toggle="tooltip"
+            @endcan>
             <div class="circle d-flex float-end">
                 <div class="align-self-center flex-fill text-center">
                     {{ $character->getTraitDefense('agility') }}
@@ -101,8 +105,10 @@
             <div class="align-self-end"><span class="rotated">A</span></div>
         </div>
         <div class="attribute-card border col d-flex mx-1 rounded"
+            @can('view data')
             title="Perception is your character’s ability to take in everything around them. It covers sight, hearing, all the other senses, and your character’s ability to read others’ motives, strengths, and weaknesses. It also governs their Mind score."
-            data-bs-toggle="tooltip">
+            data-bs-toggle="tooltip"
+            @endcan>
             <div class="circle d-flex float-end">
                 <div class="align-self-center flex-fill text-center">
                     {{ $character->getTraitDefense('perception') }}
@@ -115,8 +121,10 @@
             <div class="align-self-end"><span class="rotated">P</span></div>
         </div>
         <div class="attribute-card border col d-flex mx-1 rounded"
+            @can('view data')
             title="Expertise is your character’s book smarts, intelligence, and ability to draw conclusions in a logical manner. It covers many areas of academia. It also governs the number of Skills they have."
-            data-bs-toggle="tooltip">
+            data-bs-toggle="tooltip"
+            @endcan>
             <div class="circle d-flex float-end">
                 <div class="align-self-center flex-fill text-center">
                     {{ $character->getTraitDefense('expertise') }}
@@ -129,8 +137,10 @@
             <div class="align-self-end"><span class="rotated">E</span></div>
         </div>
         <div class="attribute-card border col d-flex mx-1 rounded"
+            @can('view data')
             title="Resilience is your character’s physical toughness. It defines how your character resists physical pain as well as mental exhaustion. It also governs their maximum Hits."
-            data-bs-toggle="tooltip">
+            data-bs-toggle="tooltip"
+            @endcan>
             <div class="circle d-flex float-end">
                 <div class="align-self-center flex-fill text-center">
                     {{ $character->getTraitDefense('resilience') }}
@@ -143,8 +153,10 @@
             <div class="align-self-end"><span class="rotated">R</span></div>
         </div>
         <div class="attribute-card border col d-flex mx-1 rounded"
+            @can('view data')
             title="Strength covers your character’s raw physical power. It comes into play in melee combat and in performing feats of strength, such as jumping, climbing, lifting, and swimming."
-            data-bs-toggle="tooltip">
+            data-bs-toggle="tooltip"
+            @endcan>
             <div class="circle d-flex float-end">
                 <div class="align-self-center flex-fill text-center">
                     {{ $character->getTraitDefense('strength') }}
@@ -159,7 +171,11 @@
         <div class="border col ms-3 rounded">
             <ul>
             @forelse ($character->skills as $skill)
+                @can('view data')
                 <li data-bs-toggle="tooltip" title="{{ $skill->description }}">
+                @else
+                <li>
+                @endcan
                     {{ (string)$skill }}
                 </li>
             @empty
@@ -282,8 +298,10 @@
         <div class="col-7">
             <div class="row">
                 <div class="border col-4 mx-1 rounded"
+                    @can('view data')
                     title="Your character’s Hits score represents how hard your character is to take down. It’s a combination of physical toughness, sheer willpower to keep going while hurt, and a little bit of luck. If a character’s Hits drops to 0, they fall unconscious and might die."
-                    data-bs-toggle="tooltip">
+                    data-bs-toggle="tooltip"
+                    @endcan>
                     <div class="row">
                         <div class="border-end col-4 my-1 text-center">
                             <div class="fs-2">{{ $character->maximum_hits }}</div>
@@ -296,26 +314,34 @@
                     </div>
                 </div>
                 <div class="border col mx-1 rounded text-center"
+                    @can('view data')
                     title="Your character’s Body score represents how hard it is to hit them in physical combat."
-                    data-bs-toggle="tooltip">
+                    data-bs-toggle="tooltip"
+                    @endcan>
                     <div class="computed-trait fs-2" id="body">{{ $character->body }}</div>
                     <div class="fw-bold">Body</div>
                 </div>
                 <div class="border col mx-1 rounded text-center"
+                    @can('view data')
                     title="Your character’s Mind score represents how difficult it is to affect their mind."
-                    data-bs-toggle="tooltip">
+                    data-bs-toggle="tooltip"
+                    @endcan>
                     <div class="computed-trait fs-2" id="mind">{{ $character->mind }}</div>
                     <div class="fw-bold">Mind</div>
                 </div>
                 <div class="border col mx-1 rounded text-center"
+                    @can('view data')
                     title="This score represents how far your character can move, in feet, in one round."
-                    data-bs-toggle="tooltip">
+                    data-bs-toggle="tooltip"
+                    @endcan>
                     <div class="computed-trait fs-2" id="speed">{{ $character->speed }}</div>
                     <div class="fw-bold">Speed</div>
                 </div>
                 <div class="border col mx-1 rounded text-center"
+                    @can('view data')
                     title="Moxie represents added effort and determination people can exert when they really need to succeed."
-                    data-bs-toggle="tooltip">
+                    data-bs-toggle="tooltip"
+                    @endcan>
                     <div class="computed-trait fs-2" id="moxie">{{ $character->moxie ?? '?' }}</div>
                     <div class="fw-bold">Moxie</div>
                 </div>
@@ -412,7 +438,11 @@
                     <div class="row my-1">
                         <div class="bg-white col mx-1">
                             @foreach ($power->boosts as $boost)
+                                @can('view data')
                                 <span data-bs-toggle="tooltip" title="{{ $boost->description }}">
+                                @else
+                                    </span>
+                                @endcan
                                     {{ $boost }}<br>
                                 </span>
                             @endforeach

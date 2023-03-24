@@ -24,6 +24,11 @@ use App\Rolls\Roll;
  */
 class Push extends Number
 {
+    protected const MAX_DICE = 100;
+    protected const MIN_SUCCESS = 5;
+    protected const EXPLODING_SIX = 6;
+    protected const FAILURE = 1;
+
     /**
      * User's description of what they're rolling for.
      */
@@ -94,7 +99,7 @@ class Push extends Number
         }
 
         $this->dice = (int)\array_shift($args);
-        if (100 < $this->dice) {
+        if (self::MAX_DICE < $this->dice) {
             $this->error = 'You can\'t roll more than 100 dice';
             return;
         }
@@ -193,16 +198,16 @@ class Push extends Number
         // @phpstan-ignore-next-line
         for ($i = 0; $i < $this->dice + $this->character->edge; $i++) {
             $this->rolls[] = $roll = random_int(1, 6);
-            if (6 === $roll) {
+            if (self::EXPLODING_SIX === $roll) {
                 // Explode the six.
                 $i--;
                 $this->exploded++;
             }
-            if (5 <= $roll) {
+            if (self::MIN_SUCCESS <= $roll) {
                 $this->successes++;
                 continue;
             }
-            if (1 === $roll) {
+            if (self::FAILURE === $roll) {
                 $this->fails++;
             }
         }

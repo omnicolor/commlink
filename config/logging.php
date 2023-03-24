@@ -19,6 +19,7 @@ return [
 
     /*
      * Log Channels
+     *
      * Here you may configure the log channels for your application. Out of the
      * box, Laravel uses the Monolog PHP logging library. This gives you a
      * variety of powerful log handlers / formatters to utilize.
@@ -47,21 +48,10 @@ return [
         'null' => [
             'driver' => 'monolog',
             'handler' => NullHandler::class,
-        ],
-        'papertrail' => [
-            'driver' => 'monolog',
-            'level' => env('LOG_LEVEL', 'debug'),
-            'handler' => SyslogUdpHandler::class,
-            'handler_with' => [
-                'host' => env('PAPERTRAIL_URL'),
-                'port' => env('PAPERTRAIL_PORT'),
-            ],
-        ],
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
-            'with_placeholders' => true,
         ],
         'slack' => [
             'driver' => 'slack',
@@ -74,6 +64,15 @@ return [
             'driver' => 'stack',
             'channels' => ['single'],
             'ignore_exceptions' => false,
+        ],
+        'papertrail' => [
+            'driver' => 'monolog',
+            'level' => env('LOG_LEVEL', 'debug'),
+            'handler' => SyslogUdpHandler::class,
+            'handler_with' => [
+                'host' => env('PAPERTRAIL_URL'),
+                'port' => env('PAPERTRAIL_PORT'),
+            ],
         ],
         'stderr' => [
             'driver' => 'monolog',
