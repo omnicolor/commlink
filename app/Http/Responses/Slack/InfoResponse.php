@@ -81,6 +81,6 @@ class InfoResponse extends SlackResponse
         if (null === $character) {
             return 'Invalid character';
         }
-        return $character->handle ?? $character->name;
+        return $character->handle ?? $character->name ?? 'Unnamed';
     }
 }
