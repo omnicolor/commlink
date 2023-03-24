@@ -150,7 +150,7 @@ final class CharacterTest extends TestCase
      * Provide different raw armor settings and expected armor value.
      * @return array<string, array<int, array<int, array<string, array<int, string>|bool|string>>|int>>
      */
-    public function armorValueProvider(): array
+    public static function armorValueProvider(): array
     {
         return [
             'Has armor, but not active' => [
@@ -818,7 +818,7 @@ final class CharacterTest extends TestCase
 
         $character = $this->getMockBuilder(Character::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getQualities'])
+            ->onlyMethods(['getQualities'])
             ->setConstructorArgs([['system' => 'shadowrun5e']])
             ->getMock();
         $character->method('getQualities')->willReturn($qualities);
@@ -1092,7 +1092,7 @@ final class CharacterTest extends TestCase
 
         $character = $this->getMockBuilder(Character::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getArmor'])
+            ->onlyMethods(['getArmor'])
             ->setConstructorArgs([['system' => 'shadowrun5e']])
             ->getMock();
         $character->method('getArmor')->willReturn($armorArray);
@@ -1115,7 +1115,7 @@ final class CharacterTest extends TestCase
 
         $character = $this->getMockBuilder(Character::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getArmor'])
+            ->onlyMethods(['getArmor'])
             ->setConstructorArgs([['system' => 'shadowrun5e']])
             ->getMock();
         $character->method('getArmor')->willReturn($armorArray);
@@ -1138,7 +1138,7 @@ final class CharacterTest extends TestCase
 
         $character = $this->getMockBuilder(Character::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getArmor'])
+            ->onlyMethods(['getArmor'])
             ->setConstructorArgs([['system' => 'shadowrun5e']])
             ->getMock();
         $character->method('getArmor')->willReturn($armorArray);
@@ -1247,7 +1247,7 @@ final class CharacterTest extends TestCase
 
         $character = $this->getMockBuilder(Character::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getArmor'])
+            ->onlyMethods(['getArmor'])
             ->setConstructorArgs([['system' => 'shadowrun5e']])
             ->getMock();
         $character->method('getArmor')->willReturn($armorArray);
@@ -1274,7 +1274,7 @@ final class CharacterTest extends TestCase
 
         $character = $this->getMockBuilder(Character::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getQualities'])
+            ->onlyMethods(['getQualities'])
             ->setConstructorArgs([['system' => 'shadowrun5e']])
             ->getMock();
         $character->method('getQualities')->willReturn($qualities);
@@ -1299,7 +1299,7 @@ final class CharacterTest extends TestCase
 
         $character = $this->getMockBuilder(Character::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getQualities'])
+            ->onlyMethods(['getQualities'])
             ->setConstructorArgs([['system' => 'shadowrun5e']])
             ->getMock();
         $character->method('getQualities')->willReturn($qualities);
@@ -1338,7 +1338,7 @@ final class CharacterTest extends TestCase
 
         $character = $this->getMockBuilder(Character::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getQualities'])
+            ->onlyMethods(['getQualities'])
             ->setConstructorArgs([['system' => 'shadowrun5e']])
             ->getMock();
         $character->method('getQualities')->willReturn($qualities);

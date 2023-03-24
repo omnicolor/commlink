@@ -77,7 +77,7 @@ final class KnowledgeSkillTest extends TestCase
      * Provider for testing category to attribute mappings.
      * @return array<string[]>
      */
-    public function provideCategoryAttributeMappings(): array
+    public static function provideCategoryAttributeMappings(): array
     {
         return [
             ['academic', 'logic'],
@@ -111,7 +111,7 @@ final class KnowledgeSkillTest extends TestCase
      * Return a mapping of full category names to short names.
      * @return array<int, array<int, string>>
      */
-    public function provideShortCategoryMappings(): array
+    public static function provideShortCategoryMappings(): array
     {
         return [
             ['academic', 'acad'],
@@ -138,7 +138,7 @@ final class KnowledgeSkillTest extends TestCase
     /**
      * @return array<int, array<int, string>>
      */
-    public function namesProvider(): array
+    public static function namesProvider(): array
     {
         return [
             ['Or\'zet', 'Orzet'],

@@ -48,7 +48,7 @@ class Netrunner extends Role
             . 'trading, and selling their deepest secrets at will. The Black '
             . 'ICE may still kill you in the end, but until the ride runs out '
             . 'you\'ll be there, bare-brained and headfirst in the New NET.';
-        $this->rank = $role['rank'] ?? 4;
+        $this->rank = $role['rank'] ?? self::DEFAULT_ROLE_RANK;
     }
 
     /**

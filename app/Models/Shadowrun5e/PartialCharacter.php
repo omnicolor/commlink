@@ -10,6 +10,8 @@ namespace App\Models\Shadowrun5e;
  */
 class PartialCharacter extends Character
 {
+    protected const DEFAULT_MAX_ATTRIBUTE = 6;
+
     protected const PRIORITY_STANDARD = 'standard';
     protected const PRIORITY_SUM_TO_TEN = 'sum-to-ten';
     protected const PRIORITY_KARMA = 'karma';
@@ -28,7 +30,6 @@ class PartialCharacter extends Character
 
     protected string $priority_method;
 
-    // @phpstan-ignore-next-line
     public function newFromBuilder(
         $attributes = [],
         $connection = null
@@ -79,7 +80,7 @@ class PartialCharacter extends Character
                 'strength' => 10,
             ],
         ];
-        $max = $maximums[$this->metatype][$attribute] ?? 6;
+        $max = $maximums[$this->metatype][$attribute] ?? self::DEFAULT_MAX_ATTRIBUTE;
         foreach ($this->getQualities() as $quality) {
             if (!isset($quality->effects['maximum-' . $attribute])) {
                 continue;
@@ -236,6 +237,7 @@ class PartialCharacter extends Character
     }
 
     /**
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, string>
      */
     protected function validateAttributes(): array

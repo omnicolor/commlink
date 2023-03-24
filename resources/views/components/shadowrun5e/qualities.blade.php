@@ -4,11 +4,14 @@
         <ul class="card-body list-group list-group-flush" id="qualities">
             @foreach ($qualities as $quality)
                 <li class="list-group-item">
+                    @can('view data')
                     <span data-bs-html="true" data-bs-toggle="tooltip"
-                        data-bs-placement="right"
                         title="<p>{{ str_replace('||', '</p><p>', $quality->description) }}</p>">
                         {{ $quality }}
                     </span>
+                    @else
+                        {{ $quality }}
+                    @endcan
                 </li>
             @endforeach
         </ul>

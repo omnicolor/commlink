@@ -65,7 +65,7 @@ class Fixer extends Role
             . 'past, they would have called you a crime lord. But this is the '
             . 'fragmented, nasty, deadly Time of the Red. So now they call you '
             . 'a Fixer.';
-        $this->rank = $role['rank'] ?? 4;
+        $this->rank = $role['rank'] ?? self::DEFAULT_ROLE_RANK;
         $this->type = $role['type'] ?? self::TYPE_BROKER_DEALS;
     }
 

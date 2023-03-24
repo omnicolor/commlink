@@ -16,9 +16,9 @@ use Tests\TestCase;
  */
 final class Shadowrun5eConverterTest extends TestCase
 {
-    protected string $dataDirectory;
+    protected static string $dataDirectory;
 
-    public function __construct()
+    public static function setUpBeforeClass(): void
     {
         $path = explode(
             \DIRECTORY_SEPARATOR,
@@ -28,8 +28,7 @@ final class Shadowrun5eConverterTest extends TestCase
         $path[] = 'HeroLab';
         $path[] = 'Shadowrun5e';
         $path[] = null;
-        $this->dataDirectory = implode(\DIRECTORY_SEPARATOR, $path);
-        parent::__construct();
+        self::$dataDirectory = implode(\DIRECTORY_SEPARATOR, $path);
     }
 
     /**
@@ -38,7 +37,7 @@ final class Shadowrun5eConverterTest extends TestCase
      */
     public function testCreateIDFromName(): void
     {
-        $hl = new Shadowrun5eConverter($this->dataDirectory . 'brian.por');
+        $hl = new Shadowrun5eConverter(self::$dataDirectory . 'brian.por');
         self::assertSame('blades', $hl->createIDFromName('Blades'));
         self::assertSame(
             'pilot-ground-craft',
@@ -94,7 +93,7 @@ final class Shadowrun5eConverterTest extends TestCase
     {
         self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Failed to load Portfolio stats');
-        new Shadowrun5eConverter($this->dataDirectory . 'bad-xml.por');
+        new Shadowrun5eConverter(self::$dataDirectory . 'bad-xml.por');
     }
 
     /**
@@ -107,7 +106,7 @@ final class Shadowrun5eConverterTest extends TestCase
         self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Portfolio metadata is invalid');
         new Shadowrun5eConverter(
-            $this->dataDirectory . 'invalid-priorities.por'
+            self::$dataDirectory . 'invalid-priorities.por'
         );
     }
 
@@ -120,7 +119,7 @@ final class Shadowrun5eConverterTest extends TestCase
     {
         self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Portfolio metadata is invalid');
-        new Shadowrun5eConverter($this->dataDirectory . 'missing-lead1.por');
+        new Shadowrun5eConverter(self::$dataDirectory . 'missing-lead1.por');
     }
 
     /**
@@ -131,7 +130,7 @@ final class Shadowrun5eConverterTest extends TestCase
     {
         self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Failed to load Portfolio stats');
-        new Shadowrun5eConverter($this->dataDirectory . 'no-files.por');
+        new Shadowrun5eConverter(self::$dataDirectory . 'no-files.por');
     }
 
     /**
@@ -141,7 +140,7 @@ final class Shadowrun5eConverterTest extends TestCase
      */
     public function testConvertPortfolio(): void
     {
-        $hl = new Shadowrun5eConverter($this->dataDirectory . 'brian.por');
+        $hl = new Shadowrun5eConverter(self::$dataDirectory . 'brian.por');
         $expectedBackground = [
             'age' => 25,
             'hair' => '',
@@ -212,7 +211,7 @@ final class Shadowrun5eConverterTest extends TestCase
      */
     public function testAnotherPortfolio(): void
     {
-        $hl = new Shadowrun5eConverter($this->dataDirectory . 'Test.por');
+        $hl = new Shadowrun5eConverter(self::$dataDirectory . 'Test.por');
         $character = $hl->convert();
 
         self::assertStringNotContainsString(
@@ -250,7 +249,7 @@ final class Shadowrun5eConverterTest extends TestCase
      */
     public function testPrime(): void
     {
-        $hl = new Shadowrun5eConverter($this->dataDirectory . 'Prime.por');
+        $hl = new Shadowrun5eConverter(self::$dataDirectory . 'Prime.por');
         $character = $hl->convert();
 
         // @phpstan-ignore-next-line
@@ -265,7 +264,7 @@ final class Shadowrun5eConverterTest extends TestCase
      */
     public function testLifeModule(): void
     {
-        $hl = new Shadowrun5eConverter($this->dataDirectory . 'LifeModule.por');
+        $hl = new Shadowrun5eConverter(self::$dataDirectory . 'LifeModule.por');
         $character = $hl->convert();
 
         self::assertStringContainsString(
@@ -283,7 +282,7 @@ final class Shadowrun5eConverterTest extends TestCase
      */
     public function testPointBuy(): void
     {
-        $hl = new Shadowrun5eConverter($this->dataDirectory . 'PointBuy.por');
+        $hl = new Shadowrun5eConverter(self::$dataDirectory . 'PointBuy.por');
         $character = $hl->convert();
 
         self::assertStringContainsString(
@@ -302,7 +301,7 @@ final class Shadowrun5eConverterTest extends TestCase
      */
     public function testMetamagic(): void
     {
-        $hl = new Shadowrun5eConverter($this->dataDirectory . 'Metamagic.por');
+        $hl = new Shadowrun5eConverter(self::$dataDirectory . 'Metamagic.por');
         $character = $hl->convert();
 
         self::assertSame(

@@ -14,6 +14,8 @@ use App\Models\Slack\TextAttachment;
  */
 class RegisterResponse extends SlackResponse
 {
+    protected const MIN_NUM_ARGUMENTS = 2;
+
     /**
      * Constructor.
      * @param string $content
@@ -51,7 +53,7 @@ class RegisterResponse extends SlackResponse
 
         $systems = config('app.systems');
         $args = \explode(' ', $content);
-        if (2 !== \count($args)) {
+        if (self::MIN_NUM_ARGUMENTS !== \count($args)) {
             throw new SlackException(\sprintf(
                 'To register a channel, use `register [system]`, where system '
                     . 'is a system code: %s',

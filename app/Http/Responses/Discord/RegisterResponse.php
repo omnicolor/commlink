@@ -14,6 +14,8 @@ use Discord\Parts\Channel\Channel as TextChannel;
  */
 class RegisterResponse
 {
+    protected const MIN_NUM_ARGUMENTS = 2;
+
     protected string $message = '';
 
     /**
@@ -24,7 +26,7 @@ class RegisterResponse
     {
         $arguments = \explode(' ', trim($this->event->content));
         $systems = config('app.systems');
-        if (2 !== \count($arguments)) {
+        if (self::MIN_NUM_ARGUMENTS !== \count($arguments)) {
             $this->sendMissingArgumentError($systems);
             return;
         }

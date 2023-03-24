@@ -7,6 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="icon" type="image/png" href="/favicon.ico" />
     <title>
         {{ config('app.name') }}
         @if (isset($title))
@@ -68,9 +69,28 @@
 <script src="/js/jquery.min.js"></script>
 <script src="/js/app.js"></script>
 <script>
+const broadcast = new BroadcastChannel('commlink');
 $('#logout').on('click', function (e) {
     e.preventDefault();
     $('#logout-form').submit();
+    broadcast.postMessage('logout');
+});
+$(function () {
+    broadcast.onmessage = (event) => {
+        switch (event.data) {
+            case 'logout':
+                window.location.href = '/';
+                break;
+            default:
+                window.console.log(event);
+                break;
+        };
+    };
+    const favicon = document.querySelector('link[rel="icon"]');
+    document.addEventListener('visibilitychange', () => {
+        const hidden = document.hidden;
+        favicon.setAttribute('href', `/favicon${hidden ? '-hidden' : ''}.ico`);
+    });
 });
 </script>
 @if (isset($javascript))

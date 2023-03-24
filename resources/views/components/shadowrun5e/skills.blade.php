@@ -7,10 +7,15 @@
             </div>
             @foreach ($group->skills as $skill)
                 <div class="row m-0 p-2 @if ($loop->last) border-bottom @endif ">
-                    <div class="col ms-4 ps-4 text-truncate" data-bs-html="true"
-                        data-bs-toggle="tooltip" data-bs-placement="right"
-                        title="<p>{{ str_replace('||', '</p><p>', $skill->description) }}</p>">
-                        {{ $skill }}
+                    <div class="col ms-4 ps-4 text-truncate">
+                        @can('view data')
+                        <span data-bs-html="true" data-bs-toggle="tooltip"
+                            title="<p>{{ str_replace('||', '</p><p>', $skill->description) }}</p>">
+                            {{ $skill }}
+                        </span>
+                        @else
+                            {{ $skill }}
+                        @endcan
                     </div>
                     <div class="col-1">{{ $group->level }}</div>
                     <div class="col-1 text-nowrap">
@@ -34,15 +39,16 @@
             @endif
         @endforelse
         @forelse ($skills as $skill)
-            <div class="row m-0 p-2
-            @if (!$loop->last)
-                    border-bottom
-                @endif
-                ">
-                <div class="col text-truncate" data-bs-toggle="tooltip"
-                    data-bs-placement="right" data-bs-html="true"
-                    title="<p>{{ str_replace('||', '</p><p>', $skill->description) }}</p>">
-                    {{ $skill->name }}
+            <div class="row m-0 p-2 @if (!$loop->last) border-bottom @endif ">
+                <div class="col text-truncate">
+                    @can('view data')
+                    <span data-bs-toggle="tooltip" data-bs-html="true"
+                        title="<p>{{ str_replace('||', '</p><p>', $skill->description) }}</p>">
+                        {{ $skill }}
+                    </span>
+                    @else
+                        {{ $skill }}
+                    @endcan
                     @if ($skill->specialization)
                         ({{ $skill->specialization }})
                     @endif

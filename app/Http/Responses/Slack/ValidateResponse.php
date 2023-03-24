@@ -17,6 +17,8 @@ use App\Models\User;
  */
 class ValidateResponse extends SlackResponse
 {
+    protected const MIN_NUM_ARGUMENTS = 2;
+
     /**
      * User linked to the request.
      * @var User
@@ -43,7 +45,7 @@ class ValidateResponse extends SlackResponse
         }
 
         $args = \explode(' ', $content);
-        if (2 !== \count($args)) {
+        if (self::MIN_NUM_ARGUMENTS !== \count($args)) {
             throw new SlackException(\sprintf(
                 'To link your Commlink user, go to the '
                     . '<%s/settings|settings page> and copy the command listed '

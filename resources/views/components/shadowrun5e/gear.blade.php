@@ -20,18 +20,31 @@
             @endphp
             <tr>
                 <td {!! $class !!}>
-                    <span data-bs-html="true" data-bs-placement="right"
-                        data-bs-toggle="tooltip"
+                    @can('view data')
+                    <span data-bs-html="true" data-bs-toggle="tooltip"
                         title="<p>{!! str_replace(['||', '"'], ['</p><p>', '&quot;'], $gear->description) !!}</p>">
                         {{ $gear }}
-                        @if (!empty($gear->modifications))
-                        <small class="text-muted">
-                        @foreach ($gear->modifications as $mod)
-                            {{ $mod }}@if (!$loop->last),@endif
-                        @endforeach
-                        </small>
-                        @endif
                     </span>
+                    @else
+                        {{ $gear }}
+                    @endcan
+                    @if (!empty($gear->modifications))
+                        <small class="text-muted">
+                            @foreach ($gear->modifications as $mod)
+                                @can('view data')
+                                <span data-bs-html="true" data-bs-toggle="tooltip"
+                                    title="<p>{!! str_replace(['||', '"'], ['</p><p>', '&quot;'], $mod->description) !!}</p>">
+                                    {{ $mod }}@if ($mod->rating)
+                                        ({{ $mod->rating }})
+                                    @endif</span>@if (!$loop->last),@endif
+                                @else
+                                    {{ $mod }}@if ($mod->rating)
+                                        ({{ $mod->rating }})
+                                    @endif</span>@if (!$loop->last),@endif
+                                @endcan
+                            @endforeach
+                        </small>
+                    @endif
                 </td>
                 <td {!! $class !!}>{{ $gear->rating }}</td>
                 <td {!! $class !!}>{{ $gear->quantity }}</td>

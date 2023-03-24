@@ -152,7 +152,7 @@ final class ChannelsControllerTest extends TestCase
         ]);
         $this->actingAs($user)
             ->patchJson(
-                route('channels.update', $channel),
+                route('channels.update', $channel->id),
                 ['auto' => 1]
             )
             ->assertJson(['message' => 'Auto only works for Discord channels.'])
@@ -189,7 +189,7 @@ final class ChannelsControllerTest extends TestCase
         self::assertSame(Channel::TYPE_DISCORD, $channel->type);
         self::actingAs($user)
             ->patchJson(
-                route('channels.update', $channel),
+                route('channels.update', $channel->id),
                 ['auto' => 1]
             )
             ->assertJsonMissing(['errors' => []])

@@ -18,6 +18,9 @@ class Init extends Roll
 {
     use ForceTrait;
 
+    protected const MAX_DICE = 5;
+    protected const REQUIRED_PIPS = 6;
+
     /**
      * @var array<int, int>
      */
@@ -204,7 +207,7 @@ class Init extends Roll
                         . 'init 12+2d6"'
                 );
             }
-            if (6 !== $pips) {
+            if (self::REQUIRED_PIPS !== $pips) {
                 throw new RuntimeException(
                     'Only six-sided dice can be used for initiative'
                 );
@@ -224,7 +227,7 @@ class Init extends Roll
 
     protected function roll(): void
     {
-        if (5 < $this->initiativeDice) {
+        if (self::MAX_DICE < $this->initiativeDice) {
             throw new RuntimeException(
                 'You can\'t roll more than five initiative dice'
             );

@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models;
 
+use App\Features\ChummerImport;
 use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\ChatUser;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
 /**
@@ -132,5 +134,15 @@ final class UserTest extends TestCase
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create(['user_id' => $user->id]);
         self::assertNotEmpty($user->chatUsers);
+    }
+
+    public function testGetFeatures(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+        self::assertCount(0, $user->getFeatures());
+
+        Feature::for($user)->activate(ChummerImport::class);
+        self::assertCount(1, $user->getFeatures());
     }
 }

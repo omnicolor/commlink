@@ -14,6 +14,8 @@ use App\Models\User;
 
 class Campaign extends Roll
 {
+    protected const MIN_NUM_ARGUMENTS = 2;
+
     /**
      * Campaign the user wants to link the channel to.
      * @var ?CampaignModel
@@ -45,7 +47,7 @@ class Campaign extends Roll
     ) {
         parent::__construct($content, $character, $channel);
         $args = \explode(' ', $content);
-        if (2 === \count($args)) {
+        if (self::MIN_NUM_ARGUMENTS === \count($args)) {
             $this->campaignId = (int)$args[1];
             $this->campaign = CampaignModel::find($this->campaignId);
         }

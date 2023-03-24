@@ -47,7 +47,7 @@ class Exec extends Role
             . 'you can\'t worry about ethics now. You\'ve got a report due in '
             . 'an hour, and it looks like that guy in sales is planning to ice '
             . 'your database for good.||You\'re gonna ice him first.';
-        $this->rank = $role['rank'] ?? 4;
+        $this->rank = $role['rank'] ?? self::DEFAULT_ROLE_RANK;
     }
 
     /**

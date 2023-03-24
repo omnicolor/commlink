@@ -13,6 +13,8 @@ use App\Models\ChatUser;
  */
 class ValidateResponse
 {
+    protected const MIN_NUM_ARGUMENTS = 2;
+
     /**
      * Construct a new instance.
      * @param DiscordMessageReceived $event
@@ -20,7 +22,7 @@ class ValidateResponse
     public function __construct(protected DiscordMessageReceived $event)
     {
         $arguments = \explode(' ', trim($this->event->content));
-        if (2 !== \count($arguments)) {
+        if (self::MIN_NUM_ARGUMENTS !== \count($arguments)) {
             $this->event->message->reply(\sprintf(
                 'To link your Commlink user, go to the settings page '
                     . '(%s/settings) and copy the command listed there for '

@@ -91,7 +91,7 @@
             </div>
             <div class="row">
                 <div class="col-2 purple">SPECIES:</div>
-                <div class="col-4 underlined"
+                <div class="col-4 underlined" data-bs-toggle="tooltip"
                     title="{{ $character->species->description }}">
                     {{ $character->species }}
                 </div>
@@ -264,4 +264,12 @@
         </div>
         <div class="col-1"></div>
     </div>
+
+    <x-slot name="javascript">
+        <script>
+            $(function () {
+                $('[data-bs-toggle="tooltip"]').tooltip();
+            });
+        </script>
+    </x-slot>
 </x-app>

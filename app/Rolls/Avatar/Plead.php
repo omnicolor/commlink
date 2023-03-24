@@ -15,6 +15,11 @@ use App\Rolls\Roll;
  */
 class Plead extends Roll
 {
+    // Rolling 10 or higher is a success.
+    protected const SUCCESS = 10;
+    // Rolling 6 or less is a failure. Between that is kinda close to success.
+    protected const FAILURE = 6;
+
     /**
      * Amount to add (or subtract) from the result.
      * @var int
@@ -110,11 +115,11 @@ class Plead extends Roll
         if ('' !== $this->description) {
             $for = \sprintf(' for "%s"', $this->description);
         }
-        if (7 > $this->result) {
+        if (self::FAILURE >= $this->result) {
             return \sprintf('%s failed a plead roll%s', $this->username, $for);
         }
 
-        if (10 <= $this->result) {
+        if (self::SUCCESS <= $this->result) {
             return \sprintf(
                 '%s succeeded in a plead roll%s',
                 $this->username,
@@ -136,9 +141,9 @@ class Plead extends Roll
         }
 
         $color = TextAttachment::COLOR_INFO;
-        if (6 >= $this->result) {
+        if (self::FAILURE >= $this->result) {
             $color = TextAttachment::COLOR_DANGER;
-        } elseif (10 <= $this->result) {
+        } elseif (self::SUCCESS <= $this->result) {
             $color = TextAttachment::COLOR_SUCCESS;
         }
 

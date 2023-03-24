@@ -88,7 +88,7 @@ class Rockerboy extends Role
         $this->act = $role['act'] ?? self::ACT_SOLO;
         $this->gunning = $role['gunning'] ?? self::GUNNING_OLD_GROUP_MEMBER;
         $this->perform = $role['perform'] ?? self::PERFORM_CAFE;
-        $this->rank = $role['rank'] ?? 4;
+        $this->rank = $role['rank'] ?? self::DEFAULT_ROLE_RANK;
         $this->type = $role['type'] ?? self::TYPE_MUSICIAN;
     }
 

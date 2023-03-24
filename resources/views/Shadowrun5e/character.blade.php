@@ -83,6 +83,9 @@
         </div>
     @endif
 
+    <div class="toast-container position-fixed top-0 end-0 p-3" id="toasts" style="z-index:100">
+    </div>
+
     <div class="row">
         <div class="col">
             <x-Shadowrun5e.metadata :character="$character"/>
@@ -124,10 +127,61 @@
         </div>
     </div>
 
+    <template id="damage-toast">
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+            <div class="toast-header">
+                <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#e66465"></rect></svg>
+                <strong class="me-auto title">Damage</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                <div class="stun"></div>
+                <div class="physical"></div>
+                <div class="overflow"></div>
+            </div>
+        </div>
+    </template>
+
     <x-slot name="javascript">
         <script>
             $(function () {
                 $('[data-bs-toggle="tooltip"]').tooltip();
+                Echo.private('App.Models.Shadowrun5e.Character.{{ $character->id }}')
+                    .notification((notification) => {
+                        let toastFragment = $($('#damage-toast')[0].content.cloneNode(true));
+
+                        let stun = '';
+                        let physical = '';
+                        let overflow = '';
+                        if (0 < notification.stun) {
+                            stun = notification.stun + ' point';
+                            if (1 !== notification.stun) {
+                                stun += 's';
+                            }
+                            stun += ' of stun damage!';
+                        }
+                        if (0 < notification.physical) {
+                            physical = notification.physical + ' point';
+                            if (1 !== notification.physical) {
+                                physical += 's';
+                            }
+                            physical += ' of physical damage!';
+                        }
+                        if (0 < notification.overflow) {
+                            overflow = notification.overflow + ' point';
+                            if (1 !== notification.overflow) {
+                                overflow += 's';
+                            }
+                            overflow += ' of overflow damage!';
+                        }
+                        toastFragment.find('.stun').html(stun);
+                        toastFragment.find('.physical').html(physical);
+                        toastFragment.find('.overflow').html(overflow);
+                        $('#toasts').append(toastFragment);
+
+                        let toast = new bootstrap.Toast($('#toasts').children().last());
+                        toast.show();
+                    });
             });
         </script>
     </x-slot>

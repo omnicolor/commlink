@@ -9,6 +9,8 @@ use RuntimeException;
 
 abstract class Role
 {
+    protected const DEFAULT_ROLE_RANK = 4;
+
     /**
      * Description of the role's ability.
      * @var string

@@ -154,24 +154,16 @@ class Lifestyle
      */
     public function getZone(): LifestyleZone
     {
-        switch ($this->getNeighborhood()) {
-            case 0:
-                return new LifestyleZone('z');
-            case 1:
-                return new LifestyleZone('e');
-            case 2:
-                return new LifestyleZone('d');
-            case 3:
-                return new LifestyleZone('c');
-            case 4:
-                return new LifestyleZone('b');
-            case 5:
-                return new LifestyleZone('a');
-            case 6:
-                return new LifestyleZone('aa');
-            case 7:
-                return new LifestyleZone('aaa');
-        }
-        throw new \RuntimeException('Neighborhood rating out of range');
+        return match ($this->getNeighborhood()) {
+            0 => new LifestyleZone('z'),
+            1 => new LifestyleZone('e'),
+            2 => new LifestyleZone('d'),
+            3 => new LifestyleZone('c'),
+            4 => new LifestyleZone('b'),
+            5 => new LifestyleZone('a'),
+            6 => new LifestyleZone('aa'),
+            7 => new LifestyleZone('aaa'),
+            default => throw new \RuntimeException('Neighborhood rating out of range'),
+        };
     }
 }

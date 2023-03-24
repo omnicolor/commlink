@@ -127,7 +127,7 @@ final class AugmentationTest extends TestCase
      * Data provider for cyberware grades.
      * @return array<int, array<int, float|string>> [grade, expected essence]
      */
-    public function getCyberwareGradesAndEssence(): array
+    public static function cyberwareGradesAndEssenceProvider(): array
     {
         return [
             [Augmentation::GRADE_STANDARD, 1.0],
@@ -143,7 +143,7 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test the different grades of cyberware.
-     * @dataProvider getCyberwareGradesAndEssence
+     * @dataProvider cyberwareGradesAndEssenceProvider
      * @param string $grade
      * @param float $expectedEssence
      * @test
@@ -249,7 +249,7 @@ final class AugmentationTest extends TestCase
      * Data provider for cyberware grades.
      * @return array<int, array<int, int|string>> [grade, expected cost]
      */
-    public function getCyberwareGradesAndCost(): array
+    public static function cyberwareGradesAndCostProvider(): array
     {
         return [
             [Augmentation::GRADE_STANDARD, 4000],
@@ -265,7 +265,7 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test a modification that has a built-in modification.
-     * @dataProvider getCyberwareGradesAndCost
+     * @dataProvider cyberwareGradesAndCostProvider
      * @param string $grade
      * @param int $cost
      * @test

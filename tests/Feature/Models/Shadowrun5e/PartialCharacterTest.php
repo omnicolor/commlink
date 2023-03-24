@@ -92,7 +92,7 @@ final class PartialCharacterTest extends TestCase
      * Data provider for testing maximum attributes.
      * @return array<int, array<int, PartialCharacter|int|string>>
      */
-    public function maximumAttributeDataProvider(): array
+    public static function maximumAttributeDataProvider(): array
     {
         $human = new PartialCharacter(['priorities' => ['metatype' => 'human']]);
         $elf = new PartialCharacter(['priorities' => ['metatype' => 'elf']]);

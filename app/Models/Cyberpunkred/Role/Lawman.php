@@ -57,7 +57,7 @@ class Lawman extends Role
             . 'lot of the Psycho Squad become a bit crazy themselves; they '
             . 'load up with boosted reflexes, get some monstrously huge guns, '
             . 'and go hunt the cyborgs solo. But you\'re not that crazy. Yet.';
-        $this->rank = $role['rank'] ?? 4;
+        $this->rank = $role['rank'] ?? self::DEFAULT_ROLE_RANK;
     }
 
     /**

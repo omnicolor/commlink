@@ -73,13 +73,27 @@ $ composer all
 ```
 
 If you'd like to run an individual check:
-* coverage - Build a PHPUnit code coverage report that will be available in
-    `public/coverage` or on your site at `<host>/coverage/index.html`.
-* phpcs - Run PHP Code Sniffer on the entire codebase.
-* php-cs-fixer - Run PHP-CS-Fixer's dry run on the entire codebase.
-* phpstan - Run PHPstan's highest level across the entire codebase.
-* style - Run both phpcs and php-cs-fixer.
-* test - Run PHPUnit tests without generating a code coverage report.
+* `coverage` - Build a [PHPUnit](https://phpunit.readthedocs.io/) code coverage
+    report that will be available in "public/coverage" or on your site at
+    "<host>/coverage/index.html".
+* `infection` - Run [Infection](https://infection.github.io/) on the App
+    directory.
+* `lint` - Run
+    [PHP-Parallel-Lint](https://github.com/php-parallel-lint/PHP-Parallel-Lint)
+    across the entire codebase.
+* `phpcs` - Run [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer)
+    on the entire codebase.
+* `php-cs-fixer` - Run
+    [PHP-CS-Fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer)'s dry run on
+    the entire codebase.
+* `phpmnd` - Run [PHP Magic Number Detector](https://github.com/povils/phpmnd)
+    on the App directory.
+* `phpstan` - Run [PHPstan](https://phpstan.org/)'s highest level across the
+    entire codebase.
+* `psalm` - Run [Psalm](https://psalm.dev/) across the entire codebase.
+* `static` - Run lint, PHPStan, and Psalm targets.
+* `style` - Run both phpcs and php-cs-fixer.
+* `test` - Run PHPUnit tests without generating a code coverage report.
 
 # Credits
 

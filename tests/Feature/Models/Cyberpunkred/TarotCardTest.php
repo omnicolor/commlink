@@ -18,7 +18,7 @@ final class TarotCardTest extends \Tests\TestCase
      * Provider for all of the different cards.
      * @return Generator<int, array<int, string>>
      */
-    public function cardProvider(): Generator
+    public static function cardProvider(): Generator
     {
         $deck = new TarotDeck();
         foreach ($deck->majorArcana as $cardName) {

@@ -57,9 +57,12 @@
                     </li>
                     <li class="list-group-item">
                         Origin
-                        <div class="value" data-bs-placement="top"
-                            data-bs-toggle="tooltip"
+                        @can('view data')
+                        <div class="value" data-bs-toggle="tooltip"
                             title="{{ $character->origin->description }}">
+                        @else
+                        <div class="value">
+                        @endcan
                             {{ $character->origin }}
                         </div>
                     </li>
@@ -87,17 +90,23 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         Social class
-                        <div class="value" data-bs-placement="auto"
-                            data-bs-toggle="tooltip"
+                        @can('view data')
+                        <div class="value" data-bs-toggle="tooltip"
                             title="{{ $character->socialClass->description }}">
+                        @else
+                        <div class="value">
+                        @endcan
                             {{ $character->socialClass }}
                         </div>
                     </li>
                     <li class="list-group-item">
                         Background
-                        <div class="value" data-bs-placement="auto"
-                            data-bs-toggle="tooltip"
+                        @can('view data')
+                        <div class="value" data-bs-toggle="tooltip"
                             title="{{ $character->background->description }}">
+                        @else
+                        <div class="value">
+                        @endcan
                             {{ $character->background }}
                         </div>
                     </li>
@@ -189,7 +198,16 @@
                 <div class="card-header">Talents</div>
                 <ul class="list-group list-group-flush">
                     @forelse ($character->getTalents() as $talent)
-                        <li class="list-group-item">{{ $talent }}</li>
+                        <li class="list-group-item">
+                            @can('view data')
+                            <span data-bs-toggle="tooltip"
+                                title="{{ $talent->description}}">
+                                {{ $talent }}
+                            </span>
+                            @else
+                            {{ $talent }}
+                            @endcan
+                        </li>
                     @empty
                         <li class="list-group-item">Character has no talents!</li>
                     @endforelse
@@ -237,4 +255,12 @@
             </div>
         </div>
     </div>
+
+    <x-slot name="javascript">
+        <script>
+            $(function () {
+                $('[data-bs-toggle="tooltip"]').tooltip();
+            });
+        </script>
+    </x-slot>
 </x-app>

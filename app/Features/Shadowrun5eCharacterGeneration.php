@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Features;
 
-class Shadowrun5eCharacterGeneration
+use Stringable;
+
+class Shadowrun5eCharacterGeneration implements Stringable
 {
     /**
      * Resolve the feature's initial value.
@@ -12,5 +14,10 @@ class Shadowrun5eCharacterGeneration
     public function resolve(): bool
     {
         return false;
+    }
+
+    public function __toString(): string
+    {
+        return 'Shadowrun 5E Character Generation';
     }
 }

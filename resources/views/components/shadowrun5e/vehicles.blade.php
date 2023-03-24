@@ -27,17 +27,28 @@
                 }
             @endphp
             <tr>
-                <td {!! $class !!} data-bs-html="true" data-bs-toggle="tooltip"
-                    data-bs-placement="right"
-                    title="<p>{{ str_replace('||', '</p><p>', $vehicle->description) }}</p>">
-                    {{ $vehicle }}
+                <td {!! $class !!}>
+                    @can('view data')
+                    <span data-bs-html="true" data-bs-toggle="tooltip"
+                        title="<p>{{ str_replace('||', '</p><p>', $vehicle->description) }}</p>">
+                        {{ $vehicle }}
+                    </span>
+                    @else
+                        {{ $vehicle }}
+                    @endcan
                     @if (isset($vehicle->subname))
                         {{ $vehicle->subname }}
                     @endif
                     @if (!empty($vehicle->modifications))
                     <br><small class="text-muted">
                         @foreach ($vehicle->modifications as $mod)
-                            {{ $mod }}@if (!$loop->last), @endif
+                            @can('view data')
+                            <span data-bs-html="true" data-bs-toggle="tooltip"
+                                title="<p>{{ str_replace('||', '</p><p>', $mod->description) }}</p>">
+                                {{ $mod }}</span>@if (!$loop->last), @endif
+                            @else
+                                {{ $mod }}@if (!$loop->last), @endif
+                            @endcan
                         @endforeach
                     </small>
                     @endif

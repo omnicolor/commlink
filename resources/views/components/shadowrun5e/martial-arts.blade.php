@@ -4,16 +4,16 @@
     <ul class="card-body list-group list-group-flush">
         @foreach ($styles as $style)
         <li class="list-group-item">
-            <span data-bs-toggle="tooltip" data-bs-placement="left"
-                title="{{ $style->description }}">
+            <span data-bs-toggle="tooltip" data-bs-html="true"
+                title="<p>{{ str_replace('||', '</p><p>', $style->description) }}</p>">
                 {{ $style }} (style)
             </span>
         </li>
         @endforeach
         @forelse ($techniques as $technique)
         <li class="list-group-item">
-            <span data-bs-toggle="tooltip" data-bs-placement="left"
-                title="{{ $technique->description }}">
+            <span data-bs-toggle="tooltip" data-bs-html="true"
+                title="<p>{{ str_replace('||', '</p><p>', $technique->description) }}</p>">
                 {{ $technique }} (technique)
             </span>
         </li>

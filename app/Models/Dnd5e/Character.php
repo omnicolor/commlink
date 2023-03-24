@@ -22,6 +22,9 @@ class Character extends \App\Models\Character
 {
     use HasFactory;
 
+    public const ATTRIBUTE_MIN = 1;
+    public const ATTRIBUTE_MAX = 30;
+
     /**
      * @var array<string, mixed>
      */
@@ -96,7 +99,7 @@ class Character extends \App\Models\Character
         }
 
         $value = $this->attributes[$attribute];
-        if (1 > $value || 30 < $value) {
+        if (self::ATTRIBUTE_MIN > $value || self::ATTRIBUTE_MAX < $value) {
             throw new \OutOfRangeException('Attribute value is out of range');
         }
 
