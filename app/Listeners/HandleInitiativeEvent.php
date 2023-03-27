@@ -70,7 +70,7 @@ class HandleInitiativeEvent
                     'Authorization' => \sprintf('Bearer %s', config('app.slack_token')),
                 ])
                 ->post('https://slack.com/api/chat.postMessage', (array)$data);
-            // @codeCoverageIgnore
+            // @codeCoverageIgnoreStart
         } catch (RequestException $ex) {
             Log::error(
                 'Sending to Slack failed',
