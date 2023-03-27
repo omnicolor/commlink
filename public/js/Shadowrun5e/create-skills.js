@@ -255,38 +255,25 @@ $(function () {
      * @return {!boolean}
      */
     function isSkillGroupValid(group) {
-        let valid = true;
-
-        $.each(character.skillGroups, function (unused, chosenGroup) {
-            // If we've already determined the group is not valid, bail.
-            if (!valid) {
-                return false;
-            }
-
-            // Make sure the group hasn't already been chosen.
-            if (group.id === chosenGroup.id) {
-                valid = false;
-                return false;
-            }
-        });
-
-        if (!valid) {
+        if (undefined !== character.skillGroups[group.id]) {
+            // Character already has the skill group.
             return false;
         }
+
+        let valid = true;
 
         // Check all of the skills in the group for validity. If the skills
         // require magic or resonance and the character doesn't have that, the
         // group can't be used. If the character has any skills in the group
         // already, they can't add the group.
         $.each(group.skills, function (unused, potentialSkill) {
-            // One of the skills is already invalid, bail.
-            if (!valid) {
-                return false;
-            }
             // Ignore the text properties of the group.
             if ('object' !== typeof potentialSkill) {
                 return;
             }
+
+            // Either the character can't use a skill (not awakened for magic or
+            // resonance skills) or they've already chosen a skill in the group.
             if (!isActiveSkillValid(potentialSkill)) {
                 valid = false;
                 return false;
