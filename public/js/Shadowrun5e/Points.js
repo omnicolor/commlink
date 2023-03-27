@@ -632,16 +632,16 @@ function Points(character) {
             if (!armorItem) {
                 return;
             }
-            this.ointsToSpend.resources -= armorItem.cost;
+            this.pointsToSpend.resources -= armorItem.cost;
             if (armorItem.modifications) {
                 $.each(armorItem.modifications, function (unused, mod) {
                     if (!mod) {
                         return;
                     }
                     if (mod.cost) {
-                        this.ointsToSpend.resources -= mod.cost;
+                        this.pointsToSpend.resources -= mod.cost;
                     } else {
-                        this.ointsToSpend.resources -=
+                        this.pointsToSpend.resources -=
                             armorItem.cost * (mod['cost-multiplier'] - 1);
                     }
                 });
