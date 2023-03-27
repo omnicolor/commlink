@@ -108,6 +108,10 @@ Route::middleware('auth')->group(function (): void {
         Route::prefix('shadowrun5e')->name('shadowrun5e.')->group(function (): void {
             Route::get('/', [ShadowrunController::class, 'list']);
             Route::get(
+                'create/save-for-later',
+                [ShadowrunController::class, 'saveForLater'],
+            );
+            Route::get(
                 'create/{step?}',
                 [ShadowrunController::class, 'create'],
             );

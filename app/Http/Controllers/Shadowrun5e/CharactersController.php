@@ -925,6 +925,18 @@ class CharactersController extends Controller
         }
     }
 
+    /**
+     * User wants to shelve the current partial character to finish later.
+     */
+    public function saveForLater(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+
+        $request->session()->forget('shadowrun5epartial');
+
+        return new RedirectResponse(route('dashboard'));
+    }
+
     public function storeAttributes(
         AttributesRequest $request
     ): RedirectResponse {

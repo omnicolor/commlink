@@ -96,6 +96,11 @@
 
             <li><hr class="dropdown-divider"></li>
 
+            <li>
+                <a class="dropdown-item" href="/characters/shadowrun5e/create/save-for-later">
+                    Save for later
+                </a>
+            </li>
             <li><a class="dropdown-item @if ('review' === $currentStep) active @endif"
                 href="/characters/shadowrun5e/create/review">
                 Review
