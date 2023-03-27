@@ -444,7 +444,7 @@ function Points(character) {
 
         if (this.skillGroups < 0) {
             for (let i = this.skillGroups; i; i++) {
-                parent.karma += i * 5;
+                parent.karma -= i * 5;
             }
         }
     };
@@ -689,7 +689,7 @@ function Points(character) {
         });
 
         if (this.resources < 0) {
-            this.karma += Math.floor(this.resources / 2000);
+            this.karma -= Math.floor(this.resources / 2000);
         }
     };
 
@@ -715,7 +715,7 @@ function Points(character) {
 
         this.contacts = contactPoints;
         if (contactPoints < 0) {
-            this.karma += contactPoints;
+            this.karma -= contactPoints;
         }
     };
 
