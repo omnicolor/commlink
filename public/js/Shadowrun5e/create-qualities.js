@@ -209,10 +209,14 @@ $(function () {
     function displayQuality(quality) {
         $('#no-qualities').hide();
 
-        let html = '<li class="list-group-item">' +
-            '<span data-bs-html="true" data-bs-toggle="tooltip" ' +
-            'title="<p>' + cleanDescription(quality.description) + '</p>">' +
-            quality.name;
+        let html = '<li class="list-group-item">';
+        if (trusted) {
+            html += '<span data-bs-html="true" data-bs-toggle="tooltip" ' +
+                'title="<p>' + cleanDescription(quality.description) + '</p>">';
+        } else {
+            html += '<span>';
+        }
+        html += quality.name;
         let extra = '';
         if (quality.skill) {
             html += ' - ' + quality.skill;

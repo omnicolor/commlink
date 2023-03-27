@@ -60,7 +60,15 @@ $(function () {
         });
 
         const row = $($('#skill-row')[0].content.cloneNode(true));
-        row.find('.name').html(skill.name);
+        if (trusted) {
+            row.find('.name').html(
+                '<span data-bs-html="true" data-bs-toggle="tooltip" ' +
+                'title="<p>' + cleanDescription(skill.description) + '</p>">' +
+                skill.name + '</span>'
+            );
+        } else {
+            row.find('.name').html(skill.name);
+        }
         row.find('li').attr('data-id', skill.id);
         row.find('input[name="skill-levels[]"]')
             .prop('id', skill.id)

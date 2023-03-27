@@ -91,7 +91,13 @@
                 <li class="list-group-item" data-id="{{ $skill->id }}">
                     <div class="row">
                         <label class="col col-form-label text-nowrap name">
+                            @can('view data')
+                            <span data-bs-html="true" data-bs-toggle="tooltip"
+                        title="<p>{{ str_replace('||', '<\/p><p>', $skill->description) }}</p>">
+                                {{ $skill }}
+                            @else
                             {{ $skill }}
+                            @endcan
                             @if (null !== $skill->specialization)
                             (+2 {{ $skill->specialization }})
                             @endif
@@ -216,9 +222,11 @@
                         </div>
                         <div id="skill-info-panel" style="display: none;">
                             <h3 id="skill-name">.</h3>
+                            @can('view data')
                             <div class="row mt-2">
                                 <p class="col" id="skill-description"></p>
                             </div>
+                            @endcan
                             <div class="row mt-2">
                                 <div class="col-3">Attribute</div>
                                 <div class="col" id="skill-attribute"></div>
@@ -341,6 +349,7 @@
     <x-slot name="javascript">
         <script>
             let character = @json($character);
+            const trusted = !!{{ (int)\Auth::user()->hasPermissionTo('view data') }};
         </script>
         <script src="/js/datatables.min.js"></script>
         <script src="/js/Shadowrun5e/create-common.js"></script>
