@@ -313,11 +313,13 @@ class Spirit
                 $powers[] = new CritterPower($power);
                 // @codeCoverageIgnoreStart
             } catch (RuntimeException) {
-                Log::error(\sprintf(
-                    'Spirit "%s" has invalid power "%s"',
-                    $this->id,
-                    $power,
-                ));
+                Log::error(
+                    'Shadowrun 5E spirit "{spirit}" has invalid power "{power}"',
+                    [
+                        'spirit' => $this->id,
+                        'power' => $power,
+                    ]
+                );
                 // @codeCoverageIgnoreEnd
             }
         }

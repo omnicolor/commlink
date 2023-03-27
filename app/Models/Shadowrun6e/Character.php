@@ -149,12 +149,14 @@ class Character extends BaseCharacter
             try {
                 $qualities[] = new Quality((string)$quality['id']);
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Shadowrun6E character "%s" (%s) has invalid quality ID "%s"',
-                    $this->handle,
-                    $this->id,
-                    $quality['id']
-                ));
+                Log::warning(
+                    'Shadowrun 6E character "{name}" ({id}) has invalid quality ID "{quality}"',
+                    [
+                        'name' => $this->handle,
+                        'id' => $this->id,
+                        'quality' => $quality['id'],
+                    ]
+                );
             }
         }
         return $qualities;

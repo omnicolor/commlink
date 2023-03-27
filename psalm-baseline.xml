@@ -303,11 +303,6 @@
       <code>$value</code>
     </UnusedForeachValue>
   </file>
-  <file src="app/Http/Controllers/Shadowrun5e/CharactersController.php">
-    <UnusedClass>
-      <code>CharactersController</code>
-    </UnusedClass>
-  </file>
   <file src="app/Http/Controllers/Shadowrun5e/ComplexFormsController.php">
     <UnusedClass>
       <code>ComplexFormsController</code>
@@ -487,12 +482,6 @@
     </UnusedForeachValue>
   </file>
   <file src="app/Http/Controllers/SlackController.php">
-    <UndefinedClass>
-      <code>\Log</code>
-      <code>\Log</code>
-      <code>\Log</code>
-      <code>\Log</code>
-    </UndefinedClass>
     <UnusedClass>
       <code>SlackController</code>
     </UnusedClass>
@@ -677,8 +666,6 @@
       <code>getSkillsAttribute</code>
       <code>getSpeedAttribute</code>
       <code>getStrengthAttribute</code>
-      <code>getViceAttribute</code>
-      <code>getVirtueAttribute</code>
     </PossiblyUnusedMethod>
   </file>
   <file src="app/Models/Capers/Explosive.php">
@@ -814,7 +801,6 @@
       <code>getSeriouslyWoundedThresholdAttribute</code>
       <code>getSkills</code>
       <code>getSkillsByCategory</code>
-      <code>getWeapons</code>
     </PossiblyUnusedMethod>
   </file>
   <file src="app/Models/Cyberpunkred/Lifepath.php">
@@ -1086,7 +1072,6 @@
       <code>getMetatypeAttribute</code>
       <code>getSkillLimit</code>
       <code>getSoakAttribute</code>
-      <code>getSpirits</code>
       <code>getSprites</code>
       <code>getTradition</code>
       <code>initiativeDice</code>

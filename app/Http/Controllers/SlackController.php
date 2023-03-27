@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\AbstractUser as SocialiteUser;
 use Laravel\Socialite\Facades\Socialite;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
@@ -78,9 +79,8 @@ class SlackController extends Controller
                 $roll = new $class($this->text, $channel->username, $channel);
                 RollEvent::dispatch($roll, $channel);
                 return $roll->forSlack();
-            } catch (Error $ex) {
+            } catch (Error) {
                 // Ignore errors here, they might want a generic command.
-                \Log::debug($ex->getMessage());
             }
         }
 
@@ -98,9 +98,8 @@ class SlackController extends Controller
                     RollEvent::dispatch($roll, $channel);
                 }
                 return $roll->forSlack();
-            } catch (Error $ex) {
+            } catch (Error) {
                 // Again, ignore errors, they might want a generic command.
-                \Log::debug($ex->getMessage());
             }
         }
 
@@ -121,9 +120,8 @@ class SlackController extends Controller
                 RollEvent::dispatch($roll, $channel);
             }
             return $roll->forSlack();
-        } catch (Error $ex) {
+        } catch (Error) {
             // Again, ignore errors, they might want an old-school response.
-            \Log::debug($ex->getMessage());
         }
 
         // Finally, see if there's a Slack response that isn't system-specific.
@@ -136,7 +134,15 @@ class SlackController extends Controller
             $response = new $class(content: $this->text, channel: $channel);
             return $response;
         } catch (Error $ex) {
-            \Log::debug($ex->getMessage());
+            Log::debug(
+                '{system} - Could not find roll "{roll}" from user "{user}"',
+                [
+                    'system' => $channel->system,
+                    'roll' => $this->text,
+                    'user' => $channel->username,
+                    'exception' => $ex->getMessage(),
+                ],
+            );
             throw new SlackException(
                 'That doesn\'t appear to be a valid Commlink command.'
                 . \PHP_EOL . \PHP_EOL . 'Type `/roll help` for more help.'

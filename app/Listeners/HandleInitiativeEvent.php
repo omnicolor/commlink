@@ -70,8 +70,15 @@ class HandleInitiativeEvent
                     'Authorization' => \sprintf('Bearer %s', config('app.slack_token')),
                 ])
                 ->post('https://slack.com/api/chat.postMessage', (array)$data);
-        } catch (RequestException $ex) { // @codeCoverageIgnore
-            Log::error('Send to Slack failed: ' . $ex->getMessage()); // @codeCoverageIgnore
+            // @codeCoverageIgnoreStart
+        } catch (RequestException $ex) {
+            Log::error(
+                'Sending to Slack failed',
+                [
+                    'exception' => $ex->getMessage(),
+                ]
+            );
+            // @codeCoverageIgnoreEnd
         }
     }
 
@@ -99,8 +106,15 @@ class HandleInitiativeEvent
                     'Authorization' => sprintf('Bot %s', config('discord_token')),
                 ])
                 ->post($url, $data);
-        } catch (RequestException $ex) { // @codeCoverageIgnore
-            Log::error('Send to Slack failed: ' . $ex->getMessage()); // @codeCoverageIgnore
+            // @codeCoverageIgnoreStart
+        } catch (RequestException $ex) {
+            Log::error(
+                'Sending to Slack failed',
+                [
+                    'exception' => $ex->getMessage(),
+                ]
+            );
+            // @codeCoverageIgnoreEnd
         }
     }
 }

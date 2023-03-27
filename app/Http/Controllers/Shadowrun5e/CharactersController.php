@@ -39,6 +39,7 @@ use RuntimeException;
 
 /**
  * Controller for interacting with Shadowrun 5E characters.
+ * @psalm-suppress UnusedClass
  */
 class CharactersController extends Controller
 {

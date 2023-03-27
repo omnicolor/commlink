@@ -171,12 +171,14 @@ class Character extends BaseCharacter
             try {
                 $roles[] = Role::fromArray($role);
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Cyberpunk character "%s" (%s) has invalid role "%s"',
-                    $this->handle,
-                    $this->id,
-                    (string)$role['role']
-                ));
+                Log::warning(
+                    'Cyberpunk Red character "{name}" ({id}) has invalid role "{role}"',
+                    [
+                        'name' => $this->handle,
+                        'id' => $this->id,
+                        'role' => (string)$role['role'],
+                    ]
+                );
             }
         }
         return $roles;
@@ -202,12 +204,14 @@ class Character extends BaseCharacter
             try {
                 $skills[] = new Skill($skill, $level);
             } catch (RuntimeException $ex) {
-                Log::warning(\sprintf(
-                    'Cyberpunk character "%s" (%s) has invalid skill "%s"',
-                    $this->handle,
-                    $this->id,
-                    $skill
-                ));
+                Log::warning(
+                    'Cyberpunk Red character "{name}" ({id}) has invalid skill "{skill}"',
+                    [
+                        'name' => $this->handle,
+                        'id' => $this->id,
+                        'skill' => $skill,
+                    ]
+                );
             }
         }
         return $skills;
@@ -253,6 +257,7 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's weapons.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return WeaponArray
      */
     public function getWeapons(?string $type = null): WeaponArray
@@ -282,12 +287,14 @@ class Character extends BaseCharacter
                     continue;
                 }
             } catch (RuntimeException $ex) {
-                Log::warning(sprintf(
-                    'Cyberpunk Red character %s (%s) has invalid weapon ID "%s"',
-                    $this->name,
-                    $this->id,
-                    $rawWeapon['id']
-                ));
+                Log::warning(
+                    'Cyberpunk Red character "{name}" ({id}) has invalid weapon ID "{weapon}"',
+                    [
+                        'name' => $this->name,
+                        'id' => $this->id,
+                        'weapon' => $rawWeapon['id'],
+                    ]
+                );
             }
         }
         return $weapons;
