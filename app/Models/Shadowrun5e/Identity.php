@@ -44,14 +44,14 @@ class Identity
      * If the Identity is for a SINner quality, denotes what level of SINner.
      * @var ?string
      */
-    public ?string $sinner;
+    public ?string $sinner = null;
 
     /**
      * If the identity has a fake SIN (not from a SINner quality) what level
      * the fake is.
      * @var ?int
      */
-    public ?int $sin;
+    public ?int $sin = null;
 
     /**
      * Collection of the identity's subscriptions.
