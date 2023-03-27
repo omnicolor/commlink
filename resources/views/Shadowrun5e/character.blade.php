@@ -1,6 +1,5 @@
 <x-app>
     <x-slot name="title">{{ $character->handle }}</x-slot>
-    @includeWhen($currentStep ?? false, 'Shadowrun5e.create-navigation')
 
     <x-slot name="head">
         <style>
@@ -72,6 +71,7 @@
             <span class="nav-link active">{{ $character }}</span>
         </li>
     </x-slot>
+    @includeWhen($character instanceof \App\Models\Shadowrun5e\PartialCharacter, 'Shadowrun5e.create-navigation')
 
     @if ($errors->any())
         <div class="alert alert-danger mt-4">
