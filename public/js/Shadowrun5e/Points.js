@@ -685,10 +685,7 @@ function Points(character) {
             if (!identity) {
                 return;
             }
-            window.console.log(calculateIdentityCost(identity));
-            window.console.log(this.resources);
             this.resources = this.resources - calculateIdentityCost(identity);
-            window.console.log(this.resources);
         });
 
         if (this.resources < 0) {

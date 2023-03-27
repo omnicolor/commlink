@@ -87,7 +87,6 @@ function setPointsDisplay(points, el, formatter) {
  * @return {Object} Map of message and karmaSpent
  */
 function calculateKarmaForTooManySkills(skills, specializations, skillCost, deficit) {
-    window.console.log(skills);
     let karmaSpent = 0;
     let message = [];
     let skill;
@@ -219,7 +218,6 @@ function updatePointsToSpendDisplay(pointsToSpend) {
         setPointsDisplay(pointsToSpend.skillGroups, $('#skill-groups'));
     }
 
-    window.console.log(pointsToSpend.resources);
     if (pointsToSpend.resources < 0) {
         const resources = pointsToSpend.resources +
             Math.floor(pointsToSpend.resources / 2000) * -2000;
@@ -308,6 +306,5 @@ $(function () {
     });
 
     let points = new Points(character);
-    window.console.log('Running update');
     updatePointsToSpendDisplay(points);
 });
