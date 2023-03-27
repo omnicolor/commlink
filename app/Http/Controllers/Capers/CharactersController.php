@@ -17,10 +17,10 @@ use App\Models\Capers\Gear;
 use App\Models\Capers\PartialCharacter;
 use App\Models\Capers\Power;
 use App\Models\User;
-use Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 /**
@@ -31,16 +31,13 @@ class CharactersController extends Controller
     /**
      * Show the selected step of character creation, or the first step if none
      * is explicitly chosen.
-     * @param Request $request
-     * @param string $step
-     * @return RedirectResponse|View
      */
     public function create(
         Request $request,
         ?string $step = null
     ): RedirectResponse | View {
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
 
         if ('new' === $step) {
             $character = PartialCharacter::create([
@@ -64,7 +61,7 @@ class CharactersController extends Controller
 
         $character = $this->findPartialCharacter($request, $step);
         if (null !== $character && $step === $character->id) {
-            return redirect('/characters/capers/create/basics');
+            return new RedirectResponse('/characters/capers/create/basics');
         }
         if (null === $character) {
             // No current character, see if they already have a character they
@@ -195,6 +192,7 @@ class CharactersController extends Controller
                     return redirect('/characters/capers/create/basics')
                         ->withErrors(['type' => 'Only Exceptionals can choose perks.']);
                 }
+                /** @psalm-suppress NoValue */
                 return abort(
                     Response::HTTP_NOT_IMPLEMENTED,
                     'That step of character creation was not found.',
@@ -245,7 +243,7 @@ class CharactersController extends Controller
         ?string $step
     ): ?PartialCharacter {
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
 
         // See if the user has already chosen to continue a character.
         $characterId = $request->session()->get('capers-partial');
@@ -272,7 +270,7 @@ class CharactersController extends Controller
     public function saveCharacter(Request $request): RedirectResponse
     {
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
         /** @var string */
         $characterId = $request->session()->pull('capers-partial');
         $partialCharacter = PartialCharacter::where('_id', $characterId)
@@ -282,13 +280,13 @@ class CharactersController extends Controller
         $character->save();
         $partialCharacter->delete();
 
-        return redirect(route('capers.character', $character));
+        return new RedirectResponse(route('capers.character', $character));
     }
 
     public function storeAnchors(AnchorsRequest $request): RedirectResponse
     {
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
         /** @var string */
         $characterId = $request->session()->get('capers-partial');
         $character = PartialCharacter::where('_id', $characterId)
@@ -300,7 +298,7 @@ class CharactersController extends Controller
         $character->virtue = $request->input('virtue');
         $character->update();
 
-        return redirect(sprintf(
+        return new RedirectResponse(sprintf(
             '/characters/capers/create/%s',
             $request->input('nav')
         ));
@@ -310,7 +308,7 @@ class CharactersController extends Controller
     {
         $characterId = $request->session()->get('capers-partial');
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -322,7 +320,7 @@ class CharactersController extends Controller
         $character->type = $request->input('type');
         $character->update();
 
-        return redirect(sprintf(
+        return new RedirectResponse(sprintf(
             '/characters/capers/create/%s',
             $request->input('nav')
         ));
@@ -331,7 +329,7 @@ class CharactersController extends Controller
     public function storeBoosts(BoostsRequest $request): RedirectResponse
     {
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
 
         $characterId = $request->session()->get('capers-partial');
         $character = PartialCharacter::where('_id', $characterId)
@@ -358,7 +356,7 @@ class CharactersController extends Controller
         $character->powers = $powers;
         $character->update();
 
-        return redirect(sprintf(
+        return new RedirectResponse(sprintf(
             '/characters/capers/create/%s',
             $request->input('nav')
         ));
@@ -368,7 +366,7 @@ class CharactersController extends Controller
     {
         $characterId = $request->session()->get('capers-partial');
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
 
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
@@ -392,7 +390,7 @@ class CharactersController extends Controller
 
         $character->update();
 
-        return redirect(sprintf(
+        return new RedirectResponse(sprintf(
             '/characters/capers/create/%s',
             $request->input('nav')
         ));
@@ -402,7 +400,7 @@ class CharactersController extends Controller
     {
         $characterId = $request->session()->get('capers-partial');
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
 
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
@@ -432,7 +430,7 @@ class CharactersController extends Controller
 
         $character->update();
 
-        return redirect(sprintf(
+        return new RedirectResponse(sprintf(
             '/characters/capers/create/%s',
             $request->input('nav')
         ));
@@ -442,7 +440,7 @@ class CharactersController extends Controller
     {
         $characterId = $request->session()->get('capers-partial');
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
 
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
@@ -450,7 +448,7 @@ class CharactersController extends Controller
         $character->skills = $request->input('skills');
         $character->update();
 
-        return redirect(sprintf(
+        return new RedirectResponse(sprintf(
             '/characters/capers/create/%s',
             $request->input('nav')
         ));
@@ -460,7 +458,7 @@ class CharactersController extends Controller
     {
         $characterId = $request->session()->get('capers-partial');
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
 
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
@@ -477,7 +475,7 @@ class CharactersController extends Controller
         $attributes[$request->input('trait-low')]--;
         $character->fill($attributes)->save();
 
-        return redirect(sprintf(
+        return new RedirectResponse(sprintf(
             '/characters/capers/create/%s',
             $request->input('nav')
         ));

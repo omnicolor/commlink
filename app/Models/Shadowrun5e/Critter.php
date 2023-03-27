@@ -105,11 +105,13 @@ class Critter
                     $power['subname'] ?? null
                 );
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Shadowrun 5E Critter "%s" has invalid power "%s"',
-                    $this->id,
-                    $power['id'],
-                ));
+                Log::warning(
+                    'Shadowrun 5E Critter "{critter}" has invalid power "{power}"',
+                    [
+                        'critter' => $this->id,
+                        'power' => $power['id'],
+                    ]
+                );
             }
         }
         foreach ($critter['skills'] as $skill) {
@@ -120,11 +122,13 @@ class Critter
                     $skill['specialization'] ?? null
                 );
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Shadowrun 5E Critter "%s" has invalid skill "%s"',
-                    $this->id,
-                    $skill['id'],
-                ));
+                Log::warning(
+                    'Shadowrun 5E Critter "{critter}" has invalid skill "{skill}"',
+                    [
+                        'critter' => $this->id,
+                        'skill' => $skill['id'],
+                    ]
+                );
             }
         }
         foreach ($critter['weaknesses'] ?? [] as $weakness) {
@@ -135,11 +139,13 @@ class Critter
                 );
                 // @codeCoverageIgnoreStart
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Shadowrun 5E Critter "%s" has invalid weakness "%s"',
-                    $this->id,
-                    $weakness['id'],
-                ));
+                Log::warning(
+                    'Shadowrun 5E Critter "{critter}" has invalid weakness "{weakness}"',
+                    [
+                        'critter' => $this->id,
+                        'weakness' => $weakness['id'],
+                    ]
+                );
                 // @codeCoverageIgnoreEnd
             }
         }

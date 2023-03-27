@@ -6,6 +6,7 @@ namespace App\Models\StarTrekAdventures;
 
 /**
  * Species object for Star Trek Adventures.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 abstract class Species
 {

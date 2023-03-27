@@ -126,29 +126,6 @@
     </UnusedClass>
   </file>
   <file src="app/Http/Controllers/Capers/CharactersController.php">
-    <PossiblyUnusedParam>
-      <code>$character</code>
-      <code>$request</code>
-      <code>$request</code>
-      <code>$request</code>
-      <code>$request</code>
-      <code>$request</code>
-      <code>$step</code>
-      <code>$step</code>
-    </PossiblyUnusedParam>
-    <UndefinedClass>
-      <code>Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-      <code>\Auth</code>
-    </UndefinedClass>
     <UnusedClass>
       <code>CharactersController</code>
     </UnusedClass>
@@ -277,22 +254,6 @@
     </UnusedClass>
   </file>
   <file src="app/Http/Controllers/InitiativesController.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[response([
-            'initiative' => $initiative,
-        ])]]></code>
-      <code><![CDATA[response([
-            'initiatives' => $initiatives,
-        ])]]></code>
-      <code><![CDATA[response(['initiative' => $initiative])]]></code>
-      <code><![CDATA[response(['initiative' => $initiative], Response::HTTP_CREATED)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>Response</code>
-      <code>Response</code>
-      <code>Response</code>
-      <code>Response</code>
-    </InvalidReturnType>
     <UnusedClass>
       <code>InitiativesController</code>
     </UnusedClass>
@@ -341,24 +302,6 @@
     <UnusedForeachValue>
       <code>$value</code>
     </UnusedForeachValue>
-  </file>
-  <file src="app/Http/Controllers/Shadowrun5e/CharactersController.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[redirect(\sprintf(
-                '/characters/shadowrun5e/create/%s',
-                $this->previousStep($step, $character),
-            ))]]></code>
-      <code><![CDATA[redirect(\sprintf(
-            '/characters/shadowrun5e/create/%s',
-            $this->nextStep($step, $character),
-        ))]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>RedirectResponse</code>
-    </InvalidReturnType>
-    <UnusedClass>
-      <code>CharactersController</code>
-    </UnusedClass>
   </file>
   <file src="app/Http/Controllers/Shadowrun5e/ComplexFormsController.php">
     <UnusedClass>
@@ -539,18 +482,6 @@
     </UnusedForeachValue>
   </file>
   <file src="app/Http/Controllers/SlackController.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[response('OK')]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>Response</code>
-    </InvalidReturnType>
-    <UndefinedClass>
-      <code>\Log</code>
-      <code>\Log</code>
-      <code>\Log</code>
-      <code>\Log</code>
-    </UndefinedClass>
     <UnusedClass>
       <code>SlackController</code>
     </UnusedClass>
@@ -561,12 +492,6 @@
     </UnusedClass>
   </file>
   <file src="app/Http/Controllers/VarzController.php">
-    <InvalidReturnStatement>
-      <code>response($data)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>Response</code>
-    </InvalidReturnType>
     <UnusedClass>
       <code>VarzController</code>
     </UnusedClass>
@@ -732,7 +657,6 @@
   </file>
   <file src="app/Models/Capers/Character.php">
     <PossiblyUnusedMethod>
-      <code>findAttributeAt</code>
       <code>getBodyAttribute</code>
       <code>getGearAttribute</code>
       <code>getIdentityAttribute</code>
@@ -742,8 +666,6 @@
       <code>getSkillsAttribute</code>
       <code>getSpeedAttribute</code>
       <code>getStrengthAttribute</code>
-      <code>getViceAttribute</code>
-      <code>getVirtueAttribute</code>
     </PossiblyUnusedMethod>
   </file>
   <file src="app/Models/Capers/Explosive.php">
@@ -788,8 +710,6 @@
   <file src="app/Models/Capers/Power.php">
     <PossiblyUnusedMethod>
       <code>all</code>
-      <code>major</code>
-      <code>minor</code>
     </PossiblyUnusedMethod>
     <PossiblyUnusedProperty>
       <code>$activation</code>
@@ -881,7 +801,6 @@
       <code>getSeriouslyWoundedThresholdAttribute</code>
       <code>getSkills</code>
       <code>getSkillsByCategory</code>
-      <code>getWeapons</code>
     </PossiblyUnusedMethod>
   </file>
   <file src="app/Models/Cyberpunkred/Lifepath.php">
@@ -1153,7 +1072,6 @@
       <code>getMetatypeAttribute</code>
       <code>getSkillLimit</code>
       <code>getSoakAttribute</code>
-      <code>getSpirits</code>
       <code>getSprites</code>
       <code>getTradition</code>
       <code>initiativeDice</code>
@@ -1639,30 +1557,6 @@
       <code>$insight</code>
       <code>$presence</code>
       <code>$reason</code>
-    </PossiblyUnusedProperty>
-  </file>
-  <file src="app/Models/StarTrekAdventures/Character.php">
-    <PossiblyUnusedMethod>
-      <code>getSpeciesAttribute</code>
-      <code>getStressAttribute</code>
-      <code>getTalentsAttribute</code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="app/Models/StarTrekAdventures/Disciplines.php">
-    <PossiblyUnusedProperty>
-      <code>$command</code>
-      <code>$conn</code>
-      <code>$engineering</code>
-      <code>$medicine</code>
-      <code>$science</code>
-    </PossiblyUnusedProperty>
-  </file>
-  <file src="app/Models/StarTrekAdventures/Species.php">
-    <PossiblyUnusedProperty>
-      <code>$attributes</code>
-      <code>$description</code>
-      <code>$talents</code>
-      <code>$trait</code>
     </PossiblyUnusedProperty>
   </file>
 </files>

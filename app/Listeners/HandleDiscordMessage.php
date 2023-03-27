@@ -8,6 +8,7 @@ use App\Events\DiscordMessageReceived;
 use App\Events\RollEvent;
 use App\Models\Channel;
 use App\Rolls\Roll;
+use Error;
 use Illuminate\Support\Facades\Log;
 
 class HandleDiscordMessage
@@ -69,9 +70,8 @@ class HandleDiscordMessage
                 $event->message->reply($roll->forDiscord());
                 RollEvent::dispatch($roll, $channel);
                 return true;
-            } catch (\Error $ex) {
-                // Ignore.
-                Log::debug($ex->getMessage());
+            } catch (Error) {
+                // Ignore errors here, they might want a generic command.
             }
         }
 
@@ -94,8 +94,8 @@ class HandleDiscordMessage
                 RollEvent::dispatch($roll, $channel);
             }
             return true;
-        } catch (\Error $ex) {
-            Log::debug($ex->getMessage());
+        } catch (Error $ex) {
+            // Again, ignore errors, they might want a generic command.
         }
 
         // Try generic rolls.
@@ -109,8 +109,8 @@ class HandleDiscordMessage
             );
             $event->channel->sendMessage($roll->forDiscord());
             return true;
-        } catch (\Error $ex) {
-            Log::debug($ex->getMessage());
+        } catch (Error) {
+            // Again, ignore errors, they might want an old-school response.
         }
 
         // Try an old-format HTTP Response
@@ -125,8 +125,16 @@ class HandleDiscordMessage
             if ('' !== $response) {
                 $event->channel->sendMessage($response);
             }
-        } catch (\Error $ex) {
-            Log::debug($ex->getMessage());
+        } catch (Error $ex) {
+            Log::debug(
+                '{system} - Could not find roll "{roll}" from user "{user}"',
+                [
+                    'system' => $channel->system,
+                    'roll' => \ucfirst($args[0]),
+                    'user' => $channel->username,
+                    'exception' => $ex->getMessage(),
+                ],
+            );
             $event->channel->sendMessage('That doesn\'t appear to be a valid command!');
         }
         return true;

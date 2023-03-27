@@ -18,7 +18,8 @@
         "allow-plugins": {
             "wyrihaximus/composer-update-bin-autoload-path": false,
             "icanhazstring/composer-unused": true,
-            "infection/extension-installer": false
+            "infection/extension-installer": false,
+            "php-http/discovery": true
         }
     },
     "description": "Commlink is a manager for characters and campaigns for various table top role playing games.",
@@ -95,8 +96,8 @@
         ],
         "infection": "infection --coverage=public/coverage",
         "lint": "parallel-lint --colors app config data tests",
-        "php-cs-fixer": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --config=php_cs.php -v --using-cache=no --diff",
-        "phpcs": "phpcs",
+        "php-cs-fixer": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --config=php_cs.php -v --diff",
+        "phpcs": "phpcs -p --colors --cache",
         "phpmnd": "phpmnd --progress app",
         "phpstan": [
             "Composer\\Config::disableProcessTimeout",
