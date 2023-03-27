@@ -411,7 +411,15 @@ $(function () {
         const row = $(e.target).parents('li');
         const groupId = row.data('id');
 
-        delete character.skillGroups[groupId];
+        let groups = [];
+        $.each(character.skillGroups, function (index, group) {
+            if (groupId === group.id) {
+                delete character.skillGroups[index];
+                return;
+            }
+            groups.push(group);
+        });
+        character.skillGroups = groups;
 
         if (isEmpty(character.skillGroups)) {
             $('#no-skill-groups').show();
