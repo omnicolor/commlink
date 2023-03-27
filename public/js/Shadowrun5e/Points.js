@@ -438,12 +438,12 @@ function Points(character) {
 
     this.updateSkillGroups = function () {
         let parent = this;
-        $.each(this.character.skillGroups, function (group, level) {
-            parent.skillGroups -= level;
+        $.each(character.skillGroups, function (unused, group) {
+            parent.skillGroups -= group.level;
         });
 
-        if (this.skillGroups < 0) {
-            for (let i = this.skillGroups; i; i++) {
+        if (parent.skillGroups < 0) {
+            for (let i = parent.skillGroups; i; i++) {
                 parent.karma -= i * 5;
             }
         }

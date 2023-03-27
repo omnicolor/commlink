@@ -78,9 +78,10 @@ $(function () {
      */
     function addSkillGroup(e) {
         const id = $(e.target).parents('tr').data('id');
+        const group = {id: id, level: 1};
 
-        character.skillGroups[id] = 1;
-        addSkillGroupRow({id: id, level: 1});
+        character.skillGroups.push(group);
+        addSkillGroupRow(group);
         filterGroupList();
 
         points = new Points(character);
@@ -485,7 +486,16 @@ $(function () {
      */
     function updateSkillGroupRating(e) {
         const id = $(e.target).parents('li').data('id');
-        character.skillGroups[id] = parseInt(e.target.value, 10);
+        $.each(character.skillGroups, function (index, group) {
+            if (group.id !== id) {
+                return;
+            }
+
+            character.skillGroups[index] = {
+                id: id,
+                level: parseInt(e.target.value, 10)
+            };
+        });
 
         points = new Points(character);
         updatePointsToSpendDisplay(points);
