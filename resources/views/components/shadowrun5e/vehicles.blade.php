@@ -39,17 +39,26 @@
                     @if (isset($vehicle->subname))
                         {{ $vehicle->subname }}
                     @endif
-                    @if (!empty($vehicle->modifications))
+                    @if (0 !== count($vehicle->modifications) || 0 !== count($vehicle->weapons))
                     <br><small class="text-muted">
-                        @foreach ($vehicle->modifications as $mod)
-                            @can('view data')
-                            <span data-bs-html="true" data-bs-toggle="tooltip"
-                                title="<p>{{ str_replace('||', '</p><p>', $mod->description) }}</p>">
-                                {{ $mod }}</span>@if (!$loop->last), @endif
-                            @else
-                                {{ $mod }}@if (!$loop->last), @endif
-                            @endcan
-                        @endforeach
+                        @if (0 !== count($vehicle->modifications))
+                            <strong class="ms-3">{{ Str::plural('Modification', count($vehicle->modifications)) }}:</strong>
+                            @foreach ($vehicle->modifications as $mod)
+                                @can('view data')
+                                <span data-bs-html="true" data-bs-toggle="tooltip"
+                                    title="<p>{{ str_replace('||', '</p><p>', $mod->description) }}</p>">
+                                    {{ $mod }}</span>@if (!$loop->last), @endif
+                                @else
+                                    {{ $mod }}@if (!$loop->last), @endif
+                                @endcan
+                            @endforeach
+                        @endif
+                        @if (0 !== count($vehicle->weapons))
+                            <strong class="ms-3">{{ Str::plural('Weapon', count($vehicle->weapons)) }}:</strong>
+                            @foreach ($vehicle->weapons as $weapon)
+                                {{ $weapon }}@if (!$loop->last), @endif
+                            @endforeach
+                        @endif
                     </small>
                     @endif
                 </td>

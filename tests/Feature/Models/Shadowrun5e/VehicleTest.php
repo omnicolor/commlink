@@ -225,4 +225,63 @@ final class VehicleTest extends \Tests\TestCase
         $vehicle->weapons[] = new Weapon('ak-98');
         self::assertSame(4250, $vehicle->getCost());
     }
+
+    /**
+     * Test getCost() on a vehicle with attribute-dependant modifications.
+     * @test
+     */
+    public function testGetCostFancyModification(): void
+    {
+        $vehicle = new Vehicle([
+            'id' => 'dodge-scoot',
+            'modifications' => [
+                'acceleration-enhancement-1',
+            ],
+        ]);
+        self::assertSame(
+            3000 + (10000 * 1),
+            $vehicle->getCost()
+        );
+
+        $vehicle = new Vehicle([
+            'id' => 'mct-fly-spy',
+            'modifications' => [
+                'acceleration-enhancement-1',
+            ],
+        ]);
+        self::assertSame(
+            2000 + (10000 * 2),
+            $vehicle->getCost()
+        );
+    }
+
+    public function testModificationEffect(): void
+    {
+        $vehicle = new Vehicle(['id' => 'dodge-scoot']);
+        self::assertSame(1, $vehicle->acceleration);
+
+        $vehicle->modifications[] =
+            new VehicleModification('acceleration-enhancement-1');
+        self::assertSame(2, $vehicle->acceleration);
+    }
+
+    public function testGettingUnknownProperty(): void
+    {
+        $vehicle = new Vehicle(['id' => 'dodge-scoot']);
+        // @phpstan-ignore-next-line
+        self::assertNull($vehicle->unknown);
+    }
+
+    public function testGetAllVehicleProperties(): void
+    {
+        $vehicle = new Vehicle(['id' => 'dodge-scoot']);
+        self::assertSame(1, $vehicle->acceleration);
+        self::assertSame(4, $vehicle->armor);
+        self::assertSame(4, $vehicle->body);
+        self::assertSame(4, $vehicle->handling);
+        self::assertSame(3, $vehicle->handlingOffRoad);
+        self::assertSame(1, $vehicle->pilot);
+        self::assertSame(1, $vehicle->sensor);
+        self::assertSame(3, $vehicle->speed);
+    }
 }
