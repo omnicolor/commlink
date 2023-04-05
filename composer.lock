@@ -1451,16 +1451,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v10.6.0",
+            "version": "v10.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "a9c6b58ebafc839b61e75b19aa38ec8bef45bf67"
+                "reference": "13dc93889617427352f72b6aa8b195b252af1197"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/a9c6b58ebafc839b61e75b19aa38ec8bef45bf67",
-                "reference": "a9c6b58ebafc839b61e75b19aa38ec8bef45bf67",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/13dc93889617427352f72b6aa8b195b252af1197",
+                "reference": "13dc93889617427352f72b6aa8b195b252af1197",
                 "shasum": ""
             },
             "require": {
@@ -1559,7 +1559,7 @@
                 "league/flysystem-read-only": "^3.3",
                 "league/flysystem-sftp-v3": "^3.0",
                 "mockery/mockery": "^1.5.1",
-                "orchestra/testbench-core": "^8.3",
+                "orchestra/testbench-core": "^8.4",
                 "pda/pheanstalk": "^4.0",
                 "phpstan/phpdoc-parser": "^1.15",
                 "phpstan/phpstan": "^1.4.7",
@@ -1647,7 +1647,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-04-04T14:08:32+00:00"
+            "time": "2023-04-05T15:28:17+00:00"
         },
         {
             "name": "laravel/pennant",
@@ -11526,24 +11526,24 @@
         },
         {
             "name": "orchestra/testbench",
-            "version": "v8.2.2",
+            "version": "v8.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench.git",
-                "reference": "5a42e593e50c47d7c7242df70cf4e22032dd3429"
+                "reference": "8caa43318a0a4a0f525eb3edec08627565a3410c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench/zipball/5a42e593e50c47d7c7242df70cf4e22032dd3429",
-                "reference": "5a42e593e50c47d7c7242df70cf4e22032dd3429",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/8caa43318a0a4a0f525eb3edec08627565a3410c",
+                "reference": "8caa43318a0a4a0f525eb3edec08627565a3410c",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.2",
                 "fakerphp/faker": "^1.21",
-                "laravel/framework": ">=10.4.1 <10.7.0",
+                "laravel/framework": ">=10.6.1 <10.7.0",
                 "mockery/mockery": "^1.5.1",
-                "orchestra/testbench-core": ">=8.3.1 <8.4.0",
+                "orchestra/testbench-core": ">=8.4.0 <8.5.0",
                 "php": "^8.1",
                 "phpunit/phpunit": "^9.6 || ^10.0.7",
                 "spatie/laravel-ray": "^1.32.4",
@@ -11575,22 +11575,22 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/testbench/issues",
-                "source": "https://github.com/orchestral/testbench/tree/v8.2.2"
+                "source": "https://github.com/orchestral/testbench/tree/v8.3.0"
             },
-            "time": "2023-04-04T14:39:32+00:00"
+            "time": "2023-04-05T00:11:08+00:00"
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v8.3.1",
+            "version": "v8.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "1b785c2a1a619d5c6751360a1960b8d716d69234"
+                "reference": "545d10a6d5e59c4831ff7301c470dc12f58723aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/1b785c2a1a619d5c6751360a1960b8d716d69234",
-                "reference": "1b785c2a1a619d5c6751360a1960b8d716d69234",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/545d10a6d5e59c4831ff7301c470dc12f58723aa",
+                "reference": "545d10a6d5e59c4831ff7301c470dc12f58723aa",
                 "shasum": ""
             },
             "require": {
@@ -11599,7 +11599,7 @@
             },
             "require-dev": {
                 "fakerphp/faker": "^1.21",
-                "laravel/framework": "^10.4",
+                "laravel/framework": "^10.6.1",
                 "laravel/pint": "^1.6",
                 "mockery/mockery": "^1.5.1",
                 "orchestra/canvas": "^8.1",
@@ -11613,7 +11613,7 @@
             "suggest": {
                 "brianium/paratest": "Allow using parallel tresting (^6.4 || ^7.0).",
                 "fakerphp/faker": "Allow using Faker for testing (^1.21).",
-                "laravel/framework": "Required for testing (^10.4).",
+                "laravel/framework": "Required for testing (^10.6.1).",
                 "mockery/mockery": "Allow using Mockery for testing (^1.5.1).",
                 "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^6.4 || ^7.0).",
                 "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^8.0).",
@@ -11664,7 +11664,7 @@
                 "issues": "https://github.com/orchestral/testbench/issues",
                 "source": "https://github.com/orchestral/testbench-core"
             },
-            "time": "2023-04-02T16:49:31+00:00"
+            "time": "2023-04-04T23:51:20+00:00"
         },
         {
             "name": "phar-io/manifest",
