@@ -4,36 +4,35 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use RuntimeException;
+
 /**
  * Something to add to a vehicle.
  */
 class VehicleModification
 {
-    public const TYPE_EQUIPMENT = 'equipment';
-    public const TYPE_VEHICLE_MOD = 'vehicle-mod';
-    public const TYPE_MODIFICATION_MOD = 'modification-mod';
-
     /**
      * Availability code for the modification.
-     * @var string
      */
     public string $availability;
 
     /**
      * Cost of the modification.
-     * @var int
      */
-    public int $cost;
+    public ?int $cost;
 
     /**
      * Attribute of the vehicle to multiply the cost.
-     * @var string
      */
-    public string $costAttribute;
+    public ?string $costAttribute;
+
+    /**
+     * Cost multiplier to use based on the vehicle's cost.
+     */
+    public ?float $costMultiplier;
 
     /**
      * Description of the modification.
-     * @var string
      */
     public string $description;
 
@@ -45,25 +44,27 @@ class VehicleModification
 
     /**
      * Unique identifier for the modification.
-     * @var string
      */
     public string $id;
 
     /**
+     * Some vehicle modifications can take modifications. Weapons mounts, for
+     * example.
+     */
+    public VehicleModificationArray $modifications;
+
+    /**
      * Name of the modification.
-     * @var string
      */
     public string $name;
 
     /**
      * Page the modification is found on.
-     * @var int
      */
     public int $page;
 
     /**
      * Rating of the modification.
-     * @var ?int
      */
     public ?int $rating;
 
@@ -75,21 +76,30 @@ class VehicleModification
 
     /**
      * Ruleset identifier.
-     * @var string
      */
     public string $ruleset;
 
     /**
-     * For modifications, what type of slot it takes.
-     * @var ?string
+     * For modifications, what type of slot it takes: power-train, protection,
+     * weapons, body, electromagnetic, or cosmetic.
      */
-    public ?string $slotType;
+    public ?VehicleModificationSlotType $slotType;
 
     /**
      * For modifications, how many slots it takes.
-     * @var ?int
      */
     public ?int $slots;
+
+    /**
+     * Type of modification: equipment, vehicle-mod, modification-mod.
+     */
+    public ?VehicleModificationType $type;
+
+    /**
+     * Weapon attached to the modification (assuming it's a weapon mount).
+     * @psalm-suppress PossiblyUnusedProperty
+     */
+    public ?Weapon $weapon = null;
 
     /**
      * List of all modifications.
@@ -99,10 +109,10 @@ class VehicleModification
 
     /**
      * Construct a new modification object.
-     * @param string $id ID to load
-     * @throws \RuntimeException
+     * @param array<string, array<int|string, string>|string> $options
+     * @throws RuntimeException
      */
-    public function __construct(string $id)
+    public function __construct(string $id, array $options = [])
     {
         $filename = config('app.data_path.shadowrun5e')
             . 'vehicle-modifications.php';
@@ -110,16 +120,19 @@ class VehicleModification
 
         $id = \strtolower($id);
         if (!isset(self::$all_modifications[$id])) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 \sprintf('Vehicle modification "%s" is invalid', $id)
             );
         }
 
         $mod = self::$all_modifications[$id];
         $this->availability = $mod['availability'];
-        $this->cost = $mod['cost'];
+        $this->cost = $mod['cost'] ?? null;
         if (isset($mod['cost-attribute'])) {
             $this->costAttribute = $mod['cost-attribute'];
+        }
+        if (isset($mod['cost-multiplier'])) {
+            $this->costMultiplier = $mod['cost-multiplier'];
         }
         $this->description = $mod['description'];
         $this->effects = $mod['effects'] ?? [];
@@ -131,6 +144,20 @@ class VehicleModification
         $this->ruleset = $mod['ruleset'];
         $this->slotType = $mod['slot-type'] ?? null;
         $this->slots = $mod['slots'] ?? null;
+        $this->type = $mod['type'] ?? null;
+
+        // Vehicle modifications can be modified by other modifications.
+        $this->modifications = new VehicleModificationArray();
+        if (VehicleModificationType::VehicleModification == $this->type) {
+            // @phpstan-ignore-next-line
+            foreach ($options['modifications'] ?? [] as $modMod) {
+                $this->modifications[] = new VehicleModification($modMod);
+            }
+            if (isset($options['weapon'])) {
+                // @phpstan-ignore-next-line
+                $this->weapon = Weapon::buildWeapon($options['weapon']);
+            }
+        }
     }
 
     /**
@@ -148,20 +175,50 @@ class VehicleModification
      * A vehicle mod can either have a plain cost or a cost that is based on the
      * vehicle it's being added to. For modifications that cost the same no
      * matter what kind of vehicle they're added to, just use the 'cost' field
-     * and leave 'cost-attribute' empty or unset. For modifications that depend
-     * on the vehicle being modified, use the 'cost' and 'cost-attribute'
-     * fields. For example, if the cost is listed as "Accel × 10,000¥", use
-     * 'cost' as 10000 and 'cost-attribute' as 'acceleration'.
+     * and leave 'cost-attribute' and 'cost-multiplier' fields empty or unset.
+     *
+     * For modifications that depend on particular attributes of the vehicle
+     * being modified, use the 'cost' and 'cost-attribute' fields. For example,
+     * if the cost is listed as "Accel × 10,000¥", use 'cost' as 10000 and
+     * 'cost-attribute' as 'acceleration'.
+     *
+     * For modifications that depend on the cost of the vehicle, such as
+     * Off-road suspension (Rigger 5.0 p158) that cost "Vehicle cost × 25%",
+     * leave the 'cost' and 'cost-attribute' fields unset and set
+     * 'cost-multiplier' to 0.25.
      */
     public function getCost(Vehicle $vehicle): int
     {
-        if (!isset($this->costAttribute)) {
-            return $this->cost;
+        if (!isset($this->costAttribute) && !isset($this->costMultiplier)) {
+            return (int)$this->cost;
         }
 
-        $attribute = 'stock' . ucfirst($this->costAttribute);
-        /** @phpstan-ignore-next-line */
-        return $vehicle->$attribute * $this->cost;
+        if (isset($this->costAttribute)) {
+            $attribute = 'stock' . ucfirst($this->costAttribute);
+            /** @phpstan-ignore-next-line */
+            return $vehicle->$attribute * $this->cost;
+        }
+
+        // @phpstan-ignore-next-line
+        return (int)($vehicle->cost * $this->costMultiplier);
+    }
+
+    /**
+     * Get the number of slots this modification takes up, including any
+     * additional modifications to it.
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function getSlots(): ?int
+    {
+        if (!isset($this->slots)) {
+            return null;
+        }
+
+        $slots = $this->slots;
+        foreach ($this->modifications as $mod) {
+            $slots += $mod->slots ?? 0;
+        }
+        return $slots;
     }
 
     /**

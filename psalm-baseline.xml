@@ -1456,12 +1456,10 @@
     <PossiblyUnusedProperty>
       <code>$availability</code>
       <code>$description</code>
-      <code>$id</code>
       <code>$page</code>
       <code>$rating</code>
       <code>$ruleset</code>
       <code>$slotType</code>
-      <code>$slots</code>
     </PossiblyUnusedProperty>
   </file>
   <file src="app/Models/Shadowrun5e/Weapon.php">

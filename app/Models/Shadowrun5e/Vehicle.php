@@ -203,18 +203,39 @@ class Vehicle
             $this->equipment[] = new VehicleModification($mod);
         }
 
-        $this->modifications = new VehicleModificationArray();
-        $this->stockModifications = new VehicleModificationArray();
-        foreach ($data['modifications'] ?? [] as $mod) {
-            $this->modifications[] = new VehicleModification($mod);
-        }
-        foreach ($vehicle['modifications'] ?? [] as $mod) {
-            $this->modifications[] = new VehicleModification($mod);
-            $this->stockModifications[] = new VehicleModification($mod);
-        }
         $this->weapons = new WeaponArray();
         foreach ($data['weapons'] ?? [] as $weapon) {
             $this->weapons[] = Weapon::buildWeapon($weapon);
+        }
+
+        $this->modifications = new VehicleModificationArray();
+        $this->stockModifications = new VehicleModificationArray();
+        foreach ($data['modifications'] ?? [] as $mod) {
+            if (is_array($mod)) {
+                $modification = new VehicleModification($mod['id'], $mod);
+            } else {
+                $modification = new VehicleModification($mod);
+            }
+            $this->modifications[] = $modification;
+        }
+        foreach ($vehicle['modifications'] ?? [] as $mod) {
+            if (is_array($mod)) {
+                $modification = new VehicleModification($mod['id'], $mod);
+            } else {
+                $modification = new VehicleModification($mod);
+            }
+            $this->modifications[] = $modification;
+            $this->stockModifications[] = $modification;
+        }
+        foreach ($this->modifications as $modification) {
+            if (
+                str_starts_with($modification->id, 'weapon-mount')
+                && 0 !== count($this->weapons)
+            ) {
+                $last = count($this->weapons) - 1;
+                $modification->weapon = $this->weapons[$last];
+                unset($this->weapons[$last]);
+            }
         }
     }
 
@@ -264,7 +285,7 @@ class Vehicle
     }
 
     /**
-     * Return the cost of the vehicle, including modifications.
+     * Return the cost of the vehicle, including non-stock modifications.
      * @return int
      */
     public function getCost(): int

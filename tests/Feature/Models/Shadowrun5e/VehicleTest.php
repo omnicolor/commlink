@@ -45,7 +45,8 @@ final class VehicleTest extends \Tests\TestCase
         self::assertEmpty($vehicle->equipment);
         self::assertSame(4, $vehicle->handling);
         self::assertSame('dodge-scoot', $vehicle->id);
-        self::assertEmpty($vehicle->modifications);
+        // Dodge Scoot was modified with improved economy by Rigger 5.0.
+        self::assertCount(1, $vehicle->modifications);
         self::assertSame('Dodge Scoot', $vehicle->name);
         self::assertSame(1, $vehicle->pilot);
         self::assertSame(1, $vehicle->sensor);
@@ -283,5 +284,65 @@ final class VehicleTest extends \Tests\TestCase
         self::assertSame(1, $vehicle->pilot);
         self::assertSame(1, $vehicle->sensor);
         self::assertSame(3, $vehicle->speed);
+    }
+
+    public function testVehicleWithModifiedVehicleModification(): void
+    {
+        $vehicle = new Vehicle([
+            'id' => 'dodge-scoot',
+            'modifications' => [
+                [
+                    'id' => 'weapon-mount-standard',
+                    'modifications' => [
+                        'visibility-internal',
+                    ],
+                    'weapon' => [
+                        'id' => 'ares-predator-v',
+                    ],
+                ],
+            ],
+        ]);
+
+        $modifications = $vehicle->modifications;
+        // Dodge Scoot has improved economy standard.
+        self::assertCount(2, $modifications);
+
+        /** @var VehicleModification */
+        $mod = $modifications[0];
+        self::assertSame('Weapon mount, standard', $mod->name);
+        self::assertCount(1, $mod->modifications);
+        // @phpstan-ignore-next-line
+        self::assertSame('Ares Predator V', $mod->weapon->name);
+    }
+
+    /**
+     * Test a vehicle with a more complicated stock modification loadout.
+     * @test
+     */
+    public function testVehicleWithStockWeaponMounts(): void
+    {
+        $vehicle = new Vehicle([
+            'id' => 'nissan-hound',
+            'weapons' => [
+                ['id' => 'ak-98'],
+                ['id' => 'ares-predator-v'],
+            ],
+        ]);
+
+        $modifications = $vehicle->modifications;
+        self::assertCount(2, $modifications);
+
+        /** @var VehicleModification */
+        $mount1 = $vehicle->modifications[0];
+        self::assertSame('Weapon mount, standard', $mount1->name);
+        // @phpstan-ignore-next-line
+        self::assertSame('Ares Predator V', $mount1->weapon->name);
+
+        /** @var VehicleModification */
+        $mount2 = $vehicle->modifications[1];
+        // @phpstan-ignore-next-line
+        self::assertSame('AK-98', $mount2->weapon->name);
+
+        self::assertEmpty($vehicle->weapons);
     }
 }

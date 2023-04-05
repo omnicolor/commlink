@@ -39,28 +39,6 @@
                     @if (isset($vehicle->subname))
                         {{ $vehicle->subname }}
                     @endif
-                    @if (0 !== count($vehicle->modifications) || 0 !== count($vehicle->weapons))
-                    <br><small class="text-muted">
-                        @if (0 !== count($vehicle->modifications))
-                            <strong class="ms-3">{{ Str::plural('Modification', count($vehicle->modifications)) }}:</strong>
-                            @foreach ($vehicle->modifications as $mod)
-                                @can('view data')
-                                <span data-bs-html="true" data-bs-toggle="tooltip"
-                                    title="<p>{{ str_replace('||', '</p><p>', $mod->description) }}</p>">
-                                    {{ $mod }}</span>@if (!$loop->last), @endif
-                                @else
-                                    {{ $mod }}@if (!$loop->last), @endif
-                                @endcan
-                            @endforeach
-                        @endif
-                        @if (0 !== count($vehicle->weapons))
-                            <strong class="ms-3">{{ Str::plural('Weapon', count($vehicle->weapons)) }}:</strong>
-                            @foreach ($vehicle->weapons as $weapon)
-                                {{ $weapon }}@if (!$loop->last), @endif
-                            @endforeach
-                        @endif
-                    </small>
-                    @endif
                 </td>
                 <td {!! $class !!}>{{ $vehicle->type }}</td>
                 <td {!! $class !!}>{{ $vehicle->handling }}</td>
@@ -72,6 +50,20 @@
                 <td {!! $class !!}>{{ $vehicle->sensor }}</td>
                 <td {!! $class !!}>{{ $vehicle->seats }}</td>
             </tr>
+            @if (0 !== count($vehicle->modifications) || 0 !== count($vehicle->weapons))
+            <tr>
+                <td colspan="10">
+                    <small class="text-muted">
+                        @if (0 !== count($vehicle->modifications))
+                            <strong class="ms-3">{{ Str::plural('Modification', count($vehicle->modifications)) }}:</strong>
+                            @foreach ($vehicle->modifications as $mod)
+                                <x-Shadowrun5e.vehicle-modification :mod="$mod" />@if (!$loop->last), @endif
+                            @endforeach
+                        @endif
+                    </small>
+                </td>
+            </tr>
+            @endif
         @empty
             <tr>
                 <td class="border-bottom-0" colspan="10">
