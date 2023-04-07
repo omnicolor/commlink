@@ -59,6 +59,7 @@
         "team-reflex/discord-php": "^7.0"
     },
     "require-dev": {
+        "cypresslab/gitelephant": "^4.5",
         "doctrine/dbal": "^3.1",
         "fakerphp/faker": "^1.9",
         "friendsofphp/php-cs-fixer": "^3.0",
