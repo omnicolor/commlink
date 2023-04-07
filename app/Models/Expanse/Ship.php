@@ -83,11 +83,13 @@ class Ship
                 $this->qualities[] = new ShipQuality($quality);
                 // @codeCoverageIgnoreStart
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Expanse ship "%s" has invalid quality "%s"',
-                    $this->id,
-                    $quality
-                ));
+                Log::warning(
+                    'Expanse ship "{ship}" has invalid quality "{quality}"',
+                    [
+                        'ship' => $this->id,
+                        'quality' => $quality,
+                    ]
+                );
                 // @codeCoverageIgnoreEnd
             }
         }
@@ -101,11 +103,13 @@ class Ship
                 );
                 // @codeCoverageIgnoreStart
             } catch (RuntimeException) {
-                Log::warning(\sprintf(
-                    'Expanse ship "%s" has invalid weapon "%s"',
-                    $this->id,
-                    $weapon['id']
-                ));
+                Log::warning(
+                    'Expanse ship "{ship}" has invalid weapon "{weapon}"',
+                    [
+                        'ship' => $this->id,
+                        'weapon' => $weapon['id'],
+                    ]
+                );
             }
             // @codeCoverageIgnoreEnd
         }

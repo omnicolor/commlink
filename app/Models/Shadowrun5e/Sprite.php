@@ -221,11 +221,13 @@ class Sprite
                 $powers[] = new SpritePower($power);
                 // @codeCoverageIgnoreStart
             } catch (RuntimeException) {
-                Log::error(\sprintf(
-                    'Sprite "%s" has invalid power "%s"',
-                    $this->id,
-                    $power,
-                ));
+                Log::error(
+                    'Shadowrun 5E Sprite "{sprite}" has invalid power "{power}"',
+                    [
+                        'sprite' => $this->id,
+                        'power' => $power,
+                    ]
+                );
                 // @codeCoverageIgnoreEnd
             }
         }
