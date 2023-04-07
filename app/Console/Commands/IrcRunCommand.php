@@ -20,7 +20,7 @@ class IrcRunCommand extends Command
 {
     /**
      * The console command description.
-     * @var string
+     * @var ?string
      */
     protected $description = 'Start the IRC bot server';
 
