@@ -1451,35 +1451,15 @@
       <code>getMatrixConditionMonitor</code>
       <code>getPhysicalConditionMonitor</code>
     </PossiblyUnusedMethod>
-    <PossiblyUnusedProperty>
-      <code>$acceleration</code>
-      <code>$active</code>
-      <code>$armor</code>
-      <code>$autosofts</code>
-      <code>$availability</code>
-      <code>$damageMatrix</code>
-      <code>$damagePhysical</code>
-      <code>$description</code>
-      <code>$handling</code>
-      <code>$id</code>
-      <code>$pilot</code>
-      <code>$seats</code>
-      <code>$sensor</code>
-      <code>$speed</code>
-      <code>$subname</code>
-      <code>$type</code>
-    </PossiblyUnusedProperty>
   </file>
   <file src="app/Models/Shadowrun5e/VehicleModification.php">
     <PossiblyUnusedProperty>
       <code>$availability</code>
       <code>$description</code>
-      <code>$id</code>
       <code>$page</code>
       <code>$rating</code>
       <code>$ruleset</code>
       <code>$slotType</code>
-      <code>$slots</code>
     </PossiblyUnusedProperty>
   </file>
   <file src="app/Models/Shadowrun5e/Weapon.php">
