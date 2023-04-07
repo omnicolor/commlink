@@ -10,7 +10,7 @@ use App\View\Components\CampaignOptions;
 use Tests\TestCase;
 
 /**
- * @small
+ * @medium
  */
 final class CampaignOptionsTest extends TestCase
 {

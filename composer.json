@@ -18,7 +18,8 @@
         "allow-plugins": {
             "wyrihaximus/composer-update-bin-autoload-path": false,
             "icanhazstring/composer-unused": true,
-            "infection/extension-installer": false
+            "infection/extension-installer": false,
+            "php-http/discovery": true
         }
     },
     "description": "Commlink is a manager for characters and campaigns for various table top role playing games.",
@@ -78,7 +79,8 @@
         "roave/security-advisories": "dev-latest",
         "spatie/laravel-ignition": "^2.0",
         "squizlabs/php_codesniffer": "^3.6",
-        "vimeo/psalm": "^5.6"
+        "vimeo/psalm": "^5.6",
+        "worksome/envy": "^1.1"
     },
     "scripts": {
         "all": [

@@ -138,12 +138,14 @@ class Character extends \App\Models\Character
                         $focus['level'] ?? 1
                     );
                 } catch (RuntimeException) {
-                    Log::warning(\sprintf(
-                        'Expanse character "%s" (%s) has invalid focus "%s"',
-                        $this->name,
-                        $this->id,
-                        $focus['id']
-                    ));
+                    Log::warning(
+                        'Expanse character "{name}" ({id}) has invalid focus "{focus}"',
+                        [
+                            'name' => $this->name,
+                            'id' => $this->id,
+                            'focus' => $focus['id'],
+                        ]
+                    );
                 }
             }
         }
@@ -184,12 +186,14 @@ class Character extends \App\Models\Character
                     (int)($talent['level'] ?? Talent::NOVICE)
                 );
             } catch (RuntimeException $ex) {
-                Log::warning(\sprintf(
-                    'Expanse character "%s" (%s) has invalid talent "%s"',
-                    $this->name,
-                    $this->id,
-                    $talent['name']
-                ));
+                Log::warning(
+                    'Expanse character "{name}" ({id}) has invalid talent "{talent}"',
+                    [
+                        'name' => $this->name,
+                        'id' => $this->id,
+                        'talent' => $talent['name'],
+                    ]
+                );
             }
         }
         return $talents;

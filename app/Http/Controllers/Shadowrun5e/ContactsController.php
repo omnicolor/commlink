@@ -46,11 +46,14 @@ class ContactsController extends Controller
         Character $character,
         ContactCreateRequest $request
     ): JsonResponse {
-        Log::info(\sprintf(
-            'shadowrun5e - Creating contact "%s" for "%s"',
-            $request->input('name'),
-            $character,
-        ));
+        Log::info(
+            '{system} - Creating contact "{name}" for "{character}"',
+            [
+                'system' => 'shadowrun5e',
+                'name' => $request->input('name'),
+                'character' => (string)$character,
+            ]
+        );
         $contact = [
             'archetype' => $request->archetype,
             'connection' => $request->connection,
