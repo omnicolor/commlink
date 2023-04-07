@@ -109,12 +109,14 @@ class Character extends BaseCharacter
             try {
                 $talents[] = new Talent($talent['id'], $talent['extra'] ?? null);
             } catch (RuntimeException $ex) {
-                Log::warning(\sprintf(
-                    'Star Wars Adventures character "%s" (%s) has invalid talent "%s"',
-                    $this->name,
-                    $this->id,
-                    $talent['id']
-                ));
+                Log::warning(
+                    'Star Wars Adventures character "{name}" ({id}) has invalid talent "{talent}"',
+                    [
+                        'name' => $this->name,
+                        'id' => $this->id,
+                        'talent' => $talent['id'],
+                    ]
+                );
             }
         }
         return $talents;
