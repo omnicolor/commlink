@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Models\Shadowrun5e\ForceTrait;
+use App\Models\Shadowrun5e\VehicleModificationSlotType;
+use App\Models\Shadowrun5e\VehicleModificationType;
 use GitElephant\Repository;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\Isolatable;
@@ -12,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use RuntimeException;
 use SimpleXMLElement;
+use ValueError;
 
 /**
  * @codeCoverageIgnore
@@ -22,6 +25,10 @@ class ImportChummerData extends Command implements Isolatable
 {
     use ForceTrait;
 
+    const MAX_VEHICLE_BODY = 36;
+    const SLOTS_PER_STANDARD_ARMOR = 2;
+    const SLOTS_PER_CONCEALED_ARMOR = 3;
+
     /**
      * List of valid types that can be imported.
      */
@@ -30,6 +37,8 @@ class ImportChummerData extends Command implements Isolatable
         'augmentations',
         'complex-forms',
         'critter-powers',
+        'vehicle-modifications',
+        'vehicles',
         'weapons',
     ];
 
@@ -40,6 +49,7 @@ class ImportChummerData extends Command implements Isolatable
         '2050' => 'core',
         'AET' => 'aetherology',
         'AP' => 'assassins-primer',
+        'AR' => null, // Unknown
         'BB' => 'bullets-and-bandages',
         'BLB' => 'bloody-business',
         'BOTL' => 'book-of-the-lost',
@@ -144,10 +154,11 @@ class ImportChummerData extends Command implements Isolatable
 
         $this->updateChummerRepository();
 
-        $types = $this->option('type');
-        if (null === $types) {
+        $types = (array)$this->option('type');
+        if (0 === count($types)) {
             $types = self::DATA_TYPES;
         }
+
         // @phpstan-ignore-next-line
         foreach ($types as $type) {
             $function = 'process' . ucfirst(str_replace('-', '', $type));
@@ -318,10 +329,7 @@ class ImportChummerData extends Command implements Isolatable
                 'rating' => (int)$armor->armor,
                 'ruleset' => self::SOURCE_MAP[(string)$armor->source],
             ];
-            if (
-                null !== $armor->bonus
-                && null !== $armor->bonus->limitmodifier
-            ) {
+            if (isset($armor->bonus) && isset($armor->bonus->limitmodifier)) {
                 $effect = \strtolower(
                     (string)$armor->bonus->limitmodifier->limit
                 );
@@ -514,7 +522,7 @@ class ImportChummerData extends Command implements Isolatable
                 continue;
             }
 
-            if (null !== $rawPower->hide) {
+            if (isset($rawPower->hide)) {
                 continue;
             }
 
@@ -566,7 +574,7 @@ class ImportChummerData extends Command implements Isolatable
                 'ruleset' => self::SOURCE_MAP[(string)$rawWeapon->source],
             ];
 
-            if (null === $rawWeapon->maxrating) {
+            if (!isset($rawWeapon->maxrating)) {
                 $weapon['availability'] = $this->cleanAvailability($rawWeapon);
                 $weapons[$id] = $weapon;
                 $bar->advance();
@@ -592,6 +600,216 @@ class ImportChummerData extends Command implements Isolatable
     }
 
     /**
+     * Process Chummer's vehicles file to a Commlink data file.
+     */
+    protected function processVehicles(): void
+    {
+        $data = $this->loadXml(
+            $this->chummerRepository . '/Chummer/data/vehicles.xml'
+        );
+
+        $vehicles = [];
+        $bar = $this->output->createProgressBar(count($data->vehicles->vehicle));
+        $bar->setFormat('  Vehicles       %current%/%max% [%bar%] %percent%');
+        $bar->start();
+        foreach ($data->vehicles->vehicle as $rawVehicle) {
+            if (null === self::SOURCE_MAP[(string)$rawVehicle->source]) {
+                continue;
+            }
+
+            $vehicle = [
+                'acceleration' => (int)$rawVehicle->accel,
+                'armor' => (int)$rawVehicle->armor,
+                'availability' => $this->cleanAvailability($rawVehicle),
+                'body' => (int)$rawVehicle->body,
+                'category' => (string)$rawVehicle->category,
+                'chummer-id' => (string)$rawVehicle->id,
+                'cost' => (int)$rawVehicle->cost,
+                'handling' => (int)$rawVehicle->handling,
+                'name' => (string)$rawVehicle->name,
+                'page' => (int)$rawVehicle->page,
+                'pilot' => (int)$rawVehicle->pilot,
+                'ruleset' => self::SOURCE_MAP[(string)$rawVehicle->source],
+                'seats' => (int)$rawVehicle->seats,
+                'sensor' => (int)$rawVehicle->sensor,
+                'speed' => (int)$rawVehicle->speed,
+            ];
+            $vehicles[$this->nameToId((string)$rawVehicle->name)] = $vehicle;
+            $bar->advance();
+        }
+        $bar->setFormat('  Vehicles       %current%/%max% [%bar%] -- ' . count($vehicles) . ' vehicles');
+        $bar->finish();
+        $this->newLine();
+        $this->writeFile('vehicles.php', $vehicles);
+    }
+
+    protected function processVehicleModifications(): void
+    {
+        $data = $this->loadXml(
+            $this->chummerRepository . '/Chummer/data/vehicles.xml'
+        );
+
+        $vehicleMods = [];
+        $bar = $this->output->createProgressBar(count($data->mods->mod));
+        $bar->setFormat('  Vehicle Mods   %current%/%max% [%bar%] %percent%');
+        $bar->start();
+        foreach ($data->mods->mod as $rawMod) {
+            if (null === self::SOURCE_MAP[(string)$rawMod->source]) {
+                continue;
+            }
+            if (isset($rawPower->hide)) {
+                continue;
+            }
+            if ('Model-Specific' === (string)$rawMod->category) {
+                continue;
+            }
+
+            $name = (string)$rawMod->name;
+            $slotType = strtolower((string)$rawMod->category);
+            if ('powertrain' === $slotType) {
+                $slotType = 'power-train';
+            }
+            try {
+                $slotType = VehicleModificationSlotType::from($slotType);
+            } catch (ValueError) {
+                $bar->advance();
+                continue;
+            }
+
+            $mod = [
+                'availability' => $this->cleanAvailability($rawMod),
+                'chummer-id' => (string)$rawMod->id,
+                'name' => $name,
+                'page' => (int)$rawMod->page,
+                'ruleset' => self::SOURCE_MAP[(string)$rawMod->source],
+                'slot-type' => $slotType,
+                'type' => VehicleModificationType::VehicleModification,
+            ];
+
+            $maxRating = (string)$rawMod->rating;
+            if ('body' === $maxRating) {
+                // Armor has a max of the vehicle's body rating, which may be
+                // as high as 36 for the Lurssen Mobius. But each armor takes up
+                // two or three slots depending on the type.
+                if ('Armor (Standard)' === $name) {
+                    $maxRating = (int)(self::MAX_VEHICLE_BODY / self::SLOTS_PER_STANDARD_ARMOR);
+                } elseif ('Armor (Concealed)' === $name) {
+                    $maxRating = (int)(self::MAX_VEHICLE_BODY / self::SLOTS_PER_CONCEALED_ARMOR);
+                }
+            }
+
+            $maxRating = (int)$maxRating;
+            $slots = (string)$rawMod->slots;
+            $cost = (string)$rawMod->cost;
+            if (is_numeric($slots) && 0 === $maxRating) {
+                $mod['cost'] = (int)$cost;
+                $mod['slots'] = (int)$slots;
+                $vehicleMods[$this->nameToId((string)$rawMod->name)] = $mod;
+                $bar->advance();
+                continue;
+            }
+            if (is_numeric($slots)) {
+                $mod['slots'] = (int)$slots;
+                for ($rating = 1; $rating <= $maxRating; $rating++) {
+                    $mod['availability'] = $this->cleanAvailability($rawMod, $rating);
+                    $mod['cost']
+                        = $this->calculateValueFromFormula($cost, $rating);
+                    $mod['rating'] = $rating;
+                    $vehicleMods[$this->nameToId($name) . '-' . $rating] = $mod;
+                }
+                $bar->advance();
+                continue;
+            }
+
+            if (0 === $maxRating) {
+                // Gecko Tips and Gliding System need to be added manually.
+                $bar->advance();
+                continue;
+            }
+
+            if (Str::contains($slots, 'Rating')) {
+                for ($rating = 1; $rating <= $maxRating; $rating++) {
+                    $mod['availability'] = $this->cleanAvailability($rawMod, $rating);
+                    $mod['cost']
+                        = $this->calculateValueFromFormula($cost, $rating);
+                    $mod['rating'] = $rating;
+                    $mod['slots']
+                        = $this->calculateValueFromFormula($slots, $rating);
+                    $vehicleMods[$this->nameToId($name) . '-' . $rating] = $mod;
+                }
+                $bar->advance();
+                continue;
+            }
+
+            if (Str::contains($slots, 'FixedValues')) {
+                $slots = $this->fixedValuesToArray($slots);
+                $costs = $this->fixedValuesToArray($cost);
+                foreach ($slots as $rating => $slot) {
+                    $mod['availability'] = $this->cleanAvailability($rawMod, $rating);
+                    $mod['cost'] = $costs[$rating];
+                    $mod['rating'] = $rating;
+                    $mod['slots'] = (int)$slot;
+                    $vehicleMods[$this->nameToId($name) . '-' . $rating] = $mod;
+                }
+                $bar->advance();
+                continue;
+            }
+
+            $vehicleMods[$this->nameToId((string)$rawMod->name)] = $mod;
+            $bar->advance();
+        }
+        $bar->setFormat(
+            '  Vehicle mods   %current%/%max% [%bar%] -- '
+                . count($vehicleMods) . ' vehicle modifications'
+        );
+        $bar->finish();
+        $this->newLine();
+        $this->writeFile(
+            'vehicle-modifications.php',
+            $vehicleMods,
+            [
+                'Vehicle',
+                'VehicleModificationSlotType',
+                'VehicleModificationType',
+            ],
+        );
+    }
+
+    /**
+     * Several values in Chummer's data appear like
+     * "FixedValues(500,1000,2500,5000)" which means the value for whatever
+     * attribute at rating 1 is 500, rating 2 is 1000, etc. This returns an
+     * array starting with key 1 for the values. Values are returned as strings
+     * since many data points are formulas that need further processing, though
+     * some are simple integers.
+     * @return <int, string>
+     */
+    protected function fixedValuesToArray(string $values): array
+    {
+        $values = Str::between($values, '(', ')');
+        $values = array_merge([0 => null], explode(',', $values));
+        unset($values[0]);
+        return $values;
+    }
+
+    /**
+     * Several different attributes in Chummer's data are based on the rating,
+     * and write it in different ways. Given a string like "Rating * 3000",
+     * replaces the word "Rating" with the numerical rating and calculates the
+     * formula's result.
+     */
+    protected function calculateValueFromFormula(
+        string $formula,
+        int $rating
+    ): int {
+        $formula = Str::replace('Rating', 'R', $formula);
+        $formula = Str::replace(' ', '', $formula);
+        $formula = Str::replace('{', '', $formula);
+        $formula = Str::replace('}', '', $formula);
+        return $this->convertFormula($formula, 'R', $rating);
+    }
+
+    /**
      * Given a Chummer item, return the availability for Commlink.
      *
      * If the availability is zero, replace with an empty string. If it's
@@ -606,13 +824,14 @@ class ImportChummerData extends Command implements Isolatable
 
         if (Str::contains($availability, 'Rating')) {
             $formula = Str::between($availability, '(', ')');
-            $formula = Str::replace('Rating', 'R', $formula);
-            $formula = Str::replace(' ', '', $formula);
-            $formula = Str::replace('{', '', $formula);
-            $formula = Str::replace('}', '', $formula);
-            return $this->convertFormula($formula, 'R', (int)$rating) .
-                Str::after($availability, ')');
+            return $this->calculateValueFromFormula($formula, (int)$rating)
+                . Str::after($availability, ')');
         }
+        if (Str::contains($availability, 'FixedValues') && null !== $rating) {
+            return $this->fixedValuesToArray($availability)[$rating]
+                . Str::after($availability, ')');
+        }
+
         if ('0' === $availability) {
             return '';
         }
@@ -649,13 +868,22 @@ class ImportChummerData extends Command implements Isolatable
      * Writes the given data to a file as a PHP array.
      * @param array<string, array<string, array<string, int>|int|string>> $data
      */
-    protected function writeFile(string $file, array $data): void
-    {
+    protected function writeFile(
+        string $file,
+        array $data,
+        ?array $imports = null
+    ): void {
         $output = '<?php' . \PHP_EOL
             . \PHP_EOL
             . 'declare(strict_types=1);' . \PHP_EOL
-            . \PHP_EOL
-            . 'return [' . \PHP_EOL;
+            . \PHP_EOL;
+        if (null !== $imports) {
+            foreach ($imports as $import) {
+                $output .= 'use App\\Models\\Shadowrun5e\\' . $import . ';' . \PHP_EOL;
+            }
+            $output .= \PHP_EOL;
+        }
+        $output .= 'return [' . \PHP_EOL;
 
         ksort($data);
         foreach ($data as $id => $item) {
@@ -679,11 +907,7 @@ class ImportChummerData extends Command implements Isolatable
      * function to format it better.
      * @param array<string, int|string>|float|int|string $value
      */
-    protected function writeLine(
-        int $level,
-        string $key,
-        array|float|int|string $value
-    ): string {
+    protected function writeLine(int $level, string $key, mixed $value): string {
         $padding = str_repeat(' ', $level * 4);
         $output = $padding . '\'' . $key . '\' => ';
         if (is_array($value)) {
@@ -694,6 +918,10 @@ class ImportChummerData extends Command implements Isolatable
             $output .= $padding . ']';
         } elseif (is_numeric($value) && 'availability' !== $key) {
             $output .= $value;
+        } elseif ($value instanceof VehicleModificationSlotType) {
+            $output .= 'VehicleModificationSlotType::' . $value->name;
+        } elseif ($value instanceof VehicleModificationType) {
+            $output .= 'VehicleModificationType::' . $value->name;
         } else {
             $output .= '\'' . addslashes((string)$value) . '\'';
         }
