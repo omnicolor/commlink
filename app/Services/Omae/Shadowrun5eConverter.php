@@ -187,7 +187,7 @@ class Shadowrun5eConverter implements ConverterInterface
                 }
                 $names = $line->substr(16)->explode('/');
                 $this->character->realName = $names[0];
-                $this->character->handle = $names[1];
+                $this->character->handle = $names[1] ?? 'Unnamed character';
                 continue;
             }
             if ($line->startsWith('**Metatype:** ')) {
