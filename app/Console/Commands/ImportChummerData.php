@@ -116,17 +116,24 @@ class ImportChummerData extends Command implements Isolatable
      * @var string
      */
     protected $signature = 'commlink:import-chummer-data
-        {--type=* : Type of data to import (armor, augmentations, complex-forms, critter-powers, weapons)}
+        {--type=* : Type of data to import}
         {--skip-pull : Don\'t update Chummer\'s git repository}
         {--chummer-path= : Set the path Chummer 5\'s local git repository}
-        {--output-dir=storage/app/shadowrun5e-data : Set the output directory}';
+        {--output-dir=storage/app/shadowrun5e-data : Set the output directory}
+        {--list-types : List the types of data you can import, then exit}';
 
     /**
      * Execute the console command.
      */
     public function handle(): int
     {
+        if (true === $this->option('list-types')) {
+            $this->listTypes();
+            return 0;
+        }
+
         $this->info('Creating Commlink data files from Chummer 5 data');
+
         // Don't output warnings loading bad XML files, we'll handle it.
         libxml_use_internal_errors(true);
 
@@ -149,6 +156,14 @@ class ImportChummerData extends Command implements Isolatable
         }
 
         return 0;
+    }
+
+    protected function listTypes(): void
+    {
+        $this->info('You can request one or more of the following data types be processed:');
+        foreach (self::DATA_TYPES as $type) {
+            $this->line(' * ' . $type);
+        }
     }
 
     /**
@@ -240,6 +255,7 @@ class ImportChummerData extends Command implements Isolatable
         }
 
         if (true === $this->option('skip-pull')) {
+            $this->line('Skipping git update on Chummer repository');
             return;
         }
 
