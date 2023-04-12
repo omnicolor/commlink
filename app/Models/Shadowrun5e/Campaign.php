@@ -16,7 +16,6 @@ class Campaign extends BaseCampaign
         $contacts = new ContactArray();
         /** @var Character $character */
         foreach ($this->characters() as $character) {
-            /** @var Contact $contact */
             foreach ($character->getContacts() as $contact) {
                 if (!isset($contacts[(string)$contact])) {
                     $contacts[(string)$contact] = $contact;
