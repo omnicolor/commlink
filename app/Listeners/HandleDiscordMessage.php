@@ -88,6 +88,7 @@ class HandleDiscordMessage
                 optional($event->user)->username,
                 $channel
             );
+            // @phpstan-ignore-next-line
             $event->channel->sendMessage($roll->forDiscord());
 
             if ('help' !== $args[0]) {
@@ -107,6 +108,7 @@ class HandleDiscordMessage
                 optional($event->user)->username,
                 $channel
             );
+            // @phpstan-ignore-next-line
             $event->channel->sendMessage($roll->forDiscord());
             return true;
         } catch (Error) {
