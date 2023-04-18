@@ -25,9 +25,9 @@ class ImportChummerData extends Command implements Isolatable
 {
     use ForceTrait;
 
-    const MAX_VEHICLE_BODY = 36;
-    const SLOTS_PER_STANDARD_ARMOR = 2;
-    const SLOTS_PER_CONCEALED_ARMOR = 3;
+    protected const MAX_VEHICLE_BODY = 36;
+    protected const SLOTS_PER_STANDARD_ARMOR = 2;
+    protected const SLOTS_PER_CONCEALED_ARMOR = 3;
 
     /**
      * List of valid types that can be imported.
@@ -37,6 +37,7 @@ class ImportChummerData extends Command implements Isolatable
         'augmentations',
         'complex-forms',
         'critter-powers',
+        'gear',
         'vehicle-modifications',
         'vehicles',
         'weapons',
@@ -159,13 +160,13 @@ class ImportChummerData extends Command implements Isolatable
             $types = self::DATA_TYPES;
         }
 
-        // @phpstan-ignore-next-line
         foreach ($types as $type) {
             $function = 'process' . ucfirst(str_replace('-', '', $type));
             // @phpstan-ignore-next-line
             $this->$function();
         }
 
+        $this->info('Creating Commlink data: ' . $this->outputDir);
         return 0;
     }
 
@@ -299,9 +300,6 @@ class ImportChummerData extends Command implements Isolatable
         return $data;
     }
 
-    /**
-     * Process Chummer's armor file to a Commlink PHP file.
-     */
     protected function processArmor(): void
     {
         $data = $this->loadXml(
@@ -311,7 +309,7 @@ class ImportChummerData extends Command implements Isolatable
         /** @var array<string, array<string, array<string, int>|int|string>> */
         $armors = [];
         $bar = $this->output->createProgressBar(count($data->armors->armor));
-        $bar->setFormat('  Armor          %current%/%max% [%bar%] %percent%');
+        $bar->setFormat('  Armor            %current%/%max% [%bar%] %percent%');
         $bar->start();
 
         foreach ($data->armors->armor as $armor) {
@@ -329,7 +327,7 @@ class ImportChummerData extends Command implements Isolatable
                 'rating' => (int)$armor->armor,
                 'ruleset' => self::SOURCE_MAP[(string)$armor->source],
             ];
-            if (isset($armor->bonus) && isset($armor->bonus->limitmodifier)) {
+            if (isset($armor->bonus, $armor->bonus->limitmodifier)) {
                 $effect = \strtolower(
                     (string)$armor->bonus->limitmodifier->limit
                 );
@@ -340,17 +338,13 @@ class ImportChummerData extends Command implements Isolatable
             $armors[$this->nameToId((string)$armor->name)] = $armorItem;
             $bar->advance();
         }
-        $bar->setFormat('  Armor          %current%/%max% [%bar%] -- ' . count($armors) . ' armor');
+        $bar->setFormat('  Armor            %current%/%max% [%bar%] -- ' . count($armors) . ' armor');
         $bar->finish();
         $this->newLine();
         // @psalm-suppress InvalidArgument
         $this->writeFile('armor.php', $armors);
     }
 
-    /**
-     * Convert Chummer's bioware and cyberware files to Commlink's
-     * augmentations file.
-     */
     protected function processAugmentations(): void
     {
         $augmentations = [];
@@ -360,7 +354,7 @@ class ImportChummerData extends Command implements Isolatable
         );
         $count = count($data->biowares->bioware);
         $bar = $this->output->createProgressBar($count);
-        $bar->setFormat('  Augmentations  %current%/%max% [%bar%] %percent% -- %message%');
+        $bar->setFormat('  Augmentations    %current%/%max% [%bar%] %percent% -- %message%');
         $bar->setMessage('bioware');
         $bar->start();
         foreach ($data->biowares->bioware as $aug) {
@@ -379,7 +373,7 @@ class ImportChummerData extends Command implements Isolatable
         }
 
         $bar->setFormat(
-            '  Augmentations  %current%/%max% [%bar%] -- '
+            '  Augmentations    %current%/%max% [%bar%] -- '
                 . number_format(count($augmentations)) . ' augmentations ('
                 . number_format($count) . ' bioware, '
                 . number_format(count($augmentations) - $count) . ' cyberware)',
@@ -435,9 +429,6 @@ class ImportChummerData extends Command implements Isolatable
         }
     }
 
-    /**
-     * Convert Chummer's complex forms file to Commlink's file.
-     */
     protected function processComplexforms(): void
     {
         $matrixAttributes = [
@@ -452,11 +443,14 @@ class ImportChummerData extends Command implements Isolatable
         );
 
         $bar = $this->output->createProgressBar(count($data->complexforms->complexform));
-        $bar->setFormat(' . Complex forms  %current%/%max%    [%bar%] %percent%');
+        $bar->setFormat(
+            '  Complex forms      %current%/%max% [%bar%] %percent%'
+        );
         $bar->start();
         $forms = [];
         foreach ($data->complexforms->complexform as $rawForm) {
             if (null === self::SOURCE_MAP[(string)$rawForm->source]) {
+                $bar->advance();
                 continue;
             }
 
@@ -497,16 +491,16 @@ class ImportChummerData extends Command implements Isolatable
             $forms[$this->nameToId($name)] = $form;
             $bar->advance();
         }
-        $bar->setFormat('  Complex forms    %current%/%max% [%bar%] -- ' . count($forms) . ' complex forms');
+        $bar->setFormat(
+            '  Complex forms      %current%/%max% [%bar%] -- ' . count($forms)
+                . ' complex forms'
+        );
         $bar->finish();
         $this->newLine();
         // @psalm-suppress InvalidArgument
         $this->writeFile('complex-forms.php', $forms);
     }
 
-    /**
-     * Convert Chummer's critter powers to Commlink's format.
-     */
     protected function processCritterpowers(): void
     {
         $data = $this->loadXml(
@@ -514,7 +508,7 @@ class ImportChummerData extends Command implements Isolatable
         );
 
         $bar = $this->output->createProgressBar(count($data->powers->power));
-        $bar->setFormat('  Critter powers %current%/%max% [%bar%] %percent%');
+        $bar->setFormat('  Critter powers   %current%/%max% [%bar%] %percent%');
         $bar->start();
         $powers = [];
         foreach ($data->powers->power as $rawPower) {
@@ -537,16 +531,174 @@ class ImportChummerData extends Command implements Isolatable
                 'type' => (string)$rawPower->type,
             ];
         }
-        $bar->setFormat('  Critter powers %current%/%max% [%bar%] -- ' . count($powers) . ' powers');
+        $bar->setFormat(
+            '  Critter powers   %current%/%max% [%bar%] -- ' . count($powers)
+                . ' powers'
+        );
         $bar->finish();
         $this->newLine();
         // @psalm-suppress InvalidArgument
         $this->writeFile('critter-powers.php', $powers);
     }
 
+    protected function processGear(): void
+    {
+        // Gear that needs to have additional processing for matrix attributes
+        // (attack, sleaze, data processing, firewall, and device rating)
+        $matrixDevices = [
+            'Commlinks',
+            'Cyberdecks',
+            'Cyberterminals',
+            'Rigger Command Consoles',
+        ];
+
+        // Categories that either aren't supported by Commlink, or are
+        // supported under a different type.
+        $skippedCategories = [
+            'Ammunition',
+            'Custom Cyberdeck Attributes',
+            'Electronic Modification',
+            'Formulae',
+            'Magical Compounds',
+        ];
+
+        // Individual items that aren't supported by Commlink.
+        $skippedItems = [
+            '73b55822-dfb8-48f5-8ff8-37ef498ab9ef', // Living persona
+            '9218a0ea-f1c5-4532-bbe0-25c10e97f0b9', // Remove control deck
+            'd63eb841-7b15-4539-9026-b90a4924aeeb', // Custom commlink
+        ];
+
+        $data = $this->loadXml(
+            $this->chummerRepository . '/Chummer/data/gear.xml'
+        );
+
+        $bar = $this->output->createProgressBar(count($data->gears->gear));
+        $bar->setFormat(
+            '  Gear           %current%/%max% [%bar%] %percent%'
+        );
+        $bar->start();
+        $gears = [];
+        foreach ($data->gears->gear as $rawGear) {
+            $category = (string)$rawGear->category;
+            $chummerId = (string)$rawGear->id;
+            $name = (string)$rawGear->name;
+            $subname = null;
+            if (
+                null === self::SOURCE_MAP[(string)$rawGear->source]
+                || in_array($category, $skippedCategories, true)
+                || in_array($chummerId, $skippedItems, true)
+                || ('Foci' === $category && Str::contains($name, 'Individualized'))
+            ) {
+                $bar->advance();
+                continue;
+            }
+            if (Str::contains($name, 'Focus')) {
+                if (Str::contains($name, '2050')) {
+                    $bar->advance();
+                    continue;
+                }
+
+                if (Str::contains($name, ', ')) {
+                    $subname = Str::after($name, ', ');
+                    $name = Str::before($name, ', ');
+                }
+                $name = \sprintf('%s - %s', ...array_reverse(explode(' ', $name)));
+            }
+
+            if (null !== $subname) {
+                $id = $this->nameToId(
+                    str_replace(' - ', ' ', $name) . ' ' . $subname
+                );
+            } else {
+                $id = $this->nameToId(str_replace(' - ', ' ', $name));
+            }
+
+            $gear = [
+                'availability' => $this->cleanAvailability($rawGear),
+                'chummer-id' => $chummerId,
+                'cost' => (int)$rawGear->cost,
+                'name' => $name,
+                'page' => (int)$rawGear->page,
+                'ruleset' => self::SOURCE_MAP[(string)$rawGear->source],
+            ];
+            if (null !== $subname) {
+                $gear['subname'] = $subname;
+            }
+
+            if (in_array($category, $matrixDevices, true)) {
+                $gear = array_merge($gear, $this->addMatrixAttributes($rawGear));
+            }
+
+            if (!isset($rawGear->rating)) {
+                $gears[$id] = $gear;
+                $bar->advance();
+                continue;
+            }
+
+            $maxRating = min((int)$rawGear->rating, 12);
+            for ($rating = 1; $rating <= $maxRating; $rating++) {
+                $gear['rating'] = $rating;
+                $gear['availability']
+                    = $this->cleanAvailability($rawGear, $rating);
+                $cost = (string)$rawGear->cost;
+                if (Str::contains($cost, 'FixedValues')) {
+                    $gear['cost'] = $this->fixedValuesToArray($cost)[$rating];
+                } else {
+                    $gear['cost']
+                        = $this->calculateCost((string)$rawGear->cost, $rating);
+                }
+                $gears[$id . '-' . $rating] = $gear;
+            }
+            $bar->advance();
+        }
+        $bar->setFormat(
+            '  Gear           %current%/%max% [%bar%] -- ' . count($gears)
+                . ' gear items'
+        );
+        $bar->finish();
+        $this->newLine();
+        $this->writeFile('gear.php', $gears);
+    }
+
     /**
-     * Process Chummer's weapons file to a Commlink PHP file.
+     * @psalm-suppress InvalidReturnStatement
+     * @psalm-suppress InvalidReturnType
+     * @return array<string, array<int, int|string>|int|string>
      */
+    protected function addMatrixAttributes(SimpleXmlElement $gear): array
+    {
+        $matrix = [];
+        if ('' !== (string)$gear->attributearray) {
+            $matrix['attributes'] = explode(',', (string)$gear->attributearray);
+        } else {
+            $matrix['attributes'] = [
+                'attack' => (int)$gear->attack,
+                'data-processing' => (int)$gear->dataprocessing,
+                'firewall' => (int)$gear->firewall,
+                'sleaze' => (int)$gear->sleaze,
+            ];
+        }
+        if (0 !== (int)$gear->devicerating) {
+            $matrix['rating'] = (int)$gear->devicerating;
+        } elseif (0 !== (int)$gear->rating) {
+            $matrix['rating'] = (int)$gear->rating;
+        }
+        if (0 !== (int)$gear->programs) {
+            $matrix['programs'] = (int)$gear->programs;
+        }
+
+        // @phpstan-ignore-next-line
+        $matrix['container-type'] = [match ((string)$gear->category) {
+            'Commlinks' => 'commlink',
+            'Cyberdecks' => 'cyberdeck',
+            'Cyberterminals' => 'commlink',
+            'Rigger Command Consoles' => 'rcc',
+        }];
+        // @phpstan-ignore-next-line
+        return $matrix;
+    }
+
     protected function processWeapons(): void
     {
         $data = $this->loadXml(
@@ -555,7 +707,7 @@ class ImportChummerData extends Command implements Isolatable
 
         $weapons = [];
         $bar = $this->output->createProgressBar(count($data->weapons->weapon));
-        $bar->setFormat('  Weapons        %current%/%max% [%bar%] %percent%');
+        $bar->setFormat('  Weapons          %current%/%max% [%bar%] %percent%');
         $bar->start();
         foreach ($data->weapons->weapon as $rawWeapon) {
             if (null === self::SOURCE_MAP[(string)$rawWeapon->source]) {
@@ -593,15 +745,15 @@ class ImportChummerData extends Command implements Isolatable
             }
             $bar->advance();
         }
-        $bar->setFormat('  Weapons        %current%/%max% [%bar%] -- ' . count($weapons) . ' weapons');
+        $bar->setFormat(
+            '  Weapons          %current%/%max% [%bar%] -- ' . count($weapons)
+                . ' weapons'
+        );
         $bar->finish();
         $this->newLine();
         $this->writeFile('weapons.php', $weapons);
     }
 
-    /**
-     * Process Chummer's vehicles file to a Commlink data file.
-     */
     protected function processVehicles(): void
     {
         $data = $this->loadXml(
@@ -610,7 +762,7 @@ class ImportChummerData extends Command implements Isolatable
 
         $vehicles = [];
         $bar = $this->output->createProgressBar(count($data->vehicles->vehicle));
-        $bar->setFormat('  Vehicles       %current%/%max% [%bar%] %percent%');
+        $bar->setFormat('  Vehicles         %current%/%max% [%bar%] %percent%');
         $bar->start();
         foreach ($data->vehicles->vehicle as $rawVehicle) {
             if (null === self::SOURCE_MAP[(string)$rawVehicle->source]) {
@@ -637,7 +789,10 @@ class ImportChummerData extends Command implements Isolatable
             $vehicles[$this->nameToId((string)$rawVehicle->name)] = $vehicle;
             $bar->advance();
         }
-        $bar->setFormat('  Vehicles       %current%/%max% [%bar%] -- ' . count($vehicles) . ' vehicles');
+        $bar->setFormat(
+            '  Vehicles         %current%/%max% [%bar%] -- ' . count($vehicles)
+                . ' vehicles'
+        );
         $bar->finish();
         $this->newLine();
         $this->writeFile('vehicles.php', $vehicles);
@@ -651,13 +806,13 @@ class ImportChummerData extends Command implements Isolatable
 
         $vehicleMods = [];
         $bar = $this->output->createProgressBar(count($data->mods->mod));
-        $bar->setFormat('  Vehicle Mods   %current%/%max% [%bar%] %percent%');
+        $bar->setFormat('  Vehicle Mods     %current%/%max% [%bar%] %percent%');
         $bar->start();
         foreach ($data->mods->mod as $rawMod) {
             if (null === self::SOURCE_MAP[(string)$rawMod->source]) {
                 continue;
             }
-            if (isset($rawPower->hide)) {
+            if (isset($rawMod->hide)) {
                 continue;
             }
             if ('Model-Specific' === (string)$rawMod->category) {
@@ -692,9 +847,9 @@ class ImportChummerData extends Command implements Isolatable
                 // as high as 36 for the Lurssen Mobius. But each armor takes up
                 // two or three slots depending on the type.
                 if ('Armor (Standard)' === $name) {
-                    $maxRating = (int)(self::MAX_VEHICLE_BODY / self::SLOTS_PER_STANDARD_ARMOR);
+                    $maxRating = self::MAX_VEHICLE_BODY / self::SLOTS_PER_STANDARD_ARMOR;
                 } elseif ('Armor (Concealed)' === $name) {
-                    $maxRating = (int)(self::MAX_VEHICLE_BODY / self::SLOTS_PER_CONCEALED_ARMOR);
+                    $maxRating = self::MAX_VEHICLE_BODY / self::SLOTS_PER_CONCEALED_ARMOR;
                 }
             }
 
@@ -759,7 +914,7 @@ class ImportChummerData extends Command implements Isolatable
             $bar->advance();
         }
         $bar->setFormat(
-            '  Vehicle mods   %current%/%max% [%bar%] -- '
+            '  Vehicle mods     %current%/%max% [%bar%] -- '
                 . count($vehicleMods) . ' vehicle modifications'
         );
         $bar->finish();
@@ -782,13 +937,14 @@ class ImportChummerData extends Command implements Isolatable
      * array starting with key 1 for the values. Values are returned as strings
      * since many data points are formulas that need further processing, though
      * some are simple integers.
-     * @return <int, string>
+     * @return array<int, string>
      */
     protected function fixedValuesToArray(string $values): array
     {
         $values = Str::between($values, '(', ')');
         $values = array_merge([0 => null], explode(',', $values));
         unset($values[0]);
+        // @phpstan-ignore-next-line
         return $values;
     }
 
@@ -802,11 +958,11 @@ class ImportChummerData extends Command implements Isolatable
         string $formula,
         int $rating
     ): int {
-        $formula = Str::replace('Rating', 'R', $formula);
+        $formula = Str::replace('Rating', 'Q', $formula);
         $formula = Str::replace(' ', '', $formula);
         $formula = Str::replace('{', '', $formula);
         $formula = Str::replace('}', '', $formula);
-        return $this->convertFormula($formula, 'R', $rating);
+        return $this->convertFormula($formula, 'Q', $rating);
     }
 
     /**
@@ -823,9 +979,18 @@ class ImportChummerData extends Command implements Isolatable
         $availability = (string)$item->avail;
 
         if (Str::contains($availability, 'Rating')) {
+            $availability = str_replace('(Rating)', 'Rating', $availability);
             $formula = Str::between($availability, '(', ')');
-            return $this->calculateValueFromFormula($formula, (int)$rating)
-                . Str::after($availability, ')');
+            $restriction = '';
+            if (Str::contains($availability, ')')) {
+                $restriction = Str::after($availability, ')');
+            }
+            $availability = $this->calculateValueFromFormula($formula, (int)$rating)
+                . $restriction;
+            if (Str::contains($availability, '+')) {
+                return (string)$this->calculateValueFromFormula($availability, 0);
+            }
+            return $availability;
         }
         if (Str::contains($availability, 'FixedValues') && null !== $rating) {
             return $this->fixedValuesToArray($availability)[$rating]
@@ -843,11 +1008,24 @@ class ImportChummerData extends Command implements Isolatable
      */
     protected function calculateCost(string $cost, int $rating): int
     {
-        $formula = Str::replace('Rating', 'R', $cost);
+        $formula = Str::replace('(Rating)', 'Rating', $cost);
+        $formula = Str::replace('Rating', 'Q', $formula);
         $formula = Str::replace(' ', '', $formula);
         $formula = Str::replace('{', '', $formula);
         $formula = Str::replace('}', '', $formula);
-        return $this->convertFormula($formula, 'R', $rating);
+        if (Str::contains($formula, '(')) {
+            $temp = (string)$this->convertFormula(
+                Str::between($formula, '(', ')'),
+                'Q',
+                $rating
+            );
+            $formula = Str::replace(
+                '(' . Str::between($formula, '(', ')') . ')',
+                $temp,
+                $formula
+            );
+        }
+        return $this->convertFormula($formula, 'Q', $rating);
     }
 
     /**
@@ -866,7 +1044,8 @@ class ImportChummerData extends Command implements Isolatable
 
     /**
      * Writes the given data to a file as a PHP array.
-     * @param array<string, array<string, array<string, int>|int|string>> $data
+     * @param array<string, mixed> $data
+     * @param ?array<int, string> $imports Use statements to add to data file
      */
     protected function writeFile(
         string $file,
@@ -907,7 +1086,11 @@ class ImportChummerData extends Command implements Isolatable
      * function to format it better.
      * @param array<string, int|string>|float|int|string $value
      */
-    protected function writeLine(int $level, string $key, mixed $value): string {
+    protected function writeLine(
+        int $level,
+        int|string $key,
+        mixed $value
+    ): string {
         $padding = str_repeat(' ', $level * 4);
         $output = $padding . '\'' . $key . '\' => ';
         if (is_array($value)) {
@@ -941,8 +1124,8 @@ class ImportChummerData extends Command implements Isolatable
     {
         $name = (string)iconv('UTF-8', 'us-ascii//TRANSLIT//IGNORE', $name);
         $name = str_replace(
-            ['(', ')', 'Rating ', '\'', ',', ':', ' ', '/'],
-            ['', '', '', '', '', '', '-', '-'],
+            ['(', ')', 'Rating ', '\'', ',', ':', ' ', '/', '"', '[', ']'],
+            ['', '', '', '', '', '', '-', '-', '', '', ''],
             $name
         );
         return strtolower($name);
