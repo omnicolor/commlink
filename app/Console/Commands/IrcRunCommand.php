@@ -29,7 +29,11 @@ class IrcRunCommand extends Command
      * The name and signature of the console command.
      * @var string
      */
-    protected $signature = 'commlink:irc-run';
+    protected $signature = 'commlink:irc-run
+                            {server : Hostname of the server to connect to}
+                            {--port=6667 : Port to connect to}
+                            {--nickname : Nickname to use in IRC, (defaults to the App\'s name)}
+                            {--channel=* : Channel(s) to automatically connect to (defaults to #commlink)}';
 
     /**
      * Execute the console command.
@@ -37,15 +41,14 @@ class IrcRunCommand extends Command
      */
     public function handle(): int
     {
-        $server = config('app.irc.server');
-        $port = config('app.irc.port');
+        $server = $this->argument('server');
+        $port = $this->option('port');
+        $nickname = $this->option('nickname') ?: config('app.name');
+        $channels = $this->option('channel') ?: ['#commlink'];
 
         $client = new IrcClient(
             \sprintf('%s:%s', $server, $port),
-            new ClientOptions(
-                nickname: config('app.irc.bot_name'),
-                channels: ['#commlink'],
-            ),
+            new ClientOptions(nickname: $nickname, channels: $channels),
         );
 
         $client->on('registered', function () use ($server, $port): void {
