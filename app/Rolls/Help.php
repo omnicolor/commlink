@@ -28,21 +28,7 @@ class Help extends Roll
     ) {
         parent::__construct($content, $character, $channel);
         $this->data[] = [
-            'title' => sprintf('About %s', config('app.name')),
-            'slackText' => \sprintf(
-                '%1$s is a Slack bot that lets you roll dice appropriate for '
-                    . 'various RPG systems. For example, if you are playing '
-                    . 'The Expanse, it will roll three dice, marking one of '
-                    . 'them as the "drama die", adding up the result with the '
-                    . 'number you give for your attribute+focus score, and '
-                    . 'return the result along with any stunt points.'
-                    . \PHP_EOL . \PHP_EOL . 'If your game uses the web app for '
-                    . '<%2$s|%1$s> as well, links in the app will '
-                    . 'automatically roll in Slack, and changes made to your '
-                    . 'character via Slack will appear in %1$s.',
-                config('app.name'),
-                config('app.url')
-            ),
+            'color' => TextAttachment::COLOR_INFO,
             'discordText' => \sprintf(
                 '%1$s is a Discord bot that lets you roll dice appropriate for '
                     . 'various RPG systems. For example, if you are playing '
@@ -56,9 +42,38 @@ class Help extends Roll
                     . 'and changes made to your character via Discord will '
                     . 'appear in %1$s.' . \PHP_EOL . \PHP_EOL,
                 config('app.name'),
-                config('app.url')
+                config('app.url'),
             ),
-            'color' => TextAttachment::COLOR_INFO,
+            'ircText' => \sprintf(
+                '%1$s is an IRC bot that lets you roll dice appropriate for '
+                    . 'various RPG systems. For example, if you are playing '
+                    . 'The Expanse, it will roll three dice, marking one of '
+                    . 'them as the "drama die", adding up the result with the '
+                    . 'number you give for your attribute+focus score, and '
+                    . 'return the result along with any stunt points.'
+                    . \PHP_EOL . \PHP_EOL
+                    . 'If your game uses the web app for %1$s (%2$s) as well, '
+                    . 'links in the app will automatically roll in IRC, '
+                    . 'and changes made to your character via Discord will '
+                    . 'appear in %1$s.' . \PHP_EOL,
+                config('app.name'),
+                config('app.url'),
+            ),
+            'slackText' => \sprintf(
+                '%1$s is a Slack bot that lets you roll dice appropriate for '
+                    . 'various RPG systems. For example, if you are playing '
+                    . 'The Expanse, it will roll three dice, marking one of '
+                    . 'them as the "drama die", adding up the result with the '
+                    . 'number you give for your attribute+focus score, and '
+                    . 'return the result along with any stunt points.'
+                    . \PHP_EOL . \PHP_EOL . 'If your game uses the web app for '
+                    . '<%2$s|%1$s> as well, links in the app will '
+                    . 'automatically roll in Slack, and changes made to your '
+                    . 'character via Slack will appear in %1$s.',
+                config('app.name'),
+                config('app.url'),
+            ),
+            'title' => sprintf('About %s', config('app.name')),
         ];
 
         if (null === $this->chatUser) {
@@ -100,25 +115,24 @@ class Help extends Roll
         return $value;
     }
 
+    public function forIrc(): string
+    {
+        $value = '';
+        foreach ($this->data as $element) {
+            $value .= $element['title'] . \PHP_EOL
+                . str_replace('`', '', $element['ircText'] ?? $element['text'])
+                . \PHP_EOL;
+        }
+        return $value;
+    }
+
     /**
      * Add help for user if they haven't linked their Commlink user yet.
      */
     protected function addHelpForUnlinkedUser(): void
     {
         $this->data[] = [
-            'title' => 'Note for unregistered users:',
-            'slackText' => \sprintf(
-                'Your Slack user has not been linked with a %s user. '
-                    . 'Go to the <%s/settings|settings page> and copy the '
-                    . 'command listed there for this server. If the server '
-                    . 'isn\'t listed, follow the instructions there to add '
-                    . 'it. You\'ll need to know your server ID (`%s`) and '
-                    . 'your user ID (`%s`).',
-                config('app.name'),
-                config('app.url'),
-                $this->channel->server_id,
-                $this->channel->user
-            ),
+            'color' => TextAttachment::COLOR_DANGER,
             'discordText' => \sprintf(
                 'Your Discord user has not been linked with a %s user. Go to '
                     . 'the settings page (%s/settings) and copy the command '
@@ -131,7 +145,31 @@ class Help extends Roll
                 $this->channel->server_id,
                 $this->channel->user,
             ),
-            'color' => TextAttachment::COLOR_DANGER,
+            'ircText' => \sprintf(
+                'Your IRC user has not been linked with a %s user. Go to '
+                    . 'the settings page (%s/settings) and copy the command '
+                    . 'listed there for this server. If the server isn\'t '
+                    . 'listed, follow the instructions there to add it. '
+                    . 'You\'ll need to know your server ID (%s) and your '
+                    . 'user ID (%s).',
+                config('app.name'),
+                config('app.url'),
+                $this->channel->server_id,
+                $this->channel->user,
+            ),
+            'slackText' => \sprintf(
+                'Your Slack user has not been linked with a %s user. '
+                    . 'Go to the <%s/settings|settings page> and copy the '
+                    . 'command listed there for this server. If the server '
+                    . 'isn\'t listed, follow the instructions there to add '
+                    . 'it. You\'ll need to know your server ID (`%s`) and '
+                    . 'your user ID (`%s`).',
+                config('app.name'),
+                config('app.url'),
+                $this->channel->server_id,
+                $this->channel->user,
+            ),
+            'title' => 'Note for unregistered users:',
         ];
     }
 

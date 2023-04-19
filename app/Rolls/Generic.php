@@ -46,7 +46,7 @@ class Generic extends Roll
         // Swap out the XdY with the sum of the rolled dice to show our work.
         $partial = \str_replace(
             $dynamicPart,
-            \sprintf('[%d]', $diceSum),
+            \sprintf('[%s]', implode('+', $rolls)),
             $expression
         );
 
@@ -148,5 +148,10 @@ class Generic extends Roll
             $value .= \sprintf('_%s_', $this->footer);
         }
         return $value;
+    }
+
+    public function forIrc(): string
+    {
+        return $this->title . \PHP_EOL . $this->text;
     }
 }
