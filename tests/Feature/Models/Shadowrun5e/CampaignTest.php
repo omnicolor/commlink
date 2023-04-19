@@ -28,6 +28,7 @@ final class CampaignTest extends TestCase
     {
         /** @var Campaign */
         $campaign = Campaign::factory()->create();
+        // @phpstan-ignore-next-line
         $campaign->characters()->each(function (Character $character, $key): void {
             $character->delete();
         });

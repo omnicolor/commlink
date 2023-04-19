@@ -116,6 +116,7 @@ class CampaignsController extends Controller
                 $characters = $campaign->characters();
                 // Figure out the what the largest monitor row will be.
                 $maxMonitor = 0;
+                /** @var \App\Models\Shadowrun5e\Character $character */
                 foreach ($characters as $character) {
                     $maxMonitor = \max(
                         $maxMonitor,
