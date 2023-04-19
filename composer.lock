@@ -1451,12 +1451,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/omnicolor/php-irc-client.git",
-                "reference": "4daaa7e565d8d72ded92fd9032556e4661e70a1f"
+                "reference": "a3a9c5f9c8da92d8596c94114d523e2ab30792f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omnicolor/php-irc-client/zipball/4daaa7e565d8d72ded92fd9032556e4661e70a1f",
-                "reference": "4daaa7e565d8d72ded92fd9032556e4661e70a1f",
+                "url": "https://api.github.com/repos/omnicolor/php-irc-client/zipball/a3a9c5f9c8da92d8596c94114d523e2ab30792f8",
+                "reference": "a3a9c5f9c8da92d8596c94114d523e2ab30792f8",
                 "shasum": ""
             },
             "require": {
@@ -1496,7 +1496,7 @@
             "support": {
                 "source": "https://github.com/omnicolor/php-irc-client/tree/main"
             },
-            "time": "2022-12-29T22:42:00+00:00"
+            "time": "2023-04-19T13:36:40+00:00"
         },
         {
             "name": "laravel/framework",
