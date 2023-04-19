@@ -61,7 +61,7 @@
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <i class="bi bi-{{ $chatUser->server_type }} me-3"></i>
+                                    <i class="bi bi-{{ $chatUser->server_type !== 'irc' ? $chatUser->server_type : 'chat-text-fill' }} me-3"></i>
                                     <div class="d-inline-block">
                                         @if ($chatUser->server_name)
                                             {{ $chatUser->server_name }}
@@ -94,7 +94,11 @@
                                             <i class="bi bi-question-square-fill text-danger"></i>
                                         </span>
                                         <span class="input-group-text user-select-all">
+                                            @if ($chatUser->server_type === 'irc')
+                                            :roll validate {{ $chatUser->verification }}
+                                            @else
                                             /roll validate {{ $chatUser->verification }}
+                                            @endif
                                         </span>
                                         <button class="btn btn-outline-secondary copy-btn" type="button">
                                             <i class="bi bi-clipboard"></i>
@@ -160,7 +164,7 @@
                         <tr class="align-middle">
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <i class="bi bi-{{ $channel->type }} me-3"></i>
+                                    <i class="bi bi-{{ $channel->type !== 'irc' ? $channel->type : 'chat-text' }} me-3"></i>
                                     <div class="d-inline-block">
                                         @if ($channel->server_name)
                                             {{ $channel->server_name }}
@@ -259,15 +263,16 @@
                                 <strong>Step 1.</strong>
                                 Enter your server ID and user ID here. You can
                                 get them from Commlink's bot by typing
-                                <code>/roll info</code> on the server. If
+                                <code>/roll info</code> (Slack and Discord) or
+                                <code>:roll info</code> (IRC) on the server. If
                                 Commlink doesn't respond, the server's
                                 administrators will need to invite the bot to
                                 the server.
                             </p>
                             <p>
                                 <strong>Step 2.</strong>
-                                After linking, you'll need to copy a link and paste
-                                it into the channel you want to link.
+                                After linking, you'll need to copy a link and
+                                paste it into the channel you want to link.
                             </p>
                         </div>
                     </div>
@@ -282,8 +287,10 @@
                                 type="text" value="{{ old('server-id') }}">
                             <small id="server-help" class="form-text text-muted">
                                 Slack team IDs will look like
-                                <code>T025GMATU</code>. Discord server IDs will look
-                                like <code>473246380039733249</code>.
+                                <code>T025GMATU</code>. Discord server IDs will
+                                look like <code>473246380039733249</code>. IRC
+                                server IDs will look like
+                                <code>chat.freenode.net:6667</code>.
                             </small>
                             @error('server-id')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -302,7 +309,8 @@
                             <small id="user-help" class="form-text text-muted">
                                 Slack user IDs look like <code>U025GMATW</code>.
                                 Discord user IDs look like
-                                <code>225743973845565441</code>.
+                                <code>225743973845565441</code>. Your IRC user
+                                ID is what you go by on IRC.
                             </small>
                             @error('user-id')
                             <div class="invalid-feedback">
