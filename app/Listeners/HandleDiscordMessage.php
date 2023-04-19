@@ -106,7 +106,8 @@ class HandleDiscordMessage
             $roll = new $class(
                 $event->content,
                 optional($event->user)->username,
-                $channel
+                $channel,
+                $event
             );
             // @phpstan-ignore-next-line
             $event->channel->sendMessage($roll->forDiscord());
