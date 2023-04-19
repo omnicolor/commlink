@@ -1014,13 +1014,14 @@ class Character extends BaseCharacter
         foreach ($this->vehicles ?? [] as $vehicle) {
             try {
                 $vehicles[] = new Vehicle($vehicle);
-            } catch (RuntimeException) {
+            } catch (RuntimeException $ex) {
                 Log::warning(
                     'Shadowrun 5E character "{name}" ({id}) has invalid vehicle "{vehicle}"',
                     [
                         'name' => $this->handle,
                         'id' => $this->id,
                         'vehicle' => $vehicle['id'],
+                        'exception' => $ex->getMessage(),
                     ]
                 );
             }
