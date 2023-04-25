@@ -75,6 +75,7 @@ class ChatUser extends Model
         return $query->where('server_type', self::TYPE_DISCORD);
     }
 
+    /** @psalm-suppress PossiblyUnusedMethod */
     public function scopeIrc(Builder $query): Builder
     {
         return $query->where('server_type', self::TYPE_IRC);

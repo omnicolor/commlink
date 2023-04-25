@@ -8,6 +8,7 @@ use App\Events\IrcMessageReceived;
 use App\Events\RollEvent;
 use App\Models\Channel;
 use App\Rolls\Generic;
+use App\Rolls\Roll;
 use Error;
 
 class HandleIrcMessage
@@ -48,6 +49,8 @@ class HandleIrcMessage
                 $channel,
                 $event
             );
+            // TODO: Remove when Roll adds abstract forIrc() method.
+            // @phpstan-ignore-next-line
             $event->client->say($this->ircChannel, $roll->forIrc());
             return true;
         } catch (Error) {

@@ -7,7 +7,6 @@ namespace App\Rolls\Capers;
 use App\Exceptions\SlackException;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Capers\StandardDeck;
-use App\Models\Card;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
@@ -27,16 +26,9 @@ class ShuffleAll extends Roll
 
     /**
      * Error to return instead of shuffling decks.
-     * @var ?string
      */
     protected ?string $error = null;
 
-    /**
-     * Constructor.
-     * @param string $content
-     * @param string $username
-     * @param Channel $channel
-     */
     public function __construct(
         string $content,
         string $username,
@@ -87,10 +79,24 @@ class ShuffleAll extends Roll
         }
     }
 
-    /**
-     * Return the card formatted for Slack.
-     * @return SlackResponse
-     */
+    public function forDiscord(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+
+        return 'The Gamemaster shuffled all decks';
+    }
+
+    public function forIrc(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+
+        return 'The Gamemaster shuffled all decks';
+    }
+
     public function forSlack(): SlackResponse
     {
         if (null !== $this->error) {
@@ -102,25 +108,7 @@ class ShuffleAll extends Roll
             '',
             TextAttachment::COLOR_INFO,
         );
-        $response = new SlackResponse(
-            '',
-            SlackResponse::HTTP_OK,
-            [],
-            $this->channel
-        );
+        $response = new SlackResponse(channel: $this->channel);
         return $response->addAttachment($attachment)->sendToChannel();
-    }
-
-    /**
-     * Return the roll formatted for Discord.
-     * @return string
-     */
-    public function forDiscord(): string
-    {
-        if (null !== $this->error) {
-            return $this->error;
-        }
-
-        return 'The Gamemaster shuffled all decks';
     }
 }

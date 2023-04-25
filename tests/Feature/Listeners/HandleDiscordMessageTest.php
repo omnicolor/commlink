@@ -115,7 +115,7 @@ final class HandleDiscordMessageTest extends TestCase
         $this->randomInt->expects(self::exactly(2))->willReturn(3);
         $tag = $this->createDiscordTag();
         $expected = sprintf('**%s rolled 6**', $tag) . \PHP_EOL
-            . 'Rolling: 2d6 = [6] = 6' . \PHP_EOL
+            . 'Rolling: 2d6 = [3+3] = 6' . \PHP_EOL
             . '_Rolls: 3, 3_';
 
         $serverStub = $this->createStub(Guild::class);

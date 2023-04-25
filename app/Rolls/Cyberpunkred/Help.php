@@ -16,12 +16,6 @@ class Help extends Roll
      */
     protected array $data = [];
 
-    /**
-     * Constructor.
-     * @param string $content
-     * @param string $character
-     * @param Channel $channel
-     */
     public function __construct(
         string $content,
         string $character,
@@ -76,7 +70,31 @@ class Help extends Roll
         }
         if (null === $this->chatUser) {
             $this->data[] = [
-                'title' => 'Note for unregistered users:',
+                'color' => TextAttachment::COLOR_DANGER,
+                'discordText' => \sprintf(
+                    'Your Discord user has not been linked with a %s user. Go '
+                        . 'to the settings page (<%s/settings>) and copy the '
+                        . 'command listed there for this server. If the server '
+                        . 'isn\'t listed, follow the instructions there to add '
+                        . 'it. You\'ll need to know your server ID (`%s`) and '
+                        . 'your user ID (`%s`).',
+                    config('app.name'),
+                    config('app.url'),
+                    $this->channel->server_id,
+                    $this->channel->user,
+                ),
+                'ircText' => \sprintf(
+                    'Your Discord user has not been linked with a %s user. Go '
+                        . 'to the settings page (<%s/settings>) and copy the '
+                        . 'command listed there for this server. If the server '
+                        . 'isn\'t listed, follow the instructions there to add '
+                        . 'it. You\'ll need to know your server ID (%s) and '
+                        . 'your user ID (%s).',
+                    config('app.name'),
+                    config('app.url'),
+                    $this->channel->server_id,
+                    $this->channel->user,
+                ),
                 'slackText' => \sprintf(
                     'Your Slack user has not been linked with a %s user. '
                     . 'Go to the <%s/settings|settings page> and copy the '
@@ -89,19 +107,7 @@ class Help extends Roll
                     $this->channel->server_id,
                     $this->channel->user
                 ),
-                'discordText' => \sprintf(
-                    'Your Discord user has not been linked with a %s user. Go to '
-                    . 'the settings page (<%s/settings>) and copy the command '
-                    . 'listed there for this server. If the server isn\'t '
-                    . 'listed, follow the instructions there to add it. '
-                    . 'You\'ll need to know your server ID (`%s`) and your '
-                    . 'user ID (`%s`).',
-                    config('app.name'),
-                    config('app.url'),
-                    $this->channel->server_id,
-                    $this->channel->user,
-                ),
-                'color' => TextAttachment::COLOR_DANGER,
+                'title' => 'Note for unregistered users:',
             ];
         }
         $this->data[] = [
@@ -119,32 +125,6 @@ class Help extends Roll
         ];
     }
 
-    /**
-     * Return the roll formatted for Slack.
-     * @return SlackResponse
-     */
-    public function forSlack(): SlackResponse
-    {
-        $response = new SlackResponse(
-            '',
-            SlackResponse::HTTP_OK,
-            [],
-            $this->channel
-        );
-        foreach ($this->data as $element) {
-            $response->addAttachment(new TextAttachment(
-                $element['title'],
-                $element['slackText'] ?? $element['text'],
-                $element['color'],
-            ));
-        }
-        return $response;
-    }
-
-    /**
-     * Return the roll formatted for Discord.
-     * @return string
-     */
     public function forDiscord(): string
     {
         $value = '';
@@ -154,5 +134,29 @@ class Help extends Roll
                 . \PHP_EOL . \PHP_EOL;
         }
         return $value;
+    }
+
+    public function forIrc(): string
+    {
+        $value = '';
+        foreach ($this->data as $element) {
+            $value .= $element['title'] . \PHP_EOL
+                . ($element['ircText'] ?? $element['text'])
+                . \PHP_EOL . \PHP_EOL;
+        }
+        return $value;
+    }
+
+    public function forSlack(): SlackResponse
+    {
+        $response = new SlackResponse(channel: $this->channel);
+        foreach ($this->data as $element) {
+            $response->addAttachment(new TextAttachment(
+                $element['title'],
+                $element['slackText'] ?? $element['text'],
+                $element['color'],
+            ));
+        }
+        return $response;
     }
 }

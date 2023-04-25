@@ -542,11 +542,6 @@
       <code>HelpResponse</code>
     </UnusedClass>
   </file>
-  <file src="app/Http/Responses/Discord/InfoResponse.php">
-    <UnusedClass>
-      <code>InfoResponse</code>
-    </UnusedClass>
-  </file>
   <file src="app/Http/Responses/Discord/LinkResponse.php">
     <UnusedClass>
       <code>LinkResponse</code>
@@ -560,11 +555,6 @@
   <file src="app/Http/Responses/Discord/ValidateResponse.php">
     <UnusedClass>
       <code>ValidateResponse</code>
-    </UnusedClass>
-  </file>
-  <file src="app/Http/Responses/Slack/InfoResponse.php">
-    <UnusedClass>
-      <code>InfoResponse</code>
     </UnusedClass>
   </file>
   <file src="app/Http/Responses/Slack/LinkResponse.php">

@@ -84,27 +84,6 @@ class Help extends Roll
         }
     }
 
-    /**
-     * Return the roll formatted for Slack.
-     * @return SlackResponse
-     */
-    public function forSlack(): SlackResponse
-    {
-        $response = new SlackResponse(channel: $this->channel);
-        foreach ($this->data as $element) {
-            $response->addAttachment(new TextAttachment(
-                $element['title'],
-                $element['slackText'] ?? $element['text'],
-                $element['color'],
-            ));
-        }
-        return $response;
-    }
-
-    /**
-     * Return the roll formatted for Discord.
-     * @return string
-     */
     public function forDiscord(): string
     {
         $value = '';
@@ -124,6 +103,19 @@ class Help extends Roll
                 . \PHP_EOL;
         }
         return $value;
+    }
+
+    public function forSlack(): SlackResponse
+    {
+        $response = new SlackResponse(channel: $this->channel);
+        foreach ($this->data as $element) {
+            $response->addAttachment(new TextAttachment(
+                $element['title'],
+                $element['slackText'] ?? $element['text'],
+                $element['color'],
+            ));
+        }
+        return $response;
     }
 
     /**

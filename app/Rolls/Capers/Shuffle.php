@@ -7,7 +7,6 @@ namespace App\Rolls\Capers;
 use App\Exceptions\SlackException;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Capers\StandardDeck;
-use App\Models\Card;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
@@ -20,22 +19,14 @@ class Shuffle extends Roll
 {
     /**
      * Deck to draw from.
-     * @var StandardDeck
      */
     protected StandardDeck $deck;
 
     /**
      * Error to return instead of shuffling or drawing from the deck.
-     * @var ?string
      */
     protected ?string $error = null;
 
-    /**
-     * Constructor.
-     * @param string $content
-     * @param string $username
-     * @param Channel $channel
-     */
     public function __construct(
         string $content,
         string $username,
@@ -81,10 +72,24 @@ class Shuffle extends Roll
         $this->deck->character_id = $this->username;
     }
 
-    /**
-     * Return the card formatted for Slack.
-     * @return SlackResponse
-     */
+    public function forDiscord(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+
+        return $this->username . ' shuffled their deck';
+    }
+
+    public function forIrc(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+
+        return $this->username . ' shuffled their deck';
+    }
+
     public function forSlack(): SlackResponse
     {
         if (null !== $this->error) {
@@ -96,25 +101,7 @@ class Shuffle extends Roll
             '',
             TextAttachment::COLOR_INFO,
         );
-        $response = new SlackResponse(
-            '',
-            SlackResponse::HTTP_OK,
-            [],
-            $this->channel
-        );
+        $response = new SlackResponse(channel: $this->channel);
         return $response->addAttachment($attachment)->sendToChannel();
-    }
-
-    /**
-     * Return the roll formatted for Discord.
-     * @return string
-     */
-    public function forDiscord(): string
-    {
-        if (null !== $this->error) {
-            return $this->error;
-        }
-
-        return $this->username . ' shuffled their deck';
     }
 }

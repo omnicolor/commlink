@@ -81,22 +81,18 @@ abstract class Roll
         }
     }
 
-    /**
-     * Return the roll's output, formatted for Slack.
-     * @return SlackResponse
-     */
-    abstract public function forSlack(): SlackResponse;
-
-    /**
-     * Return the roll's output, formatted for Discord.
-     * @return string
-     */
     abstract public function forDiscord(): string | MessageBuilder;
+
+    public function forIrc(): string
+    {
+        return 'Not implemented';
+    }
+
+    abstract public function forSlack(): SlackResponse;
 
     /**
      * Return whether the current user is the GM of the campaign attached to the
      * current channel.
-     * @return bool
      */
     public function isGm(): bool
     {

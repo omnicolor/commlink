@@ -25,34 +25,26 @@ class Init extends Roll
 
     /**
      * Optional modifier for the character's initiative.
-     * @var int
      */
     public int $modifier = 0;
 
     /**
      * Reflexes used to determine the character's initiative.
-     * @var int
      */
     public int $reflexes;
 
     /**
      * Result of the die roll.
-     * @var int
      */
     public int $roll;
 
+    public ?string $error = null;
+
     /**
      * Initiative object created for the roll.
-     * @var Initiative
      */
     protected Initiative $initiative;
 
-    /**
-     * Constructor.
-     * @param string $content
-     * @param string $username
-     * @param Channel $channel
-     */
     public function __construct(
         string $content,
         string $username,
@@ -65,6 +57,15 @@ class Init extends Roll
         // Remove 'init' from argument list.
         \array_shift($args);
         $this->args = $args;
+
+        if (null === $this->character && 0 === count($this->args)) {
+            $this->error = 'Rolling initiative without a linked character '
+                . 'requires your reflexes, and optionally any modififers: '
+                . '`/roll init 8 -2` for a character with 8 REF and a wound '
+                . 'modifier of -2';
+            return;
+        }
+        $this->roll();
     }
 
     /**
@@ -113,8 +114,7 @@ class Init extends Roll
     }
 
     /**
-     * Format the response's body for either Slack or Discord.
-     * @return string
+     * Format the response's body.
      */
     protected function formatBody(): string
     {
@@ -133,48 +133,34 @@ class Init extends Roll
         );
     }
 
-    /**
-     * Return the initiative information formatted for Slack.
-     * @return SlackResponse
-     */
+    public function forDiscord(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+        return sprintf('**Initiative added for %s**', $this->username)
+            . \PHP_EOL . $this->formatBody();
+    }
+
+    public function forIrc(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+        return sprintf('Initiative added for %s', $this->username)
+            . \PHP_EOL . $this->formatBody();
+    }
+
     public function forSlack(): SlackResponse
     {
-        if (null === $this->character && 0 === count($this->args)) {
-            throw new SlackException(
-                'Rolling initiative without a linked character requires your '
-                    . 'reflexes, and optionally any modififers: '
-                    . '`/roll init 8 -2` for a character with 8 REF and a '
-                    . 'wound modifier of -2'
-            );
+        if (null !== $this->error) {
+            throw new SlackException($this->error);
         }
-        $this->roll();
         $attachment = new TextAttachment(
             sprintf('Initiative added for %s', $this->username),
             $this->formatBody()
         );
-        $response = new SlackResponse(
-            '',
-            SlackResponse::HTTP_OK,
-            [],
-            $this->channel
-        );
+        $response = new SlackResponse(channel: $this->channel);
         return $response->addAttachment($attachment)->sendToChannel();
-    }
-
-    /**
-     * Return the initiative response formatted for Discord.
-     * @return string
-     */
-    public function forDiscord(): string
-    {
-        if (null === $this->character && 0 === count($this->args)) {
-            return 'Rolling initiative without a linked character requires '
-                . 'your reflexes, and optionally any modififers: '
-                . '`/roll init 8 -2` for a character with 8 REF and a wound '
-                . 'modifier of -2';
-        }
-        $this->roll();
-        return sprintf('**Initiative added for %s**', $this->username)
-            . \PHP_EOL . $this->formatBody();
     }
 }

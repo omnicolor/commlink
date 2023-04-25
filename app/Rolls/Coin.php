@@ -13,12 +13,6 @@ use App\Models\Slack\TextAttachment;
  */
 class Coin extends Roll
 {
-    /**
-     * Constructor.
-     * @param string $content
-     * @param string $username
-     * @param Channel $channel
-     */
     public function __construct(
         string $content,
         string $username,
@@ -35,27 +29,20 @@ class Coin extends Roll
         $this->text = '';
     }
 
-    /**
-     * Return the roll formatted for Slack.
-     * @return SlackResponse
-     */
-    public function forSlack(): SlackResponse
-    {
-        $attachment = new TextAttachment(
-            $this->title,
-            $this->text,
-            TextAttachment::COLOR_SUCCESS
-        );
-        $response = new SlackResponse(channel: $this->channel);
-        return $response->addAttachment($attachment)->sendToChannel();
-    }
-
-    /**
-     * Return the roll formatted for Discord.
-     * @return string
-     */
     public function forDiscord(): string
     {
         return \sprintf('**%s**', $this->title) . \PHP_EOL;
+    }
+
+    public function forIrc(): string
+    {
+        return $this->title;
+    }
+
+    public function forSlack(): SlackResponse
+    {
+        $attachment = new TextAttachment($this->title, $this->text);
+        $response = new SlackResponse(channel: $this->channel);
+        return $response->addAttachment($attachment)->sendToChannel();
     }
 }

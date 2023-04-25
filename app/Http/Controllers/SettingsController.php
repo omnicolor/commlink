@@ -89,10 +89,12 @@ class SettingsController extends Controller
         $serverId = $request->input('server-id');
         abort_if(
             !Str::contains($serverId, ':'),
+            RedirectResponse::HTTP_BAD_REQUEST,
             'IRC servers should have both a hostname and a port, like chat.freenode.net:6667',
-            RedirectResponse::HTTP_BAD_REQUEST
         );
         $remoteUserId = $request->input('user-id');
+
+        // @phpstan-ignore-next-line
         $userId = $request->user()->id;
 
         $chatUser = ChatUser::irc()

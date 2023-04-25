@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Rolls;
 
+use App\Events\DiscordMessageReceived;
+use App\Events\IrcMessageReceived;
+use App\Events\MessageReceived;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\Slack\Field;
 use App\Models\Slack\FieldsAttachment;
-use App\Models\Slack\TextAttachment;
 
 class Info extends Roll
 {
@@ -18,13 +20,12 @@ class Info extends Roll
     protected string $characterName = 'No character';
     protected ?ChatUser $chatUser;
     protected string $commlinkUser = 'Not linked';
-    protected $event;
 
     public function __construct(
         string $content,
         string $character,
-        Channel $channel,
-        $event = null
+        protected Channel $channel,
+        protected MessageReceived $event
     ) {
         parent::__construct($content, $character, $channel);
         $this->chatUser = $this->channel->getChatUser();
@@ -59,20 +60,34 @@ class Info extends Roll
 
     public function forDiscord(): string
     {
+        /** @var DiscordMessageReceived */
+        $event = $this->event;
+
+        $system = $this->channel->system;
+        if (null === $system || '' === $system) {
+            $system = 'Unregistered';
+        } else {
+            $system = config('app.systems')[$this->channel->system];
+        }
+
         return '**Debugging info**' . \PHP_EOL
-            . 'User Tag: ' . optional($this->event->user)->displayname . \PHP_EOL
-            . 'User ID: ' . optional($this->event->user)->id . \PHP_EOL
-            . 'Server Name: ' . $this->channel->server_name . \PHP_EOL
-            . 'Server ID: ' . $this->channel->server_id . \PHP_EOL
-            . 'Channel Name: ' . $this->event->channel->name . \PHP_EOL
-            . 'Channel ID: ' . $this->event->channel->id . \PHP_EOL
-            . 'System: ' . $this->channel->system . \PHP_EOL
+            . 'User Tag: ' . optional($event->user)->displayname . \PHP_EOL
+            . 'User ID: ' . optional($event->user)->id . \PHP_EOL
+            . 'Server Name: ' . $event->server->server_name . \PHP_EOL
+            . 'Server ID: ' . $event->server->server_id . \PHP_EOL
+            // @phpstan-ignore-next-line
+            . 'Channel Name: ' . $event->channel->name . \PHP_EOL
+            . 'Channel ID: ' . $event->channel->id . \PHP_EOL
+            . 'System: ' . $system . \PHP_EOL
             . 'Character: ' . $this->characterName . \PHP_EOL
             . 'Campaign: ' . $this->campaignName;
     }
 
     public function forIrc(): string
     {
+        /** @var IrcMessageReceived */
+        $event = $this->event;
+
         $system = $this->channel->system;
         if (null === $system || '' === $system) {
             $system = 'unregistered';
@@ -81,9 +96,9 @@ class Info extends Roll
         }
 
         return 'Debugging info' . \PHP_EOL
-            . 'User name: ' . $this->event->user . \PHP_EOL
-            . 'Server: ' . $this->event->client->getConnection()->getServer() . \PHP_EOL
-            . 'Channel name: ' . $this->event->channel->getName() . \PHP_EOL
+            . 'User name: ' . $event->user . \PHP_EOL
+            . 'Server: ' . $event->server . \PHP_EOL
+            . 'Channel name: ' . $event->channel->getName() . \PHP_EOL
             . 'System: ' . $system . \PHP_EOL
             . 'Character: ' . $this->characterName . \PHP_EOL
             . 'Campaign: ' . $this->campaignName;
@@ -102,12 +117,7 @@ class Info extends Roll
             ))
             ->addField(new Field('Character', $this->characterName))
             ->addField(new Field('Campaign', $this->campaignName));
-        $response = new SlackResponse('', SlackResponse::HTTP_OK, [], $this->channel);
-        $response->addAttachment(new TextAttachment(
-            'Title',
-            'Text',
-            TextAttachment::COLOR_SUCCESS
-        ));
+        $response = new SlackResponse(channel: $this->channel);
         return $response->addAttachment($attachment);
     }
 }

@@ -4,33 +4,32 @@ declare(strict_types=1);
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
 use Jerodev\PhpIrcClient\IrcChannel;
 use Jerodev\PhpIrcClient\IrcClient;
 
 /**
+ * @property IrcClient $client
  * @psalm-suppress PossiblyUnusedProperty
  */
-class IrcMessageReceived
+class IrcMessageReceived extends MessageReceived
 {
-    use Dispatchable;
-    use InteractsWithSockets;
-    use SerializesModels;
-
     /**
      * Content of the command, without the preceding ':roll '.
-     * @var string
      */
     public string $content;
 
+    public string $server;
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function __construct(
-        public string $message,
+        string $message,
         public string $user,
         public IrcClient $client,
         public IrcChannel $channel,
     ) {
         $this->content = \str_replace(':roll ', '', $message);
+        $this->server = $client->getConnection()->getServer();
     }
 }

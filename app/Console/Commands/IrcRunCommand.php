@@ -18,6 +18,8 @@ use Spatie\SignalAwareCommand\SignalAwareCommand;
  */
 class IrcRunCommand extends SignalAwareCommand
 {
+    protected IrcClient $client;
+
     /**
      * The console command description.
      * @var ?string
@@ -25,19 +27,35 @@ class IrcRunCommand extends SignalAwareCommand
     protected $description = 'Start the IRC bot server';
 
     /**
+     * Nickname to use for the IRC bot.
+     */
+    protected string $nickname;
+
+    /**
      * Port to connect to.
      */
     protected string $port;
 
     /**
+     * IRC server's hostname.
+     */
+    protected string $server;
+
+    /**
      * The name and signature of the console command.
      * @var string
      */
-    protected $signature = 'commlink:irc-run
-                            {server : Hostname of the server to connect to}
-                            {--port=6667 : Port to connect to}
-                            {--nickname : Nickname to use in IRC, (defaults to the App\'s name)}
-                            {--channel=* : Channel(s) to automatically connect to (defaults to #commlink)}';
+    protected $signature = 'commlink:irc-run';
+
+    public function __construct()
+    {
+        $this->signature = 'commlink:irc-run' . \PHP_EOL
+            . '{server : Hostname of the server to connect to}' . \PHP_EOL
+            . '{--port=6667 : Port to connect to}' . \PHP_EOL
+            . '{--nickname=' . config('app.name') . ' : Nickname to use in IRC}' . \PHP_EOL
+            . '{--channel=* : Channel(s) to automatically join}';
+        parent::__construct();
+    }
 
     /**
      * Execute the console command.
@@ -46,12 +64,19 @@ class IrcRunCommand extends SignalAwareCommand
     public function handle(): int
     {
         $this->server = $this->argument('server');
-        $this->port = $this->option('port');
-        $this->nickname = $this->option('nickname') ?: config('app.name');
-        $channels = $this->option('channel') ?: [];
+        $this->port = $this->option('port') ?? '6667';
+        if (
+            null !== $this->option('nickname')
+            && '' !== trim($this->option('nickname'))
+        ) {
+            $this->nickname = trim($this->option('nickname'));
+        } else {
+            $this->nickname = config('app.name');
+        }
+        $channels = $this->option('channel');
         $options = new ClientOptions(
             nickname: $this->nickname,
-            channels: $channels,
+            channels: array_filter($channels),
         );
         $options->autoRejoin = true;
 
