@@ -98,7 +98,7 @@
         ],
         "infection": "infection --coverage=public/coverage",
         "lint": "parallel-lint --colors app config data tests",
-        "php-cs-fixer": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --config=php_cs.php -v --diff",
+        "php-cs-fixer": "php-cs-fixer fix --dry-run --config=php_cs.php -v --diff",
         "phpcs": "phpcs -p --colors --cache",
         "phpmnd": "phpmnd --progress app",
         "phpstan": [
