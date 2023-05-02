@@ -87,7 +87,7 @@ class Number extends Roll
         for ($i = 0; $i < $this->dice; $i++) {
             $this->rolls[] = random_int(1, 6);
         }
-        \sort($this->rolls);
+        \rsort($this->rolls);
         $this->result = \array_sum(array_slice($this->rolls, 0, 3));
     }
 }
