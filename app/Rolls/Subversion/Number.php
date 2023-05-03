@@ -59,7 +59,7 @@ class Number extends Roll
             \sprintf(
                 'Rolled %d %sdice: %d + %d + %d = %d',
                 $this->dice,
-                6 !== $this->dulled ? 'dulled (' . $this->dulled . ') ': '',
+                6 !== $this->dulled ? 'dulled (' . $this->dulled . ') ' : '',
                 min($this->dulled, $this->rolls[0]),
                 min($this->dulled, $this->rolls[1]),
                 min($this->dulled, $this->rolls[2]),
@@ -83,7 +83,7 @@ class Number extends Roll
             . \sprintf(
                 'Rolled %d %sdice: %d + %d + %d = %d',
                 $this->dice,
-                6 !== $this->dulled ? 'dulled (' . $this->dulled . ') ': '',
+                6 !== $this->dulled ? 'dulled (' . $this->dulled . ') ' : '',
                 min($this->dulled, $this->rolls[0]),
                 min($this->dulled, $this->rolls[1]),
                 min($this->dulled, $this->rolls[2]),
