@@ -12,13 +12,19 @@ use App\Rolls\Roll;
 
 class Number extends Roll
 {
-    /**
-     * Number of dice to roll.
-     * @var int
-     */
     protected int $dice = 0;
 
-    protected int $result;
+    /**
+     * Number of "Dulled" conditions to apply.
+     *
+     * If a character tries to roll fewer than three dice, they roll three, but
+     * for each die less than three, gain a dulled condition. Each dulled
+     * condition reduces the highest value that can be rolled.
+     */
+    protected int $dulled = 6;
+
+    protected int $result = 0;
+
     /**
      * Array of individual dice rolls.
      * @var array<int, int>
@@ -35,6 +41,10 @@ class Number extends Roll
 
         $args = \explode(' ', \trim($content));
         $this->dice = (int)\array_shift($args);
+        while ($this->dice < 3) {
+            $this->dice++;
+            $this->dulled--;
+        }
         $this->roll();
     }
 
@@ -47,19 +57,18 @@ class Number extends Roll
         $attachment = new TextAttachment(
             \sprintf('%s rolled %d', $this->username, $this->result),
             \sprintf(
-                'Rolled %d dice for a result of %d',
+                'Rolled %d %sdice: %d + %d + %d = %d',
                 $this->dice,
+                6 !== $this->dulled ? 'dulled (' . $this->dulled . ') ': '',
+                min($this->dulled, $this->rolls[0]),
+                min($this->dulled, $this->rolls[1]),
+                min($this->dulled, $this->rolls[2]),
                 $this->result,
             ),
             TextAttachment::COLOR_INFO,
         );
         $attachment->addFooter(\implode(' ', $this->rolls));
-        $response = new SlackResponse(
-            '',
-            SlackResponse::HTTP_OK,
-            [],
-            $this->channel
-        );
+        $response = new SlackResponse(channel: $this->channel);
         return $response->addAttachment($attachment)->sendToChannel();
     }
 
@@ -72,8 +81,12 @@ class Number extends Roll
         return \sprintf('**%s rolled %d**', $this->username, $this->result)
             . \PHP_EOL
             . \sprintf(
-                'Rolled %d dice for a result of %d',
+                'Rolled %d %sdice: %d + %d + %d = %d',
                 $this->dice,
+                6 !== $this->dulled ? 'dulled (' . $this->dulled . ') ': '',
+                min($this->dulled, $this->rolls[0]),
+                min($this->dulled, $this->rolls[1]),
+                min($this->dulled, $this->rolls[2]),
                 $this->result,
             ) . \PHP_EOL
             . 'Rolls: ' . implode(' ', $this->rolls);
@@ -88,6 +101,13 @@ class Number extends Roll
             $this->rolls[] = random_int(1, 6);
         }
         \rsort($this->rolls);
-        $this->result = \array_sum(array_slice($this->rolls, 0, 3));
+
+        if (0 < $this->dulled) {
+            foreach (array_slice($this->rolls, 0, 3) as $roll) {
+                $this->result += min($roll, $this->dulled);
+            }
+        } else {
+            $this->result = \array_sum(array_slice($this->rolls, 0, 3));
+        }
     }
 }

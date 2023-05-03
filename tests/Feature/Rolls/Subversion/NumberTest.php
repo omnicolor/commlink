@@ -58,7 +58,7 @@ final class NumberTest extends TestCase
         self::assertEquals(
             (object)[
                 'color' => SlackResponse::COLOR_INFO,
-                'text' => 'Rolled 3 dice for a result of 12',
+                'text' => 'Rolled 3 dice: 4 + 4 + 4 = 12',
                 'title' => 'username rolled 12',
                 'footer' => '4 4 4',
             ],
@@ -79,8 +79,50 @@ final class NumberTest extends TestCase
         $response = (new Number('4', 'username', $channel))->forDiscord();
         self::assertEquals(
             '**username rolled 15**' . \PHP_EOL
-                . 'Rolled 4 dice for a result of 15' . \PHP_EOL
+                . 'Rolled 4 dice: 5 + 5 + 5 = 15' . \PHP_EOL
                 . 'Rolls: 5 5 5 5',
+            $response
+        );
+    }
+
+    public function testDulled5Roll(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->make(['system' => 'subversion']);
+        $this->randomInt->expects(self::exactly(3))->willReturn(6);
+        $response = (new Number('2', 'username', $channel))->forDiscord();
+        self::assertEquals(
+            '**username rolled 15**' . \PHP_EOL
+                . 'Rolled 3 dulled (5) dice: 5 + 5 + 5 = 15' . \PHP_EOL
+                . 'Rolls: 6 6 6',
+            $response
+        );
+    }
+
+    public function testDulled4Roll(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->make(['system' => 'subversion']);
+        $this->randomInt->expects(self::exactly(3))->willReturn(6);
+        $response = (new Number('1', 'username', $channel))->forDiscord();
+        self::assertEquals(
+            '**username rolled 12**' . \PHP_EOL
+                . 'Rolled 3 dulled (4) dice: 4 + 4 + 4 = 12' . \PHP_EOL
+                . 'Rolls: 6 6 6',
+            $response
+        );
+    }
+
+    public function testDulled3Roll(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->make(['system' => 'subversion']);
+        $this->randomInt->expects(self::exactly(3))->willReturn(6);
+        $response = (new Number('0', 'username', $channel))->forDiscord();
+        self::assertEquals(
+            '**username rolled 9**' . \PHP_EOL
+                . 'Rolled 3 dulled (3) dice: 3 + 3 + 3 = 9' . \PHP_EOL
+                . 'Rolls: 6 6 6',
             $response
         );
     }

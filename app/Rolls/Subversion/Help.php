@@ -24,12 +24,12 @@ class Help extends Roll
         parent::__construct($content, $character, $channel);
         $this->data = [
             [
-                'title' => sprintf('About %s', config('app.name')),
+                'title' => sprintf('%s - Subversion', config('app.name')),
                 'text' => \sprintf(
                     '%s is a Slack/Discord bot that lets you roll dice '
                     . 'appropriate for various RPG systems. This channel is '
-                    . 'playing Subversion, so your rolls will be some number '
-                    . 'of six-sided dice, keeping the three highest.',
+                    . 'playing Subversion, so your rolls will usually be some '
+                    . 'number of six-sided dice, keeping the three highest.',
                     config('app.name'),
                 ),
                 'color' => TextAttachment::COLOR_INFO,
@@ -43,10 +43,11 @@ class Help extends Roll
                 ),
                 'text' => '· `9 [text]` - Roll 9 D6s, with optional text '
                     . '(human perception, bargaining, etc), keeping the three '
-                    . 'highest' . \PHP_EOL
+                    . 'highest. Rolling fewer than 3 automatically applies a '
+                    . 'dulled condition to the roll.' . \PHP_EOL
                     . '· `XdY[+C] [text]` - Roll X dice with Y sides, '
                     . 'optionally adding C to the result, optionally '
-                    . 'describing that the roll is for "text"' . \PHP_EOL,
+                    . 'describing that the roll is for "text".' . \PHP_EOL,
                 'color' => TextAttachment::COLOR_INFO,
             ];
             return;
@@ -83,12 +84,13 @@ class Help extends Roll
         }
         $this->data[] = [
             'title' => 'Subversion commands (no character linked):',
-            'text' => '· `9 [text]` - Roll 9 D6s with optional text (human '
-                . 'perception, bargaining, etc) keeping the 3 hightest'
-                . \PHP_EOL
-                . '· `XdY[+C] [text]` - Roll X dice with Y sides, optionally '
-                . 'adding C to the result, optionally describing that the roll '
-                . 'is for "text"' . \PHP_EOL,
+            'text' => '· `9 [text]` - Roll 9 D6s, with optional text '
+                . '(human perception, bargaining, etc), keeping the three '
+                . 'highest. Rolling fewer than 3 automatically applies a '
+                . 'dulled condition to the roll.' . \PHP_EOL
+                . '· `XdY[+C] [text]` - Roll X dice with Y sides, '
+                . 'optionally adding C to the result, optionally '
+                . 'describing that the roll is for "text".' . \PHP_EOL,
             'color' => TextAttachment::COLOR_INFO,
         ];
     }
@@ -103,7 +105,7 @@ class Help extends Roll
         foreach ($this->data as $element) {
             $response->addAttachment(new TextAttachment(
                 $element['title'],
-                $element['text'],
+                $element['slackText'] ?? $element['text'],
                 $element['color'],
             ));
         }
@@ -119,7 +121,7 @@ class Help extends Roll
         $value = '';
         foreach ($this->data as $element) {
             $value .= \sprintf('**%s**', $element['title']) . \PHP_EOL
-            . $element['text'] . \PHP_EOL;
+            . $element['discordText'] ?? $element['text'] . \PHP_EOL;
         }
         return $value;
     }
