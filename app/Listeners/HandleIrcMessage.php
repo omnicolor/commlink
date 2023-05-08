@@ -49,8 +49,6 @@ class HandleIrcMessage
                 $channel,
                 $event
             );
-            // TODO: Remove when Roll adds abstract forIrc() method.
-            // @phpstan-ignore-next-line
             $event->client->say($this->ircChannel, $roll->forIrc());
             return true;
         } catch (Error) {

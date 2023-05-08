@@ -73,7 +73,9 @@ class Info extends Roll
         return '**Debugging info**' . \PHP_EOL
             . 'User Tag: ' . optional($event->user)->displayname . \PHP_EOL
             . 'User ID: ' . optional($event->user)->id . \PHP_EOL
+            // @phpstan-ignore-next-line
             . 'Server Name: ' . $event->server->server_name . \PHP_EOL
+            // @phpstan-ignore-next-line
             . 'Server ID: ' . $event->server->server_id . \PHP_EOL
             // @phpstan-ignore-next-line
             . 'Channel Name: ' . $event->channel->name . \PHP_EOL
