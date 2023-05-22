@@ -43,8 +43,8 @@ jobs:
       - name: Install Composer dependencies
         uses: php-actions/composer@v6
         with:
-          php-version: ${{ matrix.php-version }}
-          extensions: "json, mbstring, mongodb, pdo, xdebug"
+          php_version: ${{ matrix.php-version }}
+          php_extensions: "json, mbstring, mongodb, pdo, xdebug"
 
       - name: Execute unit tests with code coverage
         run: vendor/bin/phpunit --coverage-clover public/coverage/clover.xml
