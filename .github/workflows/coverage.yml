@@ -30,11 +30,19 @@ jobs:
           mongodb-password: secret-password
           mongodb-db: commlink-test
 
-      - name: Install Composer dependencies and app configuration
+      - name: Install app configuration
         run: |
           cp .github/workflows/env.testing .env.testing
           cp .github/workflows/env.testing .env
-          composer install --no-progress --no-interaction
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: /tmp/composer-cache
+          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+
+      - name: Install Composer dependencies
+        uses: php-actions/composer@v6
 
       - name: Execute unit tests with code coverage
         run: vendor/bin/phpunit --coverage-clover public/coverage/clover.xml
