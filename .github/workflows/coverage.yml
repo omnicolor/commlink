@@ -25,7 +25,7 @@ jobs:
         uses: php-actions/composer@v6
         with:
           php_version: ${{ matrix.php-version }}
-          php_extensions: json mbstring mongodb pdo xdebug
+          php_extensions: json mbstring mongodb pdo redis xdebug
 
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.9.0
