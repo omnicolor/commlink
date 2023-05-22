@@ -8,9 +8,9 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - 8.2
+          - "8.2"
         mongodb-version:
-          - 3.6.3
+          - "3.6.3"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -26,6 +26,9 @@ jobs:
         with:
           php_version: ${{ matrix.php-version }}
           php_extensions: json mbstring mongodb pdo redis xdebug
+
+      - name: PHP version
+        run: php -v
 
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.9.0
