@@ -18,7 +18,6 @@ jobs:
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@master
         with:
-          tools: composer:v2
           php-version: ${{ matrix.php-version }}
           extensions: "json, mbstring, mongodb, pdo, xdebug"
 
@@ -43,6 +42,9 @@ jobs:
 
       - name: Install Composer dependencies
         uses: php-actions/composer@v6
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: "json, mbstring, mongodb, pdo, xdebug"
 
       - name: Execute unit tests with code coverage
         run: vendor/bin/phpunit --coverage-clover public/coverage/clover.xml
