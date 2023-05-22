@@ -15,11 +15,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install PHP with extensions
-        uses: shivammathur/setup-php@master
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
         with:
-          php-version: ${{ matrix.php-version }}
-          extensions: "json, mbstring, mongodb, pdo, xdebug"
+          path: /tmp/composer-cache
+          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+
+      - name: Install PHP and Composer dependencies
+        uses: php-actions/composer@v6
+        with:
+          php_version: ${{ matrix.php-version }}
+          php_extensions: json mbstring mongodb pdo xdebug
 
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.9.0
@@ -33,18 +39,6 @@ jobs:
         run: |
           cp .github/workflows/env.testing .env.testing
           cp .github/workflows/env.testing .env
-
-      - name: Cache Composer dependencies
-        uses: actions/cache@v3
-        with:
-          path: /tmp/composer-cache
-          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
-
-      - name: Install Composer dependencies
-        uses: php-actions/composer@v6
-        with:
-          php_version: ${{ matrix.php-version }}
-          php_extensions: "json, mbstring, mongodb, pdo, xdebug"
 
       - name: Execute unit tests with code coverage
         run: vendor/bin/phpunit --coverage-clover public/coverage/clover.xml
