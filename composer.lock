@@ -1644,16 +1644,16 @@
         },
         {
             "name": "laravel/pennant",
-            "version": "v1.3.0",
+            "version": "v1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pennant.git",
-                "reference": "daebc30aa1f6dc7ca061c8b0140c858e925520b0"
+                "reference": "16dff80b784d7f633fe1957348efeb457ca7d652"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pennant/zipball/daebc30aa1f6dc7ca061c8b0140c858e925520b0",
-                "reference": "daebc30aa1f6dc7ca061c8b0140c858e925520b0",
+                "url": "https://api.github.com/repos/laravel/pennant/zipball/16dff80b784d7f633fe1957348efeb457ca7d652",
+                "reference": "16dff80b784d7f633fe1957348efeb457ca7d652",
                 "shasum": ""
             },
             "require": {
@@ -1716,7 +1716,7 @@
                 "issues": "https://github.com/laravel/pennant/issues",
                 "source": "https://github.com/laravel/pennant"
             },
-            "time": "2023-05-04T15:16:44+00:00"
+            "time": "2023-05-17T12:47:45+00:00"
         },
         {
             "name": "laravel/sanctum",
