@@ -31,6 +31,7 @@ class ImportChummerData extends Command implements Isolatable
 
     /**
      * List of valid types that can be imported.
+     * @var array<int, string>
      */
     protected const DATA_TYPES = [
         'armor',
@@ -161,7 +162,7 @@ class ImportChummerData extends Command implements Isolatable
         }
 
         foreach ($types as $type) {
-            $function = 'process' . ucfirst(str_replace('-', '', $type));
+            $function = 'process' . ucfirst(str_replace('-', '', (string)$type));
             // @phpstan-ignore-next-line
             $this->$function();
         }
@@ -193,7 +194,6 @@ class ImportChummerData extends Command implements Isolatable
         }
 
         if (null !== $this->option('output-dir')) {
-            // @phpstan-ignore-next-line
             $this->outputDir = (string)$this->option('output-dir');
         }
 
@@ -225,7 +225,6 @@ class ImportChummerData extends Command implements Isolatable
     {
         $this->chummerRepository = storage_path('app/chummer5a');
         if (null !== $this->option('chummer-path')) {
-            // @phpstan-ignore-next-line
             $this->chummerRepository = (string)$this->option('chummer-path');
             if (!file_exists($this->chummerRepository)) {
                 throw new RuntimeException(
