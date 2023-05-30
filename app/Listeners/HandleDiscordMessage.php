@@ -9,6 +9,7 @@ use App\Events\RollEvent;
 use App\Models\Channel;
 use App\Rolls\Roll;
 use Error;
+use ErrorException;
 use Illuminate\Support\Facades\Log;
 
 class HandleDiscordMessage
@@ -95,7 +96,7 @@ class HandleDiscordMessage
                 RollEvent::dispatch($roll, $channel);
             }
             return true;
-        } catch (Error $ex) {
+        } catch (Error) {
             // Again, ignore errors, they might want a generic command.
         }
 
@@ -111,7 +112,7 @@ class HandleDiscordMessage
             // @phpstan-ignore-next-line
             $event->channel->sendMessage($roll->forDiscord());
             return true;
-        } catch (Error) {
+        } catch (Error | ErrorException) {
             // Again, ignore errors, they might want an old-school response.
         }
 
