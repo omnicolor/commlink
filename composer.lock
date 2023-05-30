@@ -1444,16 +1444,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v10.12.0",
+            "version": "v10.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "9e6dcff23ab1d4b522bef56074c31625cf077576"
+                "reference": "7322723585103082758d74917db62980684845cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/9e6dcff23ab1d4b522bef56074c31625cf077576",
-                "reference": "9e6dcff23ab1d4b522bef56074c31625cf077576",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/7322723585103082758d74917db62980684845cb",
+                "reference": "7322723585103082758d74917db62980684845cb",
                 "shasum": ""
             },
             "require": {
@@ -1640,7 +1640,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-05-23T18:04:16+00:00"
+            "time": "2023-05-30T14:46:25+00:00"
         },
         {
             "name": "laravel/pennant",
@@ -1846,16 +1846,16 @@
         },
         {
             "name": "laravel/socialite",
-            "version": "v5.6.1",
+            "version": "v5.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/socialite.git",
-                "reference": "a14a177f2cc71d8add71e2b19e00800e83bdda09"
+                "reference": "8789ccb422c0aa2c9b2d36aeb0b544f5c9c59586"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/socialite/zipball/a14a177f2cc71d8add71e2b19e00800e83bdda09",
-                "reference": "a14a177f2cc71d8add71e2b19e00800e83bdda09",
+                "url": "https://api.github.com/repos/laravel/socialite/zipball/8789ccb422c0aa2c9b2d36aeb0b544f5c9c59586",
+                "reference": "8789ccb422c0aa2c9b2d36aeb0b544f5c9c59586",
                 "shasum": ""
             },
             "require": {
@@ -1870,6 +1870,7 @@
             "require-dev": {
                 "mockery/mockery": "^1.0",
                 "orchestra/testbench": "^4.0|^5.0|^6.0|^7.0|^8.0",
+                "phpstan/phpstan": "^1.10",
                 "phpunit/phpunit": "^8.0|^9.3"
             },
             "type": "library",
@@ -1911,7 +1912,7 @@
                 "issues": "https://github.com/laravel/socialite/issues",
                 "source": "https://github.com/laravel/socialite"
             },
-            "time": "2023-01-20T15:42:35+00:00"
+            "time": "2023-05-29T14:51:54+00:00"
         },
         {
             "name": "league/commonmark",
@@ -10457,16 +10458,16 @@
         },
         {
             "name": "icanhazstring/composer-unused",
-            "version": "0.8.8",
+            "version": "0.8.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer-unused/composer-unused.git",
-                "reference": "e375a6cdc423fb8ba5637fccb1a238e8feab972a"
+                "reference": "8d4046ed0b8ce9916d06f8a9a6e1fb2445204096"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer-unused/composer-unused/zipball/e375a6cdc423fb8ba5637fccb1a238e8feab972a",
-                "reference": "e375a6cdc423fb8ba5637fccb1a238e8feab972a",
+                "url": "https://api.github.com/repos/composer-unused/composer-unused/zipball/8d4046ed0b8ce9916d06f8a9a6e1fb2445204096",
+                "reference": "8d4046ed0b8ce9916d06f8a9a6e1fb2445204096",
                 "shasum": ""
             },
             "require": {
@@ -10550,7 +10551,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2023-05-12T05:53:34+00:00"
+            "time": "2023-05-29T05:28:09+00:00"
         },
         {
             "name": "infection/abstract-testframework-adapter",
@@ -11475,22 +11476,22 @@
         },
         {
             "name": "orchestra/testbench",
-            "version": "v8.5.4",
+            "version": "v8.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench.git",
-                "reference": "6c00e046147d7ce1586f279e87139217aaa04bab"
+                "reference": "f319dc0f866fcedde621e1150485d4e40516e88d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench/zipball/6c00e046147d7ce1586f279e87139217aaa04bab",
-                "reference": "6c00e046147d7ce1586f279e87139217aaa04bab",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/f319dc0f866fcedde621e1150485d4e40516e88d",
+                "reference": "f319dc0f866fcedde621e1150485d4e40516e88d",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.2",
                 "fakerphp/faker": "^1.21",
-                "laravel/framework": ">=10.8.0 <10.13.0",
+                "laravel/framework": ">=10.8.0 <10.14.0",
                 "mockery/mockery": "^1.5.1",
                 "orchestra/testbench-core": ">=8.5.0 <8.6.0",
                 "php": "^8.1",
@@ -11524,9 +11525,9 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/testbench/issues",
-                "source": "https://github.com/orchestral/testbench/tree/v8.5.4"
+                "source": "https://github.com/orchestral/testbench/tree/v8.5.5"
             },
-            "time": "2023-05-24T00:44:58+00:00"
+            "time": "2023-05-30T08:19:18+00:00"
         },
         {
             "name": "orchestra/testbench-core",
