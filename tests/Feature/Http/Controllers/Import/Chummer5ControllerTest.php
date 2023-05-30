@@ -29,12 +29,7 @@ final class Chummer5ControllerTest extends TestCase
             ->withHeaders([
                 'Referer' => route('import.chummer5.view'),
             ])
-            ->post(
-                route('import.chummer5.upload'),
-                [
-                    'character' => $file,
-                ]
-            )
+            ->post(route('import.chummer5.upload'), ['character' => $file])
             ->assertRedirect(route('import.chummer5.view'))
             ->assertSessionHasErrors();
     }
