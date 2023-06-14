@@ -13875,16 +13875,16 @@
         },
         {
             "name": "sanmai/pipeline",
-            "version": "v6.7",
+            "version": "v6.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sanmai/pipeline.git",
-                "reference": "0e5c45c8046298212347a0bfb659126af8e75d2e"
+                "reference": "d1f6deb47d90a57acd1774f3f51315ef941a946c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sanmai/pipeline/zipball/0e5c45c8046298212347a0bfb659126af8e75d2e",
-                "reference": "0e5c45c8046298212347a0bfb659126af8e75d2e",
+                "url": "https://api.github.com/repos/sanmai/pipeline/zipball/d1f6deb47d90a57acd1774f3f51315ef941a946c",
+                "reference": "d1f6deb47d90a57acd1774f3f51315ef941a946c",
                 "shasum": ""
             },
             "require": {
@@ -13892,7 +13892,7 @@
             },
             "require-dev": {
                 "ergebnis/composer-normalize": "^2.8",
-                "friendsofphp/php-cs-fixer": "^3",
+                "friendsofphp/php-cs-fixer": "^3.17",
                 "infection/infection": ">=0.10.5",
                 "league/pipeline": "^0.3 || ^1.0",
                 "phan/phan": ">=1.1",
@@ -13928,7 +13928,7 @@
             "description": "General-purpose collections pipeline",
             "support": {
                 "issues": "https://github.com/sanmai/pipeline/issues",
-                "source": "https://github.com/sanmai/pipeline/tree/v6.7"
+                "source": "https://github.com/sanmai/pipeline/tree/v6.8"
             },
             "funding": [
                 {
@@ -13936,7 +13936,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-04-29T11:21:51+00:00"
+            "time": "2023-06-13T02:51:40+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -14913,16 +14913,16 @@
         },
         {
             "name": "spatie/backtrace",
-            "version": "1.4.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/backtrace.git",
-                "reference": "ec4dd16476b802dbdc6b4467f84032837e316b8c"
+                "reference": "47794d19e3215ace9e005a8f200cd7cc7be52572"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/backtrace/zipball/ec4dd16476b802dbdc6b4467f84032837e316b8c",
-                "reference": "ec4dd16476b802dbdc6b4467f84032837e316b8c",
+                "url": "https://api.github.com/repos/spatie/backtrace/zipball/47794d19e3215ace9e005a8f200cd7cc7be52572",
+                "reference": "47794d19e3215ace9e005a8f200cd7cc7be52572",
                 "shasum": ""
             },
             "require": {
@@ -14959,7 +14959,7 @@
                 "spatie"
             ],
             "support": {
-                "source": "https://github.com/spatie/backtrace/tree/1.4.0"
+                "source": "https://github.com/spatie/backtrace/tree/1.4.1"
             },
             "funding": [
                 {
@@ -14971,7 +14971,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2023-03-04T08:57:24+00:00"
+            "time": "2023-06-13T14:35:04+00:00"
         },
         {
             "name": "spatie/flare-client-php",
