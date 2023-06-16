@@ -293,8 +293,9 @@ class Shadowrun5eConverter implements ConverterInterface
         SimpleXMLElement $qualities
     ): Shadowrun5eConverter {
         $qualitiesArray = $this->character->qualities ?? [];
-        foreach ($qualities as $rawQuality) {
+        foreach ($qualities->children() as $rawQuality) {
             $name = (string)$rawQuality['name'];
+
             if (array_key_exists($name, $this->mapQualities)) {
                 if (null === $this->mapQualities[$name]) {
                     continue;
@@ -330,6 +331,7 @@ class Shadowrun5eConverter implements ConverterInterface
                 }
             }
             $this->errors[] = sprintf('Quality "%s" was not found.', $name);
+            continue;
         }
         $this->character->qualities = $qualitiesArray;
         return $this;
@@ -370,7 +372,7 @@ class Shadowrun5eConverter implements ConverterInterface
         SimpleXMLElement $skills
     ): Shadowrun5eConverter {
         $skillsArray = [];
-        foreach ($skills as $skill) {
+        foreach ($skills->children() as $skill) {
             $id = $this->createIDFromName((string)$skill['name']);
             $level = (int)$skill['base'];
             try {
@@ -443,7 +445,7 @@ class Shadowrun5eConverter implements ConverterInterface
             $magics = [];
         }
         $magics['spells'] = [];
-        foreach ($spells as $spell) {
+        foreach ($spells->children() as $spell) {
             $name = (string)$spell['name'];
             try {
                 $magics['spells'][] = Spell::findByName($name)->id;
@@ -574,7 +576,7 @@ class Shadowrun5eConverter implements ConverterInterface
         SimpleXMLElement $weapons
     ): Shadowrun5eConverter {
         $weaponsArray = [];
-        foreach ($weapons as $rawWeapon) {
+        foreach ($weapons->children() as $rawWeapon) {
             $name = (string)$rawWeapon['name'];
             if (array_key_exists($name, $this->mapWeapons)) {
                 if (null === $this->mapWeapons[$name]) {
@@ -609,7 +611,7 @@ class Shadowrun5eConverter implements ConverterInterface
         SimpleXMLElement $armors
     ): Shadowrun5eConverter {
         $armorArray = [];
-        foreach ($armors as $rawArmor) {
+        foreach ($armors->children() as $rawArmor) {
             $name = (string)$rawArmor['name'];
             if (array_key_exists($name, $this->mapArmor)) {
                 if (null === $this->mapArmor[$name]) {
@@ -644,7 +646,7 @@ class Shadowrun5eConverter implements ConverterInterface
     protected function parseGear(SimpleXMLElement $gears): Shadowrun5eConverter
     {
         $gearArray = [];
-        foreach ($gears as $rawGear) {
+        foreach ($gears->children() as $rawGear) {
             $name = (string)$rawGear['name'];
             if (array_key_exists($name, $this->mapGear)) {
                 if (null === $this->mapGear[$name]) {
@@ -951,20 +953,20 @@ class Shadowrun5eConverter implements ConverterInterface
         $this->parsePriorities()
             ->parseSources()
             ->parseAttributes($this->xml->attributes->attribute)
-            ->parseQualities($this->xml->qualities->positive->quality)
-            ->parseQualities($this->xml->qualities->negative->quality)
+            ->parseQualities($this->xml->qualities->positive)
+            ->parseQualities($this->xml->qualities->negative)
             ->parseSkillGroups($this->xml->skills->groups->skill)
-            ->parseActiveSkills($this->xml->skills->active->skill)
+            ->parseActiveSkills($this->xml->skills->active)
             ->parseKnowledgeSkills($this->xml->skills->knowledge->skill, false)
             ->parseKnowledgeSkills($this->xml->skills->language->skill, true)
-            ->parseSpells(optional($this->xml->magic->spells)->spell)
+            ->parseSpells($this->xml->magic->spells)
             ->parsePowers(optional($this->xml->magic->adeptpowers)->adeptpower)
             ->parseMetamagics(optional($this->xml->magic->metamagics)->metamagic)
             ->parseAugmentations($this->xml->gear->augmentations->cyberware->item)
             ->parseAugmentations($this->xml->gear->augmentations->bioware->item)
-            ->parseWeapons($this->xml->gear->weapons->item)
-            ->parseArmor($this->xml->gear->armor->item)
-            ->parseGear($this->xml->gear->equipment->item)
+            ->parseWeapons($this->xml->gear->weapons)
+            ->parseArmor($this->xml->gear->armor)
+            ->parseGear($this->xml->gear->equipment)
             ->parseIdentities($this->xml->identities->identity)
             ->parseContacts($this->xml->contacts->contact)
             ->parseJournals($this->xml->journals->journal);

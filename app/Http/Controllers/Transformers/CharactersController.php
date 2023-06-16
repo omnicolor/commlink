@@ -2,28 +2,24 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Avatar;
+namespace App\Http\Controllers\Transformers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Avatar\Character;
+use App\Models\Transformers\Character;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
-/**
- * Controller for interacting with Avatar characters.
- */
+/** @psalm-suppress UnusedClass */
 class CharactersController extends Controller
 {
     /**
      * View a character's sheet.
-     * @param Character $character
-     * @return View
      */
     public function view(Character $character): View
     {
         $user = Auth::user();
         return view(
-            'Avatar.character',
+            'Transformers.character',
             ['character' => $character, 'user' => $user]
         );
     }

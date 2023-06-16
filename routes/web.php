@@ -15,6 +15,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Shadowrun5e\CharactersController as ShadowrunController;
 use App\Http\Controllers\SlackController;
 use App\Http\Controllers\StarTrekAdventures\CharactersController as StarTrekController;
+use App\Http\Controllers\Transformers\CharactersController as TransformersController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -152,6 +153,7 @@ Route::middleware('auth')->group(function (): void {
         Route::prefix('star-trek-adventures')->name('star-trek-adventures.')->group(function (): void {
             Route::get('/', [StarTrekController::class, 'list']);
         });
+
     });
 
     Route::get('/dashboard', [DashboardController::class, 'show'])
@@ -211,5 +213,9 @@ Route::get(
     '/characters/star-trek-adventures/{character}',
     [StarTrekController::class, 'view']
 )->name('star-trek-adventures.character');
+Route::get(
+    '/characters/transformers/{character}',
+    [TransformersController::class, 'view']
+)->name('transformers.character');
 
 require __DIR__ . '/auth.php';
