@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Expanse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Expanse\CharacterResource;
 use App\Models\Expanse\Character;
-use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\View\View;
 
