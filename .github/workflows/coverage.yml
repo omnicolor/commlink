@@ -30,12 +30,11 @@ jobs:
           mongodb-password: secret-password
           mongodb-db: commlink-test
 
-			- name: "Get Composer Cache Directory"
+      - name: Get Composer Cache Directory
         id: composer-cache
-        run: |
-          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
-      - name: "Cache Composer"
+      - name: Cache Composer
         uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
