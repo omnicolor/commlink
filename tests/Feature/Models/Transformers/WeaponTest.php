@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Features\Models\Transformers;
 
 use App\Models\Transformers\Weapon;
-use Tests\TestCase;
 use RuntimeException;
+use Tests\TestCase;
 
 /**
  * @group models
