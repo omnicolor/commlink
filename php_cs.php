@@ -11,6 +11,7 @@ $rules = [
         'operators' => ['=>' => null],
     ],
     'blank_line_after_namespace' => true,
+    'blank_lines_before_namespace' => true,
     'blank_line_after_opening_tag' => true,
     'cast_spaces' => false,
     'class_attributes_separation' => [
@@ -144,7 +145,6 @@ $rules = [
     'short_scalar_cast' => true,
     'simplified_null_return' => true,
     'single_blank_line_at_eof' => true,
-    'single_blank_line_before_namespace' => true,
     'single_class_element_per_statement' => true,
     'single_import_per_statement' => true,
     'single_line_after_imports' => true,
