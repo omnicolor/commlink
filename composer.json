@@ -40,9 +40,11 @@
     ],
     "require": {
         "php": "^8.2",
+        "ext-curl": "*",
         "ext-mongodb": "^1.15",
         "ext-random": "*",
         "ext-redis": "*",
+        "ext-zip": "*",
         "guzzlehttp/guzzle": "^7.3",
         "jenssegers/mongodb": "dev-master",
         "laravel/framework": "^10.0",
@@ -59,6 +61,7 @@
         "team-reflex/discord-php": "^7.0"
     },
     "require-dev": {
+        "ext-sqlite3": "*",
         "cypresslab/gitelephant": "^4.5",
         "doctrine/dbal": "^3.1",
         "fakerphp/faker": "^1.9",
@@ -93,7 +96,7 @@
         ],
         "coverage": [
             "Composer\\Config::disableProcessTimeout",
-            "phpunit --coverage-html=public/coverage --coverage-xml=public/coverage/coverage-xml --log-junit=public/coverage/junit.xml"
+            "XDEBUG_MODE=coverage phpunit --coverage-html=public/coverage --coverage-xml=public/coverage/coverage-xml --log-junit=public/coverage/junit.xml"
         ],
         "infection": "infection --coverage=public/coverage",
         "lint": "parallel-lint --colors app config data tests",
