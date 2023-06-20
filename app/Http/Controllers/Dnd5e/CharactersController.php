@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Dnd5e;
 
 use App\Http\Resources\Dnd5e\CharacterResource;
 use App\Models\Dnd5e\Character;
-use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
