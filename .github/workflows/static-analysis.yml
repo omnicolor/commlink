@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - 8.2
+          - "8.2"
     steps:
       - name: Checkout repository
         uses: "actions/checkout@v3"
@@ -20,6 +20,18 @@ jobs:
           coverage: none
           extensions: "json, mbstring, mongodb, pdo"
 
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
       - name: Install Composer dependencies
         run: composer install --no-progress --no-interaction
 
@@ -27,11 +39,11 @@ jobs:
         run: vendor/bin/parallel-lint app config data tests
 
   PHPStan:
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-latest"
     strategy:
       matrix:
         php-version:
-          - 8.2
+          - "8.2"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -43,6 +55,18 @@ jobs:
           coverage: none
           extensions: "json, mbstring, mongodb, pdo"
 
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
       - name: Install Composer dependencies
         run: composer install --no-progress --no-interaction
 
@@ -50,11 +74,11 @@ jobs:
         run: vendor/bin/phpstan analyze
 
   Psalm:
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-latest"
     strategy:
       matrix:
         php-version:
-          - 8.2
+          - "8.2"
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
