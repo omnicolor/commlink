@@ -208,7 +208,7 @@ class Character extends BaseCharacter
                 foreach ($this->attributes['subgroups'] ?? [] as $group) {
                     try {
                         $groups[] = new Subgroup($group);
-                    } catch (RuntimeException $ex) {
+                    } catch (RuntimeException) {
                         Log::warning(
                             'Transformers character "{name}" ({id}) has '
                                 . 'invalid subgroup {subgroup}',

@@ -42,7 +42,7 @@ class Subgroup
         self::$subgroups ??= require $filename;
 
         $this->id = \strtolower($id);
-        if (!isset(self::$subgroups[$id])) {
+        if (!isset(self::$subgroups[$this->id])) {
             throw new RuntimeException(\sprintf(
                 'Subgroup ID "%s" is invalid',
                 $id
