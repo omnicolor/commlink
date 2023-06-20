@@ -10,6 +10,8 @@ use App\Models\Transformers\Programming;
 use App\Models\Transformers\Size;
 use App\Models\Transformers\Subgroup;
 use App\Models\Transformers\SubgroupArray;
+use App\Models\Transformers\Weapon;
+use App\Models\Transformers\WeaponArray;
 use Tests\TestCase;
 use ValueError;
 
@@ -195,5 +197,42 @@ final class CharacterTest extends TestCase
     {
         $character = new Character(['subgroups' => ['invalid']]);
         self::assertCount(0, $character->subgroups);
+    }
+
+    public function testGetWeaponsEmpty(): void
+    {
+        $character = new Character();
+        self::assertCount(0, $character->weapons);
+    }
+
+    public function testGetWeapons(): void
+    {
+        $character = new Character(['weapons' => ['buzzsaw']]);
+        self::assertCount(1, $character->weapons);
+        self::assertSame('Buzzsaw', (string)$character->weapons[0]);
+    }
+
+    public function testSetWeaponsPlainArray(): void
+    {
+        $character = new Character();
+        self::assertCount(0, $character->weapons);
+        $character->weapons = ['buzzsaw'];
+        self::assertCount(1, $character->weapons);
+    }
+
+    public function testSetWeaponsWeaponArray(): void
+    {
+        $weapons = new WeaponArray();
+        $weapons[] = new Weapon('buzzsaw');
+
+        $character = new Character();
+        $character->weapons = $weapons;
+        self::assertCount(1, $character->weapons);
+    }
+
+    public function testInvalidWeapon(): void
+    {
+        $character = new Character(['weapons' => ['invalid']]);
+        self::assertCount(0, $character->weapons);
     }
 }

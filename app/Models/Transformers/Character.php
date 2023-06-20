@@ -235,4 +235,41 @@ class Character extends BaseCharacter
             },
         );
     }
+
+    /** @psalm-suppress PossiblyUnusedMethod */
+    public function weapons(): Attribute
+    {
+        return Attribute::make(
+            get: function (): WeaponArray {
+                $weapons = new WeaponArray();
+                foreach ($this->attributes['weapons'] ?? [] as $weapon) {
+                    try {
+                        $weapons[] = new Weapon($weapon);
+                    } catch (RuntimeException) {
+                        Log::warning(
+                            'Transformers character "{name}" ({id}) has '
+                                . 'invalid weapon {weapon}',
+                            [
+                                'name' => $this->name,
+                                'id' => $this->id,
+                                'subgroup' => $weapon,
+                            ]
+                        );
+                    }
+                }
+                return $weapons;
+            },
+            set: function (array | WeaponArray $weapons): array {
+                if ($weapons instanceof WeaponArray) {
+                    $storableWeapons = [];
+                    foreach ($weapons as $weapon) {
+                        $storableWeapons[] = $weapon->id;
+                    }
+                    $this->attributes['weapons'] = $storableWeapons;
+                    return $storableWeapons;
+                }
+                return ['weapons' => $weapons];
+            },
+        );
+    }
 }
