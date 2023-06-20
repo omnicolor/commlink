@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models\Capers;
 
-use App\Models\Capers\Character;
 use App\Models\Capers\PartialCharacter;
 use Tests\TestCase;
 
