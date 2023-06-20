@@ -10,7 +10,6 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Campaign as CampaignModel;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
-use App\Models\User;
 
 class Campaign extends Roll
 {

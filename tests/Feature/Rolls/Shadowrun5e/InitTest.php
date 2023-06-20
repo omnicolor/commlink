@@ -9,7 +9,6 @@ use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
-use App\Models\Initiative;
 use App\Models\Shadowrun5e\Character;
 use App\Models\User;
 use App\Rolls\Shadowrun5e\Init;

@@ -7,7 +7,6 @@ namespace App\Rolls\Capers;
 use App\Exceptions\SlackException;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Capers\StandardDeck;
-use App\Models\Card;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
