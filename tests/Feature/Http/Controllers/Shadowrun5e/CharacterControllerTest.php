@@ -25,6 +25,12 @@ final class CharacterControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->seed();
+    }
+
     /**
      * Test loading Shadowrun 5E characters if unauthenticated.
      * @test

@@ -1,3 +1,8 @@
+@php
+if (!isset($currentStep)) {
+    $currentStep = null;
+}
+@endphp
 <x-slot name="navbar">
     <li class="nav-item">
         <a class="nav-link" href="{{ route('dashboard') }}">Home</a>
