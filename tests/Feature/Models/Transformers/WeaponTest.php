@@ -28,6 +28,7 @@ final class WeaponTest extends TestCase
         self::assertSame('Buzzsaw', (string)$weapon);
         self::assertSame('Minor', $weapon->class->name);
         self::assertSame(1, $weapon->cost);
+        // @phpstan-ignore-next-line
         self::assertNull($weapon->invalid_property);
     }
 }

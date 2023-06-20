@@ -22,7 +22,6 @@ return [
     'gun-gyro' => [
         'class' => Classification::Standard,
         'damage' => '1d6 vs. Speed & Accuracy + Fall',
-        'explanation' => 'Disturbs the balance centre of Robots. Target immune to the
-Accuracy DMG if they do not have Accuracy.',
+        'explanation' => 'Disturbs the balance centre of Robots. Target immune to the Accuracy DMG if they do not have Accuracy.',
     ],
 ];

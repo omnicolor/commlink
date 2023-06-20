@@ -8,6 +8,10 @@ use RuntimeException;
 
 use function strtolower;
 
+/**
+ * @psalm-suppress PossiblyUnusedProperty
+ * @property-read int $cost
+ */
 class Weapon
 {
     public Classification $class;
@@ -19,7 +23,7 @@ class Weapon
     /**
      * @var ?array<string, array<string, mixed>>
      */
-    public static array $weapons;
+    public static ?array $weapons;
 
     public function __construct(string $id)
     {
@@ -41,6 +45,9 @@ class Weapon
         $this->name = $weapon['name'];
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function __get(string $name): mixed
     {
         if ('cost' === $name) {
