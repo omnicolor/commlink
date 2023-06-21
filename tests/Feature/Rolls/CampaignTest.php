@@ -141,11 +141,11 @@ final class CampaignTest extends \Tests\TestCase
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(\sprintf(
-            'You must have already created an account on <%s|%s> and '
+            'You must have already created an account on %s (%s) and '
                 . 'linked it to this server before you can register a '
                 . 'channel to a campaign.',
-            config('app.url'),
             config('app.name'),
+            config('app.url'),
         ));
 
         (new CampaignRoll('campaign 9999', 'username', $channel))->forSlack();

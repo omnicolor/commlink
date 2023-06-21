@@ -8,6 +8,9 @@ use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Cyberpunkred\Number;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use phpmock\phpunit\PHPMock;
+use PHPUnit\Framework\MockObject\MockObject;
+use Tests\TestCase;
 
 /**
  * Tests for rolling dice in Cyberpunk Red.
@@ -16,20 +19,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
  * @group slack
  * @medium
  */
-final class NumberTest extends \Tests\TestCase
+final class NumberTest extends TestCase
 {
-    use \phpmock\phpunit\PHPMock;
+    use PHPMock;
     use RefreshDatabase;
 
-    /**
-     * Mock random_int function to take randomness out of testing.
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected \PHPUnit\Framework\MockObject\MockObject $randomInt;
+    protected MockObject $randomInt;
 
-    /**
-     * Set up the mock random function each time.
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -41,6 +37,7 @@ final class NumberTest extends \Tests\TestCase
 
     /**
      * Test trying to roll.
+     * @group slack
      * @test
      */
     public function testRollSlack(): void
@@ -66,6 +63,7 @@ final class NumberTest extends \Tests\TestCase
 
     /**
      * Test rolling a crit success.
+     * @group slack
      * @test
      */
     public function testRollSlackCritSuccess(): void
@@ -93,6 +91,7 @@ final class NumberTest extends \Tests\TestCase
 
     /**
      * Test rolling a crit failure.
+     * @group slack
      * @test
      */
     public function testRollSlackCritFail(): void
@@ -120,6 +119,7 @@ final class NumberTest extends \Tests\TestCase
 
     /**
      * Test trying to roll in Discord.
+     * @group discord
      * @test
      */
     public function testRollDiscord(): void
@@ -135,6 +135,7 @@ final class NumberTest extends \Tests\TestCase
 
     /**
      * Test rolling a crit success in Discord.
+     * @group discord
      * @test
      */
     public function testRollDiscordCritSuccess(): void
@@ -151,6 +152,7 @@ final class NumberTest extends \Tests\TestCase
 
     /**
      * Test rolling a crit failure in Discord.
+     * @group discord
      * @test
      */
     public function testRollDiscordCritFail(): void
@@ -160,6 +162,53 @@ final class NumberTest extends \Tests\TestCase
             ->willReturnOnConsecutiveCalls(1, 4);
         $response = (new Number('5', 'user', new Channel()))->forDiscord();
         $expected = "**user made a roll with a critical failure**\n1d10 + 5 = 1 - 4 + 5 = 2";
+        self::assertSame($expected, $response);
+    }
+
+    /**
+     * Test trying to roll in IRC.
+     * @group irc
+     * @test
+     */
+    public function testRollIRC(): void
+    {
+        $channel = new Channel();
+        $channel->username = 'user';
+        $this->randomInt->expects(self::exactly(1))->willReturn(5);
+        $response = (new Number('5 perception', 'user', $channel))->forIrc();
+        $expected = "user made a roll for \"perception\"\n1d10 + 5 = 5 + 5 = 10";
+        self::assertSame($expected, $response);
+    }
+
+    /**
+     * Test rolling a crit success in IRC.
+     * @group irc
+     * @test
+     */
+    public function testRollIRCCritSuccess(): void
+    {
+        $channel = new Channel();
+        $channel->username = 'user';
+        $this->randomInt
+            ->expects(self::exactly(2))
+            ->willReturnOnConsecutiveCalls(10, 4);
+        $response = (new Number('5', 'user', $channel))->forIrc();
+        $expected = "user made a roll with a critical success\n1d10 + 5 = 10 + 4 + 5 = 19";
+        self::assertSame($expected, $response);
+    }
+
+    /**
+     * Test rolling a crit failure in IRC.
+     * @group irc
+     * @test
+     */
+    public function testRollIRCCritFail(): void
+    {
+        $this->randomInt
+            ->expects(self::exactly(2))
+            ->willReturnOnConsecutiveCalls(1, 4);
+        $response = (new Number('5', 'user', new Channel()))->forIrc();
+        $expected = "user made a roll with a critical failure\n1d10 + 5 = 1 - 4 + 5 = 2";
         self::assertSame($expected, $response);
     }
 }

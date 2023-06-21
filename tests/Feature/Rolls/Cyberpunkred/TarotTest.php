@@ -11,13 +11,14 @@ use App\Models\Cyberpunkred\TarotDeck;
 use App\Rolls\Cyberpunkred\Tarot;
 use DB;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 /**
  * Tests drawing a Night City Tarot card in Cyberpunk Red.
  * @group cyberpunkred
  * @medium
  */
-final class TarotTest extends \Tests\TestCase
+final class TarotTest extends TestCase
 {
     use WithFaker;
 
@@ -246,7 +247,7 @@ final class TarotTest extends \Tests\TestCase
      * @group discord
      * @test
      */
-    public function testDrawFromEmptyDeck(): void
+    public function testDrawFromEmptyDeckDiscord(): void
     {
         /** @var Campaign */
         $campaign = Campaign::factory()->create([
@@ -273,5 +274,96 @@ final class TarotTest extends \Tests\TestCase
         $response = (new Tarot('tarot', $channel->username, $channel))
             ->forDiscord();
         self::assertSame($expected, $response);
+    }
+
+    /**
+     * Test trying to draw a card in a IRC channel with a campaign for a
+     * different system.
+     * @group irc
+     * @test
+     */
+    public function testIRCTarotCampaignHasWrongSystem(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
+
+        /** @var Channel */
+        $channel = Channel::factory()->make([
+            'campaign_id' => $campaign,
+            'system' => 'cyberpunkred',
+        ]);
+        $channel->username = $this->faker->name;
+
+        $expected = 'Night City Tarot only available for Cyberpunk Red '
+            . 'campaigns.';
+        $response = (new Tarot('tarot', $channel->username, $channel))
+            ->forIrc();
+
+        self::assertSame($expected, $response);
+    }
+
+    /**
+     * Test trying to shuffle a deck in an IRC channel.
+     * @group irc
+     * @test
+     */
+    public function testShuffleDeckIRC(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create([
+            'options' => [
+                'nightCityTarot' => true,
+            ],
+            'system' => 'cyberpunkred',
+        ]);
+
+        DB::table('decks')->insert([
+            'campaign_id' => $campaign->id,
+            'cards' => 'a:0:{}',
+            'type' => TarotDeck::class,
+        ]);
+
+        /** @var Channel */
+        $channel = Channel::factory()->make([
+            'campaign_id' => $campaign,
+            'system' => 'cyberpunkred',
+        ]);
+        $channel->username = $this->faker->name;
+
+        $response = (new Tarot('tarot shuffle', $channel->username, $channel))
+            ->forIrc();
+        $expected = sprintf('%s shuffled the tarot deck', $channel->username);
+        self::assertSame($expected, $response);
+    }
+
+    /**
+     * Test trying to draw a card in an IRC channel that has never initialized a
+     * deck before.
+     * @group irc
+     * @test
+     */
+    public function testDrawCardFromNewDeckIRC(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create([
+            'options' => [
+                'nightCityTarot' => true,
+            ],
+            'system' => 'cyberpunkred',
+        ]);
+
+        /** @var Channel */
+        $channel = Channel::factory()->make([
+            'campaign_id' => $campaign,
+            'system' => 'cyberpunkred',
+        ]);
+        $channel->username = $this->faker->name;
+
+        $response = (new Tarot('tarot', $channel->username, $channel))
+            ->forIrc();
+        self::assertStringContainsString(
+            \sprintf('%s drew', $channel->username),
+            $response
+        );
     }
 }

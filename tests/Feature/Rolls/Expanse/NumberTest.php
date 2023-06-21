@@ -7,27 +7,20 @@ namespace Tests\Feature\Rolls\Expanse;
 use App\Models\Channel;
 use App\Rolls\Expanse\Number;
 use phpmock\phpunit\PHPMock;
+use PHPUnit\Framework\MockObject\MockObject;
+use Tests\TestCase;
 
 /**
  * Tests for rolling dice in The Expanse.
- * @group discord
  * @group expanse
- * @group slack
  * @medium
  */
-final class NumberTest extends \Tests\TestCase
+final class NumberTest extends TestCase
 {
     use PHPMock;
 
-    /**
-     * Mock random_int function to take randomness out of testing.
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected \PHPUnit\Framework\MockObject\MockObject $randomInt;
+    protected MockObject $randomInt;
 
-    /**
-     * Set up the mock random function each time.
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -39,6 +32,7 @@ final class NumberTest extends \Tests\TestCase
 
     /**
      * Test a basic roll generating stunt points in Slack without a description.
+     * @group slack
      * @test
      */
     public function testSimpleRollSlack(): void
@@ -59,6 +53,7 @@ final class NumberTest extends \Tests\TestCase
     /**
      * Test a basic roll generating stunt points in Discord without a
      * description.
+     * @group discord
      * @test
      */
     public function testSimpleRollDiscord(): void
@@ -76,6 +71,7 @@ final class NumberTest extends \Tests\TestCase
     /**
      * Test a basic roll not generating stunt points in Discord with a
      * description.
+     * @group discord
      * @test
      */
     public function testRollWithDescriptionDiscord(): void
@@ -88,6 +84,24 @@ final class NumberTest extends \Tests\TestCase
         $response = (new Number('5 percept', 'user', $channel))->forDiscord();
         $response = explode(\PHP_EOL, $response);
         self::assertSame('**user made a roll for "percept"**', $response[0]);
+        self::assertSame('15', $response[1]);
+    }
+
+    /**
+     * Test a basic roll not generating stunt points in IRC with a description.
+     * @group irc
+     * @test
+     */
+    public function testRollWithDescriptionIrc(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->make(['system' => 'expanse']);
+
+        $this->randomInt->expects(self::any())
+            ->willReturn(self::onConsecutiveCalls(2, 3, 5));
+        $response = (new Number('5 percept', 'user', $channel))->forIrc();
+        $response = explode(\PHP_EOL, $response);
+        self::assertSame('user made a roll for "percept"', $response[0]);
         self::assertSame('15', $response[1]);
     }
 }

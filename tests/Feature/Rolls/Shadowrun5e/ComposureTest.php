@@ -24,15 +24,8 @@ final class ComposureTest extends TestCase
 {
     use PHPMock;
 
-    /**
-     * Mock random_int function to take randomness out of testing.
-     * @var MockObject
-     */
     protected MockObject $randomInt;
 
-    /**
-     * Set up the mock random function each time.
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -78,6 +71,7 @@ final class ComposureTest extends TestCase
 
     /**
      * Test a character critical glitching on a Composure test.
+     * @group slack
      * @test
      */
     public function testCritGlitch(): void
@@ -126,13 +120,14 @@ final class ComposureTest extends TestCase
 
     /**
      * Test a non-glitch composure test.
+     * @group discord
      * @test
      */
     public function testComposure(): void
     {
         /** @var Channel */
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_SLACK,
+            'type' => Channel::TYPE_DISCORD,
             'system' => 'shadowrun5e',
         ]);
 
@@ -140,7 +135,7 @@ final class ComposureTest extends TestCase
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
-            'server_type' => ChatUser::TYPE_SLACK,
+            'server_type' => ChatUser::TYPE_DISCORD,
             'verified' => true,
         ]);
 
@@ -162,6 +157,55 @@ final class ComposureTest extends TestCase
         self::assertSame(
             \sprintf(
                 '**%s rolled 8 dice for a composure test**'
+                    . \PHP_EOL . 'Rolled 8 successes' . \PHP_EOL
+                    . 'Rolls: 6 6 6 6 6 6 6 6',
+                (string)$character
+            ),
+            $response
+        );
+
+        $character->delete();
+    }
+
+    /**
+     * Test a non-glitch composure test.
+     * @group irc
+     * @test
+     */
+    public function testComposureIRC(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'type' => Channel::TYPE_IRC,
+            'system' => 'shadowrun5e',
+        ]);
+
+        /** @var ChatUser */
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_IRC,
+            'verified' => true,
+        ]);
+
+        /** @var Character */
+        $character = Character::factory()->create([
+            'charisma' => 5,
+            'willpower' => 3,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+
+        ChatCharacter::factory()->create([
+            'channel_id' => $channel->id,
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser->id,
+        ]);
+
+        $this->randomInt->expects(self::exactly(8))->willReturn(6);
+        $response = (new Composure('', 'username', $channel))->forIrc();
+        self::assertSame(
+            \sprintf(
+                '%s rolled 8 dice for a composure test'
                     . \PHP_EOL . 'Rolled 8 successes' . \PHP_EOL
                     . 'Rolls: 6 6 6 6 6 6 6 6',
                 (string)$character

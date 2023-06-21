@@ -19,11 +19,6 @@ class SlackRequest extends FormRequest
         return true;
     }
 
-    /**
-     * Handle a request failing validation.
-     * @param Validator $validator
-     * @throws SlackException
-     */
     protected function failedValidation(Validator $validator): void
     {
         throw new SlackException();

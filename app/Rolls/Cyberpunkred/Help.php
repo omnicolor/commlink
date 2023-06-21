@@ -84,7 +84,7 @@ class Help extends Roll
                     $this->channel->user,
                 ),
                 'ircText' => \sprintf(
-                    'Your Discord user has not been linked with a %s user. Go '
+                    'Your IRC user has not been linked with a %s user. Go '
                         . 'to the settings page (<%s/settings>) and copy the '
                         . 'command listed there for this server. If the server '
                         . 'isn\'t listed, follow the instructions there to add '

@@ -177,6 +177,7 @@ final class HandleDiscordMessageTest extends TestCase
         $expected = '**Debugging info**' . \PHP_EOL
             . 'User Tag: ' . $userTag . \PHP_EOL
             . 'User ID: ' . $userId . \PHP_EOL
+            . 'Commlink User: Not linked' . \PHP_EOL
             . 'Server Name: ' . $serverNameAndId . \PHP_EOL
             . 'Server ID: ' . $serverNameAndId . \PHP_EOL
             . 'Channel Name: ' . $channelName . \PHP_EOL

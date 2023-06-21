@@ -19,25 +19,21 @@ class Number extends Roll
 
     /**
      * Amount to add (or subtract) from the result.
-     * @var int
      */
     protected int $addition;
 
     /**
      * Whether the roll was a one.
-     * @var bool
      */
     protected bool $critFailure = false;
 
     /**
      * Whether the roll was a ten.
-     * @var bool
      */
     protected bool $critSuccess = false;
 
     /**
      * Optional description of what the roll is for.
-     * @var string
      */
     protected string $description;
 
@@ -49,16 +45,9 @@ class Number extends Roll
 
     /**
      * Sum of the rolls + the addition.
-     * @var int
      */
     protected int $result;
 
-    /**
-     * Constructor.
-     * @param string $content
-     * @param string $username
-     * @param Channel $channel
-     */
     public function __construct(
         string $content,
         string $username,
@@ -75,7 +64,6 @@ class Number extends Roll
 
     /**
      * Return the roll formatted for Slack.
-     * @return SlackResponse
      */
     public function forSlack(): SlackResponse
     {
@@ -103,7 +91,6 @@ class Number extends Roll
 
     /**
      * Return the roll formatted for Discord.
-     * @return string
      */
     public function forDiscord(): string
     {
@@ -112,8 +99,15 @@ class Number extends Roll
     }
 
     /**
+     * Return the roll formatted for IRC.
+     */
+    public function forIrc(): string
+    {
+        return $this->formatTitle() . \PHP_EOL . $this->formatBody();
+    }
+
+    /**
      * Format the body of the Slack message and event.
-     * @return string
      */
     protected function formatBody(): string
     {

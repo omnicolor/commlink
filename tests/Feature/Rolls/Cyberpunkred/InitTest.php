@@ -23,8 +23,6 @@ use Tests\TestCase;
 /**
  * Tests for rolling initiative in Cyberpunk Red.
  * @group cyberpunkred
- * @group discord
- * @group slack
  * @medium
  */
 final class InitTest extends TestCase
@@ -33,15 +31,8 @@ final class InitTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
-    /**
-     * Mock random_int function to take randomness out of testing.
-     * @var MockObject
-     */
     protected MockObject $randomInt;
 
-    /**
-     * Set up the mock random function each time.
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -53,6 +44,7 @@ final class InitTest extends TestCase
 
     /**
      * Test rolling init with no ChatUser registered in Slack and no reflexes.
+     * @group slack
      * @test
      */
     public function testSlackRollInitNoChatUserNoArgs(): void
@@ -76,6 +68,7 @@ final class InitTest extends TestCase
 
     /**
      * Test rolling init with no ChatUser registered in Discord and no reflexes.
+     * @group discord
      * @test
      */
     public function testDiscordRollInitNoChatUserNoArgs(): void
@@ -98,7 +91,32 @@ final class InitTest extends TestCase
     }
 
     /**
+     * Test rolling init with no ChatUser registered in IRC and no reflexes.
+     * @group irc
+     * @test
+     */
+    public function testIRCRollInitNoChatUserNoArgs(): void
+    {
+        Event::fake();
+
+        /** @var Channel */
+        $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
+        $channel->username = $this->faker->name;
+
+        $expected = 'Rolling initiative without a linked character requires '
+            . 'your reflexes, and optionally any modififers: `/roll init 8 -2` '
+            . 'for a character with 8 REF and a wound modifier of -2';
+        $response = (new Init('init', $channel->username, $channel))
+            ->forIrc();
+
+        self::assertSame($expected, $response);
+
+        Event::assertNotDispatched(InitiativeAdded::class);
+    }
+
+    /**
      * Test rolling init with no ChatUser in Slack, but including reflexes.
+     * @group slack
      * @test
      */
     public function testSlackRollInitNoChatUser(): void
@@ -135,6 +153,7 @@ final class InitTest extends TestCase
     /**
      * Test rolling init with no ChatUser in Discord, but including reflexes
      * and a modifier.
+     * @group discord
      * @test
      */
     public function testDiscordRollInitNoChatUser(): void
@@ -162,6 +181,7 @@ final class InitTest extends TestCase
 
     /**
      * Test rolling init in Slack with a linked character, but no campaign.
+     * @group slack
      * @test
      */
     public function testSlackRollInitCharacterNoCampaign(): void
@@ -227,6 +247,7 @@ final class InitTest extends TestCase
     /**
      * Test rolling init in Discord with a linked character and including the
      * character's reflexes and a modifier.
+     * @group discord
      * @test
      */
     public function testDiscordRollInitCharacterNoCampaign(): void
@@ -281,6 +302,7 @@ final class InitTest extends TestCase
 
     /**
      * Test rolling initiative with a linked character and campaign.
+     * @group discord
      * @test
      */
     public function testRollInitiativeWithCampaign(): void
@@ -337,5 +359,34 @@ final class InitTest extends TestCase
         Event::assertDispatched(InitiativeAdded::class);
 
         $character->delete();
+    }
+
+    /**
+     * Test rolling initiative without things linked.
+     * @group irc
+     * @test
+     */
+    public function testIRCRollInitiativeNoCampaign(): void
+    {
+        Event::fake();
+
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'system' => 'cyberpunkred',
+            'type' => Channel::TYPE_DISCORD,
+        ]);
+        $channel->username = $this->faker->name;
+        $channel->user = $channel->username;
+
+        $this->randomInt->expects(self::exactly(1))->willReturn(4);
+
+        $response = (new Init('init 5 -2', $channel->username, $channel))
+            ->forIrc();
+
+        $expected = 'Initiative added for ' . $channel->username . \PHP_EOL
+            . 'Rolled: 4 + 5 - 2 = 7';
+        self::assertSame($expected, $response);
+
+        Event::assertNotDispatched(InitiativeAdded::class);
     }
 }

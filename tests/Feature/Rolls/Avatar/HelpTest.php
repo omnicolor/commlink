@@ -175,4 +175,54 @@ final class HelpTest extends TestCase
 
         $character->delete();
     }
+
+    /**
+     * Test asking for help as a character in IRC.
+     * @group irc
+     * @test
+     */
+    public function testHelpPlayerCharacterIrc(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['system' => 'avatar']);
+
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'campaign_id' => $campaign,
+            'system' => 'avatar',
+            'type' => Channel::TYPE_IRC,
+        ]);
+        $channel->username = $this->faker->name;
+        $channel->user = 'U' . \Str::random(10);
+
+        /** @var ChatUser */
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_IRC,
+            'user_id' => $user,
+            'verified' => true,
+        ]);
+
+        /** @var Character */
+        $character = Character::factory()->create([
+            'name' => $this->faker->name,
+            'system' => 'avatar',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+
+        ChatCharacter::factory()->create([
+            'channel_id' => $channel->id,
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser->id,
+        ]);
+
+        $response = (new Help('help', $channel->username, $channel))->forIrc();
+        self::assertStringContainsString('Player commands', $response);
+
+        $character->delete();
+    }
 }

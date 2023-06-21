@@ -8,6 +8,7 @@ use App\Models\ChatUser;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -54,8 +55,8 @@ final class SettingsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $serverId = 'T' . \Str::random(10);
-        $remoteUserId = 'U' . \Str::random(10);
+        $serverId = 'T' . Str::random(10);
+        $remoteUserId = 'U' . Str::random(10);
         ChatUser::factory()->create([
             'server_id' => $serverId,
             'server_type' => ChatUser::TYPE_SLACK,
@@ -102,8 +103,8 @@ final class SettingsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $serverId = 'T' . \Str::random(10);
-        $userId = 'U' . \Str::random(10);
+        $serverId = 'T' . Str::random(10);
+        $userId = 'U' . Str::random(10);
         Http::fake([
             self::API_SLACK_TEAMS => Http::response([
                 'ok' => false,
@@ -146,8 +147,8 @@ final class SettingsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $serverId = 'T' . \Str::random(10);
-        $userId = 'U' . \Str::random(10);
+        $serverId = 'T' . Str::random(10);
+        $userId = 'U' . Str::random(10);
         ChatUser::factory()->create([
             'server_id' => $serverId,
             'server_type' => ChatUser::TYPE_SLACK,
@@ -164,7 +165,7 @@ final class SettingsControllerTest extends TestCase
                     'user-id' => $userId,
                 ]
             )
-            ->assertSee('User already registered.');
+            ->assertSee('Slack user already registered.');
     }
 
     /**
@@ -175,8 +176,8 @@ final class SettingsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $serverId = '1' . \Str::random(10);
-        $userId = \Str::random(10);
+        $serverId = '1' . Str::random(10);
+        $userId = Str::random(10);
         Http::fake([
             self::API_DISCORD_GUILDS . $serverId => Http::response([], Response::HTTP_BAD_REQUEST),
             self::API_DISCORD_USERS . $userId => Http::response([], Response::HTTP_NOT_FOUND),
@@ -214,8 +215,8 @@ final class SettingsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $serverId = '1' . \Str::random(10);
-        $userId = \Str::random(10);
+        $serverId = '1' . Str::random(10);
+        $userId = Str::random(10);
         Http::fake([
             self::API_DISCORD_GUILDS . $serverId => Http::response(
                 ['name' => 'Discord Guild'],
@@ -262,8 +263,8 @@ final class SettingsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $serverId = '1' . \Str::random(10);
-        $userId = '2' . \Str::random(10);
+        $serverId = '1' . Str::random(10);
+        $userId = '2' . Str::random(10);
         ChatUser::factory()->create([
             'server_id' => $serverId,
             'server_type' => ChatUser::TYPE_DISCORD,
@@ -280,6 +281,71 @@ final class SettingsControllerTest extends TestCase
                     'user-id' => $userId,
                 ]
             )
-            ->assertSee('User already registered.');
+            ->assertSee('Discord user already registered.');
+    }
+
+    /**
+     * Test trying to link a duplicate IRC user.
+     * @test
+     */
+    public function testLinkDuplicateIrcUser(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+        $serverId = 'chat.freenode.net:6667';
+        $userId = Str::random(10);
+        ChatUser::factory()->create([
+            'server_id' => $serverId,
+            'server_type' => ChatUser::TYPE_IRC,
+            'remote_user_id' => $userId,
+            'user_id' => $user->id,
+        ]);
+        $this->actingAs($user)
+            ->followingRedirects()
+            ->post(
+                route('settings-link-user'),
+                [
+                    'server-id' => $serverId,
+                    'server-type' => ChatUser::TYPE_IRC,
+                    'user-id' => $userId,
+                ]
+            )
+            ->assertSee('IRC user already registered.');
+    }
+
+    /**
+     * Test linking a new IRC user.
+     * @test
+     */
+    public function testLinkIrcUser(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+        $serverId = 'chat.freenode.net:6667';
+        $userId = Str::random(10);
+        $this->actingAs($user)
+            ->followingRedirects()
+            ->post(
+                route('settings-link-user'),
+                [
+                    'server-id' => $serverId,
+                    'server-type' => ChatUser::TYPE_IRC,
+                    'user-id' => $userId,
+                ]
+            )
+            ->assertOk()
+            ->assertSessionHasNoErrors();
+        $this->assertDatabaseHas(
+            'chat_users',
+            [
+                'server_id' => $serverId,
+                'server_name' => 'chat.freenode.net',
+                'server_type' => ChatUser::TYPE_IRC,
+                'remote_user_id' => $userId,
+                'remote_user_name' => $userId,
+                'user_id' => $user->id,
+                'verified' => false,
+            ]
+        );
     }
 }

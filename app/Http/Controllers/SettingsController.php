@@ -51,7 +51,7 @@ class SettingsController extends Controller
             ->first();
         if (null !== $chatUser) {
             return redirect('settings')
-                ->with('error', 'User already registered.')
+                ->with('error', 'Discord user already registered.')
                 ->withInput();
         }
 
@@ -104,7 +104,7 @@ class SettingsController extends Controller
             ->first();
         if (null !== $chatUser) {
             return redirect('settings')
-                ->with('error', 'User already registered.')
+                ->with('error', 'IRC user already registered.')
                 ->withInput();
         }
         $chatUser = new ChatUser([
@@ -155,7 +155,7 @@ class SettingsController extends Controller
             ->first();
         if (null !== $chatUser) {
             return redirect('settings')
-                ->with('error', 'User already registered.')
+                ->with('error', 'Slack user already registered.')
                 ->withInput();
         }
 
@@ -199,7 +199,7 @@ class SettingsController extends Controller
         if ('T' === substr($request->input('server-id'), 0, 1)) {
             return $this->linkSlack($request);
         }
-        if (is_numeric($request->input('server-id'))) {
+        if (is_numeric($request->input('server-id')[0])) {
             return $this->linkDiscord($request);
         }
         return $this->linkIrc($request);

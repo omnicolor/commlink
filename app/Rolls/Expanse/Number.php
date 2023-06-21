@@ -13,7 +13,6 @@ class Number extends Roll
 {
     /**
      * Amount to add (or subtract) from the result.
-     * @var int
      */
     protected int $addition;
 
@@ -25,16 +24,9 @@ class Number extends Roll
 
     /**
      * Sum of the rolls + the addition.
-     * @var int
      */
     protected int $result;
 
-    /**
-     * Constructor.
-     * @param string $content
-     * @param string $character
-     * @param Channel $channel
-     */
     public function __construct(
         string $content,
         string $character,
@@ -50,10 +42,6 @@ class Number extends Roll
         $this->footer = $this->formatFooter();
     }
 
-    /**
-     * Return the roll formatted for Slack.
-     * @return SlackResponse
-     */
     public function forSlack(): SlackResponse
     {
         $attachment = new TextAttachment(
@@ -71,14 +59,14 @@ class Number extends Roll
         return $response->addAttachment($attachment)->sendToChannel();
     }
 
-    /**
-     * Return the roll formatted for Discord.
-     * @return string
-     */
     public function forDiscord(): string
     {
-        return \sprintf('**%s**', $this->title) . \PHP_EOL
-            . $this->text . \PHP_EOL;
+        return \sprintf('**%s**', $this->title) . \PHP_EOL . $this->text;
+    }
+
+    public function forIrc(): string
+    {
+        return $this->title . \PHP_EOL . $this->text;
     }
 
     /**
@@ -96,7 +84,6 @@ class Number extends Roll
 
     /**
      * Format the title.
-     * @return string
      */
     protected function formatTitle(): string
     {
@@ -109,7 +96,6 @@ class Number extends Roll
 
     /**
      * Format the body of the message.
-     * @return string
      */
     protected function formatText(): string
     {
@@ -126,7 +112,6 @@ class Number extends Roll
 
     /**
      * Format the footer for Slack.
-     * @return string
      */
     protected function formatFooter(): string
     {
@@ -140,7 +125,6 @@ class Number extends Roll
 
     /**
      * Figure out how many (if any) stunt points a roll generated.
-     * @return int
      */
     protected function getStuntPoints(): int
     {

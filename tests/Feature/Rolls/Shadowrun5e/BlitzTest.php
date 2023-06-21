@@ -41,6 +41,7 @@ final class BlitzTest extends TestCase
 
     /**
      * Test trying to blitz initiative as the GM.
+     * @group slack
      * @test
      */
     public function testGmBlitz(): void
@@ -78,6 +79,7 @@ final class BlitzTest extends TestCase
 
     /**
      * Test trying to blitz without a character to pay edge from.
+     * @group slack
      * @test
      */
     public function testBlitzWithoutCharacter(): void
@@ -93,6 +95,7 @@ final class BlitzTest extends TestCase
 
     /**
      * Test trying to blitz with a character that's out of edge.
+     * @group discord
      * @test
      */
     public function testBlitzOutOfEdge(): void
@@ -133,6 +136,7 @@ final class BlitzTest extends TestCase
 
     /**
      * Test trying to blitz from Slack.
+     * @group slack
      * @test
      */
     public function testBlitzSlack(): void
@@ -200,6 +204,7 @@ final class BlitzTest extends TestCase
 
     /**
      * Test trying to blitz from Discord.
+     * @group discord
      * @test
      */
     public function testBlitzDiscord(): void
@@ -246,6 +251,72 @@ final class BlitzTest extends TestCase
         $response = (new Blitz('blitz', 'username', $channel))->forDiscord();
 
         $expected = '**' . $character->handle . ' blitzed**' . \PHP_EOL
+            . '6 + 5d6 = 6 + 5 + 5 + 5 + 5 + 5 = 31';
+        self::assertSame($expected, $response);
+
+        self::assertDatabaseHas(
+            'initiatives',
+            [
+                'campaign_id' => $campaign->id,
+                'character_id' => $character->id,
+                'initiative' => 31,
+            ]
+        );
+
+        $character->refresh();
+        self::assertSame(2, $character->edgeCurrent);
+        $character->delete();
+    }
+
+    /**
+     * Test trying to blitz from IRC.
+     * @group irc
+     * @test
+     */
+    public function testBlitzIRC(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
+
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'campaign_id' => $campaign,
+            'type' => Channel::TYPE_IRC,
+            'system' => 'shadowrun5e',
+        ]);
+
+        /** @var ChatUser */
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_IRC,
+            'user_id' => $user->id,
+            'verified' => true,
+        ]);
+
+        /** @var Character */
+        $character = Character::factory()->create([
+            'edge' => 4,
+            'edgeCurrent' => 3,
+            'intuition' => 3,
+            'reaction' => 3,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+
+        ChatCharacter::factory()->create([
+            'channel_id' => $channel->id,
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser->id,
+        ]);
+
+        $this->randomInt->expects(self::exactly(5))->willReturn(5);
+
+        $response = (new Blitz('blitz', 'username', $channel))->forIrc();
+
+        $expected = $character->handle . ' blitzed' . \PHP_EOL
             . '6 + 5d6 = 6 + 5 + 5 + 5 + 5 + 5 = 31';
         self::assertSame($expected, $response);
 

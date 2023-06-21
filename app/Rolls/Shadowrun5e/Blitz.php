@@ -116,4 +116,19 @@ class Blitz extends Init
                 implode(' + ', $this->dice)
             );
     }
+
+    public function forIrc(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+        return sprintf('%s blitzed', $this->username)
+            . \PHP_EOL
+            . sprintf(
+                '%1$d + 5d6 = %1$d + %3$s = %2$d',
+                $this->initiativeScore,
+                $this->initiativeScore + array_sum($this->dice),
+                implode(' + ', $this->dice)
+            );
+    }
 }

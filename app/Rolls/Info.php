@@ -25,7 +25,7 @@ class Info extends Roll
         string $content,
         string $character,
         protected Channel $channel,
-        protected MessageReceived $event
+        protected ?MessageReceived $event = null
     ) {
         parent::__construct($content, $character, $channel);
         $this->chatUser = $this->channel->getChatUser();
@@ -73,6 +73,7 @@ class Info extends Roll
         return '**Debugging info**' . \PHP_EOL
             . 'User Tag: ' . optional($event->user)->displayname . \PHP_EOL
             . 'User ID: ' . optional($event->user)->id . \PHP_EOL
+            . 'Commlink User: ' . $this->commlinkUser . \PHP_EOL
             // @phpstan-ignore-next-line
             . 'Server Name: ' . $event->server->server_name . \PHP_EOL
             // @phpstan-ignore-next-line
@@ -99,6 +100,7 @@ class Info extends Roll
 
         return 'Debugging info' . \PHP_EOL
             . 'User name: ' . $event->user . \PHP_EOL
+            . 'Commlink User: ' . $this->commlinkUser . \PHP_EOL
             . 'Server: ' . $event->server . \PHP_EOL
             . 'Channel name: ' . $event->channel->getName() . \PHP_EOL
             . 'System: ' . $system . \PHP_EOL

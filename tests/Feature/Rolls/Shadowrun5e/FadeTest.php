@@ -24,15 +24,8 @@ final class FadeTest extends TestCase
 {
     use PHPMock;
 
-    /**
-     * Mock random_int function to take randomness out of testing.
-     * @var MockObject
-     */
     protected MockObject $randomInt;
 
-    /**
-     * Set up the mock random function each time.
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -43,8 +36,7 @@ final class FadeTest extends TestCase
     }
 
     /**
-     * Test trying to roll a fade test without a character linked in
-     * Slack.
+     * Test trying to roll a fade test without a character linked in Slack.
      * @group slack
      * @test
      */
@@ -61,8 +53,7 @@ final class FadeTest extends TestCase
     }
 
     /**
-     * Test trying to roll a fade test without a character linked in
-     * Discord.
+     * Test trying to roll a fade test without a character linked in Discord.
      * @group discord
      * @test
      */
@@ -79,6 +70,7 @@ final class FadeTest extends TestCase
 
     /**
      * Test trying to make a fade test without being a technomancer.
+     * @group discord
      * @test
      */
     public function testFadeNotTechnomancer(): void
@@ -124,6 +116,7 @@ final class FadeTest extends TestCase
 
     /**
      * Test a fade test.
+     * @group discord
      * @test
      */
     public function testFadeDiscord(): void
@@ -172,6 +165,7 @@ final class FadeTest extends TestCase
 
     /**
      * Test a fade test in Slack.
+     * @group slack
      * @test
      */
     public function testFadeSlack(): void
@@ -214,6 +208,55 @@ final class FadeTest extends TestCase
             $attachment->title
         );
         self::assertSame('Rolled 0 successes', $attachment->text);
+
+        $character->delete();
+    }
+
+    /**
+     * Test a fade test.
+     * @group irc
+     * @test
+     */
+    public function testFadeIRC(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'type' => Channel::TYPE_IRC,
+            'system' => 'shadowrun5e',
+        ]);
+
+        /** @var ChatUser */
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_IRC,
+            'verified' => true,
+        ]);
+
+        /** @var Character */
+        $character = Character::factory()->create([
+            'resonance' => 6,
+            'willpower' => 5,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+
+        ChatCharacter::factory()->create([
+            'channel_id' => $channel->id,
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser->id,
+        ]);
+
+        $this->randomInt->expects(self::exactly(11))->willReturn(6);
+        $response = (new Fade('', 'username', $channel))->forIrc();
+        self::assertSame(
+            \sprintf(
+                '%s rolled 11 dice for a fading test' . \PHP_EOL
+                    . 'Rolled 11 successes' . \PHP_EOL
+                    . 'Rolls: 6 6 6 6 6 6 6 6 6 6 6',
+                (string)$character
+            ),
+            $response
+        );
 
         $character->delete();
     }

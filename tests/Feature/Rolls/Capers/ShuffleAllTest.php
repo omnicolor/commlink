@@ -13,13 +13,14 @@ use App\Models\User;
 use App\Rolls\Capers\ShuffleAll;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 /**
  * Tests for the GM requesting everyone to shuffle their decks.
  * @group capers
  * @medium
  */
-final class ShuffleAllTest extends \Tests\TestCase
+final class ShuffleAllTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;

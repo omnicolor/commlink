@@ -129,7 +129,7 @@ final class HelpTest extends TestCase
 
     /**
      * Test asking for help as a character.
-     * @group discord
+     * @group irc
      * @test
      */
     public function testHelpPlayerCharacter(): void
@@ -172,9 +172,9 @@ final class HelpTest extends TestCase
         ]);
 
         $response = (new Help('help', $channel->username, $channel))
-            ->forDiscord();
+            ->forIrc();
         self::assertStringContainsString(
-            '**Player**' . \PHP_EOL . $character->name,
+            'Player' . \PHP_EOL . $character->name,
             $response
         );
 
