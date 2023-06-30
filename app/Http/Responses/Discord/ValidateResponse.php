@@ -10,6 +10,7 @@ use App\Models\ChatUser;
 
 /**
  * Discord response for linking a Commlink user to a Discord user.
+ * @psalm-suppress UnusedClass
  */
 class ValidateResponse
 {

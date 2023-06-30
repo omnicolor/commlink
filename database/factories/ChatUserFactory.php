@@ -29,10 +29,11 @@ class ChatUserFactory extends Factory
         return [
             'server_id' => Str::random(10),
             'server_name' => $this->faker->company(),
-            'server_type' => $this->faker->randomElement(ChatUser::VALID_TYPES),
+            'server_type' => (string)$this->faker
+                ->randomElement(ChatUser::VALID_TYPES),
             'remote_user_id' => Str::random(10),
             'remote_user_name' => $this->faker->name(),
-            'user_id' => User::factory()->create(),
+            'user_id' => (int)User::factory()->create()->id,
             'verified' => $this->faker->boolean(),
         ];
     }

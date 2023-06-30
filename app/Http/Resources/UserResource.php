@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Models\Character;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\Permission\Models\Role;
 
 /**
- * @mixin \App\Models\User
+ * @mixin User
  */
 class UserResource extends JsonResource
 {
@@ -19,7 +22,7 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         $characters = [];
-        /** @var \App\Models\Character $character */
+        /** @var Character $character */
         // @phpstan-ignore-next-line
         foreach ($this->characters()->get() as $character) {
             $characters[] = [
@@ -58,7 +61,10 @@ class UserResource extends JsonResource
         }
 
         $roles = [];
-        /** @var \Spatie\Permission\Models\Role */
+        /**
+         * @psalm-suppress UnnecessaryVarAnnotation
+         * @var Role $role
+         */
         foreach ($this->roles as $role) {
             $roles[] = [
                 'id' => $role->id,

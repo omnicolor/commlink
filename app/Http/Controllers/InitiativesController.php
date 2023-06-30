@@ -11,6 +11,9 @@ use App\Models\Initiative;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class InitiativesController extends Controller
 {
     public function destroy(Campaign $campaign, Initiative $initiative): Response
@@ -92,7 +95,7 @@ class InitiativesController extends Controller
     public function truncate(Campaign $campaign): Response
     {
         $this->authorize('gm', $campaign);
-        $initiatives = Initiative::forCampaign($campaign)->delete();
+        Initiative::forCampaign($campaign)->delete();
         return new Response('', Response::HTTP_NO_CONTENT);
     }
 }

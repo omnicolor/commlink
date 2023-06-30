@@ -26,12 +26,9 @@ class Qualities extends Component
 
     /**
      * Get the view that represents the component.
-     * @return View
      */
     public function render(): View
     {
-        /** @var View */
-        $view = view('components.shadowrun5e.qualities');
-        return $view;
+        return view('components.shadowrun5e.qualities');
     }
 }

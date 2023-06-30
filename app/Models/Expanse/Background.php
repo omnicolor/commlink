@@ -13,7 +13,7 @@ class Background
 {
     /**
      * Ability change the background gives.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $ability;
 
@@ -25,13 +25,14 @@ class Background
 
     /**
      * Map of benefits that can be rolled for.
+     * @psalm-suppress PossiblyUnusedProperty
      * @var array<int, array<string, string|int>>
      */
     public array $benefits;
 
     /**
      * Description of the background.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
@@ -43,19 +44,18 @@ class Background
 
     /**
      * Unique ID for the background.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $id;
 
     /**
      * Name of the background.
-     * @var string
      */
     public string $name;
 
     /**
      * Page the background was shown on.
-     * @var int
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public int $page;
 
@@ -67,7 +67,6 @@ class Background
 
     /**
      * Constructor.
-     * @param string $id
      * @throws RuntimeException
      */
     public function __construct(string $id)
@@ -93,10 +92,6 @@ class Background
         $this->talents = $background['talents'];
     }
 
-    /**
-     * Return the name of the Background.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;
@@ -104,7 +99,7 @@ class Background
 
     /**
      * Return an array of focuses the background may give the character.
-     * @return FocusArray
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getFocuses(): FocusArray
     {
@@ -121,7 +116,7 @@ class Background
 
     /**
      * Return an array of talents the background may give the character.
-     * @return TalentArray
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getTalents(): TalentArray
     {

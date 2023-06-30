@@ -13,7 +13,9 @@ use RuntimeException;
  */
 class Skill
 {
+    /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
+    /** @psalm-suppress PossiblyUnusedMethod */
     public string $id;
     public string $name;
 

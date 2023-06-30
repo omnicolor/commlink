@@ -8,9 +8,11 @@ use RuntimeException;
 
 class Perk
 {
+    /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
     public string $id;
     public string $name;
+    /** @psalm-suppress PossiblyUnusedProperty */
     public ?string $skillId = null;
 
     /**

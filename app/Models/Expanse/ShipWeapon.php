@@ -6,6 +6,9 @@ namespace App\Models\Expanse;
 
 use RuntimeException;
 
+/**
+ * @psalm-suppress PossiblyUnusedProperty
+ */
 class ShipWeapon
 {
     public const RANGE_LONG = 'long';
@@ -28,15 +31,12 @@ class ShipWeapon
 
     /**
      * Constructor.
-     * @param string $id
-     * @param string $mount
-     * @param int $quality
      * @throws RuntimeException
      */
     public function __construct(
         string $id,
         public string $mount,
-        public ?int $quality = 1
+        public ?int $quality = 1,
     ) {
         $filename = config('app.data_path.expanse') . 'ship-weapons.php';
         self::$weapons ??= require $filename;
@@ -65,6 +65,7 @@ class ShipWeapon
 
     /**
      * Return a collection of all weapons.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, ShipWeapon>
      */
     public static function all(): array

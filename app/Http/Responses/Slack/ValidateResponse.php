@@ -14,6 +14,7 @@ use App\Models\User;
 
 /**
  * Slack response for registering a Commlink user to a Slack user.
+ * @psalm-suppress UnusedClass
  */
 class ValidateResponse extends SlackResponse
 {
@@ -21,16 +22,12 @@ class ValidateResponse extends SlackResponse
 
     /**
      * User linked to the request.
-     * @var User
      */
     protected User $user;
 
     /**
      * Constructor.
-     * @param string $content
-     * @param int $status
      * @param array<string, string> $headers
-     * @param ?Channel $channel
      * @throws SlackException
      */
     public function __construct(

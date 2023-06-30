@@ -9,6 +9,7 @@ use RuntimeException;
 
 /**
  * Representation of a Shadowrun 5E critter.
+ * @psalm-suppress UnusedClass
  */
 class Critter
 {
@@ -57,7 +58,6 @@ class Critter
 
     /**
      * Constructor.
-     * @param string $id
      * @throws RuntimeException
      */
     public function __construct(string $id)

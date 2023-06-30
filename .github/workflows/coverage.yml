@@ -4,13 +4,13 @@ on: [push]
 
 jobs:
   Code-Coverage:
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-latest"
     strategy:
       matrix:
         php-version:
-          - 8.2
+          - "8.2"
         mongodb-version:
-          - 3.6.3
+          - "3.6.3"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -30,11 +30,25 @@ jobs:
           mongodb-password: secret-password
           mongodb-db: commlink-test
 
-      - name: Install Composer dependencies and app configuration
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install app configuration
         run: |
           cp .github/workflows/env.testing .env.testing
           cp .github/workflows/env.testing .env
-          composer install --no-progress --no-interaction
+
+      - name: Install Composer dependencies and app configuration
+        run: composer install --no-progress --no-interaction
 
       - name: Execute unit tests with code coverage
         run: vendor/bin/phpunit --coverage-clover public/coverage/clover.xml
