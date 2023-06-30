@@ -93,8 +93,7 @@ class CampaignsController extends Controller
 
     /**
      * Launch the GM screen.
-     * @param Campaign $campaign
-     * @return View
+     * @psalm-suppress NoValue
      */
     public function gmScreen(Campaign $campaign): View
     {

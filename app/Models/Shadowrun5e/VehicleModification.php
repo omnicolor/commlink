@@ -8,6 +8,7 @@ use RuntimeException;
 
 /**
  * Something to add to a vehicle.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class VehicleModification
 {

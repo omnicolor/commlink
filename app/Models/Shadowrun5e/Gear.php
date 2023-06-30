@@ -4,38 +4,36 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use RuntimeException;
+
 /**
  * Gear, representing something a character can use.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class Gear
 {
     /**
      * Whether the item is active.
-     * @var ?bool
      */
     public ?bool $active;
 
     /**
      * Availability code of the item.
-     * @var string
      */
     public string $availability;
 
     /**
      * Base cost of the item.
-     * @var int
      */
     public int $cost;
 
     /**
      * Matrix damage the item has taken.
-     * @var ?int
      */
     public ?int $damage;
 
     /**
      * Description of the item.
-     * @var string
      */
     public string $description;
 
@@ -47,43 +45,37 @@ class Gear
 
     /**
      * ID of the item.
-     * @var string
      */
     public string $id;
 
     /**
      * Modifications applied to the item.
-     * @var GearModificationArray
      */
     public GearModificationArray $modifications;
 
     /**
      * Name of the item.
-     * @var string
      */
     public string $name;
 
     /**
      * Quantity of the item.
-     * @var int
      */
     public int $quantity;
 
     /**
      * Optional rating for the item.
-     * @var ?int
      */
     public ?int $rating = null;
 
     /**
      * Optional subname of the item.
-     * @var ?string
      */
     public ?string $subname = null;
 
     /**
      * List of all gear.
-     * @var ?array<string, mixed>
+     * @var ?array<string, array<string, mixed>>
      */
     public static ?array $gear;
 
@@ -91,7 +83,7 @@ class Gear
      * Load an item.
      * @param string $id ID to load
      * @param int $quantity Number of items
-     * @throws \RuntimeException If ID is invalid
+     * @throws RuntimeException If ID is invalid
      */
     public function __construct(string $id, int $quantity = 1)
     {
@@ -100,7 +92,7 @@ class Gear
 
         $id = \strtolower($id);
         if (!isset(self::$gear[$id])) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 \sprintf('Item ID "%s" is invalid', $id)
             );
         }
@@ -133,7 +125,7 @@ class Gear
     /**
      * Builds a Gear object from a Mongo result.
      * @param array<string, mixed> $gear
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public static function build(array $gear): Gear
     {
@@ -175,7 +167,7 @@ class Gear
      * Return a item based on its name.
      * @param string $name
      * @return Gear
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public static function findByName(string $name): Gear
     {
@@ -192,7 +184,7 @@ class Gear
                 return GearFactory::get($gear['id']);
             }
         }
-        throw new \RuntimeException(\sprintf(
+        throw new RuntimeException(\sprintf(
             'Gear name "%s" was not found',
             $name
         ));

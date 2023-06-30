@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shadowrun5e;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Controller for programs.
  */
-class ProgramsController extends \App\Http\Controllers\Controller
+class ProgramsController extends Controller
 {
     /**
      * Path to the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class ProgramsController extends \App\Http\Controllers\Controller
      */
     protected array $programs;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -40,11 +37,10 @@ class ProgramsController extends \App\Http\Controllers\Controller
 
     /**
      * Get the entire collection of Shadowrun programs.
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
-        foreach ($this->programs as $key => $value) {
+        foreach (array_keys($this->programs) as $key) {
             $this->programs[$key]['links'] = [
                 'self' => \sprintf(
                     '/api/shadowrun5e/programs/%s',
@@ -65,8 +61,6 @@ class ProgramsController extends \App\Http\Controllers\Controller
 
     /**
      * Show a single program.
-     * @param string $programId
-     * @return \Illuminate\Http\Response
      */
     public function show(string $programId): Response
     {
