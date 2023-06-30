@@ -25,6 +25,7 @@ use Illuminate\View\View;
 
 /**
  * Controller for interacting with Capers characters.
+ * @psalm-suppress UnusedClass
  */
 class CharactersController extends Controller
 {
@@ -326,6 +327,9 @@ class CharactersController extends Controller
         ));
     }
 
+    /**
+     * @psalm-suppress InvalidPropertyAssignmentValue
+     */
     public function storeBoosts(BoostsRequest $request): RedirectResponse
     {
         /** @var User */
@@ -362,6 +366,9 @@ class CharactersController extends Controller
         ));
     }
 
+    /**
+     * @psalm-suppress InvalidPropertyAssignmentValue
+     */
     public function storeGear(GearRequest $request): RedirectResponse
     {
         $characterId = $request->session()->get('capers-partial');
@@ -396,6 +403,9 @@ class CharactersController extends Controller
         ));
     }
 
+    /**
+     * @psalm-suppress InvalidPropertyAssignmentValue
+     */
     public function storePowers(PowersRequest $request): RedirectResponse
     {
         $characterId = $request->session()->get('capers-partial');
@@ -421,7 +431,6 @@ class CharactersController extends Controller
                 'boosts' => [],
             ];
         }
-        // @phpstan-ignore-next-line
         $character->powers = $powers;
 
         $meta = $character->meta ?? [];

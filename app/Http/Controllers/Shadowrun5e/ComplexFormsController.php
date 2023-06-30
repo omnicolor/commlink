@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shadowrun5e;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Controller for complex forms.
  */
-class ComplexFormsController extends \App\Http\Controllers\Controller
+class ComplexFormsController extends Controller
 {
     /**
      * Path to the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class ComplexFormsController extends \App\Http\Controllers\Controller
      */
     protected array $forms;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -41,11 +38,10 @@ class ComplexFormsController extends \App\Http\Controllers\Controller
 
     /**
      * Return the entire collection of complex forms.
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
-        foreach ($this->forms as $key => $unused) {
+        foreach (array_keys($this->forms) as $key) {
             $this->forms[$key]['links'] = [
                 'self' => \sprintf(
                     '/api/shadowrun5e/complex-forms/%s',
@@ -66,8 +62,6 @@ class ComplexFormsController extends \App\Http\Controllers\Controller
 
     /**
      * Return a single complex form.
-     * @param string $identifier
-     * @return \Illuminate\Http\Response
      */
     public function show(string $identifier): Response
     {
