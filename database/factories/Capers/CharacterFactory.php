@@ -34,22 +34,28 @@ class CharacterFactory extends Factory
         $charisma = $this->faker->numberBetween(1, 5);
         $maxHits = 4 + (2 * $resilience) + (2 * $charisma);
 
+        /** @var array<string, array<string, string>> */
         $identities = require config('app.data_path.capers') . 'identities.php';
+        /** @var array<string, array<string, string>> */
         $skills = require config('app.data_path.capers') . 'skills.php';
+        /** @var array<string, array<string, string>> */
         $vices = require config('app.data_path.capers') . 'vices.php';
+        /** @var array<string, array<string, string>> */
         $virtues = require config('app.data_path.capers') . 'virtues.php';
 
         $type = $this->faker->randomElement($types);
         $typeSpecific = [];
         if (Character::TYPE_CAPER === $type) {
+            /** @var array<string, array<string, string>> */
             $powers = require config('app.data_path.capers') . 'powers.php';
-            $power = $this->faker->randomElement($powers);
+            $power = (array)$this->faker->randomElement($powers);
             $typeSpecific['powers'][] = [
                 'id' => $this->nameToId($power['name']),
             ];
         } elseif (Character::TYPE_EXCEPTIONAL === $type) {
+            /** @var array<string, array<string, string>> */
             $perks = require config('app.data_path.capers') . 'perks.php';
-            $perk = $this->faker->randomElement(array_keys($perks));
+            $perk = (string)$this->faker->randomElement(array_keys($perks));
             $perk = $this->nameToId($perk);
             if ('specialty-skill' === $perk) {
                 $typeSpecific['perks'][] = [

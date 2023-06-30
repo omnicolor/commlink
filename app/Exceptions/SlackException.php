@@ -21,7 +21,7 @@ class SlackException extends Exception
 
     /**
      * Render the exception as a Slack Response to return to the client.
-     * @return SlackResponse
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function render(): SlackResponse
     {

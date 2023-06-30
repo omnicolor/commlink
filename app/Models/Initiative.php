@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property-read string $name
+ */
 class Initiative extends Model
 {
     use HasFactory;
@@ -36,10 +40,6 @@ class Initiative extends Model
         'initiative' => 'int',
     ];
 
-    /**
-     * Return the combatant's name.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;
@@ -47,7 +47,6 @@ class Initiative extends Model
 
     /**
      * Return the campaign attached to the channel.
-     * @return BelongsTo
      */
     public function campaign(): BelongsTo
     {
@@ -59,22 +58,23 @@ class Initiative extends Model
      *
      * If the initiative belongs to a character, returns their name/handle. If
      * it's a mook, returns the name assigned to them when setting initiative.
-     * @return string
      */
-    public function getNameAttribute(): string
+    public function name(): Attribute
     {
-        if (isset($this->attributes['character_name'])) {
-            return $this->attributes['character_name'];
-        }
-        $character = Character::find($this->attributes['character_id']);
-        return (string)$character;
+        return Attribute::make(
+            get: function (): string {
+                if (isset($this->attributes['character_name'])) {
+                    return $this->attributes['character_name'];
+                }
+                $character = Character::find($this->attributes['character_id']);
+                return (string)$character;
+            },
+        );
     }
 
     /**
      * Just return initiative rows for a given campaign.
-     * @param Builder $query
-     * @param Campaign $campaign
-     * @return Builder
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function scopeForCampaign(Builder $query, Campaign $campaign): Builder
     {
@@ -83,9 +83,7 @@ class Initiative extends Model
 
     /**
      * Return initiative rows for a given channel.
-     * @param Builder $query
-     * @param Channel $channel
-     * @return Builder
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function scopeForChannel(Builder $query, Channel $channel): Builder
     {

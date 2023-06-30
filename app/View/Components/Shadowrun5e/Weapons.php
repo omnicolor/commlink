@@ -14,14 +14,8 @@ class Weapons extends Component
 {
     /**
      * Whether the character is still being built.
-     * @var bool
      */
     public bool $charGen;
-
-    /**
-     * Character's weapons.
-     * @var WeaponArray
-     */
     public WeaponArray $weapons;
 
     /**
@@ -35,12 +29,9 @@ class Weapons extends Component
 
     /**
      * Get the view / contents that represent the component.
-     * @return View
      */
     public function render(): View
     {
-        /** @var View */
-        $view = view('components.shadowrun5e.weapons');
-        return $view;
+        return view('components.shadowrun5e.weapons');
     }
 }

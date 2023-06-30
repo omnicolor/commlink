@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Expanse;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Controller for Expanse focuses.
  */
-class FocusesController extends \App\Http\Controllers\Controller
+class FocusesController extends Controller
 {
     /**
      * Path to the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class FocusesController extends \App\Http\Controllers\Controller
      */
     protected array $focuses;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -40,11 +37,10 @@ class FocusesController extends \App\Http\Controllers\Controller
 
     /**
      * Get the entire collection of Expanse focuses.
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
-        foreach ($this->focuses as $key => $unused) {
+        foreach (array_keys($this->focuses) as $key) {
             $this->focuses[$key]['links'] = [
                 'self' => \sprintf('/api/expanse/focuses/%s', $key),
             ];
@@ -62,8 +58,6 @@ class FocusesController extends \App\Http\Controllers\Controller
 
     /**
      * Get a single Expanse focus.
-     * @param string $id
-     * @return \Illuminate\Http\Response
      */
     public function show(string $id): Response
     {

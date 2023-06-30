@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shadowrun5e;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Mentor Spirit API route.
  */
-class MentorSpiritsController extends \App\Http\Controllers\Controller
+class MentorSpiritsController extends Controller
 {
     /**
      * Path to the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class MentorSpiritsController extends \App\Http\Controllers\Controller
      */
     protected array $spirits;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -41,11 +38,10 @@ class MentorSpiritsController extends \App\Http\Controllers\Controller
 
     /**
      * Get the entire collection of Shadowrun 5E mentor spirits.
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
-        foreach ($this->spirits as $key => $unused) {
+        foreach (array_keys($this->spirits) as $key) {
             $this->spirits[$key]['links'] = [
                 'self' => \sprintf(
                     '/api/shadowrun5e/mentor-spirits/%s',
@@ -67,8 +63,6 @@ class MentorSpiritsController extends \App\Http\Controllers\Controller
 
     /**
      * Return a single mentor spirit.
-     * @param string $id
-     * @return \Illuminate\Http\Response
      */
     public function show(string $id): Response
     {

@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Expanse;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Controller for Expanse talents.
  */
-class TalentsController extends \App\Http\Controllers\Controller
+class TalentsController extends Controller
 {
     /**
      * Path to the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class TalentsController extends \App\Http\Controllers\Controller
      */
     protected array $talents;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -40,11 +37,10 @@ class TalentsController extends \App\Http\Controllers\Controller
 
     /**
      * Get the entire collection of Expanse talents.
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
-        foreach ($this->talents as $key => $unused) {
+        foreach (array_keys($this->talents) as $key) {
             $this->talents[$key]['links'] = [
                 'self' => \sprintf('/api/expanse/talents/%s', $key),
             ];
@@ -62,8 +58,6 @@ class TalentsController extends \App\Http\Controllers\Controller
 
     /**
      * Get a single Expanse talent.
-     * @param string $id
-     * @return \Illuminate\Http\Response
      */
     public function show(string $id): Response
     {

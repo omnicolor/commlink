@@ -13,11 +13,7 @@ use Illuminate\Support\Facades\Log;
 
 class HandleDiscordMessage
 {
-    /**
-     * Handle the event.
-     * @param DiscordMessageReceived $event
-     * @return bool
-     */
+    /** @psalm-suppress PossiblyUnusedMethod */
     public function handle(DiscordMessageReceived $event): bool
     {
         $args = \explode(' ', $event->content);

@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shadowrun5e;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Controller for Shadowrun 5th Edition lifestyle options.
  */
-class LifestyleOptionsController extends \App\Http\Controllers\Controller
+class LifestyleOptionsController extends Controller
 {
     /**
      * Path to the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class LifestyleOptionsController extends \App\Http\Controllers\Controller
      */
     protected array $options;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -41,11 +38,10 @@ class LifestyleOptionsController extends \App\Http\Controllers\Controller
 
     /**
      * Return collection of all lifestyle options.
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
-        foreach ($this->options as $key => $value) {
+        foreach (array_keys($this->options) as $key) {
             $this->options[$key]['links'] = [
                 'self' => \sprintf(
                     '/api/shadowrun5e/lifestyle-options/%s',
@@ -66,8 +62,6 @@ class LifestyleOptionsController extends \App\Http\Controllers\Controller
 
     /**
      * Return a single lifestyle option.
-     * @param string $id
-     * @return \Illuminate\Http\Response
      */
     public function show(string $id): Response
     {

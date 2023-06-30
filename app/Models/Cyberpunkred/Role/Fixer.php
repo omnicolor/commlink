@@ -69,10 +69,6 @@ class Fixer extends Role
         $this->type = $role['type'] ?? self::TYPE_BROKER_DEALS;
     }
 
-    /**
-     * Return the name of the role.
-     * @return string
-     */
     public function __toString(): string
     {
         return 'Fixer';
@@ -80,7 +76,7 @@ class Fixer extends Role
 
     /**
      * Return the type of fixer.
-     * @return string
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getType(): string
     {

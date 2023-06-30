@@ -13,6 +13,7 @@ use Discord\Parts\Channel\Channel as TextChannel;
 
 /**
  * Handle a user requesting to link a character to this Discord channel.
+ * @psalm-suppress UnusedClass
  */
 class LinkResponse
 {
@@ -24,7 +25,6 @@ class LinkResponse
 
     /**
      * Construct a new instance.
-     * @param DiscordMessageReceived $event
      */
     public function __construct(protected DiscordMessageReceived $event)
     {
@@ -88,10 +88,6 @@ class LinkResponse
         ));
     }
 
-    /**
-     * Format the response for Discord.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->message;

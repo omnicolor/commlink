@@ -31,6 +31,7 @@ class ChatCharacterFactory extends Factory
                 'type' => Channel::TYPE_SLACK,
             ])->id,
             'chat_user_id' => ChatUser::factory()->create()->id,
+            'chat_user_id' => (int)ChatUser::factory()->create()->id,
         ];
     }
 }

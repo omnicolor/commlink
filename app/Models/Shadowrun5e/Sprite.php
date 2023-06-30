@@ -16,6 +16,7 @@ use RuntimeException;
  * @method int getInitiative()
  * @method int getResonance()
  * @method int getSleaze()
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class Sprite
 {
@@ -23,104 +24,89 @@ class Sprite
 
     /**
      * Sprite's attack rating formula.
-     * @var string
      */
     public string $attack;
 
     /**
      * Sprite's data processing rating formula.
-     * @var string
      */
     public string $dataProcessing;
 
     /**
      * Description of the sprite.
-     * @var string
      */
     public string $description;
 
     /**
      * Sprite's firewall rating formula.
-     * @var string
      */
     public string $firewall;
 
     /**
      * Sprite's unique ID.
-     * @var string
      */
     public string $id;
 
     /**
      * Sprites formula for calculating initiative.
-     * @var string
      */
     public string $initiative;
 
     /**
      * Sprite's name.
-     * @var string
      */
     public string $name;
 
     /**
      * Page number the sprite was introduced on.
-     * @var int
      */
     public int $page;
 
     /**
      * Collection of powers the sprite has.
-     * @var string[]
+     * @var array<int, string>
      */
     public array $powers = [];
 
     /**
      * Sprite's resonance formula.
-     * @var string
      */
     public string $resonance;
 
     /**
      * Whether the sprite is registered.
-     * @var bool
      */
     public bool $registered = false;
 
     /**
      * ID for the ruleset the sprite was introduced in.
-     * @var string
      */
     public string $ruleset;
 
     /**
      * Collection of skills the sprite has.
-     * @var string[]
+     * @var array<int, string>
      */
     public array $skills = [];
 
     /**
      * Sprite's sleaze formula.
-     * @var string
      */
     public string $sleaze;
 
     /**
      * Number of tasks remaining for the sprite.
-     * @var int
      */
     public int $tasks = 0;
 
     /**
      * List of all sprites.
-     * @var array<mixed>
+     * @var array<string, array<string, mixed>>
      */
     public static array $sprites;
 
     /**
      * Constructor.
-     * @param string $id ID to load
-     * @param ?int $level Level of the sprite
      * @throws RuntimeException if the ID is not found
      */
     public function __construct(string $id, public ?int $level = null)
@@ -152,10 +138,6 @@ class Sprite
         $this->sleaze = $sprite['sleaze'];
     }
 
-    /**
-     * Return the sprite as a string.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;
@@ -163,13 +145,12 @@ class Sprite
 
     /**
      * Return an attribute with the level taken into account.
-     * @param string $name Name of the method: getFirewall, getSleaze
-     * @param array<mixed> $arguments Unused
-     * @returns int
+     * @param array<mixed, mixed> $_arguments Unused
+     * @psalm-suppress PossiblyUnusedMethod
      * @throws BadMethodCallException
      * @throws RuntimeException
      */
-    public function __call(string $name, array $arguments): int
+    public function __call(string $name, array $_arguments): int
     {
         $attribute = \lcfirst(\str_replace('get', '', $name));
         $attributes = [
@@ -199,9 +180,7 @@ class Sprite
     }
 
     /**
-     * Set the sprite's level.
-     * @param int $level Level to set for the sprite.
-     * @return Sprite
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function setLevel(int $level): Sprite
     {
@@ -211,6 +190,7 @@ class Sprite
 
     /**
      * Return a collection of the sprite's powers.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, SpritePower>
      */
     public function getPowers(): array
@@ -236,13 +216,13 @@ class Sprite
 
     /**
      * If the sprite has a level, return initialized skills instead of IDs.
-     * @return SkillArray
-     * @throws \RuntimeException if the level isn't set
+     * @psalm-suppress PossiblyUnusedMethod
+     * @throws RuntimeException if the level isn't set
      */
     public function getSkills(): SkillArray
     {
         if (!isset($this->level)) {
-            throw new \RuntimeException('Level is not set');
+            throw new RuntimeException('Level is not set');
         }
         $skills = new SkillArray();
         foreach ($this->skills as $skill) {

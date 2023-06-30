@@ -7,14 +7,17 @@ namespace Tests\Feature\Models\Capers;
 use App\Models\Capers\Character;
 use App\Models\Capers\GearArray;
 use App\Models\Capers\Identity;
+use App\Models\Capers\Power;
+use App\Models\Capers\PowerArray;
 use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for Capers characters.
  * @group capers
  * @small
  */
-final class CharacterTest extends \Tests\TestCase
+final class CharacterTest extends TestCase
 {
     /**
      * Test loading from data store.
@@ -177,6 +180,33 @@ final class CharacterTest extends \Tests\TestCase
         $character = new Character([
             'powers' => [['id' => 'acid-stream', 4, ['acrid-cloud-boost']]],
         ]);
+        self::assertCount(1, $character->powers);
+    }
+
+    /** @group current */
+    public function testSettingPowersArray(): void
+    {
+        $character = new Character();
+        $character->powers = [
+            [
+                'id' => 'acid-stream',
+                'rank' => 4,
+                'boosts' => ['acrid-cloud-boost'],
+            ],
+        ];
+        self::assertCount(1, $character->powers);
+    }
+
+    public function testSettingPowersPowerArray(): void
+    {
+        $character = new Character();
+        $powers = new PowerArray();
+        $powers[] = new Power(
+            id: 'acid-stream',
+            rank: 4,
+            boosts: ['acrid-cloud-boost']
+        );
+        $character->powers = $powers;
         self::assertCount(1, $character->powers);
     }
 
