@@ -14,7 +14,6 @@ class Contacts extends Component
 {
     /**
      * Whether the character is still being built.
-     * @var bool
      */
     public bool $charGen;
     public ContactArray $contacts;
@@ -30,12 +29,9 @@ class Contacts extends Component
 
     /**
      * Get the view that represents the component.
-     * @return View
      */
     public function render(): View
     {
-        /** @var View */
-        $view = view('components.shadowrun5e.contacts');
-        return $view;
+        return view('components.shadowrun5e.contacts');
     }
 }

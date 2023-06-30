@@ -14,7 +14,6 @@ class SkillGroupsController extends Controller
 {
     /**
      * Filename for the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -24,9 +23,6 @@ class SkillGroupsController extends Controller
      */
     protected array $groups = [];
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -63,7 +59,6 @@ class SkillGroupsController extends Controller
 
     /**
      * Return all skill groups.
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
@@ -77,8 +72,6 @@ class SkillGroupsController extends Controller
 
     /**
      * Return a single skill group.
-     * @param string $identifier
-     * @return \Illuminate\Http\Response
      */
     public function show(string $identifier): Response
     {

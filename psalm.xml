@@ -4,9 +4,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
-    findUnusedBaselineEntry="true"
     findUnusedCode="true"
-    errorBaseline="psalm-baseline.xml"
+    findUnusedBaselineEntry="true"
 >
     <projectFiles>
         <directory name="app" />
@@ -20,6 +19,11 @@
     </projectFiles>
 
     <issueHandlers>
+        <InvalidReturnType>
+            <errorLevel type="suppress">
+                <directory name="app/View/Components" />
+            </errorLevel>
+        </InvalidReturnType>
         <NonInvariantDocblockPropertyType>
             <errorLevel type="suppress">
                 <directory name="app/Models" />
@@ -62,8 +66,9 @@
         </UnresolvableInclude>
         <UnusedClass>
             <errorLevel type="suppress">
+                <directory name="app/Console/Commands" />
                 <directory name="app/Features" />
-                <directory name="app/Models/StarTrekAdventures/Species" />
+                <directory name="app/Http/Controllers" />
                 <directory name="app/Providers" />
                 <directory name="app/Rolls" />
                 <directory name="app/View/Components" />
@@ -76,5 +81,13 @@
                 <file name="app/Models/Avatar/Character.php" />
             </errorLevel>
         </UndefinedClass>
+        <UndefinedMethod>
+            <errorLevel type="suppress">
+                <file name="app/Models/StarTrekAdventures/Character.php" />
+            </errorLevel>
+        </UndefinedMethod>
     </issueHandlers>
+    <plugins>
+        <pluginClass class="Psalm\LaravelPlugin\Plugin"/>
+    </plugins>
 </psalm>

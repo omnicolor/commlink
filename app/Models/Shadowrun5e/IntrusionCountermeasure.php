@@ -8,6 +8,7 @@ use RuntimeException;
 
 /**
  * Class representing automated matrix defense: ICE.
+ * @psalm-suppress UnusedClass
  */
 class IntrusionCountermeasure
 {
@@ -32,11 +33,6 @@ class IntrusionCountermeasure
 
     /**
      * Construct a new ICE object.
-     * @param string $id ID of the ICE
-     * @param ?int $attack
-     * @param ?int $dataProcessing
-     * @param ?int $firewall
-     * @param ?int $sleaze
      * @throws RuntimeException
      */
     public function __construct(
@@ -79,7 +75,6 @@ class IntrusionCountermeasure
     }
 
     /**
-     * @return int
      * @throws RuntimeException if all attributes haven't been set
      */
     public function getConditionMonitor(): int
@@ -100,7 +95,6 @@ class IntrusionCountermeasure
 
     /**
      * Return the host rating that the ICE belongs to.
-     * @return int
      * @throws RuntimeException if all attributes haven't been set
      */
     public function getHostRating(): int

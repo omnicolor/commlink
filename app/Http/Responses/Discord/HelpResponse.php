@@ -8,20 +8,15 @@ use App\Events\DiscordMessageReceived;
 use App\Models\Channel;
 use App\Models\ChatUser;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class HelpResponse
 {
-    /**
-     * Construct a new instance.
-     * @param DiscordMessageReceived $event
-     */
     public function __construct(protected DiscordMessageReceived $event)
     {
     }
 
-    /**
-     * Format the response for Discord.
-     * @return string
-     */
     public function __toString(): string
     {
         $help = \sprintf(

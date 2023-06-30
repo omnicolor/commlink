@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Models\Traits\GameSystem;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Jenssegers\Mongodb\Eloquent\Model;
 
 /**
@@ -52,7 +53,7 @@ class Character extends Model
      *
      * Note: This is effectively a BelongsTo relationship, but that doesn't seem
      * to work between MySQL and MongoDB.
-     * @return ?Campaign
+     * @psalm-suppress InvalidReturnStatement
      */
     public function campaign(): ?Campaign
     {
@@ -64,8 +65,7 @@ class Character extends Model
 
     /**
      * Return the user that owns the character.
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     * @return User
+     * @throws ModelNotFoundException
      */
     public function user(): User
     {
@@ -76,7 +76,6 @@ class Character extends Model
      * Create a new Character, subclassed if available.
      * @param array<int|string, mixed> $attributes
      * @param ?string $connection
-     * @return Character
      * @phpstan-ignore-next-line
      * @psalm-suppress LessSpecificImplementedReturnType
      */

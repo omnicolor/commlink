@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Expanse;
 
+use RuntimeException;
+
 /**
  * Representation of one of the origins in The Expanse.
  */
@@ -11,19 +13,17 @@ abstract class Origin
 {
     /**
      * Description of the origin.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
     /**
      * The name of the origin.
-     * @var string
      */
     public string $name;
 
     /**
      * Return the origin's name.
-     * @return string
      */
     public function __toString(): string
     {
@@ -32,9 +32,7 @@ abstract class Origin
 
     /**
      * Create an origin from a string.
-     * @param string $id
-     * @return Origin
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public static function factory(string $id): Origin
     {
@@ -47,7 +45,7 @@ abstract class Origin
             case 'martian':
                 return new Origin\Martian();
             default:
-                throw new \RuntimeException(
+                throw new RuntimeException(
                     \sprintf('Origin "%s" is invalid', $id)
                 );
         }

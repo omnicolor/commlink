@@ -15,7 +15,6 @@ class MartialArts extends Component
 {
     /**
      * Whether the character is still being built.
-     * @var bool
      */
     public bool $charGen;
     public MartialArtsStyleArray $styles;
@@ -33,12 +32,9 @@ class MartialArts extends Component
 
     /**
      * Get the view that represents the component.
-     * @return View
      */
     public function render(): View
     {
-        /** @var View */
-        $view = view('components.shadowrun5e.martial-arts');
-        return $view;
+        return view('components.shadowrun5e.martial-arts');
     }
 }
