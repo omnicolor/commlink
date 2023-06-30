@@ -28,46 +28,37 @@ class SlackResponse extends JsonResponse
 
     /**
      * Slack channel the request.
-     * @var Channel
      */
     protected Channel $channel;
 
     /**
      * Link between Slack and Commlink.
-     * @var ?ChatUser
+     * @psalm-suppress PossiblyUnusedProperty
      */
     protected ?ChatUser $chatUser;
 
     /**
      * Whether to delete the original message this is in response to.
-     * @var bool
      */
     protected bool $deleteOriginal = false;
 
     /**
      * Optional text to send.
-     * @var string
      */
     protected ?string $text = null;
 
     /**
      * Whether to also send the request to the channel it was requested in.
-     * @var bool
      */
     protected bool $toChannel = false;
 
     /**
      * Whether to set the replace_original property on the response.
-     * @var bool
      */
     protected bool $replaceOriginal = false;
 
     /**
-     * Constructor.
-     * @param string $content
-     * @param int $status
      * @param array<string, string> $headers
-     * @param ?Channel $channel
      */
     public function __construct(
         string $content = '',
@@ -81,10 +72,6 @@ class SlackResponse extends JsonResponse
         $this->updateData();
     }
 
-    /**
-     * Return the response as a string.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->data;
@@ -92,8 +79,6 @@ class SlackResponse extends JsonResponse
 
     /**
      * Add an attachment to the output.
-     * @param Attachment $attachment
-     * @return SlackResponse
      */
     public function addAttachment(Attachment $attachment): SlackResponse
     {
@@ -105,7 +90,6 @@ class SlackResponse extends JsonResponse
     /**
      * Require the user to have a Commlink account and link it to the Slack
      * team before they can do whatever they're trying to do.
-     * @param ?ChatUser $chatUser
      * @throws SlackException
      */
     protected function requireCommlink(?ChatUser $chatUser): void
@@ -124,8 +108,7 @@ class SlackResponse extends JsonResponse
 
     /**
      * Add text to the Slack response, displayed above the attachments, if any.
-     * @param string $text
-     * @return SlackResponse
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function setText(string $text): SlackResponse
     {
@@ -136,7 +119,6 @@ class SlackResponse extends JsonResponse
 
     /**
      * Send the response to the channel for everyone to see.
-     * @return SlackResponse
      */
     public function sendToChannel(): SlackResponse
     {
@@ -147,7 +129,7 @@ class SlackResponse extends JsonResponse
 
     /**
      * This response should replace the original response.
-     * @return SlackResponse
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function replaceOriginal(): SlackResponse
     {
@@ -158,7 +140,7 @@ class SlackResponse extends JsonResponse
 
     /**
      * This response should delete the original response.
-     * @return SlackResponse
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function deleteOriginal(): SlackResponse
     {

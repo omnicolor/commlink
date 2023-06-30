@@ -6,12 +6,12 @@ namespace App\Models\Shadowrun5e;
 
 /**
  * Class representing a Shadowrun identity.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class Identity
 {
     /**
      * Identifier for the identity.
-     * @var int
      */
     public int $identifier;
 
@@ -29,27 +29,23 @@ class Identity
 
     /**
      * Name for the identity.
-     * @var string
      */
     public string $name;
 
     /**
      * Optional notes about the identity, its licenses, its SIN, and/or its
      * lifestyles.
-     * @var ?string
      */
     public ?string $notes;
 
     /**
      * If the Identity is for a SINner quality, denotes what level of SINner.
-     * @var ?string
      */
     public ?string $sinner = null;
 
     /**
      * If the identity has a fake SIN (not from a SINner quality) what level
      * the fake is.
-     * @var ?int
      */
     public ?int $sin = null;
 
@@ -67,7 +63,6 @@ class Identity
     /**
      * Create a new identity from a Mongo blob.
      * @param array<string, mixed> $raw
-     * @return Identity
      */
     public static function fromArray(array $raw): Identity
     {
@@ -115,7 +110,7 @@ class Identity
 
     /**
      * Return the cost of the identity including licenses, lifestyles, and SINs.
-     * @return int
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getCost(): int
     {

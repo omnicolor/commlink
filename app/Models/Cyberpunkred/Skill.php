@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Cyberpunkred;
 
+use RuntimeException;
+
 /**
  * Class representing a Cyberpunk Red skill.
  */
@@ -11,49 +13,46 @@ class Skill
 {
     /**
      * Attribute attached to the skill.
-     * @var string
      */
     public string $attribute;
 
     /**
      * Category for the skill.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $category;
 
     /**
      * Description of the skill.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
     /**
      * Longer example of the skill.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $examples;
 
     /**
      * Unique ID for the skill.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $id;
 
     /**
      * Character's level in the skill.
-     * @var int
      */
     public int $level;
 
     /**
      * Name of the skill.
-     * @var string
      */
     public string $name;
 
     /**
      * Page the skill was introduced in.
-     * @var int
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public int $page;
 
@@ -65,9 +64,8 @@ class Skill
 
     /**
      * Constructor.
-     * @param string $id
-     * @param int $level
-     * @throws \RuntimeException If the skill isn't valid
+     * @psalm-suppress PossiblyUnusedMethod
+     * @throws RuntimeException If the skill isn't valid
      */
     public function __construct(string $id, int $level = 0)
     {
@@ -76,7 +74,7 @@ class Skill
 
         $id = \strtolower($id);
         if (!isset(self::$skills[$id])) {
-            throw new \RuntimeException(\sprintf(
+            throw new RuntimeException(\sprintf(
                 'Skill ID "%s" is invalid',
                 $id
             ));
@@ -93,10 +91,6 @@ class Skill
         $this->page = $skill['page'];
     }
 
-    /**
-     * Return the skill's name.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;
@@ -104,8 +98,7 @@ class Skill
 
     /**
      * Return the number of dice the character rolls for the skill.
-     * @param Character $character
-     * @return int
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getBase(Character $character): int
     {
@@ -115,7 +108,7 @@ class Skill
 
     /**
      * Return the shortened version of a skill's attribute.
-     * @return string
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getShortAttribute(): string
     {

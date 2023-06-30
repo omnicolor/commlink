@@ -8,6 +8,7 @@ use RuntimeException;
 
 /**
  * A power that sprites can use.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class SpritePower
 {
@@ -25,7 +26,6 @@ class SpritePower
 
     /**
      * Constructor.
-     * @param string $id ID to load
      * @throws RuntimeException if the ID is not found
      */
     public function __construct(string $id)
@@ -48,10 +48,6 @@ class SpritePower
         $this->ruleset = $power['ruleset'];
     }
 
-    /**
-     * Return the power as a string.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;

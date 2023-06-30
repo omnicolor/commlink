@@ -19,12 +19,9 @@ class Metadata extends Component
 
     /**
      * Get the view / contents that represent the component.
-     * @return View
      */
     public function render(): View
     {
-        /** @var View */
-        $view = view('components.shadowrun5e.metadata');
-        return $view;
+        return view('components.shadowrun5e.metadata');
     }
 }

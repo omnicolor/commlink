@@ -39,15 +39,11 @@ use RuntimeException;
 
 /**
  * Controller for interacting with Shadowrun 5E characters.
- * @psalm-suppress UnusedClass
  */
 class CharactersController extends Controller
 {
     /**
      * Return the next step for the character.
-     * @param string $step Current step
-     * @param PartialCharacter $character
-     * @return ?string
      */
     protected function nextStep(
         string $step,
@@ -113,9 +109,6 @@ class CharactersController extends Controller
 
     /**
      * Based on the current step, return the previous step.
-     * @param string $step
-     * @param PartialCharacter $character
-     * @return ?string
      */
     protected function previousStep(
         string $step,
@@ -182,10 +175,6 @@ class CharactersController extends Controller
     /**
      * Redirect the user where they need to go based on which save button they
      * clicked.
-     * @param string $direction Next or prev
-     * @param string $step Current step
-     * @param PartialCharacter $character
-     * @return RedirectResponse
      */
     protected function redirect(
         string $direction,
@@ -1120,7 +1109,7 @@ class CharactersController extends Controller
                 ];
                 continue;
             }
-            // @phpstan-ignore-next-line
+
             if ('Allergy' === Quality::$qualities[$id]['name']) {
                 $qualities[] = [
                     'id' => $id,

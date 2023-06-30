@@ -10,6 +10,7 @@ use App\Models\StarTrekAdventures\Traits;
 
 /**
  * Human species.
+ * @psalm-suppress UnusedClass
  */
 class Human extends Species
 {

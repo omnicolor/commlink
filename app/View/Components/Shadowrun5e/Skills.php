@@ -15,7 +15,6 @@ class Skills extends Component
 {
     /**
      * Whether the character is still being built.
-     * @var bool
      */
     public bool $charGen;
 
@@ -25,10 +24,6 @@ class Skills extends Component
      */
     public array $skillGroups;
 
-    /**
-     * Character's individual skills.
-     * @var SkillArray
-     */
     public SkillArray $skills;
 
     /**
@@ -43,12 +38,9 @@ class Skills extends Component
 
     /**
      * Get the view that represents the component.
-     * @return View
      */
     public function render(): View
     {
-        /** @var View */
-        $view = view('components.shadowrun5e.skills');
-        return $view;
+        return view('components.shadowrun5e.skills');
     }
 }

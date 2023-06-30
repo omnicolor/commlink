@@ -13,73 +13,68 @@ class Power
 
     /**
      * How the power gets activated.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $activation;
 
     /**
      * Boosts that are available for the power.
-     * @var BoostArray
      */
     public BoostArray $availableBoosts;
 
     /**
      * Boosts the character has chosen for the power.
-     * @var BoostArray
      */
     public BoostArray $boosts;
 
     /**
      * Short description of the power.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
     /**
      * How long the power lasts.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $duration;
 
     /**
      * Description of the power's effects.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $effect;
 
     /**
      * Unique ID for the power.
-     * @var string
      */
     public string $id;
 
     /**
      * Maximum number of ranks a character can have for the power.
-     * @var int
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public int $maxRank;
 
     /**
      * Name of the power.
-     * @var string
      */
     public string $name;
 
     /**
      * Description of the power's range (if it has one).
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $range;
 
     /**
      * What the power affects.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $target;
 
     /**
      * Type of power: Major or Minor.
-     * @var string
      */
     public string $type;
 
@@ -90,8 +85,6 @@ class Power
 
     /**
      * Constructor.
-     * @param string $id
-     * @param int $rank
      * @param array<int, string> $boosts
      */
     public function __construct(
@@ -143,6 +136,7 @@ class Power
         return $this->name;
     }
 
+    /** @psalm-suppress PossiblyUnusedMethod */
     public static function all(): PowerArray
     {
         $filename = config('app.data_path.capers') . 'powers.php';
