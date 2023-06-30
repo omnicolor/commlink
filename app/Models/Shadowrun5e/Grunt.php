@@ -8,6 +8,7 @@ use RuntimeException;
 
 /**
  * Representation of a Shadowrun 5E grunt.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class Grunt
 {
@@ -22,6 +23,7 @@ class Grunt
     public string $description;
     public float $essence = 6.0;
     public GearArray $gear;
+    public string $id;
     public ?int $initiate_grade = null;
     public int $initiative_base;
     public int $initiative_dice = 1;
@@ -48,20 +50,20 @@ class Grunt
      */
     public static ?array $grunts;
 
-    public function __construct(public string $id)
+    public function __construct(string $id)
     {
         $filename = config('app.data_path.shadowrun5e') . 'grunts.php';
         self::$grunts ??= require $filename;
 
-        $id = \strtolower($id);
-        if (!isset(self::$grunts[$id])) {
+        $this->id = \strtolower($id);
+        if (!isset(self::$grunts[$this->id])) {
             throw new RuntimeException(\sprintf(
                 'Grunt ID "%s" was not found',
                 $id,
             ));
         }
 
-        $grunt = self::$grunts[$id];
+        $grunt = self::$grunts[$this->id];
         $this->agility = $grunt['agility'];
         $this->body = $grunt['body'];
         $this->charisma = $grunt['charisma'];
@@ -177,6 +179,9 @@ class Grunt
         return $this->name;
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function getArmorValue(): int
     {
         $rating = 0;
@@ -188,6 +193,7 @@ class Grunt
     }
 
     /**
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, Grunt>
      */
     public static function all(): array

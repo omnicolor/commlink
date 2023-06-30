@@ -8,30 +8,27 @@ use RuntimeException;
 
 /**
  * Something to add to a character's weapon.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class WeaponModification
 {
     /**
      * Availability code for the modification.
-     * @var string
      */
     public string $availability;
 
     /**
      * Cost of the modification.
-     * @var ?int
      */
     public ?int $cost;
 
     /**
      * Cost modifier for the modification.
-     * @var ?int
      */
     public ?int $costModifier;
 
     /**
      * Description of the modification.
-     * @var string
      */
     public string $description;
 
@@ -43,37 +40,33 @@ class WeaponModification
 
     /**
      * ID of the modification.
-     * @var string
      */
     public string $id;
 
     /**
      * List of modifications this is incompatible with.
-     * @var string[]
+     * @var array<int, string>
      */
     public array $incompatibleWith;
 
     /**
      * List of locations the modification can be installed on.
-     * @var string[]
+     * @var array<int, string>
      */
     public array $mount;
 
     /**
      * Name of the modification.
-     * @var string
      */
     public string $name;
 
     /**
      * Ruleset the modification comes from.
-     * @var string
      */
     public string $ruleset;
 
     /**
      * Type of modification (accessory or modification).
-     * @var string
      */
     public string $type;
 
@@ -125,8 +118,6 @@ class WeaponModification
 
     /**
      * Return the cost of the modification.
-     * @param Weapon $weapon
-     * @return int
      */
     public function getCost(Weapon $weapon): int
     {
@@ -138,8 +129,6 @@ class WeaponModification
 
     /**
      * Find a weapon modification by its name.
-     * @param string $name
-     * @return WeaponModification
      * @throws RuntimeException
      */
     public static function findByName(string $name): WeaponModification

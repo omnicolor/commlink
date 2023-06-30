@@ -6,6 +6,9 @@ namespace App\Models\Cyberpunkred;
 
 use RuntimeException;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class Lifepath
 {
     /**

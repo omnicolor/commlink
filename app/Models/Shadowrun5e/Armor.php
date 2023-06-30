@@ -14,73 +14,69 @@ class Armor
 {
     /**
      * Whether the armor is currently active.
-     * @var bool
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public bool $active = false;
 
     /**
      * Availability code.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $availability;
 
     /**
      * Cost of the item.
-     * @var int
      */
     public int $cost;
 
     /**
      * Description of the item.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
     /**
      * List of additional effects of the armor.
+     * @psalm-suppress PossiblyUnusedProperty
      * @var array<string, int>
      */
     public array $effects = [];
 
     /**
      * Name of the item.
-     * @var string
      */
     public string $name;
 
     /**
      * ID of the item.
-     * @var string
      */
     public string $id;
 
     /**
      * Modifications to the item.
-     * @var ArmorModificationArray
      */
     public ArmorModificationArray $modifications;
 
     /**
      * Page the armor was introduced on.
-     * @var ?int
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public ?int $page;
 
     /**
      * Armor rating.
-     * @var int
      */
     public int $rating;
 
     /**
      * Armor rating for stacking.
-     * @var ?int
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public ?int $stackRating;
 
     /**
      * Rulebook for the item.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $ruleset;
 
@@ -92,7 +88,6 @@ class Armor
 
     /**
      * Construct a new armor object.
-     * @param string $id ID to load.
      * @throws RuntimeException if the ID is invalid.
      */
     public function __construct(string $id)
@@ -125,7 +120,6 @@ class Armor
 
     /**
      * Return the name of the armor.
-     * @return string
      */
     public function __toString(): string
     {
@@ -135,7 +129,6 @@ class Armor
     /**
      * Build a new Armor object from a raw Mongo array.
      * @param array<string, mixed> $armor
-     * @return Armor
      * @throws RuntimeException
      */
     public static function build(array $armor): Armor
@@ -165,8 +158,6 @@ class Armor
 
     /**
      * Return an armor based on its name.
-     * @param string $name
-     * @return Armor
      * @throws RuntimeException
      */
     public static function findByName(string $name): Armor
@@ -186,7 +177,7 @@ class Armor
 
     /**
      * Return the cost of the armor, including modifications.
-     * @return int
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getCost(): int
     {
@@ -199,7 +190,6 @@ class Armor
 
     /**
      * Return the modified rating of this armor.
-     * @return int
      */
     public function getModifiedRating(): int
     {

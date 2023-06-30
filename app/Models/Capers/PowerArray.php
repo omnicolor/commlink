@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\Models\Capers;
 
+use ArrayObject;
+use TypeError;
+
 /**
  * Collection of Powers.
- * @extends \ArrayObject<int|string, Power>
+ * @extends ArrayObject<int|string, Power>
  */
-class PowerArray extends \ArrayObject
+class PowerArray extends ArrayObject
 {
     /**
      * Add a power to the array.
      * @param int|null|string $index
      * @param Power $power
-     * @throws \TypeError
+     * @throws TypeError
      */
     public function offsetSet($index = null, $power = null): void
     {
@@ -22,6 +25,6 @@ class PowerArray extends \ArrayObject
             parent::offsetSet($index, $power);
             return;
         }
-        throw new \TypeError('PowerArray only accepts Power objects');
+        throw new TypeError('PowerArray only accepts Power objects');
     }
 }

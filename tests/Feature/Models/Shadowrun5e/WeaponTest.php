@@ -180,11 +180,9 @@ final class WeaponTest extends \Tests\TestCase
         // Break the data file
         // @phpstan-ignore-next-line
         $originalMods = Weapon::$weapons['ares-predator-v']['modifications'];
-        // @phpstan-ignore-next-line
         Weapon::$weapons['ares-predator-v']['modifications'] = ['invalid'];
         $weapon = new Weapon('ares-predator-v');
         self::assertEmpty($weapon->modifications);
-        // @phpstan-ignore-next-line
         Weapon::$weapons['ares-predator-v']['modifications'] = $originalMods;
     }
 

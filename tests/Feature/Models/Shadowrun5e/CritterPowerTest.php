@@ -47,4 +47,14 @@ final class CritterPowerTest extends TestCase
         self::assertSame(CritterPower::RANGE_LOS, $power->range);
         self::assertSame(CritterPOwer::TYPE_PHYSICAL, $power->type);
     }
+
+    /**
+     * Test loading a valid power with a subname.
+     * @test
+     */
+    public function testLoadWithSubname(): void
+    {
+        $power = new CritterPower('accident', 'Prone');
+        self::assertSame('Accident Prone', $power->name);
+    }
 }

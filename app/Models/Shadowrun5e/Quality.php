@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use RuntimeException;
+
 /**
  * Quality (positive or negative) a character possesses.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class Quality
 {
     /**
      * Description of the quality and its effects.
-     * @var string
      */
     public string $description;
 
@@ -23,51 +25,45 @@ class Quality
 
     /**
      * ID of the quality.
-     * @var string
      */
     public string $id;
 
     /**
      * List of qualities or augmentations this is incompatible with.
-     * @var string[]
+     * @var array<int, string>
      */
     public array $incompatibilities = [];
 
     /**
      * Amount of karma quality is worth.
-     * @var int
      */
     public int $karma;
 
     /**
      * Name of the quality.
-     * @var string
      */
     public string $name;
 
     /**
      * Book quality is described in.
-     * @var string
      */
     public string $ruleset = 'core';
 
     /**
      * Type of quality for those that need it.
-     * @var ?string
      */
     public ?string $type;
 
     /**
      * List of all qualities.
-     * @var ?array<string, mixed>
+     * @var ?array<string, array<string, mixed>>
      */
     public static ?array $qualities;
 
     /**
      * Build a new quality object.
-     * @param string $id ID of the quality to load
      * @param array<string, mixed> $raw Raw quality from the data store
-     * @throws \RuntimeException If the ID is invalid
+     * @throws RuntimeException If the ID is invalid
      */
     public function __construct(string $id, array $raw = [])
     {
@@ -75,7 +71,7 @@ class Quality
         self::$qualities ??= require $filename;
         $id = \strtolower($id);
         if (!isset(self::$qualities[$id])) {
-            throw new \RuntimeException(\sprintf(
+            throw new RuntimeException(\sprintf(
                 'Quality ID "%s" is invalid',
                 $id
             ));
@@ -142,7 +138,7 @@ class Quality
      * Return a quality based on its name.
      * @param string $name
      * @return Quality
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public static function findByName(string $name): Quality
     {
@@ -153,7 +149,7 @@ class Quality
                 return new Quality($quality['id']);
             }
         }
-        throw new \RuntimeException(\sprintf(
+        throw new RuntimeException(\sprintf(
             'Quality name "%s" was not found',
             $name
         ));

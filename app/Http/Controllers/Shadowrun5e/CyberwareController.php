@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shadowrun5e;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Controller for Shadowrun augmentations.
  */
-class CyberwareController extends \App\Http\Controllers\Controller
+class CyberwareController extends Controller
 {
     /**
      * Path to the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class CyberwareController extends \App\Http\Controllers\Controller
      */
     protected array $augmentations;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -40,11 +37,10 @@ class CyberwareController extends \App\Http\Controllers\Controller
 
     /**
      * Get the entire collection of Shadowrun 5E augmentations.
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
-        foreach ($this->augmentations as $key => $unused) {
+        foreach (array_keys($this->augmentations) as $key) {
             $this->augmentations[$key]['links'] = [
                 'self' => \sprintf(
                     '/api/shadowrun5e/cyberware/%s',
@@ -66,8 +62,6 @@ class CyberwareController extends \App\Http\Controllers\Controller
 
     /**
      * Return a single Shadowrun 5E augmentation.
-     * @param string $id
-     * @return \Illuminate\Http\Response
      */
     public function show(string $id): Response
     {

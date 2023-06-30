@@ -28,6 +28,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse
 
 /**
  * Controller for handling Slack requests.
+ * @psalm-suppress UnusedClass
  */
 class SlackController extends Controller
 {
@@ -35,19 +36,17 @@ class SlackController extends Controller
 
     /**
      * Arguments to the roll bot.
-     * @var string[]
+     * @var array<int, string>
      */
     protected array $args;
 
     /**
      * Raw (unparsed) text of the command.
-     * @var string
      */
     protected string $text;
 
     /**
      * Return a response for an OPTIONS request.
-     * @return Response
      */
     public function options(): Response
     {
@@ -137,8 +136,6 @@ class SlackController extends Controller
 
     /**
      * Handle a POST from Slack.
-     * @param SlackRequest $request
-     * @return SlackResponse
      */
     public function post(SlackRequest $request): ?SlackResponse
     {
@@ -244,9 +241,6 @@ class SlackController extends Controller
 
     /**
      * Get the channel attached to the request.
-     * @param string $team Slack team ID (server)
-     * @param string $channel Slack channel ID
-     * @return Channel
      */
     protected function getChannel(string $team, string $channel): Channel
     {
