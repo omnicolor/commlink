@@ -20,15 +20,10 @@ class CharacterFactory extends Factory
 
     /**
      * Define the model's default state.
-     * @return array<string, string|array<string, int|string>>
+     * @return array<string, string|array<int|string, int|string>>
      */
     public function definition(): array
     {
-        $species = [
-            'Human',
-        ];
-        $talents = [
-        ];
         return [
             'attributes' => [
                 'control' => $this->faker->numberBetween(7, 12),
@@ -46,16 +41,10 @@ class CharacterFactory extends Factory
                 'science' => $this->faker->numberBetween(0, 5),
                 'security' => $this->faker->numberBetween(0, 5),
             ],
-            'equipment' => [],
-            'focuses' => [],
-            'injuries' => [],
             'name' => $this->faker->name,
             'owner' => $this->faker->email,
-            'species' => $this->faker->randomElement($species),
+            'species' => 'Human',
             'system' => 'star-trek-adventures',
-            'talents' => $talents,
-            'values' => [],
-            'weapons' => [],
         ];
     }
 }

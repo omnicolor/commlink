@@ -16,6 +16,9 @@ use League\Flysystem\UnableToCreateDirectory;
 use ParseError;
 use Throwable;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class VarzController extends Controller
 {
     /**

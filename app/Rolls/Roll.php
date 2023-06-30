@@ -15,49 +15,41 @@ abstract class Roll
 {
     /**
      * Campaign, if one is linked to the channel.
-     * @var ?Campaign
      */
     protected ?Campaign $campaign;
 
     /**
      * Character, if one is linked to the channel.
-     * @var ?Character
      */
     protected ?Character $character;
 
     /**
      * Linked user, if one exists.
-     * @var ?ChatUser
      */
     protected ?ChatUser $chatUser;
 
     /**
      * Original text entered by the user.
-     * @var string
      */
     protected string $content;
 
     /**
      * Optional description the user added for the roll.
-     * @var string
      */
     protected string $description = '';
 
     /**
      * Optional footer of the roll.
-     * @var string
      */
     protected string $footer = '';
 
     /**
      * Text of the roll.
-     * @var string
      */
     protected string $text = '';
 
     /**
      * Title for the roll.
-     * @var string
      */
     protected string $title = '';
 

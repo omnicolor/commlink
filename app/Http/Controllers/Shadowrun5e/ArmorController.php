@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shadowrun5e;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Controller for Shadowrun armor.
  */
-class ArmorController extends \App\Http\Controllers\Controller
+class ArmorController extends Controller
 {
     /**
      * Path to the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class ArmorController extends \App\Http\Controllers\Controller
      */
     protected array $armor;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -40,11 +37,10 @@ class ArmorController extends \App\Http\Controllers\Controller
 
     /**
      * Get the entire collection of Shadowrun 5E armor.
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
-        foreach ($this->armor as $key => $value) {
+        foreach (array_keys($this->armor) as $key) {
             $this->armor[$key]['links'] = [
                 'self' => \sprintf(
                     '/api/shadowrun5e/armor/%s',
@@ -65,8 +61,6 @@ class ArmorController extends \App\Http\Controllers\Controller
 
     /**
      * Return a single 5E armor.
-     * @param string $id
-     * @return \Illuminate\Http\Response
      */
     public function show(string $id): Response
     {

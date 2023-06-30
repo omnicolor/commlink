@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shadowrun5e;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Controller for metamagics.
  */
-class MetamagicsController extends \App\Http\Controllers\Controller
+class MetamagicsController extends Controller
 {
     /**
      * Path to the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class MetamagicsController extends \App\Http\Controllers\Controller
      */
     protected array $magics;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -41,11 +38,10 @@ class MetamagicsController extends \App\Http\Controllers\Controller
 
     /**
      * Return the entire collection of metamagics.
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
-        foreach ($this->magics as $key => $unused) {
+        foreach (array_keys($this->magics) as $key) {
             $this->magics[$key]['links'] = [
                 'self' => \sprintf(
                     '/api/shadowrun5e/metamagics/%s',
@@ -66,8 +62,6 @@ class MetamagicsController extends \App\Http\Controllers\Controller
 
     /**
      * Return a single metamagic.
-     * @param string $identifier
-     * @return \Illuminate\Http\Response
      */
     public function show(string $identifier): Response
     {

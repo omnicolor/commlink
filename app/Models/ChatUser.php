@@ -7,11 +7,15 @@ namespace App\Models;
 use App\Models\Traits\InteractsWithDiscord;
 use App\Models\Traits\InteractsWithSlack;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * @property-read string $verification
+ */
 class ChatUser extends Model
 {
     use HasFactory;
@@ -42,7 +46,7 @@ class ChatUser extends Model
 
     /**
      * Return the chat character linked to this user.
-     * @return HasOne
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function chatCharacter(): HasOne
     {
@@ -51,22 +55,24 @@ class ChatUser extends Model
 
     /**
      * Return the verification hash for the user.
-     * @return string
      */
-    public function getVerificationAttribute(): string
+    public function verification(): Attribute
     {
-        $hash = \sha1(
-            config('app.key') . $this->attributes['server_id']
-                . $this->attributes['remote_user_id']
-                . $this->attributes['user_id']
+        return Attribute::make(
+            get: function (): string {
+                $hash = \sha1(
+                    config('app.key') . $this->attributes['server_id']
+                        . $this->attributes['remote_user_id']
+                        . $this->attributes['user_id']
+                );
+                return \substr($hash, 0, 20);
+            },
         );
-        return \substr($hash, 0, 20);
     }
 
     /**
      * Scope the query to only include Discord accounts.
-     * @param Builder $query
-     * @return Builder
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function scopeDiscord(Builder $query): Builder
     {
@@ -75,8 +81,7 @@ class ChatUser extends Model
 
     /**
      * Scope the query to only include Slack accounts.
-     * @param Builder $query
-     * @return Builder
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function scopeSlack(Builder $query): Builder
     {
@@ -85,8 +90,7 @@ class ChatUser extends Model
 
     /**
      * Scope the query to only include unverified users.
-     * @param Builder $query
-     * @return Builder
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function scopeUnverified(Builder $query): Builder
     {
@@ -95,8 +99,7 @@ class ChatUser extends Model
 
     /**
      * Scope the query to only include verified users.
-     * @param Builder $query
-     * @return Builder
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function scopeVerified(Builder $query): Builder
     {
@@ -105,7 +108,7 @@ class ChatUser extends Model
 
     /**
      * Get the user attached to this Chat User.
-     * @return BelongsTo
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function user(): BelongsTo
     {

@@ -33,6 +33,10 @@ class CharacterFactory extends Factory
      */
     protected static ?array $socialClasses;
 
+    /**
+     * @psalm-suppress MixedArgument
+     * @psalm-suppress MissingParamType
+     */
     public function __construct(...$args)
     {
         parent::__construct(...$args);
@@ -42,16 +46,25 @@ class CharacterFactory extends Factory
         }
     }
 
+    /**
+     * @psalm-suppress PossiblyInvalidCast
+     */
     protected function loadBackgrounds(): void
     {
-        $filename = config('app.data_path.expanse') . 'backgrounds.php';
+        $filename = (string)config('app.data_path.expanse') . 'backgrounds.php';
+        /** @var array<string, array<string, string>> */
         $backgrounds = require $filename;
         self::$backgrounds = array_keys($backgrounds);
     }
 
+    /**
+     * @psalm-suppress PossiblyInvalidCast
+     */
     protected function loadSocialClasses(): void
     {
-        $filename = config('app.data_path.expanse') . 'social-classes.php';
+        $filename = (string)config('app.data_path.expanse')
+            . 'social-classes.php';
+        /** @var array<string, array<string, string>> */
         $classes = require $filename;
         self::$socialClasses = array_keys($classes);
     }
@@ -63,11 +76,11 @@ class CharacterFactory extends Factory
     public function definition(): array
     {
         return [
-            'background' => $this->faker->randomElement(self::$backgrounds),
+            'background' => (string)$this->faker->randomElement(self::$backgrounds),
             'name' => $this->faker->name,
-            'origin' => $this->faker->randomElement($this->origins),
+            'origin' => (string)$this->faker->randomElement($this->origins),
             'owner' => $this->faker->email,
-            'socialClass' => $this->faker->randomElement(self::$socialClasses),
+            'socialClass' => (string)$this->faker->randomElement(self::$socialClasses),
             'system' => 'expanse',
         ];
     }

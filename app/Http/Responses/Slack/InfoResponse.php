@@ -12,15 +12,13 @@ use App\Models\Slack\FieldsAttachment;
 
 /**
  * Slack response to return information about the channel.
+ * @psalm-suppress UnusedClass
  */
 class InfoResponse extends SlackResponse
 {
     /**
      * Constructor.
-     * @param string $content
-     * @param int $status
      * @param array<string, string> $headers
-     * @param ?Channel $channel
      */
     public function __construct(
         string $content = '',
@@ -60,9 +58,6 @@ class InfoResponse extends SlackResponse
 
     /**
      * Return the character's name that is linked to the channel, or null.
-     * @param ?ChatUser $user
-     * @param ?Channel $channel
-     * @return string
      */
     protected function getCharacterName(
         ?ChatUser $user,
