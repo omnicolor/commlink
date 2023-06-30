@@ -33,10 +33,10 @@ class ChannelFactory extends Factory
             'registered_by' => $this->createUser()->id,
             'server_id' => Str::random(10),
             'server_name' => $this->faker->company(),
-            'system' => $this->faker->randomElement(
-                \array_keys(config('app.systems'))
+            'system' => (string)$this->faker->randomElement(
+                \array_keys((array)config('app.systems'))
             ),
-            'type' => $this->faker->randomElement(Channel::VALID_TYPES),
+            'type' => (string)$this->faker->randomElement(Channel::VALID_TYPES),
         ];
     }
 }

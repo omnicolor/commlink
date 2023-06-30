@@ -22,6 +22,7 @@ use RuntimeException;
  * @method int getStrength()
  * @method int getWillpower()
  * @method int getResonance()
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class Spirit
 {
@@ -29,85 +30,71 @@ class Spirit
 
     /**
      * Spirit's agility.
-     * @var string
      */
     public string $agility;
 
     /**
      * Spirit's body.
-     * @var string
      */
     public string $body;
 
     /**
      * Whether the spirit has been bound by the caster.
-     * @var bool
      */
     public bool $bound = false;
 
     /**
      * Spirit's charisma.
-     * @var string
      */
     public string $charisma;
 
     /**
      * Spirit's edge.
-     * @var string
      */
     public string $edge;
 
     /**
      * Spirit's essence.
-     * @var string
      */
     public string $essence;
 
     /**
      * Spirit's ID.
-     * @var string
      */
     public string $id;
 
     /**
      * Spirit's astral initiative.
-     * @var string
      */
     public string $initiativeAstral;
 
     /**
      * Spirit's meat-space initiative.
-     * @var string
      */
     public string $initiative;
 
     /**
      * Spirit's intuition.
-     * @var string
      */
     public string $intuition;
 
     /**
      * Spirit's logic.
-     * @var string
      */
     public string $logic;
 
     /**
      a *Spirit's name.
-     * @var string
      */
     public string $name;
 
     /**
      * Spirit's magic rating.
-     * @var string
      */
     public string $magic;
 
     /**
      * Page number the spirit type was introduced on.
-     * @var int
      */
     public int $page;
 
@@ -125,49 +112,43 @@ class Spirit
 
     /**
      * Spirit's reaction.
-     * @var string
      */
     public string $reaction;
 
     /**
      * Ruleset the spirit type was introduced in.
-     * @var string
      */
     public string $ruleset;
 
     /**
      * Services the spirit owes the conjuror.
-     * @var int
      */
     public int $services;
 
     /**
      * Collection of the spirit's skills.
-     * @var string[]
+     * @var array<int, string>
      */
     public array $skills = [];
 
     /**
      * Any special information about the spirit.
-     * @var ?string
      */
     public ?string $special;
 
     /**
      * Spirit's strength.
-     * @var string
      */
     public string $strength;
 
     /**
      * Spirit's willpower.
-     * @var string
      */
     public string $willpower;
 
     /**
      * List of all spirits.
-     * @var ?array<mixed>
+     * @var ?array<string, array<string, mixed>>
      */
     public static ?array $spirits;
 
@@ -221,6 +202,8 @@ class Spirit
      * Return an attribute with the force taken into account.
      * @param string $name Name of the method: getAgility, getBody, etc
      * @param array<mixed> $arguments Unused
+     * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-suppress PossiblyUnusedParam
      * @returns int
      * @throws BadMethodCallException
      * @throws RuntimeException
@@ -281,7 +264,8 @@ class Spirit
 
     /**
      * Get the spirit's astral initiative.
-     * @return int[] [base initiative, initiative dice]
+     * @psalm-suppress PossiblyUnusedMethod
+     * @return array<int, int> [base initiative, initiative dice]
      */
     public function getAstralInitiative(): array
     {
@@ -292,7 +276,8 @@ class Spirit
 
     /**
      * Get the spirit's normal initiative.
-     * @return int[] [base initiative, initiative dice]
+     * @psalm-suppress PossiblyUnusedMethod
+     * @return array<int, int> [base initiative, initiative dice]
      */
     public function getInitiative(): array
     {
@@ -303,6 +288,7 @@ class Spirit
 
     /**
      * Return all of the spirit's powers.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, CritterPower>
      */
     public function getPowers(): array
@@ -328,8 +314,7 @@ class Spirit
 
     /**
      * Set the force of the spirit.
-     * @param int $force
-     * @return Spirit
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function setForce(int $force): Spirit
     {

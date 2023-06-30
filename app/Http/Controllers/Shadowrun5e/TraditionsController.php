@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shadowrun5e;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Traditions route.
  */
-class TraditionsController extends \App\Http\Controllers\Controller
+class TraditionsController extends Controller
 {
     /**
      * Path to the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class TraditionsController extends \App\Http\Controllers\Controller
      */
     protected array $traditions;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -41,11 +38,10 @@ class TraditionsController extends \App\Http\Controllers\Controller
 
     /**
      * Get the entire collection.
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
-        foreach ($this->traditions as $key => $unused) {
+        foreach (array_keys($this->traditions) as $key) {
             $this->traditions[$key]['links'] = [
                 'self' => \sprintf(
                     '/api/shadowrun5e/traditions/%s',
@@ -66,8 +62,6 @@ class TraditionsController extends \App\Http\Controllers\Controller
 
     /**
      * Get a single tradition.
-     * @param string $identifier
-     * @return \Illuminate\Http\Response
      */
     public function show(string $identifier): Response
     {

@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shadowrun5e;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Controller for qualities.
  */
-class QualitiesController extends \App\Http\Controllers\Controller
+class QualitiesController extends Controller
 {
     /**
      * Filename for all of the data.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class QualitiesController extends \App\Http\Controllers\Controller
      */
     protected array $qualities;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -40,11 +37,10 @@ class QualitiesController extends \App\Http\Controllers\Controller
 
     /**
      * Return a collection of qualities.
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
-        foreach ($this->qualities as $key => $value) {
+        foreach (array_keys($this->qualities) as $key) {
             $this->qualities[$key]['links']['self'] = \sprintf(
                 '/api/shadowrun5e/qualities/%s',
                 \urlencode($key)
@@ -63,8 +59,6 @@ class QualitiesController extends \App\Http\Controllers\Controller
 
     /**
      * Show a single Quality.
-     * @param string $qualityId
-     * @return \Illuminate\Http\Response
      */
     public function show(string $qualityId): Response
     {

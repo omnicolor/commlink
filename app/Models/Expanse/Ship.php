@@ -12,25 +12,36 @@ use RuntimeException;
  */
 class Ship
 {
+    /** @psalm-suppress PossiblyUnusedProperty */
     public ?CrewCompetence $competence;
+    /** @psalm-suppress PossiblyUnusedProperty */
     public ?int $crew_minimum;
+    /** @psalm-suppress PossiblyUnusedProperty */
     public ?int $crew_standard;
+    /** @psalm-suppress PossiblyUnusedProperty */
     public ?string $favored_range;
+    /** @psalm-suppress PossiblyUnusedProperty */
     public bool $has_epstein;
     public string $id;
+    /** @psalm-suppress PossiblyUnusedProperty */
     public string $length;
     public string $name;
+    /** @psalm-suppress PossiblyUnusedProperty */
     public int $page;
+    /** @psalm-suppress PossiblyUnusedProperty */
     public string $ruleset;
+    /** @psalm-suppress PossiblyUnusedProperty */
     public int $sensors;
     public ShipSize $size;
 
     /**
+     * @psalm-suppress PossiblyUnusedProperty
      * @var array<int, string>
      */
     public array $favored_stunts;
 
     /**
+     * @psalm-suppress PossiblyUnusedProperty
      * @var array<int, string>
      */
     public array $flaws;
@@ -122,6 +133,7 @@ class Ship
 
     /**
      * Return all ships.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, Ship>
      */
     public static function all(): array

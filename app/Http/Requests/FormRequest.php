@@ -6,6 +6,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest as BaseRequest;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 abstract class FormRequest extends BaseRequest
 {
     /**

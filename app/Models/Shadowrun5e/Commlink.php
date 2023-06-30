@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use RuntimeException;
+
 /**
  * Commlink class.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class Commlink extends Gear
 {
@@ -17,52 +20,46 @@ class Commlink extends Gear
 
     /**
      * Whether the deck's attributes are configurable.
-     * @var bool
      */
     public bool $configurable = false;
 
     /**
      * Marks the device has on others.
-     * @var array<mixed>
+     * @var array<string, int>
      */
     public array $marks = [];
 
     /**
      * Overwatch score for the device.
-     * @var int
      */
     public int $overwatch = 0;
 
     /**
      * Programs the commlink or deck has availabile.
-     * @var ProgramArray
      */
     public ProgramArray $programs;
 
     /**
      * Number of programs allowed by the deck (not including extras from Virtual
      * Machine program or Program Carrier module).
-     * @var int
      */
     public int $programsAllowed = 0;
 
     /**
      * Collection of programs installed on the deck, though not necessarily
      * running.
-     * @var ProgramArray
      */
     public ProgramArray $programsInstalled;
 
     /**
      * Collection of currently running programs.
-     * @var ProgramArray
      */
     public ProgramArray $programsRunning;
 
     /**
      * Ordered (ASDF) collection of attributes for the device (reconfigured by
      * the user).
-     * @var int[]
+     * @var array<int, int>
      */
     public array $setAttributes = [];
 
@@ -74,15 +71,11 @@ class Commlink extends Gear
 
     /**
      * ID of the SIN the commlink is broadcasting.
-     * @var ?int
      */
     public ?int $sin;
 
     /**
-     * Construct a new Commlink object.
-     * @param string $id ID to load
-     * @param int $quantity Number of items
-     * @throws \RuntimeException if ID is invalid
+     * @throws RuntimeException if ID is invalid
      */
     public function __construct(string $id, int $quantity = 1)
     {
@@ -113,7 +106,7 @@ class Commlink extends Gear
 
     /**
      * Return the number of boxen in the item's matrix condition monitor.
-     * @return int
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getConditionMonitor(): int
     {
@@ -125,7 +118,6 @@ class Commlink extends Gear
 
     /**
      * Return the cost of the commlink including modifications and programs.
-     * @return int
      */
     public function getCost(): int
     {

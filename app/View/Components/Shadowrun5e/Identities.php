@@ -14,7 +14,6 @@ class Identities extends Component
 {
     /**
      * Whether the character is still being built.
-     * @var bool
      */
     public bool $charGen;
     public IdentityArray $identities;
@@ -30,12 +29,9 @@ class Identities extends Component
 
     /**
      * Get the view that represents the component.
-     * @return View
      */
     public function render(): View
     {
-        /** @var View */
-        $view = view('components.shadowrun5e.identities');
-        return $view;
+        return view('components.shadowrun5e.identities');
     }
 }
