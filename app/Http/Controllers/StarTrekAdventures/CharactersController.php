@@ -9,6 +9,9 @@ use App\Models\StarTrekAdventures\Character;
 use App\Models\User;
 use Illuminate\View\View;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class CharactersController extends Controller
 {
     /**

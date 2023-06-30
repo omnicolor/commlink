@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Expanse;
 
+use RuntimeException;
+
 /**
  * Expanse character's social class.
  */
@@ -11,19 +13,18 @@ class SocialClass
 {
     /**
      * Description of the social class.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
     /**
      * ID of the social class.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $id;
 
     /**
      * Name of the social class.
-     * @var string
      */
     public string $name;
 
@@ -35,8 +36,7 @@ class SocialClass
 
     /**
      * Constructor.
-     * @param string $id
-     * @throws \RuntimeException if the ID is invalid.
+     * @throws RuntimeException if the ID is invalid.
      */
     public function __construct(string $id)
     {
@@ -45,7 +45,7 @@ class SocialClass
 
         $id = \strtolower($id);
         if (!\array_key_exists($id, self::$classes)) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 \sprintf('Social Class ID "%s" is invalid', $id)
             );
         }
@@ -58,7 +58,6 @@ class SocialClass
 
     /**
      * Return the name of the social class.
-     * @return string
      */
     public function __toString(): string
     {

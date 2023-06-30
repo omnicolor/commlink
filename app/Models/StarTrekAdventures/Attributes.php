@@ -6,6 +6,7 @@ namespace App\Models\StarTrekAdventures;
 
 /**
  * Character attributes.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class Attributes
 {

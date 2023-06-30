@@ -4,57 +4,54 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use RuntimeException;
+
 /**
  * Martial art style.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class MartialArtsStyle
 {
     /**
      * Collection of IDs for techniques the style allows.
-     * @var string[]
+     * @var array<int, string>
      */
     public array $allowedTechniques;
 
     /**
      * Description of the style.
-     * @var string
      */
     public string $description;
 
     /**
      * Unique ID for the style.
-     * @var string
      */
     public string $id;
 
     /**
      * Name of the style.
-     * @var string
      */
     public string $name;
 
     /**
      * Page the style was introduced on.
-     * @var int
      */
     public int $page;
 
     /**
      * ID of the book the style was introduced in.
-     * @var string
      */
     public string $ruleset;
 
     /**
      * Collection of all styles.
-     * @var ?array<mixed>
+     * @var ?array<string, array<string, mixed>>
      */
     public static ?array $styles;
 
     /**
-     * Construct a new Style object.
      * @param string $id ID to load
-     * @throws \RuntimeException if the ID is invalid
+     * @throws RuntimeException if the ID is invalid
      */
     public function __construct(string $id)
     {
@@ -64,7 +61,7 @@ class MartialArtsStyle
 
         $id = \strtolower($id);
         if (!isset(self::$styles[$id])) {
-            throw new \RuntimeException(\sprintf(
+            throw new RuntimeException(\sprintf(
                 'Martial Arts Style ID "%s" is invalid',
                 $id
             ));
@@ -79,10 +76,6 @@ class MartialArtsStyle
         $this->allowedTechniques = $style['techniques'];
     }
 
-    /**
-     * Return the style's name.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;

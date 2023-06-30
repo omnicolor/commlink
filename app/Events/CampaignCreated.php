@@ -9,6 +9,9 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
+/**
+ * @psalm-suppress PossiblyUnusedProperty
+ */
 class CampaignCreated
 {
     use Dispatchable;
@@ -17,7 +20,6 @@ class CampaignCreated
 
     /**
      * Create a new event instance.
-     * @param Campaign $campaign
      */
     public function __construct(public Campaign $campaign)
     {

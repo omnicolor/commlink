@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 /**
  * Collection of social classes in The Expanse.
+ * @return array<string, array<string, string>>
  */
 return [
     /*

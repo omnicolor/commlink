@@ -14,7 +14,6 @@ class SkillsController extends Controller
 {
     /**
      * Filename for all of the skills.
-     * @var string
      */
     protected string $filename;
 
@@ -24,9 +23,6 @@ class SkillsController extends Controller
      */
     protected array $skills;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -41,11 +37,10 @@ class SkillsController extends Controller
 
     /**
      * Return all skills.
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
-        foreach ($this->skills as $key => $value) {
+        foreach (array_keys($this->skills) as $key) {
             $this->skills[$key]['links'] = [
                 'self' => \sprintf(
                     '/api/shadowrun5e/skills/%s',
@@ -65,8 +60,6 @@ class SkillsController extends Controller
 
     /**
      * Return a single skill.
-     * @param string $id
-     * @return \Illuminate\Http\Response
      */
     public function show(string $id): Response
     {
