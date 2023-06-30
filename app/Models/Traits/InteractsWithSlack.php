@@ -13,8 +13,6 @@ trait InteractsWithSlack
 {
     /**
      * Return the name of a Slack channel ID.
-     * @param string $channelId
-     * @return ?string
      */
     public function getSlackChannelName(string $channelId): ?string
     {
@@ -36,7 +34,6 @@ trait InteractsWithSlack
 
     /**
      * Using a Slack team ID, try to return the name of the team.
-     * @return ?string
      */
     public function getSlackTeamName(string $slackTeam): ?string
     {
@@ -63,9 +60,7 @@ trait InteractsWithSlack
 
     /**
      * Given a Slack User ID, return the user's name.
-     * @param string $user
      * @psalm-suppress PossiblyUnusedMethod
-     * @return ?string
      */
     public function getSlackUserName(string $user): ?string
     {

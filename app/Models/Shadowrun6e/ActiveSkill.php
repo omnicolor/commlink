@@ -8,6 +8,7 @@ use RuntimeException;
 
 /**
  * Representation of a Shadowrun sixth edition skill.
+ * @psalm-suppress UnusedClass
  */
 class ActiveSkill
 {

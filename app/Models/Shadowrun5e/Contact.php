@@ -6,18 +6,17 @@ namespace App\Models\Shadowrun5e;
 
 /**
  * Contacts, because it's all about who you know.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class Contact
 {
     /**
      * Archetype for the contact.
-     * @var string
      */
     public string $archetype;
 
     /**
      * Numerical rating for how connected the contact is in the world.
-     * @var int
      */
     public ?int $connection;
 
@@ -30,25 +29,21 @@ class Contact
 
     /**
      * Notes the GM has made about the contect, not shown to players.
-     * @var string
      */
     public ?string $gmNotes;
 
     /**
      * Numerical rating for how loyal the contact is to the character.
-     * @var ?int
      */
     public ?int $loyalty;
 
     /**
      * Contact's street name.
-     * @var string
      */
     public string $name;
 
     /**
      * Notes about the contact.
-     * @var string
      */
     public ?string $notes;
 
@@ -66,10 +61,6 @@ class Contact
         $this->notes = $data['notes'] ?? '';
     }
 
-    /**
-     * Return the contact as a string.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;

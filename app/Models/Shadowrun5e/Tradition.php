@@ -6,18 +6,17 @@ namespace App\Models\Shadowrun5e;
 
 /**
  * Class representing a magical tradition in Shadowrun.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class Tradition
 {
     /**
      * Description of the tradition.
-     * @var string
      */
     public string $description;
 
     /**
      * Attributes used to resist drain.
-     * @var string
      */
     public string $drain;
 
@@ -29,25 +28,21 @@ class Tradition
 
     /**
      * Unique ID for the tradition.
-     * @var string
      */
     public string $id;
 
     /**
      * Name of the tradition.
-     * @var string
      */
     public string $name;
 
     /**
      * Page the tradition was introduced on.
-     * @var int
      */
     public int $page;
 
     /**
      * Rule book the tradition was introduced in.
-     * @var string
      */
     public string $ruleset;
 
@@ -59,7 +54,6 @@ class Tradition
 
     /**
      * Construct a new Tradition object.
-     * @param string $identifier ID of the tradition
      * @throws \RuntimeException if the ID is invalid or not found
      */
     public function __construct(string $identifier)
@@ -88,7 +82,8 @@ class Tradition
     /**
      * Return an array with the two attributes the tradition uses to resist
      * drain.
-     * @return string[] Two drain attributes
+     * @psalm-suppress PossiblyUnusedMethod
+     * @return array<int, string> Two drain attributes
      */
     public function getDrainAttributes(): array
     {
@@ -96,10 +91,6 @@ class Tradition
         return [\trim($drain[0]), \trim($drain[1])];
     }
 
-    /**
-     * Return the name of the tradition.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;

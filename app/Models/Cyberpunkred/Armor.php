@@ -7,7 +7,7 @@ namespace App\Models\Cyberpunkred;
 use RuntimeException;
 
 /**
- * @psalm-suppress UndefinedClass (Psalm can't handle enums)
+ * @psalm-suppress UnusedClass
  */
 class Armor
 {

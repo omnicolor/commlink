@@ -13,25 +13,23 @@ class ArmorModification
 {
     /**
      * Availability code for the modification.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public ?string $availability;
 
     /**
      * Cost of the modification.
-     * @var int
      */
     public int $cost;
 
     /**
      * Cost modifier for the modification.
-     * @var float
      */
     public float $costModifier;
 
     /**
      * Description of the modification.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
@@ -43,31 +41,30 @@ class ArmorModification
 
     /**
      * ID of the modification.
-     * @var string
      */
     public string $id;
 
     /**
      * List of modifications this is incompatible with.
-     * @var string[]
+     * @psalm-suppress PossiblyUnusedProperty
+     * @var array<int, string>
      */
     public array $incompatibleWith = [];
 
     /**
      * Name of the modification.
-     * @var string
      */
     public string $name;
 
     /**
      * Rating for the modification.
-     * @var int
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public ?int $rating;
 
     /**
      * Ruleset the modification comes from.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $ruleset = 'core';
 
@@ -79,7 +76,6 @@ class ArmorModification
 
     /**
      * Construct a new modification object.
-     * @param string $id ID to load
      * @throws RuntimeException
      */
     public function __construct(string $id)
@@ -114,7 +110,6 @@ class ArmorModification
 
     /**
      * Return the name of the modification.
-     * @return string
      */
     public function __toString(): string
     {
@@ -123,8 +118,6 @@ class ArmorModification
 
     /**
      * Return the cost of the modification.
-     * @param Armor $armor
-     * @return int
      */
     public function getCost(Armor $armor): int
     {
@@ -136,9 +129,6 @@ class ArmorModification
 
     /**
      * Find a modification by its name, and optional rating.
-     * @param string $name
-     * @param ?int $rating
-     * @return ArmorModification
      * @throws RuntimeException
      */
     public static function findByName(

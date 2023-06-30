@@ -15,7 +15,6 @@ class StandardDeck extends BaseDeck implements Countable
 {
     /**
      * Character the deck belongs to, null for the GM.
-     * @var ?string
      */
     public ?string $character_id;
 
@@ -75,7 +74,6 @@ class StandardDeck extends BaseDeck implements Countable
 
     /**
      * Save a new deck or update an existing one to the database.
-     * @return StandardDeck
      */
     public function save(): StandardDeck
     {

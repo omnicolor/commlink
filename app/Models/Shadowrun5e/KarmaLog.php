@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use ArrayObject;
+use DateTimeImmutable;
+use RuntimeException;
+use TypeError;
+
 /**
  * Collection of karma log entries.
- * @extends \ArrayObject<int, KarmaLogEntry>
+ * @extends ArrayObject<int, KarmaLogEntry>
  */
-class KarmaLog extends \ArrayObject
+class KarmaLog extends ArrayObject
 {
     protected const KARMA_SKILL = 2;
     protected const KARMA_KNOWLEDGE = 1;
@@ -16,55 +21,48 @@ class KarmaLog extends \ArrayObject
 
     /**
      * Number of points for attributes from priorities.
-     * @var int
      */
     protected int $attributePoints = 0;
 
     /**
      * Character we're creating a KarmaLog for.
-     * @var Character
      */
     protected Character $character;
 
     /**
      * Number of free complex forms a technomancer can start with.
-     * @var int
      */
     protected int $complexForms = 0;
 
     /**
      * Magical skills collection [number of skills, rating of skills].
-     * @var int[]
+     * @var array<string, int>
      */
     protected array $magicSkills;
 
     /**
      * Amount of nuyen from priorities.
-     * @var int
      */
     protected int $resources = 0;
 
     /**
      * Number of skill points from priorities.
-     * @var int
      */
     protected int $skillPoints = 0;
 
     /**
      * Number of skill group points from priorities.
-     * @var int
      */
     protected int $skillGroupPoints = 0;
 
     /**
      * Number of special points from priorities for edge, magic, etc.
-     * @var int
+     * @psalm-suppress PossiblyUnusedProperty
      */
     protected int $specialPoints = 0;
 
     /**
      * Number of spells for free from priorities.
-     * @var int
      */
     protected int $spells = 0;
 
@@ -72,7 +70,7 @@ class KarmaLog extends \ArrayObject
      * Add an entry to the array.
      * @param ?int $index
      * @param KarmaLogEntry $entry
-     * @throws \TypeError
+     * @throws TypeError
      */
     public function offsetSet($index = null, $entry = null): void
     {
@@ -80,12 +78,12 @@ class KarmaLog extends \ArrayObject
             parent::offsetSet($index, $entry);
             return;
         }
-        throw new \TypeError('KarmaLog only accepts KarmaLogEntry objects');
+        throw new TypeError('KarmaLog only accepts KarmaLogEntry objects');
     }
 
     /**
      * Return the current amount of karma contained in the Karma Log.
-     * @return int
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getKarma(): int
     {
@@ -98,9 +96,6 @@ class KarmaLog extends \ArrayObject
 
     /**
      * Count up skill points spent.
-     * @param ?int $carry Currently counted skill points
-     * @param Skill $item Skill to add
-     * @return int
      */
     public static function countSkillPoints(
         ?int $carry,
@@ -120,8 +115,6 @@ class KarmaLog extends \ArrayObject
 
     /**
      * Filter out skills that are unspecialized.
-     * @param Skill $skill
-     * @return bool
      */
     public function filterUnspecialized(Skill $skill): bool
     {
@@ -130,9 +123,7 @@ class KarmaLog extends \ArrayObject
 
     /**
      * Compare two skills for organizing in reverse level order.
-     * @param Skill $a
-     * @param Skill $b
-     * @return int
+     * @psalm-suppress PossiblyUnusedReturnValue
      */
     public function compareSkills(Skill $a, Skill $b): int
     {
@@ -845,14 +836,12 @@ class KarmaLog extends \ArrayObject
 
     /**
      * Build a new Karma Log.
-     * @param Character $character
-     * @return KarmaLog
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function initialize(Character $character): KarmaLog
     {
         if (!isset($character->priorities)) {
-            throw new \RuntimeException('Priorities not set');
+            throw new RuntimeException('Priorities not set');
         }
 
         $this->character = $character;
@@ -880,17 +869,16 @@ class KarmaLog extends \ArrayObject
     /**
      * Populate a karma log from an array of log entries (from Mongo).
      * @param array<int, array<string, mixed>> $log
-     * @return KarmaLog
      */
     public function fromArray(array $log): KarmaLog
     {
         foreach ($log as $entry) {
             $realDate = $gameDate = null;
             if (isset($entry['realDate'])) {
-                $realDate = new \DateTimeImmutable($entry['realDate']);
+                $realDate = new DateTimeImmutable($entry['realDate']);
             }
             if (isset($entry['gameDate'])) {
-                $gameDate = new \DateTimeImmutable($entry['gameDate']);
+                $gameDate = new DateTimeImmutable($entry['gameDate']);
             }
             $this[] = new KarmaLogEntry(
                 $entry['description'],

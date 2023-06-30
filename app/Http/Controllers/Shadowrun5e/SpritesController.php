@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shadowrun5e;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Controller for technomancer sprites.
  */
-class SpritesController extends \App\Http\Controllers\Controller
+class SpritesController extends Controller
 {
     /**
      * Path to the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class SpritesController extends \App\Http\Controllers\Controller
      */
     protected array $sprites;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -38,13 +35,9 @@ class SpritesController extends \App\Http\Controllers\Controller
         $this->sprites = require $this->filename;
     }
 
-    /**
-     * Get the entire collection of Shadowrun 5E sprites.
-     * @return \Illuminate\Http\Response
-     */
     public function index(): Response
     {
-        foreach ($this->sprites as $key => $unused) {
+        foreach (array_keys($this->sprites) as $key) {
             $this->sprites[$key]['links'] = [
                 'self' => \sprintf(
                     '/api/shadowrun5e/sprites/%s',
@@ -63,11 +56,6 @@ class SpritesController extends \App\Http\Controllers\Controller
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
 
-    /**
-     * Get a single Shadowrun technomancer sprite.
-     * @param string $identifier
-     * @return \Illuminate\Http\Response
-     */
     public function show(string $identifier): Response
     {
         $identifier = \strtolower($identifier);

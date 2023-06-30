@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shadowrun5e;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Controller for Shadowrun 5E gear.
  */
-class GearController extends \App\Http\Controllers\Controller
+class GearController extends Controller
 {
     /**
      * Path to the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class GearController extends \App\Http\Controllers\Controller
      */
     protected array $gear;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -40,11 +37,10 @@ class GearController extends \App\Http\Controllers\Controller
 
     /**
      * Get the entire collection of Shadowrun 5e gear.
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
-        foreach ($this->gear as $key => $unused) {
+        foreach (array_keys($this->gear) as $key) {
             $this->gear[$key]['links'] = [
                 'self' => \sprintf('/api/shadowrun5e/gear/%s', \urlencode($key)),
             ];
@@ -62,8 +58,6 @@ class GearController extends \App\Http\Controllers\Controller
 
     /**
      * Return a single item.
-     * @param string $id
-     * @return \Illuminate\Http\Response
      */
     public function show(string $id): Response
     {

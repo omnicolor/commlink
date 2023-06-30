@@ -4,38 +4,36 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use RuntimeException;
+
 /**
  * Something to add to an item.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class GearModification
 {
     /**
      * Availability of the modification.
-     * @var string
      */
     public string $availability;
 
     /**
      * Amount of capacity in the modified gear taken up.
-     * @var int
      */
     public ?int $capacityCost;
 
     /**
      * What kind of container the modification can go in.
-     * @var string
      */
     public string $containerType;
 
     /**
      * Cost of the modification.
-     * @var int
      */
     public int $cost;
 
     /**
      * Description of the modification.
-     * @var string
      */
     public string $description;
 
@@ -47,31 +45,26 @@ class GearModification
 
     /**
      * Unique identifier for the modification.
-     * @var string
      */
     public string $id;
 
     /**
      * Name of the modification.
-     * @var string
      */
     public string $name;
 
     /**
      * Page number.
-     * @var int
      */
     public ?int $page;
 
     /**
      * Rating of the modification.
-     * @var int
      */
     public ?int $rating;
 
     /**
      * Ruleset code for where the modification was added.
-     * @var string
      */
     public string $ruleset;
 
@@ -83,14 +76,14 @@ class GearModification
 
     /**
      * List of all modifications.
-     * @var ?array<mixed>
+     * @var ?array<string, array<string, mixed>>
      */
     public static ?array $modifications;
 
     /**
      * Construct a new Gear Modification object.
      * @param string $id
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function __construct(string $id)
     {
@@ -100,7 +93,7 @@ class GearModification
 
         $id = \strtolower($id);
         if (!isset(self::$modifications[$id])) {
-            throw new \RuntimeException(\sprintf(
+            throw new RuntimeException(\sprintf(
                 'Gear mod "%s" not found',
                 $id
             ));

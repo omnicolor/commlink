@@ -50,10 +50,6 @@ class Exec extends Role
         $this->rank = $role['rank'] ?? self::DEFAULT_ROLE_RANK;
     }
 
-    /**
-     * Return the name of the role.
-     * @return string
-     */
     public function __toString(): string
     {
         return 'Exec';

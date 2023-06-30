@@ -14,20 +14,10 @@ class Powers extends Component
 {
     /**
      * Whether the character is still being built.
-     * @var bool
      */
     public bool $charGen;
 
-    /**
-     * Whether the character is an adept in the first place.
-     * @var bool
-     */
     public bool $isAdept;
-
-    /**
-     * Character's powers.
-     * @var AdeptPowerArray
-     */
     public AdeptPowerArray $powers;
 
     /**
@@ -49,7 +39,6 @@ class Powers extends Component
 
     /**
      * Return the adept's type.
-     * @return string
      */
     protected function getAdeptType(): string
     {
@@ -65,7 +54,6 @@ class Powers extends Component
 
     /**
      * Determine whether the character can have adept powers.
-     * @return bool
      */
     protected function isAdept(): bool
     {
@@ -76,12 +64,9 @@ class Powers extends Component
 
     /**
      * Get the view that represents the component.
-     * @return View
      */
     public function render(): View
     {
-        /** @var View */
-        $view = view('components.shadowrun5e.powers');
-        return $view;
+        return view('components.shadowrun5e.powers');
     }
 }

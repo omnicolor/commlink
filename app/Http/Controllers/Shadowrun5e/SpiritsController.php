@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shadowrun5e;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Spirits API route.
  */
-class SpiritsController extends \App\Http\Controllers\Controller
+class SpiritsController extends Controller
 {
     /**
      * Filename for the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class SpiritsController extends \App\Http\Controllers\Controller
      */
     protected array $spirits;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -38,13 +35,9 @@ class SpiritsController extends \App\Http\Controllers\Controller
         $this->spirits = require $this->filename;
     }
 
-    /**
-     * Return the entire collection of spirits.
-     * @return \Illuminate\Http\Response
-     */
     public function index(): Response
     {
-        foreach ($this->spirits as $key => $value) {
+        foreach (array_keys($this->spirits) as $key) {
             $this->spirits[$key]['links']['self'] = \sprintf(
                 '/api/shadowrun5e/spirits/%s',
                 \urlencode($key)
@@ -62,10 +55,6 @@ class SpiritsController extends \App\Http\Controllers\Controller
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
 
-    /**
-     * Return an individual spell.
-     * @return \Illuminate\Http\Response
-     */
     public function show(string $id): Response
     {
         $id = \strtolower($id);

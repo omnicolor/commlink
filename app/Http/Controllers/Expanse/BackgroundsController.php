@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Expanse;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Controller for Expanse backgrounds.
  */
-class BackgroundsController extends \App\Http\Controllers\Controller
+class BackgroundsController extends Controller
 {
     /**
      * Path to the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class BackgroundsController extends \App\Http\Controllers\Controller
      */
     protected array $backgrounds;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -40,11 +37,10 @@ class BackgroundsController extends \App\Http\Controllers\Controller
 
     /**
      * Get the entire collection of Expanse backgrounds.
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
-        foreach ($this->backgrounds as $key => $unused) {
+        foreach (array_keys($this->backgrounds) as $key) {
             $this->backgrounds[$key]['links'] = [
                 'self' => \sprintf('/api/expanse/backgrounds/%s', $key),
             ];
@@ -62,8 +58,6 @@ class BackgroundsController extends \App\Http\Controllers\Controller
 
     /**
      * Get a single Expanse background.
-     * @param string $id
-     * @return \Illuminate\Http\Response
      */
     public function show(string $id): Response
     {

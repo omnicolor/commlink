@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shadowrun5e;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Controller for gear modifications.
  */
-class GearModificationsController extends \App\Http\Controllers\Controller
+class GearModificationsController extends Controller
 {
     /**
      * Filename for the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class GearModificationsController extends \App\Http\Controllers\Controller
      */
     protected array $mods;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -41,7 +38,6 @@ class GearModificationsController extends \App\Http\Controllers\Controller
 
     /**
      * Return the entire collection of fifth edition gear modifications.
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
@@ -67,8 +63,6 @@ class GearModificationsController extends \App\Http\Controllers\Controller
 
     /**
      * Return a single fifth edition gear modification.
-     * @param string $id
-     * @return \Illuminate\Http\Response
      */
     public function show(string $id): Response
     {

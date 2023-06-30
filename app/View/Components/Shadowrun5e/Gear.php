@@ -16,7 +16,6 @@ class Gear extends Component
 {
     /**
      * Whether the character is still being built.
-     * @var bool
      */
     public bool $charGen;
     public Collection $gears;
@@ -37,11 +36,9 @@ class Gear extends Component
 
     /**
      * Get the view that represents the component.
-     * @return View
      */
     public function render(): View
     {
-        /** @var View */
         $view = view('components.shadowrun5e.gear');
         return $view;
     }

@@ -12,15 +12,10 @@ use Illuminate\View\Component;
 
 class Armor extends Component
 {
-    /**
-     * Character's armor.
-     * @var ArmorArray
-     */
     public ArmorArray $armors;
 
     /**
      * Whether the character is still being built.
-     * @var bool
      */
     public bool $charGen;
 
@@ -35,12 +30,9 @@ class Armor extends Component
 
     /**
      * Get the view that represents the component.
-     * @return View
      */
     public function render(): View
     {
-        /** @var View */
-        $view = view('components.shadowrun5e.armor');
-        return $view;
+        return view('components.shadowrun5e.armor');
     }
 }

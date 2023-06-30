@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Cyberpunkred;
 
+use RuntimeException;
+
 abstract class Weapon
 {
     public const QUALITY_POOR = 'poor';
@@ -21,19 +23,18 @@ abstract class Weapon
 
     /**
      * Whether the weapon can be concealed.
-     * @var bool
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public bool $concealable;
 
     /**
      * How many eddies you have to spend for the weapon at standard quality.
-     * @var int
      */
     public int $cost;
 
     /**
      * Single-shot/hit damage from the weapon.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $damage;
 
@@ -44,6 +45,7 @@ abstract class Weapon
      *     'standard' => ['Example 1'],
      *     'excellent' => ['Example 🔫'],
      * ].
+     * @psalm-suppress PossiblyUnusedProperty
      * @var array<string, array<int, string>>
      */
     public array $examples = [
@@ -54,37 +56,34 @@ abstract class Weapon
 
     /**
      * Number of hands required to wield the weapon.
-     * @var int
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public int $handsRequired;
 
     /**
      * Name of the weapon. Defaults to the weapon's type.
-     * @var string
      */
     public string $name;
 
     /**
      * Weapon's build quality.
-     * @var string
      */
     public string $quality = self::QUALITY_STANDARD;
 
     /**
      * The weapon's rate of fire, how many shots you can take in a combat turn.
-     * @var int
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public int $rateOfFire;
 
     /**
      * ID of the skill used to fire the weapon.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $skill;
 
     /**
      * Type of weapon (Medium pistol, Crossbow, etc).
-     * @var string
      */
     public string $type;
 
@@ -100,10 +99,6 @@ abstract class Weapon
      */
     public static ?array $meleeWeapons = null;
 
-    /**
-     * Return the name of the weapon.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;
@@ -112,7 +107,7 @@ abstract class Weapon
     /**
      * Return the cost of the weapon, including quality modifier and
      * accessories.
-     * @return int
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getCost(): int
     {
@@ -141,8 +136,8 @@ abstract class Weapon
     /**
      * Build a new Weapon object from the datastore's array.
      * @param array<string, string|int> $options
-     * @return Weapon
-     * @throws \RuntimeException
+     * @psalm-suppress PossiblyUnusedMethod
+     * @throws RuntimeException
      */
     public static function build(array $options): Weapon
     {
@@ -159,7 +154,7 @@ abstract class Weapon
         }
 
         if (!isset($options['id'])) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 'ID must be included when instantiating a weapon'
             );
         }
@@ -172,6 +167,6 @@ abstract class Weapon
         if (\array_key_exists($id, self::$meleeWeapons)) {
             return new MeleeWeapon($options);
         }
-        throw new \RuntimeException(\sprintf('Weapon ID "%s" is invalid', $id));
+        throw new RuntimeException(\sprintf('Weapon ID "%s" is invalid', $id));
     }
 }

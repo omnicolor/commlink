@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use RuntimeException;
+
 /**
  * Class representing a vehicle in Shadowrun.
  * @property-read int $acceleration
@@ -158,7 +160,7 @@ class Vehicle
     /**
      * Construct a new vehicle object.
      * @param array<string, mixed> $data Data for the vehicle to load
-     * @throws \RuntimeException if the ID is invalid
+     * @throws RuntimeException if the ID is invalid
      */
     public function __construct(array $data)
     {
@@ -167,7 +169,7 @@ class Vehicle
 
         $id = \strtolower($data['id']);
         if (!isset(self::$vehicles[$id])) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 \sprintf('Vehicle ID "%s" is invalid', $id)
             );
         }
@@ -266,10 +268,6 @@ class Vehicle
         return $attribute;
     }
 
-    /**
-     * Return the name of the vehicle.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;
@@ -277,7 +275,6 @@ class Vehicle
 
     /**
      * Return whether the vehicle is considered a drone.
-     * @return bool
      */
     public function isDrone(): bool
     {
@@ -286,7 +283,7 @@ class Vehicle
 
     /**
      * Return the cost of the vehicle, including non-stock modifications.
-     * @return int
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getCost(): int
     {
@@ -305,7 +302,7 @@ class Vehicle
 
     /**
      * Return the number of boxen in the vehicle's matrix condition monitor.
-     * @return int
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getMatrixConditionMonitor(): int
     {
@@ -317,7 +314,7 @@ class Vehicle
 
     /**
      * Return the number of boxen in the vehicle's physical condition monitor.
-     * @return int
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getPhysicalConditionMonitor(): int
     {

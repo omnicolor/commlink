@@ -8,14 +8,18 @@ use RuntimeException;
 
 class ShipQuality
 {
+    /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
     public string $id;
     public string $name;
+    /** @psalm-suppress PossiblyUnusedProperty */
     public int $page;
+    /** @psalm-suppress PossiblyUnusedProperty */
     public string $ruleset;
 
     /**
      * Collection of effects the quality adds to the ship.
+     * @psalm-suppress PossiblyUnusedProperty
      * @var array<string, mixed>
      */
     public array $effects = [];
@@ -28,7 +32,6 @@ class ShipQuality
 
     /**
      * Constructor.
-     * @param string $id
      * @throws RuntimeException
      */
     public function __construct(string $id)
@@ -59,6 +62,7 @@ class ShipQuality
 
     /**
      * Return a collection of all qualities.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, ShipQuality>
      */
     public static function all(): array

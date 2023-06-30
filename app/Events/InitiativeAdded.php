@@ -21,14 +21,12 @@ class InitiativeAdded implements ShouldBroadcast
 
     /**
      * Name of the combatant.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $name;
 
     /**
      * Create a new event instance.
-     * @param Initiative $initiative
-     * @param Campaign $campaign
      */
     public function __construct(
         public Initiative $initiative,
@@ -40,7 +38,6 @@ class InitiativeAdded implements ShouldBroadcast
 
     /**
      * Get the channels the event should broadcast on.
-     * @return PrivateChannel
      */
     public function broadcastOn(): PrivateChannel
     {

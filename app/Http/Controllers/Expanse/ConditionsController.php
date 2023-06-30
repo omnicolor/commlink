@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Expanse;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Controller for Expanse conditions.
  */
-class ConditionsController extends \App\Http\Controllers\Controller
+class ConditionsController extends Controller
 {
     /**
      * Path to the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class ConditionsController extends \App\Http\Controllers\Controller
      */
     protected array $conditions;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -40,11 +37,10 @@ class ConditionsController extends \App\Http\Controllers\Controller
 
     /**
      * Get the entire collection of Expanse conditions.
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
-        foreach ($this->conditions as $key => $unused) {
+        foreach (array_keys($this->conditions) as $key) {
             $this->conditions[$key]['links'] = [
                 'self' => \sprintf('/api/expanse/conditions/%s', $key),
             ];
@@ -62,8 +58,6 @@ class ConditionsController extends \App\Http\Controllers\Controller
 
     /**
      * Get a single Expanse condition.
-     * @param string $id
-     * @return \Illuminate\Http\Response
      */
     public function show(string $id): Response
     {

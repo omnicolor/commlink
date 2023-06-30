@@ -6,12 +6,18 @@ namespace App\Models\StarTrekAdventures;
 
 use App\Models\Character as BaseCharacter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
 /**
  * @property-read string $id
+ * @property-read Attributes $attributes
+ * @property-read Disciplines $disciplines
+ * @property-read Species $species
+ * @property-read int $stress
+ * @property-read TalentArray $talents
  */
 class Character extends BaseCharacter
 {
@@ -25,7 +31,7 @@ class Character extends BaseCharacter
     ];
 
     protected Attributes $attributesObject;
-    protected Disciplines $disciplines;
+    protected Disciplines $disciplinesObject;
 
     /**
      * @var array<int, string>
@@ -71,54 +77,94 @@ class Character extends BaseCharacter
         );
     }
 
-    public function getAttributesAttribute(): Attributes
+    public function attributes(): Attribute
     {
-        if (!isset($this->attributesObject)) {
-            $this->attributesObject = new Attributes(
-                $this->attributes['attributes']
-            );
-        }
-        return $this->attributesObject;
+        return Attribute::make(
+            get: function (): Attributes {
+                if (!isset($this->attributesObject)) {
+                    $this->attributesObject = new Attributes(
+                        // @phpstan-ignore-next-line
+                        $this->attributes['attributes']
+                    );
+                }
+                return $this->attributesObject;
+            },
+        );
     }
 
-    public function getDisciplinesAttribute(): Disciplines
+    public function disciplines(): Attribute
     {
-        if (!isset($this->disciplines)) {
-            $this->disciplines = new Disciplines(
-                $this->attributes['disciplines']
-            );
-        }
-        return $this->disciplines;
+        return Attribute::make(
+            get: function (): Disciplines {
+                if (!isset($this->disciplines)) {
+                    $this->disciplinesObject = new Disciplines(
+                        // @phpstan-ignore-next-line
+                        $this->attributes['disciplines']
+                    );
+                }
+                return $this->disciplinesObject;
+            },
+        );
     }
 
-    public function getSpeciesAttribute(): Species
+    public function species(): Attribute
     {
-        return Species::find($this->attributes['species']);
+        return Attribute::make(
+            get: function (): Species {
+                // @phpstan-ignore-next-line
+                return Species::find($this->attributes['species']);
+            },
+        );
     }
 
-    public function getStressAttribute(): int
+    public function stress(): Attribute
     {
-        return $this->getAttributesAttribute()->fitness
-            + $this->getDisciplinesAttribute()->security;
+        return Attribute::make(
+            get: function (): int {
+                if (!isset($this->attributesObject)) {
+                    $this->attributesObject = new Attributes(
+                        // @phpstan-ignore-next-line
+                        $this->attributes['attributes']
+                    );
+                }
+                if (!isset($this->disciplinesObject)) {
+                    $this->disciplinesObject = new Disciplines(
+                        // @phpstan-ignore-next-line
+                        $this->attributes['disciplines']
+                    );
+                }
+                return $this->attributesObject->fitness
+                    + $this->disciplinesObject->security;
+            },
+        );
     }
 
-    public function getTalentsAttribute(): TalentArray
+    public function talents(): Attribute
     {
-        $talents = new TalentArray();
-        foreach ($this->attributes['talents'] ?? [] as $talent) {
-            try {
-                $talents[] = new Talent($talent['id'], $talent['extra'] ?? null);
-            } catch (RuntimeException $ex) {
-                Log::warning(
-                    'Star Wars Adventures character "{name}" ({id}) has invalid talent "{talent}"',
-                    [
-                        'name' => $this->name,
-                        'id' => $this->id,
-                        'talent' => $talent['id'],
-                    ]
-                );
-            }
-        }
-        return $talents;
+        return Attribute::make(
+            get: function (): TalentArray {
+                $talents = new TalentArray();
+                /** @psalm-suppress PossiblyUnusedMethod */
+                foreach ($this->attributes['talents'] ?? [] as $talent) {
+                    try {
+                        $talents[] = new Talent(
+                            $talent['id'],
+                            $talent['extra'] ?? null
+                        );
+                    } catch (RuntimeException $ex) {
+                        Log::warning(
+                            'Star Wars Adventures character "{name}" ({id}) '
+                                . 'has invalid talent "{talent}"',
+                            [
+                                'name' => $this->name,
+                                'id' => $this->id,
+                                'talent' => $talent['id'],
+                            ]
+                        );
+                    }
+                }
+                return $talents;
+            },
+        );
     }
 }

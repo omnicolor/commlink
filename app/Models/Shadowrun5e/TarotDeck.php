@@ -8,6 +8,9 @@ use App\Models\Card;
 use App\Models\Deck;
 use Countable;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class TarotDeck extends Deck implements Countable
 {
     /**

@@ -333,7 +333,6 @@ class CharactersController extends Controller
 
     /**
      * Return a collection of characters for the logged in user.
-     * @return AnonymousResourceCollection<Character>
      */
     public function index(): AnonymousResourceCollection
     {

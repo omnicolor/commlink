@@ -14,14 +14,8 @@ class Vehicles extends Component
 {
     /**
      * Whether the character is still being built.
-     * @var bool
      */
     public bool $charGen;
-
-    /**
-     * Character's vehicles.
-     * @var VehicleArray
-     */
     public VehicleArray $vehicles;
 
     /**
@@ -35,12 +29,9 @@ class Vehicles extends Component
 
     /**
      * Get the view that represents the component.
-     * @return View
      */
     public function render(): View
     {
-        /** @var View */
-        $view = view('components.shadowrun5e.vehicles');
-        return $view;
+        return view('components.shadowrun5e.vehicles');
     }
 }

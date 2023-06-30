@@ -4,32 +4,32 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use RuntimeException;
+
 /**
  * Program class, for a program installed on a commlink, 'deck, rcc, etc.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class Program
 {
     /**
      * List of devices that can run the program.
-     * @var string[]
+     * @var array<int, string>
      */
     public array $allowedDevices = [];
 
     /**
      * Availability code for the program.
-     * @var string
      */
     public string $availability;
 
     /**
      * Cost of the program.
-     * @var int
      */
     public int $cost;
 
     /**
-     * Cost of the program.
-     * @var string Description of the program
+     * Description of the program.
      */
     public string $description;
 
@@ -41,63 +41,53 @@ class Program
 
     /**
      * Unique ID for the program.
-     * @var string
      */
     public string $id;
 
     /**
      * Name of the program.
-     * @var string
      */
     public string $name;
 
     /**
      * Page the program was listed on.
-     * @var ?int
      */
     public ?int $page;
 
     /**
      * Optional rating for programs (agents) that need one.
-     * @var ?int
      */
     public ?int $rating;
 
     /**
      * ID of the rules the program was introduced in.
-     * @var ?string
      */
     public ?string $ruleset;
 
     /**
      * Whether the program is currently running.
-     * @var bool
      */
     public bool $running;
 
     /**
      * Specific vehicle if the program is an autosoft.
-     * @var mixed
      */
-    public $vehicle;
+    public mixed $vehicle;
 
     /**
      * Specific weapon if the program is an autosoft.
-     * @var mixed
      */
-    public $weapon;
+    public mixed $weapon;
 
     /**
      * List of all programs.
-     * @var ?array<mixed>
+     * @var ?array<string, array<string, mixed>>
      */
     public static ?array $programs;
 
     /**
      * Construct a new program object.
-     * @param string $id ID of the program
-     * @param ?bool $running Whether the program is running or not
-     * @throws \RuntimeException if the ID isn't found
+     * @throws RuntimeException if the ID isn't found
      */
     public function __construct(string $id, ?bool $running = null)
     {
@@ -107,7 +97,7 @@ class Program
 
         $id = \strtolower($id);
         if (!isset(self::$programs[$id])) {
-            throw new \RuntimeException(\sprintf(
+            throw new RuntimeException(\sprintf(
                 'Program ID "%s" is invalid',
                 $id
             ));
@@ -127,10 +117,6 @@ class Program
         $this->ruleset = $program['ruleset'] ?? 'core';
     }
 
-    /**
-     * Return the name of the program.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;
@@ -138,7 +124,6 @@ class Program
 
     /**
      * Return the cost of the program.
-     * @return int
      */
     public function getCost(): int
     {
@@ -148,9 +133,7 @@ class Program
     /**
      * Build a program from either its ID or an array.
      * @param array<string, string>|string $rawProgram
-     * @param ProgramArray $running
-     * @return Program
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public static function build(
         array | string $rawProgram,
@@ -177,8 +160,6 @@ class Program
     /**
      * Determine if the program is running based on the array of running
      * programs.
-     * @param ProgramArray $running
-     * @return bool
      */
     public function isRunning(ProgramArray $running): bool
     {

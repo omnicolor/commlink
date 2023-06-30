@@ -7,6 +7,7 @@ namespace App\Models\Capers;
 use App\Models\Character as BaseCharacter;
 use ErrorException;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
@@ -29,7 +30,8 @@ use RuntimeException;
  * @property string $name
  * @property int $perception
  * @property array<int, array<string, string>> $perks
- * @property PowerArray $powers
+ * @property-read PowerArray $powers
+ * @property-write array<int, mixed>|PowerArray $powers
  * @property int $resilience
  * @property SkillArray $skills
  * @property-read int $speed
@@ -53,6 +55,7 @@ class Character extends BaseCharacter
      * @var array<string, mixed>
      */
     protected $attributes = [
+        'powers' => [],
         'system' => 'capers',
     ];
 
@@ -235,27 +238,49 @@ class Character extends BaseCharacter
         return $perkArray;
     }
 
-    public function getPowersAttribute(): PowerArray
+    public function powers(): Attribute
     {
-        $powers = new PowerArray();
-        foreach ($this->attributes['powers'] ?? [] as $power) {
-            try {
-                $powers[$power['id']] = new Power(
-                    $power['id'],
-                    $power['rank'] ?? 1,
-                    $power['boosts'] ?? []
-                );
-            } catch (RuntimeException) {
-                Log::warning(
-                    'Capers character "{name}" has invalid power "{power}"',
-                    [
-                        'name' => (string)$this,
-                        'power' => $power['id'],
-                    ]
-                );
-            }
-        }
-        return $powers;
+        return Attribute::make(
+            get: function (): PowerArray {
+                $powers = new PowerArray();
+                foreach ($this->attributes['powers'] ?? [] as $power) {
+                    try {
+                        $powers[$power['id']] = new Power(
+                            $power['id'],
+                            $power['rank'] ?? 1,
+                            $power['boosts'] ?? []
+                        );
+                    } catch (RuntimeException) {
+                        Log::warning(
+                            'Capers character "{name}" has invalid power "{power}"',
+                            [
+                                'name' => (string)$this,
+                                'power' => $power['id'],
+                            ]
+                        );
+                    }
+                }
+                return $powers;
+            },
+            set: function (array|PowerArray $powers): array {
+                if ($powers instanceof PowerArray) {
+                    $textPowers = [];
+                    foreach ($powers as $power) {
+                        $boosts = [];
+                        foreach ($power->boosts as $boost) {
+                            $boosts[] = $boost->id;
+                        }
+                        $textPowers[] = [
+                            'id' => $power->id,
+                            'rank' => $power->rank,
+                            'boosts' => $boosts,
+                        ];
+                    }
+                    $powers = $textPowers;
+                }
+                return ['powers' => $powers];
+            },
+        );
     }
 
     public function getSkillsAttribute(): SkillArray

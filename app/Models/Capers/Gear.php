@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models\Capers;
 
+/**
+ * @psalm-suppress PossiblyUnusedProperty
+ */
 class Gear
 {
     public float $cost;
@@ -31,6 +34,7 @@ class Gear
         return $this->name;
     }
 
+    /** @psalm-suppress PossiblyUnusedMethod */
     public function getType(): string
     {
         return ucfirst(str_replace('-', ' ', $this->type));
@@ -71,6 +75,7 @@ class Gear
         return $gear;
     }
 
+    /** @psalm-suppress PossiblyUnusedMethod */
     public static function explosives(): GearArray
     {
         $filename = config('app.data_path.capers') . 'gear.php';
@@ -86,6 +91,7 @@ class Gear
         return $explosives;
     }
 
+    /** @psalm-suppress PossiblyUnusedMethod */
     public static function normalGear(): GearArray
     {
         $filename = config('app.data_path.capers') . 'gear.php';
@@ -101,6 +107,7 @@ class Gear
         return $gear;
     }
 
+    /** @psalm-suppress PossiblyUnusedMethod */
     public static function weapons(): GearArray
     {
         $filename = config('app.data_path.capers') . 'gear.php';

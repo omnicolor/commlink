@@ -22,6 +22,7 @@ use RuntimeException;
  * @property int $body
  * @property int $charisma
  * @property ?array<int, string> $complexForms
+ * @property-read int $composure
  * @property ?array<int, array<string, string|int>> $contacts
  * @property int $damageOverflow
  * @property int $damagePhysical
@@ -357,12 +358,15 @@ class Character extends BaseCharacter
 
     /**
      * Get the character's composure derived stat.
-     * @return int
      */
-    public function getComposureAttribute(): int
+    public function composure(): Attribute
     {
-        return $this->getModifiedAttribute('charisma') +
-            $this->getModifiedAttribute('willpower');
+        return Attribute::make(
+            get: function (): int {
+                return $this->getModifiedAttribute('charisma') +
+                    $this->getModifiedAttribute('willpower');
+            },
+        );
     }
 
     /**
@@ -432,6 +436,7 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's real-world initiative.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return Attribute
      */
     public function initiativeScore(): Attribute
@@ -445,6 +450,9 @@ class Character extends BaseCharacter
         );
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function initiativeDice(): Attribute
     {
         return Attribute::make(
@@ -456,6 +464,7 @@ class Character extends BaseCharacter
 
     /**
      * Get the character's judge intentions derived stat.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return Attribute
      */
     public function judgeIntentions(): Attribute
@@ -470,6 +479,7 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's karma log.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return KarmaLog
      */
     public function getKarmaLog(): KarmaLog
@@ -529,6 +539,7 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's lift/carry derived stat.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return Attribute
      */
     public function liftCarry(): Attribute
@@ -597,6 +608,7 @@ class Character extends BaseCharacter
 
     /**
      * Get the character's memory derived stat.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return int
      */
     public function getMemoryAttribute(): int
@@ -607,6 +619,7 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's mental limit.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return Attribute
      */
     public function mentalLimit(): Attribute
@@ -653,6 +666,7 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's metatype.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return string
      */
     public function getMetatypeAttribute(): string
@@ -749,6 +763,7 @@ class Character extends BaseCharacter
     /**
      * Get a limit for a particular skill.
      * @param Skill $skill
+     * @psalm-suppress PossiblyUnusedMethod
      * @return string
      */
     public function getSkillLimit(Skill $skill): string
@@ -857,6 +872,7 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's soak dice pool.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return int
      */
     public function getSoakAttribute(): int
@@ -878,6 +894,7 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's social limit.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return Attribute
      */
     public function socialLimit(): Attribute
@@ -955,6 +972,7 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's sprites.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return SpriteArray
      */
     public function getSprites(): SpriteArray
@@ -982,6 +1000,7 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's magical tradition, if they're magical.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return ?Tradition
      */
     public function getTradition(): ?Tradition
@@ -1055,6 +1074,7 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's melee defense.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return Attribute
      */
     public function meleeDefense(): Attribute
@@ -1070,6 +1090,7 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's physical limit.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return Attribute
      */
     public function physicalLimit(): Attribute
@@ -1089,6 +1110,7 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's overflow monitor.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return Attribute
      */
     public function overflowMonitor(): Attribute
@@ -1103,6 +1125,7 @@ class Character extends BaseCharacter
 
     /**
      * Return the amount of physical damage a character can take.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return Attribute
      */
     public function physicalMonitor(): Attribute
@@ -1116,6 +1139,7 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's ranged defense.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return Attribute
      */
     public function rangedDefense(): Attribute
@@ -1131,6 +1155,7 @@ class Character extends BaseCharacter
 
     /**
      * Return the amount of stun damage a character can take.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return Attribute
      */
     public function stunMonitor(): Attribute

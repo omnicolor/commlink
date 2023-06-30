@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shadowrun5e;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Controller for adept powers.
  */
-class AdeptPowersController extends \App\Http\Controllers\Controller
+class AdeptPowersController extends Controller
 {
     /**
      * Filename for all of the data.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class AdeptPowersController extends \App\Http\Controllers\Controller
      */
     protected array $powers;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -41,11 +38,10 @@ class AdeptPowersController extends \App\Http\Controllers\Controller
 
     /**
      * Get the entire collection of fifth edition adept powers.
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
-        foreach ($this->powers as $key => $value) {
+        foreach (array_keys($this->powers) as $key) {
             $this->powers[$key]['links'] = [
                 'self' => \sprintf(
                     '/api/shadowrun5e/adept-powers/%s',
@@ -66,8 +62,6 @@ class AdeptPowersController extends \App\Http\Controllers\Controller
 
     /**
      * Get a single fifth edition adept power.
-     * @param string $id
-     * @return \Illuminate\Http\Response
      */
     public function show(string $id): Response
     {

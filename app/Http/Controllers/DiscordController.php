@@ -121,6 +121,7 @@ class DiscordController extends Controller
      * information about them as well as the list of Guilds they're in. We then
      * present that to the user to allow them to automatically link a number of
      * Guilds for that Discord user.
+     * @psalm-suppress InvalidTemplateParam
      */
     public function view(Request $request): RedirectResponse | View
     {

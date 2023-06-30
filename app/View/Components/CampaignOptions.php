@@ -14,10 +14,6 @@ class CampaignOptions extends Component
     {
     }
 
-    /**
-     * Get the view that represents the component.
-     * @return View
-     */
     public function render(): View
     {
         $systemView = \sprintf(
@@ -25,12 +21,8 @@ class CampaignOptions extends Component
             $this->campaign->system
         );
         if (view()->exists($systemView)) {
-            /** @var View */
-            $view = view($systemView);
-            return $view;
+            return view($systemView);
         }
-        /** @var View */
-        $view = view('components.campaign-options');
-        return $view;
+        return view('components.campaign-options');
     }
 }

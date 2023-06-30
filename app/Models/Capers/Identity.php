@@ -27,7 +27,9 @@ use RuntimeException;
  */
 class Identity
 {
+    /** @psalm-suppress PossiblyUnusedProperty */
     public string $card;
+    /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
     public string $id;
     public string $name;
@@ -77,6 +79,7 @@ class Identity
         return $identities;
     }
 
+    /** @psalm-suppress PossiblyUnusedMethod */
     public static function findForCard(Card $card): Identity
     {
         $filename = config('app.data_path.capers') . 'identities.php';

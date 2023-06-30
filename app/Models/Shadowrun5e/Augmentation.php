@@ -25,25 +25,24 @@ class Augmentation
 
     /**
      * Whether the augmentation is currently active.
-     * @var bool
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public bool $active = true;
 
     /**
      * Availability code for the augmentation.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $availability;
 
     /**
      * Base cost of the augmentation.
-     * @var ?int
      */
     public ?int $cost;
 
     /**
      * Description of the augmentation.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
@@ -55,54 +54,52 @@ class Augmentation
 
     /**
      * Base essence cost of the augmentation.
-     * @var float
      */
     public float $essence;
 
     /**
      * Grade of the augmentation.
-     * @var ?string
      */
     public ?string $grade;
 
     /**
      * ID of the augmentation.
-     * @var ?string
      */
     public ?string $id;
 
     /**
      * List of augmentations this one is incompatible with.
-     * @var string[]
+     * @psalm-suppress PossiblyUnusedProperty
+     * @var array<int, string>
      */
     public array $incompatibilities = [];
 
     /**
      * List of modifications to this augmentation.
-     * @var AugmentationArray
      */
     public AugmentationArray $modifications;
 
     /**
      * Name of the augmentation.
-     * @var string
      */
     public string $name;
 
     /**
      * Rating of the augmentation.
+     * @psalm-suppress PossiblyUnusedProperty
      * @var int|string|null
      */
     public $rating;
 
     /**
      * Type of augmentation, which should be either cyberware or bioware.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $type;
 
     /**
      * Loaded know- or skill- softs for Skilljacks.
+     * @psalm-suppress PossiblyUnusedProperty
      * @var ?array<mixed>
      */
     public ?array $softs;
@@ -115,8 +112,6 @@ class Augmentation
 
     /**
      * Construct an augmentation.
-     * @param string $id ID of the augmentation to load
-     * @param ?string $grade Optional grade to set the augmentation to
      * @throws RuntimeException If the augmentation isn't valid
      */
     public function __construct(string $id, ?string $grade = null)
@@ -170,7 +165,6 @@ class Augmentation
 
     /**
      * Return the augmentation's name.
-     * @return string
      */
     public function __toString(): string
     {
@@ -180,7 +174,7 @@ class Augmentation
     /**
      * Build an augmentation from a Mongo array.
      * @param array<string, mixed> $augmentation
-     * @return Augmentation
+     * @psalm-suppress PossiblyUnusedMethod
      * @throws RuntimeException If the augmentation isn't valid
      */
     public static function build(array $augmentation): Augmentation
@@ -206,9 +200,6 @@ class Augmentation
 
     /**
      * Try to find an augmentation by its name and optional rating.
-     * @param string $name
-     * @param int|null|string $rating
-     * @return Augmentation
      * @throws RuntimeException
      */
     public static function findByName(
@@ -244,7 +235,7 @@ class Augmentation
 
     /**
      * Return the cost of the augmentation, including modifications and grade.
-     * @return int
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getCost(): int
     {

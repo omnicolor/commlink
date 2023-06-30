@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shadowrun5e;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Controller for weapon modifications.
  */
-class WeaponModificationsController extends \App\Http\Controllers\Controller
+class WeaponModificationsController extends Controller
 {
     /**
      * Path to the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class WeaponModificationsController extends \App\Http\Controllers\Controller
      */
     protected array $mods;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -39,13 +36,9 @@ class WeaponModificationsController extends \App\Http\Controllers\Controller
         $this->mods = require $this->filename;
     }
 
-    /**
-     * Return a collection of modification resources.
-     * @return \Illuminate\Http\Response
-     */
     public function index(): Response
     {
-        foreach ($this->mods as $key => $value) {
+        foreach (array_keys($this->mods) as $key) {
             $this->mods[$key]['links'] = [
                 'self' => \sprintf(
                     '/api/shadowrun5e/weapon-modifications/%s',
@@ -63,11 +56,6 @@ class WeaponModificationsController extends \App\Http\Controllers\Controller
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
 
-    /**
-     * Return a single modification resource.
-     * @param string $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(string $id): Response
     {
         $id = \strtolower($id);
@@ -78,7 +66,6 @@ class WeaponModificationsController extends \App\Http\Controllers\Controller
                 'title' => 'Not Found',
             ];
             return $this->error($error);
-            // We couldn't find it!
         }
 
         $mod = $this->mods[$id];

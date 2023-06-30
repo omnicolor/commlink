@@ -10,23 +10,20 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class ConfirmablePasswordController extends Controller
 {
     /**
      * Show the confirm password view.
-     * @param Request $request
-     * @return \Illuminate\View\View
      */
-    public function show(Request $request): \Illuminate\View\View
+    public function show(): View
     {
         return view('auth.confirm-password');
     }
 
     /**
      * Confirm the user's password.
-     * @param Request $request
-     * @return RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {

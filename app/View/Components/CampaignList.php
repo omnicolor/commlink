@@ -48,14 +48,8 @@ class CampaignList extends Component
         );
     }
 
-    /**
-     * Get the view / contents that represent the component.
-     * @return View
-     */
     public function render(): View
     {
-        /** @var View */
-        $view = view('components.campaign-list');
-        return $view;
+        return view('components.campaign-list');
     }
 }

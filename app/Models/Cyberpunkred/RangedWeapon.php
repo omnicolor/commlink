@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Cyberpunkred;
 
+use RuntimeException;
+
 /**
  * If something comes out of it, traverses a distance, and causes damage at the
  * end of that trajectory, it's a Ranged Weapon.
@@ -12,20 +14,19 @@ class RangedWeapon extends Weapon
 {
     /**
      * Number of rounds remaining in the magazine.
-     * @var int
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public int $ammoRemaining;
 
     /**
      * Number of rounds in the weapon's standard magazine.
-     * @var int
      */
     public int $magazine;
 
     /**
      * Construct a new ranged weapon.
      * @param array<string, int|string> $options
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function __construct(array $options)
     {
@@ -44,7 +45,7 @@ class RangedWeapon extends Weapon
 
         if (isset($options['quality'])) {
             if (!\in_array($options['quality'], self::QUALITIES, true)) {
-                throw new \RuntimeException(\sprintf(
+                throw new RuntimeException(\sprintf(
                     'Weapon ID "%s" has invalid quality "%s"',
                     $id,
                     $options['quality']

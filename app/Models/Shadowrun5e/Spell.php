@@ -8,6 +8,7 @@ use RuntimeException;
 
 /**
  * Class representing a spell in Shadowrun 5E.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class Spell
 {
@@ -15,91 +16,78 @@ class Spell
 
     /**
      * Category (combat, detection, etc).
-     * @var string
      */
     public string $category;
 
     /**
      * Damage type for the spell.
-     * @var ?string
      */
     public ?string $damage;
 
     /**
      * Description of the spell.
-     * @var string
      */
     public string $description;
 
     /**
      * Drain code for the spell.
-     * @var string
      */
     public string $drain;
 
     /**
      * Duration of the spell.
-     * @var string
      */
     public string $duration;
 
     /**
      * Force of the spell.
-     * @var int
      */
     public int $force;
 
     /**
      * Unique ID of the spell.
-     * @var string
      */
     public string $id;
 
     /**
      * Name of the spell.
-     * @var string
      */
     public string $name;
 
     /**
      * Page the spell was introduced on.
-     * @var ?int
      */
     public ?int $page;
 
     /**
      * Range of the spell (T, LOS, etc).
-     * @var string
      */
     public string $range;
 
     /**
      * Book ID the spell was introduced in.
-     * @var string
      */
     public string $ruleset;
 
     /**
      * List of tags for the spell.
-     * @var string[]
+     * @var array<int, string>
      */
     public array $tags = [];
 
     /**
      * Type of the spell.
-     * @var string
      */
     public string $type;
 
     /**
      * List of all spells.
-     * @var ?array<mixed>
+     * @var ?array<string, array<string, mixed>>
      */
     public static ?array $spells;
 
     /**
      * Construct a new spell object.
-     * @param string $id ID to load
      * @throws RuntimeException if the ID is invalid
      */
     public function __construct(string $id)
@@ -129,10 +117,6 @@ class Spell
         $this->type = $spell['type'];
     }
 
-    /**
-     * Return the name of the spell.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;
@@ -140,8 +124,6 @@ class Spell
 
     /**
      * Try to find a spell by its name.
-     * @param string $name
-     * @return Spell
      * @throws RuntimeException
      */
     public static function findByName(string $name): Spell
@@ -163,7 +145,7 @@ class Spell
 
     /**
      * Return the drain value for the spell, based on its force.
-     * @return int
+     * @psalm-suppress PossiblyUnusedMethod
      * @throws RuntimeException if the force isn't set
      */
     public function getDrain(): int
@@ -176,8 +158,7 @@ class Spell
 
     /**
      * Set the force of the spell.
-     * @param int $force
-     * @return Spell
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function setForce(int $force): Spell
     {

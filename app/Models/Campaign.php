@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Traits\GameSystem;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use RuntimeException;
 
 /**
  * Class representing a gaming campaign or one-shot.
@@ -48,10 +50,6 @@ class Campaign extends Model
         'system',
     ];
 
-    /**
-     * Return the campaign's name.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->attributes['name'];
@@ -59,7 +57,6 @@ class Campaign extends Model
 
     /**
      * Get a collection of channels attached to the campaign.
-     * @return HasMany
      */
     public function channels(): HasMany
     {
@@ -68,7 +65,6 @@ class Campaign extends Model
 
     /**
      * Return characters playing in the campaign.
-     * @return Collection
      */
     public function characters(): Collection
     {
@@ -77,7 +73,6 @@ class Campaign extends Model
 
     /**
      * Get the user that is GMing the campaign.
-     * @return BelongsTo
      */
     public function gamemaster(): BelongsTo
     {
@@ -86,7 +81,6 @@ class Campaign extends Model
 
     /**
      * Return the initiatives rolled for the campaign.
-     * @return HasMany
      */
     public function initiatives(): HasMany
     {
@@ -134,20 +128,22 @@ class Campaign extends Model
 
     /**
      * Set the system for the campaign.
-     * @param string $system
-     * @throws \RuntimeException
      */
-    public function setSystemAttribute(string $system): void
+    public function system(): Attribute
     {
-        if (!\array_key_exists($system, config('app.systems'))) {
-            throw new \RuntimeException('Invalid system');
-        }
-        $this->attributes['system'] = $system;
+        return Attribute::make(
+            set: function (string $system): string {
+                if (!\array_key_exists($system, config('app.systems'))) {
+                    throw new RuntimeException('Invalid system');
+                }
+                return $system;
+            },
+        );
     }
 
     /**
      * Get a collection of users playing in the game (or at least invited).
-     * @return BelongsToMany
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function users(): BelongsToMany
     {

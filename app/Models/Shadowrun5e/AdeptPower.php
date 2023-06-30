@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use RuntimeException;
+
 /**
  * Adept power.
  */
@@ -11,61 +13,59 @@ class AdeptPower
 {
     /**
      * Cost of the power in power points.
-     * @var float
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public float $cost;
 
     /**
      * Description of the power.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
     /**
      * Collection of in-game effects for the power.
+     * @psalm-suppress PossiblyUnusedProperty
      * @var array<string, int>
      */
     public array $effects;
 
     /**
      * Unique ID for the power.
-     * @var string
      */
     public string $id;
 
     /**
      * Level of the power.
-     * @var ?int
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public ?int $level;
 
     /**
      * Name of the power.
-     * @var string
      */
     public string $name;
 
     /**
      * Page the power was introduced on.
-     * @var ?int
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public ?int $page;
 
     /**
      * Rule book the power was introduced in.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $ruleset;
 
     /**
      * Collection of all powers.
-     * @var ?array<mixed>
+     * @var ?array<string, array<string, mixed>>
      */
     public static ?array $powers;
 
     /**
      * Build a new AdeptPower object.
-     * @param string $id
      */
     public function __construct(string $id)
     {
@@ -73,7 +73,7 @@ class AdeptPower
         self::$powers ??= require $filename;
         $id = \strtolower($id);
         if (!isset(self::$powers[$id])) {
-            throw new \RuntimeException(\sprintf(
+            throw new RuntimeException(\sprintf(
                 'Adept power ID "%s" is invalid',
                 $id
             ));
@@ -90,10 +90,6 @@ class AdeptPower
         $this->ruleset = $power['ruleset'] ?? 'core';
     }
 
-    /**
-     * Return the name of the power.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;

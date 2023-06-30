@@ -14,20 +14,10 @@ class Knowledge extends Component
 {
     /**
      * Whether the character is still being built.
-     * @var bool
      */
     public bool $charGen;
 
-    /**
-     * Character's non-language knowledge skills.
-     * @var SkillArray
-     */
     public SkillArray $knowledges;
-
-    /**
-     * Character's languages.
-     * @var SkillArray
-     */
     public SkillArray $languages;
 
     /**
@@ -42,12 +32,9 @@ class Knowledge extends Component
 
     /**
      * Get the view that represents the component.
-     * @return View
      */
     public function render(): View
     {
-        /** @var View */
-        $view = view('components.shadowrun5e.knowledge');
-        return $view;
+        return view('components.shadowrun5e.knowledge');
     }
 }

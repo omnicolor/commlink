@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Expanse;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Controller for Expanse social classes.
  */
-class SocialClassesController extends \App\Http\Controllers\Controller
+class SocialClassesController extends Controller
 {
     /**
      * Path to the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class SocialClassesController extends \App\Http\Controllers\Controller
      */
     protected array $classes;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -41,11 +38,10 @@ class SocialClassesController extends \App\Http\Controllers\Controller
 
     /**
      * Get the entire collection of Expanse social classes.
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
-        foreach ($this->classes as $key => $unused) {
+        foreach (array_keys($this->classes) as $key) {
             $this->classes[$key]['links'] = [
                 'self' => \sprintf('/api/expanse/social-classes/%s', $key),
             ];
@@ -63,8 +59,6 @@ class SocialClassesController extends \App\Http\Controllers\Controller
 
     /**
      * Get a single Expanse social class.
-     * @param string $id
-     * @return \Illuminate\Http\Response
      */
     public function show(string $id): Response
     {

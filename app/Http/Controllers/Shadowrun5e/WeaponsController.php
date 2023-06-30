@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shadowrun5e;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Controller for weapons.
  */
-class WeaponsController extends \App\Http\Controllers\Controller
+class WeaponsController extends Controller
 {
     /**
      * Path to the data file.
@@ -40,11 +41,11 @@ class WeaponsController extends \App\Http\Controllers\Controller
 
     /**
      * Return collection of all weapons.
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(): Response
     {
-        foreach ($this->weapons as $key => $value) {
+        foreach (array_keys($this->weapons) as $key) {
             $this->weapons[$key]['links'] = [
                 'self' => \sprintf(
                     '/api/shadowrun5e/weapons/%s',
@@ -66,7 +67,7 @@ class WeaponsController extends \App\Http\Controllers\Controller
     /**
      * Return a single weapon.
      * @param string $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(string $id): Response
     {

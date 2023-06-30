@@ -11,6 +11,7 @@ use App\Models\Slack\TextAttachment;
 
 /**
  * Slack response for registering a channel for a particular system.
+ * @psalm-suppress UnusedClass
  */
 class RegisterResponse extends SlackResponse
 {
@@ -18,10 +19,7 @@ class RegisterResponse extends SlackResponse
 
     /**
      * Constructor.
-     * @param string $content
-     * @param int $status
      * @param array<string, string> $headers
-     * @param ?Channel $channel
      * @throws SlackException
      */
     public function __construct(

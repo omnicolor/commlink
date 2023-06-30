@@ -11,6 +11,7 @@ use Discord\Parts\Channel\Channel as TextChannel;
 
 /**
  * Handle a user requesting to link a Discord channel to Commlink.
+ * @psalm-suppress UnusedClass
  */
 class RegisterResponse
 {
@@ -18,10 +19,6 @@ class RegisterResponse
 
     protected string $message = '';
 
-    /**
-     * Construct a new instance.
-     * @param DiscordMessageReceived $event
-     */
     public function __construct(protected DiscordMessageReceived $event)
     {
         $arguments = \explode(' ', trim($this->event->content));
@@ -73,10 +70,6 @@ class RegisterResponse
         ChannelLinked::dispatch($channel);
     }
 
-    /**
-     * Format the response for Discord.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->message;
@@ -84,9 +77,6 @@ class RegisterResponse
 
     /**
      * Create a new Commlink channel for the Discord channel.
-     * @param TextChannel $discordChannel
-     * @param string $system
-     * @return Channel
      */
     protected function createNewChannel(
         TextChannel $discordChannel,
@@ -119,7 +109,6 @@ class RegisterResponse
 
     /**
      * Let the user know they chose an invalid system.
-     * @param string $system
      * @param array<string, string> $systems
      */
     protected function sendInvalidSystemError(
@@ -136,7 +125,6 @@ class RegisterResponse
 
     /**
      * Let the user know the channel is already registered.
-     * @param string $system
      */
     protected function sendAlreadyRegisteredError(string $system): void
     {

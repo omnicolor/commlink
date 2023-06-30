@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Cyberpunkred\Role;
 
 use App\Models\Cyberpunkred\Role;
+use OutOfBoundsException;
 
 class Rockerboy extends Role
 {
@@ -21,25 +22,22 @@ class Rockerboy extends Role
 
     /**
      * Whether the character is a solo (2) or group (1) act.
-     * @var int
      */
     public int $act;
 
     /**
      * Who's gunning for the rockerboy?
-     * @var int
      */
     public int $gunning;
 
     /**
      * Where does the rockerboy perform?
-     * @var int
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public int $perform;
 
     /**
      * What kind of Rockerboy is the character?
-     * @var int
      */
     public int $type;
 
@@ -92,10 +90,6 @@ class Rockerboy extends Role
         $this->type = $role['type'] ?? self::TYPE_MUSICIAN;
     }
 
-    /**
-     * Return the name of the role.
-     * @return string
-     */
     public function __toString(): string
     {
         return 'Rockerboy';
@@ -103,8 +97,8 @@ class Rockerboy extends Role
 
     /**
      * Return the type of act the rockerboy performs in.
-     * @return string
-     * @throws \OutOfBoundsException
+     * @psalm-suppress PossiblyUnusedMethod
+     * @throws OutOfBoundsException
      */
     public function getAct(): string
     {
@@ -114,13 +108,13 @@ class Rockerboy extends Role
             case self::ACT_GROUP:
                 return 'group';
         }
-        throw new \OutOfBoundsException();
+        throw new OutOfBoundsException();
     }
 
     /**
      * Return a description of who's gunning for you.
-     * @return string
-     * @throws \OutOfBoundsException
+     * @psalm-suppress PossiblyUnusedMethod
+     * @throws OutOfBoundsException
      */
     public function getWhosGunning(): string
     {
@@ -128,13 +122,13 @@ class Rockerboy extends Role
             case self::GUNNING_OLD_GROUP_MEMBER:
                 return 'Old group member who thinks you did them dirty.';
         }
-        throw new \OutOfBoundsException();
+        throw new OutOfBoundsException();
     }
 
     /**
      * Return the type of rockerboy.
-     * @return string
-     * @throws \OutOfBoundsException
+     * @psalm-suppress PossiblyUnusedMethod
+     * @throws OutOfBoundsException
      */
     public function getType(): string
     {
@@ -146,6 +140,6 @@ class Rockerboy extends Role
             case self::TYPE_STREET_ARTIST:
                 return 'street artist';
         }
-        throw new \OutOfBoundsException();
+        throw new OutOfBoundsException();
     }
 }

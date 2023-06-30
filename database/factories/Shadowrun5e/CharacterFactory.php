@@ -27,7 +27,7 @@ class CharacterFactory extends Factory
     {
         return [
             'handle' => $this->faker->name,
-            'owner' => (User::factory()->create())->email,
+            'owner' => (string)(User::factory()->create())->email,
             'system' => 'shadowrun5e',
         ];
     }

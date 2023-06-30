@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shadowrun5e;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Controller for Shadowrun 5E ammunition.
  */
-class AmmunitionController extends \App\Http\Controllers\Controller
+class AmmunitionController extends Controller
 {
     /**
      * Path to the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class AmmunitionController extends \App\Http\Controllers\Controller
      */
     protected array $ammo;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -41,11 +38,10 @@ class AmmunitionController extends \App\Http\Controllers\Controller
 
     /**
      * Return a collection of ammunition resources.
-     * @return Response
      */
     public function index(): Response
     {
-        foreach ($this->ammo as $key => $value) {
+        foreach (array_keys($this->ammo) as $key) {
             $this->ammo[$key]['links'] = [
                 'self' => \sprintf(
                     '/api/shadowrun5e/ammunition/%s',
@@ -64,9 +60,7 @@ class AmmunitionController extends \App\Http\Controllers\Controller
     }
 
     /**
-     * Return a single ammuntion resource.
-     * @param string $id ID of the ammunition to return
-     * @return Response
+     * Return a single ammunition resource.
      */
     public function show(string $id): Response
     {

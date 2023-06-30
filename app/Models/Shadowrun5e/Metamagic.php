@@ -6,42 +6,37 @@ namespace App\Models\Shadowrun5e;
 
 /**
  * Class representing a metamagic in Shadowrun.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class Metamagic
 {
     /**
      * Whether the metamagic is for adepts only.
-     * @var bool
      */
     public bool $adeptOnly;
 
     /**
      * Description of the metamagic.
-     * @var string
      */
     public string $description;
 
     /**
      * ID of the metamagic.
-     * @var string
      */
     public string $id;
 
     /**
      * Name of the metamagic.
-     * @var string
      */
     public string $name;
 
     /**
      * Page the metamagic was introduced on.
-     * @var int
      */
     public int $page;
 
     /**
      * Ruleset the metamagic was introduced in.
-     * @var string
      */
     public string $ruleset;
 

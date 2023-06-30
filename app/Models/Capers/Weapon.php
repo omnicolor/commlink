@@ -6,8 +6,11 @@ namespace App\Models\Capers;
 
 class Weapon extends Gear
 {
+    /** @psalm-suppress PossiblyUnusedProperty */
     public ?string $damage;
+    /** @psalm-suppress PossiblyUnusedProperty */
     public ?string $range;
+    /** @psalm-suppress PossiblyUnusedProperty */
     public ?string $rounds;
     public string $type = 'weapon';
 

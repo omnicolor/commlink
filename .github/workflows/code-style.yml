@@ -4,37 +4,37 @@ on: pull_request
 
 jobs:
   PHP-Code-Sniffer:
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-latest"
     strategy:
       matrix:
         php-version:
-          - 8.2
+          - "8.2"
     steps:
-      - name: "Checkout"
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: PHP Code Style (phpcs)
         uses: chindit/actions-phpcs@1.0.1
 
   PHP-CS-Fixer:
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-latest"
     strategy:
       matrix:
         php-version:
-          - 8.1
+          - "8.1"
     steps:
-      - name: "Checkout"
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: "Install PHP w/ Extensions"
+      - name: Install PHP with extensions
         uses: shivammathur/setup-php@master
         with:
           php-version: ${{ matrix.php-version }}
           coverage: none
           extensions: "json, mbstring, mongodb, pdo"
 
-      - name: "Install PHP CS Fixer"
+      - name: Install PHP CS Fixer
         run: COMPOSER=.github/workflows/composer.php-cs-fixer.json composer install --no-interaction --no-progress
 
-      - name: "Run php-cs-fixer"
+      - name: Run php-cs-fixer
         run: vendor/bin/php-cs-fixer fix --dry-run --config=./php_cs.php -v --using-cache=no --diff --ansi

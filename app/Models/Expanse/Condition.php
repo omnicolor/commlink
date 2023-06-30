@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Expanse;
 
+use RuntimeException;
+
 /**
  * Conditions that can affect characters.
  */
@@ -17,32 +19,31 @@ class Condition
 
     /**
      * Short description of the condition's effects.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
     /**
      * Unique ID for the condition.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $id;
 
     /**
      * Name of the condition.
-     * @var string
      */
     public string $name;
 
     /**
      * Page the condition is described on.
-     * @var int
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public int $page;
 
     /**
      * Constructor.
-     * @param string $id
-     * @throws \RuntimeException
+     * @psalm-suppress PossiblyUnusedMethod
+     * @throws RuntimeException
      */
     public function __construct(string $id)
     {
@@ -51,7 +52,7 @@ class Condition
 
         $id = \strtolower($id);
         if (!isset(self::$conditions[$id])) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 \sprintf('Condition ID "%s" is invalid', $id)
             );
         }

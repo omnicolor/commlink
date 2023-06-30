@@ -19,7 +19,9 @@ use RuntimeException;
  */
 class Virtue
 {
+    /** @psalm-suppress PossiblyUnusedProperty */
     public string $card;
+    /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
     public string $id;
     public string $name;
@@ -69,6 +71,7 @@ class Virtue
         return $virtues;
     }
 
+    /** @psalm-suppress PossiblyUnusedMethod */
     public static function findForCard(Card $card): Virtue
     {
         $filename = config('app.data_path.capers') . 'virtues.php';

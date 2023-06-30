@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use RuntimeException;
+
 /**
  * Knowledge skill a character possesses.
  * @property string $id
@@ -13,17 +15,12 @@ class KnowledgeSkill extends Skill
 {
     /**
      * Category of knowledge skill (professional, academic, etc).
-     * @var string
      */
     public string $category;
 
     /**
      * Create a new Knowledge skill object.
-     * @param string $name Name of the skill
-     * @param string $category Category (professional, language, etc)
-     * @param int|string $level Level for the skill
-     * @param ?string $specializations Optional specializations
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function __construct(
         string $name,
@@ -40,7 +37,7 @@ class KnowledgeSkill extends Skill
         ];
         $this->name = $name;
         if (!\in_array($category, $categories, true)) {
-            throw new \RuntimeException(\sprintf(
+            throw new RuntimeException(\sprintf(
                 'Knowledge skill category "%s" is invalid',
                 $category
             ));
@@ -68,6 +65,9 @@ class KnowledgeSkill extends Skill
         $this->specialization = $specializations;
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function __get(string $name): mixed
     {
         return match ($name) {

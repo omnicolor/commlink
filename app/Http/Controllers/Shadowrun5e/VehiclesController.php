@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shadowrun5e;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Controller for vehicles.
  */
-class VehiclesController extends \App\Http\Controllers\Controller
+class VehiclesController extends Controller
 {
     /**
      * Path to the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class VehiclesController extends \App\Http\Controllers\Controller
      */
     protected array $vehicles;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -40,11 +37,10 @@ class VehiclesController extends \App\Http\Controllers\Controller
 
     /**
      * Return collection of all vehicles.
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
-        foreach ($this->vehicles as $key => $value) {
+        foreach (array_keys($this->vehicles) as $key) {
             $this->vehicles[$key]['links'] = [
                 'self' => \sprintf(
                     '/api/shadowrun5e/vehicles/%s',
@@ -66,8 +62,6 @@ class VehiclesController extends \App\Http\Controllers\Controller
 
     /**
      * Return a single vehicle.
-     * @param string $id
-     * @return \Illuminate\Http\Response
      */
     public function show(string $id): Response
     {

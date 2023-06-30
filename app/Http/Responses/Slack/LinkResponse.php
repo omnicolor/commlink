@@ -12,15 +12,13 @@ use App\Models\Slack\TextAttachment;
 
 /**
  * Try to link a character to a Slack channel.
+ * @psalm-suppress UnusedClass
  */
 class LinkResponse extends SlackResponse
 {
     /**
      * Constructor.
-     * @param string $content
-     * @param int $status
      * @param array<string, string> $headers
-     * @param ?Channel $channel
      * @throws SlackException
      */
     public function __construct(

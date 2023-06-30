@@ -6,6 +6,9 @@ namespace App\Models\Shadowrun6e;
 
 use RuntimeException;
 
+/**
+ * @psalm-suppress PossiblyUnusedProperty
+ */
 class Quality
 {
     public string $description;
@@ -28,8 +31,6 @@ class Quality
     public static array $qualities;
 
     /**
-     * Constructor.
-     * @param string $id
      * @throws RuntimeException
      */
     public function __construct(string $id)
@@ -62,7 +63,7 @@ class Quality
 
     /**
      * Try to find a quality by its name.
-     * @param string $name
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, Quality>
      * @throws RuntimeException
      */

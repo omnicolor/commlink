@@ -7,6 +7,7 @@ namespace Database\Factories;
 use App\Models\Character;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * @extends Factory<Character>
@@ -39,8 +40,10 @@ class CharacterFactory extends Factory
         return [
             'handle' => $name,
             'name' => $name,
-            'owner' => (User::factory()->create())->email,
-            'system' => $this->faker->randomElement(\array_keys(config('app.systems'))),
+            'owner' => (string)(User::factory()->create())->email,
+            'system' => (string)$this->faker->randomElement(
+                \array_keys((array)config('app.systems'))
+            ),
         ];
     }
 
@@ -50,7 +53,7 @@ class CharacterFactory extends Factory
      */
     public function configure(): CharacterFactory
     {
-        $updateName = function (Character $character): void {
+        $updateName = function (Model $character): void {
             if (in_array($character->system, $this->usesHandle, true)) {
                 $character->name = null;
                 return;
@@ -60,7 +63,7 @@ class CharacterFactory extends Factory
         };
 
         return $this->afterMaking($updateName)
-            ->afterCreating(function (Character $character) use ($updateName): void {
+            ->afterCreating(function (Model $character) use ($updateName): void {
                 $updateName($character);
                 $character->save();
             });

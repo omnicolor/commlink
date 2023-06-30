@@ -6,36 +6,34 @@ namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
 
+/**
+ * @psalm-suppress PossiblyUnusedProperty
+ */
 class Rulebook
 {
     /**
      * Whether the rulebook is included in Commlink character creation by
      * default.
-     * @var bool
      */
     public bool $default = true;
 
     /**
      * Description of the rulebook.
-     * @var string
      */
     public string $description;
 
     /**
      * Unique ID for the rulebook.
-     * @var string
      */
     public string $id;
 
     /**
      * Name of the rulebook.
-     * @var string
      */
     public string $name;
 
     /**
      * Whether the rulebook is required to play the game.
-     * @var bool
      */
     public bool $required = false;
 
@@ -47,7 +45,6 @@ class Rulebook
 
     /**
      * Construct a new rulebook object.
-     * @param string $id ID to load
      * @throws RuntimeException
      */
     public function __construct(string $id)
@@ -70,10 +67,6 @@ class Rulebook
         $this->required = $book['required'] ?? false;
     }
 
-    /**
-     * Return the name of the rulebook.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;

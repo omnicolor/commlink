@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use RuntimeException;
+
 /**
  * Skill a character can use.
  */
@@ -11,25 +13,24 @@ class ActiveSkill extends Skill
 {
     /**
      * Whether the character can default this skill.
-     * @var bool
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public bool $default = false;
 
     /**
      * Description of the skill.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
     /**
      * Skill group the skill belongs to.
-     * @var ?string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public ?string $group = null;
 
     /**
      * ID of the skill.
-     * @var string
      */
     public string $id;
 
@@ -41,19 +42,19 @@ class ActiveSkill extends Skill
 
     /**
      * Construct a skill for the character.
-     * @param string $id ID of the skill to load
-     * @param int $level Level the character has for the skill
-     * @param string $specialization Optional specialization
-     * @throws \RuntimeException If the skill isn't valid
+     * @throws RuntimeException If the skill isn't valid
      */
-    public function __construct(string $id, int $level, $specialization = null)
-    {
+    public function __construct(
+        string $id,
+        int $level,
+        ?string $specialization = null
+    ) {
         $filename = config('app.data_path.shadowrun5e') . 'skills.php';
         self::$skills ??= require $filename;
 
         $id = \strtolower($id);
         if (!isset(self::$skills[$id])) {
-            throw new \RuntimeException(\sprintf(
+            throw new RuntimeException(\sprintf(
                 'Skill ID "%s" is invalid',
                 $id
             ));
@@ -73,9 +74,7 @@ class ActiveSkill extends Skill
 
     /**
      * Try to find a skill's ID based on its name.
-     * @param string $name
-     * @return string
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public static function findIdByName(string $name): string
     {
@@ -86,7 +85,7 @@ class ActiveSkill extends Skill
                 return $skill['id'];
             }
         }
-        throw new \RuntimeException(\sprintf(
+        throw new RuntimeException(\sprintf(
             'Active skill "%s" not found',
             $name
         ));
@@ -94,7 +93,7 @@ class ActiveSkill extends Skill
 
     /**
      * Return all available active skills.
-     * @return SkillArray
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public static function all(): SkillArray
     {

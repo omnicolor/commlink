@@ -20,7 +20,6 @@ abstract class Deck implements Countable
 
     /**
      * Campaign the deck belongs to.
-     * @var int
      */
     public int $campaign_id;
 
@@ -32,7 +31,6 @@ abstract class Deck implements Countable
 
     /**
      * Database ID of the deck.
-     * @var int
      */
     public int $id;
 
@@ -62,7 +60,6 @@ abstract class Deck implements Countable
 
     /**
      * Return the number of cards remaining in the deck.
-     * @return int
      */
     public function count(): int
     {
@@ -71,7 +68,6 @@ abstract class Deck implements Countable
 
     /**
      * Draw one or more cards from the deck.
-     * @param ?int $number Number of cards to draw
      * @return array<int, Card>
      */
     public function draw(?int $number = 1): array
@@ -93,7 +89,6 @@ abstract class Deck implements Countable
 
     /**
      * Return the top card from the deck.
-     * @return Card
      */
     public function drawOne(): Card
     {
@@ -102,8 +97,7 @@ abstract class Deck implements Countable
 
     /**
      * Find a deck in the database.
-     * @param int $id
-     * @return Deck
+     * @psalm-suppress PossiblyUnusedMethod
      * @throws RuntimeException
      */
     public static function find(int $id): Deck
@@ -130,7 +124,6 @@ abstract class Deck implements Countable
 
     /**
      * Find all decks for a campaign.
-     * @param Campaign $campaign
      * @return array<int, Deck>
      */
     public static function findForCampaign(Campaign $campaign): array
@@ -169,7 +162,7 @@ abstract class Deck implements Countable
 
     /**
      * Take a peek at the top card in the deck without removing it.
-     * @return Card
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function peek(): Card
     {
@@ -181,7 +174,6 @@ abstract class Deck implements Countable
 
     /**
      * Save a new deck or update an existing one to the database.
-     * @return Deck
      */
     public function save(): Deck
     {
@@ -203,7 +195,6 @@ abstract class Deck implements Countable
 
     /**
      * Reset and randomize the deck.
-     * @return Deck
      */
     public function shuffle(): Deck
     {
@@ -214,6 +205,7 @@ abstract class Deck implements Countable
 
     /**
      * Delete all decks from the database.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public static function truncate(): void
     {

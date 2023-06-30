@@ -42,7 +42,7 @@ class Campaign extends Roll
     public function __construct(
         string $content,
         string $character,
-        Channel $channel
+        protected Channel $channel
     ) {
         parent::__construct($content, $character, $channel);
         $args = \explode(' ', $content);

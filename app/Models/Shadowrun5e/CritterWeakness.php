@@ -8,36 +8,32 @@ use RuntimeException;
 
 /**
  * Representation of a critter's weakness.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class CritterWeakness
 {
     /**
      * Description of the weakness.
-     * @var string
      */
     public string $description;
 
     /**
      * Unique ID for the weakness.
-     * @var string
      */
     public string $id;
 
     /**
      * Name of the weakness.
-     * @var string
      */
     public string $name;
 
     /**
      * Page the weakness is described on.
-     * @var int
      */
     public int $page;
 
     /**
      * Ruleset the weakness is introduced in.
-     * @var string
      */
     public string $ruleset;
 
@@ -49,7 +45,6 @@ class CritterWeakness
 
     /**
      * Construct.
-     * @param string $id
      * @param ?string $subname Optional additional name of the weakness
      * @throws RuntimeException
      */

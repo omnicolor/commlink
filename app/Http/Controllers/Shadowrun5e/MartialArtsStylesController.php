@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Shadowrun5e;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 /**
  * Controller for Shadowrun 5th Edition martial arts styles.
  */
-class MartialArtsStylesController extends \App\Http\Controllers\Controller
+class MartialArtsStylesController extends Controller
 {
     /**
      * Path to the data file.
-     * @var string
      */
     protected string $filename;
 
@@ -23,9 +23,6 @@ class MartialArtsStylesController extends \App\Http\Controllers\Controller
      */
     protected array $styles;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -41,11 +38,10 @@ class MartialArtsStylesController extends \App\Http\Controllers\Controller
 
     /**
      * Get the entire collection of styles.
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
-        foreach ($this->styles as $key => $value) {
+        foreach (array_keys($this->styles) as $key) {
             $this->styles[$key]['links'] = [
                 'self' => \sprintf(
                     '/api/shadowrun5e/martial-arts-styles/%s',
@@ -66,8 +62,6 @@ class MartialArtsStylesController extends \App\Http\Controllers\Controller
 
     /**
      * Return information about a single style.
-     * @param string $id
-     * @return \Illuminate\Http\Response
      */
     public function show(string $id): Response
     {

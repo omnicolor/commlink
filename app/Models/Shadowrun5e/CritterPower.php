@@ -8,6 +8,7 @@ use RuntimeException;
 
 /**
  * Critter/Spirit power.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class CritterPower
 {
@@ -31,62 +32,53 @@ class CritterPower
 
     /**
      * Type of action required to use the power: Auto, Complex, or Simple.
-     * @var string
      */
     public string $action;
 
     /**
      * Description of the power.
-     * @var string
      */
     public string $description;
 
     /**
      * Duration for the power: Always, Instant, Permanent, Special, or
      * Sustained.
-     * @var string
      */
     public string $duration;
 
     /**
      * Unique ID for the power.
-     * @var string
      */
     public string $id;
 
     /**
      * Name of the power.
-     * @var string
      */
     public string $name;
 
     /**
      * Page the power is described on.
-     * @var int
      */
     public int $page;
 
     /**
      * Range of the power: LOS (line of sight), Self, Special, or Touch.
-     * @var string
      */
     public string $range;
 
     /**
      * Ruleset the power was introduced in.
-     * @var string
      */
     public string $ruleset;
 
     /**
      * Type of the power: M (mana) or P (physical).
-     * @var string
      */
     public string $type;
 
     /**
      * Collection of all powers.
-     * @var ?array<mixed>
+     * @var ?array<string, array<string, mixed>>
      */
     public static ?array $powers;
 
@@ -114,6 +106,9 @@ class CritterPower
         $this->description = $power['description'];
         $this->duration = $power['duration'];
         $this->name = $power['name'];
+        if (null !== $subname) {
+            $this->name .= ' ' . $subname;
+        }
         $this->page = $power['page'];
         $this->range = $power['range'];
         $this->ruleset = $power['ruleset'];

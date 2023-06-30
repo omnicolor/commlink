@@ -8,12 +8,12 @@ use RuntimeException;
 
 /**
  * Mentor spirit class.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class MentorSpirit
 {
     /**
      * Description of the mentor spirit.
-     * @var string
      */
     public string $description;
 
@@ -25,37 +25,32 @@ class MentorSpirit
 
     /**
      * Unique ID for the mentor spirit.
-     * @var string
      */
     public string $id;
 
     /**
      * Name of the mentor spirit.
-     * @var string
      */
     public string $name;
 
     /**
      * Page the mentor spirit was introduced on.
-     * @var ?int
      */
     public ?int $page;
 
     /**
      * Ruleset the mentor spirit was introduced in.
-     * @var string
      */
     public string $ruleset;
 
     /**
      * Collection of all mentor spirits.
-     * @var ?array<mixed>
+     * @var ?array<string, array<string, mixed>>
      */
     public static ?array $spirits;
 
     /**
      * Constructor.
-     * @param string $id ID to load
      * @throws RuntimeException if the ID is invalid
      */
     public function __construct(string $id)
@@ -79,10 +74,6 @@ class MentorSpirit
         $this->ruleset = $spirit['ruleset'];
     }
 
-    /**
-     * Return the name of the mentor spirit.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;
@@ -90,8 +81,6 @@ class MentorSpirit
 
     /**
      * Return a mentor spirit based on its name.
-     * @param string $name
-     * @return MentorSpirit
      * @throws RuntimeException
      */
     public static function findByName(string $name): MentorSpirit

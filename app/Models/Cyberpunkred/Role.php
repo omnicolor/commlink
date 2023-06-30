@@ -13,44 +13,42 @@ abstract class Role
 
     /**
      * Description of the role's ability.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $abilityDescription;
 
     /**
      * Name of the role's ability.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $abilityName;
 
     /**
      * Description of the role.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
     /**
      * Rank the character has achieved in the role.
-     * @var int
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public int $rank;
 
     /**
      * Constructor.
      * @param array<string, mixed> $role
+     * @psalm-suppress PossiblyUnusedMethod
      */
     abstract public function __construct(array $role);
 
-    /**
-     * Return the role's name as a string.
-     * @return string
-     */
     abstract public function __toString(): string;
 
     /**
      * Return the appropriate role object from an array.
      * @param array<string, string|int> $role
-     * @return Role
+     * @psalm-suppress PossiblyUnusedMethod
+     * @throws RuntimeException
      */
     public static function fromArray(array $role): Role
     {
@@ -72,7 +70,6 @@ abstract class Role
 
     /**
      * Return a collection of all roles.
-     * @return RoleArray
      */
     public static function all(): RoleArray
     {

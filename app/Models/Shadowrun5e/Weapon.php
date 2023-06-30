@@ -4,20 +4,21 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use RuntimeException;
+
 /**
  * Weapon to take out the opposition.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class Weapon
 {
     /**
      * Collection of accessories.
-     * @var WeaponModificationArray
      */
     public WeaponModificationArray $accessories;
 
     /**
      * Accuracy of the weapon.
-     * @var string|int|null
      */
     public int | null | string $accuracy;
 
@@ -29,67 +30,56 @@ class Weapon
 
     /**
      * Number of rounds the weapon holds.
-     * @var ?int
      */
     public ?int $ammoCapacity;
 
     /**
      * Type of container for the ammunition.
-     * @var string
      */
     public ?string $ammoContainer;
 
     /**
      * Armor piercing base value for the weapon.
-     * @var ?int
      */
     public ?int $armorPiercing;
 
     /**
      * Availability code for the weapon.
-     * @var string
      */
     public string $availability = '';
 
     /**
      * Class of the weapon.
-     * @var string
      */
     public string $class;
 
     /**
      * Cost of the weapon.
-     * @var ?int
      */
     public ?int $cost;
 
     /**
      * Damage code for the weapon.
-     * @var string
      */
     public string $damage;
 
     /**
      * Description of the weapon.
-     * @var string
      */
     public string $description;
 
     /**
      * Unique identifier for the weapon's information.
-     * @var string
      */
     public string $id;
 
     /**
      * Unique identifier for this instance of the weapon.
-     * @var ?string
      */
     public ?string $link;
 
     /**
      * Identifier for the clip currently loaded.
-     * @var ?string
      */
     public ?string $loaded;
 
@@ -101,74 +91,63 @@ class Weapon
 
     /**
      * Built-in modifications.
-     * @var WeaponModificationArray
      */
     public WeaponModificationArray $modifications;
 
     /**
      * Added-on modifications.
-     * @var WeaponModificationArray
      */
     public WeaponModificationArray $modificationsAdded;
 
     /**
      * Name of the weapon.
-     * @var string
      */
     public string $name;
 
     /**
      * Page the weapon was added on.
-     * @var ?int
      */
     public ?int $page;
 
     /**
      * Weapon's reach.
-     * @var ?int
      */
     public ?int $reach;
 
     /**
      * Recoil compensation.
-     * @var ?int
      */
     public ?int $recoilCompensation;
 
     /**
      * Ruleset the weapon is listed in.
-     * @var string
      */
     public string $ruleset = 'core';
 
     /**
      * Skill to use for the weapon.
-     * @var string
      */
     public string $skill;
 
     /**
      * Subname for the weapon.
-     * @var ?string
      */
     public ?string $subname;
 
     /**
      * Type of combat for the weapon.
-     * @var string
      */
     public string $type;
 
     /**
      * List of all weapons.
-     * @var ?array<int, mixed>
+     * @var ?array<string, array<string, mixed>>
      */
     public static ?array $weapons;
 
     /**
      * Construct a new weapon object.
-     * @param string $id ID to load
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function __construct(string $id)
     {
@@ -196,7 +175,7 @@ class Weapon
         }
 
         if (!\array_key_exists($id, self::$weapons)) {
-            throw new \RuntimeException(\sprintf(
+            throw new RuntimeException(\sprintf(
                 'Weapon ID "%s" is invalid',
                 $id
             ));
@@ -218,7 +197,7 @@ class Weapon
             foreach ($weapon['modifications'] as $mod) {
                 try {
                     $weaponMod = new WeaponModification($mod);
-                } catch (\RuntimeException $e) {
+                } catch (RuntimeException $e) {
                     // Ignore modifications that aren't loadable
                     continue;
                 }
@@ -242,10 +221,6 @@ class Weapon
         }
     }
 
-    /**
-     * Return the name of the weapon.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;
@@ -254,7 +229,6 @@ class Weapon
     /**
      * Return the cost of the weapon, including ammo, modifications, and
      * accessories.
-     * @return int
      */
     public function getCost(): int
     {
@@ -277,7 +251,7 @@ class Weapon
 
     /**
      * Return the weapon's damage.
-     * @param int $strength Character's strength
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getDamage(int $strength): string
     {
@@ -295,7 +269,7 @@ class Weapon
 
     /**
      * Get the range listing for a firearm.
-     * @return string
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getRange(): string
     {
@@ -354,7 +328,6 @@ class Weapon
     /**
      * Build a weapon from a raw array.
      * @param array<mixed> $weapon
-     * @return Weapon
      */
     public static function buildWeapon(array $weapon): Weapon
     {
@@ -384,9 +357,7 @@ class Weapon
 
     /**
      * Return a weapon based on its name.
-     * @param string $name
-     * @return Weapon
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public static function findByName(string $name): Weapon
     {
@@ -399,7 +370,7 @@ class Weapon
             }
         }
 
-        throw new \RuntimeException(\sprintf(
+        throw new RuntimeException(\sprintf(
             'Weapon name "%s" was not found',
             $name
         ));

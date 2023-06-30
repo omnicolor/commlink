@@ -6,7 +6,9 @@ namespace App\Models\Capers;
 
 class Explosive extends Gear
 {
+    /** @psalm-suppress PossiblyUnusedProperty */
     public ?string $blast;
+    /** @psalm-suppress PossiblyUnusedProperty */
     public ?string $damage;
     public string $type = 'explosive';
 

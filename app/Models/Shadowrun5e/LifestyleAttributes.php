@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use RuntimeException;
+
 /**
  * Lifestyle attributes.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class LifestyleAttributes
 {
@@ -19,7 +22,7 @@ class LifestyleAttributes
     /**
      * Constructor.
      * @param array<string, int> $attributes
-     * @throws \RuntimeException if attributes are missing
+     * @throws RuntimeException if attributes are missing
      */
     public function __construct(array $attributes)
     {
@@ -33,7 +36,7 @@ class LifestyleAttributes
                 $attributes['securityMax'],
             )
         ) {
-            throw new \RuntimeException('Lifestyle attributes missing');
+            throw new RuntimeException('Lifestyle attributes missing');
         }
 
         $this->comforts = (int)$attributes['comforts'];

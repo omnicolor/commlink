@@ -4,68 +4,61 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use RuntimeException;
+
 /**
  * Representation of something added to a lifestyle.
+ * @psalm-suppress PossiblyUnusedProperty
  */
 class LifestyleOption
 {
     /**
      * Nuyen cost of the option.
-     * @var int
      */
     public ?int $cost;
 
     /**
      * Cost multiplier for the option.
-     * @var float
      */
     public ?float $costMultiplier;
 
     /**
      * Description of the lifestyle option.
-     * @var string
      */
     public string $description;
 
     /**
      * ID of the lifestyle option.
-     * @var string
      */
     public string $id;
 
     /**
      * Minimum lifestyle required to have the cost covered.
-     * @var string
      */
     public string $minimumLifestyle;
 
     /**
      * Name of the lifestyle option.
-     * @var string
      */
     public string $name;
 
     /**
      * Page the lifestyle option was introduced on.
-     * @var int
      */
     public int $page;
 
     /**
      * Number of points the option costs.
-     * @var int
      */
     public int $points;
 
     /**
      * Ruleset the option was introduced in.
-     * @var string
      */
     public string $ruleset;
 
     /**
      * Type of option: Asset, Outing, Service.
-     * @var string
      */
     public string $type;
 
@@ -77,8 +70,7 @@ class LifestyleOption
 
     /**
      * Constructor.
-     * @param string $id
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function __construct(string $id)
     {
@@ -88,7 +80,7 @@ class LifestyleOption
 
         $id = \strtolower($id);
         if (!\array_key_exists($id, self::$options)) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 \sprintf('Lifestyle Option ID "%s" is invalid', $id)
             );
         }
@@ -119,7 +111,7 @@ class LifestyleOption
      * lifestyle or if it needs to be paid for.
      * @param Lifestyle $lifestyle
      * @return bool
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function isCovered(Lifestyle $lifestyle): bool
     {
@@ -147,7 +139,7 @@ class LifestyleOption
                     && 'Commercial' !== $lifestyle->name
                     && 'Hospitalized' !== $lifestyle->name;
         }
-        throw new \RuntimeException('Option has invalid minimum lifestyle');
+        throw new RuntimeException('Option has invalid minimum lifestyle');
     }
 
     /**

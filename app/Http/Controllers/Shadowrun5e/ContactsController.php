@@ -12,9 +12,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class ContactsController extends Controller
 {
     /**

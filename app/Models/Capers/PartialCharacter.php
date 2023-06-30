@@ -8,7 +8,8 @@ namespace App\Models\Capers;
  * Representation of a character currently being built.
  * @property array<int, object> $gear
  * @property array<string, string> $meta
- * @property object $powers
+ * @property-read PowerArray $powers
+ * @property-write array<int, mixed>|PowerArray $powers
  */
 class PartialCharacter extends Character
 {

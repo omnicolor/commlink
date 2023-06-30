@@ -22,6 +22,7 @@ class HandleInitiativeEvent
     use InteractsWithSockets;
     use SerializesModels;
 
+    /** @psalm-suppress PossiblyUnusedMethod */
     public function handle(InitiativeAdded $event): void
     {
         foreach ($event->campaign->channels ?? [] as $channel) {
@@ -45,8 +46,6 @@ class HandleInitiativeEvent
 
     /**
      * Send the initiative to a linked Slack channel.
-     * @param Initiative $initiative
-     * @param Channel $channel
      */
     protected function sendToSlack(Initiative $initiative, Channel $channel): void
     {
@@ -84,8 +83,6 @@ class HandleInitiativeEvent
 
     /**
      * Send the roll to a linked Discord channel.
-     * @param Initiative $initiative
-     * @param Channel $channel
      */
     protected function sendToDiscord(Initiative $initiative, Channel $channel): void
     {

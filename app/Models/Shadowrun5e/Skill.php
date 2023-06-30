@@ -11,38 +11,30 @@ abstract class Skill
 {
     /**
      * Attribute linked to this skill.
-     * @var string
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $attribute;
 
     /**
      * Level of the skill, N for native language.
-     * @var int|string
      */
     public int | string $level;
 
     /**
      * Name of the skill.
-     * @var string
      */
     public string $name;
 
     /**
      * Specialization(s) if any, comma-separated.
-     * @var ?string
      */
     public ?string $specialization;
 
     /**
      * Limit the skill uses.
-     * @var string
      */
     public string $limit;
 
-    /**
-     * Return the name of the skill.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;
