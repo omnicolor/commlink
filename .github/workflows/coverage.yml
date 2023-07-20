@@ -68,7 +68,3 @@ jobs:
           push_badge: true
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           report: public/coverage/clover.xml
-
-      - name: Retrieve the logs
-        if: ${{ failure() }}
-        run: cat storage/logs/*
