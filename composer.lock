@@ -10944,23 +10944,23 @@
         },
         {
             "name": "laravel/breeze",
-            "version": "v1.21.2",
+            "version": "v1.22.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/breeze.git",
-                "reference": "08f4c2e3567ded8a2f8ad80ddb8f016fce57d6ee"
+                "reference": "9123dde67e57301dc557c4990f7b27df59dd876f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/breeze/zipball/08f4c2e3567ded8a2f8ad80ddb8f016fce57d6ee",
-                "reference": "08f4c2e3567ded8a2f8ad80ddb8f016fce57d6ee",
+                "url": "https://api.github.com/repos/laravel/breeze/zipball/9123dde67e57301dc557c4990f7b27df59dd876f",
+                "reference": "9123dde67e57301dc557c4990f7b27df59dd876f",
                 "shasum": ""
             },
             "require": {
-                "illuminate/console": "^10.0",
-                "illuminate/filesystem": "^10.0",
-                "illuminate/support": "^10.0",
-                "illuminate/validation": "^10.0",
+                "illuminate/console": "^10.17",
+                "illuminate/filesystem": "^10.17",
+                "illuminate/support": "^10.17",
+                "illuminate/validation": "^10.17",
                 "php": "^8.1.0"
             },
             "require-dev": {
@@ -11002,7 +11002,7 @@
                 "issues": "https://github.com/laravel/breeze/issues",
                 "source": "https://github.com/laravel/breeze"
             },
-            "time": "2023-06-21T23:07:25+00:00"
+            "time": "2023-08-02T18:59:04+00:00"
         },
         {
             "name": "laravel/tinker",
