@@ -31,7 +31,7 @@ final class InfoResponseTest extends TestCase
     protected function createMessageMock(): Message
     {
         $serverNameAndId = \Str::random(10);
-        $serverStub = $this->createStub(Guild::class);
+        $serverStub = self::createStub(Guild::class);
         $serverStub->method('__get')->willReturn($serverNameAndId);
 
         $userTag = 'user#' . random_int(1000, 9999);
@@ -58,7 +58,7 @@ final class InfoResponseTest extends TestCase
             ['channel', $channelMock],
             ['content', '/roll info'],
         ];
-        $messageMock = $this->createStub(Message::class);
+        $messageMock = self::createStub(Message::class);
         $messageMock->method('__get')->willReturnMap($messageMap);
         return $messageMock;
     }
@@ -72,7 +72,7 @@ final class InfoResponseTest extends TestCase
         $messageMock = $this->createMessageMock();
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
 
         /** @var TextChannel */
@@ -118,7 +118,7 @@ final class InfoResponseTest extends TestCase
 
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
 
         $expected = '**Debugging info**' . \PHP_EOL
@@ -164,7 +164,7 @@ final class InfoResponseTest extends TestCase
 
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
 
         $expected = '**Debugging info**' . \PHP_EOL
@@ -229,7 +229,7 @@ final class InfoResponseTest extends TestCase
 
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
 
         $expected = '**Debugging info**' . \PHP_EOL
