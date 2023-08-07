@@ -10,8 +10,8 @@ jobs:
         php-version:
           - "8.2"
         mongodb-version:
-          - "3.6.3"
-    steps:
+          - "6.0.8"
+    stepsg
       - name: Checkout repository
         uses: actions/checkout@v3
 
