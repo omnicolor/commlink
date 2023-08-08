@@ -127,21 +127,6 @@ class Campaign extends Model
     }
 
     /**
-     * Set the system for the campaign.
-     */
-    public function system(): Attribute
-    {
-        return Attribute::make(
-            set: function (string $system): string {
-                if (!\array_key_exists($system, config('app.systems'))) {
-                    throw new RuntimeException('Invalid system');
-                }
-                return $system;
-            },
-        );
-    }
-
-    /**
      * Get a collection of users playing in the game (or at least invited).
      * @psalm-suppress PossiblyUnusedMethod
      */
