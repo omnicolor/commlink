@@ -21,6 +21,11 @@ Route::middleware('auth:sanctum')->group(function (): void {
         [InitiativesController::class, 'truncate']
     );
     Route::resource('users', UsersController::class);
+    Route::post('users/{user}/token', [UsersController::class, 'createToken']);
+    Route::delete(
+        'users/{user}/token/{tokenId}',
+        [UsersController::class, 'deleteToken']
+    );
 });
 
 Route::options('/roll', [SlackController::class, 'options'])
