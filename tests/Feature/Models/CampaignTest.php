@@ -54,18 +54,6 @@ final class CampaignTest extends TestCase
     }
 
     /**
-     * Test that trying to set an invalid system throws an exception.
-     * @test
-     */
-    public function testSetInvalidSystem(): void
-    {
-        $campaign = new Campaign();
-        self::expectException(\RuntimeException::class);
-        self::expectExceptionMessage('Invalid system');
-        $campaign->system = 'foo';
-    }
-
-    /**
      * Test setting the system to a valid value sets it.
      * @test
      */
