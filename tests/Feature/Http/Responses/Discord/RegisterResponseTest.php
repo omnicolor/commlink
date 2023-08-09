@@ -41,7 +41,7 @@ final class RegisterResponseTest extends TestCase
             ->with($expected);
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
         self::assertSame('', (string)(new RegisterResponse($event)));
 
@@ -70,7 +70,7 @@ final class RegisterResponseTest extends TestCase
             ->with($expected);
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
 
         self::assertSame('', (string)(new RegisterResponse($event)));
@@ -97,7 +97,7 @@ final class RegisterResponseTest extends TestCase
 
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
         Channel::factory()->create([
             'channel_id' => $event->channel->id,
@@ -137,7 +137,7 @@ final class RegisterResponseTest extends TestCase
 
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
         self::assertSame('', (string)(new RegisterResponse($event)));
 
@@ -157,7 +157,7 @@ final class RegisterResponseTest extends TestCase
 
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
         // @phpstan-ignore-next-line
         $event->channel->expects(self::once())->method('sendMessage');
@@ -210,7 +210,7 @@ final class RegisterResponseTest extends TestCase
 
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
         // @phpstan-ignore-next-line
         $event->channel->expects(self::once())->method('sendMessage');

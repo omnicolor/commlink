@@ -28,7 +28,7 @@ final class HelpResponseTest extends TestCase
     protected function createMessageMock(): Message
     {
         $serverNameAndId = \Str::random(10);
-        $serverStub = $this->createStub(Guild::class);
+        $serverStub = self::createStub(Guild::class);
         $serverStub->method('__get')->willReturn($serverNameAndId);
 
         $userTag = 'user#' . random_int(1000, 9999);
@@ -55,7 +55,7 @@ final class HelpResponseTest extends TestCase
             ['channel', $channelMock],
             ['content', '/roll help'],
         ];
-        $messageMock = $this->createStub(Message::class);
+        $messageMock = self::createStub(Message::class);
         $messageMock->method('__get')->willReturnMap($messageMap);
         return $messageMock;
     }
@@ -70,7 +70,7 @@ final class HelpResponseTest extends TestCase
         $messageMock = $this->createMessageMock();
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
 
         $systems = [];
@@ -161,7 +161,7 @@ final class HelpResponseTest extends TestCase
         ]);
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
         $response = new HelpResponse($event);
         self::assertSame($expected, (string)$response);
@@ -212,7 +212,7 @@ final class HelpResponseTest extends TestCase
         $channel->user = (string)$messageMock->author->id;
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
         $response = new HelpResponse($event);
         self::assertSame($expected, (string)$response);
