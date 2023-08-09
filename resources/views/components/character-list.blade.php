@@ -2,6 +2,7 @@
 use App\Features\ChummerImport;
 use App\Features\CyberpunkCharacterGeneration;
 use App\Features\Shadowrun5eCharacterGeneration;
+use App\Features\TransformersCharacterGeneration;
 @endphp
 <ul class="list-group">
     @forelse ($characters as $character)
@@ -70,6 +71,12 @@ use App\Features\Shadowrun5eCharacterGeneration;
                     <a class="dropdown-item" href="{{ route('import.chummer5.view') }}">
                         Import a Chummer 5 character
                         <span class="badge bg-warning">Beta</span>
+                    </a>
+                    @endfeature
+                    @feature(TransformersCharacterGeneration::class)
+                    <a class="dropdown-item" href="/characters/transformers/create">
+                        Transformers RPG
+                        <span class="badge bg-danger">Not complete</span>
                     </a>
                     @endfeature
                 </li>

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Features\Models\Transformers;
+namespace Tests\Feature\Models\Transformers;
 
 use App\Models\Transformers\Weapon;
 use RuntimeException;

@@ -60,6 +60,15 @@ enum Programming: string
         };
     }
 
+    public static function all(): array
+    {
+        $programmings = [];
+        foreach (self::cases() as $programming) {
+            $programmings[$programming->value] = $programming;
+        }
+        return $programmings;
+    }
+
     public function description(): string
     {
         return match ($this) {

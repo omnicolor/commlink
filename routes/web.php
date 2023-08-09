@@ -154,6 +154,25 @@ Route::middleware('auth')->group(function (): void {
             Route::get('/', [StarTrekController::class, 'list']);
         });
 
+        Route::prefix('transformers')->name('transformers.')->group(function (): void {
+            Route::get(
+                'create/{step?}',
+                [TransformersController::class, 'create'],
+            )->name('create');
+
+            Route::post(
+                'create/base',
+                [TransformersController::class, 'createBase'],
+            )->name('create-base');
+            Route::post(
+                'create/statistics',
+                [TransformersController::class, 'createStatistics'],
+            )->name('create-statistics');
+            Route::post(
+                'create/function',
+                [TransformersController::class, 'createProgramming'],
+            )->name('create-programming');
+        });
     });
 
     Route::get('/dashboard', [DashboardController::class, 'show'])

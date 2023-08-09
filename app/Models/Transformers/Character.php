@@ -25,6 +25,7 @@ use RuntimeException;
  * @property-write string|Mode $mode
  * @property-read Programming $programming
  * @property-write string|Programming $programming
+ * @property string $quote
  * @property-read Size $size
  * @property-write int|Size $size
  * @property-read SubgroupArray $subgroups
@@ -63,8 +64,11 @@ class Character extends BaseCharacter
         'intelligence_robot',
         'mode',
         'name',
+        'owner',
         'programming',
-        'rank',
+        'quote',
+        'rank_alt',
+        'rank_robot',
         'size',
         'skill_alt',
         'skill_robot',
@@ -173,8 +177,8 @@ class Character extends BaseCharacter
     public function programming(): Attribute
     {
         return Attribute::make(
-            get: function (): Programming {
-                return Programming::from(strtolower($this->attributes['programming']));
+            get: function (): ?Programming {
+                return Programming::tryFrom(strtolower($this->attributes['programming'] ?? ''));
             },
             set: function (string | Programming $programming): string {
                 if ($programming instanceof Programming) {
