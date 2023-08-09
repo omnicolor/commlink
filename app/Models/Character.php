@@ -8,6 +8,7 @@ use App\Models\Traits\GameSystem;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Jenssegers\Mongodb\Eloquent\Model;
+use RuntimeException;
 
 /**
  * Generic model representing a role playing character.
@@ -60,7 +61,11 @@ class Character extends Model
         if (!isset($this->campaign_id)) {
             return null;
         }
-        return Campaign::find($this->campaign_id);
+        try {
+            return Campaign::find($this->campaign_id);
+        } catch (RuntimeException) {
+            return null;
+        }
     }
 
     /**

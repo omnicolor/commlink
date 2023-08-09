@@ -23,7 +23,7 @@ abstract class TestCase extends BaseTestCase
     protected function createDiscordMessageMock(string $content): Message
     {
         $serverNameAndId = Str::random(10);
-        $serverStub = $this->createStub(Guild::class);
+        $serverStub = self::createStub(Guild::class);
         $serverStub->method('__get')->willReturn($serverNameAndId);
 
         $userTag = 'user#' . random_int(1000, 9999);
@@ -50,7 +50,7 @@ abstract class TestCase extends BaseTestCase
             ['channel', $channelMock],
             ['content', $content],
         ];
-        $messageMock = $this->createStub(Message::class);
+        $messageMock = self::createStub(Message::class);
         $messageMock->method('__get')->willReturnMap($messageMap);
         return $messageMock;
     }
