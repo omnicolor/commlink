@@ -69,4 +69,9 @@ final class ProgrammingTest extends TestCase
     {
         self::assertStringContainsString($percent, $programming->description());
     }
+
+    public function testAll(): void
+    {
+        self::assertCount(4, Programming::all());
+    }
 }
