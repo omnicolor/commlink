@@ -1721,16 +1721,16 @@
         },
         {
             "name": "laravel/prompts",
-            "version": "v0.1.3",
+            "version": "v0.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/prompts.git",
-                "reference": "562c26eb82c85789ef36291112cc27d730d3fed6"
+                "reference": "1b3ab520a75eddefcda99f49fb551d231769b1fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/prompts/zipball/562c26eb82c85789ef36291112cc27d730d3fed6",
-                "reference": "562c26eb82c85789ef36291112cc27d730d3fed6",
+                "url": "https://api.github.com/repos/laravel/prompts/zipball/1b3ab520a75eddefcda99f49fb551d231769b1fa",
+                "reference": "1b3ab520a75eddefcda99f49fb551d231769b1fa",
                 "shasum": ""
             },
             "require": {
@@ -1763,9 +1763,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/prompts/issues",
-                "source": "https://github.com/laravel/prompts/tree/v0.1.3"
+                "source": "https://github.com/laravel/prompts/tree/v0.1.4"
             },
-            "time": "2023-08-02T19:57:10+00:00"
+            "time": "2023-08-07T13:14:59+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -15315,16 +15315,16 @@
         },
         {
             "name": "spatie/laravel-package-tools",
-            "version": "1.15.0",
+            "version": "1.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-package-tools.git",
-                "reference": "efab1844b8826443135201c4443690f032c3d533"
+                "reference": "38fe533e93f86a1b2fb1000bf7df09c4748e6458"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-package-tools/zipball/efab1844b8826443135201c4443690f032c3d533",
-                "reference": "efab1844b8826443135201c4443690f032c3d533",
+                "url": "https://api.github.com/repos/spatie/laravel-package-tools/zipball/38fe533e93f86a1b2fb1000bf7df09c4748e6458",
+                "reference": "38fe533e93f86a1b2fb1000bf7df09c4748e6458",
                 "shasum": ""
             },
             "require": {
@@ -15363,7 +15363,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-package-tools/issues",
-                "source": "https://github.com/spatie/laravel-package-tools/tree/1.15.0"
+                "source": "https://github.com/spatie/laravel-package-tools/tree/1.16.0"
             },
             "funding": [
                 {
@@ -15371,7 +15371,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-04-27T08:09:01+00:00"
+            "time": "2023-08-09T14:08:04+00:00"
         },
         {
             "name": "spatie/laravel-ray",
