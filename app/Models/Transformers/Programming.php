@@ -60,6 +60,9 @@ enum Programming: string
         };
     }
 
+    /**
+     * @return array<string, Programming>
+     */
     public static function all(): array
     {
         $programmings = [];

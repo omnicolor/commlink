@@ -11,12 +11,19 @@ class AltMode
     public const TYPE_VEHICLE = 'vehicle';
     public const TYPE_WEAPON = 'weapon';
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function __construct(public string $mode)
     {
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function statisticModifier(string $statistic): ?int
     {
+        // @phpstan-ignore-next-line
         $mode = match ($this->mode) {
             self::TYPE_MACHINE => [
                 'courage' => 0,

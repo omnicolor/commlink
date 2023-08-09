@@ -11,6 +11,7 @@ use App\Http\Requests\Transformers\StatisticsRequest;
 use App\Models\Transformers\Character;
 use App\Models\Transformers\PartialCharacter;
 use App\Models\Transformers\Programming;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,7 @@ class CharactersController extends Controller
 {
     protected const SESSION_KEY = 'transformers-partial';
 
-    public function create(Request $request, ?string $step = null)
+    public function create(Request $request, ?string $step = null): RedirectResponse | View | string
     {
         /** @var User */
         $user = Auth::user();
@@ -90,7 +91,8 @@ class CharactersController extends Controller
                     ]
                 );
             case 'function':
-                $programming = Programming::tryFrom($request->old('programming') ?? '')
+                // @phpstan-ignore-next-line
+                $programming = Programming::tryFrom((string)$request->old('programming', '') ?? '')
                     ?? $character->programming;
                 return view(
                     'Transformers.create-function',
@@ -143,13 +145,13 @@ class CharactersController extends Controller
             ->firstOrFail();
 
         $character->fill($request->validated());
-        $character->updated_at = now();
+        $character->updated_at = (string)now();
         $character->save();
 
         return new RedirectResponse('/characters/transformers/create/statistics');
     }
 
-    public function createProgramming(ProgrammingRequest $request)
+    public function createProgramming(ProgrammingRequest $request): RedirectResponse
     {
         $characterId = $request->session()->get(self::SESSION_KEY);
 
@@ -161,7 +163,7 @@ class CharactersController extends Controller
             ->firstOrFail();
 
         $character->programming = $request->input('programming');
-        $character->updated_at = now();
+        $character->updated_at = (string)now();
         $character->save();
 
         return new RedirectResponse('/characters/transformers/create/alt-mode');
@@ -179,7 +181,7 @@ class CharactersController extends Controller
             ->firstOrFail();
 
         $character->fill($request->validated());
-        $character->updated_at = now();
+        $character->updated_at = (string)now();
         $character->save();
 
         return new RedirectResponse(route('transformers.create') . '/function');

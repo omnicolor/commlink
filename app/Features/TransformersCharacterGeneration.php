@@ -11,7 +11,7 @@ class TransformersCharacterGeneration implements Stringable
     /**
      * Resolve the feature's initial value.
      */
-    public function resolve(mixed $scope): bool
+    public function resolve(): bool
     {
         return false;
     }
