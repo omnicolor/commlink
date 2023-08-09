@@ -102,7 +102,7 @@ class Number extends Roll
         }
         \rsort($this->rolls);
 
-        if (0 < $this->dulled) {
+        if (6 > $this->dulled) {
             foreach (array_slice($this->rolls, 0, 3) as $roll) {
                 $this->result += min($roll, $this->dulled);
             }

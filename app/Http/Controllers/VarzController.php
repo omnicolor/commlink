@@ -96,11 +96,13 @@ class VarzController extends Controller
         }
 
         if (!array_key_exists($system, self::SYSTEM_MAP)) {
+            // @codeCoverageIgnoreStart
             Log::warning(
                 'Varz: Missing system example directory',
                 ['system' => $system],
             );
             $exampleFiles = [];
+            // @codeCoverageIgnoreEnd
         } else {
             $exampleFiles = Storage::build([
                 'driver' => 'local',
