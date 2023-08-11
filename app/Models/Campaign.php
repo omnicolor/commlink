@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Traits\GameSystem;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use RuntimeException;
 
 /**
  * Class representing a gaming campaign or one-shot.
@@ -124,21 +122,6 @@ class Campaign extends Model
     public function registeredBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'registered_by');
-    }
-
-    /**
-     * Set the system for the campaign.
-     */
-    public function system(): Attribute
-    {
-        return Attribute::make(
-            set: function (string $system): string {
-                if (!\array_key_exists($system, config('app.systems'))) {
-                    throw new RuntimeException('Invalid system');
-                }
-                return $system;
-            },
-        );
     }
 
     /**

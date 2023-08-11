@@ -10,6 +10,7 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\Shadowrun5e\Character;
 use App\Rolls\Shadowrun5e\Fade;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use phpmock\phpunit\PHPMock;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
@@ -23,6 +24,7 @@ use Tests\TestCase;
 final class FadeTest extends TestCase
 {
     use PHPMock;
+    use RefreshDatabase;
 
     protected MockObject $randomInt;
 
@@ -77,7 +79,7 @@ final class FadeTest extends TestCase
     {
         /** @var Channel */
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_DISCORD,
+            'type' => Channel::TYPE_IRC,
             'system' => 'shadowrun5e',
         ]);
 
@@ -85,7 +87,7 @@ final class FadeTest extends TestCase
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
-            'server_type' => ChatUser::TYPE_DISCORD,
+            'server_type' => ChatUser::TYPE_IRC,
             'verified' => true,
         ]);
 
