@@ -26,21 +26,21 @@ final class DiscordMessageReceivedTest extends TestCase
      */
     public function testConstructor(): void
     {
-        $channelStub = $this->createStub(TextChannel::class);
+        $channelStub = self::createStub(TextChannel::class);
         $channelStub->method('__get')
-            ->willReturn($this->createStub(Guild::class));
+            ->willReturn(self::createStub(Guild::class));
 
         $map = [
-            ['author', $this->createStub(User::class)],
+            ['author', self::createStub(User::class)],
             ['channel', $channelStub],
             ['content', '/roll foo'],
         ];
-        $messageStub = $this->createStub(Message::class);
+        $messageStub = self::createStub(Message::class);
         $messageStub->method('__get')->willReturnMap($map);
 
         $event = new DiscordMessageReceived(
             $messageStub,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
         self::assertSame('foo', $event->content);
     }
