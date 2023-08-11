@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Hash;
 use function Laravel\Prompts\password;
 use function Laravel\Prompts\text;
 
+/**
+ * @codeCoverageIgnore
+ */
 class CreateUser extends Command
 {
     /**
@@ -41,7 +44,7 @@ class CreateUser extends Command
             label: 'Enter the user\'s email address',
             required: true,
             validate: function (string $email): ?string {
-                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                if (false === filter_var($email, \FILTER_VALIDATE_EMAIL)) {
                     return 'That doesn\'t appear to be a valid email address';
                 }
                 return null;
