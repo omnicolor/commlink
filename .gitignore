@@ -8,8 +8,12 @@ infection.log
 node_modules
 npm-debug.log
 public/coverage
+public/css/app.css
+public/css/app.css.map
 public/hot
 public/infection.html
+public/js/app.js
+public/js/app.js.map
 public/storage
 storage/*.key
 storage/framework/db.sqlite

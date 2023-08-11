@@ -32,7 +32,7 @@ final class LinkResponseTest extends TestCase
         $messageMock = $this->createDiscordMessageMock('/roll link');
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
 
         $expected = 'To link a character, use `link <characterId>`.';
@@ -51,7 +51,7 @@ final class LinkResponseTest extends TestCase
         $messageMock = $this->createDiscordMessageMock('/roll link 123');
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
 
         $systems = [];
@@ -81,7 +81,7 @@ final class LinkResponseTest extends TestCase
         $messageMock = $this->createDiscordMessageMock('/roll link 123');
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
 
         Channel::factory()->create([
@@ -121,7 +121,7 @@ final class LinkResponseTest extends TestCase
             ->with($expected);
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
 
         $channel = Channel::factory()->create([
@@ -161,7 +161,7 @@ final class LinkResponseTest extends TestCase
             ->with($expected);
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
 
         $channel = Channel::factory()->create([
@@ -202,7 +202,7 @@ final class LinkResponseTest extends TestCase
             ->with($expected);
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
 
         $channel = Channel::factory()->create([
@@ -253,7 +253,7 @@ final class LinkResponseTest extends TestCase
             ->with($expected);
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
 
         $channel = Channel::factory()->create([
@@ -304,7 +304,7 @@ final class LinkResponseTest extends TestCase
             ->with($expected);
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
 
         $channel = Channel::factory()->create([
