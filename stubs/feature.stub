@@ -1,0 +1,24 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Illuminate\Support\Lottery;
+use Stringable;
+
+class {{ class }} implements Stringable
+{
+    /**
+     * Resolve the feature's initial value.
+     */
+    public function resolve(mixed $scope): mixed
+    {
+        return false;
+    }
+
+    public function __toString(): string
+    {
+        return '{{ class }}';
+    }
+}
