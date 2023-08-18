@@ -1,5 +1,6 @@
 @php
 use App\Features\ChummerImport;
+use App\Features\HeroLabImport;
 use App\Features\CyberpunkCharacterGeneration;
 use App\Features\Shadowrun5eCharacterGeneration;
 @endphp
@@ -71,7 +72,7 @@ use App\Features\Shadowrun5eCharacterGeneration;
                         <span class="badge bg-warning">Beta</span>
                     </a>
                     @endfeature
-                    @feature('herolab-import')
+                    @feature(HeroLabImport::class)
                     <a class="dropdown-item" href="{{ route('import.herolab.view') }}">
                         Import a Hero Lab portfolio
                         <span class="badge bg-warning">Beta</span>

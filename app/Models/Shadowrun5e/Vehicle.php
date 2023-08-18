@@ -273,12 +273,19 @@ class Vehicle
         return $this->name;
     }
 
-    /**
-     * Return whether the vehicle is considered a drone.
-     */
-    public function isDrone(): bool
+    public static function findByName(string $name): Vehicle
     {
-        return false !== \strpos($this->category, 'drone');
+        $filename = config('app.data_path.shadowrun5e') . 'vehicles.php';
+        self::$vehicles ??= require $filename;
+        foreach (self::$vehicles as $vehicle) {
+            if (\strtolower($vehicle['name']) === \strtolower($name)) {
+                return new Vehicle(['id' => $vehicle['id']]);
+            }
+        }
+        throw new RuntimeException(sprintf(
+            'Vehicle name "%s" was not found',
+            $name
+        ));
     }
 
     /**
@@ -322,5 +329,13 @@ class Vehicle
             return 6 + (int)\ceil($this->body / 2);
         }
         return 12 + (int)\ceil($this->body / 2);
+    }
+
+    /**
+     * Return whether the vehicle is considered a drone.
+     */
+    public function isDrone(): bool
+    {
+        return false !== \strpos($this->category, 'drone');
     }
 }

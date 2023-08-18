@@ -7,6 +7,7 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\Vehicle;
 use App\Models\Shadowrun5e\VehicleModification;
 use App\Models\Shadowrun5e\Weapon;
+use RuntimeException;
 
 /**
  * Unit tests for the Vehicle class.
@@ -344,5 +345,18 @@ final class VehicleTest extends \Tests\TestCase
         self::assertSame('AK-98', $mount2->weapon->name);
 
         self::assertEmpty($vehicle->weapons);
+    }
+
+    public function testFindByNameNotFound(): void
+    {
+        self::expectException(RuntimeException::class);
+        self::expectExceptionMessage('Vehicle name "Not Found" was not found');
+        Vehicle::findByName('Not Found');
+    }
+
+    public function testFindByName(): void
+    {
+        $vehicle = Vehicle::findByName('Dodge Scoot');
+        self::assertSame('dodge-scoot', $vehicle->id);
     }
 }
