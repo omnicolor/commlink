@@ -27,6 +27,7 @@ levels of completeness.
 * [Shadowrun 5th Edition](https://www.catalystgamelabs.com/brands/shadowrun)
 * [Shadowrun 6th Edition](https://www.catalystgamelabs.com/brands/shadowrun)
 * [Star Trek Adventures](https://www.modiphius.net/collections/star-trek-adventures/star-trek_core)
+* [Subversion](https://www.fraggingunicorns.com/subversion)
 
 ## Building Commlink
 

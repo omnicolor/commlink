@@ -6,6 +6,7 @@ namespace Tests\Feature\Http\Controllers\Shadowrun5e;
 
 use App\Models\User;
 use Illuminate\Http\Response;
+use Tests\TestCase;
 
 /**
  * Tests for the gear-modifications controller.
@@ -14,7 +15,7 @@ use Illuminate\Http\Response;
  * @group shadowrun5e
  * @medium
  */
-final class GearModificationsControllerTest extends \Tests\TestCase
+final class GearModificationsControllerTest extends TestCase
 {
     /**
      * Test loading the collection if the config is broken.
@@ -25,7 +26,7 @@ final class GearModificationsControllerTest extends \Tests\TestCase
         \Config::set('app.data_path.shadowrun5e', '/tmp/unused/');
         /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('shadowrun5e.gear-modifications.index'))
             ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
@@ -36,7 +37,7 @@ final class GearModificationsControllerTest extends \Tests\TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $this->getJson(route('shadowrun5e.gear-modifications.index'))
+        self::getJson(route('shadowrun5e.gear-modifications.index'))
             ->assertUnauthorized();
     }
 
@@ -48,7 +49,7 @@ final class GearModificationsControllerTest extends \Tests\TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $response = $this->actingAs($user)
+        $response = self::actingAs($user)
             ->getJson(route('shadowrun5e.gear-modifications.index'))
             ->assertOk()
             ->assertJsonFragment([
@@ -65,7 +66,7 @@ final class GearModificationsControllerTest extends \Tests\TestCase
      */
     public function testNoAuthShow(): void
     {
-        $this->getJson(
+        self::getJson(
             route('shadowrun5e.gear-modifications.show', 'biomonitor')
         )
             ->assertUnauthorized();
@@ -77,7 +78,7 @@ final class GearModificationsControllerTest extends \Tests\TestCase
      */
     public function testNoAuthShowNotFound(): void
     {
-        $this->getJson(
+        self::getJson(
             route('shadowrun5e.gear-modifications.show', 'not-found')
         )
             ->assertUnauthorized();
@@ -91,7 +92,7 @@ final class GearModificationsControllerTest extends \Tests\TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(
                 route('shadowrun5e.gear-modifications.show', 'biomonitor')
             )
@@ -117,7 +118,7 @@ final class GearModificationsControllerTest extends \Tests\TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(
                 route('shadowrun5e.gear-modifications.show', 'not-found')
             )

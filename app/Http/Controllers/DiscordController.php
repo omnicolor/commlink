@@ -7,13 +7,16 @@ namespace App\Http\Controllers;
 use App\Models\ChatUser;
 use App\Models\Traits\InteractsWithDiscord;
 use App\Models\User;
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Laravel\Socialite\AbstractUser as SocialiteUser;
 use Laravel\Socialite\Facades\Socialite;
+use Laravel\Socialite\Two\InvalidStateException;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
@@ -80,8 +83,18 @@ class DiscordController extends Controller
      */
     public function handleCallback(): RedirectResponse
     {
-        /** @var SocialiteUser */
-        $socialUser = Socialite::driver('discord')->user();
+        try {
+            /** @var SocialiteUser */
+            $socialUser = Socialite::driver('discord')->user();
+        } catch (InvalidStateException $ex) {
+            Log::error('Invalid state exception: ' . $ex->getMessage());
+            return redirect()->route('settings')
+                ->withErrors(['error' => $ex->getMessage()]);
+        } catch (ClientException $ex) {
+            Log::error('Discord client not set up: ' . $ex->getMessage());
+            return redirect()->route('settings')
+                ->withErrors(['error' => 'Discord login failed on our side, nothing you did wrong!']);
+        }
         $user = User::where('email', $socialUser->email)->first();
 
         if (null === $user) {
@@ -142,7 +155,8 @@ class DiscordController extends Controller
             try {
                 $accessToken = $this->getDiscordAccessToken($request->input('code'));
                 $discordUser = $this->getDiscordUser($accessToken);
-            } catch (RuntimeException) {
+            } catch (RuntimeException $ex) {
+                Log::error($ex->getMessage());
                 return redirect()
                     ->route('settings')
                     ->withErrors([
@@ -160,7 +174,8 @@ class DiscordController extends Controller
                 'guilds' => $guilds,
                 'discordUser' => $discordUser,
             ]);
-        } catch (RuntimeException) {
+        } catch (RuntimeException $ex) {
+            Log::error($ex->getMessage());
             return redirect()
                 ->route('settings')
                 ->withErrors([

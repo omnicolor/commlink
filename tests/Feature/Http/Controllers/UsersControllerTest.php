@@ -8,8 +8,10 @@ use App\Features\ChummerImport;
 use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\User;
+use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Str;
 use Laravel\Pennant\Feature;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -263,5 +265,119 @@ final class UsersControllerTest extends TestCase
             ->assertJson(['roles' => []]);
         $user->refresh();
         self::assertCount(0, $user->roles);
+    }
+
+    public function testCreateApiTokenForAnotherUser(): void
+    {
+        /** @var User */
+        $innocentUser = User::factory()->create();
+        /** @var User */
+        $hacker = User::factory()->create();
+
+        self::assertDatabaseMissing(
+            'personal_access_tokens',
+            ['name' => 'Hacked token']
+        );
+        self::actingAs($hacker)
+            ->postJson(
+                route('create-token', ['user' => $innocentUser]),
+                ['name' => 'Hacked token'],
+            )
+            ->assertForbidden();
+        self::assertDatabaseMissing(
+            'personal_access_tokens',
+            ['name' => 'Hacked token']
+        );
+    }
+
+    public function testCreateApiTokenNoExpiration(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        $tokenName = Str::random(10);
+        self::actingAs($user)
+            ->postJson(
+                route('create-token', ['user' => $user]),
+                ['name' => $tokenName],
+            )
+            ->assertCreated();
+        self::assertDatabaseHas(
+            'personal_access_tokens',
+            ['name' => $tokenName, 'expires_at' => null],
+        );
+    }
+
+    public function testCreateApiTokenWithExpiration(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        $tokenName = Str::random(10);
+        $expiration = CarbonImmutable::now()->addMonth();
+        self::actingAs($user)
+            ->postJson(
+                route('create-token', ['user' => $user]),
+                [
+                    'name' => $tokenName,
+                    'expires_at' => $expiration->toDateString(),
+                ],
+            )
+            ->assertCreated();
+        self::assertDatabaseHas(
+            'personal_access_tokens',
+            [
+                'name' => $tokenName,
+                'expires_at' => $expiration->startOfDay()->toDateTimeString(),
+            ],
+        );
+    }
+
+    public function testDeleteAnotherUsersToken(): void
+    {
+        /** @var User */
+        $innocentUser = User::factory()->create();
+        /** @var User */
+        $hacker = User::factory()->create();
+
+        $tokenName = Str::random(10);
+        $token = $innocentUser->createToken($tokenName, ['*']);
+
+        self::actingAs($hacker)
+            ->delete(route(
+                'delete-token',
+                ['user' => $innocentUser, 'tokenId' => $token->accessToken->id],
+            ))
+            ->assertForbidden();
+        self::assertDatabaseHas(
+            'personal_access_tokens',
+            [
+                'id' => $token->accessToken->id,
+                'name' => $tokenName,
+            ],
+        );
+    }
+
+    public function testDeleteToken(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        $tokenName = Str::random(10);
+        $token = $user->createToken($tokenName, ['*']);
+
+        self::actingAs($user)
+            ->delete(route(
+                'delete-token',
+                ['user' => $user, 'tokenId' => $token->accessToken->id],
+            ))
+            ->assertNoContent();
+        self::assertDatabaseMissing(
+            'personal_access_tokens',
+            [
+                'id' => $token->accessToken->id,
+                'name' => $tokenName,
+            ],
+        );
     }
 }
