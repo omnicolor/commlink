@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace {{ namespace }};
 
+use App\Events\DiscordMessageReceived;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
@@ -11,16 +12,13 @@ use App\Rolls\Roll;
 
 class {{ class }} extends Roll
 {
-    /**
-     * Constructor.
-     * @param string $content
-     * @param string $character
-     * @param Channel $channel
-     */
+    protected ?string $error = null;
+
     public function __construct(
         string $content,
         string $character,
-        Channel $channel
+        Channel $channel,
+        public ?DiscordMessageReceived $event = null,
     ) {
         parent::__construct($content, $character, $channel);
     }
@@ -46,6 +44,10 @@ class {{ class }} extends Roll
      */
     public function forDiscord(): string
     {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+
         $value = \sprintf('**%s**', 'Title') . \PHP_EOL
             . 'Text' . \PHP_EOL;
         return $value;
