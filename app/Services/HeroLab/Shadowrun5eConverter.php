@@ -20,6 +20,7 @@ use App\Models\Shadowrun5e\VehicleModification;
 use App\Models\Shadowrun5e\Weapon;
 use App\Models\Shadowrun5e\WeaponModification;
 use App\Services\ConverterInterface;
+use ErrorException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RuntimeException;
@@ -237,12 +238,18 @@ class Shadowrun5eConverter implements ConverterInterface
     {
         // Load the index file.
         $index = implode(\DIRECTORY_SEPARATOR, [$this->directory, 'index.xml']);
-        $index = simplexml_load_file($index);
+        try {
+            $index = simplexml_load_file($index);
+        } catch (ErrorException) {
+            throw new RuntimeException('Portfolio metadata is invalid');
+        }
+        // @phpstan-ignore-next-line
         if ('Shadowrun (5th)' !== (string)$index->game['name']) {
             throw new RuntimeException(
                 'The portfolio isn\'t a Shadowrun 5th edition character'
             );
         }
+        // @phpstan-ignore-next-line
         $character = $index->characters[0]->character;
         foreach ($character->statblocks->children() as $statblock) {
             if ('xml' !== (string)$statblock['format']) {
@@ -273,11 +280,13 @@ class Shadowrun5eConverter implements ConverterInterface
             \DIRECTORY_SEPARATOR,
             $character['herolableadindex'],
         );
+
         try {
             $xml = simplexml_load_file($meta);
-        } catch (\ErrorException) {
+        } catch (ErrorException) {
             throw new RuntimeException('Portfolio metadata is invalid');
         }
+
         // @codeCoverageIgnoreStart
         if (false === $xml) {
             throw new RuntimeException('Failed to load Portfolio metadata');
@@ -1008,6 +1017,9 @@ class Shadowrun5eConverter implements ConverterInterface
         return $this;
     }
 
+    /**
+     * @return array<string, string|array<mixed, mixed>>
+     */
     protected function parseVehicleStatBlock(string $stats, string $name): array
     {
         $stats = explode(\PHP_EOL, $stats);
@@ -1017,6 +1029,7 @@ class Shadowrun5eConverter implements ConverterInterface
         $vehicle = null;
 
         while ($line = current($stats)) {
+            $line = (string)$line;
             if (str_starts_with($line, 'CHASSIS: ')) {
                 $id = explode(': ', $line)[1];
                 if (isset($this->mapVehicles[$id])) {
@@ -1037,10 +1050,13 @@ class Shadowrun5eConverter implements ConverterInterface
                 continue;
             }
             if (str_starts_with($line, 'Vehicle Mods:')) {
-                $line = next($stats);
+                $line = (string)next($stats);
+                // @phpstan-ignore-next-line
                 while (str_starts_with($line, ' ')) {
+                    // @phpstan-ignore-next-line
                     $line = trim($line);
                     if (isset($this->mapVehicleModifications[$line])) {
+                        // @phpstan-ignore-next-line
                         if (null === $this->mapVehicleModifications[$line]) {
                             $line = next($stats);
                             continue;
@@ -1084,8 +1100,10 @@ class Shadowrun5eConverter implements ConverterInterface
                 continue;
             }
             if (str_starts_with($line, 'Gear:')) {
-                $line = next($stats);
+                $line = (string)next($stats);
+                // @phpstan-ignore-next-line
                 while (str_starts_with($line, ' ')) {
+                    // @phpstan-ignore-next-line
                     $line = trim($line);
                     if (array_key_exists($line, $this->mapGear)) {
                         if (null === $this->mapGear[$line]) {
@@ -1122,15 +1140,17 @@ class Shadowrun5eConverter implements ConverterInterface
                         $gear = ['id' => $item->id];
                     } catch (RuntimeException) {
                     }
-                    $line = next($stats);
+                    $line = (string)next($stats);
                     continue;
                 }
             }
+            // @phpstan-ignore-next-line
             if (str_starts_with($line, 'Weapons:')) {
                 $line = (string)next($stats);
+                // @phpstan-ignore-next-line
                 while (str_starts_with($line, ' ')) {
+                    // @phpstan-ignore-next-line
                     $line = trim($line);
-                    $weaponObj = null;
                     $weaponMods = [];
                     $ammo = [];
                     [$weapon, $mods] = explode(' [', $line);
@@ -1174,7 +1194,7 @@ class Shadowrun5eConverter implements ConverterInterface
                         'modifications' => $weaponMods,
                         'ammo' => $ammo,
                     ];
-                    $line = next($stats);
+                    $line = (string)next($stats);
                 }
                 continue;
             }
@@ -1203,9 +1223,8 @@ class Shadowrun5eConverter implements ConverterInterface
         ];
     }
 
-    protected function parseVehicles(
-        SimpleXMLElement $vehicles
-    ): Shadowrun5eConverter {
+    protected function parseVehicles(): Shadowrun5eConverter
+    {
         $vehiclesArray = [];
         foreach ($this->xmlMeta->hero->container->pick as $rawVehicle) {
             if ('vehVehicle' !== (string)$rawVehicle['source']) {
@@ -1291,7 +1310,7 @@ class Shadowrun5eConverter implements ConverterInterface
             ->parseIdentities($this->xml->identities)
             ->parseContacts($this->xml->contacts)
             ->parseJournals($this->xml->journals->journal)
-            ->parseVehicles($this->xml->vehicles);
+            ->parseVehicles();
 
         return $this->character;
     }

@@ -273,6 +273,9 @@ class Vehicle
         return $this->name;
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public static function findByName(string $name): Vehicle
     {
         $filename = config('app.data_path.shadowrun5e') . 'vehicles.php';
