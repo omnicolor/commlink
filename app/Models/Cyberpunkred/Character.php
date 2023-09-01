@@ -16,18 +16,25 @@ use RuntimeException;
  * @property int $cool
  * @property int $dexterity
  * @property int $empathy
+ * @property int $empathy_current
  * @property string $handle
- * @property int $hitPointsCurrent
- * @property-read int $hitPointsMax
+ * @property int $hit_points_current
+ * @property-read int $hit_points_max
  * @property-read int $humanity
+ * @property int $humanity_current
  * @property-read string $id
+ * @property int $improvement_points
+ * @property int $improvement_points_current
  * @property int $intelligence
  * @property array<string, array<string, int>> $lifepath
  * @property int $luck
+ * @property int $luck_current
  * @property int $movement
  * @property int $reflexes
+ * @property int $reputation
  * @property array<int, array<string, int|string>> $roles
  * @property array<string, int> $skills
+ * @property array<int, array<string, int|string>> $skills_custom
  * @property int $technique
  * @property int $willpower
  */
@@ -66,14 +73,19 @@ class Character extends BaseCharacter
         'cool',
         'dexterity',
         'empathy',
+        'empathy_current',
         'handle',
-        'hitPointsCurrent',
+        'hit_points_current',
+        'improvement_points',
+        'improvement_points_current',
         'intelligence',
         'lifepath',
         'luck',
+        'luck_current',
         'movement',
         'owner',
         'reflexes',
+        'reputation',
         'roles',
         'skills',
         'technique',
@@ -90,7 +102,6 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's name.
-     * @return string
      */
     public function __toString(): string
     {
@@ -112,7 +123,6 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's death save attribute.
-     * @return int
      */
     public function getDeathSaveAttribute(): int
     {
@@ -121,7 +131,6 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's calculated empathy.
-     * @return int
      */
     public function getEmpathyAttribute(): int
     {
@@ -130,7 +139,6 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's original empathy.
-     * @return int
      */
     public function getEmpathyOriginalAttribute(): int
     {
@@ -139,7 +147,6 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's maximum hit points.
-     * @return int
      */
     public function getHitPointsMaxAttribute(): int
     {
@@ -153,7 +160,6 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's remaining humanity.
-     * @return int
      */
     public function getHumanityAttribute(): int
     {
@@ -162,7 +168,6 @@ class Character extends BaseCharacter
 
     /**
      * Get the character's roles.
-     * @return RoleArray
      */
     public function getRoles(): RoleArray
     {
@@ -186,7 +191,6 @@ class Character extends BaseCharacter
 
     /**
      * Get the character's seriously wounded threshold.
-     * @return int
      */
     public function getSeriouslyWoundedThresholdAttribute(): int
     {
@@ -195,7 +199,6 @@ class Character extends BaseCharacter
 
     /**
      * Get the skills the character has ranks in.
-     * @return SkillArray
      */
     public function getSkills(): SkillArray
     {
@@ -219,7 +222,6 @@ class Character extends BaseCharacter
 
     /**
      * Get all skills available, whether the character has levels or not.
-     * @return SkillArray
      */
     public function getAllSkills(): SkillArray
     {
@@ -227,7 +229,7 @@ class Character extends BaseCharacter
         $rawSkills = require $filename;
         $skills = new SkillArray();
         /** @var string $id */
-        foreach (array_keys($rawSkills) as $id) {
+        foreach (\array_keys($rawSkills) as $id) {
             if (\array_key_exists($id, $this->skills ?? [])) {
                 $skills[$id] = new Skill($id, $this->skills[$id]);
                 continue;
@@ -258,7 +260,6 @@ class Character extends BaseCharacter
     /**
      * Return the character's weapons.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return WeaponArray
      */
     public function getWeapons(?string $type = null): WeaponArray
     {

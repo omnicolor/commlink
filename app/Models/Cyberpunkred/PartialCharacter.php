@@ -21,6 +21,11 @@ class PartialCharacter extends Character
      */
     protected $table = 'characters-partial';
 
+    /**
+     * @var array<int, string>
+     */
+    public array $errors = [];
+
     public function newFromBuilder(
         $attributes = [],
         $connection = null

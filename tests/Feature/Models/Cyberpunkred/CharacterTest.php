@@ -7,6 +7,8 @@ namespace Tests\Feature\Models\Cyberpunkred;
 use App\Models\Cyberpunkred\Character;
 use App\Models\Cyberpunkred\Role\Fixer;
 use App\Models\Cyberpunkred\Weapon;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for Cyberpunkred Characters.
@@ -14,7 +16,7 @@ use App\Models\Cyberpunkred\Weapon;
  * @group models
  * @small
  */
-final class CharacterTest extends \Tests\TestCase
+final class CharacterTest extends TestCase
 {
     /**
      * Test filling up a character with the constructor.
@@ -28,7 +30,7 @@ final class CharacterTest extends \Tests\TestCase
             'dexterity' => 3,
             'empathy' => 4,
             'handle' => 'Test Character',
-            'hitPointsCurrent' => 100,
+            'hit_points_current' => 100,
             'intelligence' => 5,
             'luck' => 6,
             'movement' => 7,
@@ -41,8 +43,8 @@ final class CharacterTest extends \Tests\TestCase
         self::assertSame(3, $character->dexterity);
         self::assertSame(4, $character->empathy);
         self::assertSame('Test Character', $character->handle);
-        self::assertSame(100, $character->hitPointsCurrent);
-        self::assertSame(40, $character->hitPointsMax);
+        self::assertSame(100, $character->hit_points_current);
+        self::assertSame(40, $character->hit_points_max);
         self::assertSame(5, $character->intelligence);
         self::assertSame(6, $character->luck);
         self::assertSame(7, $character->movement);
@@ -312,7 +314,7 @@ final class CharacterTest extends \Tests\TestCase
      */
     public function testGetInvalidWeaponsType(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Invalid Weapon Type');
         (new Character())->getWeapons('unknown');
     }

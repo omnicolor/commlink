@@ -1,6 +1,7 @@
 @php
 use App\Features\ChummerImport;
 use App\Features\CyberpunkCharacterGeneration;
+use App\Features\WorldAnvilImport;
 use App\Features\Shadowrun5eCharacterGeneration;
 @endphp
 <ul class="list-group">
@@ -68,6 +69,12 @@ use App\Features\Shadowrun5eCharacterGeneration;
                     @feature(ChummerImport::class)
                     <a class="dropdown-item" href="{{ route('import.chummer5.view') }}">
                         Import a Chummer 5 character
+                        <span class="badge bg-warning">Beta</span>
+                    </a>
+                    @endfeature
+                    @feature(WorldAnvilImport::class)
+                    <a class="dropdown-item" href="{{ route('import.world-anvil.view') }}">
+                        Import a World Anvil character
                         <span class="badge bg-warning">Beta</span>
                     </a>
                     @endfeature
