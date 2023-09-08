@@ -15666,16 +15666,16 @@
         },
         {
             "name": "spatie/ray",
-            "version": "1.37.5",
+            "version": "1.37.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/ray.git",
-                "reference": "6e9d3c7c62ac5fc858b94a2b5ebb271025d842ec"
+                "reference": "31e07c3eadc736e180810efff72a0ff882dcddb6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/ray/zipball/6e9d3c7c62ac5fc858b94a2b5ebb271025d842ec",
-                "reference": "6e9d3c7c62ac5fc858b94a2b5ebb271025d842ec",
+                "url": "https://api.github.com/repos/spatie/ray/zipball/31e07c3eadc736e180810efff72a0ff882dcddb6",
+                "reference": "31e07c3eadc736e180810efff72a0ff882dcddb6",
                 "shasum": ""
             },
             "require": {
@@ -15726,7 +15726,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/ray/issues",
-                "source": "https://github.com/spatie/ray/tree/1.37.5"
+                "source": "https://github.com/spatie/ray/tree/1.37.7"
             },
             "funding": [
                 {
@@ -15738,7 +15738,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2023-09-06T12:34:39+00:00"
+            "time": "2023-09-08T12:08:25+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
