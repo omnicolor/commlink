@@ -11,7 +11,7 @@ jobs:
           - "8.2"
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: PHP Code Style (phpcs)
         uses: chindit/actions-phpcs@1.0.1
@@ -24,7 +24,7 @@ jobs:
           - "8.1"
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@master
