@@ -4,6 +4,9 @@ info:
   description: |-
     Commlink is a tool for playing role playing games online, providing a
     character generator, campaign manager, dice roller, and more.
+  license:
+    name: MIT License
+    url: https://mit-license.org/
   contact:
     email: omni@digitaldarkness.com
   version: 0.0.1
@@ -220,8 +223,8 @@ paths:
         - cyberpunkred
   /dnd5e/characters:
     get:
-      summary: Return Dungeons and Dragons 5E characters
-      description: Return D&D 5E characters.
+      summary: Dungeons and Dragons 5E characters
+      description: Return all Dungeons and Dragons 5E characters.
       operationId: dnd5e-characters-index
       responses:
         '200':
@@ -239,6 +242,7 @@ paths:
         - dnd5e
   /expanse/characters:
     get:
+      summary: Expanse characters
       description: Return Expanse RPG characters.
       operationId: expanse-characters-index
       responses:
@@ -262,6 +266,7 @@ paths:
     options:
       summary: Slack roll health check
       description: Verify that the resource is alive. Note - This should be renamed to '/slack'.
+      operationId: slack-options
       responses:
         '200':
           description: Resource is alive.
@@ -274,6 +279,7 @@ paths:
     post:
       summary: Handle a Slack roll
       description: Handle a roll from [a slash-command on Slack](https://api.slack.com/interactivity/slash-commands). A "roll" may be more than just rolling dice, it can be registering a Slack user, flipping a coin, or anything shown in `/roll help`. Note - This should be renamed to '/slack'.
+      operationId: slack-post
       parameters:
         - name: X-Slack-Request-Timestamp
           description: Time Slack thinks the message was sent to Commlink.
@@ -327,6 +333,7 @@ paths:
     post:
       summary: Roll some randomness
       description: (Proposed) Roll some dice, flip a coin, pick a card, etc. Note - This should be renamed to '/roll' when the current one gets renamed for Slack.
+      operationId: roll-post
       requestBody:
         required: true
         content:
@@ -389,7 +396,6 @@ paths:
                 properties:
                   rolls:
                     description: Optional extra information about the roll.
-                    nullable: true
                     type: string
                   title:
                     description: Headline about the roll.
@@ -398,7 +404,7 @@ paths:
                     description: Full text about the roll's result.
                     type: string
                 required:
-                  - footer
+                  - rolls
                   - text
                   - title
                 type: object
@@ -442,6 +448,7 @@ paths:
         - interactivity
   /shadowrun5e/characters:
     get:
+      summary: All Shadowrun 5E charactesr owned by user
       description: Return Shadowrun 5E RPG characters.
       operationId: shadowrun5e-characters-index
       responses:
@@ -469,6 +476,7 @@ paths:
         schema:
           type: string
     get:
+      summary: Shadowrun 5E character
       description: Return a single Shadowrun 5E character.
       operationId: shadowrun5e-characters-view
       responses:
@@ -488,6 +496,7 @@ paths:
         - shadowrun
   /shadowrun5e/gear:
     get:
+      summary: Shadowrun 5E gear statistics
       description: Return all Shadowrun 5E gear.
       operationId: shadowrun5e-gear-index
       responses:
@@ -517,6 +526,7 @@ paths:
         schema:
           type: string
     get:
+      summary: Shadowrun 5E gear statistics
       description: Return a single item from Shadowrun 5E.
       operationId: shadowrun5e-gear-view
       responses:
@@ -535,6 +545,7 @@ paths:
         - shadowrun
   /shadowrun5e/gear-modifications:
     get:
+      summary: Shadowrun 5E gear modifications
       description: Return a collection of gear modifications from Shadowrun 5E.
       operationId: shadowrun5e-gear-modifications-index
       responses:
@@ -697,18 +708,15 @@ components:
           type: integer
         channel_id:
           description: ID of the channel the player added initiative from.
-          nullable: true
           type: string
         character_id:
           description: ID of the character.
-          nullable: true
           type: string
         character_name:
           description: Name of the combatant.
           type: string
         grunt_id:
           description: Grunt ID of the NPC, if any.
-          nullable: true
           type: string
         id:
           type: integer
@@ -764,7 +772,6 @@ components:
             - magician
             - mundane
             - technomancer
-          nullable: true
           type: string
         metatype:
           enum:
@@ -900,7 +907,6 @@ components:
               type: array
               items: {}
             magic:
-              nullable: true
               type: integer
             magics:
               type: object
@@ -913,7 +919,6 @@ components:
                 tradition:
                   type: string
             martialArts:
-              nullable: true
               type: array
               items: {}
             priorities:
@@ -928,7 +933,6 @@ components:
             realName:
               type: string
             resonance:
-              nullable: true
               type: integer
             skillGroups:
               type: object
