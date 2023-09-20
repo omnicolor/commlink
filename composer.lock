@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fce00dc7bd25cba239808ff122e9f074",
+    "content-hash": "57b7ac3fac3e7737678227687a6bb70a",
     "packages": [
         {
             "name": "brick/math",
@@ -5795,48 +5795,6 @@
                 "source": "https://github.com/socialiteproviders/manager"
             },
             "time": "2023-08-27T23:46:34+00:00"
-        },
-        {
-            "name": "socialiteproviders/slack",
-            "version": "4.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/SocialiteProviders/Slack.git",
-                "reference": "2b781c95daf06ec87a8f3deba2ab613d6bea5e8d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/SocialiteProviders/Slack/zipball/2b781c95daf06ec87a8f3deba2ab613d6bea5e8d",
-                "reference": "2b781c95daf06ec87a8f3deba2ab613d6bea5e8d",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "php": "^7.2 || ^8.0",
-                "socialiteproviders/manager": "~4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "SocialiteProviders\\Slack\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Brian Faust",
-                    "email": "hello@brianfaust.de"
-                }
-            ],
-            "description": "Slack OAuth2 Provider for Laravel Socialite",
-            "support": {
-                "source": "https://github.com/SocialiteProviders/Slack/tree/4.1.1"
-            },
-            "abandoned": "laravel/socialite",
-            "time": "2021-03-26T04:10:10+00:00"
         },
         {
             "name": "spatie/laravel-permission",
@@ -17446,5 +17404,5 @@
     "platform-dev": {
         "ext-sqlite3": "*"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
