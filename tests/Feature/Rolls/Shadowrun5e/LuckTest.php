@@ -151,7 +151,7 @@ final class LuckTest extends TestCase
             \sprintf(
                 '**%s rolled 7 dice for a luck test**'
                     . \PHP_EOL . 'Rolled 7 successes' . \PHP_EOL
-                    . 'Rolls: 6 6 6 6 6 6 6',
+                    . 'Rolls: 6 6 6 6 6 6 6, Probability: 0.0457%%',
                 (string)$character
             ),
             $response
