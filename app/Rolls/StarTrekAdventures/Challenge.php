@@ -8,6 +8,7 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
+use Facades\App\Services\DiceService;
 
 class Challenge extends Roll
 {
@@ -86,7 +87,7 @@ class Challenge extends Roll
     protected function roll(): void
     {
         for ($i = 0; $i < $this->number; $i++) {
-            $roll = random_int(1, 6);
+            $roll = DiceService::rollOne(6);
             $this->dice[] = $roll;
             if (5 === $roll || 6 === $roll) {
                 $this->effect = true;
