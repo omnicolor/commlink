@@ -77,7 +77,7 @@ final class NumberTest extends TestCase
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         $response = new Number('15 5', 'username', $channel);
         $response = (string)$response->forSlack();
-        self::assertStringContainsString(', limit: 5', $response);
+        self::assertStringContainsString('Limit: 5', $response);
         self::assertStringNotContainsString('for', $response);
     }
 
@@ -107,7 +107,7 @@ final class NumberTest extends TestCase
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         $response = new Number('20 10 description', 'username', $channel);
         $response = (string)$response->forSlack();
-        self::assertStringContainsString('limit: 10', $response);
+        self::assertStringContainsString('Limit: 10', $response);
         self::assertStringContainsString('for \\"description\\"', $response);
     }
 
@@ -181,7 +181,7 @@ final class NumberTest extends TestCase
     {
         $expected = '**username rolled 1 die**' . \PHP_EOL
             . 'Rolled 1 successes' . \PHP_EOL
-            . 'Rolls: 6';
+            . 'Rolls: 6, Probability: 33.3333%';
         $this->randomInt->expects(self::exactly(1))->willReturn(6);
         $response = new Number('1', 'username', new Channel());
         self::assertSame($expected, $response->forDiscord());
@@ -195,7 +195,7 @@ final class NumberTest extends TestCase
     {
         $expected = '**username rolled 6 dice with a limit of 3**' . \PHP_EOL
             . 'Rolled 3 successes, hit limit' . \PHP_EOL
-            . 'Rolls: 6 6 6 6 6 6, Limit: 3';
+            . 'Rolls: 6 6 6 6 6 6, Limit: 3, Probability: 0.1372%';
         $this->randomInt->expects(self::exactly(6))->willReturn(6);
         $response = new Number('6 3', 'username', new Channel());
         self::assertSame($expected, $response->forDiscord());
@@ -223,7 +223,7 @@ final class NumberTest extends TestCase
     {
         $expected = '**username rolled 1 die**' . \PHP_EOL
             . 'Rolled 1 successes' . \PHP_EOL
-            . 'Rolls: 6';
+            . 'Rolls: 6, Probability: 33.3333%';
         $this->randomInt->expects(self::exactly(1))->willReturn(6);
         $response = new Number(' 1', 'username', new Channel());
         self::assertSame($expected, $response->forDiscord());
@@ -262,27 +262,27 @@ final class NumberTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $channelStub = $this->createStub(DiscordChannel::class);
+        $channelStub = self::createStub(DiscordChannel::class);
         $channelStub->method('__get')
-            ->willReturn($this->createStub(Guild::class));
+            ->willReturn(self::createStub(Guild::class));
         $map = [
-            ['author', $this->createStub(User::class)],
+            ['author', self::createStub(User::class)],
             ['channel', $channelStub],
             ['content', '/roll foo'],
         ];
-        $message = $this->createStub(Message::class);
+        $message = self::createStub(Message::class);
         $message->method('__get')->willReturnMap($map);
 
         $event = new DiscordMessageReceived(
             $message,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
         $expected = \sprintf(
             '**%s rolled a critical glitch on 6 dice!**',
             (string)$character
         ) . \PHP_EOL
             . 'Rolled 6 ones with no successes!' . \PHP_EOL
-            . 'Rolls: 1 1 1 1 1 1, Limit: 3';
+            . 'Rolls: 1 1 1 1 1 1, Limit: 3, Probability: 100.0000%';
         $this->randomInt->expects(self::exactly(6))->willReturn(1);
 
         $response = (new Number('6 3', (string)$character, $channel, $event))
@@ -324,24 +324,24 @@ final class NumberTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $channelStub = $this->createStub(DiscordChannel::class);
+        $channelStub = self::createStub(DiscordChannel::class);
         $channelStub->method('__get')
-            ->willReturn($this->createStub(Guild::class));
+            ->willReturn(self::createStub(Guild::class));
         $map = [
-            ['author', $this->createStub(User::class)],
+            ['author', self::createStub(User::class)],
             ['channel', $channelStub],
             ['content', '/roll foo'],
         ];
-        $message = $this->createStub(Message::class);
+        $message = self::createStub(Message::class);
         $message->method('__get')->willReturnMap($map);
 
         $event = new DiscordMessageReceived(
             $message,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
         $expected = \sprintf('**%s rolled 6 dice with a limit of 3**', (string)$character) . \PHP_EOL
             . 'Rolled 0 successes' . \PHP_EOL
-            . 'Rolls: 3 3 3 3 3 3, Limit: 3';
+            . 'Rolls: 3 3 3 3 3 3, Limit: 3, Probability: 100.0000%';
         $this->randomInt->expects(self::exactly(6))->willReturn(3);
 
         /** @var \Discord\Builders\MessageBuilder */
@@ -385,20 +385,20 @@ final class NumberTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $channelStub = $this->createStub(DiscordChannel::class);
+        $channelStub = self::createStub(DiscordChannel::class);
         $channelStub->method('__get')
-            ->willReturn($this->createStub(Guild::class));
+            ->willReturn(self::createStub(Guild::class));
         $map = [
-            ['author', $this->createStub(User::class)],
+            ['author', self::createStub(User::class)],
             ['channel', $channelStub],
             ['content', '/roll foo'],
         ];
-        $message = $this->createStub(Message::class);
+        $message = self::createStub(Message::class);
         $message->method('__get')->willReturnMap($map);
 
         $event = new DiscordMessageReceived(
             $message,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
         $expected = \sprintf('**%s rolled 6 dice with a limit of 3**', (string)$character) . \PHP_EOL
             . 'Rolled 0 successes' . \PHP_EOL
@@ -408,7 +408,7 @@ final class NumberTest extends TestCase
         $roll = new Number('6 3', (string)$character, $channel, $event);
         $roll->forDiscord();
 
-        $interactedMessage = $this->createStub(Message::class);
+        $interactedMessage = self::createStub(Message::class);
         $interactedMessage->method('__get')->willReturn($message);
         $interaction = $this->createMock(Interaction::class);
         $interaction->method('__get')->willReturn($interactedMessage);
@@ -452,28 +452,28 @@ final class NumberTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $channelStub = $this->createStub(DiscordChannel::class);
+        $channelStub = self::createStub(DiscordChannel::class);
         $channelStub->method('__get')
-            ->willReturn($this->createStub(Guild::class));
-        $user = $this->createStub(User::class);
+            ->willReturn(self::createStub(Guild::class));
+        $user = self::createStub(User::class);
         $map = [
             ['author', $user],
             ['channel', $channelStub],
             ['content', '/roll foo'],
         ];
-        $message = $this->createStub(Message::class);
+        $message = self::createStub(Message::class);
         $message->method('__get')->willReturnMap($map);
 
         $event = new DiscordMessageReceived(
             $message,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
         $this->randomInt->expects(self::exactly(11))
             ->willReturnOnConsecutiveCalls(6, 3, 3, 3, 3, 3, 1, 5, 5, 5, 6);
         $roll = new Number('6 3', (string)$character, $channel, $event);
         $roll->forDiscord();
 
-        $interactedMessage = $this->createStub(Message::class);
+        $interactedMessage = self::createStub(Message::class);
         $interactedMessage->method('__get')->willReturn($message);
         // @phpstan-ignore-next-line
         $interactedMessage->expects(self::once())->method('edit');

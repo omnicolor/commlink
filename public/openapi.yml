@@ -1,0 +1,1068 @@
+openapi: 3.1.0
+info:
+  title: Commlink
+  description: |-
+    Commlink is a tool for playing role playing games online, providing a
+    character generator, campaign manager, dice roller, and more.
+  license:
+    name: MIT License
+    url: https://mit-license.org/
+  contact:
+    email: omni@digitaldarkness.com
+  version: 0.0.1
+
+externalDocs:
+  description: Find out more about Commlink
+  url: 'https://commlink.digitaldarkness.com/about'
+
+security:
+  - BearerAuth: []
+
+servers:
+  - url: 'https://commlink.digitaldarkness.com/api'
+
+tags:
+  - name: character
+    description: Everything about characters, in whatever system
+  - name: campaign
+    description: Information for gamemasters
+  - name: cyberpunkred
+    description: Cyberpunk Red RPG
+  - name: dnd5e
+    description: Dungeons and Dragons
+  - name: expanse
+    description: Expanse RPG
+  - name: integration
+    description: Resource for interacting with other services
+  - name: interactivity
+    description: Commlink's interactive functions
+  - name: shadowrun
+    description: Shadowrun RPG
+  - name: user
+    description: Operations about users
+
+paths:
+  /campaigns/{campaign_id}/initiatives:
+    parameters:
+      - name: campaign_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    delete:
+      summary: End combat
+      description: Remove the initiatives for the campaign (end combat).
+      operationId: initiatives-truncate
+      responses:
+        '204':
+          description: All initiatives were removed.
+        '401':
+          description: The request requires authentication.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '403':
+          description: Request is for a campaign the requestor isn't the GM for.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseForbidden'
+      tags:
+        - campaign
+        - interactivity
+    get:
+      summary: Get a campaign's initiative list
+      description: Return all of the current initiatives for the campaign.
+      operationId: initiatives-index
+      responses:
+        '200':
+          description: Collection of the campaign's combatants.
+          content:
+            application/json:
+              schema:
+                properties:
+                  initiatives:
+                    items:
+                      $ref: '#/components/schemas/Initiative'
+                    type: array
+                type: object
+        '401':
+          description: The request is for a campaign the request isn't the GM for.
+      tags:
+        - campaign
+        - interactivity
+    post:
+      summary: Add an NPC to combat
+      description: Add an NPC to combat. Requires either `initiative` (set the character's initiative to this value) or `base_initiative` AND `initiative_dice` (roll the number of dice, add the base, and set the character's initiative to that). Also allows a `grunt_id` for upcoming addition of mook support.
+      operationId: initiatives-store
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                base_initiative:
+                  type: integer
+                initiative:
+                  type: integer
+                initiative_dice:
+                  type: integer
+                character_name:
+                  type: string
+                grunt_id:
+                  type: string
+              required:
+                - character_name
+              type: object
+      responses:
+        '201':
+          description: NPC was successfully added to combat.
+        '401':
+          description: Request is for a campaign the requestor isn't the GM for.
+      tags:
+        - campaign
+        - interactivity
+  /campaigns/{campaign_id}/initiatives/{initiative_id}:
+    parameters:
+      - name: campaign_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: initiative_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    delete:
+      summary: Remove a combatant
+      description: Remove the given initiative from the list, removing a character from combat.
+      operationId: initiatives-destroy
+      responses:
+        '204':
+          description: The initiative was removed.
+        '401':
+          description: Request is for a campaign the requestor isn't the GM for.
+      tags:
+        - campaign
+        - interactivity
+    get:
+      summary: Get an initiative
+      description: Return a single initiative record.
+      operationId: initiatives-show
+      responses:
+        '200':
+          description: Initiative.
+        '401':
+          description: Request is for a campaign the requestor isn't the GM for.
+      tags:
+        - campaign
+        - interactivity
+    put:
+      summary: Update an initiative
+      description: Update the given initiative record.
+      operationId: initiatives-update
+      responses:
+        '200':
+          description: Initiative was updated.
+        '401':
+          description: Request is for a campaign the requestor isn't the GM for.
+      tags:
+        - campaign
+        - interactivity
+  /channels/{channel_id}:
+    parameters:
+      - name: channel_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    put:
+      summary: Update a channel
+      description: Configure a channel's webhook.
+      operationId: channels-update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/WebhookAuto'
+                - $ref: '#/components/schemas/WebhookUrl'
+      responses:
+        '200':
+          description: Channel was updated.
+        '401':
+          description: User doesn't own the channel.
+        '422':
+          description: Request included both the auto option and a webhook URL.
+      tags:
+        - interactivity
+  /cyberpunkred/characters:
+    get:
+      summary: Return all Cyberpunk Red characters
+      description: Return Cyberpunk Red characters.
+      operationId: cyberpunkred-characters-index
+      responses:
+        '200':
+          description: Collection of all Cyberpunk Red characters for the current user.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CyberpunkredCharacter'
+                    type: array
+                required:
+                  - data
+                type: object
+      tags:
+        - character
+        - cyberpunkred
+  /dnd5e/characters:
+    get:
+      summary: Dungeons and Dragons 5E characters
+      description: Return all Dungeons and Dragons 5E characters.
+      operationId: dnd5e-characters-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Dnd5eCharacter'
+                    type: array
+          description: Collection of D&D 5E characters.
+      tags:
+        - character
+        - dnd5e
+  /expanse/characters:
+    get:
+      summary: Expanse characters
+      description: Return Expanse RPG characters.
+      operationId: expanse-characters-index
+      responses:
+        '200':
+          description: "Collection of the user's Expanse characters."
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/ExpanseCharacter'
+                    type: array
+                required:
+                  - data
+                type: object
+      tags:
+        - character
+        - expanse
+  /roll:
+    options:
+      summary: Slack roll health check
+      description: Verify that the resource is alive. Note - This should be renamed to '/slack'.
+      operationId: slack-options
+      responses:
+        '200':
+          description: Resource is alive.
+          content:
+            text/html:
+              schema:
+                type: string
+      tags:
+        - integration
+    post:
+      summary: Handle a Slack roll
+      description: Handle a roll from [a slash-command on Slack](https://api.slack.com/interactivity/slash-commands). A "roll" may be more than just rolling dice, it can be registering a Slack user, flipping a coin, or anything shown in `/roll help`. Note - This should be renamed to '/slack'.
+      operationId: slack-post
+      parameters:
+        - name: X-Slack-Request-Timestamp
+          description: Time Slack thinks the message was sent to Commlink.
+          in: header
+          required: true
+          schema:
+            type: integer
+        - name: X-Slack-Signature
+          description: Signature of the request to verify.
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                channel_id:
+                  type: string
+                team_id:
+                  type: string
+                text:
+                  type: string
+                user_id:
+                  type: string
+              type: object
+      security:
+        - SlackKeyAuth: []
+      responses:
+        '200':
+          description: The command succeeded, the roll's results are returned. Or, the command failed in a way that should be shown to the user. This response is differently formed than the rest of Commlink's API since it is meant to be consumed by Slack.
+          content:
+            application/json:
+              schema:
+                properties:
+                  response_type:
+                    enum:
+                      - ephemeral
+                      - in_channel
+                    type: string
+                  attachments:
+                    items:
+                      type: object
+                    type: array
+                type: object
+      tags:
+        - integration
+  /rolls:
+    post:
+      summary: Roll some randomness
+      description: (Proposed) Roll some dice, flip a coin, pick a card, etc. Note - This should be renamed to '/roll' when the current one gets renamed for Slack.
+      operationId: roll-post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            examples:
+              Capers-Draw:
+                summary: Capers - Draw card
+                description: Draw a card from the character's deck.
+                value:
+                  character_id: 64cabf032ad4d330c29bb82a
+                  system: capers
+                  text: draw
+              CyberpunkRed-Generic:
+                summary: Cyberpunk Red - Generic roll
+                description: Roll a d10, adding `7` to it, and saying the roll is for `negotiation`. If the die rolls a 1, roll another and subtract the result (critical failure). If the die is a 10, roll another and add the result (critical success).
+                value:
+                  system: cyberpunkred
+                  text: 7 negotiation
+              Shadowrun5e-Generic:
+                summary: Shadowrun 5E - Generic roll
+                description: Roll `12` Shadowrun 5E d6's, counting number of fives and sixes using `4` as the limit, with text saying the roll is for `perception`.
+                value:
+                  system: shadowrun5e
+                  text: 12 4 perception
+              Shadowrun5e-Soak:
+                summary: Shadowrun 5E - Soak roll
+                description: Roll the character's "soak" attribute (body + armor + augmentation effects + mentor spirit effects) in d6's and return the number of fives and sixes.
+                value:
+                  character_id: 64cabf032ad4d330c29bb82a
+                  system: shadowrun5e
+                  text: soak
+            schema:
+              properties:
+                character_id:
+                  description: ID of the character to roll as, for rolls that use the character's attributes. Even if a roll doesn't require the character_id, including it is encouraged, as the character's campaign may be linked to other services.
+                  type: string
+                text:
+                  description: What kind of roll to make.
+                  type: string
+                system:
+                  description: What RPG system the roll should be for.
+                  type: string
+              required:
+                - text
+                - system
+              type: object
+      responses:
+        '200':
+          description: The request succeeded (though the *roll* might not have, from the character's perspective).
+          content:
+            application/json:
+              examples:
+                Shadowrun5e generic:
+                  description: A roll request including a character_id (that resolves to Fastjack), a system (shadowrun5e), and text (12 perception).
+                  value:
+                    rolls: 6 6 5 5 4 4 4 3 2 2 2 2
+                    text: Rolled 4 successes for 'perception'
+                    title: Fastjack rolled 12 dice
+              schema:
+                properties:
+                  rolls:
+                    description: Optional extra information about the roll.
+                    type: string
+                  title:
+                    description: Headline about the roll.
+                    type: string
+                  text:
+                    description: Full text about the roll's result.
+                    type: string
+                required:
+                  - rolls
+                  - text
+                  - title
+                type: object
+        '401':
+          description: The request requires authentication.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '403':
+          description: The character belongs to someone else.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseForbidden'
+        '422':
+          description: There were problems with the data sent in the request.
+          content:
+            application/json:
+              examples:
+                No character:
+                  description: Many rolls require a character so they know how many dice to roll.
+                  value:
+                    message: You must include a character_id.
+                No system:
+                  description: Most rolls require a system so they know how to hande the text.
+                  value:
+                    message: You must include the RPG system.
+                No text:
+                  description: A request needs to include text to tell the system what kind of roll to make.
+                  value:
+                    message: You must include the roll's text.
+              schema:
+                properties:
+                  message:
+                    type: string
+                required:
+                  - message
+                type: object
+      tags:
+        - interactivity
+  /shadowrun5e/characters:
+    get:
+      summary: All Shadowrun 5E charactesr owned by user
+      description: Return Shadowrun 5E RPG characters.
+      operationId: shadowrun5e-characters-index
+      responses:
+        '200':
+          description: Collection of the user's Shadowrun 5E characters.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eCharacter'
+                    type: array
+                required:
+                  - data
+                type: object
+      tags:
+        - character
+        - shadowrun
+  /shadowrun5e/characters/{character_id}:
+    parameters:
+      - name: character_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Shadowrun 5E character
+      description: Return a single Shadowrun 5E character.
+      operationId: shadowrun5e-characters-view
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Shadowrun5eCharacter'
+                required:
+                  - data
+                type: object
+          description: A single Shadowrun 5E character.
+      tags:
+        - character
+        - shadowrun
+  /shadowrun5e/gear:
+    get:
+      summary: Shadowrun 5E gear statistics
+      description: Return all Shadowrun 5E gear.
+      operationId: shadowrun5e-gear-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eGear'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: All Shadowrun 5E gear.
+      tags:
+        - shadowrun
+  /shadowrun5e/gear/{gear_id}:
+    parameters:
+      - name: gear_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Shadowrun 5E gear statistics
+      description: Return a single item from Shadowrun 5E.
+      operationId: shadowrun5e-gear-view
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Shadowrun5eGear'
+                  links:
+                    $ref: '#/components/schemas/Links'
+                type: object
+          description: Single Shadowrun 5E item.
+      tags:
+        - shadowrun
+  /shadowrun5e/gear-modifications:
+    get:
+      summary: Shadowrun 5E gear modifications
+      description: Return a collection of gear modifications from Shadowrun 5E.
+      operationId: shadowrun5e-gear-modifications-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eGearModification'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                type: object
+          description: All Shadowrun 5E modifications to install in other gear.
+      tags:
+        - shadowrun
+
+components:
+  schemas:
+    Character:
+      properties:
+        campaign_id:
+          type: integer
+        id:
+          type: string
+        owner:
+          format: email
+          type: string
+        system:
+          type: string
+      required:
+        - id
+        - owner
+        - system
+      type: object
+    CyberpunkredCharacter:
+      allOf:
+        - $ref: '#/components/schemas/Character'
+        - properties:
+            body:
+              type: integer
+            cool:
+              type: integer
+            currentHitPoints:
+              type: integer
+            dexterity:
+              type: integer
+            empathy:
+              type: integer
+            handle:
+              type: string
+            hitPoints:
+              type: integer
+            intelligence:
+              type: integer
+            lifepath:
+              type: object
+            luck:
+              type: integer
+            movement:
+              type: integer
+            reflexes:
+              type: integer
+            roles:
+              type: array
+            skills:
+              type: object
+            skillsCustom:
+              type: array
+            technique:
+              type: array
+            weapons:
+              type: array
+            willpower:
+              type: integer
+          type: object
+    Dnd5eCharacter:
+      allOf:
+        - $ref: '#/components/schemas/Character'
+        - properties:
+            name:
+              type: string
+          required:
+            - name
+          type: object
+    ErrorResponseForbidden:
+      description: The request included authentication but it is not valid for the requested object.
+      examples:
+        - message: Forbidden
+      properties:
+        message:
+          type: string
+      required:
+        - message
+      type: object
+    ErrorResponseUnauthenticated:
+      description: The request requires authentication.
+      examples:
+        - message: Unauthenticated
+      properties:
+        message:
+          type: string
+      required:
+        - message
+      type: object
+    ExpanseCharacter:
+      allOf:
+        - $ref: '#/components/schemas/Character'
+        - properties:
+            accuracy:
+              type: integer
+            age:
+              type: integer
+            background:
+              type: object
+            communication:
+              type: integer
+            dexterity:
+              type: integer
+            downfall:
+              type: string
+            drive:
+              type: string
+            fighting:
+              type: integer
+            focuses:
+              type: array
+            intelligence:
+              type: integer
+            level:
+              minimum: 1
+              type: integer
+            name:
+              type: string
+            origin:
+              type: object
+            perception:
+              type: integer
+            profession:
+              type: string
+            quality:
+              type: string
+            socialClass:
+              type: string
+            speed:
+              type: integer
+            strength:
+              type: integer
+            talents:
+              type: array
+            toughness:
+              type: integer
+            willpower:
+              type: integer
+    Initiative:
+      properties:
+        campaign_id:
+          type: integer
+        channel_id:
+          description: ID of the channel the player added initiative from.
+          type: string
+        character_id:
+          description: ID of the character.
+          type: string
+        character_name:
+          description: Name of the combatant.
+          type: string
+        grunt_id:
+          description: Grunt ID of the NPC, if any.
+          type: string
+        id:
+          type: integer
+        initiative:
+          description: Combatant's initiative score.
+          type: integer
+      required:
+        - campaign_id
+        - channel_id
+        - character_id
+        - grunt_id
+        - character_name
+        - initiative
+      type: object
+    ItemId:
+      description: Typically the item's name with spaces replaced by dashes followed by the rating or subname.
+      examples:
+        - activesoft-forgery-1
+      type: string
+    Links:
+      properties:
+        collection:
+          examples:
+            - /api/shadowrun5e/gear
+          type: string
+        root:
+          examples:
+            - /api
+          type: string
+        system:
+          examples:
+            - /api/shadowrun5e
+          type: string
+      type: object
+    Shadowrun5eAvailability:
+      description: Code that shows both how difficult an item is to get, as well as how illegal it is.
+      examples:
+        - 8F
+        - ''
+        - 4
+      type: string
+    Shadowrun5eCommonPriorities:
+      properties:
+        gameplay:
+          enum:
+            - established
+            - prime
+            - street
+          type: string
+        magic:
+          enum:
+            - adept
+            - magician
+            - mundane
+            - technomancer
+          type: string
+        metatype:
+          enum:
+            - dwarf
+            - elf
+            - human
+            - ork
+            - troll
+          type: string
+        rulebooks:
+          type: string
+        startDate:
+          description: When the campaign the character plays in starts.
+          format: date
+          type: string
+        system:
+          description: Priority system used to create the character.
+          enum:
+            - karma-buy
+            - standard
+            - sum-to-ten
+          type: string
+      required:
+        - gameplay
+        - metatype
+      type: object
+    Shadowrun5eStandardPriorities:
+      allOf:
+        - $ref: '#/components/schemas/Shadowrun5eCommonPriorities'
+        - type: object
+          properties:
+            a:
+              $ref: '#/components/schemas/Shadowrun5eStandardPriorityName'
+            b:
+              $ref: '#/components/schemas/Shadowrun5eStandardPriorityName'
+            c:
+              $ref: '#/components/schemas/Shadowrun5eStandardPriorityName'
+            d:
+              $ref: '#/components/schemas/Shadowrun5eStandardPriorityName'
+            e:
+              $ref: '#/components/schemas/Shadowrun5eStandardPriorityName'
+          required:
+            - a
+            - b
+            - c
+            - d
+            - e
+    Shadowrun5eSumToTenPriorites:
+      allOf:
+        - $ref: '#/components/schemas/Shadowrun5eCommonPriorities'
+        - properties:
+            attributePriority:
+              $ref: '#/components/schemas/Shadowrun5eLetterPriority'
+            magicPriority:
+              $ref: '#/components/schemas/Shadowrun5eLetterPriority'
+            metatypePriority:
+              $ref: '#/components/schemas/Shadowrun5eLetterPriority'
+            resourcePriority:
+              $ref: '#/components/schemas/Shadowrun5eLetterPriority'
+            skillPriority:
+              $ref: '#/components/schemas/Shadowrun5eLetterPriority'
+          required:
+            - attributePriority
+            - gameplay
+            - magic
+            - magicPriority
+            - metatype
+            - metatypePriority
+            - resourcePriority
+            - skillPriority
+          type: object
+    Shadowrun5eCharacter:
+      allOf:
+        - $ref: '#/components/schemas/Character'
+        - type: object
+          properties:
+            agility:
+              type: integer
+            armor:
+              type: array
+              items: {}
+            augmentations:
+              type: array
+              items: {}
+            background:
+              type: object
+            body:
+              type: integer
+            charisma:
+              type: integer
+            contacts:
+              type: array
+              items: {}
+            damageOverflow:
+              minimum: 0
+              type: integer
+            damagePhysical:
+              minimum: 0
+              type: integer
+            damageStun:
+              minimum: 0
+              type: integer
+            edge:
+              type: integer
+            edgeCurrent:
+              minimum: 0
+              type: integer
+            gear:
+              type: array
+              items: {}
+            handle:
+              type: string
+            identities:
+              type: array
+              items: {}
+            intuition:
+              type: integer
+            karma:
+              type: integer
+            karmaCurrent:
+              type: integer
+            karmaLog:
+              type: array
+              items: {}
+            knowledgeSkills:
+              type: array
+              items: {}
+            logic:
+              type: integer
+            nuyen:
+              type: integer
+            nuyenLog:
+              type: array
+              items: {}
+            magic:
+              type: integer
+            magics:
+              type: object
+              properties:
+                mentorSpirit:
+                  type: string
+                spells:
+                  type: array
+                  items: {}
+                tradition:
+                  type: string
+            martialArts:
+              type: array
+              items: {}
+            priorities:
+              oneOf:
+                - $ref: '#/components/schemas/Shadowrun5eStandardPriorities'
+                - $ref: '#/components/schemas/Shadowrun5eSumToTenPriorites'
+            qualities:
+              type: array
+              items: {}
+            reaction:
+              type: integer
+            realName:
+              type: string
+            resonance:
+              type: integer
+            skillGroups:
+              type: object
+            skills:
+              type: array
+              items: {}
+            streetCred:
+              type: integer
+            strength:
+              type: integer
+            vehicles:
+              type: array
+              items: {}
+            weapons:
+              type: array
+              items: {}
+            willpower:
+              type: integer
+    Shadowrun5eGear:
+      properties:
+        availability:
+          $ref: '#/components/schemas/Shadowrun5eAvailability'
+        capacity:
+          examples:
+            - 4
+          type: integer
+        container-type:
+          examples:
+            - [vision]
+          type: array
+        cost:
+          examples:
+            - 50
+          type: integer
+        description:
+          examples:
+            - Typically handheld, binoculars come with built-in vision magnification. Binoculars are available in optical (which can't take additional vision enhancements) and electronic versions (which can take vision enhancements).
+          type: string
+        effects:
+          examples:
+            - {forgery: 1}
+          type: object
+        id:
+          $ref: '#/components/schemas/ItemId'
+        links:
+          properties:
+            self:
+              examples:
+                - /api/shadowrun5e/gear/activesoft-forgery-1
+              format: url
+              type: string
+          type: object
+        name:
+          examples:
+            - Activesoft
+          type: string
+        page:
+          examples:
+            - 42
+          type: integer
+        rating:
+          examples:
+            - 2
+          type: integer
+        ruleset:
+          examples:
+            - core
+            - data-trails
+          type: string
+        subname:
+          examples:
+            - Forgery
+          type: string
+        wireless-effects:
+          examples:
+            - {locksmith: 1}
+          type: array
+      required:
+        - availability
+        - cost
+        - id
+        - name
+        - ruleset
+      type: object
+    Shadowrun5eGearModification:
+      properties:
+        availability:
+          $ref: '#/components/schemas/Shadowrun5eAvailability'
+        id:
+          $ref: '#/components/schemas/ItemId'
+      required:
+        - availability
+      type: object
+    Shadowrun5eLetterPriority:
+      enum:
+        - A
+        - B
+        - C
+        - D
+        - E
+      type: string
+    Shadowrun5eStandardPriorityName:
+      enum:
+        - attributes
+        - magic
+        - metatype
+        - resources
+        - skills
+      type: string
+    WebhookAuto:
+      properties:
+        auto:
+          type: boolean
+      required:
+        - auto
+      type: object
+    WebhookUrl:
+      properties:
+        webhook:
+          format: url
+          type: string
+      required:
+        - webhook
+      type: object
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+    SlackKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Slack-Signature
