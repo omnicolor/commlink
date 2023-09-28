@@ -158,7 +158,7 @@ final class ComposureTest extends TestCase
             \sprintf(
                 '**%s rolled 8 dice for a composure test**'
                     . \PHP_EOL . 'Rolled 8 successes' . \PHP_EOL
-                    . 'Rolls: 6 6 6 6 6 6 6 6',
+                    . 'Rolls: 6 6 6 6 6 6 6 6, Probability: 0.0152%%',
                 (string)$character
             ),
             $response

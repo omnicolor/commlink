@@ -156,7 +156,7 @@ final class FadeTest extends TestCase
             \sprintf(
                 '**%s rolled 11 dice for a fading test**'
                     . \PHP_EOL . 'Rolled 11 successes' . \PHP_EOL
-                    . 'Rolls: 6 6 6 6 6 6 6 6 6 6 6',
+                    . 'Rolls: 6 6 6 6 6 6 6 6 6 6 6, Probability: 0.0006%%',
                 (string)$character
             ),
             $response
@@ -204,7 +204,10 @@ final class FadeTest extends TestCase
             (string)(new Fade('', 'username', $channel))->forSlack()
         );
         $attachment = $response->attachments[0];
-        self::assertSame('2 2 2 2 2 2 2', $attachment->footer);
+        self::assertSame(
+            '2 2 2 2 2 2 2, Probability: 100.0000%',
+            $attachment->footer
+        );
         self::assertSame(
             \sprintf('%s rolled 7 dice for a fading test', $character),
             $attachment->title
