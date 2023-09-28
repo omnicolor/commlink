@@ -16,6 +16,7 @@ use Discord\Builders\Components\ActionRow;
 use Discord\Builders\Components\Button;
 use Discord\Builders\MessageBuilder;
 use Discord\Parts\Interactions\Interaction;
+use MathPHP\Probability\Combinatorics;
 
 /**
  * Roll a Shadowrun number, representing a set of six-sided dice.
@@ -202,8 +203,17 @@ class Number extends Roll
             $color = TextAttachment::COLOR_DANGER;
         }
         $footer = \implode(' ', $this->prettifyRolls($this->rolls));
+
         if (null !== $this->limit) {
-            $footer .= \sprintf(', limit: %d', $this->limit);
+            $footer .= \sprintf(', Limit: %d', $this->limit);
+        }
+
+        $probability = $this->getProbability($this->dice, $this->successes);
+        if (1.0 !== $probability) {
+            $footer .= \sprintf(
+                ', Probability: %01.4f%%',
+                $this->getProbability($this->dice, $this->successes) * 100
+            );
         }
         $response = new SlackResponse(channel: $this->channel);
 
@@ -243,6 +253,10 @@ class Number extends Roll
         $footer = 'Rolls: ' . \implode(' ', $this->rolls);
         if (null !== $this->limit) {
             $footer .= \sprintf(', Limit: %d', $this->limit);
+        }
+        $probability = $this->getProbability($this->dice, $this->successes);
+        if (1.0 !== $probability) {
+            $footer .= \sprintf(', Probability: %01.4f%%', $this->getProbability($this->dice, $this->successes) * 100);
         }
         $content = \sprintf('**%s**', $this->title) . \PHP_EOL
             . $this->text . \PHP_EOL
@@ -328,5 +342,20 @@ class Number extends Roll
         /** @psalm-suppress TooManyTemplateParams */
         // @phpstan-ignore-next-line
         $interaction->message->edit($message);
+    }
+
+    protected function getProbability(int $dice, int $successes): float
+    {
+        // Impossible to get more successes than there are dice.
+        if ($dice < $successes) {
+            return 0.0;
+        }
+
+        // Return the chance to get exactly the number of successes requested,
+        // then add the probability for exactly one more success than that, etc.
+        return Combinatorics::combinations($dice, $successes)
+            * pow(2 / 3, $dice - $successes)
+            * pow(1 / 3, $successes)
+            + $this->getProbability($dice, $successes + 1);
     }
 }

@@ -570,7 +570,7 @@ final class SlackControllerTest extends TestCase
     public function testAuthThroughSlack(): void
     {
         self::get('/slack/auth')
-            ->assertRedirectContains('https://slack.com/oauth/authorize?');
+            ->assertRedirectContains('https://slack.com/oauth/v2/authorize?');
     }
 
     public function testLoginThroughSlackExistingUserNewChatUser(): void
