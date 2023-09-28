@@ -7,7 +7,7 @@ namespace App\Models;
 use App\Models\Traits\GameSystem;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Jenssegers\Mongodb\Eloquent\Model;
+use MongoDB\Laravel\Eloquent\Model;
 use RuntimeException;
 
 /**
