@@ -77,7 +77,7 @@ final class NumberTest extends TestCase
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         $response = new Number('15 5', 'username', $channel);
         $response = (string)$response->forSlack();
-        self::assertStringContainsString(', limit: 5', $response);
+        self::assertStringContainsString('Limit: 5', $response);
         self::assertStringNotContainsString('for', $response);
     }
 
@@ -107,7 +107,7 @@ final class NumberTest extends TestCase
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         $response = new Number('20 10 description', 'username', $channel);
         $response = (string)$response->forSlack();
-        self::assertStringContainsString('limit: 10', $response);
+        self::assertStringContainsString('Limit: 10', $response);
         self::assertStringContainsString('for \\"description\\"', $response);
     }
 
@@ -181,7 +181,7 @@ final class NumberTest extends TestCase
     {
         $expected = '**username rolled 1 die**' . \PHP_EOL
             . 'Rolled 1 successes' . \PHP_EOL
-            . 'Rolls: 6';
+            . 'Rolls: 6, Probability: 33.3333%';
         $this->randomInt->expects(self::exactly(1))->willReturn(6);
         $response = new Number('1', 'username', new Channel());
         self::assertSame($expected, $response->forDiscord());
@@ -195,7 +195,7 @@ final class NumberTest extends TestCase
     {
         $expected = '**username rolled 6 dice with a limit of 3**' . \PHP_EOL
             . 'Rolled 3 successes, hit limit' . \PHP_EOL
-            . 'Rolls: 6 6 6 6 6 6, Limit: 3';
+            . 'Rolls: 6 6 6 6 6 6, Limit: 3, Probability: 0.1372%';
         $this->randomInt->expects(self::exactly(6))->willReturn(6);
         $response = new Number('6 3', 'username', new Channel());
         self::assertSame($expected, $response->forDiscord());
@@ -223,7 +223,7 @@ final class NumberTest extends TestCase
     {
         $expected = '**username rolled 1 die**' . \PHP_EOL
             . 'Rolled 1 successes' . \PHP_EOL
-            . 'Rolls: 6';
+            . 'Rolls: 6, Probability: 33.3333%';
         $this->randomInt->expects(self::exactly(1))->willReturn(6);
         $response = new Number(' 1', 'username', new Channel());
         self::assertSame($expected, $response->forDiscord());
@@ -282,7 +282,7 @@ final class NumberTest extends TestCase
             (string)$character
         ) . \PHP_EOL
             . 'Rolled 6 ones with no successes!' . \PHP_EOL
-            . 'Rolls: 1 1 1 1 1 1, Limit: 3';
+            . 'Rolls: 1 1 1 1 1 1, Limit: 3, Probability: 100.0000%';
         $this->randomInt->expects(self::exactly(6))->willReturn(1);
 
         $response = (new Number('6 3', (string)$character, $channel, $event))
@@ -341,7 +341,7 @@ final class NumberTest extends TestCase
         );
         $expected = \sprintf('**%s rolled 6 dice with a limit of 3**', (string)$character) . \PHP_EOL
             . 'Rolled 0 successes' . \PHP_EOL
-            . 'Rolls: 3 3 3 3 3 3, Limit: 3';
+            . 'Rolls: 3 3 3 3 3 3, Limit: 3, Probability: 100.0000%';
         $this->randomInt->expects(self::exactly(6))->willReturn(3);
 
         /** @var \Discord\Builders\MessageBuilder */
