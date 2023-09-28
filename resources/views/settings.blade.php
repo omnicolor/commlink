@@ -52,7 +52,6 @@ use Laravel\Pennant\Feature;
         </div>
     </div>
 
-
     <div class="row mt-4">
         <div class="col">
             <div class="accordion mt-4" id="settings-accordion">

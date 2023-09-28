@@ -165,7 +165,7 @@ final class JudgeTest extends TestCase
             \sprintf(
                 '**%s rolled 8 dice for a judge intentions test**'
                     . \PHP_EOL . 'Rolled 8 successes' . \PHP_EOL
-                    . 'Rolls: 6 6 6 6 6 6 6 6',
+                    . 'Rolls: 6 6 6 6 6 6 6 6, Probability: 0.0152%%',
                 (string)$character
             ),
             $response
