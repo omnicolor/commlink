@@ -6,8 +6,7 @@ namespace Tests\Feature\Rolls\StarTrekAdventures;
 
 use App\Models\Channel;
 use App\Rolls\StarTrekAdventures\Challenge;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
+use Facades\App\Services\DiceService;
 use Tests\TestCase;
 
 /**
@@ -17,36 +16,16 @@ use Tests\TestCase;
  */
 final class ChallengeTest extends TestCase
 {
-    use PHPMock;
-
-    /**
-     * Mock random_int function to take randomness out of testing.
-     * @var MockObject
-     */
-    protected MockObject $randomInt;
-
-    /**
-     * Set up the mock random function each time.
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls\\StarTrekAdventures',
-            'random_int'
-        );
-    }
-
     /**
      * Test a roll in Slack that produces no score.
      * @test
      */
     public function testNoScore(): void
     {
+        DiceService::shouldReceive('rollOne')->times(3)->with(6)->andReturn(3);
+
         /** @var Channel */
         $channel = Channel::factory()->make(['registered_by' => 1]);
-
-        $this->randomInt->expects(self::exactly(3))->willReturn(3);
 
         $response = new Challenge('challenge 3', 'username', $channel);
         $response = \json_decode((string)$response->forSlack());
@@ -66,11 +45,10 @@ final class ChallengeTest extends TestCase
      */
     public function testWithEffect(): void
     {
+        DiceService::shouldReceive('rollOne')->times(2)->with(6)->andReturn(6);
+
         /** @var Channel */
         $channel = Channel::factory()->make(['registered_by' => 2]);
-
-        $this->randomInt->expects(self::exactly(2))->willReturn(6);
-
         $response = (new Challenge('challenge 2', 'username', $channel))
             ->forDiscord();
 
@@ -86,11 +64,10 @@ final class ChallengeTest extends TestCase
      */
     public function testWithText(): void
     {
+        DiceService::shouldReceive('rollOne')->times(2)->with(6)->andReturn(1);
+
         /** @var Channel */
         $channel = Channel::factory()->make(['registered_by' => 3]);
-
-        $this->randomInt->expects(self::exactly(2))->willReturn(1);
-
         $response = (new Challenge('challenge 2 testing', 'username', $channel))
             ->forDiscord();
 
