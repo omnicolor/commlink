@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Shadowrun5e;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Controller for Shadowrun 5E gear.
@@ -40,11 +41,18 @@ class GearController extends Controller
      */
     public function index(): Response
     {
+        /** @var \App\Models\User */
+        $user = Auth::user();
+        $trusted = $user->hasPermissionTo('view data');
+
         foreach (array_keys($this->gear) as $key) {
             $this->gear[$key]['links'] = [
                 'self' => \sprintf('/api/shadowrun5e/gear/%s', \urlencode($key)),
             ];
             $this->gear[$key]['ruleset'] ??= 'core';
+            if (!$trusted) {
+                unset($this->gear[$key]['description']);
+            }
         }
 
         $data = [
@@ -61,6 +69,9 @@ class GearController extends Controller
      */
     public function show(string $id): Response
     {
+        /** @var \App\Models\User */
+        $user = Auth::user();
+
         $id = \strtolower($id);
         if (!\array_key_exists($id, $this->gear)) {
             // We couldn't find it!
@@ -76,6 +87,10 @@ class GearController extends Controller
         $item['ruleset'] ??= 'core';
         $item['links']['self'] = $this->links['self'] =
             \sprintf('/api/shadowrun5e/gear/%s', \urlencode($id));
+
+        if (!$user->hasPermissionTo('view data')) {
+            unset($item['description']);
+        }
 
         $data = [
             'links' => $this->links,

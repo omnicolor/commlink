@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Controllers\Shadowrun5e;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use Tests\TestCase;
 
 /**
  * Tests for the gear controller.
@@ -14,8 +16,10 @@ use Illuminate\Http\Response;
  * @group shadowrun5e
  * @medium
  */
-final class GearControllerTest extends \Tests\TestCase
+final class GearControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * Test loading the collection if the config is broken.
      * @test
@@ -25,7 +29,7 @@ final class GearControllerTest extends \Tests\TestCase
         \Config::set('app.data_path.shadowrun5e', '/tmp/unused/');
         /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('shadowrun5e.gear.index'))
             ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
@@ -36,7 +40,7 @@ final class GearControllerTest extends \Tests\TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $this->getJson(route('shadowrun5e.gear.index'))
+        self::getJson(route('shadowrun5e.gear.index'))
             ->assertUnauthorized();
     }
 
@@ -48,7 +52,8 @@ final class GearControllerTest extends \Tests\TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $response = $this->actingAs($user)
+        $this->seed();
+        $response = self::actingAs($user)
             ->getJson(route('shadowrun5e.gear.index'))
             ->assertOk()
             ->assertJsonFragment([
@@ -65,7 +70,7 @@ final class GearControllerTest extends \Tests\TestCase
      */
     public function testNoAuthShow(): void
     {
-        $this->getJson(route('shadowrun5e.gear.show', 'credstick-gold'))
+        self::getJson(route('shadowrun5e.gear.show', 'credstick-gold'))
             ->assertUnauthorized();
     }
 
@@ -75,7 +80,7 @@ final class GearControllerTest extends \Tests\TestCase
      */
     public function testNoAuthShowNotFound(): void
     {
-        $this->getJson(route('shadowrun5e.gear.show', 'not-found'))
+        self::getJson(route('shadowrun5e.gear.show', 'not-found'))
             ->assertUnauthorized();
     }
 
@@ -87,7 +92,8 @@ final class GearControllerTest extends \Tests\TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        $this->seed();
+        self::actingAs($user)
             ->getJson(route('shadowrun5e.gear.show', 'credstick-gold'))
             ->assertOk()
             ->assertJson([
@@ -109,7 +115,7 @@ final class GearControllerTest extends \Tests\TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('shadowrun5e.gear.show', 'not-found'))
             ->assertNotFound();
     }

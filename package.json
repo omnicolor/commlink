@@ -19,5 +19,8 @@
         "postcss-import": "^14.0.2",
         "pusher-js": "^7.0.3",
         "tailwindcss": "^2.0.4"
+    },
+    "dependencies": {
+        "@redocly/cli": "^1.0.2"
     }
 }

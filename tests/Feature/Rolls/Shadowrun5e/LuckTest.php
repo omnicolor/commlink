@@ -10,9 +10,8 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\Shadowrun5e\Character;
 use App\Rolls\Shadowrun5e\Luck;
+use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
 /**
@@ -23,19 +22,7 @@ use Tests\TestCase;
  */
 final class LuckTest extends TestCase
 {
-    use PHPMock;
     use RefreshDatabase;
-
-    protected MockObject $randomInt;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls\\Shadowrun5e',
-            'random_int'
-        );
-    }
 
     /**
      * Test trying to roll a luck test without a character linked in Slack.
@@ -76,6 +63,11 @@ final class LuckTest extends TestCase
      */
     public function testCritGlitch(): void
     {
+        DiceService::shouldReceive('rollOne')
+            ->times(3)
+            ->with(6)
+            ->andReturn(1);
+
         /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
@@ -102,7 +94,6 @@ final class LuckTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $this->randomInt->expects(self::exactly(3))->willReturn(1);
         $response = (new Luck('', 'username', $channel))->forSlack();
         $response = \json_decode((string)$response)->attachments[0];
         self::assertSame(
@@ -119,6 +110,11 @@ final class LuckTest extends TestCase
      */
     public function testLuck(): void
     {
+        DiceService::shouldReceive('rollOne')
+            ->times(7)
+            ->with(6)
+            ->andReturn(6);
+
         /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
@@ -145,13 +141,12 @@ final class LuckTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $this->randomInt->expects(self::exactly(7))->willReturn(6);
         $response = (new Luck('', 'username', $channel))->forDiscord();
         self::assertSame(
             \sprintf(
                 '**%s rolled 7 dice for a luck test**'
                     . \PHP_EOL . 'Rolled 7 successes' . \PHP_EOL
-                    . 'Rolls: 6 6 6 6 6 6 6',
+                    . 'Rolls: 6 6 6 6 6 6 6, Probability: 0.0457%%',
                 (string)$character
             ),
             $response
