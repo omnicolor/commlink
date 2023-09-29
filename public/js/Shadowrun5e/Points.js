@@ -451,6 +451,10 @@ function Points(character) {
 
     this.updateKnowledgeSkills = function () {
         const skills = this.character.knowledgeSkills;
+        if (!this.character.intuition || !this.character.logic) {
+            this.knowledgeSkills = 0;
+            return;
+        }
         let points = (this.character.intuition + this.character.logic) * 2;
         let halveAcademic = false;
         let halveStreet = false;
@@ -480,19 +484,24 @@ function Points(character) {
         });
 
         $.each(skills, function (unused, skill) {
+            let level = skill.level;
             if ('N' === skill.level) {
-                return;
+                // Native languages are "free". Validation elsewhere will check
+                // to see if the character has too many.
+                level = 0;
             }
+
             if (
                 (halveAcademic && 'academic' === skill.category) ||
                 (halveStreet && 'street' === skill.category) ||
                 (halveProfessional && 'professional' === skill.category) ||
                 (halveLanguage && 'language' === skill.category)
             ) {
-                points -= Math.ceil(skill.level / 2);
-                return;
+                points -= Math.ceil(level / 2);
+            } else {
+                points -= level;
             }
-            points -= skill.level;
+
             if (skill.specialization) {
                 points -= 1;
             }
