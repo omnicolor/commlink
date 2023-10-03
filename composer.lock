@@ -1235,16 +1235,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v10.25.2",
+            "version": "v10.26.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "6014dd456b414b305fb0b408404efdcec18e64bc"
+                "reference": "6e5440f7c518f26b4495e5d7e4796ec239e26df9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/6014dd456b414b305fb0b408404efdcec18e64bc",
-                "reference": "6014dd456b414b305fb0b408404efdcec18e64bc",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/6e5440f7c518f26b4495e5d7e4796ec239e26df9",
+                "reference": "6e5440f7c518f26b4495e5d7e4796ec239e26df9",
                 "shasum": ""
             },
             "require": {
@@ -1431,7 +1431,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-09-28T14:08:59+00:00"
+            "time": "2023-10-03T14:24:20+00:00"
         },
         {
             "name": "laravel/pennant",
@@ -10597,30 +10597,31 @@
         },
         {
             "name": "orchestra/canvas",
-            "version": "v8.10.1",
+            "version": "v8.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/canvas.git",
-                "reference": "eef3eb34e263cc462c0eb284ba002f2829b04e2a"
+                "reference": "246833ff19f74db0b76d651eb4f36aa92d1af7d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/canvas/zipball/eef3eb34e263cc462c0eb284ba002f2829b04e2a",
-                "reference": "eef3eb34e263cc462c0eb284ba002f2829b04e2a",
+                "url": "https://api.github.com/repos/orchestral/canvas/zipball/246833ff19f74db0b76d651eb4f36aa92d1af7d3",
+                "reference": "246833ff19f74db0b76d651eb4f36aa92d1af7d3",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.2",
                 "composer/semver": "^3.0",
-                "illuminate/database": "^10.23",
-                "illuminate/support": "^10.23",
-                "orchestra/canvas-core": "^8.8",
+                "illuminate/console": "^10.26",
+                "illuminate/database": "^10.26",
+                "illuminate/support": "^10.26",
+                "orchestra/canvas-core": "^8.9",
                 "orchestra/testbench-core": "^8.11",
                 "php": "^8.1",
                 "symfony/yaml": "^6.2"
             },
             "require-dev": {
-                "laravel/framework": "^10.23",
+                "laravel/framework": "^10.26",
                 "laravel/pint": "^1.6",
                 "mockery/mockery": "^1.5.1",
                 "phpstan/phpstan": "^1.10.5",
@@ -10663,42 +10664,42 @@
             "description": "Code Generators for Laravel Applications and Packages",
             "support": {
                 "issues": "https://github.com/orchestral/canvas/issues",
-                "source": "https://github.com/orchestral/canvas/tree/v8.10.1"
+                "source": "https://github.com/orchestral/canvas/tree/v8.11.0"
             },
-            "time": "2023-09-25T08:37:12+00:00"
+            "time": "2023-10-03T00:44:45+00:00"
         },
         {
             "name": "orchestra/canvas-core",
-            "version": "v8.8.0",
+            "version": "v8.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/canvas-core.git",
-                "reference": "d44ffd6895685a6535949c7cce2650a67dd7d364"
+                "reference": "27ac6b07880bda4ff10da06814eb97913eadb6db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/canvas-core/zipball/d44ffd6895685a6535949c7cce2650a67dd7d364",
-                "reference": "d44ffd6895685a6535949c7cce2650a67dd7d364",
+                "url": "https://api.github.com/repos/orchestral/canvas-core/zipball/27ac6b07880bda4ff10da06814eb97913eadb6db",
+                "reference": "27ac6b07880bda4ff10da06814eb97913eadb6db",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.2",
                 "composer/semver": "^3.0",
-                "illuminate/console": "^10.17",
-                "illuminate/filesystem": "^10.17",
+                "illuminate/console": "^10.26",
+                "illuminate/filesystem": "^10.26",
                 "php": "^8.1"
             },
             "conflict": {
-                "orchestra/canvas": "<8.9.0",
+                "orchestra/canvas": "<8.11.0",
                 "orchestra/testbench-core": "<8.2.0"
             },
             "require-dev": {
                 "fakerphp/faker": "^1.21",
-                "laravel/framework": "^10.17",
+                "laravel/framework": "^10.26",
                 "laravel/pint": "^1.6",
                 "mockery/mockery": "^1.5.1",
                 "orchestra/testbench-core": "^8.11",
-                "orchestra/workbench": "^0.3",
+                "orchestra/workbench": "^0.3.0 || ^0.4.0",
                 "phpstan/phpstan": "^1.10.6",
                 "phpunit/phpunit": "^10.1",
                 "symfony/yaml": "^6.2"
@@ -10736,28 +10737,28 @@
             "description": "Code Generators Builder for Laravel Applications and Packages",
             "support": {
                 "issues": "https://github.com/orchestral/canvas/issues",
-                "source": "https://github.com/orchestral/canvas-core/tree/v8.8.0"
+                "source": "https://github.com/orchestral/canvas-core/tree/v8.9.0"
             },
-            "time": "2023-09-19T04:26:25+00:00"
+            "time": "2023-10-03T05:50:06+00:00"
         },
         {
             "name": "orchestra/testbench",
-            "version": "v8.12.1",
+            "version": "v8.12.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench.git",
-                "reference": "9bae3c28789295db875eee0d3395c4ba23f1e5ae"
+                "reference": "1f1bba4effb8199b712cc07fe0073d4f5727c119"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench/zipball/9bae3c28789295db875eee0d3395c4ba23f1e5ae",
-                "reference": "9bae3c28789295db875eee0d3395c4ba23f1e5ae",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/1f1bba4effb8199b712cc07fe0073d4f5727c119",
+                "reference": "1f1bba4effb8199b712cc07fe0073d4f5727c119",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.2",
                 "fakerphp/faker": "^1.21",
-                "laravel/framework": ">=10.23.1 <10.26.0",
+                "laravel/framework": ">=10.23.1 <10.27.0",
                 "mockery/mockery": "^1.5.1",
                 "orchestra/testbench-core": ">=8.12.0 <8.13.0",
                 "orchestra/workbench": "^0.4.0",
@@ -10792,9 +10793,9 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/testbench/issues",
-                "source": "https://github.com/orchestral/testbench/tree/v8.12.1"
+                "source": "https://github.com/orchestral/testbench/tree/v8.12.2"
             },
-            "time": "2023-09-25T14:33:44+00:00"
+            "time": "2023-10-03T04:16:40+00:00"
         },
         {
             "name": "orchestra/testbench-core",
