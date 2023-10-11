@@ -10883,30 +10883,30 @@
         },
         {
             "name": "orchestra/workbench",
-            "version": "v0.5.0",
+            "version": "v0.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/workbench.git",
-                "reference": "01175d82fd80a6589ffaa9a861100a64c500b259"
+                "reference": "52d5f5d6bf738539691a8335ff5cb892f5798b9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/workbench/zipball/01175d82fd80a6589ffaa9a861100a64c500b259",
-                "reference": "01175d82fd80a6589ffaa9a861100a64c500b259",
+                "url": "https://api.github.com/repos/orchestral/workbench/zipball/52d5f5d6bf738539691a8335ff5cb892f5798b9f",
+                "reference": "52d5f5d6bf738539691a8335ff5cb892f5798b9f",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.2",
-                "illuminate/console": "^9.52.15 || ^10.23.0",
-                "illuminate/support": "^9.52.15 || ^10.23.0",
+                "illuminate/console": "^9.52.15 || ^10.26.0",
+                "illuminate/support": "^9.52.15 || ^10.26.0",
                 "laravel/tinker": "^2.8.2",
-                "orchestra/canvas": "^7.10.0 || ^8.9.0",
+                "orchestra/canvas": "^7.10.0 || ^8.11.0",
                 "orchestra/testbench-core": "^7.32.0 || ^8.12.0",
                 "php": "^8.0"
             },
             "require-dev": {
                 "fakerphp/faker": "^1.21",
-                "laravel/framework": "^9.52.15 || ^10.23.0",
+                "laravel/framework": "^9.52.15 || ^10.26.0",
                 "laravel/pint": "^1.4",
                 "mockery/mockery": "^1.5.1",
                 "phpstan/phpstan": "^1.10.7",
@@ -10944,9 +10944,9 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/workbench/issues",
-                "source": "https://github.com/orchestral/workbench/tree/v0.5.0"
+                "source": "https://github.com/orchestral/workbench/tree/v0.5.1"
             },
-            "time": "2023-10-06T12:50:40+00:00"
+            "time": "2023-10-09T12:23:53+00:00"
         },
         {
             "name": "phar-io/manifest",
