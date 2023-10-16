@@ -34,9 +34,6 @@ class ChannelUpdateRequest extends FormRequest
                 'boolean',
                 'required_without:webhook',
                 function (string $attribute, mixed $value, Closure $fail): void {
-                    // @phpstan-ignore-next-line
-                    //$channel = Channel::find($this->channel)->first();
-                    // @phpstan-ignore-next-line
                     if (Channel::TYPE_DISCORD !== $this->channel->type) {
                         $fail('Auto only works for Discord channels.');
                     }
