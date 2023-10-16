@@ -10,6 +10,7 @@ use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use App\Traits\PrettifyRollsForSlack;
+use Facades\App\Services\DiceService;
 
 /**
  * Roll a Shadowrun 5e push the limit test.
@@ -177,7 +178,6 @@ class Push extends Number
 
     /**
      * Format the title part of the roll.
-     * @return string
      */
     protected function formatTitle(): string
     {
@@ -200,7 +200,7 @@ class Push extends Number
     {
         // @phpstan-ignore-next-line
         for ($i = 0; $i < $this->dice + $this->character->edge; $i++) {
-            $this->rolls[] = $roll = random_int(1, 6);
+            $this->rolls[] = $roll = DiceService::rollOne(6);
             if (self::EXPLODING_SIX === $roll) {
                 // Explode the six.
                 $i--;
@@ -219,7 +219,6 @@ class Push extends Number
 
     /**
      * Return the roll formatted for Slack.
-     * @return SlackResponse
      * @throws SlackException
      */
     public function forSlack(): SlackResponse
@@ -244,7 +243,6 @@ class Push extends Number
 
     /**
      * Return the roll formatted for Discord.
-     * @return string
      */
     public function forDiscord(): string
     {
@@ -263,7 +261,6 @@ class Push extends Number
 
     /**
      * Return whether the roll was a glitch.
-     * @return bool
      */
     protected function isGlitch(): bool
     {
@@ -278,7 +275,6 @@ class Push extends Number
 
     /**
      * Return whether the roll was a critical glitch.
-     * @return bool
      */
     protected function isCriticalGlitch(): bool
     {

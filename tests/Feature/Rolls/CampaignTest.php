@@ -13,7 +13,9 @@ use App\Models\User;
 use App\Rolls\Campaign as CampaignRoll;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Http;
 
 /**
  * @medium
@@ -31,6 +33,8 @@ final class CampaignTest extends \Tests\TestCase
     public function testSlackLinkCampaignNoId(): void
     {
         Event::fake();
+        Http::fake();
+        Http::preventStrayRequests();
 
         /** @var Channel */
         $channel = Channel::factory()->make(['type' => Channel::TYPE_SLACK]);
@@ -53,6 +57,8 @@ final class CampaignTest extends \Tests\TestCase
     public function testDiscordLinkCampaignNoId(): void
     {
         Event::fake();
+        Http::fake();
+        Http::preventStrayRequests();
 
         /** @var Channel */
         $channel = Channel::factory()->make(['type' => Channel::TYPE_DISCORD]);
@@ -74,6 +80,8 @@ final class CampaignTest extends \Tests\TestCase
     public function testSlackLinkCampaignRedundant(): void
     {
         Event::fake();
+        Http::fake();
+        Http::preventStrayRequests();
 
         /** @var CampaignModel */
         $campaign = CampaignModel::factory()->create();
@@ -104,6 +112,8 @@ final class CampaignTest extends \Tests\TestCase
     public function testDiscordLinkCampaignRedundant(): void
     {
         Event::fake();
+        Http::fake();
+        Http::preventStrayRequests();
 
         /** @var CampaignModel */
         $campaign = CampaignModel::factory()->create();
@@ -135,6 +145,8 @@ final class CampaignTest extends \Tests\TestCase
     public function testSlackLinkCampaignNoChatUser(): void
     {
         Event::fake();
+        Http::fake();
+        Http::preventStrayRequests();
 
         /** @var Channel */
         $channel = Channel::factory()->make(['type' => Channel::TYPE_SLACK]);
@@ -162,6 +174,8 @@ final class CampaignTest extends \Tests\TestCase
     public function testDiscordLinkCampaignNoChatUser(): void
     {
         Event::fake();
+        Http::fake();
+        Http::preventStrayRequests();
 
         /** @var Channel */
         $channel = Channel::factory()->make(['type' => Channel::TYPE_DISCORD]);
@@ -191,6 +205,8 @@ final class CampaignTest extends \Tests\TestCase
     public function testSlackLinkCampaignNoCampaign(): void
     {
         Event::fake();
+        Http::fake();
+        Http::preventStrayRequests();
 
         /** @var Channel */
         $channel = Channel::factory()->make(['type' => Channel::TYPE_SLACK]);
@@ -220,6 +236,8 @@ final class CampaignTest extends \Tests\TestCase
     public function testDiscordLinkCampaignNoCampaign(): void
     {
         Event::fake();
+        Http::fake();
+        Http::preventStrayRequests();
 
         $channel = new Channel([
             'channel_id' => 'C' . \Str::random(10),
@@ -252,6 +270,8 @@ final class CampaignTest extends \Tests\TestCase
     public function testSlackLinkCampaignDifferentSystem(): void
     {
         Event::fake();
+        Http::fake();
+        Http::preventStrayRequests();
 
         /** @var CampaignModel */
         $campaign = CampaignModel::factory()->create(['system' => 'dnd5e']);
@@ -296,6 +316,8 @@ final class CampaignTest extends \Tests\TestCase
     public function testDiscordLinkCampaignDifferentSystem(): void
     {
         Event::fake();
+        Http::fake();
+        Http::preventStrayRequests();
 
         /** @var CampaignModel */
         $campaign = CampaignModel::factory()->create([
@@ -342,6 +364,8 @@ final class CampaignTest extends \Tests\TestCase
     public function testSlackLinkCampaignPermissionDenied(): void
     {
         Event::fake();
+        Http::fake();
+        Http::preventStrayRequests();
 
         /** @var CampaignModel */
         $campaign = CampaignModel::factory()->create();
@@ -385,6 +409,8 @@ final class CampaignTest extends \Tests\TestCase
     public function testDiscordLinkCampaignPermissionDenied(): void
     {
         Event::fake();
+        Http::fake();
+        Http::preventStrayRequests();
 
         /** @var CampaignModel */
         $campaign = CampaignModel::factory()->create();
@@ -425,6 +451,10 @@ final class CampaignTest extends \Tests\TestCase
     public function testSlackLinkCampaignSuccessNewChannel(): void
     {
         Event::fake();
+        Http::preventStrayRequests();
+        Http::fake([
+            '*' => Http::response('', Response::HTTP_BAD_REQUEST),
+        ]);
 
         /** @var User */
         $user = User::factory()->create();
@@ -480,6 +510,10 @@ final class CampaignTest extends \Tests\TestCase
     public function testDiscordLinkCampaignSuccessNewChannel(): void
     {
         Event::fake();
+        Http::preventStrayRequests();
+        Http::fake([
+            '*' => Http::response('', Response::HTTP_BAD_REQUEST),
+        ]);
 
         /** @var User */
         $user = User::factory()->create();
@@ -533,6 +567,8 @@ final class CampaignTest extends \Tests\TestCase
     public function testSlackLinkCampaignSuccessOldChannel(): void
     {
         Event::fake();
+        Http::fake();
+        Http::preventStrayRequests();
 
         /** @var User */
         $user = User::factory()->create();
@@ -589,6 +625,8 @@ final class CampaignTest extends \Tests\TestCase
     public function testDiscordLinkCampaignSuccessOldChannel(): void
     {
         Event::fake();
+        Http::fake();
+        Http::preventStrayRequests();
 
         /** @var User */
         $user = User::factory()->create();
@@ -630,5 +668,7 @@ final class CampaignTest extends \Tests\TestCase
         );
 
         Event::assertNotDispatched(ChannelLinked::class);
+        Http::fake();
+        Http::preventStrayRequests();
     }
 }
