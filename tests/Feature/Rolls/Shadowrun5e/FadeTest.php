@@ -10,8 +10,7 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\Shadowrun5e\Character;
 use App\Rolls\Shadowrun5e\Fade;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
+use Facades\App\Services\DiceService;
 use Tests\TestCase;
 
 /**
@@ -22,29 +21,8 @@ use Tests\TestCase;
  */
 final class FadeTest extends TestCase
 {
-    use PHPMock;
-
     /**
-     * Mock random_int function to take randomness out of testing.
-     * @var MockObject
-     */
-    protected MockObject $randomInt;
-
-    /**
-     * Set up the mock random function each time.
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls\\Shadowrun5e',
-            'random_int'
-        );
-    }
-
-    /**
-     * Test trying to roll a fade test without a character linked in
-     * Slack.
+     * Test trying to roll a fade test without a character linked in Slack.
      * @group slack
      * @test
      */
@@ -61,8 +39,7 @@ final class FadeTest extends TestCase
     }
 
     /**
-     * Test trying to roll a fade test without a character linked in
-     * Discord.
+     * Test trying to roll a fade test without a character linked in Discord.
      * @group discord
      * @test
      */
@@ -128,6 +105,8 @@ final class FadeTest extends TestCase
      */
     public function testFadeDiscord(): void
     {
+        DiceService::shouldReceive('rollOne')->times(11)->with(6)->andReturn(6);
+
         /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_DISCORD,
@@ -155,7 +134,6 @@ final class FadeTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $this->randomInt->expects(self::exactly(11))->willReturn(6);
         $response = (new Fade('', 'username', $channel))->forDiscord();
         self::assertSame(
             \sprintf(
@@ -176,6 +154,8 @@ final class FadeTest extends TestCase
      */
     public function testFadeSlack(): void
     {
+        DiceService::shouldReceive('rollOne')->times(7)->with(6)->andReturn(2);
+
         /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
@@ -203,7 +183,6 @@ final class FadeTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $this->randomInt->expects(self::exactly(7))->willReturn(2);
         $response = json_decode(
             (string)(new Fade('', 'username', $channel))->forSlack()
         );
