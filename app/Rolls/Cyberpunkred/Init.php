@@ -11,6 +11,7 @@ use App\Models\Channel;
 use App\Models\Initiative;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
+use Facades\App\Services\DiceService;
 
 /**
  * Handle a user trying to add their initiative.
@@ -25,34 +26,24 @@ class Init extends Roll
 
     /**
      * Optional modifier for the character's initiative.
-     * @var int
      */
     public int $modifier = 0;
 
     /**
      * Reflexes used to determine the character's initiative.
-     * @var int
      */
     public int $reflexes;
 
     /**
      * Result of the die roll.
-     * @var int
      */
     public int $roll;
 
     /**
      * Initiative object created for the roll.
-     * @var Initiative
      */
     protected Initiative $initiative;
 
-    /**
-     * Constructor.
-     * @param string $content
-     * @param string $username
-     * @param Channel $channel
-     */
     public function __construct(
         string $content,
         string $username,
@@ -93,7 +84,7 @@ class Init extends Roll
             }
         }
 
-        $this->roll = random_int(1, 10);
+        $this->roll = DiceService::rollOne(10);
         $this->initiative = Initiative::updateOrCreate(
             [
                 'campaign_id' => optional($this->campaign)->id,
@@ -114,7 +105,6 @@ class Init extends Roll
 
     /**
      * Format the response's body for either Slack or Discord.
-     * @return string
      */
     protected function formatBody(): string
     {
@@ -133,10 +123,6 @@ class Init extends Roll
         );
     }
 
-    /**
-     * Return the initiative information formatted for Slack.
-     * @return SlackResponse
-     */
     public function forSlack(): SlackResponse
     {
         if (null === $this->character && 0 === count($this->args)) {
@@ -161,10 +147,6 @@ class Init extends Roll
         return $response->addAttachment($attachment)->sendToChannel();
     }
 
-    /**
-     * Return the initiative response formatted for Discord.
-     * @return string
-     */
     public function forDiscord(): string
     {
         if (null === $this->character && 0 === count($this->args)) {

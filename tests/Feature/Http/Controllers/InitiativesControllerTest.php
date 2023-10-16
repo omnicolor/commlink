@@ -7,8 +7,7 @@ namespace Tests\Feature\Http\Controllers;
 use App\Models\Campaign;
 use App\Models\Initiative;
 use App\Models\User;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
+use Facades\App\Services\DiceService;
 use Tests\TestCase;
 
 /**
@@ -19,19 +18,6 @@ use Tests\TestCase;
  */
 final class InitiativesControllerTest extends TestCase
 {
-    use PHPMock;
-
-    protected MockObject $randomInt;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Http\\Controllers',
-            'random_int'
-        );
-    }
-
     /**
      * Test trying to destroy an initiative owned by someone else.
      * @test
@@ -365,7 +351,10 @@ final class InitiativesControllerTest extends TestCase
      */
     public function testStoreInitiativeBaseAndDice(): void
     {
-        $this->randomInt->expects(self::exactly(2))->willReturn(5);
+        DiceService::shouldReceive('rollOne')
+            ->times(2)
+            ->with(6)
+            ->andReturn(5);
 
         /** @var User */
         $gm = User::factory()->create();

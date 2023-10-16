@@ -8,6 +8,7 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
+use Facades\App\Services\DiceService;
 
 /**
  * Handle a user rolling a generic roll.
@@ -19,25 +20,21 @@ class Number extends Roll
 
     /**
      * Amount to add (or subtract) from the result.
-     * @var int
      */
     protected int $addition;
 
     /**
      * Whether the roll was a one.
-     * @var bool
      */
     protected bool $critFailure = false;
 
     /**
      * Whether the roll was a ten.
-     * @var bool
      */
     protected bool $critSuccess = false;
 
     /**
      * Optional description of what the roll is for.
-     * @var string
      */
     protected string $description;
 
@@ -49,16 +46,9 @@ class Number extends Roll
 
     /**
      * Sum of the rolls + the addition.
-     * @var int
      */
     protected int $result;
 
-    /**
-     * Constructor.
-     * @param string $content
-     * @param string $username
-     * @param Channel $channel
-     */
     public function __construct(
         string $content,
         string $username,
@@ -73,10 +63,6 @@ class Number extends Roll
         $this->roll();
     }
 
-    /**
-     * Return the roll formatted for Slack.
-     * @return SlackResponse
-     */
     public function forSlack(): SlackResponse
     {
         $color = TextAttachment::COLOR_INFO;
@@ -101,10 +87,6 @@ class Number extends Roll
         return $response->addAttachment($attachment)->sendToChannel();
     }
 
-    /**
-     * Return the roll formatted for Discord.
-     * @return string
-     */
     public function forDiscord(): string
     {
         return sprintf('**%s**', $this->formatTitle()) . \PHP_EOL
@@ -113,7 +95,6 @@ class Number extends Roll
 
     /**
      * Format the body of the Slack message and event.
-     * @return string
      */
     protected function formatBody(): string
     {
@@ -143,7 +124,6 @@ class Number extends Roll
 
     /**
      * Format the title for Slack and Event.
-     * @return string
      */
     protected function formatTitle(): string
     {
@@ -176,15 +156,13 @@ class Number extends Roll
      */
     protected function roll(): void
     {
-        $this->dice = [
-            random_int(1, 10),
-        ];
+        $this->dice = [DiceService::rollOne(10)];
         if (self::CRIT_FAILURE === $this->dice[0]) {
             $this->critFailure = true;
-            $this->dice[] = -1 * random_int(1, 10);
+            $this->dice[] = -1 * DiceService::rollOne(10);
         } elseif (self::CRIT_SUCCESS === $this->dice[0]) {
             $this->critSuccess = true;
-            $this->dice[] = random_int(1, 10);
+            $this->dice[] = DiceService::rollOne(10);
         }
 
         $this->result = \array_sum($this->dice) + $this->addition;

@@ -6,9 +6,7 @@ namespace Tests\Feature\Rolls;
 
 use App\Models\Channel;
 use App\Rolls\Coin;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
+use Facades\App\Services\DiceService;
 use Tests\TestCase;
 
 /**
@@ -17,24 +15,6 @@ use Tests\TestCase;
  */
 final class CoinTest extends TestCase
 {
-    use PHPMock;
-    use RefreshDatabase;
-
-    /**
-     * Mock random_int function to take randomness out of testing.
-     * @var MockObject
-     */
-    protected MockObject $randomInt;
-
-    /**
-     * Set up the mock random function each time.
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock('App\\Rolls', 'random_int');
-    }
-
     /**
      * Test a coin flip.
      * @group slack
@@ -42,9 +22,10 @@ final class CoinTest extends TestCase
      */
     public function testTails(): void
     {
+        DiceService::shouldReceive('rollOne')->once()->with(2)->andReturn(2);
+
         /** @var Channel */
         $channel = Channel::factory()->make();
-        $this->randomInt->expects(self::exactly(1))->willReturn(2);
         $response = new Coin('coin', 'username', $channel);
         $response = \json_decode((string)$response->forSlack());
         self::assertSame(
@@ -60,9 +41,10 @@ final class CoinTest extends TestCase
      */
     public function testHeads(): void
     {
+        DiceService::shouldReceive('rollOne')->once()->with(2)->andReturn(1);
+
         /** @var Channel */
         $channel = Channel::factory()->make();
-        $this->randomInt->expects(self::exactly(1))->willReturn(1);
         $response = new Coin('coin', 'username', $channel);
         $response = $response->forDiscord();
         self::assertSame(

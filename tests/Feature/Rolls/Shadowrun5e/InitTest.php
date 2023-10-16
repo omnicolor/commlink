@@ -12,9 +12,8 @@ use App\Models\ChatUser;
 use App\Models\Shadowrun5e\Character;
 use App\Models\User;
 use App\Rolls\Shadowrun5e\Init;
+use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
 /**
@@ -25,26 +24,7 @@ use Tests\TestCase;
  */
 final class InitTest extends TestCase
 {
-    use PHPMock;
     use RefreshDatabase;
-
-    /**
-     * Mock random_int function to take randomness out of testing.
-     * @var MockObject
-     */
-    protected MockObject $randomInt;
-
-    /**
-     * Set up the mock random function each time.
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls\\Shadowrun5e',
-            'random_int'
-        );
-    }
 
     /**
      * Test attempting a GM command as an unregistered user in a channel with
@@ -285,6 +265,11 @@ final class InitTest extends TestCase
      */
     public function testRollInitiativeForCharacter(): void
     {
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(1, 6)
+            ->andReturn([6]);
+
         /** @var User */
         $user = User::factory()->create();
 
@@ -320,8 +305,6 @@ final class InitTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $this->randomInt->expects(self::exactly(1))->willReturn(6);
-
         $response = (new Init('init', 'username', $channel))->forSlack();
         $response = \json_decode((string)$response)->attachments[0];
 
@@ -350,6 +333,11 @@ final class InitTest extends TestCase
      */
     public function testRollInitiativeForUser(): void
     {
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(3, 6)
+            ->andReturn([4, 4, 4]);
+
         /** @var User */
         $user = User::factory()->create();
 
@@ -358,8 +346,6 @@ final class InitTest extends TestCase
             'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
         ]);
-
-        $this->randomInt->expects(self::exactly(3))->willReturn(4);
 
         $response = (new Init('init 12+3d6', 'username', $channel))->forSlack();
         $response = \json_decode((string)$response)->attachments[0];
@@ -459,6 +445,11 @@ final class InitTest extends TestCase
      */
     public function testRollInitiativeWithBaseAndDice(): void
     {
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(3, 6)
+            ->andReturn([6, 6, 6]);
+
         /** @var User */
         $user = User::factory()->create();
 
@@ -468,7 +459,6 @@ final class InitTest extends TestCase
             'system' => 'shadowrun5e',
         ]);
 
-        $this->randomInt->expects(self::exactly(3))->willReturn(6);
         $response = (new Init('init 12 3', 'user', $channel))->forDiscord();
         self::assertSame(
             '**Rolling initiative for user**' . \PHP_EOL
@@ -573,6 +563,11 @@ final class InitTest extends TestCase
      */
     public function testRollJustBaseInitiative(): void
     {
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(1, 6)
+            ->andReturn([1]);
+
         /** @var User */
         $user = User::factory()->create();
 
@@ -582,7 +577,6 @@ final class InitTest extends TestCase
             'system' => 'shadowrun5e',
         ]);
 
-        $this->randomInt->expects(self::exactly(1))->willReturn(1);
         $response = (new Init('init 12', 'user', $channel))->forDiscord();
         self::assertSame(
             '**Rolling initiative for user**' . \PHP_EOL

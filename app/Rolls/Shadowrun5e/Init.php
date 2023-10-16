@@ -12,6 +12,7 @@ use App\Models\Initiative;
 use App\Models\Shadowrun5e\ForceTrait;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
+use Facades\App\Services\DiceService;
 use RuntimeException;
 
 class Init extends Roll
@@ -30,10 +31,6 @@ class Init extends Roll
     protected int $initiativeDice = 1;
 
     /**
-     * Constructor.
-     * @param string $content
-     * @param string $username
-     * @param Channel $channel
      * @psalm-suppress PossiblyUnusedMethod
      */
     public function __construct(
@@ -139,8 +136,6 @@ class Init extends Roll
      * Pull the dynamic part of the text out.
      *
      * For an expression like '10+9d6+27', would pull out and return '9d6'.
-     * @param string $string
-     * @return string
      */
     protected function getDynamicPart(string $string): string
     {
@@ -154,7 +149,6 @@ class Init extends Roll
 
     /**
      * Convert a string like '1d6' into its two parts: 1 and 6.
-     * @param string $dynamicPart
      * @return array<int, int>
      */
     protected function getDiceAndPips(string $dynamicPart): array
@@ -232,9 +226,7 @@ class Init extends Roll
                 'You can\'t roll more than five initiative dice'
             );
         }
-        for ($i = 1; $i <= $this->initiativeDice; $i++) {
-            $this->dice[] = random_int(1, 6);
-        }
+        $this->dice = DiceService::rollMany($this->initiativeDice, 6);
     }
 
     public function forSlack(): SlackResponse

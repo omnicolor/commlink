@@ -9,6 +9,7 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
+use Facades\App\Services\DiceService;
 
 class Number extends Roll
 {
@@ -48,10 +49,6 @@ class Number extends Roll
         $this->roll();
     }
 
-    /**
-     * Return the roll formatted for Slack.
-     * @return SlackResponse
-     */
     public function forSlack(): SlackResponse
     {
         $attachment = new TextAttachment(
@@ -72,10 +69,6 @@ class Number extends Roll
         return $response->addAttachment($attachment)->sendToChannel();
     }
 
-    /**
-     * Return the roll formatted for Discord.
-     * @return string
-     */
     public function forDiscord(): string
     {
         return \sprintf('**%s rolled %d**', $this->username, $this->result)
@@ -92,14 +85,9 @@ class Number extends Roll
             . 'Rolls: ' . implode(' ', $this->rolls);
     }
 
-    /**
-     * Roll the requested number of dice.
-     */
     protected function roll(): void
     {
-        for ($i = 0; $i < $this->dice; $i++) {
-            $this->rolls[] = random_int(1, 6);
-        }
+        $this->rolls = DiceService::rollMany($this->dice, 6);
         \rsort($this->rolls);
 
         if (6 > $this->dulled) {

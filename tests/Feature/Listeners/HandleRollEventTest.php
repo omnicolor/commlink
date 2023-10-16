@@ -10,10 +10,11 @@ use App\Models\Campaign;
 use App\Models\Channel;
 use App\Rolls\Generic;
 use App\Rolls\Shadowrun5e\Number;
+use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
-use phpmock\phpunit\PHPMock;
+use Tests\TestCase;
 
 /**
  * Tests for listening for a Roll event and rebroadcasting.
@@ -22,28 +23,9 @@ use phpmock\phpunit\PHPMock;
  * @group slack
  * @medium
  */
-final class HandleRollEventTest extends \Tests\TestCase
+final class HandleRollEventTest extends TestCase
 {
-    use PHPMock;
     use RefreshDatabase;
-
-    /**
-     * Mock random_int function to take randomness out of testing.
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected \PHPUnit\Framework\MockObject\MockObject $randomInt;
-
-    /**
-     * Set up the mock random function each time.
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls',
-            'random_int'
-        );
-    }
 
     /**
      * Test an improperly created event that has no source.
@@ -52,7 +34,11 @@ final class HandleRollEventTest extends \Tests\TestCase
     public function testNoSource(): void
     {
         Http::fake();
-        $this->randomInt->expects(self::any())->willReturn(5);
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(1, 6)
+            ->andReturn([5]);
+
         $roll = new Generic('1d6', 'unnamed', new Channel());
         (new HandleRollEvent())->handle(new RollEvent($roll, null));
 
@@ -66,7 +52,10 @@ final class HandleRollEventTest extends \Tests\TestCase
     public function testNoCampaign(): void
     {
         Http::fake();
-        $this->randomInt->expects(self::any())->willReturn(4);
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(1, 6)
+            ->andReturn([4]);
 
         /** @var Channel */
         $source = Channel::factory()->make();
@@ -86,7 +75,10 @@ final class HandleRollEventTest extends \Tests\TestCase
     public function testOnlySource(): void
     {
         Http::fake();
-        $this->randomInt->expects(self::any())->willReturn(3);
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(1, 6)
+            ->andReturn([3]);
 
         /** @var Campaign */
         $campaign = Campaign::factory()
@@ -110,7 +102,10 @@ final class HandleRollEventTest extends \Tests\TestCase
     public function testNoWebhooks(): void
     {
         Http::fake();
-        $this->randomInt->expects(self::any())->willReturn(6);
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(1, 6)
+            ->andReturn([6]);
 
         /** @var Campaign */
         $campaign = Campaign::factory()
@@ -136,7 +131,10 @@ final class HandleRollEventTest extends \Tests\TestCase
     public function testSlack(): void
     {
         Http::fake();
-        $this->randomInt->expects(self::any())->willReturn(1);
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(1, 6)
+            ->andReturn([1]);
 
         // @phpstan-ignore-next-line
         $campaign = Campaign::factory()
@@ -168,7 +166,10 @@ final class HandleRollEventTest extends \Tests\TestCase
     public function testDiscord(): void
     {
         Http::fake();
-        $this->randomInt->expects(self::any())->willReturn(6);
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(1, 6)
+            ->andReturn([6]);
 
         $roll = new Generic('1d6', 'unnamed', new Channel());
         // @phpstan-ignore-next-line

@@ -8,6 +8,7 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
+use Facades\App\Services\DiceService;
 
 /**
  * Handle a user trying to accomplish a task with an appropriate focus.
@@ -121,7 +122,7 @@ class Focused extends Roll
     protected function roll(): void
     {
         for ($i = 2 + $this->extraDice; 0 < $i; $i--) {
-            $roll = random_int(1, 20);
+            $roll = DiceService::rollOne(20);
             $this->dice[] = $roll;
             if ($roll <= $this->target) {
                 $this->successes++;

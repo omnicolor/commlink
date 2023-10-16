@@ -7,8 +7,8 @@ namespace Tests\Feature\Events;
 use App\Events\RollEvent;
 use App\Models\Channel;
 use App\Rolls\Shadowrun5e\Number;
+use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use phpmock\phpunit\PHPMock;
 use Tests\TestCase;
 
 /**
@@ -18,7 +18,6 @@ use Tests\TestCase;
  */
 final class RollEventTest extends TestCase
 {
-    use PHPMock;
     use RefreshDatabase;
 
     /**
@@ -27,11 +26,10 @@ final class RollEventTest extends TestCase
      */
     public function testConstructor(): void
     {
-        $randomInt = $this->getFunctionMock(
-            'App\\Rolls\\Shadowrun5e',
-            'random_int'
-        );
-        $randomInt->expects(self::exactly(5))->willReturn(5);
+        DiceService::shouldReceive('rollOne')
+            ->times(5)
+            ->with(6)
+            ->andReturn(5);
 
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);

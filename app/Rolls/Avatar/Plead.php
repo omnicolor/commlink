@@ -9,6 +9,7 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
+use Facades\App\Services\DiceService;
 
 /**
  * Handle a character making a Plead action.
@@ -22,13 +23,11 @@ class Plead extends Roll
 
     /**
      * Amount to add (or subtract) from the result.
-     * @var int
      */
     protected ?int $addition = null;
 
     /**
      * Optional description of what the roll is for.
-     * @var string
      */
     protected string $description;
 
@@ -40,13 +39,11 @@ class Plead extends Roll
 
     /**
      * Error to return, if needed.
-     * @var ?string
      */
     protected ?string $error = null;
 
     /**
      * Sum of the rolls +/- the addition.
-     * @var int
      */
     protected int $result;
 
@@ -74,10 +71,7 @@ class Plead extends Roll
 
     protected function roll(): void
     {
-        $this->dice = [
-            random_int(1, 6),
-            random_int(1, 6),
-        ];
+        $this->dice = DiceService::rollMany(2, 6);
         $this->result = \array_sum($this->dice) + (int)$this->addition;
     }
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Cyberpunkred;
 
+use Facades\App\Services\DiceService;
+
 /**
  * Representation of a character currently being built.
  */
@@ -63,7 +65,7 @@ class PartialCharacter extends Character
      */
     protected function createSubLifepathValue(): array
     {
-        $value = random_int(1, 10);
+        $value = DiceService::rollOne(10);
         return [
             'rolled' => $value,
             'chosen' => $value,

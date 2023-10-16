@@ -6,8 +6,7 @@ namespace Tests\Feature\Rolls\StarTrekAdventures;
 
 use App\Models\Channel;
 use App\Rolls\StarTrekAdventures\Unfocused;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
+use Facades\App\Services\DiceService;
 use Tests\TestCase;
 
 /**
@@ -17,26 +16,6 @@ use Tests\TestCase;
  */
 final class UnfocusedTest extends TestCase
 {
-    use PHPMock;
-
-    /**
-     * Mock random_int function to take randomness out of testing.
-     * @var MockObject
-     */
-    protected MockObject $randomInt;
-
-    /**
-     * Set up the mock random function each time.
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls\\StarTrekAdventures',
-            'random_int'
-        );
-    }
-
     /**
      * Test making a simple unfocused roll.
      * @test
@@ -46,7 +25,7 @@ final class UnfocusedTest extends TestCase
         /** @var Channel */
         $channel = Channel::factory()->make();
 
-        $this->randomInt->expects(self::exactly(2))->willReturn(3);
+        DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(3);
 
         $response = new Unfocused('unfocused 1 2 3', 'username', $channel);
         $response = \json_decode((string)$response->forSlack());
@@ -69,7 +48,7 @@ final class UnfocusedTest extends TestCase
         /** @var Channel */
         $channel = Channel::factory()->make();
 
-        $this->randomInt->expects(self::exactly(6))->willReturn(3);
+        DiceService::shouldReceive('rollOne')->times(6)->with(20)->andReturn(3);
 
         $response = (new Unfocused('unfocused 1 2 3 4', 'username', $channel))
             ->forDiscord();
@@ -88,7 +67,10 @@ final class UnfocusedTest extends TestCase
         /** @var Channel */
         $channel = Channel::factory()->make();
 
-        $this->randomInt->expects(self::exactly(2))->willReturn(20);
+        DiceService::shouldReceive('rollOne')
+            ->times(2)
+            ->with(20)
+            ->andReturn(20);
 
         $response = (new Unfocused('unfocused 1 2 3', 'username', $channel))
             ->forDiscord();
@@ -105,10 +87,10 @@ final class UnfocusedTest extends TestCase
      */
     public function testUnfocusedNaturalOnes(): void
     {
+        DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(1);
+
         /** @var Channel */
         $channel = Channel::factory()->make();
-
-        $this->randomInt->expects(self::exactly(2))->willReturn(1);
 
         $response = (new Unfocused('unfocused 1 2 3', 'username', $channel))
             ->forDiscord();
@@ -125,10 +107,10 @@ final class UnfocusedTest extends TestCase
      */
     public function testUnfocusedRollWithOptionalText(): void
     {
+        DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(3);
+
         /** @var Channel */
         $channel = Channel::factory()->make();
-
-        $this->randomInt->expects(self::exactly(2))->willReturn(3);
 
         $response = new Unfocused(
             'unfocused 1 2 3 testing',

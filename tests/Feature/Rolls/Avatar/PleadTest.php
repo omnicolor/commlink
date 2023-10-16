@@ -7,9 +7,8 @@ namespace Tests\Feature\Rolls\Avatar;
 use App\Exceptions\SlackException;
 use App\Models\Channel;
 use App\Rolls\Avatar\Plead;
+use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\WithFaker;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
 /**
@@ -19,26 +18,7 @@ use Tests\TestCase;
  */
 final class PleadTest extends TestCase
 {
-    use PHPMock;
     use WithFaker;
-
-    /**
-     * Mock random_int function to take randomness out of testing.
-     * @var MockObject
-     */
-    protected MockObject $randomInt;
-
-    /**
-     * Set up the mock random function each time.
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls\\Avatar',
-            'random_int'
-        );
-    }
 
     /**
      * Test trying to plead in a non-Avatar Slack channel.
@@ -83,7 +63,10 @@ final class PleadTest extends TestCase
      */
     public function testSimplePlead(): void
     {
-        $this->randomInt->expects(self::exactly(2))->willReturn(4);
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(2, 6)
+            ->andReturn([4, 4]);
 
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'avatar']);
@@ -106,7 +89,10 @@ final class PleadTest extends TestCase
      */
     public function testPlead(): void
     {
-        $this->randomInt->expects(self::exactly(2))->willReturn(6);
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(2, 6)
+            ->andReturn([6, 6]);
 
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'avatar']);
@@ -135,7 +121,10 @@ final class PleadTest extends TestCase
      */
     public function testFailingPleadNegativeModifier(): void
     {
-        $this->randomInt->expects(self::exactly(2))->willReturn(6);
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(2, 6)
+            ->andReturn([6, 6]);
 
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'avatar']);

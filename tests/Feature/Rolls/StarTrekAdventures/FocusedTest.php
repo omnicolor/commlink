@@ -6,8 +6,7 @@ namespace Tests\Feature\Rolls\StarTrekAdventures;
 
 use App\Models\Channel;
 use App\Rolls\StarTrekAdventures\Focused;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
+use Facades\App\Services\DiceService;
 use Tests\TestCase;
 
 /**
@@ -17,37 +16,16 @@ use Tests\TestCase;
  */
 final class FocusedTest extends TestCase
 {
-    use PHPMock;
-
-    /**
-     * Mock random_int function to take randomness out of testing.
-     * @var MockObject
-     */
-    protected MockObject $randomInt;
-
-    /**
-     * Set up the mock random function each time.
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls\\StarTrekAdventures',
-            'random_int'
-        );
-    }
-
     /**
      * Test making a simple focused roll.
      * @test
      */
     public function testFocusedSlack(): void
     {
+        DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(3);
+
         /** @var Channel */
         $channel = Channel::factory()->make();
-
-        $this->randomInt->expects(self::exactly(2))->willReturn(3);
-
         $response = new Focused('focused 1 2 3', 'username', $channel);
         $response = \json_decode((string)$response->forSlack());
         $response = $response->attachments[0];
@@ -66,11 +44,10 @@ final class FocusedTest extends TestCase
      */
     public function testFocusedExtraDice(): void
     {
+        DiceService::shouldReceive('rollOne')->times(6)->with(20)->andReturn(3);
+
         /** @var Channel */
         $channel = Channel::factory()->make();
-
-        $this->randomInt->expects(self::exactly(6))->willReturn(3);
-
         $response = (new Focused('focused 1 2 3 4', 'username', $channel))
             ->forDiscord();
 
@@ -85,11 +62,10 @@ final class FocusedTest extends TestCase
      */
     public function testFocusedWithComplication(): void
     {
+        DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(20);
+
         /** @var Channel */
         $channel = Channel::factory()->make();
-
-        $this->randomInt->expects(self::exactly(2))->willReturn(20);
-
         $response = (new Focused('focused 1 2 3', 'username', $channel))
             ->forDiscord();
 
@@ -105,11 +81,10 @@ final class FocusedTest extends TestCase
      */
     public function testFocusedNaturalOnes(): void
     {
+        DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(1);
+
         /** @var Channel */
         $channel = Channel::factory()->make();
-
-        $this->randomInt->expects(self::exactly(2))->willReturn(1);
-
         $response = (new Focused('focused 1 2 3', 'username', $channel))
             ->forDiscord();
 
@@ -125,11 +100,10 @@ final class FocusedTest extends TestCase
      */
     public function testFocusedRollWithOptionalText(): void
     {
+        DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(3);
+
         /** @var Channel */
         $channel = Channel::factory()->make();
-
-        $this->randomInt->expects(self::exactly(2))->willReturn(3);
-
         $response = new Focused(
             'focused 1 2 3 testing',
             'username',

@@ -16,10 +16,9 @@ use Discord\Parts\Channel\Channel as TextChannel;
 use Discord\Parts\Channel\Message;
 use Discord\Parts\Guild\Guild;
 use Discord\Parts\User\User;
+use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
 /**
@@ -30,27 +29,10 @@ use Tests\TestCase;
  */
 final class HandleDiscordMessageTest extends TestCase
 {
-    use PHPMock;
     use WithFaker;
 
     /**
-     * Mock random_int function to take randomness out of testing.
-     * @var MockObject
-     */
-    protected MockObject $randomInt;
-
-    /**
-     * Set up the mock random function each time.
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock('App\\Rolls', 'random_int');
-    }
-
-    /**
      * Return a Discord username.
-     * @return string
      */
     protected function createDiscordTag(): string
     {
@@ -112,7 +94,10 @@ final class HandleDiscordMessageTest extends TestCase
      */
     public function testHandleGenericRoll(): void
     {
-        $this->randomInt->expects(self::exactly(2))->willReturn(3);
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(2, 6)
+            ->andReturn([3, 3]);
         $tag = $this->createDiscordTag();
         $expected = sprintf('**%s rolled 6**', $tag) . \PHP_EOL
             . 'Rolling: 2d6 = [6] = 6' . \PHP_EOL
@@ -468,11 +453,8 @@ final class HandleDiscordMessageTest extends TestCase
      */
     public function testHandleSystemNumberRoll(): void
     {
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls\Cyberpunkred',
-            'random_int'
-        );
-        $this->randomInt->expects(self::exactly(1))->willReturn(3);
+        DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(3);
+
         $expected = "**discord#tag made a roll**\n1d10 + 6 = 3 + 6 = 9";
 
         $serverStub = self::createStub(Guild::class);
