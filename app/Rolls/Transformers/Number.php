@@ -8,10 +8,14 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
+use Facades\App\Services\DiceService;
 
 use function array_shift;
+use function explode;
 use function implode;
 use function sprintf;
+
+use const PHP_EOL;
 
 class Number extends Roll
 {
@@ -28,14 +32,14 @@ class Number extends Roll
     ) {
         parent::__construct($content, $character, $channel);
 
-        $args = \explode(' ', $content);
+        $args = explode(' ', $content);
         $this->statistic = (int)array_shift($args);
         $this->description = implode(' ', $args);
         if ('' !== $this->description) {
             $this->description = sprintf(' for "%s"', $this->description);
         }
 
-        $this->roll = random_int(1, 10);
+        $this->roll = DiceService::rollOne(10);
         $this->success = $this->roll < $this->statistic;
         if ($this->success) {
             $this->title = sprintf(
@@ -77,6 +81,6 @@ class Number extends Roll
      */
     public function forDiscord(): string
     {
-        return sprintf('**%s**', $this->title) . \PHP_EOL . $this->text;
+        return sprintf('**%s**', $this->title) . PHP_EOL . $this->text;
     }
 }

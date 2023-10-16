@@ -7,9 +7,8 @@ namespace Tests\Feature\Rolls\Transformers;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Transformers\Number;
+use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
 /**
@@ -20,26 +19,16 @@ use Tests\TestCase;
  */
 final class NumberTest extends TestCase
 {
-    use PHPMock;
     use RefreshDatabase;
-
-    protected MockObject $randomInt;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls\\Transformers',
-            'random_int'
-        );
-    }
 
     public function testRollSlackFailure(): void
     {
+        DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(5);
+
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = 'user';
-        $this->randomInt->expects(self::exactly(1))->willReturn(5);
+
         $response = (new Number('5', 'user', $channel))->forSlack();
         $expected = [
             'response_type' => 'in_channel',
@@ -56,10 +45,12 @@ final class NumberTest extends TestCase
 
     public function testRollSlackSuccessWithDescription(): void
     {
+        DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(5);
+
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = 'user';
-        $this->randomInt->expects(self::exactly(1))->willReturn(5);
+
         $response = (new Number('10 espionage', 'user', $channel))->forSlack();
         $expected = [
             'response_type' => 'in_channel',
@@ -76,10 +67,12 @@ final class NumberTest extends TestCase
 
     public function testRollDiscord(): void
     {
+        DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(5);
+
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = 'user';
-        $this->randomInt->expects(self::exactly(1))->willReturn(5);
+
         self::assertSame(
             '**user rolled a success**' . \PHP_EOL . '5 < 10',
             (new Number('10', 'user', $channel))->forDiscord()

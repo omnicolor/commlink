@@ -114,7 +114,11 @@ $rules = [
     'not_operator_with_successor_space' => false,
     'nullable_type_declaration_for_default_null_value' => true,
     'object_operator_without_whitespace' => true,
-    'ordered_imports' => ['sort_algorithm' => 'alpha'],
+    'ordered_imports' => [
+        'case_sensitive' => true,
+        'imports_order' => ['class', 'function', 'const'],
+        'sort_algorithm' => 'alpha',
+    ],
     'ordered_interfaces' => true,
     'ordered_traits' => true,
     'phpdoc_indent' => true,
