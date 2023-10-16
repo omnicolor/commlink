@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use App\Models\Channel;
+use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
@@ -32,11 +33,11 @@ class ChannelUpdateRequest extends FormRequest
             'auto' => [
                 'boolean',
                 'required_without:webhook',
-                function (string $attribute, mixed $value, \Closure $fail): void {
+                function (string $attribute, mixed $value, Closure $fail): void {
                     // @phpstan-ignore-next-line
-                    $channel = Channel::find($this->channel)->first();
+                    //$channel = Channel::find($this->channel)->first();
                     // @phpstan-ignore-next-line
-                    if (Channel::TYPE_DISCORD !== $channel->type) {
+                    if (Channel::TYPE_DISCORD !== $this->channel->type) {
                         $fail('Auto only works for Discord channels.');
                     }
                 },
