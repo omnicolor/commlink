@@ -10,8 +10,7 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\Shadowrun5e\Character;
 use App\Rolls\Shadowrun5e\Soak;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
+use Facades\App\Services\DiceService;
 use Tests\TestCase;
 
 /**
@@ -22,22 +21,8 @@ use Tests\TestCase;
  */
 final class SoakTest extends TestCase
 {
-    use PHPMock;
-
-    protected MockObject $randomInt;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls\\Shadowrun5e',
-            'random_int'
-        );
-    }
-
     /**
-     * Test trying to roll a soak test without a character linked in
-     * Slack.
+     * Test trying to roll a soak test without a character linked in Slack.
      * @group slack
      * @test
      */
@@ -54,8 +39,7 @@ final class SoakTest extends TestCase
     }
 
     /**
-     * Test trying to roll a soak test without a character linked in
-     * Discord.
+     * Test trying to roll a soak test without a character linked in Discord.
      * @group discord
      * @test
      */
@@ -76,6 +60,8 @@ final class SoakTest extends TestCase
      */
     public function testCritGlitch(): void
     {
+        DiceService::shouldReceive('rollOne')->times(4)->with(6)->andReturn(1);
+
         /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
@@ -102,7 +88,6 @@ final class SoakTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $this->randomInt->expects(self::exactly(4))->willReturn(1);
         $response = (new Soak('', 'username', $channel))->forSlack();
         $response = \json_decode((string)$response)->attachments[0];
         self::assertSame(
@@ -119,6 +104,8 @@ final class SoakTest extends TestCase
      */
     public function testSoak(): void
     {
+        DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(6);
+
         /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
@@ -145,7 +132,6 @@ final class SoakTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $this->randomInt->expects(self::exactly(8))->willReturn(6);
         $response = (new Soak('', 'username', $channel))->forDiscord();
         self::assertSame(
             \sprintf(

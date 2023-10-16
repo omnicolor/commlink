@@ -8,6 +8,7 @@ use App\Events\InitiativeAdded;
 use App\Http\Requests\InitiativeCreateRequest;
 use App\Models\Campaign;
 use App\Models\Initiative;
+use Facades\App\Services\DiceService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -74,7 +75,7 @@ class InitiativesController extends Controller
         } else {
             $score = $request->base_initiative;
             for ($i = 1; $i <= $request->initiative_dice; $i++) {
-                $score += random_int(1, 6);
+                $score += DiceService::rollOne(6);
             }
         }
 
