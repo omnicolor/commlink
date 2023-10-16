@@ -8,12 +8,12 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
+use Facades\App\Services\DiceService;
 
 class Number extends Roll
 {
     /**
      * Amount to add (or subtract) from the result.
-     * @var int
      */
     protected int $addition;
 
@@ -25,16 +25,9 @@ class Number extends Roll
 
     /**
      * Sum of the rolls + the addition.
-     * @var int
      */
     protected int $result;
 
-    /**
-     * Constructor.
-     * @param string $content
-     * @param string $character
-     * @param Channel $channel
-     */
     public function __construct(
         string $content,
         string $character,
@@ -50,10 +43,6 @@ class Number extends Roll
         $this->footer = $this->formatFooter();
     }
 
-    /**
-     * Return the roll formatted for Slack.
-     * @return SlackResponse
-     */
     public function forSlack(): SlackResponse
     {
         $attachment = new TextAttachment(
@@ -71,10 +60,6 @@ class Number extends Roll
         return $response->addAttachment($attachment)->sendToChannel();
     }
 
-    /**
-     * Return the roll formatted for Discord.
-     * @return string
-     */
     public function forDiscord(): string
     {
         return \sprintf('**%s**', $this->title) . \PHP_EOL
@@ -86,17 +71,12 @@ class Number extends Roll
      */
     protected function roll(): void
     {
-        $this->dice = [
-            random_int(1, 6),
-            random_int(1, 6),
-            random_int(1, 6),
-        ];
+        $this->dice = DiceService::rollMany(3, 6);
         $this->result = \array_sum($this->dice) + $this->addition;
     }
 
     /**
      * Format the title.
-     * @return string
      */
     protected function formatTitle(): string
     {
@@ -109,7 +89,6 @@ class Number extends Roll
 
     /**
      * Format the body of the message.
-     * @return string
      */
     protected function formatText(): string
     {
@@ -126,7 +105,6 @@ class Number extends Roll
 
     /**
      * Format the footer for Slack.
-     * @return string
      */
     protected function formatFooter(): string
     {
@@ -140,7 +118,6 @@ class Number extends Roll
 
     /**
      * Figure out how many (if any) stunt points a roll generated.
-     * @return int
      */
     protected function getStuntPoints(): int
     {

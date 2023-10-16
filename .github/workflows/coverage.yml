@@ -10,10 +10,10 @@ jobs:
         php-version:
           - "8.2"
         mongodb-version:
-          - "3.6.3"
+          - "6.0.8"
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@master
@@ -23,7 +23,7 @@ jobs:
           extensions: "json, mbstring, mongodb, pdo, xdebug"
 
       - name: Start MongoDB
-        uses: supercharge/mongodb-github-action@1.9.0
+        uses: supercharge/mongodb-github-action@v1.10.0
         with:
           mongodb-version: ${{ matrix.mongodb-version }}
           mongodb-username: commlink
@@ -68,7 +68,3 @@ jobs:
           push_badge: true
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           report: public/coverage/clover.xml
-
-      - name: Retrieve the logs
-        if: ${{ failure() }}
-        run: cat storage/logs/*

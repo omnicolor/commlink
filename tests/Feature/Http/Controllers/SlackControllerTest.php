@@ -12,13 +12,12 @@ use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
+use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
 /**
@@ -29,20 +28,8 @@ use Tests\TestCase;
  */
 final class SlackControllerTest extends TestCase
 {
-    use PHPMock;
     use RefreshDatabase;
     use WIthFaker;
-
-    protected MockObject $randomInt;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls\\Shadowrun5e',
-            'random_int'
-        );
-    }
 
     /**
      * Test an OPTIONS request to the dice roller.
@@ -162,7 +149,10 @@ final class SlackControllerTest extends TestCase
      */
     public function testRollDiceShadowrun(): void
     {
-        $this->randomInt->expects(self::any())->willReturn(5);
+        DiceService::shouldReceive('rollOne')
+            ->with(6)
+            ->andReturn(5);
+
         /** @var Channel */
         $channel = Channel::factory()->create([
             'system' => 'shadowrun5e',
@@ -193,7 +183,6 @@ final class SlackControllerTest extends TestCase
      */
     public function testRollNumberUnsupported(): void
     {
-        $this->randomInt->expects(self::any())->willReturn(5);
         /** @var Channel */
         $channel = Channel::factory()->create([
             'system' => 'dnd5e',
@@ -223,7 +212,7 @@ final class SlackControllerTest extends TestCase
      */
     public function testRollDiceShadowrunWithCharacter(): void
     {
-        $this->randomInt->expects(self::any())->willReturn(5);
+        DiceService::shouldReceive('rollOne')->with(6)->andReturn(5);
 
         $slackUserId = 'E567';
 
@@ -361,11 +350,7 @@ final class SlackControllerTest extends TestCase
      */
     public function testRollGenericDiceUnregistered(): void
     {
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls',
-            'random_int'
-        );
-        $this->randomInt->expects(self::exactly(1))->willReturn(5);
+        DiceService::shouldReceive('rollMany')->with(1, 20)->andReturn([5]);
         $this->post(
             route('roll'),
             [
@@ -445,12 +430,11 @@ final class SlackControllerTest extends TestCase
     public function testFlipCoin(): void
     {
         Event::fake();
+        DiceService::shouldReceive('rollOne')
+            ->once()
+            ->with(2)
+            ->andReturn(1);
 
-        $randomInt = $this->getFunctionMock(
-            'App\\Rolls',
-            'random_int'
-        );
-        $randomInt->expects(self::exactly(1))->willReturn(1);
         $this->post(
             route('roll'),
             [
@@ -473,7 +457,7 @@ final class SlackControllerTest extends TestCase
     public function testAuthThroughSlack(): void
     {
         self::get('/slack/auth')
-            ->assertRedirectContains('https://slack.com/oauth/authorize?');
+            ->assertRedirectContains('https://slack.com/oauth/v2/authorize?');
     }
 
     public function testLoginThroughSlackExistingUserNewChatUser(): void

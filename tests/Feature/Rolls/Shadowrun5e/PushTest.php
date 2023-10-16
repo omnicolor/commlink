@@ -11,9 +11,8 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\Shadowrun5e\Character;
 use App\Rolls\Shadowrun5e\Push;
+use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
 /**
@@ -26,19 +25,7 @@ use Tests\TestCase;
  */
 final class PushTest extends TestCase
 {
-    use PHPMock;
     use RefreshDatabase;
-
-    protected MockObject $randomInt;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls\\Shadowrun5e',
-            'random_int'
-        );
-    }
 
     /**
      * Test trying to push the limit without having a linked character.
@@ -179,6 +166,8 @@ final class PushTest extends TestCase
      */
     public function testPushPastLimit(): void
     {
+        DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(5);
+
         /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_DISCORD,
@@ -206,7 +195,6 @@ final class PushTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $this->randomInt->expects(self::exactly(8))->willReturn(5);
         $response = (new Push('push 4 5', 'username', $channel))->forDiscord();
         $expected = '**' . $character->handle . ' rolled 8 (4 requested + 4 '
             . 'edge) dice with a limit of 5**' . \PHP_EOL
@@ -226,6 +214,11 @@ final class PushTest extends TestCase
      */
     public function testExplodingSixes(): void
     {
+        DiceService::shouldReceive('rollOne')
+            ->times(4)
+            ->with(6)
+            ->andReturn(6, 5, 6, 1);
+
         /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
@@ -253,8 +246,6 @@ final class PushTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $this->randomInt->expects(self::exactly(4))
-            ->willReturnOnConsecutiveCalls(6, 5, 6, 1);
         $response = (new Push('push 1 6 testing', 'username', $channel))
             ->forSlack();
         $response = json_decode((string)$response);
@@ -286,6 +277,11 @@ final class PushTest extends TestCase
      */
     public function testPushCriticalGlitch(): void
     {
+        DiceService::shouldReceive('rollOne')
+            ->times(3)
+            ->with(6)
+            ->andReturn(2, 1, 1);
+
         /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
@@ -313,8 +309,6 @@ final class PushTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $this->randomInt->expects(self::exactly(3))
-            ->willReturnOnConsecutiveCalls(2, 1, 1);
         $response = (new Push('push 2', 'username', $channel))->forSlack();
         $response = json_decode((string)$response);
         self::assertSame('in_channel', $response->response_type);

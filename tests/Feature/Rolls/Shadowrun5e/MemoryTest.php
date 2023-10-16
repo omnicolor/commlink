@@ -10,8 +10,7 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\Shadowrun5e\Character;
 use App\Rolls\Shadowrun5e\Memory;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
+use Facades\App\Services\DiceService;
 use Tests\TestCase;
 
 /**
@@ -22,29 +21,8 @@ use Tests\TestCase;
  */
 final class MemoryTest extends TestCase
 {
-    use PHPMock;
-
     /**
-     * Mock random_int function to take randomness out of testing.
-     * @var MockObject
-     */
-    protected MockObject $randomInt;
-
-    /**
-     * Set up the mock random function each time.
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls\\Shadowrun5e',
-            'random_int'
-        );
-    }
-
-    /**
-     * Test trying to roll a memory test without a character linked in
-     * Slack.
+     * Test trying to roll a memory test without a character linked in Slack.
      * @group slack
      * @test
      */
@@ -61,8 +39,7 @@ final class MemoryTest extends TestCase
     }
 
     /**
-     * Test trying to roll a memory test without a character linked in
-     * Discord.
+     * Test trying to roll a memory test without a character linked in Discord.
      * @group discord
      * @test
      */
@@ -83,6 +60,8 @@ final class MemoryTest extends TestCase
      */
     public function testCritGlitch(): void
     {
+        DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(1);
+
         /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
@@ -110,7 +89,6 @@ final class MemoryTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $this->randomInt->expects(self::exactly(6))->willReturn(1);
         $response = (new Memory('', 'username', $channel))->forSlack();
         $response = \json_decode((string)$response)->attachments[0];
         self::assertSame(
@@ -131,6 +109,8 @@ final class MemoryTest extends TestCase
      */
     public function testMemory(): void
     {
+        DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(6);
+
         /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
@@ -158,13 +138,12 @@ final class MemoryTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $this->randomInt->expects(self::exactly(8))->willReturn(6);
         $response = (new Memory('', 'username', $channel))->forDiscord();
         self::assertSame(
             \sprintf(
                 '**%s rolled 8 dice for a memory test**'
                     . \PHP_EOL . 'Rolled 8 successes' . \PHP_EOL
-                    . 'Rolls: 6 6 6 6 6 6 6 6',
+                    . 'Rolls: 6 6 6 6 6 6 6 6, Probability: 0.0152%%',
                 (string)$character
             ),
             $response

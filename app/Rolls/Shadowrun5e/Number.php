@@ -14,6 +14,8 @@ use Discord\Builders\Components\ActionRow;
 use Discord\Builders\Components\Button;
 use Discord\Builders\MessageBuilder;
 use Discord\Parts\Interactions\Interaction;
+use Facades\App\Services\DiceService;
+use MathPHP\Probability\Combinatorics;
 
 /**
  * Roll a Shadowrun number, representing a set of six-sided dice.
@@ -24,36 +26,12 @@ class Number extends Roll
     protected const MIN_SUCCESS = 5;
     protected const FAILURE = 1;
 
-    /**
-     * Number of dice to roll.
-     * @var int
-     */
     protected int $dice = 0;
-
     protected ?string $error = null;
-
-    /**
-     * Number of failures the roll produced.
-     * @var int
-     */
     protected int $fails = 0;
-
-    /**
-     * Number of successes to keep.
-     * @var ?int
-     */
     protected ?int $limit = null;
-
-    /**
-     * Array of individual dice rolls.
-     * @var array<int, int>
-     */
+    /** @var array<int, int> */
     protected array $rolls = [];
-
-    /**
-     * Number of successes the roll produced.
-     * @var int
-     */
     protected int $successes = 0;
 
     /**
@@ -126,10 +104,6 @@ class Number extends Roll
         );
     }
 
-    /**
-     * Format the title part of the roll.
-     * @return string
-     */
     protected function formatTitle(): string
     {
         return \sprintf(
@@ -148,7 +122,7 @@ class Number extends Roll
     protected function roll(): void
     {
         for ($i = 0; $i < $this->dice; $i++) {
-            $this->rolls[] = $roll = random_int(1, 6);
+            $this->rolls[] = $roll = DiceService::rollOne(6);
             if (self::MIN_SUCCESS <= $roll) {
                 $this->successes++;
             }
@@ -179,7 +153,6 @@ class Number extends Roll
 
     /**
      * Return whether the roll was a glitch.
-     * @return bool
      */
     protected function isGlitch(): bool
     {
@@ -202,8 +175,6 @@ class Number extends Roll
     }
 
     /**
-     * Return the roll formatted for Slack.
-     * @return SlackResponse
      * @throws SlackException
      */
     public function forSlack(): SlackResponse
@@ -216,8 +187,17 @@ class Number extends Roll
             $color = TextAttachment::COLOR_DANGER;
         }
         $footer = \implode(' ', $this->prettifyRolls());
+
         if (null !== $this->limit) {
-            $footer .= \sprintf(', limit: %d', $this->limit);
+            $footer .= \sprintf(', Limit: %d', $this->limit);
+        }
+
+        $probability = $this->getProbability($this->dice, $this->successes);
+        if (1.0 !== $probability) {
+            $footer .= \sprintf(
+                ', Probability: %01.4f%%',
+                $this->getProbability($this->dice, $this->successes) * 100
+            );
         }
         $attachment = new TextAttachment($this->title, $this->text, $color);
         $attachment->addFooter($footer);
@@ -226,9 +206,7 @@ class Number extends Roll
     }
 
     /**
-     * Return the roll formatted for Discord.
      * @psalm-suppress InvalidReturnType
-     * @return string|MessageBuilder
      */
     public function forDiscord(): string | MessageBuilder
     {
@@ -239,6 +217,10 @@ class Number extends Roll
         $footer = 'Rolls: ' . \implode(' ', $this->rolls);
         if (null !== $this->limit) {
             $footer .= \sprintf(', Limit: %d', $this->limit);
+        }
+        $probability = $this->getProbability($this->dice, $this->successes);
+        if (1.0 !== $probability) {
+            $footer .= \sprintf(', Probability: %01.4f%%', $this->getProbability($this->dice, $this->successes) * 100);
         }
         $content = \sprintf('**%s**', $this->title) . \PHP_EOL
             . $this->text . \PHP_EOL
@@ -289,7 +271,7 @@ class Number extends Roll
                 continue;
             }
             $rerolled++;
-            $this->rolls[$key] = $roll = random_int(1, 6);
+            $this->rolls[$key] = $roll = DiceService::rollOne(6);
             if (self::MIN_SUCCESS <= $roll) {
                 $this->successes++;
             }
@@ -324,5 +306,20 @@ class Number extends Roll
         /** @psalm-suppress TooManyTemplateParams */
         // @phpstan-ignore-next-line
         $interaction->message->edit($message);
+    }
+
+    protected function getProbability(int $dice, int $successes): float
+    {
+        // Impossible to get more successes than there are dice.
+        if ($dice < $successes) {
+            return 0.0;
+        }
+
+        // Return the chance to get exactly the number of successes requested,
+        // then add the probability for exactly one more success than that, etc.
+        return Combinatorics::combinations($dice, $successes)
+            * pow(2 / 3, $dice - $successes)
+            * pow(1 / 3, $successes)
+            + $this->getProbability($dice, $successes + 1);
     }
 }
