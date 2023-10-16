@@ -6,6 +6,8 @@ namespace Tests\Feature\Rolls;
 
 use App\Models\Channel;
 use App\Rolls\Generic;
+use Facades\App\Services\DiceService;
+use Tests\TestCase;
 
 /**
  * Tests for rolling generic dice.
@@ -13,34 +15,21 @@ use App\Rolls\Generic;
  * @group slack
  * @medium
  */
-final class GenericTest extends \Tests\TestCase
+final class GenericTest extends TestCase
 {
-    use \phpmock\phpunit\PHPMock;
-
-    /**
-     * Mock random_int function to take randomness out of testing.
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected \PHPUnit\Framework\MockObject\MockObject $randomInt;
-
-    /**
-     * Set up the mock random function each time.
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock('App\\Rolls', 'random_int');
-    }
-
     /**
      * Test a simple roll with no addition or subtraction.
      * @test
      */
     public function testSimple(): void
     {
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(3, 6)
+            ->andReturn([2, 2, 2]);
+
         /** @var Channel */
         $channel = Channel::factory()->make();
-        $this->randomInt->expects(self::exactly(3))->willReturn(2);
         $response = new Generic('3d6', 'username', $channel);
         $response = \json_decode((string)$response->forSlack());
         self::assertSame('Rolls: 2, 2, 2', $response->attachments[0]->footer);
@@ -56,9 +45,13 @@ final class GenericTest extends \Tests\TestCase
      */
     public function testWithDescription(): void
     {
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(4, 6)
+            ->andReturn([3, 3, 3, 3]);
+
         /** @var Channel */
         $channel = Channel::factory()->make();
-        $this->randomInt->expects(self::exactly(4))->willReturn(3);
         $roll = new Generic('4d6 testing', 'user', $channel);
         $response = \json_decode((string)$roll->forSlack());
         self::assertSame(
@@ -87,9 +80,13 @@ final class GenericTest extends \Tests\TestCase
      */
     public function testWithCalculation(): void
     {
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(2, 10)
+            ->andReturn([10, 10]);
+
         /** @var Channel */
         $channel = Channel::factory()->make();
-        $this->randomInt->expects(self::exactly(2))->willReturn(10);
         $roll = new Generic('4+2d10-1*10 foo', 'Bob', $channel);
         $response = \json_decode((string)$roll->forSlack());
         self::assertSame('Rolls: 10, 10', $response->attachments[0]->footer);
