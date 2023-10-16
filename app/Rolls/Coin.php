@@ -7,6 +7,9 @@ namespace App\Rolls;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
+use Facades\App\Services\DiceService;
+
+use function sprintf;
 
 /**
  * Class representing a coin flip.
@@ -20,8 +23,8 @@ class Coin extends Roll
     ) {
         parent::__construct($content, $username, $channel);
 
-        $flip = random_int(1, 2);
-        $this->title = \sprintf(
+        $flip = DiceService::rollOne(2);
+        $this->title = sprintf(
             '%s flipped a coin: %s',
             $username,
             1 === $flip ? 'Heads' : 'Tails'
@@ -31,7 +34,7 @@ class Coin extends Roll
 
     public function forDiscord(): string
     {
-        return \sprintf('**%s**', $this->title) . \PHP_EOL;
+        return sprintf('**%s**', $this->title) . \PHP_EOL;
     }
 
     public function forIrc(): string

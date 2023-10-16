@@ -6,9 +6,12 @@ namespace Tests\Feature\Rolls\Expanse;
 
 use App\Models\Channel;
 use App\Rolls\Expanse\Number;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
+use Facades\App\Services\DiceService;
 use Tests\TestCase;
+
+use function explode;
+
+use const PHP_EOL;
 
 /**
  * Tests for rolling dice in The Expanse.
@@ -17,19 +20,6 @@ use Tests\TestCase;
  */
 final class NumberTest extends TestCase
 {
-    use PHPMock;
-
-    protected MockObject $randomInt;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls\\Expanse',
-            'random_int'
-        );
-    }
-
     /**
      * Test a basic roll generating stunt points in Slack without a description.
      * @group slack
@@ -37,10 +27,13 @@ final class NumberTest extends TestCase
      */
     public function testSimpleRollSlack(): void
     {
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(3, 6)
+            ->andReturn([3, 3, 3]);
+
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'expanse']);
-
-        $this->randomInt->expects(self::any())->willReturn(3);
         $response = \json_decode(
             (string)(new Number('5', 'user', $channel))->forSlack()
         );
@@ -58,12 +51,15 @@ final class NumberTest extends TestCase
      */
     public function testSimpleRollDiscord(): void
     {
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(3, 6)
+            ->andReturn([3, 3, 3]);
+
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'expanse']);
-
-        $this->randomInt->expects(self::any())->willReturn(3);
         $response = (new Number('5', 'user', $channel))->forDiscord();
-        $response = explode(\PHP_EOL, $response);
+        $response = explode(PHP_EOL, $response);
         self::assertSame('**user made a roll**', $response[0]);
         self::assertSame('14 (3 SP)', $response[1]);
     }
@@ -76,13 +72,15 @@ final class NumberTest extends TestCase
      */
     public function testRollWithDescriptionDiscord(): void
     {
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(3, 6)
+            ->andReturn([2, 3, 5]);
+
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'expanse']);
-
-        $this->randomInt->expects(self::any())
-            ->willReturn(self::onConsecutiveCalls(2, 3, 5));
         $response = (new Number('5 percept', 'user', $channel))->forDiscord();
-        $response = explode(\PHP_EOL, $response);
+        $response = explode(PHP_EOL, $response);
         self::assertSame('**user made a roll for "percept"**', $response[0]);
         self::assertSame('15', $response[1]);
     }
@@ -94,13 +92,16 @@ final class NumberTest extends TestCase
      */
     public function testRollWithDescriptionIrc(): void
     {
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(3, 6)
+            ->andReturn([2, 3, 5]);
+
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'expanse']);
 
-        $this->randomInt->expects(self::any())
-            ->willReturn(self::onConsecutiveCalls(2, 3, 5));
         $response = (new Number('5 percept', 'user', $channel))->forIrc();
-        $response = explode(\PHP_EOL, $response);
+        $response = explode(PHP_EOL, $response);
         self::assertSame('user made a roll for "percept"', $response[0]);
         self::assertSame('15', $response[1]);
     }

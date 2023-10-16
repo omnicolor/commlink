@@ -13,12 +13,13 @@ use App\Models\ChatUser;
 use App\Models\Cyberpunkred\Character;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Cyberpunkred\Init;
+use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
+
+use const PHP_EOL;
 
 /**
  * Tests for rolling initiative in Cyberpunk Red.
@@ -27,20 +28,8 @@ use Tests\TestCase;
  */
 final class InitTest extends TestCase
 {
-    use PHPMock;
     use RefreshDatabase;
     use WithFaker;
-
-    protected MockObject $randomInt;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls\\Cyberpunkred',
-            'random_int'
-        );
-    }
 
     /**
      * Test rolling init with no ChatUser registered in Slack and no reflexes.
@@ -122,12 +111,11 @@ final class InitTest extends TestCase
     public function testSlackRollInitNoChatUser(): void
     {
         Event::fake();
+        DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(5);
 
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = $this->faker->name;
-
-        $this->randomInt->expects(self::exactly(1))->willReturn(5);
 
         $response = (new Init('init 5', $channel->username, $channel))
             ->forSlack();
@@ -159,6 +147,7 @@ final class InitTest extends TestCase
     public function testDiscordRollInitNoChatUser(): void
     {
         Event::fake();
+        DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(4);
 
         /** @var Channel */
         $channel = Channel::factory()->make([
@@ -167,13 +156,11 @@ final class InitTest extends TestCase
         ]);
         $channel->username = $this->faker->name;
 
-        $this->randomInt->expects(self::exactly(1))->willReturn(4);
-
         $response = (new Init('init 8 2', $channel->username, $channel))
             ->forDiscord();
 
         $expected = sprintf('**Initiative added for %s**', $channel->username)
-            . \PHP_EOL . 'Rolled: 4 + 8 + 2 = 14';
+            . PHP_EOL . 'Rolled: 4 + 8 + 2 = 14';
         self::assertSame($expected, $response);
 
         Event::assertNotDispatched(InitiativeAdded::class);
@@ -187,6 +174,7 @@ final class InitTest extends TestCase
     public function testSlackRollInitCharacterNoCampaign(): void
     {
         Event::fake();
+        DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(5);
 
         /** @var Channel */
         $channel = Channel::factory()->create([
@@ -214,8 +202,6 @@ final class InitTest extends TestCase
             'character_id' => $character->id,
             'chat_user_id' => $chatUser,
         ]);
-
-        $this->randomInt->expects(self::exactly(1))->willReturn(5);
 
         $response = (new Init('init', $channel->username, $channel))
             ->forSlack();
@@ -253,6 +239,7 @@ final class InitTest extends TestCase
     public function testDiscordRollInitCharacterNoCampaign(): void
     {
         Event::fake();
+        DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(4);
 
         /** @var Channel */
         $channel = Channel::factory()->create([
@@ -281,13 +268,11 @@ final class InitTest extends TestCase
             'chat_user_id' => $chatUser,
         ]);
 
-        $this->randomInt->expects(self::exactly(1))->willReturn(4);
-
         $response = (new Init('init 5 -2', $channel->username, $channel))
             ->forDiscord();
 
         $expected = sprintf('**Initiative added for %s**', (string)$character)
-            . \PHP_EOL
+            . PHP_EOL
             . sprintf(
                 'Rolled: 4 + %d - 2 = %d',
                 $character->reflexes,
@@ -308,11 +293,10 @@ final class InitTest extends TestCase
     public function testRollInitiativeWithCampaign(): void
     {
         Event::fake();
+        DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(4);
 
         /** @var Campaign */
-        $campaign = Campaign::factory()->create([
-            'system' => 'cyberpunkred',
-        ]);
+        $campaign = Campaign::factory()->create(['system' => 'cyberpunkred']);
 
         /** @var Channel */
         $channel = Channel::factory()->create([
@@ -342,13 +326,11 @@ final class InitTest extends TestCase
             'chat_user_id' => $chatUser,
         ]);
 
-        $this->randomInt->expects(self::exactly(1))->willReturn(4);
-
         $response = (new Init('init 5 -2', $channel->username, $channel))
             ->forDiscord();
 
         $expected = sprintf('**Initiative added for %s**', (string)$character)
-            . \PHP_EOL
+            . PHP_EOL
             . sprintf(
                 'Rolled: 4 + %d - 2 = %d',
                 $character->reflexes,
@@ -369,6 +351,7 @@ final class InitTest extends TestCase
     public function testIRCRollInitiativeNoCampaign(): void
     {
         Event::fake();
+        DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(4);
 
         /** @var Channel */
         $channel = Channel::factory()->create([
@@ -378,12 +361,10 @@ final class InitTest extends TestCase
         $channel->username = $this->faker->name;
         $channel->user = $channel->username;
 
-        $this->randomInt->expects(self::exactly(1))->willReturn(4);
-
         $response = (new Init('init 5 -2', $channel->username, $channel))
             ->forIrc();
 
-        $expected = 'Initiative added for ' . $channel->username . \PHP_EOL
+        $expected = 'Initiative added for ' . $channel->username . PHP_EOL
             . 'Rolled: 4 + 5 - 2 = 7';
         self::assertSame($expected, $response);
 

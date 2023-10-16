@@ -22,6 +22,8 @@ use Jerodev\PhpIrcClient\IrcClient;
 use Jerodev\PhpIrcClient\IrcConnection;
 use Tests\TestCase;
 
+use const PHP_EOL;
+
 /**
  * @medium
  */
@@ -38,7 +40,7 @@ final class InfoTest extends TestCase
         $messageMock = $this->createDiscordMessageMock('info');
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
 
         $username = Str::random(5);
@@ -51,17 +53,17 @@ final class InfoTest extends TestCase
         ]);
         $channel->user = $username;
 
-        $expected = '**Debugging info**' . \PHP_EOL
-            . 'User Tag: ' . optional($event->user)->displayname . \PHP_EOL
-            . 'User ID: ' . optional($event->user)->id . \PHP_EOL
-            . 'Commlink User: Not linked' . \PHP_EOL
-            . 'Server Name: ' . $event->server->id . \PHP_EOL
-            . 'Server ID: ' . $event->server->id . \PHP_EOL
+        $expected = '**Debugging info**' . PHP_EOL
+            . 'User Tag: ' . optional($event->user)->displayname . PHP_EOL
+            . 'User ID: ' . optional($event->user)->id . PHP_EOL
+            . 'Commlink User: Not linked' . PHP_EOL
+            . 'Server Name: ' . $event->server->id . PHP_EOL
+            . 'Server ID: ' . $event->server->id . PHP_EOL
             // @phpstan-ignore-next-line
-            . 'Channel Name: ' . $event->channel->name . \PHP_EOL
-            . 'Channel ID: ' . $event->channel->id . \PHP_EOL
-            . 'System: Unregistered' . \PHP_EOL
-            . 'Character: No character' . \PHP_EOL
+            . 'Channel Name: ' . $event->channel->name . PHP_EOL
+            . 'Channel ID: ' . $event->channel->id . PHP_EOL
+            . 'System: Unregistered' . PHP_EOL
+            . 'Character: No character' . PHP_EOL
             . 'Campaign: No campaign';
 
         $info = (new Info('info', $username, $channel, $event))->forDiscord();
@@ -93,19 +95,19 @@ final class InfoTest extends TestCase
 
         $event = new DiscordMessageReceived(
             $messageMock,
-            $this->createStub(Discord::class)
+            self::createStub(Discord::class)
         );
 
-        $expected = '**Debugging info**' . \PHP_EOL
-            . 'User Tag: ' . optional($event->user)->displayname . \PHP_EOL
-            . 'User ID: ' . optional($event->user)->id . \PHP_EOL
-            . 'Commlink User: Not linked' . \PHP_EOL
-            . 'Server Name: ' . $channel->server_name . \PHP_EOL
-            . 'Server ID: ' . $channel->server_id . \PHP_EOL
-            . 'Channel Name: ' . $channel->channel_name . \PHP_EOL
-            . 'Channel ID: ' . $channel->channel_id . \PHP_EOL
-            . 'System: Shadowrun 5th Edition' . \PHP_EOL
-            . 'Character: No character' . \PHP_EOL
+        $expected = '**Debugging info**' . PHP_EOL
+            . 'User Tag: ' . optional($event->user)->displayname . PHP_EOL
+            . 'User ID: ' . optional($event->user)->id . PHP_EOL
+            . 'Commlink User: Not linked' . PHP_EOL
+            . 'Server Name: ' . $channel->server_name . PHP_EOL
+            . 'Server ID: ' . $channel->server_id . PHP_EOL
+            . 'Channel Name: ' . $channel->channel_name . PHP_EOL
+            . 'Channel ID: ' . $channel->channel_id . PHP_EOL
+            . 'System: Shadowrun 5th Edition' . PHP_EOL
+            . 'Character: No character' . PHP_EOL
             . 'Campaign: No campaign';
 
         $info = (new Info('info', 'user', $channel, $event))->forDiscord();
@@ -179,13 +181,13 @@ final class InfoTest extends TestCase
             channel: $ircChannel,
         );
 
-        $expected = 'Debugging info' . \PHP_EOL
-            . 'User name: ' . $username . \PHP_EOL
-            . 'Commlink User: ' . $user->email . \PHP_EOL
-            . 'Server: ' . $server . \PHP_EOL
-            . 'Channel name: #commlink' . \PHP_EOL
-            . 'System: Shadowrun 5th Edition' . \PHP_EOL
-            . 'Character: ' . (string)$character . \PHP_EOL
+        $expected = 'Debugging info' . PHP_EOL
+            . 'User name: ' . $username . PHP_EOL
+            . 'Commlink User: ' . $user->email . PHP_EOL
+            . 'Server: ' . $server . PHP_EOL
+            . 'Channel name: #commlink' . PHP_EOL
+            . 'System: Shadowrun 5th Edition' . PHP_EOL
+            . 'Character: ' . (string)$character . PHP_EOL
             . 'Campaign: ' . (string)$campaign;
 
         $info = (new Info('info', $username, $channel, $event))->forIrc();
@@ -247,13 +249,13 @@ final class InfoTest extends TestCase
             channel: $ircChannel,
         );
 
-        $expected = 'Debugging info' . \PHP_EOL
-            . 'User name: ' . $username . \PHP_EOL
-            . 'Commlink User: ' . $user->email . \PHP_EOL
-            . 'Server: ' . $server . \PHP_EOL
-            . 'Channel name: #commlink' . \PHP_EOL
-            . 'System: Shadowrun 5th Edition' . \PHP_EOL
-            . 'Character: No character' . \PHP_EOL
+        $expected = 'Debugging info' . PHP_EOL
+            . 'User name: ' . $username . PHP_EOL
+            . 'Commlink User: ' . $user->email . PHP_EOL
+            . 'Server: ' . $server . PHP_EOL
+            . 'Channel name: #commlink' . PHP_EOL
+            . 'System: Shadowrun 5th Edition' . PHP_EOL
+            . 'Character: No character' . PHP_EOL
             . 'Campaign: No campaign';
 
         $info = (new Info('info', $username, $channel, $event))->forIrc();

@@ -10,10 +10,13 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\Shadowrun5e\Character;
 use App\Rolls\Shadowrun5e\Fade;
+use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
+
+use function sprintf;
+
+use const PHP_EOL;
 
 /**
  * Tests for rolling a fade test Shadowrun 5E.
@@ -23,19 +26,7 @@ use Tests\TestCase;
  */
 final class FadeTest extends TestCase
 {
-    use PHPMock;
     use RefreshDatabase;
-
-    protected MockObject $randomInt;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls\\Shadowrun5e',
-            'random_int'
-        );
-    }
 
     /**
      * Test trying to roll a fade test without a character linked in Slack.
@@ -105,7 +96,7 @@ final class FadeTest extends TestCase
 
         $response = (new Fade('', 'username', $channel))->forDiscord();
         self::assertSame(
-            \sprintf(
+            sprintf(
                 '%s, Your character must have a resonance attribute to make '
                     . 'fading tests',
                 $character,
@@ -123,6 +114,8 @@ final class FadeTest extends TestCase
      */
     public function testFadeDiscord(): void
     {
+        DiceService::shouldReceive('rollOne')->times(11)->with(6)->andReturn(6);
+
         /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_DISCORD,
@@ -150,12 +143,11 @@ final class FadeTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $this->randomInt->expects(self::exactly(11))->willReturn(6);
         $response = (new Fade('', 'username', $channel))->forDiscord();
         self::assertSame(
-            \sprintf(
+            sprintf(
                 '**%s rolled 11 dice for a fading test**'
-                    . \PHP_EOL . 'Rolled 11 successes' . \PHP_EOL
+                    . PHP_EOL . 'Rolled 11 successes' . PHP_EOL
                     . 'Rolls: 6 6 6 6 6 6 6 6 6 6 6, Probability: 0.0006%%',
                 (string)$character
             ),
@@ -172,6 +164,8 @@ final class FadeTest extends TestCase
      */
     public function testFadeSlack(): void
     {
+        DiceService::shouldReceive('rollOne')->times(7)->with(6)->andReturn(2);
+
         /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
@@ -199,7 +193,6 @@ final class FadeTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $this->randomInt->expects(self::exactly(7))->willReturn(2);
         $response = json_decode(
             (string)(new Fade('', 'username', $channel))->forSlack()
         );
@@ -209,7 +202,7 @@ final class FadeTest extends TestCase
             $attachment->footer
         );
         self::assertSame(
-            \sprintf('%s rolled 7 dice for a fading test', $character),
+            sprintf('%s rolled 7 dice for a fading test', $character),
             $attachment->title
         );
         self::assertSame('Rolled 0 successes', $attachment->text);
@@ -224,6 +217,8 @@ final class FadeTest extends TestCase
      */
     public function testFadeIRC(): void
     {
+        DiceService::shouldReceive('rollOne')->times(11)->with(6)->andReturn(6);
+
         /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_IRC,
@@ -251,12 +246,11 @@ final class FadeTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $this->randomInt->expects(self::exactly(11))->willReturn(6);
         $response = (new Fade('', 'username', $channel))->forIrc();
         self::assertSame(
-            \sprintf(
-                '%s rolled 11 dice for a fading test' . \PHP_EOL
-                    . 'Rolled 11 successes' . \PHP_EOL
+            sprintf(
+                '%s rolled 11 dice for a fading test' . PHP_EOL
+                    . 'Rolled 11 successes' . PHP_EOL
                     . 'Rolls: 6 6 6 6 6 6 6 6 6 6 6',
                 (string)$character
             ),

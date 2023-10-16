@@ -7,8 +7,7 @@ namespace Tests\Feature\Rolls\Subversion;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Rolls\Subversion\Number;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
+use Facades\App\Services\DiceService;
 use Tests\TestCase;
 
 /**
@@ -18,26 +17,6 @@ use Tests\TestCase;
  */
 final class NumberTest extends TestCase
 {
-    use PHPMock;
-
-    /**
-     * Mock random_int function to take randomness out of testing.
-     * @var MockObject
-     */
-    protected MockObject $randomInt;
-
-    /**
-     * Set up the mock random function each time.
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls\\Subversion',
-            'random_int'
-        );
-    }
-
     /**
      * Test trying to roll a simple three-dice roll without an attribute or TN
      * set in Slack.
@@ -45,9 +24,13 @@ final class NumberTest extends TestCase
      */
     public function testSimpleRollSlack(): void
     {
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(3, 6)
+            ->andReturn([4, 4, 4]);
+
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'subversion']);
-        $this->randomInt->expects(self::exactly(3))->willReturn(4);
         $response = json_decode(
             (string)(new Number('3', 'username', $channel))->forSlack()
         );
@@ -73,9 +56,13 @@ final class NumberTest extends TestCase
      */
     public function testSimpleRollDiscord(): void
     {
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(4, 6)
+            ->andReturn([5, 5, 5, 5]);
+
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'subversion']);
-        $this->randomInt->expects(self::exactly(4))->willReturn(5);
         $response = (new Number('4', 'username', $channel))->forDiscord();
         self::assertEquals(
             '**username rolled 15**' . \PHP_EOL
@@ -87,9 +74,13 @@ final class NumberTest extends TestCase
 
     public function testDulled5Roll(): void
     {
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(3, 6)
+            ->andReturn([6, 6, 6]);
+
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'subversion']);
-        $this->randomInt->expects(self::exactly(3))->willReturn(6);
         $response = (new Number('2', 'username', $channel))->forDiscord();
         self::assertEquals(
             '**username rolled 15**' . \PHP_EOL
@@ -101,9 +92,13 @@ final class NumberTest extends TestCase
 
     public function testDulled4Roll(): void
     {
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(3, 6)
+            ->andReturn([6, 6, 6]);
+
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'subversion']);
-        $this->randomInt->expects(self::exactly(3))->willReturn(6);
         $response = (new Number('1', 'username', $channel))->forDiscord();
         self::assertEquals(
             '**username rolled 12**' . \PHP_EOL
@@ -115,9 +110,13 @@ final class NumberTest extends TestCase
 
     public function testDulled3Roll(): void
     {
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(3, 6)
+            ->andReturn([6, 6, 6]);
+
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'subversion']);
-        $this->randomInt->expects(self::exactly(3))->willReturn(6);
         $response = (new Number('0', 'username', $channel))->forDiscord();
         self::assertEquals(
             '**username rolled 9**' . \PHP_EOL

@@ -22,8 +22,8 @@ final class IrcMessageReceivedTest extends TestCase
      */
     public function testConstructor(): void
     {
-        $clientStub = $this->createStub(IrcClient::class);
-        $channelStub = $this->createStub(IrcChannel::class);
+        $clientStub = self::createStub(IrcClient::class);
+        $channelStub = self::createStub(IrcChannel::class);
 
         $event = new IrcMessageReceived(
             ':roll foo',

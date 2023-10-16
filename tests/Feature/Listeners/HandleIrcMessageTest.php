@@ -8,13 +8,14 @@ use App\Events\IrcMessageReceived;
 use App\Listeners\HandleIrcMessage;
 use App\Models\Campaign;
 use App\Models\Channel;
+use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Jerodev\PhpIrcClient\IrcChannel;
 use Jerodev\PhpIrcClient\IrcClient;
 use Jerodev\PhpIrcClient\IrcConnection;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
+
+use const PHP_EOL;
 
 /**
  * Test for IRC message event listener.
@@ -24,16 +25,7 @@ use Tests\TestCase;
  */
 final class HandleIrcMessageTest extends TestCase
 {
-    use PHPMock;
     use RefreshDatabase;
-
-    protected MockObject $randomInt;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock('App\\Rolls', 'random_int');
-    }
 
     /**
      * Test a user trying to roll something invalid.
@@ -67,13 +59,13 @@ final class HandleIrcMessageTest extends TestCase
      */
     public function testHandleInfoRoll(): void
     {
-        $expected = 'Debugging info' . \PHP_EOL
-            . 'User name: darkroach' . \PHP_EOL
-            . 'Commlink User: Not linked' . \PHP_EOL
-            . 'Server: chat.freenode.net' . \PHP_EOL
-            . 'Channel name: #commlink' . \PHP_EOL
-            . 'System: unregistered' . \PHP_EOL
-            . 'Character: No character' . \PHP_EOL
+        $expected = 'Debugging info' . PHP_EOL
+            . 'User name: darkroach' . PHP_EOL
+            . 'Commlink User: Not linked' . PHP_EOL
+            . 'Server: chat.freenode.net' . PHP_EOL
+            . 'Channel name: #commlink' . PHP_EOL
+            . 'System: unregistered' . PHP_EOL
+            . 'Character: No character' . PHP_EOL
             . 'Campaign: No campaign';
 
         $channel = $this->createMock(IrcChannel::class);
@@ -126,13 +118,13 @@ final class HandleIrcMessageTest extends TestCase
             'type' => Channel::TYPE_IRC,
         ]);
 
-        $expected = 'Debugging info' . \PHP_EOL
-            . 'User name: darkroach' . \PHP_EOL
-            . 'Commlink User: Not linked' . \PHP_EOL
-            . 'Server: chat.freenode.com' . \PHP_EOL
-            . 'Channel name: #test-channel' . \PHP_EOL
-            . 'System: Shadowrun 5th Edition' . \PHP_EOL
-            . 'Character: No character' . \PHP_EOL
+        $expected = 'Debugging info' . PHP_EOL
+            . 'User name: darkroach' . PHP_EOL
+            . 'Commlink User: Not linked' . PHP_EOL
+            . 'Server: chat.freenode.com' . PHP_EOL
+            . 'Channel name: #test-channel' . PHP_EOL
+            . 'System: Shadowrun 5th Edition' . PHP_EOL
+            . 'Character: No character' . PHP_EOL
             . 'Campaign: ' . $campaign->name;
 
         $ircChannel = $this->createMock(IrcChannel::class);
@@ -171,9 +163,12 @@ final class HandleIrcMessageTest extends TestCase
      */
     public function testHandleGenericRoll(): void
     {
-        $this->randomInt->expects(self::exactly(2))->willReturn(3);
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(2, 6)
+            ->andReturn([3, 3]);
 
-        $expected = 'darkroach rolled 6' . \PHP_EOL
+        $expected = 'darkroach rolled 6' . PHP_EOL
             . 'Rolling: 2d6 = [3+3] = 6';
 
         $channel = $this->createMock(IrcChannel::class);

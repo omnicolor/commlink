@@ -12,10 +12,11 @@ use App\Models\ChatUser;
 use App\Models\Shadowrun5e\Character;
 use App\Models\User;
 use App\Rolls\Shadowrun5e\Blitz;
+use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
+
+use const PHP_EOL;
 
 /**
  * Test for blitzing initiative in Shadowrun 5E.
@@ -25,19 +26,7 @@ use Tests\TestCase;
  */
 final class BlitzTest extends TestCase
 {
-    use PHPMock;
     use RefreshDatabase;
-
-    protected MockObject $randomInt;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls\\Shadowrun5e',
-            'random_int'
-        );
-    }
 
     /**
      * Test trying to blitz initiative as the GM.
@@ -141,6 +130,11 @@ final class BlitzTest extends TestCase
      */
     public function testBlitzSlack(): void
     {
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(5, 6)
+            ->andReturn([6, 6, 6, 6, 6]);
+
         /** @var User */
         $user = User::factory()->create();
 
@@ -177,8 +171,6 @@ final class BlitzTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $this->randomInt->expects(self::exactly(5))->willReturn(6);
-
         $response = (new Blitz('blitz', 'username', $channel))->forSlack();
         $response = \json_decode((string)$response)->attachments[0];
 
@@ -209,6 +201,11 @@ final class BlitzTest extends TestCase
      */
     public function testBlitzDiscord(): void
     {
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(5, 6)
+            ->andReturn([5, 5, 5, 5, 5]);
+
         /** @var User */
         $user = User::factory()->create();
 
@@ -246,11 +243,9 @@ final class BlitzTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $this->randomInt->expects(self::exactly(5))->willReturn(5);
-
         $response = (new Blitz('blitz', 'username', $channel))->forDiscord();
 
-        $expected = '**' . $character->handle . ' blitzed**' . \PHP_EOL
+        $expected = '**' . $character->handle . ' blitzed**' . PHP_EOL
             . '6 + 5d6 = 6 + 5 + 5 + 5 + 5 + 5 = 31';
         self::assertSame($expected, $response);
 
@@ -275,6 +270,11 @@ final class BlitzTest extends TestCase
      */
     public function testBlitzIRC(): void
     {
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(5, 6)
+            ->andReturn([5, 5, 5, 5, 5]);
+
         /** @var User */
         $user = User::factory()->create();
 
@@ -312,11 +312,8 @@ final class BlitzTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $this->randomInt->expects(self::exactly(5))->willReturn(5);
-
         $response = (new Blitz('blitz', 'username', $channel))->forIrc();
-
-        $expected = $character->handle . ' blitzed' . \PHP_EOL
+        $expected = $character->handle . ' blitzed' . PHP_EOL
             . '6 + 5d6 = 6 + 5 + 5 + 5 + 5 + 5 = 31';
         self::assertSame($expected, $response);
 

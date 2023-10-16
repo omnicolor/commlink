@@ -11,6 +11,10 @@ use App\Models\Channel;
 use App\Models\Initiative;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
+use Facades\App\Services\DiceService;
+
+use function array_shift;
+use function explode;
 
 /**
  * Handle a user trying to add their initiative.
@@ -52,10 +56,10 @@ class Init extends Roll
     ) {
         parent::__construct($content, $username, $channel);
 
-        $args = \explode(' ', $content);
+        $args = explode(' ', $content);
 
         // Remove 'init' from argument list.
-        \array_shift($args);
+        array_shift($args);
         $this->args = $args;
 
         if (null === $this->character && 0 === count($this->args)) {
@@ -78,23 +82,23 @@ class Init extends Roll
             $this->username = (string)$this->character;
             if (2 === count($this->args)) {
                 // Get rid of the character's reflexes.
-                \array_shift($this->args);
+                array_shift($this->args);
             }
             // @phpstan-ignore-next-line
             $this->reflexes = $this->character->reflexes;
             if (1 === count($this->args)) {
-                $this->modifier = (int)\array_shift($this->args);
+                $this->modifier = (int)array_shift($this->args);
             }
         } else {
             if (1 <= count($this->args)) {
-                $this->reflexes = (int)\array_shift($this->args);
+                $this->reflexes = (int)array_shift($this->args);
             }
             if (1 === count($this->args)) {
-                $this->modifier = (int)\array_shift($this->args);
+                $this->modifier = (int)array_shift($this->args);
             }
         }
 
-        $this->roll = random_int(1, 10);
+        $this->roll = DiceService::rollOne(10);
         $this->initiative = Initiative::updateOrCreate(
             [
                 'campaign_id' => optional($this->campaign)->id,

@@ -7,9 +7,8 @@ namespace Tests\Feature\Rolls\Cyberpunkred;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Cyberpunkred\Number;
+use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
 /**
@@ -21,19 +20,7 @@ use Tests\TestCase;
  */
 final class NumberTest extends TestCase
 {
-    use PHPMock;
     use RefreshDatabase;
-
-    protected MockObject $randomInt;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls\\Cyberpunkred',
-            'random_int'
-        );
-    }
 
     /**
      * Test trying to roll.
@@ -42,10 +29,14 @@ final class NumberTest extends TestCase
      */
     public function testRollSlack(): void
     {
+        DiceService::shouldReceive('rollOne')
+            ->once()
+            ->with(10)
+            ->andReturn(5);
+
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = 'user';
-        $this->randomInt->expects(self::exactly(1))->willReturn(5);
         $response = (new Number('5', 'user', $channel))->forSlack();
         $expected = [
             'response_type' => 'in_channel',
@@ -68,12 +59,14 @@ final class NumberTest extends TestCase
      */
     public function testRollSlackCritSuccess(): void
     {
+        DiceService::shouldReceive('rollOne')
+            ->times(2)
+            ->with(10)
+            ->andReturn(10, 4);
+
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = 'user';
-        $this->randomInt
-            ->expects(self::exactly(2))
-            ->willReturnOnConsecutiveCalls(10, 4);
         $response = (new Number('5', 'user', $channel))->forSlack();
         $expected = [
             'response_type' => 'in_channel',
@@ -96,12 +89,14 @@ final class NumberTest extends TestCase
      */
     public function testRollSlackCritFail(): void
     {
+        DiceService::shouldReceive('rollOne')
+            ->times(2)
+            ->with(10)
+            ->andReturn(1, 4);
+
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = 'user';
-        $this->randomInt
-            ->expects(self::exactly(2))
-            ->willReturnOnConsecutiveCalls(1, 4);
         $response = (new Number('5 shooting', 'user', $channel))->forSlack();
         $expected = [
             'response_type' => 'in_channel',
@@ -124,9 +119,10 @@ final class NumberTest extends TestCase
      */
     public function testRollDiscord(): void
     {
+        DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(5);
+
         $channel = new Channel();
         $channel->username = 'user';
-        $this->randomInt->expects(self::exactly(1))->willReturn(5);
         $response = (new Number('5 perception', 'user', $channel))
             ->forDiscord();
         $expected = "**user made a roll for \"perception\"**\n1d10 + 5 = 5 + 5 = 10";
@@ -140,11 +136,13 @@ final class NumberTest extends TestCase
      */
     public function testRollDiscordCritSuccess(): void
     {
+        DiceService::shouldReceive('rollOne')
+            ->times(2)
+            ->with(10)
+            ->andReturn(10, 4);
+
         $channel = new Channel();
         $channel->username = 'user';
-        $this->randomInt
-            ->expects(self::exactly(2))
-            ->willReturnOnConsecutiveCalls(10, 4);
         $response = (new Number('5', 'user', $channel))->forDiscord();
         $expected = "**user made a roll with a critical success**\n1d10 + 5 = 10 + 4 + 5 = 19";
         self::assertSame($expected, $response);
@@ -157,9 +155,11 @@ final class NumberTest extends TestCase
      */
     public function testRollDiscordCritFail(): void
     {
-        $this->randomInt
-            ->expects(self::exactly(2))
-            ->willReturnOnConsecutiveCalls(1, 4);
+        DiceService::shouldReceive('rollOne')
+            ->times(2)
+            ->with(10)
+            ->andReturn(1, 4);
+
         $response = (new Number('5', 'user', new Channel()))->forDiscord();
         $expected = "**user made a roll with a critical failure**\n1d10 + 5 = 1 - 4 + 5 = 2";
         self::assertSame($expected, $response);
@@ -172,9 +172,13 @@ final class NumberTest extends TestCase
      */
     public function testRollIRC(): void
     {
+        DiceService::shouldReceive('rollOne')
+            ->once()
+            ->with(10)
+            ->andReturn(5);
+
         $channel = new Channel();
         $channel->username = 'user';
-        $this->randomInt->expects(self::exactly(1))->willReturn(5);
         $response = (new Number('5 perception', 'user', $channel))->forIrc();
         $expected = "user made a roll for \"perception\"\n1d10 + 5 = 5 + 5 = 10";
         self::assertSame($expected, $response);
@@ -187,11 +191,13 @@ final class NumberTest extends TestCase
      */
     public function testRollIRCCritSuccess(): void
     {
+        DiceService::shouldReceive('rollOne')
+            ->times(2)
+            ->with(10)
+            ->andReturn(10, 4);
+
         $channel = new Channel();
         $channel->username = 'user';
-        $this->randomInt
-            ->expects(self::exactly(2))
-            ->willReturnOnConsecutiveCalls(10, 4);
         $response = (new Number('5', 'user', $channel))->forIrc();
         $expected = "user made a roll with a critical success\n1d10 + 5 = 10 + 4 + 5 = 19";
         self::assertSame($expected, $response);
@@ -204,9 +210,11 @@ final class NumberTest extends TestCase
      */
     public function testRollIRCCritFail(): void
     {
-        $this->randomInt
-            ->expects(self::exactly(2))
-            ->willReturnOnConsecutiveCalls(1, 4);
+        DiceService::shouldReceive('rollOne')
+            ->times(2)
+            ->with(10)
+            ->andReturn(1, 4);
+
         $response = (new Number('5', 'user', new Channel()))->forIrc();
         $expected = "user made a roll with a critical failure\n1d10 + 5 = 1 - 4 + 5 = 2";
         self::assertSame($expected, $response);

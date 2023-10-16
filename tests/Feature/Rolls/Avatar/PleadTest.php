@@ -7,10 +7,12 @@ namespace Tests\Feature\Rolls\Avatar;
 use App\Exceptions\SlackException;
 use App\Models\Channel;
 use App\Rolls\Avatar\Plead;
+use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\WithFaker;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
+
+use function json_decode;
+use function sprintf;
 
 /**
  * Tests for the Plead roll in Avatar.
@@ -19,26 +21,7 @@ use Tests\TestCase;
  */
 final class PleadTest extends TestCase
 {
-    use PHPMock;
     use WithFaker;
-
-    /**
-     * Mock random_int function to take randomness out of testing.
-     * @var MockObject
-     */
-    protected MockObject $randomInt;
-
-    /**
-     * Set up the mock random function each time.
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->randomInt = $this->getFunctionMock(
-            'App\\Rolls\\Avatar',
-            'random_int'
-        );
-    }
 
     /**
      * Test trying to plead in a non-Avatar Slack channel.
@@ -106,7 +89,10 @@ final class PleadTest extends TestCase
      */
     public function testSimplePleadDiscord(): void
     {
-        $this->randomInt->expects(self::exactly(2))->willReturn(4);
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(2, 6)
+            ->andReturn([4, 4]);
 
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'avatar']);
@@ -115,7 +101,7 @@ final class PleadTest extends TestCase
         $response = (new Plead('plead', $channel->username, $channel))
             ->forDiscord();
         self::assertSame(
-            \sprintf(
+            sprintf(
                 "**%s is getting close to succeeding in pleading**\n2d6 = 4 + 4 = 8",
                 $channel->username
             ),
@@ -130,7 +116,10 @@ final class PleadTest extends TestCase
      */
     public function testSimplePleadIrc(): void
     {
-        $this->randomInt->expects(self::exactly(2))->willReturn(4);
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(2, 6)
+            ->andReturn([4, 4]);
 
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'avatar']);
@@ -139,7 +128,7 @@ final class PleadTest extends TestCase
         $response = (new Plead('plead', $channel->username, $channel))
             ->forIrc();
         self::assertSame(
-            \sprintf(
+            sprintf(
                 "%s is getting close to succeeding in pleading\n2d6 = 4 + 4 = 8",
                 $channel->username
             ),
@@ -154,7 +143,10 @@ final class PleadTest extends TestCase
      */
     public function testPlead(): void
     {
-        $this->randomInt->expects(self::exactly(2))->willReturn(6);
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(2, 6)
+            ->andReturn([6, 6]);
 
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'avatar']);
@@ -162,10 +154,10 @@ final class PleadTest extends TestCase
 
         $response = (new Plead('plead 6 testing', $channel->username, $channel))
             ->forSlack();
-        $response = \json_decode((string)$response);
+        $response = json_decode((string)$response);
         $response = $response->attachments[0];
         self::assertSame(
-            \sprintf(
+            sprintf(
                 '%s succeeded in a plead roll for "testing"',
                 $channel->username
             ),
@@ -184,7 +176,10 @@ final class PleadTest extends TestCase
      */
     public function testFailingPleadNegativeModifier(): void
     {
-        $this->randomInt->expects(self::exactly(2))->willReturn(6);
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(2, 6)
+            ->andReturn([6, 6]);
 
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'avatar']);
@@ -192,10 +187,10 @@ final class PleadTest extends TestCase
 
         $response = (new Plead('plead -8', $channel->username, $channel))
             ->forSlack();
-        $response = \json_decode((string)$response);
+        $response = json_decode((string)$response);
         $response = $response->attachments[0];
         self::assertSame(
-            \sprintf(
+            sprintf(
                 '%s failed a plead roll',
                 $channel->username
             ),

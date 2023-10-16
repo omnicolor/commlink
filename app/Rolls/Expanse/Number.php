@@ -8,6 +8,7 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
+use Facades\App\Services\DiceService;
 
 class Number extends Roll
 {
@@ -74,11 +75,7 @@ class Number extends Roll
      */
     protected function roll(): void
     {
-        $this->dice = [
-            random_int(1, 6),
-            random_int(1, 6),
-            random_int(1, 6),
-        ];
+        $this->dice = DiceService::rollMany(3, 6);
         $this->result = \array_sum($this->dice) + $this->addition;
     }
 

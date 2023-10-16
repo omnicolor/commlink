@@ -8,6 +8,7 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Shadowrun5e\ForceTrait;
 use App\Models\Slack\TextAttachment;
+use Facades\App\Services\DiceService;
 
 /**
  * Class representing a generic XdY+C roll.
@@ -97,11 +98,7 @@ class Generic extends Roll
      */
     protected function rollDice(int $dice, int $pips): array
     {
-        $rolls = [];
-        for ($i = 0; $i < $dice; $i++) {
-            $rolls[] = random_int(1, $pips);
-        }
-        return $rolls;
+        return DiceService::rollMany($dice, $pips);
     }
 
     public function forDiscord(): string
