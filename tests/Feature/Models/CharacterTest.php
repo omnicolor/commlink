@@ -108,6 +108,21 @@ final class CharacterTest extends TestCase
     }
 
     /**
+     * Test getting the campaign attached to a character if it doesn't exist.
+     * @test
+     */
+    public function testCampaignNotFound(): void
+    {
+        /** @var Character */
+        $character = Character::factory()->make([
+            'campaign_id' => 'not-found',
+            'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+        self::assertNull($character->campaign());
+    }
+
+    /**
      * Test getting the campaign attached to a character.
      * @medium
      * @test

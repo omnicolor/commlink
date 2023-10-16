@@ -24,7 +24,7 @@ trait ForceTrait
      * @param int $rating Force or level to use in formula
      * @return int
      */
-    public function convertFormula(
+    public static function convertFormula(
         string $formula,
         string $letter,
         int $rating

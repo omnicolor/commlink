@@ -176,7 +176,7 @@ class Sprite
             // @phpstan-ignore-next-line
             (string)$this->$attribute
         );
-        return $this->convertFormula($formula, 'L', $this->level);
+        return self::convertFormula($formula, 'L', $this->level);
     }
 
     /**

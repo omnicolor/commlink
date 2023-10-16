@@ -197,6 +197,7 @@ return [
             'STAR_TREK_ADVENTURES_DATA_PATH',
             'data/StarTrekAdventures/'
         ),
+        'stillfleet' => env('STILLFLEET_DATA_PATH', 'data/Stillfleet/'),
         'subversion' => env('SUBVERSION_DATA_PATH', 'data/Subversion/'),
     ],
 
@@ -213,6 +214,7 @@ return [
         'shadowrun5e' => 'Shadowrun 5th Edition',
         'shadowrun6e' => 'Shadowrun 6th Edition',
         'star-trek-adventures' => 'Star Trek Adventures',
+        'stillfleet' => 'Stillfleet',
         'subversion' => 'Subversion',
     ],
 

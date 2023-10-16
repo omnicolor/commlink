@@ -126,6 +126,6 @@ class ComplexForm
         if (!isset($this->level)) {
             throw new RuntimeException('Level has not been set');
         }
-        return $this->convertFormula($this->fade, 'L', $this->level);
+        return self::convertFormula($this->fade, 'L', $this->level);
     }
 }

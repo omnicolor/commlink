@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\Shadowrun5e\ForceTrait;
 use RuntimeException;
 
 /**
@@ -26,6 +27,8 @@ use RuntimeException;
  */
 class DiceService
 {
+    use ForceTrait;
+
     /**
      * @return array<int, int>
      */
@@ -48,5 +51,102 @@ class DiceService
             throw new RuntimeException('Dice must have more than one pip');
         }
         return random_int(1, $pips);
+    }
+
+    /**
+     * Pull the dynamic part(s) of the text out.
+     *
+     * For an expression like '10+9d6+27', would pull out and return '9d6'.
+     * @return array<int, string>
+     */
+    public static function getDynamicParts(string $string): array
+    {
+        $matches = [];
+        \preg_match_all('/((\d+)?[dD]\d+)/', $string, $matches);
+        return $matches[0];
+    }
+
+    /**
+     * Given the dynamic part of a dice notation string, return the dice and
+     * pips parts separated.
+     * @return array{0: non-negative-int, 1: int<2, max>}
+     */
+    public static function getDiceAndPips(string $string): array
+    {
+        [$dice, $pips] = \explode('d', strtolower($string));
+        if ('' === $dice) {
+            $dice = '1';
+        }
+
+        if (0 >= (int)$dice) {
+            throw new RuntimeException('You can\'t roll fewer than 1 die');
+        }
+
+        if (1 >= (int)$pips) {
+            throw new RuntimeException('Dice must have more than one pip');
+        }
+
+        return [(int)$dice, (int)$pips];
+    }
+
+    /**
+     * Given a string of dice notation, rolls dice for all of the dynamic parts.
+     * @return array<string, array<int, int>>
+     */
+    public static function rollDynamic(string $string): array
+    {
+        $parts = self::getDynamicParts($string);
+        $rolls = [];
+        foreach ($parts as $part) {
+            [$dice, $pips] = self::getDiceAndPips($part);
+            $rolls[\sprintf('%dd%d', $dice, $pips)] = self::rollMany($dice, $pips);
+        }
+        return $rolls;
+    }
+
+    /**
+     * Given a string of dice notation and math, roll dice and return
+     * everything about the roll.
+     * @return object{total: int, rolls: array<int, int>, work: string}
+     */
+    public static function rollDice(string $string): object
+    {
+        $total = $work = $string;
+        $rolls = [];
+        foreach (self::rollDynamic($string) as $dynamic => $result) {
+            $rolls = array_merge($rolls, $result);
+            // Replace each individual XdY with the individual rolls to show
+            // all math.
+            $work = str_replace(
+                search: $dynamic,
+                replace: sprintf('(%s)', implode('+', $result)),
+                subject: $work,
+            );
+            // Replace each individual XdY with the total for the die type to
+            // calculate the total.
+            $total = str_replace(
+                search: $dynamic,
+                replace: (string)array_sum($result),
+                subject: $total,
+            );
+        }
+
+        // Use the convertFormula trait from Shadowrun 5E to avoid needing
+        // eval() and calculate the total for the roll.
+        $total = self::convertFormula(
+            formula: $total,
+            letter: 'F', // unused
+            rating: 1 // unused
+        );
+
+        // Format the work string to show the original, the full math, and the
+        // total.
+        $work = $string . ' = ' . $work . ' = ' . $total;
+
+        return (object)[
+            'total' => $total,
+            'rolls' => $rolls,
+            'work' => $work,
+        ];
     }
 }

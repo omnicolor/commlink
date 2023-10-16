@@ -53,7 +53,7 @@ class Generic extends Roll
 
         // Use the convertFormula trait from Shadowrun 5E to avoid needing
         // eval().
-        $total = $this->convertFormula(
+        $total = self::convertFormula(
             \str_replace($dynamicPart, \sprintf('%d', $diceSum), $content),
             'F', // unused
             1 // unused
