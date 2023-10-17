@@ -8,6 +8,8 @@ use App\Models\Shadowrun5e\Lifestyle;
 use App\Models\Shadowrun5e\LifestyleAttributes;
 use App\Models\Shadowrun5e\LifestyleOption;
 use App\Models\Shadowrun5e\LifestyleZone;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for Shadowrun 5E lifestyles.
@@ -16,7 +18,7 @@ use App\Models\Shadowrun5e\LifestyleZone;
  * @group shadowrun5e
  * @small
  */
-final class LifestyleTest extends \Tests\TestCase
+final class LifestyleTest extends TestCase
 {
     /**
      * Test trying to load an invalid lifestyle.
@@ -24,7 +26,7 @@ final class LifestyleTest extends \Tests\TestCase
      */
     public function testLoadInvalid(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Lifestyle ID "invalid" is invalid');
         new Lifestyle('invalid');
     }
@@ -129,7 +131,7 @@ final class LifestyleTest extends \Tests\TestCase
         $lifestyle->attributes->neighborhood++;
         self::assertEquals(new LifestyleZone('aaa'), $lifestyle->getZone());
         $lifestyle->attributes->neighborhood++;
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Neighborhood rating out of range');
         $lifestyle->getZone();
     }

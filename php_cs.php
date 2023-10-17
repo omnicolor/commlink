@@ -43,6 +43,7 @@ $rules = [
     'function_declaration' => true,
     'function_to_constant' => true,
     'general_phpdoc_tag_rename' => true,
+    'global_namespace_import' => true,
     'heredoc_to_nowdoc' => true,
     'implode_call' => true,
     'include' => true,

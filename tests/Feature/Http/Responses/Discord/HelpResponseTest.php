@@ -13,6 +13,7 @@ use Discord\Parts\Channel\Channel as TextChannel;
 use Discord\Parts\Channel\Message;
 use Discord\Parts\Guild\Guild;
 use Discord\Parts\User\User;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -27,7 +28,7 @@ final class HelpResponseTest extends TestCase
      */
     protected function createMessageMock(): Message
     {
-        $serverNameAndId = \Str::random(10);
+        $serverNameAndId = Str::random(10);
         $serverStub = self::createStub(Guild::class);
         $serverStub->method('__get')->willReturn($serverNameAndId);
 
@@ -40,8 +41,8 @@ final class HelpResponseTest extends TestCase
         $userMock = $this->createMock(User::class);
         $userMock->method('__get')->willReturnMap($userMap);
 
-        $channelName = \Str::random(12);
-        $channelId = \Str::random(10);
+        $channelName = Str::random(12);
+        $channelId = Str::random(10);
         $channelMap = [
             ['guild', $serverStub],
             ['id', $channelId],

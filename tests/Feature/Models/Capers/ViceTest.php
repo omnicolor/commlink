@@ -7,13 +7,14 @@ namespace Tests\Feature\Models\Capers;
 use App\Models\Capers\Vice;
 use App\Models\Card;
 use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for Capers vice.
  * @group capers
  * @small
  */
-final class ViceTest extends \Tests\TestCase
+final class ViceTest extends TestCase
 {
     /**
      * Test loading an invalid vice.

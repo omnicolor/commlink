@@ -8,6 +8,7 @@ use App\Models\ChatUser;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -54,8 +55,8 @@ final class SettingsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $serverId = 'T' . \Str::random(10);
-        $remoteUserId = 'U' . \Str::random(10);
+        $serverId = 'T' . Str::random(10);
+        $remoteUserId = 'U' . Str::random(10);
         ChatUser::factory()->create([
             'server_id' => $serverId,
             'server_type' => ChatUser::TYPE_SLACK,
@@ -102,8 +103,8 @@ final class SettingsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $serverId = 'T' . \Str::random(10);
-        $userId = 'U' . \Str::random(10);
+        $serverId = 'T' . Str::random(10);
+        $userId = 'U' . Str::random(10);
         Http::fake([
             self::API_SLACK_TEAMS => Http::response([
                 'ok' => false,
@@ -146,8 +147,8 @@ final class SettingsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $serverId = 'T' . \Str::random(10);
-        $userId = 'U' . \Str::random(10);
+        $serverId = 'T' . Str::random(10);
+        $userId = 'U' . Str::random(10);
         ChatUser::factory()->create([
             'server_id' => $serverId,
             'server_type' => ChatUser::TYPE_SLACK,
@@ -175,8 +176,8 @@ final class SettingsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $serverId = '1' . \Str::random(10);
-        $userId = \Str::random(10);
+        $serverId = '1' . Str::random(10);
+        $userId = Str::random(10);
         Http::fake([
             self::API_DISCORD_GUILDS . $serverId => Http::response([], Response::HTTP_BAD_REQUEST),
             self::API_DISCORD_USERS . $userId => Http::response([], Response::HTTP_NOT_FOUND),
@@ -214,8 +215,8 @@ final class SettingsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $serverId = '1' . \Str::random(10);
-        $userId = \Str::random(10);
+        $serverId = '1' . Str::random(10);
+        $userId = Str::random(10);
         Http::fake([
             self::API_DISCORD_GUILDS . $serverId => Http::response(
                 ['name' => 'Discord Guild'],
@@ -262,8 +263,8 @@ final class SettingsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $serverId = '1' . \Str::random(10);
-        $userId = '2' . \Str::random(10);
+        $serverId = '1' . Str::random(10);
+        $userId = '2' . Str::random(10);
         ChatUser::factory()->create([
             'server_id' => $serverId,
             'server_type' => ChatUser::TYPE_DISCORD,

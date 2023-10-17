@@ -7,11 +7,12 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Augmentations;
+use Tests\TestCase;
 
 /**
  * @small
  */
-final class AugmentationsTest extends \Tests\TestCase
+final class AugmentationsTest extends TestCase
 {
     /**
      * Test rendering a lack of augmentations for an existing character.

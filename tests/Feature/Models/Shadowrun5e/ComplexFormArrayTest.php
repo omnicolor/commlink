@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\ComplexForm;
 use App\Models\Shadowrun5e\ComplexFormArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the ComplexFormArray.
@@ -14,7 +17,7 @@ use App\Models\Shadowrun5e\ComplexFormArray;
  * @group shadowrun5e
  * @small
  */
-final class ComplexFormArrayTest extends \Tests\TestCase
+final class ComplexFormArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -56,9 +59,9 @@ final class ComplexFormArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->forms[] = new \StdClass();
+        $this->forms[] = new stdClass();
     }
 
     /**
@@ -69,8 +72,8 @@ final class ComplexFormArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->forms->offsetSet(form: new \StdClass());
-        } catch (\TypeError) {
+            $this->forms->offsetSet(form: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->forms);

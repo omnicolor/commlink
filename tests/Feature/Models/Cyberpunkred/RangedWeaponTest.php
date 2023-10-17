@@ -6,6 +6,8 @@ namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\RangedWeapon;
 use App\Models\Cyberpunkred\Weapon;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for RangedWeapon class.
@@ -13,7 +15,7 @@ use App\Models\Cyberpunkred\Weapon;
  * @group cyberpunkred
  * @small
  */
-final class RangedWeaponTest extends \Tests\TestCase
+final class RangedWeaponTest extends TestCase
 {
     /**
      * Test trying to load a weapon without including an ID.
@@ -21,7 +23,7 @@ final class RangedWeaponTest extends \Tests\TestCase
      */
     public function testLoadNoId(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage(
             'ID must be included when instantiating a weapon'
         );
@@ -34,7 +36,7 @@ final class RangedWeaponTest extends \Tests\TestCase
      */
     public function testLoadInvalid(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Weapon ID "invalid" is invalid');
         Weapon::build(['id' => 'invalid']);
     }
@@ -79,7 +81,7 @@ final class RangedWeaponTest extends \Tests\TestCase
      */
     public function testLoadWithInvalidQuality(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage(
             'Weapon ID "medium-pistol" has invalid quality "super"'
         );

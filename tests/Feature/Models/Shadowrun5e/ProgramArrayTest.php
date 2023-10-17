@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Program;
 use App\Models\Shadowrun5e\ProgramArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the ProgramArray.
@@ -14,7 +17,7 @@ use App\Models\Shadowrun5e\ProgramArray;
  * @group shadowrun5e
  * @small
  */
-final class ProgramArrayTest extends \Tests\TestCase
+final class ProgramArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -56,9 +59,9 @@ final class ProgramArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->programs[] = new \StdClass();
+        $this->programs[] = new stdClass();
     }
 
     /**
@@ -69,8 +72,8 @@ final class ProgramArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->programs->offsetSet(program: new \StdClass());
-        } catch (\TypeError $ex) {
+            $this->programs->offsetSet(program: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->programs);
