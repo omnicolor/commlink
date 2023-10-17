@@ -7,11 +7,12 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Armor;
+use Tests\TestCase;
 
 /**
  * @small
  */
-final class ArmorTest extends \Tests\TestCase
+final class ArmorTest extends TestCase
 {
     /**
      * Test rendering a lack of armor for an existing character.

@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Augmentation;
 use App\Models\Shadowrun5e\AugmentationArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the AugmentationArray class.
@@ -14,7 +17,7 @@ use App\Models\Shadowrun5e\AugmentationArray;
  * @group shadowrun5e
  * @small
  */
-final class AugmentationArrayTest extends \Tests\TestCase
+final class AugmentationArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -56,9 +59,9 @@ final class AugmentationArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        $this->expectException(\TypeError::class);
+        $this->expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->augmentations[] = new \StdClass();
+        $this->augmentations[] = new stdClass();
     }
 
     /**
@@ -69,8 +72,8 @@ final class AugmentationArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->augmentations->offsetSet(augmentation: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->augmentations->offsetSet(augmentation: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->augmentations);

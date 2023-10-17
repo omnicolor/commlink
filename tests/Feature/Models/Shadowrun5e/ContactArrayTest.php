@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Contact;
 use App\Models\Shadowrun5e\ContactArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the ContactArray class.
@@ -14,7 +17,7 @@ use App\Models\Shadowrun5e\ContactArray;
  * @group shadowrun5e
  * @small
  */
-final class ContactArrayTest extends \Tests\TestCase
+final class ContactArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -62,9 +65,9 @@ final class ContactArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->contacts[] = new \StdClass();
+        $this->contacts[] = new stdClass();
         self::assertEmpty($this->contacts);
     }
 
@@ -76,8 +79,8 @@ final class ContactArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->contacts->offsetSet(contact: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->contacts->offsetSet(contact: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->contacts);

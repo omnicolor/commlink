@@ -6,11 +6,12 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Character;
 use App\View\Components\Shadowrun5e\Metadata;
+use Tests\TestCase;
 
 /**
  * @small
  */
-final class MetadataTest extends \Tests\TestCase
+final class MetadataTest extends TestCase
 {
     public function testMetadata(): void
     {

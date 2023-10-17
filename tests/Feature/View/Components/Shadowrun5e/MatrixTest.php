@@ -7,11 +7,12 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Matrix;
+use Tests\TestCase;
 
 /**
  * @small
  */
-final class MatrixTest extends \Tests\TestCase
+final class MatrixTest extends TestCase
 {
     /**
      * Test rendering a lack of matrix devices for an existing character.

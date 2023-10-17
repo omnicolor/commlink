@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use ArrayObject;
+use TypeError;
+
 /**
  * Collection of sprites.
- * @extends \ArrayObject<int, Sprite>
+ * @extends ArrayObject<int, Sprite>
  */
-class SpriteArray extends \ArrayObject
+class SpriteArray extends ArrayObject
 {
     /**
      * Add a item to the array.
      * @param ?int $index
      * @param Sprite $sprite
-     * @throws \TypeError
+     * @throws TypeError
      */
     public function offsetSet($index = null, $sprite = null): void
     {
@@ -22,7 +25,7 @@ class SpriteArray extends \ArrayObject
             parent::offsetSet($index, $sprite);
             return;
         }
-        throw new \TypeError(
+        throw new TypeError(
             'SpriteArray only accepts Sprite objects'
         );
     }

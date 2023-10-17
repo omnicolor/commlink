@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Perk;
 use App\Models\Capers\PerkArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the PerkArray class.
@@ -13,7 +16,7 @@ use App\Models\Capers\PerkArray;
  * @group capers
  * @small
  */
-final class PerkArrayTest extends \Tests\TestCase
+final class PerkArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -55,9 +58,9 @@ final class PerkArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->perks[] = new \StdClass();
+        $this->perks[] = new stdClass();
     }
 
     /**
@@ -68,8 +71,8 @@ final class PerkArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->perks->offsetSet(perk: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->perks->offsetSet(perk: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->perks);

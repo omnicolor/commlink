@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\MentorSpirit;
 use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for MentorSpirit class.
@@ -14,7 +15,7 @@ use RuntimeException;
  * @group shadowrun5e
  * @small
  */
-final class MentorSpiritTest extends \Tests\TestCase
+final class MentorSpiritTest extends TestCase
 {
     /**
      * Test trying to load an invalid MentorSpirit.
@@ -23,7 +24,7 @@ final class MentorSpiritTest extends \Tests\TestCase
     public function testLoadInvalid(): void
     {
         MentorSpirit::$spirits = null;
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Mentor spirit ID "foo" is invalid');
         new MentorSpirit('foo');
     }
