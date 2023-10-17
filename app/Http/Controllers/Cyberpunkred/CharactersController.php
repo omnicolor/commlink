@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 /**
@@ -54,7 +55,7 @@ class CharactersController extends Controller
         ?string $step
     ): ?PartialCharacter {
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
 
         // See if the user has already chosen to continue a character.
         $characterId = $request->session()->get('cyberpunkredpartial');
@@ -86,7 +87,7 @@ class CharactersController extends Controller
         ?string $step = null
     ): RedirectResponse | View {
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
         if ('new' === $step) {
             $character = PartialCharacter::create([
                 'owner' => $user->email,
@@ -240,7 +241,7 @@ class CharactersController extends Controller
     {
         $characterId = $request->session()->get('cyberpunkredpartial');
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -259,7 +260,7 @@ class CharactersController extends Controller
     {
         $characterId = $request->session()->get('cyberpunkredpartial');
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -284,7 +285,7 @@ class CharactersController extends Controller
     {
         $characterId = $request->session()->get('cyberpunkredpartial');
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -308,7 +309,7 @@ class CharactersController extends Controller
     {
         $characterId = $request->session()->get('cyberpunkredpartial');
         /** @var User */
-        $user = \Auth::user();
+        $user = Auth::user();
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -338,7 +339,7 @@ class CharactersController extends Controller
     {
         return CharacterResource::collection(
             // @phpstan-ignore-next-line
-            Character::where('owner', \Auth::user()->email)->get()
+            Character::where('owner', Auth::user()->email)->get()
         );
     }
 
@@ -348,7 +349,7 @@ class CharactersController extends Controller
     public function show(string $identifier): JsonResource
     {
         // @phpstan-ignore-next-line
-        $email = \Auth::user()->email;
+        $email = Auth::user()->email;
         return new CharacterResource(
             Character::where('_id', $identifier)
                 ->where('owner', $email)
@@ -361,7 +362,7 @@ class CharactersController extends Controller
      */
     public function view(Character $character): View
     {
-        $user = \Auth::user();
+        $user = Auth::user();
         return view(
             'Cyberpunkred.character',
             [

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\Condition;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for Expanse conditions.
@@ -12,7 +14,7 @@ use App\Models\Expanse\Condition;
  * @group expanse
  * @small
  */
-final class ConditionTest extends \Tests\TestCase
+final class ConditionTest extends TestCase
 {
     /**
      * Test trying to load an invalid Condition.
@@ -20,7 +22,7 @@ final class ConditionTest extends \Tests\TestCase
      */
     public function testLoadInvalidCondition(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Condition ID "q" is invalid');
         new Condition('q');
     }

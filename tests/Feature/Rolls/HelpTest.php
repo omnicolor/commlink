@@ -8,11 +8,13 @@ use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\ChatUser;
 use App\Rolls\Help;
+use Illuminate\Support\Str;
+use Tests\TestCase;
 
 /**
  * @medium
  */
-final class HelpTest extends \Tests\TestCase
+final class HelpTest extends TestCase
 {
     /**
      * Test getting help in an unlinked channel for a registered user that has
@@ -21,10 +23,10 @@ final class HelpTest extends \Tests\TestCase
      */
     public function testGetHelpUnlinkedChannelRegisteredUserNoCampaigns(): void
     {
-        $username = \Str::random(5);
+        $username = Str::random(5);
 
         $channel = new Channel([
-            'server_id' => \Str::random(10),
+            'server_id' => Str::random(10),
             'type' => Channel::TYPE_DISCORD,
         ]);
         $channel->user = $username;
@@ -51,11 +53,11 @@ final class HelpTest extends \Tests\TestCase
      */
     public function testGetHelpUnlinkedChannelRegisteredUserWithCampaigns(): void
     {
-        $username = \Str::random(5);
+        $username = Str::random(5);
 
         $channel = new Channel([
-            'channel_id' => \Str::random(10),
-            'server_id' => \Str::random(10),
+            'channel_id' => Str::random(10),
+            'server_id' => Str::random(10),
             'type' => Channel::TYPE_DISCORD,
         ]);
         $channel->user = $username;

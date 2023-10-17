@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use ArrayObject;
+use TypeError;
+
 /**
  * Collection of Skill objects.
- * @extends \ArrayObject<int, Skill>
+ * @extends ArrayObject<int, Skill>
  */
-class SkillArray extends \ArrayObject
+class SkillArray extends ArrayObject
 {
     /**
      * Add a skill to the array.
      * @param ?int $index
      * @param Skill $skill
-     * @throws \TypeError
+     * @throws TypeError
      */
     public function offsetSet($index = null, $skill = null): void
     {
@@ -22,6 +25,6 @@ class SkillArray extends \ArrayObject
             parent::offsetSet($index, $skill);
             return;
         }
-        throw new \TypeError('SkilllArray only accepts Skill objects');
+        throw new TypeError('SkilllArray only accepts Skill objects');
     }
 }

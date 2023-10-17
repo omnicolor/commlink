@@ -11,7 +11,10 @@ use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Tests\TestCase;
+
+use function json_decode;
 
 /**
  * Tests for getting info about the channel.
@@ -32,7 +35,7 @@ final class InfoResponseTest extends TestCase
         ]);
         $channel->user = 'user id';
         $response = new InfoResponse(channel: $channel);
-        $response = \json_decode((string)$response);
+        $response = json_decode((string)$response);
         self::assertSame('ephemeral', $response->response_type);
         self::assertEquals(
             [
@@ -92,7 +95,7 @@ final class InfoResponseTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->create(['type' => Channel::TYPE_SLACK]);
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -103,7 +106,7 @@ final class InfoResponseTest extends TestCase
         ]);
 
         $response = new InfoResponse(channel: $channel);
-        $response = \json_decode((string)$response);
+        $response = json_decode((string)$response);
         self::assertSame('ephemeral', $response->response_type);
         self::assertEquals(
             [
@@ -162,7 +165,7 @@ final class InfoResponseTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->create(['type' => Channel::TYPE_SLACK]);
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -173,12 +176,12 @@ final class InfoResponseTest extends TestCase
         ]);
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,
-            'character_id' => sha1(\Str::random(10)),
+            'character_id' => sha1(Str::random(10)),
             'chat_user_id' => $chatUser->id,
         ]);
 
         $response = new InfoResponse(channel: $channel);
-        $response = \json_decode((string)$response);
+        $response = json_decode((string)$response);
         self::assertSame('ephemeral', $response->response_type);
         self::assertEquals(
             [
@@ -237,7 +240,7 @@ final class InfoResponseTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->create(['type' => Channel::TYPE_SLACK]);
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -259,7 +262,7 @@ final class InfoResponseTest extends TestCase
         ]);
 
         $response = new InfoResponse(channel: $channel);
-        $response = \json_decode((string)$response);
+        $response = json_decode((string)$response);
         self::assertSame('ephemeral', $response->response_type);
         self::assertEquals(
             [
@@ -326,7 +329,7 @@ final class InfoResponseTest extends TestCase
             'campaign_id' => $campaign,
             'type' => Channel::TYPE_SLACK,
         ]);
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
 
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
@@ -349,7 +352,7 @@ final class InfoResponseTest extends TestCase
         ]);
 
         $response = new InfoResponse(channel: $channel);
-        $response = \json_decode((string)$response);
+        $response = json_decode((string)$response);
         self::assertSame('ephemeral', $response->response_type);
         self::assertEquals(
             [

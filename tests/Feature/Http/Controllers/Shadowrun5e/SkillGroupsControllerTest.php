@@ -6,6 +6,8 @@ namespace Tests\Feature\Http\Controllers\Shadowrun5e;
 
 use App\Models\User;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Config;
+use Tests\TestCase;
 
 /**
  * Tests for the Shadowrun 5E skill groups controller.
@@ -14,7 +16,7 @@ use Illuminate\Http\Response;
  * @group shadowrun5e
  * @medium
  */
-final class SkillGroupsControllerTest extends \Tests\TestCase
+final class SkillGroupsControllerTest extends TestCase
 {
     /**
      * Test loading the collection if the config is broken.
@@ -22,7 +24,7 @@ final class SkillGroupsControllerTest extends \Tests\TestCase
      */
     public function testIndexBrokenConfig(): void
     {
-        \Config::set('app.data_path.shadowrun5e', '/tmp/unused/');
+        Config::set('app.data_path.shadowrun5e', '/tmp/unused/');
         /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)

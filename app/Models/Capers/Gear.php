@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models\Capers;
 
+use RuntimeException;
+
+use function sprintf;
+use function strtolower;
+
 /**
  * @psalm-suppress PossiblyUnusedProperty
  */
@@ -45,10 +50,10 @@ class Gear
         $filename = config('app.data_path.capers') . 'gear.php';
         self::$gear ??= require $filename;
 
-        $id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$gear[$id])) {
-            throw new \RuntimeException(
-                \sprintf('Gear ID "%s" is invalid', $id)
+            throw new RuntimeException(
+                sprintf('Gear ID "%s" is invalid', $id)
             );
         }
 

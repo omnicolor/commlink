@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\ForceTrait;
+use Tests\TestCase;
 
 /**
  * Tests for the Force trait.
@@ -13,7 +14,7 @@ use App\Models\Shadowrun5e\ForceTrait;
  * @group shadowrun5e
  * @small
  */
-final class ForceTraitTest extends \Tests\TestCase
+final class ForceTraitTest extends TestCase
 {
     /**
      * Subject under test.

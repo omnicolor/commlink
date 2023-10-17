@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\AdeptPower;
 use App\Models\Shadowrun5e\AdeptPowerArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the AdeptPowerArray class.
@@ -14,7 +17,7 @@ use App\Models\Shadowrun5e\AdeptPowerArray;
  * @group shadowrun5e
  * @small
  */
-final class AdeptPowerArrayTest extends \Tests\TestCase
+final class AdeptPowerArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -56,9 +59,9 @@ final class AdeptPowerArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->powers[] = new \StdClass();
+        $this->powers[] = new stdClass();
     }
 
     /**
@@ -69,8 +72,8 @@ final class AdeptPowerArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->powers->offsetSet(power: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->powers->offsetSet(power: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->powers);

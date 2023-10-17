@@ -16,11 +16,16 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
+use Tests\TestCase;
+
+use function json_decode;
+use function sprintf;
 
 /**
  * @medium
  */
-final class CampaignTest extends \Tests\TestCase
+final class CampaignTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
@@ -93,7 +98,7 @@ final class CampaignTest extends \Tests\TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(\sprintf(
+        self::expectExceptionMessage(sprintf(
             'This channel is already registered for "%s".',
             $campaign->name
         ));
@@ -124,7 +129,7 @@ final class CampaignTest extends \Tests\TestCase
             'type' => Channel::TYPE_DISCORD,
         ]);
 
-        $expected = \sprintf(
+        $expected = sprintf(
             'This channel is already registered for "%s".',
             $campaign->name
         );
@@ -152,7 +157,7 @@ final class CampaignTest extends \Tests\TestCase
         $channel = Channel::factory()->make(['type' => Channel::TYPE_SLACK]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(\sprintf(
+        self::expectExceptionMessage(sprintf(
             'You must have already created an account on <%s|%s> and '
                 . 'linked it to this server before you can register a '
                 . 'channel to a campaign.',
@@ -180,7 +185,7 @@ final class CampaignTest extends \Tests\TestCase
         /** @var Channel */
         $channel = Channel::factory()->make(['type' => Channel::TYPE_DISCORD]);
 
-        $expected = \sprintf(
+        $expected = sprintf(
             'You must have already created an account on %s (%s) and '
                 . 'linked it to this server before you can register a '
                 . 'channel to a campaign.',
@@ -210,7 +215,7 @@ final class CampaignTest extends \Tests\TestCase
 
         /** @var Channel */
         $channel = Channel::factory()->make(['type' => Channel::TYPE_SLACK]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -240,11 +245,11 @@ final class CampaignTest extends \Tests\TestCase
         Http::preventStrayRequests();
 
         $channel = new Channel([
-            'channel_id' => 'C' . \Str::random(10),
-            'server_id' => 'T' . \Str::random(10),
+            'channel_id' => 'C' . Str::random(10),
+            'server_id' => 'T' . Str::random(10),
             'type' => Channel::TYPE_DISCORD,
         ]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -281,7 +286,7 @@ final class CampaignTest extends \Tests\TestCase
             'system' => 'shadowrun5e',
             'type' => Channel::TYPE_SLACK,
         ]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -291,14 +296,14 @@ final class CampaignTest extends \Tests\TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(\sprintf(
+        self::expectExceptionMessage(sprintf(
             'The channel is already registered to play Shadowrun 5th Edition. '
             . '"%s" is playing Dungeons & Dragons 5th Edition.',
             $campaign->name,
         ));
 
         (new CampaignRoll(
-            \sprintf('campaign %s', $campaign->id),
+            sprintf('campaign %s', $campaign->id),
             'username',
             $channel
         ))
@@ -329,7 +334,7 @@ final class CampaignTest extends \Tests\TestCase
             'system' => 'cyberpunkred',
             'type' => Channel::TYPE_DISCORD,
         ]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -338,7 +343,7 @@ final class CampaignTest extends \Tests\TestCase
             'verified' => true,
         ]);
 
-        $expected = \sprintf(
+        $expected = sprintf(
             'The channel is already registered to play Cyberpunk Red. '
                 . '"%s" is playing Shadowrun 5th Edition.',
             $campaign->name,
@@ -346,7 +351,7 @@ final class CampaignTest extends \Tests\TestCase
         self::assertSame(
             $expected,
             (new CampaignRoll(
-                \sprintf('campaign %d', $campaign->id),
+                sprintf('campaign %d', $campaign->id),
                 'username',
                 $channel
             ))->forDiscord()
@@ -375,7 +380,7 @@ final class CampaignTest extends \Tests\TestCase
             'system' => $campaign->system,
             'type' => Channel::TYPE_SLACK,
         ]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -391,7 +396,7 @@ final class CampaignTest extends \Tests\TestCase
         );
 
         (new CampaignRoll(
-            \sprintf('campaign %s', $campaign->id),
+            sprintf('campaign %s', $campaign->id),
             'username',
             $channel
         ))
@@ -420,7 +425,7 @@ final class CampaignTest extends \Tests\TestCase
             'system' => $campaign->system,
             'type' => Channel::TYPE_DISCORD,
         ]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -434,7 +439,7 @@ final class CampaignTest extends \Tests\TestCase
         self::assertSame(
             $expected,
             (new CampaignRoll(
-                \sprintf('campaign %d', $campaign->id),
+                sprintf('campaign %d', $campaign->id),
                 'username',
                 $channel
             ))->forDiscord()
@@ -465,11 +470,11 @@ final class CampaignTest extends \Tests\TestCase
         ]);
 
         $channel = new Channel([
-            'channel_id' => 'C' . \Str::random(10),
-            'server_id' => 'T' . \Str::random(10),
+            'channel_id' => 'C' . Str::random(10),
+            'server_id' => 'T' . Str::random(10),
             'type' => Channel::TYPE_SLACK,
         ]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
         $channel->username = $this->faker->name;
 
         ChatUser::factory()->create([
@@ -480,9 +485,9 @@ final class CampaignTest extends \Tests\TestCase
             'verified' => true,
         ]);
 
-        $response = \json_decode(
+        $response = json_decode(
             (string)(new CampaignRoll(
-                \sprintf('campaign %s', $campaign->id),
+                sprintf('campaign %s', $campaign->id),
                 'username',
                 $channel
             ))->forSlack()
@@ -490,7 +495,7 @@ final class CampaignTest extends \Tests\TestCase
         self::assertCount(1, $response->attachments);
         self::assertSame('Registered', $response->attachments[0]->title);
         self::assertSame(
-            \sprintf(
+            sprintf(
                 '%s has registered this channel for the "%s" campaign, playing %s.',
                 $channel->username,
                 $campaign->name,
@@ -522,11 +527,11 @@ final class CampaignTest extends \Tests\TestCase
         $campaign = CampaignModel::factory()->create(['gm' => $user->id]);
 
         $channel = new Channel([
-            'channel_id' => 'C' . \Str::random(10),
-            'server_id' => 'T' . \Str::random(10),
+            'channel_id' => 'C' . Str::random(10),
+            'server_id' => 'T' . Str::random(10),
             'type' => Channel::TYPE_DISCORD,
         ]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
         $channel->username = $this->faker->name;
 
         ChatUser::factory()->create([
@@ -538,13 +543,13 @@ final class CampaignTest extends \Tests\TestCase
         ]);
 
         $response = (new CampaignRoll(
-            \sprintf('campaign %d', $campaign->id),
+            sprintf('campaign %d', $campaign->id),
             'username',
             $channel
         ))->forDiscord();
 
         self::assertSame(
-            \sprintf(
+            sprintf(
                 '%s has registered this channel for the "%s" campaign, playing %s.',
                 $channel->username,
                 $campaign->name,
@@ -584,7 +589,7 @@ final class CampaignTest extends \Tests\TestCase
             'system' => $campaign->system,
             'type' => Channel::TYPE_SLACK,
         ]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
         $channel->username = $this->faker->name;
 
         ChatUser::factory()->create([
@@ -595,9 +600,9 @@ final class CampaignTest extends \Tests\TestCase
             'verified' => true,
         ]);
 
-        $response = \json_decode(
+        $response = json_decode(
             (string)(new CampaignRoll(
-                \sprintf('campaign %s', $campaign->id),
+                sprintf('campaign %s', $campaign->id),
                 'username',
                 $channel
             ))->forSlack()
@@ -605,7 +610,7 @@ final class CampaignTest extends \Tests\TestCase
         self::assertCount(1, $response->attachments);
         self::assertSame('Registered', $response->attachments[0]->title);
         self::assertSame(
-            \sprintf(
+            sprintf(
                 '%s has registered this channel for the "%s" campaign, playing %s.',
                 $channel->username,
                 $campaign->name,
@@ -640,7 +645,7 @@ final class CampaignTest extends \Tests\TestCase
             'system' => $campaign->system,
             'type' => Channel::TYPE_DISCORD,
         ]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
         $channel->username = $this->faker->name;
 
         ChatUser::factory()->create([
@@ -652,13 +657,13 @@ final class CampaignTest extends \Tests\TestCase
         ]);
 
         $response = (new CampaignRoll(
-            \sprintf('campaign %d', $campaign->id),
+            sprintf('campaign %d', $campaign->id),
             'username',
             $channel
         ))->forDiscord();
 
         self::assertSame(
-            \sprintf(
+            sprintf(
                 '%s has registered this channel for the "%s" campaign, playing %s.',
                 $channel->username,
                 $campaign->name,

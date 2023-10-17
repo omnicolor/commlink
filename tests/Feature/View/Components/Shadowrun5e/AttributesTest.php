@@ -7,11 +7,12 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Attributes;
+use Tests\TestCase;
 
 /**
  * @small
  */
-final class AttributesTest extends \Tests\TestCase
+final class AttributesTest extends TestCase
 {
     /**
      * Test rendering a mundane character.

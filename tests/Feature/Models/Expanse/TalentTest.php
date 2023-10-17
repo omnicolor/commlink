@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\Talent;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for Expanse talents.
@@ -12,7 +14,7 @@ use App\Models\Expanse\Talent;
  * @group expanse
  * @small
  */
-final class TalentTest extends \Tests\TestCase
+final class TalentTest extends TestCase
 {
     /**
      * Test trying to load an invalid talent.
@@ -20,7 +22,7 @@ final class TalentTest extends \Tests\TestCase
      */
     public function testLoadInvalidTalent(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Talent ID "q" is invalid');
         new Talent('q');
     }
@@ -63,7 +65,7 @@ final class TalentTest extends \Tests\TestCase
      */
     public function testSetLevelInvalid(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Talent level outside allowed values');
         (new Talent('fringer'))->setLevel(99);
     }

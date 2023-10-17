@@ -8,11 +8,12 @@ use App\Models\Cyberpunkred\TarotCard;
 use App\Models\Cyberpunkred\TarotDeck;
 use Generator;
 use InvalidArgumentException;
+use Tests\TestCase;
 
 /**
  * @small
  */
-final class TarotCardTest extends \Tests\TestCase
+final class TarotCardTest extends TestCase
 {
     /**
      * Provider for all of the different cards.

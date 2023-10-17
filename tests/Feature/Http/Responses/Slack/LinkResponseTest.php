@@ -12,7 +12,10 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
+
+use function sha1;
 
 /**
  * Tests for linking a character to a channel.
@@ -87,7 +90,7 @@ final class LinkResponseTest extends TestCase
             'system' => $character->system,
             'type' => Channel::TYPE_SLACK,
         ]);
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -119,7 +122,7 @@ final class LinkResponseTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->create(['type' => Channel::TYPE_SLACK]);
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -129,7 +132,7 @@ final class LinkResponseTest extends TestCase
             'verified' => true,
         ]);
         new LinkResponse(
-            content: sprintf('link %s', sha1(\Str::random(10))),
+            content: sprintf('link %s', sha1(Str::random(10))),
             channel: $channel,
         );
     }
@@ -148,7 +151,7 @@ final class LinkResponseTest extends TestCase
         $otherUser = User::factory()->create();
         /** @var Character */
         $character = Character::factory()->create([
-            '_id' => sha1(\Str::random(10)),
+            '_id' => sha1(Str::random(10)),
             'owner' => $otherUser->email,
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
@@ -157,7 +160,7 @@ final class LinkResponseTest extends TestCase
             'system' => $character->system,
             'type' => Channel::TYPE_SLACK,
         ]);
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -185,7 +188,7 @@ final class LinkResponseTest extends TestCase
 
         /** @var Character */
         $character = Character::factory()->create([
-            '_id' => sha1(\Str::random(10)),
+            '_id' => sha1(Str::random(10)),
             'owner' => $user->email,
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
@@ -196,7 +199,7 @@ final class LinkResponseTest extends TestCase
             'system' => 'expanse',
             'type' => Channel::TYPE_SLACK,
         ]);
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
 
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
@@ -239,7 +242,7 @@ final class LinkResponseTest extends TestCase
             'system' => $character->system,
             'type' => Channel::TYPE_SLACK,
         ]);
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
 
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([

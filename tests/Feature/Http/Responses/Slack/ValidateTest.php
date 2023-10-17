@@ -12,7 +12,10 @@ use App\Models\Character;
 use App\Models\ChatUser;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
+
+use function sprintf;
 
 /**
  * Tests for validating a user from Slack.
@@ -42,9 +45,9 @@ final class ValidateTest extends TestCase
     {
         /** @var Channel */
         $channel = Channel::factory()->make();
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(\sprintf(
+        self::expectExceptionMessage(sprintf(
             'To link your Commlink user, go to the <%s/settings|settings page> '
                 . 'and copy the command listed there for this server. If the '
                 . 'server isn\'t listed, follow the instructions there to add '
@@ -71,7 +74,7 @@ final class ValidateTest extends TestCase
 
         /** @var Channel */
         $channel = Channel::factory()->make();
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
 
         // User that doesn't match the hash.
         /** @var ChatUser */
@@ -84,7 +87,7 @@ final class ValidateTest extends TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(\sprintf(
+        self::expectExceptionMessage(sprintf(
             'We couldn\'t find a Commlink registration for this Slack team and '
                 . 'your user. Go to the <%s/settings|settings page> and copy '
                 . 'the command listed there for this server. If the server '
@@ -111,7 +114,7 @@ final class ValidateTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->make();
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'server_id' => $channel->server_id,
@@ -138,7 +141,7 @@ final class ValidateTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->make();
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'server_id' => $channel->server_id,
@@ -148,7 +151,7 @@ final class ValidateTest extends TestCase
             'verified' => false,
         ]);
         $response = new ValidateResponse(
-            content: \sprintf('validate %s', $chatUser->verification),
+            content: sprintf('validate %s', $chatUser->verification),
             channel: $channel
         );
         self::assertStringContainsString(
@@ -171,7 +174,7 @@ final class ValidateTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->create(['type' => Channel::TYPE_SLACK]);
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'server_id' => $channel->server_id,
@@ -181,7 +184,7 @@ final class ValidateTest extends TestCase
             'verified' => false,
         ]);
         $response = new ValidateResponse(
-            content: \sprintf('validate %s', $chatUser->verification),
+            content: sprintf('validate %s', $chatUser->verification),
             channel: $channel
         );
         self::assertStringNotContainsString(
@@ -200,9 +203,9 @@ final class ValidateTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
         $channel = new Channel();
-        $channel->server_id = 'G' . \Str::random(10);
+        $channel->server_id = 'G' . Str::random(10);
         $channel->type = Channel::TYPE_SLACK;
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'server_id' => $channel->server_id,
@@ -224,7 +227,7 @@ final class ValidateTest extends TestCase
         );
 
         $response = (string)(new ValidateResponse(
-            content: \sprintf('validate %s', $chatUser->verification),
+            content: sprintf('validate %s', $chatUser->verification),
             channel: $channel
         ));
         self::assertStringContainsString($expected, $response);
@@ -242,7 +245,7 @@ final class ValidateTest extends TestCase
 
         /** @var Channel */
         $channel = Channel::factory()->create(['type' => Channel::TYPE_SLACK]);
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
 
         /** @var Character */
         $character = Character::factory()->create([
@@ -260,7 +263,7 @@ final class ValidateTest extends TestCase
             'verified' => false,
         ]);
         $response = (string)(new ValidateResponse(
-            content: \sprintf('validate %s', $chatUser->verification),
+            content: sprintf('validate %s', $chatUser->verification),
             channel: $channel
         ));
         self::assertStringContainsString(

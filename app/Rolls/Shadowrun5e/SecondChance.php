@@ -11,6 +11,9 @@ use App\Models\Slack\TextAttachment;
 use App\Traits\PrettifyRollsForSlack;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Http;
+use stdClass;
+
+use function rsort;
 
 class SecondChance
 {
@@ -19,7 +22,7 @@ class SecondChance
     protected Channel $channel;
     protected ?Character $character;
 
-    public function __construct(public \stdClass $request)
+    public function __construct(public stdClass $request)
     {
         $this->channel = $this->getChannel(
             $request->team->id,
@@ -80,7 +83,7 @@ class SecondChance
             $original_roll[$key] = $roll;
         }
 
-        \rsort($original_roll);
+        rsort($original_roll);
         return (new SlackResponse(channel: $this->channel))
             ->addAttachment(new TextAttachment(
                 title: $original_message->title . ' with second chance',

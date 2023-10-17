@@ -38,7 +38,7 @@ final class WeaponModificationTest extends TestCase
      */
     public function testInvalidId(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage(
             'Modification ID "invalid-item" is invalid'
         );
