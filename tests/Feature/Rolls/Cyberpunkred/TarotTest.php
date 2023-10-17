@@ -11,13 +11,14 @@ use App\Models\Cyberpunkred\TarotDeck;
 use App\Rolls\Cyberpunkred\Tarot;
 use DB;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 /**
  * Tests drawing a Night City Tarot card in Cyberpunk Red.
  * @group cyberpunkred
  * @medium
  */
-final class TarotTest extends \Tests\TestCase
+final class TarotTest extends TestCase
 {
     use WithFaker;
 

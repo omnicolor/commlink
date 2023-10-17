@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
+
 class DashboardController extends Controller
 {
     /**
      * Show dashboard.
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function show(): \Illuminate\View\View
+    public function show(): View
     {
-        return view('dashboard', ['user' => \Auth::user()]);
+        return view('dashboard', ['user' => Auth::user()]);
     }
 }

@@ -7,6 +7,9 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\Gear;
 use App\Models\Shadowrun5e\GearArray;
 use App\Models\Shadowrun5e\GearFactory;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the GearArray class.
@@ -15,7 +18,7 @@ use App\Models\Shadowrun5e\GearFactory;
  * @group shadowrun5e
  * @small
  */
-final class GearArrayTest extends \Tests\TestCase
+final class GearArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -67,9 +70,9 @@ final class GearArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->gears[] = new \StdClass();
+        $this->gears[] = new stdClass();
     }
 
     /**
@@ -80,8 +83,8 @@ final class GearArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->gears->offsetSet(gear: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->gears->offsetSet(gear: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->gears);

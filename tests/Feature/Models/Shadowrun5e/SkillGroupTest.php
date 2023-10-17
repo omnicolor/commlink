@@ -6,6 +6,8 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\ActiveSkill;
 use App\Models\Shadowrun5e\SkillGroup;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for SkillGroups.
@@ -14,7 +16,7 @@ use App\Models\Shadowrun5e\SkillGroup;
  * @group shadowrun5e
  * @small
  */
-final class SkillGroupTest extends \Tests\TestCase
+final class SkillGroupTest extends TestCase
 {
     /**
      * @var SkillGroup Subject under test
@@ -37,7 +39,7 @@ final class SkillGroupTest extends \Tests\TestCase
     public function testInvalidGroup(): void
     {
         SkillGroup::$skillGroups = null;
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage(
             'Skill group ID "invalid-group-id" is invalid'
         );

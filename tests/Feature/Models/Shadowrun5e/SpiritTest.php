@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Spirit;
 use BadMethodCallException;
+use Illuminate\Support\Facades\Config;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -30,7 +31,7 @@ final class SpiritTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $filename = \Config::get('app.data_path.shadowrun5e') . 'spirits.php';
+        $filename = Config::get('app.data_path.shadowrun5e') . 'spirits.php';
         $this->spirits ??= require $filename;
     }
 

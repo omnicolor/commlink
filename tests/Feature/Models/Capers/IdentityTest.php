@@ -7,13 +7,14 @@ namespace Tests\Feature\Models\Capers;
 use App\Models\Capers\Identity;
 use App\Models\Card;
 use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for Capers identities.
  * @group capers
  * @small
  */
-final class IdentityTest extends \Tests\TestCase
+final class IdentityTest extends TestCase
 {
     /**
      * Try to create an invalid Identity.

@@ -12,6 +12,8 @@ use App\Models\Expanse\Origin\Earther;
 use App\Models\Expanse\SocialClass;
 use App\Models\Expanse\Talent;
 use App\Models\Expanse\TalentArray;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for Expanse characters.
@@ -19,7 +21,7 @@ use App\Models\Expanse\TalentArray;
  * @group models
  * @small
  */
-final class CharacterTest extends \Tests\TestCase
+final class CharacterTest extends TestCase
 {
     /**
      * Test displaying the character as a string just shows their name.
@@ -59,7 +61,7 @@ final class CharacterTest extends \Tests\TestCase
     public function testGetBackgroundInvalid(): void
     {
         $character = new Character(['background' => 'invalid']);
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         $unused = $character->background;
     }
 
@@ -142,7 +144,7 @@ final class CharacterTest extends \Tests\TestCase
     public function testGetOriginInvalid(): void
     {
         $character = new Character(['origin' => 'Jovian']);
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         $unused = $character->origin;
     }
 
@@ -164,7 +166,7 @@ final class CharacterTest extends \Tests\TestCase
     public function testGetSocialClassInvalid(): void
     {
         $character = new Character(['socialClass' => 'invalid']);
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         $unused = $character->social_class;
     }
 

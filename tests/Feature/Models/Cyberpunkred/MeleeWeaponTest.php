@@ -7,6 +7,7 @@ namespace Tests\Feature\Models\Cyberpunkred;
 use App\Models\Cyberpunkred\MeleeWeapon;
 use App\Models\Cyberpunkred\Weapon;
 use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for MeleeWeapon class.
@@ -14,7 +15,7 @@ use RuntimeException;
  * @group cyberpunkred
  * @small
  */
-final class MeleeWeaponTest extends \Tests\TestCase
+final class MeleeWeaponTest extends TestCase
 {
     /**
      * Test that trying to load a weapon of any kind loads the data files.

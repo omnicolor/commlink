@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Middleware;
 
 use App\Http\Middleware\TrustHosts;
+use Tests\TestCase;
 
 /**
  * @small
  */
-final class TrustHostsTest extends \Tests\TestCase
+final class TrustHostsTest extends TestCase
 {
     public function testTrustsHosts(): void
     {
