@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Metamagic;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for Metamagic class.
@@ -13,7 +15,7 @@ use App\Models\Shadowrun5e\Metamagic;
  * @group shadowrun5e
  * @small
  */
-final class MetamagicTest extends \Tests\TestCase
+final class MetamagicTest extends TestCase
 {
     /**
      * Test trying to load an invalid Metamagic.
@@ -21,7 +23,7 @@ final class MetamagicTest extends \Tests\TestCase
      */
     public function testLoadInvalid(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Metamagic ID "foo" is invalid');
         new Metamagic('foo');
     }
@@ -42,7 +44,7 @@ final class MetamagicTest extends \Tests\TestCase
      */
     public function testFindByNameNotFound(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Metamagic "not found" was not found');
         Metamagic::findByName('Not Found');
     }

@@ -27,6 +27,11 @@ use RuntimeException;
 use SimpleXMLElement;
 use ZipArchive;
 
+use function sprintf;
+
+use const DIRECTORY_SEPARATOR;
+use const PHP_EOL;
+
 /**
  * Importer class for Hero Lab Shadowrun 5E profiles.
  * @psalm-suppress UnusedClass
@@ -237,7 +242,7 @@ class Shadowrun5eConverter implements ConverterInterface
     protected function parseFiles(): void
     {
         // Load the index file.
-        $index = implode(\DIRECTORY_SEPARATOR, [$this->directory, 'index.xml']);
+        $index = implode(DIRECTORY_SEPARATOR, [$this->directory, 'index.xml']);
         try {
             $index = simplexml_load_file($index);
         } catch (ErrorException) {
@@ -258,9 +263,9 @@ class Shadowrun5eConverter implements ConverterInterface
             $file = sprintf(
                 '%s%s%s%s%s',
                 $this->directory,
-                \DIRECTORY_SEPARATOR,
+                DIRECTORY_SEPARATOR,
                 $statblock['folder'],
-                \DIRECTORY_SEPARATOR,
+                DIRECTORY_SEPARATOR,
                 $statblock['filename'],
             );
             $xml = simplexml_load_file($file);
@@ -276,8 +281,8 @@ class Shadowrun5eConverter implements ConverterInterface
         $meta = sprintf(
             '%s%sherolab%slead%d.xml',
             $this->directory,
-            \DIRECTORY_SEPARATOR,
-            \DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR,
             $character['herolableadindex'],
         );
 
@@ -1022,7 +1027,7 @@ class Shadowrun5eConverter implements ConverterInterface
      */
     protected function parseVehicleStatBlock(string $stats, string $name): array
     {
-        $stats = explode(\PHP_EOL, $stats);
+        $stats = explode(PHP_EOL, $stats);
         $modifications = [];
         $weapons = [];
         $gear = [];
@@ -1201,7 +1206,7 @@ class Shadowrun5eConverter implements ConverterInterface
             next($stats);
         }
         if (null === $vehicle) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Could not parse stats for "%s"',
                 $name,
             ));
@@ -1243,9 +1248,9 @@ class Shadowrun5eConverter implements ConverterInterface
                     $file = sprintf(
                         '%s%s%s%s%s',
                         $this->directory,
-                        \DIRECTORY_SEPARATOR,
+                        DIRECTORY_SEPARATOR,
                         (string)$stat['folder'],
-                        \DIRECTORY_SEPARATOR,
+                        DIRECTORY_SEPARATOR,
                         (string)$stat['filename'],
                     );
                     $stats = file_get_contents($file);

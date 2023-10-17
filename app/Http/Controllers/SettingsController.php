@@ -8,6 +8,7 @@ use App\Http\Requests\LinkUserRequest;
 use App\Models\ChatUser;
 use App\Models\Traits\InteractsWithDiscord;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class SettingsController extends Controller
@@ -24,7 +25,7 @@ class SettingsController extends Controller
             'settings',
             [
                 'discordOauthURL' => $this->getDiscordOauthURL(),
-                'user' => \Auth::user(),
+                'user' => Auth::user(),
             ]
         );
     }
@@ -41,7 +42,7 @@ class SettingsController extends Controller
         $remoteUserId = $request->input('user-id');
 
         // @phpstan-ignore-next-line
-        $userId = \Auth::user()->id;
+        $userId = Auth::user()->id;
 
         $chatUser = ChatUser::where('server_id', $serverId)
             ->where('remote_user_id', $remoteUserId)
@@ -93,7 +94,7 @@ class SettingsController extends Controller
         $serverId = $request->input('server-id');
         $remoteUserId = $request->input('user-id');
         // @phpstan-ignore-next-line
-        $userId = \Auth::user()->id;
+        $userId = Auth::user()->id;
 
         $chatUser = ChatUser::where('server_id', $serverId)
             ->where('remote_user_id', $remoteUserId)

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Cyberpunkred\Role;
 
 use App\Models\Cyberpunkred\Role\Netrunner;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for the Netrunner role.
@@ -12,7 +13,7 @@ use App\Models\Cyberpunkred\Role\Netrunner;
  * @group models
  * @small
  */
-final class NetrunnerTest extends \PHPUnit\Framework\TestCase
+final class NetrunnerTest extends TestCase
 {
     /**
      * Test the toString method.

@@ -10,13 +10,14 @@ use App\Models\Capers\StandardDeck;
 use App\Models\Channel;
 use App\Rolls\Capers\Shuffle;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 /**
  * Tests for shuffling a player's deck in the Capers system.
  * @group capers
  * @medium
  */
-final class ShuffleTest extends \Tests\TestCase
+final class ShuffleTest extends TestCase
 {
     use WithFaker;
 

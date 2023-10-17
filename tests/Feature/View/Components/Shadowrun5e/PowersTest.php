@@ -7,11 +7,12 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Powers;
+use Tests\TestCase;
 
 /**
  * @small
  */
-final class PowersTest extends \Tests\TestCase
+final class PowersTest extends TestCase
 {
     /**
      * Test rendering a lack of powers for an existing character.
