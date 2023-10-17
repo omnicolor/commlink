@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\Skill;
 use App\Models\Cyberpunkred\SkillArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the SkillArray class.
@@ -13,7 +16,7 @@ use App\Models\Cyberpunkred\SkillArray;
  * @group models
  * @small
  */
-final class SkillArrayTest extends \Tests\TestCase
+final class SkillArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -56,9 +59,9 @@ final class SkillArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeThrowsException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->skills[] = new \StdClass();
+        $this->skills[] = new stdClass();
     }
 
     /**
@@ -70,8 +73,8 @@ final class SkillArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->skills->offsetSet(skill: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->skills->offsetSet(skill: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->skills);

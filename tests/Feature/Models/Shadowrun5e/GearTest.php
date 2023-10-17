@@ -10,6 +10,8 @@ use App\Models\Shadowrun5e\GearModification;
 use App\Models\Shadowrun5e\Program;
 use App\Models\Shadowrun5e\Vehicle;
 use App\Models\Shadowrun5e\Weapon;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for gear class.
@@ -18,7 +20,7 @@ use App\Models\Shadowrun5e\Weapon;
  * @group shadowrun5e
  * @small
  */
-final class GearTest extends \Tests\TestCase
+final class GearTest extends TestCase
 {
     /**
      * @var Gear Subject under test
@@ -40,7 +42,7 @@ final class GearTest extends \Tests\TestCase
      */
     public function testLoadingInvalidItemThrowsException(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Item ID "invalid-id" is invalid');
         Gear::$gear = null;
         new Gear('invalid-id');
@@ -138,7 +140,7 @@ final class GearTest extends \Tests\TestCase
      */
     public function testBuildInvalid(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         Gear::build(['id' => 'invalid']);
     }
 
@@ -235,7 +237,7 @@ final class GearTest extends \Tests\TestCase
      */
     public function testFindByNameNotFound(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Gear name "Not Found" was not found');
         Gear::$gear = null;
         Gear::findByName('Not Found');

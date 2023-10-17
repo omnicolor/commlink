@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use ArrayObject;
+use TypeError;
+
 /**
  * Collection of adept powers.
- * @extends \ArrayObject<int, AdeptPower>
+ * @extends ArrayObject<int, AdeptPower>
  */
-class AdeptPowerArray extends \ArrayObject
+class AdeptPowerArray extends ArrayObject
 {
     /**
      * Add a power to the array.
      * @param ?int $index
      * @param AdeptPower $power
-     * @throws \TypeError
+     * @throws TypeError
      */
     public function offsetSet($index = null, $power = null): void
     {
@@ -22,6 +25,6 @@ class AdeptPowerArray extends \ArrayObject
             parent::offsetSet($index, $power);
             return;
         }
-        throw new \TypeError('AdeptPowerArray only accepts AdeptPower objects');
+        throw new TypeError('AdeptPowerArray only accepts AdeptPower objects');
     }
 }

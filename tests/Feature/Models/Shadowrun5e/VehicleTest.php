@@ -7,6 +7,8 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\Vehicle;
 use App\Models\Shadowrun5e\VehicleModification;
 use App\Models\Shadowrun5e\Weapon;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for the Vehicle class.
@@ -15,7 +17,7 @@ use App\Models\Shadowrun5e\Weapon;
  * @group shadowrun5e
  * @small
  */
-final class VehicleTest extends \Tests\TestCase
+final class VehicleTest extends TestCase
 {
     /**
      * Test trying to load an invalid vehicle.
@@ -23,7 +25,7 @@ final class VehicleTest extends \Tests\TestCase
      */
     public function testLoadInvalidVehicle(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Vehicle ID "unknown" is invalid');
         new Vehicle(['id' => 'unknown']);
     }

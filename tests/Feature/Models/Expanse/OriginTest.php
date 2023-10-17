@@ -8,6 +8,8 @@ use App\Models\Expanse\Origin;
 use App\Models\Expanse\Origin\Belter;
 use App\Models\Expanse\Origin\Earther;
 use App\Models\Expanse\Origin\Martian;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for Expanse origins.
@@ -15,7 +17,7 @@ use App\Models\Expanse\Origin\Martian;
  * @group expanse
  * @small
  */
-final class OriginTest extends \Tests\TestCase
+final class OriginTest extends TestCase
 {
     /**
      * Test trying to create an invalid origin.
@@ -23,7 +25,7 @@ final class OriginTest extends \Tests\TestCase
      */
     public function testInvalidOrigin(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Origin "jovian" is invalid');
         Origin::factory('Jovian');
     }

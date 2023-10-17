@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\License;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for License class.
@@ -13,7 +14,7 @@ use App\Models\Shadowrun5e\License;
  * @group shadowrun5e
  * @small
  */
-final class LicenseTest extends \PHPUnit\Framework\TestCase
+final class LicenseTest extends TestCase
 {
     public function testGetCost(): void
     {

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\SocialClass;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for Expanse social classes.
@@ -12,7 +14,7 @@ use App\Models\Expanse\SocialClass;
  * @group expanse
  * @small
  */
-final class SocialClassTest extends \Tests\TestCase
+final class SocialClassTest extends TestCase
 {
     /**
      * Test trying to load an invalid class.
@@ -20,7 +22,7 @@ final class SocialClassTest extends \Tests\TestCase
      */
     public function testLoadInvalidClass(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Social Class ID "q" is invalid');
         new SocialClass('q');
     }

@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Quality;
 use App\Models\Shadowrun5e\QualityArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the QualityArray class.
@@ -14,7 +17,7 @@ use App\Models\Shadowrun5e\QualityArray;
  * @group shadowrun5e
  * @small
  */
-final class QualityArrayTest extends \Tests\TestCase
+final class QualityArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -56,12 +59,12 @@ final class QualityArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         self::expectExceptionMessage(
             'QualityArray only accepts Quality objects'
         );
         // @phpstan-ignore-next-line
-        $this->qualities[] = new \StdClass();
+        $this->qualities[] = new stdClass();
     }
 
     /**
@@ -72,8 +75,8 @@ final class QualityArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->qualities->offsetSet(quality: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->qualities->offsetSet(quality: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->qualities);

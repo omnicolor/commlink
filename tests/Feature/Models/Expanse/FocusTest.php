@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\Focus;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for Expanse focuses.
@@ -12,7 +14,7 @@ use App\Models\Expanse\Focus;
  * @group expanse
  * @small
  */
-final class FocusTest extends \Tests\TestCase
+final class FocusTest extends TestCase
 {
     /**
      * Test trying to load an invalid focus.
@@ -20,7 +22,7 @@ final class FocusTest extends \Tests\TestCase
      */
     public function testLoadInvalidFocus(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Focus ID "q" is invalid');
         new Focus('q');
     }

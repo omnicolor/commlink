@@ -7,6 +7,8 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\Commlink;
 use App\Models\Shadowrun5e\Gear;
 use App\Models\Shadowrun5e\GearFactory;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for the gear factory.
@@ -15,7 +17,7 @@ use App\Models\Shadowrun5e\GearFactory;
  * @group shadowrun5e
  * @small
  */
-final class GearFactoryTest extends \Tests\TestCase
+final class GearFactoryTest extends TestCase
 {
     /**
      * Test trying to get a string ID that isn't found.
@@ -23,7 +25,7 @@ final class GearFactoryTest extends \Tests\TestCase
      */
     public function testGetInvalidString(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Item ID "invalid" is invalid');
         GearFactory::get('invalid');
     }
@@ -34,7 +36,7 @@ final class GearFactoryTest extends \Tests\TestCase
      */
     public function testGetInvalidArrayId(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Item ID "invalid" is invalid');
         GearFactory::get(['id' => 'invalid']);
     }

@@ -6,6 +6,8 @@ namespace Tests\Feature\Http\Controllers\Expanse;
 
 use App\Models\User;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Config;
+use Tests\TestCase;
 
 /**
  * Tests for the social classes controller.
@@ -13,7 +15,7 @@ use Illuminate\Http\Response;
  * @group expanse
  * @medium
  */
-final class SocialClassesControllerTest extends \Tests\TestCase
+final class SocialClassesControllerTest extends TestCase
 {
     /**
      * Test loading the collection if the config is broken.
@@ -21,7 +23,7 @@ final class SocialClassesControllerTest extends \Tests\TestCase
      */
     public function testIndexBrokenConfig(): void
     {
-        \Config::set('app.data_path.expanse', '/tmp/unused/');
+        Config::set('app.data_path.expanse', '/tmp/unused/');
         /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)

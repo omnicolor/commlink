@@ -7,6 +7,8 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\Vehicle;
 use App\Models\Shadowrun5e\VehicleModification;
 use App\Models\Shadowrun5e\VehicleModificationSlotType;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for Vehicle Modifications.
@@ -15,7 +17,7 @@ use App\Models\Shadowrun5e\VehicleModificationSlotType;
  * @group shadowrun5e
  * @small
  */
-final class VehicleModificationTest extends \Tests\TestCase
+final class VehicleModificationTest extends TestCase
 {
     /**
      * Test trying to load an invalid modification.
@@ -23,7 +25,7 @@ final class VehicleModificationTest extends \Tests\TestCase
      */
     public function testLoadInvalid(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage(
             'Vehicle modification "invalid" is invalid'
         );

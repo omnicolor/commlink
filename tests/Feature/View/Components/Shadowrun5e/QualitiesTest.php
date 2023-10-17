@@ -7,11 +7,12 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Qualities;
+use Tests\TestCase;
 
 /**
  * @small
  */
-final class QualitiesTest extends \Tests\TestCase
+final class QualitiesTest extends TestCase
 {
     /**
      * Test charGen property with an existing character.

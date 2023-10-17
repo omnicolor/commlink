@@ -17,7 +17,10 @@ use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
 use Tests\TestCase;
+
+use const PHP_EOL;
 
 /**
  * Tests for rolling initiative in Cyberpunk Red.
@@ -132,7 +135,7 @@ final class InitTest extends TestCase
             ->forDiscord();
 
         $expected = sprintf('**Initiative added for %s**', $channel->username)
-            . \PHP_EOL . 'Rolled: 4 + 8 + 2 = 14';
+            . PHP_EOL . 'Rolled: 4 + 8 + 2 = 14';
         self::assertSame($expected, $response);
 
         Event::assertNotDispatched(InitiativeAdded::class);
@@ -153,7 +156,7 @@ final class InitTest extends TestCase
             'type' => Channel::TYPE_SLACK,
         ]);
         $channel->username = $this->faker->name;
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
@@ -217,7 +220,7 @@ final class InitTest extends TestCase
             'type' => Channel::TYPE_DISCORD,
         ]);
         $channel->username = $this->faker->name;
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
@@ -242,7 +245,7 @@ final class InitTest extends TestCase
             ->forDiscord();
 
         $expected = sprintf('**Initiative added for %s**', (string)$character)
-            . \PHP_EOL
+            . PHP_EOL
             . sprintf(
                 'Rolled: 4 + %d - 2 = %d',
                 $character->reflexes,
@@ -276,7 +279,7 @@ final class InitTest extends TestCase
             'type' => Channel::TYPE_DISCORD,
         ]);
         $channel->username = $this->faker->name;
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
@@ -301,7 +304,7 @@ final class InitTest extends TestCase
             ->forDiscord();
 
         $expected = sprintf('**Initiative added for %s**', (string)$character)
-            . \PHP_EOL
+            . PHP_EOL
             . sprintf(
                 'Rolled: 4 + %d - 2 = %d',
                 $character->reflexes,

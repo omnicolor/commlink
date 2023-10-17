@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Cyberpunkred\Role;
 
 use App\Models\Cyberpunkred\Role;
+use OutOfBoundsException;
 
 class Fixer extends Role
 {
@@ -100,7 +101,7 @@ class Fixer extends Role
                 . 'machinery, military vehicles, and aircraft.',
             self::TYPE_EXCLUSIVE_AGENT => 'Act as an exclusive agent for a '
                 . 'Media, Rockerboy, or a Nomad Pack.',
-            default => throw new \OutOfBoundsException(),
+            default => throw new OutOfBoundsException(),
         };
     }
 }

@@ -7,6 +7,9 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\ActiveSkill;
 use App\Models\Shadowrun5e\Skill;
 use App\Models\Shadowrun5e\SkillArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the SkillArray class.
@@ -15,7 +18,7 @@ use App\Models\Shadowrun5e\SkillArray;
  * @group shadowrun5e
  * @small
  */
-final class SkillArrayTest extends \Tests\TestCase
+final class SkillArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -57,9 +60,9 @@ final class SkillArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->skills[] = new \StdClass();
+        $this->skills[] = new stdClass();
     }
 
     /**
@@ -70,8 +73,8 @@ final class SkillArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->skills->offsetSet(skill: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->skills->offsetSet(skill: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->skills);

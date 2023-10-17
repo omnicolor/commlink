@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Power;
 use App\Models\Capers\PowerArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the PowerArray class.
@@ -13,7 +16,7 @@ use App\Models\Capers\PowerArray;
  * @group models
  * @small
  */
-final class PowerArrayTest extends \Tests\TestCase
+final class PowerArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -55,9 +58,9 @@ final class PowerArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->powers[] = new \StdClass();
+        $this->powers[] = new stdClass();
     }
 
     /**
@@ -68,8 +71,8 @@ final class PowerArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->powers->offsetSet(power: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->powers->offsetSet(power: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->powers);

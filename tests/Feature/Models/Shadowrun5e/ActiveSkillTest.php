@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\ActiveSkill;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for ActiveSkill class.
@@ -13,7 +15,7 @@ use App\Models\Shadowrun5e\ActiveSkill;
  * @group shadowrun5e
  * @small
  */
-final class ActiveSkillTest extends \Tests\TestCase
+final class ActiveSkillTest extends TestCase
 {
     /**
      * Test trying to load an invalid skill throws an exception.
@@ -22,7 +24,7 @@ final class ActiveSkillTest extends \Tests\TestCase
     public function testLoadingInvalidSkill(): void
     {
         ActiveSkill::$skills = null;
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Skill ID "not-found-id" is invalid');
         new ActiveSkill('not-found-id', 0);
     }
@@ -145,7 +147,7 @@ final class ActiveSkillTest extends \Tests\TestCase
      */
     public function testFindIdByNameNotFound(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Active skill "Foo" not found');
         ActiveSkill::$skills = null;
         ActiveSkill::findIdByName('Foo');

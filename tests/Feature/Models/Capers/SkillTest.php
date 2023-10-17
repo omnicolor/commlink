@@ -6,13 +6,14 @@ namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Skill;
 use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for Capers skills.
  * @group capers
  * @small
  */
-final class SkillTest extends \Tests\TestCase
+final class SkillTest extends TestCase
 {
     /**
      * Test trying to initialize an invalid skill.

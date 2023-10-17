@@ -19,7 +19,10 @@ use Discord\Parts\User\User;
 use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
 use Tests\TestCase;
+
+use const PHP_EOL;
 
 /**
  * Tests for Discord message event listener.
@@ -46,11 +49,11 @@ final class HandleDiscordMessageTest extends TestCase
     public function testHandleInvalidCommand(): void
     {
         $serverStub = self::createStub(Guild::class);
-        $serverStub->method('__get')->willReturn(\Str::random(10));
+        $serverStub->method('__get')->willReturn(Str::random(10));
 
         $channelMap = [
-            ['id', \Str::random(14)],
-            ['name', \Str::random(12)],
+            ['id', Str::random(14)],
+            ['name', Str::random(12)],
             ['guild', $serverStub],
         ];
         $channelMock = $this->createMock(TextChannel::class);
@@ -99,15 +102,15 @@ final class HandleDiscordMessageTest extends TestCase
             ->with(2, 6)
             ->andReturn([3, 3]);
         $tag = $this->createDiscordTag();
-        $expected = sprintf('**%s rolled 6**', $tag) . \PHP_EOL
-            . 'Rolling: 2d6 = [6] = 6' . \PHP_EOL
+        $expected = sprintf('**%s rolled 6**', $tag) . PHP_EOL
+            . 'Rolling: 2d6 = [6] = 6' . PHP_EOL
             . '_Rolls: 3, 3_';
 
         $serverStub = self::createStub(Guild::class);
-        $serverStub->method('__get')->willReturn(\Str::random(10));
+        $serverStub->method('__get')->willReturn(Str::random(10));
 
         $channelMap = [
-            ['name', \Str::random(12)],
+            ['name', Str::random(12)],
             ['guild', $serverStub],
         ];
         $channelMock = $this->createMock(TextChannel::class);
@@ -144,7 +147,7 @@ final class HandleDiscordMessageTest extends TestCase
      */
     public function testHandleInfoResponse(): void
     {
-        $serverNameAndId = \Str::random(10);
+        $serverNameAndId = Str::random(10);
         $serverStub = self::createStub(Guild::class);
         $serverStub->method('__get')->willReturn($serverNameAndId);
 
@@ -157,17 +160,17 @@ final class HandleDiscordMessageTest extends TestCase
         $userMock = $this->createMock(User::class);
         $userMock->method('__get')->willReturnMap($userMap);
 
-        $channelName = \Str::random(12);
-        $channelId = \Str::random(10);
-        $expected = '**Debugging info**' . \PHP_EOL
-            . 'User Tag: ' . $userTag . \PHP_EOL
-            . 'User ID: ' . $userId . \PHP_EOL
-            . 'Server Name: ' . $serverNameAndId . \PHP_EOL
-            . 'Server ID: ' . $serverNameAndId . \PHP_EOL
-            . 'Channel Name: ' . $channelName . \PHP_EOL
-            . 'Channel ID: ' . $channelId . \PHP_EOL
-            . 'System: Unregistered' . \PHP_EOL
-            . 'Character: No character' . \PHP_EOL
+        $channelName = Str::random(12);
+        $channelId = Str::random(10);
+        $expected = '**Debugging info**' . PHP_EOL
+            . 'User Tag: ' . $userTag . PHP_EOL
+            . 'User ID: ' . $userId . PHP_EOL
+            . 'Server Name: ' . $serverNameAndId . PHP_EOL
+            . 'Server ID: ' . $serverNameAndId . PHP_EOL
+            . 'Channel Name: ' . $channelName . PHP_EOL
+            . 'Channel ID: ' . $channelId . PHP_EOL
+            . 'System: Unregistered' . PHP_EOL
+            . 'Character: No character' . PHP_EOL
             . 'Campaign: No campaign';
         $channelMap = [
             ['guild', $serverStub],
@@ -203,7 +206,7 @@ final class HandleDiscordMessageTest extends TestCase
     {
         Event::fake();
 
-        $serverNameAndId = \Str::random(10);
+        $serverNameAndId = Str::random(10);
         $serverStub = self::createStub(Guild::class);
         $serverStub->method('__get')->willReturn($serverNameAndId);
 
@@ -216,8 +219,8 @@ final class HandleDiscordMessageTest extends TestCase
         $userMock = $this->createMock(User::class);
         $userMock->method('__get')->willReturnMap($userMap);
 
-        $channelName = \Str::random(12);
-        $channelId = \Str::random(10);
+        $channelName = Str::random(12);
+        $channelId = Str::random(10);
         $expected = sprintf(
             'To link your Commlink user, go to the settings page (%s/settings) '
                 . 'and copy the command listed there for this server. If the '
@@ -264,7 +267,7 @@ final class HandleDiscordMessageTest extends TestCase
     {
         Event::fake();
 
-        $serverNameAndId = \Str::random(10);
+        $serverNameAndId = Str::random(10);
         $serverStub = self::createStub(Guild::class);
         $serverStub->method('__get')->willReturn($serverNameAndId);
 
@@ -277,8 +280,8 @@ final class HandleDiscordMessageTest extends TestCase
         $userMock = $this->createMock(User::class);
         $userMock->method('__get')->willReturnMap($userMap);
 
-        $channelName = \Str::random(12);
-        $channelId = \Str::random(10);
+        $channelName = Str::random(12);
+        $channelId = Str::random(10);
         $expected = sprintf(
             'We couldn\'t find a Commlink registration for this Discord server '
                 . 'and your user. Go to the settings page (%s/settings) and '
@@ -333,7 +336,7 @@ final class HandleDiscordMessageTest extends TestCase
     {
         Event::fake();
 
-        $serverNameAndId = \Str::random(10);
+        $serverNameAndId = Str::random(10);
         $serverStub = self::createStub(Guild::class);
         $serverStub->method('__get')->willReturn($serverNameAndId);
 
@@ -346,8 +349,8 @@ final class HandleDiscordMessageTest extends TestCase
         $userMock = $this->createMock(User::class);
         $userMock->method('__get')->willReturnMap($userMap);
 
-        $channelName = \Str::random(12);
-        $channelId = \Str::random(10);
+        $channelName = Str::random(12);
+        $channelId = Str::random(10);
         $expected = 'It looks like you\'re already verified!';
         $channelMap = [
             ['guild', $serverStub],
@@ -393,7 +396,7 @@ final class HandleDiscordMessageTest extends TestCase
     {
         Event::fake();
 
-        $serverNameAndId = \Str::random(10);
+        $serverNameAndId = Str::random(10);
         $serverStub = self::createStub(Guild::class);
         $serverStub->method('__get')->willReturn($serverNameAndId);
 
@@ -406,8 +409,8 @@ final class HandleDiscordMessageTest extends TestCase
         $userMock = $this->createMock(User::class);
         $userMock->method('__get')->willReturnMap($userMap);
 
-        $channelName = \Str::random(12);
-        $channelId = \Str::random(10);
+        $channelName = Str::random(12);
+        $channelId = Str::random(10);
         $channelMap = [
             ['guild', $serverStub],
             ['id', $channelId],
@@ -458,11 +461,11 @@ final class HandleDiscordMessageTest extends TestCase
         $expected = "**discord#tag made a roll**\n1d10 + 6 = 3 + 6 = 9";
 
         $serverStub = self::createStub(Guild::class);
-        $serverStub->method('__get')->willReturn(\Str::random(10));
+        $serverStub->method('__get')->willReturn(Str::random(10));
 
         $channelMap = [
-            ['id', \Str::random(14)],
-            ['name', \Str::random(12)],
+            ['id', Str::random(14)],
+            ['name', Str::random(12)],
             ['guild', $serverStub],
         ];
         $channelMock = $this->createMock(TextChannel::class);
@@ -505,11 +508,11 @@ final class HandleDiscordMessageTest extends TestCase
         Event::fake();
 
         $serverStub = self::createStub(Guild::class);
-        $serverStub->method('__get')->willReturn(\Str::random(10));
+        $serverStub->method('__get')->willReturn(Str::random(10));
 
         $channelMap = [
-            ['id', \Str::random(14)],
-            ['name', \Str::random(12)],
+            ['id', Str::random(14)],
+            ['name', Str::random(12)],
             ['guild', $serverStub],
         ];
         $channelMock = $this->createMock(TextChannel::class);
@@ -556,11 +559,11 @@ final class HandleDiscordMessageTest extends TestCase
         $expected = 'Slack/Discord bot that lets you roll Shadowrun 5E dice.';
 
         $serverStub = self::createStub(Guild::class);
-        $serverStub->method('__get')->willReturn(\Str::random(10));
+        $serverStub->method('__get')->willReturn(Str::random(10));
 
         $channelMap = [
-            ['id', \Str::random(14)],
-            ['name', \Str::random(12)],
+            ['id', Str::random(14)],
+            ['name', Str::random(12)],
             ['guild', $serverStub],
         ];
         $channelMock = $this->createMock(TextChannel::class);
@@ -602,11 +605,11 @@ final class HandleDiscordMessageTest extends TestCase
         $expected = sprintf('**About %s**', config('app.name'));
 
         $serverStub = self::createStub(Guild::class);
-        $serverStub->method('__get')->willReturn(\Str::random(10));
+        $serverStub->method('__get')->willReturn(Str::random(10));
 
         $channelMap = [
-            ['id', \Str::random(14)],
-            ['name', \Str::random(12)],
+            ['id', Str::random(14)],
+            ['name', Str::random(12)],
             ['guild', $serverStub],
         ];
         $channelMock = $this->createMock(TextChannel::class);

@@ -6,6 +6,7 @@ namespace Tests\Feature\Rolls\Expanse;
 
 use App\Models\Channel;
 use App\Rolls\Expanse\Help;
+use Tests\TestCase;
 
 /**
  * Tests for getting help in a Channel registered to The Expanse.
@@ -14,7 +15,7 @@ use App\Rolls\Expanse\Help;
  * @group slack
  * @medium
  */
-final class HelpTest extends \Tests\TestCase
+final class HelpTest extends TestCase
 {
     /**
      * Test getting help via Slack.

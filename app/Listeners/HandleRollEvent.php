@@ -7,10 +7,13 @@ namespace App\Listeners;
 use App\Events\RollEvent;
 use App\Models\Channel;
 use App\Rolls\Roll;
+use Exception;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
+
+use function sprintf;
 
 class HandleRollEvent
 {
@@ -62,7 +65,7 @@ class HandleRollEvent
     {
         try {
             $data = $roll->forSlack()->getData();
-        } catch (\Exception) {
+        } catch (Exception) {
             return;
         }
         $data->response_type = null;
@@ -70,7 +73,7 @@ class HandleRollEvent
 
         // TODO: Add error handling.
         Http::withHeaders([
-            'Authorization' => \sprintf('Bearer %s', config('app.slack_token')),
+            'Authorization' => sprintf('Bearer %s', config('app.slack_token')),
         ])->post('https://slack.com/api/chat.postMessage', (array)$data);
     }
 

@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Identity;
 use App\Models\Shadowrun5e\IdentityArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the IdentityArray class.
@@ -14,7 +17,7 @@ use App\Models\Shadowrun5e\IdentityArray;
  * @group shadowrun5e
  * @small
  */
-final class IdentityArrayTest extends \Tests\TestCase
+final class IdentityArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -56,12 +59,12 @@ final class IdentityArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         self::expectExceptionMessage(
             'IdentityArray only accepts Identity objects'
         );
         // @phpstan-ignore-next-line
-        $this->identities[] = new \StdClass();
+        $this->identities[] = new stdClass();
     }
 
     /**
@@ -72,8 +75,8 @@ final class IdentityArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->identities->offsetSet(identity: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->identities->offsetSet(identity: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->identities);

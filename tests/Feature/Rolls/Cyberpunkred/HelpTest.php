@@ -10,6 +10,7 @@ use App\Models\ChatUser;
 use App\Models\Cyberpunkred\Character;
 use App\Rolls\Cyberpunkred\Help;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -64,7 +65,7 @@ final class HelpTest extends TestCase
             'type' => Channel::TYPE_SLACK,
         ]);
         $channel->username = 'user';
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -98,7 +99,7 @@ final class HelpTest extends TestCase
             'type' => Channel::TYPE_SLACK,
         ]);
         $channel->username = 'user';
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
@@ -145,7 +146,7 @@ final class HelpTest extends TestCase
             'type' => Channel::TYPE_SLACK,
         ]);
         $channel->username = 'user';
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([

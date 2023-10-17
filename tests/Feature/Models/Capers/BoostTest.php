@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Boost;
+use Tests\TestCase;
 
 /**
  * Tests for Boost model.
  * @group capers
  * @small
  */
-final class BoostTest extends \Tests\TestCase
+final class BoostTest extends TestCase
 {
     /**
      * Test creating a new Boost.

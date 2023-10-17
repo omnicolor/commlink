@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Cyberpunkred\Role;
 
 use App\Models\Cyberpunkred\Role\Rockerboy;
 use OutOfBoundsException;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for the Rockerboy role.
@@ -13,7 +14,7 @@ use OutOfBoundsException;
  * @group models
  * @small
  */
-final class RockerboyTest extends \PHPUnit\Framework\TestCase
+final class RockerboyTest extends TestCase
 {
     /**
      * Subject under test.

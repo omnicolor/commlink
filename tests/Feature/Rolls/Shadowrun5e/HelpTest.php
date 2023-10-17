@@ -12,6 +12,7 @@ use App\Models\ChatUser;
 use App\Models\User;
 use App\Rolls\Shadowrun5e\Help;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -118,7 +119,7 @@ final class HelpTest extends TestCase
             'system' => 'shadowrun5e',
             'type' => Channel::TYPE_SLACK,
         ]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -155,7 +156,7 @@ final class HelpTest extends TestCase
             'system' => 'shadowrun5e',
             'type' => Channel::TYPE_SLACK,
         ]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
@@ -224,7 +225,7 @@ final class HelpTest extends TestCase
             'system' => 'shadowrun5e',
             'type' => Channel::TYPE_SLACK,
         ]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
@@ -303,7 +304,7 @@ final class HelpTest extends TestCase
             'type' => Channel::TYPE_SLACK,
         ]);
 
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,

@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use ArrayObject;
+use TypeError;
+
 /**
  * Collection of Augmentations.
- * @extends \ArrayObject<int, Augmentation>
+ * @extends ArrayObject<int, Augmentation>
  */
-class AugmentationArray extends \ArrayObject
+class AugmentationArray extends ArrayObject
 {
     /**
      * Add an augmentation to the array.
      * @param ?int $index
      * @param Augmentation $augmentation
-     * @throws \TypeError
+     * @throws TypeError
      */
     public function offsetSet($index = null, $augmentation = null): void
     {
@@ -22,7 +25,7 @@ class AugmentationArray extends \ArrayObject
             parent::offsetSet($index, $augmentation);
             return;
         }
-        throw new \TypeError(
+        throw new TypeError(
             'AugmentationArray only accepts Augmentation objects'
         );
     }

@@ -6,9 +6,9 @@ namespace Tests\Feature\Models\StarTrekAdventures;
 
 use App\Models\StarTrekAdventures\Talent;
 use App\Models\StarTrekAdventures\TalentArray;
-use stdClass;
 use Tests\TestCase;
 use TypeError;
+use stdClass;
 
 /**
  * Tests for TalentArray class.
@@ -60,7 +60,7 @@ final class TalentArrayTest extends TestCase
     {
         self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->talents[] = new StdClass();
+        $this->talents[] = new stdClass();
     }
 
     /**
@@ -71,7 +71,7 @@ final class TalentArrayTest extends TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->talents->offsetSet(talent: new StdClass());
+            $this->talents->offsetSet(talent: new stdClass());
         } catch (TypeError $e) {
             // Ignored
         }

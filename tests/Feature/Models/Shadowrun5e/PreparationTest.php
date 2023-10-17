@@ -6,6 +6,8 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Preparation;
 use App\Models\Shadowrun5e\Spell;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for Preparation class.
@@ -14,7 +16,7 @@ use App\Models\Shadowrun5e\Spell;
  * @group shadowrun5e
  * @small
  */
-final class PreparationTest extends \Tests\TestCase
+final class PreparationTest extends TestCase
 {
     /**
      * Subject under test.
@@ -37,7 +39,7 @@ final class PreparationTest extends \Tests\TestCase
      */
     public function testInvalidTrigger(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Invalid alchemical trigger');
         $this->preparation->setTrigger('foo');
     }

@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\PartialCharacter;
+use Tests\TestCase;
 
 /**
  * @group cyberpunkred
  * @group models
  * @small
  */
-final class PartialCharacterTest extends \Tests\TestCase
+final class PartialCharacterTest extends TestCase
 {
     /**
      * Test creating a new lifepath array for a character.

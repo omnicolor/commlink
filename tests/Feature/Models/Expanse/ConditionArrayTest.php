@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\Condition;
 use App\Models\Expanse\ConditionArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the ConditionArray class.
@@ -13,7 +16,7 @@ use App\Models\Expanse\ConditionArray;
  * @group expanse
  * @small
  */
-final class ConditionArrayTest extends \Tests\TestCase
+final class ConditionArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -55,9 +58,9 @@ final class ConditionArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->array[] = new \StdClass();
+        $this->array[] = new stdClass();
     }
 
     /**
@@ -68,8 +71,8 @@ final class ConditionArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->array->offsetSet(condition: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->array->offsetSet(condition: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->array);

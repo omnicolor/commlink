@@ -8,6 +8,8 @@ use App\Models\Shadowrun5e\Program;
 use App\Models\Shadowrun5e\ProgramArray;
 use App\Models\Shadowrun5e\Vehicle;
 use App\Models\Shadowrun5e\Weapon;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for Program class.
@@ -16,7 +18,7 @@ use App\Models\Shadowrun5e\Weapon;
  * @group shadowrun5e
  * @small
  */
-final class ProgramTest extends \Tests\TestCase
+final class ProgramTest extends TestCase
 {
     /**
      * Test trying to load an invalid program.
@@ -24,7 +26,7 @@ final class ProgramTest extends \Tests\TestCase
      */
     public function testLoadInvalid(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Program ID "foo" is invalid');
         new Program('foo');
     }
@@ -88,7 +90,7 @@ final class ProgramTest extends \Tests\TestCase
      */
     public function testBuildFromStringNotFound(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Program ID "invalid" is invalid');
         Program::build('invalid', new ProgramArray());
     }

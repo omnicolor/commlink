@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\GearModification;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for GearModification class.
@@ -13,7 +15,7 @@ use App\Models\Shadowrun5e\GearModification;
  * @group shadowrun5e
  * @small
  */
-final class GearModificationTest extends \Tests\TestCase
+final class GearModificationTest extends TestCase
 {
     /**
      * Test trying to load an invalid gear modification.
@@ -21,7 +23,7 @@ final class GearModificationTest extends \Tests\TestCase
      */
     public function testLoadInvalid(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Gear mod "foo" not found');
         new GearModification('foo');
     }

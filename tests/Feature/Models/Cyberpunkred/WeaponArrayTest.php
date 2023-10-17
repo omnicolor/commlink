@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\Weapon;
 use App\Models\Cyberpunkred\WeaponArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the WeaponArray class.
@@ -13,7 +16,7 @@ use App\Models\Cyberpunkred\WeaponArray;
  * @group models
  * @small
  */
-final class WeaponArrayTest extends \Tests\TestCase
+final class WeaponArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -56,9 +59,9 @@ final class WeaponArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeThrowsException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->weapons[] = new \StdClass();
+        $this->weapons[] = new stdClass();
     }
 
     /**
@@ -70,8 +73,8 @@ final class WeaponArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->weapons->offsetSet(weapon: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->weapons->offsetSet(weapon: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->weapons);

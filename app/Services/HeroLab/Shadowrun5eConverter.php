@@ -17,11 +17,14 @@ use App\Models\Shadowrun5e\SkillGroup;
 use App\Models\Shadowrun5e\Spell;
 use App\Models\Shadowrun5e\Weapon;
 use App\Services\ConverterInterface;
+use ErrorException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RuntimeException;
 use SimpleXMLElement;
 use ZipArchive;
+
+use const DIRECTORY_SEPARATOR;
 
 /**
  * Importer class for Hero Lab Shadowrun 5E profiles.
@@ -201,8 +204,8 @@ class Shadowrun5eConverter implements ConverterInterface
         $files = glob(sprintf(
             '%s%sstatblocks_xml%s*',
             $this->directory,
-            \DIRECTORY_SEPARATOR,
-            \DIRECTORY_SEPARATOR
+            DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR
         ));
         $xml = false;
         // @phpstan-ignore-next-line
@@ -222,12 +225,12 @@ class Shadowrun5eConverter implements ConverterInterface
         $meta = sprintf(
             '%s%sherolab%slead1.xml',
             $this->directory,
-            \DIRECTORY_SEPARATOR,
-            \DIRECTORY_SEPARATOR
+            DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR
         );
         try {
             $xml = simplexml_load_file($meta);
-        } catch (\ErrorException) {
+        } catch (ErrorException) {
             throw new RuntimeException('Portfolio metadata is invalid');
         }
         // @codeCoverageIgnoreStart
@@ -587,7 +590,7 @@ class Shadowrun5eConverter implements ConverterInterface
             }
             try {
                 $weapon = Weapon::findByName($name);
-            } catch (\RuntimeException $ex) {
+            } catch (RuntimeException $ex) {
                 $this->errors[] = $ex->getMessage();
                 continue;
             }
@@ -622,7 +625,7 @@ class Shadowrun5eConverter implements ConverterInterface
             }
             try {
                 $armor = Armor::findByName($name);
-            } catch (\RuntimeException $ex) {
+            } catch (RuntimeException $ex) {
                 $this->errors[] = $ex->getMessage();
                 continue;
             }
@@ -661,10 +664,10 @@ class Shadowrun5eConverter implements ConverterInterface
 
                 try {
                     $gear = GearFactory::get($id);
-                } catch (\RuntimeException $ex) {
+                } catch (RuntimeException $ex) {
                     try {
                         $gear = Gear::findByName($name);
-                    } catch (\RuntimeException $ex) {
+                    } catch (RuntimeException $ex) {
                         $this->errors[] = $ex->getMessage();
                         continue;
                     }

@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\Talent;
 use App\Models\Expanse\TalentArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the TalentArray class.
@@ -13,7 +16,7 @@ use App\Models\Expanse\TalentArray;
  * @group expanse
  * @small
  */
-final class TalentArrayTest extends \Tests\TestCase
+final class TalentArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -55,9 +58,9 @@ final class TalentArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->array[] = new \StdClass();
+        $this->array[] = new stdClass();
     }
 
     /**
@@ -68,8 +71,8 @@ final class TalentArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->array->offsetSet(talent: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->array->offsetSet(talent: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->array);

@@ -7,6 +7,8 @@ namespace Tests\Feature\Models\Cyberpunkred;
 use App\Models\Cyberpunkred\Character;
 use App\Models\Cyberpunkred\Role\Fixer;
 use App\Models\Cyberpunkred\Weapon;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for Cyberpunkred Characters.
@@ -14,7 +16,7 @@ use App\Models\Cyberpunkred\Weapon;
  * @group models
  * @small
  */
-final class CharacterTest extends \Tests\TestCase
+final class CharacterTest extends TestCase
 {
     /**
      * Test filling up a character with the constructor.
@@ -312,7 +314,7 @@ final class CharacterTest extends \Tests\TestCase
      */
     public function testGetInvalidWeaponsType(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Invalid Weapon Type');
         (new Character())->getWeapons('unknown');
     }

@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use ArrayObject;
+use TypeError;
+
 /**
  * Collection of armor.
- * @extends \ArrayObject<int, Armor>
+ * @extends ArrayObject<int, Armor>
  */
-class ArmorArray extends \ArrayObject
+class ArmorArray extends ArrayObject
 {
     /**
      * Add an armor to the array.
      * @param ?int $index
      * @param Armor $armor
-     * @throws \TypeError
+     * @throws TypeError
      */
     public function offsetSet($index = null, $armor = null): void
     {
@@ -22,6 +25,6 @@ class ArmorArray extends \ArrayObject
             parent::offsetSet($index, $armor);
             return;
         }
-        throw new \TypeError('ArmorArray only accepts Armor objects');
+        throw new TypeError('ArmorArray only accepts Armor objects');
     }
 }

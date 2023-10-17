@@ -6,6 +6,8 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Lifestyle;
 use App\Models\Shadowrun5e\LifestyleOption;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for LifestyleOption.
@@ -14,7 +16,7 @@ use App\Models\Shadowrun5e\LifestyleOption;
  * @group shadowrun5e
  * @small
  */
-final class LifestyleOptionTest extends \Tests\TestCase
+final class LifestyleOptionTest extends TestCase
 {
     /**
      * Test trying to load a LifestyleOption that isn't found.
@@ -22,7 +24,7 @@ final class LifestyleOptionTest extends \Tests\TestCase
      */
     public function testNotFound(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage(
             'Lifestyle Option ID "invalid" is invalid'
         );
@@ -168,7 +170,7 @@ final class LifestyleOptionTest extends \Tests\TestCase
     {
         $option = new LifestyleOption('swimming-pool');
         $option->minimumLifestyle = 'Unknown';
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Option has invalid minimum lifestyle');
         $option->isCovered(new Lifestyle('luxury'));
     }

@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use ArrayObject;
+use TypeError;
+
 /**
  * Fleet of vehicles.
- * @extends \ArrayObject<int, Vehicle>
+ * @extends ArrayObject<int, Vehicle>
  */
-class VehicleArray extends \ArrayObject
+class VehicleArray extends ArrayObject
 {
     /**
      * Add a vehicle to the array.
      * @param ?int $index
      * @param Vehicle $vehicle
-     * @throws \TypeError
+     * @throws TypeError
      */
     public function offsetSet($index = null, $vehicle = null): void
     {
@@ -22,6 +25,6 @@ class VehicleArray extends \ArrayObject
             parent::offsetSet($index, $vehicle);
             return;
         }
-        throw new \TypeError('VehicleArray only accepts Vehicle objects');
+        throw new TypeError('VehicleArray only accepts Vehicle objects');
     }
 }

@@ -7,6 +7,9 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\ArmorModification;
 use App\Models\Shadowrun5e\ArmorModificationArray;
 use App\Models\Shadowrun5e\GearModification;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the ArmorModificationArray class.
@@ -15,7 +18,7 @@ use App\Models\Shadowrun5e\GearModification;
  * @group shadowrun5e
  * @small
  */
-final class ArmorModificationArrayTest extends \Tests\TestCase
+final class ArmorModificationArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -67,12 +70,12 @@ final class ArmorModificationArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         self::expectExceptionMessage(
             'ArmorModificationArray only accepts Armor- or GearModification objects'
         );
         // @phpstan-ignore-next-line
-        $this->mods[] = new \StdClass();
+        $this->mods[] = new stdClass();
     }
 
     /**
@@ -83,8 +86,8 @@ final class ArmorModificationArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->mods->offsetSet(mod: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->mods->offsetSet(mod: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->mods);

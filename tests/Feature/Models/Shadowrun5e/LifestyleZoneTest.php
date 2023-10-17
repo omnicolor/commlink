@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\LifestyleZone;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for Shadowrun 5E lifestyle zones.
@@ -13,7 +15,7 @@ use App\Models\Shadowrun5e\LifestyleZone;
  * @group shadowrun5e
  * @small
  */
-final class LifestyleZoneTest extends \Tests\TestCase
+final class LifestyleZoneTest extends TestCase
 {
     /**
      * Test trying to load an invalid zone.
@@ -21,7 +23,7 @@ final class LifestyleZoneTest extends \Tests\TestCase
      */
     public function testLoadInvalidZone(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Lifestyle Zone ID "q" is invalid');
         new LifestyleZone('q');
     }

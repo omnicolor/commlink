@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Cyberpunkred\Role;
 
 use App\Models\Cyberpunkred\Role\Medtech;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for the Medtech role.
@@ -12,7 +13,7 @@ use App\Models\Cyberpunkred\Role\Medtech;
  * @group models
  * @small
  */
-final class MedtechTest extends \PHPUnit\Framework\TestCase
+final class MedtechTest extends TestCase
 {
     /**
      * Test the toString method.

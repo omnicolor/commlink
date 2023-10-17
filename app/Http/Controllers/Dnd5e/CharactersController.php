@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Dnd5e;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\Dnd5e\CharacterResource;
 use App\Models\Dnd5e\Character;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Controller for interacting with D&D 5E characters.
  */
-class CharactersController extends \App\Http\Controllers\Controller
+class CharactersController extends Controller
 {
     /**
      * Return a collection of characters for the logged in user.
@@ -21,7 +23,7 @@ class CharactersController extends \App\Http\Controllers\Controller
     {
         return CharacterResource::collection(
             // @phpstan-ignore-next-line
-            Character::where('owner', \Auth::user()->email)->get()
+            Character::where('owner', Auth::user()->email)->get()
         );
     }
 
@@ -33,7 +35,7 @@ class CharactersController extends \App\Http\Controllers\Controller
     public function show(string $identifier): JsonResource
     {
         // @phpstan-ignore-next-line
-        $email = \Auth::user()->email;
+        $email = Auth::user()->email;
         return new CharacterResource(
             Character::where('_id', $identifier)
                 ->where('owner', $email)

@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use ArrayObject;
+use TypeError;
+
 /**
  * Array of martial arts techniques.
- * @extends \ArrayObject<int, MartialArtsTechnique>
+ * @extends ArrayObject<int, MartialArtsTechnique>
  */
-class MartialArtsTechniqueArray extends \ArrayObject
+class MartialArtsTechniqueArray extends ArrayObject
 {
     /**
      * Add a technique to the array.
      * @param ?int $index
      * @param MartialArtsTechnique $technique
-     * @throws \TypeError
+     * @throws TypeError
      */
     public function offsetSet($index = null, $technique = null): void
     {
@@ -22,7 +25,7 @@ class MartialArtsTechniqueArray extends \ArrayObject
             parent::offsetSet($index, $technique);
             return;
         }
-        throw new \TypeError(
+        throw new TypeError(
             'MartialArtsTechniqueArray only accepts MartialArtsTechnique objects'
         );
     }

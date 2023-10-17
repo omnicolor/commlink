@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\MartialArtsStyle;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for MartialArtsStyle class.
@@ -13,7 +15,7 @@ use App\Models\Shadowrun5e\MartialArtsStyle;
  * @group shadowrun5e
  * @small
  */
-final class MartialArtsStyleTest extends \Tests\TestCase
+final class MartialArtsStyleTest extends TestCase
 {
     /**
      * Test trying to load an invalid MartialArtsStyle.
@@ -21,7 +23,7 @@ final class MartialArtsStyleTest extends \Tests\TestCase
      */
     public function testLoadInvalid(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Martial Arts Style ID "foo" is invalid');
         new MartialArtsStyle('foo');
     }

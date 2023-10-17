@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use ArrayObject;
+use TypeError;
+
 /**
  * Collection of weapon modifications, or null for the named slots in a weapon.
- * @extends \ArrayObject<int|string, ?WeaponModification>
+ * @extends ArrayObject<int|string, ?WeaponModification>
  */
-class WeaponModificationArray extends \ArrayObject
+class WeaponModificationArray extends ArrayObject
 {
     /**
      * Add a item to the array.
      * @param null|int|string $index
      * @param ?WeaponModification $mod
-     * @throws \TypeError
+     * @throws TypeError
      */
     public function offsetSet($index = null, $mod = null): void
     {
@@ -26,7 +29,7 @@ class WeaponModificationArray extends \ArrayObject
             parent::offsetSet($index, $mod);
             return;
         }
-        throw new \TypeError(
+        throw new TypeError(
             'WeaponModificationArray only accepts WeaponModification objects'
         );
     }

@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Gear;
 use App\Models\Capers\GearArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the GearArray class.
@@ -13,7 +16,7 @@ use App\Models\Capers\GearArray;
  * @group models
  * @small
  */
-final class GearArrayTest extends \Tests\TestCase
+final class GearArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -75,9 +78,9 @@ final class GearArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->gear[] = new \StdClass();
+        $this->gear[] = new stdClass();
     }
 
     /**
@@ -88,8 +91,8 @@ final class GearArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->gear->offsetSet(gear: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->gear->offsetSet(gear: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->gear);

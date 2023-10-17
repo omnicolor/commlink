@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\LifestyleOption;
 use App\Models\Shadowrun5e\LifestyleOptionArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for LifestyleOptionArray.
@@ -14,7 +17,7 @@ use App\Models\Shadowrun5e\LifestyleOptionArray;
  * @group shadowrun5e
  * @small
  */
-final class LifestyleOptionArrayTest extends \Tests\TestCase
+final class LifestyleOptionArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -67,11 +70,11 @@ final class LifestyleOptionArrayTest extends \Tests\TestCase
      */
     public function testAddInvalidObject(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         self::expectExceptionMessage(
             'LifestyleOptionArray only accepts LifestyleOption objects'
         );
         // @phpstan-ignore-next-line
-        $this->options[] = new \StdClass();
+        $this->options[] = new stdClass();
     }
 }

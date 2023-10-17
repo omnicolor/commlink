@@ -11,8 +11,11 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use Tests\TestCase;
+
+use function sprintf;
 
 /**
  * @medium
@@ -75,10 +78,10 @@ final class DiscordControllerTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)
-            ->get(route('discord.view', ['code' => \Str::random(30)]))
+            ->get(route('discord.view', ['code' => Str::random(30)]))
             ->assertRedirect(route('settings'))
             ->assertSessionHasErrors([
-                'error' => \sprintf(
+                'error' => sprintf(
                     'Request to Discord failed. Please <a href="%s">try again</a>.',
                     $this->getDiscordOauthURL(),
                 ),
@@ -127,7 +130,7 @@ final class DiscordControllerTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)
-            ->get(route('discord.view', ['code' => \Str::random(30)]))
+            ->get(route('discord.view', ['code' => Str::random(30)]))
             ->assertOk()
             ->assertSee('bob-king#1234')
             ->assertSee('Iconography');
@@ -189,7 +192,7 @@ final class DiscordControllerTest extends TestCase
             'discordUser' => [
                 'avatar' => 'abc123',
                 'discriminator' => '1234',
-                'snowflake' => \Str::random(12),
+                'snowflake' => Str::random(12),
                 'username' => 'bob-king',
             ],
         ]);
@@ -396,7 +399,7 @@ final class DiscordControllerTest extends TestCase
             ->get(route('discord.view'))
             ->assertRedirect(route('settings'))
             ->assertSessionHasErrors([
-                'error' => \sprintf(
+                'error' => sprintf(
                     'Request to Discord failed. Please <a href="%s">try again</a>.',
                     $this->getDiscordOauthURL(),
                 ),

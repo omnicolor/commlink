@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use RuntimeException;
+
+use function explode;
+use function sprintf;
+use function strtolower;
+use function trim;
+
 /**
  * Class representing a magical tradition in Shadowrun.
  * @psalm-suppress PossiblyUnusedProperty
@@ -54,16 +61,16 @@ class Tradition
 
     /**
      * Construct a new Tradition object.
-     * @throws \RuntimeException if the ID is invalid or not found
+     * @throws RuntimeException if the ID is invalid or not found
      */
     public function __construct(string $identifier)
     {
         $filename = config('app.data_path.shadowrun5e') . 'traditions.php';
         self::$traditions ??= require $filename;
 
-        $identifier = \strtolower($identifier);
+        $identifier = strtolower($identifier);
         if (!isset(self::$traditions[$identifier])) {
-            throw new \RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Tradition ID "%s" not found',
                 $identifier
             ));
@@ -87,8 +94,8 @@ class Tradition
      */
     public function getDrainAttributes(): array
     {
-        $drain = \explode('+', $this->drain);
-        return [\trim($drain[0]), \trim($drain[1])];
+        $drain = explode('+', $this->drain);
+        return [trim($drain[0]), trim($drain[1])];
     }
 
     public function __toString(): string

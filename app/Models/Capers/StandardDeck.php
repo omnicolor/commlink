@@ -10,6 +10,7 @@ use App\Models\StandardDeck as BaseDeck;
 use Countable;
 use Illuminate\Support\Facades\DB;
 use RuntimeException;
+use stdClass;
 
 class StandardDeck extends BaseDeck implements Countable
 {
@@ -45,7 +46,7 @@ class StandardDeck extends BaseDeck implements Countable
         Campaign $campaign,
         ?string $characterId
     ): StandardDeck {
-        /** @var ?\stdClass */
+        /** @var ?stdClass */
         $row = DB::table('decks')
             ->where('campaign_id', $campaign->id)
             ->where('type', self::class)

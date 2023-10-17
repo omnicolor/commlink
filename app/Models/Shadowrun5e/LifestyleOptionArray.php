@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use ArrayObject;
+use TypeError;
+
 /**
  * Collection of Lifestyle Options.
- * @extends \ArrayObject<int, LifestyleOption>
+ * @extends ArrayObject<int, LifestyleOption>
  */
-class LifestyleOptionArray extends \ArrayObject
+class LifestyleOptionArray extends ArrayObject
 {
     /**
      * Add an option to the array.
      * @param ?int $index
      * @param LifestyleOption $option
-     * @throws \TypeError
+     * @throws TypeError
      */
     public function offsetSet($index = null, $option = null): void
     {
@@ -22,7 +25,7 @@ class LifestyleOptionArray extends \ArrayObject
             parent::offsetSet($index, $option);
             return;
         }
-        throw new \TypeError(
+        throw new TypeError(
             'LifestyleOptionArray only accepts LifestyleOption objects'
         );
     }

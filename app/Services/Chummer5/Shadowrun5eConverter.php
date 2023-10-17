@@ -16,6 +16,7 @@ use App\Models\Shadowrun5e\Spell;
 use App\Models\Shadowrun5e\Tradition;
 use App\Models\Shadowrun5e\Weapon;
 use App\Services\ConverterInterface;
+use ErrorException;
 use RuntimeException;
 use SimpleXMLElement;
 
@@ -86,7 +87,7 @@ class Shadowrun5eConverter implements ConverterInterface
         try {
             // @phpstan-ignore-next-line
             $this->xml = simplexml_load_file($filename);
-        } catch (\ErrorException) {
+        } catch (ErrorException) {
             throw new RuntimeException('Could not parse XML in Chummer file');
         }
 

@@ -9,13 +9,15 @@ use App\Http\Responses\Slack\RegisterResponse;
 use App\Models\Channel;
 use App\Models\ChatUser;
 use App\Models\User;
+use Illuminate\Support\Str;
+use Tests\TestCase;
 
 /**
  * Tests for registering a channel in Slack.
  * @group slack
  * @medium
  */
-final class RegisterResponseTest extends \Tests\TestCase
+final class RegisterResponseTest extends TestCase
 {
     /**
      * Test trying to register a channel without passing in the channel.
@@ -39,7 +41,7 @@ final class RegisterResponseTest extends \Tests\TestCase
             'channel_id' => 'channel-id',
             'server_id' => 'team-id',
         ]);
-        $channel->user = 'U' . \Str::random(8);
+        $channel->user = 'U' . Str::random(8);
         $channel->username = 'Testing';
         self::expectException(SlackException::class);
         self::expectExceptionMessage(\sprintf(
@@ -88,7 +90,7 @@ final class RegisterResponseTest extends \Tests\TestCase
             'server_id' => 'team-id',
             'type' => ChatUser::TYPE_SLACK,
         ]);
-        $channel->user = 'U' . \Str::random(8);
+        $channel->user = 'U' . Str::random(8);
         $chatUser = ChatUser::factory([
             'remote_user_id' => $channel->user,
             'server_id' => 'team-id',
@@ -120,7 +122,7 @@ final class RegisterResponseTest extends \Tests\TestCase
             'server_id' => 'team-id',
             'type' => ChatUser::TYPE_SLACK,
         ]);
-        $channel->user = 'U' . \Str::random(8);
+        $channel->user = 'U' . Str::random(8);
         $chatUser = ChatUser::factory([
             'remote_user_id' => $channel->user,
             'server_id' => 'team-id',
@@ -146,7 +148,7 @@ final class RegisterResponseTest extends \Tests\TestCase
             'server_id' => 'team-id',
             'type' => ChatUser::TYPE_SLACK,
         ]);
-        $channel->user = 'U' . \Str::random(8);
+        $channel->user = 'U' . Str::random(8);
         $chatUser = ChatUser::factory([
             'remote_user_id' => $channel->user,
             'server_id' => 'team-id',

@@ -9,6 +9,8 @@ use App\Models\Expanse\Focus;
 use App\Models\Expanse\FocusArray;
 use App\Models\Expanse\Talent;
 use App\Models\Expanse\TalentArray;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for Expanse backgrounds.
@@ -16,7 +18,7 @@ use App\Models\Expanse\TalentArray;
  * @group expanse
  * @small
  */
-final class BackgroundTest extends \Tests\TestCase
+final class BackgroundTest extends TestCase
 {
     /**
      * Test trying to load an invalid background.
@@ -24,7 +26,7 @@ final class BackgroundTest extends \Tests\TestCase
      */
     public function testLoadInvalidBackground(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Background ID "q" is invalid');
         new Background('q');
     }

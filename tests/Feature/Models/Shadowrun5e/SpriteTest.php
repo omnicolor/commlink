@@ -7,6 +7,7 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\ActiveSkill;
 use App\Models\Shadowrun5e\SkillArray;
 use App\Models\Shadowrun5e\Sprite;
+use BadMethodCallException;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -69,7 +70,7 @@ final class SpriteTest extends TestCase
      */
     public function testGetAttributeInvalid(): void
     {
-        self::expectException(\BadMethodCallException::class);
+        self::expectException(BadMethodCallException::class);
         self::expectExceptionMessage('Foo is not an attribute of sprites');
         $sprite = new Sprite('courier');
         // @phpstan-ignore-next-line

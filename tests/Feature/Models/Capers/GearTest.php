@@ -8,13 +8,14 @@ use App\Models\Capers\Explosive;
 use App\Models\Capers\Gear;
 use App\Models\Capers\Weapon;
 use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for Capers gear.
  * @group capers
  * @small
  */
-final class GearTest extends \Tests\TestCase
+final class GearTest extends TestCase
 {
     /**
      * Test creating a valid piece of gear.

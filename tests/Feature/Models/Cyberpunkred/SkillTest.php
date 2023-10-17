@@ -6,6 +6,8 @@ namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\Character;
 use App\Models\Cyberpunkred\Skill;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for the skill class.
@@ -13,7 +15,7 @@ use App\Models\Cyberpunkred\Skill;
  * @group models
  * @small
  */
-final class SkillTest extends \Tests\TestCase
+final class SkillTest extends TestCase
 {
     /**
      * Test trying to load an invalid skill throws an exception.
@@ -22,7 +24,7 @@ final class SkillTest extends \Tests\TestCase
     public function testLoadingInvalidSkill(): void
     {
         Skill::$skills = null;
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Skill ID "not-found-id" is invalid');
         new Skill('not-found-id', 0);
     }

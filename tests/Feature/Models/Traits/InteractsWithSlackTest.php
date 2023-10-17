@@ -6,23 +6,24 @@ namespace Tests\Feature\Models\Traits;
 
 use App\Models\Traits\InteractsWithSlack;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
+use PHPUnit\Framework\MockObject\MockObject;
+use Tests\TestCase;
+
+use function sprintf;
 
 /**
  * Tests for the InteractsWithSlackTest.
  * @group slack
  * @small
  */
-final class InteractsWithSlackTest extends \Tests\TestCase
+final class InteractsWithSlackTest extends TestCase
 {
     protected const API_CHANNELS = 'https://slack.com/api/conversations.info';
     protected const API_TEAMS = 'https://slack.com/api/auth.teams.list';
     protected const API_USERS = 'https://slack.com/api/users.info';
 
-    /**
-     * Subject under test.
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $mock;
+    protected MockObject $mock;
 
     /**
      * Set up the subject under test.
@@ -39,7 +40,7 @@ final class InteractsWithSlackTest extends \Tests\TestCase
      */
     public function testGetChannelNameCallFails(): void
     {
-        $url = \sprintf('%s?channel=C00', self::API_CHANNELS);
+        $url = sprintf('%s?channel=C00', self::API_CHANNELS);
         Http::fake([
             $url => Http::response([], 500),
         ]);
@@ -53,7 +54,7 @@ final class InteractsWithSlackTest extends \Tests\TestCase
      */
     public function testGetChannelNameCallErrors(): void
     {
-        $url = \sprintf('%s?channel=C0000', self::API_CHANNELS);
+        $url = sprintf('%s?channel=C0000', self::API_CHANNELS);
         Http::fake([
             $url => Http::response([
                 'ok' => false,
@@ -70,7 +71,7 @@ final class InteractsWithSlackTest extends \Tests\TestCase
      */
     public function testGetChannelName(): void
     {
-        $url = \sprintf('%s?channel=a', self::API_CHANNELS);
+        $url = sprintf('%s?channel=a', self::API_CHANNELS);
         Http::fake([
             $url => Http::response([
                 'ok' => true,
@@ -111,8 +112,8 @@ final class InteractsWithSlackTest extends \Tests\TestCase
                 'ok' => true,
                 'teams' => [
                     [
-                        'id' => \Str::random(9),
-                        'name' => \Str::random(20),
+                        'id' => Str::random(9),
+                        'name' => Str::random(20),
                     ],
                 ],
             ]),
@@ -127,8 +128,8 @@ final class InteractsWithSlackTest extends \Tests\TestCase
      */
     public function testGetServerNameSlackMatch(): void
     {
-        $teamId = 'T' . \Str::random(10);
-        $name = \Str::random(15);
+        $teamId = 'T' . Str::random(10);
+        $name = Str::random(15);
         Http::fake([
             self::API_TEAMS => Http::response([
                 'ok' => true,
@@ -150,7 +151,7 @@ final class InteractsWithSlackTest extends \Tests\TestCase
      */
     public function testGetUserNameCallFails(): void
     {
-        $url = \sprintf('%s?user=%s', self::API_USERS, 'UF0');
+        $url = sprintf('%s?user=%s', self::API_USERS, 'UF0');
         Http::fake([
             $url => Http::response([], 500),
         ]);
@@ -164,7 +165,7 @@ final class InteractsWithSlackTest extends \Tests\TestCase
      */
     public function testGetUserNameCallErrors(): void
     {
-        $url = \sprintf('%s?user=%s', self::API_USERS, 'UF00');
+        $url = sprintf('%s?user=%s', self::API_USERS, 'UF00');
         Http::fake([
             $url => Http::response([
                 'ok' => false,
@@ -181,7 +182,7 @@ final class InteractsWithSlackTest extends \Tests\TestCase
      */
     public function testGetUserName(): void
     {
-        $url = \sprintf('%s?user=%s', self::API_USERS, 'UF000');
+        $url = sprintf('%s?user=%s', self::API_USERS, 'UF000');
         Http::fake([
             $url => Http::response([
                 'ok' => true,

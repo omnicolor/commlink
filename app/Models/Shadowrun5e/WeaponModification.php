@@ -6,6 +6,9 @@ namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
 
+use function sprintf;
+use function strtolower;
+
 /**
  * Something to add to a character's weapon.
  * @psalm-suppress PossiblyUnusedProperty
@@ -88,7 +91,7 @@ class WeaponModification
         self::$modifications ??= require $filename;
 
         if (!isset(self::$modifications[$id])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Modification ID "%s" is invalid',
                 $id
             ));
@@ -138,12 +141,12 @@ class WeaponModification
         self::$modifications ??= require $filename;
 
         foreach (self::$modifications as $mod) {
-            if (\strtolower($mod['name']) === \strtolower($name)) {
+            if (strtolower($mod['name']) === strtolower($name)) {
                 return new WeaponModification($mod['id']);
             }
         }
 
-        throw new \RuntimeException(\sprintf(
+        throw new RuntimeException(sprintf(
             'Weapon modification "%s" was not found',
             $name
         ));

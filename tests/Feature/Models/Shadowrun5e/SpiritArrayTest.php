@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Spirit;
 use App\Models\Shadowrun5e\SpiritArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the SpiritArray class.
@@ -14,7 +17,7 @@ use App\Models\Shadowrun5e\SpiritArray;
  * @group shadowrun5e
  * @small
  */
-final class SpiritArrayTest extends \Tests\TestCase
+final class SpiritArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -56,9 +59,9 @@ final class SpiritArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->spirits[] = new \StdClass();
+        $this->spirits[] = new stdClass();
     }
 
     /**
@@ -69,8 +72,8 @@ final class SpiritArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->spirits->offsetSet(spirit: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->spirits->offsetSet(spirit: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->spirits);

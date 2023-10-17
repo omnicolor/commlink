@@ -7,12 +7,13 @@ namespace Tests\Feature\Rolls;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Rolls\Roll;
+use Tests\TestCase;
 
 /**
  * Tests for the concrete methods in the base Roll class.
  * @small
  */
-final class RollTest extends \Tests\TestCase
+final class RollTest extends TestCase
 {
     /**
      * Test isGm for a request with no campaign.

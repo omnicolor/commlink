@@ -6,6 +6,8 @@ namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\Role;
 use App\Models\Cyberpunkred\Role\Fixer;
+use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 /**
  * Tests for the Role abstract class.
@@ -13,7 +15,7 @@ use App\Models\Cyberpunkred\Role\Fixer;
  * @group models
  * @small
  */
-final class RoleTest extends \PHPUnit\Framework\TestCase
+final class RoleTest extends TestCase
 {
     /**
      * Test building a role that doesnt exist.
@@ -21,7 +23,7 @@ final class RoleTest extends \PHPUnit\Framework\TestCase
      */
     public function testBuildInvalidRole(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         Role::fromArray(['role' => 'invalid']);
     }
 

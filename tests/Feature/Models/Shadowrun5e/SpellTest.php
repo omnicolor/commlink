@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Spell;
 use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for Spell class.
@@ -14,7 +15,7 @@ use RuntimeException;
  * @group shadowrun5e
  * @small
  */
-final class SpellTest extends \Tests\TestCase
+final class SpellTest extends TestCase
 {
     /**
      * Test trying to load an invalid spell.

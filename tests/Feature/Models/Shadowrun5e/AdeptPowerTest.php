@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\AdeptPower;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for AdeptPower class.
@@ -13,7 +15,7 @@ use App\Models\Shadowrun5e\AdeptPower;
  * @group shadowrun5e
  * @small
  */
-final class AdeptPowerTest extends \Tests\TestCase
+final class AdeptPowerTest extends TestCase
 {
     /**
      * Test trying to load an invalid Power.
@@ -22,7 +24,7 @@ final class AdeptPowerTest extends \Tests\TestCase
     public function testLoadInvalid(): void
     {
         AdeptPower::$powers = null;
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Adept power ID "foo" is invalid');
         new AdeptPower('foo');
     }

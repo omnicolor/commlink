@@ -6,6 +6,11 @@ namespace Tests\Feature\Models\Dnd5e;
 
 use App\Models\Character as BaseCharacter;
 use App\Models\Dnd5e\Character;
+use OutOfRangeException;
+use RuntimeException;
+use Tests\TestCase;
+
+use function is_subclass_of;
 
 /**
  * Tests for D&D 5E characters.
@@ -13,7 +18,7 @@ use App\Models\Dnd5e\Character;
  * @group dnd5e
  * @small
  */
-final class CharacterTest extends \Tests\TestCase
+final class CharacterTest extends TestCase
 {
     /**
      * Test displaying the character as a string.
@@ -44,7 +49,7 @@ final class CharacterTest extends \Tests\TestCase
         $createdCharacter = BaseCharacter::create(['system' => 'dnd5e']);
         $character = BaseCharacter::where('_id', $createdCharacter->id)
             ->firstOrFail();
-        self::assertFalse(\is_subclass_of($character, Character::class));
+        self::assertFalse(is_subclass_of($character, Character::class));
     }
 
     /**
@@ -54,7 +59,7 @@ final class CharacterTest extends \Tests\TestCase
     public function testGetAbilityModifierInvalid(): void
     {
         $character = new Character();
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Invalid attribute');
         $character->getAbilityModifier('invalid');
     }
@@ -67,7 +72,7 @@ final class CharacterTest extends \Tests\TestCase
     public function testGetAbilityModifierOutOfRange(): void
     {
         $character = new Character(['charisma' => 0]);
-        self::expectException(\OutOfRangeException::class);
+        self::expectException(OutOfRangeException::class);
         self::expectExceptionMessage('Attribute value is out of range');
         $character->getAbilityModifier('charisma');
     }
@@ -102,7 +107,7 @@ final class CharacterTest extends \Tests\TestCase
     public function testGetArmorClassNotSet(): void
     {
         $character = new Character();
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         $character->getArmorClass();
     }
 
@@ -114,7 +119,7 @@ final class CharacterTest extends \Tests\TestCase
     public function testGetArmorClassOutOfRange(): void
     {
         $character = new Character(['dexterity' => 99]);
-        self::expectException(\OutOfRangeException::class);
+        self::expectException(OutOfRangeException::class);
         $character->getArmorClass();
     }
 

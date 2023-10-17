@@ -8,6 +8,7 @@ use App\Models\Cyberpunkred\Character as CprCharacter;
 use App\Models\Expanse\Character;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * Tests for the Expanse character controller.
@@ -15,7 +16,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
  * @group controllers
  * @medium
  */
-final class CharactersControllerTest extends \Tests\TestCase
+final class CharactersControllerTest extends TestCase
 {
     use RefreshDatabase;
 

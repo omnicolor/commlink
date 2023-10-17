@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use DateTimeImmutable;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Response;
@@ -35,7 +36,7 @@ class Controller extends BaseController
             'Access-Control-Allow-Origin' => '*',
             'Cache-Control' => 'public',
             'Content-Language' => 'en-US',
-            'Expires' => (new \DateTimeImmutable('+1 month'))->format('r'),
+            'Expires' => (new DateTimeImmutable('+1 month'))->format('r'),
         ];
         $this->links = ['root' => '/api'];
     }

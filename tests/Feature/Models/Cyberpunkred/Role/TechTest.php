@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Cyberpunkred\Role;
 
 use App\Models\Cyberpunkred\Role\Tech;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for the Tech role.
@@ -12,7 +13,7 @@ use App\Models\Cyberpunkred\Role\Tech;
  * @group models
  * @small
  */
-final class TechTest extends \PHPUnit\Framework\TestCase
+final class TechTest extends TestCase
 {
     /**
      * Test the toString method.

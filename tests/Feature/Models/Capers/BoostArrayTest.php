@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Boost;
 use App\Models\Capers\BoostArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the BoostArray class.
@@ -13,7 +16,7 @@ use App\Models\Capers\BoostArray;
  * @group models
  * @small
  */
-final class BoostArrayTest extends \Tests\TestCase
+final class BoostArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -55,9 +58,9 @@ final class BoostArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->boosts[] = new \StdClass();
+        $this->boosts[] = new stdClass();
     }
 
     /**
@@ -68,8 +71,8 @@ final class BoostArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->boosts->offsetSet(boost: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->boosts->offsetSet(boost: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->boosts);

@@ -11,7 +11,10 @@ use App\Models\Initiative;
 use Gate;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+
+use function sprintf;
 
 class CampaignsController extends Controller
 {
@@ -37,7 +40,7 @@ class CampaignsController extends Controller
             'system',
         ]));
         // @phpstan-ignore-next-line
-        $campaign->registered_by = \Auth::user()->id;
+        $campaign->registered_by = Auth::user()->id;
 
         switch ($request->input('system')) {
             case 'avatar':
@@ -48,7 +51,7 @@ class CampaignsController extends Controller
                     'focusDetails' => $request->input('avatar-focus-details'),
                 ];
                 if (null !== $request->input('avatar-focus')) {
-                    $options['focusObject'] = $request->input(\sprintf(
+                    $options['focusObject'] = $request->input(sprintf(
                         'avatar-focus-%s-object',
                         $request->input('avatar-focus')
                     ));
@@ -86,7 +89,7 @@ class CampaignsController extends Controller
             'campaign.view',
             [
                 'campaign' => $campaign,
-                'user' => \Auth::user(),
+                'user' => Auth::user(),
             ]
         );
     }
@@ -108,7 +111,7 @@ class CampaignsController extends Controller
                         'initiative' => Initiative::forCampaign($campaign)
                             ->orderByDesc('initiative')
                             ->get(),
-                        'user' => \Auth::user(),
+                        'user' => Auth::user(),
                     ]
                 );
             case 'shadowrun5e':
@@ -137,7 +140,7 @@ class CampaignsController extends Controller
                             ->orderByDesc('initiative')
                             ->get(),
                         'max_monitor' => $maxMonitor,
-                        'user' => \Auth::user(),
+                        'user' => Auth::user(),
                     ]
                 );
             default:

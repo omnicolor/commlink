@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use ArrayObject;
+use TypeError;
+
 /**
  * Collection of spells.
- * @extends \ArrayObject<int, Spell>
+ * @extends ArrayObject<int, Spell>
  */
-class SpellArray extends \ArrayObject
+class SpellArray extends ArrayObject
 {
     /**
      * Add a item to the array.
      * @param ?int $index
      * @param Spell $spell
-     * @throws \TypeError
+     * @throws TypeError
      */
     public function offsetSet($index = null, $spell = null): void
     {
@@ -22,7 +25,7 @@ class SpellArray extends \ArrayObject
             parent::offsetSet($index, $spell);
             return;
         }
-        throw new \TypeError(
+        throw new TypeError(
             'SpellArray only accepts Spell objects'
         );
     }

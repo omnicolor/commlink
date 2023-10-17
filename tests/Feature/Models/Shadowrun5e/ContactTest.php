@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Contact;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for Contact class.
@@ -13,7 +14,7 @@ use App\Models\Shadowrun5e\Contact;
  * @group shadowrun5e
  * @small
  */
-final class ContactTest extends \PHPUnit\Framework\TestCase
+final class ContactTest extends TestCase
 {
     /**
      * Test that the constructor sets all of the properties.

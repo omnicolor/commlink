@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\TarotDeck;
+use Tests\TestCase;
 
 /**
  * @small
  */
-final class TarotDeckTest extends \Tests\TestCase
+final class TarotDeckTest extends TestCase
 {
     /**
      * Test that a new TarotDeck has 74 cards.

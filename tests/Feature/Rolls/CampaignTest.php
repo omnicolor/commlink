@@ -14,11 +14,13 @@ use App\Rolls\Campaign as CampaignRoll;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
+use Tests\TestCase;
 
 /**
  * @medium
  */
-final class CampaignTest extends \Tests\TestCase
+final class CampaignTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
@@ -194,7 +196,7 @@ final class CampaignTest extends \Tests\TestCase
 
         /** @var Channel */
         $channel = Channel::factory()->make(['type' => Channel::TYPE_SLACK]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -222,11 +224,11 @@ final class CampaignTest extends \Tests\TestCase
         Event::fake();
 
         $channel = new Channel([
-            'channel_id' => 'C' . \Str::random(10),
-            'server_id' => 'T' . \Str::random(10),
+            'channel_id' => 'C' . Str::random(10),
+            'server_id' => 'T' . Str::random(10),
             'type' => Channel::TYPE_DISCORD,
         ]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -261,7 +263,7 @@ final class CampaignTest extends \Tests\TestCase
             'system' => 'shadowrun5e',
             'type' => Channel::TYPE_SLACK,
         ]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -307,7 +309,7 @@ final class CampaignTest extends \Tests\TestCase
             'system' => 'cyberpunkred',
             'type' => Channel::TYPE_DISCORD,
         ]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -351,7 +353,7 @@ final class CampaignTest extends \Tests\TestCase
             'system' => $campaign->system,
             'type' => Channel::TYPE_SLACK,
         ]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -394,7 +396,7 @@ final class CampaignTest extends \Tests\TestCase
             'system' => $campaign->system,
             'type' => Channel::TYPE_DISCORD,
         ]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -435,11 +437,11 @@ final class CampaignTest extends \Tests\TestCase
         ]);
 
         $channel = new Channel([
-            'channel_id' => 'C' . \Str::random(10),
-            'server_id' => 'T' . \Str::random(10),
+            'channel_id' => 'C' . Str::random(10),
+            'server_id' => 'T' . Str::random(10),
             'type' => Channel::TYPE_SLACK,
         ]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
         $channel->username = $this->faker->name;
 
         ChatUser::factory()->create([
@@ -488,11 +490,11 @@ final class CampaignTest extends \Tests\TestCase
         $campaign = CampaignModel::factory()->create(['gm' => $user->id]);
 
         $channel = new Channel([
-            'channel_id' => 'C' . \Str::random(10),
-            'server_id' => 'T' . \Str::random(10),
+            'channel_id' => 'C' . Str::random(10),
+            'server_id' => 'T' . Str::random(10),
             'type' => Channel::TYPE_DISCORD,
         ]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
         $channel->username = $this->faker->name;
 
         ChatUser::factory()->create([
@@ -548,7 +550,7 @@ final class CampaignTest extends \Tests\TestCase
             'system' => $campaign->system,
             'type' => Channel::TYPE_SLACK,
         ]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
         $channel->username = $this->faker->name;
 
         ChatUser::factory()->create([
@@ -602,7 +604,7 @@ final class CampaignTest extends \Tests\TestCase
             'system' => $campaign->system,
             'type' => Channel::TYPE_DISCORD,
         ]);
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
         $channel->username = $this->faker->name;
 
         ChatUser::factory()->create([

@@ -4,16 +4,22 @@ declare(strict_types=1);
 
 namespace App\Models\Cyberpunkred;
 
+use RuntimeException;
+
+use function in_array;
+use function sprintf;
+use function strtolower;
+
 class MeleeWeapon extends Weapon
 {
     /**
      * Construct a new melee weapon.
      * @param array<string, int|string> $options
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function __construct(array $options)
     {
-        $id = \strtolower((string)$options['id']);
+        $id = strtolower((string)$options['id']);
         // @phpstan-ignore-next-line
         $weapon = self::$meleeWeapons[$id];
         $this->concealable = $weapon['concealable'];
@@ -26,8 +32,8 @@ class MeleeWeapon extends Weapon
         $this->type = $weapon['type'];
 
         if (isset($options['quality'])) {
-            if (!\in_array($options['quality'], self::QUALITIES, true)) {
-                throw new \RuntimeException(\sprintf(
+            if (!in_array($options['quality'], self::QUALITIES, true)) {
+                throw new RuntimeException(sprintf(
                     'Weapon ID "%s" has invalid quality "%s"',
                     $id,
                     $options['quality']

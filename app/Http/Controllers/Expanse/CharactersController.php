@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Expanse\CharacterResource;
 use App\Models\Expanse\Character;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 /**
@@ -23,7 +24,7 @@ class CharactersController extends Controller
     {
         return CharacterResource::collection(
             // @phpstan-ignore-next-line
-            Character::where('owner', \Auth::user()->email)->get()
+            Character::where('owner', Auth::user()->email)->get()
         );
     }
 
@@ -44,7 +45,7 @@ class CharactersController extends Controller
     public function show(string $identifier): CharacterResource
     {
         // @phpstan-ignore-next-line
-        $email = \Auth::user()->email;
+        $email = Auth::user()->email;
         return new CharacterResource(
             Character::where('_id', $identifier)
                 ->where('owner', $email)
@@ -59,7 +60,7 @@ class CharactersController extends Controller
      */
     public function view(Character $character): View
     {
-        $user = \Auth::user();
+        $user = Auth::user();
         return view(
             'Expanse.character',
             ['character' => $character, 'user' => $user]

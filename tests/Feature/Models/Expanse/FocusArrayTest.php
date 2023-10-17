@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\Focus;
 use App\Models\Expanse\FocusArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the FocusArray class.
@@ -13,7 +16,7 @@ use App\Models\Expanse\FocusArray;
  * @group expanse
  * @small
  */
-final class FocusArrayTest extends \Tests\TestCase
+final class FocusArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -55,9 +58,9 @@ final class FocusArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->array[] = new \StdClass();
+        $this->array[] = new stdClass();
     }
 
     /**
@@ -68,8 +71,8 @@ final class FocusArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->array->offsetSet(focus: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->array->offsetSet(focus: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->array);
