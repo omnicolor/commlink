@@ -6,11 +6,12 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Rulebook;
 use RuntimeException;
+use Tests\TestCase;
 
 /**
  * @small
  */
-final class RulebookTest extends \Tests\TestCase
+final class RulebookTest extends TestCase
 {
     /**
      * @test

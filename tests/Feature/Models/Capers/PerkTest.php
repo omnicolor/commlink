@@ -6,13 +6,14 @@ namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Perk;
 use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for Capers perks.
  * @group capers
  * @small
  */
-final class PerkTest extends \Tests\TestCase
+final class PerkTest extends TestCase
 {
     /**
      * Test trying to create a perk that doesn't exist.

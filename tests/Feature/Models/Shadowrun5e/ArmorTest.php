@@ -7,6 +7,8 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\Armor;
 use App\Models\Shadowrun5e\ArmorModification;
 use App\Models\Shadowrun5e\GearModification;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Armor tests for Armor object.
@@ -15,7 +17,7 @@ use App\Models\Shadowrun5e\GearModification;
  * @group shadowrun5e
  * @small
  */
-final class ArmorTest extends \Tests\TestCase
+final class ArmorTest extends TestCase
 {
     /**
      * Test loading an armor with an invalid ID.
@@ -23,7 +25,7 @@ final class ArmorTest extends \Tests\TestCase
      */
     public function testLoadingArmorWithInvalidId(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Armor ID "not-found" is invalid');
         new Armor('not-found');
     }
@@ -203,7 +205,7 @@ final class ArmorTest extends \Tests\TestCase
      */
     public function testBuildArmorNotFound(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Armor ID "invalid-id" is invalid');
         Armor::build(['id' => 'invalid-id']);
     }
@@ -264,7 +266,7 @@ final class ArmorTest extends \Tests\TestCase
                 'unknown',
             ],
         ];
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Armor/Gear mod not found: unknown');
         Armor::build($array);
     }
@@ -275,7 +277,7 @@ final class ArmorTest extends \Tests\TestCase
      */
     public function testFindByNameNotFound(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Armor name "Not Found" was not found');
         Armor::findByName('Not Found');
     }

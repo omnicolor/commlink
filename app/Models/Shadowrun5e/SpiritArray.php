@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use ArrayObject;
+use TypeError;
+
 /**
  * Collection of spirits.
- * @extends \ArrayObject<int, Spirit>
+ * @extends ArrayObject<int, Spirit>
  */
-class SpiritArray extends \ArrayObject
+class SpiritArray extends ArrayObject
 {
     /**
      * Add a spirit to the array.
      * @param ?int $index
      * @param Spirit $spirit
-     * @throws \TypeError
+     * @throws TypeError
      */
     public function offsetSet($index = null, $spirit = null): void
     {
@@ -22,6 +25,6 @@ class SpiritArray extends \ArrayObject
             parent::offsetSet($index, $spirit);
             return;
         }
-        throw new \TypeError('SpiritArray only accepts Spirit objects');
+        throw new TypeError('SpiritArray only accepts Spirit objects');
     }
 }
