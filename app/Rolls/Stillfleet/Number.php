@@ -9,6 +9,17 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
+use App\Services\DiceService;
+
+use function array_shift;
+use function explode;
+use function implode;
+use function in_array;
+use function is_numeric;
+use function sprintf;
+use function trim;
+
+use const PHP_EOL;
 
 class Number extends Roll
 {
@@ -32,17 +43,23 @@ class Number extends Roll
     ) {
         parent::__construct($content, $character, $channel);
 
-        $args = \explode(' ', \trim($content));
-        $this->die = (int)\array_shift($args);
-        if (!in_array($this->VALID_DICE, $this->die)) {
-            $this->error = \sprintf(
+        $args = explode(' ', trim($content));
+        $this->die = (int)array_shift($args);
+        if (
+            !in_array(
+                haystack: self::VALID_DICE,
+                needle: $this->die,
+                strict: true
+            )
+        ) {
+            $this->error = sprintf(
                 '%d is not a valid die size in Stillfleet',
                 $this->die,
             );
         }
 
-        if (isset($args[0]) && \is_numeric($args[0])) {
-            $number = (int)\array_shift($args);
+        if (isset($args[0]) && is_numeric($args[0])) {
+            $number = (int)array_shift($args);
             if ($number > 0) {
                 $this->boost = $number;
             } else {
@@ -50,7 +67,7 @@ class Number extends Roll
             }
         }
 
-        $this->description = \implode(' ', $args);
+        $this->description = implode(' ', $args);
 
         $this->roll();
     }
@@ -72,13 +89,13 @@ class Number extends Roll
             return $this->error;
         }
 
-        $value = \sprintf('**%s**', 'Title') . \PHP_EOL
-            . 'Text' . \PHP_EOL;
+        $value = sprintf('**%s**', 'Title') . PHP_EOL
+            . 'Text' . PHP_EOL;
         return $value;
     }
 
     protected function roll(): void
     {
-        $roll = DiceService::rollOne($this->die);
+        //$roll = DiceService::rollOne($this->die);
     }
 }
