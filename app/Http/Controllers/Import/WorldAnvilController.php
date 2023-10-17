@@ -13,6 +13,8 @@ use Illuminate\Support\MessageBag;
 use Illuminate\View\View;
 use JsonException;
 
+use const JSON_THROW_ON_ERROR;
+
 class WorldAnvilController extends Controller
 {
     /**
@@ -35,9 +37,9 @@ class WorldAnvilController extends Controller
         $characterJson = file_get_contents($request->character->path());
         try {
             $rawCharacter = json_decode(
-                json: $characterJson,
+                json: (string)$characterJson,
                 associative: false,
-                flags: \JSON_THROW_ON_ERROR,
+                flags: JSON_THROW_ON_ERROR,
             );
         } catch (JsonException $ex) {
             return back()->withInput()->withErrors($ex->getMessage());
