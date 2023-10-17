@@ -7,11 +7,12 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Spells;
+use Tests\TestCase;
 
 /**
  * @small
  */
-final class SpellsTest extends \Tests\TestCase
+final class SpellsTest extends TestCase
 {
     /**
      * Test rendering a lack of spells for an existing character.

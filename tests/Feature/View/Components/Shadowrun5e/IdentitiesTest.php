@@ -7,6 +7,7 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Identities;
+use Tests\TestCase;
 
 /**
  * @group models
@@ -14,7 +15,7 @@ use App\View\Components\Shadowrun5e\Identities;
  * @group shadowrun5e
  * @small
  */
-final class IdentitiesTest extends \Tests\TestCase
+final class IdentitiesTest extends TestCase
 {
     /**
      * Test no identities for an existing character.

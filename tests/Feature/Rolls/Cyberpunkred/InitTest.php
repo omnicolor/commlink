@@ -17,6 +17,7 @@ use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 use const PHP_EOL;
@@ -182,7 +183,7 @@ final class InitTest extends TestCase
             'type' => Channel::TYPE_SLACK,
         ]);
         $channel->username = $this->faker->name;
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
@@ -247,7 +248,7 @@ final class InitTest extends TestCase
             'type' => Channel::TYPE_DISCORD,
         ]);
         $channel->username = $this->faker->name;
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
@@ -305,7 +306,7 @@ final class InitTest extends TestCase
             'type' => Channel::TYPE_DISCORD,
         ]);
         $channel->username = $this->faker->name;
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([

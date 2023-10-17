@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Sprite;
 use App\Models\Shadowrun5e\SpriteArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the SpriteArray.
@@ -14,7 +17,7 @@ use App\Models\Shadowrun5e\SpriteArray;
  * @group shadowrun5e
  * @small
  */
-final class SpriteArrayTest extends \Tests\TestCase
+final class SpriteArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -56,9 +59,9 @@ final class SpriteArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->sprites[] = new \StdClass();
+        $this->sprites[] = new stdClass();
     }
 
     /**
@@ -69,8 +72,8 @@ final class SpriteArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->sprites->offsetSet(sprite: new \StdClass());
-        } catch (\TypeError $ex) {
+            $this->sprites->offsetSet(sprite: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->sprites);

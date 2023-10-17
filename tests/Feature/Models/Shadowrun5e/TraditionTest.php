@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Tradition;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for Tradition class.
@@ -13,7 +15,7 @@ use App\Models\Shadowrun5e\Tradition;
  * @group shadowrun5e
  * @small
  */
-final class TraditionTest extends \Tests\TestCase
+final class TraditionTest extends TestCase
 {
     /**
      * Test loading an invalid tradition.
@@ -21,7 +23,7 @@ final class TraditionTest extends \Tests\TestCase
      */
     public function testInvalidTradition(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Tradition ID "invalid" not found');
         new Tradition('invalid');
     }

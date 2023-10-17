@@ -60,7 +60,7 @@ final class TalentArrayTest extends TestCase
     {
         self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->talents[] = new StdClass();
+        $this->talents[] = new stdClass();
     }
 
     /**
@@ -71,7 +71,7 @@ final class TalentArrayTest extends TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->talents->offsetSet(talent: new StdClass());
+            $this->talents->offsetSet(talent: new stdClass());
         } catch (TypeError $e) {
             // Ignored
         }

@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use ArrayObject;
+use TypeError;
+
 /**
  * Collection of programs.
- * @extends \ArrayObject<int, Program>
+ * @extends ArrayObject<int, Program>
  */
-class ProgramArray extends \ArrayObject
+class ProgramArray extends ArrayObject
 {
     /**
      * Add a item to the array.
      * @param ?int $index
      * @param Program $program
-     * @throws \TypeError
+     * @throws TypeError
      */
     public function offsetSet($index = null, $program = null): void
     {
@@ -22,6 +25,6 @@ class ProgramArray extends \ArrayObject
             parent::offsetSet($index, $program);
             return;
         }
-        throw new \TypeError('ProgramArray only accepts Program objects');
+        throw new TypeError('ProgramArray only accepts Program objects');
     }
 }

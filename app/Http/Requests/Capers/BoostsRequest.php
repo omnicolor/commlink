@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Requests\Capers;
 
 use App\Models\Capers\PartialCharacter;
+use App\Models\User;
 use Closure;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\In;
 
@@ -28,8 +30,8 @@ class BoostsRequest extends BaseRequest
      */
     public function rules(): array
     {
-        /** @var \App\Models\User */
-        $user = \Auth::user();
+        /** @var User */
+        $user = Auth::user();
         $characterId = $this->session()->get('capers-partial');
         $character = PartialCharacter::where('owner', $user->email)
             ->where('_id', $characterId)
