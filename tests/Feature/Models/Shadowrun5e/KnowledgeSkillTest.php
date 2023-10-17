@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\KnowledgeSkill;
+use RuntimeException;
 use Tests\TestCase;
 
 /**
@@ -40,7 +41,7 @@ final class KnowledgeSkillTest extends TestCase
      */
     public function testInvalidCategory(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage(
             'Knowledge skill category "invalid" is invalid'
         );

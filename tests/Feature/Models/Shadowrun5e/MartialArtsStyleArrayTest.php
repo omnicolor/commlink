@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\MartialArtsStyle;
 use App\Models\Shadowrun5e\MartialArtsStyleArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the MartialArtsStyleArray class.
@@ -14,7 +17,7 @@ use App\Models\Shadowrun5e\MartialArtsStyleArray;
  * @group shadowrun5e
  * @small
  */
-final class MartialArtsStyleArrayTest extends \Tests\TestCase
+final class MartialArtsStyleArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -56,9 +59,9 @@ final class MartialArtsStyleArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->styles[] = new \StdClass();
+        $this->styles[] = new stdClass();
     }
 
     /**
@@ -69,8 +72,8 @@ final class MartialArtsStyleArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->styles->offsetSet(style: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->styles->offsetSet(style: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->styles);

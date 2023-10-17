@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use ArrayObject;
+use TypeError;
+
 /**
  * Collection of vehicle modifications.
- * @extends \ArrayObject<int, VehicleModification>
+ * @extends ArrayObject<int, VehicleModification>
  */
-class VehicleModificationArray extends \ArrayObject
+class VehicleModificationArray extends ArrayObject
 {
     /**
      * Add a modification to the array.
      * @param ?int $index
      * @param VehicleModification $mod
-     * @throws \TypeError
+     * @throws TypeError
      */
     public function offsetSet($index = null, $mod = null): void
     {
@@ -22,7 +25,7 @@ class VehicleModificationArray extends \ArrayObject
             parent::offsetSet($index, $mod);
             return;
         }
-        throw new \TypeError(
+        throw new TypeError(
             'VehicleModificationArray only accepts VehicleModification objects'
         );
     }

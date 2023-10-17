@@ -10,6 +10,7 @@ use App\Models\StandardDeck;
 use Illuminate\Support\Facades\DB;
 use RuntimeException;
 use Tests\TestCase;
+use UnderflowException;
 
 /**
  * @small
@@ -61,7 +62,7 @@ final class StandardDeckTest extends TestCase
     public function testDrawTooMany(): void
     {
         $deck = new StandardDeck();
-        self::expectException(\UnderflowException::class);
+        self::expectException(UnderflowException::class);
         self::expectExceptionMessage('Insufficient cards remain in deck');
         $deck->draw(53);
     }
@@ -74,7 +75,7 @@ final class StandardDeckTest extends TestCase
     {
         $deck = new StandardDeck();
         $deck->draw(52);
-        self::expectException(\UnderflowException::class);
+        self::expectException(UnderflowException::class);
         self::expectExceptionMessage('Insufficient cards remain in deck');
         $deck->peek();
     }

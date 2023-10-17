@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Spell;
 use App\Models\Shadowrun5e\SpellArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the SpellArray.
@@ -14,7 +17,7 @@ use App\Models\Shadowrun5e\SpellArray;
  * @group shadowrun5e
  * @small
  */
-final class SpellArrayTest extends \Tests\TestCase
+final class SpellArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -56,9 +59,9 @@ final class SpellArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->spells[] = new \StdClass();
+        $this->spells[] = new stdClass();
     }
 
     /**
@@ -69,8 +72,8 @@ final class SpellArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->spells->offsetSet(spell: new \StdClass());
-        } catch (\TypeError $ex) {
+            $this->spells->offsetSet(spell: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->spells);

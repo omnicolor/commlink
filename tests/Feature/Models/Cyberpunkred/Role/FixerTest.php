@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Cyberpunkred\Role;
 
 use App\Models\Cyberpunkred\Role\Fixer;
+use OutOfBoundsException;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for the Fixer role.
@@ -12,7 +14,7 @@ use App\Models\Cyberpunkred\Role\Fixer;
  * @group models
  * @small
  */
-final class FixerTest extends \PHPUnit\Framework\TestCase
+final class FixerTest extends TestCase
 {
     /**
      * Test the toString method.
@@ -63,7 +65,7 @@ final class FixerTest extends \PHPUnit\Framework\TestCase
     public function testGetTypeInvalid(): void
     {
         $fixer = new Fixer(['rank' => 4, 'type' => 42]);
-        self::expectException(\OutOfBoundsException::class);
+        self::expectException(OutOfBoundsException::class);
         $fixer->getType();
     }
 }

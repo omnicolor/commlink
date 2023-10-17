@@ -7,11 +7,12 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Weapons;
+use Tests\TestCase;
 
 /**
  * @small
  */
-final class WeaponsTest extends \Tests\TestCase
+final class WeaponsTest extends TestCase
 {
     /**
      * Test rendering a lack of weapons for an existing character.
