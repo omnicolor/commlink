@@ -9,6 +9,7 @@ use Illuminate\Http\Client\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 use PHPUnit\Framework\MockObject\MockObject;
+use RuntimeException;
 use Tests\TestCase;
 
 /**
@@ -193,7 +194,7 @@ final class InteractsWithDiscordTest extends TestCase
         try {
             // @phpstan-ignore-next-line
             $this->mock->getDiscordAccessToken('13');
-        } catch (\RuntimeException $ex) {
+        } catch (RuntimeException $ex) {
             self::assertSame('Nope', $ex->getMessage());
             Http::assertSent(function (Request $request): bool {
                 return 'https://discord.com/api/oauth2/token' === $request->url();
@@ -241,7 +242,7 @@ final class InteractsWithDiscordTest extends TestCase
         try {
             // @phpstan-ignore-next-line
             $this->mock->getDiscordUser('13');
-        } catch (\RuntimeException $ex) {
+        } catch (RuntimeException $ex) {
             self::assertSame('forget it', $ex->getMessage());
             Http::assertSent(function (Request $request): bool {
                 return 'https://discord.com/api/users/@me' === $request->url();
@@ -325,7 +326,7 @@ final class InteractsWithDiscordTest extends TestCase
         try {
             // @phpstan-ignore-next-line
             $this->mock->getDiscordGuilds('13');
-        } catch (\RuntimeException $ex) {
+        } catch (RuntimeException $ex) {
             self::assertSame('broken', $ex->getMessage());
             Http::assertSent(function (Request $request): bool {
                 return 'https://discord.com/api/users/@me/guilds' === $request->url();

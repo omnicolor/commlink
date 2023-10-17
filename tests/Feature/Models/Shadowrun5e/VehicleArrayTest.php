@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Vehicle;
 use App\Models\Shadowrun5e\VehicleArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the VehicleArray class.
@@ -14,7 +17,7 @@ use App\Models\Shadowrun5e\VehicleArray;
  * @group shadowrun5e
  * @small
  */
-final class VehicleArrayTest extends \Tests\TestCase
+final class VehicleArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -56,9 +59,9 @@ final class VehicleArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->vehicles[] = new \StdClass();
+        $this->vehicles[] = new stdClass();
     }
 
     /**
@@ -69,8 +72,8 @@ final class VehicleArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->vehicles->offsetSet(vehicle: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->vehicles->offsetSet(vehicle: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->vehicles);

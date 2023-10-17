@@ -12,6 +12,7 @@ use App\Models\StarTrekAdventures\Character;
 use App\Models\User;
 use App\Rolls\StarTrekAdventures\Help;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -94,7 +95,7 @@ final class HelpTest extends TestCase
             'type' => Channel::TYPE_DISCORD,
         ]);
         $channel->username = $this->faker->name;
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -131,7 +132,7 @@ final class HelpTest extends TestCase
             'type' => Channel::TYPE_DISCORD,
         ]);
         $channel->username = $this->faker->name;
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -166,7 +167,7 @@ final class HelpTest extends TestCase
             'type' => Channel::TYPE_DISCORD,
         ]);
         $channel->username = $this->faker->name;
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([

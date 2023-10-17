@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\Lifepath;
 use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Unit tests for Cyberpunkred lifepath.
@@ -13,7 +14,7 @@ use RuntimeException;
  * @group models
  * @small
  */
-final class LifepathTest extends \Tests\TestCase
+final class LifepathTest extends TestCase
 {
     public function testGetAffectationNoValue(): void
     {

@@ -7,6 +7,9 @@ namespace Tests\Feature\Models\Cyberpunkred;
 use App\Models\Cyberpunkred\Role;
 use App\Models\Cyberpunkred\Role\Fixer;
 use App\Models\Cyberpunkred\RoleArray;
+use PHPUnit\Framework\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the RoleArray class.
@@ -14,7 +17,7 @@ use App\Models\Cyberpunkred\RoleArray;
  * @group models
  * @small
  */
-final class RoleArrayTest extends \PHPUnit\Framework\TestCase
+final class RoleArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -60,10 +63,10 @@ final class RoleArrayTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         self::expectExceptionMessage('RoleArray only accepts Role objects');
         // @phpstan-ignore-next-line
-        $this->roles[] = new \StdClass();
+        $this->roles[] = new stdClass();
     }
 
     /**
@@ -74,8 +77,8 @@ final class RoleArrayTest extends \PHPUnit\Framework\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->roles->offsetSet(role: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->roles->offsetSet(role: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->roles);

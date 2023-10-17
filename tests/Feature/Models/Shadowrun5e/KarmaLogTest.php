@@ -10,7 +10,14 @@ use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\KarmaLog;
 use App\Models\Shadowrun5e\KarmaLogEntry;
 use App\Models\Shadowrun5e\KnowledgeSkill;
+use RuntimeException;
 use Tests\TestCase;
+use TypeError;
+use stdClass;
+
+use function array_filter;
+use function array_reduce;
+use function json_decode;
 
 /**
  * Tests for Karma Log.
@@ -71,12 +78,12 @@ final class KarmaLogTest extends TestCase
      */
     public function testWrongObjectTypeThrowsException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         self::expectExceptionMessage(
             'KarmaLog only accepts KarmaLogEntry objects'
         );
         // @phpstan-ignore-next-line
-        $this->log[] = new \StdClass();
+        $this->log[] = new stdClass();
     }
 
     /**
@@ -88,8 +95,8 @@ final class KarmaLogTest extends TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->log->offsetSet(entry: new \StdClass());
-        } catch (\TypeError $ex) {
+            $this->log->offsetSet(entry: new stdClass());
+        } catch (TypeError) {
             // Ignore
         }
         self::assertCount(0, $this->log);
@@ -159,7 +166,7 @@ final class KarmaLogTest extends TestCase
      */
     public function testCountSkillPointsEmptyArray(): void
     {
-        self::assertNull(\array_reduce(
+        self::assertNull(array_reduce(
             [],
             [KarmaLog::class, 'countSkillPoints']
         ));
@@ -177,7 +184,7 @@ final class KarmaLogTest extends TestCase
         ];
         self::assertSame(
             5,
-            \array_reduce(
+            array_reduce(
                 $knowledgeSkills,
                 [KarmaLog::class, 'countSkillPoints']
             )
@@ -196,7 +203,7 @@ final class KarmaLogTest extends TestCase
         ];
         self::assertSame(
             2,
-            \array_reduce(
+            array_reduce(
                 $knowledgeSkills,
                 [KarmaLog::class, 'countSkillPoints']
             )
@@ -215,7 +222,7 @@ final class KarmaLogTest extends TestCase
         ];
         self::assertSame(
             3,
-            \array_reduce(
+            array_reduce(
                 $knowledgeSkills,
                 [KarmaLog::class, 'countSkillPoints']
             )
@@ -235,7 +242,7 @@ final class KarmaLogTest extends TestCase
             new ActiveSkill('hacking', 2),
             new ActiveSkill('hacking', 1, 'Special'),
         ];
-        $specializations = \array_filter(
+        $specializations = array_filter(
             $skills,
             [$this->log, 'filterUnspecialized']
         );
@@ -372,7 +379,7 @@ final class KarmaLogTest extends TestCase
      */
     public function testInitializeEmptyCharacter(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Priorities not set');
         $this->log->initialize(new Character());
     }
@@ -959,7 +966,7 @@ final class KarmaLogTest extends TestCase
      */
     public function testFromArray(): void
     {
-        $rawLog = \json_decode(
+        $rawLog = json_decode(
             '[{"description":"Initial karma","karma":25},'
                 . '{"description":"Increase body to 3","karma":-15},'
                 . '{"description":"Add Gremlins","karma":4},'

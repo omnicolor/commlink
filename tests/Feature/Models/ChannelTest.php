@@ -13,7 +13,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
+use RuntimeException;
 use Tests\TestCase;
+
+use function array_keys;
+use function key;
 
 /**
  * Tests for the channel model class.
@@ -59,7 +64,7 @@ final class ChannelTest extends TestCase
     public function testGetServerNameNewSlackInstance(): void
     {
         $channel = new Channel([
-            'server_id' => 'T' . \Str::random(10),
+            'server_id' => 'T' . Str::random(10),
             'type' => Channel::TYPE_SLACK,
         ]);
         self::assertDatabaseMissing(
@@ -69,7 +74,7 @@ final class ChannelTest extends TestCase
                 'type' => Channel::TYPE_SLACK,
             ]
         );
-        $name = \Str::random(20);
+        $name = Str::random(20);
         Http::fake([
             self::API_SLACK_TEAMS => Http::response([
                 'ok' => true,
@@ -101,14 +106,14 @@ final class ChannelTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
         $channel = new Channel([
-            'channel_id' => 'C' . \Str::random(10),
+            'channel_id' => 'C' . Str::random(10),
             'registered_by' => $user->id,
-            'server_id' => 'T' . \Str::random(10),
-            'system' => $this->faker->randomElement(\array_keys(config('app.systems'))),
+            'server_id' => 'T' . Str::random(10),
+            'system' => $this->faker->randomElement(array_keys(config('app.systems'))),
             'type' => Channel::TYPE_SLACK,
         ]);
         $channel->save();
-        $name = \Str::random(20);
+        $name = Str::random(20);
         self::assertDatabaseHas(
             'channels',
             [
@@ -149,7 +154,7 @@ final class ChannelTest extends TestCase
     public function testGetServerNameNewDiscordInstance(): void
     {
         $channel = new Channel([
-            'server_id' => '1' . \Str::random(10),
+            'server_id' => '1' . Str::random(10),
             'type' => Channel::TYPE_DISCORD,
         ]);
         self::assertDatabaseMissing(
@@ -159,7 +164,7 @@ final class ChannelTest extends TestCase
                 'type' => Channel::TYPE_DISCORD,
             ]
         );
-        $name = \Str::random(20);
+        $name = Str::random(20);
         Http::fake([
             self::API_DISCORD_GUILDS . $channel->server_id => Http::response(
                 ['name' => $name],
@@ -186,14 +191,14 @@ final class ChannelTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
         $channel = new Channel([
-            'channel_id' => '2' . \Str::random(10),
+            'channel_id' => '2' . Str::random(10),
             'registered_by' => $user->id,
-            'server_id' => '1' . \Str::random(10),
-            'system' => $this->faker->randomElement(\array_keys(config('app.systems'))),
+            'server_id' => '1' . Str::random(10),
+            'system' => $this->faker->randomElement(array_keys(config('app.systems'))),
             'type' => Channel::TYPE_DISCORD,
         ]);
         $channel->save();
-        $name = \Str::random(20);
+        $name = Str::random(20);
         self::assertDatabaseHas(
             'channels',
             [
@@ -238,7 +243,7 @@ final class ChannelTest extends TestCase
     public function testSetInvalidSystem(): void
     {
         $channel = new Channel();
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Invalid system');
         $channel->system = 'foo';
     }
@@ -249,7 +254,7 @@ final class ChannelTest extends TestCase
      */
     public function testSetSystem(): void
     {
-        $system = \key(config('app.systems'));
+        $system = key(config('app.systems'));
         $channel = new Channel();
         $channel->system = $system;
         self::assertSame($system, $channel->system);
@@ -262,7 +267,7 @@ final class ChannelTest extends TestCase
     public function testSetTypeInvalid(): void
     {
         $channel = new Channel();
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Invalid channel type');
         $channel->type = 'aol';
     }

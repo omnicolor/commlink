@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models\Dnd5e;
 
+use App\Models\Character as BaseCharacter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use OutOfRangeException;
+use RuntimeException;
 
 /**
  * Representation of a D&D 5E character sheet.
@@ -18,7 +21,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $system
  * @property int $wisdom
  */
-class Character extends \App\Models\Character
+class Character extends BaseCharacter
 {
     use HasFactory;
 
@@ -89,18 +92,18 @@ class Character extends \App\Models\Character
      * Return the ability modifier for the given attribute.
      * @param string $attribute Attribute to return modifier for
      * @return int
-     * @throws \RuntimeException If the attribute isn't set
-     * @throws \OutOfRangeException If the attribute is < 1 or > 30
+     * @throws OutOfRangeException If the attribute is < 1 or > 30
+     * @throws RuntimeException If the attribute isn't set
      */
     public function getAbilityModifier(string $attribute): int
     {
         if (!isset($this->attributes[$attribute])) {
-            throw new \RuntimeException('Invalid attribute');
+            throw new RuntimeException('Invalid attribute');
         }
 
         $value = $this->attributes[$attribute];
         if (self::ATTRIBUTE_MIN > $value || self::ATTRIBUTE_MAX < $value) {
-            throw new \OutOfRangeException('Attribute value is out of range');
+            throw new OutOfRangeException('Attribute value is out of range');
         }
 
         return -5 + (int)floor($value / 2);
@@ -109,8 +112,8 @@ class Character extends \App\Models\Character
     /**
      * Return the character's armor class.
      * @return int
-     * @throws \RuntimeException If the character's dexterity isn't set
-     * @throws \OutOfRangeException If the character's dexterity is invalid
+     * @throws OutOfRangeException If the character's dexterity is invalid
+     * @throws RuntimeException If the character's dexterity isn't set
      */
     public function getArmorClass(): int
     {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Cyberpunkred\Role;
 
 use App\Models\Cyberpunkred\Role\Media;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for the Media role.
@@ -12,7 +13,7 @@ use App\Models\Cyberpunkred\Role\Media;
  * @group models
  * @small
  */
-final class MediaTest extends \PHPUnit\Framework\TestCase
+final class MediaTest extends TestCase
 {
     /**
      * Test the toString method.
