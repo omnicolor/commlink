@@ -15,6 +15,8 @@ use RuntimeException;
 use SimpleXMLElement;
 use ValueError;
 
+use function sprintf;
+
 /**
  * @codeCoverageIgnore
  * @psalm-suppress InvalidArgument
@@ -269,7 +271,7 @@ class ImportChummerData extends Command implements Isolatable
             return;
         }
 
-        $this->line(\sprintf(
+        $this->line(sprintf(
             'Updating Chummer 5 repository: %s',
             $this->chummerRepository
         ));
@@ -468,6 +470,7 @@ class ImportChummerData extends Command implements Isolatable
                 || Str::startsWith($name, 'Diffusion')
             ) {
                 foreach ($matrixAttributes as $attribute) {
+                    /** @var string */
                     $newName = Str::replace('[Matrix Attribute]', $attribute, $name);
                     $form['name'] = $newName;
                     $forms[$this->nameToId($newName)] = $form;
@@ -959,6 +962,7 @@ class ImportChummerData extends Command implements Isolatable
         $formula = Str::replace('Rating', 'Q', $formula);
         $formula = Str::replace(' ', '', $formula);
         $formula = Str::replace('{', '', $formula);
+        /** @var string */
         $formula = Str::replace('}', '', $formula);
         return $this->convertFormula($formula, 'Q', $rating);
     }
@@ -1010,6 +1014,7 @@ class ImportChummerData extends Command implements Isolatable
         $formula = Str::replace('Rating', 'Q', $formula);
         $formula = Str::replace(' ', '', $formula);
         $formula = Str::replace('{', '', $formula);
+        /** @var string */
         $formula = Str::replace('}', '', $formula);
         if (Str::contains($formula, '(')) {
             $temp = (string)$this->convertFormula(
@@ -1017,6 +1022,7 @@ class ImportChummerData extends Command implements Isolatable
                 'Q',
                 $rating
             );
+            /** @var string */
             $formula = Str::replace(
                 '(' . Str::between($formula, '(', ')') . ')',
                 $temp,
@@ -1032,9 +1038,12 @@ class ImportChummerData extends Command implements Isolatable
      */
     protected function calculateEssence(string $essence, int $rating): float
     {
+        /** @var string */
         $formula = Str::replace('Rating', 'R', $essence);
+        /** @var string */
         $formula = Str::replace(' ', '', $formula);
         $cost = (float)Str::after($formula, '*') * 100;
+        /** @var string */
         $formula = Str::replace(Str::after($formula, '*'), (string)$cost, $formula);
         $cost = $this->convertFormula($formula, 'R', $rating) / 100;
         return $cost;
