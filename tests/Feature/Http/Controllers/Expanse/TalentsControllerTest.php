@@ -7,6 +7,8 @@ namespace Tests\Feature\Http\Controllers\Expanse;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Config;
+use Tests\TestCase;
 
 /**
  * Tests for the talents controller.
@@ -14,7 +16,7 @@ use Illuminate\Http\Response;
  * @group expanse
  * @medium
  */
-final class TalentsControllerTest extends \Tests\TestCase
+final class TalentsControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -24,7 +26,7 @@ final class TalentsControllerTest extends \Tests\TestCase
      */
     public function testIndexBrokenConfig(): void
     {
-        \Config::set('app.data_path.expanse', '/tmp/unused/');
+        Config::set('app.data_path.expanse', '/tmp/unused/');
         /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\KarmaLogEntry;
+use DateTimeImmutable;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for KarmaLogEntry class.
@@ -13,7 +15,7 @@ use App\Models\Shadowrun5e\KarmaLogEntry;
  * @group shadowrun5e
  * @small
  */
-final class KarmaLogEntryTest extends \PHPUnit\Framework\TestCase
+final class KarmaLogEntryTest extends TestCase
 {
     /**
      * Test the constructor with null dates.
@@ -34,17 +36,17 @@ final class KarmaLogEntryTest extends \PHPUnit\Framework\TestCase
      */
     public function testConstructorDates(): void
     {
-        $realDate = new \DateTimeImmutable('2020-03-15');
-        $gameDate = new \DateTimeImmutable('2080-04-01');
+        $realDate = new DateTimeImmutable('2020-03-15');
+        $gameDate = new DateTimeImmutable('2080-04-01');
         $entry = new KarmaLogEntry('Foo', 42, $realDate, $gameDate);
         self::assertSame('Foo', $entry->description);
         self::assertSame(42, $entry->karma);
         self::assertEquals(
-            new \DateTimeImmutable('2020-03-15'),
+            new DateTimeImmutable('2020-03-15'),
             $entry->realDate
         );
         self::assertEquals(
-            new \DateTimeImmutable('2080-04-01'),
+            new DateTimeImmutable('2080-04-01'),
             $entry->gameDate
         );
     }

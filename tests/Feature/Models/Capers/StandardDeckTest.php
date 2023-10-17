@@ -7,13 +7,14 @@ namespace Tests\Feature\Models\Capers;
 use App\Models\Campaign;
 use App\Models\Capers\StandardDeck;
 use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for Capers decks.
  * @group capers
  * @small
  */
-final class StandardDeckTest extends \Tests\TestCase
+final class StandardDeckTest extends TestCase
 {
     /**
      * Test a new StandardDeck.

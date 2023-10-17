@@ -178,7 +178,7 @@ abstract class Deck implements Countable
     public function save(): Deck
     {
         if (!isset($this->campaign_id)) {
-            throw new \RuntimeException('Campaign ID must be set to save a deck');
+            throw new RuntimeException('Campaign ID must be set to save a deck');
         }
         if (!isset($this->id)) {
             $this->id = DB::table('decks')->insertGetId([

@@ -12,6 +12,7 @@ use App\Models\Character;
 use App\Models\ChatUser;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -42,7 +43,7 @@ final class ValidateTest extends TestCase
     {
         /** @var Channel */
         $channel = Channel::factory()->make();
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
         self::expectException(SlackException::class);
         self::expectExceptionMessage(\sprintf(
             'To link your Commlink user, go to the <%s/settings|settings page> '
@@ -71,7 +72,7 @@ final class ValidateTest extends TestCase
 
         /** @var Channel */
         $channel = Channel::factory()->make();
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
 
         // User that doesn't match the hash.
         /** @var ChatUser */
@@ -111,7 +112,7 @@ final class ValidateTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->make();
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'server_id' => $channel->server_id,
@@ -138,7 +139,7 @@ final class ValidateTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->make();
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'server_id' => $channel->server_id,
@@ -171,7 +172,7 @@ final class ValidateTest extends TestCase
         $user = User::factory()->create();
         /** @var Channel */
         $channel = Channel::factory()->create();
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'server_id' => $channel->server_id,
@@ -200,9 +201,9 @@ final class ValidateTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
         $channel = new Channel();
-        $channel->server_id = 'G' . \Str::random(10);
+        $channel->server_id = 'G' . Str::random(10);
         $channel->type = Channel::TYPE_SLACK;
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'server_id' => $channel->server_id,
@@ -242,7 +243,7 @@ final class ValidateTest extends TestCase
 
         /** @var Channel */
         $channel = Channel::factory()->create();
-        $channel->user = \Str::random(10);
+        $channel->user = Str::random(10);
 
         /** @var Character */
         $character = Character::factory()->create([

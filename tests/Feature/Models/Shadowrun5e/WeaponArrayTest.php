@@ -6,6 +6,9 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Weapon;
 use App\Models\Shadowrun5e\WeaponArray;
+use Tests\TestCase;
+use TypeError;
+use stdClass;
 
 /**
  * Tests for the WeaponArray class.
@@ -14,7 +17,7 @@ use App\Models\Shadowrun5e\WeaponArray;
  * @group shadowrun5e
  * @small
  */
-final class WeaponArrayTest extends \Tests\TestCase
+final class WeaponArrayTest extends TestCase
 {
     /**
      * Subject under test.
@@ -56,9 +59,9 @@ final class WeaponArrayTest extends \Tests\TestCase
      */
     public function testAddWrongTypeException(): void
     {
-        self::expectException(\TypeError::class);
+        self::expectException(TypeError::class);
         // @phpstan-ignore-next-line
-        $this->weapons[] = new \StdClass();
+        $this->weapons[] = new stdClass();
         self::assertEmpty($this->weapons);
     }
 
@@ -70,8 +73,8 @@ final class WeaponArrayTest extends \Tests\TestCase
     {
         try {
             // @phpstan-ignore-next-line
-            $this->weapons->offsetSet(weapon: new \StdClass());
-        } catch (\TypeError $e) {
+            $this->weapons->offsetSet(weapon: new stdClass());
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->weapons);

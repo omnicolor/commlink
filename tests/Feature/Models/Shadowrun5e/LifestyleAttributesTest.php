@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\LifestyleAttributes;
+use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 /**
  * Tests for Shadowrun 5E lifestyle attributes.
@@ -13,7 +15,7 @@ use App\Models\Shadowrun5e\LifestyleAttributes;
  * @group shadowrun5e
  * @small
  */
-final class LifestyleAttributesTest extends \PHPUnit\Framework\TestCase
+final class LifestyleAttributesTest extends TestCase
 {
     /**
      * Test trying to initialize attributes without required data.
@@ -21,7 +23,7 @@ final class LifestyleAttributesTest extends \PHPUnit\Framework\TestCase
      */
     public function testMissingAttributes(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Lifestyle attributes missing');
         new LifestyleAttributes([]);
     }
