@@ -7,13 +7,14 @@ namespace Tests\Feature\Models\Capers;
 use App\Models\Capers\Virtue;
 use App\Models\Card;
 use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for Capers virtues.
  * @group capers
  * @small
  */
-final class VirtueTest extends \Tests\TestCase
+final class VirtueTest extends TestCase
 {
     /**
      * Test trying to create a virtue that doesn't exist.

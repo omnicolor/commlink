@@ -7,6 +7,7 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\Commlink;
 use App\Models\Shadowrun5e\GearModification;
 use App\Models\Shadowrun5e\Program;
+use Tests\TestCase;
 
 /**
  * Tests for the Commlink class.
@@ -15,7 +16,7 @@ use App\Models\Shadowrun5e\Program;
  * @group shadowrun5e
  * @small
  */
-final class CommlinkTest extends \Tests\TestCase
+final class CommlinkTest extends TestCase
 {
     /**
      * Test initializing a commlink device with an attributes array.

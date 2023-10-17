@@ -6,6 +6,8 @@ namespace Tests\Feature\Http\Controllers\Shadowrun5e;
 
 use App\Models\User;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Config;
+use Tests\TestCase;
 
 /**
  * Tests for the Spells controller for Shadowrun 5E.
@@ -14,7 +16,7 @@ use Illuminate\Http\Response;
  * @group shadowrun5e
  * @medium
  */
-final class SpellsControllerTest extends \Tests\TestCase
+final class SpellsControllerTest extends TestCase
 {
     /**
      * Test loading the collection if the config is broken.
@@ -22,7 +24,7 @@ final class SpellsControllerTest extends \Tests\TestCase
      */
     public function testIndexBrokenConfig(): void
     {
-        \Config::set('app.data_path.shadowrun5e', '/tmp/unused/');
+        Config::set('app.data_path.shadowrun5e', '/tmp/unused/');
         /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)

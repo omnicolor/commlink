@@ -6,6 +6,9 @@ namespace App\Models\Capers;
 
 use RuntimeException;
 
+use function sprintf;
+use function strtolower;
+
 class Perk
 {
     /** @psalm-suppress PossiblyUnusedProperty */
@@ -24,16 +27,17 @@ class Perk
      * Constructor.
      * @param string $id
      * @param array<string, string> $rawPerk
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function __construct(string $id, array $rawPerk)
     {
         $filename = config('app.data_path.capers') . 'perks.php';
         self::$perks ??= require $filename;
 
-        $this->id = \strtolower($id);
+        $this->id = strtolower($id);
         if (!isset(self::$perks[$this->id])) {
             throw new RuntimeException(
-                \sprintf('Perks ID "%s" is invalid', $id)
+                sprintf('Perks ID "%s" is invalid', $id)
             );
         }
 

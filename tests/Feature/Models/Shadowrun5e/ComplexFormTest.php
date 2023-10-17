@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\ComplexForm;
+use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for ComplexForm object.
@@ -13,7 +15,7 @@ use App\Models\Shadowrun5e\ComplexForm;
  * @group shadowrun5e
  * @small
  */
-final class ComplexFormTest extends \Tests\TestCase
+final class ComplexFormTest extends TestCase
 {
     /**
      * Test trying to load an invalid Complex Form.
@@ -21,7 +23,7 @@ final class ComplexFormTest extends \Tests\TestCase
      */
     public function testLoadInvalid(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Complex Form ID "foo" is invalid');
         new ComplexForm('foo');
     }
@@ -54,7 +56,7 @@ final class ComplexFormTest extends \Tests\TestCase
      */
     public function testGetFadeNoLevel(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Level has not been set');
         $form = new ComplexForm('cleaner');
         $form->getFade();

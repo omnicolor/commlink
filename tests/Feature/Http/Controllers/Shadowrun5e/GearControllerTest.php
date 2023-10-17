@@ -7,6 +7,7 @@ namespace Tests\Feature\Http\Controllers\Shadowrun5e;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
 /**
@@ -26,7 +27,7 @@ final class GearControllerTest extends TestCase
      */
     public function testIndexBrokenConfig(): void
     {
-        \Config::set('app.data_path.shadowrun5e', '/tmp/unused/');
+        Config::set('app.data_path.shadowrun5e', '/tmp/unused/');
         /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)

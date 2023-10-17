@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use RuntimeException;
+
+use function sprintf;
+
+use const PHP_EOL;
+
 /**
  * Class representing a Shadowrun identity.
  * @psalm-suppress PossiblyUnusedProperty
@@ -83,11 +89,11 @@ class Identity
             foreach ($rawLifestyle['options'] ?? [] as $option) {
                 try {
                     $lifestyle->options[] = new LifestyleOption($option);
-                } catch (\RuntimeException $ex) {
+                } catch (RuntimeException) {
                     if ('' !== $identity->notes) {
-                        $identity->notes .= \PHP_EOL;
+                        $identity->notes .= PHP_EOL;
                     }
-                    $identity->notes .= \sprintf(
+                    $identity->notes .= sprintf(
                         'Option "%s" was not found for lifestyle "%s"',
                         $option,
                         $rawLifestyle['name']

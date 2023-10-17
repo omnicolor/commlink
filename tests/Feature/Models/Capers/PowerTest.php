@@ -6,13 +6,14 @@ namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Power;
 use RuntimeException;
+use Tests\TestCase;
 
 /**
  * Tests for Capers powers.
  * @group capers
  * @small
  */
-final class PowerTest extends \Tests\TestCase
+final class PowerTest extends TestCase
 {
     /**
      * Test creating an invalid power.

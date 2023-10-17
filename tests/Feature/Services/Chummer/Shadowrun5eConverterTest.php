@@ -7,26 +7,30 @@ namespace Tests\Feature\Services\Chummer;
 use App\Models\Shadowrun5e\Identity;
 use App\Models\Shadowrun5e\Tradition;
 use App\Services\Chummer5\Shadowrun5eConverter;
+use RuntimeException;
+use Tests\TestCase;
+
+use const DIRECTORY_SEPARATOR;
 
 /**
  * Tests for Chummer 5 converter.
  * @group chummer5
  * @small
  */
-final class Shadowrun5eConverterTest extends \Tests\TestCase
+final class Shadowrun5eConverterTest extends TestCase
 {
     protected static string $dataDirectory;
 
     public static function setUpBeforeClass(): void
     {
         $path = explode(
-            \DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR,
             dirname(dirname(dirname(__DIR__)))
         );
         $path[] = 'Data';
         $path[] = 'Chummer5';
         $path[] = null;
-        self::$dataDirectory = implode(\DIRECTORY_SEPARATOR, $path);
+        self::$dataDirectory = implode(DIRECTORY_SEPARATOR, $path);
     }
 
     /**
@@ -35,7 +39,7 @@ final class Shadowrun5eConverterTest extends \Tests\TestCase
      */
     public function testLoadNotFound(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('"not-found.chum5" does not exist');
         new Shadowrun5eConverter('not-found.chum5');
     }
@@ -46,7 +50,7 @@ final class Shadowrun5eConverterTest extends \Tests\TestCase
      */
     public function testLoadNotXML(): void
     {
-        self::expectException(\RuntimeException::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Could not parse XML in Chummer file');
         new Shadowrun5eConverter(__FILE__);
     }

@@ -7,11 +7,12 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Gear;
+use Tests\TestCase;
 
 /**
  * @small
  */
-final class GearTest extends \Tests\TestCase
+final class GearTest extends TestCase
 {
     /**
      * Test rendering a lack of gear for an existing character.
