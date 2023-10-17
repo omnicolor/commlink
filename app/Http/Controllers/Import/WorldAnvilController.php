@@ -34,6 +34,9 @@ class WorldAnvilController extends Controller
     public function upload(Request $request): RedirectResponse | View
     {
         $user = $request->user();
+        if (null === $request->character) {
+            return back()->withInput()->withErrors('Character is required');
+        }
         $characterJson = file_get_contents($request->character->path());
         try {
             $rawCharacter = json_decode(

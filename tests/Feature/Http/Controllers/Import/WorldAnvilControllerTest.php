@@ -89,14 +89,17 @@ final class WorldAnvilControllerTest extends TestCase
             ->assertSee('Caleb');
     }
 
-    public function testView(): void
+    public function testMissingUpload(): void
     {
         /** @var User */
         $user = User::factory()->create();
 
         self::actingAs($user)
-            ->post(route('import.world-anvil.viwe'))
-            ->assertOk()
-            ->assertSee('About World Anvil');
+            ->withHeaders([
+                'Referer' => route('import.world-anvil.view'),
+            ])
+            ->post(route('import.world-anvil.view'))
+            ->assertRedirect(route('import.world-anvil.view'))
+            ->assertSessionHasErrors();
     }
 }
