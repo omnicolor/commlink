@@ -7,12 +7,16 @@ namespace Tests\Feature\Http\Controllers;
 use App\Models\ChatUser;
 use App\Models\Traits\InteractsWithDiscord;
 use App\Models\User;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Psr7\Request as GuzzleRequest;
+use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
+use Laravel\Socialite\Two\InvalidStateException;
 use Tests\TestCase;
 
 use function sprintf;
@@ -404,5 +408,23 @@ final class DiscordControllerTest extends TestCase
                     $this->getDiscordOauthURL(),
                 ),
             ]);
+    }
+
+    public function testSocialiteFailingWithInvalidState(): void
+    {
+        Socialite::shouldReceive('driver->user')
+            ->andThrow(InvalidStateException::class);
+        self::get('discord/callback')->assertSessionHasErrors();
+    }
+
+    public function testSocialiteFailingWithClientException(): void
+    {
+        Socialite::shouldReceive('driver->user')
+            ->andThrow(new ClientException(
+                'Error communicating with server',
+                new GuzzleRequest('GET', 'test'),
+                new GuzzleResponse(),
+            ));
+        self::get('discord/callback')->assertSessionHasErrors();
     }
 }
