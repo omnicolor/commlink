@@ -141,9 +141,9 @@ class UsersController extends Controller
                         );
                     }
                     if ('true' === $patch['value']) {
-                        $user->assignRole($path[2]);
+                        $user->assignRole($role);
                     } else {
-                        $user->removeRole($path[2]);
+                        $user->removeRole($role);
                     }
                     break;
             }
