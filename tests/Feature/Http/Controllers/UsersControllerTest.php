@@ -222,6 +222,7 @@ final class UsersControllerTest extends TestCase
         $patch = [
             'patch' => [
                 [
+                    // @phpstan-ignore-next-line
                     'path' => '/roles/' . $role->id,
                     'op' => 'replace',
                     'value' => 'true',

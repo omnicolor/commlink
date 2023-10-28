@@ -103,7 +103,7 @@ class VarzController extends Controller
                 ['system' => $system],
             );
             $exampleFiles = [];
-            // @codeCoverageIgnoreEnd
+        // @codeCoverageIgnoreEnd
         } else {
             $exampleFiles = Storage::build([
                 'driver' => 'local',
