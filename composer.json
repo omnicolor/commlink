@@ -35,6 +35,10 @@
     "repositories": [
         {
             "type": "vcs",
+            "url": "https://github.com/omnicolor/php-irc-client"
+        },
+        {
+            "type": "vcs",
             "url": "https://github.com/omnicolor/phpmnd"
         }
     ],
@@ -50,6 +54,7 @@
         "laravel/pennant": "^1.1",
         "laravel/sanctum": "^3.2",
         "laravel/socialite": "^5.6",
+        "jerodev/php-irc-client": "dev-main",
         "markrogoyski/math-php": "^2.8",
         "mongodb/laravel-mongodb": "^4.0-rc1",
         "php-jsonpatch/php-jsonpatch": "^4.1",

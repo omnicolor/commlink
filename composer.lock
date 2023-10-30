@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "09229dcf22e43f6ac799205a6665997f",
+    "content-hash": "fcb7978241c8b5b7e98a41703c1afa4c",
     "packages": [
         {
             "name": "brick/math",
@@ -1232,6 +1232,80 @@
                 "source": "https://github.com/Jean85/pretty-package-versions/tree/2.0.5"
             },
             "time": "2021-10-08T21:21:46+00:00"
+        },
+        {
+            "name": "jerodev/php-irc-client",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/omnicolor/php-irc-client.git",
+                "reference": "b9d0bbac87cf6f77d1d7f568483fb520759deed4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/omnicolor/php-irc-client/zipball/b9d0bbac87cf6f77d1d7f568483fb520759deed4",
+                "reference": "b9d0bbac87cf6f77d1d7f568483fb520759deed4",
+                "shasum": ""
+            },
+            "require": {
+                "react/socket": "^1.12.0"
+            },
+            "require-dev": {
+                "php-parallel-lint/php-parallel-lint": "^1.3",
+                "phpstan/phpstan": "^1.9",
+                "phpstan/phpstan-phpunit": "^1.3.3",
+                "phpunit/phpunit": "^9.0",
+                "vimeo/psalm": "^5.9"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jerodev\\PhpIrcClient\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "all": [
+                    "@lint",
+                    "@phpstan",
+                    "@psalm",
+                    "@coverage"
+                ],
+                "coverage": [
+                    "phpunit --coverage-html=vendor/coverage"
+                ],
+                "lint": [
+                    "parallel-lint --colors src tests"
+                ],
+                "phpstan": [
+                    "phpstan analyze"
+                ],
+                "psalm": [
+                    "psalm"
+                ],
+                "test": [
+                    "phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeroen Deviaene",
+                    "email": "jeroen@deviaene.eu"
+                }
+            ],
+            "description": "PHP IRC client based on React",
+            "support": {
+                "source": "https://github.com/omnicolor/php-irc-client/tree/main"
+            },
+            "time": "2023-06-01T13:55:45+00:00"
         },
         {
             "name": "laravel/framework",
@@ -16269,6 +16343,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "jerodev/php-irc-client": 20,
         "mongodb/laravel-mongodb": 5,
         "povils/phpmnd": 20,
         "roave/security-advisories": 20
