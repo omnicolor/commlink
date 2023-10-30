@@ -126,6 +126,7 @@ class PartialCharacter extends Character
             $this->errors ?? [],
             $this->validatePriorities(),
             $this->validateNativeLanguage(),
+            $this->validateAttributes(),
         );
     }
 
@@ -266,6 +267,9 @@ class PartialCharacter extends Character
                     break;
             }
         } else {
+            if (!isset($this->priorities['attributePriority'])) {
+                return [];
+            }
             switch ($this->priorities['attributePriority']) {
                 case 'A':
                     $attributePoints = 24;
@@ -289,7 +293,10 @@ class PartialCharacter extends Character
             - $this->reaction - $this->strength - $this->willpower
             - $this->logic - $this->intuition - $this->charisma;
         if (0 < $attributePoints) {
-            $errors[] = 'You have unspent attribute points';
+            $errors[] = sprintf(
+                'You have %d unspent attribute points',
+                $attributePoints,
+            );
         }
         return $errors;
     }
