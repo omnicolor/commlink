@@ -10791,16 +10791,16 @@
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v8.14.1",
+            "version": "v8.14.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "5719db860336128ebc4d09e4525c4e0a16e61cb5"
+                "reference": "eeb576a1fec22b6baa0868f8abb00af953af65a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/5719db860336128ebc4d09e4525c4e0a16e61cb5",
-                "reference": "5719db860336128ebc4d09e4525c4e0a16e61cb5",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/eeb576a1fec22b6baa0868f8abb00af953af65a2",
+                "reference": "eeb576a1fec22b6baa0868f8abb00af953af65a2",
                 "shasum": ""
             },
             "require": {
@@ -10815,7 +10815,6 @@
                 "phpunit/phpunit": "<9.6.0 || >=10.5.0"
             },
             "require-dev": {
-                "composer-runtime-api": "^2.2",
                 "fakerphp/faker": "^1.21",
                 "laravel/framework": "^10.23",
                 "laravel/pint": "^1.6",
@@ -10876,7 +10875,7 @@
                 "issues": "https://github.com/orchestral/testbench/issues",
                 "source": "https://github.com/orchestral/testbench-core"
             },
-            "time": "2023-10-24T06:16:05+00:00"
+            "time": "2023-10-30T13:09:23+00:00"
         },
         {
             "name": "orchestra/workbench",
