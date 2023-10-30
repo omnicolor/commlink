@@ -214,6 +214,14 @@ final class PartialCharacterTest extends TestCase
                 'e' => 'skills',
                 'metatype' => 'human',
             ],
+            'agility' => 6,
+            'body' => 6,
+            'charisma' => 6,
+            'reaction' => 1,
+            'strength' => 1,
+            'willpower' => 1,
+            'logic' => 1,
+            'intuition' => 2,
             'knowledgeSkills' => [
                 ['name' => 'English', 'category' => 'language', 'level' => 'N'],
                 ['name' => 'Spanish', 'category' => 'language', 'level' => 'N'],
@@ -249,6 +257,14 @@ final class PartialCharacterTest extends TestCase
                 'e' => 'skills',
                 'metatype' => 'human',
             ],
+            'agility' => 6,
+            'body' => 6,
+            'charisma' => 6,
+            'reaction' => 1,
+            'strength' => 1,
+            'willpower' => 1,
+            'logic' => 1,
+            'intuition' => 2,
             'qualities' => [
                 ['id' => 'bilingual'],
             ],
@@ -276,6 +292,14 @@ final class PartialCharacterTest extends TestCase
                 'e' => 'skills',
                 'metatype' => 'human',
             ],
+            'agility' => 6,
+            'body' => 6,
+            'charisma' => 6,
+            'reaction' => 1,
+            'strength' => 1,
+            'willpower' => 1,
+            'logic' => 1,
+            'intuition' => 2,
             'qualities' => [
                 ['id' => 'bilingual'],
             ],
@@ -336,6 +360,14 @@ final class PartialCharacterTest extends TestCase
                 'resourcePriority' => 'A',
                 'metatype' => 'elf',
             ],
+            'agility' => 6,
+            'body' => 6,
+            'charisma' => 6,
+            'reaction' => 1,
+            'strength' => 1,
+            'willpower' => 1,
+            'logic' => 1,
+            'intuition' => 2,
             'knowledgeSkills' => [
                 ['name' => 'English', 'category' => 'language', 'level' => 'N'],
             ],
@@ -364,11 +396,45 @@ final class PartialCharacterTest extends TestCase
                 'resourcePriority' => 'E',
                 'metatype' => 'elf',
             ],
+            'agility' => 6,
+            'body' => 6,
+            'charisma' => 6,
+            'reaction' => 1,
+            'strength' => 1,
+            'willpower' => 1,
+            'logic' => 1,
+            'intuition' => 2,
             'knowledgeSkills' => [
                 ['name' => 'English', 'category' => 'language', 'level' => 'N'],
             ],
         ]);
         $character->validate();
         self::assertEmpty($character->errors);
+    }
+
+    /**
+     * Test validating a character with unspent attribute points.
+     * @test
+     */
+    public function testValidateAttributesUnspent(): void
+    {
+        $character = new PartialCharacter([
+            'priorities' => [
+                'metatypePriority' => 'A',
+                'magicPriority' => 'B',
+                'attributePriority' => 'C',
+                'skillPriority' => 'D',
+                'resourcePriority' => 'E',
+                'metatype' => 'elf',
+            ],
+            'knowledgeSkills' => [
+                ['name' => 'English', 'category' => 'language', 'level' => 'N'],
+            ],
+        ]);
+        $character->validate();
+        self::assertSame(
+            ['You have 16 unspent attribute points'],
+            $character->errors,
+        );
     }
 }
