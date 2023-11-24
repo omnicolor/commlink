@@ -24,7 +24,7 @@ class ChatCharacter extends Model
 
     /**
      * Return the channel.
-     * @return BelongsTo
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function channel(): BelongsTo
     {
@@ -33,7 +33,7 @@ class ChatCharacter extends Model
 
     /**
      * Return the chat user (Slack or Discord user).
-     * @return BelongsTo
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function chatUser(): BelongsTo
     {
@@ -42,7 +42,7 @@ class ChatCharacter extends Model
 
     /**
      * Return the character.
-     * @return ?Character
+     * @psalm-suppress InvalidReturnStatement
      */
     public function getCharacter(): ?Character
     {
