@@ -10519,31 +10519,32 @@
         },
         {
             "name": "orchestra/canvas",
-            "version": "v8.11.3",
+            "version": "v8.11.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/canvas.git",
-                "reference": "d336a5a5b14a3dbcb2c12888c314d6ea34a8545c"
+                "reference": "466ed3d7c1755e49be1c8e5557b434381b8ab6d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/canvas/zipball/d336a5a5b14a3dbcb2c12888c314d6ea34a8545c",
-                "reference": "d336a5a5b14a3dbcb2c12888c314d6ea34a8545c",
+                "url": "https://api.github.com/repos/orchestral/canvas/zipball/466ed3d7c1755e49be1c8e5557b434381b8ab6d1",
+                "reference": "466ed3d7c1755e49be1c8e5557b434381b8ab6d1",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.2",
                 "composer/semver": "^3.0",
-                "illuminate/console": "^10.26",
-                "illuminate/database": "^10.26",
-                "illuminate/support": "^10.26",
-                "orchestra/canvas-core": "^8.9",
+                "illuminate/console": "^10.33",
+                "illuminate/database": "^10.33",
+                "illuminate/support": "^10.33",
+                "orchestra/canvas-core": "^8.10.1",
                 "orchestra/testbench-core": "^8.11",
                 "php": "^8.1",
+                "symfony/polyfill-php83": "^1.28",
                 "symfony/yaml": "^6.2"
             },
             "require-dev": {
-                "laravel/framework": "^10.26",
+                "laravel/framework": "^10.33",
                 "laravel/pint": "^1.6",
                 "mockery/mockery": "^1.5.1",
                 "phpstan/phpstan": "^1.10.5",
@@ -10586,9 +10587,9 @@
             "description": "Code Generators for Laravel Applications and Packages",
             "support": {
                 "issues": "https://github.com/orchestral/canvas/issues",
-                "source": "https://github.com/orchestral/canvas/tree/v8.11.3"
+                "source": "https://github.com/orchestral/canvas/tree/v8.11.4"
             },
-            "time": "2023-11-06T06:10:13+00:00"
+            "time": "2023-11-27T04:47:24+00:00"
         },
         {
             "name": "orchestra/canvas-core",
