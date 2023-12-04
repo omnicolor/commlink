@@ -17,6 +17,7 @@ class VehicleModificationArray extends ArrayObject
      * Add a modification to the array.
      * @param ?int $index
      * @param VehicleModification $mod
+     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet($index = null, $mod = null): void
