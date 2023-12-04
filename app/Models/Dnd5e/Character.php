@@ -68,7 +68,6 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's name.
-     * @return string
      */
     public function __toString(): string
     {
@@ -90,8 +89,6 @@ class Character extends BaseCharacter
 
     /**
      * Return the ability modifier for the given attribute.
-     * @param string $attribute Attribute to return modifier for
-     * @return int
      * @throws OutOfRangeException If the attribute is < 1 or > 30
      * @throws RuntimeException If the attribute isn't set
      */
@@ -111,7 +108,7 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's armor class.
-     * @return int
+     * @psalm-suppress PossiblyUnusedMethod
      * @throws OutOfRangeException If the character's dexterity is invalid
      * @throws RuntimeException If the character's dexterity isn't set
      */

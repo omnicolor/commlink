@@ -18,6 +18,7 @@ class ArmorModificationArray extends ArrayObject
      * Add an armor modification to the array.
      * @param int|null $index
      * @param ArmorModification|GearModification $mod
+     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet($index = null, $mod = null): void

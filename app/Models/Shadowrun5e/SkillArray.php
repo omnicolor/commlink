@@ -17,6 +17,7 @@ class SkillArray extends ArrayObject
      * Add a skill to the array.
      * @param ?int $index
      * @param Skill $skill
+     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet($index = null, $skill = null): void

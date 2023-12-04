@@ -165,7 +165,6 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's handle.
-     * @return string
      */
     public function __toString(): string
     {
@@ -188,7 +187,6 @@ class Character extends BaseCharacter
     /**
      * Change a dashed ID to a camel case ID.
      * @param string $string ID to convert
-     * @return string Converted ID
      */
     protected function dashedToCamel(string $string): string
     {
@@ -204,7 +202,6 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's adept powers.
-     * @return AdeptPowerArray
      */
     public function getAdeptPowers(): AdeptPowerArray
     {
@@ -231,7 +228,6 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's armor.
-     * @return ArmorArray
      */
     public function getArmor(): ArmorArray
     {
@@ -258,7 +254,6 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's armor value.
-     * @return int
      */
     public function getArmorValue(): int
     {
@@ -278,7 +273,7 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's astral limit if they have one.
-     * @return Attribute
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function astralLimit(): Attribute
     {
@@ -292,10 +287,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * Return the character's augmentations.
-     * @return AugmentationArray
-     */
     public function getAugmentations(): AugmentationArray
     {
         $augmentations = new AugmentationArray();
@@ -319,10 +310,6 @@ class Character extends BaseCharacter
         return $augmentations;
     }
 
-    /**
-     * Return the character's contacts.
-     * @return ContactArray
-     */
     public function getContacts(): ContactArray
     {
         $contacts = new ContactArray();
@@ -332,10 +319,6 @@ class Character extends BaseCharacter
         return $contacts;
     }
 
-    /**
-     * Return the character's complex form.
-     * @return ComplexFormArray
-     */
     public function getComplexForms(): ComplexFormArray
     {
         $forms = new ComplexFormArray();
@@ -358,6 +341,7 @@ class Character extends BaseCharacter
 
     /**
      * Get the character's composure derived stat.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function composure(): Attribute
     {
@@ -371,7 +355,6 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's effective essence.
-     * @return float
      */
     public function getEssenceAttribute(): float
     {
@@ -397,10 +380,6 @@ class Character extends BaseCharacter
         return $essence;
     }
 
-    /**
-     * Return the character's gear.
-     * @return GearArray
-     */
     public function getGear(): GearArray
     {
         $gear = new GearArray();
@@ -421,10 +400,6 @@ class Character extends BaseCharacter
         return $gear;
     }
 
-    /**
-     * Return the character's identities.
-     * @return IdentityArray
-     */
     public function getIdentities(): IdentityArray
     {
         $identities = new IdentityArray();
@@ -437,7 +412,6 @@ class Character extends BaseCharacter
     /**
      * Return the character's real-world initiative.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return Attribute
      */
     public function initiativeScore(): Attribute
     {
@@ -465,7 +439,6 @@ class Character extends BaseCharacter
     /**
      * Get the character's judge intentions derived stat.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return Attribute
      */
     public function judgeIntentions(): Attribute
     {
@@ -478,9 +451,8 @@ class Character extends BaseCharacter
     }
 
     /**
-     * Return the character's karma log.
+     * Return the character's karma log (record of changes in karma).
      * @psalm-suppress PossiblyUnusedMethod
-     * @return KarmaLog
      */
     public function getKarmaLog(): KarmaLog
     {
@@ -496,7 +468,6 @@ class Character extends BaseCharacter
      * Return the character's knowledge skills.
      * @param ?bool $onlyLanguages Only include languages
      * @param ?bool $onlyKnowledges Only include non-language knowledge skills
-     * @return SkillArray
      */
     public function getKnowledgeSkills(
         ?bool $onlyLanguages = null,
@@ -540,7 +511,6 @@ class Character extends BaseCharacter
     /**
      * Return the character's lift/carry derived stat.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return Attribute
      */
     public function liftCarry(): Attribute
     {
@@ -552,10 +522,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * Return the character's martial arts styles.
-     * @return MartialArtsStyleArray
-     */
     public function getMartialArtsStyles(): MartialArtsStyleArray
     {
         $styles = new MartialArtsStyleArray();
@@ -579,10 +545,6 @@ class Character extends BaseCharacter
         return $styles;
     }
 
-    /**
-     * Return the character's martial arts techniques.
-     * @return MartialArtsTechniqueArray
-     */
     public function getMartialArtsTechniques(): MartialArtsTechniqueArray
     {
         $techniques = new MartialArtsTechniqueArray();
@@ -609,7 +571,6 @@ class Character extends BaseCharacter
     /**
      * Get the character's memory derived stat.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return int
      */
     public function getMemoryAttribute(): int
     {
@@ -618,9 +579,7 @@ class Character extends BaseCharacter
     }
 
     /**
-     * Return the character's mental limit.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return Attribute
      */
     public function mentalLimit(): Attribute
     {
@@ -639,7 +598,6 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's mentor spirit (if they have one).
-     * @return ?MentorSpirit
      */
     public function getMentorSpirit(): ?MentorSpirit
     {
@@ -665,9 +623,7 @@ class Character extends BaseCharacter
     }
 
     /**
-     * Return the character's metatype.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return string
      */
     public function getMetatypeAttribute(): string
     {
@@ -680,7 +636,6 @@ class Character extends BaseCharacter
     /**
      * Return an attribute's value with all modifiers taken into account.
      * @param string $attribute Attribute to return
-     * @return int Attribute's value
      */
     public function getModifiedAttribute(string $attribute): int
     {
@@ -733,10 +688,6 @@ class Character extends BaseCharacter
         return (int)$modifiedAttribute;
     }
 
-    /**
-     * Return the character's qualities (if they have any).
-     * @return QualityArray
-     */
     public function getQualities(): QualityArray
     {
         $qualities = new QualityArray();
@@ -761,10 +712,7 @@ class Character extends BaseCharacter
     }
 
     /**
-     * Get a limit for a particular skill.
-     * @param Skill $skill
      * @psalm-suppress PossiblyUnusedMethod
-     * @return string
      */
     public function getSkillLimit(Skill $skill): string
     {
@@ -795,8 +743,6 @@ class Character extends BaseCharacter
 
     /**
      * Some qualities modify limits for particular skills.
-     * @param Skill $skill
-     * @return int
      */
     protected function getSkillLimitModifierFromQualities(Skill $skill): int
     {
@@ -816,8 +762,7 @@ class Character extends BaseCharacter
     }
 
     /**
-     * Return the character's skills.
-     * @return SkillArray
+     * Return the character's active skills.
      */
     public function getSkills(): SkillArray
     {
@@ -873,7 +818,6 @@ class Character extends BaseCharacter
     /**
      * Return the character's soak dice pool.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return int
      */
     public function getSoakAttribute(): int
     {
@@ -893,9 +837,7 @@ class Character extends BaseCharacter
     }
 
     /**
-     * Return the character's social limit.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return Attribute
      */
     public function socialLimit(): Attribute
     {
@@ -912,10 +854,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * Return the character's spells.
-     * @return SpellArray
-     */
     public function getSpells(): SpellArray
     {
         $spells = new SpellArray();
@@ -940,9 +878,7 @@ class Character extends BaseCharacter
     }
 
     /**
-     * Return the character's spirits.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return SpiritArray
      */
     public function getSpirits(): SpiritArray
     {
@@ -971,9 +907,7 @@ class Character extends BaseCharacter
     }
 
     /**
-     * Return the character's sprites.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return SpriteArray
      */
     public function getSprites(): SpriteArray
     {
@@ -1001,7 +935,6 @@ class Character extends BaseCharacter
     /**
      * Return the character's magical tradition, if they're magical.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return ?Tradition
      */
     public function getTradition(): ?Tradition
     {
@@ -1023,10 +956,6 @@ class Character extends BaseCharacter
         return null;
     }
 
-    /**
-     * Return the character's vehicles.
-     * @return VehicleArray
-     */
     public function getVehicles(): VehicleArray
     {
         $vehicles = new VehicleArray();
@@ -1048,10 +977,6 @@ class Character extends BaseCharacter
         return $vehicles;
     }
 
-    /**
-     * Return the character's weapons.
-     * @return WeaponArray
-     */
     public function getWeapons(): WeaponArray
     {
         $weapons = new WeaponArray();
@@ -1073,9 +998,7 @@ class Character extends BaseCharacter
     }
 
     /**
-     * Return the character's melee defense.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return Attribute
      */
     public function meleeDefense(): Attribute
     {
@@ -1089,9 +1012,7 @@ class Character extends BaseCharacter
     }
 
     /**
-     * Return the character's physical limit.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return Attribute
      */
     public function physicalLimit(): Attribute
     {
@@ -1109,9 +1030,7 @@ class Character extends BaseCharacter
     }
 
     /**
-     * Return the character's overflow monitor.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return Attribute
      */
     public function overflowMonitor(): Attribute
     {
@@ -1124,9 +1043,7 @@ class Character extends BaseCharacter
     }
 
     /**
-     * Return the amount of physical damage a character can take.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return Attribute
      */
     public function physicalMonitor(): Attribute
     {
@@ -1138,9 +1055,7 @@ class Character extends BaseCharacter
     }
 
     /**
-     * Return the character's ranged defense.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return Attribute
      */
     public function rangedDefense(): Attribute
     {
@@ -1154,9 +1069,7 @@ class Character extends BaseCharacter
     }
 
     /**
-     * Return the amount of stun damage a character can take.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return Attribute
      */
     public function stunMonitor(): Attribute
     {

@@ -17,6 +17,7 @@ class ContactArray extends ArrayObject
      * Add a contact to the array.
      * @param int|null|string $index
      * @param Contact $contact
+     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet($index = null, $contact = null): void

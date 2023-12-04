@@ -13,6 +13,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+use function sha1;
+use function substr;
+
 /**
  * @property-read string $verification
  */
@@ -55,17 +58,18 @@ class ChatUser extends Model
 
     /**
      * Return the verification hash for the user.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function verification(): Attribute
     {
         return Attribute::make(
             get: function (): string {
-                $hash = \sha1(
+                $hash = sha1(
                     config('app.key') . $this->attributes['server_id']
                         . $this->attributes['remote_user_id']
                         . $this->attributes['user_id']
                 );
-                return \substr($hash, 0, 20);
+                return substr($hash, 0, 20);
             },
         );
     }

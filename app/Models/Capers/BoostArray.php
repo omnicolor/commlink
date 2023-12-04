@@ -17,6 +17,7 @@ class BoostArray extends ArrayObject
      * Add a boost to the array.
      * @param int|null|string $index
      * @param Boost $boost
+     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet($index = null, $boost = null): void

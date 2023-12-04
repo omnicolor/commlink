@@ -17,6 +17,7 @@ class PowerArray extends ArrayObject
      * Add a power to the array.
      * @param int|null|string $index
      * @param Power $power
+     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet($index = null, $power = null): void

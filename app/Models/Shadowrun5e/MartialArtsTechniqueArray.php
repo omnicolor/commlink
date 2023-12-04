@@ -17,6 +17,7 @@ class MartialArtsTechniqueArray extends ArrayObject
      * Add a technique to the array.
      * @param ?int $index
      * @param MartialArtsTechnique $technique
+     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet($index = null, $technique = null): void

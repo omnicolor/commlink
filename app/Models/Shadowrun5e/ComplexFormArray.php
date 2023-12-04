@@ -17,6 +17,7 @@ class ComplexFormArray extends ArrayObject
      * Add a form to the array.
      * @param ?int $index
      * @param ComplexForm $form
+     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet($index = null, $form = null): void

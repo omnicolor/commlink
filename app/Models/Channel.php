@@ -14,6 +14,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use RuntimeException;
 
+use function array_key_exists;
+use function in_array;
+
 /**
  * @property-read int $id
  * @property string $server_id
@@ -52,11 +55,15 @@ class Channel extends Model
         'webhook',
     ];
 
+    /** @psalm-suppress PossiblyUnusedProperty */
     public string $user = '';
+
+    /** @psalm-suppress PossiblyUnusedProperty */
     public string $username = 'Unknown';
 
     /**
      * Return the campaign attached to the channel.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function campaign(): BelongsTo
     {
@@ -95,6 +102,7 @@ class Channel extends Model
 
     /**
      * Get the characters registered to this channel.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, Character>
      */
     public function characters(): array
@@ -113,6 +121,7 @@ class Channel extends Model
 
     /**
      * Return the server's name.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getServerNameAttribute(): ?string
     {
@@ -144,6 +153,7 @@ class Channel extends Model
 
     /**
      * Return the initiatives rolled for the channel.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function initiatives(): HasMany
     {
@@ -152,6 +162,7 @@ class Channel extends Model
 
     /**
      * Scope the query to only include Discord accounts.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function scopeDiscord(Builder $query): Builder
     {
@@ -160,6 +171,7 @@ class Channel extends Model
 
     /**
      * Scope the query to only include Slack accounts.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function scopeSlack(Builder $query): Builder
     {
@@ -168,11 +180,12 @@ class Channel extends Model
 
     /**
      * Set the system for the channel.
+     * @psalm-suppress PossiblyUnusedMethod
      * @throws RuntimeException
      */
     public function setSystemAttribute(string $system): void
     {
-        if (!\array_key_exists($system, config('app.systems'))) {
+        if (!array_key_exists($system, config('app.systems'))) {
             throw new RuntimeException('Invalid system');
         }
         $this->attributes['system'] = $system;
@@ -180,12 +193,12 @@ class Channel extends Model
 
     /**
      * Set the type of server for the channel.
-     * @param string $type
+     * @psalm-suppress PossiblyUnusedMethod
      * @throws RuntimeException
      */
     public function setTypeAttribute(string $type): void
     {
-        if (!\in_array($type, self::VALID_TYPES, true)) {
+        if (!in_array($type, self::VALID_TYPES, true)) {
             throw new RuntimeException('Invalid channel type');
         }
         $this->attributes['type'] = $type;

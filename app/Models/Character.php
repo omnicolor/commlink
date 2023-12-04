@@ -66,6 +66,7 @@ class Character extends Model
 
     /**
      * Return the user that owns the character.
+     * @psalm-suppress PossiblyUnusedMethod
      * @throws ModelNotFoundException
      */
     public function user(): User

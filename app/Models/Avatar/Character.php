@@ -70,11 +70,17 @@ class Character extends BaseCharacter
         );
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function setBackgroundAttribute(Background $background): void
     {
         $this->attributes['background'] = $background->name;
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function setEraAttribute(Era $era): void
     {
         $this->attributes['era'] = $era->name;

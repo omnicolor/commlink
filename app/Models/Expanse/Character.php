@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Expanse;
 
+use App\Models\Character as BaseCharacter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
@@ -37,7 +38,7 @@ use RuntimeException;
  * @property array<int, array<string, int|string>> $talents
  * @property int $willpower
  */
-class Character extends \App\Models\Character
+class Character extends BaseCharacter
 {
     use HasFactory;
 
@@ -87,13 +88,11 @@ class Character extends \App\Models\Character
 
     /**
      * Collection of Focus objects.
-     * @var FocusArray
      */
     protected FocusArray $focusArray;
 
     /**
      * Return the character's name.
-     * @return string
      */
     public function __toString(): string
     {
@@ -114,8 +113,7 @@ class Character extends \App\Models\Character
     }
 
     /**
-     * Return the character's background.
-     * @return Background
+     * @psalm-suppress PossiblyUnusedMethod
      * @throws RuntimeException
      */
     public function getBackgroundAttribute(): Background
@@ -123,10 +121,6 @@ class Character extends \App\Models\Character
         return new Background($this->attributes['background']);
     }
 
-    /**
-     * Return the character's focuses.
-     * @return FocusArray
-     */
     public function getFocuses(): FocusArray
     {
         if (!isset($this->focusArray)) {
@@ -154,8 +148,7 @@ class Character extends \App\Models\Character
     }
 
     /**
-     * Return the character's origin.
-     * @return Origin
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getOriginAttribute(): Origin
     {
@@ -163,8 +156,7 @@ class Character extends \App\Models\Character
     }
 
     /**
-     * Return the character's social class.
-     * @return SocialClass
+     * @psalm-suppress PossiblyUnusedMethod
      * @throws RuntimeException
      */
     public function getSocialClassAttribute(): SocialClass
@@ -173,8 +165,7 @@ class Character extends \App\Models\Character
     }
 
     /**
-     * Return the character's talents.
-     * @return TalentArray
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getTalents(): TalentArray
     {
@@ -201,8 +192,7 @@ class Character extends \App\Models\Character
 
     /**
      * Return whether the character has a given focus.
-     * @param Focus $focus
-     * @return bool
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function hasFocus(Focus $focus): bool
     {
