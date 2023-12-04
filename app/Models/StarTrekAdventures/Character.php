@@ -15,6 +15,7 @@ use RuntimeException;
  * @property-read string $id
  * @property-read Attributes $attributes
  * @property-read Disciplines $disciplines
+ * @property array<int, string> $focuses
  * @property-read Species $species
  * @property-read int $stress
  * @property-read TalentArray $talents
