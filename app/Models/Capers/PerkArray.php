@@ -18,6 +18,7 @@ class PerkArray extends ArrayObject
      * Add a perk to the array.
      * @param ?int $index
      * @param Perk $perk
+     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet($index = null, $perk = null): void

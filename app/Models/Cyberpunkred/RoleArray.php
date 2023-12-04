@@ -17,6 +17,7 @@ class RoleArray extends ArrayObject
      * Add a role to the array.
      * @param ?int $index
      * @param ?Role $role
+     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet($index = null, mixed $role = null): void
