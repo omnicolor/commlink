@@ -16,6 +16,7 @@
             <directory name="tests" />
             <directory name="vendor" />
         </ignoreFiles>
+        <directory name="resources/views" />
     </projectFiles>
 
     <issueHandlers>

@@ -46,7 +46,8 @@ class Initiative extends Model
     }
 
     /**
-     * Return the campaign attached to the channel.
+     * Return the campaign attached to the initiative.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function campaign(): BelongsTo
     {
@@ -58,6 +59,7 @@ class Initiative extends Model
      *
      * If the initiative belongs to a character, returns their name/handle. If
      * it's a mook, returns the name assigned to them when setting initiative.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function name(): Attribute
     {
