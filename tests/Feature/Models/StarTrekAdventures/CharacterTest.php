@@ -96,6 +96,24 @@ final class CharacterTest extends TestCase
         self::assertSame(8, $character->disciplines->medicine);
     }
 
+    public function testGetFocusesNotSet(): void
+    {
+        $character = new Character();
+        self::assertSame([], $character->focuses);
+    }
+
+    public function testGetFocusesNotArray(): void
+    {
+        $character = new Character(['focuses' => 'test']);
+        self::assertSame([], $character->focuses);
+    }
+
+    public function testGetFocuses(): void
+    {
+        $character = new Character(['focuses' => ['Virology']]);
+        self::assertSame(['Virology'], $character->focuses);
+    }
+
     /**
      * Test getting the character's species.
      * @test

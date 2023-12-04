@@ -17,6 +17,7 @@ class GearArray extends ArrayObject
      * Add a gear item to the array.
      * @param ?mixed $index
      * @param Gear $gear
+     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet($index = null, $gear = null): void
