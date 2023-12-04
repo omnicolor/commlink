@@ -183,7 +183,6 @@ final class CharacterTest extends TestCase
         self::assertCount(1, $character->powers);
     }
 
-    /** @group current */
     public function testSettingPowersArray(): void
     {
         $character = new Character();
