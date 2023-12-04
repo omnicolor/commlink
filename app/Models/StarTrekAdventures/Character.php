@@ -15,6 +15,7 @@ use RuntimeException;
  * @property-read string $id
  * @property-read Attributes $attributes
  * @property-read Disciplines $disciplines
+ * @property array<int, string> $focuses
  * @property-read Species $species
  * @property-read int $stress
  * @property-read TalentArray $talents
@@ -103,6 +104,21 @@ class Character extends BaseCharacter
                     );
                 }
                 return $this->disciplinesObject;
+            },
+        );
+    }
+
+    public function focuses(): Attribute
+    {
+        return Attribute::make(
+            get: function (): array {
+                if (
+                    !isset($this->attributes['focuses'])
+                    || !is_array($this->attributes['focuses'])
+                ) {
+                    return [];
+                }
+                return $this->attributes['focuses'];
             },
         );
     }
