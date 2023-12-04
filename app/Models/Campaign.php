@@ -55,6 +55,7 @@ class Campaign extends Model
 
     /**
      * Get a collection of channels attached to the campaign.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function channels(): HasMany
     {
@@ -71,6 +72,7 @@ class Campaign extends Model
 
     /**
      * Get the user that is GMing the campaign.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function gamemaster(): BelongsTo
     {
@@ -79,6 +81,7 @@ class Campaign extends Model
 
     /**
      * Return the initiatives rolled for the campaign.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function initiatives(): HasMany
     {
@@ -117,7 +120,7 @@ class Campaign extends Model
 
     /**
      * Get the user that registered the campaign.
-     * @return BelongsTo
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function registeredBy(): BelongsTo
     {
