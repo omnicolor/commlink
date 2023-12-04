@@ -167,11 +167,17 @@ class Character extends BaseCharacter
         return $key;
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function getBodyAttribute(): string
     {
         return $this->getTraitDefense('agility');
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function getGearAttribute(): GearArray
     {
         $gear = new GearArray();
@@ -191,6 +197,9 @@ class Character extends BaseCharacter
         return $gear;
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function getIdentityAttribute(): ?Identity
     {
         try {
@@ -209,11 +218,17 @@ class Character extends BaseCharacter
         }
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function getMaximumHitsAttribute(): int
     {
         return 4 + (2 * (int)$this->resilience) + (2 * (int)$this->charisma);
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function getMindAttribute(): string
     {
         return $this->getTraitDefense('perception');
@@ -238,6 +253,9 @@ class Character extends BaseCharacter
         return $perkArray;
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function powers(): Attribute
     {
         return Attribute::make(
@@ -283,6 +301,9 @@ class Character extends BaseCharacter
         );
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function getSkillsAttribute(): SkillArray
     {
         $skills = new SkillArray();
@@ -302,6 +323,9 @@ class Character extends BaseCharacter
         return $skills;
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function getSpeedAttribute(): int
     {
         foreach ($this->getPerks() as $perk) {
@@ -312,6 +336,9 @@ class Character extends BaseCharacter
         return self::SPEED_DEFAULT;
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function getStrengthAttribute(): int
     {
         $strength = $this->attributes['strength'] ?? 0;

@@ -403,7 +403,6 @@ final class NumberTest extends TestCase
 
     /**
      * Test a user using second chance.
-     * @group current
      * @test
      */
     public function testSecondChance(): void

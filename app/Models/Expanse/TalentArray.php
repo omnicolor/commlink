@@ -17,6 +17,7 @@ class TalentArray extends ArrayObject
      * Add a talent to the array.
      * @param ?int $index
      * @param Talent $talent
+     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet($index, $talent): void
