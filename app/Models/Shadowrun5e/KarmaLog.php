@@ -70,6 +70,7 @@ class KarmaLog extends ArrayObject
      * Add an entry to the array.
      * @param ?int $index
      * @param KarmaLogEntry $entry
+     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet($index = null, $entry = null): void
