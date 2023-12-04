@@ -17,6 +17,7 @@ class QualityArray extends ArrayObject
      * Add a quality to the array.
      * @param ?int $index
      * @param Quality $quality
+     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet($index = null, $quality = null): void
