@@ -107,6 +107,21 @@ class Character extends BaseCharacter
         );
     }
 
+    public function focuses(): Attribute
+    {
+        return Attribute::make(
+            get: function (): array {
+                if (
+                    !isset($this->attributes['focuses'])
+                    || !is_array($this->attributes['focuses'])
+                ) {
+                    return [];
+                }
+                return $this->attributes['focuses'];
+            },
+        );
+    }
+
     public function species(): Attribute
     {
         return Attribute::make(
