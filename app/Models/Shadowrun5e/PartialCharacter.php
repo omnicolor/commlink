@@ -34,14 +34,13 @@ class PartialCharacter extends Character
         $character->setConnection($this->connection);
         $character->fireModelEvent('retrieved', false);
         $character->fillable[] = 'errors';
+        // @phpstan-ignore-next-line
         return $character;
     }
 
     /**
      * Return the starting maximum for a character based on their metatype and
      * qualities.
-     * @param string $attribute
-     * @return int
      */
     public function getStartingMaximumAttribute(string $attribute): int
     {
@@ -86,7 +85,6 @@ class PartialCharacter extends Character
 
     /**
      * Return whether the given character is awakened and not a techno.
-     * @return bool
      */
     public function isMagicallyActive(): bool
     {
@@ -98,7 +96,6 @@ class PartialCharacter extends Character
 
     /**
      * Return whether the character is a technomancer.
-     * @return bool
      */
     public function isTechnomancer(): bool
     {
