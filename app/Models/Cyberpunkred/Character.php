@@ -10,6 +10,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
+use function array_key_exists;
+use function array_keys;
+use function ceil;
+use function floor;
+use function ksort;
+
 /**
  * Representation of a Cyberpunk Red character sheet.
  * @property int $body
@@ -123,6 +129,7 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's death save attribute.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getDeathSaveAttribute(): int
     {
@@ -131,14 +138,16 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's calculated empathy.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getEmpathyAttribute(): int
     {
-        return (int)\floor($this->humanity / 10);
+        return (int)floor($this->humanity / 10);
     }
 
     /**
      * Return the character's original empathy.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getEmpathyOriginalAttribute(): int
     {
@@ -150,7 +159,7 @@ class Character extends BaseCharacter
      */
     public function getHitPointsMaxAttribute(): int
     {
-        return 10 + 5 * (int)\ceil(
+        return 10 + 5 * (int)ceil(
             (int)(
                 ($this->attributes['body'] ?? 0)
                 + ($this->attributes['willpower'] ?? 0)
@@ -160,6 +169,7 @@ class Character extends BaseCharacter
 
     /**
      * Return the character's remaining humanity.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getHumanityAttribute(): int
     {
@@ -168,6 +178,7 @@ class Character extends BaseCharacter
 
     /**
      * Get the character's roles.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getRoles(): RoleArray
     {
@@ -191,14 +202,16 @@ class Character extends BaseCharacter
 
     /**
      * Get the character's seriously wounded threshold.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getSeriouslyWoundedThresholdAttribute(): int
     {
-        return (int)\ceil($this->getHitPointsMaxAttribute() / 2);
+        return (int)ceil($this->getHitPointsMaxAttribute() / 2);
     }
 
     /**
      * Get the skills the character has ranks in.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getSkills(): SkillArray
     {
@@ -229,8 +242,8 @@ class Character extends BaseCharacter
         $rawSkills = require $filename;
         $skills = new SkillArray();
         /** @var string $id */
-        foreach (\array_keys($rawSkills) as $id) {
-            if (\array_key_exists($id, $this->skills ?? [])) {
+        foreach (array_keys($rawSkills) as $id) {
+            if (array_key_exists($id, $this->skills ?? [])) {
                 $skills[$id] = new Skill($id, $this->skills[$id]);
                 continue;
             }
@@ -241,6 +254,7 @@ class Character extends BaseCharacter
 
     /**
      * Get skills grouped by category.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, SkillArray>
      */
     public function getSkillsByCategory(): array
@@ -248,12 +262,12 @@ class Character extends BaseCharacter
         $allSkills = $this->getAllSkills();
         $skills = [];
         foreach ($allSkills as $skill) {
-            if (!\array_key_exists($skill->category, $skills)) {
+            if (!array_key_exists($skill->category, $skills)) {
                 $skills[$skill->category] = new SkillArray();
             }
             $skills[$skill->category][] = $skill;
         }
-        \ksort($skills);
+        ksort($skills);
         return $skills;
     }
 

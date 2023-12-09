@@ -24,6 +24,7 @@ class PartialCharacter extends Character
     protected $table = 'characters-partial';
 
     /**
+     * @psalm-suppress PossiblyUnusedProperty
      * @var array<int, string>
      */
     public array $errors = [];
