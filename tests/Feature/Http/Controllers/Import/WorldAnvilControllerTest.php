@@ -8,6 +8,11 @@ use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
+use function dirname;
+use function file_get_contents;
+
+use const DIRECTORY_SEPARATOR;
+
 /**
  * Test for World Anvil imports.
  * @group world-anvil
@@ -63,16 +68,17 @@ final class WorldAnvilControllerTest extends TestCase
     public function testValidCyberpunkUpload(): void
     {
         $path = explode(
-            \DIRECTORY_SEPARATOR,
-            dirname(dirname(dirname(dirname(__DIR__))))
+            DIRECTORY_SEPARATOR,
+            dirname(dirname(dirname(dirname(__DIR__)))),
         );
         $path[] = 'Data';
         $path[] = 'WorldAnvil';
-        $path[] = 'cyberpunk-red.json';
-        $filename = implode(\DIRECTORY_SEPARATOR, $path);
+        $path[] = 'CyberpunkRed';
+        $path[] = 'Caleb.json';
+        $filename = implode(DIRECTORY_SEPARATOR, $path);
 
         $file = UploadedFile::fake()->createWithContent(
-            'cyberpunk-red.json',
+            'Caleb.json',
             (string)file_get_contents($filename)
         );
 
@@ -101,5 +107,15 @@ final class WorldAnvilControllerTest extends TestCase
             ->post(route('import.world-anvil.view'))
             ->assertRedirect(route('import.world-anvil.view'))
             ->assertSessionHasErrors();
+    }
+
+    public function testView(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        self::actingAs($user)
+            ->get(route('import.world-anvil.view'))
+            ->assertSee('World Anvil');
     }
 }

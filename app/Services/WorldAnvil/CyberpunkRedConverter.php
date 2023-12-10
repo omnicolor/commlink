@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\WorldAnvil;
 
+use App\Models\Cyberpunkred\Armor;
 use App\Models\Cyberpunkred\PartialCharacter;
 use App\Services\ConverterInterface;
 use Error;
@@ -11,6 +12,12 @@ use Illuminate\Support\Str;
 use JsonException;
 use RuntimeException;
 use stdClass;
+
+use function explode;
+use function sprintf;
+use function strtolower;
+
+use const JSON_THROW_ON_ERROR;
 
 class CyberpunkRedConverter implements ConverterInterface
 {
@@ -29,27 +36,26 @@ class CyberpunkRedConverter implements ConverterInterface
         if (!file_exists($filename)) {
             throw new RuntimeException('Unable to locate World Anvil file');
         }
-        if ('application/json' !== mime_content_type($filename)) {
-            throw new RuntimeException('File does not appear to be a World Anvil file');
-        }
-
-        $characterJson = file_get_contents($filename);
-        if (false === $characterJson) {
-            throw new RuntimeException('Could not load World Anvil file');
-        }
 
         try {
             $this->rawCharacter = json_decode(
-                json: $characterJson,
+                json: (string)file_get_contents($filename),
                 associative: false,
-                flags: \JSON_THROW_ON_ERROR,
+                flags: JSON_THROW_ON_ERROR,
             );
         } catch (JsonException $ex) {
-            throw new RuntimeException($ex->getMessage());
+            throw new RuntimeException(
+                'File does not appear to be a World Anvil file'
+            );
         }
 
-        if ('6836' !== $this->rawCharacter->templateId) {
-            throw new RuntimeException('Character is not a Cyberpunk Red character');
+        if (
+            !isset($this->rawCharacter->templateId)
+            || '6836' !== $this->rawCharacter->templateId
+        ) {
+            throw new RuntimeException(
+                'Character is not a Cyberpunk Red character'
+            );
         }
     }
 
@@ -64,7 +70,8 @@ class CyberpunkRedConverter implements ConverterInterface
         $this->setAttributes()
             ->parseLifepath()
             ->parseRoles()
-            ->parseSkills();
+            ->parseSkills()
+            ->parseArmor();
         return $this->character;
     }
 
@@ -73,19 +80,58 @@ class CyberpunkRedConverter implements ConverterInterface
         return $this->errors;
     }
 
-    public function parseRoles(): self
+    /**
+     * TODO: add support for custom armor.
+     */
+    protected function parseArmor(): self
+    {
+        $armors = [
+            'head' => null,
+            'body' => null,
+            'shield' => null,
+        ];
+        $armorName = (string)$this->rawCharacter->armor_head;
+        if ('None' !== $armorName) {
+            try {
+                $armors['head'] = (Armor::findByName($armorName))->id;
+            } catch (RuntimeException $ex) {
+                $this->errors[] = $ex->getMessage();
+            }
+        }
+        $armorName = (string)$this->rawCharacter->armor_body;
+        if ('None' !== $armorName) {
+            try {
+                $armors['body'] = (Armor::findByName($armorName))->id;
+            } catch (RuntimeException $ex) {
+                $this->errors[] = $ex->getMessage();
+            }
+        }
+        $armorName = (string)$this->rawCharacter->armor_shield;
+        if ('None' !== $armorName) {
+            try {
+                $armors['shield'] = (Armor::findByName($armorName))->id;
+            } catch (RuntimeException $ex) {
+                $this->errors[] = $ex->getMessage();
+            }
+        }
+
+        $this->character->armor = $armors;
+        return $this;
+    }
+
+    protected function parseRoles(): self
     {
         $role = $this->rawCharacter->role;
-        $class = \sprintf('App\\Models\\Cyberpunkred\\Role\\%s', $role);
+        $class = sprintf('App\\Models\\Cyberpunkred\\Role\\%s', $role);
         try {
             $role = new $class();
         } catch (Error) {
-            $this->errors[] = \sprintf('Role "%s" is invalid', $role);
+            $this->errors[] = sprintf('Role "%s" is invalid', $role);
             return $this;
         }
 
         $this->character->roles = [[
-            'role' => \strtolower($this->rawCharacter->role),
+            'role' => strtolower($this->rawCharacter->role),
             'rank' => (int)$this->rawCharacter->role_ability_rank,
         ]];
         return $this;
@@ -94,14 +140,13 @@ class CyberpunkRedConverter implements ConverterInterface
     /**
      * @psalm-suppress UnresolvableInclude
      */
-    public function parseSkills(): self
+    protected function parseSkills(): self
     {
+        $filename = config('app.data_path.cyberpunkred') . 'world-anvil.skills.php';
+        $anvilSkillMap = require $filename;
         $filename = config('app.data_path.cyberpunkred') . 'skills.php';
         $rawSkills = require $filename;
-        foreach ($rawSkills as $id => $skill) {
-            $rawSkills[$id] = $skill['world_anvil_id'] ?? null;
-        }
-        $rawSkills = array_flip(array_filter($rawSkills));
+
         $skills = [];
         $customSkills = [];
         for ($i = 1; $i <= 75; $i++) {
@@ -109,17 +154,25 @@ class CyberpunkRedConverter implements ConverterInterface
             $anvilId = 'skill_value_' . $id;
             $level = (int)$this->rawCharacter->$anvilId;
             if (0 === $level) {
+                // Character doesn't have ranks in the skill, leave it out.
                 continue;
             }
-            if (!isset($rawSkills[$id])) {
-                // Custom skill, or data files are incomplete...
+
+            $commlinkId = $anvilSkillMap[$anvilId];
+            if (!isset($rawSkills[$commlinkId])) {
+                // Custom skill?
                 $name = 'skill_name_' . $id;
                 if (!isset($this->rawCharacter->$name)) {
-                    $this->errors[] = sprintf('Skill "%s" not found', $id);
+                    // Maybe the data file is incomplete...
+                    $this->errors[] = sprintf(
+                        'World Anvil skill "%s" not found',
+                        $id
+                    );
                     continue;
                 }
+
                 $name = $this->rawCharacter->$name;
-                [$type, $name] = \explode(': ', $name);
+                [$type, $name] = explode(': ', $name);
                 $customSkills[] = [
                     'level' => $level,
                     'name' => $name,
@@ -127,9 +180,10 @@ class CyberpunkRedConverter implements ConverterInterface
                 ];
                 continue;
             }
-            $skillId = $rawSkills[$id];
-            $skills[$skillId] = $level;
+            $skills[$commlinkId] = $level;
         }
+
+        // @phpstan-ignore-next-line
         $this->character->skills = $skills;
         if (0 !== count($customSkills)) {
             $this->character->skills_custom = $customSkills;
@@ -137,7 +191,7 @@ class CyberpunkRedConverter implements ConverterInterface
         return $this;
     }
 
-    public function parseLifepath(): self
+    protected function parseLifepath(): self
     {
         $this->character->lifepath = [
             'childhood-environment' => $this->rawCharacter->childhood_environment,
