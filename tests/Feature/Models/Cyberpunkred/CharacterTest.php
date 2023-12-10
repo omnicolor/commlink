@@ -63,6 +63,48 @@ final class CharacterTest extends TestCase
         self::assertSame('Bob King', (string)$character);
     }
 
+    public function testArmorEmpty(): void
+    {
+        $character = new Character();
+        self::assertSame(
+            [
+                'head' => null,
+                'body' => null,
+                'shield' => null,
+                'unworn' => [],
+            ],
+            $character->armor
+        );
+    }
+
+    public function testArmor(): void
+    {
+        $character = new Character([
+            'armor' => [
+                'head' => 'light-armorjack',
+                'body' => 'metalgear',
+                'shield' => 'bulletproof-shield',
+                'unworn' => ['light-armorjack'],
+            ],
+        ]);
+        // @phpstan-ignore-next-line
+        self::assertSame('Light armorjack', $character->armor['head']->type);
+        // @phpstan-ignore-next-line
+        self::assertSame('Metalgear', $character->armor['body']->type);
+        // @phpstan-ignore-next-line
+        self::assertSame('Bulletproof shield', $character->armor['shield']->type);
+        // @phpstan-ignore-next-line
+        self::assertSame('Light armorjack', $character->armor['unworn'][0]->type);
+    }
+
+    public function testSetArmor(): void
+    {
+        $character = new Character();
+        $character->armor = ['head' => 'light-armorjack'];
+        // @phpstan-ignore-next-line
+        self::assertSame('Light armorjack', $character->armor['head']->type);
+    }
+
     /**
      * Test getting the character's death save.
      * @test
@@ -72,6 +114,14 @@ final class CharacterTest extends TestCase
         $body = random_int(1, 15);
         $character = new Character(['body' => $body]);
         self::assertSame($body, $character->death_save);
+    }
+
+    public function testSetDeathSave(): void
+    {
+        $character = new Character(['body' => 5]);
+        // @phpstan-ignore-next-line
+        $character->death_save = 10;
+        self::assertSame(5, $character->death_save);
     }
 
     /**
