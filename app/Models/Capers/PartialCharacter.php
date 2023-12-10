@@ -56,13 +56,14 @@ class PartialCharacter extends Character
 
     public function newFromBuilder(
         $attributes = [],
-        $connection = null
+        $connection = null,
     ): PartialCharacter {
         $character = new self($attributes);
         $character->exists = true;
         $character->setRawAttributes($attributes, true);
         $character->setConnection($this->connection);
         $character->fireModelEvent('retrieved', false);
+        // @phpstan-ignore-next-line
         return $character;
     }
 
