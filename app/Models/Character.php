@@ -83,7 +83,7 @@ class Character extends Model
      */
     public function newFromBuilder(
         $attributes = [],
-        $connection = null
+        $connection = null,
     ): Character {
         switch ($attributes['system'] ?? null) {
             case 'avatar':
@@ -118,6 +118,7 @@ class Character extends Model
         $character->setRawAttributes($attributes, true);
         $character->setConnection($this->connection);
         $character->fireModelEvent('retrieved', false);
+        // @phpstan-ignore-next-line
         return $character;
     }
 }
