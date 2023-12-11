@@ -74,7 +74,8 @@ final class CyberpunkRedConverterTest extends TestCase
         self::assertSame('light-armorjack', $character->armor['head']?->id);
         self::assertSame('light-armorjack', $character->armor['body']?->id);
         self::assertSame('light-armorjack', $character->armor['shield']?->id);
-        self::assertCount(20, $converter->getErrors());
+        self::assertCount(2, $character->weapons);
+        self::assertCount(22, $converter->getErrors());
     }
 
     public function testConvertCharacterWithInvalidData(): void

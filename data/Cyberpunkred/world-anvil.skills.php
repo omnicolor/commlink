@@ -36,7 +36,7 @@ return [
     'skill_value_28' => 'custom-language',
     'skill_value_29' => 'custom-language',
     'skill_value_30' => 'library-search',
-    'skill_value_31' => 'local-expert-your-home',
+    'skill_value_31' => 'your-home',
     'skill_value_32' => 'custom-local-expert',
     'skill_value_33' => 'custom-language',
     'skill_value_34' => 'custom-language',

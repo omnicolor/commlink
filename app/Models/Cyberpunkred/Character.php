@@ -46,6 +46,7 @@ use function ksort;
  * @property array<string, int> $skills
  * @property array<int, array<string, int|string>> $skills_custom
  * @property int $technique
+ * @property array $weapons
  * @property int $willpower
  */
 class Character extends BaseCharacter

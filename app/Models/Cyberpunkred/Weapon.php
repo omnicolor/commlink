@@ -6,6 +6,10 @@ namespace App\Models\Cyberpunkred;
 
 use RuntimeException;
 
+use function array_key_exists;
+use function sprintf;
+use function strtolower;
+
 abstract class Weapon
 {
     public const QUALITY_POOR = 'poor';
@@ -59,6 +63,8 @@ abstract class Weapon
      * @psalm-suppress PossiblyUnusedProperty
      */
     public int $handsRequired;
+
+    public string $id;
 
     /**
      * Name of the weapon. Defaults to the weapon's type.
@@ -159,14 +165,43 @@ abstract class Weapon
             );
         }
 
-        $id = \strtolower((string)$options['id']);
-        if (\array_key_exists($id, self::$rangedWeapons)) {
+        $id = strtolower((string)$options['id']);
+        if (array_key_exists($id, self::$rangedWeapons)) {
             return new RangedWeapon($options);
         }
 
-        if (\array_key_exists($id, self::$meleeWeapons)) {
+        if (array_key_exists($id, self::$meleeWeapons)) {
             return new MeleeWeapon($options);
         }
-        throw new RuntimeException(\sprintf('Weapon ID "%s" is invalid', $id));
+        throw new RuntimeException(sprintf('Weapon ID "%s" is invalid', $id));
+    }
+
+    public static function findByName(string $name): Weapon
+    {
+        if (null === self::$rangedWeapons) {
+            $filename = config('app.data_path.cyberpunkred')
+                . 'ranged-weapons.php';
+            self::$rangedWeapons = require $filename;
+        }
+
+        if (null === self::$meleeWeapons) {
+            $filename = config('app.data_path.cyberpunkred')
+                . 'melee-weapons.php';
+            self::$meleeWeapons = require $filename;
+        }
+
+        $lowerName = strtolower($name);
+        foreach (self::$rangedWeapons as $id => $weapon) {
+            if ($lowerName === strtolower($weapon['type'])) {
+                return new RangedWeapon(['id' => $id]);
+            }
+        }
+        foreach (self::$meleeWeapons as $id => $weapon) {
+            if ($lowerName === strtolower($weapon['type'])) {
+                return new MeleeWeapon(['id' => $id]);
+            }
+        }
+
+        throw new RuntimeException(sprintf('Weapon "%s" was not found', $name));
     }
 }

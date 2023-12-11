@@ -6,6 +6,7 @@ namespace App\Services\WorldAnvil;
 
 use App\Models\Cyberpunkred\Armor;
 use App\Models\Cyberpunkred\PartialCharacter;
+use App\Models\Cyberpunkred\Weapon;
 use App\Services\ConverterInterface;
 use Error;
 use Illuminate\Support\Str;
@@ -71,7 +72,8 @@ class CyberpunkRedConverter implements ConverterInterface
             ->parseLifepath()
             ->parseRoles()
             ->parseSkills()
-            ->parseArmor();
+            ->parseArmor()
+            ->parseWeapons();
         return $this->character;
     }
 
@@ -207,6 +209,37 @@ class CyberpunkRedConverter implements ConverterInterface
             'possession-valued' => $this->rawCharacter->most_valued_possession,
             'what-valued' => $this->rawCharacter->value_most,
         ];
+        return $this;
+    }
+
+    protected function parseWeapons(): self
+    {
+        $weapons = [];
+        for ($i = 1; $i <= 10; $i++) {
+            $id = Str::padLeft((string)$i, 2, '0');
+            $name = 'weapon_name_' . $id;
+            if ('' === $this->rawCharacter->$name) {
+                continue;
+            }
+            $name = $this->rawCharacter->$name;
+            try {
+                $weapon = Weapon::findByName($name);
+            } catch (RuntimeException $ex) {
+                $this->errors[] = $ex->getMessage();
+                continue;
+            }
+
+            $ammo = 'weapon_ammo_' . $id;
+            if ('' !== $this->rawCharacter->$ammo) {
+                $weapons[] = [
+                    'id' => $weapon->id,
+                    'ammoRemaining' => (int)$this->rawCharacter->$ammo,
+                ];
+                continue;
+            }
+            $weapons[] = ['id' => $weapon->id];
+        }
+        $this->character->weapons = $weapons;
         return $this;
     }
 

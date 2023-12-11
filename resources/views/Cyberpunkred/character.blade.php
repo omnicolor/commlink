@@ -235,21 +235,21 @@
                 <tbody>
                     <tr>
                         <td scope="row">Head</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
+                        <td>{{ $character->armor['head'] ?? '' }}</td>
+                        <td>{{ $character->armor['head']?->stopping_power }}</td>
+                        <td>{{ $character->armor['head']?->penalty }}</td>
                     </tr>
                     <tr>
                         <td scope="row">Body</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
+                        <td>{{ $character->armor['body'] ?? '' }}</td>
+                        <td>{{ $character->armor['body']?->stopping_power }}</td>
+                        <td>{{ $character->armor['body']?->penalty }}</td>
                     </tr>
                     <tr>
                         <td scope="row">Shield</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
+                        <td>{{ $character->armor['shield'] ?? '' }}</td>
+                        <td>{{ $character->armor['shield']?->stopping_power }}</td>
+                        <td>{{ $character->armor['shield']?->penalty }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -278,7 +278,11 @@
                         <td>{{ ucfirst($weapon->quality) }} {{ $weapon }}</td>
                         @endif
                         <td>{{ $weapon->damage }}</td>
-                        <td>{{ $weapon->ammoRemaining }} / {{ $weapon->magazine }}</td>
+                        <td>
+                            @if ($weapon instanceof \App\Models\Cyberpunkred\RangedWeapon)
+                            {{ $weapon->ammoRemaining }} / {{ $weapon->magazine }}
+                            @endif
+                        </td>
                         <td>{{ $weapon->rateOfFire }}</td>
                         <td>{{ $weapon->concealable ? 'Yes' : 'No' }}</td>
                         <td>{{ $weapon->handsRequired }}</td>

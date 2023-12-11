@@ -6,6 +6,10 @@ namespace App\Models\Cyberpunkred;
 
 use RuntimeException;
 
+use function in_array;
+use function sprintf;
+use function strtolower;
+
 /**
  * If something comes out of it, traverses a distance, and causes damage at the
  * end of that trajectory, it's a Ranged Weapon.
@@ -30,9 +34,9 @@ class RangedWeapon extends Weapon
      */
     protected function __construct(array $options)
     {
-        $id = \strtolower((string)$options['id']);
+        $this->id = strtolower((string)$options['id']);
         // @phpstan-ignore-next-line
-        $weapon = self::$rangedWeapons[$id];
+        $weapon = self::$rangedWeapons[$this->id];
         $this->concealable = $weapon['concealable'];
         $this->cost = $weapon['cost'];
         $this->damage = $weapon['damage'];
@@ -44,10 +48,10 @@ class RangedWeapon extends Weapon
         $this->type = $weapon['type'];
 
         if (isset($options['quality'])) {
-            if (!\in_array($options['quality'], self::QUALITIES, true)) {
-                throw new RuntimeException(\sprintf(
+            if (!in_array($options['quality'], self::QUALITIES, true)) {
+                throw new RuntimeException(sprintf(
                     'Weapon ID "%s" has invalid quality "%s"',
-                    $id,
+                    $this->id,
                     $options['quality']
                 ));
             }

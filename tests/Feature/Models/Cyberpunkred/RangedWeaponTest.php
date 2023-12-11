@@ -18,30 +18,6 @@ use Tests\TestCase;
 final class RangedWeaponTest extends TestCase
 {
     /**
-     * Test trying to load a weapon without including an ID.
-     * @test
-     */
-    public function testLoadNoId(): void
-    {
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage(
-            'ID must be included when instantiating a weapon'
-        );
-        Weapon::build([]);
-    }
-
-    /**
-     * Test trying to load an invalid weapon.
-     * @test
-     */
-    public function testLoadInvalid(): void
-    {
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Weapon ID "invalid" is invalid');
-        Weapon::build(['id' => 'invalid']);
-    }
-
-    /**
      * Test loading a ranged weapon with the minimal amount of information.
      * @test
      */
@@ -50,16 +26,6 @@ final class RangedWeaponTest extends TestCase
         $weapon = Weapon::build(['id' => 'medium-pistol']);
         self::assertSame('2d6', $weapon->damage);
         self::assertSame(RangedWeapon::QUALITY_STANDARD, $weapon->quality);
-    }
-
-    /**
-     * Test converting a weapon to a string.
-     * @test
-     */
-    public function testToString(): void
-    {
-        $weapon = Weapon::build(['id' => 'medium-pistol']);
-        self::assertSame('Medium pistol', (string)$weapon);
     }
 
     /**

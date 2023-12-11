@@ -47,7 +47,7 @@
 
                 <div class="row">
                     <div class="col">
-                        <input class="btn btn-primary" type="submit">
+                        <input class="btn btn-primary" type="submit" value="Import">
                     </div>
                 </div>
             </form>
