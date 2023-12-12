@@ -70,8 +70,13 @@ class ValidateDataFiles extends Command
 
             if (!file_exists($this->paths[$system])) {
                 $this->error(
-                    '  * Invalid data directory: ' . $this->paths['system']
+                    '  * Invalid data directory: ' . $this->paths[$system]
                 );
+                continue;
+            }
+
+            if (!isset(self::SYSTEM_MAP[$system])) {
+                $this->warn('  * Not included in ValidateDataFiles system map');
                 continue;
             }
 
