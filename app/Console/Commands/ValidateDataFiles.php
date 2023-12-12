@@ -28,6 +28,7 @@ class ValidateDataFiles extends Command
         'shadowrun5e' => 'data/Shadowrun5e/',
         'shadowrun6e' => 'data/Shadowrun6e/',
         'star-trek-adventures' => 'data/StarTrekAdventures/',
+        'subversion' => 'data/Subversion/',
     ];
 
     /**
@@ -70,7 +71,7 @@ class ValidateDataFiles extends Command
 
             if (!file_exists($this->paths[$system])) {
                 $this->error(
-                    '  * Invalid data directory: ' . $this->paths['system']
+                    '  * Invalid data directory: ' . $this->paths[$system]
                 );
                 continue;
             }
