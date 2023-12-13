@@ -1310,16 +1310,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v10.37.0",
+            "version": "v10.37.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "f286153e137b197520845daf600b26801fa2271b"
+                "reference": "d97b5263ccd2f3950fd93f45b1b957259d76d0db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/f286153e137b197520845daf600b26801fa2271b",
-                "reference": "f286153e137b197520845daf600b26801fa2271b",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d97b5263ccd2f3950fd93f45b1b957259d76d0db",
+                "reference": "d97b5263ccd2f3950fd93f45b1b957259d76d0db",
                 "shasum": ""
             },
             "require": {
@@ -1508,7 +1508,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-12-12T16:17:05+00:00"
+            "time": "2023-12-13T14:12:36+00:00"
         },
         {
             "name": "laravel/pennant",
@@ -10605,16 +10605,16 @@
         },
         {
             "name": "orchestra/canvas",
-            "version": "v8.11.4",
+            "version": "v8.11.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/canvas.git",
-                "reference": "466ed3d7c1755e49be1c8e5557b434381b8ab6d1"
+                "reference": "5bc4c6c4cb17c558db5b22ad85c2701486b8e81d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/canvas/zipball/466ed3d7c1755e49be1c8e5557b434381b8ab6d1",
-                "reference": "466ed3d7c1755e49be1c8e5557b434381b8ab6d1",
+                "url": "https://api.github.com/repos/orchestral/canvas/zipball/5bc4c6c4cb17c558db5b22ad85c2701486b8e81d",
+                "reference": "5bc4c6c4cb17c558db5b22ad85c2701486b8e81d",
                 "shasum": ""
             },
             "require": {
@@ -10673,9 +10673,9 @@
             "description": "Code Generators for Laravel Applications and Packages",
             "support": {
                 "issues": "https://github.com/orchestral/canvas/issues",
-                "source": "https://github.com/orchestral/canvas/tree/v8.11.4"
+                "source": "https://github.com/orchestral/canvas/tree/v8.11.5"
             },
-            "time": "2023-11-27T04:47:24+00:00"
+            "time": "2023-12-05T22:49:56+00:00"
         },
         {
             "name": "orchestra/canvas-core",
