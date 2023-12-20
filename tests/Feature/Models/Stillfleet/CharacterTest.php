@@ -14,15 +14,15 @@ use Tests\TestCase;
  * @group stillfleet
  * @small
  */
-class CharacterTest extends TestCase
+final class CharacterTest extends TestCase
 {
     public function testConvertNotEnoughHealth(): void
     {
         $character = new Character([
-            'combat' => 6,
+            'combat' => 'd6',
             'health_current' => 2,
-            'movement' => 10,
-            'reason' => 4,
+            'movement' => 'd10',
+            'reason' => 'd4',
             'roles' => [['id' => 'banshee', 'level' => 1]],
         ]);
 
@@ -34,9 +34,9 @@ class CharacterTest extends TestCase
     public function testConvert(): void
     {
         $character = new Character([
-            'combat' => 6,
-            'movement' => 10,
-            'reason' => 4,
+            'combat' => 'd6',
+            'movement' => 'd10',
+            'reason' => 'd4',
             'roles' => [['id' => 'banshee', 'level' => 1]],
         ]);
 
@@ -57,14 +57,14 @@ class CharacterTest extends TestCase
     {
         // Banshee's grit is movement + reason.
         $character = new Character([
-            'movement' => 10,
-            'reason' => 4,
+            'movement' => 'd10',
+            'reason' => 'd4',
             'roles' => [['id' => 'banshee', 'level' => 1]],
         ]);
         self::assertSame(14, $character->grit);
-        $character->movement = 12;
+        $character->movement = 'd12';
         self::assertSame(16, $character->grit);
-        $character->reason = 6;
+        $character->reason = 'd6';
         self::assertSame(18, $character->grit);
     }
 
@@ -78,18 +78,17 @@ class CharacterTest extends TestCase
         ]);
 
         self::expectException(LogicException::class);
-        // @phpstan-ignore-next-line
         $character->grit = 10;
     }
 
     public function testHealth(): void
     {
-        $character = new Character(['combat' => 4, 'movement' => 4]);
+        $character = new Character(['combat' => 'd4', 'movement' => 'd4']);
         self::assertSame(8, $character->health);
         self::assertSame(8, $character->health_current);
-        $character->combat = 6;
+        $character->combat = 'd6';
         self::assertSame(10, $character->health);
-        $character->movement = 8;
+        $character->movement = 'd8';
         self::assertSame(14, $character->health);
     }
 
@@ -116,6 +115,7 @@ class CharacterTest extends TestCase
                 [
                     'id' => 'banshee',
                     'level' => 1,
+                    'powers' => ['astrogate'],
                 ],
             ],
         ]);

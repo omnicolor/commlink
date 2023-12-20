@@ -10,17 +10,18 @@ return [
             'reason',
         ],
         'name' => 'Banshee',
-        'powerAdvanced' => [
+        'page' => 43,
+        'power-advanced' => [
             'communications',
         ],
-        'powerMarquee' => 'tack',
-        'powerOptional' => [
+        'power-marquee' => 'tack',
+        'power-optional' => [
             'astrogate',
             'interface',
             'power-up',
             'reposition',
         ],
-        'powerOther' => [
+        'power-other' => [
             'dive',
             'jack',
         ],
@@ -29,5 +30,6 @@ return [
             'appraising and, as needed, repairing technologies discovered during the venture;',
             'assisting the venture’s pir in the collection of technoscientific samples for the Archive.',
         ],
+        'ruleset' => 'core',
     ],
 ];

@@ -2,6 +2,7 @@
 use App\Features\ChummerImport;
 use App\Features\CyberpunkCharacterGeneration;
 use App\Features\Shadowrun5eCharacterGeneration;
+use App\Features\Stillfleet;
 @endphp
 <ul class="list-group">
     @forelse ($characters as $character)
@@ -16,12 +17,26 @@ use App\Features\Shadowrun5eCharacterGeneration;
             @case ('star-trek-adventures')
                 <a href="/characters/{{ $character->system }}/{{ $character->id }}">
                     {{ $character }}</a>
+                @if ($character->campaign())
+                    ({{ $character->campaign() }} &mdash;
+                    {{ $character->getSystem() }})
+                @else
+                    ({{ $character->getSystem() }})
+                @endif
+                @break
+            @case ('stillfleet')
+                @feature(Stillfleet::class)
+                    <a href="/characters/{{ $character->system }}/{{ $character->id }}">
+                        {{ $character }}</a>
                     @if ($character->campaign())
                         ({{ $character->campaign() }} &mdash;
-                        {{ $character->getSystem() }})
+                        Stillfleet) }})
                     @else
-                        ({{ $character->getSystem() }})
+                        (Stillfleet)
                     @endif
+                @else
+                    {{ $character }} (Stillfleet)
+                @endfeature
                 @break
             @default
                 {{ $character->handle ?? $character->name }}
@@ -31,7 +46,7 @@ use App\Features\Shadowrun5eCharacterGeneration;
                 @else
                     ({{ $character->getSystem() }})
                 @endif
-            @break
+                @break
         @endswitch
         </li>
     @empty
@@ -69,6 +84,12 @@ use App\Features\Shadowrun5eCharacterGeneration;
                     <a class="dropdown-item" href="{{ route('import.chummer5.view') }}">
                         Import a Chummer 5 character
                         <span class="badge bg-warning">Beta</span>
+                    </a>
+                    @endfeature
+                    @feature(Stillfleet::class)
+                    <a class="dropdown-item" href="/characters/stillfleet/create">
+                        Stillfleet
+                        <span class="badge bg-danger">Not complete</span>
                     </a>
                     @endfeature
                 </li>

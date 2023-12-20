@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Features\Stillfleet as StillfleetFeature;
 use App\Http\Controllers\Avatar\CharactersController as AvatarController;
 use App\Http\Controllers\CampaignsController;
 use App\Http\Controllers\Capers\CharactersController as CapersCharacterController;
@@ -15,8 +16,10 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Shadowrun5e\CharactersController as ShadowrunController;
 use App\Http\Controllers\SlackController;
 use App\Http\Controllers\StarTrekAdventures\CharactersController as StarTrekController;
+use App\Http\Controllers\Stillfleet\CharactersController as StillfleetController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 Route::get('discord/auth', [DiscordController::class, 'redirectToDiscord']);
 Route::get('discord/callback', [DiscordController::class, 'handleCallback']);
@@ -152,6 +155,18 @@ Route::middleware('auth')->group(function (): void {
         Route::prefix('star-trek-adventures')->name('star-trek-adventures.')->group(function (): void {
             Route::get('/', [StarTrekController::class, 'list']);
         });
+
+        Route::prefix('stillfleet')
+            ->name('stillfleet.')
+            ->middleware(EnsureFeaturesAreActive::using(StillfleetFeature::class))
+            ->group(function (): void {
+                Route::get('', [StillfleetController::class, 'list'])
+                    ->name('list');
+                Route::get(
+                    'create/{step?}',
+                    [StillfleetController::class, 'create'],
+                )->name('create');
+            });
     });
 
     Route::get('/dashboard', [DashboardController::class, 'show'])
@@ -211,5 +226,11 @@ Route::get(
     '/characters/star-trek-adventures/{character}',
     [StarTrekController::class, 'view']
 )->name('star-trek-adventures.character');
+Route::get(
+    '/characters/stillfleet/{character}',
+    [StillfleetController::class, 'view']
+)
+    ->name('stillfleet.character')
+    ->middleware(EnsureFeaturesAreActive::using(StillfleetFeature::class));
 
 require __DIR__ . '/auth.php';

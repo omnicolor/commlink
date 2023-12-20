@@ -16,7 +16,7 @@ use Tests\TestCase;
  */
 final class RoleTest extends TestCase
 {
-    public function testLoadINvalid(): void
+    public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Role ID "invalid" is invalid');
@@ -30,5 +30,23 @@ final class RoleTest extends TestCase
         self::assertStringContainsString('daredevil', $role->description);
         self::assertSame(['movement', 'reason'], $role->grit);
         self::assertCount(3, $role->responsibilities);
+    }
+
+    public function testAll(): void
+    {
+        self::assertNotEmpty(Role::all());
+        self::assertInstanceOf(Role::class, Role::all()['banshee']);
+    }
+
+    public function testPowersEmpty(): void
+    {
+        $role = new Role('banshee', 1);
+        self::assertCount(3, $role->powers());
+    }
+
+    public function testPowersWithOptional(): void
+    {
+        $role = new Role('banshee', 1, ['astrogate']);
+        self::assertCount(4, $role->powers());
     }
 }
