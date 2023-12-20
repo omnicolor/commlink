@@ -9,6 +9,8 @@ use Illuminate\Foundation\Testing\WithFaker;
 use RuntimeException;
 use Tests\TestCase;
 
+use function sprintf;
+
 /**
  * @small
  */
@@ -171,7 +173,7 @@ final class DiceServiceTest extends TestCase
         self::assertCount(3, $result->rolls);
         self::assertSame(array_sum($result->rolls) + 10, $result->total);
         self::assertSame(
-            \sprintf(
+            sprintf(
                 '2d6+1d4+10 = (%d+%d)+(%d)+10 = %d',
                 $result->rolls[0],
                 $result->rolls[1],
@@ -179,6 +181,15 @@ final class DiceServiceTest extends TestCase
                 $result->total,
             ),
             $result->work,
+        );
+    }
+
+    /** @group current */
+    public function testRollMax(): void
+    {
+        self::assertSame(
+            -19,
+            DiceService::rollMax('1+d2-2d4+4d6-6d8+10')
         );
     }
 }

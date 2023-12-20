@@ -7,6 +7,10 @@ namespace App\Services;
 use App\Models\Shadowrun5e\ForceTrait;
 use RuntimeException;
 
+use function explode;
+use function preg_match_all;
+use function sprintf;
+
 /**
  * Service to roll one or more dice.
  *
@@ -62,7 +66,7 @@ class DiceService
     public static function getDynamicParts(string $string): array
     {
         $matches = [];
-        \preg_match_all('/((\d+)?[dD]\d+)/', $string, $matches);
+        preg_match_all('/((\d+)?[dD]\d+)/', $string, $matches);
         return $matches[0];
     }
 
@@ -73,7 +77,7 @@ class DiceService
      */
     public static function getDiceAndPips(string $string): array
     {
-        [$dice, $pips] = \explode('d', strtolower($string));
+        [$dice, $pips] = explode('d', strtolower($string));
         if ('' === $dice) {
             $dice = '1';
         }
@@ -99,7 +103,7 @@ class DiceService
         $rolls = [];
         foreach ($parts as $part) {
             [$dice, $pips] = self::getDiceAndPips($part);
-            $rolls[\sprintf('%dd%d', $dice, $pips)] = self::rollMany($dice, $pips);
+            $rolls[sprintf('%dd%d', $dice, $pips)] = self::rollMany($dice, $pips);
         }
         return $rolls;
     }
@@ -149,5 +153,32 @@ class DiceService
             'rolls' => $rolls,
             'work' => $work,
         ];
+    }
+
+    /**
+     * Given a string of dice notation and math, determine the highest possible
+     * result.
+     */
+    public static function rollMax(string $string): int
+    {
+        $parts = self::getDynamicParts($string);
+        foreach ($parts as $part) {
+            [$dice, $pips] = self::getDiceAndPips($part);
+            $string = str_replace(
+                search: $part,
+                replace: (string)($dice * $pips),
+                subject: $string,
+            );
+        }
+
+        // Use the convertFormula trait from Shadowrun 5E to avoid needing
+        // eval() and calculate the total for the roll.
+        $total = self::convertFormula(
+            formula: $string,
+            letter: 'Q', // unused
+            rating: 0 // unused
+        );
+
+        return $total;
     }
 }

@@ -76,7 +76,7 @@ final class ForceTraitTest extends TestCase
     }
 
     /**
-     * Test calulating an invalid string.
+     * Test calculating an invalid string.
      * @test
      */
     public function testInvalid(): void
@@ -86,5 +86,25 @@ final class ForceTraitTest extends TestCase
         self::assertSame(3, $this->force->convertFormula('T^2', 'T', 3));
         self::assertSame(1, $this->force->convertFormula('+T+1-2', 'T', 2));
         self::assertSame(0, $this->force->convertFormula('', 'L', 1));
+    }
+
+    /**
+     * Test that it handles left to right order of operations correctly.
+     * @test
+     */
+    public function testSimpleButLong(): void
+    {
+        self::assertSame(
+            -19,
+            $this->force->convertFormula('1+2-8+24-48+10', 'x', 1),
+        );
+        self::assertSame(
+            2,
+            $this->force->convertFormula('2*2/4*8/4', 'x', 1),
+        );
+        self::assertSame(
+            5,
+            $this->force->convertFormula('2+2*2-2/2', 'F', 0),
+        );
     }
 }
