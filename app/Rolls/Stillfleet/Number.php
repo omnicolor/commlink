@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Rolls\Stillfleet;
 
 use App\Events\DiscordMessageReceived;
+use App\Exceptions\SlackException;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
-use App\Services\DiceService;
+use Facades\App\Services\DiceService;
 
 use function array_shift;
 use function explode;
@@ -31,9 +32,8 @@ class Number extends Roll
     protected int $penalty = 0;
     protected int $die = 0;
     protected ?string $error = null;
-
-    /** @var array<int, int> */
-    protected array $rolls = [];
+    protected int $roll;
+    protected int $result;
 
     public function __construct(
         string $content,
@@ -74,12 +74,22 @@ class Number extends Roll
 
     public function forSlack(): SlackResponse
     {
+        if (null !== $this->error) {
+            throw new SlackException($this->error);
+        }
+
+        $value = (string)$this->roll;
+        if (0 !== $this->boost) {
+            $value .= ' + ' . (string)$this->boost;
+        } elseif (0 !== $this->penalty) {
+            $value .= ' - ' . (string)$this->penalty;
+        }
+
         $attachment = new TextAttachment(
-            'Title',
-            'Text',
-            TextAttachment::COLOR_SUCCESS
+            sprintf('%s rolled a %d', $this->username, $this->result),
+            $value,
         );
-        $response = new SlackResponse('', SlackResponse::HTTP_OK, [], $this->channel);
+        $response = new SlackResponse(channel: $this->channel);
         return $response->addAttachment($attachment)->sendToChannel();
     }
 
@@ -89,13 +99,20 @@ class Number extends Roll
             return $this->error;
         }
 
-        $value = sprintf('**%s**', 'Title') . PHP_EOL
-            . 'Text' . PHP_EOL;
+        $value = sprintf('**%s rolled a %d**', $this->username, $this->result)
+            . PHP_EOL
+            . (string)$this->roll;
+        if (0 !== $this->boost) {
+            $value .= ' + ' . (string)$this->boost;
+        } elseif (0 !== $this->penalty) {
+            $value .= ' - ' . (string)$this->penalty;
+        }
         return $value;
     }
 
     protected function roll(): void
     {
-        //$roll = DiceService::rollOne($this->die);
+        $this->roll = DiceService::rollOne($this->die);
+        $this->result = $this->roll + $this->boost - $this->penalty;
     }
 }
