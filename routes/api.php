@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\ChannelsController;
+use App\Http\Controllers\EventsController;
 use App\Http\Controllers\InitiativesController;
 use App\Http\Controllers\SlackController;
 use App\Http\Controllers\UsersController;
@@ -18,14 +19,31 @@ Route::middleware('auth:sanctum')->group(function (): void {
     );
     Route::delete(
         '/campaigns/{campaign}/initiatives',
-        [InitiativesController::class, 'truncate']
+        [InitiativesController::class, 'truncate'],
     );
+    Route::get(
+        '/campaigns/{campaign}/events',
+        [EventsController::class, 'indexForCampaign'],
+    )->name('events.campaign-index');
+    Route::post(
+        '/campaigns/{campaign}/events',
+        [EventsController::class, 'store'],
+    )->name('events.store');
+
+    Route::resource('events', EventsController::class)
+        ->withTrashed(['destroy'])
+        ->except(['store', 'update']);
+    Route::patch('events/{event}', [EventsController::class, 'patch'])
+        ->name('events.patch');
+    Route::put('events/{event}', [EventsController::class, 'put'])
+        ->name('events.put');
+
     Route::resource('users', UsersController::class);
     Route::post('users/{user}/token', [UsersController::class, 'createToken'])
         ->name('create-token');
     Route::delete(
         'users/{user}/token/{tokenId}',
-        [UsersController::class, 'deleteToken']
+        [UsersController::class, 'deleteToken'],
     )->name('delete-token');
 });
 

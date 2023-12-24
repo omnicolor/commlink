@@ -4,23 +4,17 @@ info:
   description: |-
     Commlink is a tool for playing role playing games online, providing a
     character generator, campaign manager, dice roller, and more.
-  license:
-    name: MIT License
-    url: https://mit-license.org/
   contact:
     email: omni@digitaldarkness.com
-  version: 0.0.1
-
+  version: 1.2.0
 externalDocs:
   description: Find out more about Commlink
-  url: 'https://commlink.digitaldarkness.com/about'
-
+  url: https://commlink.digitaldarkness.com/about
 security:
   - BearerAuth: []
-
 servers:
-  - url: 'https://commlink.digitaldarkness.com/api'
-
+  - url: https://commlink.digitaldarkness.com/api
+  - url: https://commlink-dev.digitaldarkness.com/api
 tags:
   - name: character
     description: Everything about characters, in whatever system
@@ -30,6 +24,8 @@ tags:
     description: Cyberpunk Red RPG
   - name: dnd5e
     description: Dungeons and Dragons
+  - name: events
+    description: Real life events for a campaign
   - name: expanse
     description: Expanse RPG
   - name: integration
@@ -42,6 +38,142 @@ tags:
     description: Operations about users
 
 paths:
+  /campaigns/{campaign_id}/events:
+    parameters:
+      - name: campaign_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Return all events for a given campaign
+      description: Returns in-game events.
+      parameters:
+        - name: future
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Collection of zero or more campaign events.
+          content:
+            application/json:
+              schema:
+                example:
+                  data:
+                    - campaign_id: 123
+                      created_by:
+                        name: 'Bob King'
+                        id: 31
+                      description: 'Set up our shiny new campaign, captain!'
+                      game_end: null
+                      game_start: null
+                      id: 99
+                      name: "Session Zero"
+                      real_end: "2023-12-20T03:00:00Z"
+                      real_start: "2023-12-20T01:00:00Z"
+                      response: "Accepted"
+                      links:
+                        self: /events/99
+                        collection: /campaigns/123/events
+                        root: /
+                        campaign: /campaigns/123
+                  links:
+                    campaign: /campaigns/123
+                    self: /campaigns/123/events
+                    root: /
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Event'
+                    type: array
+                  links:
+                      $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '403':
+          $ref: '#/components/schemas/ErrorResponseForbidden'
+      tags:
+        - campaign
+        - events
+    post:
+      summary: Create a new campaign event
+      description: |
+        Create a new event for the given campaign, like an upcoming game.
+      operationId: campaign-events-store
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                description:
+                  description: Optional description of the event.
+                  nullable: true
+                  type: string
+                game_end:
+                  description: |
+                    Optional date (optionally with time) the session runs
+                    through in the game world.
+                  format: datetime
+                  nullable: true
+                  type: string
+                game_start:
+                  description: |
+                    Optional date (optionally with time) the session starts in
+                    the game world.
+                  format: datetime
+                  nullable: true
+                  type: string
+                name:
+                  description: |
+                    What you want to call the event. Defaults to the event's
+                    start time.
+                  type: string
+                real_end:
+                  description: |
+                    Optional date and time the event is scheduled to end, in the
+                    real world.
+                  format: datetime
+                  nullable: true
+                  type: string
+                real_start:
+                  description: |
+                    Date and time the event is scheduled to start (in the real
+                    world).
+                  format: datetime
+                  nullable: true
+                  type: string
+              required:
+                - real_start
+        required: true
+      responses:
+        '201':
+          description: Campaign event was created.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Event'
+                    type: array
+                  links:
+                      $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '403':
+          $ref: '#/components/schemas/ErrorResponseForbidden'
+      tags:
+        - campaign
+        - events
   /campaigns/{campaign_id}/initiatives:
     parameters:
       - name: campaign_id
@@ -57,17 +189,9 @@ paths:
         '204':
           description: All initiatives were removed.
         '401':
-          description: The request requires authentication.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
         '403':
-          description: Request is for a campaign the requestor isn't the GM for.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponseForbidden'
+          $ref: '#/components/schemas/ErrorResponseForbidden'
       tags:
         - campaign
         - interactivity
@@ -94,7 +218,12 @@ paths:
         - interactivity
     post:
       summary: Add an NPC to combat
-      description: Add an NPC to combat. Requires either `initiative` (set the character's initiative to this value) or `base_initiative` AND `initiative_dice` (roll the number of dice, add the base, and set the character's initiative to that). Also allows a `grunt_id` for upcoming addition of mook support.
+      description: |
+        Add an NPC to combat. Requires either `initiative` (set the character's
+        initiative to this value) or `base_initiative` AND `initiative_dice`
+        (roll the number of dice, add the base, and set the character's
+        initiative to that). Also allows a `grunt_id` for upcoming addition of
+        mook support.
       operationId: initiatives-store
       requestBody:
         required: true
@@ -137,7 +266,9 @@ paths:
           type: integer
     delete:
       summary: Remove a combatant
-      description: Remove the given initiative from the list, removing a character from combat.
+      description: |
+        Remove the given initiative from the list, removing a character from
+        combat.
       operationId: initiatives-destroy
       responses:
         '204':
@@ -153,7 +284,16 @@ paths:
       operationId: initiatives-show
       responses:
         '200':
-          description: Initiative.
+          description: Initiative for an encounter.
+          content:
+            application/json:
+              schema:
+                properties:
+                  initiatives:
+                    $ref: '#/components/schemas/Initiative'
+                required:
+                  - initiatives
+                type: object
         '401':
           description: Request is for a campaign the requestor isn't the GM for.
       tags:
@@ -178,7 +318,7 @@ paths:
         required: true
         schema:
           type: integer
-    put:
+    patch:
       summary: Update a channel
       description: Configure a channel's webhook.
       operationId: channels-update
@@ -194,14 +334,16 @@ paths:
         '200':
           description: Channel was updated.
         '401':
-          description: User doesn't own the channel.
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '403':
+          $ref: '#/components/schemas/ErrorResponseForbidden'
         '422':
           description: Request included both the auto option and a webhook URL.
       tags:
         - interactivity
   /cyberpunkred/characters:
     get:
-      summary: Return all Cyberpunk Red characters
+      summary: Cyberpunk Red characters
       description: Return Cyberpunk Red characters.
       operationId: cyberpunkred-characters-index
       responses:
@@ -221,10 +363,36 @@ paths:
       tags:
         - character
         - cyberpunkred
+  /cyberpunkred/characters/{character_id}:
+    parameters:
+      - name: character_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Return a Cyberpunk Red character
+      description: Return Cyberpunk Red characters.
+      operationId: cyberpunkred-characters-show
+      responses:
+        '200':
+          description: A Cyberpunk Red character
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/CyberpunkredCharacter'
+                required:
+                  - data
+                type: object
+      tags:
+        - character
+        - cyberpunkred
   /dnd5e/characters:
     get:
       summary: Dungeons and Dragons 5E characters
-      description: Return all Dungeons and Dragons 5E characters.
+      description: Return all D&D 5E characters owned by the current user.
       operationId: dnd5e-characters-index
       responses:
         '200':
@@ -240,14 +408,317 @@ paths:
       tags:
         - character
         - dnd5e
+  /events:
+    get:
+      summary: Collection of the user's events.
+      description: Collection of events the user's campaigns have scheduled.
+      parameters:
+        - name: campaign_id
+          description: Only return events for a single campaign.
+          in: query
+          schema:
+            type: integer
+        - name: future
+          description: Only return events in the future.
+          in: query
+          schema:
+            type: boolean
+        - name: response[]
+          description: Only return events with the given response statuses.
+          in: query
+          schema:
+            items:
+              enum:
+                - accepted
+                - declined
+                - tentative
+                - unknown
+              type: string
+            type: array
+      responses:
+        '200':
+          description: Collection of user's events.
+          content:
+            application/json:
+              schema:
+                example:
+                  data:
+                    - campaign:
+                        id: 123
+                        name: 'Knights of the Round Table'
+                      created_by:
+                        id: 31
+                        name: 'Bob King'
+                      description: 'Set up our shiny new campaign, captain!'
+                      game_end: null
+                      game_start: null
+                      id: 99
+                      name: 'Session Zero'
+                      real_end: '2023-12-20T03:00:00Z'
+                      real_start: '2023-12-20T01:00:00Z'
+                      responses:
+                        - user_name: 'Bob King'
+                          user_id: 2
+                          response: 'accepted'
+                        - user_name: 'Fake Tiger'
+                          user_id: 42
+                          response: 'declined'
+                  links:
+                      self: '/events/99'
+                      collection: '/campaigns/123/events'
+                      root: '/'
+                      campaign: '/campaigns/123'
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Event'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+      tags:
+        - events
+  /events/{event_id}:
+    parameters:
+      - name: event_id
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      summary: Cancel an event.
+      responses:
+        '204':
+          description: |
+            The event has been deleted, even if it has already been deleted
+            previously.
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '404':
+          $ref: '#/components/schemas/ErrorResponseNotFound'
+      tags:
+        - events
+    get:
+      summary: Returns a single event.
+      responses:
+        '200':
+          description: Single event.
+          content:
+            application/json:
+              schema:
+                example:
+                  data:
+                    campaign:
+                      id: 123
+                      name: 'Bullets and boulders'
+                    created_at: '2023-11-19T01:00:00Z'
+                    created_by:
+                      name: 'Bob King'
+                      id: 31
+                    description: 'Set up our shiny new campaign, captain!'
+                    game_end: null
+                    game_start: null
+                    id: 99
+                    name: 'Session Zero'
+                    real_end: '2023-12-20T03:00:00Z'
+                    real_start: '2023-12-20T01:00:00Z'
+                    responses:
+                      - response: 'accepted'
+                        user_id: 31
+                        name: 'Bob King'
+                      - response: 'declined'
+                        user_id: 13
+                        name: 'Phil McCracken'
+                  links:
+                    self: /events/99
+                    collection: /campaigns/123/events
+                    root: /
+                    campaign: /campaigns/123
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Event'
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '404':
+          $ref: '#/components/schemas/ErrorResponseNotFound'
+      tags:
+        - events
+    patch:
+      summary: Update part of an event.
+      description: |
+        If "application/json" is sent as the Content-Type, all fields are
+        optional. Any fields not sent are left as-is. Fields sent as null are
+        removed (unless required, such as the real_start field).
+
+        If "application/json-patch+json" is sent as the Content-Type, the
+        request follows JSON Patch rules.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                description:
+                  description: Optional description of the event.
+                  nullable: true
+                  type: string
+                game_end:
+                  description:
+                    Optional date (optionally with time) the session runs
+                    through in the game world.
+                  format: datetime
+                  nullable: true
+                  type: string
+                game_start:
+                  description: |
+                    Optional date (optionally with time) the session starts in
+                    the game world.
+                  format: datetime
+                  nullable: true
+                  type: string
+                name:
+                  description: |
+                    What you want to call the event. Defaults to the event's
+                    start time.
+                  nullable: true
+                  type: string
+                real_end:
+                  description: |
+                    Optional date and time the event is scheduled to end, in the
+                    real world.
+                  format: datetime
+                  nullable: true
+                  type: string
+                real_start:
+                  description: |
+                    Date and time the event is scheduled to start (in the real
+                    world).
+                  format: datetime
+                  nullable: true
+                  type: string
+          application/json-patch+json:
+            schema:
+              items:
+                $ref: '#/components/schemas/JsonPatchOperation'
+              type: array
+      responses:
+        '202':
+          description: Event has been updated.
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '403':
+          $ref: '#/components/schemas/ErrorResponseForbidden'
+        '404':
+          $ref: '#/components/schemas/ErrorResponseNotFound'
+        '409':
+          description: Event was not updated, something else changed it.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseConflict'
+      tags:
+        - events
+    put:
+      summary: Update an event
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                description:
+                  description: Optional description of the event.
+                  nullable: true
+                  type: string
+                game_end:
+                  description: |
+                    Optional date (optionally with time) the session runs
+                    through in the game world.
+                  format: datetime
+                  nullable: true
+                  type: string
+                game_start:
+                  description: |
+                    Optional date (optionally with time) the session starts in
+                    the game world.
+                  format: datetime
+                  nullable: true
+                  type: string
+                name:
+                  description: |
+                    What you want to call the event. Defaults to the event's
+                    start time.
+                  type: string
+                real_end:
+                  description: |
+                    Optional date and time the event is scheduled to end, in the
+                    real world.
+                  format: datetime
+                  nullable: true
+                  type: string
+                real_start:
+                  description: |
+                    Date and time the event is scheduled to start (in the real
+                    world).
+                  format: datetime
+                  nullable: true
+                  type: string
+              required:
+                - real_start
+      responses:
+        '202':
+          description: Event has been updated.
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '403':
+          $ref: '#/components/schemas/ErrorResponseForbidden'
+        '404':
+          $ref: '#/components/schemas/ErrorResponseNotFound'
+        '409':
+          description: Event was not updated, something else changed it.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseConflict'
+      tags:
+        - events
+  /expanse/backgrounds:
+    get:
+      summary: Expanse RPG character backgrounds
+      description: |
+        Collection of all backgrounds available to player characters in The
+        Expanse.
+      responses:
+        '200':
+          description: Collection of Expanse RPG backgrounds
+          content:
+            application/json:
+              schema:
+                properties:
+                  links:
+                    $ref: '#/components/schemas/Links'
+                  data:
+                    items:
+                      $ref: '#/components/schemas/ExpanseBackground'
+                    type: array
+      tags:
+        - expanse
   /expanse/characters:
     get:
-      summary: Expanse characters
+      summary: Expanse RPG characters
       description: Return Expanse RPG characters.
       operationId: expanse-characters-index
       responses:
         '200':
-          description: "Collection of the user's Expanse characters."
+          description: Collection of the user's Expanse characters.
           content:
             application/json:
               schema:
@@ -262,24 +733,119 @@ paths:
       tags:
         - character
         - expanse
+  /expanse/conditions:
+    get:
+      summary: Expanse RPG conditions
+      description: All supported Expanse RPG conditions.
+      operationId: expanse-conditions-index
+      responses:
+        '200':
+          description: Collection of conditions that can affect an Expanse character.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/ExpanseCondition'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+      tags:
+        - expanse
+  /expanse/focuses:
+    get:
+      summary: Expanse RPG focuses
+      operationId: expanse-focuses-index
+      responses:
+        '200':
+          description: Collection of focuses a character may have.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/ExpanseFocus'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+      tags:
+        - expanse
+  /expanse/social-classes:
+    get:
+      summary: Expanse RPG social classes
+      operationId: expanse-socialClasses-index
+      responses:
+        '200':
+          description: Description of the social class a character may come from.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/ExpanseSocialClass'
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+      tags:
+        - expanse
+  /expanse/talents:
+    get:
+      summary: Expanse RPG talents
+      operationId: expanse-talents-index
+      responses:
+        '200':
+          description: Description of talents a character may possess.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/ExpanseTalent'
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+      tags:
+        - expanse
   /roll:
     options:
       summary: Slack roll health check
-      description: Verify that the resource is alive. Note - This should be renamed to '/slack'.
-      operationId: slack-options
+      description: |
+        Verify that the resource is alive. Note - This should be renamed to
+        '/slack'.
       responses:
         '200':
           description: Resource is alive.
           content:
             text/html:
-              schema:
-                type: string
+              example: OK
       tags:
         - integration
     post:
       summary: Handle a Slack roll
-      description: Handle a roll from [a slash-command on Slack](https://api.slack.com/interactivity/slash-commands). A "roll" may be more than just rolling dice, it can be registering a Slack user, flipping a coin, or anything shown in `/roll help`. Note - This should be renamed to '/slack'.
-      operationId: slack-post
+      description: |
+        Handle a roll from [a slash-command on
+        Slack](https://api.slack.com/interactivity/slash-commands). A "roll" may
+        be more than just rolling dice, it can be registering a Slack user,
+        flipping a coin, or anything shown in `/roll help`. Note - This should
+        be renamed to '/slack'.
       parameters:
         - name: X-Slack-Request-Timestamp
           description: Time Slack thinks the message was sent to Commlink.
@@ -312,7 +878,11 @@ paths:
         - SlackKeyAuth: []
       responses:
         '200':
-          description: The command succeeded, the roll's results are returned. Or, the command failed in a way that should be shown to the user. This response is differently formed than the rest of Commlink's API since it is meant to be consumed by Slack.
+          description: |
+            The command succeeded, the roll's results are returned. Or, the
+            command failed in a way that should be shown to the user. This
+            response is differently formed than the rest of Commlink's API since
+            it is meant to be consumed by Slack.
           content:
             application/json:
               schema:
@@ -332,8 +902,10 @@ paths:
   /rolls:
     post:
       summary: Roll some randomness
-      description: (Proposed) Roll some dice, flip a coin, pick a card, etc. Note - This should be renamed to '/roll' when the current one gets renamed for Slack.
-      operationId: roll-post
+      description: |
+        (Proposed) Roll some dice, flip a coin, pick a card, etc. Note - This
+        should be renamed to '/roll' when the current one gets renamed for
+        Slack.
       requestBody:
         required: true
         content:
@@ -348,19 +920,29 @@ paths:
                   text: draw
               CyberpunkRed-Generic:
                 summary: Cyberpunk Red - Generic roll
-                description: Roll a d10, adding `7` to it, and saying the roll is for `negotiation`. If the die rolls a 1, roll another and subtract the result (critical failure). If the die is a 10, roll another and add the result (critical success).
+                description: |
+                  Roll a d10, adding `7` to it, and saying the roll is for
+                  `negotiation`. If the die rolls a 1, roll another and subtract
+                  the result (critical failure). If the die is a 10, roll
+                  another and add the result (critical success).
                 value:
                   system: cyberpunkred
                   text: 7 negotiation
               Shadowrun5e-Generic:
                 summary: Shadowrun 5E - Generic roll
-                description: Roll `12` Shadowrun 5E d6's, counting number of fives and sixes using `4` as the limit, with text saying the roll is for `perception`.
+                description: |
+                  Roll `12` Shadowrun 5E d6's, counting number of fives and
+                  sixes using `4` as the limit, with text saying the roll is for
+                  `perception`.
                 value:
                   system: shadowrun5e
                   text: 12 4 perception
               Shadowrun5e-Soak:
                 summary: Shadowrun 5E - Soak roll
-                description: Roll the character's "soak" attribute (body + armor + augmentation effects + mentor spirit effects) in d6's and return the number of fives and sixes.
+                description: |
+                  Roll the character's "soak" attribute (body + armor +
+                  augmentation effects + mentor spirit effects) in d6's and
+                  return the number of fives and sixes.
                 value:
                   character_id: 64cabf032ad4d330c29bb82a
                   system: shadowrun5e
@@ -368,7 +950,11 @@ paths:
             schema:
               properties:
                 character_id:
-                  description: ID of the character to roll as, for rolls that use the character's attributes. Even if a roll doesn't require the character_id, including it is encouraged, as the character's campaign may be linked to other services.
+                  description: |
+                    ID of the character to roll as, for rolls that use the
+                    character's attributes. Even if a roll doesn't require the
+                    character_id, including it is encouraged, as the character's
+                    campaign may be linked to other services.
                   type: string
                 text:
                   description: What kind of roll to make.
@@ -382,12 +968,16 @@ paths:
               type: object
       responses:
         '200':
-          description: The request succeeded (though the *roll* might not have, from the character's perspective).
+          description: |
+            The request succeeded (though the *roll* might not have, from the
+            character's perspective).
           content:
             application/json:
               examples:
                 Shadowrun5e generic:
-                  description: A roll request including a character_id (that resolves to Fastjack), a system (shadowrun5e), and text (12 perception).
+                  description: |
+                    A roll request including a character_id (that resolves to
+                    Fastjack), a system (shadowrun5e), and text (12 perception).
                   value:
                     rolls: 6 6 5 5 4 4 4 3 2 2 2 2
                     text: Rolled 4 successes for 'perception'
@@ -396,6 +986,7 @@ paths:
                 properties:
                   rolls:
                     description: Optional extra information about the roll.
+                    nullable: true
                     type: string
                   title:
                     description: Headline about the roll.
@@ -404,7 +995,7 @@ paths:
                     description: Full text about the roll's result.
                     type: string
                 required:
-                  - rolls
+                  - footer
                   - text
                   - title
                 type: object
@@ -426,15 +1017,21 @@ paths:
             application/json:
               examples:
                 No character:
-                  description: Many rolls require a character so they know how many dice to roll.
+                  description: |
+                    Many rolls require a character so they know how many dice to
+                    roll.
                   value:
                     message: You must include a character_id.
                 No system:
-                  description: Most rolls require a system so they know how to hande the text.
+                  description: |
+                    Most rolls require a system so they know how to hande the
+                    text.
                   value:
                     message: You must include the RPG system.
                 No text:
-                  description: A request needs to include text to tell the system what kind of roll to make.
+                  description: |
+                    A request needs to include text to tell the system what kind
+                    of roll to make.
                   value:
                     message: You must include the roll's text.
               schema:
@@ -446,9 +1043,114 @@ paths:
                 type: object
       tags:
         - interactivity
+  /shadowrun5e/adept-powers:
+    get:
+      summary: Shadowrun 5E adept powers
+      operationId: shadowrun5e-adeptPowers-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eAdeptPower'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                type: object
+          description: All Shadowrun 5E adept powers.
+      tags:
+        - shadowrun
+  /shadowrun5e/ammunitions:
+    get:
+      summary: Shadowrun 5E ammunition
+      operationId: shadowrun5e-ammunition-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eAmmunition'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                type: object
+          description: All Shadowrun 5E ammunition.
+      tags:
+        - shadowrun
+  /shadowrun5e/armor:
+    get:
+      summary: Shadowrun 5E armor
+      operationId: shadowrun5e-armor-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eArmor'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                type: object
+          description: All Shadowrun 5E armor.
+      tags:
+        - shadowrun
+  /shadowrun5e/armor-modifications:
+    get:
+      summary: Shadowrun 5E armor modifications
+      operationId: shadowrun5e-armorModifications-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eArmorModification'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                type: object
+          description: All Shadowrun 5E armor modifications.
+      tags:
+        - shadowrun
+  /shadowrun5e/augmentations:
+    get:
+      summary: Shadowrun 5E augmentations (cyberware and bioware).
+      operationId: shadowrun5e-augmentations-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eAugmentation'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E augmentations.
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+      tags:
+        - shadowrun
   /shadowrun5e/characters:
     get:
-      summary: All Shadowrun 5E charactesr owned by user
+      summary: All Shadowrun 5E characters
       description: Return Shadowrun 5E RPG characters.
       operationId: shadowrun5e-characters-index
       responses:
@@ -476,7 +1178,7 @@ paths:
         schema:
           type: string
     get:
-      summary: Shadowrun 5E character
+      summary: Single Shadowrun 5E character
       description: Return a single Shadowrun 5E character.
       operationId: shadowrun5e-characters-view
       responses:
@@ -494,9 +1196,115 @@ paths:
       tags:
         - character
         - shadowrun
+    patch:
+      summary: Update a Shadowrun 5E character
+      description: Update a Shadowrun character's condition monitor.
+      requestBody:
+        description: |
+          This is a JSON patch document describing what should happen to the
+          character sheet.
+
+          Healing a character is done by setting the appropriate damage track
+          to 0.
+          ```
+          {
+            "patch": [
+              {"op": "replace", "path": "/damagePhysical", "value": 0}
+            ]
+          }
+          ```
+
+          Damaging a character is done by setting the total damage to a given
+          track. If they already had 6 stun, this would give them an additional
+          4 boxes of stun.
+          ```
+          {
+            "patch": [
+              {"op": "replace", "path": "/damageStun", "value": 10}
+            ]
+          }
+          ```
+          Applying more stun damage to a character than their condition monitor
+          allows automatically converts to the appropriate amount of additional
+          physical damage. Similarly, adding more physical damage than their
+          physical monitor allows converts to overflow damage.
+
+          Using edge is similar. If a character starts with 3 edge and uses one,
+          set the edgeCurrent field to 2.
+          ```
+          {
+            "patch": [
+              {"op": "replace", "path": "/edgeCurrent", "value": 2}
+            ]
+          }
+          ```
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                patch:
+                  items:
+                    properties:
+                      op:
+                        description: Type of operation (should be "replace").
+                        type: string
+                      path:
+                        description: Field to update.
+                        enum:
+                          - /damagePhysical
+                          - /damageStun
+                          - /edgeCurrent
+                        type: string
+                      value:
+                        description: New value for the field.
+                        type: integer
+                    type: object
+                  type: array
+              type: object
+      responses:
+        '200':
+          description: Character was updated.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Shadowrun5eCharacter'
+                required:
+                  - data
+                type: object
+        '400':
+          description: There was something wrong with the request.
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '403':
+          $ref: '#/components/schemas/ErrorResponseForbidden'
+      tags:
+        - character
+        - shadowrun
+  /shadowrun5e/complex-forms:
+    get:
+      summary: Shadowrun 5E complex forms
+      operationId: shadowrun5e-complexForms-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eComplexForm'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                type: object
+          description: All Shadowrun 5E complex forms.
+      tags:
+        - shadowrun
   /shadowrun5e/gear:
     get:
-      summary: Shadowrun 5E gear statistics
       description: Return all Shadowrun 5E gear.
       operationId: shadowrun5e-gear-index
       responses:
@@ -526,7 +1334,6 @@ paths:
         schema:
           type: string
     get:
-      summary: Shadowrun 5E gear statistics
       description: Return a single item from Shadowrun 5E.
       operationId: shadowrun5e-gear-view
       responses:
@@ -545,9 +1352,8 @@ paths:
         - shadowrun
   /shadowrun5e/gear-modifications:
     get:
-      summary: Shadowrun 5E gear modifications
       description: Return a collection of gear modifications from Shadowrun 5E.
-      operationId: shadowrun5e-gear-modifications-index
+      operationId: shadowrun5e-gearModifications-index
       responses:
         '200':
           content:
@@ -564,9 +1370,164 @@ paths:
           description: All Shadowrun 5E modifications to install in other gear.
       tags:
         - shadowrun
+  /shadowrun5e/lifestyles:
+    get:
+      description: Collection of Shadowrun 5E lifestyles.
+      operationId: shadowrun5e-lifestyles-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eLifestyle'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E lifestyles.
+      tags:
+        - shadowrun
+  /users:
+    get:
+      summary: All users
+      operationId: users-index
+      responses:
+        '200':
+          description: Collection of all users in the system.
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/User'
+                type: array
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '403':
+          $ref: '#/components/schemas/ErrorResponseForbidden'
+      tags:
+        - user
+  /users/{user_id}:
+    parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Get a user
+      operationId: users-show
+      responses:
+        '200':
+          $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '403':
+          $ref: '#/components/schemas/ErrorResponseForbidden'
+        '404':
+          $ref: '#/components/schemas/ErrorResponseNotFound'
+      tags:
+        - user
+  /users/{user_id}/token:
+    parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    post:
+      summary: Create a new API token
+      operationId: users-createToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                expires_at:
+                  description: Optional expiration date for the token.
+                  format: date
+                  type: string
+                name:
+                  type: string
+              required:
+                - name
+              type: object
+      responses:
+        '201':
+          description: Token was created.
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                  expires_at:
+                    format: date
+                    nullable: true
+                    type: string
+                  last_used:
+                    format: date
+                    nullable: true
+                    type: string
+                  name:
+                    type: string
+                  plainText:
+                    type: string
+                type: object
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '403':
+          $ref: '#/components/schemas/ErrorResponseForbidden'
+        '422':
+          description: The request failed to validate.
+      tags:
+        - user
+  /users/{user_id}/token/{token_id}:
+    parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: token_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    delete:
+      summary: Delete a user's API token
+      operationId: users-deleteToken
+      responses:
+        '204':
+          description: Token was deleted
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '403':
+          $ref: '#/components/schemas/ErrorResponseForbidden'
+        '404':
+          $ref: '#/components/schemas/ErrorResponseNotFound'
+      tags:
+        - user
 
 components:
   schemas:
+    Campaign:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        system:
+          type: string
+        _links:
+          $ref: '#/components/schemas/Links'
+      type: object
     Character:
       properties:
         campaign_id:
@@ -591,19 +1552,44 @@ components:
               type: integer
             cool:
               type: integer
-            currentHitPoints:
-              type: integer
             dexterity:
               type: integer
             empathy:
               type: integer
             handle:
               type: string
-            hitPoints:
+            hit_points:
+              type: integer
+            hit_points_current:
               type: integer
             intelligence:
               type: integer
             lifepath:
+              properties:
+                cultural-origins:
+                  type: string
+                clothing-style:
+                  type: string
+                what-valued:
+                  type: string
+                person-valued:
+                  type: string
+                family-background:
+                  type: string
+                family-crisis:
+                  type: string
+                personality:
+                  type: string
+                hairstyle:
+                  type: string
+                people-feelings:
+                  type: string
+                possession-valued:
+                  type: string
+                childhood-environment:
+                  type: string
+                life-goals:
+                  type: string
               type: object
             luck:
               type: integer
@@ -612,14 +1598,42 @@ components:
             reflexes:
               type: integer
             roles:
+              items:
+                properties:
+                  rank:
+                    type: integer
+                  role:
+                    type: string
+                  type:
+                    type: integer
+                type: object
               type: array
             skills:
               type: object
             skillsCustom:
-              type: array
-            technique:
+              items:
+                properties:
+                  level:
+                    type: integer
+                  name:
+                    type: string
+                  type:
+                    type: string
+                type: object
               type: array
             weapons:
+              items:
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  quality:
+                    type: string
+                required:
+                  - id
+                  - name
+                type: object
               type: array
             willpower:
               type: integer
@@ -633,10 +1647,41 @@ components:
           required:
             - name
           type: object
+    ErrorResponseConflict:
+      description: The object has changed from the expected state.
+      example:
+        type: https://commlink.digitaldarkness.com/about/conflict
+        title: Conflict
+        status: 409
+        detail: The object you're trying to update has been changed.
+        instance: /event/123
+      properties:
+        detail:
+          type: string
+        status:
+          type: integer
+        title:
+          type: string
+        type:
+          format: uri
+          type: string
+      type: object
     ErrorResponseForbidden:
-      description: The request included authentication but it is not valid for the requested object.
-      examples:
-        - message: Forbidden
+      description: |
+        The request included authentication but it is not valid for the
+        requested object.
+      example:
+        {"message":"Forbidden"}
+      properties:
+        message:
+          type: string
+      required:
+        - message
+      type: object
+    ErrorResponseNotFound:
+      description: The requested object was not found.
+      example:
+        {"message":"Not found"}
       properties:
         message:
           type: string
@@ -645,13 +1690,112 @@ components:
       type: object
     ErrorResponseUnauthenticated:
       description: The request requires authentication.
-      examples:
-        - message: Unauthenticated
+      example:
+        {"message":"Unauthenticated"}
       properties:
         message:
           type: string
       required:
         - message
+      type: object
+    Event:
+      properties:
+        campaign:
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+          type: object
+        created_at:
+          format: datetime
+          type: string
+        created_by:
+          properties:
+            name:
+              type: string
+            id:
+              type: integer
+          type: object
+        description:
+          nullable: true
+          type: string
+        game_end:
+          format: datetime
+          nullable: true
+          type: string
+        game_start:
+          format: datetime
+          nullable: true
+          type: string
+        name:
+          type: string
+        real_end:
+          format: datetime
+          nullable: true
+          type: string
+        real_start:
+          format: datetime
+          type: string
+        responses:
+          description: Collection of RSVPs from users for the event.
+          items:
+            properties:
+              name:
+                type: string
+              response:
+                $ref: '#/components/schemas/EventResponse'
+              user_id:
+                type: integer
+            type: object
+          type: array
+      required:
+        - campaign
+        - created_by
+        - name
+        - real_start
+      type: object
+    EventResponse:
+      enum:
+        - accepted
+        - declined
+        - tentative
+        - unknown
+      type: string
+    ExpanseBackground:
+      description: Information about a background for an Expanse RPG character.
+      properties:
+        ability:
+          description: Ability change that the background gives.
+          type: string
+        benefits:
+          description: Map of benefits that can be rolled for.
+          type: object
+        description:
+          type: string
+        focuses:
+          items:
+            type: string
+          type: array
+        name:
+          type: string
+        page:
+          type: integer
+        talents:
+          items:
+            type: string
+          type: array
+        links:
+          type: object
+      required:
+        - ability
+        - benefits
+        - description
+        - focuses
+        - name
+        - page
+        - talents
+        - links
       type: object
     ExpanseCharacter:
       allOf:
@@ -702,21 +1846,117 @@ components:
               type: integer
             willpower:
               type: integer
+    ExpanseCondition:
+      properties:
+        description:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        links:
+          type: object
+      required:
+        - description
+        - name
+        - page
+        - links
+      type: object
+    ExpanseFocus:
+      properties:
+        attribute:
+          type: string
+        description:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        page:
+          type: integer
+      required:
+        - attribute
+        - description
+        - name
+        - page
+        - links
+      type: object
+    ExpanseSocialClass:
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - description
+        - id
+        - name
+        - links
+      type: object
+    ExpanseTalent:
+      properties:
+        benefits:
+          properties:
+            expert:
+              type: string
+            master:
+              type: string
+            novice:
+              type: string
+          required:
+            - expert
+            - master
+            - novice
+          type: object
+        description:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        requirements:
+          items:
+            properties:
+              attributes:
+                type: object
+              focus:
+                items:
+                  type: string
+                type: array
+            type: object
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - benefits
+        - description
+        - name
+        - page
+        - requirements
+        - links
+      type: object
     Initiative:
       properties:
         campaign_id:
           type: integer
         channel_id:
           description: ID of the channel the player added initiative from.
+          nullable: true
           type: string
         character_id:
           description: ID of the character.
+          nullable: true
           type: string
         character_name:
           description: Name of the combatant.
           type: string
         grunt_id:
           description: Grunt ID of the NPC, if any.
+          nullable: true
           type: string
         id:
           type: integer
@@ -732,28 +1972,280 @@ components:
         - initiative
       type: object
     ItemId:
-      description: Typically the item's name with spaces replaced by dashes followed by the rating or subname.
-      examples:
-        - activesoft-forgery-1
+      description: |
+        Typically the item's name with spaces replaced by dashes followed by the
+        rating or subname.
+      example:
+        activesoft-forgery-1
       type: string
+    JsonPatchOperation:
+      description: |
+        Operation to take on the associated document. See
+        [Json Patch documentation](https://jsonpatch.com).
+      properties:
+        op:
+          description: |
+            Operation to take on the document. Commlink's API may not support
+            all of the different operations. Replace and remove are the most
+            commonly used operations.
+          enum:
+            - add
+            - copy
+            - move
+            - remove
+            - replace
+            - test
+          type: string
+        path:
+          description: |
+            Name of the field to operate on, using slashes. For example, to
+            operate on a nested JSON object like "data.character.health", you'd
+            use a path like "/data/character/health". For arrays, use the number
+            of the element, like "/data/characters/1/health" to operate on the
+            character in array index 1. To `add` and element to the end of the
+            array, use a dash, like "/data/characters/-".
+          type: string
+        value:
+          description: |
+            Value to use for the operation. Very dependent on the object that is
+            operated on.
+          nullable: true
+          oneOf:
+            - type: array
+              items: {}
+            - type: boolean
+            - type: number
+            - type: object
+            - type: string
+      required:
+        - op
+        - path
+      type: object
     Links:
       properties:
         collection:
-          examples:
-            - /api/shadowrun5e/gear
+          example: /api/shadowrun5e/gear
           type: string
         root:
-          examples:
-            - /api
+          example: /api
+          type: string
+        self:
+          example: /api/expanse/focuses/bows
           type: string
         system:
-          examples:
-            - /api/shadowrun5e
+          example: /api/shadowrun5e
           type: string
       type: object
+    Role:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+        - id
+        - name
+      type: object
+    Shadowrun5eAdeptPower:
+      properties:
+        cost:
+          type: number
+        description:
+          type: string
+        effects:
+          items:
+            type: object
+          type: array
+        incompatible-with:
+          items:
+            type: string
+          type: array
+        level:
+          type: integer
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - cost
+        - description
+        - effects
+        - id
+        - incompatible-with
+        - name
+        - links
+      type: object
+    Shadowrun5eAmmunition:
+      properties:
+        ap-modifier:
+          type: integer
+        availability:
+          $ref: '#/components/schemas/Shadowrun5eAvailability'
+        class:
+          type: string
+        cost:
+          type: integer
+        cost-modifier:
+          type: number
+        damage-modifier:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        page:
+          type: integer
+        rating:
+          type: integer
+        ruleset:
+          type: string
+      required:
+        - ap-modifier
+        - availability
+        - description
+        - id
+        - name
+        - links
+      type: object
+    Shadowrun5eArmor:
+      properties:
+        availability:
+          $ref: '#/components/schemas/Shadowrun5eAvailability'
+        capacity:
+          type: integer
+        cost:
+          type: integer
+        description:
+          type: string
+        effects:
+          type: object
+        features:
+          items:
+            type: string
+          type: array
+        id:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        page:
+          type: integer
+        rating:
+          type: integer
+        ruleset:
+          type: string
+        stack-rating:
+          type: integer
+        wireless-effects:
+          type: object
+      required:
+        - availability
+        - cost
+        - description
+        - id
+        - links
+        - name
+      type: object
+    Shadowrun5eArmorModification:
+      properties:
+        availability:
+          $ref: '#/components/schemas/Shadowrun5eAvailability'
+        capacity-cost:
+          type: integer
+        capacity-multiplier:
+          type: number
+        cost:
+          type: integer
+        cost-multiplier:
+          type: number
+        description:
+          type: string
+        effects:
+          type: object
+        id:
+          $ref: '#/components/schemas/ItemId'
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        page:
+          type: integer
+        rating:
+          type: integer
+        ruleset:
+          type: string
+      required:
+        - availability
+        - capacity-cost
+        - description
+        - id
+        - links
+        - name
+        - ruleset
+      type: object
+    Shadowrun5eAugmentation:
+      properties:
+        availability:
+          $ref: '#/components/schemas/Shadowrun5eAvailability'
+        cost:
+          type: integer
+        description:
+          type: string
+        effects:
+          items:
+            type: object
+          type: array
+        essence:
+          type: number
+        id:
+          $ref: '#/components/schemas/ItemId'
+        incompatibilities:
+          items:
+            type: string
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        page:
+          type: integer
+        rating:
+          oneOf:
+            - type: string
+            - type: integer
+        ruleset:
+          enum:
+            - bioware
+            - cyberware
+          type: string
+        wireless-effects:
+          items:
+            type: object
+          type: array
+      required:
+        - availability
+        - cost
+        - description
+        - essence
+        - id
+        - links
+        - name
+        - type
+      type: object
     Shadowrun5eAvailability:
-      description: Code that shows both how difficult an item is to get, as well as how illegal it is.
-      examples:
+      description: |
+        Code that shows both how difficult an item is to get, as well as how
+        illegal it is.
+      example:
         - 8F
         - ''
         - 4
@@ -772,6 +2264,7 @@ components:
             - magician
             - mundane
             - technomancer
+          nullable: true
           type: string
         metatype:
           enum:
@@ -797,6 +2290,90 @@ components:
       required:
         - gameplay
         - metatype
+      type: object
+    Shadowrun5eComplexForm:
+      properties:
+        description:
+          type: string
+        duration:
+          type: string
+        fade:
+          type: string
+        id:
+          $ref: '#/components/schemas/ItemId'
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        target:
+          type: string
+      required:
+        - description
+        - duration
+        - fade
+        - id
+        - links
+        - name
+        - page
+        - ruleset
+        - target
+      type: object
+    Shadowrun5eLifestyle:
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Shadowrun5eLifestyleAttributes'
+        cost:
+          type: integer
+        description:
+          type: string
+        id:
+          $ref: '#/components/schemas/ItemId'
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        page:
+          type: integer
+        points:
+          type: integer
+        ruleset:
+          type: string
+      required:
+        - attributes
+        - cost
+        - description
+        - id
+        - links
+        - name
+        - page
+        - points
+        - ruleset
+      type: object
+    Shadowrun5eLifestyleAttributes:
+      properties:
+        comforts:
+          type: integer
+        comfortsMax:
+          type: integer
+        neighborhood:
+          type: integer
+        neighborhoodMax:
+          type: integer
+        security:
+          type: integer
+        securityMax:
+          type: integer
+      required:
+        - comforts
+        - comfortsMax
+        - neighborhood
+        - neighborhoodMax
+        - security
+        - securityMax
       type: object
     Shadowrun5eStandardPriorities:
       allOf:
@@ -907,6 +2484,7 @@ components:
               type: array
               items: {}
             magic:
+              nullable: true
               type: integer
             magics:
               type: object
@@ -919,6 +2497,7 @@ components:
                 tradition:
                   type: string
             martialArts:
+              nullable: true
               type: array
               items: {}
             priorities:
@@ -933,6 +2512,7 @@ components:
             realName:
               type: string
             resonance:
+              nullable: true
               type: integer
             skillGroups:
               type: object
@@ -956,67 +2536,54 @@ components:
         availability:
           $ref: '#/components/schemas/Shadowrun5eAvailability'
         capacity:
-          examples:
-            - 4
+          example: 4
           type: integer
         container-type:
-          examples:
-            - [vision]
+          example: [vision, audio]
+          items:
+            type: string
           type: array
         cost:
-          examples:
-            - 50
+          example: 50
           type: integer
         description:
-          examples:
-            - Typically handheld, binoculars come with built-in vision magnification. Binoculars are available in optical (which can't take additional vision enhancements) and electronic versions (which can take vision enhancements).
+          example: |
+              Typically handheld, binoculars come with built-in vision
+              magnification. Binoculars are available in optical (which can't
+              take additional vision enhancements) and electronic versions
+              (which can take vision enhancements).
           type: string
         effects:
-          examples:
-            - {forgery: 1}
+          example: {"forgery":1}
           type: object
         id:
           $ref: '#/components/schemas/ItemId'
         links:
           properties:
             self:
-              examples:
-                - /api/shadowrun5e/gear/activesoft-forgery-1
+              example: /api/shadowrun5e/gear/activesoft-forgery-1
               format: url
               type: string
           type: object
         name:
-          examples:
-            - Activesoft
+          example: Activesoft
           type: string
         page:
-          examples:
-            - 42
+          example: 42
           type: integer
         rating:
-          examples:
-            - 2
+          example: 2
           type: integer
         ruleset:
-          examples:
-            - core
-            - data-trails
+          example: data-trails
           type: string
         subname:
-          examples:
-            - Forgery
+          example: Forgery
           type: string
         wireless-effects:
-          examples:
-            - {locksmith: 1}
-          type: array
-      required:
-        - availability
-        - cost
-        - id
-        - name
-        - ruleset
-      type: object
+          example: {"locksmith":1}
+          items:
+            type: object
     Shadowrun5eGearModification:
       properties:
         availability:
@@ -1042,6 +2609,48 @@ components:
         - resources
         - skills
       type: string
+    User:
+      properties:
+        characters:
+          items:
+            $ref: '#/components/schemas/Character'
+          type: array
+        email:
+          format: email
+          type: string
+        features:
+          items:
+            type: string
+          type: array
+        gmOf:
+          items:
+            $ref: '#/components/schemas/Campaign'
+          type: array
+        id:
+          type: integer
+        name:
+          type: string
+        playingIn:
+          items:
+            $ref: '#/components/schemas/Campaign'
+          type: array
+        roles:
+          items:
+            $ref: '#/components/schemas/Role'
+          type: array
+        _links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - characters
+        - email
+        - features
+        - gmOf
+        - id
+        - name
+        - playingIn
+        - roles
+        - _links
+      type: object
     WebhookAuto:
       properties:
         auto:
@@ -1057,7 +2666,6 @@ components:
       required:
         - webhook
       type: object
-
   securitySchemes:
     BearerAuth:
       type: http
