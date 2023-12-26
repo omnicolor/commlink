@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.0.3
 info:
   title: Commlink
   description: |-
@@ -48,6 +48,7 @@ paths:
     get:
       summary: Return all events for a given campaign
       description: Returns in-game events.
+      operationId: events-indexForCampaign
       parameters:
         - name: future
           in: query
@@ -69,10 +70,10 @@ paths:
                       game_end: null
                       game_start: null
                       id: 99
-                      name: "Session Zero"
-                      real_end: "2023-12-20T03:00:00Z"
-                      real_start: "2023-12-20T01:00:00Z"
-                      response: "Accepted"
+                      name: 'Session Zero'
+                      real_end: '2023-12-20T03:00:00Z'
+                      real_start: '2023-12-20T01:00:00Z'
+                      response: 'Accepted'
                       links:
                         self: /events/99
                         collection: /campaigns/123/events
@@ -104,7 +105,7 @@ paths:
       summary: Create a new campaign event
       description: |
         Create a new event for the given campaign, like an upcoming game.
-      operationId: campaign-events-store
+      operationId: events-store
       requestBody:
         content:
           application/json:
@@ -412,6 +413,7 @@ paths:
     get:
       summary: Collection of the user's events.
       description: Collection of events the user's campaigns have scheduled.
+      operationId: events-index
       parameters:
         - name: campaign_id
           description: Only return events for a single campaign.
@@ -491,6 +493,7 @@ paths:
           type: string
     delete:
       summary: Cancel an event.
+      operationId: events-destroy
       responses:
         '204':
           description: |
@@ -504,6 +507,7 @@ paths:
         - events
     get:
       summary: Returns a single event.
+      operationId: events-show
       responses:
         '200':
           description: Single event.
@@ -562,6 +566,7 @@ paths:
 
         If "application/json-patch+json" is sent as the Content-Type, the
         request follows JSON Patch rules.
+      operationId: events-patch
       requestBody:
         content:
           application/json:
@@ -629,6 +634,7 @@ paths:
         - events
     put:
       summary: Update an event
+      operationId: events-put
       requestBody:
         content:
           application/json:
@@ -688,6 +694,103 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ErrorResponseConflict'
+      tags:
+        - events
+  /events/{event_id}/rsvp:
+    parameters:
+      - name: event_id
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      summary: Remove my RSVP for an event
+      operationId: events-deleteRsvp
+      responses:
+        '204':
+          description: The RSVP was deleted (marked as 'tentative').
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '404':
+          $ref: '#/components/schemas/ErrorResponseNotFound'
+      tags:
+        - events
+    get:
+      summary: Get my RSVP for an event
+      operationId: events-getRsvp
+      responses:
+        '200':
+          description: RSVP for the event.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    properties:
+                      event:
+                        properties:
+                          id:
+                            type: integer
+                          name:
+                            type: string
+                        required:
+                          - id
+                          - name
+                        type: object
+                      response:
+                        $ref: '#/components/schemas/EventResponse'
+                    type: object
+                  links:
+                    $ref: '#/components/schemas/Links'
+                type: object
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '404':
+          $ref: '#/components/schemas/ErrorResponseNotFound'
+      tags:
+        - events
+    put:
+      summary: RSVP to the event
+      operationId: events-updateRsvp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  $ref: '#/components/schemas/EventResponse'
+              required:
+                - response
+              type: object
+      responses:
+        '202':
+          description: RSVP was recorded.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    properties:
+                      event:
+                        properties:
+                          id:
+                            type: integer
+                          name:
+                            type: string
+                        required:
+                          - id
+                          - name
+                        type: object
+                      response:
+                        $ref: '#/components/schemas/EventResponse'
+                    type: object
+                  links:
+                    $ref: '#/components/schemas/Links'
+                type: object
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '404':
+          $ref: '#/components/schemas/ErrorResponseNotFound'
       tags:
         - events
   /expanse/backgrounds:
@@ -1247,7 +1350,7 @@ paths:
                   items:
                     properties:
                       op:
-                        description: Type of operation (should be "replace").
+                        description: Type of operation (should be 'replace').
                         type: string
                       path:
                         description: Field to update.
@@ -1760,7 +1863,6 @@ components:
         - accepted
         - declined
         - tentative
-        - unknown
       type: string
     ExpanseBackground:
       description: Information about a background for an Expanse RPG character.

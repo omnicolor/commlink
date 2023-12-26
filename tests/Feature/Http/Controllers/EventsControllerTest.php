@@ -445,4 +445,207 @@ final class EventsControllerTest extends TestCase
             ->delete(route('events.destroy', ['event' => $event]))
             ->assertForbidden();
     }
+
+    public function testGetRsvpForEventNotAllowed(): void
+    {
+        $user = User::factory()->create();
+        $event = Event::factory()->create();
+        self::actingAs($user)
+            ->get(route('events.get-rsvp', ['event' => $event]))
+            ->assertNotFound();
+    }
+
+    public function testGetNewRsvp(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()
+            ->hasAttached($user, ['status' => 'accepted'])
+            ->create();
+        $event = Event::factory()->create(['campaign_id' => $campaign->id]);
+        self::assertDatabaseMissing(
+            'event_rsvps',
+            [
+                'event_id' => $event->id,
+                'user_id' => $user->id,
+            ]
+        );
+        self::actingAs($user)
+            ->get(route('events.get-rsvp', ['event' => $event]))
+            ->assertOk()
+            ->assertJsonPath('data.response', 'tentative');
+        self::assertDatabaseHas(
+            'event_rsvps',
+            [
+                'event_id' => $event->id,
+                'response' => 'tentative',
+                'user_id' => $user->id,
+            ]
+        );
+    }
+
+    public function testGetExistingRsvp(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()
+            ->hasAttached($user, ['status' => 'accepted'])
+            ->create();
+        $event = Event::factory()->create(['campaign_id' => $campaign->id]);
+        EventRsvp::create([
+            'event_id' => $event->id,
+            'response' => 'accepted',
+            'user_id' => $user->id,
+        ]);
+        self::actingAs($user)
+            ->get(route('events.get-rsvp', ['event' => $event]))
+            ->assertOk()
+            ->assertJsonPath('data.response', 'accepted');
+    }
+
+    public function testDeleteNotAllowed(): void
+    {
+        $user = User::factory()->create();
+        $event = Event::factory()->create();
+        self::actingAs($user)
+            ->delete(route('events.delete-rsvp', ['event' => $event]))
+            ->assertNotFound();
+    }
+
+    public function testDeleteUnrespondedRsvp(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()
+            ->hasAttached($user, ['status' => 'accepted'])
+            ->create();
+        $event = Event::factory()->create(['campaign_id' => $campaign->id]);
+        self::assertDatabaseMissing(
+            'event_rsvps',
+            [
+                'event_id' => $event->id,
+                'user_id' => $user->id,
+            ]
+        );
+        self::actingAs($user)
+            ->delete(route('events.delete-rsvp', ['event' => $event]))
+            ->assertNoContent();
+    }
+
+    public function testDeleteRsvp(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()
+            ->hasAttached($user, ['status' => 'accepted'])
+            ->create();
+        $event = Event::factory()->create(['campaign_id' => $campaign->id]);
+        EventRsvp::create([
+            'event_id' => $event->id,
+            'response' => 'accepted',
+            'user_id' => $user->id,
+        ]);
+        self::actingAs($user)
+            ->delete(route('events.delete-rsvp', ['event' => $event]))
+            ->assertNoContent();
+        self::assertDatabaseMissing(
+            'event_rsvps',
+            [
+                'event_id' => $event->id,
+                'user_id' => $user->id,
+            ]
+        );
+    }
+
+    public function testUpdateNotAllowed(): void
+    {
+        $user = User::factory()->create();
+        $event = Event::factory()->create();
+        self::actingAs($user)
+            ->put(
+                route('events.delete-rsvp', ['event' => $event]),
+                ['response' => 'accepted'],
+            )
+            ->assertForbidden();
+    }
+
+    public function testUpdateNewRsvp(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()
+            ->hasAttached($user, ['status' => 'accepted'])
+            ->create();
+        $event = Event::factory()->create(['campaign_id' => $campaign->id]);
+        self::assertDatabaseMissing(
+            'event_rsvps',
+            [
+                'event_id' => $event->id,
+                'user_id' => $user->id,
+            ]
+        );
+        self::actingAs($user)
+            ->put(
+                route('events.update-rsvp', ['event' => $event]),
+                ['response' => 'accepted'],
+            )
+            ->assertAccepted()
+            ->assertJsonPath('data.response', 'accepted');
+        self::assertDatabaseHas(
+            'event_rsvps',
+            [
+                'event_id' => $event->id,
+                'response' => 'accepted',
+                'user_id' => $user->id,
+            ]
+        );
+    }
+
+    public function testUpdateExistingRsvp(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()
+            ->hasAttached($user, ['status' => 'accepted'])
+            ->create();
+        $event = Event::factory()->create(['campaign_id' => $campaign->id]);
+        EventRsvp::create([
+            'event_id' => $event->id,
+            'response' => 'accepted',
+            'user_id' => $user->id,
+        ]);
+        self::actingAs($user)
+            ->put(
+                route('events.update-rsvp', ['event' => $event]),
+                ['response' => 'declined'],
+            )
+            ->assertAccepted()
+            ->assertJsonPath('data.response', 'declined');
+        self::assertDatabaseHas(
+            'event_rsvps',
+            [
+                'event_id' => $event->id,
+                'response' => 'declined',
+                'user_id' => $user->id,
+            ]
+        );
+    }
+
+    public function testUpdateNewRsvpInvalidResponse(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()
+            ->hasAttached($user, ['status' => 'accepted'])
+            ->create();
+        $event = Event::factory()->create(['campaign_id' => $campaign->id]);
+        self::actingAs($user)
+            ->put(
+                route('events.update-rsvp', ['event' => $event]),
+                ['response' => 'invalid'],
+            )
+            ->assertInvalid([
+                'response' => 'Response must be: accepted, declined, or tentative',
+            ]);
+    }
 }

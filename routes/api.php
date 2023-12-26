@@ -37,6 +37,12 @@ Route::middleware('auth:sanctum')->group(function (): void {
         ->name('events.patch');
     Route::put('events/{event}', [EventsController::class, 'put'])
         ->name('events.put');
+    Route::get('events/{event}/rsvp', [EventsController::class, 'getRsvp'])
+        ->name('events.get-rsvp');
+    Route::delete('events/{event}/rsvp', [EventsController::class, 'deleteRsvp'])
+        ->name('events.delete-rsvp');
+    Route::put('events/{event}/rsvp', [EventsController::class, 'updateRsvp'])
+        ->name('events.update-rsvp');
 
     Route::resource('users', UsersController::class);
     Route::post('users/{user}/token', [UsersController::class, 'createToken'])

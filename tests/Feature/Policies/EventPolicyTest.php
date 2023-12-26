@@ -34,6 +34,12 @@ final class EventPolicyTest extends TestCase
         self::assertFalse($this->policy->viewAny($user));
     }
 
+    public function testViewEventNotLoggedIn(): void
+    {
+        $event = Event::factory()->create();
+        self::assertFalse($this->policy->view(null, $event));
+    }
+
     /**
      * Test a user trying to view an event without anything tying them to the
      * event.

@@ -7,10 +7,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EventPatchRequest;
 use App\Http\Requests\EventPostRequest;
 use App\Http\Requests\EventPutRequest;
+use App\Http\Requests\RsvpPutRequest;
 use App\Http\Resources\EventCollection;
 use App\Http\Resources\EventResource;
+use App\Http\Resources\EventRsvpResource;
 use App\Models\Campaign;
 use App\Models\Event;
+use App\Models\EventRsvp;
+use App\Models\User;
+use App\Policies\EventPolicy;
 use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -194,5 +199,53 @@ class EventsController extends Controller
         $this->authorize('delete', $event);
         $event->delete();
         return new JsonResponse('', JsonResponse::HTTP_NO_CONTENT);
+    }
+
+    public function getRsvp(Request $request, Event $event): JsonResponse
+    {
+        /** @var User */
+        $user = $request->user();
+        abort_unless(
+            (new EventPolicy())->view($user, $event),
+            JsonResponse::HTTP_NOT_FOUND,
+        );
+        $rsvp = EventRsvp::firstOrCreate(
+            ['event_id' => $event->id, 'user_id' => $user->id],
+            ['response' => 'tentative'],
+        );
+
+        return new JsonResponse(
+            new EventRsvpResource($rsvp),
+            JsonResponse::HTTP_OK,
+        );
+    }
+
+    public function deleteRsvp(Request $request, Event $event): JsonResponse
+    {
+        /** @var User */
+        $user = $request->user();
+        abort_unless(
+            (new EventPolicy())->view($user, $event),
+            JsonResponse::HTTP_NOT_FOUND,
+        );
+        EventRsvp::where('event_id', $event->id)
+            ->where('user_id', $user->id)
+            ->delete();
+        return new JsonResponse('', JsonResponse::HTTP_NO_CONTENT);
+    }
+
+    public function updateRsvp(RsvpPutRequest $request, Event $event): JsonResponse
+    {
+        /** @var User */
+        $user = $request->user();
+        $rsvp = EventRsvp::updateOrCreate(
+            ['event_id' => $event->id, 'user_id' => $user->id],
+            ['response' => $request->response],
+        );
+
+        return new JsonResponse(
+            new EventRsvpResource($rsvp),
+            JsonResponse::HTTP_ACCEPTED,
+        );
     }
 }
