@@ -225,7 +225,7 @@
         <div class="col-2 purple-background"></div>
         <div class="col">
             <div class="ps-3 section-heading"><span>Values</span></div>
-            @foreach ($character->values as $value)
+            @foreach ($character->values ?? [] as $value)
             <div class="underlined">{{ $value }}</div>
             @endforeach
         </div>
