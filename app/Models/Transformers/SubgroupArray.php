@@ -14,14 +14,14 @@ use TypeError;
 class SubgroupArray extends ArrayObject
 {
     /**
-     * @param int|null|string $index
-     * @param Subgroup $subgroup
+     * @param int|null|string $offset
+     * @param Subgroup $value
      * @throws TypeError
      */
-    public function offsetSet($index = null, $subgroup = null): void
+    public function offsetSet($offset = null, $value = null): void
     {
-        if ($subgroup instanceof Subgroup) {
-            parent::offsetSet($index, $subgroup);
+        if ($value instanceof Subgroup) {
+            parent::offsetSet($offset, $value);
             return;
         }
         throw new TypeError('SubgroupArray only accepts Subgroup objects');

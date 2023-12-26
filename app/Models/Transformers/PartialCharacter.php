@@ -32,6 +32,7 @@ class PartialCharacter extends Character
         $character->setConnection($this->connection);
         $character->fireModelEvent('retrieved', false);
         $character->fillable[] = 'errors';
+        // @phpstan-ignore-next-line
         return $character;
     }
 }

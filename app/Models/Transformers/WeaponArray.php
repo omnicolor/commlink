@@ -14,14 +14,14 @@ use TypeError;
 class WeaponArray extends ArrayObject
 {
     /**
-     * @param int|null|string $index
-     * @param Weapon $weapon
+     * @param int|null|string $offset
+     * @param Weapon $value
      * @throws TypeError
      */
-    public function offsetSet($index = null, $weapon = null): void
+    public function offsetSet($offset = null, $value = null): void
     {
-        if ($weapon instanceof Weapon) {
-            parent::offsetSet($index, $weapon);
+        if ($value instanceof Weapon) {
+            parent::offsetSet($offset, $value);
             return;
         }
         throw new TypeError('WeaponArray only accepts Weapon objects');
