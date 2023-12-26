@@ -1,3 +1,9 @@
+@php
+use App\Models\Event;
+use App\Policies\EventPolicy;
+
+$eventPolicy = new EventPolicy();
+@endphp
 <x-app>
     <x-slot name="title">Campaign: {{ $campaign }}</x-slot>
     <x-slot name="navbar">
@@ -59,30 +65,8 @@
                     Invite player
                 </a></li>
             </ul>
-        </div>
-        <div class="col">
-            <h2>Characters</h2>
 
-            <ul class="list-group">
-            @forelse ($campaign->characters() as $character)
-                <li class="list-group-item">
-                    <a href="/characters/{{ $character->system }}/{{ $character->id }}">
-                        <i class="bi bi-file-earmark-person"></i>
-                        {{ $character }}</a>
-                    ({{ $character->user()->name }})
-                </li>
-            @empty
-                <li class="list-group-item">
-                    The campaign has no characters.
-                </li>
-            @endforelse
-            </ul>
-        </div>
-    </div>
-
-    <div class="row mt-4">
-        <div class="col">
-            <h2>Chat servers</h2>
+            <h2 class="mt-4">Chat servers</h2>
 
             <ul class="list-group">
                 @forelse ($campaign->channels as $channel)
@@ -127,8 +111,63 @@
                 </small></li>
                 @endif
             </ul>
+
+            <h2 class="mt-4">Upcoming events</h2>
+
+            <ul class="list-group" id="upcoming-events">
+            @forelse (Event::forCampaign($campaign)->future()->with(['responses'])->get() as $event)
+                <li class="list-group-item">
+                    @if ($eventPolicy->delete($user, $event))
+                    <button class="btn btn-outline-danger btn-sm float-end" data-id="{{ $event->id }}" type="button">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                    @endif
+                    <div class="fs-4">{{ $event }}</div>
+                    <div class="fs-6 text-muted">{{ $event->real_start->toRfc7231String() }}</div>
+                    @if (null !== $event->description)
+                    <div>{{ $event->description }}</div>
+                    @endif
+                    <ul>@forelse ($event->responses as $response)
+                        <li>{{ $response->user->name }}: {{ ucfirst($response->response) }}</li>
+                    @empty
+                        <li>No responses</li>
+                    @endforelse
+                    </ul>
+                </li>
+            @empty
+                <li class="list-group-item" id="no-events">No upcoming events</li>
+            @endforelse
+            @if ($eventPolicy->createForCampaign($user, $campaign))
+                <li class="list-group-item" id="new-event-row">
+                    <button class="btn btn-link btn-sm"
+                        data-bs-target="#add-event" data-bs-toggle="modal"
+                        type="button">
+                        <i class="bi bi-calendar-plus"></i>
+                        Schedule an event
+                    </button>
+                </li>
+            @endif
+            </ul>
         </div>
+
         <div class="col">
+            <h2>Characters</h2>
+
+            <ul class="list-group mb-3">
+            @forelse ($campaign->characters() as $character)
+                <li class="list-group-item">
+                    <a href="/characters/{{ $character->system }}/{{ $character->id }}">
+                        <i class="bi bi-file-earmark-person"></i>
+                        {{ $character }}</a>
+                    ({{ $character->user()->name }})
+                </li>
+            @empty
+                <li class="list-group-item">
+                    The campaign has no characters.
+                </li>
+            @endforelse
+            </ul>
+
             <x-campaign-options :campaign=$campaign/>
         </div>
     </div>
@@ -238,9 +277,86 @@
         </div>
     </div>
 
+    <div aria-hidden="true" aria-labelledby="add-event-title"
+        class="modal fade" id="add-event" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="add-event-title">
+                        Schedule an event
+                    </h1>
+                    <button aria-label="Close" class="btn-close"
+                        data-bs-dismiss="modal" type="button"></button>
+                </div>
+                <form action="#" class="needs-validation" id="event-form" novalidate>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="event-start" class="form-label">Start (required)</label>
+                        <input aria-describedby="event-start-help"
+                            class="form-control" id="event-start" required
+                            type="datetime-local">
+                        <div class="invalid-feedback">Start is required</div>
+                        <div class="form-text" id="event-start-help">
+                            Date and time for the event, in your local time
+                            zone.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="event-end" class="form-label">End</label>
+                        <input aria-describedby="event-end-help"
+                            class="form-control" id="event-end"
+                            type="datetime-local">
+                        <div class="form-text" id="event-end-help">
+                            Date and time the event is scheduled to end, in your
+                            local time zone.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="event-name" class="form-label">Event name</label>
+                        <input aria-describedby="event-name-help"
+                            class="form-control" id="event-name">
+                        <div class="form-text" id="event-name-help">
+                            Optional name for the event, like Session Zero or a
+                            creative name for what the table will be doing. If
+                            left blank will default to the session's start time.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="event-description" class="form-label">Description</label>
+                        <textarea aria-describedby="event-description-help"
+                            class="form-control" id="event-description"></textarea>
+                        <div class="form-text" id="event-description-help">
+                            Optional description of the event. You might
+                            describe what happened previously, what to expect in
+                            this session, what to bring to a physical game, etc.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <input checked class="form-check-input"
+                            id="event-attending" type="checkbox" value="true">
+                        <label class="form-check-label" for="event-attending">
+                            I'm attending
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <x-slot name="javascript">
         <script>
+            const campaignId = {{ $campaign->id }};
             const discordWebhookFailed = function (xhr, status, errorThrown) {
+                let message;
                 switch (errorThrown) {
                     case 'Forbidden':
                         message = 'You don\'t have permission to change that channel!';
@@ -263,10 +379,10 @@
                 }
                 $('#add-webhook-discord .modal-body').prepend(
                     '<div class="alert alert-danger alert-dismissible fade show" role="alert">'
-                    + message
-                    + '<button type="button" class="btn-close" '
-                    + 'data-bs-dismiss="alert" aria-label="Close"></button>'
-                    + '</div>'
+                        + message
+                        + '<button type="button" class="btn-close" '
+                        + 'data-bs-dismiss="alert" aria-label="Close"></button>'
+                        + '</div>'
                 );
             };
             const discordWebhookSucceeded = function (data, status, xhr) {
@@ -327,6 +443,147 @@
                 $('#add-webhook-discord-footer-initial').addClass('d-none');
                 $('.discord-manual').removeClass('d-none');
                 $('#add-webhook-discord .modal-dialog').addClass('modal-xl');
+            });
+
+            const createEventFailed = function (xhr, status, errorThrown) {
+                let message;
+                switch (errorThrown) {
+                    case 'Forbidden':
+                        message = 'You don\'t have permission to add events!';
+                        break;
+                    case 'Not Found':
+                        message = 'The campaign doesn\'t seem to exist...';
+                        break;
+                    case 'Unprocessable Entity':
+                        message = [];
+                        $.each(xhr.responseJSON.errors, function (field, errorBag) {
+                            $.each(errorBag, function (key, error) {
+                                message.push(error);
+                            });
+                        });
+                        message = message.join('<br>');
+                        break;
+                    default:
+                        message = 'An unknown error has occurred: ' + errorThrown;
+                        break;
+                }
+                $('#add-event .modal-body').prepend(
+                    '<div class="alert alert-danger alert-dismissible fade show" role="alert">'
+                        + message
+                        + '<button type="button" class="btn-close" '
+                        + 'data-bs-dismiss="alert" aria-label="Close"></button>'
+                        + '</div>'
+                );
+            };
+            const createEventSucceeded = function (response, status, xhr) {
+                $('#add-event .modal-body .alert').remove();
+                $('#event-description').val('');
+                $('#event-name').val('');
+                $('#event-start').val('');
+                $('#event-end').val('');
+                $('#no-events').addClass('d-none');
+                const event = response.data;
+                let real_start = new Date(event.real_start);
+                real_start = real_start.toUTCString();
+
+                let html = '<li class="list-group-item">'
+                        + '<div class="fs-4">' + event.name + '</div>'
+                        + '<div class="fs-6 text-muted">' + real_start + '</div>'
+                        + '<ul>';
+                if ($('#event-attending').prop('checked')) {
+                    html += '<li>{{ $user->name }}: Accepted</li>';
+                    $.ajax({
+                        data: {
+                            response: 'accepted'
+                        },
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        method: 'PUT',
+                        url: '/api/events/' + event.id + '/rsvp'
+                    });
+                } else {
+                    html += '<li>No responses</li>';
+                }
+                html += '</ul></li>';
+                $('#new-event-row').before(
+                    html
+                );
+                $('#event-attending').prop('checked', true);
+            };
+            $('#event-form').on('submit', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                const form = $('#event-form');
+                form.addClass('was-validated');
+                if (!form[0].checkValidity()) {
+                    return;
+                }
+                form.removeClass('was-validated');
+                let name = $('#event-name').val().trim();
+                const start = $('#event-start').val();
+                if ('' === name) {
+                    name = new Date(start);
+                    name = name.toUTCString();
+                }
+                $.ajax({
+                    data: {
+                        description: $('#event-description').val(),
+                        name: name,
+                        real_start: start,
+                        real_end: $('#event-end').val()
+                    },
+                    error: createEventFailed,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    method: 'POST',
+                    success: createEventSucceeded,
+                    url: '/api/campaigns/' + campaignId + '/events'
+                });
+            });
+
+            const deleteEventFailed = function (xhr, status, errorThrown) {
+                let message;
+                switch (errorThrown) {
+                    case 'Forbidden':
+                        message = 'You don\'t have permission to delete events!';
+                        break;
+                    case 'Not Found':
+                        message = 'The event doesn\'t seem to exist...';
+                        break;
+                    default:
+                        message = 'An unknown error has occurred: ' + errorThrown;
+                        break;
+                }
+                $('#add-event .modal-body').prepend(
+                    '<div class="alert alert-danger alert-dismissible fade show" role="alert">'
+                        + message
+                        + '<button type="button" class="btn-close" '
+                        + 'data-bs-dismiss="alert" aria-label="Close"></button>'
+                        + '</div>'
+                );
+            };
+            const deleteEventSucceeded = function (response, status, xhr) {
+                let id = this.url.replace('/api/events/', '');
+                $('#upcoming-events .btn-outline-danger[data-id="' + id + '"]')
+                    .parent('li')
+                    .remove();
+            };
+            $('#upcoming-events').on('click', '.btn-outline-danger', function (event) {
+                let el = $(event.target);
+                if ('I' === el[0].nodeName) {
+                    el = el.parent('button');
+                }
+                $.ajax({
+                    error: deleteEventFailed,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    method: 'DELETE',
+                    success: deleteEventSucceeded,
+                    url: '/api/events/' + el.data('id')
+                });
             });
         </script>
     </x-slot>
