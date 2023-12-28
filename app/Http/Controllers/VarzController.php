@@ -16,6 +16,8 @@ use League\Flysystem\UnableToCreateDirectory;
 use ParseError;
 use Throwable;
 
+use function ucwords;
+
 /**
  * @psalm-suppress UnusedClass
  */
@@ -71,7 +73,7 @@ class VarzController extends Controller
     {
         $characterClass = sprintf(
             '\\App\\Models\\%s\\Character',
-            str_replace(' ', '', \ucwords(str_replace('-', ' ', $system)))
+            str_replace(' ', '', ucwords(str_replace('-', ' ', $system)))
         );
         try {
             $metrics = [
@@ -103,7 +105,7 @@ class VarzController extends Controller
                 ['system' => $system],
             );
             $exampleFiles = [];
-        // @codeCoverageIgnoreEnd
+            // @codeCoverageIgnoreEnd
         } else {
             $exampleFiles = Storage::build([
                 'driver' => 'local',
