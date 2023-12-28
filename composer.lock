@@ -10897,22 +10897,22 @@
         },
         {
             "name": "orchestra/workbench",
-            "version": "v8.2.0",
+            "version": "v8.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/workbench.git",
-                "reference": "63b3961efa515abfcfd340805e6713eb540b7a39"
+                "reference": "e8e6e4dcf6fb26ea1924c3581e49aa347691a8ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/workbench/zipball/63b3961efa515abfcfd340805e6713eb540b7a39",
-                "reference": "63b3961efa515abfcfd340805e6713eb540b7a39",
+                "url": "https://api.github.com/repos/orchestral/workbench/zipball/e8e6e4dcf6fb26ea1924c3581e49aa347691a8ea",
+                "reference": "e8e6e4dcf6fb26ea1924c3581e49aa347691a8ea",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.2",
                 "fakerphp/faker": "^1.21",
-                "laravel/framework": "^10.26",
+                "laravel/framework": "^10.38.1",
                 "laravel/tinker": "^2.8.2",
                 "orchestra/canvas": "^8.11.4",
                 "orchestra/testbench-core": "^8.17",
@@ -10927,6 +10927,9 @@
                 "phpstan/phpstan": "^1.10.7",
                 "phpunit/phpunit": "^10.1",
                 "symfony/process": "^6.2"
+            },
+            "suggest": {
+                "ext-pcntl": "Required to use all features of the console signal trapping."
             },
             "type": "library",
             "extra": {
@@ -10958,9 +10961,9 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/workbench/issues",
-                "source": "https://github.com/orchestral/workbench/tree/v8.2.0"
+                "source": "https://github.com/orchestral/workbench/tree/v8.2.1"
             },
-            "time": "2023-12-06T02:59:43+00:00"
+            "time": "2023-12-28T15:15:44+00:00"
         },
         {
             "name": "phar-io/manifest",
