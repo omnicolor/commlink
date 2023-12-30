@@ -115,7 +115,13 @@ $eventPolicy = new EventPolicy();
             <h2 class="mt-4">Upcoming events</h2>
 
             <ul class="list-group" id="upcoming-events">
-            @forelse (Event::forCampaign($campaign)->future()->with(['responses'])->get() as $event)
+            @php
+                $upcomingEvents = Event::forCampaign($campaign)
+                    ->future()
+                    ->with(['responses'])
+                    ->get();
+            @endphp
+            @forelse ($upcomingEvents as $event)
                 <li class="list-group-item">
                     @if ($eventPolicy->delete($user, $event))
                     <button class="btn btn-outline-danger btn-sm float-end" data-id="{{ $event->id }}" type="button">
@@ -481,15 +487,22 @@ $eventPolicy = new EventPolicy();
                 $('#event-name').val('');
                 $('#event-start').val('');
                 $('#event-end').val('');
-                $('#no-events').addClass('d-none');
+                $('#no-events').remove();
                 const event = response.data;
                 let real_start = new Date(event.real_start);
                 real_start = real_start.toUTCString();
 
                 let html = '<li class="list-group-item">'
-                        + '<div class="fs-4">' + event.name + '</div>'
-                        + '<div class="fs-6 text-muted">' + real_start + '</div>'
-                        + '<ul>';
+                    + '<button class="btn btn-outline-danger btn-sm float-end" '
+                    + 'data-id="' + event.id + '" type="button">'
+                    + '<i class="bi bi-trash3"></i>'
+                    + '</button>'
+                    + '<div class="fs-4">' + event.name + '</div>'
+                    + '<div class="fs-6 text-muted">' + real_start + '</div>';
+                if (null !== event.description) {
+                    html += '<div>' + event.description + '</div>';
+                }
+                html += '<ul>';
                 if ($('#event-attending').prop('checked')) {
                     html += '<li>{{ $user->name }}: Accepted</li>';
                     $.ajax({
@@ -506,9 +519,7 @@ $eventPolicy = new EventPolicy();
                     html += '<li>No responses</li>';
                 }
                 html += '</ul></li>';
-                $('#new-event-row').before(
-                    html
-                );
+                $('#new-event-row').before(html);
                 $('#event-attending').prop('checked', true);
             };
             $('#event-form').on('submit', function (event) {
@@ -569,6 +580,10 @@ $eventPolicy = new EventPolicy();
                 $('#upcoming-events .btn-outline-danger[data-id="' + id + '"]')
                     .parent('li')
                     .remove();
+                const list = $('#upcoming-events > li');
+                if (1 === list.length) {
+                    $('#upcoming-events').prepend('<li class="list-group-item" id="no-events">No upcoming events</li>');
+                }
             };
             $('#upcoming-events').on('click', '.btn-outline-danger', function (event) {
                 let el = $(event.target);

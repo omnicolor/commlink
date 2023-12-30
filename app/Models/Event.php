@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Events\EventCreated;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -48,9 +49,9 @@ class Event extends Model
      * @var array<string, class-string>
      */
     protected $dispatchesEvents = [
-        //'created' => CampaignEventCreated::class,
-        //'deleted' => CampaignEventDeleted::class,
-        //'updated' => CampaignEventUpdated::class,
+        'created' => EventCreated::class,
+        //'deleted' => EventDeleted::class,
+        //'updated' => EventUpdated::class,
     ];
 
     /**
