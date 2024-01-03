@@ -19,8 +19,6 @@ use Illuminate\Support\Facades\Log;
 
 use function substr;
 
-use const PHP_EOL;
-
 /**
  * Start a Discord bot.
  * @codeCoverageIgnore
@@ -96,10 +94,13 @@ class DiscordRunCommand extends Command
 
     protected function handleBotMessages(Message $message): void
     {
-        if (null === $message->webhook_id) {
+        if (null === $message->webhook_id || null === $message->guild_id) {
             return;
         }
-        $channel = Channel::findForWebhook($message->guild_id, $message->webhook_id);
+        $channel = Channel::findForWebhook(
+            $message->guild_id,
+            $message->webhook_id,
+        );
         if (null === $channel) {
             return;
         }
@@ -125,15 +126,13 @@ class DiscordRunCommand extends Command
         $message->react('🤷');
     }
 
-    public function handleMessageReaction(
-        MessageReaction $reaction,
-        Discord $discord,
-    ): void {
+    public function handleMessageReaction(MessageReaction $reaction): void
+    {
         if ($reaction->user_id === $this->id) {
             // Ignore reactions this bot adds.
             return;
         }
-        $user = $reaction->member->username;
+        $user = $reaction->member?->username;
 
         $channel = Channel::discord()
             ->where('channel_id', $reaction->channel_id)
@@ -143,7 +142,7 @@ class DiscordRunCommand extends Command
             return;
         }
 
-        $channel->user = $reaction->user_id;
+        $channel->user = (string)$reaction->user_id;
         $chatUser = $channel->getChatUser();
         if (null === $chatUser) {
             return;
@@ -154,7 +153,7 @@ class DiscordRunCommand extends Command
             return;
         }
 
-        [$action, $event_id] = explode(':', $this->messages[$message_id]);
+        [, $event_id] = explode(':', $this->messages[$message_id]);
         $event = CampaignEvent::find($event_id);
         if (null === $event) {
             return;

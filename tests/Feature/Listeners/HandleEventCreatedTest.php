@@ -103,10 +103,14 @@ final class HandleEventCreatedTest extends TestCase
         $event = Event::factory()->create([
             'campaign_id' => $campaign,
             'created_by' => $creator->id,
+            'description' => 'This is an event!',
         ]);
         $eventCreated = new EventCreated($event);
         self::assertTrue((new HandleEventCreated())->handle($eventCreated));
 
-        Http::assertNothingSent();
+        Http::assertSent(function (Request $request) use ($creator): bool {
+            return 'https://example.com' === $request->url()
+                && sprintf('%s scheduled an event', $creator->name) === $request['content'];
+        });
     }
 }

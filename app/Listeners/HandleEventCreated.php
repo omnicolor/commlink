@@ -37,9 +37,6 @@ class HandleEventCreated
                 case Channel::TYPE_DISCORD:
                     $this->sendToDiscord($event->event, $channel);
                     break;
-                default:
-                    Log::warning('Unknown channel type', ['channel' => $channel]);
-                    break;
             }
         }
         return true;
@@ -177,7 +174,7 @@ class HandleEventCreated
                 'Authorization' => sprintf(
                     'Bot %s',
                     config('services.discord.token'),
-                )
+                ),
             ])->post($channel->webhook, $data);
             // @codeCoverageIgnoreStart
         } catch (Exception $ex) {
