@@ -19,11 +19,11 @@ use Tests\TestCase;
 
 use function array_keys;
 use function key;
+use function sprintf;
 
 /**
  * Tests for the channel model class.
  * @group discord
- * @group models
  * @group slack
  * @medium
  */
@@ -413,5 +413,27 @@ final class ChannelTest extends TestCase
 
         self::assertCount(1, $channel->characters());
         $character->delete();
+    }
+
+    public function testFindForWebhookNotFound(): void
+    {
+        self::assertNull(Channel::findForWebhook('123', '321'));
+    }
+
+    public function testFindForWebhook(): void
+    {
+        $guild_id = Str::random(10);
+        $webhook_id = Str::random(10);
+        Channel::factory()->create([
+            'server_id' => $guild_id,
+            'type' => Channel::TYPE_DISCORD,
+            'webhook' => sprintf(
+                'https://discord.com/api/webhooks/%s/%s',
+                $webhook_id,
+                Str::random(10),
+            ),
+        ]);
+
+        self::assertNotNull(Channel::findForWebhook($guild_id, $webhook_id));
     }
 }
