@@ -52,7 +52,7 @@ final class VarzControllerTest extends TestCase
             ];
         }
 
-        $this->get('/api/varz')
+        self::get('/api/varz')
             ->assertOk()
             ->assertJson([
                 'campaigns-total' => 0,
@@ -98,7 +98,7 @@ final class VarzControllerTest extends TestCase
             'player-characters' => 1,
         ];
 
-        $this->get('/api/varz')
+        self::get('/api/varz')
             ->assertOk()
             ->assertJson([
                 'campaigns-total' => 1,

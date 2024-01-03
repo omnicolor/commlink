@@ -8,6 +8,7 @@ use App\Features\ChummerImport;
 use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\ChatUser;
+use App\Models\Event;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Pennant\Feature;
@@ -134,6 +135,28 @@ final class UserTest extends TestCase
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create(['user_id' => $user->id]);
         self::assertNotEmpty($user->chatUsers);
+    }
+
+    /** @group events */
+    public function testEventsEmpty(): void
+    {
+        $user = User::factory()->create();
+        self::assertCount(0, $user->events);
+    }
+
+    /** @group events */
+    public function testEvents(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+        $user = User::factory()->create();
+        Event::create([
+            'campaign_id' => $campaign->id,
+            'created_by' => $user->id,
+            'name' => 'User test event',
+            'real_start' => now(),
+        ]);
+        self::assertCount(1, $user->events);
     }
 
     public function testGetFeatures(): void

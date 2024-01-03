@@ -6,10 +6,13 @@ namespace Tests\Feature\Models;
 
 use App\Models\Campaign;
 use App\Models\Channel;
+use App\Models\Event;
 use App\Models\Shadowrun5e\Campaign as ShadowrunCampaign;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+
+use function key;
 
 /**
  * Tests for the campaign model.
@@ -27,9 +30,7 @@ final class CampaignTest extends TestCase
      */
     public function testGetUsers(): void
     {
-        /** @var User */
         $gm = User::factory()->create();
-        /** @var User */
         $registerer = User::factory()->create();
         /** @var Campaign */
         $campaign = Campaign::factory()->create([
@@ -59,7 +60,7 @@ final class CampaignTest extends TestCase
      */
     public function testSetSystem(): void
     {
-        $system = \key(config('app.systems'));
+        $system = key(config('app.systems'));
         $campaign = new Campaign();
         $campaign->system = $system;
         self::assertSame($system, $campaign->system);
@@ -84,10 +85,23 @@ final class CampaignTest extends TestCase
     {
         /** @var Campaign */
         $campaign = Campaign::factory()->create();
-        Channel::factory()->count(2)->create([
-            'campaign_id' => $campaign,
-        ]);
+        Channel::factory()->count(2)->create(['campaign_id' => $campaign]);
         self::assertCount(2, $campaign->channels);
+    }
+
+    public function testGetEventsNone(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+        self::assertCount(0, $campaign->events);
+    }
+
+    public function testGetEvents(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+        Event::factory()->create(['campaign_id' => $campaign->id]);
+        self::assertCount(1, $campaign->events);
     }
 
     /**

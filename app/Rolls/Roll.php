@@ -53,16 +53,10 @@ abstract class Roll
      */
     protected string $title = '';
 
-    /**
-     * Construct the roll.
-     * @param string $content
-     * @param string $username
-     * @param Channel $channel
-     */
     public function __construct(
         string $content,
         protected string $username,
-        protected Channel $channel
+        protected Channel $channel,
     ) {
         $this->campaign = $channel->campaign;
         $this->character = $channel->character();
@@ -75,20 +69,25 @@ abstract class Roll
 
     /**
      * Return the roll's output, formatted for Slack.
-     * @return SlackResponse
      */
     abstract public function forSlack(): SlackResponse;
 
     /**
      * Return the roll's output, formatted for Discord.
-     * @return string
      */
     abstract public function forDiscord(): string | MessageBuilder;
 
     /**
+     * Handle a callback from a Slack message.
+     * @codeCoverageIgnore
+     */
+    public function handleSlackAction(): void
+    {
+    }
+
+    /**
      * Return whether the current user is the GM of the campaign attached to the
      * current channel.
-     * @return bool
      */
     public function isGm(): bool
     {

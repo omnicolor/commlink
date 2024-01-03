@@ -7,6 +7,8 @@ namespace Database\Factories;
 use App\Models\Channel;
 use Illuminate\Support\Str;
 
+use function array_keys;
+
 /**
  * @extends Factory<Channel>
  * @method mixed hasChannels(int $count, array $parameters)
@@ -34,7 +36,7 @@ class ChannelFactory extends Factory
             'server_id' => Str::random(10),
             'server_name' => $this->faker->company(),
             'system' => (string)$this->faker->randomElement(
-                \array_keys((array)config('app.systems'))
+                array_keys((array)config('app.systems'))
             ),
             'type' => (string)$this->faker->randomElement(Channel::VALID_TYPES),
         ];
