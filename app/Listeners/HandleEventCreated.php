@@ -7,12 +7,16 @@ namespace App\Listeners;
 use App\Events\EventCreated;
 use App\Models\Channel;
 use App\Models\Event;
+use Exception;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 use function sprintf;
+
+use const PHP_EOL;
 
 class HandleEventCreated
 {
@@ -26,15 +30,17 @@ class HandleEventCreated
     public function handle(EventCreated $event): bool
     {
         foreach ($event->event->campaign->channels ?? [] as $channel) {
-            if (Channel::TYPE_SLACK === $channel->type) {
-                $this->sendToSlack($event->event, $channel);
-                continue;
+            switch ($channel->type) {
+                case Channel::TYPE_SLACK:
+                    $this->sendToSlack($event->event, $channel);
+                    break;
+                case Channel::TYPE_DISCORD:
+                    $this->sendToDiscord($event->event, $channel);
+                    break;
+                default:
+                    Log::warning('Unknown channel type', ['channel' => $channel]);
+                    break;
             }
-            if (null === $channel->webhook) {
-                // We can't broadcast to Discord channels without webhooks.
-                continue;
-            }
-            //$this->sendToDiscord($event->event, $channel);
         }
         return true;
     }
@@ -121,5 +127,65 @@ class HandleEventCreated
             'Authorization' => sprintf('Bearer %s', config('app.slack_token')),
             'Content-Type' => 'application/json;charset=UTF-8',
         ])->post('https://slack.com/api/chat.postMessage', $data);
+    }
+
+    protected function sendToDiscord(Event $event, Channel $channel): void
+    {
+        if (null === $channel->webhook) {
+            // We can't broadcast to Discord channels without webhooks.
+            return;
+        }
+
+        $description = (string)$event->real_start;
+        if (null !== $event->description) {
+            $description = $event->description . PHP_EOL . $description;
+        }
+        $data = [
+            'content' => sprintf('%s scheduled an event', $event->creator->name),
+            'embeds' => [
+                [
+                    'title' => $event->name,
+                    'description' => $description,
+                    'color' => 8855355,
+                    'timestamp' => now()->toJSON(),
+                    'fields' => [
+                        [
+                            'inline' => true,
+                            'name' => ':thumbsup:',
+                            'value' => 'I\'ll be there!',
+                        ],
+                        [
+                            'inline' => true,
+                            'name' => ':thumbsdown:',
+                            'value' => 'I can\'t make it.',
+                        ],
+                        [
+                            'inline' => true,
+                            'name' => ':shrug:',
+                            'value' => 'I\'m not sure.',
+                        ],
+                    ],
+                    'footer' => [
+                        'text' => sprintf('rsvp:%d', $event->id),
+                    ],
+                ],
+            ],
+        ];
+
+        try {
+            Http::withHeaders([
+                'Authorization' => sprintf(
+                    'Bot %s',
+                    config('services.discord.token'),
+                )
+            ])->post($channel->webhook, $data);
+            // @codeCoverageIgnoreStart
+        } catch (Exception $ex) {
+            Log::error(
+                'Sending to Discord failed',
+                ['exception' => $ex->getMessage()]
+            );
+            // @codeCoverageIgnoreEnd
+        }
     }
 }

@@ -1,6 +1,7 @@
 @php
 use App\Models\Event;
 use App\Policies\EventPolicy;
+use Illuminate\Support\Facades\View;
 
 $eventPolicy = new EventPolicy();
 @endphp
@@ -17,7 +18,7 @@ $eventPolicy = new EventPolicy();
 
     <h1>
         {{ $campaign }}
-        @if ($user->is($campaign->gamemaster) && \Illuminate\Support\Facades\View::exists(sprintf('%s.gm-screen', ucfirst($campaign->system))))
+        @if ($user->is($campaign->gamemaster) && View::exists(sprintf('%s.gm-screen', ucfirst($campaign->system))))
             <a class="btn btn-primary" href="{{ route('campaign.gm-screen', $campaign) }}">
                 Launch GM screen
             </a>
@@ -44,17 +45,17 @@ $eventPolicy = new EventPolicy();
             <h2>Players</h2>
 
             <ul class="list-group">
-                @forelse ($campaign->users as $user)
-                    @if ('accepted' === $user->pivot->status)
+                @forelse ($campaign->users as $player)
+                    @if ('accepted' === $player->pivot->status)
                         <li class="list-group-item">
                             <i class="bi bi-person"></i>
-                            {{ $user->name }} <small>&lt;{{ $user->email }}&gt;</small>
+                            {{ $player->name }} <small>&lt;{{ $player->email }}&gt;</small>
                         </li>
                     @else
                         <li class="list-group-item text-muted">
                             <i class="bi bi-person"></i>
-                            {{ $user->name }} <small>&lt;{{ $user->email }}&gt;</small>
-                            ({{ $user->pivot->status }})
+                            {{ $player->name }} <small>&lt;{{ $player->email }}&gt;</small>
+                            ({{ $player->pivot->status }})
                         </li>
                     @endif
                 @empty
