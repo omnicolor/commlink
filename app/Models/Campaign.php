@@ -71,6 +71,14 @@ class Campaign extends Model
     }
 
     /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function events(): HasMany
+    {
+        return $this->hasMany(Event::class);
+    }
+
+    /**
      * Get the user that is GMing the campaign.
      * @psalm-suppress PossiblyUnusedMethod
      */
