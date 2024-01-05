@@ -97,7 +97,7 @@
             "XDEBUG_MODE=coverage phpunit --coverage-html=public/coverage --coverage-xml=public/coverage/coverage-xml --log-junit=public/coverage/junit.xml"
         ],
         "infection": "infection --coverage=public/coverage",
-        "lint": "parallel-lint --colors app config data tests",
+        "lint": "parallel-lint --colors app config data database routes tests",
         "lint-openapi": "npx @redocly/cli lint public/openapi.yml",
         "php-cs-fixer": "php-cs-fixer fix --dry-run --config=php_cs.php -v --diff",
         "phpcs": "phpcs -p --colors --cache",
