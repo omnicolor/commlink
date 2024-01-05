@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Events\DiscordMessageReceived;
+use App\Events\EventCreated;
 use App\Events\InitiativeAdded;
 use App\Events\IrcMessageReceived;
 use App\Events\RollEvent;
 use App\Events\Shadowrun5e\DamageEvent;
 use App\Listeners\HandleDiscordMessage;
+use App\Listeners\HandleEventCreated;
 use App\Listeners\HandleInitiativeEvent;
 use App\Listeners\HandleIrcMessage;
 use App\Listeners\HandleRollEvent;
@@ -33,6 +35,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         DiscordMessageReceived::class => [
             HandleDiscordMessage::class,
+        ],
+        EventCreated::class => [
+            HandleEventCreated::class,
         ],
         InitiativeAdded::class => [
             HandleInitiativeEvent::class,

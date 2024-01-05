@@ -16,6 +16,7 @@ use RuntimeException;
 
 use function array_key_exists;
 use function in_array;
+use function sprintf;
 
 /**
  * @property-read int $id
@@ -215,5 +216,17 @@ class Channel extends Model
             throw new RuntimeException('Invalid channel type');
         }
         $this->attributes['type'] = $type;
+    }
+
+    public static function findForWebhook(string $guild_id, string $webhook_id): ?self
+    {
+        return Channel::discord()
+            ->where('server_id', $guild_id)
+            ->where(
+                'webhook',
+                'LIKE',
+                sprintf('https://discord.com/api/webhooks/%s/%%', $webhook_id),
+            )
+            ->first();
     }
 }

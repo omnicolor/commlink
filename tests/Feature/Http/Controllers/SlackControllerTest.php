@@ -20,24 +20,24 @@ use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use Tests\TestCase;
 
+use const PHP_EOL;
+
 /**
- * Tests for the SlackController.
- * @group controllers
  * @group slack
  * @medium
  */
 final class SlackControllerTest extends TestCase
 {
     use RefreshDatabase;
-    use WIthFaker;
+    use WithFaker;
 
     /**
      * Test an OPTIONS request to the dice roller.
      * @test
      */
-    public function testOption(): void
+    public function testOptions(): void
     {
-        $this->options(route('roll-options'))
+        self::options(route('roll-options'))
             ->assertOk()
             ->assertSee('OK');
     }
@@ -50,15 +50,15 @@ final class SlackControllerTest extends TestCase
      */
     public function testPostNoPayload(): void
     {
-        $this->post(route('roll'), [])
+        self::post(route('roll'), [])
             ->assertOk()
             ->assertJsonFragment([
                 'color' => 'danger',
                 'response_type' => 'ephemeral',
                 'text' => 'You must include at least one command argument.'
-                    . \PHP_EOL
+                    . PHP_EOL
                     . 'For example: `/roll init` to roll your character\'s '
-                    . 'initiative.' . \PHP_EOL . \PHP_EOL
+                    . 'initiative.' . PHP_EOL . PHP_EOL
                     . 'Type `/roll help` for more help.',
                 'title' => 'Error',
             ]);
@@ -72,7 +72,7 @@ final class SlackControllerTest extends TestCase
      */
     public function testPostFullPayload(): void
     {
-        $this->post(
+        self::post(
             route('roll'),
             [
                 'channel_id' => Str::random(12),
@@ -86,7 +86,7 @@ final class SlackControllerTest extends TestCase
                 'color' => 'danger',
                 'response_type' => 'ephemeral',
                 'text' => 'That doesn\'t appear to be a valid Commlink command.'
-                    . \PHP_EOL . \PHP_EOL
+                    . PHP_EOL . PHP_EOL
                     . 'Type `/roll help` for more help.',
                 'title' => 'Error',
             ]);
@@ -98,7 +98,7 @@ final class SlackControllerTest extends TestCase
      */
     public function testPostHelpCommandUnregisteredChannel(): void
     {
-        $this->post(
+        self::post(
             route('roll'),
             [
                 'channel_id' => 'B234',
@@ -126,7 +126,7 @@ final class SlackControllerTest extends TestCase
             'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
         ]);
-        $this->post(
+        self::post(
             route('roll'),
             [
                 'channel_id' => $channel->channel_id,
@@ -158,7 +158,7 @@ final class SlackControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'type' => Channel::TYPE_SLACK,
         ]);
-        $this->post(
+        self::post(
             route('roll'),
             [
                 'channel_id' => $channel->channel_id,
@@ -169,9 +169,7 @@ final class SlackControllerTest extends TestCase
             ]
         )
             ->assertOk()
-            ->assertJsonFragment([
-                'response_type' => 'in_channel',
-            ])
+            ->assertJsonFragment(['response_type' => 'in_channel'])
             ->assertSee('Rolled 5 successes')
             ->assertSee('Bob rolled 5 dice');
     }
@@ -188,7 +186,7 @@ final class SlackControllerTest extends TestCase
             'system' => 'dnd5e',
             'type' => Channel::TYPE_SLACK,
         ]);
-        $this->post(
+        self::post(
             route('roll'),
             [
                 'channel_id' => $channel->channel_id,
@@ -241,7 +239,7 @@ final class SlackControllerTest extends TestCase
             'chat_user_id' => $chatUser,
         ]);
 
-        $this->post(
+        self::post(
             route('roll'),
             [
                 'channel_id' => $channel->channel_id,
@@ -252,9 +250,7 @@ final class SlackControllerTest extends TestCase
             ]
         )
             ->assertOk()
-            ->assertJsonFragment([
-                'response_type' => 'in_channel',
-            ])
+            ->assertJsonFragment(['response_type' => 'in_channel'])
             ->assertSee('Rolled 5 successes')
             ->assertDontSee('Bob rolled 5 dice')
             ->assertSee(sprintf('%s rolled 5 dice', (string)$character), false);
@@ -297,7 +293,7 @@ final class SlackControllerTest extends TestCase
             'verified' => true,
         ]);
 
-        $this->post(
+        self::post(
             route('roll'),
             [
                 'channel_id' => $channel->channel_id,
@@ -308,9 +304,7 @@ final class SlackControllerTest extends TestCase
             ]
         )
             ->assertOk()
-            ->assertJsonFragment([
-                'response_type' => 'in_channel',
-            ])
+            ->assertJsonFragment(['response_type' => 'in_channel'])
             ->assertSee('Bob drew')
             ->assertSee('21 cards remain');
 
@@ -324,7 +318,7 @@ final class SlackControllerTest extends TestCase
      */
     public function testRollDiceUnregistered(): void
     {
-        $this->post(
+        self::post(
             route('roll'),
             [
                 'channel_id' => Str::random(11),
@@ -338,7 +332,7 @@ final class SlackControllerTest extends TestCase
                 'color' => SlackResponse::COLOR_DANGER,
                 'response_type' => 'ephemeral',
                 'text' => 'That doesn\'t appear to be a valid Commlink command.'
-                    . \PHP_EOL . \PHP_EOL
+                    . PHP_EOL . PHP_EOL
                     . 'Type `/roll help` for more help.',
                 'title' => 'Error',
             ]);
@@ -351,7 +345,7 @@ final class SlackControllerTest extends TestCase
     public function testRollGenericDiceUnregistered(): void
     {
         DiceService::shouldReceive('rollMany')->with(1, 20)->andReturn([5]);
-        $this->post(
+        self::post(
             route('roll'),
             [
                 'channel_id' => Str::random(12),
@@ -362,9 +356,7 @@ final class SlackControllerTest extends TestCase
             ]
         )
             ->assertOk()
-            ->assertJsonFragment([
-                'response_type' => 'in_channel',
-            ])
+            ->assertJsonFragment(['response_type' => 'in_channel'])
             ->assertSee('Rolling: 1d20 = [5] = 5')
             ->assertDontSee('Rolls: 5');
     }
@@ -377,10 +369,8 @@ final class SlackControllerTest extends TestCase
     public function testRollDiceInvalidNumericForSystem(): void
     {
         /** @var Channel */
-        $channel = Channel::factory()->create([
-            'system' => 'dnd5e',
-        ]);
-        $this->post(
+        $channel = Channel::factory()->create(['system' => 'dnd5e']);
+        self::post(
             route('roll'),
             [
                 'channel_id' => $channel->channel_id,
@@ -394,7 +384,7 @@ final class SlackControllerTest extends TestCase
                 'color' => SlackResponse::COLOR_DANGER,
                 'response_type' => 'ephemeral',
                 'text' => 'That doesn\'t appear to be a valid Commlink command.'
-                    . \PHP_EOL . \PHP_EOL
+                    . PHP_EOL . PHP_EOL
                     . 'Type `/roll help` for more help.',
                 'title' => 'Error',
             ]);
@@ -407,9 +397,8 @@ final class SlackControllerTest extends TestCase
     public function testRollInfo(): void
     {
         /** @var Channel */
-        $channel = Channel::factory()->create([
-        ]);
-        $this->post(
+        $channel = Channel::factory()->create([]);
+        self::post(
             route('roll'),
             [
                 'channel_id' => $channel->channel_id,
@@ -419,9 +408,7 @@ final class SlackControllerTest extends TestCase
             ]
         )
             ->assertOk()
-            ->assertJsonFragment([
-                'value' => 'No campaign',
-            ]);
+            ->assertJsonFragment(['value' => 'No campaign']);
     }
 
     /**
@@ -436,7 +423,7 @@ final class SlackControllerTest extends TestCase
             ->with(2)
             ->andReturn(1);
 
-        $this->post(
+        self::post(
             route('roll'),
             [
                 'channel_id' => Str::random(12),
@@ -447,9 +434,7 @@ final class SlackControllerTest extends TestCase
             ]
         )
             ->assertOk()
-            ->assertJsonFragment([
-                'response_type' => 'in_channel',
-            ])
+            ->assertJsonFragment(['response_type' => 'in_channel'])
             ->assertSee('flipped a coin: ');
 
         Event::assertDispatched(RollEvent::class);
@@ -607,5 +592,62 @@ final class SlackControllerTest extends TestCase
         )
             ->assertOk()
             ->assertSee('You have linked');
+    }
+
+    public function testHandleActionWithInvalidPayload(): void
+    {
+        self::withHeaders(['Accept' => 'application/json'])
+            ->post(route('roll'), ['payload' => 'test'])
+            ->assertOk()
+            ->assertJsonFragment(['text' => 'Invalid action payload']);
+    }
+
+    public function testHandleActionWithInvalidAction(): void
+    {
+        self::withHeaders(['Accept' => 'application/json'])
+            ->post(
+                route('roll'),
+                [
+                    'payload' => json_encode([
+                        'team' => ['id' => 'T' . Str::random(6)],
+                        'channel' => ['id' => 'C' . Str::random(6)],
+                        'user' => [
+                            'id' => 'U' . Str::random(6),
+                            'name' => 'Bob',
+                        ],
+                        'actions' => [
+                            [
+                                'action_id' => 'foo',
+                            ],
+                        ],
+                    ]),
+                ],
+            )
+            ->assertOk()
+            ->assertJsonFragment(['text' => 'Invalid action callback']);
+    }
+
+    public function testHandleActionWithValidAction(): void
+    {
+        self::withHeaders(['Accept' => 'application/json'])
+            ->post(
+                route('roll'),
+                [
+                    'payload' => json_encode([
+                        'team' => ['id' => 'T' . Str::random(6)],
+                        'channel' => ['id' => 'C' . Str::random(6)],
+                        'user' => [
+                            'id' => 'U' . Str::random(6),
+                            'name' => 'Bob',
+                        ],
+                        'actions' => [
+                            [
+                                'action_id' => 'rsvp:13',
+                            ],
+                        ],
+                    ]),
+                ],
+            )
+            ->assertOk();
     }
 }
