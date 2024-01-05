@@ -23,6 +23,16 @@ use Laravel\Socialite\AbstractUser as SocialiteUser;
 use Laravel\Socialite\Facades\Socialite;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
+use function explode;
+use function is_numeric;
+use function preg_match;
+use function sprintf;
+use function str_replace;
+use function ucfirst;
+use function ucwords;
+
+use const PHP_EOL;
+
 /**
  * Controller for handling Slack requests.
  * @psalm-suppress UnusedClass
@@ -40,20 +50,18 @@ class SlackController extends Controller
      */
     protected string $text;
 
-    /**
-     * Return a response for an OPTIONS request.
-     */
     public function options(): Response
     {
         return new Response('OK');
     }
 
-    /**
-     * Handle a POST from Slack.
-     */
-    public function post(SlackRequest $request): SlackResponse
+    public function post(SlackRequest $request): ?SlackResponse
     {
-        $this->args = \explode(' ', $request->text);
+        if (isset($request->payload)) {
+            return $this->handleAction($request->payload);
+        }
+
+        $this->args = explode(' ', $request->text);
         $this->text = $request->text;
 
         $channel = $this->getChannel($request->team_id, $request->channel_id);
@@ -66,11 +74,11 @@ class SlackController extends Controller
         }
 
         // First, try to load system-specific rolls for numeric data.
-        if (\is_numeric($this->args[0]) && isset($channel->system)) {
+        if (is_numeric($this->args[0]) && isset($channel->system)) {
             try {
-                $class = \sprintf(
+                $class = sprintf(
                     '\\App\\Rolls\\%s\\Number',
-                    \ucfirst($channel->system)
+                    ucfirst($channel->system)
                 );
                 /** @var Roll */
                 $roll = new $class($this->text, $channel->username, $channel);
@@ -84,10 +92,10 @@ class SlackController extends Controller
         // Next, try system-specific rolls that aren't numeric.
         if (null !== $channel->system) {
             try {
-                $class = \sprintf(
+                $class = sprintf(
                     '\\App\\Rolls\\%s\\%s',
-                    \str_replace(' ', '', \ucwords(\str_replace('-', ' ', $channel->system ?? 'Unknown'))),
-                    \ucfirst($this->args[0])
+                    str_replace(' ', '', ucwords(str_replace('-', ' ', $channel->system ?? 'Unknown'))),
+                    ucfirst($this->args[0])
                 );
                 /** @var Roll */
                 $roll = new $class($this->text, $channel->username, $channel);
@@ -102,7 +110,7 @@ class SlackController extends Controller
 
         // No system-specific response found, see if the request is a generic
         // XdY roll.
-        if (1 === \preg_match('/\d+d\d+/i', $this->args[0])) {
+        if (1 === preg_match('/\d+d\d+/i', $this->args[0])) {
             $roll = new Generic($this->text, $channel->username, $channel);
             RollEvent::dispatch($roll, $channel);
             return $roll->forSlack();
@@ -110,7 +118,7 @@ class SlackController extends Controller
 
         // See if there's a Roll that isn't system-specific.
         try {
-            $class = \sprintf('\\App\\Rolls\\%s', \ucfirst($this->args[0]));
+            $class = sprintf('\\App\\Rolls\\%s', ucfirst($this->args[0]));
             /** @var Roll */
             $roll = new $class($this->text, $channel->username, $channel);
             if ('help' !== $this->args[0]) {
@@ -123,9 +131,9 @@ class SlackController extends Controller
 
         // Finally, see if there's a Slack response that isn't system-specific.
         try {
-            $class = \sprintf(
+            $class = sprintf(
                 '\\App\Http\\Responses\\Slack\\%sResponse',
-                \ucfirst($this->args[0])
+                ucfirst($this->args[0])
             );
             /** @var SlackResponse */
             $response = new $class(content: $this->text, channel: $channel);
@@ -142,14 +150,46 @@ class SlackController extends Controller
             );
             throw new SlackException(
                 'That doesn\'t appear to be a valid Commlink command.'
-                . \PHP_EOL . \PHP_EOL . 'Type `/roll help` for more help.'
+                . PHP_EOL . PHP_EOL . 'Type `/roll help` for more help.'
             );
         }
     }
 
-    /**
-     * Get the channel attached to the request.
-     */
+    protected function handleAction(string $payload): ?SlackResponse
+    {
+        $request = json_decode($payload);
+        if (
+            null === $request
+            || !property_exists($request, 'team')
+            || !property_exists($request, 'channel')
+            || !property_exists($request, 'user')
+            || !is_object($request->user)
+            || !property_exists($request->user, 'id')
+            || !property_exists($request->user, 'name')
+            || !property_exists($request, 'actions')
+            || !array_key_exists(0, $request->actions)
+            || !is_object($request->actions[0])
+            || !property_exists($request->actions[0], 'action_id')
+        ) {
+            throw new SlackException('Invalid action payload');
+        }
+        $channel = $this->getChannel($request->team->id, $request->channel->id);
+        $channel->user = $request->user->id;
+
+        $action = explode(':', $request->actions[0]->action_id);
+        $action = '\\App\Rolls\\' . ucfirst($action[0]);
+
+        try {
+            /** @var Roll */
+            $roll = new $action($payload, $request->user->name, $channel);
+        } catch (Error) {
+            throw new SlackException('Invalid action callback');
+        }
+        $roll->handleSlackAction();
+
+        return null;
+    }
+
     protected function getChannel(string $team, string $channel): Channel
     {
         try {
