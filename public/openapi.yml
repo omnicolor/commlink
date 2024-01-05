@@ -1,12 +1,12 @@
 openapi: 3.0.3
 info:
   title: Commlink
-  description: |-
+  description: |
     Commlink is a tool for playing role playing games online, providing a
     character generator, campaign manager, dice roller, and more.
   contact:
     email: omni@digitaldarkness.com
-  version: 1.1.1
+  version: 1.2.0
 externalDocs:
   description: Find out more about Commlink
   url: https://commlink.digitaldarkness.com/about
@@ -24,6 +24,8 @@ tags:
     description: Cyberpunk Red RPG
   - name: dnd5e
     description: Dungeons and Dragons
+  - name: events
+    description: Real life events for a campaign
   - name: expanse
     description: Expanse RPG
   - name: integration
@@ -35,6 +37,143 @@ tags:
   - name: user
     description: Operations about users
 paths:
+  /campaigns/{campaign_id}/events:
+    parameters:
+      - name: campaign_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Return all events for a given campaign
+      description: Returns in-game events.
+      operationId: events-indexForCampaign
+      parameters:
+        - name: future
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Collection of zero or more campaign events.
+          content:
+            application/json:
+              schema:
+                example:
+                  data:
+                    - campaign_id: 123
+                      created_by:
+                        name: 'Bob King'
+                        id: 31
+                      description: 'Set up our shiny new campaign, captain!'
+                      game_end: null
+                      game_start: null
+                      id: 99
+                      name: 'Session Zero'
+                      real_end: '2023-12-20T03:00:00Z'
+                      real_start: '2023-12-20T01:00:00Z'
+                      response: 'Accepted'
+                      links:
+                        self: /events/99
+                        collection: /campaigns/123/events
+                        root: /
+                        campaign: /campaigns/123
+                  links:
+                    campaign: /campaigns/123
+                    self: /campaigns/123/events
+                    root: /
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Event'
+                    type: array
+                  links:
+                      $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '403':
+          $ref: '#/components/schemas/ErrorResponseForbidden'
+      tags:
+        - campaign
+        - events
+    post:
+      summary: Create a new campaign event
+      description: |
+        Create a new event for the given campaign, like an upcoming game.
+      operationId: events-store
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                description:
+                  description: Optional description of the event.
+                  nullable: true
+                  type: string
+                game_end:
+                  description: |
+                    Optional date (optionally with time) the session runs
+                    through in the game world.
+                  format: datetime
+                  nullable: true
+                  type: string
+                game_start:
+                  description: |
+                    Optional date (optionally with time) the session starts in
+                    the game world.
+                  format: datetime
+                  nullable: true
+                  type: string
+                name:
+                  description: |
+                    What you want to call the event. Defaults to the event's
+                    start time.
+                  type: string
+                real_end:
+                  description: |
+                    Optional date and time the event is scheduled to end, in the
+                    real world.
+                  format: datetime
+                  nullable: true
+                  type: string
+                real_start:
+                  description: |
+                    Date and time the event is scheduled to start (in the real
+                    world).
+                  format: datetime
+                  nullable: true
+                  type: string
+              required:
+                - real_start
+        required: true
+      responses:
+        '201':
+          description: Campaign event was created.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Event'
+                    type: array
+                  links:
+                      $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '403':
+          $ref: '#/components/schemas/ErrorResponseForbidden'
+      tags:
+        - campaign
+        - events
   /campaigns/{campaign_id}/initiatives:
     parameters:
       - name: campaign_id
@@ -79,7 +218,7 @@ paths:
         - interactivity
     post:
       summary: Add an NPC to combat
-      description: >-
+      description: |
         Add an NPC to combat. Requires either `initiative` (set the character's
         initiative to this value) or `base_initiative` AND `initiative_dice`
         (roll the number of dice, add the base, and set the character's
@@ -127,7 +266,7 @@ paths:
           type: integer
     delete:
       summary: Remove a combatant
-      description: >-
+      description: |
         Remove the given initiative from the list, removing a character from
         combat.
       operationId: initiatives-destroy
@@ -269,11 +408,395 @@ paths:
       tags:
         - character
         - dnd5e
+  /events:
+    get:
+      summary: Collection of the user's events.
+      description: Collection of events the user's campaigns have scheduled.
+      operationId: events-index
+      parameters:
+        - name: campaign_id
+          description: Only return events for a single campaign.
+          in: query
+          schema:
+            type: integer
+        - name: future
+          description: Only return events in the future.
+          in: query
+          schema:
+            type: boolean
+        - name: response[]
+          description: Only return events with the given response statuses.
+          in: query
+          schema:
+            items:
+              enum:
+                - accepted
+                - declined
+                - tentative
+                - unknown
+              type: string
+            type: array
+      responses:
+        '200':
+          description: Collection of user's events.
+          content:
+            application/json:
+              schema:
+                example:
+                  data:
+                    - campaign:
+                        id: 123
+                        name: 'Knights of the Round Table'
+                      created_by:
+                        id: 31
+                        name: 'Bob King'
+                      description: 'Set up our shiny new campaign, captain!'
+                      game_end: null
+                      game_start: null
+                      id: 99
+                      name: 'Session Zero'
+                      real_end: '2023-12-20T03:00:00Z'
+                      real_start: '2023-12-20T01:00:00Z'
+                      responses:
+                        - user_name: 'Bob King'
+                          user_id: 2
+                          response: 'accepted'
+                        - user_name: 'Fake Tiger'
+                          user_id: 42
+                          response: 'declined'
+                  links:
+                      self: '/events/99'
+                      collection: '/campaigns/123/events'
+                      root: '/'
+                      campaign: '/campaigns/123'
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Event'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+      tags:
+        - events
+  /events/{event_id}:
+    parameters:
+      - name: event_id
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      summary: Cancel an event.
+      operationId: events-destroy
+      responses:
+        '204':
+          description: |
+            The event has been deleted, even if it has already been deleted
+            previously.
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '404':
+          $ref: '#/components/schemas/ErrorResponseNotFound'
+      tags:
+        - events
+    get:
+      summary: Returns a single event.
+      operationId: events-show
+      responses:
+        '200':
+          description: Single event.
+          content:
+            application/json:
+              schema:
+                example:
+                  data:
+                    campaign:
+                      id: 123
+                      name: 'Bullets and boulders'
+                    created_at: '2023-11-19T01:00:00Z'
+                    created_by:
+                      name: 'Bob King'
+                      id: 31
+                    description: 'Set up our shiny new campaign, captain!'
+                    game_end: null
+                    game_start: null
+                    id: 99
+                    name: 'Session Zero'
+                    real_end: '2023-12-20T03:00:00Z'
+                    real_start: '2023-12-20T01:00:00Z'
+                    responses:
+                      - response: 'accepted'
+                        user_id: 31
+                        name: 'Bob King'
+                      - response: 'declined'
+                        user_id: 13
+                        name: 'Phil McCracken'
+                  links:
+                    self: /events/99
+                    collection: /campaigns/123/events
+                    root: /
+                    campaign: /campaigns/123
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Event'
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '404':
+          $ref: '#/components/schemas/ErrorResponseNotFound'
+      tags:
+        - events
+    patch:
+      summary: Update part of an event.
+      description: |
+        If "application/json" is sent as the Content-Type, all fields are
+        optional. Any fields not sent are left as-is. Fields sent as null are
+        removed (unless required, such as the real_start field).
+
+        If "application/json-patch+json" is sent as the Content-Type, the
+        request follows JSON Patch rules.
+      operationId: events-patch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                description:
+                  description: Optional description of the event.
+                  nullable: true
+                  type: string
+                game_end:
+                  description:
+                    Optional date (optionally with time) the session runs
+                    through in the game world.
+                  format: datetime
+                  nullable: true
+                  type: string
+                game_start:
+                  description: |
+                    Optional date (optionally with time) the session starts in
+                    the game world.
+                  format: datetime
+                  nullable: true
+                  type: string
+                name:
+                  description: |
+                    What you want to call the event. Defaults to the event's
+                    start time.
+                  nullable: true
+                  type: string
+                real_end:
+                  description: |
+                    Optional date and time the event is scheduled to end, in the
+                    real world.
+                  format: datetime
+                  nullable: true
+                  type: string
+                real_start:
+                  description: |
+                    Date and time the event is scheduled to start (in the real
+                    world).
+                  format: datetime
+                  nullable: true
+                  type: string
+          application/json-patch+json:
+            schema:
+              items:
+                $ref: '#/components/schemas/JsonPatchOperation'
+              type: array
+      responses:
+        '202':
+          description: Event has been updated.
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '403':
+          $ref: '#/components/schemas/ErrorResponseForbidden'
+        '404':
+          $ref: '#/components/schemas/ErrorResponseNotFound'
+        '409':
+          description: Event was not updated, something else changed it.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseConflict'
+      tags:
+        - events
+    put:
+      summary: Update an event
+      operationId: events-put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                description:
+                  description: Optional description of the event.
+                  nullable: true
+                  type: string
+                game_end:
+                  description: |
+                    Optional date (optionally with time) the session runs
+                    through in the game world.
+                  format: datetime
+                  nullable: true
+                  type: string
+                game_start:
+                  description: |
+                    Optional date (optionally with time) the session starts in
+                    the game world.
+                  format: datetime
+                  nullable: true
+                  type: string
+                name:
+                  description: |
+                    What you want to call the event. Defaults to the event's
+                    start time.
+                  type: string
+                real_end:
+                  description: |
+                    Optional date and time the event is scheduled to end, in the
+                    real world.
+                  format: datetime
+                  nullable: true
+                  type: string
+                real_start:
+                  description: |
+                    Date and time the event is scheduled to start (in the real
+                    world).
+                  format: datetime
+                  nullable: true
+                  type: string
+              required:
+                - real_start
+      responses:
+        '202':
+          description: Event has been updated.
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '403':
+          $ref: '#/components/schemas/ErrorResponseForbidden'
+        '404':
+          $ref: '#/components/schemas/ErrorResponseNotFound'
+        '409':
+          description: Event was not updated, something else changed it.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseConflict'
+      tags:
+        - events
+  /events/{event_id}/rsvp:
+    parameters:
+      - name: event_id
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      summary: Remove my RSVP for an event
+      operationId: events-deleteRsvp
+      responses:
+        '204':
+          description: The RSVP was deleted (marked as 'tentative').
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '404':
+          $ref: '#/components/schemas/ErrorResponseNotFound'
+      tags:
+        - events
+    get:
+      summary: Get my RSVP for an event
+      operationId: events-getRsvp
+      responses:
+        '200':
+          description: RSVP for the event.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    properties:
+                      event:
+                        properties:
+                          id:
+                            type: integer
+                          name:
+                            type: string
+                        required:
+                          - id
+                          - name
+                        type: object
+                      response:
+                        $ref: '#/components/schemas/EventResponse'
+                    type: object
+                  links:
+                    $ref: '#/components/schemas/Links'
+                type: object
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '404':
+          $ref: '#/components/schemas/ErrorResponseNotFound'
+      tags:
+        - events
+    put:
+      summary: RSVP to the event
+      operationId: events-updateRsvp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  $ref: '#/components/schemas/EventResponse'
+              required:
+                - response
+              type: object
+      responses:
+        '202':
+          description: RSVP was recorded.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    properties:
+                      event:
+                        properties:
+                          id:
+                            type: integer
+                          name:
+                            type: string
+                        required:
+                          - id
+                          - name
+                        type: object
+                      response:
+                        $ref: '#/components/schemas/EventResponse'
+                    type: object
+                  links:
+                    $ref: '#/components/schemas/Links'
+                type: object
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+        '404':
+          $ref: '#/components/schemas/ErrorResponseNotFound'
+      tags:
+        - events
   /expanse/backgrounds:
     get:
       summary: Expanse RPG character backgrounds
-      description: >-
-        Collection of al backgrounds available to player characters in The
+      description: |
+        Collection of all backgrounds available to player characters in The
         Expanse.
       responses:
         '200':
@@ -325,7 +848,7 @@ paths:
               schema:
                 properties:
                   data:
-                    items: 
+                    items:
                       $ref: '#/components/schemas/ExpanseCondition'
                     type: array
                   links:
@@ -406,7 +929,7 @@ paths:
   /roll:
     options:
       summary: Slack roll health check
-      description: >-
+      description: |
         Verify that the resource is alive. Note - This should be renamed to
         '/slack'.
       responses:
@@ -419,7 +942,7 @@ paths:
         - integration
     post:
       summary: Handle a Slack roll
-      description: >-
+      description: |
         Handle a roll from [a slash-command on
         Slack](https://api.slack.com/interactivity/slash-commands). A "roll" may
         be more than just rolling dice, it can be registering a Slack user,
@@ -457,7 +980,7 @@ paths:
         - SlackKeyAuth: []
       responses:
         '200':
-          description: >-
+          description: |
             The command succeeded, the roll's results are returned. Or, the
             command failed in a way that should be shown to the user. This
             response is differently formed than the rest of Commlink's API since
@@ -481,7 +1004,7 @@ paths:
   /rolls:
     post:
       summary: Roll some randomness
-      description: >-
+      description: |
         (Proposed) Roll some dice, flip a coin, pick a card, etc. Note - This
         should be renamed to '/roll' when the current one gets renamed for
         Slack.
@@ -499,7 +1022,7 @@ paths:
                   text: draw
               CyberpunkRed-Generic:
                 summary: Cyberpunk Red - Generic roll
-                description: >-
+                description: |
                   Roll a d10, adding `7` to it, and saying the roll is for
                   `negotiation`. If the die rolls a 1, roll another and subtract
                   the result (critical failure). If the die is a 10, roll
@@ -509,7 +1032,7 @@ paths:
                   text: 7 negotiation
               Shadowrun5e-Generic:
                 summary: Shadowrun 5E - Generic roll
-                description: >-
+                description: |
                   Roll `12` Shadowrun 5E d6's, counting number of fives and
                   sixes using `4` as the limit, with text saying the roll is for
                   `perception`.
@@ -518,7 +1041,7 @@ paths:
                   text: 12 4 perception
               Shadowrun5e-Soak:
                 summary: Shadowrun 5E - Soak roll
-                description: >-
+                description: |
                   Roll the character's "soak" attribute (body + armor +
                   augmentation effects + mentor spirit effects) in d6's and
                   return the number of fives and sixes.
@@ -529,7 +1052,7 @@ paths:
             schema:
               properties:
                 character_id:
-                  description: >-
+                  description: |
                     ID of the character to roll as, for rolls that use the
                     character's attributes. Even if a roll doesn't require the
                     character_id, including it is encouraged, as the character's
@@ -547,14 +1070,14 @@ paths:
               type: object
       responses:
         '200':
-          description: >-
+          description: |
             The request succeeded (though the *roll* might not have, from the
             character's perspective).
           content:
             application/json:
               examples:
                 Shadowrun5e generic:
-                  description: >-
+                  description: |
                     A roll request including a character_id (that resolves to
                     Fastjack), a system (shadowrun5e), and text (12 perception).
                   value:
@@ -596,19 +1119,19 @@ paths:
             application/json:
               examples:
                 No character:
-                  description: >-
+                  description: |
                     Many rolls require a character so they know how many dice to
                     roll.
                   value:
                     message: You must include a character_id.
                 No system:
-                  description: >-
+                  description: |
                     Most rolls require a system so they know how to hande the
                     text.
                   value:
                     message: You must include the RPG system.
                 No text:
-                  description: >-
+                  description: |
                     A request needs to include text to tell the system what kind
                     of roll to make.
                   value:
@@ -702,6 +1225,31 @@ paths:
           description: All Shadowrun 5E armor modifications.
       tags:
         - shadowrun
+  /shadowrun5e/augmentations:
+    get:
+      summary: Shadowrun 5E augmentations (cyberware and bioware).
+      operationId: shadowrun5e-augmentations-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eAugmentation'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E augmentations.
+        '401':
+          $ref: '#/components/schemas/ErrorResponseUnauthenticated'
+      tags:
+        - shadowrun
   /shadowrun5e/characters:
     get:
       summary: All Shadowrun 5E characters
@@ -755,9 +1303,11 @@ paths:
       description: Update a Shadowrun character's condition monitor.
       requestBody:
         description: |
-          This is a JSON patch document describing what should happen to the character sheet.
+          This is a JSON patch document describing what should happen to the
+          character sheet.
 
-          Healing a character is done by setting the appropriate damage track to 0:
+          Healing a character is done by setting the appropriate damage track
+          to 0.
           ```
           {
             "patch": [
@@ -766,7 +1316,9 @@ paths:
           }
           ```
 
-          Damaging a character is done by setting the total damage to a given track. If they already had 6 stun, this would give them an additional 4 boxes of stun:
+          Damaging a character is done by setting the total damage to a given
+          track. If they already had 6 stun, this would give them an additional
+          4 boxes of stun.
           ```
           {
             "patch": [
@@ -774,9 +1326,13 @@ paths:
             ]
           }
           ```
-          Applying more stun damage to a character than their condition monitor allows automatically converts to the appropriate amount of additional physical damage. Similarly, adding more physical damage than their physical monitor allows converts to overflow damage.
-          
-          Using edge is similar. If a character starts with 3 edge and uses one, set the edgeCurrent field to 2:
+          Applying more stun damage to a character than their condition monitor
+          allows automatically converts to the appropriate amount of additional
+          physical damage. Similarly, adding more physical damage than their
+          physical monitor allows converts to overflow damage.
+
+          Using edge is similar. If a character starts with 3 edge and uses one,
+          set the edgeCurrent field to 2.
           ```
           {
             "patch": [
@@ -916,6 +1472,29 @@ paths:
           description: All Shadowrun 5E modifications to install in other gear.
       tags:
         - shadowrun
+  /shadowrun5e/lifestyles:
+    get:
+      description: Collection of Shadowrun 5E lifestyles.
+      operationId: shadowrun5e-lifestyles-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eLifestyle'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E lifestyles.
+      tags:
+        - shadowrun
   /users:
     get:
       summary: All users
@@ -1037,6 +1616,7 @@ paths:
           $ref: '#/components/schemas/ErrorResponseNotFound'
       tags:
         - user
+
 components:
   schemas:
     Campaign:
@@ -1169,8 +1749,27 @@ components:
           required:
             - name
           type: object
+    ErrorResponseConflict:
+      description: The object has changed from the expected state.
+      example:
+        type: https://commlink.digitaldarkness.com/about/conflict
+        title: Conflict
+        status: 409
+        detail: The object you're trying to update has been changed.
+        instance: /event/123
+      properties:
+        detail:
+          type: string
+        status:
+          type: integer
+        title:
+          type: string
+        type:
+          format: uri
+          type: string
+      type: object
     ErrorResponseForbidden:
-      description: >-
+      description: |
         The request included authentication but it is not valid for the
         requested object.
       example:
@@ -1201,6 +1800,69 @@ components:
       required:
         - message
       type: object
+    Event:
+      properties:
+        campaign:
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+          type: object
+        created_at:
+          format: datetime
+          type: string
+        created_by:
+          properties:
+            name:
+              type: string
+            id:
+              type: integer
+          type: object
+        description:
+          nullable: true
+          type: string
+        game_end:
+          format: datetime
+          nullable: true
+          type: string
+        game_start:
+          format: datetime
+          nullable: true
+          type: string
+        name:
+          type: string
+        real_end:
+          format: datetime
+          nullable: true
+          type: string
+        real_start:
+          format: datetime
+          type: string
+        responses:
+          description: Collection of RSVPs from users for the event.
+          items:
+            properties:
+              name:
+                type: string
+              response:
+                $ref: '#/components/schemas/EventResponse'
+              user_id:
+                type: integer
+            type: object
+          type: array
+      required:
+        - campaign
+        - created_by
+        - name
+        - real_start
+      type: object
+    EventResponse:
+      enum:
+        - accepted
+        - declined
+        - tentative
+      type: string
     ExpanseBackground:
       description: Information about a background for an Expanse RPG character.
       properties:
@@ -1411,12 +2073,55 @@ components:
         - initiative
       type: object
     ItemId:
-      description: >-
+      description: |
         Typically the item's name with spaces replaced by dashes followed by the
         rating or subname.
       example:
         activesoft-forgery-1
       type: string
+    JsonPatchOperation:
+      description: |
+        Operation to take on the associated document. See
+        [Json Patch documentation](https://jsonpatch.com).
+      properties:
+        op:
+          description: |
+            Operation to take on the document. Commlink's API may not support
+            all of the different operations. Replace and remove are the most
+            commonly used operations.
+          enum:
+            - add
+            - copy
+            - move
+            - remove
+            - replace
+            - test
+          type: string
+        path:
+          description: |
+            Name of the field to operate on, using slashes. For example, to
+            operate on a nested JSON object like "data.character.health", you'd
+            use a path like "/data/character/health". For arrays, use the number
+            of the element, like "/data/characters/1/health" to operate on the
+            character in array index 1. To `add` and element to the end of the
+            array, use a dash, like "/data/characters/-".
+          type: string
+        value:
+          description: |
+            Value to use for the operation. Very dependent on the object that is
+            operated on.
+          nullable: true
+          oneOf:
+            - type: array
+              items: {}
+            - type: boolean
+            - type: number
+            - type: object
+            - type: string
+      required:
+        - op
+        - path
+      type: object
     Links:
       properties:
         collection:
@@ -1638,7 +2343,7 @@ components:
         - type
       type: object
     Shadowrun5eAvailability:
-      description: >-
+      description: |
         Code that shows both how difficult an item is to get, as well as how
         illegal it is.
       example:
@@ -1943,7 +2648,7 @@ components:
           example: 50
           type: integer
         description:
-          example: >
+          example: |
               Typically handheld, binoculars come with built-in vision
               magnification. Binoculars are available in optical (which can't
               take additional vision enhancements) and electronic versions

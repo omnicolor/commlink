@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Laravel\Pennant\Concerns\HasFeatures;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\HasApiTokens;
@@ -18,6 +19,7 @@ use Spatie\Permission\Traits\HasRoles;
 /**
  * @property string $email
  * @property int $id
+ * @property Collection $events
  */
 class User extends Authenticatable
 {
@@ -117,6 +119,14 @@ class User extends Authenticatable
     public function chatUsers(): HasMany
     {
         return $this->hasMany(ChatUser::class);
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function events(): HasMany
+    {
+        return $this->hasMany(Event::class, 'created_by');
     }
 
     /**
