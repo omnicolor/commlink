@@ -107,7 +107,7 @@ final class RockerboyTest extends TestCase
     public function testGetWhosGunningOutOfRange(): void
     {
         $role = new Rockerboy([
-            'act' => RockerBoy::ACT_SOLO,
+            'act' => Rockerboy::ACT_SOLO,
             'gunning' => 99,
             'perform' => Rockerboy::PERFORM_CAFE,
             'rank' => 4,
@@ -165,7 +165,7 @@ final class RockerboyTest extends TestCase
     public function testGetTypeOutOfRange(): void
     {
         $role = new Rockerboy([
-            'act' => RockerBoy::ACT_SOLO,
+            'act' => Rockerboy::ACT_SOLO,
             'gunning' => Rockerboy::GUNNING_OLD_GROUP_MEMBER,
             'perform' => Rockerboy::PERFORM_CAFE,
             'rank' => 4,
