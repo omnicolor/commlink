@@ -16,7 +16,7 @@ use Tests\TestCase;
 final class GoogleControllerTest extends TestCase
 {
     use RefreshDatabase;
-    use WIthFaker;
+    use WithFaker;
 
     /**
      * Test the login with Google redirect.
