@@ -232,7 +232,7 @@ final class UsersControllerTest extends TestCase
 
         self::actingAs($user)
             ->patchJson(route('users.update', ['user' => $user]), $patch)
-            ->assertStatus(JsonREsponse::HTTP_ACCEPTED)
+            ->assertStatus(JsonResponse::HTTP_ACCEPTED)
             ->assertJson(['roles' => [
                 ['name' => 'admin'],
                 ['name' => 'trusted'],
