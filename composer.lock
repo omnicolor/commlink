@@ -10803,16 +10803,16 @@
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v8.20.0",
+            "version": "v8.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "beb3af0737b0ac49c29b4bc26de548845f097abc"
+                "reference": "34038bbc26dfb2305297c664efad1d5be3918ee2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/beb3af0737b0ac49c29b4bc26de548845f097abc",
-                "reference": "beb3af0737b0ac49c29b4bc26de548845f097abc",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/34038bbc26dfb2305297c664efad1d5be3918ee2",
+                "reference": "34038bbc26dfb2305297c664efad1d5be3918ee2",
                 "shasum": ""
             },
             "require": {
@@ -10824,6 +10824,7 @@
                 "brianium/paratest": "<6.4.0 || >=7.0.0 <7.1.4 || >=8.0.0",
                 "laravel/framework": "<10.40 || >=11.0.0",
                 "nunomaduro/collision": "<6.4.0 || >=7.0.0 <7.4.0 || >=8.0.0",
+                "orchestra/testbench-dusk": "<8.21.0 || >=9.0.0",
                 "orchestra/workbench": "<1.0.0",
                 "phpunit/phpunit": "<9.6.0 || >=10.6.0"
             },
@@ -10890,7 +10891,7 @@
                 "issues": "https://github.com/orchestral/testbench/issues",
                 "source": "https://github.com/orchestral/testbench-core"
             },
-            "time": "2024-01-10T03:05:52+00:00"
+            "time": "2024-01-19T14:40:27+00:00"
         },
         {
             "name": "orchestra/workbench",
@@ -16361,6 +16362,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "mongodb/laravel-mongodb": 5,
         "povils/phpmnd": 20,
         "roave/security-advisories": 20
     },
