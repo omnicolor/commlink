@@ -22,8 +22,10 @@ class CharactersController extends Controller
 {
     protected const SESSION_KEY = 'transformers-partial';
 
-    public function create(Request $request, ?string $step = null): RedirectResponse | View | string
-    {
+    public function create(
+        Request $request,
+        ?string $step = null,
+    ): RedirectResponse | View | string {
         /** @var User */
         $user = Auth::user();
 
@@ -135,12 +137,12 @@ class CharactersController extends Controller
 
     public function createBase(BaseRequest $request): RedirectResponse
     {
-        $characterId = $request->session()->get(self::SESSION_KEY);
+        $character_id = $request->session()->get(self::SESSION_KEY);
 
         /** @var User */
         $user = Auth::user();
 
-        $character = PartialCharacter::where('_id', $characterId)
+        $character = PartialCharacter::where('_id', $character_id)
             ->where('owner', $user->email)
             ->firstOrFail();
 
@@ -153,12 +155,12 @@ class CharactersController extends Controller
 
     public function createProgramming(ProgrammingRequest $request): RedirectResponse
     {
-        $characterId = $request->session()->get(self::SESSION_KEY);
+        $character_id = $request->session()->get(self::SESSION_KEY);
 
         /** @var User */
         $user = Auth::user();
 
-        $character = PartialCharacter::where('_id', $characterId)
+        $character = PartialCharacter::where('_id', $character_id)
             ->where('owner', $user->email)
             ->firstOrFail();
 
@@ -171,12 +173,12 @@ class CharactersController extends Controller
 
     public function createStatistics(StatisticsRequest $request): RedirectResponse
     {
-        $characterId = $request->session()->get(self::SESSION_KEY);
+        $character_id = $request->session()->get(self::SESSION_KEY);
 
         /** @var User */
         $user = Auth::user();
 
-        $character = PartialCharacter::where('_id', $characterId)
+        $character = PartialCharacter::where('_id', $character_id)
             ->where('owner', $user->email)
             ->firstOrFail();
 
@@ -201,12 +203,12 @@ class CharactersController extends Controller
         $user = Auth::user();
 
         // See if the user has already chosen to continue a character.
-        $characterId = $request->session()->get(self::SESSION_KEY);
+        $character_id = $request->session()->get(self::SESSION_KEY);
 
-        if (null !== $characterId) {
+        if (null !== $character_id) {
             // Return the character they're working on.
             return PartialCharacter::where('owner', $user->email)
-                ->where('_id', $characterId)
+                ->where('_id', $character_id)
                 ->firstOrFail();
         }
         if (null === $step) {

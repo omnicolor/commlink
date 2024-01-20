@@ -6,22 +6,19 @@ namespace App\Models\Transformers;
 
 use RuntimeException;
 
+use function strtolower;
+
 class Subgroup
 {
-    /**
-     * @psalm-suppress PossiblyUnusedProperty
-     */
+    /** @psalm-suppress PossiblyUnusedProperty */
     public Classification $class;
 
-    /**
-     * @psalm-suppress PossiblyUnusedProperty
-     */
+    /** @psalm-suppress PossiblyUnusedProperty */
     public int $cost;
 
-    /**
-     * @psalm-suppress PossiblyUnusedProperty
-     */
+    /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
+
     public string $id;
     public string $name;
 
@@ -41,7 +38,7 @@ class Subgroup
         $filename = config('app.data_path.transformers') . 'subgroups.php';
         self::$subgroups ??= require $filename;
 
-        $this->id = \strtolower($id);
+        $this->id = strtolower($id);
         if (!isset(self::$subgroups[$this->id])) {
             throw new RuntimeException(\sprintf(
                 'Subgroup ID "%s" is invalid',
