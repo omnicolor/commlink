@@ -15,69 +15,50 @@ class {{ class }}
 
     /**
      * Determine whether the user can view any models.
-     * @param {{ user }} $user
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny({{ user }} $user)
+    public function viewAny({{ user }} $user): Response | bool
     {
     }
 
     /**
-     * Determine whether the user can view the model.
-     * @param {{ user }} $user
-     * @param {{ model }} ${{ modelVariable }}
-     * @return \Illuminate\Auth\Access\Response|bool
+     * Determine whether the user can view a model.
      */
-    public function view({{ user }} $user, {{ model }} ${{ modelVariable }})
+    public function view({{ user }} $user, {{ model }} ${{ modelVariable }}): Response | bool
     {
     }
 
     /**
      * Determine whether the user can create models.
-     * @param {{ user }}  $user
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create({{ user }} $user)
+    public function create({{ user }} $user): Response | bool
     {
     }
 
     /**
      * Determine whether the user can update the model.
-     * @param {{ user }} $user
-     * @param {{ model }} ${{ modelVariable }}
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update({{ user }} $user, {{ model }} ${{ modelVariable }})
+    public function update({{ user }} $user, {{ model }} ${{ modelVariable }}): Response | bool
     {
     }
 
     /**
      * Determine whether the user can delete the model.
-     * @param {{ user }} $user
-     * @param {{ model }} ${{ modelVariable }}
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete({{ user }} $user, {{ model }} ${{ modelVariable }})
+    public function delete({{ user }} $user, {{ model }} ${{ modelVariable }}): Response | bool
     {
     }
 
     /**
      * Determine whether the user can restore the model.
-     * @param {{ user }} $user
-     * @param {{ model }} ${{ modelVariable }}
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore({{ user }} $user, {{ model }} ${{ modelVariable }})
+    public function restore({{ user }} $user, {{ model }} ${{ modelVariable }}): Response | bool
     {
     }
 
     /**
      * Determine whether the user can permanently delete the model.
-     * @param {{ user }} $user
-     * @param {{ model }} ${{ modelVariable }}
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete({{ user }} $user, {{ model }} ${{ modelVariable }})
+    public function forceDelete({{ user }} $user, {{ model }} ${{ modelVariable }}): Response | bool
     {
     }
 }

@@ -6,8 +6,9 @@ namespace {{ namespace }};
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
-final class {{ class }} extends \Tests\TestCase
+final class {{ class }} extends TestCase
 {
     /**
      * A basic feature test example.

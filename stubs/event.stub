@@ -18,17 +18,10 @@ class {{ class }}
     use InteractsWithSockets;
     use SerializesModels;
 
-    /**
-     * Create a new event instance.
-     */
     public function __construct()
     {
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     * @return PrivateChannel
-     */
     public function broadcastOn(): PrivateChannel
     {
         return new PrivateChannel('channel-name');

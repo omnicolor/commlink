@@ -23,10 +23,6 @@ class {{ class }} extends Roll
         parent::__construct($content, $character, $channel);
     }
 
-    /**
-     * Return the roll formatted for Slack.
-     * @return SlackResponse
-     */
     public function forSlack(): SlackResponse
     {
         $attachment = new TextAttachment(
@@ -38,10 +34,6 @@ class {{ class }} extends Roll
         return $response->addAttachment($attachment)->sendToChannel();
     }
 
-    /**
-     * Return the roll formatted for Discord.
-     * @return string
-     */
     public function forDiscord(): string
     {
         if (null !== $this->error) {
