@@ -36,6 +36,10 @@ Route::middleware('auth')->group(function (): void {
         '/campaigns/{campaign}/gm-screen',
         [CampaignsController::class, 'gmScreen']
     )->name('campaign.gm-screen');
+    Route::post(
+        '/campaigns/{campaign}/respond',
+        [CampaignsController::class, 'respond'],
+    )->name('campaign.respond');
 
     Route::prefix('characters')->group(function (): void {
         Route::prefix('capers')->name('capers.')->group(function (): void {

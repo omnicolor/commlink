@@ -5,16 +5,21 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Campaign;
+use App\Models\CampaignInvitation;
 use App\Models\Shadowrun5e\Character;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+use function array_keys;
+use function count;
+use function in_array;
+use function json_encode;
+
 /**
  * Tests for the campaigns controller.
  * @group campaigns
- * @group controllers
  * @medium
  */
 final class CampaignsControllerTest extends TestCase
@@ -53,7 +58,7 @@ final class CampaignsControllerTest extends TestCase
     public function testCreateNewCampaign(): void
     {
         if (
-            1 === \count(config('app.systems'))
+            1 === count(config('app.systems'))
             && isset(config('app.systems')['shadowrun5e'])
         ) {
             self::markTestSkipped('Shadowrun 5E is the only available system');
@@ -91,7 +96,7 @@ final class CampaignsControllerTest extends TestCase
      */
     public function testCreateNewAvatarCampaign(): void
     {
-        if (!\in_array('avatar', \array_keys(config('app.systems')), true)) {
+        if (!in_array('avatar', array_keys(config('app.systems')), true)) {
             self::markTestSkipped('Avatar Legends system not enabled');
         }
         // @phpstan-ignore-next-line
@@ -118,7 +123,7 @@ final class CampaignsControllerTest extends TestCase
             )
             ->assertRedirect('/dashboard');
 
-        $expectedOptions = \json_encode([
+        $expectedOptions = json_encode([
             'era' => 'aang',
             'scope' => 'Scope of the campaign',
             'focus' => 'defeat',
@@ -144,7 +149,7 @@ final class CampaignsControllerTest extends TestCase
      */
     public function testCreateNewSr5eCampaign(): void
     {
-        if (!\in_array('shadowrun5e', \array_keys(config('app.systems')), true)) {
+        if (!in_array('shadowrun5e', array_keys(config('app.systems')), true)) {
             self::markTestSkipped('Shadowrun 5E not enabled');
         }
         // @phpstan-ignore-next-line
@@ -176,7 +181,7 @@ final class CampaignsControllerTest extends TestCase
             )
             ->assertRedirect('/dashboard');
 
-        $expectedOptions = \json_encode([
+        $expectedOptions = json_encode([
             'creation' => ['priority', 'sum-to-ten'],
             'gameplay' => 'established',
             'rulesets' => ['core', 'run-faster'],
@@ -201,7 +206,7 @@ final class CampaignsControllerTest extends TestCase
      */
     public function testCreateNewCyberpunkredCampaign(): void
     {
-        if (!\in_array('cyberpunkred', \array_keys(config('app.systems')), true)) {
+        if (!in_array('cyberpunkred', array_keys(config('app.systems')), true)) {
             self::markTestSkipped('Cyberpunk Red not enabled');
         }
         // @phpstan-ignore-next-line
@@ -224,7 +229,7 @@ final class CampaignsControllerTest extends TestCase
             )
             ->assertRedirect('/dashboard');
 
-        $expectedOptions = \json_encode([
+        $expectedOptions = json_encode([
             'nightCityTarot' => true,
         ]);
         $this->assertDatabaseHas(
@@ -372,5 +377,317 @@ final class CampaignsControllerTest extends TestCase
             ->assertOk()
             ->assertSee((string)$character, true);
         $character->delete();
+    }
+
+    public function testShowCampaignWithoutAccess(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+        self::actingAs($user)
+            ->get(route('campaigns.show', $campaign))
+            ->assertForbidden();
+    }
+
+    public function testShowCampaignAsPlayerWithCharacter(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()
+            ->hasAttached($user, ['status' => 'accepted'])
+            ->create(['system' => 'expanse']);
+        $character = Character::factory()
+            ->create([
+                'campaign_id' => $campaign->id,
+                'owner' => $user->email,
+                'system' => $campaign->system,
+            ]);
+        self::actingAs($user)
+            ->get(route('campaigns.show', $campaign))
+            ->assertOk()
+            ->assertJsonCount(1, 'data.characters');
+        $character->delete();
+    }
+
+    public function testShowCampaignAsGm(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['gm' => $user->id]);
+        self::actingAs($user)
+            ->get(route('campaigns.show', $campaign))
+            ->assertOk();
+    }
+
+    public function testListCampaignsWithoutAny(): void
+    {
+        $user = User::factory()->create();
+        self::actingAs($user)
+            ->get(route('campaigns.index'))
+            ->assertOk()
+            ->assertJson([
+                'data' => [],
+                'links' => [
+                    'collection' => '/campaigns',
+                    'root' => '/',
+                ],
+            ]);
+    }
+
+    public function testListCampaigns(): void
+    {
+        $user = User::factory()->create();
+        Campaign::factory()->create(['gm' => $user->id]);
+        Campaign::factory()->create(['registered_by' => $user->id]);
+        Campaign::factory()
+            ->hasAttached($user, ['status' => 'invited'])
+            ->create();
+        Campaign::factory()
+            ->hasAttached($user, ['status' => 'banned'])
+            ->create();
+        self::actingAs($user)
+            ->get(route('campaigns.index'))
+            ->assertOk()
+            ->assertJsonCount(3, 'data');
+    }
+
+    public function testDeleteAsGm(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['gm' => $user->id]);
+        self::actingAs($user)
+            ->delete(route('campaigns.destroy', $campaign))
+            ->assertNoContent();
+
+        self::actingAs($user)
+            ->delete(route('campaigns.destroy', $campaign))
+            ->assertNotFound();
+    }
+
+    public function testRespondWithoutBeingInvited(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+
+        self::actingAs($user)
+            ->post(
+                route('campaign.respond', $campaign),
+                ['response' => 'accepted']
+            )
+            ->assertForbidden();
+    }
+
+    public function testRespondAccepted(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()
+            ->hasAttached($user, ['status' => 'invited'])
+            ->create();
+        self::actingAs($user)
+            ->post(
+                route('campaign.respond', $campaign),
+                ['response' => 'accepted']
+            )
+            ->assertRedirectToRoute('campaign.view', $campaign);
+
+        /** @var User */
+        $player = $campaign->users->find($user->id);
+        self::assertSame('accepted', $player->pivot->status);
+    }
+
+    public function testRespondDeclined(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()
+            ->hasAttached($user, ['status' => 'invited'])
+            ->create();
+        self::actingAs($user)
+            ->post(
+                route('campaign.respond', $campaign),
+                ['response' => 'removed']
+            )
+            ->assertRedirectToRoute('dashboard');
+
+        /** @var User */
+        $player = $campaign->users->find($user->id);
+        self::assertSame('removed', $player->pivot->status);
+    }
+
+    public function testInviteAgain(): void
+    {
+        $gm = User::factory()->create();
+        $inviteeEmail = $this->faker->safeEmail;
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['gm' => $gm->id]);
+        CampaignInvitation::create([
+            'campaign_id' => $campaign->id,
+            'email' => $inviteeEmail,
+            'invited_by' => $gm->id,
+            'name' => $this->faker->name,
+        ]);
+
+        self::actingAs($gm)
+            ->post(
+                route('campaign.invite', $campaign),
+                [
+                    'email' => $inviteeEmail,
+                    'name' => $this->faker->name,
+                ]
+            )
+            ->assertConflict()
+            ->assertSee('You have already invted that user');
+    }
+
+    public function testInviteNewUser(): void
+    {
+        $gm = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['gm' => $gm->id]);
+        $inviteeEmail = $this->faker->unique()->safeEmail;
+        $name = $this->faker->name;
+
+        self::actingAs($gm)
+            ->post(
+                route('campaign.invite', $campaign),
+                [
+                    'email' => $inviteeEmail,
+                    'name' => $name,
+                ]
+            )
+            ->assertCreated()
+            ->assertJsonFragment([
+                'meta' => ['status' => 'new'],
+            ])
+            ->assertJsonFragment([
+                'campaign' => [
+                    'id' => $campaign->id,
+                    'links' => [
+                        'self' => route('campaign.view', $campaign),
+                    ],
+                    'name' => $campaign->name,
+                    'system' => $campaign->system,
+                ],
+                'invited_by' => [
+                    'id' => $gm->id,
+                    'name' => $gm->name,
+                ],
+                'invitee' => [
+                    'email' => $inviteeEmail,
+                    'name' => $name,
+                ],
+            ]);
+    }
+
+    public function testInviteExistingAlreadyInvited(): void
+    {
+        $gm = User::factory()->create();
+        $invitee = User::factory()->create();
+
+        /** @var Campaign */
+        $campaign = Campaign::factory()
+            ->hasAttached($invitee, ['status' => 'invited'])
+            ->create(['gm' => $gm->id]);
+
+        self::actingAs($gm)
+            ->post(
+                route('campaign.invite', $campaign),
+                [
+                    'email' => $invitee->email,
+                    'name' => $this->faker->name,
+                ]
+            )
+            ->assertConflict()
+            ->assertSee('That user has already been invited');
+    }
+
+    public function testInviteExistingAlreadyPlaying(): void
+    {
+        $gm = User::factory()->create();
+        $invitee = User::factory()->create();
+
+        /** @var Campaign */
+        $campaign = Campaign::factory()
+            ->hasAttached($invitee, ['status' => 'accepted'])
+            ->create(['gm' => $gm->id]);
+
+        self::actingAs($gm)
+            ->post(
+                route('campaign.invite', $campaign),
+                [
+                    'email' => $invitee->email,
+                    'name' => $this->faker->name,
+                ]
+            )
+            ->assertConflict()
+            ->assertSee('That user has already joined the campaign');
+    }
+
+    public function testInviteGm(): void
+    {
+        $gm = User::factory()->create();
+
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['gm' => $gm->id]);
+
+        self::actingAs($gm)
+            ->post(
+                route('campaign.invite', $campaign),
+                [
+                    'email' => $gm->email,
+                    'name' => $this->faker->name,
+                ]
+            )
+            ->assertBadRequest()
+            ->assertSee('You can\'t invite the GM to play');
+    }
+
+    public function testInviteExistingUser(): void
+    {
+        $gm = User::factory()->create();
+        $invitee = User::factory()->create();
+
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['gm' => $gm->id]);
+
+        self::actingAs($gm)
+            ->post(
+                route('campaign.invite', $campaign),
+                [
+                    'email' => $invitee->email,
+                    'name' => $this->faker->name,
+                ]
+            )
+            ->assertCreated()
+            ->assertJsonFragment([
+                'meta' => [
+                    'status' => 'existing',
+                    'user' => [
+                        'id' => $invitee->id,
+                        'name' => $invitee->name,
+                    ],
+                ],
+            ])
+            ->assertJsonFragment([
+                'campaign' => [
+                    'id' => $campaign->id,
+                    'links' => [
+                        'self' => route('campaign.view', $campaign),
+                    ],
+                    'name' => $campaign->name,
+                    'system' => $campaign->system,
+                ],
+                'invited_by' => [
+                    'id' => $gm->id,
+                    'name' => $gm->name,
+                ],
+                'invitee' => [
+                    'email' => $invitee->email,
+                    'name' => $invitee->name,
+                ],
+            ]);
     }
 }

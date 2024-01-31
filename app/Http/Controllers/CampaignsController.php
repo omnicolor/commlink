@@ -6,12 +6,22 @@ namespace App\Http\Controllers;
 
 use App\Events\CampaignCreated;
 use App\Http\Requests\CampaignCreateRequest;
+use App\Http\Requests\CampaignInvitationCreateRequest;
+use App\Http\Requests\CampaignInvitationResponseRequest;
+use App\Http\Resources\CampaignCollection;
+use App\Http\Resources\CampaignInvitationResource;
+use App\Http\Resources\CampaignResource;
 use App\Models\Campaign;
+use App\Models\CampaignInvitation;
 use App\Models\Initiative;
-use Gate;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 use function sprintf;
@@ -20,7 +30,6 @@ class CampaignsController extends Controller
 {
     /**
      * Show the create campaign page.
-     * @return View
      */
     public function createForm(): View
     {
@@ -29,8 +38,6 @@ class CampaignsController extends Controller
 
     /**
      * Handle POST from the create campaign form.
-     * @param CampaignCreateRequest $request
-     * @return RedirectResponse
      */
     public function create(CampaignCreateRequest $request): RedirectResponse
     {
@@ -77,21 +84,11 @@ class CampaignsController extends Controller
         return redirect('dashboard');
     }
 
-    /**
-     * Handle a GET request to view the campaign.
-     * @param Campaign $campaign
-     * @return View
-     */
-    public function view(Campaign $campaign): View
+    public function destroy(Campaign $campaign): Response
     {
-        Gate::authorize('view', $campaign);
-        return view(
-            'campaign.view',
-            [
-                'campaign' => $campaign,
-                'user' => Auth::user(),
-            ]
-        );
+        Gate::authorize('delete', $campaign);
+        $campaign->delete();
+        return response('', Response::HTTP_NO_CONTENT);
     }
 
     /**
@@ -146,5 +143,141 @@ class CampaignsController extends Controller
             default:
                 return abort(Response::HTTP_NOT_FOUND);
         }
+    }
+
+    /**
+     * Handle a GM or registrant inviting a player to a campaign.
+     */
+    public function invite(
+        Campaign $campaign,
+        CampaignInvitationCreateRequest $request,
+    ): JsonResource | JsonResponse {
+        abort_if(
+            // @phpstan-ignore-next-line
+            CampaignInvitation::where('campaign_id', $campaign->id)
+                ->where('email', $request->email)
+                // CampaignInviationCreateRequest verified that the requesting
+                // user is logged in.
+                // @phpstan-ignore-next-line
+                ->where('invited_by', $request->user()->id)
+                ->exists(),
+            Response::HTTP_CONFLICT,
+            'You have already invited that user',
+        );
+
+        $user = User::where('email', $request->email)->first();
+        if (null === $user) {
+            // User is new to Commlink.
+            $invitation = CampaignInvitation::create([
+                'campaign_id' => $campaign->id,
+                'email' => $request->email,
+                // CampaignInviationCreateRequest verified that the requesting
+                // user is logged in.
+                // @phpstan-ignore-next-line
+                'invited_by' => $request->user()->id,
+                'name' => $request->name,
+            ]);
+            return (new CampaignInvitationResource($invitation))
+                ->additional(['meta' => ['status' => 'new']]);
+        }
+
+        // User already has a Commlink account. Have they already been invited
+        // to this campaign?
+        $player = $campaign->users->find($user->id);
+        abort_if(
+            'invited' === $player?->pivot?->status,
+            Response::HTTP_CONFLICT,
+            'That user has already been invited',
+        );
+        // or are they already playing?
+        abort_if(
+            'accepted' === $player?->pivot?->status,
+            Response::HTTP_CONFLICT,
+            'That user has already joined the campaign',
+        );
+        // Or are they the GM?
+        abort_if(
+            $user->is($campaign->gamemaster),
+            Response::HTTP_BAD_REQUEST,
+            'You can\'t invite the GM to play',
+        );
+
+        $campaign->users()->attach(
+            $user->id,
+            ['status' => CampaignInvitation::INVITED]
+        );
+        $invitation = new CampaignInvitation([
+            'campaign_id' => $campaign->id,
+            'email' => $request->email,
+            // @phpstan-ignore-next-line
+            'invited_by' => $request->user()->id,
+            'name' => $user->name,
+        ]);
+
+        return (new CampaignInvitationResource($invitation))
+            ->additional([
+                'meta' => [
+                    'status' => 'existing',
+                    'user' => [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                    ],
+                ],
+            ])
+            ->response()
+            ->setStatusCode(Response::HTTP_CREATED);
+    }
+
+    public function index(Request $request): JsonResource
+    {
+        /** @var User */
+        $user = $request->user();
+
+        // Campaigns the user plays in.
+        $campaigns = $user->campaigns()
+            ->wherePivotIn('status', ['accepted', 'invited'])
+            ->get();
+        $campaigns = $campaigns->merge($user->campaignsGmed);
+        $campaigns = $campaigns->merge($user->campaignsRegistered);
+        return new CampaignCollection($campaigns);
+    }
+
+    /**
+     * Allow a player to respond to a GM or registrant invitation to a table.
+     */
+    public function respond(
+        Campaign $campaign,
+        CampaignInvitationResponseRequest $request,
+    ): RedirectResponse {
+        /** @var User */
+        $user = $request->user();
+
+        $campaign->users()->detach($user->id);
+        $campaign->users()->attach($user->id, ['status' => $request->response]);
+        if ('removed' === $request->response) {
+            return redirect('dashboard');
+        }
+        return redirect(route('campaign.view', $campaign));
+    }
+
+    public function show(Campaign $campaign): JsonResource
+    {
+        Gate::authorize('view', $campaign);
+        return new CampaignResource($campaign);
+    }
+
+    /**
+     * Handle a request to view the campaign.
+     */
+    public function view(Campaign $campaign): View
+    {
+        Gate::authorize('view', $campaign);
+        return view(
+            'campaign.view',
+            [
+                'campaign' => $campaign,
+                'user' => Auth::user(),
+            ]
+        );
     }
 }

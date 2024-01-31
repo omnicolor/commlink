@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class representing a gaming campaign or one-shot.
@@ -24,6 +25,7 @@ class Campaign extends Model
 {
     use GameSystem;
     use HasFactory;
+    use SoftDeletes;
 
     /**
      * The attributes that should be cast.
@@ -130,7 +132,7 @@ class Campaign extends Model
      * Get the user that registered the campaign.
      * @psalm-suppress PossiblyUnusedMethod
      */
-    public function registeredBy(): BelongsTo
+    public function registrant(): BelongsTo
     {
         return $this->belongsTo(User::class, 'registered_by');
     }
