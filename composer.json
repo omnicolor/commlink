@@ -136,6 +136,7 @@
         "coverage": "Run all unit/feature tests and create a code coverage report in public/coverage",
         "infection": "Test the test suite with Infection",
         "lint": "Run lint across code to make sure it's syntactically valid",
+        "lint-openapi": "Verify the OpenAPI document is valid",
         "php-cs-fixer": "Run php-cs-fixer",
         "phpcs": "Run PHPCodesniffer",
         "phpmnd": "Run PHP Magic Number Detector",
