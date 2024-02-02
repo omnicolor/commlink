@@ -1,0 +1,16 @@
+name: Documentation
+
+on:
+  push:
+    paths:
+      - 'public/openapi.yml'
+
+jobs:
+  openapi-lint:
+    name: Validate OpenAPI spec
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v3
+      - name : Validate OpenAPI spec
+        run: npx @redocly/cli lint public/openapi.yml
