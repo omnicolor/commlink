@@ -50,7 +50,7 @@ use RuntimeException;
  * @property-read int $melee_defense
  * @property-read int $mental_limit
  * @property-read int $overflow_monitor
- * @property ?array<string, boolean|null|string> $priorities
+ * @property ?array<string, bool|null|string> $priorities
  * @property ?int $magic
  * @property ?array<string, mixed> $magics
  * @property int $nuyen
