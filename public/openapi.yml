@@ -9,7 +9,7 @@ info:
   license:
     name: MIT License
     url: https://mit-license.org/
-  version: 1.2.0
+  version: 1.2.0-campaigns
 externalDocs:
   description: Find out more about Commlink
   url: https://commlink.digitaldarkness.com/about
@@ -449,6 +449,71 @@ paths:
       tags:
         - campaign
         - interactivity
+  /campaigns/{campaign_id}/invite:
+    parameters:
+      - name: campaign_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    post:
+      summary: Invite a user to the campaign
+      description: Tries to invite a user to the given campaign.
+      operationId: campaigns-invite
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  format: email
+                  type: string
+                name:
+                  type: string
+              required:
+                - email
+                - name
+      responses:
+        '201':
+          description: Invite has been created.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/CampaignInvitation'
+                  links:
+                    $ref: '#/components/schemas/Links'
+                  meta:
+                    properties:
+                      user:
+                        properties:
+                          id:
+                            type: integer
+                          name:
+                            type: string
+                        required:
+                          - id
+                          - name
+                        type: object
+                      status:
+                        type: string
+                    required:
+                      - status
+                    type: object
+                required:
+                  - data
+                  - links
+        '400':
+          description: User is the GM.
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
+        '409':
+          description: User has already been invited or is already playing.
+      tags:
+        - campaign
   /channels/{channel_id}:
     parameters:
       - name: channel_id
@@ -1853,6 +1918,36 @@ components:
           $ref: '#/components/schemas/UserMinimal'
         system:
           type: string
+      type: object
+    CampaignInvitation:
+      properties:
+        campaign:
+          $ref: '#/components/schemas/Campaign'
+        id:
+          type: integer
+        invited_by:
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+          required:
+            - id
+            - name
+          type: object
+        invitee:
+          properties:
+            email:
+              format: email
+              type: string
+            name:
+              type: string
+          type: object
+      required:
+        - campaign
+        - id
+        - invited_by
+        - invitee
       type: object
     Character:
       properties:
