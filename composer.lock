@@ -16122,33 +16122,33 @@
         },
         {
             "name": "worksome/envy",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/worksome/envy.git",
-                "reference": "640b465e6921c884bc4309048728c5219d23f41e"
+                "reference": "24682196e1a6cea068ff2af3b247c542c83b35da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/worksome/envy/zipball/640b465e6921c884bc4309048728c5219d23f41e",
-                "reference": "640b465e6921c884bc4309048728c5219d23f41e",
+                "url": "https://api.github.com/repos/worksome/envy/zipball/24682196e1a6cea068ff2af3b247c542c83b35da",
+                "reference": "24682196e1a6cea068ff2af3b247c542c83b35da",
                 "shasum": ""
             },
             "require": {
-                "illuminate/contracts": "^10.0",
+                "illuminate/contracts": "^10.0 || ^11.0",
                 "nikic/php-parser": "^4.15",
-                "nunomaduro/termwind": "^1.15",
+                "nunomaduro/termwind": "^1.15 || ^2.0",
                 "php": "^8.2",
-                "spatie/laravel-package-tools": "^1.14.1",
+                "spatie/laravel-package-tools": "^1.16",
                 "thecodingmachine/safe": "^2.4"
             },
             "require-dev": {
-                "nunomaduro/collision": "^7.0",
-                "nunomaduro/larastan": "^2.4.0",
-                "orchestra/testbench": "^8.0",
-                "pestphp/pest": "^2.0",
-                "pestphp/pest-plugin-laravel": "^2.0",
-                "worksome/coding-style": "^2.3.2"
+                "larastan/larastan": "^2.6",
+                "nunomaduro/collision": "^7.0 || ^8.1",
+                "orchestra/testbench": "^8.0 || ^9.0",
+                "pestphp/pest": "^2.33",
+                "pestphp/pest-plugin-laravel": "^2.2",
+                "worksome/coding-style": "^2.8"
             },
             "type": "library",
             "extra": {
@@ -16184,7 +16184,7 @@
             ],
             "support": {
                 "issues": "https://github.com/worksome/envy/issues",
-                "source": "https://github.com/worksome/envy/tree/v1.1.0"
+                "source": "https://github.com/worksome/envy/tree/v1.2.0"
             },
             "funding": [
                 {
@@ -16192,7 +16192,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-03-22T15:03:02+00:00"
+            "time": "2024-02-08T16:49:19+00:00"
         },
         {
             "name": "zbateson/mail-mime-parser",
