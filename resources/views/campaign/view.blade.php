@@ -1,9 +1,12 @@
 @php
+use App\Models\CampaignInvitation;
 use App\Models\Event;
 use App\Policies\EventPolicy;
 use Illuminate\Support\Facades\View;
 
 $eventPolicy = new EventPolicy();
+$campaignUsers = $campaign->invitations->where('status', '<>', 'responded');
+$campaignUsers = $campaignUsers->merge($campaign->users);
 @endphp
 <x-app>
     <x-slot name="title">Campaign: {{ $campaign }}</x-slot>
@@ -47,19 +50,19 @@ $eventPolicy = new EventPolicy();
             <h2>Players</h2>
 
             <ul class="list-group">
-                @forelse ($campaign->users as $player)
-                    @if ('accepted' === $player->pivot->status)
+                @forelse ($campaignUsers as $player)
+                    @if ('accepted' === $player->pivot?->status)
                         <li class="list-group-item">
                             <i class="bi bi-person-check"></i>
                             {{ $player->name }}
                         </li>
-                    @elseif ('banned' === $player->pivot->status)
+                    @elseif ('banned' === $player->pivot?->status)
                         <li class="list-group-item text-muted">
                             <i class="bi bi-person-slash"></i>
                             {{ $player->name }}
                             (banned)
                         </li>
-                    @elseif ('removed' === $player->pivot->status)
+                    @elseif ('removed' === $player->pivot?->status)
                         <li class="list-group-item text-muted">
                             <i class="bi bi-person-dash"></i>
                             {{ $player->name }}
@@ -91,18 +94,26 @@ $eventPolicy = new EventPolicy();
                                 </div>
                             </form>
                         </li>
+                    @elseif ($player instanceof CampaignInvitation)
+                        <li class="list-group-item text-muted">
+                            <i class="bi bi-person-exclamation"></i>
+                            {{ $player->name }}
+                            ({{ $player->status }})
+                        </li>
                     @else
                         <li class="list-group-item text-muted">
                             <i class="bi bi-person-exclamation"></i>
                             {{ $player->name }}
-                            ({{ $player->pivot->status }})
+                            ({{ $player->pivot?->status }})
                         </li>
                     @endif
                 @empty
-                    <li class="list-group-item">Campaign has no players</li>
+                    <li class="list-group-item" id="no-players">
+                        Campaign has no players
+                    </li>
                 @endforelse
                 @if ($campaign->gamemaster?->is($user) || $campaign->registrant?->is($user))
-                <li class="list-group-item">
+                <li class="list-group-item" id="invite-player-row">
                     <button class="btn btn-link btn-sm"
                         data-bs-target="#invite-player" data-bs-toggle="modal"
                         type="button">

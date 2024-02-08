@@ -176,6 +176,7 @@ class CampaignsController extends Controller
                 // @phpstan-ignore-next-line
                 'invited_by' => $request->user()->id,
                 'name' => $request->name,
+                'updated_at' => null,
             ]);
             return (new CampaignInvitationResource($invitation))
                 ->additional(['meta' => ['status' => 'new']]);

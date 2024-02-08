@@ -98,6 +98,11 @@ class Campaign extends Model
         return $this->hasMany(Initiative::class);
     }
 
+    public function invitations(): HasMany
+    {
+        return $this->hasMany(CampaignInvitation::class);
+    }
+
     /**
      * Create a new Campaign, subclassed if available.
      * @phpstan-ignore-next-line

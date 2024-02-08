@@ -235,7 +235,22 @@ $('#upcoming-events').on('click', '.btn-outline-danger', function (event) {
 });
 
 const createInvitationSucceeded = function (response, status, xhr) {
-    window.console.log(response);
+    $('#no-players').remove();
+    $('#invite-player-row').before(
+        '<li class="list-group-item text-muted">'
+            + '<i class="bi bi-person-exclamation"></i> '
+            + response.data.invitee.name
+            + ' (invited)</li>'
+    );
+    $('#invitee-name').val('');
+    $('#invitee-email').val('');
+};
+const createInvitationFailed = function (response, status, xhr) {
+    $('#invite-player-form .modal-body').prepend(
+        '<div class="alert alert-danger" role="alert" id="invite-error">'
+            + response.responseJSON.message
+            + '</div>'
+    );
 };
 $('#invite-player-form').on('submit', function (event) {
     event.preventDefault();
@@ -247,6 +262,7 @@ $('#invite-player-form').on('submit', function (event) {
         return;
     }
     form.removeClass('was-validated');
+    $('#invite-error').remove();
 
     const name = $('#invitee-name').val().trim();
     const email = $('#invitee-email').val().trim();
@@ -256,7 +272,7 @@ $('#invite-player-form').on('submit', function (event) {
             email: email,
             name: name,
         },
-        //error: createInvitationFailed,
+        error: createInvitationFailed,
         headers: {
             'X-CSRF-TOKEN': csrfToken
         },

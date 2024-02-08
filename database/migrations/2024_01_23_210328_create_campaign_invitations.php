@@ -13,8 +13,8 @@ return new class() extends Migration {
             'campaign_invitations',
             function (Blueprint $table): void {
                 $table->id();
-                // Not unique: You might have multiple different GMs invite a user
-                // to their tables.
+                // Not unique: You might have multiple different GMs invite a
+                // user to their tables.
                 $table->string('email');
                 $table->string('name');
                 $table->foreignId('invited_by')->references('id')->on('users');
@@ -23,7 +23,7 @@ return new class() extends Migration {
                       ->default('invited');
                 $table->timestamp('responded_at')->nullable();
                 $table->timestamp('created_at')->useCurrent();
-                $table->timestamp('updated_at')->nullable();
+                $table->timestamp('updated_at')->nullable()->default(null);
             }
         );
     }

@@ -36,6 +36,7 @@ class CampaignInvitation extends Model
         'name',
         'responded_at',
         'status',
+        'updated_at',
     ];
 
     /**
