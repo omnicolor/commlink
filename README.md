@@ -82,6 +82,7 @@ If you'd like to run an individual check:
 * `lint` - Run
     [PHP-Parallel-Lint](https://github.com/php-parallel-lint/PHP-Parallel-Lint)
     across the entire codebase.
+* `lint-openapi` - Run [Redocly](https://redocly.com/docs/cli/) to lint the OpenAPI specification.
 * `phpcs` - Run [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer)
     on the entire codebase.
 * `php-cs-fixer` - Run

@@ -96,14 +96,15 @@
             "@php-cs-fixer",
             "@phpstan",
             "@psalm",
-            "@coverage"
+            "@coverage",
+            "@lint-openapi"
         ],
         "coverage": [
             "Composer\\Config::disableProcessTimeout",
             "XDEBUG_MODE=coverage phpunit --coverage-html=public/coverage --coverage-xml=public/coverage/coverage-xml --log-junit=public/coverage/junit.xml"
         ],
         "infection": "infection --coverage=public/coverage",
-        "lint": "parallel-lint --colors app config data tests",
+        "lint": "parallel-lint --colors app config data database routes tests",
         "lint-openapi": "npx @redocly/cli lint public/openapi.yml",
         "php-cs-fixer": "php-cs-fixer fix --dry-run --config=php_cs.php -v --diff",
         "phpcs": "phpcs -p --colors --cache",
@@ -142,6 +143,7 @@
         "coverage": "Run all unit/feature tests and create a code coverage report in public/coverage",
         "infection": "Test the test suite with Infection",
         "lint": "Run lint across code to make sure it's syntactically valid",
+        "lint-openapi": "Verify the OpenAPI document is valid",
         "php-cs-fixer": "Run php-cs-fixer",
         "phpcs": "Run PHPCodesniffer",
         "phpmnd": "Run PHP Magic Number Detector",
