@@ -20,20 +20,13 @@ class {{ class }} extends Command
      */
     protected $description = 'Command description';
 
-    /**
-     * Create a new command instance.
-     */
     public function __construct()
     {
         parent::__construct();
     }
 
-    /**
-     * Execute the console command.
-     * @return int
-     */
     public function handle(): int
     {
-        return 0;
+        return self::SUCCESS;
     }
 }
