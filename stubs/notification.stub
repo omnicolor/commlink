@@ -20,7 +20,7 @@ class {{ class }} extends Notification
     /**
      * @return array<int, string>
      */
-    public function via($notifiable): void
+    public function via($notifiable): array
     {
         return ['mail'];
     }
