@@ -22,13 +22,9 @@
             <div class="row"><div class="col">
                 @foreach ($errors->all() as $error)
                 <div class="row"><div class="col">
-                    <div class="alert alert-danger alert-dismissible"
-                        role="alert">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         {{ $error }}
-                        <button aria-label="close" class="close"
-                            data-dismiss="alert" type="button">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 </div></div>
                 @endforeach

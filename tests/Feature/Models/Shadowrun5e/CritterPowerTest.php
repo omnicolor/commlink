@@ -45,7 +45,7 @@ final class CritterPowerTest extends TestCase
         self::assertSame('Accident', (string)$power);
         self::assertSame(394, $power->page);
         self::assertSame(CritterPower::RANGE_LOS, $power->range);
-        self::assertSame(CritterPOwer::TYPE_PHYSICAL, $power->type);
+        self::assertSame(CritterPower::TYPE_PHYSICAL, $power->type);
     }
 
     /**
