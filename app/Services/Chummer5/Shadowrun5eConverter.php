@@ -73,7 +73,6 @@ class Shadowrun5eConverter implements ConverterInterface
      * Constructor.
      * @param string $filename
      * @throws RuntimeException
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function __construct(string $filename)
     {
