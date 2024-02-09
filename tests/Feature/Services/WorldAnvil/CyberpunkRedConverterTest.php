@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Services\WorldAnvil\CyberpunkConverterTest;
+namespace Tests\Feature\Services\WorldAnvil;
 
 use App\Services\WorldAnvil\CyberpunkRedConverter;
 use RuntimeException;
