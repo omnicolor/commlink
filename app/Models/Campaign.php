@@ -98,6 +98,9 @@ class Campaign extends Model
         return $this->hasMany(Initiative::class);
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function invitations(): HasMany
     {
         return $this->hasMany(CampaignInvitation::class);

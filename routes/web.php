@@ -36,6 +36,10 @@ Route::middleware('auth')->group(function (): void {
         '/campaigns/{campaign}/gm-screen',
         [CampaignsController::class, 'gmScreen']
     )->name('campaign.gm-screen');
+
+    // Respond is for an existing user to respond within Commlink. See
+    // campaign.invitation-accept, campaign.invitiation-decline, or
+    // campaign.invitation-spam for clicking through an invitation email.
     Route::post(
         '/campaigns/{campaign}/respond',
         [CampaignsController::class, 'respond'],
@@ -191,6 +195,24 @@ Route::get('/', function () {
 Route::get('/about', function () {
     return view('about');
 });
+
+// Routes for new-to-Commlink users to respond to an invitation.
+Route::get(
+    '/campaigns/{campaign}/accept/{invitation}/{token}',
+    [CampaignsController::class, 'respondAccept'],
+)->name('campaign.invitation-accept');
+Route::get(
+    '/campaigns/{campaign}/decline/{invitation}/{token}',
+    [CampaignsController::class, 'respondDecline'],
+)->name('campaign.invitation-decline');
+Route::get(
+    '/campaigns/{campaign}/spam/{invitation}/{token}',
+    [CampaignsController::class, 'respondSpam'],
+)->name('campaign.invitation-spam');
+Route::get(
+    '/campaigns/{campaign}/change/{invitation}/{token}',
+    [CampaignsController::class, 'respondChangeEmail'],
+)->name('campaign.invitation-change');
 
 // Allow character sheets to be viewed without being logged in.
 Route::get('/characters/avatar/{character}', [AvatarController::class, 'view'])

@@ -690,4 +690,304 @@ final class CampaignsControllerTest extends TestCase
                 ],
             ]);
     }
+
+    public function testUserAcceptingWithInvalidToken(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+        $invitation = CampaignInvitation::create([
+            'campaign_id' => $campaign->id,
+            'email' => $this->faker->safeEmail,
+            // @phpstan-ignore-next-line
+            'invited_by' => $campaign->gamemaster->id,
+            'name' => $this->faker->name,
+        ]);
+
+        self::get(route(
+            'campaign.invitation-accept',
+            [
+                'campaign' => $campaign,
+                'invitation' => $invitation,
+                'token' => '123',
+            ]
+        ))
+            ->assertForbidden()
+            ->assertSee('The token does not appear to be valid for the invitation');
+    }
+
+    public function testUserAcceptingWithAlreadyResponded(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+        $invitation = CampaignInvitation::create([
+            'campaign_id' => $campaign->id,
+            'email' => $this->faker->safeEmail,
+            // @phpstan-ignore-next-line
+            'invited_by' => $campaign->gamemaster->id,
+            'name' => $this->faker->name,
+            'status' => CampaignInvitation::RESPONDED,
+        ]);
+
+        self::get(route(
+            'campaign.invitation-accept',
+            [
+                'campaign' => $campaign,
+                'invitation' => $invitation,
+                'token' => $invitation->hash(),
+            ]
+        ))
+            ->assertBadRequest()
+            ->assertSeeText('It appears you\'ve already responded to the invitation');
+    }
+
+    public function testUserAccepting(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+        $invitation = CampaignInvitation::create([
+            'campaign_id' => $campaign->id,
+            'email' => $this->faker->safeEmail,
+            // @phpstan-ignore-next-line
+            'invited_by' => $campaign->gamemaster->id,
+            'name' => $this->faker->name,
+        ]);
+
+        self::get(route(
+            'campaign.invitation-accept',
+            [
+                'campaign' => $campaign,
+                'invitation' => $invitation,
+                'token' => $invitation->hash(),
+            ]
+        ))
+            ->assertOk()
+            ->assertViewIs('campaign.Invitation.accept');
+    }
+
+    public function testUserChangingEmailWithInvalidToken(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+        $invitation = CampaignInvitation::create([
+            'campaign_id' => $campaign->id,
+            'email' => $this->faker->safeEmail,
+            // @phpstan-ignore-next-line
+            'invited_by' => $campaign->gamemaster->id,
+            'name' => $this->faker->name,
+        ]);
+
+        self::get(route(
+            'campaign.invitation-change',
+            [
+                'campaign' => $campaign,
+                'invitation' => $invitation,
+                'token' => '123',
+            ]
+        ))
+            ->assertForbidden()
+            ->assertSee('The token does not appear to be valid for the invitation');
+    }
+
+    public function testUserChangingEmailWithAlreadyResponded(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+        $invitation = CampaignInvitation::create([
+            'campaign_id' => $campaign->id,
+            'email' => $this->faker->safeEmail,
+            // @phpstan-ignore-next-line
+            'invited_by' => $campaign->gamemaster->id,
+            'name' => $this->faker->name,
+            'status' => CampaignInvitation::RESPONDED,
+        ]);
+
+        self::get(route(
+            'campaign.invitation-change',
+            [
+                'campaign' => $campaign,
+                'invitation' => $invitation,
+                'token' => $invitation->hash(),
+            ]
+        ))
+            ->assertBadRequest()
+            ->assertSeeText('It appears you\'ve already responded to the invitation');
+    }
+
+    public function testUserChangingEmail(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+        $invitation = CampaignInvitation::create([
+            'campaign_id' => $campaign->id,
+            'email' => $this->faker->safeEmail,
+            // @phpstan-ignore-next-line
+            'invited_by' => $campaign->gamemaster->id,
+            'name' => $this->faker->name,
+        ]);
+
+        self::get(route(
+            'campaign.invitation-change',
+            [
+                'campaign' => $campaign,
+                'invitation' => $invitation,
+                'token' => $invitation->hash(),
+            ]
+        ))
+            ->assertOk()
+            ->assertViewIs('campaign.Invitation.change-email');
+    }
+
+    public function testDeclineInvitationBadHash(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+        $invitation = CampaignInvitation::create([
+            'campaign_id' => $campaign->id,
+            'email' => $this->faker->safeEmail,
+            // @phpstan-ignore-next-line
+            'invited_by' => $campaign->gamemaster->id,
+            'name' => $this->faker->name,
+        ]);
+
+        self::get(route(
+            'campaign.invitation-decline',
+            [
+                'campaign' => $campaign,
+                'invitation' => $invitation,
+                'token' => '123',
+            ]
+        ))
+            ->assertForbidden()
+            ->assertSee('The token does not appear to be valid for the invitation');
+    }
+
+    public function testDeclineInvitationAlreadyResponded(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+        $invitation = CampaignInvitation::create([
+            'campaign_id' => $campaign->id,
+            'email' => $this->faker->safeEmail,
+            // @phpstan-ignore-next-line
+            'invited_by' => $campaign->gamemaster->id,
+            'name' => $this->faker->name,
+            'status' => CampaignInvitation::RESPONDED,
+        ]);
+
+        self::get(route(
+            'campaign.invitation-decline',
+            [
+                'campaign' => $campaign,
+                'invitation' => $invitation,
+                'token' => $invitation->hash(),
+            ]
+        ))
+            ->assertBadRequest()
+            ->assertSeeText('It appears you\'ve already responded to the invitation');
+    }
+
+    public function testDeclineInvitation(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+        $invitation = CampaignInvitation::create([
+            'campaign_id' => $campaign->id,
+            'email' => $this->faker->safeEmail,
+            // @phpstan-ignore-next-line
+            'invited_by' => $campaign->gamemaster->id,
+            'name' => $this->faker->name,
+        ]);
+
+        self::get(route(
+            'campaign.invitation-decline',
+            [
+                'campaign' => $campaign,
+                'invitation' => $invitation,
+                'token' => $invitation->hash(),
+            ]
+        ))
+            ->assertOk()
+            ->assertViewIs('campaign.Invitation.decline');
+
+        $invitation->refresh();
+        self::assertNotNull($invitation->responded_at);
+        self::assertSame(CampaignInvitation::RESPONDED, $invitation->status);
+    }
+
+    public function testSpamInvitationBadHash(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+        $invitation = CampaignInvitation::create([
+            'campaign_id' => $campaign->id,
+            'email' => $this->faker->safeEmail,
+            // @phpstan-ignore-next-line
+            'invited_by' => $campaign->gamemaster->id,
+            'name' => $this->faker->name,
+        ]);
+
+        self::get(route(
+            'campaign.invitation-spam',
+            [
+                'campaign' => $campaign,
+                'invitation' => $invitation,
+                'token' => '123',
+            ]
+        ))
+            ->assertForbidden()
+            ->assertSee('The token does not appear to be valid for the invitation');
+    }
+
+    public function testSpamInvitationAlreadyResponded(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+        $invitation = CampaignInvitation::create([
+            'campaign_id' => $campaign->id,
+            'email' => $this->faker->safeEmail,
+            // @phpstan-ignore-next-line
+            'invited_by' => $campaign->gamemaster->id,
+            'name' => $this->faker->name,
+            'status' => CampaignInvitation::RESPONDED,
+        ]);
+
+        self::get(route(
+            'campaign.invitation-spam',
+            [
+                'campaign' => $campaign,
+                'invitation' => $invitation,
+                'token' => $invitation->hash(),
+            ]
+        ))
+            ->assertBadRequest()
+            ->assertSeeText('It appears you\'ve already responded to the invitation');
+    }
+
+    public function testSpamInvitation(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create();
+        $invitation = CampaignInvitation::create([
+            'campaign_id' => $campaign->id,
+            'email' => $this->faker->safeEmail,
+            // @phpstan-ignore-next-line
+            'invited_by' => $campaign->gamemaster->id,
+            'name' => $this->faker->name,
+        ]);
+
+        self::get(route(
+            'campaign.invitation-spam',
+            [
+                'campaign' => $campaign,
+                'invitation' => $invitation,
+                'token' => $invitation->hash(),
+            ]
+        ))
+            ->assertOk()
+            ->assertViewIs('campaign.Invitation.spam');
+
+        $invitation->refresh();
+        self::assertNotNull($invitation->responded_at);
+        self::assertSame(CampaignInvitation::SPAM, $invitation->status);
+    }
 }

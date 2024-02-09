@@ -56,4 +56,11 @@ class CampaignInvitation extends Model
     {
         return $this->belongsTo(User::class, 'invited_by');
     }
+
+    public function hash(): string
+    {
+        return sha1(
+            (string)$this->campaign_id . $this->id . config('app.key')
+        );
+    }
 }

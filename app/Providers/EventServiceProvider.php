@@ -19,6 +19,7 @@ use App\Listeners\HandleDiscordMessage;
 use App\Listeners\HandleEventCreated;
 use App\Listeners\HandleInitiativeEvent;
 use App\Listeners\HandleRollEvent;
+use App\Listeners\SendEmailOnCampaignInvitationCreated;
 use App\Listeners\Shadowrun5e\HandleDamageEvent;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -35,7 +36,9 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         CampaignCreated::class => [],
-        CampaignInvitationCreated::class => [],
+        CampaignInvitationCreated::class => [
+            SendEmailOnCampaignInvitationCreated::class,
+        ],
         CampaignInvitationUpdated::class => [],
         ChannelLinked::class => [],
         DiscordMessageReceived::class => [

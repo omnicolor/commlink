@@ -36,8 +36,6 @@ $campaignUsers = $campaignUsers->merge($campaign->users);
             Registered by {{ $campaign->registrant->name }} and run by {{ $campaign->gamemaster->name }}.
         @else
             Registered by {{ $campaign->registrant->name }} with no gamemaster yet.
-            @if ($campaign->registrant->is($user))
-            @endif
         @endif
     </p>
 

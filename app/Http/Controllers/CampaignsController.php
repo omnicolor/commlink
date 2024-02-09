@@ -261,6 +261,163 @@ class CampaignsController extends Controller
         return redirect(route('campaign.view', $campaign));
     }
 
+    public function respondAccept(
+        Campaign $campaign,
+        CampaignInvitation $invitation,
+        string $token,
+    ): View {
+        abort_if(
+            $invitation->hash() !== $token,
+            Response::HTTP_FORBIDDEN,
+            'The token does not appear to be valid for the invitation',
+        );
+        abort_if(
+            CampaignInvitation::INVITED !== $invitation->status,
+            Response::HTTP_BAD_REQUEST,
+            'It appears you\'ve already responded to the invitation',
+        );
+        return view(
+            'campaign.Invitation.accept',
+            [
+                'campaign' => $campaign,
+                'change_url' => route(
+                    'campaign.invitation-change',
+                    [
+                        'campaign' => $campaign,
+                        'invitation' => $invitation->id,
+                        'token' => $token,
+                    ],
+                ),
+                'decline_url' => route(
+                    'campaign.invitation-decline',
+                    [
+                        'campaign' => $campaign,
+                        'invitation' => $invitation->id,
+                        'token' => $token,
+                    ],
+                ),
+                'spam_url' => route(
+                    'campaign.invitation-spam',
+                    [
+                        'campaign' => $campaign,
+                        'invitation' => $invitation->id,
+                        'token' => $token,
+                    ],
+                ),
+                'invitation' => $invitation,
+            ],
+        );
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedParam
+     */
+    public function respondDecline(
+        Campaign $campaign,
+        CampaignInvitation $invitation,
+        string $token,
+    ): View {
+        abort_if(
+            $invitation->hash() !== $token,
+            Response::HTTP_FORBIDDEN,
+            'The token does not appear to be valid for the invitation',
+        );
+        abort_if(
+            CampaignInvitation::INVITED !== $invitation->status,
+            Response::HTTP_BAD_REQUEST,
+            'It appears you\'ve already responded to the invitation',
+        );
+
+        $invitation->status = CampaignInvitation::RESPONDED;
+        $invitation->updated_at = $invitation->responded_at = now()->toDateTimeString();
+        $invitation->save();
+
+        return view(
+            'campaign.Invitation.decline',
+            [
+                'campaign' => $campaign,
+                'invitation' => $invitation,
+            ],
+        );
+    }
+
+    public function respondSpam(
+        Campaign $campaign,
+        CampaignInvitation $invitation,
+        string $token,
+    ): View {
+        abort_if(
+            $invitation->hash() !== $token,
+            Response::HTTP_FORBIDDEN,
+            'The token does not appear to be valid for the invitation',
+        );
+        abort_if(
+            CampaignInvitation::INVITED !== $invitation->status,
+            Response::HTTP_BAD_REQUEST,
+            'It appears you\'ve already responded to the invitation',
+        );
+
+        $invitation->status = CampaignInvitation::SPAM;
+        $invitation->updated_at = $invitation->responded_at = now()->toDateTimeString();
+        $invitation->save();
+
+        return view(
+            'campaign.Invitation.spam',
+            [
+                'campaign' => $campaign,
+                'invitation' => $invitation,
+            ],
+        );
+    }
+
+    public function respondChangeEmail(
+        Campaign $campaign,
+        CampaignInvitation $invitation,
+        string $token,
+    ): View {
+        abort_if(
+            $invitation->hash() !== $token,
+            Response::HTTP_FORBIDDEN,
+            'The token does not appear to be valid for the invitation',
+        );
+        abort_if(
+            CampaignInvitation::INVITED !== $invitation->status,
+            Response::HTTP_BAD_REQUEST,
+            'It appears you\'ve already responded to the invitation',
+        );
+        return view(
+            'campaign.Invitation.change-email',
+            [
+                'campaign' => $campaign,
+                'accept_url' => route(
+                    'campaign.invitation-accept',
+                    [
+                        'campaign' => $campaign,
+                        'invitation' => $invitation->id,
+                        'token' => $token,
+                    ],
+                ),
+                'decline_url' => route(
+                    'campaign.invitation-decline',
+                    [
+                        'campaign' => $campaign,
+                        'invitation' => $invitation->id,
+                        'token' => $token,
+                    ],
+                ),
+                'spam_url' => route(
+                    'campaign.invitation-spam',
+                    [
+                        'campaign' => $campaign,
+                        'invitation' => $invitation->id,
+                        'token' => $token,
+                    ],
+                ),
+                'invitation' => $invitation,
+            ],
+        );
+    }
+
     public function show(Campaign $campaign): JsonResource
     {
         Gate::authorize('view', $campaign);
