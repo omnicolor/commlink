@@ -183,7 +183,7 @@ Route::group(['middleware' => ['auth', 'permission:admin users']], function (): 
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 Route::get('/about', function () {
     return view('about');
 });

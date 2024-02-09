@@ -28,8 +28,6 @@ class NewPasswordController extends Controller
     /**
      * Handle an incoming new password request.
      * @codeCoverageIgnore
-     * @param Request $request
-     * @return RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {
@@ -67,6 +65,11 @@ class NewPasswordController extends Controller
         // error message.
         if (Password::PASSWORD_RESET === $status) {
             return redirect()->route('login')->with('status', __($status));
+        }
+
+        // Don't give away that the email is or isn't valid...
+        if (Password::INVALID_USER === $status) {
+            $status = Password::INVALID_TOKEN;
         }
         return back()->withInput($request->only('email'))
             ->withErrors(['email' => __($status)]);

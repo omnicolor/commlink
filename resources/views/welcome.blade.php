@@ -33,17 +33,29 @@
                     @foreach ($errors->all() as $error)
                         <div class="row">
                             <div class="col">
-                                <div class="alert alert-danger alert-dismissible"
+                                <div class="alert alert-danger alert-dismissible fade show"
                                     role="alert">
-                                    {{ $error }}
-                                    <button aria-label="close" class="close"
-                                        data-dismiss="alert" type="button">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                                    Testing
+                                    <button type="button" class="btn-close"
+                                        data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
                                 </div>
                             </div>
                         </div>
                     @endforeach
+                    @if (session('status'))
+                        <div class="row">
+                            <div class="col">
+                                <div class="alert alert-success alert-dismissible fade show"
+                                    role="alert">
+                                    {{ session('status') }}
+                                    <button type="button" class="btn-close"
+                                        data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                     <div class="card">
                         <form action="{{ route('login') }}" class="card-body"
                             id="login-form" method="POST" novalidate>
