@@ -90,7 +90,8 @@
             "@php-cs-fixer",
             "@phpstan",
             "@psalm",
-            "@coverage"
+            "@coverage",
+            "@lint-openapi"
         ],
         "coverage": [
             "Composer\\Config::disableProcessTimeout",
