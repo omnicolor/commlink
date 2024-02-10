@@ -20,6 +20,8 @@ use ErrorException;
 use RuntimeException;
 use SimpleXMLElement;
 
+use function array_merge;
+
 /**
  * Converter class to convert a Chummer 5 file to a Commlink Character.
  */
@@ -382,8 +384,10 @@ class Shadowrun5eConverter implements ConverterInterface
         $this->character->handle = (string)$this->xml->alias;
         $this->character->karma = (int)$this->xml->karma;
         $this->character->karmaCurrent = (int)$this->xml->karma;
-        $this->character->priorities['metatype']
-            = strtolower((string)$this->xml->metatype);
+        $this->character->priorities = array_merge(
+            $this->character->priorities,
+            ['metatype' => strtolower((string)$this->xml->metatype)]
+        );
         $this->character->nuyen = (int)$this->xml->nuyen;
         $this->character->realName = (string)$this->xml->name;
         return $this;
