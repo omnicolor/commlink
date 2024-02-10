@@ -8,13 +8,14 @@ use App\Models\Campaign;
 use App\Models\User;
 use App\Policies\CampaignPolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * Tests for the Campaigns policy.
  * @group campaigns
  * @medium
  */
-final class CampaignPolicyTest extends \Tests\TestCase
+final class CampaignPolicyTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -98,18 +99,60 @@ final class CampaignPolicyTest extends \Tests\TestCase
     }
 
     /**
-     * Test trying to view a campaign as a player.
+     * Test trying to view a campaign as a player that has been invited.
      * @test
      */
-    public function testViewAsPlayer(): void
+    public function testViewAsInvitedPlayer(): void
     {
-        /** @var User */
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()
+            ->hasAttached($user, ['status' => 'invited'])
+            ->create();
+        self::assertTrue($this->policy->view($user, $campaign));
+    }
+
+    /**
+     * Test trying to view a campaign as a player that accepted the invite.
+     * @test
+     */
+    public function testViewAsAcceptedPlayer(): void
+    {
         $user = User::factory()->create();
         /** @var Campaign */
         $campaign = Campaign::factory()
             ->hasAttached($user, ['status' => 'accepted'])
             ->create();
         self::assertTrue($this->policy->view($user, $campaign));
+    }
+
+    /**
+     * Test trying to view a campaign as a player that has been removed from the
+     * campaign.
+     * @test
+     */
+    public function testViewAsRemovedPlayer(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()
+            ->hasAttached($user, ['status' => 'removed'])
+            ->create();
+        self::assertFalse($this->policy->view($user, $campaign));
+    }
+
+    /**
+     * Test trying to view a campaign as a player that has been banned.
+     * @test
+     */
+    public function testViewAsBannedPlayer(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()
+            ->hasAttached($user, ['status' => 'banned'])
+            ->create();
+        self::assertFalse($this->policy->view($user, $campaign));
     }
 
     /**
@@ -142,20 +185,37 @@ final class CampaignPolicyTest extends \Tests\TestCase
         self::assertFalse($this->policy->update($user, $campaign));
     }
 
-    /**
-     * No user can currently delete a campaign, even the one that registered it
-     * and acts as both the GM and a player.
-     * @test
-     */
-    public function testDelete(): void
+    public function testDeleteAsUnaffiliatedUser(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         /** @var Campaign */
-        $campaign = Campaign::factory([
-            'gm' => $user,
-            'registered_by' => $user,
-        ])
+        $campaign = Campaign::factory()->create();
+        self::assertFalse($this->policy->delete($user, $campaign));
+    }
+
+    public function testDeleteAsRegistrant(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory(['registered_by' => $user])
+            ->create();
+        self::assertTrue($this->policy->delete($user, $campaign));
+    }
+
+    public function testDeleteAsGm(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory(['gm' => $user])
+            ->create();
+        self::assertTrue($this->policy->delete($user, $campaign));
+    }
+
+    public function testDeleteAsPlayer(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()
             ->hasAttached($user, ['status' => 'accepted'])
             ->create();
         self::assertFalse($this->policy->delete($user, $campaign));
@@ -227,5 +287,35 @@ final class CampaignPolicyTest extends \Tests\TestCase
             'gm' => $user->id,
         ]);
         self::assertTrue($this->policy->gm($user, $campaign));
+    }
+
+    public function testInviteAsGm(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()->make([
+            'gm' => $user->id,
+        ]);
+        self::assertTrue($this->policy->invite($user, $campaign));
+    }
+
+    public function testInviteAsRegistrant(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()->make([
+            'registered_by' => $user,
+        ]);
+        self::assertTrue($this->policy->invite($user, $campaign));
+    }
+
+    public function testInviteAsPlayer(): void
+    {
+        $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()
+            ->hasAttached($user, ['status' => 'accepted'])
+            ->create();
+        self::assertFalse($this->policy->invite($user, $campaign));
     }
 }
