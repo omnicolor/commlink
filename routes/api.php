@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\CampaignsController;
 use App\Http\Controllers\ChannelsController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\InitiativesController;
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->group(function (): void {
     Route::resource('/channels', ChannelsController::class)
         ->only(['update']);
+    Route::resource('/campaigns', CampaignsController::class)
+        ->only(['destroy', 'index', 'show']);
     Route::resource(
         '/campaigns/{campaign}/initiatives',
         InitiativesController::class,
@@ -29,6 +32,10 @@ Route::middleware('auth:sanctum')->group(function (): void {
         '/campaigns/{campaign}/events',
         [EventsController::class, 'store'],
     )->name('events.store');
+    Route::post(
+        '/campaigns/{campaign}/invite',
+        [CampaignsController::class, 'invite'],
+    )->name('campaign.invite');
 
     Route::resource('events', EventsController::class)
         ->withTrashed(['destroy'])

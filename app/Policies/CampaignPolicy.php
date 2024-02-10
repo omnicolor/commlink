@@ -14,10 +14,8 @@ class CampaignPolicy
 
     /**
      * Determine whether the user can view any models.
-     * @param User $user
      * @psalm-suppress PossiblyUnusedMethod
      * @psalm-suppress PossiblyUnusedParam
-     * @return bool
      */
     public function viewAny(User $user): bool
     {
@@ -26,10 +24,7 @@ class CampaignPolicy
 
     /**
      * Determine whether the user can view the model.
-     * @param User $user
-     * @param Campaign $campaign
      * @psalm-suppress PossiblyUnusedMethod
-     * @return bool
      */
     public function view(User $user, Campaign $campaign): bool
     {
@@ -41,19 +36,31 @@ class CampaignPolicy
         if ($user->id === $campaign->gm) {
             return true;
         }
-        // Players invited or accepted have access to it.
-        if ($campaign->users->contains($user)) {
-            return true;
+        // Reject users that aren't players of the game.
+        if (!$campaign->users->contains($user)) {
+            return false;
         }
-        return false;
+
+        /** @var User */
+        $player = $campaign->users->find($user->id);
+        return 'invited' === $player->pivot->status
+            || 'accepted' === $player->pivot->status;
+    }
+
+    /**
+     * Determine whether the user can invite another user to the game.
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function invite(User $user, Campaign $campaign): bool
+    {
+        return $user->id === $campaign->registered_by
+            || $user->id === $campaign->gm;
     }
 
     /**
      * Determine whether the user can create campaigns.
-     * @param User $user
      * @psalm-suppress PossiblyUnusedMethod
      * @psalm-suppress PossiblyUnusedParam
-     * @return bool
      */
     public function create(User $user): bool
     {
@@ -62,10 +69,7 @@ class CampaignPolicy
 
     /**
      * Determine whether the user can GM a campaign.
-     * @param User $user
-     * @param Campaign $campaign
      * @psalm-suppress PossiblyUnusedMethod
-     * @return bool
      */
     public function gm(User $user, Campaign $campaign): bool
     {
@@ -74,11 +78,8 @@ class CampaignPolicy
 
     /**
      * Determine whether the user can update the model.
-     * @param User $user
-     * @param Campaign $campaign
      * @psalm-suppress PossiblyUnusedMethod
      * @psalm-suppress PossiblyUnusedParam
-     * @return bool
      */
     public function update(User $user, Campaign $campaign): bool
     {
@@ -87,24 +88,18 @@ class CampaignPolicy
 
     /**
      * Determine whether the user can delete the model.
-     * @param User $user
-     * @param Campaign $campaign
      * @psalm-suppress PossiblyUnusedMethod
-     * @psalm-suppress PossiblyUnusedParam
-     * @return bool
      */
     public function delete(User $user, Campaign $campaign): bool
     {
-        return false;
+        return $user->is($campaign->gamemaster)
+            || $user->is($campaign->registrant);
     }
 
     /**
      * Determine whether the user can restore the model.
-     * @param User $user
-     * @param Campaign $campaign
      * @psalm-suppress PossiblyUnusedMethod
      * @psalm-suppress PossiblyUnusedParam
-     * @return bool
      */
     public function restore(User $user, Campaign $campaign): bool
     {
@@ -113,11 +108,8 @@ class CampaignPolicy
 
     /**
      * Determine whether the user can permanently delete the model.
-     * @param User $user
-     * @param Campaign $campaign
      * @psalm-suppress PossiblyUnusedMethod
      * @psalm-suppress PossiblyUnusedParam
-     * @return bool
      */
     public function forceDelete(User $user, Campaign $campaign): bool
     {

@@ -66,7 +66,7 @@
                                     aria-describedby="email-help"
                                     class="form-control" id="email"
                                     inputmode="email" name="email" required
-                                    type="email">
+                                    type="email" value="{{ $_GET['email'] ?? '' }}">
                                 <small class="form-text text-muted"
                                     id="email-help">
                                     We'll never intentionally release your email
