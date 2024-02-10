@@ -15,9 +15,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * Class representing a gaming campaign or one-shot.
  * @property string $description
+ * @property ?int $gm
  * @property int $id
  * @property string $name
  * @property array<string, mixed> $options
+ * @property int $registered_by
  * @property string $system
  */
 class Campaign extends Model

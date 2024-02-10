@@ -27,7 +27,6 @@ class Perk
      * Constructor.
      * @param string $id
      * @param array<string, string> $rawPerk
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function __construct(string $id, array $rawPerk)
     {

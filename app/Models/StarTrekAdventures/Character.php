@@ -160,7 +160,6 @@ class Character extends BaseCharacter
         return Attribute::make(
             get: function (): TalentArray {
                 $talents = new TalentArray();
-                /** @psalm-suppress PossiblyUnusedMethod */
                 foreach ($this->attributes['talents'] ?? [] as $talent) {
                     try {
                         $talents[] = new Talent(
