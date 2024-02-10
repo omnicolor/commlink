@@ -156,12 +156,11 @@ class Shadowrun5eConverter implements ConverterInterface
     protected SimpleXMLElement $minions;
 
     /**
-     * Constructor.
-     * @param string $filename
      * @throws RuntimeException
      */
     public function __construct(string $filename)
     {
+        $this->character = new PartialCharacter();
         $this->createTemporaryDirectory();
         $this->extractArchive($filename);
         $this->parseFiles();
@@ -203,7 +202,7 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Extract the portfolio to the temporary directory.
-     * @param string $filename
+     * @psalm-suppress PossiblyFalseArgument
      * @throws RuntimeException
      */
     protected function extractArchive(string $filename): void
@@ -302,8 +301,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Convert a name to something that might be a valid Commlink ID.
-     * @param string $name
-     * @return string
      */
     public function createIDFromName(string $name): string
     {
@@ -316,8 +313,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse the character's attributes out from the XML.
-     * @param SimpleXMLElement $attributes
-     * @return Shadowrun5eConverter
      */
     protected function parseAttributes(
         SimpleXMLElement $attributes
@@ -348,14 +343,12 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse out the character's qualities.
-     * @param SimpleXMLElement $qualities
-     * @return Shadowrun5eConverter
      */
     protected function parseQualities(
         SimpleXMLElement $qualities
     ): Shadowrun5eConverter {
         $qualitiesArray = $this->character->qualities ?? [];
-        foreach ($qualities->children() as $rawQuality) {
+        foreach ($qualities->children() ?? [] as $rawQuality) {
             $name = (string)$rawQuality['name'];
             if (array_key_exists($name, $this->mapQualities)) {
                 if (null === $this->mapQualities[$name]) {
@@ -399,14 +392,12 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse out the character's skill groups.
-     * @param SimpleXMLElement $groups
-     * @return Shadowrun5eConverter
      */
     protected function parseSkillGroups(
         SimpleXMLElement $groups
     ): Shadowrun5eConverter {
         $skillGroups = [];
-        foreach ($groups->children() as $group) {
+        foreach ($groups->children() ?? [] as $group) {
             $id = (string)$group['name'];
             $id = str_replace(' Group', '', $id);
             $id = strtolower($id);
@@ -440,14 +431,12 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse out the character's active skills.
-     * @param SimpleXMLElement $skills
-     * @return Shadowrun5eConverter
      */
     protected function parseActiveSkills(
         SimpleXMLElement $skills
     ): Shadowrun5eConverter {
         $skillsArray = [];
-        foreach ($skills->children() as $skill) {
+        foreach ($skills->children() ?? [] as $skill) {
             $id = $this->createIDFromName((string)$skill['name']);
             $level = (int)$skill['base'];
             if (0 === $level) {
@@ -475,9 +464,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse out the character's knowledge skills (regular or language).
-     * @param SimpleXMLElement $skills
-     * @param bool $isLanguage
-     * @return Shadowrun5eConverter
      */
     protected function parseKnowledgeSkills(
         SimpleXMLElement $skills,
@@ -485,7 +471,7 @@ class Shadowrun5eConverter implements ConverterInterface
     ): Shadowrun5eConverter {
         $category = $isLanguage ? 'language' : 'street';
         $skillsArray = $this->character->knowledgeSkills ?? [];
-        foreach ($skills->children() as $skill) {
+        foreach ($skills->children() ?? [] as $skill) {
             $name = (string)$skill['name'];
             $rating = (int)$skill['base'];
 
@@ -513,8 +499,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse out the character's spells.
-     * @param ?SimpleXMLElement $spells
-     * @return Shadowrun5eConverter
      * @TODO Add support for alchemical spells
      */
     protected function parseSpells(
@@ -528,7 +512,7 @@ class Shadowrun5eConverter implements ConverterInterface
             $magics = [];
         }
         $magics['spells'] = [];
-        foreach ($spells->children() as $spell) {
+        foreach ($spells->children() ?? [] as $spell) {
             $name = (string)$spell['name'];
             try {
                 $magics['spells'][] = Spell::findByName($name)->id;
@@ -543,8 +527,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse out the character's powers.
-     * @param ?SimpleXMLElement $powers
-     * @return Shadowrun5eConverter
      */
     protected function parsePowers(
         ?SimpleXMLElement $powers
@@ -553,7 +535,7 @@ class Shadowrun5eConverter implements ConverterInterface
             return $this;
         }
         $powersArray = [];
-        foreach ($powers->children() as $power) {
+        foreach ($powers->children() ?? [] as $power) {
             $name = (string)$power['text'];
             $name = explode(' (', $name);
             $name = $name[0];
@@ -575,8 +557,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse out the character's metamagics.
-     * @param ?SimpleXMLElement $meta
-     * @return Shadowrun5eConverter
      * @TODO Implement
      */
     protected function parseMetamagics(
@@ -587,7 +567,7 @@ class Shadowrun5eConverter implements ConverterInterface
         }
 
         $metaArray = [];
-        foreach ($meta->children() as $metamagic) {
+        foreach ($meta->children() ?? [] as $metamagic) {
             $name = (string)$metamagic['name'];
             if (isset($this->mapMetamagic[$name])) {
                 $metaArray[] = $this->mapMetamagic[$name];
@@ -622,8 +602,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse out the character's augmentations.
-     * @param SimpleXMLElement $aug
-     * @return Shadowrun5eConverter
      * @TODO Add cyberware modifications
      * @TODO Add cyberware grades
      */
@@ -631,7 +609,7 @@ class Shadowrun5eConverter implements ConverterInterface
         SimpleXMLElement $aug
     ): Shadowrun5eConverter {
         $augmentationsArray = [];
-        foreach ($aug->children() as $item) {
+        foreach ($aug->children() ?? [] as $item) {
             $name = (string)$item['name'];
             $name = explode(' (', $name);
             $name = $name[0];
@@ -655,8 +633,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse the character's weapons.
-     * @param SimpleXMLElement $weapons
-     * @return Shadowrun5eConverter
      * @TODO Handle accessories
      * @TODO Handle modifications
      */
@@ -664,7 +640,7 @@ class Shadowrun5eConverter implements ConverterInterface
         SimpleXMLElement $weapons
     ): Shadowrun5eConverter {
         $weaponsArray = [];
-        foreach ($weapons->children() as $rawWeapon) {
+        foreach ($weapons->children() ?? [] as $rawWeapon) {
             $name = (string)$rawWeapon['name'];
             if (array_key_exists($name, $this->mapWeapons)) {
                 if (null === $this->mapWeapons[$name]) {
@@ -691,15 +667,13 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse the character's armor.
-     * @param SimpleXMLElement $armors
-     * @return Shadowrun5eConverter
      * @TODO Handle modifications
      */
     protected function parseArmor(
         SimpleXMLElement $armors
     ): Shadowrun5eConverter {
         $armorArray = [];
-        foreach ($armors->children() as $rawArmor) {
+        foreach ($armors->children() ?? [] as $rawArmor) {
             $name = (string)$rawArmor['name'];
             if (array_key_exists($name, $this->mapArmor)) {
                 if (null === $this->mapArmor[$name]) {
@@ -726,15 +700,13 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse the character's gear.
-     * @param SimpleXMLElement $gears
-     * @return Shadowrun5eConverter
      * @TODO Handle modifications
      * @TODO Handle programs
      */
     protected function parseGear(SimpleXMLElement $gears): Shadowrun5eConverter
     {
         $gearArray = [];
-        foreach ($gears->children() as $rawGear) {
+        foreach ($gears->children() ?? [] as $rawGear) {
             $name = (string)$rawGear['name'];
             if (array_key_exists($name, $this->mapGear)) {
                 if (null === $this->mapGear[$name]) {
@@ -777,15 +749,13 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse the character's identities.
-     * @param SimpleXMLElement $identities
-     * @return Shadowrun5eConverter
      */
     protected function parseIdentities(
         SimpleXMLElement $identities
     ): Shadowrun5eConverter {
         $i = 0;
         $identitiesArray = [];
-        foreach ($identities->children() as $rawIdentity) {
+        foreach ($identities->children() ?? [] as $rawIdentity) {
             $identity = [
                 'id' => $i,
                 'name' => (string)$rawIdentity['name'],
@@ -823,15 +793,13 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse the character's contacts.
-     * @param SimpleXMLElement $contacts
-     * @return Shadowrun5eConverter
      */
     protected function parseContacts(
         SimpleXMLElement $contacts
     ): Shadowrun5eConverter {
         $i = 0;
         $contactsArray = [];
-        foreach ($contacts->children() as $contact) {
+        foreach ($contacts->children() ?? [] as $contact) {
             $contactsArray[] = [
                 'archetype' => (string)$contact['type'],
                 'connection' => (int)$contact['connection'],
@@ -848,8 +816,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Given a priority from Herolab, return the matching Sum to Ten priority.
-     * @param int $priority
-     * @return string
      */
     protected function priorityLetter(int $priority): string
     {
@@ -865,7 +831,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse the character's priorities.
-     * @return Shadowrun5eConverter
      */
     protected function parsePriorities(): Shadowrun5eConverter
     {
@@ -909,7 +874,6 @@ class Shadowrun5eConverter implements ConverterInterface
      *
      * The sources include the rulebooks loaded in Hero Lab, as well as the
      * priority system, gameplay level, life modules, etc.
-     * @return Shadowrun5eConverter
      */
     protected function parseSources(): Shadowrun5eConverter
     {
@@ -1012,9 +976,7 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse the character's contacts.
-     * @param SimpleXMLElement $journals
      * @psalm-suppress PossiblyUnusedParam
-     * @return Shadowrun5eConverter
      */
     protected function parseJournals(
         SimpleXMLElement $journals
@@ -1276,12 +1238,9 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Convert a loaded Hero Lab portfolio to a Commlink character.
-     * @return PartialCharacter
      */
     public function convert(): PartialCharacter
     {
-        $this->character = new PartialCharacter();
-
         $this->character->handle = (string)$this->xml['name'];
         $this->character->karmaCurrent = (int)$this->xml->karma['left'];
         $this->character->karma = (int)$this->xml->karma['total'];

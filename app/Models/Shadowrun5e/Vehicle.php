@@ -242,7 +242,6 @@ class Vehicle
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @psalm-suppress PossiblyUnusedReturnValue
      */
     public function __get(string $name): ?int

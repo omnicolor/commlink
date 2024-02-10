@@ -15,6 +15,8 @@ class VehicleModification extends Component
      */
     public function __construct(public Modification $mod)
     {
+        $this->attributes = $this->newAttributeBag();
+        $this->componentName = 'Shadowrun5e\VehicleModification';
     }
 
     /**

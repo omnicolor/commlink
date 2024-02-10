@@ -25,6 +25,8 @@ class CampaignList extends Component
         public Collection $playing,
         public User $user,
     ) {
+        $this->attributes = $this->newAttributeBag();
+        $this->componentName = 'CampaignList';
         $this->registered = $registered->reject(
             function (Campaign $value) use ($user): bool {
                 if ($value->registered_by !== $user->id) {
