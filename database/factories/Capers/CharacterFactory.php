@@ -20,7 +20,7 @@ class CharacterFactory extends Factory
 
     /**
      * Define the model's default state.
-     * @return array<string, array<int, string>,int|string>
+     * @return array<string, array<int, string>|int|string>
      */
     public function definition(): array
     {

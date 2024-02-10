@@ -20,8 +20,10 @@ class CampaignOptions extends Component
      */
     public function __construct()
     {
+        $this->attributes = $this->newAttributeBag();
         $filename = config('app.data_path.shadowrun5e') . 'rulebooks.php';
         $this->books = require $filename;
+        $this->componentName = 'Shadowrun5e\CampaignOptions';
     }
 
     /**

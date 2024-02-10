@@ -91,6 +91,7 @@ class Shadowrun5eConverter implements ConverterInterface
         }
 
         $this->character = new Character();
+        $this->character->priorities = [];
     }
 
     /**
@@ -381,7 +382,8 @@ class Shadowrun5eConverter implements ConverterInterface
         $this->character->handle = (string)$this->xml->alias;
         $this->character->karma = (int)$this->xml->karma;
         $this->character->karmaCurrent = (int)$this->xml->karma;
-        $this->character->metatype = strtolower((string)$this->xml->metatype);
+        $this->character->priorities['metatype']
+            = strtolower((string)$this->xml->metatype);
         $this->character->nuyen = (int)$this->xml->nuyen;
         $this->character->realName = (string)$this->xml->name;
         return $this;
@@ -389,15 +391,17 @@ class Shadowrun5eConverter implements ConverterInterface
 
     protected function loadPriorities(): Shadowrun5eConverter
     {
-        $this->character->priorities = [
-            'metatype' => strtolower((string)$this->xml->metatype),
-            'metatypePriority' => substr((string)$this->xml->prioritymetatype, 0, 1),
-            'attributePriority' => substr((string)$this->xml->priorityattributes, 0, 1),
-            'magicPriority' => substr((string)$this->xml->priorityspecial, 0, 1),
-            'skillPriority' => substr((string)$this->xml->priorityskills, 0, 1),
-            'resourcePriority' => substr((string)$this->xml->priorityresources, 0, 1),
-            'magic' => (string)$this->xml->prioritytalent,
-        ];
+        $this->character->priorities = array_merge(
+            $this->character->priorities ?? [],
+            [
+                'metatypePriority' => substr((string)$this->xml->prioritymetatype, 0, 1),
+                'attributePriority' => substr((string)$this->xml->priorityattributes, 0, 1),
+                'magicPriority' => substr((string)$this->xml->priorityspecial, 0, 1),
+                'skillPriority' => substr((string)$this->xml->priorityskills, 0, 1),
+                'resourcePriority' => substr((string)$this->xml->priorityresources, 0, 1),
+                'magic' => (string)$this->xml->prioritytalent,
+            ],
+        );
         if ('E' !== $this->character->priorities['magicPriority']) {
             $this->character->magics = [];
         }
