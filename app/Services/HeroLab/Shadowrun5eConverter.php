@@ -15,7 +15,10 @@ use App\Models\Shadowrun5e\PartialCharacter;
 use App\Models\Shadowrun5e\Quality;
 use App\Models\Shadowrun5e\SkillGroup;
 use App\Models\Shadowrun5e\Spell;
+use App\Models\Shadowrun5e\Vehicle;
+use App\Models\Shadowrun5e\VehicleModification;
 use App\Models\Shadowrun5e\Weapon;
+use App\Models\Shadowrun5e\WeaponModification;
 use App\Services\ConverterInterface;
 use ErrorException;
 use RecursiveDirectoryIterator;
@@ -24,7 +27,11 @@ use RuntimeException;
 use SimpleXMLElement;
 use ZipArchive;
 
+use function sprintf;
+
 use const DIRECTORY_SEPARATOR;
+use const LIBXML_NOERROR;
+use const PHP_EOL;
 
 /**
  * Importer class for Hero Lab Shadowrun 5E profiles.
@@ -33,12 +40,12 @@ use const DIRECTORY_SEPARATOR;
 class Shadowrun5eConverter implements ConverterInterface
 {
     /**
-     * @var PartialCharacter Character being converted.
+     * Character being converted.
      */
     protected PartialCharacter $character;
 
     /**
-     * @var string Directory the portfolio was extracted to.
+     * Directory the portfolio was extracted to.
      */
     protected string $directory;
 
@@ -63,9 +70,28 @@ class Shadowrun5eConverter implements ConverterInterface
      * @var array<string, ?string>
      */
     protected array $mapGear = [
+        'Alphasprin' => 'drug-alphasprin',
+        'Antidote Patch' => 'patch-antidote-1',
+        'Certified Credstick, Ebony' => 'credstick-ebony',
+        'Certified Credstick, Gold' => 'credstick-gold',
         'Certified Credstick, Silver' => 'credstick-silver',
+        'Certified Credstick, Standard' => 'credstick-standard',
+        'Deepweed' => 'drug-deepweed',
+        'Flashlight, Thermographic' => 'flashlight-infrared',
         'Living Persona' => null,
+        'Jazz' => 'drug-jazz',
+        'Kamikaze' => 'drug-kamikaze',
+        'Micro-Tranceiver' => 'micro-transceiver',
+        'Novacoke' => 'drug-novacoke',
+        'Reagents, tainted raw (dram)' => 'reagents',
         'Sim Module' => null,
+        'Security Tags' => 'tag-security',
+        'Sober Time' => 'drug-sober-time',
+        'Standard Tags' => 'tag-standard',
+        'Stealth Tags' => 'tag-stealth',
+        'Stim Patch' => 'patch-stim-1',
+        'Tranq Patch' => 'patch-tranq-1',
+        'Trauma Patch' => 'patch-trauma',
     ];
 
     /**
@@ -83,6 +109,9 @@ class Shadowrun5eConverter implements ConverterInterface
     protected array $mapQualities = [
         'Adept' => null,
         'Insomnia (Half-Speed Recovery) (7dicepool vs. 4)' => 'insomnia-1',
+        'Reduced (hearing)' => 'reduced-sense-hearing',
+        'Reduced (sight)' => 'reduced-sense-sight',
+        'Subtle Ground Craft Pilot: Pilot Ground Craft' => 'subtle-pilot-ground-craft',
         'Technomancer' => null,
     ];
 
@@ -97,6 +126,29 @@ class Shadowrun5eConverter implements ConverterInterface
     ];
 
     /**
+     * Map of Hero Lab vehicles to Commlink IDs.
+     * @var array<string, ?string>
+     */
+    protected array $mapVehicles = [
+        'GMC-NISSAN DOBERMAN' => 'gm-nissan-doberman',
+        'LUFTSHIFFBAU PERSONAL ZEPPELIN LZP-2070' => 'luftshiffbau-lzp-2070',
+    ];
+
+    /**
+     * @var array<string, mixed>
+     */
+    protected array $mapVehicleModifications = [
+        'Weapon Mount (Flexible, External, Remote)' => [
+            'id' => 'weapon-mount-standard',
+            'modifications' => [
+                'control-remote',
+                'flexibility-flexible',
+                'visibility-external',
+            ],
+        ],
+    ];
+
+    /**
      * Hero portfolio.
      */
     protected SimpleXMLElement $xml;
@@ -105,6 +157,11 @@ class Shadowrun5eConverter implements ConverterInterface
      * Additional information about the hero.
      */
     protected SimpleXMLElement $xmlMeta;
+
+    /**
+     * Additional character sheets attached to the hero.
+     */
+    protected SimpleXMLElement $minions;
 
     /**
      * @throws RuntimeException
@@ -191,39 +248,57 @@ class Shadowrun5eConverter implements ConverterInterface
      */
     protected function parseFiles(): void
     {
-        // Load the main data file from the portfolio.
-        $files = glob(sprintf(
-            '%s%sstatblocks_xml%s*',
-            $this->directory,
-            DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR
-        ));
-        $xml = false;
+        // Load the index file.
+        $index = implode(DIRECTORY_SEPARATOR, [$this->directory, 'index.xml']);
+        try {
+            $index = simplexml_load_file($index);
+        } catch (ErrorException) {
+            throw new RuntimeException('Portfolio metadata is invalid');
+        }
         // @phpstan-ignore-next-line
-        foreach ($files as $file) {
-            if (false === strpos($file, '.xml')) {
+        if ('Shadowrun (5th)' !== (string)$index->game['name']) {
+            throw new RuntimeException(
+                'The portfolio isn\'t a Shadowrun 5th edition character'
+            );
+        }
+        // @phpstan-ignore-next-line
+        $character = $index->characters[0]->character;
+        foreach ($character->statblocks->children() as $statblock) {
+            if ('xml' !== (string)$statblock['format']) {
                 continue;
             }
-            $xml = simplexml_load_file($file);
+            $file = sprintf(
+                '%s%s%s%s%s',
+                $this->directory,
+                DIRECTORY_SEPARATOR,
+                $statblock['folder'],
+                DIRECTORY_SEPARATOR,
+                $statblock['filename'],
+            );
+            $xml = simplexml_load_file(filename: $file, options: LIBXML_NOERROR);
+            if (false === $xml) {
+                throw new RuntimeException('Failed to load Portfolio stats');
+            }
+            $this->xml = $xml->public->character;
             break;
         }
-        if (false === $xml) {
-            throw new RuntimeException('Failed to load Portfolio stats');
-        }
-        $this->xml = $xml->public->character;
+        $this->minions = $character->minions;
 
         // Load the meta file, containing priorities.
         $meta = sprintf(
-            '%s%sherolab%slead1.xml',
+            '%s%sherolab%slead%d.xml',
             $this->directory,
             DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR
+            DIRECTORY_SEPARATOR,
+            $character['herolableadindex'],
         );
+
         try {
             $xml = simplexml_load_file($meta);
         } catch (ErrorException) {
             throw new RuntimeException('Portfolio metadata is invalid');
         }
+
         // @codeCoverageIgnoreStart
         if (false === $xml) {
             throw new RuntimeException('Failed to load Portfolio metadata');
@@ -246,8 +321,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse the character's attributes out from the XML.
-     * @param SimpleXMLElement $attributes
-     * @return Shadowrun5eConverter
      */
     protected function parseAttributes(
         SimpleXMLElement $attributes
@@ -278,8 +351,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse out the character's qualities.
-     * @param SimpleXMLElement $qualities
-     * @return Shadowrun5eConverter
      */
     protected function parseQualities(
         SimpleXMLElement $qualities
@@ -287,11 +358,21 @@ class Shadowrun5eConverter implements ConverterInterface
         $qualitiesArray = $this->character->qualities ?? [];
         foreach ($qualities->children() ?? [] as $rawQuality) {
             $name = (string)$rawQuality['name'];
+            $rating = null;
+            if (str_contains($name, '(')) {
+                [$name, $rating] = explode(' (', $name);
+                $rating = str_replace(')', '', $rating);
+            }
             if (array_key_exists($name, $this->mapQualities)) {
                 if (null === $this->mapQualities[$name]) {
                     continue;
                 }
-                $quality = new Quality($this->mapQualities[$name]);
+                try {
+                    $quality = new Quality($this->mapQualities[$name]);
+                } catch (RuntimeException $ex) {
+                    $this->errors[] = $ex->getMessage();
+                    continue;
+                }
                 $qualitiesArray[] = [
                     'id' => $quality->id,
                 ];
@@ -300,9 +381,12 @@ class Shadowrun5eConverter implements ConverterInterface
 
             try {
                 $quality = Quality::findByName($name);
-                $qualitiesArray[] = [
-                    'id' => $quality->id,
-                ];
+                if (null !== $rating) {
+                    $id = str_replace('1', $rating, $quality->id);
+                    $qualitiesArray[] = ['id' => $id];
+                } else {
+                    $qualitiesArray[] = ['id' => $quality->id];
+                }
                 continue;
             } catch (RuntimeException $ex) {
                 // Ignore and try other ways of finding the Quality.
@@ -329,8 +413,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse out the character's skill groups.
-     * @param SimpleXMLElement $groups
-     * @return Shadowrun5eConverter
      */
     protected function parseSkillGroups(
         SimpleXMLElement $groups
@@ -354,9 +436,22 @@ class Shadowrun5eConverter implements ConverterInterface
     }
 
     /**
+     * @return array<string, string>
+     */
+    protected function parseSpecializations(SimpleXMLElement $skill): array
+    {
+        if (!isset($skill->specialization)) {
+            return [];
+        }
+        $specializations = explode(', ', (string)$skill->specialization['bonustext']);
+        array_walk($specializations, function (string &$specialization): void {
+            $specialization = substr($specialization, 0, -3);
+        });
+        return ['specialization' => implode(', ', $specializations)];
+    }
+
+    /**
      * Parse out the character's active skills.
-     * @param SimpleXMLElement $skills
-     * @return Shadowrun5eConverter
      */
     protected function parseActiveSkills(
         SimpleXMLElement $skills
@@ -365,16 +460,24 @@ class Shadowrun5eConverter implements ConverterInterface
         foreach ($skills->children() ?? [] as $skill) {
             $id = $this->createIDFromName((string)$skill['name']);
             $level = (int)$skill['base'];
+            if (0 === $level) {
+                continue; // @codeCoverageIgnore
+            }
+            $specializations = $this->parseSpecializations($skill);
+
             try {
                 $skillObject = new ActiveSkill($id, $level);
             } catch (RuntimeException $ex) {
                 $this->errors[] = $ex->getMessage();
                 continue;
             }
-            $skillsArray[] = [
-                'id' => $skillObject->id,
-                'level' => $skillObject->level,
-            ];
+            $skillsArray[] = array_merge(
+                [
+                    'id' => $skillObject->id,
+                    'level' => $skillObject->level,
+                ],
+                $specializations,
+            );
         }
         $this->character->skills = $skillsArray;
         return $this;
@@ -382,9 +485,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse out the character's knowledge skills (regular or language).
-     * @param SimpleXMLElement $skills
-     * @param bool $isLanguage
-     * @return Shadowrun5eConverter
      */
     protected function parseKnowledgeSkills(
         SimpleXMLElement $skills,
@@ -420,8 +520,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse out the character's spells.
-     * @param ?SimpleXMLElement $spells
-     * @return Shadowrun5eConverter
      * @TODO Add support for alchemical spells
      */
     protected function parseSpells(
@@ -450,8 +548,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse out the character's powers.
-     * @param ?SimpleXMLElement $powers
-     * @return Shadowrun5eConverter
      */
     protected function parsePowers(
         ?SimpleXMLElement $powers
@@ -482,8 +578,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse out the character's metamagics.
-     * @param ?SimpleXMLElement $meta
-     * @return Shadowrun5eConverter
      * @TODO Implement
      */
     protected function parseMetamagics(
@@ -529,8 +623,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse out the character's augmentations.
-     * @param SimpleXMLElement $aug
-     * @return Shadowrun5eConverter
      * @TODO Add cyberware modifications
      * @TODO Add cyberware grades
      */
@@ -547,18 +639,26 @@ class Shadowrun5eConverter implements ConverterInterface
             if (0 !== $rating) {
                 $id = sprintf('%s-%d', $id, $rating);
             }
-            $augmentationsArray[] = [
-                'id' => (new Augmentation($id))->id,
-            ];
+            try {
+                $augmentationsArray[] = [
+                    'id' => (new Augmentation($id))->id,
+                ];
+            } catch (RuntimeException $ex) {
+                $this->errors[] = $ex->getMessage();
+                continue;
+            }
         }
-        $this->character->augmentations = $augmentationsArray;
+        // Hero Lab stores bioware and cyberware separately, Commlink does not.
+        // Merge the two together when loading the second type.
+        $this->character->augmentations = array_merge(
+            $this->character->augmentations ?? [],
+            $augmentationsArray,
+        );
         return $this;
     }
 
     /**
      * Parse the character's weapons.
-     * @param SimpleXMLElement $weapons
-     * @return Shadowrun5eConverter
      * @TODO Handle accessories
      * @TODO Handle modifications
      */
@@ -593,8 +693,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse the character's armor.
-     * @param SimpleXMLElement $armors
-     * @return Shadowrun5eConverter
      * @TODO Handle modifications
      */
     protected function parseArmor(
@@ -619,7 +717,7 @@ class Shadowrun5eConverter implements ConverterInterface
                 continue;
             }
             $armorArray[] = [
-                'id' => $armor,
+                'id' => $armor->id,
             ];
         }
         $this->character->armor = $armorArray;
@@ -628,8 +726,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse the character's gear.
-     * @param SimpleXMLElement $gears
-     * @return Shadowrun5eConverter
      * @TODO Handle modifications
      * @TODO Handle programs
      */
@@ -643,7 +739,12 @@ class Shadowrun5eConverter implements ConverterInterface
                     // Item is explicitly not supported by Commlink.
                     continue;
                 }
-                $gear = GearFactory::get($this->mapGear[$name]);
+                try {
+                    $gear = GearFactory::get($this->mapGear[$name]);
+                } catch (RuntimeException $ex) {
+                    $this->errors[] = $ex->getMessage();
+                    continue;
+                }
             } else {
                 $rating = (int)$rawGear['rating'];
                 $id = $this->createIDFromName($name);
@@ -674,8 +775,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse the character's identities.
-     * @param SimpleXMLElement $identities
-     * @return Shadowrun5eConverter
      */
     protected function parseIdentities(
         SimpleXMLElement $identities
@@ -720,8 +819,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse the character's contacts.
-     * @param SimpleXMLElement $contacts
-     * @return Shadowrun5eConverter
      */
     protected function parseContacts(
         SimpleXMLElement $contacts
@@ -745,8 +842,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Given a priority from Herolab, return the matching Sum to Ten priority.
-     * @param int $priority
-     * @return string
      */
     protected function priorityLetter(int $priority): string
     {
@@ -762,7 +857,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse the character's priorities.
-     * @return Shadowrun5eConverter
      */
     protected function parsePriorities(): Shadowrun5eConverter
     {
@@ -806,7 +900,6 @@ class Shadowrun5eConverter implements ConverterInterface
      *
      * The sources include the rulebooks loaded in Hero Lab, as well as the
      * priority system, gameplay level, life modules, etc.
-     * @return Shadowrun5eConverter
      */
     protected function parseSources(): Shadowrun5eConverter
     {
@@ -909,9 +1002,7 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse the character's contacts.
-     * @param SimpleXMLElement $journals
      * @psalm-suppress PossiblyUnusedParam
-     * @return Shadowrun5eConverter
      */
     protected function parseJournals(
         SimpleXMLElement $journals
@@ -920,8 +1011,282 @@ class Shadowrun5eConverter implements ConverterInterface
     }
 
     /**
+     * @return array<string, string|array<mixed, mixed>>
+     */
+    protected function parseVehicleStatBlock(string $stats, string $name): array
+    {
+        $stats = explode(PHP_EOL, $stats);
+        $modifications = [];
+        $weapons = [];
+        $gear = [];
+        $vehicle = null;
+
+        while ($line = current($stats)) {
+            $line = (string)$line;
+            if (str_starts_with($line, 'CHASSIS: ')) {
+                $id = explode(': ', $line)[1];
+                if (isset($this->mapVehicles[$id])) {
+                    $vehicle = new Vehicle(['id' => $this->mapVehicles[$id]]);
+                    next($stats);
+                    continue;
+                }
+                $id = $this->createIDFromName($id);
+                try {
+                    $vehicle = new Vehicle(['id' => $id]);
+                    next($stats);
+                    continue;
+                } catch (RuntimeException) {
+                    // Ignore and try finding by name.
+                }
+
+                next($stats);
+                continue;
+            }
+            if (str_starts_with($line, 'Vehicle Mods:')) {
+                $line = (string)next($stats);
+                // @phpstan-ignore-next-line
+                while (str_starts_with($line, ' ')) {
+                    // @phpstan-ignore-next-line
+                    $line = trim($line);
+                    if (isset($this->mapVehicleModifications[$line])) {
+                        // @phpstan-ignore-next-line
+                        if (null === $this->mapVehicleModifications[$line]) {
+                            $line = next($stats);
+                            continue;
+                        }
+                        $modifications[] = $this->mapVehicleModifications[$line];
+                        $line = next($stats);
+                        continue;
+                    }
+                    if (str_contains($line, '(')) {
+                        [$id, $rating] = explode(' (', $line);
+                        $rating = (int)$rating;
+                        $id = $this->createIDFromName($id);
+                        if (0 === $rating) {
+                            try {
+                                $mod = new VehicleModification($id);
+                                $modifications[] = ['id' => $mod->id];
+                                $line = next($stats);
+                                continue;
+                            } catch (RuntimeException) {
+                            }
+                        }
+                        try {
+                            $id = sprintf('%s-%d', $id, $rating);
+                            $mod = new VehicleModification($id);
+                            $modifications[] = ['id' => $mod->id];
+                            $line = next($stats);
+                            continue;
+                        } catch (RuntimeException) {
+                        }
+                    }
+                    try {
+                        $mod = new VehicleModification($this->createIDFromName($line));
+                        $modifications[] = ['id' => $mod->id];
+                        $line = next($stats);
+                        continue;
+                    } catch (RuntimeException $ex) {
+                        $this->errors[] = $ex->getMessage();
+                    }
+                    $line = next($stats);
+                }
+                continue;
+            }
+            if (str_starts_with($line, 'Gear:')) {
+                $line = (string)next($stats);
+                // @phpstan-ignore-next-line
+                while (str_starts_with($line, ' ')) {
+                    // @phpstan-ignore-next-line
+                    $line = trim($line);
+                    if (array_key_exists($line, $this->mapGear)) {
+                        if (null === $this->mapGear[$line]) {
+                            // Item is explicitly not supported by Commlink.
+                            $line = next($stats);
+                            continue;
+                        }
+                        $gear[] = ['id' => $this->mapGear[$line]];
+                        $line = next($stats);
+                        continue;
+                    }
+                    if (str_contains($line, ' (')) {
+                        [$line, $rating] = explode(' (', $line);
+                        $id = sprintf(
+                            '%s-%d',
+                            $this->createIDFromName($line),
+                            (int)$rating
+                        );
+                        GearFactory::get($id);
+                        $gear[] = ['id' => $id];
+                        $line = next($stats);
+                        continue;
+                    }
+                    if (str_contains($line, ': ')) {
+                        [$line, $subname] = explode(': ', $line);
+                        $item = Gear::findByName($line);
+                        $gear[] = ['id' => $item->id, 'subname' => $subname];
+                        $line = next($stats);
+                        continue;
+                    }
+
+                    try {
+                        $item = GearFactory::get($this->createIDFromName($line));
+                        $gear = ['id' => $item->id];
+                    } catch (RuntimeException) {
+                    }
+                    $line = (string)next($stats);
+                    continue;
+                }
+            }
+            // @phpstan-ignore-next-line
+            if (str_starts_with($line, 'Weapons:')) {
+                $line = (string)next($stats);
+                // @phpstan-ignore-next-line
+                while (str_starts_with($line, ' ')) {
+                    // @phpstan-ignore-next-line
+                    $line = trim($line);
+                    $weaponMods = [];
+                    $ammo = [];
+                    [$weapon, $mods] = explode(' [', $line);
+                    if (array_key_exists($weapon, $this->mapWeapons)) {
+                        if (null === $this->mapWeapons[$weapon]) {
+                            // Weapon is explicitly not supported.
+                            $line = next($stats);
+                            continue;
+                        }
+                        $weapon = new Weapon($this->mapWeapons[$weapon]);
+                    } else {
+                        try {
+                            $weapon = Weapon::findByName($weapon);
+                        } catch (RuntimeException $ex) {
+                            $this->errors[] = $ex->getMessage();
+                            $line = next($stats);
+                            continue;
+                        }
+                    }
+                    [, $mods] = explode(']', $mods);
+                    $mods = str_replace('w/ ', '', trim($mods));
+                    $mods = explode(', ', $mods);
+                    for ($i = 0, $c = count($mods); $i < $c; $i++) {
+                        if ('Smartgun System' === $mods[$i]) {
+                            // Exploding on a comma doesn't work with data
+                            // including commas...
+                            $id = sprintf('smartlink-%s', strtolower($mods[++$i]));
+                            $weaponMods[] = (new WeaponModification($id))->id;
+                            continue;
+                        }
+                        if (str_contains($mods[$i], 'x)')) {
+                            [$quantity, $type] = explode('x) ', $mods[$i]);
+                            $ammo[] = [
+                                'id' => $this->createIDFromName($type),
+                                'quantity' => (int)trim($quantity, '('),
+                            ];
+                        }
+                    }
+                    $weapons[] = [
+                        'id' => $weapon->id,
+                        'modifications' => $weaponMods,
+                        'ammo' => $ammo,
+                    ];
+                    $line = (string)next($stats);
+                }
+                continue;
+            }
+            next($stats);
+        }
+        if (null === $vehicle) {
+            throw new RuntimeException(sprintf(
+                'Could not parse stats for "%s"',
+                $name,
+            ));
+        }
+        if ($name === $vehicle->name) {
+            return [
+                'id' => $vehicle->id,
+                'gear' => $gear,
+                'modifications' => $modifications,
+                'weapons' => $weapons,
+            ];
+        }
+        return [
+            'id' => $vehicle->id,
+            'gear' => $gear,
+            'modifications' => $modifications,
+            'subname' => $name,
+            'weapons' => $weapons,
+        ];
+    }
+
+    protected function parseVehicles(): Shadowrun5eConverter
+    {
+        $vehiclesArray = [];
+        foreach ($this->xmlMeta->hero->container->pick as $rawVehicle) {
+            if ('vehVehicle' !== (string)$rawVehicle['source']) {
+                continue;
+            }
+            $name = (string)$rawVehicle->minion['heroname'];
+            $stats = false;
+            foreach ($this->minions->children() as $minion) {
+                if ((string)$minion['name'] !== $name) {
+                    continue;
+                }
+                foreach ($minion->statblocks->children() as $stat) {
+                    if ('text' !== (string)$stat['format']) {
+                        continue;
+                    }
+                    $file = sprintf(
+                        '%s%s%s%s%s',
+                        $this->directory,
+                        DIRECTORY_SEPARATOR,
+                        (string)$stat['folder'],
+                        DIRECTORY_SEPARATOR,
+                        (string)$stat['filename'],
+                    );
+                    $stats = file_get_contents($file);
+                }
+            }
+            if (false === $stats) {
+                $this->errors[] = sprintf(
+                    'Vehicle "%s" is missing stats',
+                    $name,
+                );
+                continue;
+            }
+
+            try {
+                $vehiclesArray[] = $this->parseVehicleStatBlock($stats, $name);
+            } catch (RuntimeException $ex) {
+                $this->errors[] = $ex->getMessage();
+            }
+        }
+        $this->character->vehicles = $vehiclesArray;
+        return $this;
+    }
+
+    /**
+     * Hero Lab includes skills from skill groups in the character's skills
+     * list. Commlink doesn't.
+     */
+    protected function cleanSkillsAlsoInSkillGroups(): Shadowrun5eConverter
+    {
+        $skills = $this->character->skills;
+        foreach ($this->character->skillGroups ?? [] as $group => $level) {
+            $group = new SkillGroup($group, $level ?? 1);
+            $groupSkills = [];
+            foreach ($group->skills as $skill) {
+                $groupSkills[] = $skill->id;
+            }
+            foreach ($this->character->skills ?? [] as $index => $skill) {
+                if (in_array($skill['id'], $groupSkills, true)) {
+                    unset($skills[$index]);
+                }
+            }
+        }
+        $this->character->skills = $skills;
+        return $this;
+    }
+
+    /**
      * Convert a loaded Hero Lab portfolio to a Commlink character.
-     * @return PartialCharacter
      */
     public function convert(): PartialCharacter
     {
@@ -957,7 +1322,9 @@ class Shadowrun5eConverter implements ConverterInterface
             ->parseGear($this->xml->gear->equipment)
             ->parseIdentities($this->xml->identities)
             ->parseContacts($this->xml->contacts)
-            ->parseJournals($this->xml->journals->journal);
+            ->parseJournals($this->xml->journals->journal)
+            ->parseVehicles()
+            ->cleanSkillsAlsoInSkillGroups();
 
         return $this->character;
     }

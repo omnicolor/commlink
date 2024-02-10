@@ -11,6 +11,7 @@ use App\Http\Controllers\DiscordController;
 use App\Http\Controllers\Expanse\CharactersController as ExpanseController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\Import\Chummer5Controller;
+use App\Http\Controllers\Import\HeroLabController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Shadowrun5e\CharactersController as ShadowrunController;
 use App\Http\Controllers\SlackController;
@@ -177,6 +178,10 @@ Route::middleware('auth')->group(function (): void {
             ->name('chummer5.view');
         Route::post('chummer5', [Chummer5Controller::class, 'upload'])
             ->name('chummer5.upload');
+        Route::get('herolab', [HeroLabController::class, 'view'])
+            ->name('herolab.view');
+        Route::post('herolab', [HeroLabController::class, 'upload'])
+            ->name('herolab.upload');
     });
 
     Route::get('/settings', [SettingsController::class, 'show'])
