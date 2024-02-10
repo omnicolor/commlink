@@ -54,7 +54,7 @@
                     </li>
                 @endforeach
                 <li class="list-group-item" id="no-armor"
-                    @if (0 === count($character->getArmor()))
+                    @if (0 !== count($character->getArmor()))
                         style="display:none"
                     @endif>No armor</li>
                 <!--
