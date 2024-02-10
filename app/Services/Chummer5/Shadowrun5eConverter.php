@@ -385,7 +385,7 @@ class Shadowrun5eConverter implements ConverterInterface
         $this->character->karma = (int)$this->xml->karma;
         $this->character->karmaCurrent = (int)$this->xml->karma;
         $this->character->priorities = array_merge(
-            $this->character->priorities,
+            $this->character->priorities ?? [],
             ['metatype' => strtolower((string)$this->xml->metatype)]
         );
         $this->character->nuyen = (int)$this->xml->nuyen;
