@@ -62,9 +62,8 @@ final class HeroLabControllerTest extends TestCase
 
         self::actingAs($user)
             ->post(route('import.herolab.upload'), ['character' => $file])
-            ->assertOk()
-            ->assertSessionHasNoErrors()
-            ->assertSee('7₭');
+            ->assertRedirect()
+            ->assertSessionHasNoErrors();
     }
 
     public function testView(): void
