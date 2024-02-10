@@ -396,7 +396,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->post(
@@ -436,7 +436,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/priorities')
@@ -467,7 +467,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/priorities')
@@ -498,7 +498,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/priorities')
@@ -623,7 +623,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->post(
@@ -674,7 +674,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/vitals')
@@ -717,7 +717,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->post(
@@ -779,7 +779,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/attributes')
@@ -830,7 +830,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->post(
@@ -889,7 +889,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/qualities')
@@ -920,7 +920,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/qualities')
@@ -993,7 +993,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->post(
@@ -1031,7 +1031,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->post(
@@ -1069,7 +1069,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->post(
@@ -1107,7 +1107,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->post(
@@ -1169,7 +1169,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/martial-arts')
@@ -1202,7 +1202,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/martial-arts')
@@ -1274,7 +1274,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->post(
@@ -1323,7 +1323,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->post(
@@ -1370,7 +1370,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/skills')
@@ -1402,7 +1402,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/skills')
@@ -1482,7 +1482,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->post(
@@ -1555,7 +1555,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/knowledge')
@@ -1587,7 +1587,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/knowledge')
@@ -1618,7 +1618,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/knowledge')
@@ -1645,7 +1645,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/magic')
@@ -1673,7 +1673,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/magic')
@@ -1699,7 +1699,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/resonance')
@@ -1727,7 +1727,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/resonance')
@@ -1758,7 +1758,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/augmentations')
@@ -1789,7 +1789,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/augmentations')
@@ -1818,7 +1818,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/augmentations')
@@ -1847,7 +1847,7 @@ final class CharacterControllerTest extends TestCase
             ],
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/weapons')
@@ -1878,7 +1878,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/armor')
@@ -1909,7 +1909,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/gear')
@@ -1940,7 +1940,7 @@ final class CharacterControllerTest extends TestCase
             ],
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/vehicles')
@@ -1968,7 +1968,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/social')
@@ -1995,7 +1995,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/background')
@@ -2023,7 +2023,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         $background = [
             'age' => 'Really old.',
@@ -2081,7 +2081,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/review')
@@ -2108,7 +2108,7 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/unknown')
             ->assertNotFound();
@@ -2131,14 +2131,14 @@ final class CharacterControllerTest extends TestCase
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
-        session(['shadowrun5epartial' => $character->id]);
+        session(['shadowrun5e.partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/shadowrun5e/create/new')
             ->assertOk()
             ->assertSee('Creation system')
             ->assertSessionHas(
-                'shadowrun5epartial',
+                'shadowrun5e.partial',
                 function (string $value) use ($character): bool {
                     return $value !== $character->id;
                 }
