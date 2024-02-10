@@ -188,7 +188,7 @@ final class Shadowrun5eConverterTest extends TestCase
         self::assertNull($character->resonance);
         self::assertCount(8, (array)$character->qualities);
         self::assertCount(1, (array)$character->skillGroups);
-        self::assertCount(12, (array)$character->skills);
+        self::assertCount(9, (array)$character->skills);
         self::assertCount(7, (array)$character->knowledgeSkills);
         // @phpstan-ignore-next-line
         self::assertCount(6, $character->magics['powers']);

@@ -1263,6 +1263,29 @@ class Shadowrun5eConverter implements ConverterInterface
     }
 
     /**
+     * Hero Lab includes skills from skill groups in the character's skills
+     * list. Commlink doesn't.
+     */
+    protected function cleanSkillsAlsoInSkillGroups(): Shadowrun5eConverter
+    {
+        $skills = $this->character->skills;
+        foreach ($this->character->skillGroups ?? [] as $group => $level) {
+            $group = new SkillGroup($group, $level ?? 1);
+            $groupSkills = [];
+            foreach ($group->skills as $skill) {
+                $groupSkills[] = $skill->id;
+            }
+            foreach ($this->character->skills ?? [] as $index => $skill) {
+                if (in_array($skill['id'], $groupSkills, true)) {
+                    unset($skills[$index]);
+                }
+            }
+        }
+        $this->character->skills = $skills;
+        return $this;
+    }
+
+    /**
      * Convert a loaded Hero Lab portfolio to a Commlink character.
      */
     public function convert(): PartialCharacter
@@ -1300,7 +1323,8 @@ class Shadowrun5eConverter implements ConverterInterface
             ->parseIdentities($this->xml->identities)
             ->parseContacts($this->xml->contacts)
             ->parseJournals($this->xml->journals->journal)
-            ->parseVehicles();
+            ->parseVehicles()
+            ->cleanSkillsAlsoInSkillGroups();
 
         return $this->character;
     }
