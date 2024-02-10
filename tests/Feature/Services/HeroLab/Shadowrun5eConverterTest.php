@@ -37,7 +37,9 @@ final class Shadowrun5eConverterTest extends TestCase
      */
     public function testCreateIDFromName(): void
     {
-        $hl = new Shadowrun5eConverter(self::$dataDirectory . 'brian.por');
+        $hl = new Shadowrun5eConverter(
+            self::$dataDirectory . 'valid-portfolio1.por'
+        );
         self::assertSame('blades', $hl->createIDFromName('Blades'));
         self::assertSame(
             'pilot-ground-craft',
@@ -89,7 +91,7 @@ final class Shadowrun5eConverterTest extends TestCase
     {
         self::expectException(RuntimeException::class);
         self::expectExceptionMessage('The portfolio isn\'t a Shadowrun 5th edition character');
-        new Shadowrun5eConverter(self::$dataDirectory . 'Different_System.por');
+        new Shadowrun5eConverter(self::$dataDirectory . 'different-system.por');
     }
 
     /**
@@ -140,6 +142,13 @@ final class Shadowrun5eConverterTest extends TestCase
         new Shadowrun5eConverter(self::$dataDirectory . 'no-files.por');
     }
 
+    public function testValidPortfolioWithBadStatblockXml(): void
+    {
+        self::expectException(RuntimeException::class);
+        self::expectExceptionMessage('Failed to load Portfolio stats');
+        new Shadowrun5eConverter(self::$dataDirectory . 'bad-statblock.por');
+    }
+
     /**
      * Test that converting a valid Hero Lab portfolio returns a Commlink
      * character.
@@ -147,7 +156,9 @@ final class Shadowrun5eConverterTest extends TestCase
      */
     public function testConvertPortfolio(): void
     {
-        $hl = new Shadowrun5eConverter(self::$dataDirectory . 'brian.por');
+        $hl = new Shadowrun5eConverter(
+            self::$dataDirectory . 'valid-portfolio1.por'
+        );
         $expectedBackground = [
             'age' => 25,
             'hair' => '',
@@ -218,7 +229,9 @@ final class Shadowrun5eConverterTest extends TestCase
      */
     public function testAnotherPortfolio(): void
     {
-        $hl = new Shadowrun5eConverter(self::$dataDirectory . 'Test.por');
+        $hl = new Shadowrun5eConverter(
+            self::$dataDirectory . 'valid-portfolio2.por'
+        );
         $character = $hl->convert();
 
         self::assertStringNotContainsString(
@@ -256,7 +269,7 @@ final class Shadowrun5eConverterTest extends TestCase
      */
     public function testPrime(): void
     {
-        $hl = new Shadowrun5eConverter(self::$dataDirectory . 'Prime.por');
+        $hl = new Shadowrun5eConverter(self::$dataDirectory . 'prime.por');
         $character = $hl->convert();
 
         // @phpstan-ignore-next-line
@@ -271,7 +284,7 @@ final class Shadowrun5eConverterTest extends TestCase
      */
     public function testLifeModule(): void
     {
-        $hl = new Shadowrun5eConverter(self::$dataDirectory . 'LifeModule.por');
+        $hl = new Shadowrun5eConverter(self::$dataDirectory . 'life-module.por');
         $character = $hl->convert();
 
         self::assertStringContainsString(
@@ -289,7 +302,7 @@ final class Shadowrun5eConverterTest extends TestCase
      */
     public function testPointBuy(): void
     {
-        $hl = new Shadowrun5eConverter(self::$dataDirectory . 'PointBuy.por');
+        $hl = new Shadowrun5eConverter(self::$dataDirectory . 'point-buy.por');
         $character = $hl->convert();
 
         self::assertStringContainsString(
@@ -308,7 +321,7 @@ final class Shadowrun5eConverterTest extends TestCase
      */
     public function testMetamagic(): void
     {
-        $hl = new Shadowrun5eConverter(self::$dataDirectory . 'Metamagic.por');
+        $hl = new Shadowrun5eConverter(self::$dataDirectory . 'metamagic.por');
         $character = $hl->convert();
 
         self::assertSame(
@@ -316,5 +329,23 @@ final class Shadowrun5eConverterTest extends TestCase
             // @phpstan-ignore-next-line
             $character->magics['metamagics']
         );
+    }
+
+    public function testVehicles(): void
+    {
+        $hl = new Shadowrun5eConverter(self::$dataDirectory . 'vehicles.por');
+        $character = $hl->convert();
+
+        // @phpstan-ignore-next-line
+        self::assertCount(3, $character->vehicles);
+        // @phpstan-ignore-next-line
+        $hound = $character->vehicles[2];
+        self::assertSame('Da G-Ride', $hound['subname']);
+        self::assertSame('ak-98', $hound['weapons'][0]['id']);
+        self::assertSame(
+            'acceleration-enhancement-1',
+            $hound['modifications'][0]['id'],
+        );
+        self::assertSame('credstick-silver', $hound['gear'][0]['id']);
     }
 }

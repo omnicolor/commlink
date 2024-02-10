@@ -30,6 +30,7 @@ use ZipArchive;
 use function sprintf;
 
 use const DIRECTORY_SEPARATOR;
+use const LIBXML_NOERROR;
 use const PHP_EOL;
 
 /**
@@ -70,20 +71,27 @@ class Shadowrun5eConverter implements ConverterInterface
      */
     protected array $mapGear = [
         'Alphasprin' => 'drug-alphasprin',
+        'Antidote Patch' => 'patch-antidote-1',
+        'Certified Credstick, Ebony' => 'credstick-ebony',
+        'Certified Credstick, Gold' => 'credstick-gold',
         'Certified Credstick, Silver' => 'credstick-silver',
         'Certified Credstick, Standard' => 'credstick-standard',
+        'Deepweed' => 'drug-deepweed',
         'Flashlight, Thermographic' => 'flashlight-infrared',
         'Living Persona' => null,
         'Jazz' => 'drug-jazz',
         'Kamikaze' => 'drug-kamikaze',
         'Micro-Tranceiver' => 'micro-transceiver',
         'Novacoke' => 'drug-novacoke',
+        'Reagents, tainted raw (dram)' => 'reagents',
         'Sim Module' => null,
-        'Trauma Patch' => 'patch-trauma',
         'Security Tags' => 'tag-security',
         'Sober Time' => 'drug-sober-time',
         'Standard Tags' => 'tag-standard',
         'Stealth Tags' => 'tag-stealth',
+        'Stim Patch' => 'patch-stim-1',
+        'Tranq Patch' => 'patch-tranq-1',
+        'Trauma Patch' => 'patch-trauma',
     ];
 
     /**
@@ -267,7 +275,7 @@ class Shadowrun5eConverter implements ConverterInterface
                 DIRECTORY_SEPARATOR,
                 $statblock['filename'],
             );
-            $xml = simplexml_load_file($file);
+            $xml = simplexml_load_file(filename: $file, options: LIBXML_NOERROR);
             if (false === $xml) {
                 throw new RuntimeException('Failed to load Portfolio stats');
             }
@@ -350,11 +358,21 @@ class Shadowrun5eConverter implements ConverterInterface
         $qualitiesArray = $this->character->qualities ?? [];
         foreach ($qualities->children() ?? [] as $rawQuality) {
             $name = (string)$rawQuality['name'];
+            $rating = null;
+            if (str_contains($name, '(')) {
+                [$name, $rating] = explode(' (', $name);
+                $rating = str_replace(')', '', $rating);
+            }
             if (array_key_exists($name, $this->mapQualities)) {
                 if (null === $this->mapQualities[$name]) {
                     continue;
                 }
-                $quality = new Quality($this->mapQualities[$name]);
+                try {
+                    $quality = new Quality($this->mapQualities[$name]);
+                } catch (RuntimeException $ex) {
+                    $this->errors[] = $ex->getMessage();
+                    continue;
+                }
                 $qualitiesArray[] = [
                     'id' => $quality->id,
                 ];
@@ -363,9 +381,12 @@ class Shadowrun5eConverter implements ConverterInterface
 
             try {
                 $quality = Quality::findByName($name);
-                $qualitiesArray[] = [
-                    'id' => $quality->id,
-                ];
+                if (null !== $rating) {
+                    $id = str_replace('1', $rating, $quality->id);
+                    $qualitiesArray[] = ['id' => $id];
+                } else {
+                    $qualitiesArray[] = ['id' => $quality->id];
+                }
                 continue;
             } catch (RuntimeException $ex) {
                 // Ignore and try other ways of finding the Quality.
@@ -618,9 +639,14 @@ class Shadowrun5eConverter implements ConverterInterface
             if (0 !== $rating) {
                 $id = sprintf('%s-%d', $id, $rating);
             }
-            $augmentationsArray[] = [
-                'id' => (new Augmentation($id))->id,
-            ];
+            try {
+                $augmentationsArray[] = [
+                    'id' => (new Augmentation($id))->id,
+                ];
+            } catch (RuntimeException $ex) {
+                $this->errors[] = $ex->getMessage();
+                continue;
+            }
         }
         // Hero Lab stores bioware and cyberware separately, Commlink does not.
         // Merge the two together when loading the second type.
@@ -1078,7 +1104,7 @@ class Shadowrun5eConverter implements ConverterInterface
                             $line = next($stats);
                             continue;
                         }
-                        $gear[] = GearFactory::get($this->mapGear[$line]);
+                        $gear[] = ['id' => $this->mapGear[$line]];
                         $line = next($stats);
                         continue;
                     }
@@ -1137,8 +1163,8 @@ class Shadowrun5eConverter implements ConverterInterface
                             continue;
                         }
                     }
-                    [, $mods] = explode('] ', $mods);
-                    $mods = str_replace('w/ ', '', $mods);
+                    [, $mods] = explode(']', $mods);
+                    $mods = str_replace('w/ ', '', trim($mods));
                     $mods = explode(', ', $mods);
                     for ($i = 0, $c = count($mods); $i < $c; $i++) {
                         if ('Smartgun System' === $mods[$i]) {

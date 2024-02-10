@@ -8,6 +8,11 @@ use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
+use function dirname;
+use function file_get_contents;
+
+use const DIRECTORY_SEPARATOR;
+
 /**
  * @group herolab
  * @medium
@@ -38,17 +43,17 @@ final class HeroLabControllerTest extends TestCase
     public function testValidUpload(): void
     {
         $path = explode(
-            \DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR,
             dirname(dirname(dirname(dirname(__DIR__))))
         );
         $path[] = 'Data';
         $path[] = 'HeroLab';
         $path[] = 'Shadowrun5e';
-        $path[] = 'Test.por';
-        $filename = implode(\DIRECTORY_SEPARATOR, $path);
+        $path[] = 'valid-portfolio2.por';
+        $filename = implode(DIRECTORY_SEPARATOR, $path);
 
         $file = UploadedFile::fake()->createWithContent(
-            'Test.por',
+            'valid-portfolio2.por',
             (string)file_get_contents($filename)
         );
 
