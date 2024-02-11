@@ -304,8 +304,6 @@ $(function () {
         $('#no-knowledge').toggle(noKnowledge);
         $('#no-languages').toggle(noLanguage);
 
-        window.console.log(character);
-
         points = new Points(character);
         updatePointsToSpendDisplay(points);
 
