@@ -137,10 +137,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Choose gear</h5>
-                    <button aria-label="Close" class="close"
-                        data-bs-dismiss="modal" type="button">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button aria-label="Close" class="btn-close"
+                        data-bs-dismiss="modal" type="button"></button>
                 </div>
                 <div class="modal-body row">
                     <div class="col">

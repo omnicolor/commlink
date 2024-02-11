@@ -159,10 +159,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Choose skill group</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button aria-label="Close" class="btn-close"
+                        data-bs-dismiss="modal" type="button"></button>
                 </div>
                 <div class="modal-body row">
                     <div class="col">
@@ -190,10 +188,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Choose active skills</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button aria-label="Close" class="btn-close"
+                        data-bs-dismiss="modal" type="button"></button>
                 </div>
                 <div class="modal-body row">
                     <div class="col">
@@ -269,10 +265,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Choose specialization</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button aria-label="Close" class="btn-close"
+                        data-bs-dismiss="modal" type="button"></button>
                 </div>
                 <div class="modal-body">
                     <p>Choose your specialization for <span

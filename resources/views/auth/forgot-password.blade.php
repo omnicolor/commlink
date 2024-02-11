@@ -33,10 +33,8 @@
                     <div class="alert alert-success alert-dismissible"
                         role="alert">
                         {{ session('status') }}
-                        <button aria-label="close" class="close"
-                            data-dismiss="alert" type="button">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button aria-label="Close" class="btn-close"
+                            data-bs-dismiss="modal" type="button"></button>
                     </div>
                 </div></div>
                 @endif

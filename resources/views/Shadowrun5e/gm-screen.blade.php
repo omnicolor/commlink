@@ -500,10 +500,8 @@ use App\Models\Shadowrun5e\ActiveSkill;
                     <h5 class="modal-title" id="damage-header">
                         Apply damage/healing or use edge
                     </h5>
-                    <button type="button" class="btn-close"
-                        data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button aria-label="Close" class="btn-close"
+                        data-bs-dismiss="modal" type="button"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
