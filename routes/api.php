@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\CampaignsController;
 use App\Http\Controllers\ChannelsController;
 use App\Http\Controllers\EventsController;
+use App\Http\Controllers\Fakes\NamesController as FakeNamesController;
 use App\Http\Controllers\InitiativesController;
 use App\Http\Controllers\SlackController;
 use App\Http\Controllers\UsersController;
@@ -50,6 +51,10 @@ Route::middleware('auth:sanctum')->group(function (): void {
         ->name('events.delete-rsvp');
     Route::put('events/{event}/rsvp', [EventsController::class, 'updateRsvp'])
         ->name('events.update-rsvp');
+
+    Route::prefix('fakes')->name('fakes.')->group(function (): void {
+        Route::get('names', FakeNamesController::class)->name('names');
+    });
 
     Route::resource('users', UsersController::class);
     Route::post('users/{user}/token', [UsersController::class, 'createToken'])
