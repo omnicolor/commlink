@@ -919,7 +919,7 @@ class CharactersController extends Controller
      */
     public function saveForLater(Request $request): RedirectResponse
     {
-        $request->session()->forget('shadowrun5epartial');
+        $request->session()->forget('shadowrun5e.partial');
 
         return new RedirectResponse(route('dashboard'));
     }
