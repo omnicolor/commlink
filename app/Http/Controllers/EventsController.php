@@ -76,7 +76,6 @@ class EventsController extends Controller
         );
     }
 
-    /** @psalm-suppress PossiblyUnusedParam */
     protected function jsonPatch(Request $request, Event $event): JsonResponse
     {
         $document = $event->toJson();

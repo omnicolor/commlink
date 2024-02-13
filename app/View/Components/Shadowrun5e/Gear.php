@@ -25,7 +25,9 @@ class Gear extends Component
      */
     public function __construct(public Character $character)
     {
+        $this->attributes = $this->newAttributeBag();
         $this->charGen = $character instanceof PartialCharacter;
+        $this->componentName = 'Shadowrun5e\Gear';
         $this->gears = collect($character->getGear())
             ->filter(function (GearModel $item): bool {
                 // Filter matrix devices out, they're shown in a different

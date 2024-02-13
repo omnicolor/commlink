@@ -15,6 +15,8 @@ class Metadata extends Component
      */
     public function __construct(public Character $character)
     {
+        $this->attributes = $this->newAttributeBag();
+        $this->componentName = 'Shadowrun5e\Metadata';
     }
 
     /**
