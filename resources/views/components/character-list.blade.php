@@ -77,6 +77,7 @@ use App\Features\Shadowrun5eCharacterGeneration;
                     <a class="dropdown-item" href="{{ route('import.herolab.view') }}">
                         Import a Hero Lab portfolio
                         <span class="badge bg-warning">Beta</span>
+                    </a>
                     @endfeature
                     @feature(WorldAnvilImport::class)
                     <a class="dropdown-item" href="{{ route('import.world-anvil.view') }}">
