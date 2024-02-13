@@ -347,4 +347,17 @@ final class VehicleTest extends TestCase
 
         self::assertEmpty($vehicle->weapons);
     }
+
+    public function testFindByNameNotFound(): void
+    {
+        self::expectException(RuntimeException::class);
+        self::expectExceptionMessage('Vehicle name "Not Found" was not found');
+        Vehicle::findByName('Not Found');
+    }
+
+    public function testFindByName(): void
+    {
+        $vehicle = Vehicle::findByName('Dodge Scoot');
+        self::assertSame('dodge-scoot', $vehicle->id);
+    }
 }

@@ -136,7 +136,6 @@ abstract class Weapon
     /**
      * Build a new Weapon object from the datastore's array.
      * @param array<string, string|int> $options
-     * @psalm-suppress PossiblyUnusedMethod
      * @throws RuntimeException
      */
     public static function build(array $options): Weapon

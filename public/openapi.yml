@@ -9,7 +9,7 @@ info:
   license:
     name: MIT License
     url: https://mit-license.org/
-  version: 1.2.0
+  version: 1.4.0
 externalDocs:
   description: Find out more about Commlink
   url: https://commlink.digitaldarkness.com/about
@@ -35,11 +35,147 @@ tags:
     description: Resource for interacting with other services
   - name: interactivity
     description: Commlink's interactive functions
+  - name: meta
+    description: Information about the service itself
   - name: shadowrun
     description: Shadowrun RPG
   - name: user
     description: Operations about users
 paths:
+  /campaigns:
+    get:
+      summary: Return all campaigns for the user
+      description: |
+        Return all campaigns for a user, including registered, GMed, and those
+        they play in.
+      operationId: campaigns-index
+      responses:
+        '200':
+          description: Collection of campaigns.
+          content:
+            application/json:
+              schema:
+                example:
+                  data:
+                    - characters:
+                        - id: '65776d7c77223955eee96ec1'
+                          name: 'Conan the Agrarian'
+                          owner:
+                            id: 42
+                            name: 'Mike F'
+                          links:
+                            self: '/characters/cyberpunkred/65776d7c77223955eee96ec1'
+                      description: |
+                        Low-level campaign for fun, Chooms. Still looking for a GM.
+                      id: 3
+                      gm: null
+                      name: 'Night City Rejects'
+                      options:
+                        nightCityTarot: true
+                      players:
+                        - id: 6
+                          name: 'Bob K'
+                          status: 'invited'
+                        - id: 99
+                          name: 'Phil S'
+                          status: 'accepted'
+                      registered_by:
+                        id: 42
+                        name: 'Mike F'
+                      system: 'cyberpunkred'
+                      links:
+                        self: '/campaigns/3'
+                  links:
+                    collection: '/campaigns'
+                    root: '/'
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CampaignFull'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+      tags:
+        - campaign
+  /campaigns/{campaign_id}:
+    parameters:
+      - name: campaign_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    delete:
+      summary: Soft-delete a campaign
+      operationId: campaigns-destroy
+      responses:
+        '204':
+          description: The campaign has been deleted.
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
+      tags:
+        - campaign
+    get:
+      summary: Return a single campaign
+      operationId: campaigns-show
+      responses:
+        '200':
+          description: Single campaign.
+          content:
+            application/json:
+              schema:
+                example:
+                  data:
+                    characters:
+                      - id: '65776d7c77223955eee96ec1'
+                        name: 'Conan the Agrarian'
+                        owner:
+                          id: 42
+                          name: 'Mike F'
+                        links:
+                          self: '/characters/cyberpunkred/65776d7c77223955eee96ec1'
+                    description: |
+                      Low-level campaign for fun, Chooms. Still looking for a GM.
+                    id: 3
+                    gm: null
+                    name: 'Night City Rejects'
+                    options:
+                      nightCityTarot: true
+                    players:
+                      - id: 6
+                        name: 'Bob K'
+                        status: 'invited'
+                      - id: 99
+                        name: 'Phil S'
+                        status: 'accepted'
+                    registered_by:
+                      id: 42
+                      name: 'Mike F'
+                    system: 'cyberpunkred'
+                    links:
+                      self: '/campaigns/3'
+                      collection: '/campaigns'
+                      root: '/'
+                properties:
+                  data:
+                    $ref: '#/components/schemas/CampaignFull'
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+      tags:
+        - campaign
   /campaigns/{campaign_id}/events:
     parameters:
       - name: campaign_id
@@ -314,6 +450,71 @@ paths:
       tags:
         - campaign
         - interactivity
+  /campaigns/{campaign_id}/invite:
+    parameters:
+      - name: campaign_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    post:
+      summary: Invite a user to the campaign
+      description: Tries to invite a user to the given campaign.
+      operationId: campaigns-invite
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  format: email
+                  type: string
+                name:
+                  type: string
+              required:
+                - email
+                - name
+      responses:
+        '201':
+          description: Invite has been created.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/CampaignInvitation'
+                  links:
+                    $ref: '#/components/schemas/Links'
+                  meta:
+                    properties:
+                      user:
+                        properties:
+                          id:
+                            type: integer
+                          name:
+                            type: string
+                        required:
+                          - id
+                          - name
+                        type: object
+                      status:
+                        type: string
+                    required:
+                      - status
+                    type: object
+                required:
+                  - data
+                  - links
+        '400':
+          description: User is the GM.
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
+        '409':
+          description: User has already been invited or is already playing.
+      tags:
+        - campaign
   /channels/{channel_id}:
     parameters:
       - name: channel_id
@@ -341,7 +542,7 @@ paths:
         '403':
           $ref: '#/components/responses/ErrorForbidden'
         '422':
-          description: Request included both the auto option and a webhook URL.
+          $ref: '#/components/responses/ErrorUnprocessableContent'
       tags:
         - interactivity
   /cyberpunkred/characters:
@@ -922,6 +1123,25 @@ paths:
                 type: object
       tags:
         - expanse
+  /healthz:
+    get:
+      summary: Check health of the server
+      operationId: healthz-index
+      responses:
+        '200':
+          description: The server is operating normally.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '503':
+          description: One or more parts of the service are not running.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+      tags:
+        - meta
   /roll:
     options:
       summary: Slack roll health check
@@ -1216,31 +1436,6 @@ paths:
           description: All Shadowrun 5E armor modifications.
       tags:
         - shadowrun
-  /shadowrun5e/augmentations:
-    get:
-      summary: Shadowrun 5E augmentations (cyberware and bioware).
-      operationId: shadowrun5e-augmentations-index
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                properties:
-                  data:
-                    items:
-                      $ref: '#/components/schemas/Shadowrun5eAugmentation'
-                    type: array
-                  links:
-                    $ref: '#/components/schemas/Links'
-                required:
-                  - data
-                  - links
-                type: object
-          description: Collection of Shadowrun 5E augmentations.
-        '401':
-          $ref: '#/components/responses/ErrorUnauthenticated'
-      tags:
-        - shadowrun
   /shadowrun5e/characters:
     get:
       summary: All Shadowrun 5E characters
@@ -1377,6 +1572,69 @@ paths:
       tags:
         - character
         - shadowrun
+  /shadowrun5e/characters/{character_id}/contacts:
+    parameters:
+      - name: character_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Character's contacts
+      operationId: shadowrun5e-contacts-index
+      responses:
+        '200':
+          description: Collection of contacts. You are who you know, chummer.
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Shadowrun5eContact'
+                type: array
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
+        '404':
+          $ref: '#/components/responses/ErrorNotFound'
+      tags:
+        - shadowrun
+    post:
+      summary: Create a new contact for a character
+      operationId: shadowrun5e-contacts-store
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                archetype:
+                  type: string
+                connection:
+                  type: integer
+                loyalty:
+                  type: integer
+                gmNotes:
+                  type: string
+                name:
+                  type: string
+                notes:
+                  type: string
+              type: object
+      responses:
+        '201':
+          description: Contact was created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shadowrun5eContact'
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
+        '404':
+          $ref: '#/components/responses/ErrorNotFound'
+      tags:
+        - shadowrun
   /shadowrun5e/complex-forms:
     get:
       summary: Shadowrun 5E complex forms
@@ -1395,6 +1653,31 @@ paths:
                     $ref: '#/components/schemas/Links'
                 type: object
           description: All Shadowrun 5E complex forms.
+      tags:
+        - shadowrun
+  /shadowrun5e/cyberware:
+    get:
+      summary: Shadowrun 5E augmentations (cyberware and bioware)
+      operationId: shadowrun5e-augmentations-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eAugmentation'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E augmentations.
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
       tags:
         - shadowrun
   /shadowrun5e/gear:
@@ -1464,6 +1747,52 @@ paths:
           description: All Shadowrun 5E modifications to install in other gear.
       tags:
         - shadowrun
+  /shadowrun5e/lifestyle-options:
+    get:
+      summary: Shadowrun 5E lifestyle options
+      operationId: shadowrun5e-lifestyle-options-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eLifestyleOption'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E lifestyle options.
+      tags:
+        - shadowrun
+  /shadowrun5e/lifestyle-zones:
+    get:
+      summary: Shadowrun 5E lifestyle zones
+      operationId: shadowrun5e-lifestyle-zones-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eLifestyleZone'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E lifestyle zones.
+      tags:
+        - shadowrun
   /shadowrun5e/lifestyles:
     get:
       summary: Shadowrun 5E lifestyles
@@ -1485,6 +1814,374 @@ paths:
                   - links
                 type: object
           description: Collection of Shadowrun 5E lifestyles.
+      tags:
+        - shadowrun
+  /shadowrun5e/martial-arts-styles:
+    get:
+      summary: Shadowrun 5E martial arts styles
+      operationId: shadowrun5e-martial-arts-styles-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eMartialArtsStyle'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E martial arts styles.
+      tags:
+        - shadowrun
+  /shadowrun5e/martial-arts-techniques:
+    get:
+      summary: Shadowrun 5E martial arts technique
+      operationId: shadowrun5e-martial-arts-techniques-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eMartialArtsTechnique'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E martial arts techniques.
+      tags:
+        - shadowrun
+  /shadowrun5e/mentor-spirits:
+    get:
+      summary: Shadowrun 5E mentor spirits
+      operationId: shadowrun5e-mentor-spirits-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eMentorSpirit'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E mentor spirits.
+      tags:
+        - shadowrun
+  /shadowrun5e/metamagics:
+    get:
+      summary: Shadowrun 5E metamagics
+      operationId: shadowrun5e-metamagics-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eMetamagic'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E metamagics.
+      tags:
+        - shadowrun
+  /shadowrun5e/programs:
+    get:
+      summary: Shadowrun 5E matrix programs
+      operationId: shadowrun5e-programs-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eProgram'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E matrix programs.
+      tags:
+        - shadowrun
+  /shadowrun5e/qualities:
+    get:
+      summary: Shadowrun 5E character qualities
+      operationId: shadowrun5e-qualities-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eQuality'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E qualities.
+      tags:
+        - shadowrun
+  /shadowrun5e/skill-groups:
+    get:
+      summary: Shadowrun 5E skill groups
+      operationId: shadowrun5e-skill-groups-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eSkillGroup'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E skill groups.
+      tags:
+        - shadowrun
+  /shadowrun5e/skills:
+    get:
+      summary: Shadowrun 5E skills
+      operationId: shadowrun5e-skills-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eSkill'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E skills.
+      tags:
+        - shadowrun
+  /shadowrun5e/spells:
+    get:
+      summary: Shadowrun 5E spells
+      operationId: shadowrun5e-spells-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eSpell'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E spells.
+      tags:
+        - shadowrun
+  /shadowrun5e/spirits:
+    get:
+      summary: Shadowrun 5E spirits
+      operationId: shadowrun5e-spirits-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eSpirit'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E spirits.
+      tags:
+        - shadowrun
+  /shadowrun5e/sprites:
+    get:
+      summary: Shadowrun 5E sprites
+      operationId: shadowrun5e-sprites-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eSprite'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E sprites.
+      tags:
+        - shadowrun
+  /shadowrun5e/traditions:
+    get:
+      summary: Shadowrun 5E magical traditions
+      operationId: shadowrun5e-traditions-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eTradition'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E traditions.
+      tags:
+        - shadowrun
+  /shadowrun5e/vehicle-modifications:
+    get:
+      summary: Shadowrun 5E vehicle modifications
+      operationId: shadowrun5e-vehicle-modifications-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eVehicleModification'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E vehicle modifications.
+      tags:
+        - shadowrun
+  /shadowrun5e/vehicles:
+    get:
+      summary: Shadowrun 5E vehicles
+      operationId: shadowrun5e-vehicles-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eVehicle'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E vehicles.
+      tags:
+        - shadowrun
+  /shadowrun5e/weapon-modifications:
+    get:
+      summary: Shadowrun 5E weapon modifications
+      operationId: shadowrun5e-weapon-modifications-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eWeaponModification'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E weapon modifications.
+      tags:
+        - shadowrun
+  /shadowrun5e/weapons:
+    get:
+      summary: Shadowrun 5E weapons
+      operationId: shadowrun5e-weapons-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eWeapon'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Shadowrun 5E weapons.
       tags:
         - shadowrun
   /users:
@@ -1588,7 +2285,7 @@ paths:
         '403':
           $ref: '#/components/responses/ErrorForbidden'
         '422':
-          description: The request failed to validate.
+          $ref: '#/components/responses/ErrorUnprocessableContent'
       tags:
         - user
   /users/{user_id}/token/{token_id}:
@@ -1617,6 +2314,69 @@ paths:
           $ref: '#/components/responses/ErrorNotFound'
       tags:
         - user
+  /varz:
+    get:
+      summary: Statistics about the system
+      operationId: varz-index
+      responses:
+        '200':
+          description: Statistics showing the active systems, along with the number of objects contained within.
+          content:
+            application/json:
+              schema:
+                properties:
+                  campaigns-total:
+                    description: Number of campaigns registered.
+                    type: integer
+                  channels:
+                    properties:
+                      discord:
+                        description: Number of Discord channels registered.
+                        type: integer
+                      slack:
+                        description: Number of Slack channels registered.
+                        type: integer
+                    type: object
+                  characters-total:
+                    description: Number of characters across all RPG systems.
+                    type: integer
+                  systems:
+                    description: Results contain information about each system supported in Commlink. The administrators may disable a system, so it's not guaranteed to appear.
+                    properties:
+                      capers:
+                        properties:
+                          name:
+                            description: Full name of the system.
+                            type: string
+                          data:
+                            properties:
+                              campaigns:
+                                type: integer
+                              player-characters:
+                                type: integer
+                              gear:
+                                type: integer
+                              identities:
+                                type: integer
+                              perks:
+                                type: integer
+                              powers:
+                                type: integer
+                              skills:
+                                type: integer
+                              vices:
+                                type: integer
+                              virtues:
+                                type: integer
+                            type: object
+                        type: object
+                    type: object
+                  users:
+                    description: Number of users in the system.
+                    type: integer
+                type: object
+      tags:
+        - meta
 
 components:
   responses:
@@ -1681,6 +2441,18 @@ components:
             required:
               - message
             type: object
+    ErrorUnprocessableContent:
+      description: The request had validation errors with one or more fields.
+      content:
+        application/json:
+          schema:
+            properties:
+              message:
+                type: string
+              errors:
+                description: Collection of field names and the errors they contain.
+                type: object
+            type: object
   schemas:
     Campaign:
       properties:
@@ -1693,12 +2465,70 @@ components:
         _links:
           $ref: '#/components/schemas/Links'
       type: object
+    CampaignFull:
+      properties:
+        characters:
+          items:
+            $ref: '#/components/schemas/CharacterMinimal'
+          type: array
+        description:
+          nullable: true
+          type: string
+        id:
+          type: integer
+        gm:
+          $ref: '#/components/schemas/UserMinimal'
+        name:
+          type: string
+        options:
+          type: object
+        players:
+          items:
+            $ref: '#/components/schemas/UserMinimal'
+          type: array
+        registered_by:
+          $ref: '#/components/schemas/UserMinimal'
+        system:
+          type: string
+      type: object
+    CampaignInvitation:
+      properties:
+        campaign:
+          $ref: '#/components/schemas/Campaign'
+        id:
+          type: integer
+        invited_by:
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+          required:
+            - id
+            - name
+          type: object
+        invitee:
+          properties:
+            email:
+              format: email
+              type: string
+            name:
+              type: string
+          type: object
+      required:
+        - campaign
+        - id
+        - invited_by
+        - invitee
+      type: object
     Character:
       properties:
         campaign_id:
           type: integer
         id:
           type: string
+        links:
+          $ref: '#/components/schemas/Links'
         owner:
           format: email
           type: string
@@ -1708,6 +2538,20 @@ components:
         - id
         - owner
         - system
+      type: object
+    CharacterMinimal:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        owner:
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+          type: object
       type: object
     CyberpunkredCharacter:
       allOf:
@@ -2052,6 +2896,44 @@ components:
         - requirements
         - links
       type: object
+    HealthResponse:
+      properties:
+        data:
+          properties:
+            database:
+              properties:
+                document:
+                  $ref: '#/components/schemas/HealthStatus'
+                key_value:
+                  $ref: '#/components/schemas/HealthStatus'
+                relational:
+                  $ref: '#/components/schemas/HealthStatus'
+              type: object
+            disk_space:
+              $ref: '#/components/schemas/HealthStatus'
+            links:
+              $ref: '#/components/schemas/Links'
+            workers:
+              properties:
+                discord:
+                  $ref: '#/components/schemas/HealthStatus'
+                queue:
+                  $ref: '#/components/schemas/HealthStatus'
+                schedule:
+                  $ref: '#/components/schemas/HealthStatus'
+              type: object
+          type: object
+        meta:
+          properties:
+            time_in_seconds:
+              type: number
+          type: object
+      type: object
+    HealthStatus:
+      enum:
+        - failed
+        - OK
+      type: string
     Initiative:
       properties:
         campaign_id:
@@ -2159,6 +3041,18 @@ components:
         - name
       type: object
     Shadowrun5eAdeptPower:
+      example:
+        cost: 0.5
+        description: "This power allows an adept to disrupt the mana flows within a target they have touched. Activating this power is a Simple Action and can be activated any time within (Magic) minutes from the time the target is touched (meaning the adept must have succeeded in a touch attack. The adept rolls Magic + Willpower [Astral] vs. Reaction + Intuition [Physical]. If the adept wins, the target suffers a glitch or accident as determined by the gamemaster. If the adept scores 4 or more net hits, it is considered a critical glitch with potentially catastrophic results. The adept must resist Drain (Body + Willpower) equal to the number of hits (not net hits)."
+        effects:
+        id: "adept-accident"
+        incompatible-with:
+          - "adept-accident"
+        name: "Adept Accident"
+        page: 190
+        ruleset: "hard-targets"
+        links:
+          self: "/api/shadowrun5e/adept-powers/adept-accident"
       properties:
         cost:
           type: number
@@ -2192,6 +3086,15 @@ components:
         - links
       type: object
     Shadowrun5eAmmunition:
+      example:
+        id: "apds"
+        ap-modifier: -4
+        availability: "12F"
+        cost: 120
+        description: "These are military-grade armor piercing rounds—their full name is armor piercing discarding sabot. They are designed to travel at high velocities and punch through personal body armor."
+        name: "APDS"
+        links:
+          self: "/api/shadowrun5e/ammunition/apds"
       properties:
         ap-modifier:
           type: integer
@@ -2228,6 +3131,16 @@ components:
         - links
       type: object
     Shadowrun5eArmor:
+      example:
+        availability: "2"
+        cost: 1000
+        description: "The most popular armor solution on the streets comes in all styles imaginable. It offers good protection without catching too much attention. But don't think of wearing one to a dinner party."
+        id: "armor-jacket"
+        name: "Armor Jacket"
+        rating: 12
+        ruleset: "core"
+        links:
+          self: "/api/shadowrun5e/armor/armor-jacket"
       properties:
         availability:
           $ref: '#/components/schemas/Shadowrun5eAvailability'
@@ -2268,6 +3181,17 @@ components:
         - name
       type: object
     Shadowrun5eArmorModification:
+      example:
+        availability: ""
+        capacity-cost: 0
+        cost: 50
+        description: "This enhancement enables your armor and clothing to display a wide variety of AR overlays. Due to the ubiquity of AR-enabled vision devices, most people will see the look you choose to display and not the clothes you are actually wearing. This can serve as useful social camouflage. Even when you aren't wearing the right outfit for a situation, you can look like you are. Creating your own AR clothing can be done with an Artisan + Intuition Extended Test (30 minutes) with a threshold set by the gamemaster based on the complexity and specificity of the overlay you are attempting to create (per Extended Test Threshold Table, p. 48, SR5)."
+        id: "ar-fashion"
+        name: "AR Fashion"
+        page: 138
+        ruleset: "cutting-aces"
+        links:
+          self: "/api/shadowrun5e/armor-modifications/ar-fashion"
       properties:
         availability:
           $ref: '#/components/schemas/Shadowrun5eAvailability'
@@ -2305,6 +3229,19 @@ components:
         - ruleset
       type: object
     Shadowrun5eAugmentation:
+      example:
+        availability: 2
+        cost: 1000
+        description: "A datajack gives you a direct neural interface (p. 222), which can be handy in a lot of situations. It also comes with a retractable spool of micro-cable (about a meter long) that lets you directly interface with any electronic device via a universal access cable. Datajacks are equipped with their own cache of storage memory for downloading or saving files. Two datajack users can string a fiberoptic cable between themselves to conduct a private mental communication immune to radio interception or eavesdropping.||Wireless: The datajack gives you Rating 1 noise reduction."
+        essence: 0.1
+        id: "datajack"
+        name: "Datajack"
+        ruleset: "core"
+        type: "cyberware"
+        wireless-effects:
+          noise-reduction: 1
+        links:
+          self: "/api/shadowrun5e/cyberware/datajack"
       properties:
         availability:
           $ref: '#/components/schemas/Shadowrun5eAvailability'
@@ -2362,176 +3299,6 @@ components:
         - ''
         - 4
       type: string
-    Shadowrun5eCommonPriorities:
-      properties:
-        gameplay:
-          enum:
-            - established
-            - prime
-            - street
-          type: string
-        magic:
-          enum:
-            - adept
-            - magician
-            - mundane
-            - technomancer
-          nullable: true
-          type: string
-        metatype:
-          enum:
-            - dwarf
-            - elf
-            - human
-            - ork
-            - troll
-          type: string
-        rulebooks:
-          type: string
-        startDate:
-          description: When the campaign the character plays in starts.
-          format: date
-          type: string
-        system:
-          description: Priority system used to create the character.
-          enum:
-            - karma-buy
-            - standard
-            - sum-to-ten
-          type: string
-      required:
-        - gameplay
-        - metatype
-      type: object
-    Shadowrun5eComplexForm:
-      properties:
-        description:
-          type: string
-        duration:
-          type: string
-        fade:
-          type: string
-        id:
-          $ref: '#/components/schemas/ItemId'
-        links:
-          $ref: '#/components/schemas/Links'
-        name:
-          type: string
-        page:
-          type: integer
-        ruleset:
-          type: string
-        target:
-          type: string
-      required:
-        - description
-        - duration
-        - fade
-        - id
-        - links
-        - name
-        - page
-        - ruleset
-        - target
-      type: object
-    Shadowrun5eLifestyle:
-      properties:
-        attributes:
-          $ref: '#/components/schemas/Shadowrun5eLifestyleAttributes'
-        cost:
-          type: integer
-        description:
-          type: string
-        id:
-          $ref: '#/components/schemas/ItemId'
-        links:
-          $ref: '#/components/schemas/Links'
-        name:
-          type: string
-        page:
-          type: integer
-        points:
-          type: integer
-        ruleset:
-          type: string
-      required:
-        - attributes
-        - cost
-        - description
-        - id
-        - links
-        - name
-        - page
-        - points
-        - ruleset
-      type: object
-    Shadowrun5eLifestyleAttributes:
-      properties:
-        comforts:
-          type: integer
-        comfortsMax:
-          type: integer
-        neighborhood:
-          type: integer
-        neighborhoodMax:
-          type: integer
-        security:
-          type: integer
-        securityMax:
-          type: integer
-      required:
-        - comforts
-        - comfortsMax
-        - neighborhood
-        - neighborhoodMax
-        - security
-        - securityMax
-      type: object
-    Shadowrun5eStandardPriorities:
-      allOf:
-        - $ref: '#/components/schemas/Shadowrun5eCommonPriorities'
-        - type: object
-          properties:
-            a:
-              $ref: '#/components/schemas/Shadowrun5eStandardPriorityName'
-            b:
-              $ref: '#/components/schemas/Shadowrun5eStandardPriorityName'
-            c:
-              $ref: '#/components/schemas/Shadowrun5eStandardPriorityName'
-            d:
-              $ref: '#/components/schemas/Shadowrun5eStandardPriorityName'
-            e:
-              $ref: '#/components/schemas/Shadowrun5eStandardPriorityName'
-          required:
-            - a
-            - b
-            - c
-            - d
-            - e
-    Shadowrun5eSumToTenPriorites:
-      allOf:
-        - $ref: '#/components/schemas/Shadowrun5eCommonPriorities'
-        - properties:
-            attributePriority:
-              $ref: '#/components/schemas/Shadowrun5eLetterPriority'
-            magicPriority:
-              $ref: '#/components/schemas/Shadowrun5eLetterPriority'
-            metatypePriority:
-              $ref: '#/components/schemas/Shadowrun5eLetterPriority'
-            resourcePriority:
-              $ref: '#/components/schemas/Shadowrun5eLetterPriority'
-            skillPriority:
-              $ref: '#/components/schemas/Shadowrun5eLetterPriority'
-          required:
-            - attributePriority
-            - gameplay
-            - magic
-            - magicPriority
-            - metatype
-            - metatypePriority
-            - resourcePriority
-            - skillPriority
-          type: object
     Shadowrun5eCharacter:
       allOf:
         - $ref: '#/components/schemas/Character'
@@ -2643,6 +3410,109 @@ components:
               items: {}
             willpower:
               type: integer
+    Shadowrun5eCommonPriorities:
+      properties:
+        gameplay:
+          enum:
+            - established
+            - prime
+            - street
+          type: string
+        magic:
+          enum:
+            - adept
+            - magician
+            - mundane
+            - technomancer
+          nullable: true
+          type: string
+        metatype:
+          enum:
+            - dwarf
+            - elf
+            - human
+            - ork
+            - troll
+          type: string
+        rulebooks:
+          type: string
+        startDate:
+          description: When the campaign the character plays in starts.
+          format: date
+          type: string
+        system:
+          description: Priority system used to create the character.
+          enum:
+            - karma-buy
+            - standard
+            - sum-to-ten
+          type: string
+      required:
+        - gameplay
+        - metatype
+      type: object
+    Shadowrun5eComplexForm:
+      example:
+        description: "Arc Feedback grants the technomancer the ability to catch some of the energy of a successful attack against them and send it back toward the attacker.||While a technomancer is sustaining this form, every time they receive Matrix damage—that is to say, damage remaining after any and all resistance rolls—they roll Software + Resonance [Level] v. Willpower + Firewall of the attacker. If the test succeeds, the damage the technomancer was not able to resist is reflected back to the attacker at a ratio of 1 point of damage for every 2 inflicted on the technomancer. Net hits on the test increase the damage, and the total damage must be resisted by the original attacker. Damage reflected back on the attacker does not reduce the damage taken by the technomancer."
+        duration: "S"
+        fade: "L-2"
+        id: "arc-feedback"
+        name: "Arc Feedback"
+        page: 94
+        ruleset: "kill-code"
+        target: "Icon"
+        links:
+          self: "/api/shadowrun5e/complex-forms/arc-feedback"
+      properties:
+        description:
+          type: string
+        duration:
+          type: string
+        fade:
+          type: string
+        id:
+          $ref: '#/components/schemas/ItemId'
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        target:
+          type: string
+      required:
+        - description
+        - duration
+        - fade
+        - id
+        - links
+        - name
+        - page
+        - ruleset
+        - target
+      type: object
+    Shadowrun5eContact:
+      description: A contact a character may talk to or interact with.
+      example:
+        name: Delancey
+        archetype: Fixer
+        connection: 2
+        loyalty: 3
+        notes: Has a severe gambling addiction.
+      properties:
+        archetype:
+          type: string
+        connection:
+          type: integer
+        loyalty:
+          type: integer
+        name:
+          type: string
+        notes:
+          type: string
+      type: object
     Shadowrun5eGear:
       properties:
         availability:
@@ -2697,11 +3567,45 @@ components:
           items:
             type: object
     Shadowrun5eGearModification:
+      example:
+        availability: "2R"
+        container-type: "commlink"
+        cost: 3000
+        description": "This dongle doesn't actually attack people, though that would be cool. It gives the commlink an Attack rating equal to its rating, providing some on-the-fly, quick attack resources. DemiGODs love corporate employees to use these, as they can provide more time for them to track down and punish intruders."
+        effects:
+          - attack: 1
+        id: "attack-dongle-1"
+        name: "Attack dongle"
+        page: 61
+        rating: 1
+        ruleset: "data-trails"
+        links:
+          self: "/api/shadowrun5e/gear-modifications/attack-dongle-1"
       properties:
         availability:
           $ref: '#/components/schemas/Shadowrun5eAvailability'
+        container-type:
+          type: string
+        cost:
+          type: integer
+        description:
+          type: string
+        effects:
+          items:
+            type: object
+          type: array
         id:
           $ref: '#/components/schemas/ItemId'
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        page:
+          type: integer
+        rating:
+          type: integer
+        ruleset:
+          type: string
       required:
         - availability
       type: object
@@ -2713,6 +3617,640 @@ components:
         - D
         - E
       type: string
+    Shadowrun5eLifestyle:
+      example:
+        attributes:
+          comforts: 3
+          comfortsMax: 3
+          neighborhood: 3
+          neighborhoodMax: 3
+          security: 3
+          securityMax: 3
+        cost: 15000
+        description: "The character is in the hospital."
+        id: "hospitalized"
+        name: "Hospitalized"
+        page: 373
+        points: 0
+        ruleset: "core"
+        links:
+          self: "/api/shadowrun5e/lifestyles/hospitalized"
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Shadowrun5eLifestyleAttributes'
+        cost:
+          type: integer
+        description:
+          type: string
+        id:
+          $ref: '#/components/schemas/ItemId'
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        page:
+          type: integer
+        points:
+          type: integer
+        ruleset:
+          type: string
+      required:
+        - attributes
+        - cost
+        - description
+        - id
+        - links
+        - name
+        - page
+        - points
+        - ruleset
+      type: object
+    Shadowrun5eLifestyleAttributes:
+      properties:
+        comforts:
+          type: integer
+        comfortsMax:
+          type: integer
+        neighborhood:
+          type: integer
+        neighborhoodMax:
+          type: integer
+        security:
+          type: integer
+        securityMax:
+          type: integer
+      required:
+        - comforts
+        - comfortsMax
+        - neighborhood
+        - neighborhoodMax
+        - security
+        - securityMax
+      type: object
+    Shadowrun5eLifestyleOption:
+      description: Option that can be added to a lifestyle.
+      example:
+        cost: 1000
+        description: "Quite popular among shadowrunners is a room dedicated to guns. Ammo and one stock firearm duplicating one that the character purchased at the character creation are on hand in this room. If the character has purchased a toolkit that can work on the particular weapon, 1 point of Accuracy or AP can be repaired per week without additional cost. A point of Reach can also be repaired in two weeks."
+        minimumLifestyle: "High"
+        id: "armory"
+        name: "Armory"
+        page: 220
+        points: 2
+        ruleset: "run-faster"
+        type: "Asset"
+        links:
+          self: "/api/shadowrun5e/lifestyle-options/armory"
+      properties:
+        cost:
+          type: integer
+        description:
+          type: string
+        minimumLifestyle:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        points:
+          type: integer
+        ruleset:
+          type: string
+        type:
+          type: string
+      type: object
+    Shadowrun5eLifestyleZone:
+      example:
+        description: "Corporate headquarters. Skyraker condos. And the occasional private islands. This is where the world’s wealthiest pay to make sure they’re kept safe."
+        id: "aaa"
+        name: "AAA"
+        responseTime: "2d6 minutes"
+        links:
+          self: "/api/shadowrun5e/lifestyle-zones/aaa"
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        responseTime:
+          type: string
+      type: object
+    Shadowrun5eMartialArtsStyle:
+      example:
+        description: "Those that have spent any time in prison may have heard of the 52 Blocks. It's a mixed martial art style of unarmed strikes and blocks within a confined space and possibly handcuffed. The intent of 52 Blocks is self-defense and survival. The moves are quick and dirty, designed for effect and effectiveness, not finesse. It's not a style that is taught, especially outside prison and is usually learned the hard way."
+        id: "52-blocks"
+        name: "52 Blocks"
+        page: 128
+        ruleset: "run-and-gun"
+        techniques:
+          - "called-shot-disarm"
+          - "kick-attack"
+          - "multiple-opponent-defense-defender-has-defended"
+          - "pouncing-dragon"
+          - "randori-dirty-trick"
+          - "rooted-tree"
+        link":
+          self: "/api/shadowrun5e/martial-arts-styles/52-blocks"
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        techniques:
+          items:
+            type: string
+          type: array
+      type: object
+    Shadowrun5eMartialArtsTechnique:
+      example:
+        description: "The character lunges forward with a long step toward his opponent, effectively adding +1 to the Reach of the attack. The character over commits himself in the maneuver, leaving himself vulnerable. The character takes a –1 to any Defense Tests and cannot use any Active Defense techniques until after his next Action Phase."
+        id: "ballestra"
+        name: "Ballestra"
+        page: 119
+        ruleset: "run-and-gun"
+        links:
+          self: "/api/shadowrun5e/martial-arts-techniques/ballestra"
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+      type: object
+    Shadowrun5eMentorSpirit:
+      example:
+        description: "This mentor symbolizes strength and protection. He is a healer and cannot turn down those in need without good reason, and he defends those under his care. Bear is more than a gentle healer; he is a ferocious protector, disregarding his own safety in combat if wounded or if someone he is protecting is injured."
+        effects:
+          damage-resistance: 2
+          health-spell: 2
+          health-preparations: 2
+          health-ritual: 2
+          rapid-healing: 1
+        id: "bear"
+        name: "Bear"
+        ruleset: "core"
+        links:
+          self: "/api/shadowrun5e/mentor-spirits/bear"
+      properties:
+        description:
+          type: string
+        effects:
+          type: object
+        id:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        ruleset:
+          type: string
+      type: object
+    Shadowrun5eMetamagic:
+      properties:
+        adeptOnly:
+          type: boolean
+        description:
+          type: string
+        id:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+      type: object
+    Shadowrun5eProgram:
+      example:
+        allowedDevices:
+          - "cyberdeck"
+        availability: "3"
+        cost: 1000,
+        description: "Agents are autonomous programs that are rated from 1 to 6. Each agent occupies one program slot on your deck. Agents use the Matrix attributes of the device they run on, and their rating (up to 6) for attributes. Agents also have the Computer, Hacking, and Cybercombat skills at a rating equal to their own. An agent runs as a program and can use programs running on the same device as them."
+        id: "agent-1"
+        name: "Agent"
+        page: 246
+        rating: 1
+        ruleset: "core"
+        links:
+          self: "/api/shadowrun5e/programs/agent-1"
+      properties:
+        allowedDevices:
+          items:
+            type: string
+          type: array
+        availability:
+          $ref: '#/components/schemas/Shadowrun5eAvailability'
+        cost:
+          type: integer
+        description:
+          type: string
+        id:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        page:
+          type: integer
+        rating:
+          type: integer
+        ruleset:
+          type: string
+      type: object
+    Shadowrun5eQuality:
+      example:
+        description: "The dice roll and the coin flips this character's way more often than not, giving her the chance to drop jaws in amazement at her good fortune. Lucky allows a character to possess an Edge attribute one point higher than his metatype maximum (for example, a human character could raise her Edge to 8). Note that taking this quality does not actually increase the character's current Edge rating, it just allows her the opportunity to do so; the Karma cost for gaining the extra point must still be paid. This quality may only be taken once and must be approved by the gamemaster. The Lucky quality cannot be combined with Exceptional Attribute."
+        effects:
+          maximum-edge: 7
+          notoriety: -1
+        id: "lucky"
+        incompatible-with:
+          - lucky
+          - exceptional-attribute
+        karma: -12
+        name: "Lucky"
+        links:
+          self: "/api/shadowrun5e/qualities/lucky"
+        ruleset: "core"
+      properties:
+        description:
+          type: string
+        effects:
+          type: object
+        id:
+          type: string
+        incompatible-with:
+          items:
+            type: string
+          type: array
+        karma:
+          type: integer
+        links:
+          $ref: '#/components/schemas/Links'
+        ruleset:
+          type: string
+        name:
+          type: string
+      type: object
+    Shadowrun5eSkill:
+      example:
+        attribute: "agility"
+        default: true
+        description: "This skill category includes all types of handheld pistols, including tasers, single-shots, semi-automatics, and revolvers."
+        group: "firearms"
+        id: "pistols"
+        name: "Pistols"
+        limit: "weapon"
+        links:
+            self: "/api/shadowrun5e/skills/pistols"
+        specializations:
+          - "Holdouts"
+          - "Revolvers"
+          - "Semi-automatics"
+          - "Tasers"
+      properties:
+        attribute:
+          type: string
+        default:
+          description: Whether the skill can be defaulted to.
+          type: boolean
+        description:
+          type: string
+        group:
+          description: Skill group the skill is a part of.
+          type: string
+        id:
+          type: string
+        limit:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        specializations:
+          description: Non-inclusive list of sample specializations.
+          items:
+            type: string
+          type: array
+      type: object
+    Shadowrun5eSkillGroup:
+      properties:
+        id:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        skills:
+          items:
+            $ref: '#/components/schemas/Shadowrun5eSkill'
+          type: array
+      type: object
+    Shadowrun5eSpell:
+      example:
+        category: "Combat"
+        damage: "P"
+        description: "These spells create an explosion of flames that flash into existence and scorch the target(s), giving them the double benefit of causing pain and being intimidating as hell. These spells deal Fire damage (p.171).These flames burn out after striking the target, but their secondary effects may ignite flammable materials that continue to burn after the spell is exhausted. Flamethrower is a single-target spell, while Fireball is an area spell."
+        drain: "F-1"
+        duration: "I"
+        id: "fireball"
+        name: "Fireball"
+        range: "LOS (A)"
+        ruleset: "core"
+        tags:
+          - "elemental"
+          - "indirect"
+        type: "P"
+        links:
+          self: "/api/shadowrun5e/spells/fireball"
+      properties:
+        category:
+          enum:
+            - Combat
+            - Detection
+            - Health
+            - Illusion
+            - Manipulation
+          type: string
+        damage:
+          description: Type of damage the spell causes. Either P for physical damage or S for stun damage.
+          enum:
+            - P
+            - S
+          type: string
+        description:
+          type: string
+        drain:
+          type: string
+        duration:
+          enum:
+            - I
+            - P
+            - S
+            - Special
+          type: string
+        id:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        range:
+          description: T for touch, LOS for line-of-sight, and LOS (A) for line-of-sight area spells.
+          enum:
+            - LOS
+            - LOS (A)
+            - T
+          type: string
+        ruleset:
+          type: string
+        tags:
+          items:
+            enum:
+              - active
+              - area
+              - damaging
+              - direct
+              - directional
+              - elemental
+              - environmental
+              - essence
+              - extended area
+              - indirect
+              - mental
+              - multi-sense
+              - obvious
+              - passive
+              - physical
+              - psychic
+              - realistic
+              - single-sense
+            type: string
+          type: array
+        type:
+          enum:
+            - M
+            - P
+          type: string
+      type: object
+    Shadowrun5eSpirit:
+      example:
+        agility: "F+3"
+        body: "F-2"
+        charisma: "F"
+        edge: "F/2"
+        essence: "F"
+        id: "air"
+        initiative-astral: "(F*2)+3d6"
+        initiative: "(F*2+4)+2d6"
+        intuition: "F"
+        links:
+          self: "/api/shadowrun5e/spirits/air"
+        logic: "F"
+        name: "Spirit of Air"
+        magic: "F"
+        page: 303
+        powers:
+          - "accident"
+          - "astral-form"
+          - "concealment"
+          - "confusion"
+          - "engulf"
+          - "materialization"
+          - "movement"
+          - "sapience"
+          - "search"
+        powers-optional:
+          - "elemental-attack"
+          - "energy-aura"
+          - "fear"
+          - "guard"
+          - "noxious-breath"
+          - "psychokinesis"
+        reaction: "F+4"
+        ruleset: "core"
+        skills:
+          - "assensing"
+          - "astral-combat"
+          - "exotic-ranged-weapon"
+          - "perception"
+          - "running"
+          - "unarmed-combat"
+        special: "Spirits of Air get +10 meters per hit when Sprinting"
+        strength: "F-3"
+        willpower: "F"
+      properties:
+        agility:
+          type: string
+        body:
+          type: string
+        charisma:
+          type: string
+        edge:
+          type: string
+        essence:
+          type: string
+        id:
+          type: string
+        initiative-astral:
+          type: string
+        initiative:
+          type: string
+        intuition:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        logic:
+          type: string
+        name:
+          type: string
+        magic:
+          type: string
+        page:
+          type: integer
+        powers:
+          items:
+            type: string
+          type: array
+        powers-optional:
+          items:
+            type: string
+          type: array
+        reaction:
+          type: string
+        ruleset:
+          type: string
+        skills:
+          items:
+            type: string
+          type: array
+        special:
+          type: string
+        strength:
+          type: string
+        willpower:
+          type: string
+      type: object
+    Shadowrun5eSprite:
+      example:
+        attack: "L-1"
+        data-processing: "L"
+        description: "Companion sprites are always by your side, right when you need them. They exist to protect and serve."
+        firewall: "L+4"
+        id: "companion"
+        initiative: "L*2"
+        links:
+          self: "/api/shadowrun5e/sprites/companion"
+        name: "Companion"
+        page: 100
+        powers:
+          - "shield"
+          - "bodyguard"
+        resonance: "L"
+        ruleset: "kill-code"
+        skills:
+          - "computer"
+          - "electronic-warfare"
+        sleaze: "L+1"
+      properties:
+        attack:
+          type: string
+        data-processing:
+          type: string
+        description:
+          type: string
+        firewall:
+          type: string
+        id:
+          type: string
+        initiative:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        page:
+          type: integer
+        powers:
+          items:
+            type: string
+          type: array
+        resonance:
+          type: string
+        ruleset:
+          type: string
+        skills:
+          items:
+            type: string
+          type: array
+        sleaze:
+          type: string
+      type: object
+    Shadowrun5eStandardPriorities:
+      allOf:
+        - $ref: '#/components/schemas/Shadowrun5eCommonPriorities'
+        - type: object
+          properties:
+            a:
+              $ref: '#/components/schemas/Shadowrun5eStandardPriorityName'
+            b:
+              $ref: '#/components/schemas/Shadowrun5eStandardPriorityName'
+            c:
+              $ref: '#/components/schemas/Shadowrun5eStandardPriorityName'
+            d:
+              $ref: '#/components/schemas/Shadowrun5eStandardPriorityName'
+            e:
+              $ref: '#/components/schemas/Shadowrun5eStandardPriorityName'
+          required:
+            - a
+            - b
+            - c
+            - d
+            - e
+    Shadowrun5eSumToTenPriorites:
+      allOf:
+        - $ref: '#/components/schemas/Shadowrun5eCommonPriorities'
+        - properties:
+            attributePriority:
+              $ref: '#/components/schemas/Shadowrun5eLetterPriority'
+            magicPriority:
+              $ref: '#/components/schemas/Shadowrun5eLetterPriority'
+            metatypePriority:
+              $ref: '#/components/schemas/Shadowrun5eLetterPriority'
+            resourcePriority:
+              $ref: '#/components/schemas/Shadowrun5eLetterPriority'
+            skillPriority:
+              $ref: '#/components/schemas/Shadowrun5eLetterPriority'
+          required:
+            - attributePriority
+            - gameplay
+            - magic
+            - magicPriority
+            - metatype
+            - metatypePriority
+            - resourcePriority
+            - skillPriority
+          type: object
     Shadowrun5eStandardPriorityName:
       enum:
         - attributes
@@ -2721,6 +4259,367 @@ components:
         - resources
         - skills
       type: string
+    Shadowrun5eTradition:
+      description: A magical tradition that a mage can use.
+      example:
+        description: "The hermetic mage relies on logic, practice, and execution of a planned formula rather than intuition and improvisation to effectively cast spells."
+        drain: "Logic + Willpower"
+        elements:
+          combat: "Fire"
+          detection: "Air"
+          health: "Man"
+          illusion: "Water"
+          manipulation: "Earth"
+        id: "hermetic"
+        links:
+          self: "/api/shadowrun5e/traditions/hermetic"
+        name: "Hermetic"
+        page: 279
+        ruleset: "core"
+      properties:
+        description:
+          type: string
+        drain:
+          description: Two statistics the mage uses to resist drain.
+          type: string
+        elements:
+          properties:
+            combat:
+              type: string
+            detection:
+              type: string
+            health:
+              type: string
+            illusion":
+              type: string
+            manipulation:
+              type: string
+          type: object
+        id:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+      type: object
+    Shadowrun5eVehicle:
+      example:
+        availability: ""
+        acceleration: 1
+        armor: 4
+        body: 4
+        category: "bike"
+        cost: 3000
+        description: "This is an electric-powered scooter with a top speed of don't make me laugh. It's compact, fuel-efficient, and super-affordable, but no self-respecting shadowrunners would be caught dead on one."
+        deviceRating: 1
+        handling: 4
+        handlingOffRoad: 3
+        id: "dodge-scoot"
+        links:
+          self: "/api/shadowrun5e/vehicles/dodge-scoot"
+        modifications:
+          - "improved-economy"
+        name: "Dodge Scoot"
+        pilot: 1
+        seats: 1
+        sensor: 1
+        speed: 3
+        type: "groundcraft"
+      properties:
+        availability:
+          $ref: '#/components/schemas/Shadowrun5eAvailability'
+        acceleration:
+          type: integer
+        armor:
+          type: integer
+        body:
+          type: integer
+        category:
+          enum:
+            - aircraft
+            - bike
+            - boat
+            - car
+            - fixed wing
+            - large drone
+            - lta vehicle
+            - medium drone
+            - microdrone
+            - mini drone
+            - rotorcraft
+            - small drone
+            - submarine
+            - suv
+            - truck
+            - van
+            - vtol
+          type: string
+        cost:
+          type: integer
+        description:
+          type: string
+        deviceRating:
+          type: integer
+        handling:
+          type: integer
+        handlingOffRoad:
+          type: integer
+        id:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        modifications:
+          items:
+            type: string
+          type: array
+        name:
+          type: string
+        pilot:
+          type: integer
+        seats:
+          type: integer
+        sensor:
+          type: integer
+        speed:
+          type: integer
+        type:
+          enum:
+            - aircraft
+            - exotic
+            - groundcraft
+            - minidrone
+            - walker
+            - watercraft
+          type: string
+      type: object
+    Shadowrun5eVehicleModification:
+      example:
+        availability: "8"
+        cost: 4000
+        description: "Do you have a style all your own and want to show that to the world? Then you probably have a yerzed out vehicle."
+        id: "yerzed-out-4"
+        links:
+          self: "/api/shadowrun5e/vehicle-modifications/yerzed-out-4"
+        name: "Yerzed out"
+        page: 171
+        rating: 4
+        ruleset: "rigger-5"
+        type: "vehicle-mod"
+      properties:
+        availability:
+          $ref: '#/components/schemas/Shadowrun5eAvailability'
+        cost:
+          type: integer
+        cost-attribute:
+          enum:
+            - acceleration
+            - body
+            - handling
+            - speed
+          type: string
+        cost-multiplier:
+          type: number
+        description:
+          type: string
+        effects:
+          type: object
+        id:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        page:
+          type: integer
+        rating:
+          type: integer
+        ruleset:
+          type: string
+        slot-type:
+          enum:
+            - body
+            - cosmetic
+            - electromagnetic
+            - power-train
+            - protection
+            - weapons
+          type: string
+        slots:
+          type: integer
+        type:
+          enum:
+            - equipment
+            - modification-mod
+            - vehicle-mod
+          type: string
+      type: object
+    Shadowrun5eWeapon:
+      example:
+        accuracy: "5"
+        ammo-capacity: 38
+        ammo-container: "c"
+        armor-piercing: -2
+        availability: "4R"
+        class: "Assault Rifle"
+        cost: 950
+        damage: "10P"
+        description: "The AK-97 is a legendary weapon with storied reliability—you can bury it for ten years, dig it up, and fire it immediately without a single problem. When all of the nano-fabricated AK–174s melted to slag, the AK-97s kept functioning just fine."
+        id: "ak-97"
+        links:
+          self: "/api/shadowrun5e/weapons/ak-97"
+        modes:
+          - "SA"
+          - "BF"
+          - "FA"
+        modifications:
+        mounts:
+          - "top"
+          - "under"
+          - "barrel"
+          - "stock"
+          - "internal"
+        name: "AK-97"
+        skill: "automatics"
+        type: "firearm"
+      properties:
+        accuracy:
+          type: string
+        ammo-capacity:
+          type: integer
+        ammo-container:
+          type: string
+        armor-piercing:
+          type: integer
+        availability:
+          $ref: '#/components/schemas/Shadowrun5eAvailability'
+        class:
+          enum:
+            - Assault Cannon
+            - Assault Rifle
+            - Blade
+            - Bow
+            - Club
+            - Exotic
+            - Flamethrower
+            - Grenade
+            - Grenade Launcher
+            - Heavy Crossbow
+            - Heavy Machinegun
+            - Heavy Pistol
+            - Hold-Out Pistol
+            - Light Crossbow
+            - Light Machinegun
+            - Light Pistol
+            - Machine Pistol
+            - Medium Crossbow
+            - Medium Machinegun
+            - Missile Launcher
+            - Shotgun
+            - Sniper Rifle
+            - Sporting Rifle
+            - Submachine Gun
+            - Taser
+            - Throwing Weapon
+            - Thrown Knife
+            - Unarmed
+          type: string
+        cost:
+          type: integer
+        damage:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        modes:
+          items:
+            type: string
+          type: array
+        modifications:
+          items:
+            type: string
+          type: array
+        mounts:
+          items:
+            enum:
+              - top
+              - under
+              - barrel
+              - stock
+              - internal
+            type: string
+        name:
+          type: string
+        skill:
+          type: string
+        type:
+          enum:
+            - firearm
+            - melee
+          type: string
+      type: object
+    Shadowrun5eWeaponModification:
+      example:
+        availability: "+2R"
+        capacity: 1
+        cost-modifier: 2
+        description: "This connects a firearm or a projectile weapon directly to the user's smartlink."
+        effects:
+          accuracy: 2
+          dice-bonus: 1
+          dice-bonus-essence: 1
+        id: "smartlink-internal"
+        incompatible-with:
+          - "ceramic-plasteel-components-1"
+          - "ceramic-plasteel-components-2"
+          - "ceramic-plasteel-components-3"
+          - "ceramic-plasteel-components-4"
+          - "ceramic-plasteel-components-5"
+          - "ceramic-plasteel-components-6"
+          - "smartlink-external"
+        links:
+          self: "/weapon-modifications/smartlink-internal"
+        name: "Internal Smartlink"
+        ruleset: "core"
+        type: "modification"
+        wireless-effects:
+      properties:
+        availability:
+          $ref: '#/components/schemas/Shadowrun5eAvailability'
+        capacity:
+          type: integer
+        cost-modifier:
+          type: integer
+        description:
+          type: string
+        effects:
+          type: object
+        id:
+          type: string
+        incompatible-with:
+          items:
+            type: string
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        ruleset:
+          type: string
+        type:
+          enum:
+            - accessory
+            - modification
+          type: string
+        wireless-effects:
+          type: object
+      type: object
     User:
       properties:
         characters:
@@ -2762,6 +4661,18 @@ components:
         - playingIn
         - roles
         - _links
+      type: object
+    UserMinimal:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        status:
+          type: string
+      required:
+        - id
+        - name
       type: object
     WebhookAuto:
       properties:

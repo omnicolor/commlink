@@ -1,5 +1,6 @@
 @php
 use App\Features\ChummerImport;
+use App\Features\HeroLabImport;
 use App\Features\CyberpunkCharacterGeneration;
 use App\Features\Shadowrun5eCharacterGeneration;
 use App\Features\Stillfleet;
@@ -86,10 +87,17 @@ use App\Features\Stillfleet;
                         <span class="badge bg-warning">Beta</span>
                     </a>
                     @endfeature
+                    @feature(HeroLabImport::class)
+                    <a class="dropdown-item" href="{{ route('import.herolab.view') }}">
+                        Import a Hero Lab portfolio
+                        <span class="badge bg-warning">Beta</span>
+                    </a>
+                    @endfeature
                     @feature(Stillfleet::class)
                     <a class="dropdown-item" href="/characters/stillfleet/create">
                         Stillfleet
                         <span class="badge bg-danger">Not complete</span>
+                    @endfeature
                     </a>
                     @endfeature
                 </li>
