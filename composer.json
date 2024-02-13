@@ -45,6 +45,7 @@
         "ext-random": "*",
         "ext-redis": "*",
         "ext-zip": "*",
+        "fakerphp/faker": "^1.23",
         "guzzlehttp/guzzle": "^7.3",
         "laravel/framework": "^10.0",
         "laravel/pennant": "^1.1",
@@ -62,7 +63,6 @@
     "require-dev": {
         "ext-sqlite3": "*",
         "doctrine/dbal": "^3.1",
-        "fakerphp/faker": "^1.9",
         "friendsofphp/php-cs-fixer": "^3.49",
         "icanhazstring/composer-unused": "^0.8",
         "infection/infection": "^0.27.0",
