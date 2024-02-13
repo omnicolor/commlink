@@ -5,11 +5,17 @@ declare(strict_types=1);
 namespace {{ namespace }};
 
 use Illuminate\Support\Lottery;
+use Stringable;
 
-class {{ class }}
+class {{ class }} implements Stringable
 {
     public function resolve(mixed $scope): mixed
     {
         return false;
+    }
+
+    public function __toString(): string
+    {
+        return '{{ class }}';
     }
 }
