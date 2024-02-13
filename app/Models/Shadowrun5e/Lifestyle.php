@@ -6,6 +6,11 @@ namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
 
+use function array_key_exists;
+use function sprintf;
+use function strtolower;
+use function urlencode;
+
 /**
  * Base class for Shadowrun lifestyles.
  * @psalm-suppress PossiblyUnusedProperty
@@ -83,10 +88,10 @@ class Lifestyle
         $filename = config('app.data_path.shadowrun5e') . 'lifestyles.php';
         self::$lifestyles ??= require $filename;
 
-        $id = \strtolower($id);
-        if (!\array_key_exists($id, self::$lifestyles)) {
+        $id = strtolower($id);
+        if (!array_key_exists($id, self::$lifestyles)) {
             throw new RuntimeException(
-                \sprintf('Lifestyle ID "%s" is invalid', \urlencode($id))
+                sprintf('Lifestyle ID "%s" is invalid', urlencode($id))
             );
         }
 
@@ -104,6 +109,22 @@ class Lifestyle
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return array<int, Lifestyle>
+     */
+    public static function all(): array
+    {
+        $filename = config('app.data_path.shadowrun5e') . 'lifestyles.php';
+        self::$lifestyles ??= require $filename;
+
+        $lifestyles = [];
+        /** @var string $id */
+        foreach (array_keys(self::$lifestyles) as $id) {
+            $lifestyles[] = new self($id);
+        }
+        return $lifestyles;
     }
 
     /**

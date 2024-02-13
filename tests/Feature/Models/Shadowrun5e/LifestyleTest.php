@@ -13,9 +13,7 @@ use Tests\TestCase;
 
 /**
  * Tests for Shadowrun 5E lifestyles.
- * @group models
  * @group shadowrun
- * @group shadowrun5e
  * @small
  */
 final class LifestyleTest extends TestCase
@@ -172,5 +170,10 @@ final class LifestyleTest extends TestCase
 
         $lifestyle->options[] = new LifestyleOption('increase-neighborhood');
         self::assertSame(3, $lifestyle->getNeighborhood());
+    }
+
+    public function testAll(): void
+    {
+        self::assertGreaterThan(1, Lifestyle::all());
     }
 }
