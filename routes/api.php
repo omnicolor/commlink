@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\CampaignsController;
 use App\Http\Controllers\ChannelsController;
 use App\Http\Controllers\EventsController;
+use App\Http\Controllers\HealthzController;
 use App\Http\Controllers\InitiativesController;
 use App\Http\Controllers\SlackController;
 use App\Http\Controllers\UsersController;
@@ -63,7 +64,8 @@ Route::middleware('auth:sanctum')->group(function (): void {
 Route::options('/roll', [SlackController::class, 'options'])
     ->name('roll-options');
 Route::post('/roll', [SlackController::class, 'post'])->name('roll');
-Route::get('/varz', [VarzController::class, 'index']);
+Route::get('/healthz', HealthzController::class)->name('healthz');
+Route::get('/varz', [VarzController::class, 'index'])->name('varz');
 
 require __DIR__ . '/cyberpunkred.php';
 require __DIR__ . '/dnd5e.php';
