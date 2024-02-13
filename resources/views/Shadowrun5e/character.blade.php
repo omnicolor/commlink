@@ -1,7 +1,5 @@
 <x-app>
     <x-slot name="title">{{ $character->handle }}</x-slot>
-    @includeWhen($currentStep ?? false, 'Shadowrun5e.create-navigation')
-
     <x-slot name="head">
         <style>
             .value {
@@ -62,8 +60,13 @@
                 display: flex;
             }
         </style>
+        @if ($currentStep ?? false)
+        <link href="/css/Shadowrun5e/character-generation.css" rel="stylesheet">
+        @endif
     </x-slot>
+    @includeWhen($currentStep ?? false, 'Shadowrun5e.create-navigation')
 
+    @unless ($currentStep ?? false)
     <x-slot name="navbar">
         <li class="nav-item">
             <a class="nav-link" href="/dashboard">Home</a>
@@ -72,6 +75,7 @@
             <span class="nav-link active">{{ $character }}</span>
         </li>
     </x-slot>
+    @endunless
 
     @if ($errors->any())
         <div class="alert alert-danger mt-4">

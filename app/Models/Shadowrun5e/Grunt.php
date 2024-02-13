@@ -193,7 +193,6 @@ class Grunt
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, Grunt>
      */
     public static function all(): array

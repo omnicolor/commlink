@@ -11,19 +11,23 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class representing a gaming campaign or one-shot.
  * @property string $description
+ * @property ?int $gm
  * @property int $id
  * @property string $name
  * @property array<string, mixed> $options
+ * @property int $registered_by
  * @property string $system
  */
 class Campaign extends Model
 {
     use GameSystem;
     use HasFactory;
+    use SoftDeletes;
 
     /**
      * The attributes that should be cast.
@@ -97,6 +101,14 @@ class Campaign extends Model
     }
 
     /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function invitations(): HasMany
+    {
+        return $this->hasMany(CampaignInvitation::class);
+    }
+
+    /**
      * Create a new Campaign, subclassed if available.
      * @phpstan-ignore-next-line
      * @param array<mixed, mixed> $attributes
@@ -130,7 +142,7 @@ class Campaign extends Model
      * Get the user that registered the campaign.
      * @psalm-suppress PossiblyUnusedMethod
      */
-    public function registeredBy(): BelongsTo
+    public function registrant(): BelongsTo
     {
         return $this->belongsTo(User::class, 'registered_by');
     }
