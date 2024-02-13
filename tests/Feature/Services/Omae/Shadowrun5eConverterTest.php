@@ -9,6 +9,10 @@ use App\Services\Omae\Shadowrun5eConverter;
 use RuntimeException;
 use Tests\TestCase;
 
+use function dirname;
+
+use const DIRECTORY_SEPARATOR;
+
 /**
  * @small
  */
@@ -34,14 +38,14 @@ final class Shadowrun5eConverterTest extends TestCase
         self::expectException(RuntimeException::class);
         self::expectExceptionMessage('File does not appear to be an Omae file');
         $path = explode(
-            \DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR,
             dirname(dirname(dirname(__DIR__)))
         );
         $path[] = 'Data';
         $path[] = 'HeroLab';
         $path[] = 'Shadowrun5e';
-        $path[] = 'brian.por';
-        new Shadowrun5eConverter(implode(\DIRECTORY_SEPARATOR, $path));
+        $path[] = 'valid-portfolio1.por';
+        new Shadowrun5eConverter(implode(DIRECTORY_SEPARATOR, $path));
     }
 
     /**
@@ -62,13 +66,13 @@ final class Shadowrun5eConverterTest extends TestCase
     public function testLoadOmae(): PartialCharacter
     {
         $path = explode(
-            \DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR,
             dirname(dirname(dirname(__DIR__)))
         );
         $path[] = 'Data';
         $path[] = 'Omae';
         $path[] = 'Test.txt';
-        $filename = implode(\DIRECTORY_SEPARATOR, $path);
+        $filename = implode(DIRECTORY_SEPARATOR, $path);
         $character = (new Shadowrun5eConverter($filename))->convert();
         self::assertInstanceOf(PartialCharacter::class, $character);
         return $character;
@@ -253,13 +257,13 @@ final class Shadowrun5eConverterTest extends TestCase
     public function testErrors(): void
     {
         $path = explode(
-            \DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR,
             dirname(dirname(dirname(__DIR__)))
         );
         $path[] = 'Data';
         $path[] = 'Omae';
         $path[] = 'Test.txt';
-        $filename = implode(\DIRECTORY_SEPARATOR, $path);
+        $filename = implode(DIRECTORY_SEPARATOR, $path);
         $converter = new Shadowrun5eConverter($filename);
         $converter->convert();
         $errors = $converter->getErrors();
@@ -295,13 +299,13 @@ final class Shadowrun5eConverterTest extends TestCase
     public function testInvalid(): void
     {
         $path = explode(
-            \DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR,
             dirname(dirname(dirname(__DIR__)))
         );
         $path[] = 'Data';
         $path[] = 'Omae';
         $path[] = 'Invalid.txt';
-        $filename = implode(\DIRECTORY_SEPARATOR, $path);
+        $filename = implode(DIRECTORY_SEPARATOR, $path);
         $converter = new Shadowrun5eConverter($filename);
         $converter->convert();
 
@@ -317,13 +321,13 @@ final class Shadowrun5eConverterTest extends TestCase
     public function testLoadMage(): void
     {
         $path = explode(
-            \DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR,
             dirname(dirname(dirname(__DIR__)))
         );
         $path[] = 'Data';
         $path[] = 'Omae';
         $path[] = 'Mage.txt';
-        $filename = implode(\DIRECTORY_SEPARATOR, $path);
+        $filename = implode(DIRECTORY_SEPARATOR, $path);
         $converter = new Shadowrun5eConverter($filename);
         $character = $converter->convert();
         self::assertSame(
@@ -346,13 +350,13 @@ final class Shadowrun5eConverterTest extends TestCase
     public function testLoadTechno(): void
     {
         $path = explode(
-            \DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR,
             dirname(dirname(dirname(__DIR__)))
         );
         $path[] = 'Data';
         $path[] = 'Omae';
         $path[] = 'Techno.txt';
-        $filename = implode(\DIRECTORY_SEPARATOR, $path);
+        $filename = implode(DIRECTORY_SEPARATOR, $path);
         $converter = new Shadowrun5eConverter($filename);
         $character = $converter->convert();
 

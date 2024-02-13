@@ -1,5 +1,6 @@
 @php
 use App\Features\ChummerImport;
+use App\Features\HeroLabImport;
 use App\Features\CyberpunkCharacterGeneration;
 use App\Features\Shadowrun5eCharacterGeneration;
 use App\Features\TransformersCharacterGeneration;
@@ -73,11 +74,16 @@ use App\Features\TransformersCharacterGeneration;
                         <span class="badge bg-warning">Beta</span>
                     </a>
                     @endfeature
+                    @feature(HeroLabImport::class)
+                    <a class="dropdown-item" href="{{ route('import.herolab.view') }}">
+                        Import a Hero Lab portfolio
+                        <span class="badge bg-warning">Beta</span>
+                    </a>
+                    @endfeature
                     @feature(TransformersCharacterGeneration::class)
                     <a class="dropdown-item" href="/characters/transformers/create">
                         Transformers RPG
                         <span class="badge bg-danger">Not complete</span>
-                    </a>
                     @endfeature
                 </li>
             </ul>

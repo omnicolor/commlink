@@ -32,7 +32,7 @@ class EventFactory extends Factory
             'game_start' => null,
             'name' => $this->faker->company(),
             'real_end' => null,
-            'real_start' => now(),
+            'real_start' => now()->toDateTimeString(),
         ];
     }
 }

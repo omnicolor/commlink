@@ -23,7 +23,9 @@ class Vehicles extends Component
      */
     public function __construct(Character $character)
     {
+        $this->attributes = $this->newAttributeBag();
         $this->charGen = $character instanceof PartialCharacter;
+        $this->componentName = 'Shadowrun5e\Vehicles';
         $this->vehicles = $character->getVehicles();
     }
 

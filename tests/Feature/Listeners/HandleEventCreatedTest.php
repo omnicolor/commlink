@@ -82,7 +82,6 @@ final class HandleEventCreatedTest extends TestCase
         Http::assertNothingSent();
     }
 
-    /** @group current */
     public function testHandlingEventWithDiscordChannelWebhook(): void
     {
         Http::fake();

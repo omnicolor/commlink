@@ -7,6 +7,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use League\Flysystem\UnableToCreateDirectory;
 use ParseError;
 
 /**
@@ -49,9 +50,10 @@ class ValidateDataFiles extends Command
      */
     protected array $paths;
 
+    protected int $return = Command::SUCCESS;
+
     /**
      * Execute the console command.
-     * @return int
      */
     public function handle(): int
     {
@@ -67,13 +69,18 @@ class ValidateDataFiles extends Command
 
             if (!isset($this->paths[$system])) {
                 $this->error('  * No data_path config set');
+                $this->return = Command::FAILURE;
                 continue;
             }
 
-            if (!file_exists($this->paths[$system])) {
+            if (
+                $this->paths[$system] === self::SYSTEM_MAP[$system]
+                && !file_exists(base_path($this->paths[$system]))
+            ) {
                 $this->error(
                     '  * Invalid data directory: ' . $this->paths[$system]
                 );
+                $this->return = Command::FAILURE;
                 continue;
             }
 
@@ -88,7 +95,7 @@ class ValidateDataFiles extends Command
                 $this->line('  * Using data files in ' . $this->paths[$system]);
             }
             if ($this->checkForEmptyDirectory($system)) {
-                $this->error('  * No data files found');
+                $this->warn('  * No data files found');
                 continue;
             }
             if ($this->paths[$system] !== self::SYSTEM_MAP[$system]) {
@@ -97,7 +104,7 @@ class ValidateDataFiles extends Command
             }
             $this->validateDataFiles($system);
         }
-        return 0;
+        return $this->return;
     }
 
     protected function validateDataFiles(string $system): void
@@ -117,6 +124,7 @@ class ValidateDataFiles extends Command
             try {
                 $data = require $this->paths[$system] . $file;
             } catch (ParseError $ex) {
+                $this->return = Command::FAILURE;
                 $this->error(sprintf(
                     '  * %s is not valid on line %d: %s',
                     $file,
@@ -126,6 +134,7 @@ class ValidateDataFiles extends Command
                 continue;
             }
             if (!is_array($data)) {
+                $this->return = Command::FAILURE;
                 $this->error(sprintf(
                     '  * %s does not return a PHP array of data',
                     $file
@@ -169,16 +178,21 @@ class ValidateDataFiles extends Command
         ])->files();
         $missingFiles = array_diff($exampleFiles, $dataFiles);
         foreach ($missingFiles as $file) {
+            $this->return = Command::FAILURE;
             $this->error('  * Missing data file: ' . $file);
         }
     }
 
     protected function checkForEmptyDirectory(string $system): bool
     {
-        $dataFiles = Storage::build([
-            'driver' => 'local',
-            'root' => $this->paths[$system],
-        ])->files();
+        try {
+            $dataFiles = Storage::build([
+                'driver' => 'local',
+                'root' => $this->paths[$system],
+            ])->files();
+        } catch (UnableToCreateDirectory) {
+            return true;
+        }
         return 0 === count($dataFiles);
     }
 }
