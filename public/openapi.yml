@@ -1124,6 +1124,25 @@ paths:
                 type: object
       tags:
         - expanse
+  /healthz:
+    get:
+      summary: Check health of the server
+      operationId: healthz-index
+      responses:
+        '200':
+          description: The server is operating normally.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '503':
+          description: One or more parts of the service are not running.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+      tags:
+        - meta
   /roll:
     options:
       summary: Slack roll health check
@@ -2878,6 +2897,44 @@ components:
         - requirements
         - links
       type: object
+    HealthResponse:
+      properties:
+        data:
+          properties:
+            database:
+              properties:
+                document:
+                  $ref: '#/components/schemas/HealthStatus'
+                key_value:
+                  $ref: '#/components/schemas/HealthStatus'
+                relational:
+                  $ref: '#/components/schemas/HealthStatus'
+              type: object
+            disk_space:
+              $ref: '#/components/schemas/HealthStatus'
+            links:
+              $ref: '#/components/schemas/Links'
+            workers:
+              properties:
+                discord:
+                  $ref: '#/components/schemas/HealthStatus'
+                queue:
+                  $ref: '#/components/schemas/HealthStatus'
+                schedule:
+                  $ref: '#/components/schemas/HealthStatus'
+              type: object
+          type: object
+        meta:
+          properties:
+            time_in_seconds:
+              type: number
+          type: object
+      type: object
+    HealthStatus:
+      enum:
+        - failed
+        - OK
+      type: string
     Initiative:
       properties:
         campaign_id:
