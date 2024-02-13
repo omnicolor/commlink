@@ -84,6 +84,7 @@ use App\Features\TransformersCharacterGeneration;
                     <a class="dropdown-item" href="/characters/transformers/create">
                         Transformers RPG
                         <span class="badge bg-danger">Not complete</span>
+                    </a>
                     @endfeature
                 </li>
             </ul>
