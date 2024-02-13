@@ -205,9 +205,6 @@ class Number extends Roll
         return $response->addAttachment($attachment)->sendToChannel();
     }
 
-    /**
-     * @psalm-suppress InvalidReturnType
-     */
     public function forDiscord(): string | MessageBuilder
     {
         if (null !== $this->error) {
@@ -251,7 +248,6 @@ class Number extends Roll
         $row = ActionRow::new()->addComponent($button);
         $message = new MessageBuilder();
         $message->setContent($content)->addComponent($row);
-        /** @psalm-suppress InvalidReturnStatement */
         return $message;
     }
 

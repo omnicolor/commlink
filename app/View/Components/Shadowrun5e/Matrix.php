@@ -25,7 +25,9 @@ class Matrix extends Component
      */
     public function __construct(public Character $character)
     {
+        $this->attributes = $this->newAttributeBag();
         $this->charGen = $character instanceof PartialCharacter;
+        $this->componentName = 'Shadowrun5e\Matrix';
         $this->devices = collect($character->getGear())
             ->filter(function (GearModel $item): bool {
                 // Filter non-matrix devices out, they're shown in a different

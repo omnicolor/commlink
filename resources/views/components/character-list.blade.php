@@ -1,5 +1,6 @@
 @php
 use App\Features\ChummerImport;
+use App\Features\HeroLabImport;
 use App\Features\CyberpunkCharacterGeneration;
 use App\Features\WorldAnvilImport;
 use App\Features\Shadowrun5eCharacterGeneration;
@@ -71,6 +72,11 @@ use App\Features\Shadowrun5eCharacterGeneration;
                         Import a Chummer 5 character
                         <span class="badge bg-warning">Beta</span>
                     </a>
+                    @endfeature
+                    @feature(HeroLabImport::class)
+                    <a class="dropdown-item" href="{{ route('import.herolab.view') }}">
+                        Import a Hero Lab portfolio
+                        <span class="badge bg-warning">Beta</span>
                     @endfeature
                     @feature(WorldAnvilImport::class)
                     <a class="dropdown-item" href="{{ route('import.world-anvil.view') }}">
