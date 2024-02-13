@@ -79,7 +79,6 @@ class Character extends Model
      * @param array<int|string, mixed> $attributes
      * @param ?string $connection
      * @phpstan-ignore-next-line
-     * @psalm-suppress LessSpecificImplementedReturnType
      */
     public function newFromBuilder(
         $attributes = [],

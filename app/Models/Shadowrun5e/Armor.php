@@ -14,7 +14,6 @@ class Armor
 {
     /**
      * Whether the armor is currently active.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public bool $active = false;
 
@@ -37,7 +36,6 @@ class Armor
 
     /**
      * List of additional effects of the armor.
-     * @psalm-suppress PossiblyUnusedProperty
      * @var array<string, int>
      */
     public array $effects = [];

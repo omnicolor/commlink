@@ -60,7 +60,6 @@ trait InteractsWithSlack
 
     /**
      * Given a Slack User ID, return the user's name.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getSlackUserName(string $user): ?string
     {

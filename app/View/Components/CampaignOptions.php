@@ -12,6 +12,8 @@ class CampaignOptions extends Component
 {
     public function __construct(public Campaign $campaign)
     {
+        $this->attributes = $this->newAttributeBag();
+        $this->componentName = 'CampaignOptions';
     }
 
     public function render(): View

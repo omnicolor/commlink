@@ -34,7 +34,6 @@ class CharacterFactory extends Factory
     protected static ?array $socialClasses;
 
     /**
-     * @psalm-suppress MixedArgument
      * @psalm-suppress MissingParamType
      */
     public function __construct(...$args)
@@ -46,9 +45,6 @@ class CharacterFactory extends Factory
         }
     }
 
-    /**
-     * @psalm-suppress PossiblyInvalidCast
-     */
     protected function loadBackgrounds(): void
     {
         $filename = (string)config('app.data_path.expanse') . 'backgrounds.php';
@@ -57,9 +53,6 @@ class CharacterFactory extends Factory
         self::$backgrounds = array_keys($backgrounds);
     }
 
-    /**
-     * @psalm-suppress PossiblyInvalidCast
-     */
     protected function loadSocialClasses(): void
     {
         $filename = (string)config('app.data_path.expanse')

@@ -6,7 +6,6 @@ namespace Database\Factories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory as BaseFactory;
-use Illuminate\Database\QueryException;
 
 /**
  * @psalm-suppress MissingTemplateParam
@@ -17,13 +16,8 @@ abstract class Factory extends BaseFactory
 {
     protected function createUser(): User
     {
-        while (true) {
-            try {
-                /** @var User */
-                $user = User::factory()->create();
-                return $user;
-            } catch (QueryException) {
-            }
-        }
+        /** @var User */
+        $user = User::factory()->create();
+        return $user;
     }
 }

@@ -25,7 +25,9 @@ class Armor extends Component
     public function __construct(public Character $character)
     {
         $this->armors = $character->getArmor();
+        $this->attributes = $this->newAttributeBag();
         $this->charGen = $character instanceof PartialCharacter;
+        $this->componentName = 'Shadowrun5e\Armor';
     }
 
     /**

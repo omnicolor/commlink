@@ -17,11 +17,13 @@ use Laravel\Pennant\Concerns\HasFeatures;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use stdClass;
 
 /**
  * @property string $email
  * @property int $id
  * @property Collection $events
+ * @property stdClass $pivot
  */
 class User extends Authenticatable
 {

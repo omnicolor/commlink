@@ -22,7 +22,6 @@ class Contact
 
     /**
      * Characters that the contact shares.
-     * @psalm-suppress PossiblyUnusedProperty
      * @var array<int, array<string, int|null|string>>
      */
     public array $characters = [];

@@ -92,7 +92,7 @@ final class TarotTest extends TestCase
 
     /**
      * Test trying to draw a card in a Discord channel with no campaign.
-     * @group discrd
+     * @group discord
      * @test
      */
     public function testDiscordTarotWithNoCampaign(): void

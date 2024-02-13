@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Campaign;
+use App\Models\CampaignInvitation;
 use App\Models\Channel;
 use App\Models\Character;
 use App\Models\ChatCharacter;
@@ -31,6 +32,7 @@ final class VarzControllerTest extends TestCase
         Channel::truncate();
         Deck::truncate();
         Initiative::truncate();
+        CampaignInvitation::truncate();
         Campaign::truncate();
         Character::truncate();
     }

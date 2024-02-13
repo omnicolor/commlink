@@ -47,7 +47,6 @@ abstract class Role
     /**
      * Return the appropriate role object from an array.
      * @param array<string, string|int> $role
-     * @psalm-suppress PossiblyUnusedMethod
      * @throws RuntimeException
      */
     public static function fromArray(array $role): Role

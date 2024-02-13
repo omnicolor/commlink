@@ -12,6 +12,8 @@ class CharacterList extends Component
 {
     public function __construct(public Collection $characters)
     {
+        $this->attributes = $this->newAttributeBag();
+        $this->componentName = 'CharacterList';
     }
 
     public function render(): View

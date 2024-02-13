@@ -17,7 +17,6 @@ use function key;
 /**
  * Tests for the campaign model.
  * @group campaigns
- * @group models
  * @medium
  */
 final class CampaignTest extends TestCase
@@ -37,10 +36,8 @@ final class CampaignTest extends TestCase
             'gm' => $gm->id,
             'registered_by' => $registerer->id,
         ]);
-        // @phpstan-ignore-next-line
-        self::assertSame($gm->id, $campaign->gamemaster->id);
-        // @phpstan-ignore-next-line
-        self::assertSame($registerer->id, $campaign->registeredBy->id);
+        self::assertSame($gm->id, $campaign->gamemaster?->id);
+        self::assertSame($registerer->id, $campaign->registrant?->id);
     }
 
     /**

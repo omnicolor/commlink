@@ -98,7 +98,6 @@ class VehicleModification
 
     /**
      * Weapon attached to the modification (assuming it's a weapon mount).
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public ?Weapon $weapon = null;
 

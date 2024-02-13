@@ -25,7 +25,9 @@ class Knowledge extends Component
      */
     public function __construct(public Character $character)
     {
+        $this->attributes = $this->newAttributeBag();
         $this->charGen = $character instanceof PartialCharacter;
+        $this->componentName = 'Shadowrun5e\Knowledge';
         $this->knowledges = $character->getKnowledgeSkills(onlyKnowledges: true);
         $this->languages = $character->getKnowledgeSkills(onlyLanguages: true);
     }

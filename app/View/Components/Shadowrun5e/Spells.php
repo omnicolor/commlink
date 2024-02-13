@@ -23,6 +23,8 @@ class Spells extends Component
      */
     public function __construct(public Character $character)
     {
+        $this->attributes = $this->newAttributeBag();
+        $this->componentName = 'Shadowrun5e\Spells';
         $this->spells = $character->getSpells();
         if (!($character instanceof PartialCharacter)) {
             return;
@@ -33,7 +35,10 @@ class Spells extends Component
             $this->charGen = true;
             return;
         }
-        // @phpstan-ignore-next-line
+        /**
+         * @phpstan-ignore-next-line
+         * @psalm-suppress DocblockTypeContradiction
+         */
         if (!isset($character->priorities['magic']) || null === $character->priorities['magic']) {
             return;
         }

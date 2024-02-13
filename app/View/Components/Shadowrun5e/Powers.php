@@ -31,7 +31,9 @@ class Powers extends Component
      */
     public function __construct(public Character $character)
     {
+        $this->attributes = $this->newAttributeBag();
         $this->charGen = $character instanceof PartialCharacter;
+        $this->componentName = 'Shadowrun5e\Powers';
         $this->isAdept = $this->isAdept();
         $this->powers = $character->getAdeptPowers();
         $this->type = $this->getAdeptType();
@@ -45,7 +47,10 @@ class Powers extends Component
         if (!$this->isAdept()) {
             return '';
         }
-        // @phpstan-ignore-next-line
+        /**
+         * @psalm-suppress PossiblyNullArrayAccess
+         * @phpstan-ignore-next-line
+         */
         if ('mystic' === $this->character->priorities['magic']) {
             return 'mystic adept';
         }

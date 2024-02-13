@@ -61,10 +61,7 @@ class UserResource extends JsonResource
         }
 
         $roles = [];
-        /**
-         * @psalm-suppress UnnecessaryVarAnnotation
-         * @var Role $role
-         */
+        /** @var Role $role */
         foreach ($this->roles as $role) {
             $roles[] = [
                 'id' => $role->id,

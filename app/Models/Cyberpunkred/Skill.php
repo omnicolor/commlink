@@ -64,7 +64,6 @@ class Skill
 
     /**
      * Constructor.
-     * @psalm-suppress PossiblyUnusedMethod
      * @throws RuntimeException If the skill isn't valid
      */
     public function __construct(string $id, int $level = 0)

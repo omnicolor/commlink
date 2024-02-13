@@ -174,7 +174,6 @@ class Augmentation
     /**
      * Build an augmentation from a Mongo array.
      * @param array<string, mixed> $augmentation
-     * @psalm-suppress PossiblyUnusedMethod
      * @throws RuntimeException If the augmentation isn't valid
      */
     public static function build(array $augmentation): Augmentation

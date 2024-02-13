@@ -327,9 +327,6 @@ class CharactersController extends Controller
         ));
     }
 
-    /**
-     * @psalm-suppress InvalidPropertyAssignmentValue
-     */
     public function storeBoosts(BoostsRequest $request): RedirectResponse
     {
         /** @var User */
@@ -403,9 +400,6 @@ class CharactersController extends Controller
         ));
     }
 
-    /**
-     * @psalm-suppress InvalidPropertyAssignmentValue
-     */
     public function storePowers(PowersRequest $request): RedirectResponse
     {
         $characterId = $request->session()->get('capers-partial');

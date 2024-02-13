@@ -72,11 +72,11 @@ class Shadowrun5eConverter implements ConverterInterface
             // @codeCoverageIgnoreEnd
         }
         $this->file = $file;
+        $this->character = new PartialCharacter();
     }
 
     public function convert(): PartialCharacter
     {
-        $this->character = new PartialCharacter();
         while (!$this->endOfFile()) {
             $this->skipToMajorHeading();
 
