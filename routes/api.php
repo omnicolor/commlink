@@ -41,7 +41,7 @@ Route::middleware('auth:sanctum')->group(function (): void {
 
     Route::resource('events', EventsController::class)
         ->withTrashed(['destroy'])
-        ->except(['store', 'update']);
+        ->except(['edit', 'store', 'update']);
     Route::patch('events/{event}', [EventsController::class, 'patch'])
         ->name('events.patch');
     Route::put('events/{event}', [EventsController::class, 'put'])
@@ -57,7 +57,8 @@ Route::middleware('auth:sanctum')->group(function (): void {
         Route::get('names', FakeNamesController::class)->name('names');
     });
 
-    Route::resource('users', UsersController::class);
+    Route::resource('users', UsersController::class)
+        ->only(['index', 'show', 'update']);
     Route::post('users/{user}/token', [UsersController::class, 'createToken'])
         ->name('create-token');
     Route::delete(
