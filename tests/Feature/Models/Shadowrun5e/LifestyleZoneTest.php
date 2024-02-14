@@ -10,7 +10,6 @@ use Tests\TestCase;
 
 /**
  * Tests for Shadowrun 5E lifestyle zones.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

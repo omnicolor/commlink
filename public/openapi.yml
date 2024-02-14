@@ -19,10 +19,10 @@ servers:
   - url: https://commlink.digitaldarkness.com/api
   - url: https://commlink-dev.digitaldarkness.com/api
 tags:
-  - name: character
-    description: Everything about characters, in whatever system
   - name: campaign
     description: Information for gamemasters
+  - name: character
+    description: Everything about characters, in whatever system
   - name: cyberpunkred
     description: Cyberpunk Red RPG
   - name: dnd5e
@@ -66,10 +66,11 @@ paths:
                             name: 'Mike F'
                           links:
                             self: '/characters/cyberpunkred/65776d7c77223955eee96ec1'
-                      description: |
-                        Low-level campaign for fun, Chooms. Still looking for a GM.
+                      description: Low-level campaign for fun, Chooms.
                       id: 3
-                      gm: null
+                      gm:
+                        id: 42
+                        name: 'Omni A'
                       name: 'Night City Rejects'
                       options:
                         nightCityTarot: true
@@ -145,7 +146,6 @@ paths:
                     description: |
                       Low-level campaign for fun, Chooms. Still looking for a GM.
                     id: 3
-                    gm: null
                     name: 'Night City Rejects'
                     options:
                       nightCityTarot: true
@@ -164,6 +164,9 @@ paths:
                       self: '/campaigns/3'
                       collection: '/campaigns'
                       root: '/'
+                  links:
+                    self: '/campaigns/3'
+                    collection: '/campaigns'
                 properties:
                   data:
                     $ref: '#/components/schemas/CampaignFull'
@@ -201,7 +204,9 @@ paths:
               schema:
                 example:
                   data:
-                    - campaign_id: 123
+                    - campaign:
+                        id: 123
+                        name: 'Test campaign'
                       created_by:
                         name: 'Bob King'
                         id: 31
@@ -2425,6 +2430,7 @@ components:
           schema:
             properties:
               message:
+                example: The requested character was not found
                 type: string
             required:
               - message
@@ -2435,7 +2441,7 @@ components:
         application/json:
           schema:
             example:
-              {"message":"Unauthenticated"}
+              message: Unauthenticated
             properties:
               message:
                 type: string
@@ -3044,16 +3050,17 @@ components:
     Shadowrun5eAdeptPower:
       example:
         cost: 0.5
-        description: "This power allows an adept to disrupt the mana flows within a target they have touched. Activating this power is a Simple Action and can be activated any time within (Magic) minutes from the time the target is touched (meaning the adept must have succeeded in a touch attack. The adept rolls Magic + Willpower [Astral] vs. Reaction + Intuition [Physical]. If the adept wins, the target suffers a glitch or accident as determined by the gamemaster. If the adept scores 4 or more net hits, it is considered a critical glitch with potentially catastrophic results. The adept must resist Drain (Body + Willpower) equal to the number of hits (not net hits)."
+        description: 'This power allows an adept to disrupt the mana flows within a target they have touched. Activating this power is a Simple Action and can be activated any time within (Magic) minutes from the time the target is touched (meaning the adept must have succeeded in a touch attack. The adept rolls Magic + Willpower [Astral] vs. Reaction + Intuition [Physical]. If the adept wins, the target suffers a glitch or accident as determined by the gamemaster. If the adept scores 4 or more net hits, it is considered a critical glitch with potentially catastrophic results. The adept must resist Drain (Body + Willpower) equal to the number of hits (not net hits).'
         effects:
-        id: "adept-accident"
+          - body: 1
+        id: 'adept-accident'
         incompatible-with:
-          - "adept-accident"
-        name: "Adept Accident"
+          - 'adept-accident'
+        name: 'Adept Accident'
         page: 190
-        ruleset: "hard-targets"
+        ruleset: 'hard-targets'
         links:
-          self: "/api/shadowrun5e/adept-powers/adept-accident"
+          self: '/api/shadowrun5e/adept-powers/adept-accident'
       properties:
         cost:
           type: number
@@ -3231,18 +3238,18 @@ components:
       type: object
     Shadowrun5eAugmentation:
       example:
-        availability: 2
+        availability: '2'
         cost: 1000
-        description: "A datajack gives you a direct neural interface (p. 222), which can be handy in a lot of situations. It also comes with a retractable spool of micro-cable (about a meter long) that lets you directly interface with any electronic device via a universal access cable. Datajacks are equipped with their own cache of storage memory for downloading or saving files. Two datajack users can string a fiberoptic cable between themselves to conduct a private mental communication immune to radio interception or eavesdropping.||Wireless: The datajack gives you Rating 1 noise reduction."
+        description: 'A datajack gives you a direct neural interface (p. 222), which can be handy in a lot of situations. It also comes with a retractable spool of micro-cable (about a meter long) that lets you directly interface with any electronic device via a universal access cable. Datajacks are equipped with their own cache of storage memory for downloading or saving files. Two datajack users can string a fiberoptic cable between themselves to conduct a private mental communication immune to radio interception or eavesdropping.||Wireless: The datajack gives you Rating 1 noise reduction.'
         essence: 0.1
-        id: "datajack"
-        name: "Datajack"
-        ruleset: "core"
-        type: "cyberware"
+        id: 'datajack'
+        name: 'Datajack'
+        ruleset: 'core'
+        type: 'cyberware'
         wireless-effects:
           noise-reduction: 1
         links:
-          self: "/api/shadowrun5e/cyberware/datajack"
+          self: '/api/shadowrun5e/cyberware/datajack'
       properties:
         availability:
           $ref: '#/components/schemas/Shadowrun5eAvailability'
@@ -3273,14 +3280,14 @@ components:
             - type: string
             - type: integer
         ruleset:
+          type: string
+        type:
           enum:
             - bioware
             - cyberware
           type: string
         wireless-effects:
-          items:
-            type: object
-          type: array
+          type: object
       required:
         - availability
         - cost
@@ -3296,9 +3303,7 @@ components:
         Code that shows both how difficult an item is to get, as well as how
         illegal it is.
       example:
-        - 8F
-        - ''
-        - 4
+        '8F'
       type: string
     Shadowrun5eCharacter:
       allOf:
@@ -3847,7 +3852,7 @@ components:
         allowedDevices:
           - "cyberdeck"
         availability: "3"
-        cost: 1000,
+        cost: 1000
         description: "Agents are autonomous programs that are rated from 1 to 6. Each agent occupies one program slot on your deck. Agents use the Matrix attributes of the device they run on, and their rating (up to 6) for attributes. Agents also have the Computer, Hacking, and Cybercombat skills at a rating equal to their own. An agent runs as a program and can use programs running on the same device as them."
         id: "agent-1"
         name: "Agent"
@@ -4477,6 +4482,7 @@ components:
           - "BF"
           - "FA"
         modifications:
+          - smartlink-internal
         mounts:
           - "top"
           - "under"
@@ -4567,15 +4573,17 @@ components:
       type: object
     Shadowrun5eWeaponModification:
       example:
-        availability: "+2R"
+        availability: '+2R'
         capacity: 1
         cost-modifier: 2
-        description: "This connects a firearm or a projectile weapon directly to the user's smartlink."
+        description: |
+          This connects a firearm or a projectile weapon directly to the user's
+          smartlink.
         effects:
           accuracy: 2
           dice-bonus: 1
           dice-bonus-essence: 1
-        id: "smartlink-internal"
+        id: 'smartlink-internal'
         incompatible-with:
           - "ceramic-plasteel-components-1"
           - "ceramic-plasteel-components-2"
@@ -4590,6 +4598,7 @@ components:
         ruleset: "core"
         type: "modification"
         wireless-effects:
+          accuracy: 1
       properties:
         availability:
           $ref: '#/components/schemas/Shadowrun5eAvailability'

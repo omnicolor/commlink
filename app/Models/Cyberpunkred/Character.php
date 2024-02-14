@@ -18,7 +18,9 @@ use function ksort;
 
 /**
  * Representation of a Cyberpunk Red character sheet.
+ * @property array<string, string> $armor
  * @property int $body
+ * @property ?int $campaign_id
  * @property int $cool
  * @property int $dexterity
  * @property int $empathy
@@ -34,7 +36,9 @@ use function ksort;
  * @property int $reflexes
  * @property array<int, array<string, int|string>> $roles
  * @property array<string, int> $skills
+ * @property array<int, array<string, int|string>> $skills_custom
  * @property int $technique
+ * @property array<int, array<string, int|string>> $weapons
  * @property int $willpower
  */
 class Character extends BaseCharacter
@@ -68,6 +72,7 @@ class Character extends BaseCharacter
      * @var array<int, string>
      */
     protected $fillable = [
+        'armor',
         'body',
         'cool',
         'dexterity',
@@ -82,6 +87,7 @@ class Character extends BaseCharacter
         'reflexes',
         'roles',
         'skills',
+        'skills_custom',
         'technique',
         'weapons',
         'willpower',
