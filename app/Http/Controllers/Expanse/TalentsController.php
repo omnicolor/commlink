@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 use function array_key_exists;
+use function array_keys;
+use function array_values;
 use function date;
 use function json_encode;
 use function sha1;
@@ -58,7 +60,7 @@ class TalentsController extends Controller
 
         $data = [
             'links' => $this->links,
-            'data' => $this->talents,
+            'data' => array_values($this->talents),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);

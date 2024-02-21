@@ -2358,9 +2358,9 @@ final class CharacterControllerTest extends TestCase
             ->assertStatus(Response::HTTP_OK)
             ->assertJson([
                 'data' => [
-                    'damageOverflow' => 35,
-                    'damagePhysical' => 10,
-                    'damageStun' => 10,
+                    'damage_overflow' => 35,
+                    'damage_physical' => 10,
+                    'damage_stun' => 10,
                 ],
             ]);
 

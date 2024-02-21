@@ -7,6 +7,9 @@ namespace App\Http\Controllers\Expanse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function array_key_exists;
+use function array_keys;
+use function array_values;
 use function date;
 use function json_encode;
 use function sha1;
@@ -57,7 +60,7 @@ class ConditionsController extends Controller
 
         $data = [
             'links' => $this->links,
-            'data' => $this->conditions,
+            'data' => array_values($this->conditions),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -78,7 +81,6 @@ class ConditionsController extends Controller
         $condition = $this->conditions[$id];
         $condition['links']['self'] = $this->links['self'] =
             route('expanse.conditions.show', ['condition' => $id]);
-        $condition['id'] = $id;
 
         $this->headers['Etag'] = sha1((string)json_encode($condition));
         $this->links['collection'] = route('expanse.conditions.index');

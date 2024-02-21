@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 
 use function array_key_exists;
 use function array_keys;
+use function array_values;
 use function date;
 use function json_encode;
 use function sha1;
@@ -82,7 +83,7 @@ class AdeptPowersController extends Controller
         $this->links['self'] = route('shadowrun5e.adept-powers.index');
         $data = [
             'links' => $this->links,
-            'data' => $this->powers,
+            'data' => array_values($this->powers),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
