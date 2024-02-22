@@ -10,7 +10,6 @@ use RuntimeException;
 
 /**
  * Tests for Shadowrun 5E lifestyle attributes.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

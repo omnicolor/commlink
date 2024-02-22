@@ -12,7 +12,6 @@ use stdClass;
 
 /**
  * Tests for the ProgramArray.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

@@ -12,7 +12,6 @@ use stdClass;
 
 /**
  * Tests for the AugmentationArray class.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

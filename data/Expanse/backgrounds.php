@@ -24,6 +24,7 @@ return [
         ],
         'description' => '',
         'focuses' => [],
+        'id' => '',
         'name' => '',
         'page' => ,
         'talents' => [],
@@ -49,6 +50,7 @@ return [
             'crafting',
             'engineering',
         ],
+        'id' => 'trade',
         'name' => 'Trade',
         'page' => 33,
         'talents' => [

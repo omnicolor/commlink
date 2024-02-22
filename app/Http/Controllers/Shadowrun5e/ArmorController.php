@@ -7,6 +7,15 @@ namespace App\Http\Controllers\Shadowrun5e;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function array_key_exists;
+use function array_keys;
+use function date;
+use function json_encode;
+use function sha1;
+use function sha1_file;
+use function stat;
+use function strtolower;
+
 /**
  * Controller for Shadowrun armor.
  */
@@ -23,15 +32,34 @@ class ArmorController extends Controller
      */
     protected array $armor;
 
+    /**
+     * @param array<string, mixed> $armor
+     * @return array<string, mixed>
+     */
+    protected function cleanArmor(array $armor): array
+    {
+        $armor['links'] = [
+            'self' => route('shadowrun5e.armor.show', $armor['id']),
+        ];
+        if (array_key_exists('wireless-effects', $armor)) {
+            $armor['wireless_effects'] = $armor['wireless-effects'];
+            unset($armor['wireless-effects']);
+        }
+        if (array_key_exists('stack-rating', $armor)) {
+            $armor['stack_rating'] = $armor['stack-rating'];
+            unset($armor['stack-rating']);
+        }
+        $armor['ruleset'] ??= 'core';
+        return $armor;
+    }
+
     public function __construct()
     {
         parent::__construct();
         $this->filename = config('app.data_path.shadowrun5e') . 'armor.php';
-        $this->links['system'] = '/api/shadowrun5e';
-        $this->links['collection'] = '/api/shadowrun5e/armor';
-        $stat = \stat($this->filename);
+        $stat = stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
         $this->armor = require $this->filename;
     }
 
@@ -41,19 +69,15 @@ class ArmorController extends Controller
     public function index(): Response
     {
         foreach (array_keys($this->armor) as $key) {
-            $this->armor[$key]['links'] = [
-                'self' => \sprintf(
-                    '/api/shadowrun5e/armor/%s',
-                    \urlencode($key)
-                ),
-            ];
+            $this->armor[$key] = $this->cleanArmor($this->armor[$key]);
         }
 
-        $this->headers['Etag'] = \sha1_file($this->filename);
+        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->links['collection'] = route('shadowrun5e.armor.index');
 
         $data = [
             'links' => $this->links,
-            'data' => \array_values($this->armor),
+            'data' => $this->armor,
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -64,22 +88,16 @@ class ArmorController extends Controller
      */
     public function show(string $id): Response
     {
-        $id = \strtolower($id);
-        if (!\array_key_exists($id, $this->armor)) {
-            $error = [
-                'status' => Response::HTTP_NOT_FOUND,
-                'detail' => $id . ' not found',
-                'title' => 'Not Found',
-            ];
-            return $this->error($error);
-        }
+        $id = strtolower($id);
+        abort_if(
+            !array_key_exists($id, $this->armor),
+            Response::HTTP_NOT_FOUND,
+            $id . ' not found',
+        );
 
         $armor = $this->armor[$id];
-        $armor['ruleset'] ??= 'core';
-        $armor['links']['self'] = $this->links['self']
-            = \sprintf('/api/shadowrun5e/armor/%s', \urlencode($id));
-
-        $this->headers['Etag'] = \sha1((string)\json_encode($armor));
+        $this->links['self'] = route('shadowrun5e.armor.show', $id);
+        $this->headers['Etag'] = sha1((string)json_encode($armor));
 
         $data = [
             'links' => $this->links,

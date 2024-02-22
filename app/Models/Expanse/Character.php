@@ -17,6 +17,7 @@ use RuntimeException;
  * @property Background $background
  * @property ?string $campaign
  * @property int $communication
+ * @property int $constitution
  * @property int $dexterity
  * @property string $downfall
  * @property string $drive
@@ -36,6 +37,7 @@ use RuntimeException;
  * @property int $strength
  * @property string $system
  * @property array<int, array<string, int|string>> $talents
+ * @property int $toughness
  * @property int $willpower
  */
 class Character extends BaseCharacter
@@ -58,6 +60,7 @@ class Character extends BaseCharacter
         'background',
         'campaign',
         'communication',
+        'constitution',
         'dexterity',
         'downfall',
         'drive',
@@ -74,6 +77,7 @@ class Character extends BaseCharacter
         'socialClass',
         'strength',
         'talents',
+        'toughness',
         'willpower',
     ];
 
