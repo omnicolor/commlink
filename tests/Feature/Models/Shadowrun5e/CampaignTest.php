@@ -12,6 +12,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
+ * @group shadowrun
+ * @group shadowrun5e
  * @medium
  */
 final class CampaignTest extends TestCase

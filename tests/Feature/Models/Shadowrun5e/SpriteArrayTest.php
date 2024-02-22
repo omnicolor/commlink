@@ -12,7 +12,6 @@ use stdClass;
 
 /**
  * Tests for the SpriteArray.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

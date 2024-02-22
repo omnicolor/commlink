@@ -47,7 +47,7 @@ Route::middleware('auth:sanctum')->group(function (): void {
     Route::put('events/{event}', [EventsController::class, 'put'])
         ->name('events.put');
     Route::get('events/{event}/rsvp', [EventsController::class, 'getRsvp'])
-        ->name('events.get-rsvp');
+        ->name('events.rsvp.show');
     Route::delete('events/{event}/rsvp', [EventsController::class, 'deleteRsvp'])
         ->name('events.delete-rsvp');
     Route::put('events/{event}/rsvp', [EventsController::class, 'updateRsvp'])
