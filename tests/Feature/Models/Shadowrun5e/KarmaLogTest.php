@@ -21,7 +21,6 @@ use function json_decode;
 
 /**
  * Tests for Karma Log.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

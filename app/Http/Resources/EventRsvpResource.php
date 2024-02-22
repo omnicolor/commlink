@@ -28,14 +28,13 @@ class EventRsvpResource extends JsonResource
                 'response' => $this->response ?? 'tentative',
             ],
             'links' => [
-                'campaign' => sprintf(
-                    '/api/campaigns/%d',
-                    $this->event->campaign->id,
+                'campaign' => route(
+                    'campaigns.show',
+                    ['campaign' => $this->event->campaign->id],
                 ),
-                'event' => sprintf('/api/events/%d', $this->event->id),
-                'root' => '/api',
-                'self' => sprintf('/api/events/%d/rsvp', $this->event->id),
-                'user' => sprintf('/api/users/%d', $this->user->id),
+                'event' => route('events.show', ['event' => $this->event]),
+                'self' => route('events.rsvp.show', ['event' => $this->event]),
+                'user' => route('users.show', [$this->user]),
             ],
         ];
     }

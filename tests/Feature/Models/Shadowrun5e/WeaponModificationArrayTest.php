@@ -12,7 +12,6 @@ use stdClass;
 
 /**
  * Tests for the WeaponModificationArray.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

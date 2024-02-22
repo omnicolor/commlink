@@ -10,6 +10,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+use function count;
+
 /**
  * Tests for the talents controller.
  * @group controllers
@@ -27,9 +29,8 @@ final class TalentsControllerTest extends TestCase
     public function testIndexBrokenConfig(): void
     {
         Config::set('app.data_path.expanse', '/tmp/unused/');
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('expanse.talents.index'))
             ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
@@ -40,7 +41,7 @@ final class TalentsControllerTest extends TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $this->getJson(route('expanse.talents.index'))
+        self::getJson(route('expanse.talents.index'))
             ->assertUnauthorized();
     }
 
@@ -50,17 +51,16 @@ final class TalentsControllerTest extends TestCase
      */
     public function testAuthIndex(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $response = $this->actingAs($user)
+        $response = self::actingAs($user)
             ->getJson(route('expanse.talents.index'))
             ->assertOk()
             ->assertJsonFragment([
                 'links' => [
-                    'self' => '/api/expanse/talents/fringer',
+                    'self' => route('expanse.talents.show', 'fringer'),
                 ],
             ]);
-        self::assertGreaterThanOrEqual(1, \count($response['data']));
+        self::assertGreaterThanOrEqual(1, count($response['data']));
     }
 
     /**
@@ -69,7 +69,7 @@ final class TalentsControllerTest extends TestCase
      */
     public function testNoAuthShow(): void
     {
-        $this->getJson(route('expanse.talents.show', 'fringer'))
+        self::getJson(route('expanse.talents.show', 'fringer'))
             ->assertUnauthorized();
     }
 
@@ -79,7 +79,7 @@ final class TalentsControllerTest extends TestCase
      */
     public function testNoAuthShowNotFound(): void
     {
-        $this->getJson(route('expanse.talents.show', 'not-found'))
+        self::getJson(route('expanse.talents.show', 'not-found'))
             ->assertUnauthorized();
     }
 
@@ -89,9 +89,8 @@ final class TalentsControllerTest extends TestCase
      */
     public function testAuthShow(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('expanse.talents.show', 'fringer'))
             ->assertOk()
             ->assertJson([
@@ -109,9 +108,8 @@ final class TalentsControllerTest extends TestCase
      */
     public function testAuthShowNotFound(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('expanse.talents.show', 'not-found'))
             ->assertNotFound();
     }

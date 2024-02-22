@@ -15,7 +15,6 @@ use Tests\TestCase;
 
 /**
  * Unit tests for gear class.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small
