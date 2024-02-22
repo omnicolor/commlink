@@ -8,8 +8,6 @@ use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-use function sprintf;
-
 /**
  * @mixin Event
  */
@@ -39,19 +37,20 @@ class EventResource extends JsonResource
                 'real_start' => $this->real_start,
                 'responses' => EventResponseResource::collection($this->responses),
                 'links' => [
-                    'self' => sprintf('/events/%d', $this->id),
-                    'campaign' => sprintf('/campaigns/%d', $this->campaign_id),
-                    'campaign_collection' => sprintf(
-                        '/campaigns/%d/events',
-                        $this->campaign_id,
+                    'self' => route('events.show', ['event' => $this]),
+                    'campaign' => route(
+                        'campaigns.show',
+                        ['campaign' => $this->campaign_id],
                     ),
-                    'event_collection' => '/events',
-                    'root' => '/',
+                    'campaign_events_collection' => route(
+                        'events.campaign-index',
+                        ['campaign' => $this->campaign_id],
+                    ),
+                    'events_collection' => route('events.index'),
                 ],
             ],
             'links' => [
-                'root' => '/',
-                'collection' => '/events',
+                'collection' => route('events.index'),
             ],
         ];
     }

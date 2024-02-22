@@ -22,6 +22,7 @@ use function ksort;
  * @property-read array<string, ?Armor> $armor
  * @property-write array<string, null|string|Armor> $armor
  * @property int $body
+ * @property ?int $campaign_id
  * @property int $cool
  * @property-read int $death_save
  * @property int $dexterity
@@ -46,7 +47,7 @@ use function ksort;
  * @property array<string, int> $skills
  * @property array<int, array<string, int|string>> $skills_custom
  * @property int $technique
- * @property array $weapons
+ * @property array<int, array<string, int|string>> $weapons
  * @property int $willpower
  */
 class Character extends BaseCharacter
@@ -100,6 +101,7 @@ class Character extends BaseCharacter
         'reputation',
         'roles',
         'skills',
+        'skills_custom',
         'technique',
         'weapons',
         'willpower',

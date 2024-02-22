@@ -96,7 +96,7 @@ final class LifestyleZonesControllerTest extends TestCase
                 'data' => [
                     'id' => 'aaa',
                     'name' => 'AAA',
-                    'responseTime' => '2d6 minutes',
+                    'response_time' => '2d6 minutes',
                 ],
             ]);
     }

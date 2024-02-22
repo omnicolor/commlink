@@ -8,6 +8,8 @@ use App\Models\Shadowrun5e\TarotDeck;
 use Tests\TestCase;
 
 /**
+ * @group shadowrun
+ * @group shadowrun5e
  * @small
  */
 final class TarotDeckTest extends TestCase

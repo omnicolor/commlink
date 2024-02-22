@@ -9,6 +9,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+use function count;
+
 /**
  * Tests for the conditions controller.
  * @group controllers
@@ -24,9 +26,8 @@ final class ConditionsControllerTest extends TestCase
     public function testIndexBrokenConfig(): void
     {
         Config::set('app.data_path.expanse', '/tmp/unused/');
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('expanse.conditions.index'))
             ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
@@ -37,8 +38,7 @@ final class ConditionsControllerTest extends TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $this->getJson(route('expanse.conditions.index'))
-            ->assertUnauthorized();
+        self::getJson(route('expanse.conditions.index'))->assertUnauthorized();
     }
 
     /**
@@ -47,17 +47,19 @@ final class ConditionsControllerTest extends TestCase
      */
     public function testAuthIndex(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $response = $this->actingAs($user)
+        $response = self::actingAs($user)
             ->getJson(route('expanse.conditions.index'))
             ->assertOk()
             ->assertJsonFragment([
                 'links' => [
-                    'self' => '/api/expanse/conditions/deafened',
+                    'self' => route(
+                        'expanse.conditions.show',
+                        ['condition' => 'deafened'],
+                    ),
                 ],
             ]);
-        self::assertGreaterThanOrEqual(1, \count($response['data']));
+        self::assertGreaterThanOrEqual(1, count($response['data']));
     }
 
     /**
@@ -66,7 +68,7 @@ final class ConditionsControllerTest extends TestCase
      */
     public function testNoAuthShow(): void
     {
-        $this->getJson(route('expanse.conditions.show', 'deafened'))
+        self::getJson(route('expanse.conditions.show', 'deafened'))
             ->assertUnauthorized();
     }
 
@@ -86,9 +88,8 @@ final class ConditionsControllerTest extends TestCase
      */
     public function testAuthShow(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('expanse.conditions.show', 'deafened'))
             ->assertOk()
             ->assertJson([
@@ -108,9 +109,8 @@ final class ConditionsControllerTest extends TestCase
      */
     public function testAuthShowNotFound(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('expanse.conditions.show', 'not-found'))
             ->assertNotFound();
     }

@@ -14,6 +14,7 @@ return [
             'master' => '',
         ],
         'description' => '',
+        'id' => '',
         'name' => '',
         'page' => ,
         'requirements' => [],
@@ -26,6 +27,7 @@ return [
             'master' => 'Description of master Fringer.',
         ],
         'description' => 'Fringer description.',
+        'id' => 'fringer',
         'name' => 'Fringer',
         'page' => 52,
         'requirements' => [],
@@ -37,6 +39,7 @@ return [
             'master' => 'Description of master Maker.',
         ],
         'description' => 'Description of a Maker.',
+        'id' => 'maker',
         'name' => 'Maker',
         'page' => 55,
         'requirements' => [
