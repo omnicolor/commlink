@@ -9,6 +9,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+use function count;
+
 /**
  * Tests for the backgrounds controller.
  * @group controllers
@@ -24,9 +26,8 @@ final class BackgroundsControllerTest extends TestCase
     public function testIndexBrokenConfig(): void
     {
         Config::set('app.data_path.expanse', '/tmp/unused/');
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('expanse.backgrounds.index'))
             ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
@@ -37,7 +38,7 @@ final class BackgroundsControllerTest extends TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $this->getJson(route('expanse.backgrounds.index'))
+        self::getJson(route('expanse.backgrounds.index'))
             ->assertUnauthorized();
     }
 
@@ -47,17 +48,16 @@ final class BackgroundsControllerTest extends TestCase
      */
     public function testAuthIndex(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $response = $this->actingAs($user)
+        $response = self::actingAs($user)
             ->getJson(route('expanse.backgrounds.index'))
             ->assertOk()
             ->assertJsonFragment([
                 'links' => [
-                    'self' => '/api/expanse/backgrounds/trade',
+                    'self' => route('expanse.backgrounds.show', 'trade'),
                 ],
             ]);
-        self::assertGreaterThanOrEqual(1, \count($response['data']));
+        self::assertGreaterThanOrEqual(1, count($response['data']));
     }
 
     /**
@@ -66,7 +66,7 @@ final class BackgroundsControllerTest extends TestCase
      */
     public function testNoAuthShow(): void
     {
-        $this->getJson(route('expanse.backgrounds.show', 'trade'))
+        self::getJson(route('expanse.backgrounds.show', 'trade'))
             ->assertUnauthorized();
     }
 
@@ -76,7 +76,7 @@ final class BackgroundsControllerTest extends TestCase
      */
     public function testNoAuthShowNotFound(): void
     {
-        $this->getJson(route('expanse.backgrounds.show', 'not-found'))
+        self::getJson(route('expanse.backgrounds.show', 'not-found'))
             ->assertUnauthorized();
     }
 
@@ -86,9 +86,8 @@ final class BackgroundsControllerTest extends TestCase
      */
     public function testAuthShow(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('expanse.backgrounds.show', 'trade'))
             ->assertOk()
             ->assertJson([
@@ -127,9 +126,8 @@ final class BackgroundsControllerTest extends TestCase
      */
     public function testAuthShowNotFound(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('expanse.backgrounds.show', 'not-found'))
             ->assertNotFound();
     }

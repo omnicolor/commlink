@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers\Expanse;
 
+use App\Models\Campaign;
 use App\Models\Cyberpunkred\Character as CprCharacter;
 use App\Models\Expanse\Character;
 use App\Models\User;
@@ -11,9 +12,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * Tests for the Expanse character controller.
- * @group expanse
  * @group controllers
+ * @group expanse
  * @medium
  */
 final class CharactersControllerTest extends TestCase
@@ -26,7 +26,7 @@ final class CharactersControllerTest extends TestCase
      */
     public function testUnauthenticated(): void
     {
-        $this->getJson(route('expanse.characters.index'))->assertUnauthorized();
+        self::getJson(route('expanse.characters.index'))->assertUnauthorized();
     }
 
     /**
@@ -36,9 +36,8 @@ final class CharactersControllerTest extends TestCase
      */
     public function testAuthenticatedNoCharacters(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('expanse.characters.index'))
             ->assertOk()
             ->assertJson(['data' => []]);
@@ -51,7 +50,6 @@ final class CharactersControllerTest extends TestCase
      */
     public function testAuthenticatedNoCharactersFromSystem(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         CprCharacter::factory()->create([
@@ -59,7 +57,7 @@ final class CharactersControllerTest extends TestCase
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('expanse.characters.index'))
             ->assertOk()
             ->assertJson(['data' => []]);
@@ -72,7 +70,6 @@ final class CharactersControllerTest extends TestCase
      */
     public function testAuthenticatedWithCharacters(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         CprCharacter::factory()->create([
@@ -86,7 +83,7 @@ final class CharactersControllerTest extends TestCase
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('expanse.characters.index'))
             ->assertOk()
             ->assertJsonFragment([
@@ -107,7 +104,6 @@ final class CharactersControllerTest extends TestCase
      */
     public function testListCharactersIfTheyHaveNone(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)
             ->get('/characters/expanse')
@@ -121,7 +117,6 @@ final class CharactersControllerTest extends TestCase
      */
     public function testListCharacters(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Character */
@@ -145,17 +140,22 @@ final class CharactersControllerTest extends TestCase
      */
     public function testShowCharacter(): void
     {
-        /** @var User */
         $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['system' => 'expanse']);
 
         /** @var Character */
         $character = Character::factory()->create([
+            'focuses' => [
+                ['id' => 'crafting'],
+            ],
             'owner' => $user->email,
             'system' => 'expanse',
+            'campaign_id' => $campaign->id,
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('expanse.characters.show', $character))
             ->assertOk()
             ->assertJsonFragment([
@@ -176,7 +176,6 @@ final class CharactersControllerTest extends TestCase
      */
     public function testShowCharacterOtherSystem(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var CprCharacter */
@@ -185,7 +184,7 @@ final class CharactersControllerTest extends TestCase
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('expanse.characters.show', $character))
             ->assertNotFound();
 
@@ -198,7 +197,6 @@ final class CharactersControllerTest extends TestCase
      */
     public function testViewCharacter(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Character */
@@ -207,7 +205,7 @@ final class CharactersControllerTest extends TestCase
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
-        $this->actingAs($user)
+        self::actingAs($user)
             ->get(
                 \sprintf('/characters/expanse/%s', $character->id),
                 ['character' => $character, 'user' => $user]

@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Shadowrun5e;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\JsonResource;
+use Illuminate\Http\Request;
+
+use function array_merge;
 
 /**
  * @property string $id
@@ -13,14 +16,14 @@ class CharacterResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
-     * @param \Illuminate\Http\Request $request
-     * @return array<string, mixed>
+     * @return array<int|string, mixed>
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
-        return \array_merge(
+        $character = array_merge(
             (array)parent::toArray($request),
             ['id' => $this->id]
         );
+        return $this->convertKeys($character);
     }
 }

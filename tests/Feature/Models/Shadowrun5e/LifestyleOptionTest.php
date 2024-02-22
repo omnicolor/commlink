@@ -11,7 +11,6 @@ use Tests\TestCase;
 
 /**
  * Tests for LifestyleOption.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

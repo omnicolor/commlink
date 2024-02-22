@@ -6,6 +6,10 @@ namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
 
+use function array_key_exists;
+use function sprintf;
+use function strtolower;
+
 /**
  * Representation of a neighborhood's lifestyle zone.
  * @psalm-suppress PossiblyUnusedProperty
@@ -30,7 +34,7 @@ class LifestyleZone
     /**
      * Response time for first responders.
      */
-    public string $responseTime;
+    public string $response_time;
 
     /**
      * List of all zones.
@@ -47,10 +51,10 @@ class LifestyleZone
         $filename = config('app.data_path.shadowrun5e') . 'lifestyle-zones.php';
         self::$zones ??= require $filename;
 
-        $id = \strtolower($id);
-        if (!\array_key_exists($id, self::$zones)) {
+        $id = strtolower($id);
+        if (!array_key_exists($id, self::$zones)) {
             throw new RuntimeException(
-                \sprintf('Lifestyle Zone ID "%s" is invalid', $id)
+                sprintf('Lifestyle Zone ID "%s" is invalid', $id)
             );
         }
 
@@ -58,7 +62,7 @@ class LifestyleZone
         $this->description = $zone['description'];
         $this->id = $id;
         $this->name = $zone['name'];
-        $this->responseTime = $zone['responseTime'];
+        $this->response_time = $zone['response_time'];
     }
 
     public function __toString(): string

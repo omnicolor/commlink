@@ -16,10 +16,6 @@ use Illuminate\View\View;
  */
 class CharactersController extends Controller
 {
-    /**
-     * Return a collection of Expanse characters for the logged in user.
-     * @return JsonResource
-     */
     public function index(): JsonResource
     {
         return CharacterResource::collection(
@@ -28,20 +24,11 @@ class CharactersController extends Controller
         );
     }
 
-    /**
-     * View all of the logged in user's characters.
-     * @return View
-     */
     public function list(): View
     {
         return view('Expanse.characters');
     }
 
-    /**
-     * Return a single Expanse character.
-     * @param string $identifier
-     * @return CharacterResource
-     */
     public function show(string $identifier): CharacterResource
     {
         // @phpstan-ignore-next-line
@@ -53,11 +40,6 @@ class CharactersController extends Controller
         );
     }
 
-    /**
-     * View a character's sheet.
-     * @param Character $character
-     * @return View
-     */
     public function view(Character $character): View
     {
         $user = Auth::user();

@@ -7,6 +7,7 @@ return [
     '' => [
         'attribute' => '',
         'description' => '',
+        'id' => '',
         'name' => '',
         'page' => ,
     ],
@@ -14,6 +15,7 @@ return [
     'crafting' => [
         'attribute' => 'dexterity',
         'description' => 'Description of crafting.',
+        'id' => 'crafting',
         'name' => 'Crafting',
         'page' => 47,
     ],

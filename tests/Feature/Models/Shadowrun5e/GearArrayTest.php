@@ -13,7 +13,6 @@ use stdClass;
 
 /**
  * Tests for the GearArray class.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

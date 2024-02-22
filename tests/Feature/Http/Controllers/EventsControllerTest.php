@@ -415,8 +415,7 @@ final class EventsControllerTest extends TestCase
                     ],
                 ],
                 'links' => [
-                    'root' => '/',
-                    'collection' => '/events',
+                    'collection' => route('events.index'),
                 ],
             ])
             ->assertCreated();
@@ -451,7 +450,7 @@ final class EventsControllerTest extends TestCase
         $user = User::factory()->create();
         $event = Event::factory()->create();
         self::actingAs($user)
-            ->get(route('events.get-rsvp', ['event' => $event]))
+            ->get(route('events.rsvp.show', ['event' => $event]))
             ->assertNotFound();
     }
 
@@ -471,7 +470,7 @@ final class EventsControllerTest extends TestCase
             ]
         );
         self::actingAs($user)
-            ->get(route('events.get-rsvp', ['event' => $event]))
+            ->get(route('events.rsvp.show', ['event' => $event]))
             ->assertOk()
             ->assertJsonPath('data.response', 'tentative');
         self::assertDatabaseHas(
@@ -498,7 +497,7 @@ final class EventsControllerTest extends TestCase
             'user_id' => $user->id,
         ]);
         self::actingAs($user)
-            ->get(route('events.get-rsvp', ['event' => $event]))
+            ->get(route('events.rsvp.show', ['event' => $event]))
             ->assertOk()
             ->assertJsonPath('data.response', 'accepted');
     }

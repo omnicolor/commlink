@@ -10,7 +10,6 @@ use Tests\TestCase;
 
 /**
  * Unit tests for MentorSpirit class.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

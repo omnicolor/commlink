@@ -130,7 +130,8 @@ final class CharacterControllerTest extends TestCase
     }
 
     /**
-     * Test loading an individual character.
+     * Test loading an individual character, verifying that keys are correctly
+     * converted to snake_case.
      * @test
      */
     public function testShowCharacter(): void
@@ -143,6 +144,16 @@ final class CharacterControllerTest extends TestCase
             'owner' => $user->email,
             'system' => 'shadowrun5e',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'priorities' => [
+                'metatype' => 'dwarf',
+                'metatypePriority' => 'C',
+                'magicPriority' => 'E',
+                'attributePriority' => 'B',
+                'skillPriority' => 'C',
+                'resourcePriority' => 'B',
+                'magic' => 'mundane',
+                'gameplay' => 'established',
+            ],
         ]);
 
         self::actingAs($user)
@@ -152,6 +163,16 @@ final class CharacterControllerTest extends TestCase
                 'id' => $character->_id,
                 'handle' => $character->handle,
                 'owner' => $user->email,
+                'priorities' => [
+                    'metatype' => 'dwarf',
+                    'metatype_priority' => 'C',
+                    'magic_priority' => 'E',
+                    'attribute_priority' => 'B',
+                    'skill_priority' => 'C',
+                    'resource_priority' => 'B',
+                    'magic' => 'mundane',
+                    'gameplay' => 'established',
+                ],
                 'system' => 'shadowrun5e',
                 'updated_at' => $character->updated_at,
                 'created_at' => $character->created_at,
@@ -2358,9 +2379,9 @@ final class CharacterControllerTest extends TestCase
             ->assertStatus(Response::HTTP_OK)
             ->assertJson([
                 'data' => [
-                    'damageOverflow' => 35,
-                    'damagePhysical' => 10,
-                    'damageStun' => 10,
+                    'damage_overflow' => 35,
+                    'damage_physical' => 10,
+                    'damage_stun' => 10,
                 ],
             ]);
 

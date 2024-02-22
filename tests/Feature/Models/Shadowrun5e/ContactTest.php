@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for Contact class.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

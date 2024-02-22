@@ -12,7 +12,6 @@ use Tests\TestCase;
 
 /**
  * Unit tests for the gear factory.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

@@ -12,7 +12,6 @@ use Tests\TestCase;
 
 /**
  * Unit tests for Vehicle Modifications.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

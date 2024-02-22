@@ -12,7 +12,6 @@ use Tests\TestCase;
 
 /**
  * Armor tests for Armor object.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

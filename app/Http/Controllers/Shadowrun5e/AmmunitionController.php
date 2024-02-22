@@ -7,6 +7,14 @@ namespace App\Http\Controllers\Shadowrun5e;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function array_key_exists;
+use function array_keys;
+use function date;
+use function json_encode;
+use function sha1;
+use function sha1_file;
+use function stat;
+
 /**
  * Controller for Shadowrun 5E ammunition.
  */
@@ -28,12 +36,30 @@ class AmmunitionController extends Controller
         parent::__construct();
         $this->filename = config('app.data_path.shadowrun5e')
             . 'ammunition.php';
-        $this->links['system'] = '/api/shadowrun5e';
-        $this->links['collection'] = '/api/shadowrun5e/ammunition';
-        $stat = \stat($this->filename);
+        $stat = stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
         $this->ammo = require $this->filename;
+    }
+
+    /**
+     * @param array<string, mixed> $ammo
+     * @return array<string, mixed>
+     */
+    protected function cleanAmmo(array $ammo): array
+    {
+        $ammo['links'] = [
+            'self' => route('shadowrun5e.ammunition.show', $ammo['id']),
+        ];
+        if (array_key_exists('ap-modifier', $ammo)) {
+            $ammo['ap_modifier'] = $ammo['ap-modifier'];
+            unset($ammo['ap-modifier']);
+        }
+        if (array_key_exists('damage-modifier', $ammo)) {
+            $ammo['damage_modifier'] = $ammo['damage-modifier'];
+            unset($ammo['damage-modifier']);
+        }
+        return $ammo;
     }
 
     /**
@@ -42,19 +68,15 @@ class AmmunitionController extends Controller
     public function index(): Response
     {
         foreach (array_keys($this->ammo) as $key) {
-            $this->ammo[$key]['links'] = [
-                'self' => \sprintf(
-                    '/api/shadowrun5e/ammunition/%s',
-                    \urlencode($key)
-                ),
-            ];
+            $this->ammo[$key] = $this->cleanAmmo($this->ammo[$key]);
         }
 
-        $this->headers['Etag'] = \sha1_file($this->filename);
+        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->links['self'] = route('shadowrun5e.ammunition.index');
 
         $data = [
             'links' => $this->links,
-            'data' => \array_values($this->ammo),
+            'data' => $this->ammo,
         ];
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
@@ -64,22 +86,16 @@ class AmmunitionController extends Controller
      */
     public function show(string $id): Response
     {
-        $id = \strtolower($id);
-        if (!\array_key_exists($id, $this->ammo)) {
-            $error = [
-                'status' => Response::HTTP_NOT_FOUND,
-                'detail' => $id . ' not found',
-                'title' => 'Not Found',
-            ];
-            return $this->error($error);
-        }
-
-        $ammo = $this->ammo[$id];
-        $this->links['self'] = $ammo['links']['self'] = \sprintf(
-            '/api/shadowrun5e/ammunition/%s',
-            \urlencode($id)
+        $id = strtolower($id);
+        abort_if(
+            !array_key_exists($id, $this->ammo),
+            Response::HTTP_NOT_FOUND,
+            $id . ' not found',
         );
-        $this->headers['Etag'] = \sha1((string)\json_encode($ammo));
+
+        $ammo = $this->cleanAmmo($this->ammo[$id]);
+        $this->links['collection'] = route('shadowrun5e.ammunition.index');
+        $this->headers['Etag'] = sha1((string)json_encode($ammo));
 
         $data = [
             'links' => $this->links,

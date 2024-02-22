@@ -18,8 +18,7 @@ class EventCollection extends ResourceCollection
         return [
             'data' => $this->collection,
             'links' => [
-                'collection' => '/events',
-                'root' => '/',
+                'collection' => route('events.index'),
             ],
         ];
     }

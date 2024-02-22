@@ -38,7 +38,7 @@ class Controller extends BaseController
             'Content-Language' => 'en-US',
             'Expires' => (new DateTimeImmutable('+1 month'))->format('r'),
         ];
-        $this->links = ['root' => '/api'];
+        $this->links = [];
     }
 
     /**

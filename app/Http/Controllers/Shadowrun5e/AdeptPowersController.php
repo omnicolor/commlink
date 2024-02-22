@@ -7,6 +7,16 @@ namespace App\Http\Controllers\Shadowrun5e;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function array_key_exists;
+use function array_keys;
+use function array_values;
+use function date;
+use function json_encode;
+use function sha1;
+use function sha1_file;
+use function stat;
+use function strtolower;
+
 /**
  * Controller for adept powers.
  */
@@ -28,12 +38,36 @@ class AdeptPowersController extends Controller
         parent::__construct();
         $this->filename = config('app.data_path.shadowrun5e')
             . 'adept-powers.php';
-        $this->links['system'] = '/api/shadowrun5e';
-        $this->links['collection'] = '/api/shadowrun5e/adept-powers';
-        $stat = \stat($this->filename);
+
+        $stat = stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
         $this->powers = require $this->filename;
+    }
+
+    /**
+     * @param array<string, mixed> $power
+     * @return array<string, mixed>
+     */
+    protected function cleanup(array $power): array
+    {
+        if (array_key_exists('incompatible-with', $power)) {
+            $power['incompatible_with'] = $power['incompatible-with'];
+            unset($power['incompatible-with']);
+        }
+        $power['links'] = [
+            'self' => route('shadowrun5e.adept-powers.show', ['adept_power' => $power['id']]),
+        ];
+
+        if (array_key_exists('effects', $power) && 0 !== count($power['effects'])) {
+            $effects = [];
+            /** @var string $key */
+            foreach ($power['effects'] as $key => $effect) {
+                $effects[str_replace('-', '_', $key)] = $effect;
+            }
+            $power['effects'] = $effects;
+        }
+        return $power;
     }
 
     /**
@@ -42,19 +76,14 @@ class AdeptPowersController extends Controller
     public function index(): Response
     {
         foreach (array_keys($this->powers) as $key) {
-            $this->powers[$key]['links'] = [
-                'self' => \sprintf(
-                    '/api/shadowrun5e/adept-powers/%s',
-                    \urlencode($key)
-                ),
-            ];
+            $this->powers[$key] = $this->cleanup($this->powers[$key]);
         }
 
-        $this->headers['Etag'] = \sha1_file($this->filename);
-
+        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->links['self'] = route('shadowrun5e.adept-powers.index');
         $data = [
             'links' => $this->links,
-            'data' => \array_values($this->powers),
+            'data' => array_values($this->powers),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -65,8 +94,8 @@ class AdeptPowersController extends Controller
      */
     public function show(string $id): Response
     {
-        $id = \strtolower($id);
-        if (!\array_key_exists($id, $this->powers)) {
+        $id = strtolower($id);
+        if (!array_key_exists($id, $this->powers)) {
             // We couldn't find it!
             $errors = [
                 'status' => Response::HTTP_NOT_FOUND,
@@ -75,13 +104,11 @@ class AdeptPowersController extends Controller
             ];
             return $this->error($errors);
         }
-        $power = $this->powers[$id];
+        $power = $this->cleanup($this->powers[$id]);
 
-        $power['links']['self'] = $this->links['self'] =
-            \sprintf('/api/shadowrun5e/adept-powers/%s', $id);
-
-        $this->headers['Etag'] = \sha1((string)\json_encode($power));
-
+        $this->headers['Etag'] = sha1((string)json_encode($power));
+        $this->links['collection'] = route('shadowrun5e.adept-powers.index');
+        $this->links['self'] = route('shadowrun5e.adept-powers.show', ['adept_power' => $id]);
         $data = [
             'links' => $this->links,
             'data' => $power,

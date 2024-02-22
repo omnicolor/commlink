@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Controllers\Shadowrun5e;
 
 use App\Models\User;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+use function count;
+
 /**
  * Tests for the armor-modifications controller.
- * @group controllers
  * @group shadowrun
  * @group shadowrun5e
  * @medium
@@ -25,11 +25,10 @@ final class ArmorModificationsControllerTest extends TestCase
     public function testIndexBrokenConfig(): void
     {
         Config::set('app.data_path.shadowrun5e', '/tmp/unused/');
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('shadowrun5e.armor-modifications.index'))
-            ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
+            ->assertInternalServerError();
     }
 
     /**
@@ -38,7 +37,7 @@ final class ArmorModificationsControllerTest extends TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $this->getJson(route('shadowrun5e.armor-modifications.index'))
+        self::getJson(route('shadowrun5e.armor-modifications.index'))
             ->assertUnauthorized();
     }
 
@@ -48,17 +47,16 @@ final class ArmorModificationsControllerTest extends TestCase
      */
     public function testAuthIndex(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $response = $this->actingAs($user)
+        $response = self::actingAs($user)
             ->getJson(route('shadowrun5e.armor-modifications.index'))
             ->assertOk()
             ->assertJsonFragment([
                 'links' => [
-                    'self' => '/api/shadowrun5e/armor-modifications/auto-injector',
+                    'self' => route('shadowrun5e.armor-modifications.show', 'auto-injector'),
                 ],
             ]);
-        self::assertGreaterThanOrEqual(1, \count($response['data']));
+        self::assertGreaterThanOrEqual(1, count($response['data']));
     }
 
     /**
@@ -67,7 +65,7 @@ final class ArmorModificationsControllerTest extends TestCase
      */
     public function testNoAuthShow(): void
     {
-        $this->getJson(
+        self::getJson(
             route('shadowrun5e.armor-modifications.show', 'auto-injector')
         )
             ->assertUnauthorized();
@@ -79,7 +77,7 @@ final class ArmorModificationsControllerTest extends TestCase
      */
     public function testNoAuthShowNotFound(): void
     {
-        $this->getJson(
+        self::getJson(
             route('shadowrun5e.armor-modifications.show', 'not-found')
         )
             ->assertUnauthorized();
@@ -91,9 +89,8 @@ final class ArmorModificationsControllerTest extends TestCase
      */
     public function testAuthShow(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(
                 route('shadowrun5e.armor-modifications.show', 'auto-injector')
             )
@@ -101,7 +98,7 @@ final class ArmorModificationsControllerTest extends TestCase
             ->assertJson([
                 'data' => [
                     'availability' => '4',
-                    'capacity-cost' => 2,
+                    'capacity_cost' => 2,
                     'cost' => 1500,
                     'id' => 'auto-injector',
                     'name' => 'Auto-injector',
@@ -116,12 +113,28 @@ final class ArmorModificationsControllerTest extends TestCase
      */
     public function testAuthShowNotFound(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(
                 route('shadowrun5e.armor-modifications.show', 'not-found')
             )
             ->assertNotFound();
+    }
+
+    public function testCleansWirelessEffects(): void
+    {
+        $user = User::factory()->create();
+        self::actingAs($user)
+            ->getJson(
+                route('shadowrun5e.armor-modifications.show', 'argentum-coat')
+            )
+            ->assertOk()
+            ->assertJson([
+                'data' => [
+                    'wireless_effects' => [
+                        'social-tests' => 1,
+                    ],
+                ],
+            ]);
     }
 }

@@ -29,9 +29,17 @@ class UserResource extends JsonResource
                 'id' => $character->id,
                 'name' => (string)$character,
                 'system' => $character->system,
-                '_links' => [
-                    'json' => (string)url('/api/' . $character->system . '/characters/' . $character->id),
-                    'html' => (string)url('/characters/' . $character->system . '/' . $character->id),
+                'links' => [
+                    'json' => (string)url(sprintf(
+                        '/api/%s/characters/%s',
+                        $character->system,
+                        $character->id,
+                    )),
+                    'html' => (string)url(sprintf(
+                        '/characters/%s/%s',
+                        $character->system,
+                        $character->id,
+                    )),
                 ],
             ];
         }
@@ -40,8 +48,9 @@ class UserResource extends JsonResource
         foreach ($this->campaignsGmed as $campaign) {
             $gmedCampaigns[] = [
                 'id' => $campaign->id,
-                '_links' => [
-                    'html' => (string)url('/campaigns/' . $campaign->id),
+                'links' => [
+                    'json' => route('campaigns.show', $campaign),
+                    'html' => route('campaign.view', $campaign),
                 ],
                 'name' => $campaign->name,
                 'system' => $campaign->system,
@@ -52,8 +61,9 @@ class UserResource extends JsonResource
         foreach ($this->campaigns as $campaign) {
             $playingCampaigns[] = [
                 'id' => $campaign->id,
-                '_links' => [
-                    'html' => (string)url('/campaigns/' . $campaign->id),
+                'links' => [
+                    'json' => route('campaigns.show', $campaign),
+                    'html' => route('campaign.view', $campaign),
                 ],
                 'name' => $campaign->name,
                 'system' => $campaign->system,
@@ -79,8 +89,8 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'playingIn' => $playingCampaigns,
             'roles' => $roles,
-            '_links' => [
-                'self' => (string)url('/api/users/' . $this->id),
+            'links' => [
+                'self' => route('users.show', $this->id),
             ],
         ];
     }

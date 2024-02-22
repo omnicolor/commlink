@@ -2,4 +2,82 @@ extends:
   - recommended
 
 rules:
+  info-contact: error
+  info-license: error
+  info-license-url: error
+  no-unresolved-refs: error
+  no-unused-components: error
+  security-defined: error
+  spec: error
+  spec-components-invalid-map-name: error
+
+  operation-2xx-response: error
+  operation-4xx-problem-details-rfc7807: off
   operation-4xx-response: off
+  operation-description: off
+  operation-operationId: error
+  operation-operationId-unique: error
+  operation-operationId-url-safe: error
+  operation-summary: error
+
+  boolean-parameter-prefixes: off
+  no-invalid-parameter-examples: error
+  operation-parameters-unique: error
+  parameter-description: off
+  path-declaration-must-exist: error
+  path-not-include-query: error
+  path-parameters-defined: error
+
+  no-ambiguous-paths: error
+  no-http-verbs-in-paths: off
+  no-identical-paths: error
+  no-path-trailing-slash: error
+  path-segment-plural:
+    severity: error
+    exceptions:
+      - armor
+      - avatar
+      - cyberpunkred
+      - cyberware
+      - dnd5e
+      - expanse
+      - gear
+      - healthz
+      - invite
+      - roll
+      - rsvp
+      - shadowrun5e
+      - token
+      - varz
+  paths-kebab-case: error
+
+  no-enum-type-mismatch: error
+  no-example-value-and-externalValue: error
+  no-invalid-media-type-examples: error
+  no-invalid-schema-examples: error
+  request-mime-type:
+    severity: error
+    allowedValues:
+      - application/json
+      - application/json-patch+json
+  response-mime-type:
+    severity: error
+    allowedValues:
+      - application/json
+      - application/json+problem
+      - text/html
+  response-contains-header: error
+  response-contains-property: error
+  scalar-property-missing-example: off
+  required-string-property-missing-min-length: off
+
+  no-empty-servers: error
+  no-server-example.com: error
+  no-server-trailing-slash: error
+  no-server-variables-empty-enum: error
+  no-undefined-server-variable: error
+
+  operation-singular-tag: off
+  operation-tag-defined: error
+  tag-description: error
+  tags-alphabetical: error

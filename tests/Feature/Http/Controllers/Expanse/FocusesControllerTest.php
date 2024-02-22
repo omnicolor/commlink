@@ -9,6 +9,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+use function count;
+
 /**
  * Tests for the focuses controller.
  * @group controllers
@@ -24,9 +26,8 @@ final class FocusesControllerTest extends TestCase
     public function testIndexBrokenConfig(): void
     {
         Config::set('app.data_path.expanse', '/tmp/unused/');
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('expanse.focuses.index'))
             ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
@@ -37,7 +38,7 @@ final class FocusesControllerTest extends TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $this->getJson(route('expanse.focuses.index'))
+        self::getJson(route('expanse.focuses.index'))
             ->assertUnauthorized();
     }
 
@@ -47,17 +48,19 @@ final class FocusesControllerTest extends TestCase
      */
     public function testAuthIndex(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $response = $this->actingAs($user)
+        $response = self::actingAs($user)
             ->getJson(route('expanse.focuses.index'))
             ->assertOk()
             ->assertJsonFragment([
                 'links' => [
-                    'self' => '/api/expanse/focuses/crafting',
+                    'self' => route(
+                        'expanse.focuses.show',
+                        ['focus' => 'crafting'],
+                    ),
                 ],
             ]);
-        self::assertGreaterThanOrEqual(1, \count($response['data']));
+        self::assertGreaterThanOrEqual(1, count($response['data']));
     }
 
     /**
@@ -66,7 +69,7 @@ final class FocusesControllerTest extends TestCase
      */
     public function testNoAuthShow(): void
     {
-        $this->getJson(route('expanse.focuses.show', 'crafting'))
+        self::getJson(route('expanse.focuses.show', 'crafting'))
             ->assertUnauthorized();
     }
 
@@ -76,7 +79,7 @@ final class FocusesControllerTest extends TestCase
      */
     public function testNoAuthShowNotFound(): void
     {
-        $this->getJson(route('expanse.focuses.show', 'not-found'))
+        self::getJson(route('expanse.focuses.show', 'not-found'))
             ->assertUnauthorized();
     }
 
@@ -86,9 +89,8 @@ final class FocusesControllerTest extends TestCase
      */
     public function testAuthShow(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('expanse.focuses.show', 'crafting'))
             ->assertOk()
             ->assertJson([
@@ -106,9 +108,8 @@ final class FocusesControllerTest extends TestCase
      */
     public function testAuthShowNotFound(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('expanse.focuses.show', 'not-found'))
             ->assertNotFound();
     }

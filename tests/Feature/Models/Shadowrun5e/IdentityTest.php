@@ -12,7 +12,6 @@ use Tests\TestCase;
 
 /**
  * Tests for Identity class.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

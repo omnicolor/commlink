@@ -10,7 +10,6 @@ use Tests\TestCase;
 /**
  * @group shadowrun
  * @group shadowrun5e
- * @group models
  * @small
  */
 final class PartialCharacterTest extends TestCase

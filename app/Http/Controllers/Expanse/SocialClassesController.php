@@ -7,6 +7,17 @@ namespace App\Http\Controllers\Expanse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function array_key_exists;
+use function array_keys;
+use function array_values;
+use function date;
+use function json_encode;
+use function sha1;
+use function sha1_file;
+use function sprintf;
+use function stat;
+use function strtolower;
+
 /**
  * Controller for Expanse social classes.
  */
@@ -28,11 +39,9 @@ class SocialClassesController extends Controller
         parent::__construct();
         $this->filename = config('app.data_path.expanse')
             . 'social-classes.php';
-        $this->links['system'] = '/api/expanse';
-        $this->links['collection'] = '/api/expanse/social-classes';
-        $stat = \stat($this->filename);
+        $stat = stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
         $this->classes = require $this->filename;
     }
 
@@ -43,15 +52,16 @@ class SocialClassesController extends Controller
     {
         foreach (array_keys($this->classes) as $key) {
             $this->classes[$key]['links'] = [
-                'self' => \sprintf('/api/expanse/social-classes/%s', $key),
+                'self' => route('expanse.social-classes.show', $key),
             ];
         }
 
-        $this->headers['Etag'] = \sha1_file($this->filename);
+        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->links['self'] = route('expanse.social-classes.index');
 
         $data = [
             'links' => $this->links,
-            'data' => \array_values($this->classes),
+            'data' => array_values($this->classes),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -62,22 +72,19 @@ class SocialClassesController extends Controller
      */
     public function show(string $id): Response
     {
-        $id = \strtolower($id);
-        if (!\array_key_exists($id, $this->classes)) {
-            // We couldn't find it!
-            $error = [
-                'status' => Response::HTTP_NOT_FOUND,
-                'detail' => \sprintf('%s not found', $id),
-                'title' => 'Not Found',
-            ];
-            return $this->error($error);
-        }
+        $id = strtolower($id);
+        abort_if(
+            !array_key_exists($id, $this->classes),
+            Response::HTTP_NOT_FOUND,
+            sprintf('%s not found', $id),
+        );
 
         $class = $this->classes[$id];
         $class['links']['self'] = $this->links['self'] =
-            \sprintf('/api/expanse/social-classes/%s', $id);
+            route('expanse.social-classes.show', $id);
 
-        $this->headers['Etag'] = \sha1((string)\json_encode($class));
+        $this->headers['Etag'] = sha1((string)json_encode($class));
+        $this->links['collection'] = route('expanse.social-classes.index');
 
         $data = [
             'links' => $this->links,

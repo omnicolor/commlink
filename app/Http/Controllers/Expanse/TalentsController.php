@@ -7,6 +7,17 @@ namespace App\Http\Controllers\Expanse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function array_key_exists;
+use function array_keys;
+use function array_values;
+use function date;
+use function json_encode;
+use function sha1;
+use function sha1_file;
+use function sprintf;
+use function stat;
+use function strtolower;
+
 /**
  * Controller for Expanse talents.
  */
@@ -27,11 +38,9 @@ class TalentsController extends Controller
     {
         parent::__construct();
         $this->filename = config('app.data_path.expanse') . 'talents.php';
-        $this->links['system'] = '/api/expanse';
-        $this->links['collection'] = '/api/expanse/talents';
-        $stat = \stat($this->filename);
+        $stat = stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
         $this->talents = require $this->filename;
     }
 
@@ -42,15 +51,16 @@ class TalentsController extends Controller
     {
         foreach (array_keys($this->talents) as $key) {
             $this->talents[$key]['links'] = [
-                'self' => \sprintf('/api/expanse/talents/%s', $key),
+                'self' => route('expanse.talents.show', $key),
             ];
         }
 
-        $this->headers['Etag'] = \sha1_file($this->filename);
+        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->links['self'] = route('expanse.talents.index');
 
         $data = [
             'links' => $this->links,
-            'data' => \array_values($this->talents),
+            'data' => array_values($this->talents),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -61,22 +71,19 @@ class TalentsController extends Controller
      */
     public function show(string $id): Response
     {
-        $id = \strtolower($id);
-        if (!\array_key_exists($id, $this->talents)) {
-            // We couldn't find it!
-            $error = [
-                'status' => Response::HTTP_NOT_FOUND,
-                'detail' => \sprintf('%s not found', $id),
-                'title' => 'Not Found',
-            ];
-            return $this->error($error);
-        }
+        $id = strtolower($id);
+        abort_if(
+            !array_key_exists($id, $this->talents),
+            Response::HTTP_NOT_FOUND,
+            sprintf('%s not found', $id),
+        );
 
         $talent = $this->talents[$id];
         $talent['links']['self'] = $this->links['self'] =
-            \sprintf('/api/expanse/talents/%s', $id);
+            route('expanse.talents.show', $id);
 
-        $this->headers['Etag'] = \sha1((string)\json_encode($talent));
+        $this->headers['Etag'] = sha1((string)json_encode($talent));
+        $this->links['collection'] = route('expanse.talents.index');
 
         $data = [
             'links' => $this->links,

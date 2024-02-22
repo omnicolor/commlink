@@ -19,10 +19,10 @@ servers:
   - url: https://commlink.digitaldarkness.com/api
   - url: https://commlink-dev.digitaldarkness.com/api
 tags:
-  - name: character
-    description: Everything about characters, in whatever system
   - name: campaign
     description: Information for gamemasters
+  - name: character
+    description: Everything about characters, in whatever system
   - name: cyberpunkred
     description: Cyberpunk Red RPG
   - name: dnd5e
@@ -67,7 +67,8 @@ paths:
                           links:
                             self: '/characters/cyberpunkred/65776d7c77223955eee96ec1'
                       description: |
-                        Low-level campaign for fun, Chooms. Still looking for a GM.
+                        Low-level campaign for fun, Chooms. Still looking for a
+                        GM.
                       id: 3
                       gm: null
                       name: 'Night City Rejects'
@@ -160,10 +161,9 @@ paths:
                       id: 42
                       name: 'Mike F'
                     system: 'cyberpunkred'
-                    links:
-                      self: '/campaigns/3'
-                      collection: '/campaigns'
-                      root: '/'
+                  links:
+                    self: '/campaigns/3'
+                    collection: '/campaigns'
                 properties:
                   data:
                     $ref: '#/components/schemas/CampaignFull'
@@ -201,7 +201,9 @@ paths:
               schema:
                 example:
                   data:
-                    - campaign_id: 123
+                    - campaign:
+                        id: 123
+                        name: 'Campaign X'
                       created_by:
                         name: 'Bob King'
                         id: 31
@@ -553,7 +555,8 @@ paths:
       operationId: cyberpunkred-characters-index
       responses:
         '200':
-          description: Collection of all Cyberpunk Red characters for the current user.
+          description: |
+            Collection of all Cyberpunk Red characters for the current user.
           content:
             application/json:
               schema:
@@ -1040,7 +1043,8 @@ paths:
       operationId: expanse-conditions-index
       responses:
         '200':
-          description: Collection of conditions that can affect an Expanse character.
+          description: |
+            Collection of conditions that can affect an Expanse character.
           content:
             application/json:
               schema:
@@ -1124,25 +1128,41 @@ paths:
                 type: object
       tags:
         - expanse
-  /healthz:
+  /fakes/names:
     get:
-      summary: Check health of the server
-      operationId: healthz-index
+      summary: Generate some fake names.
+      operationId: fake-names-index
+      parameters:
+        - name: quantity
+          in: query
+          schema:
+            type: integer
       responses:
         '200':
-          description: The server is operating normally.
+          description: Collection of fake names.
           content:
             application/json:
+              example:
+                data:
+                  - Christian Waters
+                  - Francisco Bailey
+                  - Raymond Gomez
+                links:
+                  self: '/fakes/names'
+                  root: '/'
               schema:
-                $ref: '#/components/schemas/HealthResponse'
-        '503':
-          description: One or more parts of the service are not running.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HealthResponse'
+                properties:
+                  data:
+                    items:
+                      type: string
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
       tags:
-        - meta
+        - interactivity
   /roll:
     options:
       summary: Slack roll health check
@@ -2321,7 +2341,9 @@ paths:
       operationId: varz-index
       responses:
         '200':
-          description: Statistics showing the active systems, along with the number of objects contained within.
+          description: |
+            Statistics showing the active systems, along with the number of
+            objects contained within.
           content:
             application/json:
               schema:
@@ -2342,7 +2364,10 @@ paths:
                     description: Number of characters across all RPG systems.
                     type: integer
                   systems:
-                    description: Results contain information about each system supported in Commlink. The administrators may disable a system, so it's not guaranteed to appear.
+                    description: |
+                      Results contain information about each system supported in
+                      Commlink. The administrators may disable a system, so it's
+                      not guaranteed to appear.
                     properties:
                       capers:
                         properties:
@@ -2406,11 +2431,13 @@ components:
             detail: The object you're trying to update has been changed.
             instance: /event/123
     ErrorForbidden:
-      description: The request included authentication but it is not valid for the requested object.
+      description: |
+        The request included authentication but it is not valid for the
+        requested object.
       content:
         application/json:
           example:
-            {"message":"Forbidden"}
+            message: 'Forbidden'
           schema:
             properties:
               message:
@@ -2435,7 +2462,7 @@ components:
         application/json:
           schema:
             example:
-              {"message":"Unauthenticated"}
+              message: 'Unauthenticated'
             properties:
               message:
                 type: string
@@ -2451,7 +2478,8 @@ components:
               message:
                 type: string
               errors:
-                description: Collection of field names and the errors they contain.
+                description: |
+                  Collection of field names and the errors they contain.
                 type: object
             type: object
   schemas:
@@ -2555,6 +2583,83 @@ components:
           type: object
       type: object
     CyberpunkredCharacter:
+      example:
+        handle: 'Caleb'
+        id: '65776d7c77223955eee96ec1'
+        body: 5
+        cool: 8
+        dexterity: 7
+        empathy: 8
+        intelligence: 3
+        luck: 8
+        movement: 7
+        reflexes: 6
+        technique: 5
+        willpower: 5
+        hit_points: 35
+        hit_points_current: 19
+        roles:
+          - role: 'fixer'
+            rank: 4
+            type: 7
+        skills:
+          acting: 2
+          athletics: 2
+          brawling: 2
+          bribery: 5
+          business: 4
+          concentration: 4
+          conversation: 5
+          education: 2
+          evasion: 4
+          first_aid: 2
+          handgun: 4
+          human_perception: 5
+          interrogation: 2
+          perception: 4
+          personal_grooming: 1
+          persuasion: 6
+          pick_pocket: 2
+          stealth: 2
+          streetslang: 4
+          streetwise: 5
+          trading: 5
+          wardrobe_and_style: 2
+          your_home: 4
+        skills_custom:
+          - type: 'language'
+            name: 'Spanish'
+            level: 4
+          - type: 'language'
+            name: 'French'
+            level: 4
+        lifepath:
+          cultural_origins: 'Canadian'
+          clothing_style: 'Athletic wear'
+          what_valued: 'Honor'
+          person_valued': 'Aryana Murphy, 1st woman in the NHL'
+          family_background: ''
+          family_crisis: ''
+          personality: ''
+          hairstyle: ''
+          people_feelings: ''
+          possession_valued: ''
+          childhood_environment: ''
+          life_goals: ''
+          weapons:
+            - id: 'heavy-pistol'
+              name: 'Mustang Arms "Mark III"'
+              ammo_remaining: 7
+            - id: 'medium-melee'
+          armor:
+            head: 'light-armorjack'
+            body: 'light-armorjack'
+          owner: 'omni@digitaldarkness.com'
+          system: 'cyberpunkred'
+          links:
+            self: 'https://commlink-dev.digitaldarkness.com/api/cyberpunkred/characters/65776d7c77223955eee96ec1'
+        owner: 'omni@digitaldarkness.com'
+        system: 'cyberpunkred'
       allOf:
         - $ref: '#/components/schemas/Character'
         - properties:
@@ -2576,29 +2681,29 @@ components:
               type: integer
             lifepath:
               properties:
-                cultural-origins:
+                cultural_origins:
                   type: string
-                clothing-style:
+                clothing_style:
                   type: string
-                what-valued:
+                what_valued:
                   type: string
-                person-valued:
+                person_valued:
                   type: string
-                family-background:
+                family_background:
                   type: string
-                family-crisis:
+                family_crisis:
                   type: string
                 personality:
                   type: string
                 hairstyle:
                   type: string
-                people-feelings:
+                people_feelings:
                   type: string
-                possession-valued:
+                possession_valued:
                   type: string
-                childhood-environment:
+                childhood_environment:
                   type: string
-                life-goals:
+                life_goals:
                   type: string
               type: object
             luck:
@@ -2619,8 +2724,13 @@ components:
                 type: object
               type: array
             skills:
+              properties:
+                business:
+                  type: integer
+                human_perception:
+                  type: integer
               type: object
-            skillsCustom:
+            skills_custom:
               items:
                 properties:
                   level:
@@ -2722,6 +2832,42 @@ components:
       type: string
     ExpanseBackground:
       description: Information about a background for an Expanse RPG character.
+      example:
+        ability: 'dexterity'
+        benefits:
+          '2':
+            strength: 1
+          '3':
+            focus: 'technology'
+          '4':
+            focus: 'technology'
+          '5':
+            focus: 'art'
+          '6':
+            focus: 'tolerance'
+          '7':
+            perception: 1
+          '8':
+            perception: 1
+          '9':
+            grappling: 1
+          '10':
+            focus: 'stamina'
+          '11':
+            focus: 'stamina'
+          '12':
+            constitution: 1
+        description: 'Trade background description.'
+        focuses:
+          - 'crafting'
+          - 'engineering'
+        name: 'Trade'
+        page: 33
+        talents:
+          - 'improvisation'
+          - 'maker'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/expanse/backgrounds/trade'
       properties:
         ability:
           description: Ability change that the background gives.
@@ -2756,6 +2902,85 @@ components:
         - links
       type: object
     ExpanseCharacter:
+      example:
+        id: '65cbe0e5bd713993c512eb57'
+        name: 'Aric Hessel'
+        accuracy: 1
+        communication: 2
+        constitution: 3
+        dexterity: 5
+        fighting: 0
+        intelligence: 1
+        perception: 2
+        strength: 0
+        toughness: 3
+        willpower: 1
+        age: 32
+        level: 1
+        speed: 15
+        focuses:
+          - attribute: 'dexterity'
+            id: 'crafting'
+            name: 'Crafting'
+            page: 47
+            level: 1
+            links:
+              self: 'https://commlink-dev.digitaldarkness.com/api/expanse/focuses/crafting'
+        background:
+          ability: 'dexterity'
+          focuses:
+            - 'crafting'
+            - 'engineering'
+          id: 'trade'
+          name: 'Trade'
+          page: 33
+          talents:
+            - 'improvisation'
+            - 'maker'
+          links:
+            self: 'https://commlink-dev.digitaldarkness.com/api/expanse/backgrounds/trade'
+        downfall: 'Guilt'
+        drive: 'Penitent'
+        origin:
+          description: |
+            Born in the Martian Congressional Republic, your life has been
+            influenced by the Martian dream: to terraform the Red Planet into a
+            lush and life-sustaining garden. Like the generations before you,
+            you know that you will likely never see the completion of this work
+            in your lifetime. As a Martian, your character has the following
+            traits:||• Your native gravity is low, the gravity of Mars rather
+            than Earth. Martians are more comfortable with microgravity than
+            Earthers, and better able to tolerate a full 1 g than Belters,
+            operating in-between.
+          name: 'Martian'
+        profession: 'Scavenger'
+        quality: 'Humility'
+        social_class:
+          description: |
+            A measure of comfort and security comes with the middle class. A
+            steady job, often skilled labor or “white collar,” supplies the
+            means to afford a few luxuries or non-essentials. Middle class
+            characters might start off as a bit insular. They often separate
+            themselves from the struggles of the lower social classes, focusing
+            on the climb towards upper class status. Sometimes that climb leads
+            to a slip. They tumble down to the lower class or even become
+            outsiders. Some settle for stability instead, and prefer not to rock
+            the boat.
+          id: 'middle'
+          name: 'Middle Class'
+        talents:
+          - name: 'Improvisation'
+          - name: 'Maker'
+          - name: 'Fringer'
+        campaign:
+          id: 4
+          name: 'The Depths of Mars'
+          links:
+            self: 'https://commlink-dev.digitaldarkness.com/api/campaigns/4'
+        owner: 'omni@digitaldarkness.com'
+        system: 'expanse'
+        created_at: '2024-02-15T15:32:32.000000Z'
+        updated_at: null
       allOf:
         - $ref: '#/components/schemas/Character'
         - properties:
@@ -2805,8 +3030,19 @@ components:
             willpower:
               type: integer
     ExpanseCondition:
+      example:
+        description: |
+          The character cannot hear and automatically fails ability tests
+          reliant on hearing, such as Perception (Hearing).
+        id: 'deafened'
+        name: 'Deafened'
+        page: 21
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/expanse/conditions/deafened'
       properties:
         description:
+          type: string
+        id:
           type: string
         name:
           type: string
@@ -2821,6 +3057,16 @@ components:
         - links
       type: object
     ExpanseFocus:
+      example:
+        attribute: 'accuracy'
+        description: |
+          Proficiency with precision heavy ranged weapons, including
+          ship-mounted weapons.
+        id: 'gunnery'
+        name: 'Gunnery'
+        page: 47
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/expanse/focuses/gunnery'
       properties:
         attribute:
           type: string
@@ -2840,6 +3086,20 @@ components:
         - links
       type: object
     ExpanseSocialClass:
+      example:
+        description: |
+          Hard, usually physical, labor and precarious employment tend to rule
+          the lives of lower class characters. Still, that work is often all
+          that separates them from becoming outsiders, so they cling to it.
+          Lower class characters often depend on family and friends to help keep
+          them out of utter poverty. They might live in failing industrial
+          areas, inner city slums, or hardscrabble farms. In all cases, they
+          make do with what is available and find ways to stretch out resources
+          until the next payday or job comes along.
+        id: 'lower'
+        name: 'Lower Class'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/expanse/social-classes/lower'
       properties:
         description:
           type: string
@@ -2856,6 +3116,30 @@ components:
         - links
       type: object
     ExpanseTalent:
+      example:
+        benefits:
+          novice: 'When you select this talent, increase your Income by +2.'
+          expert: |
+            When you gain this degree, increase your Income by +1. You may add 2
+            to your Income score when comparing your score with an item’s cost
+            to purchase it automatically, without a test, or to determine
+            whether the purchase will deplete your Income. You enjoy this
+            benefit only once per game session, and you must choose whether it
+            applies to an automatic purchase or to avoid depleting your Income.
+          master: |
+            When you gain this degree, increase your Income by +1. You can
+            re-roll a failed Income test, but must keep the result of the
+            second roll.
+        description: 'You have access to greater resources than most.'
+        name: 'Affluent'
+        page: 49
+        requirements:
+          attributes:
+            dexterity: 2
+          focus:
+            - 'acrobatics'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/expanse/talents/affluent'
       properties:
         benefits:
           properties:
@@ -2872,21 +3156,14 @@ components:
           type: object
         description:
           type: string
+        id:
+          type: string
         name:
           type: string
         page:
           type: integer
         requirements:
-          items:
-            properties:
-              attributes:
-                type: object
-              focus:
-                items:
-                  type: string
-                type: array
-            type: object
-          type: array
+          type: object
         links:
           $ref: '#/components/schemas/Links'
       required:
@@ -2897,44 +3174,6 @@ components:
         - requirements
         - links
       type: object
-    HealthResponse:
-      properties:
-        data:
-          properties:
-            database:
-              properties:
-                document:
-                  $ref: '#/components/schemas/HealthStatus'
-                key_value:
-                  $ref: '#/components/schemas/HealthStatus'
-                relational:
-                  $ref: '#/components/schemas/HealthStatus'
-              type: object
-            disk_space:
-              $ref: '#/components/schemas/HealthStatus'
-            links:
-              $ref: '#/components/schemas/Links'
-            workers:
-              properties:
-                discord:
-                  $ref: '#/components/schemas/HealthStatus'
-                queue:
-                  $ref: '#/components/schemas/HealthStatus'
-                schedule:
-                  $ref: '#/components/schemas/HealthStatus'
-              type: object
-          type: object
-        meta:
-          properties:
-            time_in_seconds:
-              type: number
-          type: object
-      type: object
-    HealthStatus:
-      enum:
-        - failed
-        - OK
-      type: string
     Initiative:
       properties:
         campaign_id:
@@ -3021,14 +3260,8 @@ components:
         collection:
           example: /api/shadowrun5e/gear
           type: string
-        root:
-          example: /api
-          type: string
         self:
           example: /api/expanse/focuses/bows
-          type: string
-        system:
-          example: /api/shadowrun5e
           type: string
       type: object
     Role:
@@ -3044,16 +3277,25 @@ components:
     Shadowrun5eAdeptPower:
       example:
         cost: 0.5
-        description: "This power allows an adept to disrupt the mana flows within a target they have touched. Activating this power is a Simple Action and can be activated any time within (Magic) minutes from the time the target is touched (meaning the adept must have succeeded in a touch attack. The adept rolls Magic + Willpower [Astral] vs. Reaction + Intuition [Physical]. If the adept wins, the target suffers a glitch or accident as determined by the gamemaster. If the adept scores 4 or more net hits, it is considered a critical glitch with potentially catastrophic results. The adept must resist Drain (Body + Willpower) equal to the number of hits (not net hits)."
-        effects:
-        id: "adept-accident"
-        incompatible-with:
-          - "adept-accident"
-        name: "Adept Accident"
+        description: |
+          This power allows an adept to disrupt the mana flows within a target
+          they have touched. Activating this power is a Simple Action and can be
+          activated any time within (Magic) minutes from the time the target is
+          touched (meaning the adept must have succeeded in a touch attack. The
+          adept rolls Magic + Willpower [Astral] vs. Reaction + Intuition
+          [Physical]. If the adept wins, the target suffers a glitch or accident
+          as determined by the gamemaster. If the adept scores 4 or more net
+          hits, it is considered a critical glitch with potentially catastrophic
+          results. The adept must resist Drain (Body + Willpower) equal to the
+          number of hits (not net hits).
+        id: 'adept-accident'
+        incompatible_with:
+          - 'adept-accident'
+        name: 'Adept Accident'
         page: 190
-        ruleset: "hard-targets"
+        ruleset: 'hard-targets'
         links:
-          self: "/api/shadowrun5e/adept-powers/adept-accident"
+          self: '/api/shadowrun5e/adept-powers/adept-accident'
       properties:
         cost:
           type: number
@@ -3063,7 +3305,7 @@ components:
           items:
             type: object
           type: array
-        incompatible-with:
+        incompatible_with:
           items:
             type: string
           type: array
@@ -3080,22 +3322,24 @@ components:
       required:
         - cost
         - description
-        - effects
         - id
-        - incompatible-with
+        - incompatible_with
         - name
         - links
       type: object
     Shadowrun5eAmmunition:
       example:
-        id: "apds"
+        id: 'apds'
         ap-modifier: -4
-        availability: "12F"
+        availability: '12F'
         cost: 120
-        description: "These are military-grade armor piercing rounds—their full name is armor piercing discarding sabot. They are designed to travel at high velocities and punch through personal body armor."
-        name: "APDS"
+        description: |
+          These are military-grade armor piercing rounds—their full name is
+          armor piercing discarding sabot. They are designed to travel at high
+          velocities and punch through personal body armor.'
+        name: 'APDS'
         links:
-          self: "/api/shadowrun5e/ammunition/apds"
+          self: '/api/shadowrun5e/ammunition/apds'
       properties:
         ap-modifier:
           type: integer
@@ -3133,15 +3377,18 @@ components:
       type: object
     Shadowrun5eArmor:
       example:
-        availability: "2"
+        availability: '2'
         cost: 1000
-        description: "The most popular armor solution on the streets comes in all styles imaginable. It offers good protection without catching too much attention. But don't think of wearing one to a dinner party."
-        id: "armor-jacket"
-        name: "Armor Jacket"
+        description: |
+          The most popular armor solution on the streets comes in all styles
+          imaginable. It offers good protection without catching too much
+          attention. But don't think of wearing one to a dinner party.
+        id: 'armor-jacket'
+        name: 'Armor Jacket'
         rating: 12
-        ruleset: "core"
+        ruleset: 'core'
         links:
-          self: "/api/shadowrun5e/armor/armor-jacket"
+          self: '/api/shadowrun5e/armor/armor-jacket'
       properties:
         availability:
           $ref: '#/components/schemas/Shadowrun5eAvailability'
@@ -3171,7 +3418,7 @@ components:
           type: string
         stack-rating:
           type: integer
-        wireless-effects:
+        wireless_effects:
           type: object
       required:
         - availability
@@ -3183,16 +3430,26 @@ components:
       type: object
     Shadowrun5eArmorModification:
       example:
-        availability: ""
+        availability: ''
         capacity-cost: 0
         cost: 50
-        description: "This enhancement enables your armor and clothing to display a wide variety of AR overlays. Due to the ubiquity of AR-enabled vision devices, most people will see the look you choose to display and not the clothes you are actually wearing. This can serve as useful social camouflage. Even when you aren't wearing the right outfit for a situation, you can look like you are. Creating your own AR clothing can be done with an Artisan + Intuition Extended Test (30 minutes) with a threshold set by the gamemaster based on the complexity and specificity of the overlay you are attempting to create (per Extended Test Threshold Table, p. 48, SR5)."
-        id: "ar-fashion"
-        name: "AR Fashion"
+        description: |
+          This enhancement enables your armor and clothing to display a wide
+          variety of AR overlays. Due to the ubiquity of AR-enabled vision
+          devices, most people will see the look you choose to display and not
+          the clothes you are actually wearing. This can serve as useful social
+          camouflage. Even when you aren't wearing the right outfit for a
+          situation, you can look like you are. Creating your own AR clothing
+          can be done with an Artisan + Intuition Extended Test (30 minutes)
+          with a threshold set by the gamemaster based on the complexity and
+          specificity of the overlay you are attempting to create (per Extended
+          Test Threshold Table, p. 48, SR5).
+        id: 'ar-fashion'
+        name: 'AR Fashion'
         page: 138
-        ruleset: "cutting-aces"
+        ruleset: 'cutting-aces'
         links:
-          self: "/api/shadowrun5e/armor-modifications/ar-fashion"
+          self: '/api/shadowrun5e/armor-modifications/ar-fashion'
       properties:
         availability:
           $ref: '#/components/schemas/Shadowrun5eAvailability'
@@ -3231,16 +3488,25 @@ components:
       type: object
     Shadowrun5eAugmentation:
       example:
-        availability: 2
+        availability: '2'
         cost: 1000
-        description: "A datajack gives you a direct neural interface (p. 222), which can be handy in a lot of situations. It also comes with a retractable spool of micro-cable (about a meter long) that lets you directly interface with any electronic device via a universal access cable. Datajacks are equipped with their own cache of storage memory for downloading or saving files. Two datajack users can string a fiberoptic cable between themselves to conduct a private mental communication immune to radio interception or eavesdropping.||Wireless: The datajack gives you Rating 1 noise reduction."
+        description: |
+          A datajack gives you a direct neural interface (p. 222), which can be
+          handy in a lot of situations. It also comes with a retractable spool
+          of micro-cable (about a meter long) that lets you directly interface
+          with any electronic device via a universal access cable. Datajacks are
+          equipped with their own cache of storage memory for downloading or
+          saving files. Two datajack users can string a fiberoptic cable between
+          themselves to conduct a private mental communication immune to radio
+          interception or eavesdropping.||Wireless: The datajack gives you
+          Rating 1 noise reduction.
         essence: 0.1
-        id: "datajack"
-        name: "Datajack"
-        ruleset: "core"
-        type: "cyberware"
-        wireless-effects:
-          noise-reduction: 1
+        id: 'datajack'
+        name: 'Datajack'
+        ruleset: 'core'
+        type: 'cyberware'
+        wireless_effects:
+          noise_reduction: 1
         links:
           self: "/api/shadowrun5e/cyberware/datajack"
       properties:
@@ -3273,14 +3539,14 @@ components:
             - type: string
             - type: integer
         ruleset:
+            type: string
+        type:
           enum:
             - bioware
             - cyberware
           type: string
-        wireless-effects:
-          items:
-            type: object
-          type: array
+        wireless_effects:
+          type: object
       required:
         - availability
         - cost
@@ -3295,12 +3561,307 @@ components:
       description: |
         Code that shows both how difficult an item is to get, as well as how
         illegal it is.
-      example:
-        - 8F
-        - ''
-        - 4
+      example: '8F'
       type: string
     Shadowrun5eCharacter:
+      example:
+        priorities:
+          metatype: 'dwarf'
+          metatype_priority: 'C'
+          magic_priority: 'E'
+          attribute_priority: 'B'
+          skill_priority: 'C'
+          resource_priority: 'B'
+          magic: 'mundane'
+          gameplay: 'established'
+        qualities:
+          - id: 'too-much-data'
+          - id: 'subtle-pilot-ground-craft'
+        augmentations:
+          - id: 'sound-link'
+          - id: 'control-rig-2'
+        skills:
+          - id: 'pilot-ground-craft'
+            level: 6
+            specialization: 'Wheeled'
+          - id: 'longarms'
+            level: 6
+            specialization: 'Shotguns'
+        skill_groups:
+          engineering: 2
+        knowledge_skills:
+          - category: 'interests'
+            name: Twentieth Century Movies'
+            level: 2
+          - category: 'street'
+            name: 'Street Racing'
+            level: 3
+          - category: 'language'
+            name: 'English'
+            level: 'N'
+        weapons:
+          - id: 'defiance-t-250-short'
+            modifications:
+              - 'electronic-firing'
+              - 'melee-hardening'
+              - 'personalized-grip'
+              - 'smartlink-internal'
+              - 'stock-removal'
+              - 'trigger-removal'
+            accessories:
+              top: 'flashlight-infrared'
+            ammo:
+              - id: 'apds'
+                container: 'defiance-t-250-short'
+                tracer: false
+                quantity: 5
+                class: 'Shotgun'
+              - id: 'combat-knife'
+                modifications:
+                  - 'gecko-grip'
+                  - 'personalized-grip'
+        armor:
+          - id: 'helmet'
+            active: true
+          - id: 'armor-jacket'
+            modifications:
+              - 'biomonitor'
+              - 'drag-handle'
+              - 'faraday-pocket'
+              - 'fire-resistance-3'
+              - 'insulation-3'
+              - 'lightly-worn'
+              - 'nonconductivity-3'
+            active: true
+          - id: 'urban-explorer-jumpsuit-helmet'
+            active: false
+        gear:
+          - id: 'medkit-6'
+            quantity: 1
+          - id: 'tag-stealth'
+            quantity: 10
+          - id: 'rcc-maersk-spider'
+            quantity: true
+            programs_installed:
+              - 'armor'
+              - 'biofeedback-filter'
+              - 'clearsight-3'
+              - id: 'stealth-rcc-3'
+                vehicle: 'gm-nissan-doberman'
+              - modifications:
+                - biomonitor'
+            active: true
+            sin: 2
+            programs_running:
+              - 'stealth-rcc-3'
+              - 'targetting-3'
+            damage_matrix: 0
+        identities:
+          - id: 0
+            licenses:
+              - rating: 1
+                license: 'Drivers'
+              - rating: 1
+                license: 'Rigger Command Console'
+            name: 'Bob King'
+            notes: ''
+            sin: 1
+          - id: 2
+            licenses:
+              - rating: 4
+                license: 'Drivers'
+              - rating: 4
+                license: 'Rigger Command Console'
+            lifestyles:
+              - name: 'Middle'
+                quantity: 1
+              - name: 'High'
+                quantity: 1
+                options:
+                  - 'garage-large-car'
+                  - 'shooting-range'
+                  - 'local-bar-patron'
+                  - 'swimming-pool'
+            name: 'Arnond Maelstrom'
+            notes: |
+              Local bar patron: End of the Line. Tries to keep illegal activity
+                off of this identity.
+            sin: 4
+        contacts:
+          - name: 'Phil McCracken'
+            archetype: 'Rockstar'
+            connection: 3
+            loyalty: 1
+            notes: "Guitar player from Arnond's band."
+          - name: 'Delancey'
+            archetype: 'Fixer'
+            connection: 2
+            loyalty: 2
+        vehicles:
+          - id: 'gm-nissan-doberman'
+            subname: '☃'
+            weapons:
+              - id: 'defiance-t-250'
+                modifications:
+                  - 'smartlink-internal'
+                ammo:
+                  - id: 'apds'
+                    container: 'defiance-t-250-short'
+                    tracer: false
+                    quantity: 40
+                    class: 'Shotgun'
+            active: true
+            damage_physical: 5
+            damage_matrix: 2
+          - id: 'mct-fly-spy'
+            active: true
+            damage_physical: 0
+            damage_matrix: 0
+        background:
+          gender: |
+            I'm male, through no fault of my own. You can blame me papa for that
+            one.
+          size: |
+            I'm short and stout, like a teapot. That's my joke. If I hear any
+            short or fat jokes, I'll kneecap you. Yeah, I'm short, even for a
+            dwarf, and could lose a few pounds. Hey, chummer, round is a shape.
+          description: |
+            Ugh, I think the term for it is 'dirty blond', but I call it brown.
+            And my eyes are brown as well. Guess I'm full of drek! Yeah, I'm
+            super white. Do I look like I go jogging shirtless in the noon sun?
+            Frag that noise. I hate the heat and I hate the outside.
+          appearance: |
+            You ever watch old movies converted to trids? Think of Bombur from
+            The Hobbit.
+          born: 'Born and raised right here in Phoenix.'
+          age: "I'm totally 21. Again. For like, the fourteenth year in a row."
+          family: |
+            What, you think all dwarves live in tight communities in caves
+            they've dug out? That's racist. I bet you think even the women
+            dwarves have beards. My family rented a basement apartment in the
+            south side of Phoenix for most of my life. They've since relocated…
+            elsewhere. I found a nice apartment of my own. Yeah, it's
+            underground too, but not because I'm a dwarf. It's because I hate
+            that ball of fire in the sky.
+          married: |
+            I mean, I'm sure one of the groupies from my days touring with
+            Hundreddust might have come down with a little bit of pregnancy, but
+            if they have they've never asked me for nuttin'.
+          education: |
+            What is this, twenty questions? I managed to get through most of
+            high school before Key Army got signed and I started touring. Not a
+            whole lot of time to study when you're a rock star livin' the life,
+            eh chummer? After Key Army broke up (not my fault!) I joined Lonely
+            Owls which actually was interested in musical theory and
+            composition, which is the closest I've come to real musical
+            training.
+          living: |
+            Nope, it didn't snow today. Wait, what? Oh, things I've done for a
+            living. You gotta speak up, chummer. You know I was a rock star,
+            right? I mean, life on the road was fun and all, but I knew it
+            wouldn't last. When our tour bus driver overdosed (again, not my
+            fault!) I took over his job, which turned out to be mostly taking
+            huge amounts of long haul and not hitting all of the dumb go-gangers
+            out on the roads. I ended up really enjoying being behind the wheel,
+            and once I got that control rig implanted, I knew what I was doing
+            after I hung up the old four-string for good.
+          religion: |
+            Frag the man, man! And keep your ghost stories to yourself chummer.
+          moral: |
+            How's the pay? If it pays well I'll sleep okay no matter what.
+          goals: |
+            What, like Santa bringing a lump instead of a present? Oh, goals.
+            Yeah, sure. I got big plans. Mostly involving catchin' some
+            adrenalin doin' something fun in my ride. Sure, it's a van, but I
+            mean jumping over chasms, not rockin' in the back with a lass.
+          why: |
+            Where else do you think an ex-rock star would end up? Hundreddust
+            broke up years ago, and after that fragger Keanu skipped town with
+            most of our earnings, leaving me an Nine Finger Pete trying to avoid
+            the record company's lawyers and goons. I didn't know I was supposed
+            to actually read that contract they had me sign.
+          personality: |
+            You haven't figured that out from this interview? And why are you
+            asking about me in that weird tense? It's just like I said in
+            "Hull State of Mind":
+
+            Hope the foul got some prowl.
+            My fowl don't like no dirty owl.
+            Run up to the scowl and get the howl.
+
+            In a Hull state of mind.
+
+            Yeah, I already felt more at home jumped in to a vehicle.
+          qualities: |
+            Other than my rugged good looks and washboard abs? I'm a fraggin'
+            awesome driver. Crank the stereo to eleven, feel my mind and the
+            machine becoming one, and there ain't no one on the road that can
+            catch me. Also, you know as soon as I mention "Master of Devon" you
+            get that bass riff stuck in your head. Yeah, I wrote that.
+          limitations: |
+            Get out of this interview, apparently. Make a joke about reaching
+            things on the top shelf and I'll punch you so hard in the baby-maker
+            your grandkids will be cross-eyed.
+          hate: |
+            That jackass Keanu that broke up the band. Seriously, he's like that
+            woman that broke up the Beatles back in ancient days.
+          love: |
+            I said all I could say when I wrote "Mistress of Running":
+
+            Faster than our love
+            Terrifying spider
+            Enraged and like a demon
+            She's half woman and half cider
+
+            She's the one that got away.
+          name: |
+            Arnond. No, with a silent Q. Of course I'm serious. Most dwarven
+            names have silent Qs. Yeah, after the N. I don't care, pick one.
+          motivation: |
+            Heh, I like Arnond's attitude. And as a 6'2" man in the real world
+            that has probably made more than my fair share of short jokes, being
+            on the receiving end sounds fun.
+        karma: 58
+        karma_current: 33
+        nuyen: 61656
+        handle: 'Arnond'
+        real_name: 'Arnond Maelstrom'
+        height: 1.0
+        weight: 120
+        sex: 'male'
+        eyes: 'brown'
+        hair: 'brown'
+        birthdate: 'Unknown'
+        birthplace: 'Phoenix'
+        agility: 5
+        body: 3
+        charisma: 3
+        edge: 3
+        edge_current: 0
+        intuition: 5
+        logic: 5
+        reaction: 5
+        strength: 4
+        willpower: 3
+        owner: 'omni@digitaldarkness.com'
+        system: 'shadowrun5e'
+        damage_physical: 0
+        damage_stun: 0
+        damage_overflow: 0
+        karma_log:
+          - description: 'Initial karma'
+            karma: 25
+          - description: 'Beeeeeees'
+            game_date: '2078-02-28'
+            karma: 5
+            real_date: '2020-06-27'
+        nuyen_log:
+          - description: 'Beeeeeees'
+            game_date: '2078-02-28'
+            amount: 12000
+            real_date: '2020-06-27'
+        updated_at: '2022-11-30T23:08:14.580000Z'
+        id: '65ca3fe9bd713993c512af01'
       allOf:
         - $ref: '#/components/schemas/Character'
         - type: object
@@ -3454,16 +4015,28 @@ components:
       type: object
     Shadowrun5eComplexForm:
       example:
-        description: "Arc Feedback grants the technomancer the ability to catch some of the energy of a successful attack against them and send it back toward the attacker.||While a technomancer is sustaining this form, every time they receive Matrix damage—that is to say, damage remaining after any and all resistance rolls—they roll Software + Resonance [Level] v. Willpower + Firewall of the attacker. If the test succeeds, the damage the technomancer was not able to resist is reflected back to the attacker at a ratio of 1 point of damage for every 2 inflicted on the technomancer. Net hits on the test increase the damage, and the total damage must be resisted by the original attacker. Damage reflected back on the attacker does not reduce the damage taken by the technomancer."
-        duration: "S"
-        fade: "L-2"
-        id: "arc-feedback"
-        name: "Arc Feedback"
+        description: |
+          Arc Feedback grants the technomancer the ability to catch some of the
+          energy of a successful attack against them and send it back toward the
+          attacker.||While a technomancer is sustaining this form, every time
+          they receive Matrix damage—that is to say, damage remaining after any
+          and all resistance rolls—they roll Software + Resonance [Level] v.
+          Willpower + Firewall of the attacker. If the test succeeds, the damage
+          the technomancer was not able to resist is reflected back to the
+          attacker at a ratio of 1 point of damage for every 2 inflicted on the
+          technomancer. Net hits on the test increase the damage, and the total
+          damage must be resisted by the original attacker. Damage reflected
+          back on the attacker does not reduce the damage taken by the
+          technomancer.
+        duration: 'S'
+        fade: 'L-2'
+        id: 'arc-feedback'
+        name: 'Arc Feedback'
         page: 94
-        ruleset: "kill-code"
-        target: "Icon"
+        ruleset: 'kill-code'
+        target: 'Icon'
         links:
-          self: "/api/shadowrun5e/complex-forms/arc-feedback"
+          self: '/api/shadowrun5e/complex-forms/arc-feedback'
       properties:
         description:
           type: string
@@ -3537,7 +4110,8 @@ components:
               (which can take vision enhancements).
           type: string
         effects:
-          example: {"forgery":1}
+          example:
+            forgery: 1
           type: object
         id:
           $ref: '#/components/schemas/ItemId'
@@ -3563,25 +4137,31 @@ components:
         subname:
           example: Forgery
           type: string
-        wireless-effects:
-          example: {"locksmith":1}
+        wireless_effects:
+          example:
+            locksmith: 1
           items:
             type: object
     Shadowrun5eGearModification:
       example:
-        availability: "2R"
-        container-type: "commlink"
+        availability: '2R'
+        container-type: 'commlink'
         cost: 3000
-        description": "This dongle doesn't actually attack people, though that would be cool. It gives the commlink an Attack rating equal to its rating, providing some on-the-fly, quick attack resources. DemiGODs love corporate employees to use these, as they can provide more time for them to track down and punish intruders."
+        description: |
+          This dongle doesn't actually attack people, though that would be cool.
+          It gives the commlink an Attack rating equal to its rating, providing
+          some on-the-fly, quick attack resources. DemiGODs love corporate
+          employees to use these, as they can provide more time for them to
+          track down and punish intruders.
         effects:
           - attack: 1
-        id: "attack-dongle-1"
-        name: "Attack dongle"
+        id: 'attack-dongle-1'
+        name: 'Attack dongle'
         page: 61
         rating: 1
-        ruleset: "data-trails"
+        ruleset: 'data-trails'
         links:
-          self: "/api/shadowrun5e/gear-modifications/attack-dongle-1"
+          self: '/api/shadowrun5e/gear-modifications/attack-dongle-1'
       properties:
         availability:
           $ref: '#/components/schemas/Shadowrun5eAvailability'
@@ -3628,14 +4208,14 @@ components:
           security: 3
           securityMax: 3
         cost: 15000
-        description: "The character is in the hospital."
-        id: "hospitalized"
-        name: "Hospitalized"
+        description: 'The character is in the hospital.'
+        id: 'hospitalized'
+        name: 'Hospitalized'
         page: 373
         points: 0
-        ruleset: "core"
+        ruleset: 'core'
         links:
-          self: "/api/shadowrun5e/lifestyles/hospitalized"
+          self: '/api/shadowrun5e/lifestyles/hospitalized'
       properties:
         attributes:
           $ref: '#/components/schemas/Shadowrun5eLifestyleAttributes'
@@ -3692,16 +4272,22 @@ components:
       description: Option that can be added to a lifestyle.
       example:
         cost: 1000
-        description: "Quite popular among shadowrunners is a room dedicated to guns. Ammo and one stock firearm duplicating one that the character purchased at the character creation are on hand in this room. If the character has purchased a toolkit that can work on the particular weapon, 1 point of Accuracy or AP can be repaired per week without additional cost. A point of Reach can also be repaired in two weeks."
-        minimumLifestyle: "High"
-        id: "armory"
-        name: "Armory"
+        description: |
+          Quite popular among shadowrunners is a room dedicated to guns. Ammo
+          and one stock firearm duplicating one that the character purchased at
+          the character creation are on hand in this room. If the character has
+          purchased a toolkit that can work on the particular weapon, 1 point of
+          Accuracy or AP can be repaired per week without additional cost. A
+          point of Reach can also be repaired in two weeks.
+        minimumLifestyle: 'High'
+        id: 'armory'
+        name: 'Armory'
         page: 220
         points: 2
-        ruleset: "run-faster"
-        type: "Asset"
+        ruleset: 'run-faster'
+        type: 'Asset'
         links:
-          self: "/api/shadowrun5e/lifestyle-options/armory"
+          self: '/api/shadowrun5e/lifestyle-options/armory'
       properties:
         cost:
           type: integer
@@ -3724,12 +4310,15 @@ components:
       type: object
     Shadowrun5eLifestyleZone:
       example:
-        description: "Corporate headquarters. Skyraker condos. And the occasional private islands. This is where the world’s wealthiest pay to make sure they’re kept safe."
-        id: "aaa"
-        name: "AAA"
-        responseTime: "2d6 minutes"
+        description: |
+          Corporate headquarters. Skyraker condos. And the occasional private
+          islands. This is where the world’s wealthiest pay to make sure they’re
+          kept safe.
+        id: 'aaa'
+        name: 'AAA'
+        response_time: '2d6 minutes'
         links:
-          self: "/api/shadowrun5e/lifestyle-zones/aaa"
+          self: '/api/shadowrun5e/lifestyle-zones/aaa'
       properties:
         description:
           type: string
@@ -3737,25 +4326,32 @@ components:
           type: string
         name:
           type: string
-        responseTime:
+        response_time:
           type: string
       type: object
     Shadowrun5eMartialArtsStyle:
       example:
-        description: "Those that have spent any time in prison may have heard of the 52 Blocks. It's a mixed martial art style of unarmed strikes and blocks within a confined space and possibly handcuffed. The intent of 52 Blocks is self-defense and survival. The moves are quick and dirty, designed for effect and effectiveness, not finesse. It's not a style that is taught, especially outside prison and is usually learned the hard way."
-        id: "52-blocks"
-        name: "52 Blocks"
+        description: |
+          Those that have spent any time in prison may have heard of the 52
+          Blocks. It's a mixed martial art style of unarmed strikes and blocks
+          within a confined space and possibly handcuffed. The intent of 52
+          Blocks is self-defense and survival. The moves are quick and dirty,
+          designed for effect and effectiveness, not finesse. It's not a style
+          that is taught, especially outside prison and is usually learned the
+          hard way.
+        id: '52-blocks'
+        name: '52 Blocks'
         page: 128
-        ruleset: "run-and-gun"
+        ruleset: 'run-and-gun'
         techniques:
-          - "called-shot-disarm"
-          - "kick-attack"
-          - "multiple-opponent-defense-defender-has-defended"
-          - "pouncing-dragon"
-          - "randori-dirty-trick"
-          - "rooted-tree"
-        link":
-          self: "/api/shadowrun5e/martial-arts-styles/52-blocks"
+          - 'called-shot-disarm'
+          - 'kick-attack'
+          - 'multiple-opponent-defense-defender-has-defended'
+          - 'pouncing-dragon'
+          - 'randori-dirty-trick'
+          - 'rooted-tree'
+        link:
+          self: '/api/shadowrun5e/martial-arts-styles/52-blocks'
       properties:
         description:
           type: string
@@ -3776,13 +4372,18 @@ components:
       type: object
     Shadowrun5eMartialArtsTechnique:
       example:
-        description: "The character lunges forward with a long step toward his opponent, effectively adding +1 to the Reach of the attack. The character over commits himself in the maneuver, leaving himself vulnerable. The character takes a –1 to any Defense Tests and cannot use any Active Defense techniques until after his next Action Phase."
-        id: "ballestra"
-        name: "Ballestra"
+        description: |
+          The character lunges forward with a long step toward his opponent,
+          effectively adding +1 to the Reach of the attack. The character over
+          commits himself in the maneuver, leaving himself vulnerable. The
+          character takes a –1 to any Defense Tests and cannot use any Active
+          Defense techniques until after his next Action Phase.
+        id: 'ballestra'
+        name: 'Ballestra'
         page: 119
-        ruleset: "run-and-gun"
+        ruleset: 'run-and-gun'
         links:
-          self: "/api/shadowrun5e/martial-arts-techniques/ballestra"
+          self: '/api/shadowrun5e/martial-arts-techniques/ballestra'
       properties:
         description:
           type: string
@@ -3799,18 +4400,23 @@ components:
       type: object
     Shadowrun5eMentorSpirit:
       example:
-        description: "This mentor symbolizes strength and protection. He is a healer and cannot turn down those in need without good reason, and he defends those under his care. Bear is more than a gentle healer; he is a ferocious protector, disregarding his own safety in combat if wounded or if someone he is protecting is injured."
+        description: |
+          This mentor symbolizes strength and protection. He is a healer and
+          cannot turn down those in need without good reason, and he defends
+          those under his care. Bear is more than a gentle healer; he is a
+          ferocious protector, disregarding his own safety in combat if wounded
+          or if someone he is protecting is injured.
         effects:
           damage-resistance: 2
           health-spell: 2
           health-preparations: 2
           health-ritual: 2
           rapid-healing: 1
-        id: "bear"
-        name: "Bear"
-        ruleset: "core"
+        id: 'bear'
+        name: 'Bear'
+        ruleset: 'core'
         links:
-          self: "/api/shadowrun5e/mentor-spirits/bear"
+          self: '/api/shadowrun5e/mentor-spirits/bear'
       properties:
         description:
           type: string
@@ -3845,17 +4451,23 @@ components:
     Shadowrun5eProgram:
       example:
         allowedDevices:
-          - "cyberdeck"
-        availability: "3"
-        cost: 1000,
-        description: "Agents are autonomous programs that are rated from 1 to 6. Each agent occupies one program slot on your deck. Agents use the Matrix attributes of the device they run on, and their rating (up to 6) for attributes. Agents also have the Computer, Hacking, and Cybercombat skills at a rating equal to their own. An agent runs as a program and can use programs running on the same device as them."
-        id: "agent-1"
-        name: "Agent"
+          - 'cyberdeck'
+        availability: '3'
+        cost: 1000
+        description: |
+          Agents are autonomous programs that are rated from 1 to 6. Each agent
+          occupies one program slot on your deck. Agents use the Matrix
+          attributes of the device they run on, and their rating (up to 6) for
+          attributes. Agents also have the Computer, Hacking, and Cybercombat
+          skills at a rating equal to their own. An agent runs as a program and
+          can use programs running on the same device as them.
+        id: 'agent-1'
+        name: 'Agent'
         page: 246
         rating: 1
-        ruleset: "core"
+        ruleset: 'core'
         links:
-          self: "/api/shadowrun5e/programs/agent-1"
+          self: '/api/shadowrun5e/programs/agent-1'
       properties:
         allowedDevices:
           items:
@@ -3882,19 +4494,29 @@ components:
       type: object
     Shadowrun5eQuality:
       example:
-        description: "The dice roll and the coin flips this character's way more often than not, giving her the chance to drop jaws in amazement at her good fortune. Lucky allows a character to possess an Edge attribute one point higher than his metatype maximum (for example, a human character could raise her Edge to 8). Note that taking this quality does not actually increase the character's current Edge rating, it just allows her the opportunity to do so; the Karma cost for gaining the extra point must still be paid. This quality may only be taken once and must be approved by the gamemaster. The Lucky quality cannot be combined with Exceptional Attribute."
+        description: |
+          The dice roll and the coin flips this character's way more often than
+          not, giving her the chance to drop jaws in amazement at her good
+          fortune. Lucky allows a character to possess an Edge attribute one
+          point higher than his metatype maximum (for example, a human character
+          could raise her Edge to 8). Note that taking this quality does not
+          actually increase the character's current Edge rating, it just allows
+          her the opportunity to do so; the Karma cost for gaining the extra
+          point must still be paid. This quality may only be taken once and must
+          be approved by the gamemaster. The Lucky quality cannot be combined
+          with Exceptional Attribute.
         effects:
-          maximum-edge: 7
+          maximum_edge: 7
           notoriety: -1
-        id: "lucky"
-        incompatible-with:
-          - lucky
-          - exceptional-attribute
+        id: 'lucky'
+        incompatible_with:
+          - 'lucky'
+          - 'exceptional-attribute'
         karma: -12
-        name: "Lucky"
+        name: 'Lucky'
         links:
-          self: "/api/shadowrun5e/qualities/lucky"
-        ruleset: "core"
+          self: '/api/shadowrun5e/qualities/lucky'
+        ruleset: 'core'
       properties:
         description:
           type: string
@@ -3902,7 +4524,7 @@ components:
           type: object
         id:
           type: string
-        incompatible-with:
+        incompatible_with:
           items:
             type: string
           type: array
@@ -3917,20 +4539,22 @@ components:
       type: object
     Shadowrun5eSkill:
       example:
-        attribute: "agility"
+        attribute: 'agility'
         default: true
-        description: "This skill category includes all types of handheld pistols, including tasers, single-shots, semi-automatics, and revolvers."
-        group: "firearms"
-        id: "pistols"
-        name: "Pistols"
-        limit: "weapon"
+        description: |
+          This skill category includes all types of handheld pistols, including
+          tasers, single-shots, semi-automatics, and revolvers.
+        group: 'firearms'
+        id: 'pistols'
+        name: 'Pistols'
+        limit: 'weapon'
         links:
-            self: "/api/shadowrun5e/skills/pistols"
+            self: '/api/shadowrun5e/skills/pistols'
         specializations:
-          - "Holdouts"
-          - "Revolvers"
-          - "Semi-automatics"
-          - "Tasers"
+          - 'Holdouts'
+          - 'Revolvers'
+          - 'Semi-automatics'
+          - 'Tasers'
       properties:
         attribute:
           type: string
@@ -3969,35 +4593,44 @@ components:
       type: object
     Shadowrun5eSpell:
       example:
-        category: "Combat"
-        damage: "P"
-        description: "These spells create an explosion of flames that flash into existence and scorch the target(s), giving them the double benefit of causing pain and being intimidating as hell. These spells deal Fire damage (p.171).These flames burn out after striking the target, but their secondary effects may ignite flammable materials that continue to burn after the spell is exhausted. Flamethrower is a single-target spell, while Fireball is an area spell."
-        drain: "F-1"
-        duration: "I"
-        id: "fireball"
-        name: "Fireball"
-        range: "LOS (A)"
-        ruleset: "core"
+        category: 'Combat'
+        damage: 'P'
+        description: |
+          These spells create an explosion of flames that flash into existence
+          and scorch the target(s), giving them the double benefit of causing
+          pain and being intimidating as hell. These spells deal Fire damage
+          (p.171).These flames burn out after striking the target, but their
+          secondary effects may ignite flammable materials that continue to burn
+          after the spell is exhausted. Flamethrower is a single-target spell,
+          while Fireball is an area spell.
+        drain: 'F-1'
+        duration: 'I'
+        id: 'fireball'
+        name: 'Fireball'
+        range: 'LOS (A)'
+        ruleset: 'core'
         tags:
-          - "elemental"
-          - "indirect"
-        type: "P"
+          - 'elemental'
+          - 'indirect'
+        type: 'P'
         links:
-          self: "/api/shadowrun5e/spells/fireball"
+          self: '/api/shadowrun5e/spells/fireball'
       properties:
         category:
           enum:
-            - Combat
-            - Detection
-            - Health
-            - Illusion
-            - Manipulation
+            - 'Combat'
+            - 'Detection'
+            - 'Health'
+            - 'Illusion'
+            - 'Manipulation'
           type: string
         damage:
-          description: Type of damage the spell causes. Either P for physical damage or S for stun damage.
+          description: |
+            Type of damage the spell causes. Either P for physical damage or S
+            for stun damage.
           enum:
-            - P
-            - S
+            - 'P'
+            - 'S'
           type: string
         description:
           type: string
@@ -4005,10 +4638,10 @@ components:
           type: string
         duration:
           enum:
-            - I
-            - P
-            - S
-            - Special
+            - 'I'
+            - 'P'
+            - 'S'
+            - 'Special'
           type: string
         id:
           type: string
@@ -4017,35 +4650,37 @@ components:
         name:
           type: string
         range:
-          description: T for touch, LOS for line-of-sight, and LOS (A) for line-of-sight area spells.
+          description: |
+            T for touch, LOS for line-of-sight, and LOS (A) for line-of-sight
+            area spells.
           enum:
-            - LOS
-            - LOS (A)
-            - T
+            - 'LOS'
+            - 'LOS (A)'
+            - 'T'
           type: string
         ruleset:
           type: string
         tags:
           items:
             enum:
-              - active
-              - area
-              - damaging
-              - direct
-              - directional
-              - elemental
-              - environmental
-              - essence
-              - extended area
-              - indirect
-              - mental
-              - multi-sense
-              - obvious
-              - passive
-              - physical
-              - psychic
-              - realistic
-              - single-sense
+              - 'active'
+              - 'area'
+              - 'damaging'
+              - 'direct'
+              - 'directional'
+              - 'elemental'
+              - 'environmental'
+              - 'essence'
+              - 'extended area'
+              - 'indirect'
+              - 'mental'
+              - 'multi-sense'
+              - 'obvious'
+              - 'passive'
+              - 'physical'
+              - 'psychic'
+              - 'realistic'
+              - 'single-sense'
             type: string
           type: array
         type:
@@ -4056,50 +4691,50 @@ components:
       type: object
     Shadowrun5eSpirit:
       example:
-        agility: "F+3"
-        body: "F-2"
-        charisma: "F"
-        edge: "F/2"
-        essence: "F"
-        id: "air"
-        initiative-astral: "(F*2)+3d6"
-        initiative: "(F*2+4)+2d6"
-        intuition: "F"
+        agility: 'F+3'
+        body: 'F-2'
+        charisma: 'F'
+        edge: 'F/2'
+        essence: 'F'
+        id: 'air'
+        initiative-astral: '(F*2)+3d6'
+        initiative: '(F*2+4)+2d6'
+        intuition: 'F'
         links:
-          self: "/api/shadowrun5e/spirits/air"
-        logic: "F"
-        name: "Spirit of Air"
-        magic: "F"
+          self: '/api/shadowrun5e/spirits/air'
+        logic: 'F'
+        name: 'Spirit of Air'
+        magic: 'F'
         page: 303
         powers:
-          - "accident"
-          - "astral-form"
-          - "concealment"
-          - "confusion"
-          - "engulf"
-          - "materialization"
-          - "movement"
-          - "sapience"
-          - "search"
+          - 'accident'
+          - 'astral-form'
+          - 'concealment'
+          - 'confusion'
+          - 'engulf'
+          - 'materialization'
+          - 'movement'
+          - 'sapience'
+          - 'search'
         powers-optional:
-          - "elemental-attack"
-          - "energy-aura"
-          - "fear"
-          - "guard"
-          - "noxious-breath"
-          - "psychokinesis"
-        reaction: "F+4"
-        ruleset: "core"
+          - 'elemental-attack'
+          - 'energy-aura'
+          - 'fear'
+          - 'guard'
+          - 'noxious-breath'
+          - 'psychokinesis'
+        reaction: 'F+4'
+        ruleset: 'core'
         skills:
-          - "assensing"
-          - "astral-combat"
-          - "exotic-ranged-weapon"
-          - "perception"
-          - "running"
-          - "unarmed-combat"
-        special: "Spirits of Air get +10 meters per hit when Sprinting"
-        strength: "F-3"
-        willpower: "F"
+          - 'assensing'
+          - 'astral-combat'
+          - 'exotic-ranged-weapon'
+          - 'perception'
+          - 'running'
+          - 'unarmed-combat'
+        special: 'Spirits of Air get +10 meters per hit when Sprinting.'
+        strength: 'F-3'
+        willpower: 'F'
       properties:
         agility:
           type: string
@@ -4154,25 +4789,27 @@ components:
       type: object
     Shadowrun5eSprite:
       example:
-        attack: "L-1"
-        data-processing: "L"
-        description: "Companion sprites are always by your side, right when you need them. They exist to protect and serve."
-        firewall: "L+4"
-        id: "companion"
-        initiative: "L*2"
+        attack: 'L-1'
+        data-processing: 'L'
+        description: |
+          Companion sprites are always by your side, right when you need them.
+          They exist to protect and serve.
+        firewall: 'L+4'
+        id: 'companion'
+        initiative: 'L*2'
         links:
-          self: "/api/shadowrun5e/sprites/companion"
-        name: "Companion"
+          self: '/api/shadowrun5e/sprites/companion'
+        name: 'Companion'
         page: 100
         powers:
-          - "shield"
-          - "bodyguard"
-        resonance: "L"
-        ruleset: "kill-code"
+          - 'shield'
+          - 'bodyguard'
+        resonance: 'L'
+        ruleset: 'kill-code'
         skills:
-          - "computer"
-          - "electronic-warfare"
-        sleaze: "L+1"
+          - 'computer'
+          - 'electronic-warfare'
+        sleaze: 'L+1'
       properties:
         attack:
           type: string
@@ -4222,6 +4859,10 @@ components:
               $ref: '#/components/schemas/Shadowrun5eStandardPriorityName'
             e:
               $ref: '#/components/schemas/Shadowrun5eStandardPriorityName'
+            gameplay:
+              type: string
+            metatype:
+              type: string
           required:
             - a
             - b
@@ -4232,25 +4873,29 @@ components:
       allOf:
         - $ref: '#/components/schemas/Shadowrun5eCommonPriorities'
         - properties:
-            attributePriority:
+            attribute_priority:
               $ref: '#/components/schemas/Shadowrun5eLetterPriority'
-            magicPriority:
+            gameplay:
+              type: string
+            magic_priority:
               $ref: '#/components/schemas/Shadowrun5eLetterPriority'
-            metatypePriority:
+            metatype:
+              type: string
+            metatype_priority:
               $ref: '#/components/schemas/Shadowrun5eLetterPriority'
-            resourcePriority:
+            resource_priority:
               $ref: '#/components/schemas/Shadowrun5eLetterPriority'
-            skillPriority:
+            skill_priority:
               $ref: '#/components/schemas/Shadowrun5eLetterPriority'
           required:
-            - attributePriority
+            - attribute_priority
             - gameplay
             - magic
-            - magicPriority
+            - magic_priority
             - metatype
-            - metatypePriority
-            - resourcePriority
-            - skillPriority
+            - metatype_priority
+            - resource_priority
+            - skill_priority
           type: object
     Shadowrun5eStandardPriorityName:
       enum:
@@ -4263,20 +4908,23 @@ components:
     Shadowrun5eTradition:
       description: A magical tradition that a mage can use.
       example:
-        description: "The hermetic mage relies on logic, practice, and execution of a planned formula rather than intuition and improvisation to effectively cast spells."
-        drain: "Logic + Willpower"
+        description: |
+          The hermetic mage relies on logic, practice, and execution of a
+          planned formula rather than intuition and improvisation to effectively
+          cast spells.
+        drain: 'Logic + Willpower'
         elements:
-          combat: "Fire"
-          detection: "Air"
-          health: "Man"
-          illusion: "Water"
-          manipulation: "Earth"
-        id: "hermetic"
+          combat: 'Fire'
+          detection: 'Air'
+          health: 'Man'
+          illusion: 'Water'
+          manipulation: 'Earth'
+        id: 'hermetic'
         links:
-          self: "/api/shadowrun5e/traditions/hermetic"
-        name: "Hermetic"
+          self: '/api/shadowrun5e/traditions/hermetic'
+        name: 'Hermetic'
         page: 279
-        ruleset: "core"
+        ruleset: 'core'
       properties:
         description:
           type: string
@@ -4291,7 +4939,7 @@ components:
               type: string
             health:
               type: string
-            illusion":
+            illusion:
               type: string
             manipulation:
               type: string
@@ -4309,27 +4957,30 @@ components:
       type: object
     Shadowrun5eVehicle:
       example:
-        availability: ""
+        availability: ''
         acceleration: 1
         armor: 4
         body: 4
-        category: "bike"
+        category: 'bike'
         cost: 3000
-        description: "This is an electric-powered scooter with a top speed of don't make me laugh. It's compact, fuel-efficient, and super-affordable, but no self-respecting shadowrunners would be caught dead on one."
+        description: |
+          This is an electric-powered scooter with a top speed of don't make me
+          laugh. It's compact, fuel-efficient, and super-affordable, but no
+          self-respecting shadowrunners would be caught dead on one.
         deviceRating: 1
         handling: 4
         handlingOffRoad: 3
-        id: "dodge-scoot"
+        id: 'dodge-scoot'
         links:
-          self: "/api/shadowrun5e/vehicles/dodge-scoot"
+          self: '/api/shadowrun5e/vehicles/dodge-scoot'
         modifications:
-          - "improved-economy"
-        name: "Dodge Scoot"
+          - 'improved-economy'
+        name: 'Dodge Scoot'
         pilot: 1
         seats: 1
         sensor: 1
         speed: 3
-        type: "groundcraft"
+        type: 'groundcraft'
       properties:
         availability:
           $ref: '#/components/schemas/Shadowrun5eAvailability'
@@ -4399,17 +5050,19 @@ components:
       type: object
     Shadowrun5eVehicleModification:
       example:
-        availability: "8"
+        availability: '8'
         cost: 4000
-        description: "Do you have a style all your own and want to show that to the world? Then you probably have a yerzed out vehicle."
-        id: "yerzed-out-4"
+        description: |
+          Do you have a style all your own and want to show that to the world?
+          Then you probably have a yerzed out vehicle.
+        id: 'yerzed-out-4'
         links:
-          self: "/api/shadowrun5e/vehicle-modifications/yerzed-out-4"
-        name: "Yerzed out"
+          self: '/api/shadowrun5e/vehicle-modifications/yerzed-out-4'
+        name: 'Yerzed out'
         page: 171
         rating: 4
-        ruleset: "rigger-5"
-        type: "vehicle-mod"
+        ruleset: 'rigger-5'
+        type: 'vehicle-mod'
       properties:
         availability:
           $ref: '#/components/schemas/Shadowrun5eAvailability'
@@ -4460,32 +5113,36 @@ components:
       type: object
     Shadowrun5eWeapon:
       example:
-        accuracy: "5"
+        accuracy: '5'
         ammo-capacity: 38
-        ammo-container: "c"
+        ammo-container: 'c'
         armor-piercing: -2
-        availability: "4R"
-        class: "Assault Rifle"
+        availability: '4R'
+        class: 'Assault Rifle'
         cost: 950
-        damage: "10P"
-        description: "The AK-97 is a legendary weapon with storied reliability—you can bury it for ten years, dig it up, and fire it immediately without a single problem. When all of the nano-fabricated AK–174s melted to slag, the AK-97s kept functioning just fine."
-        id: "ak-97"
+        damage: '10P'
+        description: |
+          The AK-97 is a legendary weapon with storied reliability—you can bury
+          it for ten years, dig it up, and fire it immediately without a single
+          problem. When all of the nano-fabricated AK–174s melted to slag, the
+          AK-97s kept functioning just fine.
+        id: 'ak-97'
         links:
-          self: "/api/shadowrun5e/weapons/ak-97"
+          self: '/api/shadowrun5e/weapons/ak-97'
         modes:
-          - "SA"
-          - "BF"
-          - "FA"
-        modifications:
+          - 'SA'
+          - 'BF'
+          - 'FA'
+        modifications: []
         mounts:
-          - "top"
-          - "under"
-          - "barrel"
-          - "stock"
-          - "internal"
-        name: "AK-97"
-        skill: "automatics"
-        type: "firearm"
+          - 'top'
+          - 'under'
+          - 'barrel'
+          - 'stock'
+          - 'internal'
+        name: 'AK-97'
+        skill: 'automatics'
+        type: 'firearm'
       properties:
         accuracy:
           type: string
@@ -4567,29 +5224,30 @@ components:
       type: object
     Shadowrun5eWeaponModification:
       example:
-        availability: "+2R"
+        availability: '+2R'
         capacity: 1
         cost-modifier: 2
-        description: "This connects a firearm or a projectile weapon directly to the user's smartlink."
+        description: |
+          This connects a firearm or a projectile weapon directly to the user's
+          smartlink.
         effects:
           accuracy: 2
           dice-bonus: 1
           dice-bonus-essence: 1
-        id: "smartlink-internal"
-        incompatible-with:
-          - "ceramic-plasteel-components-1"
-          - "ceramic-plasteel-components-2"
-          - "ceramic-plasteel-components-3"
-          - "ceramic-plasteel-components-4"
-          - "ceramic-plasteel-components-5"
-          - "ceramic-plasteel-components-6"
-          - "smartlink-external"
+        id: 'smartlink-internal'
+        incompatible_with:
+          - 'ceramic-plasteel-components-1'
+          - 'ceramic-plasteel-components-2'
+          - 'ceramic-plasteel-components-3'
+          - 'ceramic-plasteel-components-4'
+          - 'ceramic-plasteel-components-5'
+          - 'ceramic-plasteel-components-6'
+          - 'smartlink-external'
         links:
-          self: "/weapon-modifications/smartlink-internal"
-        name: "Internal Smartlink"
-        ruleset: "core"
-        type: "modification"
-        wireless-effects:
+          self: '/weapon-modifications/smartlink-internal'
+        name: 'Internal Smartlink'
+        ruleset: 'core'
+        type: 'modification'
       properties:
         availability:
           $ref: '#/components/schemas/Shadowrun5eAvailability'
@@ -4603,7 +5261,7 @@ components:
           type: object
         id:
           type: string
-        incompatible-with:
+        incompatible_with:
           items:
             type: string
           type: array
@@ -4618,7 +5276,7 @@ components:
             - accessory
             - modification
           type: string
-        wireless-effects:
+        wireless_effects:
           type: object
       type: object
     User:
@@ -4664,6 +5322,7 @@ components:
         - _links
       type: object
     UserMinimal:
+      nullable: true
       properties:
         id:
           type: integer

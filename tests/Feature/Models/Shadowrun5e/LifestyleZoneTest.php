@@ -10,7 +10,6 @@ use Tests\TestCase;
 
 /**
  * Tests for Shadowrun 5E lifestyle zones.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small
@@ -36,7 +35,7 @@ final class LifestyleZoneTest extends TestCase
     {
         $lifestyle = new LifestyleZone('z');
         self::assertSame('Z', $lifestyle->name);
-        self::assertSame('2d6 hours', $lifestyle->responseTime);
+        self::assertSame('2d6 hours', $lifestyle->response_time);
         self::assertNotNull($lifestyle->description);
     }
 

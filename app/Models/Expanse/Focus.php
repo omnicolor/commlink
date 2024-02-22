@@ -6,6 +6,9 @@ namespace App\Models\Expanse;
 
 use RuntimeException;
 
+use function sprintf;
+use function strtolower;
+
 /**
  * Class representing an Expanse Focus.
  * @psalm-suppress PossiblyUnusedProperty
@@ -54,10 +57,10 @@ class Focus
         $filename = config('app.data_path.expanse') . 'focuses.php';
         self::$focuses ??= require $filename;
 
-        $id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$focuses[$id])) {
             throw new RuntimeException(
-                \sprintf('Focus ID "%s" is invalid', $id)
+                sprintf('Focus ID "%s" is invalid', $id)
             );
         }
 
@@ -72,5 +75,21 @@ class Focus
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return array<string, Focus>
+     */
+    public static function all(): array
+    {
+        $filename = config('app.data_path.expanse') . 'focuses.php';
+        self::$focuses ??= require $filename;
+
+        $focuses = [];
+        /** @var string $focus */
+        foreach (array_keys(self::$focuses) as $focus) {
+            $focuses[$focus] = new self($focus);
+        }
+        return $focuses;
     }
 }

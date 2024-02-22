@@ -9,6 +9,8 @@ use RuntimeException;
 use Tests\TestCase;
 
 /**
+ * @group shadowrun
+ * @group shadowrun5e
  * @small
  */
 final class GruntTest extends TestCase

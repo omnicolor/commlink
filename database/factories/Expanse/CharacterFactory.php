@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories\Expanse;
 
 use App\Models\Expanse\Character;
+use App\Models\Expanse\Focus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -64,12 +65,15 @@ class CharacterFactory extends Factory
 
     /**
      * Define the model's default state.
-     * @return array<string, string>
+     * @return array<string, array<int, array<string, string>>|string>
      */
     public function definition(): array
     {
         return [
             'background' => (string)$this->faker->randomElement(self::$backgrounds),
+            'focuses' => [
+                ['id' => $this->faker->randomElement(array_keys(Focus::all()))],
+            ],
             'name' => $this->faker->name,
             'origin' => (string)$this->faker->randomElement($this->origins),
             'owner' => $this->faker->email,

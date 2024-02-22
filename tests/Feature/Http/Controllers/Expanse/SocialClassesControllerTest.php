@@ -9,6 +9,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
 
+use function count;
+
 /**
  * Tests for the social classes controller.
  * @group controllers
@@ -24,9 +26,8 @@ final class SocialClassesControllerTest extends TestCase
     public function testIndexBrokenConfig(): void
     {
         Config::set('app.data_path.expanse', '/tmp/unused/');
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('expanse.social-classes.index'))
             ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
@@ -37,7 +38,7 @@ final class SocialClassesControllerTest extends TestCase
      */
     public function testNoAuthIndex(): void
     {
-        $this->getJson(route('expanse.social-classes.index'))
+        self::getJson(route('expanse.social-classes.index'))
             ->assertUnauthorized();
     }
 
@@ -47,17 +48,16 @@ final class SocialClassesControllerTest extends TestCase
      */
     public function testAuthIndex(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $response = $this->actingAs($user)
+        $response = self::actingAs($user)
             ->getJson(route('expanse.social-classes.index'))
             ->assertOk()
             ->assertJsonFragment([
                 'links' => [
-                    'self' => '/api/expanse/social-classes/middle',
+                    'self' => route('expanse.social-classes.show', 'middle'),
                 ],
             ]);
-        self::assertGreaterThanOrEqual(1, \count($response['data']));
+        self::assertGreaterThanOrEqual(1, count($response['data']));
     }
 
     /**
@@ -66,7 +66,7 @@ final class SocialClassesControllerTest extends TestCase
      */
     public function testNoAuthShow(): void
     {
-        $this->getJson(route('expanse.social-classes.show', 'middle'))
+        self::getJson(route('expanse.social-classes.show', 'middle'))
             ->assertUnauthorized();
     }
 
@@ -76,7 +76,7 @@ final class SocialClassesControllerTest extends TestCase
      */
     public function testNoAuthShowNotFound(): void
     {
-        $this->getJson(route('expanse.social-classes.show', 'not-found'))
+        self::getJson(route('expanse.social-classes.show', 'not-found'))
             ->assertUnauthorized();
     }
 
@@ -86,9 +86,8 @@ final class SocialClassesControllerTest extends TestCase
      */
     public function testAuthShow(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('expanse.social-classes.show', 'middle'))
             ->assertOk()
             ->assertJson([
@@ -105,9 +104,8 @@ final class SocialClassesControllerTest extends TestCase
      */
     public function testAuthShowNotFound(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('expanse.social-classes.show', 'not-found'))
             ->assertNotFound();
     }

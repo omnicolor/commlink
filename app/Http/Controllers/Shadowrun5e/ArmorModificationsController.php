@@ -7,6 +7,15 @@ namespace App\Http\Controllers\Shadowrun5e;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function array_key_exists;
+use function array_keys;
+use function date;
+use function json_encode;
+use function sha1;
+use function sha1_file;
+use function stat;
+use function strtolower;
+
 /**
  * Controller for armor modifications.
  */
@@ -28,12 +37,33 @@ class ArmorModificationsController extends Controller
         parent::__construct();
         $this->filename = config('app.data_path.shadowrun5e')
             . 'armor-modifications.php';
-        $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/armor-modifications';
-        $stat = \stat($this->filename);
+        $stat = stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
         $this->mods = require $this->filename;
+    }
+
+    /**
+     * @param array<string, mixed> $modification
+     * @return array<string, mixed>
+     */
+    protected function cleanModification(array $modification): array
+    {
+        $modification['links']['self'] = route(
+            'shadowrun5e.armor-modifications.show',
+            $modification['id'],
+        );
+        if (array_key_exists('capacity-cost', $modification)) {
+            $modification['capacity_cost'] = $modification['capacity-cost'];
+            unset($modification['capacity-cost']);
+        }
+        if (array_key_exists('wireless-effects', $modification)) {
+            $modification['wireless_effects'] = $modification['wireless-effects'];
+            unset($modification['wireless-effects']);
+        }
+        $modification['ruleset'] ??= 'core';
+        return $modification;
     }
 
     /**
@@ -42,18 +72,15 @@ class ArmorModificationsController extends Controller
     public function index(): Response
     {
         foreach (array_keys($this->mods) as $key) {
-            $this->mods[$key]['links']['self'] = \sprintf(
-                '/api/shadowrun5e/armor-modifications/%s',
-                \urlencode($key)
-            );
-            $this->mods[$key]['ruleset'] ??= 'core';
+            $this->mods[$key] = $this->cleanModification($this->mods[$key]);
         }
 
-        $this->headers['Etag'] = \sha1_file($this->filename);
+        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->links['self'] = route('shadowrun5e.armor-modifications.index');
 
         $data = [
             'links' => $this->links,
-            'data' => \array_values($this->mods),
+            'data' => $this->mods,
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -64,23 +91,17 @@ class ArmorModificationsController extends Controller
      */
     public function show(string $id): Response
     {
-        $id = \strtolower($id);
-        if (!\array_key_exists($id, $this->mods)) {
-            $error = [
-                'status' => Response::HTTP_NOT_FOUND,
-                'detail' => $id . ' not found',
-                'title' => 'Not Found',
-            ];
-            return $this->error($error);
-        }
-
-        $mod = $this->mods[$id];
-        $mod['links']['self'] = $this->links['self'] = \sprintf(
-            '/api/shadowrun5e/armor-modifications/%s',
-            \urlencode($id)
+        $id = strtolower($id);
+        abort_if(
+            !array_key_exists($id, $this->mods),
+            Response::HTTP_NOT_FOUND,
+            $id . ' not found',
         );
-        $mod['ruleset'] ??= 'core';
-        $this->headers['Etag'] = \sha1((string)\json_encode($mod));
+
+        $mod = $this->cleanModification($this->mods[$id]);
+        $this->headers['Etag'] = sha1((string)json_encode($mod));
+        $this->links['collection']
+            = route('shadowrun5e.armor-modifications.index');
 
         $data = [
             'links' => $this->links,

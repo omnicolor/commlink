@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for KarmaLogEntry class.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

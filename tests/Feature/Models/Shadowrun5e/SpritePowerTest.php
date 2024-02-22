@@ -10,7 +10,6 @@ use Tests\TestCase;
 
 /**
  * Unit tests for the SpritePower class.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

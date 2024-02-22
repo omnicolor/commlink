@@ -7,6 +7,15 @@ namespace App\Http\Controllers\Expanse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function array_key_exists;
+use function array_values;
+use function date;
+use function json_encode;
+use function sha1;
+use function sha1_file;
+use function stat;
+use function strtolower;
+
 /**
  * Controller for Expanse backgrounds.
  */
@@ -27,11 +36,9 @@ class BackgroundsController extends Controller
     {
         parent::__construct();
         $this->filename = config('app.data_path.expanse') . 'backgrounds.php';
-        $this->links['system'] = '/api/expanse';
-        $this->links['collection'] = '/api/expanse/backgrounds';
-        $stat = \stat($this->filename);
+        $stat = stat($this->filename);
         // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
         $this->backgrounds = require $this->filename;
     }
 
@@ -42,15 +49,16 @@ class BackgroundsController extends Controller
     {
         foreach (array_keys($this->backgrounds) as $key) {
             $this->backgrounds[$key]['links'] = [
-                'self' => \sprintf('/api/expanse/backgrounds/%s', $key),
+                'self' => route('expanse.backgrounds.show', ['background' => $key]),
             ];
         }
 
-        $this->headers['Etag'] = \sha1_file($this->filename);
+        $this->headers['Etag'] = sha1_file($this->filename);
+        $this->links['self'] = route('expanse.backgrounds.index');
 
         $data = [
             'links' => $this->links,
-            'data' => \array_values($this->backgrounds),
+            'data' => array_values($this->backgrounds),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -61,22 +69,20 @@ class BackgroundsController extends Controller
      */
     public function show(string $id): Response
     {
-        $id = \strtolower($id);
-        if (!\array_key_exists($id, $this->backgrounds)) {
-            // We couldn't find it!
-            $error = [
-                'status' => Response::HTTP_NOT_FOUND,
-                'detail' => \sprintf('%s not found', $id),
-                'title' => 'Not Found',
-            ];
-            return $this->error($error);
-        }
+        $id = strtolower($id);
+        abort_if(
+            !array_key_exists($id, $this->backgrounds),
+            Response::HTTP_NOT_FOUND,
+            sprintf('%s not found', $id),
+        );
+
+        $this->links['collection'] = route('expanse.backgrounds.index');
 
         $background = $this->backgrounds[$id];
         $background['links']['self'] = $this->links['self'] =
-            \sprintf('/api/expanse/backgrounds/%s', $id);
+            route('expanse.backgrounds.show', ['background' => $id]);
 
-        $this->headers['Etag'] = \sha1((string)\json_encode($background));
+        $this->headers['Etag'] = sha1((string)json_encode($background));
 
         $data = [
             'links' => $this->links,
