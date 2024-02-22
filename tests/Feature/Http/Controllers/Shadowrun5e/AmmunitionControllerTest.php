@@ -112,4 +112,17 @@ final class AmmunitionControllerTest extends TestCase
             ->getJson(route('shadowrun5e.ammunition.show', 'not-found'))
             ->assertNotFound();
     }
+
+    public function testCleansDamageModifier(): void
+    {
+        $user = User::factory()->create();
+        self::actingAs($user)
+            ->getJson(route('shadowrun5e.ammunition.show', 'depleted-uranium'))
+            ->assertOk()
+            ->assertJson([
+                'data' => [
+                    'damage_modifier' => '+1',
+                ],
+            ]);
+    }
 }

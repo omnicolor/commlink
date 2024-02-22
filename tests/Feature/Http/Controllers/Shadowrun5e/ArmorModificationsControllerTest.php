@@ -120,4 +120,21 @@ final class ArmorModificationsControllerTest extends TestCase
             )
             ->assertNotFound();
     }
+
+    public function testCleansWirelessEffects(): void
+    {
+        $user = User::factory()->create();
+        self::actingAs($user)
+            ->getJson(
+                route('shadowrun5e.armor-modifications.show', 'argentum-coat')
+            )
+            ->assertOk()
+            ->assertJson([
+                'data' => [
+                    'wireless_effects' => [
+                        'social-tests' => 1,
+                    ],
+                ],
+            ]);
+    }
 }

@@ -23,11 +23,8 @@ class JsonResource extends BaseResource
             if (is_array($item)) {
                 $array[$key] = $this->convertKeys($item);
             }
-            if (!is_string($key)) {
-                continue;
-            }
 
-            $snake = Str::snake($key);
+            $snake = Str::snake((string)$key);
             if ($snake !== $key) {
                 $array[$snake] = $item;
                 unset($array[$key]);

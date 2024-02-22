@@ -21,6 +21,22 @@ return [
         'ruleset' => '',
     ],
      */
+    'argentum-coat' => [
+        'availability' => '10',
+        'capacity-cost' => 0,
+        'cost' => 3600,
+        'description' => '',
+        'effects' => [
+            'concealability' => -3,
+            'social-limit' => 1,
+            'armor' => 4,
+        ],
+        'id' => 'argentum-coat',
+        'name' => 'Argentum Coat',
+        'page' => 58,
+        'ruleset' => 'run-and-gun',
+        'wireless-effects' => ['social-tests' => 1],
+    ],
     'auto-injector' => [
         'availability' => '4',
         'capacity-cost' => 2,
