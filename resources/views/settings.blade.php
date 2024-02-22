@@ -549,12 +549,12 @@ use Laravel\Pennant\Feature;
         </div>
     </div>
 
-    <div aria-hidden="true" aria-labelledby="create-token-title" class="modal fade"
+    <div aria-hidden="true" aria-labelledby="new-token-title" class="modal fade"
         id="token-created" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="create-token-title">
+                    <h5 class="modal-title" id="new-token-title">
                         New token created!
                     </h5>
                     <button aria-label="Close" class="btn-close"
@@ -649,7 +649,9 @@ use Laravel\Pennant\Feature;
                     }
                     bootstrap.Modal.getInstance('#create-token').hide();
                     $('#token-created .user-select-all').text(data.plainText);
-                    bootstrap.Modal.getInstance('#token-created').hide();
+                    const created = new bootstrap.Modal('#token-created');
+                    created.show();
+
                     $('#token-expiration').val('');
                     $('#token-name').val('');
                     $('#api-keys-table tbody').append(
