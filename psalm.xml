@@ -33,6 +33,8 @@
         </NonInvariantDocblockPropertyType>
         <PossiblyUnusedMethod>
             <errorLevel type="suppress">
+                <file name="app/Models/Dnd5e/CoinType.php" />
+                <file name="app/Models/Dnd5e/DamageType.php" />
                 <file name="app/Models/StarTrekAdventures/Character.php" />
 
                 <!-- Psalm has issues with Enums -->

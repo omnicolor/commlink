@@ -13,7 +13,6 @@ use Tests\TestCase;
 
 /**
  * Tests for Shadowrun 5E lifestyles.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

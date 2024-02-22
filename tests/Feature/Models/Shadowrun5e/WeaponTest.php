@@ -11,7 +11,6 @@ use Tests\TestCase;
 
 /**
  * Unit tests for weapon class.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

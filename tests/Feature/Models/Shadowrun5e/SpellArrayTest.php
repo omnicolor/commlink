@@ -12,7 +12,6 @@ use stdClass;
 
 /**
  * Tests for the SpellArray.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

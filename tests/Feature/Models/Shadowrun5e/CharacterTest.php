@@ -19,7 +19,6 @@ use Tests\TestCase;
 
 /**
  * Tests for Shadowrun 5E characters.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

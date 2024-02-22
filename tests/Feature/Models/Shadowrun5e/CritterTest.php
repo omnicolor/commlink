@@ -10,7 +10,6 @@ use Tests\TestCase;
 
 /**
  * Unit tests for Shadowrun 5E critters.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small
