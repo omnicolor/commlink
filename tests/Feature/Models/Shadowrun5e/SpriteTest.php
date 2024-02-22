@@ -13,7 +13,6 @@ use Tests\TestCase;
 
 /**
  * Unit tests for the Sprite class.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small

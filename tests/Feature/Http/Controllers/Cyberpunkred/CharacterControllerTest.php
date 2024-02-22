@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers\Cyberpunkred;
 
+use App\Models\Campaign;
 use App\Models\Cyberpunkred\Character;
 use App\Models\Cyberpunkred\PartialCharacter;
 use App\Models\Cyberpunkred\Role\Exec;
@@ -40,7 +41,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testAuthenticatedNoCharacters(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)
             ->getJson(route('cyberpunkred.characters.index'))
@@ -55,7 +55,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testAuthenticatedNoCharactersFromSystem(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $character = Character::factory()->create([
             'handle' => __FUNCTION__,
@@ -78,10 +77,8 @@ final class CharacterControllerTest extends TestCase
      */
     public function testAuthenticatedWithCyberpunkCharacter(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
-        /** @var Character */
         $character1 = Character::factory()->create([
             'handle' => __FUNCTION__,
             'owner' => $user->email,
@@ -105,8 +102,6 @@ final class CharacterControllerTest extends TestCase
                 'handle' => $character2->handle,
                 'owner' => $user->email,
                 'system' => 'cyberpunkred',
-                'updated_at' => $character2->updated_at,
-                'created_at' => $character2->created_at,
             ]);
 
         $character1->delete();
@@ -119,14 +114,22 @@ final class CharacterControllerTest extends TestCase
      */
     public function testShowCharacter(): void
     {
-        /** @var User */
         $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['system' => 'cyberpunkred']);
 
         /** @var Character */
         $character = Character::factory()->create([
             'handle' => __FUNCTION__,
             'owner' => $user->email,
             'system' => 'cyberpunkred',
+            'campaign_id' => $campaign->id,
+            'skills' => [
+                'acting' => 2,
+            ],
+            'lifepath' => [
+                'what-valued' => 'Cold, hard eddies',
+            ],
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
@@ -138,8 +141,6 @@ final class CharacterControllerTest extends TestCase
                 'handle' => $character->handle,
                 'owner' => $user->email,
                 'system' => 'cyberpunkred',
-                'updated_at' => $character->updated_at,
-                'created_at' => $character->created_at,
             ]);
 
         $character->delete();
@@ -151,7 +152,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testShowCharacterOtherSystem(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Character */
@@ -175,7 +175,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testViewCharacter(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Character */
@@ -203,7 +202,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testCreateNewCharacter(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         $characters = PartialCharacter::where('owner', $user->email)->get();
@@ -226,7 +224,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testCreateNewCharacterWithExisting(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
@@ -250,7 +247,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testContinueCharacter(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
@@ -277,7 +273,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testSwitchCharacter(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
@@ -309,7 +304,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testSaveForLater(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
@@ -335,7 +329,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testNameCharacter(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
@@ -367,7 +360,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testLoadRolePage(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
@@ -392,7 +384,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testLoadRolePageAlreadyChosen(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
@@ -423,7 +414,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testAssignRole(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
@@ -463,7 +453,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testLoadLifepathPage(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
@@ -487,7 +476,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testLoadRoleBasedLifepathPageWithoutARole(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
@@ -510,7 +498,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testLoadRoleBasedLifepathPage(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
@@ -540,7 +527,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testAssignLifepath(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
@@ -644,7 +630,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testLoadStatsPage(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
@@ -668,7 +653,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testStoreStats(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
@@ -730,7 +714,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testReview(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
@@ -811,7 +794,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testLoadReview(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var PartialCharacter */
@@ -891,7 +873,6 @@ final class CharacterControllerTest extends TestCase
      */
     public function testLoadNotFound(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var PartialCharacter */

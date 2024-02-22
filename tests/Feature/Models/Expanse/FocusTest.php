@@ -8,9 +8,10 @@ use App\Models\Expanse\Focus;
 use RuntimeException;
 use Tests\TestCase;
 
+use function count;
+
 /**
  * Tests for Expanse focuses.
- * @group models
  * @group expanse
  * @small
  */
@@ -69,5 +70,10 @@ final class FocusTest extends TestCase
     {
         $focus = new Focus('crafting', 2);
         self::assertSame(2, $focus->level);
+    }
+
+    public function testAll(): void
+    {
+        self::assertGreaterThan(0, count(Focus::all()));
     }
 }

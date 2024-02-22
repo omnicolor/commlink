@@ -9,7 +9,6 @@ use Tests\TestCase;
 
 /**
  * Tests for the Force trait.
- * @group models
  * @group shadowrun
  * @group shadowrun5e
  * @small
