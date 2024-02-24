@@ -7,10 +7,13 @@ namespace App\Console\Commands;
 use App\Events\IrcMessageReceived;
 use App\Models\Irc\User;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Jerodev\PhpIrcClient\IrcChannel;
 use Jerodev\PhpIrcClient\IrcClient;
 use Jerodev\PhpIrcClient\Options\ClientOptions;
 use Spatie\SignalAwareCommand\SignalAwareCommand;
+
+use function sprintf;
 
 /**
  * Start an IRC bot.
@@ -87,7 +90,7 @@ class IrcRunCommand extends SignalAwareCommand
         $options->autoRejoin = true;
 
         $this->client = new IrcClient(
-            \sprintf('%s:%s', $this->server, $this->port),
+            sprintf('%s:%s', $this->server, $this->port),
             $options,
         );
 
@@ -148,11 +151,12 @@ class IrcRunCommand extends SignalAwareCommand
                 'user' => $user,
             ]
         );
-        $this->line(\sprintf(
+        $this->line(sprintf(
             'Bot was invited to %s by %s',
             $channel->getName(),
             $user
         ));
+        $this->client->join($channel->getName());
     }
 
     public function handleKick(
@@ -170,7 +174,7 @@ class IrcRunCommand extends SignalAwareCommand
                 'user' => $user,
             ]
         );
-        $this->line(\sprintf(
+        $this->line(sprintf(
             'Bot was kicked from %s by %s (%s)',
             $channel->getName(),
             $kicker,
@@ -196,7 +200,7 @@ class IrcRunCommand extends SignalAwareCommand
             return;
         }
 
-        $this->line(\sprintf(
+        $this->line(sprintf(
             '%10s - %12s - %s',
             $channel->getName(),
             $from,
@@ -241,7 +245,7 @@ class IrcRunCommand extends SignalAwareCommand
 
     public function handleRegistration(): void
     {
-        $this->line(\sprintf(
+        $this->line(sprintf(
             'Connected to %s, port %s',
             $this->server,
             $this->port
@@ -285,7 +289,7 @@ class IrcRunCommand extends SignalAwareCommand
             $this->client->part($channel->getName());
         }
         $this->client->disconnect();
-        $message = \sprintf('Disconnecting from %s', $this->server);
+        $message = sprintf('Disconnecting from %s', $this->server);
         $this->line($message);
         Log::info($message);
     }

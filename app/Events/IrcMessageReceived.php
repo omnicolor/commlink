@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Events;
 
+use App\Models\Irc\User;
 use Jerodev\PhpIrcClient\IrcChannel;
 use Jerodev\PhpIrcClient\IrcClient;
+
+use function str_replace;
 
 /**
  * @property IrcClient $client
@@ -25,11 +28,11 @@ class IrcMessageReceived extends MessageReceived
      */
     public function __construct(
         string $message,
-        public string $user,
+        public User $user,
         public IrcClient $client,
         public IrcChannel $channel,
     ) {
-        $this->content = \str_replace(':roll ', '', $message);
+        $this->content = str_replace(':roll ', '', $message);
         $this->server = $client->getConnection()->getServer();
     }
 }

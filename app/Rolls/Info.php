@@ -14,12 +14,14 @@ use App\Models\ChatUser;
 use App\Models\Slack\Field;
 use App\Models\Slack\FieldsAttachment;
 
+use const PHP_EOL;
+
 class Info extends Roll
 {
-    protected string $campaignName = 'No campaign';
-    protected string $characterName = 'No character';
-    protected ?ChatUser $chatUser;
-    protected string $commlinkUser = 'Not linked';
+    protected string $campaign_name = 'No campaign';
+    protected string $character_name = 'No character';
+    protected ?ChatUser $chat_user;
+    protected string $commlink_user = 'Not linked';
 
     public function __construct(
         string $content,
@@ -28,34 +30,33 @@ class Info extends Roll
         protected ?MessageReceived $event = null
     ) {
         parent::__construct($content, $character, $channel);
-        $this->chatUser = $this->channel->getChatUser();
-        if (null !== $this->chatUser && null !== $this->chatUser->user) {
-            $this->commlinkUser = $this->chatUser->user->email;
+        $this->chat_user = $this->channel->getChatUser();
+        if (null !== $this->chat_user && null !== $this->chat_user->user) {
+            $this->commlink_user = $this->chat_user->user->email;
         }
         if (null !== $channel->campaign) {
-            $this->campaignName = $channel->campaign->name;
+            $this->campaign_name = $channel->campaign->name;
         }
         $this->setCharacterName();
-        $this->event = $event;
     }
 
     protected function setCharacterName(): void
     {
-        if (null === $this->chatUser || null === $this->channel->id) {
+        if (null === $this->chat_user || null === $this->channel->id) {
             return;
         }
         $chatCharacter = ChatCharacter::where('channel_id', $this->channel->id)
-            ->where('chat_user_id', $this->chatUser->id)
+            ->where('chat_user_id', $this->chat_user->id)
             ->first();
         if (null === $chatCharacter) {
             return;
         }
         $character = $chatCharacter->getCharacter();
         if (null === $character) {
-            $this->characterName = 'Invalid character';
+            $this->character_name = 'Invalid character';
             return;
         }
-        $this->characterName = (string)$character;
+        $this->character_name = (string)$character;
     }
 
     public function forDiscord(): string
@@ -70,20 +71,20 @@ class Info extends Roll
             $system = config('app.systems')[$this->channel->system];
         }
 
-        return '**Debugging info**' . \PHP_EOL
-            . 'User Tag: ' . optional($event->user)->displayname . \PHP_EOL
-            . 'User ID: ' . optional($event->user)->id . \PHP_EOL
-            . 'Commlink User: ' . $this->commlinkUser . \PHP_EOL
+        return '**Debugging info**' . PHP_EOL
+            . 'User Tag: ' . optional($event->user)->displayname . PHP_EOL
+            . 'User ID: ' . optional($event->user)->id . PHP_EOL
+            . 'Commlink User: ' . $this->commlink_user . PHP_EOL
             // @phpstan-ignore-next-line
-            . 'Server Name: ' . $event->server->server_name . \PHP_EOL
+            . 'Server Name: ' . $event->server->server_name . PHP_EOL
             // @phpstan-ignore-next-line
-            . 'Server ID: ' . $event->server->server_id . \PHP_EOL
+            . 'Server ID: ' . $event->server->server_id . PHP_EOL
             // @phpstan-ignore-next-line
-            . 'Channel Name: ' . $event->channel->name . \PHP_EOL
-            . 'Channel ID: ' . $event->channel->id . \PHP_EOL
-            . 'System: ' . $system . \PHP_EOL
-            . 'Character: ' . $this->characterName . \PHP_EOL
-            . 'Campaign: ' . $this->campaignName;
+            . 'Channel Name: ' . $event->channel->name . PHP_EOL
+            . 'Channel ID: ' . $event->channel->id . PHP_EOL
+            . 'System: ' . $system . PHP_EOL
+            . 'Character: ' . $this->character_name . PHP_EOL
+            . 'Campaign: ' . $this->campaign_name;
     }
 
     public function forIrc(): string
@@ -98,14 +99,14 @@ class Info extends Roll
             $system = config('app.systems')[$this->channel->system];
         }
 
-        return 'Debugging info' . \PHP_EOL
-            . 'User name: ' . $event->user . \PHP_EOL
-            . 'Commlink User: ' . $this->commlinkUser . \PHP_EOL
-            . 'Server: ' . $event->server . \PHP_EOL
-            . 'Channel name: ' . $event->channel->getName() . \PHP_EOL
-            . 'System: ' . $system . \PHP_EOL
-            . 'Character: ' . $this->characterName . \PHP_EOL
-            . 'Campaign: ' . $this->campaignName;
+        return 'Debugging info' . PHP_EOL
+            . 'User name: ' . $event->user->nick . PHP_EOL
+            . 'Commlink User: ' . $this->commlink_user . PHP_EOL
+            . 'Server: ' . $event->server . PHP_EOL
+            . 'Channel name: ' . $event->channel->getName() . PHP_EOL
+            . 'System: ' . $system . PHP_EOL
+            . 'Character: ' . $this->character_name . PHP_EOL
+            . 'Campaign: ' . $this->campaign_name;
     }
 
     public function forSlack(): SlackResponse
@@ -114,13 +115,13 @@ class Info extends Roll
             ->addField(new Field('Team ID', $this->channel->server_id))
             ->addField(new Field('Channel ID', $this->channel->channel_id))
             ->addField(new Field('User ID', $this->channel->user ?? ''))
-            ->addField(new Field('Commlink User', $this->commlinkUser))
+            ->addField(new Field('Commlink User', $this->commlink_user))
             ->addField(new Field(
                 'System',
                 config('app.systems')[$this->channel->system] ?? $this->channel->system ?? 'unregistered'
             ))
-            ->addField(new Field('Character', $this->characterName))
-            ->addField(new Field('Campaign', $this->campaignName));
+            ->addField(new Field('Character', $this->character_name))
+            ->addField(new Field('Campaign', $this->campaign_name));
         $response = new SlackResponse(channel: $this->channel);
         return $response->addAttachment($attachment);
     }

@@ -9,8 +9,13 @@ use App\Exceptions\SlackException;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Initiative;
+use App\Models\Shadowrun5e\Character;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
+
+use function sprintf;
+
+use const PHP_EOL;
 
 /**
  * Blitz Shadowrun 5E initiative using five initiative dice.
@@ -54,7 +59,7 @@ class Blitz extends Init
             return;
         }
 
-        /** @var \App\Models\Shadowrun5e\Character */
+        /** @var Character */
         $character = $this->character;
         $this->initiativeScore = $character->initiative_score;
 
@@ -108,7 +113,7 @@ class Blitz extends Init
             return $this->error;
         }
         return sprintf('**%s blitzed**', $this->username)
-            . \PHP_EOL
+            . PHP_EOL
             . sprintf(
                 '%1$d + 5d6 = %1$d + %3$s = %2$d',
                 $this->initiativeScore,

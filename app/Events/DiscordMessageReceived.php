@@ -37,6 +37,7 @@ class DiscordMessageReceived extends MessageReceived
 
     /**
      * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-suppress PossiblyUnusedProperty
      */
     public function __construct(public Message $message, public Discord $discord)
     {
