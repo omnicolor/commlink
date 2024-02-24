@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Events;
 
 use App\Events\IrcMessageReceived;
+use App\Models\Irc\User;
 use Jerodev\PhpIrcClient\IrcChannel;
 use Jerodev\PhpIrcClient\IrcClient;
 use Tests\TestCase;
@@ -27,7 +28,7 @@ final class IrcMessageReceivedTest extends TestCase
 
         $event = new IrcMessageReceived(
             ':roll foo',
-            'username',
+            new User(nick: 'username'),
             $clientStub,
             $channelStub,
         );

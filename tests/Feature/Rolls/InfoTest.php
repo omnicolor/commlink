@@ -10,6 +10,7 @@ use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
+use App\Models\Irc\User as IrcUser;
 use App\Models\Shadowrun5e\Character;
 use App\Models\User;
 use App\Rolls\Info;
@@ -176,7 +177,7 @@ final class InfoTest extends TestCase
 
         $event = new IrcMessageReceived(
             message: ':roll info',
-            user: $username,
+            user: new IrcUser(nick: $username),
             client: $ircClient,
             channel: $ircChannel,
         );
@@ -228,7 +229,6 @@ final class InfoTest extends TestCase
         ]);
         $channel->user = $username;
 
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var ChatUser */
@@ -244,7 +244,7 @@ final class InfoTest extends TestCase
 
         $event = new IrcMessageReceived(
             message: ':roll info',
-            user: $username,
+            user: new IrcUser(nick: $username),
             client: $ircClient,
             channel: $ircChannel,
         );

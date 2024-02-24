@@ -8,6 +8,7 @@ use App\Events\IrcMessageReceived;
 use App\Listeners\HandleIrcMessage;
 use App\Models\Campaign;
 use App\Models\Channel;
+use App\Models\Irc\User;
 use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Jerodev\PhpIrcClient\IrcChannel;
@@ -42,11 +43,11 @@ final class HandleIrcMessageTest extends TestCase
             ->method('say')
             ->with(
                 self::equalTo('#commlink'),
-                self::equalTo('@darkroach: That doesn\'t appear to be a valid command!')
+                self::equalTo('darkroach: That doesn\'t appear to be a valid command!')
             );
         $event = new IrcMessageReceived(
             message: ':roll foo',
-            user: 'darkroach',
+            user: new User(nick: 'darkroach'),
             client: $client,
             channel: $channel,
         );
@@ -91,7 +92,7 @@ final class HandleIrcMessageTest extends TestCase
 
         $event = new IrcMessageReceived(
             message: ':roll info',
-            user: 'darkroach',
+            user: new User(nick: 'darkroach'),
             client: $client,
             channel: $channel,
         );
@@ -150,7 +151,7 @@ final class HandleIrcMessageTest extends TestCase
 
         $event = new IrcMessageReceived(
             message: ':roll info',
-            user: 'darkroach',
+            user: new User(nick: 'darkroach'),
             client: $client,
             channel: $ircChannel,
         );
@@ -185,7 +186,7 @@ final class HandleIrcMessageTest extends TestCase
 
         $event = new IrcMessageReceived(
             message: ':roll 2d6',
-            user: 'darkroach',
+            user: new User(nick: 'darkroach'),
             client: $client,
             channel: $channel,
         );

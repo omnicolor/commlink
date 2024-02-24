@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Events\IrcMessageReceived;
+use App\Models\Irc\User;
 use Illuminate\Support\Facades\Log;
 use Jerodev\PhpIrcClient\IrcChannel;
 use Jerodev\PhpIrcClient\IrcClient;
@@ -40,6 +41,11 @@ class IrcRunCommand extends SignalAwareCommand
      * IRC server's hostname.
      */
     protected string $server;
+
+    /**
+     * @var array<string, User>
+     */
+    protected array $users = [];
 
     /**
      * The name and signature of the console command.
@@ -91,10 +97,46 @@ class IrcRunCommand extends SignalAwareCommand
         $this->client->on('mode', [$this, 'handleMode']);
         $this->client->on('motd', [$this, 'handleMotd']);
         $this->client->on('registered', [$this, 'handleRegistration']);
+        $this->client->on('names', [$this, 'handleNames']);
+        $this->client->on('nick-is-registered', [$this, 'handleWhois']);
+        $this->client->on('renamed', [$this, 'handleRename']);
 
         $this->client->connect();
 
         return self::SUCCESS;
+    }
+
+    public function handleWhois(string $user): void
+    {
+        $this->users[$user]->registered = true;
+    }
+
+    public function handleRename(string $oldNick, string $newNick): void
+    {
+        $this->client->send('WHOIS ' . $newNick);
+        $this->users[$newNick] = $this->users[$oldNick] ?? new User(nick: $newNick);
+        unset($this->users[$oldNick]);
+    }
+
+    /**
+     * @param array<int, string> $names
+     * @psalm-suppress PossiblyUnusedParam
+     */
+    public function handleNames(IrcChannel $channel, array $names): void
+    {
+        foreach ($names as $name) {
+            $user = new User(nick: $name);
+            if (Str::startsWith($name, '@')) {
+                $user->op = true;
+                $user->nick = Str::replaceStart('@', '', $name);
+            }
+            if (Str::startsWith($name, '+')) {
+                $user->voice = true;
+                $user->nick = Str::replaceStart('+', '', $name);
+            }
+            $this->users[$name] = $user;
+            $this->client->send('WHOIS ' . $name);
+        }
     }
 
     public function handleInvite(IrcChannel $channel, string $user): void
@@ -171,7 +213,7 @@ class IrcRunCommand extends SignalAwareCommand
 
         IrcMessageReceived::dispatch(
             $message,
-            $from,
+            $this->users[$from] ?? new User(nick: $from),
             $this->client,
             $channel
         );
