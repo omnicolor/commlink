@@ -92,7 +92,7 @@ class Role
                     ]
                 );
             }
-        // @codeCoverageIgnoreEnd
+            // @codeCoverageIgnoreEnd
         }
         /** @var string $powerId */
         foreach ($role['power-other'] as $powerId) {
@@ -108,7 +108,7 @@ class Role
                     ]
                 );
             }
-        // @codeCoverageIgnoreEnd
+            // @codeCoverageIgnoreEnd
         }
         $this->responsibilities = $role['responsibilities'];
         $this->ruleset = $role['ruleset'];
@@ -128,7 +128,7 @@ class Role
                     ]
                 );
             }
-        // @codeCoverageIgnoreEnd
+            // @codeCoverageIgnoreEnd
         }
     }
 
