@@ -72,6 +72,40 @@ class Number extends Roll
         $this->roll();
     }
 
+    public function forDiscord(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+
+        $value = sprintf('**%s rolled a %d**', $this->username, $this->result)
+            . PHP_EOL
+            . (string)$this->roll;
+        if (0 !== $this->boost) {
+            $value .= ' + ' . (string)$this->boost;
+        } elseif (0 !== $this->penalty) {
+            $value .= ' - ' . (string)$this->penalty;
+        }
+        return $value;
+    }
+
+    public function forIrc(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+
+        $value = sprintf('%s rolled a %d', $this->username, $this->result)
+            . PHP_EOL
+            . (string)$this->roll;
+        if (0 !== $this->boost) {
+            $value .= ' + ' . (string)$this->boost;
+        } elseif (0 !== $this->penalty) {
+            $value .= ' - ' . (string)$this->penalty;
+        }
+        return $value;
+    }
+
     public function forSlack(): SlackResponse
     {
         if (null !== $this->error) {
@@ -91,23 +125,6 @@ class Number extends Roll
         );
         $response = new SlackResponse(channel: $this->channel);
         return $response->addAttachment($attachment)->sendToChannel();
-    }
-
-    public function forDiscord(): string
-    {
-        if (null !== $this->error) {
-            return $this->error;
-        }
-
-        $value = sprintf('**%s rolled a %d**', $this->username, $this->result)
-            . PHP_EOL
-            . (string)$this->roll;
-        if (0 !== $this->boost) {
-            $value .= ' + ' . (string)$this->boost;
-        } elseif (0 !== $this->penalty) {
-            $value .= ' - ' . (string)$this->penalty;
-        }
-        return $value;
     }
 
     protected function roll(): void
