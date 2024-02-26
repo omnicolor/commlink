@@ -9,17 +9,20 @@ use App\Rolls\Expanse\Number;
 use Facades\App\Services\DiceService;
 use Tests\TestCase;
 
+use function explode;
+
+use const PHP_EOL;
+
 /**
  * Tests for rolling dice in The Expanse.
- * @group discord
  * @group expanse
- * @group slack
  * @medium
  */
 final class NumberTest extends TestCase
 {
     /**
      * Test a basic roll generating stunt points in Slack without a description.
+     * @group slack
      * @test
      */
     public function testSimpleRollSlack(): void
@@ -43,6 +46,7 @@ final class NumberTest extends TestCase
     /**
      * Test a basic roll generating stunt points in Discord without a
      * description.
+     * @group discord
      * @test
      */
     public function testSimpleRollDiscord(): void
@@ -55,7 +59,7 @@ final class NumberTest extends TestCase
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'expanse']);
         $response = (new Number('5', 'user', $channel))->forDiscord();
-        $response = explode(\PHP_EOL, $response);
+        $response = explode(PHP_EOL, $response);
         self::assertSame('**user made a roll**', $response[0]);
         self::assertSame('14 (3 SP)', $response[1]);
     }
@@ -63,6 +67,7 @@ final class NumberTest extends TestCase
     /**
      * Test a basic roll not generating stunt points in Discord with a
      * description.
+     * @group discord
      * @test
      */
     public function testRollWithDescriptionDiscord(): void
@@ -75,8 +80,29 @@ final class NumberTest extends TestCase
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'expanse']);
         $response = (new Number('5 percept', 'user', $channel))->forDiscord();
-        $response = explode(\PHP_EOL, $response);
+        $response = explode(PHP_EOL, $response);
         self::assertSame('**user made a roll for "percept"**', $response[0]);
+        self::assertSame('15', $response[1]);
+    }
+
+    /**
+     * Test a basic roll not generating stunt points in IRC with a description.
+     * @group irc
+     * @test
+     */
+    public function testRollWithDescriptionIrc(): void
+    {
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(3, 6)
+            ->andReturn([2, 3, 5]);
+
+        /** @var Channel */
+        $channel = Channel::factory()->make(['system' => 'expanse']);
+
+        $response = (new Number('5 percept', 'user', $channel))->forIrc();
+        $response = explode(PHP_EOL, $response);
+        self::assertSame('user made a roll for "percept"', $response[0]);
         self::assertSame('15', $response[1]);
     }
 }

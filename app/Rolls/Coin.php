@@ -9,6 +9,8 @@ use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use Facades\App\Services\DiceService;
 
+use function sprintf;
+
 /**
  * Class representing a coin flip.
  */
@@ -22,7 +24,7 @@ class Coin extends Roll
         parent::__construct($content, $username, $channel);
 
         $flip = DiceService::rollOne(2);
-        $this->title = \sprintf(
+        $this->title = sprintf(
             '%s flipped a coin: %s',
             $username,
             1 === $flip ? 'Heads' : 'Tails'
@@ -30,19 +32,20 @@ class Coin extends Roll
         $this->text = '';
     }
 
-    public function forSlack(): SlackResponse
-    {
-        $attachment = new TextAttachment(
-            $this->title,
-            $this->text,
-            TextAttachment::COLOR_SUCCESS
-        );
-        $response = new SlackResponse(channel: $this->channel);
-        return $response->addAttachment($attachment)->sendToChannel();
-    }
-
     public function forDiscord(): string
     {
-        return \sprintf('**%s**', $this->title) . \PHP_EOL;
+        return sprintf('**%s**', $this->title) . \PHP_EOL;
+    }
+
+    public function forIrc(): string
+    {
+        return $this->title;
+    }
+
+    public function forSlack(): SlackResponse
+    {
+        $attachment = new TextAttachment($this->title, $this->text);
+        $response = new SlackResponse(channel: $this->channel);
+        return $response->addAttachment($attachment)->sendToChannel();
     }
 }

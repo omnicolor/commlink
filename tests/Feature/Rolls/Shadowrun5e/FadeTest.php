@@ -11,7 +11,12 @@ use App\Models\ChatUser;
 use App\Models\Shadowrun5e\Character;
 use App\Rolls\Shadowrun5e\Fade;
 use Facades\App\Services\DiceService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+
+use function sprintf;
+
+use const PHP_EOL;
 
 /**
  * Tests for rolling a fade test Shadowrun 5E.
@@ -21,6 +26,8 @@ use Tests\TestCase;
  */
 final class FadeTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * Test trying to roll a fade test without a character linked in Slack.
      * @group slack
@@ -56,13 +63,14 @@ final class FadeTest extends TestCase
 
     /**
      * Test trying to make a fade test without being a technomancer.
+     * @group discord
      * @test
      */
     public function testFadeNotTechnomancer(): void
     {
         /** @var Channel */
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_DISCORD,
+            'type' => Channel::TYPE_IRC,
             'system' => 'shadowrun5e',
         ]);
 
@@ -70,7 +78,7 @@ final class FadeTest extends TestCase
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
-            'server_type' => ChatUser::TYPE_DISCORD,
+            'server_type' => ChatUser::TYPE_IRC,
             'verified' => true,
         ]);
 
@@ -88,7 +96,7 @@ final class FadeTest extends TestCase
 
         $response = (new Fade('', 'username', $channel))->forDiscord();
         self::assertSame(
-            \sprintf(
+            sprintf(
                 '%s, Your character must have a resonance attribute to make '
                     . 'fading tests',
                 $character,
@@ -101,6 +109,7 @@ final class FadeTest extends TestCase
 
     /**
      * Test a fade test.
+     * @group discord
      * @test
      */
     public function testFadeDiscord(): void
@@ -136,9 +145,9 @@ final class FadeTest extends TestCase
 
         $response = (new Fade('', 'username', $channel))->forDiscord();
         self::assertSame(
-            \sprintf(
+            sprintf(
                 '**%s rolled 11 dice for a fading test**'
-                    . \PHP_EOL . 'Rolled 11 successes' . \PHP_EOL
+                    . PHP_EOL . 'Rolled 11 successes' . PHP_EOL
                     . 'Rolls: 6 6 6 6 6 6 6 6 6 6 6, Probability: 0.0006%%',
                 (string)$character
             ),
@@ -150,6 +159,7 @@ final class FadeTest extends TestCase
 
     /**
      * Test a fade test in Slack.
+     * @group slack
      * @test
      */
     public function testFadeSlack(): void
@@ -192,10 +202,74 @@ final class FadeTest extends TestCase
             $attachment->footer
         );
         self::assertSame(
-            \sprintf('%s rolled 7 dice for a fading test', $character),
+            sprintf('%s rolled 7 dice for a fading test', $character),
             $attachment->title
         );
         self::assertSame('Rolled 0 successes', $attachment->text);
+
+        $character->delete();
+    }
+
+    /**
+     * @group irc
+     */
+    public function testErrorIrc(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
+
+        self::assertSame(
+            'username, You must have a character linked to make fade tests',
+            (new Fade('', 'username', $channel))->forIrc()
+        );
+    }
+
+    /**
+     * Test a fade test.
+     * @group irc
+     * @test
+     */
+    public function testFadeIRC(): void
+    {
+        DiceService::shouldReceive('rollOne')->times(11)->with(6)->andReturn(6);
+
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'type' => Channel::TYPE_IRC,
+            'system' => 'shadowrun5e',
+        ]);
+
+        /** @var ChatUser */
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_IRC,
+            'verified' => true,
+        ]);
+
+        /** @var Character */
+        $character = Character::factory()->create([
+            'resonance' => 6,
+            'willpower' => 5,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+
+        ChatCharacter::factory()->create([
+            'channel_id' => $channel->id,
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser->id,
+        ]);
+
+        $response = (new Fade('', 'username', $channel))->forIrc();
+        self::assertSame(
+            sprintf(
+                '%s rolled 11 dice for a fading test' . PHP_EOL
+                    . 'Rolled 11 successes' . PHP_EOL
+                    . 'Rolls: 6 6 6 6 6 6 6 6 6 6 6',
+                (string)$character
+            ),
+            $response
+        );
 
         $character->delete();
     }

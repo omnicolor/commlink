@@ -6,8 +6,13 @@ namespace App\Rolls\Shadowrun5e;
 
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
+use App\Models\Shadowrun5e\Character;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
+
+use function sprintf;
+
+use const PHP_EOL;
 
 class Help extends Roll
 {
@@ -16,12 +21,6 @@ class Help extends Roll
      */
     protected array $data = [];
 
-    /**
-     * Constructor.
-     * @param string $content
-     * @param string $username
-     * @param Channel $channel
-     */
     public function __construct(
         string $content,
         string $username,
@@ -32,13 +31,13 @@ class Help extends Roll
         $this->data[] = [
             'title' => 'Commlink - Shadowrun 5th Edition',
             'text' => 'Commlink is a Slack/Discord bot that lets you roll '
-                . 'Shadowrun 5E dice.' . \PHP_EOL
+                . 'Shadowrun 5E dice.' . PHP_EOL
                 . '· `6 [text]` - Roll 6 dice, with optional text (automatics, '
-                . 'perception, etc)' . \PHP_EOL
-                . '· `12 6 [text]` - Roll 12 dice with a limit of 6' . \PHP_EOL
+                . 'perception, etc)' . PHP_EOL
+                . '· `12 6 [text]` - Roll 12 dice with a limit of 6' . PHP_EOL
                 . '· `XdY[+C] [text]` - Roll X dice with Y sides, optionally '
                 . 'adding C to the result, optionally describing that the roll '
-                . 'is for "text"' . \PHP_EOL,
+                . 'is for "text"' . PHP_EOL,
             'color' => TextAttachment::COLOR_INFO,
         ];
 
@@ -46,28 +45,28 @@ class Help extends Roll
             $this->data[] = [
                 'title' => 'Gamemaster commands',
                 'text' => '· `init start` - Start a new initiative tracker, '
-                    . 'removing any existing rolls' . \PHP_EOL,
+                    . 'removing any existing rolls' . PHP_EOL,
                 'color' => TextAttachment::COLOR_INFO,
             ];
         } elseif (null !== $this->character) {
-            /** @var \App\Models\Shadowrun5e\Character */
+            /** @var Character */
             $character = $this->character;
 
             $this->data[] = [
                 'title' => 'Player',
                 'text' => 'You\'re playing ' . (string)$this->character
-                    . ' in this channel' . \PHP_EOL
-                    . \sprintf(
-                        '· `composure` - Make a composure roll (%d)' . \PHP_EOL
+                    . ' in this channel' . PHP_EOL
+                    . sprintf(
+                        '· `composure` - Make a composure roll (%d)' . PHP_EOL
                         . '· `judge` - Make a judge intentions check (%d)'
-                        . \PHP_EOL
-                        . '· `lift` - Make a lift/carry roll (%d)' . \PHP_EOL
-                        . '· `memory` - Make a memory test (%d)' . \PHP_EOL
-                        . '· `soak` - Make a soak test (%d)' . \PHP_EOL
-                        . '· `luck` - Make a luck (edge) test (%d)' . \PHP_EOL
-                        . '· `init` - Roll your initiative (%dd6+%d)' . \PHP_EOL
-                        . '· `push 6 [limit] [text]` - Push the limit with 6 + your edge (%d)' . \PHP_EOL
-                        . '· `blitz` - Blitz initiative (5d6+%8$d)' . \PHP_EOL,
+                        . PHP_EOL
+                        . '· `lift` - Make a lift/carry roll (%d)' . PHP_EOL
+                        . '· `memory` - Make a memory test (%d)' . PHP_EOL
+                        . '· `soak` - Make a soak test (%d)' . PHP_EOL
+                        . '· `luck` - Make a luck (edge) test (%d)' . PHP_EOL
+                        . '· `init` - Roll your initiative (%dd6+%d)' . PHP_EOL
+                        . '· `push 6 [limit] [text]` - Push the limit with 6 + your edge (%d)' . PHP_EOL
+                        . '· `blitz` - Blitz initiative (5d6+%8$d)' . PHP_EOL,
                         $character->composure,
                         $character->judge_intentions,
                         $character->lift_carry,
@@ -84,8 +83,8 @@ class Help extends Roll
             if (null !== $character->resonance) {
                 $this->data[] = [
                     'title' => 'Technomancer',
-                    'text' => \sprintf(
-                        '· `fade` - Make a test to resist fading (%d)' . \PHP_EOL,
+                    'text' => sprintf(
+                        '· `fade` - Make a test to resist fading (%d)' . PHP_EOL,
                         $character->resonance + $character->willpower,
                     ),
                     'color' => TextAttachment::COLOR_INFO,
@@ -94,19 +93,15 @@ class Help extends Roll
         } else {
             $this->data[] = [
                 'title' => 'Player',
-                'text' => 'No character linked' . \PHP_EOL
+                'text' => 'No character linked' . PHP_EOL
                     . '· `link <characterId>` - Link a character to this '
-                    . 'channel' . \PHP_EOL
-                    . '· `init 12+3d6` - Roll your initiative' . \PHP_EOL,
+                    . 'channel' . PHP_EOL
+                    . '· `init 12+3d6` - Roll your initiative' . PHP_EOL,
                 'color' => TextAttachment::COLOR_INFO,
             ];
         }
     }
 
-    /**
-     * Return the roll formatted for Slack.
-     * @return SlackResponse
-     */
     public function forSlack(): SlackResponse
     {
         $response = new SlackResponse(channel: $this->channel);
@@ -120,16 +115,22 @@ class Help extends Roll
         return $response;
     }
 
-    /**
-     * Return the roll formatted for Discord.
-     * @return string
-     */
     public function forDiscord(): string
     {
         $value = '';
         foreach ($this->data as $element) {
-            $value .= \sprintf('**%s**', $element['title']) . \PHP_EOL
-            . $element['text'] . \PHP_EOL;
+            $value .= sprintf('**%s**', $element['title']) . PHP_EOL
+            . $element['text'] . PHP_EOL;
+        }
+        return $value;
+    }
+
+    public function forIrc(): string
+    {
+        $value = '';
+        foreach ($this->data as $element) {
+            $value .= $element['title'] . PHP_EOL
+            . $element['text'] . PHP_EOL;
         }
         return $value;
     }

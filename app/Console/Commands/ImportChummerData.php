@@ -282,7 +282,7 @@ class ImportChummerData extends Command implements Isolatable
     /**
      * Try to load the requested file as XML.
      */
-    protected function loadXml(string $file): SimpleXmlElement
+    protected function loadXml(string $file): SimpleXMLElement
     {
         $data = simplexml_load_file($file);
         if (!file_exists($file)) {
@@ -388,7 +388,7 @@ class ImportChummerData extends Command implements Isolatable
      * @param array<int, array<string, int|string>> $augmentations
      */
     protected function addSingleAugmentation(
-        SimpleXmlElement $aug,
+        SimpleXMLElement $aug,
         string $type,
         array &$augmentations
     ): void {
@@ -667,7 +667,7 @@ class ImportChummerData extends Command implements Isolatable
      * @psalm-suppress InvalidReturnType
      * @return array<string, array<int, int|string>|int|string>
      */
-    protected function addMatrixAttributes(SimpleXmlElement $gear): array
+    protected function addMatrixAttributes(SimpleXMLElement $gear): array
     {
         $matrix = [];
         if ('' !== (string)$gear->attributearray) {
@@ -975,7 +975,7 @@ class ImportChummerData extends Command implements Isolatable
      * code.
      */
     protected function cleanAvailability(
-        SimpleXmlElement $item,
+        SimpleXMLElement $item,
         ?int $rating = null
     ): string {
         $availability = (string)$item->avail;
