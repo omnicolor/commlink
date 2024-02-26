@@ -9,9 +9,14 @@ use App\Http\Controllers\Shadowrun5e\ArmorModificationsController;
 use App\Http\Controllers\Shadowrun5e\CharactersController;
 use App\Http\Controllers\Shadowrun5e\ComplexFormsController;
 use App\Http\Controllers\Shadowrun5e\ContactsController;
+use App\Http\Controllers\Shadowrun5e\CritterPowersController;
+use App\Http\Controllers\Shadowrun5e\CritterWeaknessesController;
+use App\Http\Controllers\Shadowrun5e\CrittersController;
 use App\Http\Controllers\Shadowrun5e\CyberwareController;
 use App\Http\Controllers\Shadowrun5e\GearController;
 use App\Http\Controllers\Shadowrun5e\GearModificationsController;
+use App\Http\Controllers\Shadowrun5e\GruntsController;
+use App\Http\Controllers\Shadowrun5e\IntrusionCountermeasuresController;
 use App\Http\Controllers\Shadowrun5e\LifestyleOptionsController;
 use App\Http\Controllers\Shadowrun5e\LifestyleZonesController;
 use App\Http\Controllers\Shadowrun5e\LifestylesController;
@@ -21,6 +26,7 @@ use App\Http\Controllers\Shadowrun5e\MentorSpiritsController;
 use App\Http\Controllers\Shadowrun5e\MetamagicsController;
 use App\Http\Controllers\Shadowrun5e\ProgramsController;
 use App\Http\Controllers\Shadowrun5e\QualitiesController;
+use App\Http\Controllers\Shadowrun5e\RulebooksController;
 use App\Http\Controllers\Shadowrun5e\SkillGroupsController;
 use App\Http\Controllers\Shadowrun5e\SkillsController;
 use App\Http\Controllers\Shadowrun5e\SpellsController;
@@ -48,11 +54,21 @@ Route::middleware('auth:sanctum')->prefix('shadowrun5e')->name('shadowrun5e.')->
             ->only(['index', 'show', 'update']);
         Route::resource('complex-forms', ComplexFormsController::class)
             ->only(['index', 'show']);
+        Route::resource('critter-powers', CritterPowersController::class)
+            ->only(['index', 'show']);
+        Route::resource('critter-weaknesses', CritterWeaknessesController::class)
+            ->only(['index', 'show']);
+        Route::resource('critters', CrittersController::class)
+            ->only(['index', 'show']);
         Route::resource('cyberware', CyberwareController::class)
             ->only(['index', 'show']);
         Route::resource('gear', GearController::class)
             ->only(['index', 'show']);
         Route::resource('gear-modifications', GearModificationsController::class)
+            ->only(['index', 'show']);
+        Route::resource('grunts', GruntsController::class)
+            ->only(['index', 'show']);
+        Route::resource('intrusion-countermeasures', IntrusionCountermeasuresController::class)
             ->only(['index', 'show']);
         Route::resource('lifestyles', LifestylesController::class)
             ->only(['index', 'show']);
@@ -71,6 +87,8 @@ Route::middleware('auth:sanctum')->prefix('shadowrun5e')->name('shadowrun5e.')->
         Route::resource('programs', ProgramsController::class)
             ->only(['index', 'show']);
         Route::resource('qualities', QualitiesController::class)
+            ->only(['index', 'show']);
+        Route::resource('rulebooks', RulebooksController::class)
             ->only(['index', 'show']);
         Route::resource('skills', SkillsController::class)
             ->only(['index', 'show']);
