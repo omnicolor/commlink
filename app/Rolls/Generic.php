@@ -17,12 +17,6 @@ class Generic extends Roll
 {
     use ForceTrait;
 
-    /**
-     * Constructor.
-     * @param string $content
-     * @param string $username
-     * @param Channel $channel
-     */
     public function __construct(
         string $content,
         string $username,
@@ -47,7 +41,7 @@ class Generic extends Roll
         // Swap out the XdY with the sum of the rolled dice to show our work.
         $partial = \str_replace(
             $dynamicPart,
-            \sprintf('[%d]', $diceSum),
+            \sprintf('[%s]', implode('+', $rolls)),
             $expression
         );
 
@@ -80,8 +74,6 @@ class Generic extends Roll
      * Pull the dynamic part of the text out.
      *
      * For an expression like '10+9d6+27', would pull out and return '9d6'.
-     * @param string $string
-     * @return string
      */
     protected function getDynamicPart(string $string): string
     {
@@ -92,7 +84,6 @@ class Generic extends Roll
 
     /**
      * Convert a string like '1d6' into its two parts: 1 and 6.
-     * @param string $dynamicPart
      * @return array<int, int>
      */
     protected function getDiceAndPips(string $dynamicPart): array
@@ -103,8 +94,6 @@ class Generic extends Roll
 
     /**
      * Roll a certain number of dice with a certain number of pips.
-     * @param int $dice
-     * @param int $pips
      * @return array<int, int>
      */
     protected function rollDice(int $dice, int $pips): array
@@ -112,31 +101,6 @@ class Generic extends Roll
         return DiceService::rollMany($dice, $pips);
     }
 
-    /**
-     * Return the roll formatted for Slack.
-     * @return SlackResponse
-     */
-    public function forSlack(): SlackResponse
-    {
-        $attachment = new TextAttachment(
-            $this->title,
-            $this->text,
-            TextAttachment::COLOR_SUCCESS
-        );
-        $attachment->addFooter($this->footer);
-        $response = new SlackResponse(
-            '',
-            SlackResponse::HTTP_OK,
-            [],
-            $this->channel
-        );
-        return $response->addAttachment($attachment)->sendToChannel();
-    }
-
-    /**
-     * Return the roll formatted for Discord.
-     * @return string
-     */
     public function forDiscord(): string
     {
         $value = \sprintf('**%s**', $this->title) . \PHP_EOL
@@ -145,5 +109,18 @@ class Generic extends Roll
             $value .= \sprintf('_%s_', $this->footer);
         }
         return $value;
+    }
+
+    public function forIrc(): string
+    {
+        return $this->title . \PHP_EOL . $this->text;
+    }
+
+    public function forSlack(): SlackResponse
+    {
+        $attachment = new TextAttachment($this->title, $this->text);
+        $attachment->addFooter($this->footer);
+        $response = new SlackResponse(channel: $this->channel);
+        return $response->addAttachment($attachment)->sendToChannel();
     }
 }

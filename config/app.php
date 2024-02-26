@@ -244,9 +244,4 @@ return [
         'stillfleet' => 'Stillfleet',
         'subversion' => 'Subversion',
     ],
-
-    /*
-     * Oauth token for Slack interaction.
-     */
-    'slack_token' => env('SLACK_TOKEN'),
 ];

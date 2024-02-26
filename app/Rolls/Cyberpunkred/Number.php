@@ -10,6 +10,14 @@ use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
 
+use function abs;
+use function array_shift;
+use function array_sum;
+use function explode;
+use function implode;
+
+use const PHP_EOL;
+
 /**
  * Handle a user rolling a generic roll.
  */
@@ -56,9 +64,9 @@ class Number extends Roll
     ) {
         parent::__construct($content, $username, $channel);
 
-        $args = \explode(' ', $content);
-        $this->addition = (int)\array_shift($args);
-        $this->description = \implode(' ', $args);
+        $args = explode(' ', $content);
+        $this->addition = (int)array_shift($args);
+        $this->description = implode(' ', $args);
 
         $this->roll();
     }
@@ -76,7 +84,7 @@ class Number extends Roll
             $this->formatBody(),
             $color
         );
-        $attachment->addFooter(\implode(' ', $this->dice));
+        $attachment->addFooter(implode(' ', $this->dice));
 
         $response = new SlackResponse(
             '',
@@ -89,17 +97,19 @@ class Number extends Roll
 
     public function forDiscord(): string
     {
-        return sprintf('**%s**', $this->formatTitle()) . \PHP_EOL
+        return sprintf('**%s**', $this->formatTitle()) . PHP_EOL
             . $this->formatBody();
     }
 
-    /**
-     * Format the body of the Slack message and event.
-     */
+    public function forIrc(): string
+    {
+        return $this->formatTitle() . PHP_EOL . $this->formatBody();
+    }
+
     protected function formatBody(): string
     {
         if (!$this->critFailure && !$this->critSuccess) {
-            return \sprintf(
+            return sprintf(
                 '1d10 + %1$d = %2$d + %1$d = %3$d',
                 $this->addition,
                 $this->dice[0],
@@ -107,14 +117,14 @@ class Number extends Roll
             );
         }
         if ($this->critFailure) {
-            return \sprintf(
+            return sprintf(
                 '1d10 + %1$d = 1 - %2$d + %1$d = %3$d',
                 $this->addition,
-                \abs($this->dice[1]),
+                abs($this->dice[1]),
                 $this->result
             );
         }
-        return \sprintf(
+        return sprintf(
             '1d10 + %1$d = 10 + %2$d + %1$d = %3$d',
             $this->addition,
             $this->dice[1],
@@ -129,21 +139,21 @@ class Number extends Roll
     {
         $for = '';
         if ('' !== $this->description) {
-            $for = \sprintf(' for "%s"', $this->description);
+            $for = sprintf(' for "%s"', $this->description);
         }
         if (!$this->critFailure && !$this->critSuccess) {
-            return \sprintf('%s made a roll%s', $this->username, $for);
+            return sprintf('%s made a roll%s', $this->username, $for);
         }
 
         if ($this->critFailure) {
-            return \sprintf(
+            return sprintf(
                 '%s made a roll with a critical failure%s',
                 $this->username,
                 $for
             );
         }
 
-        return \sprintf(
+        return sprintf(
             '%s made a roll with a critical success%s',
             $this->username,
             $for
@@ -165,6 +175,6 @@ class Number extends Roll
             $this->dice[] = DiceService::rollOne(10);
         }
 
-        $this->result = \array_sum($this->dice) + $this->addition;
+        $this->result = array_sum($this->dice) + $this->addition;
     }
 }

@@ -19,8 +19,8 @@ class LinkUserRequest extends FormRequest
     {
         return [
             'server-id' => [
-                'alpha_num',
                 'required',
+                'string',
             ],
             'user-id' => [
                 'alpha_num',

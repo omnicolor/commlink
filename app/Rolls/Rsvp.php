@@ -9,7 +9,6 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Event;
 use App\Models\EventRsvp;
 use App\Policies\EventPolicy;
-use Discord\Builders\MessageBuilder;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -17,7 +16,12 @@ use function sprintf;
 
 class Rsvp extends Roll
 {
-    public function forDiscord(): string | MessageBuilder
+    public function forDiscord(): string
+    {
+        return 'RSVP is not a valid roll';
+    }
+
+    public function forIrc(): string
     {
         return 'RSVP is not a valid roll';
     }

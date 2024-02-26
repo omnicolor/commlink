@@ -9,6 +9,7 @@ use App\Models\ChatUser;
 use App\Models\Traits\InteractsWithDiscord;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class SettingsController extends Controller
@@ -51,7 +52,7 @@ class SettingsController extends Controller
             ->first();
         if (null !== $chatUser) {
             return redirect('settings')
-                ->with('error', 'User already registered.')
+                ->with('error', 'Discord user already registered.')
                 ->withInput();
         }
 
@@ -84,6 +85,58 @@ class SettingsController extends Controller
             );
     }
 
+    public function linkIrc(LinkUserRequest $request): RedirectResponse
+    {
+        $serverId = $request->input('server-id');
+        abort_if(
+            !Str::contains($serverId, ':'),
+            RedirectResponse::HTTP_BAD_REQUEST,
+            'IRC servers should have both a hostname and a port, like chat.freenode.net:6667',
+        );
+        $remoteUserId = $request->input('user-id');
+
+        // @phpstan-ignore-next-line
+        $userId = $request->user()->id;
+
+        $chatUser = ChatUser::irc()
+            ->where('server_id', $serverId)
+            ->where('remote_user_id', $remoteUserId)
+            ->where('user_id', $userId)
+            ->first();
+        if (null !== $chatUser) {
+            return redirect('settings')
+                ->with('error', 'IRC user already registered.')
+                ->withInput();
+        }
+        $chatUser = new ChatUser([
+            'server_id' => $serverId,
+            'server_name' => Str::limit(Str::before($serverId, ':'), 50),
+            'server_type' => ChatUser::TYPE_IRC,
+            'remote_user_id' => $remoteUserId,
+            'remote_user_name' => $remoteUserId,
+            'user_id' => $userId,
+            'verified' => false,
+        ]);
+        $chatUser->save();
+
+        return redirect('settings')
+            ->with(
+                'successObj',
+                [
+                    'id' => sprintf(
+                        'success-irc-%s-%s',
+                        $serverId,
+                        $remoteUserId,
+                    ),
+                    'message' => sprintf(
+                        'IRC account (%s - %s) linked.',
+                        $chatUser->server_name,
+                        $chatUser->remote_user_name,
+                    ),
+                ],
+            );
+    }
+
     /**
      * Handle a request to link a Slack team/user to the current Commlink user.
      * @param LinkUserRequest $request
@@ -103,7 +156,7 @@ class SettingsController extends Controller
             ->first();
         if (null !== $chatUser) {
             return redirect('settings')
-                ->with('error', 'User already registered.')
+                ->with('error', 'Slack user already registered.')
                 ->withInput();
         }
 
@@ -147,6 +200,9 @@ class SettingsController extends Controller
         if ('T' === substr($request->input('server-id'), 0, 1)) {
             return $this->linkSlack($request);
         }
-        return $this->linkDiscord($request);
+        if (is_numeric($request->input('server-id')[0])) {
+            return $this->linkDiscord($request);
+        }
+        return $this->linkIrc($request);
     }
 }

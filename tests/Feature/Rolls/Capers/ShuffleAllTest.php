@@ -192,4 +192,73 @@ final class ShuffleAllTest extends TestCase
         );
         self::assertCount(54, $deck);
     }
+
+    /**
+     * @group irc
+     */
+    public function testNotGmInIrc(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['system' => 'capers']);
+
+        /** @var Channel */
+        $channel = Channel::factory()->make([
+            'campaign_id' => $campaign,
+            'system' => 'capers',
+        ]);
+        $channel->username = $this->faker->name;
+
+        $response = (new ShuffleAll('shuffleAll', $channel->username, $channel))
+            ->forIrc();
+        self::assertSame(
+            'You must be the game\'s GM to shuffle all decks',
+            $response,
+        );
+    }
+
+    /**
+     * @group irc
+     */
+    public function testForIrc(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create([
+            'gm' => $user->id,
+            'system' => 'capers',
+        ]);
+
+        /** @var Channel */
+        $channel = Channel::factory()->make([
+            'campaign_id' => $campaign,
+            'system' => 'capers',
+            'type' => Channel::TYPE_IRC,
+        ]);
+        $channel->username = $this->faker->name;
+        $channel->user = 'U' . Str::random(10);
+
+        ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_IRC,
+            'user_id' => $user,
+            'verified' => true,
+        ]);
+
+        $deck = new StandardDeck();
+        $deck->campaign_id = $campaign->id;
+        $deck->character_id = $this->faker->name;
+        $deck->shuffle();
+        $deck->draw(10);
+        $deck->save();
+
+        $response = (new ShuffleAll('shuffleAll', $channel->username, $channel))
+            ->forIrc();
+        self::assertSame(
+            'The Gamemaster shuffled all decks',
+            $response
+        );
+    }
 }
