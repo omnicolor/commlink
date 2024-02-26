@@ -97,7 +97,6 @@ use App\Features\Stillfleet;
                     <a class="dropdown-item" href="/characters/stillfleet/create">
                         Stillfleet
                         <span class="badge bg-danger">Not complete</span>
-                    @endfeature
                     </a>
                     @endfeature
                 </li>
