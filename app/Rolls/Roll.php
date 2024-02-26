@@ -69,10 +69,7 @@ abstract class Roll
 
     abstract public function forDiscord(): string | MessageBuilder;
 
-    public function forIrc(): string
-    {
-        return 'Not implemented';
-    }
+    abstract public function forIrc(): string;
 
     abstract public function forSlack(): SlackResponse;
 

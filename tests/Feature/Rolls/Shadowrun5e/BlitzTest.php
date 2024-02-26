@@ -16,6 +16,8 @@ use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+use function json_decode;
+
 use const PHP_EOL;
 
 /**
@@ -123,6 +125,42 @@ final class BlitzTest extends TestCase
         $character->delete();
     }
 
+    public function testBlitzErrorIrc(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'type' => Channel::TYPE_IRC,
+            'system' => 'shadowrun5e',
+        ]);
+
+        /** @var ChatUser */
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_IRC,
+            'verified' => true,
+        ]);
+
+        /** @var Character */
+        $character = Character::factory()->create([
+            'edgeCurrent' => 0,
+            'edge' => 5,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+
+        ChatCharacter::factory()->create([
+            'channel_id' => $channel->id,
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser->id,
+        ]);
+
+        $response = (new Blitz('blitz', 'username', $channel))->forIrc();
+
+        self::assertSame('It looks like you\'re out of edge!', $response);
+
+        $character->delete();
+    }
+
     /**
      * Test trying to blitz from Slack.
      * @group slack
@@ -172,7 +210,7 @@ final class BlitzTest extends TestCase
         ]);
 
         $response = (new Blitz('blitz', 'username', $channel))->forSlack();
-        $response = \json_decode((string)$response)->attachments[0];
+        $response = json_decode((string)$response)->attachments[0];
 
         self::assertSame(
             $character->handle . ' blitzed',
@@ -268,7 +306,7 @@ final class BlitzTest extends TestCase
      * @group irc
      * @test
      */
-    public function testBlitzIRC(): void
+    public function testBlitzIrc(): void
     {
         DiceService::shouldReceive('rollMany')
             ->once()

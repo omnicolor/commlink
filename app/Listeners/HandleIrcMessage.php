@@ -64,9 +64,28 @@ class HandleIrcMessage
                 $event->client->say($this->irc_channel, $roll->forIrc());
                 RollEvent::dispatch($roll, $channel);
                 return true;
-            } catch (Error) {
+            } catch (Error) { // @codeCoverageIgnore
                 // Ignore errors here, they might want a generic command.
             }
+        }
+
+        // Try system-specific rolls that aren't numeric.
+        try {
+            $class = sprintf(
+                '\\App\\Rolls\\%s\\%s',
+                ucfirst($channel->system ?? 'Unknown'),
+                ucfirst($args[0])
+            );
+            /** @var Roll */
+            $roll = new $class($event->content, $channel->user, $channel);
+            $event->client->say($this->irc_channel, $roll->forIrc());
+
+            if ('help' !== $args[0]) {
+                RollEvent::dispatch($roll, $channel);
+            }
+            return true;
+        } catch (Error) {
+            // Again, ignore errors, they might want a generic command.
         }
 
         // Try generic rolls.

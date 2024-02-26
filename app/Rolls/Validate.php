@@ -76,7 +76,7 @@ class Validate extends Roll
         $this->error = sprintf(
             'We couldn\'t find a %s registration for this server and your '
                 . 'user. Go to the settings page (%s/settings) and copy the '
-                . 'command listed there for this server. If' . 'server isn\'t '
+                . 'command listed there for this server. If the server isn\'t '
                 . 'listed, follow the instructions there to add it. You\'ll '
                 . 'need to know your server ID (`%s`) and your user ID (`%s`).',
             config('app.name'),
@@ -108,7 +108,7 @@ class Validate extends Roll
             throw new SlackException($this->error);
         }
 
-        $attachment = new TextAttachment('Verified!', 'Not implemented');
+        $attachment = new TextAttachment('Verified!', $this->message);
         $response = new SlackResponse(channel: $this->channel);
         return $response->addAttachment($attachment)->sendToChannel();
     }

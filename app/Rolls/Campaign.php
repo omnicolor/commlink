@@ -157,12 +157,14 @@ class Campaign extends Roll
         $new = false;
         if (null === $this->channel->registered_by) {
             // Brand new channel registration.
-            $this->channel->server_name = $this->channel->getSlackTeamName(
-                $this->channel->server_id
-            );
-            $this->channel->channel_name = $this->channel->getSlackChannelName(
-                $this->channel->channel_id
-            );
+            if (Channel::TYPE_SLACK === $this->channel->type) {
+                $this->channel->server_name = $this->channel->getSlackTeamName(
+                    $this->channel->server_id
+                );
+                $this->channel->channel_name = $this->channel->getSlackChannelName(
+                    $this->channel->channel_id
+                );
+            }
             // @phpstan-ignore-next-line
             $this->channel->registered_by = $this->chatUser->user->id;
             $new = true;

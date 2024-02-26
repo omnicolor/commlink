@@ -9,11 +9,19 @@ use App\Exceptions\SlackException;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Initiative;
+use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\ForceTrait;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
 use RuntimeException;
+
+use function array_shift;
+use function explode;
+use function preg_match;
+use function sprintf;
+
+use const PHP_EOL;
 
 class Init extends Roll
 {
@@ -58,7 +66,7 @@ class Init extends Roll
             $this->error = null;
         }
         if (isset($this->character)) {
-            /** @var \App\Models\Shadowrun5e\Character */
+            /** @var Character */
             $character = $this->character;
             $this->initiativeScore = $character->initiative_score;
             $this->initiativeDice = $character->initiative_dice;
@@ -98,10 +106,10 @@ class Init extends Roll
 
     protected function handleGmCommands(): void
     {
-        $args = \explode(' ', $this->content);
+        $args = explode(' ', $this->content);
 
         // Remove 'init' from argument list.
-        \array_shift($args);
+        array_shift($args);
 
         switch ($args[0] ?? '') {
             case 'clear':
@@ -140,7 +148,7 @@ class Init extends Roll
     protected function getDynamicPart(string $string): string
     {
         $matches = [];
-        \preg_match('/(\d+)d(\d+)/', $string, $matches);
+        preg_match('/(\d+)d(\d+)/', $string, $matches);
         if (!isset($matches[0])) {
             throw new RuntimeException();
         }
@@ -153,7 +161,7 @@ class Init extends Roll
      */
     protected function getDiceAndPips(string $dynamicPart): array
     {
-        $dicePart = \explode('d', $dynamicPart);
+        $dicePart = explode('d', $dynamicPart);
         return [(int)$dicePart[0], (int)$dicePart[1]];
     }
 
@@ -163,10 +171,10 @@ class Init extends Roll
      */
     protected function parseArgs(): void
     {
-        $args = \explode(' ', $this->content);
+        $args = explode(' ', $this->content);
 
         // Remove 'init' from argument list.
-        \array_shift($args);
+        array_shift($args);
 
         if (2 === count($args)) {
             if (!ctype_digit($args[0]) || !ctype_digit($args[1])) {
@@ -229,6 +237,44 @@ class Init extends Roll
         $this->dice = DiceService::rollMany($this->initiativeDice, 6);
     }
 
+    public function forDiscord(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+        if ('' !== $this->title) {
+            return sprintf('**%s**', $this->title) . PHP_EOL . $this->text;
+        }
+        return sprintf('**Rolling initiative for %s**', $this->username)
+            . PHP_EOL
+            . sprintf(
+                '%1$d + %2$dd6 = %1$d + %4$s = %3$d',
+                $this->initiativeScore,
+                $this->initiativeDice,
+                $this->initiativeScore + array_sum($this->dice),
+                implode(' + ', $this->dice)
+            );
+    }
+
+    public function forIrc(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+        if ('' !== $this->title) {
+            return $this->title . PHP_EOL . $this->text;
+        }
+        return sprintf('Rolling initiative for %s', $this->username)
+            . PHP_EOL
+            . sprintf(
+                '%1$d + %2$dd6 = %1$d + %4$s = %3$d',
+                $this->initiativeScore,
+                $this->initiativeDice,
+                $this->initiativeScore + array_sum($this->dice),
+                implode(' + ', $this->dice)
+            );
+    }
+
     public function forSlack(): SlackResponse
     {
         if (null !== $this->error) {
@@ -256,24 +302,5 @@ class Init extends Roll
             'Rolls: ' . implode(' ', $this->dice)
         ));
         return $response->sendToChannel();
-    }
-
-    public function forDiscord(): string
-    {
-        if (null !== $this->error) {
-            return $this->error;
-        }
-        if ('' !== $this->title) {
-            return \sprintf('**%s**', $this->title) . \PHP_EOL . $this->text;
-        }
-        return sprintf('**Rolling initiative for %s**', $this->username)
-            . \PHP_EOL
-            . sprintf(
-                '%1$d + %2$dd6 = %1$d + %4$s = %3$d',
-                $this->initiativeScore,
-                $this->initiativeDice,
-                $this->initiativeScore + array_sum($this->dice),
-                implode(' + ', $this->dice)
-            );
     }
 }

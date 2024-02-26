@@ -9,6 +9,10 @@ use App\Rolls\StarTrekAdventures\Unfocused;
 use Facades\App\Services\DiceService;
 use Tests\TestCase;
 
+use function json_decode;
+
+use const PHP_EOL;
+
 /**
  * Tests for trying an unfocused test in Star Trek Adventures.
  * @group star-trek-adventures
@@ -18,6 +22,7 @@ final class UnfocusedTest extends TestCase
 {
     /**
      * Test making a simple unfocused roll.
+     * @group slack
      * @test
      */
     public function testUnfocusedSlack(): void
@@ -28,7 +33,7 @@ final class UnfocusedTest extends TestCase
         DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(3);
 
         $response = new Unfocused('unfocused 1 2 3', 'username', $channel);
-        $response = \json_decode((string)$response->forSlack());
+        $response = json_decode((string)$response->forSlack());
         $response = $response->attachments[0];
 
         self::assertSame('Rolls: 3 3', $response->footer);
@@ -41,6 +46,7 @@ final class UnfocusedTest extends TestCase
 
     /**
      * Test making an unfocused roll with extra dice.
+     * @group discor
      * @test
      */
     public function testUnfocusedExtraDice(): void
@@ -53,13 +59,14 @@ final class UnfocusedTest extends TestCase
         $response = (new Unfocused('unfocused 1 2 3 4', 'username', $channel))
             ->forDiscord();
 
-        $expected = '**username succeeded without a focus**' . \PHP_EOL
-            . 'Rolled 6 successes' . \PHP_EOL . 'Rolls: 3 3 3 3 3 3';
+        $expected = '**username succeeded without a focus**' . PHP_EOL
+            . 'Rolled 6 successes' . PHP_EOL . 'Rolls: 3 3 3 3 3 3';
         self::assertSame($expected, $response);
     }
 
     /**
      * Test making an unfocused roll resulting in a complication.
+     * @group discord
      * @test
      */
     public function testUnfocusedWithComplication(): void
@@ -75,14 +82,15 @@ final class UnfocusedTest extends TestCase
         $response = (new Unfocused('unfocused 1 2 3', 'username', $channel))
             ->forDiscord();
 
-        $expected = '**username failed a roll without a focus**' . \PHP_EOL
-            . 'Rolled 0 successes with 2 complications' . \PHP_EOL
+        $expected = '**username failed a roll without a focus**' . PHP_EOL
+            . 'Rolled 0 successes with 2 complications' . PHP_EOL
             . 'Rolls: 20 20';
         self::assertSame($expected, $response);
     }
 
     /**
      * Test getting extra successes with natural ones.
+     * @group discord
      * @test
      */
     public function testUnfocusedNaturalOnes(): void
@@ -95,14 +103,15 @@ final class UnfocusedTest extends TestCase
         $response = (new Unfocused('unfocused 1 2 3', 'username', $channel))
             ->forDiscord();
 
-        $expected = '**username succeeded without a focus**' . \PHP_EOL
-            . 'Rolled 4 successes' . \PHP_EOL
+        $expected = '**username succeeded without a focus**' . PHP_EOL
+            . 'Rolled 4 successes' . PHP_EOL
             . 'Rolls: 1 1';
         self::assertSame($expected, $response);
     }
 
     /**
      * Test making an unfocused roll with optional text.
+     * @group slack
      * @test
      */
     public function testUnfocusedRollWithOptionalText(): void
@@ -117,7 +126,7 @@ final class UnfocusedTest extends TestCase
             'username',
             $channel
         );
-        $response = \json_decode((string)$response->forSlack());
+        $response = json_decode((string)$response->forSlack());
         $response = $response->attachments[0];
 
         self::assertSame('Rolls: 3 3', $response->footer);
@@ -126,5 +135,24 @@ final class UnfocusedTest extends TestCase
             'username failed a roll without a focus for "testing"',
             $response->title
         );
+    }
+
+    /**
+     * @group irc
+     */
+    public function testUnfocusedIrc(): void
+    {
+        DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(1);
+
+        /** @var Channel */
+        $channel = Channel::factory()->make();
+
+        $response = (new Unfocused('unfocused 1 2 3', 'username', $channel))
+            ->forIrc();
+
+        $expected = 'username succeeded without a focus' . PHP_EOL
+            . 'Rolled 4 successes' . PHP_EOL
+            . 'Rolls: 1 1';
+        self::assertSame($expected, $response);
     }
 }

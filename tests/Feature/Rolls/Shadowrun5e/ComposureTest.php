@@ -61,6 +61,20 @@ final class ComposureTest extends TestCase
     }
 
     /**
+     * @group irc
+     */
+    public function testWithoutCharacterIrc(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
+
+        self::assertSame(
+            'username, You must have a character linked to make Composure tests',
+            (new Composure('', 'username', $channel))->forIrc()
+        );
+    }
+
+    /**
      * Test a character critical glitching on a Composure test.
      * @group slack
      * @test

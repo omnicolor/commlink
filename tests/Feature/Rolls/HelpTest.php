@@ -19,6 +19,7 @@ final class HelpTest extends TestCase
     /**
      * Test getting help in an unlinked channel for a registered user that has
      * no campaigns.
+     * @group discord
      * @test
      */
     public function testGetHelpUnlinkedChannelRegisteredUserNoCampaigns(): void
@@ -49,6 +50,7 @@ final class HelpTest extends TestCase
     /**
      * Test getting help in an unlinked channel for a registered user with
      * campaigns.
+     * @irc
      * @test
      */
     public function testGetHelpUnlinkedChannelRegisteredUserWithCampaigns(): void
@@ -81,7 +83,7 @@ final class HelpTest extends TestCase
             'gm' => $chatUser->user->id,
         ]);
 
-        $help = (new Help('campaign', $channel->user, $channel))->forDiscord();
+        $help = (new Help('campaign', $channel->user, $channel))->forIrc();
         self::assertStringContainsString(
             'Commands for unregistered channels',
             $help

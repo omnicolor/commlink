@@ -129,7 +129,7 @@ class Help extends Roll
     {
         $value = '';
         foreach ($this->data as $element) {
-            $value .= sprintf('**%s**', $element['title']) . PHP_EOL
+            $value .= $element['title'] . PHP_EOL
             . $element['text'] . PHP_EOL;
         }
         return $value;

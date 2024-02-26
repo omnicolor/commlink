@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Listeners;
 
 use App\Events\IrcMessageReceived;
+use App\Events\RollEvent;
 use App\Listeners\HandleIrcMessage;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\Irc\User;
 use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Event;
 use Jerodev\PhpIrcClient\IrcChannel;
 use Jerodev\PhpIrcClient\IrcClient;
 use Jerodev\PhpIrcClient\IrcConnection;
@@ -27,6 +30,7 @@ use const PHP_EOL;
 final class HandleIrcMessageTest extends TestCase
 {
     use RefreshDatabase;
+    use WithFaker;
 
     /**
      * Test a user trying to roll something invalid.
@@ -191,5 +195,150 @@ final class HandleIrcMessageTest extends TestCase
             channel: $channel,
         );
         (new HandleIrcMessage())->handle($event);
+    }
+
+    public function testHandleSystemSpecificNumberRoll(): void
+    {
+        DiceService::shouldReceive('rollOne')
+            ->times(2)
+            ->with(6)
+            ->andReturn(6);
+
+        $expected = 'darkroach rolled 2 dice' . PHP_EOL
+            . 'Rolled 2 successes' . PHP_EOL
+            . 'Rolls: 6 6';
+
+        $server = $this->faker->domainName();
+        $ircChannel = $this->createMock(IrcChannel::class);
+        $ircChannel->expects(self::once())
+            ->method('getName')
+            ->willReturn('#commlink');
+        $ircConnection = $this->createMock(IrcConnection::class);
+        $ircConnection->expects(self::any())
+            ->method('getServer')
+            ->willReturn($server);
+        $client = $this->createMock(IrcClient::class);
+        $client->expects(self::once())
+            ->method('say')
+            ->with(
+                self::equalTo('#commlink'),
+                self::equalTo($expected)
+            );
+        $client->expects(self::any())
+            ->method('getConnection')
+            ->willReturn($ircConnection);
+
+        Channel::factory()->create([
+            'channel_id' => '#commlink',
+            'server_id' => $server,
+            'system' => 'shadowrun5e',
+            'type' => Channel::TYPE_IRC,
+        ]);
+
+        $event = new IrcMessageReceived(
+            message: ':roll 2',
+            user: new User(nick: 'darkroach'),
+            client: $client,
+            channel: $ircChannel,
+        );
+        (new HandleIrcMessage())->handle($event);
+    }
+
+    public function testHandleSystemSpecificHelpRoll(): void
+    {
+        Event::fake();
+
+        $expected = 'Commlink - Shadowrun 5th Edition' . PHP_EOL
+            . 'Commlink is a Slack/Discord bot that lets you roll Shadowrun '
+            . '5E dice.' . PHP_EOL . '· `6 [text]` - Roll 6 dice, with '
+            . 'optional text (automatics, perception, etc)' . PHP_EOL
+            . '· `12 6 [text]` - Roll 12 dice with a limit of 6' . PHP_EOL
+            . '· `XdY[+C] [text]` - Roll X dice with Y sides, optionally '
+            . 'adding C to the result, optionally describing that the roll is '
+            . 'for "text"' . PHP_EOL . PHP_EOL
+            . 'Player' . PHP_EOL . 'No character linked' . PHP_EOL
+            . '· `link <characterId>` - Link a character to this channel'
+            . PHP_EOL . '· `init 12+3d6` - Roll your initiative' . PHP_EOL
+            . PHP_EOL;
+        $server = $this->faker->domainName();
+        $ircChannel = $this->createMock(IrcChannel::class);
+        $ircChannel->expects(self::once())
+            ->method('getName')
+            ->willReturn('#commlink');
+        $ircConnection = $this->createMock(IrcConnection::class);
+        $ircConnection->expects(self::any())
+            ->method('getServer')
+            ->willReturn($server);
+        $client = $this->createMock(IrcClient::class);
+        $client->expects(self::once())
+            ->method('say')
+            ->with(
+                self::equalTo('#commlink'),
+                self::equalTo($expected)
+            );
+        $client->expects(self::any())
+            ->method('getConnection')
+            ->willReturn($ircConnection);
+
+        Channel::factory()->create([
+            'channel_id' => '#commlink',
+            'server_id' => $server,
+            'system' => 'shadowrun5e',
+            'type' => Channel::TYPE_IRC,
+        ]);
+
+        $event = new IrcMessageReceived(
+            message: ':roll help',
+            user: new User(nick: 'darkroach'),
+            client: $client,
+            channel: $ircChannel,
+        );
+        (new HandleIrcMessage())->handle($event);
+
+        Event::assertNotDispatched(RollEvent::class);
+    }
+
+    public function testHandleSystemSpecificRollThatShouldBroadcast(): void
+    {
+        Event::fake();
+
+        $server = $this->faker->domainName();
+        $ircChannel = $this->createMock(IrcChannel::class);
+        $ircChannel->expects(self::once())
+            ->method('getName')
+            ->willReturn('#commlink');
+        $ircConnection = $this->createMock(IrcConnection::class);
+        $ircConnection->expects(self::any())
+            ->method('getServer')
+            ->willReturn($server);
+        $client = $this->createMock(IrcClient::class);
+        $client->expects(self::once())->method('say');
+        $client->expects(self::any())
+            ->method('getConnection')
+            ->willReturn($ircConnection);
+
+        $campaign = Campaign::factory()->create([
+            'options' => [
+                'nightCityTarot' => true,
+            ],
+            'system' => 'cyberpunkred',
+        ]);
+        Channel::factory()->create([
+            'campaign_id' => $campaign,
+            'channel_id' => '#commlink',
+            'server_id' => $server,
+            'system' => 'cyberpunkred',
+            'type' => Channel::TYPE_IRC,
+        ]);
+
+        $event = new IrcMessageReceived(
+            message: ':roll tarot',
+            user: new User(nick: 'darkroach'),
+            client: $client,
+            channel: $ircChannel,
+        );
+        (new HandleIrcMessage())->handle($event);
+
+        Event::assertDispatched(RollEvent::class);
     }
 }

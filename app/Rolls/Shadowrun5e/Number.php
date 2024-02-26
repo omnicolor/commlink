@@ -247,7 +247,7 @@ class Number extends Roll
         if (null !== $this->limit) {
             $footer .= sprintf(', Limit: %d', $this->limit);
         }
-        return sprintf('**%s**', $this->title) . PHP_EOL
+        return $this->title . PHP_EOL
             . $this->text . PHP_EOL
             . $footer;
     }

@@ -211,6 +211,20 @@ final class FadeTest extends TestCase
     }
 
     /**
+     * @group irc
+     */
+    public function testErrorIrc(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
+
+        self::assertSame(
+            'username, You must have a character linked to make fade tests',
+            (new Fade('', 'username', $channel))->forIrc()
+        );
+    }
+
+    /**
      * Test a fade test.
      * @group irc
      * @test
