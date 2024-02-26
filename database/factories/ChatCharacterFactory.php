@@ -27,7 +27,9 @@ class ChatCharacterFactory extends Factory
     public function definition(): array
     {
         return [
-            'channel_id' => (int)Channel::factory()->create()->id,
+            'channel_id' => Channel::factory()->create([
+                'type' => Channel::TYPE_SLACK,
+            ])->id,
             'chat_user_id' => (int)ChatUser::factory()->create()->id,
         ];
     }

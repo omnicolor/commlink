@@ -16,6 +16,10 @@ use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+use function json_decode;
+
+use const PHP_EOL;
+
 /**
  * Tests for rolling initiative for Shadowrun 5th edition.
  * @group shadowrun
@@ -29,6 +33,7 @@ final class InitTest extends TestCase
     /**
      * Test attempting a GM command as an unregistered user in a channel with
      * a campaign.
+     * @group slack
      * @test
      */
     public function testGmCommandUnregistered(): void
@@ -52,11 +57,11 @@ final class InitTest extends TestCase
 
     /**
      * Test attempting to clear initiative as a GM.
+     * @group slack
      * @test
      */
     public function testGmClearInitiativeWithCampaign(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Campaign */
@@ -84,7 +89,7 @@ final class InitTest extends TestCase
         ]);
 
         $response = (new Init('init clear', 'username', $channel))->forSlack();
-        $response = \json_decode((string)$response)->attachments[0];
+        $response = json_decode((string)$response)->attachments[0];
 
         self::assertSame('Initiative cleared', $response->title);
         self::assertSame(
@@ -99,11 +104,11 @@ final class InitTest extends TestCase
 
     /**
      * Test attempting to start initiative as a GM.
+     * @group slack
      * @test
      */
     public function testGmStartInitiative(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Campaign */
@@ -131,7 +136,7 @@ final class InitTest extends TestCase
         ]);
 
         $response = (new Init('init start', 'username', $channel))->forSlack();
-        $response = \json_decode((string)$response)->attachments[0];
+        $response = json_decode((string)$response)->attachments[0];
 
         self::assertSame('Roll initiative!', $response->title);
         self::assertSame(
@@ -152,7 +157,6 @@ final class InitTest extends TestCase
      */
     public function testGmInvalidCommand(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Campaign */
@@ -191,7 +195,6 @@ final class InitTest extends TestCase
      */
     public function testGmClearInitiativeWithoutCampaign(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Channel */
@@ -211,7 +214,7 @@ final class InitTest extends TestCase
         $response = (new Init('init clear', 'user', $channel))->forDiscord();
 
         self::assertSame(
-            '**Initiative cleared**' . \PHP_EOL
+            '**Initiative cleared**' . PHP_EOL
                 . 'The GM has cleared the initiative tracker.',
             $response
         );
@@ -227,7 +230,6 @@ final class InitTest extends TestCase
      */
     public function testGmStartInitiativeWithoutCampaign(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Channel */
@@ -247,7 +249,7 @@ final class InitTest extends TestCase
         $response = (new Init('init start', 'user', $channel))->forDiscord();
 
         self::assertSame(
-            '**Roll initiative!**' . \PHP_EOL
+            '**Roll initiative!**' . PHP_EOL
                 . 'Type `/roll init` if your character is linked, or '
                 . '`/roll init A+Bd6` where A is your initiative score and B '
                 . 'is the number of initiative dice your character gets.',
@@ -261,6 +263,7 @@ final class InitTest extends TestCase
 
     /**
      * Test rolling initiative with a linked Shadowrun character.
+     * @group slack
      * @test
      */
     public function testRollInitiativeForCharacter(): void
@@ -270,7 +273,6 @@ final class InitTest extends TestCase
             ->with(1, 6)
             ->andReturn([6]);
 
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Campaign */
@@ -306,7 +308,7 @@ final class InitTest extends TestCase
         ]);
 
         $response = (new Init('init', 'username', $channel))->forSlack();
-        $response = \json_decode((string)$response)->attachments[0];
+        $response = json_decode((string)$response)->attachments[0];
 
         self::assertSame(
             'Rolling initiative for ' . $character->handle,
@@ -329,6 +331,7 @@ final class InitTest extends TestCase
     /**
      * Test manually rolling initiative in a channel without a campaign and the
      * user has no linked Character.
+     * @group slack
      * @test
      */
     public function testRollInitiativeForUser(): void
@@ -338,7 +341,6 @@ final class InitTest extends TestCase
             ->with(3, 6)
             ->andReturn([4, 4, 4]);
 
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Channel */
@@ -348,7 +350,7 @@ final class InitTest extends TestCase
         ]);
 
         $response = (new Init('init 12+3d6', 'username', $channel))->forSlack();
-        $response = \json_decode((string)$response)->attachments[0];
+        $response = json_decode((string)$response)->attachments[0];
 
         self::assertSame(
             'Rolling initiative for username',
@@ -374,7 +376,6 @@ final class InitTest extends TestCase
      */
     public function testRollInitiativeTooManyArguments(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Channel */
@@ -398,7 +399,6 @@ final class InitTest extends TestCase
      */
     public function testRollInitiativeInvalidBaseInit(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Channel */
@@ -422,7 +422,6 @@ final class InitTest extends TestCase
      */
     public function testRollInitiativeInvalidDice(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Channel */
@@ -450,7 +449,6 @@ final class InitTest extends TestCase
             ->with(3, 6)
             ->andReturn([6, 6, 6]);
 
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Channel */
@@ -461,7 +459,7 @@ final class InitTest extends TestCase
 
         $response = (new Init('init 12 3', 'user', $channel))->forDiscord();
         self::assertSame(
-            '**Rolling initiative for user**' . \PHP_EOL
+            '**Rolling initiative for user**' . PHP_EOL
                 . '12 + 3d6 = 12 + 6 + 6 + 6 = 30',
             $response
         );
@@ -473,7 +471,6 @@ final class InitTest extends TestCase
      */
     public function testRollInitiativeTooManyDice(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Channel */
@@ -496,7 +493,6 @@ final class InitTest extends TestCase
      */
     public function testRollInitiativeWrongDiceSize(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Channel */
@@ -518,7 +514,6 @@ final class InitTest extends TestCase
      */
     public function testRollInitiativeDiceNotationInvalidBase(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Channel */
@@ -540,7 +535,6 @@ final class InitTest extends TestCase
      */
     public function testRollDiceNotationInvalidDice(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Channel */
@@ -559,6 +553,7 @@ final class InitTest extends TestCase
 
     /**
      * Test rolling using just their base initiative.
+     * @group discord
      * @test
      */
     public function testRollJustBaseInitiative(): void
@@ -568,7 +563,6 @@ final class InitTest extends TestCase
             ->with(1, 6)
             ->andReturn([1]);
 
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Channel */
@@ -579,9 +573,76 @@ final class InitTest extends TestCase
 
         $response = (new Init('init 12', 'user', $channel))->forDiscord();
         self::assertSame(
-            '**Rolling initiative for user**' . \PHP_EOL
+            '**Rolling initiative for user**' . PHP_EOL
                 . '12 + 1d6 = 12 + 1 = 13',
             $response
+        );
+    }
+
+    /**
+     * @group irc
+     */
+    public function testRollInitiativeInvalidBaseIrc(): void
+    {
+        $user = User::factory()->create();
+
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'type' => Channel::TYPE_IRC,
+            'system' => 'shadowrun5e',
+        ]);
+
+        $response = (new Init('init A+9d6', 'user', $channel))->forIrc();
+        self::assertSame(
+            'Initiative score must be a number',
+            $response
+        );
+    }
+
+    /**
+     * @group irc
+     */
+    public function testRollInitiativeIrc(): void
+    {
+        DiceService::shouldReceive('rollMany')
+            ->once()
+            ->with(1, 6)
+            ->andReturn([1]);
+
+        $user = User::factory()->create();
+
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'type' => Channel::TYPE_IRC,
+            'system' => 'shadowrun5e',
+        ]);
+
+        $response = (new Init('init 12', 'user', $channel))->forIrc();
+        self::assertSame(
+            'Rolling initiative for user' . PHP_EOL
+                . '12 + 1d6 = 12 + 1 = 13',
+            $response
+        );
+    }
+
+    /**
+     * @group irc
+     */
+    public function testClearInitiativeIrc(): void
+    {
+        $user = User::factory()->create();
+
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'type' => Channel::TYPE_IRC,
+            'system' => 'shadowrun5e',
+        ]);
+
+        $response = (new Init('init clear', 'user', $channel))->forIrc();
+        self::assertSame(
+            'Initiative cleared' . PHP_EOL
+                . 'The GM has cleared the initiative tracker.',
+            $response,
         );
     }
 }

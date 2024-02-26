@@ -547,6 +547,53 @@ final class SlackControllerTest extends TestCase
         );
     }
 
+    /**
+     * Test a Slack-specific response not tied to a system.
+     * @test
+     */
+    public function testSlackResponseNotForSystem(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        $slackUserId = 'U' . Str::random(8);
+
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'system' => 'cyberpunkred',
+            'server_id' => 'T' . Str::random(10),
+            'type' => Channel::TYPE_SLACK,
+        ]);
+
+        /** @var Character */
+        $character = Character::factory()->create([
+            'owner' => $user->email,
+            'system' => 'cyberpunkred',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $slackUserId,
+            'server_id' => $channel->server_id,
+            'server_type' => Channel::TYPE_SLACK,
+            'user_id' => $user,
+            'verified' => true,
+        ]);
+
+        $this->post(
+            route('roll'),
+            [
+                'channel_id' => $channel->channel_id,
+                'team_id' => $channel->server_id,
+                'text' => 'link ' . $character->id,
+                'user_id' => $slackUserId,
+                'username' => 'Bob',
+            ]
+        )
+            ->assertOk()
+            ->assertSee('You have linked');
+    }
+
     public function testHandleActionWithInvalidPayload(): void
     {
         self::withHeaders(['Accept' => 'application/json'])

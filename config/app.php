@@ -217,9 +217,4 @@ return [
         'subversion' => 'Subversion',
         'transformers' => 'Transformers RPG',
     ],
-
-    /*
-     * Oauth token for Slack interaction.
-     */
-    'slack_token' => env('SLACK_TOKEN'),
 ];

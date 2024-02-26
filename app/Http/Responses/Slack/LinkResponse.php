@@ -8,7 +8,10 @@ use App\Exceptions\SlackException;
 use App\Models\Channel;
 use App\Models\Character;
 use App\Models\ChatCharacter;
+use App\Models\ChatUser;
 use App\Models\Slack\TextAttachment;
+
+use function explode;
 
 /**
  * Try to link a character to a Slack channel.
@@ -29,7 +32,7 @@ class LinkResponse extends SlackResponse
     ) {
         parent::__construct($content, $status, $headers, $channel);
 
-        /** @var \App\Models\ChatUser */
+        /** @var ChatUser */
         $chatUser = $this->channel->getChatUser();
         $this->requireCommlink($chatUser);
 
@@ -40,7 +43,7 @@ class LinkResponse extends SlackResponse
             );
         }
 
-        $args = \explode(' ', $content);
+        $args = explode(' ', $content);
         $characterId = $args[1];
         $character = Character::find($characterId);
         if (null === $character) {
