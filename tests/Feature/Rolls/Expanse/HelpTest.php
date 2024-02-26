@@ -10,15 +10,14 @@ use Tests\TestCase;
 
 /**
  * Tests for getting help in a Channel registered to The Expanse.
- * @group discord
  * @group expanse
- * @group slack
  * @medium
  */
 final class HelpTest extends TestCase
 {
     /**
      * Test getting help via Slack.
+     * @group slack
      * @test
      */
     public function testHelpSlack(): void
@@ -38,6 +37,7 @@ final class HelpTest extends TestCase
 
     /**
      * Test getting help via Discord.
+     * @group discord
      * @test
      */
     public function testHelpDiscord(): void
@@ -48,6 +48,22 @@ final class HelpTest extends TestCase
             'type' => Channel::TYPE_DISCORD,
         ]);
         $response = (new Help('', 'username', $channel))->forDiscord();
+        self::assertStringContainsString(
+            'Commlink - The Expanse',
+            $response
+        );
+    }
+
+    /**
+     * Test getting help via IRC.
+     * @group irc
+     * @test
+     */
+    public function testHelpIrc(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->make(['system' => 'expanse']);
+        $response = (new Help('', 'username', $channel))->forIrc();
         self::assertStringContainsString(
             'Commlink - The Expanse',
             $response

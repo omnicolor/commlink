@@ -16,12 +16,6 @@ class Help extends Roll
      */
     protected array $data = [];
 
-    /**
-     * Constructor.
-     * @param string $content
-     * @param string $username
-     * @param Channel $channel
-     */
     public function __construct(
         string $content,
         string $username,
@@ -66,18 +60,29 @@ class Help extends Roll
         }
     }
 
-    /**
-     * Return the roll formatted for Slack.
-     * @return SlackResponse
-     */
+    public function forDiscord(): string
+    {
+        $value = '';
+        foreach ($this->data as $element) {
+            $value .= \sprintf('**%s**', $element['title']) . \PHP_EOL
+                . $element['text'] . \PHP_EOL;
+        }
+        return $value;
+    }
+
+    public function forIrc(): string
+    {
+        $value = '';
+        foreach ($this->data as $element) {
+            $value .= $element['title'] . \PHP_EOL
+                . $element['text'] . \PHP_EOL;
+        }
+        return $value;
+    }
+
     public function forSlack(): SlackResponse
     {
-        $response = new SlackResponse(
-            '',
-            SlackResponse::HTTP_OK,
-            [],
-            $this->channel
-        );
+        $response = new SlackResponse(channel: $this->channel);
         foreach ($this->data as $element) {
             $response->addAttachment(new TextAttachment(
                 $element['title'],
@@ -86,19 +91,5 @@ class Help extends Roll
             ));
         }
         return $response;
-    }
-
-    /**
-     * Return the roll formatted for Discord.
-     * @return string
-     */
-    public function forDiscord(): string
-    {
-        $value = '';
-        foreach ($this->data as $element) {
-            $value .= \sprintf('**%s**', $element['title']) . \PHP_EOL
-            . $element['text'] . \PHP_EOL;
-        }
-        return $value;
     }
 }

@@ -112,6 +112,7 @@ class Lifestyle
     }
 
     /**
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, Lifestyle>
      */
     public static function all(): array

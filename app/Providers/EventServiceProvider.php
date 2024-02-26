@@ -9,15 +9,16 @@ use App\Events\CampaignInvitationCreated;
 use App\Events\CampaignInvitationUpdated;
 use App\Events\ChannelLinked;
 use App\Events\DiscordMessageReceived;
-use App\Events\DiscordUserLinked;
 use App\Events\EventCreated;
 use App\Events\InitiativeAdded;
+use App\Events\IrcMessageReceived;
 use App\Events\RollEvent;
 use App\Events\Shadowrun5e\DamageEvent as Shadowrun5eDamage;
-use App\Events\SlackUserLinked;
+use App\Events\UserLinked;
 use App\Listeners\HandleDiscordMessage;
 use App\Listeners\HandleEventCreated;
 use App\Listeners\HandleInitiativeEvent;
+use App\Listeners\HandleIrcMessage;
 use App\Listeners\HandleRollEvent;
 use App\Listeners\SendEmailOnCampaignInvitationCreated;
 use App\Listeners\Shadowrun5e\HandleDamageEvent;
@@ -44,12 +45,14 @@ class EventServiceProvider extends ServiceProvider
         DiscordMessageReceived::class => [
             HandleDiscordMessage::class,
         ],
-        DiscordUserLinked::class => [],
         EventCreated::class => [
             HandleEventCreated::class,
         ],
         InitiativeAdded::class => [
             HandleInitiativeEvent::class,
+        ],
+        IrcMessageReceived::class => [
+            HandleIrcMessage::class,
         ],
         Registered::class => [
             SendEmailVerificationNotification::class,
@@ -64,7 +67,7 @@ class EventServiceProvider extends ServiceProvider
             DiscordExtendSocialite::class . '@handle',
             GoogleExtendSocialite::class . '@handle',
         ],
-        SlackUserLinked::class => [],
+        UserLinked::class => [],
     ];
 
     /**

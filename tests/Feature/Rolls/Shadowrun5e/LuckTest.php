@@ -14,6 +14,11 @@ use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+use function json_decode;
+use function sprintf;
+
+use const PHP_EOL;
+
 /**
  * Tests for rolling a luck test Shadowrun 5E.
  * @group shadowrun
@@ -58,7 +63,22 @@ final class LuckTest extends TestCase
     }
 
     /**
+     * @group irc
+     */
+    public function testWithoutCharacterIrc(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
+
+        self::assertSame(
+            'username, You must have a character linked to make luck tests',
+            (new Luck('', 'username', $channel))->forIrc()
+        );
+    }
+
+    /**
      * Test a character doing with would be a critical glitch on a luck test.
+     * @group slack
      * @test
      */
     public function testCritGlitch(): void
@@ -95,9 +115,9 @@ final class LuckTest extends TestCase
         ]);
 
         $response = (new Luck('', 'username', $channel))->forSlack();
-        $response = \json_decode((string)$response)->attachments[0];
+        $response = json_decode((string)$response)->attachments[0];
         self::assertSame(
-            \sprintf('%s rolled 3 dice for a luck test', $character),
+            sprintf('%s rolled 3 dice for a luck test', $character),
             $response->title
         );
         self::assertSame('Rolled 0 successes', $response->text);
@@ -106,6 +126,7 @@ final class LuckTest extends TestCase
 
     /**
      * Test a non-glitch luck test.
+     * @group discord
      * @test
      */
     public function testLuck(): void
@@ -143,10 +164,59 @@ final class LuckTest extends TestCase
 
         $response = (new Luck('', 'username', $channel))->forDiscord();
         self::assertSame(
-            \sprintf(
+            sprintf(
                 '**%s rolled 7 dice for a luck test**'
-                    . \PHP_EOL . 'Rolled 7 successes' . \PHP_EOL
+                    . PHP_EOL . 'Rolled 7 successes' . PHP_EOL
                     . 'Rolls: 6 6 6 6 6 6 6, Probability: 0.0457%%',
+                (string)$character
+            ),
+            $response
+        );
+        $character->delete();
+    }
+
+    /**
+     * @group irc
+     */
+    public function testLuckIrc(): void
+    {
+        DiceService::shouldReceive('rollOne')
+            ->times(7)
+            ->with(6)
+            ->andReturn(6);
+
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'type' => Channel::TYPE_SLACK,
+            'system' => 'shadowrun5e',
+        ]);
+
+        /** @var ChatUser */
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_SLACK,
+            'verified' => true,
+        ]);
+
+        /** @var Character */
+        $character = Character::factory()->create([
+            'edge' => 7,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+
+        ChatCharacter::factory()->create([
+            'channel_id' => $channel->id,
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser->id,
+        ]);
+
+        $response = (new Luck('', 'username', $channel))->forIrc();
+        self::assertSame(
+            sprintf(
+                '%s rolled 7 dice for a luck test'
+                    . PHP_EOL . 'Rolled 7 successes' . PHP_EOL
+                    . 'Rolls: 6 6 6 6 6 6 6',
                 (string)$character
             ),
             $response

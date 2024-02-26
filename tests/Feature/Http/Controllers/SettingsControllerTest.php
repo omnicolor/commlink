@@ -165,7 +165,7 @@ final class SettingsControllerTest extends TestCase
                     'user-id' => $userId,
                 ]
             )
-            ->assertSee('User already registered.');
+            ->assertSee('Slack user already registered.');
     }
 
     /**
@@ -281,6 +281,71 @@ final class SettingsControllerTest extends TestCase
                     'user-id' => $userId,
                 ]
             )
-            ->assertSee('User already registered.');
+            ->assertSee('Discord user already registered.');
+    }
+
+    /**
+     * Test trying to link a duplicate IRC user.
+     * @test
+     */
+    public function testLinkDuplicateIrcUser(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+        $serverId = 'chat.freenode.net:6667';
+        $userId = Str::random(10);
+        ChatUser::factory()->create([
+            'server_id' => $serverId,
+            'server_type' => ChatUser::TYPE_IRC,
+            'remote_user_id' => $userId,
+            'user_id' => $user->id,
+        ]);
+        $this->actingAs($user)
+            ->followingRedirects()
+            ->post(
+                route('settings-link-user'),
+                [
+                    'server-id' => $serverId,
+                    'server-type' => ChatUser::TYPE_IRC,
+                    'user-id' => $userId,
+                ]
+            )
+            ->assertSee('IRC user already registered.');
+    }
+
+    /**
+     * Test linking a new IRC user.
+     * @test
+     */
+    public function testLinkIrcUser(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+        $serverId = 'chat.freenode.net:6667';
+        $userId = Str::random(10);
+        $this->actingAs($user)
+            ->followingRedirects()
+            ->post(
+                route('settings-link-user'),
+                [
+                    'server-id' => $serverId,
+                    'server-type' => ChatUser::TYPE_IRC,
+                    'user-id' => $userId,
+                ]
+            )
+            ->assertOk()
+            ->assertSessionHasNoErrors();
+        $this->assertDatabaseHas(
+            'chat_users',
+            [
+                'server_id' => $serverId,
+                'server_name' => 'chat.freenode.net',
+                'server_type' => ChatUser::TYPE_IRC,
+                'remote_user_id' => $userId,
+                'remote_user_name' => $userId,
+                'user_id' => $user->id,
+                'verified' => false,
+            ]
+        );
     }
 }

@@ -13,6 +13,9 @@ use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
 
+use function array_shift;
+use function explode;
+
 /**
  * Handle a user trying to add their initiative.
  */
@@ -39,6 +42,8 @@ class Init extends Roll
      */
     public int $roll;
 
+    public ?string $error = null;
+
     /**
      * Initiative object created for the roll.
      */
@@ -51,11 +56,20 @@ class Init extends Roll
     ) {
         parent::__construct($content, $username, $channel);
 
-        $args = \explode(' ', $content);
+        $args = explode(' ', $content);
 
         // Remove 'init' from argument list.
-        \array_shift($args);
+        array_shift($args);
         $this->args = $args;
+
+        if (null === $this->character && 0 === count($this->args)) {
+            $this->error = 'Rolling initiative without a linked character '
+                . 'requires your reflexes, and optionally any modififers: '
+                . '`/roll init 8 -2` for a character with 8 REF and a wound '
+                . 'modifier of -2';
+            return;
+        }
+        $this->roll();
     }
 
     /**
@@ -68,19 +82,19 @@ class Init extends Roll
             $this->username = (string)$this->character;
             if (2 === count($this->args)) {
                 // Get rid of the character's reflexes.
-                \array_shift($this->args);
+                array_shift($this->args);
             }
             // @phpstan-ignore-next-line
             $this->reflexes = $this->character->reflexes;
             if (1 === count($this->args)) {
-                $this->modifier = (int)\array_shift($this->args);
+                $this->modifier = (int)array_shift($this->args);
             }
         } else {
             if (1 <= count($this->args)) {
-                $this->reflexes = (int)\array_shift($this->args);
+                $this->reflexes = (int)array_shift($this->args);
             }
             if (1 === count($this->args)) {
-                $this->modifier = (int)\array_shift($this->args);
+                $this->modifier = (int)array_shift($this->args);
             }
         }
 
@@ -104,7 +118,7 @@ class Init extends Roll
     }
 
     /**
-     * Format the response's body for either Slack or Discord.
+     * Format the response's body.
      */
     protected function formatBody(): string
     {
@@ -123,40 +137,34 @@ class Init extends Roll
         );
     }
 
+    public function forDiscord(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+        return sprintf('**Initiative added for %s**', $this->username)
+            . \PHP_EOL . $this->formatBody();
+    }
+
+    public function forIrc(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+        return sprintf('Initiative added for %s', $this->username)
+            . \PHP_EOL . $this->formatBody();
+    }
+
     public function forSlack(): SlackResponse
     {
-        if (null === $this->character && 0 === count($this->args)) {
-            throw new SlackException(
-                'Rolling initiative without a linked character requires your '
-                    . 'reflexes, and optionally any modififers: '
-                    . '`/roll init 8 -2` for a character with 8 REF and a '
-                    . 'wound modifier of -2'
-            );
+        if (null !== $this->error) {
+            throw new SlackException($this->error);
         }
-        $this->roll();
         $attachment = new TextAttachment(
             sprintf('Initiative added for %s', $this->username),
             $this->formatBody()
         );
-        $response = new SlackResponse(
-            '',
-            SlackResponse::HTTP_OK,
-            [],
-            $this->channel
-        );
+        $response = new SlackResponse(channel: $this->channel);
         return $response->addAttachment($attachment)->sendToChannel();
-    }
-
-    public function forDiscord(): string
-    {
-        if (null === $this->character && 0 === count($this->args)) {
-            return 'Rolling initiative without a linked character requires '
-                . 'your reflexes, and optionally any modififers: '
-                . '`/roll init 8 -2` for a character with 8 REF and a wound '
-                . 'modifier of -2';
-        }
-        $this->roll();
-        return sprintf('**Initiative added for %s**', $this->username)
-            . \PHP_EOL . $this->formatBody();
     }
 }
