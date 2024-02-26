@@ -58,10 +58,16 @@ class Number extends Roll
         }
     }
 
-    /**
-     * Return the roll formatted for Slack.
-     * @return SlackResponse
-     */
+    public function forDiscord(): string
+    {
+        return sprintf('**%s**', $this->title) . PHP_EOL . $this->text;
+    }
+
+    public function forIrc(): string
+    {
+        return $this->title . PHP_EOL . $this->text;
+    }
+
     public function forSlack(): SlackResponse
     {
         if ($this->success) {
@@ -73,14 +79,5 @@ class Number extends Roll
 
         $response = new SlackResponse(channel: $this->channel);
         return $response->addAttachment($attachment)->sendToChannel();
-    }
-
-    /**
-     * Return the roll formatted for Discord.
-     * @return string
-     */
-    public function forDiscord(): string
-    {
-        return sprintf('**%s**', $this->title) . PHP_EOL . $this->text;
     }
 }
