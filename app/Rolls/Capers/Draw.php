@@ -20,34 +20,24 @@ class Draw extends Roll
 {
     /**
      * Card that was drawn.
-     * @var Card
      */
     protected Card $card;
 
     /**
      * Deck to draw from.
-     * @var StandardDeck
      */
     protected StandardDeck $deck;
 
     /**
      * Extra text to add to the output.
-     * @var string
      */
     protected string $extra = '';
 
     /**
      * Error to return instead of shuffling or drawing from the deck.
-     * @var ?string
      */
     protected ?string $error = null;
 
-    /**
-     * Constructor.
-     * @param string $content
-     * @param string $username
-     * @param Channel $channel
-     */
     public function __construct(
         string $content,
         string $username,
@@ -107,10 +97,26 @@ class Draw extends Roll
         $this->deck->shuffle();
     }
 
-    /**
-     * Return the card formatted for Slack.
-     * @return SlackResponse
-     */
+    public function forDiscord(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+
+        return $this->username . ' drew the **' . (string)$this->card . '**'
+            . \PHP_EOL . $this->extra;
+    }
+
+    public function forIrc(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+
+        return $this->username . ' drew the ' . (string)$this->card . \PHP_EOL
+            . $this->extra;
+    }
+
     public function forSlack(): SlackResponse
     {
         if (null !== $this->error) {
@@ -123,26 +129,7 @@ class Draw extends Roll
             TextAttachment::COLOR_INFO,
         );
         $attachment->addFooter(count($this->deck) . ' cards remain');
-        $response = new SlackResponse(
-            '',
-            SlackResponse::HTTP_OK,
-            [],
-            $this->channel
-        );
+        $response = new SlackResponse(channel: $this->channel);
         return $response->addAttachment($attachment)->sendToChannel();
-    }
-
-    /**
-     * Return the roll formatted for Discord.
-     * @return string
-     */
-    public function forDiscord(): string
-    {
-        if (null !== $this->error) {
-            return $this->error;
-        }
-
-        return $this->username . ' drew the **' . (string)$this->card . '**'
-            . \PHP_EOL . $this->extra;
     }
 }

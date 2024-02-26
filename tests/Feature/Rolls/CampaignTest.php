@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
+use function json_decode;
+use function sprintf;
+
 /**
  * @medium
  */
@@ -68,6 +71,24 @@ final class CampaignTest extends TestCase
     }
 
     /**
+     * @group irc
+     */
+    public function testIrcError(): void
+    {
+        Event::fake();
+
+        /** @var Channel */
+        $channel = Channel::factory()->make(['type' => Channel::TYPE_IRC]);
+
+        self::assertSame(
+            'To link a campaign to this channel, use `campaign <campaignId>`.',
+            (new CampaignRoll('campaign', 'username', $channel))->forIrc()
+        );
+
+        Event::assertNotDispatched(ChannelLinked::class);
+    }
+
+    /**
      * Test trying to link a campaign to a Slack channel if the channel already
      * has one.
      * @group slack
@@ -87,7 +108,7 @@ final class CampaignTest extends TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(\sprintf(
+        self::expectExceptionMessage(sprintf(
             'This channel is already registered for "%s".',
             $campaign->name
         ));
@@ -99,7 +120,7 @@ final class CampaignTest extends TestCase
 
     /**
      * Test trying to link a campaign to a Discord channel if the channel
-     * alreadu has one.
+     * already has one.
      * @group discord
      * @test
      */
@@ -116,7 +137,7 @@ final class CampaignTest extends TestCase
             'type' => Channel::TYPE_DISCORD,
         ]);
 
-        $expected = \sprintf(
+        $expected = sprintf(
             'This channel is already registered for "%s".',
             $campaign->name
         );
@@ -142,12 +163,12 @@ final class CampaignTest extends TestCase
         $channel = Channel::factory()->make(['type' => Channel::TYPE_SLACK]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(\sprintf(
-            'You must have already created an account on <%s|%s> and '
+        self::expectExceptionMessage(sprintf(
+            'You must have already created an account on %s (%s) and '
                 . 'linked it to this server before you can register a '
                 . 'channel to a campaign.',
-            config('app.url'),
             config('app.name'),
+            config('app.url'),
         ));
 
         (new CampaignRoll('campaign 9999', 'username', $channel))->forSlack();
@@ -168,7 +189,7 @@ final class CampaignTest extends TestCase
         /** @var Channel */
         $channel = Channel::factory()->make(['type' => Channel::TYPE_DISCORD]);
 
-        $expected = \sprintf(
+        $expected = sprintf(
             'You must have already created an account on %s (%s) and '
                 . 'linked it to this server before you can register a '
                 . 'channel to a campaign.',
@@ -273,14 +294,14 @@ final class CampaignTest extends TestCase
         ]);
 
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(\sprintf(
+        self::expectExceptionMessage(sprintf(
             'The channel is already registered to play Shadowrun 5th Edition. '
             . '"%s" is playing Dungeons & Dragons 5th Edition.',
             $campaign->name,
         ));
 
         (new CampaignRoll(
-            \sprintf('campaign %s', $campaign->id),
+            sprintf('campaign %s', $campaign->id),
             'username',
             $channel
         ))
@@ -318,7 +339,7 @@ final class CampaignTest extends TestCase
             'verified' => true,
         ]);
 
-        $expected = \sprintf(
+        $expected = sprintf(
             'The channel is already registered to play Cyberpunk Red. '
                 . '"%s" is playing Shadowrun 5th Edition.',
             $campaign->name,
@@ -326,7 +347,7 @@ final class CampaignTest extends TestCase
         self::assertSame(
             $expected,
             (new CampaignRoll(
-                \sprintf('campaign %d', $campaign->id),
+                sprintf('campaign %d', $campaign->id),
                 'username',
                 $channel
             ))->forDiscord()
@@ -369,7 +390,7 @@ final class CampaignTest extends TestCase
         );
 
         (new CampaignRoll(
-            \sprintf('campaign %s', $campaign->id),
+            sprintf('campaign %s', $campaign->id),
             'username',
             $channel
         ))
@@ -410,7 +431,7 @@ final class CampaignTest extends TestCase
         self::assertSame(
             $expected,
             (new CampaignRoll(
-                \sprintf('campaign %d', $campaign->id),
+                sprintf('campaign %d', $campaign->id),
                 'username',
                 $channel
             ))->forDiscord()
@@ -428,7 +449,6 @@ final class CampaignTest extends TestCase
     {
         Event::fake();
 
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var CampaignModel */
@@ -452,9 +472,9 @@ final class CampaignTest extends TestCase
             'verified' => true,
         ]);
 
-        $response = \json_decode(
+        $response = json_decode(
             (string)(new CampaignRoll(
-                \sprintf('campaign %s', $campaign->id),
+                sprintf('campaign %s', $campaign->id),
                 'username',
                 $channel
             ))->forSlack()
@@ -462,7 +482,7 @@ final class CampaignTest extends TestCase
         self::assertCount(1, $response->attachments);
         self::assertSame('Registered', $response->attachments[0]->title);
         self::assertSame(
-            \sprintf(
+            sprintf(
                 '%s has registered this channel for the "%s" campaign, playing %s.',
                 $channel->username,
                 $campaign->name,
@@ -483,7 +503,6 @@ final class CampaignTest extends TestCase
     {
         Event::fake();
 
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var CampaignModel */
@@ -506,13 +525,13 @@ final class CampaignTest extends TestCase
         ]);
 
         $response = (new CampaignRoll(
-            \sprintf('campaign %d', $campaign->id),
+            sprintf('campaign %d', $campaign->id),
             'username',
             $channel
         ))->forDiscord();
 
         self::assertSame(
-            \sprintf(
+            sprintf(
                 '%s has registered this channel for the "%s" campaign, playing %s.',
                 $channel->username,
                 $campaign->name,
@@ -536,7 +555,6 @@ final class CampaignTest extends TestCase
     {
         Event::fake();
 
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var CampaignModel */
@@ -561,9 +579,9 @@ final class CampaignTest extends TestCase
             'verified' => true,
         ]);
 
-        $response = \json_decode(
+        $response = json_decode(
             (string)(new CampaignRoll(
-                \sprintf('campaign %s', $campaign->id),
+                sprintf('campaign %s', $campaign->id),
                 'username',
                 $channel
             ))->forSlack()
@@ -571,7 +589,7 @@ final class CampaignTest extends TestCase
         self::assertCount(1, $response->attachments);
         self::assertSame('Registered', $response->attachments[0]->title);
         self::assertSame(
-            \sprintf(
+            sprintf(
                 '%s has registered this channel for the "%s" campaign, playing %s.',
                 $channel->username,
                 $campaign->name,
@@ -592,7 +610,6 @@ final class CampaignTest extends TestCase
     {
         Event::fake();
 
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var CampaignModel */
@@ -616,13 +633,13 @@ final class CampaignTest extends TestCase
         ]);
 
         $response = (new CampaignRoll(
-            \sprintf('campaign %d', $campaign->id),
+            sprintf('campaign %d', $campaign->id),
             'username',
             $channel
         ))->forDiscord();
 
         self::assertSame(
-            \sprintf(
+            sprintf(
                 '%s has registered this channel for the "%s" campaign, playing %s.',
                 $channel->username,
                 $campaign->name,
@@ -632,5 +649,54 @@ final class CampaignTest extends TestCase
         );
 
         Event::assertNotDispatched(ChannelLinked::class);
+    }
+
+    /**
+     * @group irc
+     */
+    public function testLinkIrc(): void
+    {
+        Event::fake();
+
+        $user = User::factory()->create();
+
+        /** @var CampaignModel */
+        $campaign = CampaignModel::factory()->create(['gm' => $user->id]);
+        $channel = new Channel([
+            'channel_id' => 'C' . Str::random(10),
+            'server_id' => 'T' . Str::random(10),
+            'type' => Channel::TYPE_IRC,
+        ]);
+        $channel->user = 'U' . Str::random(10);
+        $channel->username = $this->faker->name;
+
+        ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_IRC,
+            'user_id' => $user,
+            'verified' => true,
+        ]);
+
+        $response = (new CampaignRoll(
+            sprintf('campaign %d', $campaign->id),
+            'username',
+            $channel
+        ))->forIrc();
+
+        self::assertSame(
+            sprintf(
+                '%s has registered this channel for the "%s" campaign, playing %s.',
+                $channel->username,
+                $campaign->name,
+                $campaign->getSystem(),
+            ),
+            $response
+        );
+
+        Event::assertDispatched(function (ChannelLinked $event) use ($campaign): bool {
+            $channel = $event->broadcastWith();
+            return $channel['campaign_name'] === $campaign->name;
+        });
     }
 }

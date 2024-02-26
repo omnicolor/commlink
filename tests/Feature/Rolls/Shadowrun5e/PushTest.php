@@ -15,12 +15,12 @@ use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+use const PHP_EOL;
+
 /**
  * Tests for pushing the limit in Shadowrun 5E.
- * @group discord
  * @group shadowrun
  * @group shadowrun5e
- * @group slack
  * @medium
  */
 final class PushTest extends TestCase
@@ -29,6 +29,7 @@ final class PushTest extends TestCase
 
     /**
      * Test trying to push the limit without having a linked character.
+     * @group slack
      * @test
      */
     public function testPushNoCharacter(): void
@@ -44,6 +45,7 @@ final class PushTest extends TestCase
 
     /**
      * Test trying to push the limit without saying how many dice to roll.
+     * @group Slack
      * @test
      */
     public function testPushNoDice(): void
@@ -85,6 +87,7 @@ final class PushTest extends TestCase
 
     /**
      * Test trying to push the limit in Slack with more than 100 dice.
+     * @group discord
      * @test
      */
     public function testPushTooManyDice(): void
@@ -123,6 +126,7 @@ final class PushTest extends TestCase
 
     /**
      * Test trying to push the limit on a character with no edge.
+     * @group slack
      * @test
      */
     public function testPushOutOfEdge(): void
@@ -162,6 +166,7 @@ final class PushTest extends TestCase
 
     /**
      * Test pushing the limit and blowing past the limit.
+     * @group discord
      * @test
      */
     public function testPushPastLimit(): void
@@ -197,8 +202,8 @@ final class PushTest extends TestCase
 
         $response = (new Push('push 4 5', 'username', $channel))->forDiscord();
         $expected = '**' . $character->handle . ' rolled 8 (4 requested + 4 '
-            . 'edge) dice with a limit of 5**' . \PHP_EOL
-            . 'Rolled 8 successes, blew past limit' . \PHP_EOL
+            . 'edge) dice with a limit of 5**' . PHP_EOL
+            . 'Rolled 8 successes, blew past limit' . PHP_EOL
             . 'Rolls: 5 5 5 5 5 5 5 5 (0 exploded), Limit: 5';
         self::assertSame($expected, $response);
 
@@ -210,6 +215,7 @@ final class PushTest extends TestCase
 
     /**
      * Test pushing the limit with some exploding sixes.
+     * @group slack
      * @test
      */
     public function testExplodingSixes(): void
@@ -273,6 +279,7 @@ final class PushTest extends TestCase
     /**
      * Test a character managing to still critical glitch when pushing the
      * limit.
+     * @group slack
      * @test
      */
     public function testPushCriticalGlitch(): void
@@ -325,6 +332,87 @@ final class PushTest extends TestCase
         // Make sure it still used some edge.
         $character->refresh();
         self::assertSame(0, $character->edgeCurrent);
+
+        $character->delete();
+    }
+
+    /**
+     * @group irc
+     */
+    public function testPushPastLimitIrc(): void
+    {
+        DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(5);
+
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'type' => Channel::TYPE_IRC,
+            'system' => 'shadowrun5e',
+        ]);
+
+        /** @var ChatUser */
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_IRC,
+            'verified' => true,
+        ]);
+
+        /** @var Character */
+        $character = Character::factory()->create([
+            'edge' => 4,
+            'edgeCurrent' => 3,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+
+        ChatCharacter::factory()->create([
+            'channel_id' => $channel->id,
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser->id,
+        ]);
+
+        $response = (new Push('push 4 5', 'username', $channel))->forIrc();
+        $expected = $character->handle . ' rolled 8 (4 requested + 4 '
+            . 'edge) dice with a limit of 5' . PHP_EOL
+            . 'Rolled 8 successes, blew past limit' . PHP_EOL
+            . 'Rolls: 5 5 5 5 5 5 5 5 (0 exploded), Limit: 5';
+        self::assertSame($expected, $response);
+
+        $character->delete();
+    }
+
+    /**
+     * @group irc
+     */
+    public function testPushErrorIrc(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'type' => Channel::TYPE_DISCORD,
+            'system' => 'shadowrun5e',
+        ]);
+
+        /** @var ChatUser */
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_DISCORD,
+            'verified' => true,
+        ]);
+
+        /** @var Character */
+        $character = Character::factory()->create([
+            'edge' => 2,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+
+        ChatCharacter::factory()->create([
+            'channel_id' => $channel->id,
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser->id,
+        ]);
+
+        $response = (new Push('push 101', 'username', $channel))->forIrc();
+        self::assertSame('You can\'t roll more than 100 dice', $response);
 
         $character->delete();
     }

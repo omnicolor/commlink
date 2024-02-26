@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\HealthResource;
 use Illuminate\Console\Command;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
@@ -41,6 +42,11 @@ class HealthzController extends Controller
             / (float)disk_total_space(__DIR__)
             * 100;
         return 80 >= $percent;
+    }
+
+    protected function checkIrc(): bool
+    {
+        return 0 !== count($this->lookForProcess('commlink:irc-run'));
     }
 
     protected function checkMongo(): bool
@@ -85,6 +91,9 @@ class HealthzController extends Controller
             escapeshellarg($name),
         );
         $output = (string)shell_exec($command);
+        if ('' === $output) {
+            return [];
+        }
         return explode(PHP_EOL, $output);
     }
 
@@ -93,7 +102,6 @@ class HealthzController extends Controller
         $start = hrtime(true);
         $statuses = [
             'data' => $this->checkData(),
-            'discord' => $this->checkDiscord(),
             'disk' => $this->checkDiskSpace(),
             'mongo' => $this->checkMongo(),
             'mysql' => $this->checkMySQL(),
@@ -101,6 +109,12 @@ class HealthzController extends Controller
             'redis' => $this->checkRedis(),
             'schedule' => $this->checkSchedule(),
         ];
+        if ((bool)config('health.discord')) {
+            $statuses['discord'] = $this->checkDiscord();
+        }
+        if ((bool)config('health.irc')) {
+            $statuses['irc'] = $this->checkIrc();
+        }
 
         if (in_array(false, $statuses, true)) {
             $status = JsonResponse::HTTP_SERVICE_UNAVAILABLE;
@@ -116,31 +130,8 @@ class HealthzController extends Controller
             }
         });
         return new JsonResponse(
-            [
-                'data' => [
-                    'data' => $statuses['data'],
-                    'database' => [
-                        'document' => $statuses['mongo'],
-                        'key_value' => $statuses['redis'],
-                        'relational' => $statuses['mysql'],
-                    ],
-                    'disk_space' => $statuses['disk'],
-                    'links' => [
-                        'self' => route('healthz'),
-                        'statistics' => route('varz'),
-                    ],
-                    'workers' => [
-                        'discord' => $statuses['discord'],
-                        'queue' => $statuses['queue'],
-                        'schedule' => $statuses['schedule'],
-                    ],
-                ],
-                'meta' => [
-                    // hrtime measures time in nano seconds, convert to seconds.
-                    'time_in_seconds' => (hrtime(true) - $start) / 1_000_000_000,
-                ],
-            ],
-            $status,
+            new HealthResource($statuses, hrtime(true) - $start),
+            $status
         );
     }
 }
