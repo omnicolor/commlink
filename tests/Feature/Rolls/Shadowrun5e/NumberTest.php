@@ -11,6 +11,7 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\Shadowrun5e\Character;
 use App\Rolls\Shadowrun5e\Number;
+use Discord\Builders\MessageBuilder;
 use Discord\Discord;
 use Discord\Parts\Channel\Channel as DiscordChannel;
 use Discord\Parts\Channel\Message;
@@ -20,18 +21,21 @@ use Discord\Parts\User\User;
 use Facades\App\Services\DiceService;
 use Tests\TestCase;
 
+use function sprintf;
+
+use const PHP_EOL;
+
 /**
  * Tests for rolling dice in Shadowrun 5E.
- * @group discord
  * @group shadowrun
  * @group shadowrun5e
- * @group slack
  * @medium
  */
 final class NumberTest extends TestCase
 {
     /**
      * Test trying to roll without a limit or description.
+     * @group slack
      * @test
      */
     public function testRollNoLimitNoDescription(): void
@@ -46,6 +50,7 @@ final class NumberTest extends TestCase
 
     /**
      * Test trying to roll with a limit.
+     * @group slack
      * @test
      */
     public function testRollWithLimit(): void
@@ -60,6 +65,7 @@ final class NumberTest extends TestCase
 
     /**
      * Test trying to roll with a description.
+     * @group slack
      * @test
      */
     public function testRollWithDescription(): void
@@ -74,6 +80,7 @@ final class NumberTest extends TestCase
 
     /**
      * Test trying to roll with both a description and a limit.
+     * @group slack
      * @test
      */
     public function testRollBoth(): void
@@ -88,6 +95,7 @@ final class NumberTest extends TestCase
 
     /**
      * Test trying to roll too many dice.
+     * @group slack
      * @test
      */
     public function testRollTooMany(): void
@@ -101,6 +109,7 @@ final class NumberTest extends TestCase
 
     /**
      * Test the user rolling a critical glitch.
+     * @group slack
      * @test
      */
     public function testCriticalGlitch(): void
@@ -119,6 +128,7 @@ final class NumberTest extends TestCase
 
     /**
      * Test the footer formatting a user getting successes.
+     * @group slack
      * @test
      */
     public function testFooterSixes(): void
@@ -134,6 +144,7 @@ final class NumberTest extends TestCase
 
     /**
      * Test the description when the roll hits the limit.
+     * @group slack
      * @test
      */
     public function testDescriptionHitLimit(): void
@@ -152,14 +163,15 @@ final class NumberTest extends TestCase
 
     /**
      * Test formatting a roll for Discord.
+     * @group discord
      * @test
      */
     public function testFormattedForDiscord(): void
     {
         DiceService::shouldReceive('rollOne')->times(1)->with(6)->andReturn(6);
 
-        $expected = '**username rolled 1 die**' . \PHP_EOL
-            . 'Rolled 1 successes' . \PHP_EOL
+        $expected = '**username rolled 1 die**' . PHP_EOL
+            . 'Rolled 1 successes' . PHP_EOL
             . 'Rolls: 6, Probability: 33.3333%';
         $response = new Number('1', 'username', new Channel());
         self::assertSame($expected, $response->forDiscord());
@@ -167,14 +179,15 @@ final class NumberTest extends TestCase
 
     /**
      * Test formatting a roll for Discord with a limit and description.
+     * @group discord
      * @test
      */
     public function testFormattedForDiscordMaxedOut(): void
     {
         DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(6);
 
-        $expected = '**username rolled 6 dice with a limit of 3**' . \PHP_EOL
-            . 'Rolled 3 successes, hit limit' . \PHP_EOL
+        $expected = '**username rolled 6 dice with a limit of 3**' . PHP_EOL
+            . 'Rolled 3 successes, hit limit' . PHP_EOL
             . 'Rolls: 6 6 6 6 6 6, Limit: 3, Probability: 0.1372%';
         $response = new Number('6 3', 'username', new Channel());
         self::assertSame($expected, $response->forDiscord());
@@ -182,6 +195,7 @@ final class NumberTest extends TestCase
 
     /**
      * Test rolling too many dice in Discord.
+     * @group discord
      * @test
      */
     public function testFormattedForDiscordTooManyDice(): void
@@ -194,15 +208,42 @@ final class NumberTest extends TestCase
     }
 
     /**
+     * @group irc
+     */
+    public function testIrc(): void
+    {
+        DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(6);
+
+        $expected = 'username rolled 6 dice with a limit of 3' . PHP_EOL
+            . 'Rolled 3 successes, hit limit' . PHP_EOL
+            . 'Rolls: 6 6 6 6 6 6, Limit: 3';
+        $response = new Number('6 3', 'username', new Channel());
+        self::assertSame($expected, $response->forIrc());
+    }
+
+    /**
+     * @group irc
+     */
+    public function testIrcError(): void
+    {
+        $response = new Number('101', 'Loftwyr', new Channel());
+        self::assertSame(
+            'You can\'t roll more than 100 dice!',
+            $response->forIrc(),
+        );
+    }
+
+    /**
      * Test rolling with too many initial spaces.
+     * @group discord
      * @test
      */
     public function testTooManySpaces(): void
     {
         DiceService::shouldReceive('rollOne')->times(1)->with(6)->andReturn(6);
 
-        $expected = '**username rolled 1 die**' . \PHP_EOL
-            . 'Rolled 1 successes' . \PHP_EOL
+        $expected = '**username rolled 1 die**' . PHP_EOL
+            . 'Rolled 1 successes' . PHP_EOL
             . 'Rolls: 6, Probability: 33.3333%';
         $response = new Number(' 1', 'username', new Channel());
         self::assertSame($expected, $response->forDiscord());
@@ -211,6 +252,7 @@ final class NumberTest extends TestCase
     /**
      * Test rolling a SR 5e number in Discord with a critical glitch, so they
      * shouldn't see the second chance button.
+     * @group discord
      * @test
      */
     public function testSecondChanceButtonMissingOnCritGlitch(): void
@@ -258,11 +300,11 @@ final class NumberTest extends TestCase
             $message,
             self::createStub(Discord::class)
         );
-        $expected = \sprintf(
+        $expected = sprintf(
             '**%s rolled a critical glitch on 6 dice!**',
             (string)$character
-        ) . \PHP_EOL
-            . 'Rolled 6 ones with no successes!' . \PHP_EOL
+        ) . PHP_EOL
+            . 'Rolled 6 ones with no successes!' . PHP_EOL
             . 'Rolls: 1 1 1 1 1 1, Limit: 3, Probability: 100.0000%';
 
         $response = (new Number('6 3', (string)$character, $channel, $event))
@@ -274,6 +316,7 @@ final class NumberTest extends TestCase
     /**
      * Test rolling a SR 5E number in Discord with a character that hasn't used
      * any edge yet, so they should see the second chance button.
+     * @group discord
      * @test
      */
     public function testSeeSecondChanceFullEdge(): void
@@ -321,11 +364,11 @@ final class NumberTest extends TestCase
             $message,
             self::createStub(Discord::class)
         );
-        $expected = \sprintf('**%s rolled 6 dice with a limit of 3**', (string)$character) . \PHP_EOL
-            . 'Rolled 0 successes' . \PHP_EOL
+        $expected = sprintf('**%s rolled 6 dice with a limit of 3**', (string)$character) . PHP_EOL
+            . 'Rolled 0 successes' . PHP_EOL
             . 'Rolls: 3 3 3 3 3 3, Limit: 3, Probability: 100.0000%';
 
-        /** @var \Discord\Builders\MessageBuilder */
+        /** @var MessageBuilder */
         $response = (new Number('6 3', (string)$character, $channel, $event))
             ->forDiscord();
         $response = $response->jsonSerialize();
@@ -336,6 +379,7 @@ final class NumberTest extends TestCase
 
     /**
      * Test another user trying to second chance a roll.
+     * @group discord
      * @test
      */
     public function testAnotherUserClickingSecondChance(): void
@@ -383,11 +427,11 @@ final class NumberTest extends TestCase
             $message,
             self::createStub(Discord::class)
         );
-        $expected = \sprintf('**%s rolled 6 dice with a limit of 3**', (string)$character) . \PHP_EOL
-            . 'Rolled 0 successes' . \PHP_EOL
+        $expected = sprintf('**%s rolled 6 dice with a limit of 3**', (string)$character) . PHP_EOL
+            . 'Rolled 0 successes' . PHP_EOL
             . 'Rolls: 3 3 3 3 3 3, Limit: 3';
 
-        $roll = new Number('6 3', (string)$character, $channel, $event);
+        $roll = (new Number('6 3', (string)$character, $channel, $event));
         $roll->forDiscord();
 
         $interactedMessage = self::createStub(Message::class);
@@ -403,6 +447,7 @@ final class NumberTest extends TestCase
 
     /**
      * Test a user using second chance.
+     * @group discord
      * @test
      */
     public function testSecondChance(): void
@@ -454,7 +499,7 @@ final class NumberTest extends TestCase
             $message,
             self::createStub(Discord::class)
         );
-        $roll = new Number('6 3', (string)$character, $channel, $event);
+        $roll = (new Number('6 3', (string)$character, $channel, $event));
         $roll->forDiscord();
 
         $interactedMessage = self::createStub(Message::class);

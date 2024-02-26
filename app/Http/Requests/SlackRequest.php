@@ -10,10 +10,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class SlackRequest extends FormRequest
 {
-    /**
-     * Handle a request failing validation.
-     * @throws SlackException
-     */
     protected function failedValidation(Validator $validator): void
     {
         throw new SlackException();

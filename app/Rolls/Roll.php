@@ -67,15 +67,11 @@ abstract class Roll
         }
     }
 
-    /**
-     * Return the roll's output, formatted for Slack.
-     */
-    abstract public function forSlack(): SlackResponse;
-
-    /**
-     * Return the roll's output, formatted for Discord.
-     */
     abstract public function forDiscord(): string | MessageBuilder;
+
+    abstract public function forIrc(): string;
+
+    abstract public function forSlack(): SlackResponse;
 
     /**
      * Handle a callback from a Slack message.

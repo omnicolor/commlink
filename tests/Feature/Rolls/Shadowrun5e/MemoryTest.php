@@ -13,6 +13,11 @@ use App\Rolls\Shadowrun5e\Memory;
 use Facades\App\Services\DiceService;
 use Tests\TestCase;
 
+use function json_decode;
+use function sprintf;
+
+use const PHP_EOL;
+
 /**
  * Tests for rolling a memory test Shadowrun 5E.
  * @group shadowrun
@@ -55,7 +60,22 @@ final class MemoryTest extends TestCase
     }
 
     /**
+     * @group irc
+     */
+    public function testWithoutCharacterIrc(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
+
+        self::assertSame(
+            'username, You must have a character linked to make memory tests',
+            (new Memory('', 'username', $channel))->forIrc()
+        );
+    }
+
+    /**
      * Test a character critical glitching on a memory test.
+     * @group slack
      * @test
      */
     public function testCritGlitch(): void
@@ -90,9 +110,9 @@ final class MemoryTest extends TestCase
         ]);
 
         $response = (new Memory('', 'username', $channel))->forSlack();
-        $response = \json_decode((string)$response)->attachments[0];
+        $response = json_decode((string)$response)->attachments[0];
         self::assertSame(
-            \sprintf(
+            sprintf(
                 '%s critically glitched on a memory roll!',
                 $character
             ),
@@ -105,6 +125,7 @@ final class MemoryTest extends TestCase
 
     /**
      * Test a non-glitch memory test.
+     * @group discord
      * @test
      */
     public function testMemory(): void
@@ -113,7 +134,7 @@ final class MemoryTest extends TestCase
 
         /** @var Channel */
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_SLACK,
+            'type' => Channel::TYPE_DISCORD,
             'system' => 'shadowrun5e',
         ]);
 
@@ -121,7 +142,7 @@ final class MemoryTest extends TestCase
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
-            'server_type' => ChatUser::TYPE_SLACK,
+            'server_type' => ChatUser::TYPE_DISCORD,
             'verified' => true,
         ]);
 
@@ -140,10 +161,58 @@ final class MemoryTest extends TestCase
 
         $response = (new Memory('', 'username', $channel))->forDiscord();
         self::assertSame(
-            \sprintf(
+            sprintf(
                 '**%s rolled 8 dice for a memory test**'
-                    . \PHP_EOL . 'Rolled 8 successes' . \PHP_EOL
+                    . PHP_EOL . 'Rolled 8 successes' . PHP_EOL
                     . 'Rolls: 6 6 6 6 6 6 6 6, Probability: 0.0152%%',
+                (string)$character
+            ),
+            $response
+        );
+
+        $character->delete();
+    }
+
+    /**
+     * @group irc
+     */
+    public function testMemoryIrc(): void
+    {
+        DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(6);
+
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'type' => Channel::TYPE_IRC,
+            'system' => 'shadowrun5e',
+        ]);
+
+        /** @var ChatUser */
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_IRC,
+            'verified' => true,
+        ]);
+
+        /** @var Character */
+        $character = Character::factory()->create([
+            'logic' => 5,
+            'willpower' => 3,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+
+        ChatCharacter::factory()->create([
+            'channel_id' => $channel->id,
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser->id,
+        ]);
+
+        $response = (new Memory('', 'username', $channel))->forIrc();
+        self::assertSame(
+            sprintf(
+                '%s rolled 8 dice for a memory test' . PHP_EOL
+                    . 'Rolled 8 successes' . PHP_EOL
+                    . 'Rolls: 6 6 6 6 6 6 6 6',
                 (string)$character
             ),
             $response

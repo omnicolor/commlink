@@ -20,34 +20,24 @@ class Tarot extends Roll
 {
     /**
      * Tarot card drawn.
-     * @var TarotCard
      */
     protected TarotCard $card;
 
     /**
      * Tarot deck to draw from.
-     * @var TarotDeck
      */
     protected TarotDeck $deck;
 
     /**
      * Error to return instead of shuffling or drawing from the deck.
-     * @var ?string
      */
     protected ?string $error = null;
 
     /**
      * Whether the user had asked to shuffle the deck.
-     * @var bool
      */
     protected bool $shuffle = false;
 
-    /**
-     * Constructor.
-     * @param string $content
-     * @param string $username
-     * @param Channel $channel
-     */
     public function __construct(
         string $content,
         string $username,
@@ -115,7 +105,6 @@ class Tarot extends Roll
 
     /**
      * Return the roll formatted for Slack.
-     * @return SlackResponse
      */
     public function forSlack(): SlackResponse
     {
@@ -158,7 +147,6 @@ class Tarot extends Roll
 
     /**
      * Return the roll formatted for Discord.
-     * @return string
      */
     public function forDiscord(): string
     {
@@ -173,6 +161,25 @@ class Tarot extends Roll
         return $this->username . ' drew **' . (string)$this->card . '**'
             . \PHP_EOL . \PHP_EOL . $this->card->getDescription() . \PHP_EOL
             . \PHP_EOL . '**Effect:** '
+            . str_replace('||', \PHP_EOL, $this->card->getEffect());
+    }
+
+    /**
+     * Return the roll formatted for IRC.
+     */
+    public function forIrc(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+
+        if ($this->shuffle) {
+            return sprintf('%s shuffled the tarot deck', $this->username);
+        }
+
+        return $this->username . ' drew ' . (string)$this->card . \PHP_EOL
+            . \PHP_EOL . $this->card->getDescription() . \PHP_EOL
+            . \PHP_EOL . 'Effect: '
             . str_replace('||', \PHP_EOL, $this->card->getEffect());
     }
 }

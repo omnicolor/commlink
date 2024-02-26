@@ -128,6 +128,25 @@ class Plead extends Roll
         );
     }
 
+    public function forDiscord(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+
+        return sprintf('**%s**', $this->formatTitle()) . \PHP_EOL
+            . $this->formatBody();
+    }
+
+    public function forIrc(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+
+        return $this->formatTitle() . \PHP_EOL . $this->formatBody();
+    }
+
     public function forSlack(): SlackResponse
     {
         if (null !== $this->error) {
@@ -147,22 +166,7 @@ class Plead extends Roll
             $color
         );
 
-        $response = new SlackResponse(
-            '',
-            SlackResponse::HTTP_OK,
-            [],
-            $this->channel
-        );
+        $response = new SlackResponse(channel: $this->channel);
         return $response->addAttachment($attachment)->sendToChannel();
-    }
-
-    public function forDiscord(): string
-    {
-        if (null !== $this->error) {
-            return $this->error;
-        }
-
-        return sprintf('**%s**', $this->formatTitle()) . \PHP_EOL
-            . $this->formatBody();
     }
 }

@@ -9,6 +9,8 @@ use App\Rolls\StarTrekAdventures\Focused;
 use Facades\App\Services\DiceService;
 use Tests\TestCase;
 
+use const PHP_EOL;
+
 /**
  * Tests for trying a focused test in Star Trek Adventures.
  * @group star-trek-adventures
@@ -18,6 +20,7 @@ final class FocusedTest extends TestCase
 {
     /**
      * Test making a simple focused roll.
+     * @group slack
      * @test
      */
     public function testFocusedSlack(): void
@@ -40,6 +43,7 @@ final class FocusedTest extends TestCase
 
     /**
      * Test making a focused roll with extra dice.
+     * @group discord
      * @test
      */
     public function testFocusedExtraDice(): void
@@ -51,13 +55,14 @@ final class FocusedTest extends TestCase
         $response = (new Focused('focused 1 2 3 4', 'username', $channel))
             ->forDiscord();
 
-        $expected = '**username succeeded with a focus**' . \PHP_EOL
-            . 'Rolled 6 successes' . \PHP_EOL . 'Rolls: 3 3 3 3 3 3';
+        $expected = '**username succeeded with a focus**' . PHP_EOL
+            . 'Rolled 6 successes' . PHP_EOL . 'Rolls: 3 3 3 3 3 3';
         self::assertSame($expected, $response);
     }
 
     /**
      * Test making an focused roll resulting in a complication.
+     * @group irc
      * @test
      */
     public function testFocusedWithComplication(): void
@@ -67,16 +72,17 @@ final class FocusedTest extends TestCase
         /** @var Channel */
         $channel = Channel::factory()->make();
         $response = (new Focused('focused 1 2 3', 'username', $channel))
-            ->forDiscord();
+            ->forIrc();
 
-        $expected = '**username failed a roll with a focus**' . \PHP_EOL
-            . 'Rolled 0 successes with 2 complications' . \PHP_EOL
+        $expected = 'username failed a roll with a focus' . PHP_EOL
+            . 'Rolled 0 successes with 2 complications' . PHP_EOL
             . 'Rolls: 20 20';
         self::assertSame($expected, $response);
     }
 
     /**
      * Test getting extra successes with natural ones.
+     * @group discord
      * @test
      */
     public function testFocusedNaturalOnes(): void
@@ -88,14 +94,15 @@ final class FocusedTest extends TestCase
         $response = (new Focused('focused 1 2 3', 'username', $channel))
             ->forDiscord();
 
-        $expected = '**username succeeded with a focus**' . \PHP_EOL
-            . 'Rolled 4 successes' . \PHP_EOL
+        $expected = '**username succeeded with a focus**' . PHP_EOL
+            . 'Rolled 4 successes' . PHP_EOL
             . 'Rolls: 1 1';
         self::assertSame($expected, $response);
     }
 
     /**
      * Test making a focused roll with optional text.
+     * @group slack
      * @test
      */
     public function testFocusedRollWithOptionalText(): void

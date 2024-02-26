@@ -62,8 +62,12 @@ class Number extends Roll
 
     public function forDiscord(): string
     {
-        return \sprintf('**%s**', $this->title) . \PHP_EOL
-            . $this->text . \PHP_EOL;
+        return \sprintf('**%s**', $this->title) . \PHP_EOL . $this->text;
+    }
+
+    public function forIrc(): string
+    {
+        return $this->title . \PHP_EOL . $this->text;
     }
 
     /**

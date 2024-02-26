@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Listeners;
 
 use App\Events\DiscordMessageReceived;
-use App\Events\DiscordUserLinked;
 use App\Events\RollEvent;
+use App\Events\UserLinked;
 use App\Listeners\HandleDiscordMessage;
 use App\Models\Campaign;
 use App\Models\Channel;
@@ -103,7 +103,7 @@ final class HandleDiscordMessageTest extends TestCase
             ->andReturn([3, 3]);
         $tag = $this->createDiscordTag();
         $expected = sprintf('**%s rolled 6**', $tag) . PHP_EOL
-            . 'Rolling: 2d6 = [6] = 6' . PHP_EOL
+            . 'Rolling: 2d6 = [3+3] = 6' . PHP_EOL
             . '_Rolls: 3, 3_';
 
         $serverStub = self::createStub(Guild::class);
@@ -165,6 +165,7 @@ final class HandleDiscordMessageTest extends TestCase
         $expected = '**Debugging info**' . PHP_EOL
             . 'User Tag: ' . $userTag . PHP_EOL
             . 'User ID: ' . $userId . PHP_EOL
+            . 'Commlink User: Not linked' . PHP_EOL
             . 'Server Name: ' . $serverNameAndId . PHP_EOL
             . 'Server ID: ' . $serverNameAndId . PHP_EOL
             . 'Channel Name: ' . $channelName . PHP_EOL
@@ -256,7 +257,7 @@ final class HandleDiscordMessageTest extends TestCase
             self::createStub(Discord::class)
         );
         self::assertTrue((new HandleDiscordMessage())->handle($event));
-        Event::assertNotDispatched(DiscordUserLinked::class);
+        Event::assertNotDispatched(UserLinked::class);
     }
 
     /**
@@ -325,7 +326,7 @@ final class HandleDiscordMessageTest extends TestCase
             self::createStub(Discord::class)
         );
         self::assertTrue((new HandleDiscordMessage())->handle($event));
-        Event::assertNotDispatched(DiscordUserLinked::class);
+        Event::assertNotDispatched(UserLinked::class);
     }
 
     /**
@@ -385,7 +386,7 @@ final class HandleDiscordMessageTest extends TestCase
             self::createStub(Discord::class)
         );
         self::assertTrue((new HandleDiscordMessage())->handle($event));
-        Event::assertNotDispatched(DiscordUserLinked::class);
+        Event::assertNotDispatched(UserLinked::class);
     }
 
     /**
@@ -447,7 +448,7 @@ final class HandleDiscordMessageTest extends TestCase
             self::createStub(Discord::class)
         );
         self::assertTrue((new HandleDiscordMessage())->handle($event));
-        Event::assertDispatched(DiscordUserLinked::class);
+        Event::assertDispatched(UserLinked::class);
     }
 
     /**
@@ -625,6 +626,45 @@ final class HandleDiscordMessageTest extends TestCase
             ['author', $userMock],
             ['channel', $channelMock],
             ['content', '/roll help'],
+        ];
+        $messageStub = self::createStub(Message::class);
+        $messageStub->method('__get')->willReturnMap($messageMap);
+
+        $event = new DiscordMessageReceived(
+            $messageStub,
+            self::createStub(Discord::class)
+        );
+        self::assertTrue((new HandleDiscordMessage())->handle($event));
+    }
+
+    /**
+     * Test an old-format HTTP response.
+     */
+    public function testHandleLinkRoll(): void
+    {
+        $expected = 'To link a character, use `link <characterId>`.';
+
+        $serverStub = self::createStub(Guild::class);
+        $serverStub->method('__get')->willReturn(Str::random(10));
+
+        $channelMap = [
+            ['id', Str::random(14)],
+            ['name', Str::random(12)],
+            ['guild', $serverStub],
+        ];
+        $channelMock = $this->createMock(TextChannel::class);
+        $channelMock->method('__get')->willReturnMap($channelMap);
+        $channelMock->expects(self::once())
+            ->method('sendMessage')
+            ->with(self::stringContains($expected));
+
+        $userMock = $this->createMock(User::class);
+        $userMock->method('__get')->willReturn('discord#tag');
+
+        $messageMap = [
+            ['author', $userMock],
+            ['channel', $channelMock],
+            ['content', '/roll link'],
         ];
         $messageStub = self::createStub(Message::class);
         $messageStub->method('__get')->willReturnMap($messageMap);

@@ -227,4 +227,58 @@ final class DrawTest extends TestCase
             ->forDiscord();
         self::assertSame('Insufficient cards remain in deck', $response);
     }
+
+    /**
+     * Test trying to draw a card in IRC.
+     * @group irc
+     * @test
+     */
+    public function testDrawIrc(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['system' => 'capers']);
+
+        /** @var Channel */
+        $channel = Channel::factory()->make([
+            'campaign_id' => $campaign,
+            'system' => 'capers',
+        ]);
+        $channel->username = $this->faker->name;
+
+        $response = (new Draw('draw guns', $channel->username, $channel))
+            ->forIrc();
+        self::assertStringStartsWith(
+            \sprintf('%s drew the ', $channel->username),
+            $response
+        );
+        self::assertStringContainsString('for guns', $response);
+    }
+
+    /**
+     * Test trying to draw from an empty deck in IRC.
+     * @group irc
+     * @test
+     */
+    public function testDrawEmptyIRC(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['system' => 'capers']);
+
+        /** @var Channel */
+        $channel = Channel::factory()->make([
+            'campaign_id' => $campaign,
+            'system' => 'capers',
+        ]);
+        $channel->username = $this->faker->name;
+
+        $deck = new StandardDeck();
+        $deck->campaign_id = $campaign->id;
+        $deck->character_id = $channel->username;
+        $deck->shuffle();
+        $deck->draw(54);
+        $deck->save();
+
+        $response = (new Draw('draw', $channel->username, $channel))->forIrc();
+        self::assertSame('Insufficient cards remain in deck', $response);
+    }
 }

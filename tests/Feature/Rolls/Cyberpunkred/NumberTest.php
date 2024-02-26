@@ -24,6 +24,7 @@ final class NumberTest extends TestCase
 
     /**
      * Test trying to roll.
+     * @group slack
      * @test
      */
     public function testRollSlack(): void
@@ -53,6 +54,7 @@ final class NumberTest extends TestCase
 
     /**
      * Test rolling a crit success.
+     * @group slack
      * @test
      */
     public function testRollSlackCritSuccess(): void
@@ -82,6 +84,7 @@ final class NumberTest extends TestCase
 
     /**
      * Test rolling a crit failure.
+     * @group slack
      * @test
      */
     public function testRollSlackCritFail(): void
@@ -111,6 +114,7 @@ final class NumberTest extends TestCase
 
     /**
      * Test trying to roll in Discord.
+     * @group discord
      * @test
      */
     public function testRollDiscord(): void
@@ -127,6 +131,7 @@ final class NumberTest extends TestCase
 
     /**
      * Test rolling a crit success in Discord.
+     * @group discord
      * @test
      */
     public function testRollDiscordCritSuccess(): void
@@ -145,6 +150,7 @@ final class NumberTest extends TestCase
 
     /**
      * Test rolling a crit failure in Discord.
+     * @group discord
      * @test
      */
     public function testRollDiscordCritFail(): void
@@ -156,6 +162,61 @@ final class NumberTest extends TestCase
 
         $response = (new Number('5', 'user', new Channel()))->forDiscord();
         $expected = "**user made a roll with a critical failure**\n1d10 + 5 = 1 - 4 + 5 = 2";
+        self::assertSame($expected, $response);
+    }
+
+    /**
+     * Test trying to roll in IRC.
+     * @group irc
+     * @test
+     */
+    public function testRollIRC(): void
+    {
+        DiceService::shouldReceive('rollOne')
+            ->once()
+            ->with(10)
+            ->andReturn(5);
+
+        $channel = new Channel();
+        $channel->username = 'user';
+        $response = (new Number('5 perception', 'user', $channel))->forIrc();
+        $expected = "user made a roll for \"perception\"\n1d10 + 5 = 5 + 5 = 10";
+        self::assertSame($expected, $response);
+    }
+
+    /**
+     * Test rolling a crit success in IRC.
+     * @group irc
+     * @test
+     */
+    public function testRollIRCCritSuccess(): void
+    {
+        DiceService::shouldReceive('rollOne')
+            ->times(2)
+            ->with(10)
+            ->andReturn(10, 4);
+
+        $channel = new Channel();
+        $channel->username = 'user';
+        $response = (new Number('5', 'user', $channel))->forIrc();
+        $expected = "user made a roll with a critical success\n1d10 + 5 = 10 + 4 + 5 = 19";
+        self::assertSame($expected, $response);
+    }
+
+    /**
+     * Test rolling a crit failure in IRC.
+     * @group irc
+     * @test
+     */
+    public function testRollIRCCritFail(): void
+    {
+        DiceService::shouldReceive('rollOne')
+            ->times(2)
+            ->with(10)
+            ->andReturn(1, 4);
+
+        $response = (new Number('5', 'user', new Channel()))->forIrc();
+        $expected = "user made a roll with a critical failure\n1d10 + 5 = 1 - 4 + 5 = 2";
         self::assertSame($expected, $response);
     }
 }

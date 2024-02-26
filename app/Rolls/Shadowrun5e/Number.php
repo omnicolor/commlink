@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Rolls\Shadowrun5e;
 
 use App\Events\DiscordMessageReceived;
+use App\Events\MessageReceived;
 use App\Exceptions\SlackException;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
+use App\Models\Shadowrun5e\Character;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Discord\Builders\Components\ActionRow;
@@ -16,6 +18,19 @@ use Discord\Builders\MessageBuilder;
 use Discord\Parts\Interactions\Interaction;
 use Facades\App\Services\DiceService;
 use MathPHP\Probability\Combinatorics;
+
+use function array_shift;
+use function array_walk;
+use function explode;
+use function floor;
+use function implode;
+use function is_numeric;
+use function rsort;
+use function sprintf;
+use function trim;
+
+use const PHP_EOL;
+use const SORT_NUMERIC;
 
 /**
  * Roll a Shadowrun number, representing a set of six-sided dice.
@@ -41,20 +56,20 @@ class Number extends Roll
         string $content,
         string $username,
         Channel $channel,
-        public ?DiscordMessageReceived $event = null
+        public ?MessageReceived $event = null,
     ) {
         parent::__construct($content, $username, $channel);
 
-        $args = \explode(' ', \trim($content));
-        $this->dice = (int)\array_shift($args);
+        $args = explode(' ', trim($content));
+        $this->dice = (int)array_shift($args);
         if ($this->dice > self::MAX_DICE) {
             $this->error = 'You can\'t roll more than 100 dice!';
             return;
         }
-        if (isset($args[0]) && \is_numeric($args[0])) {
-            $this->limit = (int)\array_shift($args);
+        if (isset($args[0]) && is_numeric($args[0])) {
+            $this->limit = (int)array_shift($args);
         }
-        $this->description = \implode(' ', $args);
+        $this->description = implode(' ', $args);
 
         $this->roll();
 
@@ -70,15 +85,15 @@ class Number extends Roll
      */
     protected function formatCriticalGlitch(): void
     {
-        $this->title = \sprintf(
+        $this->title = sprintf(
             '%s rolled a critical glitch on %d dice!',
             $this->username,
             $this->dice
         );
-        $this->text = \sprintf(
+        $this->text = sprintf(
             'Rolled %d ones with no successes%s!',
             $this->fails,
-            ('' !== $this->description) ? \sprintf(' for "%s"', $this->description) : ''
+            ('' !== $this->description) ? sprintf(' for "%s"', $this->description) : ''
         );
     }
 
@@ -89,29 +104,29 @@ class Number extends Roll
     {
         $this->title = $this->formatTitle();
         if (null !== $this->limit && $this->limit < $this->successes) {
-            $this->text = \sprintf(
+            $this->text = sprintf(
                 'Rolled %d successes%s, hit limit',
                 $this->limit,
-                ('' !== $this->description) ? \sprintf(' for "%s"', $this->description) : ''
+                ('' !== $this->description) ? sprintf(' for "%s"', $this->description) : ''
             );
             return;
         }
 
-        $this->text = \sprintf(
+        $this->text = sprintf(
             'Rolled %d successes%s',
             $this->successes,
-            ('' !== $this->description) ? \sprintf(' for "%s"', $this->description) : ''
+            ('' !== $this->description) ? sprintf(' for "%s"', $this->description) : ''
         );
     }
 
     protected function formatTitle(): string
     {
-        return \sprintf(
+        return sprintf(
             '%s rolled %d %s%s%s',
             $this->username,
             $this->dice,
             1 === $this->dice ? 'die' : 'dice',
-            null !== $this->limit ? \sprintf(' with a limit of %d', $this->limit) : '',
+            null !== $this->limit ? sprintf(' with a limit of %d', $this->limit) : '',
             $this->isGlitch() ? ', glitched' : ''
         );
     }
@@ -130,7 +145,7 @@ class Number extends Roll
                 $this->fails++;
             }
         }
-        \rsort($this->rolls, \SORT_NUMERIC);
+        rsort($this->rolls, SORT_NUMERIC);
     }
 
     /**
@@ -140,11 +155,11 @@ class Number extends Roll
     protected function prettifyRolls(): array
     {
         $rolls = $this->rolls;
-        \array_walk($rolls, function (int &$value): void {
+        array_walk($rolls, function (int &$value): void {
             if ($value >= self::MIN_SUCCESS) {
-                $value = \sprintf('*%d*', $value);
+                $value = sprintf('*%d*', $value);
             } elseif (self::FAILURE == $value) {
-                $value = \sprintf('~%d~', $value);
+                $value = sprintf('~%d~', $value);
             }
         });
         // @phpstan-ignore-next-line
@@ -162,7 +177,7 @@ class Number extends Roll
             return false;
         }
         // If half of the dice were ones, it's a glitch.
-        return $this->fails > \floor($this->dice / 2);
+        return $this->fails > floor($this->dice / 2);
     }
 
     /**
@@ -174,53 +189,22 @@ class Number extends Roll
         return $this->isGlitch() && 0 === $this->successes;
     }
 
-    /**
-     * @throws SlackException
-     */
-    public function forSlack(): SlackResponse
-    {
-        if (null !== $this->error) {
-            throw new SlackException($this->error);
-        }
-        $color = TextAttachment::COLOR_SUCCESS;
-        if ($this->isCriticalGlitch() || $this->isGlitch()) {
-            $color = TextAttachment::COLOR_DANGER;
-        }
-        $footer = \implode(' ', $this->prettifyRolls());
-
-        if (null !== $this->limit) {
-            $footer .= \sprintf(', Limit: %d', $this->limit);
-        }
-
-        $probability = $this->getProbability($this->dice, $this->successes);
-        if (1.0 !== $probability) {
-            $footer .= \sprintf(
-                ', Probability: %01.4f%%',
-                $this->getProbability($this->dice, $this->successes) * 100
-            );
-        }
-        $attachment = new TextAttachment($this->title, $this->text, $color);
-        $attachment->addFooter($footer);
-        $response = new SlackResponse(channel: $this->channel);
-        return $response->addAttachment($attachment)->sendToChannel();
-    }
-
     public function forDiscord(): string | MessageBuilder
     {
         if (null !== $this->error) {
             return $this->error;
         }
 
-        $footer = 'Rolls: ' . \implode(' ', $this->rolls);
+        $footer = 'Rolls: ' . implode(' ', $this->rolls);
         if (null !== $this->limit) {
-            $footer .= \sprintf(', Limit: %d', $this->limit);
+            $footer .= sprintf(', Limit: %d', $this->limit);
         }
         $probability = $this->getProbability($this->dice, $this->successes);
         if (1.0 !== $probability) {
-            $footer .= \sprintf(', Probability: %01.4f%%', $this->getProbability($this->dice, $this->successes) * 100);
+            $footer .= sprintf(', Probability: %01.4f%%', $this->getProbability($this->dice, $this->successes) * 100);
         }
-        $content = \sprintf('**%s**', $this->title) . \PHP_EOL
-            . $this->text . \PHP_EOL
+        $content = sprintf('**%s**', $this->title) . PHP_EOL
+            . $this->text . PHP_EOL
             . $footer;
 
         if (!isset($this->event) || null === $this->character) {
@@ -242,13 +226,61 @@ class Number extends Roll
             return $content;
         }
 
+        /** @var DiscordMessageReceived */
+        $event = $this->event;
         $button = Button::new(Button::STYLE_SUCCESS)
             ->setLabel('2nd chance')
-            ->setListener([$this, 'secondChance'], $this->event->discord);
+            ->setListener([$this, 'secondChance'], $event->discord);
         $row = ActionRow::new()->addComponent($button);
         $message = new MessageBuilder();
         $message->setContent($content)->addComponent($row);
         return $message;
+    }
+
+    public function forIrc(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+
+        $footer = 'Rolls: ' . implode(' ', $this->rolls);
+        if (null !== $this->limit) {
+            $footer .= sprintf(', Limit: %d', $this->limit);
+        }
+        return $this->title . PHP_EOL
+            . $this->text . PHP_EOL
+            . $footer;
+    }
+
+    /**
+     * @throws SlackException
+     */
+    public function forSlack(): SlackResponse
+    {
+        if (null !== $this->error) {
+            throw new SlackException($this->error);
+        }
+        $color = TextAttachment::COLOR_SUCCESS;
+        if ($this->isCriticalGlitch() || $this->isGlitch()) {
+            $color = TextAttachment::COLOR_DANGER;
+        }
+        $footer = implode(' ', $this->prettifyRolls());
+
+        if (null !== $this->limit) {
+            $footer .= sprintf(', Limit: %d', $this->limit);
+        }
+
+        $probability = $this->getProbability($this->dice, $this->successes);
+        if (1.0 !== $probability) {
+            $footer .= sprintf(
+                ', Probability: %01.4f%%',
+                $this->getProbability($this->dice, $this->successes) * 100
+            );
+        }
+        $attachment = new TextAttachment($this->title, $this->text, $color);
+        $attachment->addFooter($footer);
+        $response = new SlackResponse(channel: $this->channel);
+        return $response->addAttachment($attachment)->sendToChannel();
     }
 
     public function secondChance(Interaction $interaction): void
@@ -277,21 +309,21 @@ class Number extends Roll
         }
 
         // Charge the character some edge.
-        /** @var \App\Models\Shadowrun5e\Character */
+        /** @var Character */
         $character = $this->character;
         $character->edgeCurrent--;
         $character->save();
 
         $this->formatRoll();
-        $footer = 'Rolls: ' . \implode(' ', $this->rolls);
+        $footer = 'Rolls: ' . implode(' ', $this->rolls);
         if (null !== $this->limit) {
-            $footer .= \sprintf(', Limit: %d', $this->limit);
+            $footer .= sprintf(', Limit: %d', $this->limit);
         }
-        $content = \sprintf('**%s**', $this->title) . \PHP_EOL
-            . $this->text . \PHP_EOL
-            . \sprintf('Rerolled %d failures', $rerolled) . \PHP_EOL
-            . $footer . \PHP_EOL
-            . \sprintf('Remaining edge: %d', $character->edgeCurrent);
+        $content = sprintf('**%s**', $this->title) . PHP_EOL
+            . $this->text . PHP_EOL
+            . sprintf('Rerolled %d failures', $rerolled) . PHP_EOL
+            . $footer . PHP_EOL
+            . sprintf('Remaining edge: %d', $character->edgeCurrent);
 
         $button = Button::new(Button::STYLE_SECONDARY)
             ->setLabel('2nd chance')

@@ -33,12 +33,9 @@ class Campaign extends Roll
      */
     protected ?CampaignModel $existingCampaign = null;
 
-    /**
-     * Constructor.
-     * @param string $content
-     * @param string $character
-     * @param Channel $channel
-     */
+    protected ?string $error = null;
+    protected string $message;
+
     public function __construct(
         string $content,
         string $character,
@@ -52,78 +49,98 @@ class Campaign extends Roll
         }
         $this->chatUser = $this->channel->getChatUser();
         $this->existingCampaign = $channel->campaign;
-    }
-
-    /**
-     * Return the roll formatted for Slack.
-     * @return SlackResponse
-     */
-    public function forSlack(): SlackResponse
-    {
         if (null === $this->campaignId) {
-            throw new SlackException(
-                'To link a campaign to this channel, use '
-                    . '`campaign <campaignId>`.'
-            );
+            $this->error = 'To link a campaign to this channel, use '
+                . '`campaign <campaignId>`.';
+            return;
         }
 
         if (null !== $this->existingCampaign) {
-            throw new SlackException(\sprintf(
+            $this->error = \sprintf(
                 'This channel is already registered for "%s".',
                 $this->existingCampaign->name
-            ));
+            );
+            return;
         }
 
         if (null === $this->chatUser) {
-            throw new SlackException(\sprintf(
-                'You must have already created an account on <%s|%s> and '
+            $this->error = \sprintf(
+                'You must have already created an account on %s (%s) and '
                     . 'linked it to this server before you can register a '
                     . 'channel to a campaign.',
+                config('app.name'),
                 config('app.url'),
-                config('app.name')
-            ));
+            );
+            return;
         }
 
         if (null === $this->campaign) {
-            throw new SlackException(\sprintf(
+            $this->error = \sprintf(
                 'No campaign was found for ID "%d".',
                 $this->campaignId
-            ));
+            );
+            return;
         }
 
         if (
             null !== $this->channel->system
             && $this->channel->system !== $this->campaign->system
         ) {
-            throw new SlackException(\sprintf(
+            $this->error = \sprintf(
                 'The channel is already registered to play %s. "%s" is playing '
                     . '%s.',
                 $this->channel->getSystem(),
                 $this->campaign->name,
                 $this->campaign->getSystem()
-            ));
+            );
+            return;
         }
 
         if (!$this->userCanLink()) {
-            throw new SlackException(
-                'You must have created the campaign or be the GM to link a '
-                    . 'Slack channel.'
-            );
+            $this->error = 'You must have created the campaign or be the GM '
+                . 'to link a Slack channel.';
+            return;
         }
 
         $this->linkCampaignToChannel();
 
+        $this->message = \sprintf(
+            '%s has registered this channel for the "%s" campaign, playing %s.',
+            $this->channel->username,
+            // @phpstan-ignore-next-line
+            $this->campaign->name,
+            // @phpstan-ignore-next-line
+            $this->campaign->getSystem()
+        );
+    }
+
+    public function forDiscord(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+
+        return $this->message;
+    }
+
+    public function forIrc(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+
+        return $this->message;
+    }
+
+    public function forSlack(): SlackResponse
+    {
+        if (null !== $this->error) {
+            throw new SlackException($this->error);
+        }
+
         $attachment = new TextAttachment(
             'Registered',
-            \sprintf(
-                '%s has registered this channel for the "%s" campaign, playing '
-                    . '%s.',
-                $this->channel->username,
-                // @phpstan-ignore-next-line
-                $this->campaign->name,
-                // @phpstan-ignore-next-line
-                $this->campaign->getSystem()
-            ),
+            $this->message,
             TextAttachment::COLOR_SUCCESS
         );
         $response = new SlackResponse(
@@ -135,82 +152,19 @@ class Campaign extends Roll
         return $response->addAttachment($attachment)->sendToChannel();
     }
 
-    /**
-     * Return the roll formatted for Discord.
-     * @return string
-     */
-    public function forDiscord(): string
-    {
-        if (null === $this->campaignId) {
-            return 'To link a campaign to this channel, use '
-                . '`campaign <campaignId>`.';
-        }
-
-        if (null !== $this->existingCampaign) {
-            return \sprintf(
-                'This channel is already registered for "%s".',
-                $this->existingCampaign->name
-            );
-        }
-
-        if (null === $this->chatUser) {
-            return \sprintf(
-                'You must have already created an account on %s (%s) and '
-                    . 'linked it to this server before you can register a '
-                    . 'channel to a campaign.',
-                config('app.name'),
-                config('app.url'),
-            );
-        }
-
-        if (null === $this->campaign) {
-            return \sprintf(
-                'No campaign was found for ID "%d".',
-                $this->campaignId
-            );
-        }
-
-        if (
-            null !== $this->channel->system
-            && $this->channel->system !== $this->campaign->system
-        ) {
-            return \sprintf(
-                'The channel is already registered to play %s. "%s" is playing '
-                    . '%s.',
-                $this->channel->getSystem(),
-                $this->campaign->name,
-                $this->campaign->getSystem()
-            );
-        }
-
-        if (!$this->userCanLink()) {
-            return 'You must have created the campaign or be the GM to link a '
-                . 'Slack channel.';
-        }
-
-        $this->linkCampaignToChannel();
-
-        return \sprintf(
-            '%s has registered this channel for the "%s" campaign, playing %s.',
-            $this->channel->username,
-            // @phpstan-ignore-next-line
-            $this->campaign->name,
-            // @phpstan-ignore-next-line
-            $this->campaign->getSystem()
-        );
-    }
-
     protected function linkCampaignToChannel(): void
     {
         $new = false;
         if (null === $this->channel->registered_by) {
             // Brand new channel registration.
-            $this->channel->server_name = $this->channel->getSlackTeamName(
-                $this->channel->server_id
-            );
-            $this->channel->channel_name = $this->channel->getSlackChannelName(
-                $this->channel->channel_id
-            );
+            if (Channel::TYPE_SLACK === $this->channel->type) {
+                $this->channel->server_name = $this->channel->getSlackTeamName(
+                    $this->channel->server_id
+                );
+                $this->channel->channel_name = $this->channel->getSlackChannelName(
+                    $this->channel->channel_id
+                );
+            }
             // @phpstan-ignore-next-line
             $this->channel->registered_by = $this->chatUser->user->id;
             $new = true;
@@ -229,7 +183,6 @@ class Campaign extends Roll
     /**
      * Determine whether the user is allowed to link the campaign to the
      * channel.
-     * @return bool
      */
     protected function userCanLink(): bool
     {

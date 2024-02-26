@@ -16,8 +16,6 @@ use Tests\TestCase;
 /**
  * Tests for getting help in Cyberpunk Red.
  * @group cyberpunkred
- * @group discord
- * @group slack
  * @medium
  */
 final class HelpTest extends TestCase
@@ -27,13 +25,13 @@ final class HelpTest extends TestCase
     /**
      * Test getting help in a Cyberpunk Red Slack channel with no user or
      * campaign registered.
+     * @group slack
      * @test
      */
     public function testGetSlackHelpNothingRegistered(): void
     {
         /** @var Channel */
-        $channel = Channel::factory()
-            ->make(['system' => 'cyberpunkred']);
+        $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = 'user';
 
         $response = (new Help('help', 'user', $channel))->forSlack()->original;
@@ -55,6 +53,7 @@ final class HelpTest extends TestCase
     /**
      * Test getting help in a Cyberpunk Red Slack channel with a user
      * registered, but no campaign or character.
+     * @group slack
      * @test
      */
     public function testGetSlackHelpWithChatUser(): void
@@ -89,6 +88,7 @@ final class HelpTest extends TestCase
     /**
      * Test getting help in a Cyberpunk Red Slack channel with a character
      * linked to the channel.
+     * @group slack
      * @test
      */
     public function testGetSlackHelpWithCharacter(): void
@@ -136,6 +136,7 @@ final class HelpTest extends TestCase
     /**
      * Test getting help in a Cyberpunk Red Discord channel with a character
      * linked to the channel.
+     * @group discord
      * @test
      */
     public function testGetDiscordHelpWithCharacter(): void
@@ -143,7 +144,7 @@ final class HelpTest extends TestCase
         /** @var Channel */
         $channel = Channel::factory()->create([
             'system' => 'cyberpunkred',
-            'type' => Channel::TYPE_SLACK,
+            'type' => Channel::TYPE_DISCORD,
         ]);
         $channel->username = 'user';
         $channel->user = 'U' . Str::random(10);
@@ -152,7 +153,7 @@ final class HelpTest extends TestCase
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
-            'server_type' => ChatUser::TYPE_SLACK,
+            'server_type' => ChatUser::TYPE_DISCORD,
             'verified' => true,
         ]);
 
@@ -177,5 +178,28 @@ final class HelpTest extends TestCase
             $response
         );
         $character->delete();
+    }
+
+    /**
+     * Test getting help in a Cyberpunk Red IRC channel with no character
+     * linked.
+     * @group irc
+     * @test
+     */
+    public function testGetHelpIrc(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'system' => 'cyberpunkred',
+            'type' => Channel::TYPE_IRC,
+        ]);
+        $channel->username = 'user';
+        $channel->user = 'user';
+
+        $response = (new Help('help', 'user', $channel))->forIrc();
+        self::assertStringContainsString(
+            'Your IRC user has not been linked',
+            $response
+        );
     }
 }

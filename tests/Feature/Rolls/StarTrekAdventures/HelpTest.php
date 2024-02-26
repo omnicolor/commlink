@@ -79,7 +79,6 @@ final class HelpTest extends TestCase
      */
     public function testHelpGamemaster(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Campaign */
@@ -117,7 +116,6 @@ final class HelpTest extends TestCase
      */
     public function testHelpPlayerNoCharacter(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Campaign */
@@ -154,7 +152,6 @@ final class HelpTest extends TestCase
      */
     public function testHelpPlayerCharacter(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         /** @var Campaign */
@@ -194,5 +191,35 @@ final class HelpTest extends TestCase
         self::assertStringContainsString((string)$character->name, $response);
 
         $character->delete();
+    }
+
+    /**
+     * @group irc
+     */
+    public function testHelpIrc(): void
+    {
+        $user = User::factory()->create();
+
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create([
+            'system' => 'star-trek-adventures',
+        ]);
+
+        /** @var Channel */
+        $channel = Channel::factory()->make([
+            'campaign_id' => $campaign,
+            'system' => 'star-trek-adventures',
+            'type' => Channel::TYPE_IRC,
+        ]);
+        $channel->username = $this->faker->name;
+        $channel->user = 'U' . Str::random(10);
+
+        $response = (new Help('help', $channel->username, $channel))
+            ->forIrc();
+
+        self::assertStringContainsString(
+            'Your IRC user has not been linked',
+            $response,
+        );
     }
 }

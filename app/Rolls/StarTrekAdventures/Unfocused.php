@@ -10,6 +10,14 @@ use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
 
+use function array_shift;
+use function explode;
+use function implode;
+use function is_numeric;
+use function sprintf;
+
+use const PHP_EOL;
+
 /**
  * Handle a user trying to accomplish a task without an appropriate focus.
  */
@@ -35,7 +43,7 @@ class Unfocused extends Roll
     ) {
         parent::__construct($content, $username, $channel);
 
-        $args = \explode(' ', $content);
+        $args = explode(' ', $content);
 
         // Get rid of the name of the roll.
         array_shift($args);
@@ -54,9 +62,16 @@ class Unfocused extends Roll
 
     public function forDiscord(): string
     {
-        return \sprintf('**%s**', $this->formatTitle()) . \PHP_EOL
-            . $this->formatBody() . \PHP_EOL
-            . 'Rolls: ' . \implode(' ', $this->dice);
+        return sprintf('**%s**', $this->formatTitle()) . PHP_EOL
+            . $this->formatBody() . PHP_EOL
+            . 'Rolls: ' . implode(' ', $this->dice);
+    }
+
+    public function forIrc(): string
+    {
+        return $this->formatTitle() . PHP_EOL
+            . $this->formatBody() . PHP_EOL
+            . 'Rolls: ' . implode(' ', $this->dice);
     }
 
     public function forSlack(): SlackResponse
@@ -85,16 +100,16 @@ class Unfocused extends Roll
     {
         $for = '';
         if ('' !== $this->description) {
-            $for = \sprintf(' for "%s"', $this->description);
+            $for = sprintf(' for "%s"', $this->description);
         }
         if ($this->successes >= $this->difficulty) {
-            return \sprintf(
+            return sprintf(
                 '%s succeeded without a focus%s',
                 $this->username,
                 $for
             );
         }
-        return \sprintf(
+        return sprintf(
             '%s failed a roll without a focus%s',
             $this->username,
             $for

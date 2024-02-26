@@ -11,26 +11,18 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class DiscordUserLinked implements ShouldBroadcast
+class UserLinked implements ShouldBroadcast
 {
     use Dispatchable;
     use InteractsWithSockets;
     use SerializesModels;
 
-    /**
-     * Create a new event instance.
-     * @param ChatUser $chatUser
-     */
-    public function __construct(public ChatUser $chatUser)
+    public function __construct(public ChatUser $chat_user)
     {
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     * @return PrivateChannel
-     */
     public function broadcastOn(): PrivateChannel
     {
-        return new PrivateChannel('users.' . $this->chatUser->user_id);
+        return new PrivateChannel('users.' . $this->chat_user->user_id);
     }
 }

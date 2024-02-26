@@ -7,8 +7,11 @@ namespace App\Rolls\Shadowrun5e;
 use App\Exceptions\SlackException;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
+use App\Models\Shadowrun5e\Character;
 use App\Rolls\Roll;
 use Discord\Builders\MessageBuilder;
+
+use function sprintf;
 
 /**
  * Roll a Shadowrun 5E luck test.
@@ -31,7 +34,7 @@ class Luck extends Number
             return;
         }
 
-        /** @var \App\Models\Shadowrun5e\Character */
+        /** @var Character */
         $character = $this->character;
         $this->dice = $character->edge;
 
@@ -41,12 +44,28 @@ class Luck extends Number
 
     protected function formatTitle(): string
     {
-        return \sprintf(
+        return sprintf(
             '%s rolled %d %s for a luck test',
             $this->username,
             $this->dice,
             1 === $this->dice ? 'die' : 'dice'
         );
+    }
+
+    public function forDiscord(): string | MessageBuilder
+    {
+        if (null !== $this->error) {
+            return sprintf('%s, %s', $this->username, $this->error);
+        }
+        return parent::forDiscord();
+    }
+
+    public function forIrc(): string
+    {
+        if (null !== $this->error) {
+            return sprintf('%s, %s', $this->username, $this->error);
+        }
+        return parent::forIrc();
     }
 
     public function forSlack(): SlackResponse
@@ -55,17 +74,5 @@ class Luck extends Number
             throw new SlackException($this->error);
         }
         return parent::forSlack();
-    }
-
-    public function forDiscord(): string | MessageBuilder
-    {
-        if (null !== $this->error) {
-            return \sprintf(
-                '%s, %s',
-                $this->username,
-                $this->error
-            );
-        }
-        return parent::forDiscord();
     }
 }

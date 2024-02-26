@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Events;
 
-use App\Events\DiscordUserLinked;
+use App\Events\UserLinked;
 use App\Models\ChatUser;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -16,7 +16,7 @@ use Tests\TestCase;
  * @group events
  * @medium
  */
-final class DiscordUserLinkedTest extends TestCase
+final class UserLinkedTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -24,7 +24,7 @@ final class DiscordUserLinkedTest extends TestCase
     {
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->make();
-        $event = new DiscordUserLinked($chatUser);
+        $event = new UserLinked($chatUser);
         $channel = $event->broadcastOn();
         self::assertInstanceOf(PrivateChannel::class, $channel);
         self::assertSame(

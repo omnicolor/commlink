@@ -11,6 +11,11 @@ use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
 
+use function implode;
+use function sprintf;
+
+use const PHP_EOL;
+
 /**
  * Roll a Shadowrun 5e push the limit test.
  *
@@ -118,7 +123,7 @@ class Push extends Number
         if (isset($args[0]) && \is_numeric($args[0])) {
             $this->limit = (int)\array_shift($args);
         }
-        $this->description = \implode(' ', $args);
+        $this->description = implode(' ', $args);
 
         $this->roll();
 
@@ -139,17 +144,17 @@ class Push extends Number
      */
     protected function formatCriticalGlitch(): void
     {
-        $this->title = \sprintf(
+        $this->title = sprintf(
             '%s rolled a critical glitch on %d (%d requested + %d edge) dice!',
             $this->username,
             $this->dice + $this->edge,
             $this->dice,
             $this->edge,
         );
-        $this->text = \sprintf(
+        $this->text = sprintf(
             'Rolled %d ones with no successes%s!',
             $this->fails,
-            ('' !== $this->description) ? \sprintf(' for "%s"', $this->description) : ''
+            ('' !== $this->description) ? sprintf(' for "%s"', $this->description) : ''
         );
     }
 
@@ -160,14 +165,14 @@ class Push extends Number
     {
         $this->title = $this->formatTitle();
         if (null !== $this->limit && $this->limit < $this->successes) {
-            $this->text = \sprintf(
+            $this->text = sprintf(
                 'Rolled %d successes, blew past limit',
                 $this->successes,
             );
             return;
         }
 
-        $this->text = \sprintf(
+        $this->text = sprintf(
             'Rolled %d successes',
             $this->successes,
         );
@@ -178,14 +183,14 @@ class Push extends Number
      */
     protected function formatTitle(): string
     {
-        return \sprintf(
+        return sprintf(
             '%s rolled %d (%d requested + %d edge) dice%s%s%s',
             $this->username,
             $this->dice + $this->edge,
             $this->dice,
             $this->edge,
-            ('' !== $this->description) ? \sprintf(' for "%s"', $this->description) : '',
-            null !== $this->limit ? \sprintf(' with a limit of %d', $this->limit) : '',
+            ('' !== $this->description) ? sprintf(' for "%s"', $this->description) : '',
+            null !== $this->limit ? sprintf(' with a limit of %d', $this->limit) : '',
             $this->isGlitch() ? ', glitched' : ''
         );
     }
@@ -214,8 +219,37 @@ class Push extends Number
         \rsort($this->rolls, \SORT_NUMERIC);
     }
 
+    public function forDiscord(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+        $footer = 'Rolls: ' . implode(' ', $this->rolls)
+            . ' (' . $this->exploded . ' exploded)';
+        if (null !== $this->limit) {
+            $footer .= sprintf(', Limit: %d', $this->limit);
+        }
+        return sprintf('**%s**', $this->title) . PHP_EOL
+            . $this->text . PHP_EOL
+            . $footer;
+    }
+
+    public function forIrc(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+        $footer = 'Rolls: ' . implode(' ', $this->rolls)
+            . ' (' . $this->exploded . ' exploded)';
+        if (null !== $this->limit) {
+            $footer .= sprintf(', Limit: %d', $this->limit);
+        }
+        return $this->title . PHP_EOL
+            . $this->text . PHP_EOL
+            . $footer;
+    }
+
     /**
-     * Return the roll formatted for Slack.
      * @throws SlackException
      */
     public function forSlack(): SlackResponse
@@ -227,33 +261,15 @@ class Push extends Number
         if ($this->isCriticalGlitch() || $this->isGlitch()) {
             $color = TextAttachment::COLOR_DANGER;
         }
-        $footer = \implode(' ', $this->prettifyRolls())
+        $footer = implode(' ', $this->prettifyRolls())
             . ' (' . $this->exploded . ' exploded)';
         if (null !== $this->limit) {
-            $footer .= \sprintf(', limit: %d', $this->limit);
+            $footer .= sprintf(', limit: %d', $this->limit);
         }
         $attachment = new TextAttachment($this->title, $this->text, $color);
         $attachment->addFooter($footer);
         $response = new SlackResponse(channel: $this->channel);
         return $response->addAttachment($attachment)->sendToChannel();
-    }
-
-    /**
-     * Return the roll formatted for Discord.
-     */
-    public function forDiscord(): string
-    {
-        if (null !== $this->error) {
-            return $this->error;
-        }
-        $footer = 'Rolls: ' . \implode(' ', $this->rolls)
-            . ' (' . $this->exploded . ' exploded)';
-        if (null !== $this->limit) {
-            $footer .= \sprintf(', Limit: %d', $this->limit);
-        }
-        return \sprintf('**%s**', $this->title) . \PHP_EOL
-            . $this->text . \PHP_EOL
-            . $footer;
     }
 
     /**

@@ -9,7 +9,7 @@ info:
   license:
     name: MIT License
     url: https://mit-license.org/
-  version: 1.4.0
+  version: 1.5.0
 externalDocs:
   description: Find out more about Commlink
   url: https://commlink.digitaldarkness.com/about
@@ -1130,7 +1130,7 @@ paths:
         - expanse
   /fakes/names:
     get:
-      summary: Generate some fake names.
+      summary: Generate some fake names
       operationId: fake-names-index
       parameters:
         - name: quantity
@@ -1695,6 +1695,66 @@ paths:
           description: All Shadowrun 5E complex forms.
       tags:
         - shadowrun
+  /shadowrun5e/critters:
+    get:
+      summary: Shadowrun 5E critters
+      operationId: shadowrun5e-critters-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eCritter'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                type: object
+          description: All Shadowrun 5E critters.
+      tags:
+        - shadowrun
+  /shadowrun5e/critter-powers:
+    get:
+      summary: Shadowrun 5E critter powers
+      operationId: shadowrun5e-critterPowers-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eCritterPower'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                type: object
+          description: All Shadowrun 5E critter powers.
+      tags:
+        - shadowrun
+  /shadowrun5e/critter-weaknesses:
+    get:
+      summary: Shadowrun 5E critter weaknesses
+      operationId: shadowrun5e-critterWeaknesses-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eCritterWeakness'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                type: object
+          description: All Shadowrun 5E critter weaknesses.
+      tags:
+        - shadowrun
   /shadowrun5e/cyberware:
     get:
       summary: Shadowrun 5E augmentations (cyberware and bioware)
@@ -1785,6 +1845,46 @@ paths:
                     $ref: '#/components/schemas/Links'
                 type: object
           description: All Shadowrun 5E modifications to install in other gear.
+      tags:
+        - shadowrun
+  /shadowrun5e/grunts:
+    get:
+      summary: Shadowrun 5E grunts
+      operationId: shadowrun5e-grunts-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eGrunt'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                type: object
+          description: All Shadowrun 5E grunts.
+      tags:
+        - shadowrun
+  /shadowrun5e/intrustion-countermeasures:
+    get:
+      summary: Shadowrun 5E ICE
+      operationId: shadowrun5e-intrusionCountermeasures-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eIntrusionCountermeasure'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                type: object
+          description: All Shadowrun 5E intrusion countermeasures.
       tags:
         - shadowrun
   /shadowrun5e/lifestyle-options:
@@ -1992,6 +2092,26 @@ paths:
                   - links
                 type: object
           description: Collection of Shadowrun 5E qualities.
+      tags:
+        - shadowrun
+  /shadowrun5e/rulebooks:
+    get:
+      summary: Shadowrun 5E rulebooks
+      operationId: shadowrun5e-rulebooks-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Rulebook'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                type: object
+          description: All Shadowrun 5E rulebooks.
       tags:
         - shadowrun
   /shadowrun5e/skill-groups:
@@ -2656,7 +2776,7 @@ components:
           cultural_origins: 'Canadian'
           clothing_style: 'Athletic wear'
           what_valued: 'Honor'
-          person_valued': 'Aryana Murphy, 1st woman in the NHL'
+          person_valued: 'Aryana Murphy, 1st woman in the NHL'
           family_background: ''
           family_crisis: ''
           personality: ''
@@ -3330,6 +3450,50 @@ components:
       required:
         - id
         - name
+      type: object
+    Rulebook:
+      description: A rulebook for an RPG.
+      example:
+        default: true
+        description: |
+          There are cracks in the world. They’re slender, dark, and often cold,
+          but they are the only things that keep you hidden. Keep you alive.
+          They are the shadows of the world, and they are where you live.||You
+          are a shadowrunner, thriving in the margins, doing the jobs no one
+          else can. You have no office, no permanent home, no background to
+          check. You are whatever you make yourself. Will you seek justice? Sow
+          seeds of chaos? Sell out to the highest bidder? It’s up to you, but
+          this much is certain: If you do nothing, the streets will eat you
+          alive.||You can survive, even flourish, as long as you do what it
+          takes. Sacrifice part of your soul for bleeding-edge gear. Push the
+          limits of your will learning new and dangerous magic. Wire yourself
+          into the Matrix, making your mind one with screaming streams of data.
+          It’ll cost you something—everything does—but you can make it worth the
+          price.
+        id: 'core'
+        name: 'Core 5th Edition'
+        required: true
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/rulebooks/core'
+      properties:
+        default:
+          description: Whether the book should be enabled by default for campaigns.
+          type: boolean
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        required:
+          type: boolean
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - description
+        - id
+        - name
+        - links
       type: object
     Shadowrun5eAdeptPower:
       example:
@@ -4144,6 +4308,216 @@ components:
         notes:
           type: string
       type: object
+    Shadowrun5eCritter:
+      description: Shadowrun 5E critter, a non-metahuman NPC.
+      example:
+        agility: 5
+        armor: 3
+        body: 8
+        charisma: 5
+        condition_physical: 12
+        condition_stun: 10
+        description: |
+          The barghest is a metaspecies of the English mastiff, standing about
+          85 centimeters at the shoulder and weighing approximately 170
+          kilograms. Its short, sleek fur is either pure white or pure black,
+          and it lies flat on its massively muscled body, creating the illusion
+          of a naked hide. Sharp spines protrude along the length of its back.
+          Its eyes shine red, and its teeth glow slightly in the dark because of
+          luminescent bacteria in its saliva. During their breeding season, they
+          hunt alone or in pairs; at other times they hunt in packs of twelve or
+          more. A number of corps have attempted to use barghests as guard
+          animals, with mixed results.
+        edge: 4
+        essence: 6
+        habitat: |
+          Urban areas in North America and northern Europe, particularly the
+          British Isles. Barghests have also turned up in Australia, Hong Kong,
+          and Nairobi.
+        initiative_base: 11
+        initiative_dice: 2
+        intuition: 5
+        logic: 2
+        magic: 5
+        name: 'Barghest'
+        page: 403
+        powers:
+          - id: 'armor'
+            subname: '3'
+          - id: 'dual-natured'
+        reaction: 6
+        ruleset: 'core'
+        skills:
+          - id: 'intimidation'
+            level: 7
+        strength: 6
+        willpower: 4
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/critters/barghest'
+      properties:
+        agility:
+          type: integer
+        armor:
+          type: integer
+        body:
+          type: integer
+        charisma:
+          type: integer
+        condition_physical:
+          type: integer
+        condition_stun:
+          type: integer
+        description:
+          type: string
+        edge:
+          type: integer
+        essence:
+          type: number
+        habitat:
+          type: string
+        initiative_base:
+          type: integer
+        initiative_dice:
+          type: integer
+        intuition:
+          type: integer
+        logic:
+          type: integer
+        magic:
+          type: integer
+        name:
+          type: string
+        page:
+          type: integer
+        powers:
+          items:
+            properties:
+              id:
+                type: string
+              subname:
+                type: string
+            required:
+              - id
+            type: object
+          type: array
+        reaction:
+          type: integer
+        ruleset:
+          type: string
+        skills:
+          items:
+            properties:
+              id:
+                type: string
+              level:
+                type: integer
+            required:
+              - id
+              - level
+            type: object
+          type: array
+        strength:
+          type: integer
+        willpower:
+          type: integer
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+    Shadowrun5eCritterPower:
+      description: A power a critter can use.
+      example:
+        action: 'Complex'
+        description: |
+          Critters with this power can cause seemingly normal accidents to
+          occur. The exact nature of the accident is for the gamemaster to
+          determine, based on what the target is doing and what’s going on
+          around him. This power isn’t, in and of itself, dangerous, but
+          circumstance and environment can come into play to make it so.
+          Tripping on your own feet in front of rush-hour traffic could be
+          hazardous to your health, for instance.||When a critter targets
+          someone with this power, make an Opposed Test, using the critter’s
+          Magic + Willpower against the target’s Reaction + Intuition. If the
+          critter wins, treat it as if the target rolled a glitch on a test. If
+          the critter scores 4 or more net hits, the accident is treated as a
+          critical glitch—it’s not just an embarrassing fumble, it’s a potential
+          catastrophe. A critter can use this power on a number of targets at
+          once equal to its Magic rating.
+        duration: 'Instant'
+        name: 'Accident'
+        page: 394
+        range: 'LOS'
+        ruleset: 'core'
+        type: 'P'
+        id: 'accident'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/critter-powers/accident'
+      properties:
+        action:
+          enum:
+            - Auto
+            - Complex
+            - Simple
+          type: string
+        description:
+          type: string
+        duration:
+          enum:
+            - Always
+            - Instant
+            - Permanent
+            - Special
+            - Sustained
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        range:
+          enum:
+            - LOS
+            - Self
+            - Special
+            - Touch
+          type: string
+        ruleset:
+          type: string
+        type:
+          enum:
+            - M
+            - P
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+    Shadowrun5eCritterWeakness:
+      description: A vulnerability that a Shadowrun 5E critter has.
+      example:
+        description: |
+          Like characters, many critters suffer allergies to particular
+          substances or conditions. Treat this weakness as the Allergy negative
+          quality (p. 78).
+        id: 'allergy'
+        name: 'Allergy'
+        page: 401
+        ruleset: 'core'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/critter-weaknesses/allergy'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
     Shadowrun5eGear:
       properties:
         availability:
@@ -4246,6 +4620,187 @@ components:
           type: string
       required:
         - availability
+      type: object
+    Shadowrun5eGrunt:
+      description: An enemy combatant.
+      example:
+        agility: 3
+        body: 3
+        charisma: 2
+        condition_monitor: 10
+        description: |
+          These are the kind of knuckle-dragging, slope-browed Neanderthals that
+          typify the phrase “angry mob.” They’re employed by the likes of the
+          Humanis policlub or TerraFirst!, or they simply coalesce on the street
+          whenever something bad is about to happen. They’re used to rough up
+          and intimidate random groups of people. They’re no match for an
+          experienced combatant, however, and if they meet any real resistance,
+          they’re out of there.
+        essence: 6
+        gear:
+          - id: 'commlink-meta-link'
+        id: 'pr-0'
+        initiative_base: 6
+        initiative_dice: 1
+        intuition: 3
+        logic: 2
+        name: 'Thugs & mouth breathers'
+        page: 381
+        professional_rating: 0
+        reaction: 3
+        ruleset: 'core'
+        skills:
+          - id: 'blades'
+            level: 3
+          - id: 'unarmed-combat'
+            level: 3
+            specialization: 'Bar room brawl'
+        strength: 3
+        weapons:
+          - id: 'club'
+          - id: 'combat-knife'
+        willpower: 3
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/grunts/pr-0'
+      properties:
+        agility:
+          type: integer
+        armor:
+          items:
+            properties:
+              id:
+                type: string
+              modifications:
+                items:
+                  type: string
+                type: array
+            required:
+              - id
+            type: object
+          type: array
+        augmentations:
+          items:
+            properties:
+              id:
+                type: string
+            required:
+              - id
+            type: object
+          type: array
+        body:
+          type: integer
+        charisma:
+          type: integer
+        condition_monitor:
+          description: Combined physical and stun tracks for the mook.
+          type: integer
+        description:
+          type: string
+        essence:
+          type: number
+        gear:
+          items:
+            properties:
+              id:
+                type: string
+            required:
+              - id
+            type: object
+          type: array
+        initiative_base:
+          type: integer
+        initiative_dice:
+          type: integer
+        intuition:
+          type: integer
+        logic:
+          type: integer
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        professional_rating:
+          type: integer
+        qualities:
+          items:
+            properties:
+              id:
+                type: string
+            required:
+              - id
+            type: object
+          type: array
+        reaction:
+          type: integer
+        ruleset:
+          type: string
+        skills:
+          items:
+            properties:
+              id:
+                type: string
+              level:
+                type: integer
+              specialization:
+                type: string
+            required:
+              - id
+              - level
+            type: object
+          type: array
+        strength:
+          type: integer
+        weapons:
+          items:
+            properties:
+              id:
+                type: string
+              modifications:
+                items:
+                  type: string
+                type: array
+            required:
+              - id
+            type: object
+          type: array
+        willpower:
+          type: integer
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+    Shadowrun5eIntrusionCountermeasure:
+      description: An intrusion countermeasure (ICE) protecting the Shadowrun matrix.
+      example:
+        defense: 'Willpower + Firewall'
+        description: |
+          Acid IC targets and overwrites your protective software. When it gets
+          1 or more net hits on its attack, it reduces your Firewall by 1. If
+          your Firewall has been reduced to 0 already, it causes 1 DV Matrix
+          gamage per net hit on the attack. The reduction is cumulative and
+          lasts until you reboot the targeted device.
+        id: 'acid'
+        name: 'Acid'
+        page: 248
+        ruleset: 'core'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/intrusion_countermeasures/acid'
+      properties:
+        defense:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
       type: object
     Shadowrun5eLetterPriority:
       enum:

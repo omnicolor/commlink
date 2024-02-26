@@ -11,6 +11,10 @@ use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
 
+use function sprintf;
+
+use const PHP_EOL;
+
 class Number extends Roll
 {
     protected int $dice = 0;
@@ -49,11 +53,43 @@ class Number extends Roll
         $this->roll();
     }
 
+    public function forDiscord(): string
+    {
+        return sprintf('**%s rolled %d**', $this->username, $this->result)
+            . PHP_EOL
+            . sprintf(
+                'Rolled %d %sdice: %d + %d + %d = %d',
+                $this->dice,
+                6 !== $this->dulled ? 'dulled (' . $this->dulled . ') ' : '',
+                min($this->dulled, $this->rolls[0]),
+                min($this->dulled, $this->rolls[1]),
+                min($this->dulled, $this->rolls[2]),
+                $this->result,
+            ) . PHP_EOL
+            . 'Rolls: ' . implode(' ', $this->rolls);
+    }
+
+    public function forIrc(): string
+    {
+        return sprintf('%s rolled %d', $this->username, $this->result)
+            . PHP_EOL
+            . sprintf(
+                'Rolled %d %sdice: %d + %d + %d = %d',
+                $this->dice,
+                6 !== $this->dulled ? 'dulled (' . $this->dulled . ') ' : '',
+                min($this->dulled, $this->rolls[0]),
+                min($this->dulled, $this->rolls[1]),
+                min($this->dulled, $this->rolls[2]),
+                $this->result,
+            ) . PHP_EOL
+            . 'Rolls: ' . implode(' ', $this->rolls);
+    }
+
     public function forSlack(): SlackResponse
     {
         $attachment = new TextAttachment(
-            \sprintf('%s rolled %d', $this->username, $this->result),
-            \sprintf(
+            sprintf('%s rolled %d', $this->username, $this->result),
+            sprintf(
                 'Rolled %d %sdice: %d + %d + %d = %d',
                 $this->dice,
                 6 !== $this->dulled ? 'dulled (' . $this->dulled . ') ' : '',
@@ -67,22 +103,6 @@ class Number extends Roll
         $attachment->addFooter(\implode(' ', $this->rolls));
         $response = new SlackResponse(channel: $this->channel);
         return $response->addAttachment($attachment)->sendToChannel();
-    }
-
-    public function forDiscord(): string
-    {
-        return \sprintf('**%s rolled %d**', $this->username, $this->result)
-            . \PHP_EOL
-            . \sprintf(
-                'Rolled %d %sdice: %d + %d + %d = %d',
-                $this->dice,
-                6 !== $this->dulled ? 'dulled (' . $this->dulled . ') ' : '',
-                min($this->dulled, $this->rolls[0]),
-                min($this->dulled, $this->rolls[1]),
-                min($this->dulled, $this->rolls[2]),
-                $this->result,
-            ) . \PHP_EOL
-            . 'Rolls: ' . implode(' ', $this->rolls);
     }
 
     protected function roll(): void

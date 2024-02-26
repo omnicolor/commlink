@@ -12,6 +12,9 @@ use App\Rolls\Subversion\Help;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+use function json_decode;
+use function sprintf;
+
 /**
  * Tests for getting help in a Subversion channel.
  * @group subversion
@@ -23,6 +26,7 @@ final class HelpTest extends TestCase
 
     /**
      * Test getting help via Slack for a channel as an unregistered user.
+     * @group slack
      * @test
      */
     public function testHelpSlack(): void
@@ -33,9 +37,9 @@ final class HelpTest extends TestCase
             'type' => Channel::TYPE_SLACK,
         ]);
         $response = (new Help('', 'username', $channel))->forSlack();
-        $response = \json_decode((string)$response);
+        $response = json_decode((string)$response);
         self::assertSame(
-            \sprintf('%s - Subversion', config('app.name')),
+            sprintf('%s - Subversion', config('app.name')),
             $response->attachments[0]->title
         );
         self::assertSame(
@@ -44,6 +48,9 @@ final class HelpTest extends TestCase
         );
     }
 
+    /**
+     * @group discord
+     */
     public function testHelpInDiscordWithCharacter(): void
     {
         /** @var Channel */
@@ -74,8 +81,22 @@ final class HelpTest extends TestCase
 
         $response = (new Help('', 'username', $channel))->forDiscord();
         self::assertStringContainsString(
-            \sprintf('Subversion commands (as %s)', (string)$character),
+            sprintf('Subversion commands (as %s)', (string)$character),
             $response
+        );
+    }
+
+    public function testHelpIrc(): void
+    {
+        /** @var Channel */
+        $channel = Channel::factory()->make([
+            'system' => 'subversion',
+            'type' => Channel::TYPE_IRC,
+        ]);
+        $response = (new Help('', 'username', $channel))->forIrc();
+        self::assertStringContainsString(
+            sprintf('%s - Subversion', config('app.name')),
+            $response,
         );
     }
 }

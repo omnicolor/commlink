@@ -10,6 +10,8 @@ use App\Models\Channel;
 use App\Rolls\Roll;
 use Discord\Builders\MessageBuilder;
 
+use function sprintf;
+
 /**
  * Roll a Shadowrun 5E soak test.
  */
@@ -41,12 +43,28 @@ class Soak extends Number
 
     protected function formatTitle(): string
     {
-        return \sprintf(
+        return sprintf(
             '%s rolled %d %s for a soak test',
             $this->username,
             $this->dice,
             1 === $this->dice ? 'die' : 'dice'
         );
+    }
+
+    public function forDiscord(): string | MessageBuilder
+    {
+        if (null !== $this->error) {
+            return sprintf('%s, %s', $this->username, $this->error);
+        }
+        return parent::forDiscord();
+    }
+
+    public function forIrc(): string
+    {
+        if (null !== $this->error) {
+            return sprintf('%s, %s', $this->username, $this->error);
+        }
+        return parent::forIrc();
     }
 
     public function forSlack(): SlackResponse
@@ -55,17 +73,5 @@ class Soak extends Number
             throw new SlackException($this->error);
         }
         return parent::forSlack();
-    }
-
-    public function forDiscord(): string | MessageBuilder
-    {
-        if (null !== $this->error) {
-            return \sprintf(
-                '%s, %s',
-                $this->username,
-                $this->error
-            );
-        }
-        return parent::forDiscord();
     }
 }

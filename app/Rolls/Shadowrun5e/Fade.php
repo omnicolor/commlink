@@ -72,4 +72,14 @@ class Fade extends Number
         }
         return parent::forDiscord();
     }
+
+    public function forIrc(): string
+    {
+        if (null !== $this->error) {
+            return \sprintf('%s, %s', $this->username, $this->error);
+        }
+        return $this->title . \PHP_EOL
+            . $this->text . \PHP_EOL
+            . 'Rolls: ' . implode(' ', $this->rolls);
+    }
 }

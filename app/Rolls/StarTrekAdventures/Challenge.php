@@ -10,6 +10,11 @@ use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
 
+use function implode;
+use function sprintf;
+
+use const PHP_EOL;
+
 class Challenge extends Roll
 {
     protected bool $effect = false;
@@ -41,9 +46,16 @@ class Challenge extends Roll
 
     public function forDiscord(): string
     {
-        return \sprintf('**%s**', $this->formatTitle()) . \PHP_EOL
-            . $this->formatBody() . \PHP_EOL
-            . 'Rolls: ' . \implode(' ', $this->dice);
+        return sprintf('**%s**', $this->formatTitle()) . PHP_EOL
+            . $this->formatBody() . PHP_EOL
+            . 'Rolls: ' . implode(' ', $this->dice);
+    }
+
+    public function forIrc(): string
+    {
+        return $this->formatTitle() . PHP_EOL
+            . $this->formatBody() . PHP_EOL
+            . 'Rolls: ' . implode(' ', $this->dice);
     }
 
     public function forSlack(): SlackResponse
@@ -68,9 +80,9 @@ class Challenge extends Roll
     {
         $for = '';
         if ('' !== $this->description) {
-            $for = \sprintf(' for "%s"', $this->description);
+            $for = sprintf(' for "%s"', $this->description);
         }
-        return \sprintf(
+        return sprintf(
             '%s rolled a score of %d with%s an Effect%s',
             $this->username,
             $this->score,
@@ -81,7 +93,7 @@ class Challenge extends Roll
 
     protected function formatBody(): string
     {
-        return \sprintf('Rolled %d challenge dice', $this->number);
+        return sprintf('Rolled %d challenge dice', $this->number);
     }
 
     protected function roll(): void
