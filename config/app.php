@@ -215,9 +215,4 @@ return [
         'star-trek-adventures' => 'Star Trek Adventures',
         'subversion' => 'Subversion',
     ],
-
-    /*
-     * Oauth token for Slack interaction.
-     */
-    'slack_token' => env('SLACK_TOKEN'),
 ];

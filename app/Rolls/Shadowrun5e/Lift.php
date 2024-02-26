@@ -10,6 +10,8 @@ use App\Models\Channel;
 use App\Rolls\Roll;
 use Discord\Builders\MessageBuilder;
 
+use function sprintf;
+
 /**
  * Roll a Shadowrun 5E lift/carry test.
  */
@@ -42,7 +44,7 @@ class Lift extends Number
 
     protected function formatTitle(): string
     {
-        return \sprintf(
+        return sprintf(
             '%s rolled %d %s for a lift/carry test',
             $this->username,
             $this->dice,
@@ -52,14 +54,38 @@ class Lift extends Number
 
     protected function formatCriticalGlitch(): void
     {
-        $this->title = \sprintf(
+        $this->title = sprintf(
             '%s critically glitched on a lift/carry roll!',
             $this->username
         );
-        $this->text = \sprintf(
+        $this->text = sprintf(
             'Rolled %d ones with no successes!',
             $this->fails
         );
+    }
+
+    public function forDiscord(): string | MessageBuilder
+    {
+        if (null !== $this->error) {
+            return sprintf(
+                '%s, %s',
+                $this->username,
+                $this->error
+            );
+        }
+        return parent::forDiscord();
+    }
+
+    public function forIrc(): string
+    {
+        if (null !== $this->error) {
+            return sprintf(
+                '%s, %s',
+                $this->username,
+                $this->error
+            );
+        }
+        return parent::forIrc();
     }
 
     public function forSlack(): SlackResponse
@@ -68,17 +94,5 @@ class Lift extends Number
             throw new SlackException($this->error);
         }
         return parent::forSlack();
-    }
-
-    public function forDiscord(): string | MessageBuilder
-    {
-        if (null !== $this->error) {
-            return \sprintf(
-                '%s, %s',
-                $this->username,
-                $this->error
-            );
-        }
-        return parent::forDiscord();
     }
 }

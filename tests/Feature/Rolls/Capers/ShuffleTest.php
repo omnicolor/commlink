@@ -12,6 +12,8 @@ use App\Rolls\Capers\Shuffle;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+use function sprintf;
+
 /**
  * Tests for shuffling a player's deck in the Capers system.
  * @group capers
@@ -133,7 +135,7 @@ final class ShuffleTest extends TestCase
             ->forDiscord();
 
         self::assertStringStartsWith(
-            \sprintf('%s shuffled their deck', $channel->username),
+            sprintf('%s shuffled their deck', $channel->username),
             $response
         );
 
@@ -142,5 +144,60 @@ final class ShuffleTest extends TestCase
             $channel->username
         );
         self::assertCount(54, $deck);
+    }
+
+    /**
+     * @group irc
+     */
+    public function testErrorForIrc(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
+
+        /** @var Channel */
+        $channel = Channel::factory()->make([
+            'campaign_id' => $campaign,
+            'system' => 'capers',
+        ]);
+        $channel->username = $this->faker->name;
+
+        $response = (new Shuffle('shuffle', $channel->username, $channel))
+            ->forIrc();
+        self::assertSame(
+            'Capers-style card decks are only available for Capers campaigns.',
+            $response
+        );
+    }
+
+    /**
+     * @group irc
+     */
+    public function testForIrc(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['system' => 'capers']);
+
+        /** @var Channel */
+        $channel = Channel::factory()->make([
+            'campaign_id' => $campaign,
+            'system' => 'capers',
+            'type' => Channel::TYPE_IRC,
+        ]);
+        $channel->username = $this->faker->name;
+
+        $deck = new StandardDeck();
+        $deck->campaign_id = $campaign->id;
+        $deck->character_id = $channel->username;
+        $deck->shuffle();
+        $deck->draw(10);
+        $deck->save();
+
+        $response = (new Shuffle('shuffle', $channel->username, $channel))
+            ->forIrc();
+
+        self::assertStringStartsWith(
+            sprintf('%s shuffled their deck', $channel->username),
+            $response
+        );
     }
 }
