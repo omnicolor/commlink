@@ -6,11 +6,20 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Features\ChummerImport;
 use App\Models\Campaign;
+use App\Models\CampaignInvitation;
+use App\Models\Channel;
 use App\Models\Character;
+use App\Models\ChatCharacter;
+use App\Models\ChatUser;
+use App\Models\Deck;
+use App\Models\Event;
+use App\Models\EventRsvp;
+use App\Models\Initiative;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Feature;
 use Spatie\Permission\Models\Permission;
@@ -69,6 +78,17 @@ final class UsersControllerTest extends TestCase
      */
     public function testIndexApi(): void
     {
+        DB::table('campaign_user')->truncate();
+        Deck::truncate();
+        Initiative::truncate();
+        EventRsvp::truncate();
+        Event::truncate();
+        ChatCharacter::truncate();
+        ChatUser::truncate();
+        Channel::truncate();
+        CampaignInvitation::truncate();
+        Campaign::truncate();
+        User::truncate();
         $user = User::factory()->hasCampaigns(1)->create();
         $admin = Role::create(['name' => 'admin']);
         $admin->givePermissionTo(Permission::create(['name' => 'admin users']));
