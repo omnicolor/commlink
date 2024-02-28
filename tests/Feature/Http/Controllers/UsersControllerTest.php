@@ -9,6 +9,7 @@ use App\Models\Campaign;
 use App\Models\CampaignInvitation;
 use App\Models\Channel;
 use App\Models\Character;
+use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\Deck;
 use App\Models\Event;
@@ -82,8 +83,9 @@ final class UsersControllerTest extends TestCase
         Initiative::truncate();
         EventRsvp::truncate();
         Event::truncate();
-        Channel::truncate();
+        ChatCharacter::truncate();
         ChatUser::truncate();
+        Channel::truncate();
         CampaignInvitation::truncate();
         Campaign::truncate();
         User::truncate();
