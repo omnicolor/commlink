@@ -14,7 +14,10 @@ use App\Http\Resources\CampaignResource;
 use App\Models\Campaign;
 use App\Models\CampaignInvitation;
 use App\Models\Initiative;
+use App\Models\Shadowrun5e\Character;
+use App\Models\Shadowrun5e\Grunt;
 use App\Models\User;
+use Carbon\CarbonImmutable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -22,23 +25,23 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
+use Rs\Json\Patch;
+use Rs\Json\Patch\InvalidOperationException;
+use Rs\Json\Pointer\InvalidPointerException;
+use TypeError;
 
+use function max;
 use function sprintf;
 
 class CampaignsController extends Controller
 {
-    /**
-     * Show the create campaign page.
-     */
     public function createForm(): View
     {
         return view('campaign.create');
     }
 
-    /**
-     * Handle POST from the create campaign form.
-     */
     public function create(CampaignCreateRequest $request): RedirectResponse
     {
         $campaign = new Campaign($request->only([
@@ -115,9 +118,9 @@ class CampaignsController extends Controller
                 $characters = $campaign->characters();
                 // Figure out the what the largest monitor row will be.
                 $maxMonitor = 0;
-                /** @var \App\Models\Shadowrun5e\Character $character */
+                /** @var Character $character */
                 foreach ($characters as $character) {
-                    $maxMonitor = \max(
+                    $maxMonitor = max(
                         $maxMonitor,
                         $character->physical_monitor,
                         $character->stun_monitor,
@@ -131,7 +134,7 @@ class CampaignsController extends Controller
                     [
                         'campaign' => $campaign,
                         'characters' => $characters,
-                        'grunts' => \App\Models\Shadowrun5e\Grunt::all(),
+                        'grunts' => Grunt::all(),
                         // @phpstan-ignore-next-line
                         'initiative' => Initiative::forCampaign($campaign)
                             ->orderByDesc('initiative')
@@ -143,6 +146,20 @@ class CampaignsController extends Controller
             default:
                 return abort(Response::HTTP_NOT_FOUND);
         }
+    }
+
+    public function index(Request $request): JsonResource
+    {
+        /** @var User */
+        $user = $request->user();
+
+        // Campaigns the user plays in.
+        $campaigns = $user->campaigns()
+            ->wherePivotIn('status', ['accepted', 'invited'])
+            ->get();
+        $campaigns = $campaigns->merge($user->campaignsGmed);
+        $campaigns = $campaigns->merge($user->campaignsRegistered);
+        return new CampaignCollection($campaigns);
     }
 
     /**
@@ -229,18 +246,102 @@ class CampaignsController extends Controller
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function index(Request $request): JsonResource
+    public function patch(Campaign $campaign, Request $request): JsonResponse
     {
-        /** @var User */
-        $user = $request->user();
+        $this->authorize('update', $campaign);
+        return match ($request->headers->get('Content-Type')) {
+            'application/json' => $this->patchData($campaign, $request),
+            'application/json-patch+json' => $this->patchJson($campaign, $request),
+            default => new JsonResponse(
+                sprintf(
+                    'Unacceptable Content-Type: %s',
+                    $request->headers->get('Content-Type'),
+                ),
+                JsonResponse::HTTP_UNSUPPORTED_MEDIA_TYPE,
+            ),
+        };
+    }
 
-        // Campaigns the user plays in.
-        $campaigns = $user->campaigns()
-            ->wherePivotIn('status', ['accepted', 'invited'])
-            ->get();
-        $campaigns = $campaigns->merge($user->campaignsGmed);
-        $campaigns = $campaigns->merge($user->campaignsRegistered);
-        return new CampaignCollection($campaigns);
+    public function patchData(Campaign $campaign, Request $request): JsonResponse
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'currentDate' => [
+                    'date',
+                    'nullable',
+                    'string',
+                ],
+            ],
+        );
+        abort_if(
+            $validator->fails(),
+            JsonResponse::HTTP_UNPROCESSABLE_ENTITY,
+            $validator->errors()->first('current_date'),
+        );
+
+        $options = $campaign->options ?? [];
+        $options['currentDate'] = $request->currentDate;
+        $campaign->options = $options;
+        $campaign->save();
+        if (null !== $request->currentDate) {
+            $formattedDate = (new CarbonImmutable($request->currentDate))
+                ->format('l, F jS Y');
+        } else {
+            $formattedDate = 'no date set';
+        }
+
+        return (new CampaignResource($campaign))
+            ->additional([
+                'data' => [
+                    'formatted_date' => $formattedDate,
+                ],
+            ])
+            ->response()
+            ->setStatusCode(Response::HTTP_ACCEPTED);
+    }
+
+    public function patchJson(Campaign $campaign, Request $request): JsonResponse
+    {
+        $document = $campaign->toJson();
+        $patch = (string)json_encode($request->input());
+        try {
+            $updatedCampaign = json_decode(
+                (new Patch($document, $patch))->apply()
+            );
+            // @phpstan-ignore-next-line
+        } catch (TypeError $ex) {
+            abort(JsonResponse::HTTP_BAD_REQUEST, $ex->getMessage());
+        } catch (InvalidOperationException $ex) {
+            // Will be thrown when using invalid JSON in a patch document.
+            abort(JsonResponse::HTTP_BAD_REQUEST, $ex->getMessage());
+            // @phpstan-ignore-next-line
+        } catch (InvalidPointerException $ex) {
+            abort(
+                JsonResponse::HTTP_BAD_REQUEST,
+                $ex->getMessage()
+                    . '. Valid pointer values are: /options/current_date'
+            );
+        }
+        $campaign->options = $updatedCampaign->options;
+        $campaign->save();
+
+        $formattedDate = $campaign->options['currentDate'] ?? null;
+        if (null !== $formattedDate) {
+            $formattedDate = (new CarbonImmutable($formattedDate))
+                ->format('l, F jS Y');
+        } else {
+            $formattedDate = 'no date set';
+        }
+
+        return (new CampaignResource($campaign))
+            ->additional([
+                'data' => [
+                    'formatted_date' => $formattedDate,
+                ],
+            ])
+            ->response()
+            ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -424,9 +525,6 @@ class CampaignsController extends Controller
         return new CampaignResource($campaign);
     }
 
-    /**
-     * Handle a request to view the campaign.
-     */
     public function view(Campaign $campaign): View
     {
         Gate::authorize('view', $campaign);
