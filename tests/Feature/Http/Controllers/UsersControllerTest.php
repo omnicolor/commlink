@@ -45,6 +45,21 @@ final class UsersControllerTest extends TestCase
         return $user;
     }
 
+    protected function cleanDatabase(): void
+    {
+        DB::table('campaign_user')->truncate();
+        Deck::truncate();
+        Initiative::truncate();
+        EventRsvp::truncate();
+        Event::truncate();
+        ChatCharacter::truncate();
+        ChatUser::truncate();
+        Channel::truncate();
+        CampaignInvitation::truncate();
+        Campaign::truncate();
+        User::truncate();
+    }
+
     /**
      * Test an authenticated request that's missing the admin role.
      * @test
@@ -78,17 +93,6 @@ final class UsersControllerTest extends TestCase
      */
     public function testIndexApi(): void
     {
-        DB::table('campaign_user')->truncate();
-        Deck::truncate();
-        Initiative::truncate();
-        EventRsvp::truncate();
-        Event::truncate();
-        ChatCharacter::truncate();
-        ChatUser::truncate();
-        Channel::truncate();
-        CampaignInvitation::truncate();
-        Campaign::truncate();
-        User::truncate();
         $user = User::factory()->hasCampaigns(1)->create();
         $admin = Role::create(['name' => 'admin']);
         $admin->givePermissionTo(Permission::create(['name' => 'admin users']));
