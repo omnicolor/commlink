@@ -169,7 +169,7 @@ final class EventsControllerTest extends TestCase
     public function testUpdateWithJsonPatchInvalidOperationException(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
+        /** @var Event */
         $event = Event::factory()->create(['created_by' => $user->id]);
         self::actingAs($user)
             ->call(
@@ -184,7 +184,7 @@ final class EventsControllerTest extends TestCase
     public function testUpdateWithJsonPatchTypeError(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
+        /** @var Event */
         $event = Event::factory()->create(['created_by' => $user->id]);
         self::actingAs($user)
             ->call(
@@ -199,7 +199,7 @@ final class EventsControllerTest extends TestCase
     public function testUpdateWithJsonPatchInvalidPointer(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
+        /** @var Event */
         $event = Event::factory()->create(['created_by' => $user->id]);
         self::actingAs($user)
             ->call(
@@ -217,7 +217,7 @@ final class EventsControllerTest extends TestCase
     public function testUpdateWithJsonPatchInvalidStartDateFormat(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
+        /** @var Event */
         $event = Event::factory()->create(['created_by' => $user->id]);
         self::actingAs($user)
             ->call(
@@ -239,7 +239,7 @@ final class EventsControllerTest extends TestCase
     public function testUpdateWithJsonPatchInvalidEndDateFormat(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
+        /** @var Event */
         $event = Event::factory()->create(['created_by' => $user->id]);
         self::actingAs($user)
             ->call(

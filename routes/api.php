@@ -17,6 +17,8 @@ Route::middleware('auth:sanctum')->group(function (): void {
         ->only(['update']);
     Route::resource('/campaigns', CampaignsController::class)
         ->only(['destroy', 'index', 'show']);
+    Route::patch('/campaigns/{campaign}', [CampaignsController::class, 'patch'])
+        ->name('campaign.patch');
     Route::resource(
         '/campaigns/{campaign}/initiatives',
         InitiativesController::class,

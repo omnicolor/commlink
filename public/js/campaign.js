@@ -281,3 +281,36 @@ $('#invite-player-form').on('submit', function (event) {
         url: '/api/campaigns/' + campaignId + '/invite'
     });
 });
+
+const updateDateSucceeded = function (response, status, xhr) {
+    window.console.log(response.data.formatted_date);
+    const currentDate = response.data.formatted_date;
+    $('#current-date').html(currentDate);
+    $('#set-current-date .modal-body .alert').remove();
+};
+
+$('#current-date-form').on('submit', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const date = $('#update-current-date').val();
+
+    $.ajax({
+        contentType: 'application/json-patch+json',
+        data: JSON.stringify([
+            {
+                op: 'replace',
+                path: '/options/currentDate',
+                value: date
+            }
+        ]),
+        dataType: 'json',
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        },
+        method: 'PATCH',
+        processData: false,
+        url: '/api/campaigns/' + campaignId
+    })
+        .done(updateDateSucceeded)
+        .fail(function (data) { window.console.log(data); });
+});
