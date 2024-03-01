@@ -79,11 +79,10 @@ class CampaignPolicy
     /**
      * Determine whether the user can update the model.
      * @psalm-suppress PossiblyUnusedMethod
-     * @psalm-suppress PossiblyUnusedParam
      */
     public function update(User $user, Campaign $campaign): bool
     {
-        return false;
+        return $this->gm($user, $campaign);
     }
 
     /**

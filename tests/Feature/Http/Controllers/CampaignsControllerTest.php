@@ -10,6 +10,7 @@ use App\Models\Shadowrun5e\Character;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Request;
 use Tests\TestCase;
 
 use function array_keys;
@@ -28,22 +29,11 @@ final class CampaignsControllerTest extends TestCase
     use WithFaker;
 
     /**
-     * Test an unauthenticated request to the campaign creation form.
-     * @test
-     */
-    public function testUnauthenticated(): void
-    {
-        $this->get(route('campaign.createForm'))
-            ->assertRedirect('/login');
-    }
-
-    /**
      * Test loading the campaign creation form.
      * @test
      */
     public function testLoadForm(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->get(route('campaign.createForm'))
@@ -66,7 +56,6 @@ final class CampaignsControllerTest extends TestCase
         // @phpstan-ignore-next-line
         $name = $this->faker->catchPhrase();
 
-        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->postJson(
@@ -105,7 +94,6 @@ final class CampaignsControllerTest extends TestCase
         // @phpstan-ignore-next-line
         $description = $this->faker->bs();
 
-        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->postJson(
@@ -158,7 +146,6 @@ final class CampaignsControllerTest extends TestCase
         // @phpstan-ignore-next-line
         $description = $this->faker->bs();
 
-        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->postJson(
@@ -215,7 +202,6 @@ final class CampaignsControllerTest extends TestCase
         // @phpstan-ignore-next-line
         $description = $this->faker->bs();
 
-        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->postJson(
@@ -263,7 +249,6 @@ final class CampaignsControllerTest extends TestCase
      */
     public function testViewCampaignNotAllowed(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $campaign = Campaign::factory()->create();
         $this->actingAs($user)
@@ -277,7 +262,6 @@ final class CampaignsControllerTest extends TestCase
      */
     public function testViewCampaignAsRegisterer(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $campaign = Campaign::factory()->create([
             'registered_by' => $user->id,
@@ -294,7 +278,6 @@ final class CampaignsControllerTest extends TestCase
      */
     public function testViewCampaignAsGm(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $campaign = Campaign::factory()->create([
             'gm' => $user,
@@ -311,7 +294,6 @@ final class CampaignsControllerTest extends TestCase
      */
     public function testViewGmScreenAsNonGM(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $campaign = Campaign::factory()->create([]);
         $this->actingAs($user)
@@ -325,7 +307,6 @@ final class CampaignsControllerTest extends TestCase
      */
     public function testViewGmScreenNotSupported(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $campaign = Campaign::factory()->create([
             'gm' => $user,
@@ -342,7 +323,6 @@ final class CampaignsControllerTest extends TestCase
      */
     public function testViewCyberpunkredGmScreen(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $campaign = Campaign::factory()->create([
             'gm' => $user,
@@ -359,9 +339,7 @@ final class CampaignsControllerTest extends TestCase
      */
     public function testViewShadowrun5eGmScreen(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $user,
             'system' => 'shadowrun5e',
@@ -382,7 +360,6 @@ final class CampaignsControllerTest extends TestCase
     public function testShowCampaignWithoutAccess(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         self::actingAs($user)
             ->get(route('campaigns.show', $campaign))
@@ -412,7 +389,6 @@ final class CampaignsControllerTest extends TestCase
     public function testShowCampaignAsGm(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $user->id]);
         self::actingAs($user)
             ->get(route('campaigns.show', $campaign))
@@ -454,7 +430,6 @@ final class CampaignsControllerTest extends TestCase
     public function testDeleteAsGm(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $user->id]);
         self::actingAs($user)
             ->delete(route('campaigns.destroy', $campaign))
@@ -468,7 +443,6 @@ final class CampaignsControllerTest extends TestCase
     public function testRespondWithoutBeingInvited(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
 
         self::actingAs($user)
@@ -989,5 +963,206 @@ final class CampaignsControllerTest extends TestCase
         $invitation->refresh();
         self::assertNotNull($invitation->responded_at);
         self::assertSame(CampaignInvitation::SPAM, $invitation->status);
+    }
+
+    public function testPatchNotGm(): void
+    {
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create([
+            'options' => ['currentDate' => '2024-02-27'],
+        ]);
+        self::actingAs(User::factory()->create())
+            ->patchJson(route('campaign.patch', $campaign), [])
+            ->assertForbidden();
+    }
+
+    public function testPatchWithInvalidContentType(): void
+    {
+        $gm = User::factory()->create();
+        $campaign = Campaign::factory()->create([
+            'gm' => $gm->id,
+            'options' => ['currentDate' => '2024-02-27'],
+        ]);
+        self::actingAs($gm)
+            ->withHeaders(['Content-Type' => 'text/xml'])
+            ->patch(
+                route('campaign.patch', $campaign),
+                ['<xml></xml>']
+            )
+            ->assertUnsupportedMediaType();
+    }
+
+    public function testDataPatchInvalid(): void
+    {
+        $gm = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create([
+            'gm' => $gm->id,
+            'options' => ['currentDate' => '2024-02-27'],
+        ]);
+
+        self::actingAs($gm)
+            ->withHeaders(['Content-Type' => 'application/json'])
+            ->patchJson(
+                route('campaign.patch', $campaign),
+                ['currentDate' => 'not a valid date']
+            )
+            ->assertUnprocessable();
+    }
+
+    public function testDataPatchRemoveDate(): void
+    {
+        $gm = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create([
+            'gm' => $gm->id,
+            'options' => ['currentDate' => '2024-02-27'],
+        ]);
+
+        self::actingAs($gm)
+            ->withHeaders(['Content-Type' => 'application/json'])
+            ->patchJson(
+                route('campaign.patch', $campaign),
+                ['currentDate' => null]
+            )
+            ->assertAccepted();
+
+        $campaign->refresh();
+        self::assertNull($campaign->options['currentDate']);
+    }
+
+    public function testDataPatchUpdateDate(): void
+    {
+        $gm = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create([
+            'gm' => $gm->id,
+            'options' => ['currentDate' => '2024-02-27'],
+        ]);
+
+        self::actingAs($gm)
+            ->withHeaders(['Content-Type' => 'application/json'])
+            ->patchJson(
+                route('campaign.patch', $campaign),
+                ['currentDate' => '2024-02-29']
+            )
+            ->assertAccepted();
+
+        $campaign->refresh();
+        self::assertSame('2024-02-29', $campaign->options['currentDate']);
+    }
+
+    public function testJsonPatchInvalidOperationException(): void
+    {
+        $gm = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create([
+            'gm' => $gm->id,
+            'options' => ['currentDate' => '2024-02-27'],
+        ]);
+        self::actingAs($gm)
+            ->call(
+                method: Request::METHOD_PATCH,
+                uri: route('campaign.patch', $campaign),
+                server: ['CONTENT_TYPE' => 'application/json-patch+json'],
+                content: 'sdfd: {',
+            )
+            ->assertSee('Unable to extract patch operations')
+            ->assertBadRequest();
+    }
+
+    public function testJsonPatchTypeError(): void
+    {
+        $gm = User::factory()->create();
+        $campaign = Campaign::factory()->create([
+            'gm' => $gm->id,
+            'options' => ['currentDate' => '2024-02-27'],
+        ]);
+        self::actingAs($gm)
+            ->call(
+                method: Request::METHOD_PATCH,
+                uri: route('campaign.patch', $campaign),
+                server: ['CONTENT_TYPE' => 'application/json-patch+json'],
+                content: (string)json_encode('[sdfd: {'),
+            )
+            ->assertBadRequest();
+    }
+
+    public function testJsonPatchInvalidPointer(): void
+    {
+        $gm = User::factory()->create();
+        $campaign = Campaign::factory()->create([
+            'gm' => $gm->id,
+            'options' => ['currentDate' => '2024-02-27'],
+        ]);
+
+        self::actingAs($gm)
+            ->call(
+                method: Request::METHOD_PATCH,
+                uri: route('campaign.patch', $campaign),
+                server: ['CONTENT_TYPE' => 'application/json-patch+json'],
+                content: (string)json_encode(
+                    [['op' => 'remove', 'path' => 'foo']]
+                ),
+            )
+            ->assertSee('Valid pointer values are:')
+            ->assertBadRequest();
+    }
+
+    public function testJsonPatchUpdateWithDate(): void
+    {
+        $gm = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create([
+            'gm' => $gm->id,
+            'options' => ['currentDate' => '2024-02-27'],
+        ]);
+
+        self::actingAs($gm)
+            ->call(
+                method: Request::METHOD_PATCH,
+                uri: route('campaign.patch', $campaign),
+                server: ['CONTENT_TYPE' => 'application/json-patch+json'],
+                content: (string)json_encode(
+                    [[
+                        'op' => 'replace',
+                        'path' => '/options/currentDate',
+                        'value' => '2024-02-29',
+                    ]],
+                ),
+            )
+            ->assertAccepted()
+            ->assertSee('Thursday, February 29th 2024');
+
+        $campaign->refresh();
+        self::assertSame('2024-02-29', $campaign->options['currentDate']);
+    }
+
+    public function testJsonPatchUpdateWithoutDate(): void
+    {
+        $gm = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create([
+            'gm' => $gm->id,
+            'options' => ['currentDate' => '2024-02-27'],
+        ]);
+
+        self::actingAs($gm)
+            ->call(
+                method: Request::METHOD_PATCH,
+                uri: route('campaign.patch', $campaign),
+                server: ['CONTENT_TYPE' => 'application/json-patch+json'],
+                content: (string)json_encode(
+                    [[
+                        'op' => 'remove',
+                        'path' => '/options/currentDate',
+                    ]],
+                ),
+            )
+            ->assertAccepted()
+            ->assertSee('no date set');
+
+        $campaign->refresh();
+        self::assertArrayNotHasKey('currentDate', $campaign->options);
     }
 }

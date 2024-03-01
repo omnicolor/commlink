@@ -1,4 +1,4 @@
-<div class="mt-4" mb-3 row">
+<div class="mt-4 mb-3 row">
     <label class="col-2 col-form-label" for="sr5e-start-date">
         Start date
     </label>
