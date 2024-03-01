@@ -20,6 +20,7 @@ return [
     ],
      */
     'cleaner' => [
+        'chummer-id' => '373638b9-4334-4645-99f5-c3673e4f809b',
         'description' => 'Description goes here.',
         'duration' => 'P',
         'fade' => 'L+1',
