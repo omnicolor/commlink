@@ -13,9 +13,30 @@ use Illuminate\Contracts\Console\Isolatable;
 use Illuminate\Support\Str;
 use RuntimeException;
 use SimpleXMLElement;
+use Throwable;
 use ValueError;
 
+use function addslashes;
+use function array_diff;
+use function array_merge;
+use function array_reverse;
+use function count;
+use function explode;
+use function file_exists;
+use function file_put_contents;
+use function iconv;
+use function is_dir;
+use function ksort;
+use function min;
+use function mkdir;
+use function number_format;
+use function simplexml_load_file;
 use function sprintf;
+use function str_replace;
+use function strtolower;
+use function ucfirst;
+
+use const PHP_EOL;
 
 /**
  * @codeCoverageIgnore
@@ -93,7 +114,7 @@ class ImportChummerData extends Command implements Isolatable
     {
         if (true === $this->option('list-types')) {
             $this->listTypes();
-            return 0;
+            return self::SUCCESS;
         }
 
         $this->info('Creating Commlink data files from Chummer 5 data');
@@ -120,7 +141,7 @@ class ImportChummerData extends Command implements Isolatable
         }
 
         $this->info('Creating Commlink data: ' . $this->outputDir);
-        return 0;
+        return self::SUCCESS;
     }
 
     protected function listTypes(): void
@@ -208,12 +229,15 @@ class ImportChummerData extends Command implements Isolatable
         }
 
         if (!file_exists($this->chummerRepository)) {
-            $this->line(\sprintf(
+            $this->line(sprintf(
                 'Cloning Chummer 5 repository: %s',
                 $this->chummerRepository
             ));
-            $repo = new Repository($this->chummerRepository);
-            $repo->cloneFrom('https://github.com/chummer5a/chummer5a.git');
+            mkdir($this->chummerRepository);
+            Repository::createFromRemote(
+                git: 'https://github.com/chummer5a/chummer5a.git',
+                repositoryPath: $this->chummerRepository,
+            );
             return;
         }
 
@@ -227,7 +251,11 @@ class ImportChummerData extends Command implements Isolatable
             $this->chummerRepository
         ));
         $repo = new Repository($this->chummerRepository);
-        $repo->pull();
+        try {
+            $repo->pull();
+        } catch (Throwable $ex) {
+            throw new RuntimeException('Failed to pull repository');
+        }
     }
 
     /**
@@ -268,25 +296,28 @@ class ImportChummerData extends Command implements Isolatable
                 continue;
             }
 
+            $id = $this->nameToId((string)$armor->name);
             $armorItem = [
                 'availability' => $this->cleanAvailability($armor),
                 'capacity' => (int)$armor->armorcapacity,
                 'chummer-id' => (string)$armor->id,
                 'cost' => (int)$armor->cost,
+                'description' => '',
+                'id' => $id,
                 'name' => (string)$armor->name,
                 'page' => (int)$armor->page,
                 'rating' => (int)$armor->armor,
                 'ruleset' => $this->source_map[(string)$armor->source],
             ];
             if (isset($armor->bonus, $armor->bonus->limitmodifier)) {
-                $effect = \strtolower(
+                $effect = strtolower(
                     (string)$armor->bonus->limitmodifier->limit
                 );
                 $armorItem['effects'] = [
                     $effect => (int)$armor->bonus->limitmodifier->value,
                 ];
             }
-            $armors[$this->nameToId((string)$armor->name)] = $armorItem;
+            $armors[$id] = $armorItem;
             $bar->advance();
         }
         $bar->setFormat('  Armor            %current%/%max% [%bar%] -- ' . count($armors) . ' armor');
@@ -350,6 +381,8 @@ class ImportChummerData extends Command implements Isolatable
         $id = $this->nameToId((string)$aug->name);
         $augmentation = [
             'chummer-id' => (string)$aug->id,
+            'description' => '',
+            'id' => $id,
             'name' => (string)$aug->name,
             'page' => (int)$aug->page,
             'ruleset' => $this->source_map[(string)$aug->source],
@@ -406,10 +439,13 @@ class ImportChummerData extends Command implements Isolatable
             }
 
             $name = (string)$rawForm->name;
+            $id = $this->nameToId($name);
             $form = [
                 'chummer-id' => (string)$rawForm->id,
+                'description' => '',
                 'duration' => (string)$rawForm->duration,
                 'fade' => (string)$rawForm->fv,
+                'id' => $id,
                 'name' => $name,
                 'page' => (int)$rawForm->page,
                 'ruleset' => $this->source_map[(string)$rawForm->source],
@@ -440,7 +476,7 @@ class ImportChummerData extends Command implements Isolatable
                 );
             }
 
-            $forms[$this->nameToId($name)] = $form;
+            $forms[$id] = $form;
             $bar->advance();
         }
         $bar->setFormat(
@@ -472,10 +508,13 @@ class ImportChummerData extends Command implements Isolatable
                 continue;
             }
 
-            $powers[$this->nameToId((string)$rawPower->name)] = [
+            $id = $this->nameToId((string)$rawPower->name);
+            $powers[$id] = [
                 'action' => (string)$rawPower->action,
                 'chummer-id' => (string)$rawPower->id,
+                'description' => '',
                 'duration' => (string)$rawPower->duration,
+                'id' => $id,
                 'name' => (string)$rawPower->name,
                 'page' => (int)$rawPower->page,
                 'range' => (string)$rawPower->range,
@@ -555,7 +594,7 @@ class ImportChummerData extends Command implements Isolatable
                     $subname = Str::after($name, ', ');
                     $name = Str::before($name, ', ');
                 }
-                $name = \sprintf('%s - %s', ...array_reverse(explode(' ', $name)));
+                $name = sprintf('%s - %s', ...array_reverse(explode(' ', $name)));
             }
 
             if (null !== $subname) {
@@ -570,6 +609,8 @@ class ImportChummerData extends Command implements Isolatable
                 'availability' => $this->cleanAvailability($rawGear),
                 'chummer-id' => $chummerId,
                 'cost' => (int)$rawGear->cost,
+                'description' => '',
+                'id' => $id,
                 'name' => $name,
                 'page' => (int)$rawGear->page,
                 'ruleset' => $this->source_map[(string)$rawGear->source],
@@ -673,6 +714,8 @@ class ImportChummerData extends Command implements Isolatable
                 'chummer-id' => (string)$rawWeapon->id,
                 'class' => (string)$rawWeapon->category,
                 'damage' => (string)$rawWeapon->damage,
+                'description' => '',
+                'id' => $id,
                 'name' => (string)$rawWeapon->name,
                 'page' => (int)$rawWeapon->page,
                 'ruleset' => $this->source_map[(string)$rawWeapon->source],
@@ -721,6 +764,7 @@ class ImportChummerData extends Command implements Isolatable
                 continue;
             }
 
+            $id = $this->nameToId((string)$rawVehicle->name);
             $vehicle = [
                 'acceleration' => (int)$rawVehicle->accel,
                 'armor' => (int)$rawVehicle->armor,
@@ -729,7 +773,9 @@ class ImportChummerData extends Command implements Isolatable
                 'category' => (string)$rawVehicle->category,
                 'chummer-id' => (string)$rawVehicle->id,
                 'cost' => (int)$rawVehicle->cost,
+                'description' => '',
                 'handling' => (int)$rawVehicle->handling,
+                'id' => $id,
                 'name' => (string)$rawVehicle->name,
                 'page' => (int)$rawVehicle->page,
                 'pilot' => (int)$rawVehicle->pilot,
@@ -738,7 +784,7 @@ class ImportChummerData extends Command implements Isolatable
                 'sensor' => (int)$rawVehicle->sensor,
                 'speed' => (int)$rawVehicle->speed,
             ];
-            $vehicles[$this->nameToId((string)$rawVehicle->name)] = $vehicle;
+            $vehicles[$id] = $vehicle;
             $bar->advance();
         }
         $bar->setFormat(
@@ -772,6 +818,7 @@ class ImportChummerData extends Command implements Isolatable
             }
 
             $name = (string)$rawMod->name;
+            $id = $this->nameToId((string)$rawMod->name);
             $slotType = strtolower((string)$rawMod->category);
             if ('powertrain' === $slotType) {
                 $slotType = 'power-train';
@@ -786,6 +833,8 @@ class ImportChummerData extends Command implements Isolatable
             $mod = [
                 'availability' => $this->cleanAvailability($rawMod),
                 'chummer-id' => (string)$rawMod->id,
+                'description' => '',
+                'id' => $id,
                 'name' => $name,
                 'page' => (int)$rawMod->page,
                 'ruleset' => $this->source_map[(string)$rawMod->source],
@@ -862,7 +911,7 @@ class ImportChummerData extends Command implements Isolatable
                 continue;
             }
 
-            $vehicleMods[$this->nameToId((string)$rawMod->name)] = $mod;
+            $vehicleMods[$id] = $mod;
             $bar->advance();
         }
         $bar->setFormat(
@@ -1010,29 +1059,29 @@ class ImportChummerData extends Command implements Isolatable
         array $data,
         ?array $imports = null
     ): void {
-        $output = '<?php' . \PHP_EOL
-            . \PHP_EOL
-            . 'declare(strict_types=1);' . \PHP_EOL
-            . \PHP_EOL;
+        $output = '<?php' . PHP_EOL
+            . PHP_EOL
+            . 'declare(strict_types=1);' . PHP_EOL
+            . PHP_EOL;
         if (null !== $imports) {
             foreach ($imports as $import) {
-                $output .= 'use App\\Models\\Shadowrun5e\\' . $import . ';' . \PHP_EOL;
+                $output .= 'use App\\Models\\Shadowrun5e\\' . $import . ';' . PHP_EOL;
             }
-            $output .= \PHP_EOL;
+            $output .= PHP_EOL;
         }
-        $output .= 'return [' . \PHP_EOL;
+        $output .= 'return [' . PHP_EOL;
 
         ksort($data);
         foreach ($data as $id => $item) {
             ksort($item);
-            $output .= '    \'' . $id . '\' => [' . \PHP_EOL;
+            $output .= '    \'' . $id . '\' => [' . PHP_EOL;
             foreach ($item as $key => $value) {
                 $output .= $this->writeLine(2, $key, $value);
             }
-            $output .= '    ],' . \PHP_EOL;
+            $output .= '    ],' . PHP_EOL;
         }
 
-        $output .= '];' . \PHP_EOL;
+        $output .= '];' . PHP_EOL;
         file_put_contents($this->outputDir . '/' . $file, $output);
     }
 
@@ -1052,7 +1101,7 @@ class ImportChummerData extends Command implements Isolatable
         $padding = str_repeat(' ', $level * 4);
         $output = $padding . '\'' . $key . '\' => ';
         if (is_array($value)) {
-            $output .= '[' . \PHP_EOL;
+            $output .= '[' . PHP_EOL;
             foreach ($value as $subKey => $subValue) {
                 $output .= $this->writeLine($level + 1, $subKey, $subValue);
             }
@@ -1066,7 +1115,7 @@ class ImportChummerData extends Command implements Isolatable
         } else {
             $output .= '\'' . addslashes((string)$value) . '\'';
         }
-        $output .= ',' . \PHP_EOL;
+        $output .= ',' . PHP_EOL;
         return $output;
     }
 
