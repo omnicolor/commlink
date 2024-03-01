@@ -28,6 +28,6 @@ final class CampaignOptionsTest extends TestCase
     public function testShadowrunCampaignOptionsViewHasBooks(): void
     {
         $options = new CampaignOptions();
-        self::assertCount(2, $options->books);
+        self::assertCount(47, $options->books);
     }
 }
