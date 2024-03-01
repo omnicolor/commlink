@@ -11,6 +11,7 @@ return [
         'availability' => '',
         'capacity-containers' => [],
         'capacity-cost' => ,
+        'chummer-id' => '',
         'cost' => ,
         'description' => '',
         'effects' => [],
@@ -27,6 +28,7 @@ return [
      */
     'bone-density-augmentation-2' => [
         'availability' => '8',
+        'chummer-id' => 'b04871a1-6b7b-4a78-89fc-af8ec69bdd3d',
         'cost' => 10000,
         'description' => 'Bone density description.',
         'effects' => [
@@ -51,6 +53,7 @@ return [
     'bone-lacing-aluminum' => [
         'id' => 'bone-lacing-aluminum',
         'availability' => '12R',
+        'chummer-id' => '76523da7-271d-459a-9502-3f7c8d54be6a',
         'cost' => 18000,
         'essence' => 1,
         'name' => 'Bone Lacing',
@@ -76,6 +79,7 @@ return [
         'id' => 'cyberears-1',
         'availability' => '3',
         'capacity' => 4,
+        'chummer-id' => '2767fdaf-4f49-4403-a799-e91b9e6c8fa2',
         'cost' => 3000,
         'essence' => 0.2,
         'incompatibilities' => [
@@ -117,6 +121,7 @@ return [
             'cyberears-4',
         ],
         'capacity-cost' => 1,
+        'chummer-id' => '3785a2cf-c3df-476a-b7cd-6e224ea77ab0',
         'cost' => 2250,
         'description' => 'Damper description.',
         'effects' => [],
@@ -136,6 +141,7 @@ return [
             'cybereyes-4',
         ],
         'capacity-cost' => 0,
+        'chummer-id' => 'e03d454f-4a15-43ce-9cd0-db80e8600eae',
         'cost' => 1000,
         'description' => 'Image link description.',
         'effects' => [],
@@ -147,6 +153,7 @@ return [
     ],
     'muscle-toner-1' => [
         'availability' => '5R',
+        'chummer-id' => '69ab0255-a76b-4190-a8be-0473fed231ef',
         'cost' => 32000,
         'description' => 'Muscle toner description.',
         'effects' => [
@@ -169,6 +176,7 @@ return [
     ],
     'platelet-factories' => [
         'availability' => '12',
+        'chummer-id' => '8c75648c-19d2-4734-b107-c04bb0e1904a',
         'cost' => 17000,
         'description' => 'Platlet factory description.',
         'essence' => 0.2,
@@ -182,6 +190,7 @@ return [
     'skilljack-1' => [
         'id' => 'skilljack-1',
         'availability' => '2',
+        'chummer-id' => 'd31497dd-2be9-4b8a-808f-3ced36287c0c',
         'cost' => 20000,
         'essence' => 0.1,
         'name' => 'Skilljack',
@@ -194,6 +203,7 @@ return [
     'synaptic-booster-1' => [
         'id' => 'synaptic-booster-1',
         'availability' => '6R',
+        'chummer-id' => '4a4e1079-5872-4f3f-a450-48c30a5504f3',
         'cost' => 95000,
         'essence' => 0.5,
         'name' => 'Synaptic Booster',
