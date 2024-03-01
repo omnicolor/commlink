@@ -61,6 +61,7 @@ class ImportChummerData extends Command implements Isolatable
         'complex-forms',
         'critter-powers',
         'gear',
+        'resonance-echoes',
         'vehicle-modifications',
         'vehicles',
         'weapons',
@@ -690,6 +691,39 @@ class ImportChummerData extends Command implements Isolatable
         }];
         // @phpstan-ignore-next-line
         return $matrix;
+    }
+
+    protected function processResonanceEchoes(): void
+    {
+        $data = $this->loadXml(
+            $this->chummerRepository . '/Chummer/data/echoes.xml'
+        );
+
+        $echoes = [];
+        $bar = $this->output->createProgressBar(count($data->echoes->echo));
+        $bar->setFormat('  Echoes           %current%/%max% [%bar%] %percent%');
+        $bar->start();
+
+        foreach ($data->echoes->echo as $rawEcho) {
+            $id = $this->nameToId((string)$rawEcho->name);
+            $echoes[$id] = [
+                'chummer-id' => $rawEcho->id,
+                'description' => '',
+                'id' => $id,
+                'limit' => (int)($rawEcho->limit ?? 1),
+                'name' => $rawEcho->name,
+                'page' => (int)$rawEcho->page,
+                'ruleset' => $this->source_map[(string)$rawEcho->source],
+            ];
+            $bar->advance();
+        }
+        $bar->setFormat(
+            '  Echoes             %current%/%max% [%bar%] -- ' . count($echoes)
+                . ' echoes'
+        );
+        $bar->finish();
+        $this->newLine();
+        $this->writeFile('resonance-echoes.php', $echoes);
     }
 
     protected function processWeapons(): void
