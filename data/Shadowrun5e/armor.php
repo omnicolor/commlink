@@ -10,6 +10,7 @@ return [
     '' => [
         'availability' => '',
         'capacity' => ,
+        'chummer-id' => '',
         'cost' => ,
         'description' => '',
         'effects' => [],
@@ -25,15 +26,19 @@ return [
     */
     'armor-jacket' => [
         'availability' => '2',
+        'chummer-id' => '90b0ab96-661b-417c-9933-8113ab6d52d2',
         'cost' => 1000,
         'description' => 'Description goes here.',
         'id' => 'armor-jacket',
         'name' => 'Armor Jacket',
+        'page' => 437,
         'rating' => 12,
+        'ruleset' => 'core',
     ],
     'armored-team-jerseys-licensed' => [
         'availability' => '4',
         'capacity' => 8,
+        'chummer-id' => 'c38ca685-f333-4529-93e8-a8248df52e64',
         'cost' => 750,
         'description' => 'Description',
         'id' => 'armored-team-jerseys-licensed',
@@ -45,6 +50,7 @@ return [
     'ballistic-mask' => [
         'availability' => '6',
         'capacity' => 8,
+        'chummer-id' => '8b1bc34c-4de9-4111-a5f6-bae7fa35b8af',
         'cost' => 150,
         'description' => 'Ballistic mask description.',
         'effects' => [
@@ -52,6 +58,7 @@ return [
         ],
         'id' => 'ballistic-mask',
         'name' => 'Ballistic Mask',
+        'page' => 74,
         'rating' => 2,
         'ruleset' => 'run-and-gun',
         'stack-rating' => 2,
@@ -60,6 +67,7 @@ return [
     'berwick-suit' => [
         'availability' => '9',
         'capacity' => 5,
+        'chummer-id' => 'e95b254f-c95d-41c4-b618-7c68c3456112',
         'cost' => 2600,
         'description' => 'Armor description.',
         'effects' => [
@@ -69,6 +77,7 @@ return [
         'features' => ['custom-fit'],
         'id' => 'berwick-suit',
         'name' => 'Berwick Suit',
+        'page' => 58,
         'rating' => 9,
         'ruleset' => 'run-and-gun',
         'wireless-effects' => ['social-tests' => 1],
@@ -76,11 +85,13 @@ return [
     'forearm-guards' => [
         'availability' => '6',
         'capacity' => 3,
+        'chummer-id' => '1c5f484a-996c-4518-bf23-677a506b2ea5',
         'cost' => 300,
         'description' => 'Forearm guards description.',
         'features' => ['custom-fit-stack'],
         'id' => 'forearm-guards',
         'name' => 'Forearm Guards',
+        'page' => 73,
         'rating' => 1,
         'ruleset' => 'run-and-gun',
         'stack-rating' => 1,
@@ -88,6 +99,7 @@ return [
     'full-body-armor' => [
         'availability' => '14R',
         'capacity' => 15,
+        'chummer' => '9ee80c97-9197-4dd5-baed-f77cfd2cee17',
         'cost' => 2000,
         'description' => 'Full body armor description.',
         'id' => 'full-body-armor',
@@ -99,6 +111,7 @@ return [
     'full-body-armor-helmet' => [
         'availability' => '',
         'capacity' => 6,
+        'chummer' => '71c20b15-de11-49eb-93fe-f4d7491283e3',
         'container-type' => ['armor', 'audio', 'vision'],
         'cost' => 500,
         'description' => 'Full body armor helmet description.',

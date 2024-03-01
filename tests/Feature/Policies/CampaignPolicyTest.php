@@ -166,18 +166,26 @@ final class CampaignPolicyTest extends TestCase
         self::assertTrue($this->policy->create($user));
     }
 
-    /**
-     * No user can currently update a campaign, even the one that registered it
-     * and acts as both the GM and a player.
-     * @test
-     */
-    public function testUpdate(): void
+    public function testUpdateAsGm(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         /** @var Campaign */
         $campaign = Campaign::factory([
             'gm' => $user,
+            'registered_by' => $user,
+        ])
+            ->create();
+        self::assertTrue($this->policy->update($user, $campaign));
+    }
+
+    public function testUpdate(): void
+    {
+        $user = User::factory()->create();
+        $gm = User::factory()->create();
+
+        /** @var Campaign */
+        $campaign = Campaign::factory([
+            'gm' => $gm,
             'registered_by' => $user,
         ])
             ->hasAttached($user, ['status' => 'accepted'])
