@@ -26,6 +26,7 @@ use App\Http\Controllers\Shadowrun5e\MentorSpiritsController;
 use App\Http\Controllers\Shadowrun5e\MetamagicsController;
 use App\Http\Controllers\Shadowrun5e\ProgramsController;
 use App\Http\Controllers\Shadowrun5e\QualitiesController;
+use App\Http\Controllers\Shadowrun5e\ResonanceEchoesController;
 use App\Http\Controllers\Shadowrun5e\RulebooksController;
 use App\Http\Controllers\Shadowrun5e\SkillGroupsController;
 use App\Http\Controllers\Shadowrun5e\SkillsController;
@@ -87,6 +88,8 @@ Route::middleware('auth:sanctum')->prefix('shadowrun5e')->name('shadowrun5e.')->
         Route::resource('programs', ProgramsController::class)
             ->only(['index', 'show']);
         Route::resource('qualities', QualitiesController::class)
+            ->only(['index', 'show']);
+        Route::resource('resonance-echoes', ResonanceEchoesController::class)
             ->only(['index', 'show']);
         Route::resource('rulebooks', RulebooksController::class)
             ->only(['index', 'show']);
