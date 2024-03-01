@@ -9,7 +9,7 @@ info:
   license:
     name: MIT License
     url: https://mit-license.org/
-  version: 1.5.0
+  version: 1.7.0
 externalDocs:
   description: Find out more about Commlink
   url: https://commlink.digitaldarkness.com/about
@@ -175,6 +175,54 @@ paths:
                 type: object
         '401':
           $ref: '#/components/responses/ErrorUnauthenticated'
+      tags:
+        - campaign
+    patch:
+      summary: Update a campaign
+      operationId: campaigns-update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                currentDate:
+                  format: date
+                  type: string
+              type: object
+            example:
+              currentDate: '2080-04-04'
+          application/json-patch+json:
+            schema:
+              items:
+                $ref: '#/components/schemas/JsonPatchOperation'
+              type: array
+            example:
+              - op: "replace"
+                path: "/options/currentDate"
+                value: "2080-04-04"
+      responses:
+        '202':
+          description: The campaign has been updated.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/CampaignFull'
+                  - type: object
+                    properties:
+                      formatted_date:
+                        format: date
+                        type: string
+        '400':
+          $ref: '#/components/responses/ErrorBadRequest'
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
+        '404':
+          $ref: '#/components/responses/ErrorNotFound'
+        '422':
+          $ref: '#/components/responses/ErrorUnprocessableContent'
       tags:
         - campaign
   /campaigns/{campaign_id}/events:
@@ -2094,6 +2142,31 @@ paths:
           description: Collection of Shadowrun 5E qualities.
       tags:
         - shadowrun
+  /shadowrun5e/resonance-echoes:
+    get:
+      summary: Shadowrun 5E resonance echoes
+      operationId: shadowrun5e-resonance-echoes-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Shadowrun5eResonanceEcho'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of all Shadowrun 5E resonance echoes.
+        '401':
+          $ref: '#/components/responses/ErrorNotFound'
+      tags:
+        - shadowrun
   /shadowrun5e/rulebooks:
     get:
       summary: Shadowrun 5E rulebooks
@@ -2545,6 +2618,30 @@ paths:
 
 components:
   responses:
+    ErrorBadRequest:
+      description: The request had one or more problems.
+      content:
+        application/json+problem:
+          schema:
+            properties:
+              detail:
+                type: string
+              instance:
+                type: string
+              status:
+                type: integer
+              title:
+                type: string
+              type:
+                format: uri
+                type: string
+            type: object
+          example:
+            type: https://commlink.digitaldarkness.com/about/conflict
+            title: Bad Request
+            status: 400
+            detail: The request has an error.
+            instance: /event/123
     ErrorConflict:
       description: The object has changed from the expected state.
       content:
@@ -2658,6 +2755,8 @@ components:
           $ref: '#/components/schemas/UserMinimal'
         system:
           type: string
+        links:
+          $ref: '#/components/schemas/Links'
       type: object
     CampaignInvitation:
       properties:
@@ -5148,6 +5247,44 @@ components:
           type: string
         name:
           type: string
+      type: object
+    Shadowrun5eResonanceEcho:
+      example:
+        description: ''
+        effects:
+          attack: 1
+        id: 'attack-upgrade'
+        limit: 2
+        name: 'Attack upgrade'
+        page: 258
+        ruleset: 'core'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/resonance-echoes/attack-upgrade'
+      properties:
+        description:
+          type: string
+        effects:
+          type: object
+        id:
+          type: string
+        limit:
+          type: integer
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - effects
+        - id
+        - limit
+        - name
+        - page
+        - ruleset
+        - links
       type: object
     Shadowrun5eSkill:
       example:
