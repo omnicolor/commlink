@@ -11144,16 +11144,16 @@
         },
         {
             "name": "orchestra/workbench",
-            "version": "v8.2.1",
+            "version": "v8.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/workbench.git",
-                "reference": "e8e6e4dcf6fb26ea1924c3581e49aa347691a8ea"
+                "reference": "1246c7ffd0ab8b1cbf9a9b346a50921dd83bc24b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/workbench/zipball/e8e6e4dcf6fb26ea1924c3581e49aa347691a8ea",
-                "reference": "e8e6e4dcf6fb26ea1924c3581e49aa347691a8ea",
+                "url": "https://api.github.com/repos/orchestral/workbench/zipball/1246c7ffd0ab8b1cbf9a9b346a50921dd83bc24b",
+                "reference": "1246c7ffd0ab8b1cbf9a9b346a50921dd83bc24b",
                 "shasum": ""
             },
             "require": {
@@ -11162,7 +11162,7 @@
                 "laravel/framework": "^10.38.1",
                 "laravel/tinker": "^2.8.2",
                 "orchestra/canvas": "^8.11.4",
-                "orchestra/testbench-core": "^8.17",
+                "orchestra/testbench-core": "^8.22",
                 "php": "^8.1",
                 "spatie/laravel-ray": "^1.32.4",
                 "symfony/polyfill-php83": "^1.28",
@@ -11208,9 +11208,9 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/workbench/issues",
-                "source": "https://github.com/orchestral/workbench/tree/v8.2.1"
+                "source": "https://github.com/orchestral/workbench/tree/v8.3.0"
             },
-            "time": "2023-12-28T15:15:44+00:00"
+            "time": "2024-03-03T14:32:38+00:00"
         },
         {
             "name": "phar-io/manifest",
