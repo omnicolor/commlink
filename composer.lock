@@ -1595,16 +1595,16 @@
         },
         {
             "name": "laravel/pennant",
-            "version": "v1.6.0",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pennant.git",
-                "reference": "c1c49cbac1a50efe31484f504b7dbfefc502830a"
+                "reference": "401e9051a3a600296c81c3733b52949c60750f02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pennant/zipball/c1c49cbac1a50efe31484f504b7dbfefc502830a",
-                "reference": "c1c49cbac1a50efe31484f504b7dbfefc502830a",
+                "url": "https://api.github.com/repos/laravel/pennant/zipball/401e9051a3a600296c81c3733b52949c60750f02",
+                "reference": "401e9051a3a600296c81c3733b52949c60750f02",
                 "shasum": ""
             },
             "require": {
@@ -1667,7 +1667,7 @@
                 "issues": "https://github.com/laravel/pennant/issues",
                 "source": "https://github.com/laravel/pennant"
             },
-            "time": "2024-01-15T16:44:04+00:00"
+            "time": "2024-03-04T22:18:21+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -2516,16 +2516,16 @@
         },
         {
             "name": "mongodb/laravel-mongodb",
-            "version": "4.1.2",
+            "version": "4.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mongodb/laravel-mongodb.git",
-                "reference": "b1ab9dcf5b8dcbbbdcd6fb5d019e2493f1f8e2f1"
+                "reference": "d2d78455ac5ccf24bed6b37873b61972c6b5b28e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mongodb/laravel-mongodb/zipball/b1ab9dcf5b8dcbbbdcd6fb5d019e2493f1f8e2f1",
-                "reference": "b1ab9dcf5b8dcbbbdcd6fb5d019e2493f1f8e2f1",
+                "url": "https://api.github.com/repos/mongodb/laravel-mongodb/zipball/d2d78455ac5ccf24bed6b37873b61972c6b5b28e",
+                "reference": "d2d78455ac5ccf24bed6b37873b61972c6b5b28e",
                 "shasum": ""
             },
             "require": {
@@ -2601,9 +2601,9 @@
             "support": {
                 "issues": "https://www.mongodb.com/support",
                 "security": "https://www.mongodb.com/security",
-                "source": "https://github.com/mongodb/laravel-mongodb/tree/4.1.2"
+                "source": "https://github.com/mongodb/laravel-mongodb/tree/4.1.3"
             },
-            "time": "2024-02-22T13:10:42+00:00"
+            "time": "2024-03-05T08:56:54+00:00"
         },
         {
             "name": "mongodb/mongodb",
@@ -15824,16 +15824,16 @@
         },
         {
             "name": "symfony/validator",
-            "version": "v7.0.4",
+            "version": "v7.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/validator.git",
-                "reference": "104bc3620d0ee4091034cfbcdcf82ed727f15b7d"
+                "reference": "6a73d479191a0bbbd9ffa3886af6e6ff6e79fb86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/validator/zipball/104bc3620d0ee4091034cfbcdcf82ed727f15b7d",
-                "reference": "104bc3620d0ee4091034cfbcdcf82ed727f15b7d",
+                "url": "https://api.github.com/repos/symfony/validator/zipball/6a73d479191a0bbbd9ffa3886af6e6ff6e79fb86",
+                "reference": "6a73d479191a0bbbd9ffa3886af6e6ff6e79fb86",
                 "shasum": ""
             },
             "require": {
@@ -15898,7 +15898,7 @@
             "description": "Provides tools to validate values",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/validator/tree/v7.0.4"
+                "source": "https://github.com/symfony/validator/tree/v7.0.5"
             },
             "funding": [
                 {
@@ -15914,7 +15914,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-02-22T20:27:20+00:00"
+            "time": "2024-02-27T12:53:56+00:00"
         },
         {
             "name": "symfony/var-exporter",
@@ -16696,7 +16696,6 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "jerodev/php-irc-client": 20,
-        "mongodb/laravel-mongodb": 5,
         "povils/phpmnd": 20,
         "roave/security-advisories": 20
     },
