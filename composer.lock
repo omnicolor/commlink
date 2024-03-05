@@ -2516,16 +2516,16 @@
         },
         {
             "name": "mongodb/laravel-mongodb",
-            "version": "4.1.2",
+            "version": "4.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mongodb/laravel-mongodb.git",
-                "reference": "b1ab9dcf5b8dcbbbdcd6fb5d019e2493f1f8e2f1"
+                "reference": "d2d78455ac5ccf24bed6b37873b61972c6b5b28e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mongodb/laravel-mongodb/zipball/b1ab9dcf5b8dcbbbdcd6fb5d019e2493f1f8e2f1",
-                "reference": "b1ab9dcf5b8dcbbbdcd6fb5d019e2493f1f8e2f1",
+                "url": "https://api.github.com/repos/mongodb/laravel-mongodb/zipball/d2d78455ac5ccf24bed6b37873b61972c6b5b28e",
+                "reference": "d2d78455ac5ccf24bed6b37873b61972c6b5b28e",
                 "shasum": ""
             },
             "require": {
@@ -2601,9 +2601,9 @@
             "support": {
                 "issues": "https://www.mongodb.com/support",
                 "security": "https://www.mongodb.com/security",
-                "source": "https://github.com/mongodb/laravel-mongodb/tree/4.1.2"
+                "source": "https://github.com/mongodb/laravel-mongodb/tree/4.1.3"
             },
-            "time": "2024-02-22T13:10:42+00:00"
+            "time": "2024-03-05T08:56:54+00:00"
         },
         {
             "name": "mongodb/mongodb",
@@ -16696,7 +16696,6 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "jerodev/php-irc-client": 20,
-        "mongodb/laravel-mongodb": 5,
         "povils/phpmnd": 20,
         "roave/security-advisories": 20
     },
