@@ -192,31 +192,31 @@ return [
         ),
         'capers' => env(
             'CAPERS_DATA_PATH',
-            base_path() . '.data/Capers/',
+            base_path() . '/data/Capers/',
         ),
         'cyberpunkred' => env(
             'CYBERPUNK_DATA_PATH',
-            base_path() . 'data/Cyberpunkred/',
+            base_path() . '/data/Cyberpunkred/',
         ),
         'dnd5e' => env(
             'DND5E_DATA_PATH',
-            base_path() . 'data/Dnd5e/',
+            base_path() . '/data/Dnd5e/',
         ),
         'expanse' => env(
             'EXPANSE_DATA_PATH',
-            base_path() . 'data/Expanse/',
+            base_path() . '/data/Expanse/',
         ),
         'shadowrun5e' => env(
             'SHADOWRUN5E_DATA_PATH',
-            base_path() . 'data/Shadowrun5e/',
+            base_path() . '/data/Shadowrun5e/',
         ),
         'shadowrun6e' => env(
             'SHADOWRUN6E_DATA_PATH',
-            base_path() . 'data/Shadowrun6e/',
+            base_path() . '/data/Shadowrun6e/',
         ),
         'star-trek-adventures' => env(
             'STAR_TREK_ADVENTURES_DATA_PATH',
-            base_path() . 'data/StarTrekAdventures/',
+            base_path() . '/data/StarTrekAdventures/',
         ),
         'stillfleet' => env(
             'STILLFLEET_DATA_PATH',
@@ -224,7 +224,7 @@ return [
         ),
         'subversion' => env(
             'SUBVERSION_DATA_PATH',
-            base_path() . 'data/Subversion/',
+            'data/Subversion/',
         ),
     ],
 
