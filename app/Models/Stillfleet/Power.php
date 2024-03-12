@@ -6,6 +6,7 @@ namespace App\Models\Stillfleet;
 
 use RuntimeException;
 
+use function array_keys;
 use function sprintf;
 use function strtolower;
 
@@ -62,5 +63,22 @@ class Power
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     * @return array<int, Power>
+     */
+    public static function all(): array
+    {
+        $filename = config('app.data_path.stillfleet') . 'powers.php';
+        self::$powers ??= require $filename;
+
+        $powers = [];
+        /** @var string $id */
+        foreach (array_keys(self::$powers) as $id) {
+            $powers[] = new Power($id);
+        }
+        return $powers;
     }
 }

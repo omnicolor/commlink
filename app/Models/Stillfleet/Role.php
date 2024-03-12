@@ -41,7 +41,6 @@ class Role
     public static ?array $roles;
 
     /**
-     * @psalm-suppress PossiblyUnusedProperty
      * @param ?array<int, string> $powers
      */
     public function __construct(
@@ -138,7 +137,7 @@ class Role
     }
 
     /**
-     * @return array<string, Role>
+     * @return array<int, Role>
      */
     public static function all(): array
     {
@@ -148,7 +147,7 @@ class Role
         $roles = [];
         /** @var string $id */
         foreach (array_keys(self::$roles) as $id) {
-            $roles[$id] = new Role($id, 1);
+            $roles[] = new Role($id, 1);
         }
         return $roles;
     }

@@ -9,7 +9,7 @@ info:
   license:
     name: MIT License
     url: https://mit-license.org/
-  version: 1.7.0
+  version: 1.7.0-stillfleet
 externalDocs:
   description: Find out more about Commlink
   url: https://commlink.digitaldarkness.com/about
@@ -39,6 +39,8 @@ tags:
     description: Information about the service itself
   - name: shadowrun
     description: Shadowrun RPG
+  - name: stillfleet
+    description: Stillfleet RPG
   - name: user
     description: Operations about users
 
@@ -2417,6 +2419,56 @@ paths:
           description: Collection of Shadowrun 5E weapons.
       tags:
         - shadowrun
+  /stillfleet/powers:
+    get:
+      summary: Collection of Stillfleet powers
+      operationId: stillfleet-powers-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/StillfleetPower'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: All powers a Stillfleet character may possess.
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+      tags:
+        - stillfleet
+  /stillfleet/roles:
+    get:
+      summary: Collection of Stillfleet roles
+      operationId: stillfleet-roles-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/StillfleetRole'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: All roles a Stillfleet character may fulfill.
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+      tags:
+        - stillfleet
   /users:
     get:
       summary: All users
@@ -4648,7 +4700,7 @@ components:
         links:
           properties:
             self:
-              example: /api/shadowrun5e/gear/activesoft-forgery-1
+              example: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/gear/activesoft-forgery-1'
               format: url
               type: string
           type: object
@@ -6028,6 +6080,131 @@ components:
         wireless_effects:
           type: object
       type: object
+    StillfleetPower:
+      description:  A power granted to a character by their class or species, or achieved through leveling up.
+      example:
+        advanced_list: 'communications'
+        description: 'You can convert code-based intelligences to your cause. Burn 4 GRT and roll a REA and a CHA check. The difficulty of the REA check is 1 + the complexity level of the code-based intelligence (generally at least a 3). The CHA check is a standard difficulty of 6. If both checks are successful, you convince the code-based intelligence to ally with you and accomplish some goal. This is a permanent alliance, unless you double-cross the AI. If one check succeeds, the AI is not angry, simply unconvinced—perhaps curious about the terms of the alliance. If both checks fail, you have angered the AI and should probably flee…'
+        id: 'ally'
+        name: 'Ally'
+        page: 97
+        ruleset: 'core'
+        type: 'advanced'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/stillfleet/powers/ally'
+      properties:
+        advanced_list:
+          description: What advanced list of powers the power can be added from.
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        type:
+          enum:
+            - advanced
+            - class
+            - hell-science
+            - marquee
+            - species
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - id
+        - name
+        - page
+        - ruleset
+        - type
+        - links
+      type: object
+    StillfleetRole:
+      description: Role a voidminer can have with the company.
+      example:
+        description: 'You are an engineer—and very likely a daredevil—trained by the Archivists to understand the beyond-human science of stiffworks.'
+        grit:
+          - 'movement'
+          - 'reason'
+        id: 'banshee'
+        name: 'Banshee'
+        page: 43
+        advanced_power_lists:
+          - 'communications'
+        marquee_power:
+          description: 'Open, close, or change the destination of a stiffworks. Costs and mechanics vary by the works. Open stiffworks remain open for 10 minutes per tack… usually. Some stiffworks may be retacked (i.e., their destinations changed), although this varies by type.'
+          id: 'tack'
+          name: 'Tack'
+          page: 43
+          ruleset: 'core'
+          type: 'marquee'
+          links:
+            self: 'https://commlink-dev.digitaldarkness.com/api/stillfleet/powers/tack'
+        optional_powers:
+          - description: 'You can, with effort, actually pilot spacefaring vessels. Cost to command a vessel is based purely on its class (a combined 1–6 rating based on its size, complexity, and condition), with each point of vessel class costing 6 GRT. Burning this GRT grants you the ability to pilot or otherwise command the ship, within reason. (If the hyperdrive’s broke, it ain’t jumpin; mining vessels may not sport armament, etc.) While piloting, you are essentially stuck and unable to otherwise venture. You must pay the astrogation cost each time you chart a course into or out of a system, or each time the ship is damaged or upgraded. Doing anything with the ship other than moving from point A to B (firing weapons, scanning a mysterious craft, remotely salvaging damaged life support systems, etc.) requires relevant checks, typically REA or, in a dogfight, COM and MOV.'
+            id: 'astrogate'
+            name: 'Astrogate'
+            page: 45
+            ruleset: 'core'
+            type: 'class'
+            links:
+              self: 'https://commlink-dev.digitaldarkness.com/api/stillfleet/powers/astrogate'
+        other_powers:
+          - description: 'The ship is on fire—you have to get your party through the stuck bulkhead before the O2 combusts! (Or whatever!) This is your big getaway power. Burn 6 GRT and make a MOV check: if you succeed, you and some or all of your party make it out safely. You can bring 1 +your level humanoid-sized beings along with you to safety, or burn an additional 6 GRT to bring one additional being beyond your limit. Small sapient beings (0.5-M tall/long) count for half a slot; large sapes (3-M tall/long) count double; small pets (cat/beagle-sized) are free. If you fail your MOV check, you alone get away but injure yourself for 2d6 HEA damage.'
+            id: 'dive'
+            name: 'Dive'
+            page: 45
+            ruleset: 'core'
+            type: 'class'
+            links:
+              self: 'https://commlink-dev.digitaldarkness.com/api/stillfleet/powers/dive'
+        responsibilities:
+          - 'opening stiffworks (quantum gates connecting disparate points in timespaces)'
+          - 'appraising and, as needed, repairing technologies discovered during the venture'
+          - 'assisting the venture’s pir in the collection of technoscientific samples for the Archive'
+        ruleset: 'core'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/stillfleet/roles/banshee'
+      properties:
+        description:
+          type: string
+        grit:
+          description: Attributes to use to determine the voidminer's maximum grit. Uses the die size for the given attributes. If the attribute starts with a minus (-) subtracts that attribute.
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        advanced_power_lists:
+          items:
+            description: List(s) that the voidminer can pick from when gaining advanced powers.
+            type: string
+          type: array
+        marquee_power:
+          $ref: '#/components/schemas/StillfleetPower'
+        optional_powers:
+          items:
+            $ref: '#/components/schemas/StillfleetPower'
+          type: array
+        other_powers:
+          items:
+            $ref: '#/components/schemas/StillfleetPower'
+          type: array
+        responsibilities:
+          items:
+            type: string
+          type: array
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
     User:
       properties:
         characters:
@@ -6093,6 +6270,7 @@ components:
       properties:
         webhook:
           format: url
+          maxLength: 255
           type: string
       required:
         - webhook
