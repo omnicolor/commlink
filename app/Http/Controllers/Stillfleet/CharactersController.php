@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Stillfleet;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Stillfleet\RoleRequest;
 use App\Models\Stillfleet\Character;
 use App\Models\Stillfleet\PartialCharacter;
 use App\Models\Stillfleet\Role;
@@ -13,7 +14,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class CharactersController extends Controller
@@ -31,7 +31,7 @@ class CharactersController extends Controller
         ?string $step = null
     ): RedirectResponse | Redirector | View {
         /** @var User */
-        $user = Auth::user();
+        $user = $request->user();
 
         if ('new' === $step) {
             $character = PartialCharacter::create(['owner' => $user->email]);
@@ -69,14 +69,23 @@ class CharactersController extends Controller
 
         switch ($step) {
             case 'class':
+                $chosenRole = null;
+                if (isset($character->roles[0])) {
+                    $chosenRole = $character->roles[0];
+                }
                 return view(
                     'Stillfleet.create-class',
                     [
                         'character' => $character,
+                        'chosenRole' => $chosenRole,
                         'creating' => 'class',
                         'roles' => Role::all(),
                         'user' => $user,
                     ],
+                );
+            case 'class-powers':
+                return view(
+                    'Stillfleet.create-class-powers',
                 );
             default:
                 abort(
@@ -84,6 +93,47 @@ class CharactersController extends Controller
                     'That step of character creation was not found.',
                 );
         }
+    }
+
+    public function saveClass(RoleRequest $request): RedirectResponse
+    {
+        /** @var User */
+        $user = $request->user();
+
+        $characterId = $request->session()->get('stillfleet-partial');
+        $character = PartialCharacter::where('_id', $characterId)
+            ->where('owner', $user->email)
+            ->firstOrFail();
+
+        if (0 === count($character->roles)) {
+            // First time choosing a class.
+            $character->roles = [
+                [
+                    'id' => $request->role,
+                    'level' => 1,
+                    'powers' => [],
+                ],
+            ];
+            $character->save();
+            return new RedirectResponse('/characters/stillfleet/create/class-powers');
+        }
+        $chosenRole = $character->roles[0];
+
+        if ($chosenRole->id === $request->role) {
+            // Updating to the same class.
+            return new RedirectResponse('/characters/stillfleet/create/class-powers');
+        }
+
+        // Chosing a new class, remove their powers.
+        $character->roles = [
+            [
+                'id' => $request->role,
+                'level' => 1,
+                'powers' => [],
+            ],
+        ];
+        $character->save();
+        return new RedirectResponse('/characters/stillfleet/create/class-powers');
     }
 
     protected function findPartialCharacter(
@@ -114,10 +164,10 @@ class CharactersController extends Controller
         return $character;
     }
 
-    public function view(Character $character): View
+    public function view(Request $request, Character $character): View
     {
         /** @var ?User */
-        $user = Auth::user();
+        $user = $request->user();
 
         return view(
             'Stillfleet.character',

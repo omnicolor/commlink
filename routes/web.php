@@ -175,6 +175,10 @@ Route::middleware('auth')->group(function (): void {
                     'create/{step?}',
                     [StillfleetController::class, 'create'],
                 )->name('create');
+                Route::post(
+                    'create/class',
+                    [StillfleetController::class, 'saveClass'],
+                )->name('create-class');
             });
     });
 
