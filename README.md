@@ -27,12 +27,13 @@ levels of completeness.
 * [Shadowrun 5th Edition](https://www.catalystgamelabs.com/brands/shadowrun)
 * [Shadowrun 6th Edition](https://www.catalystgamelabs.com/brands/shadowrun)
 * [Star Trek Adventures](https://www.modiphius.net/collections/star-trek-adventures/star-trek_core)
+* [Stillfleet](https://stillfleet.com/games/stillfleet/)
 * [Subversion](https://www.fraggingunicorns.com/subversion)
 
 ## Building Commlink
 
 Commlink requires [Composer](https://getcomposer.org) and is built on Laravel.
-Assuming you have Composer in your path:
+Assuming you have Composer in your path and have configured your .env file:
 
 ```shell
 $ composer install
@@ -63,6 +64,19 @@ Assuming you've registered the bot with Discord and configured its token:
 
 ```shell
 $ ./artisan commlink:discord-run
+```
+
+## Running the IRC bot
+
+By default, the IRC bot will try to name itself whatever `APP_NAME` is set to
+in your .env file. You can pass a new nickname with the `--nickname` parameter.
+Similarly, by default it will connect to the standard IRC port 6667, but you
+can change it with the `--port` parameter. The server's name is required, and
+might be something like chat.freenode.net for Freenode. Finally, you can have
+it auto-join channels by passing one or more `--channel` arguments.
+
+```shell
+$ ./artisan commlink:irc-run <hostname>
 ```
 
 ## Running tests and static analysis
