@@ -9,6 +9,7 @@ use App\Services\DiceService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 use LogicException;
 use RuntimeException;
 
@@ -144,10 +145,16 @@ class Character extends BaseCharacter
     {
         return Attribute::make(
             get: function (): int {
-                $role = $this->roles[0];
-                $attributes = $role->grit;
-                return DiceService::rollMax($this->attributes[$attributes[0]])
-                    + DiceService::rollMax($this->attributes[$attributes[1]]);
+                $grit = 0;
+                foreach ($this->roles[0]->grit as $attribute) {
+                    if (Str::startsWith($attribute, '-')) {
+                        $attribute = Str::after($attribute, '-');
+                        $grit -= DiceService::rollMax($this->attributes[$attribute]);
+                        continue;
+                    }
+                    $grit += DiceService::rollMax($this->attributes[$attribute]);
+                }
+                return $grit;
             },
             set: function (): never {
                 throw new LogicException('Grit is a calculated attribute');
@@ -178,7 +185,7 @@ class Character extends BaseCharacter
         return Attribute::make(
             get: function (): array {
                 $roles = [];
-                foreach ($this->attributes['roles'] as $role) {
+                foreach ($this->attributes['roles'] ?? [] as $role) {
                     $roles[] = new Role(
                         $role['id'],
                         $role['level'],

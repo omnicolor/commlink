@@ -68,6 +68,19 @@ final class CharacterTest extends TestCase
         self::assertSame(18, $character->grit);
     }
 
+    public function testGritWithNegative(): void
+    {
+        // Tremulant's grit is (maxREA + maxWIL + maxCHA) − maxCOM
+        $character = new Character([
+            'charm' => 'd8',
+            'combat' => 'd10',
+            'reason' => 'd4',
+            'will' => 'd6',
+            'roles' => [['id' => 'tremulant', 'level' => 1]],
+        ]);
+        self::assertSame(8, $character->grit);
+    }
+
     public function testWriteGrit(): void
     {
         $character = new Character([
