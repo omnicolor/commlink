@@ -7,8 +7,8 @@
     enforceTimeLimit="true"
     executionOrder="random"
     timeoutForMediumTests="15"
-    cacheDirectory=".phpunit.cache"
->
+    timeoutForLargeTests="120"
+    cacheDirectory=".phpunit.cache">
     <testsuites>
         <testsuite name="Feature">
             <directory suffix="Test.php">./tests/Feature</directory>
