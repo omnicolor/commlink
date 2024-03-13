@@ -11053,16 +11053,16 @@
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v8.22.1",
+            "version": "v8.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "b0006c092694828f4b0fa409a369b798e5e26f8d"
+                "reference": "35936ff29b42439fda75dbb635cc57e113f17c98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/b0006c092694828f4b0fa409a369b798e5e26f8d",
-                "reference": "b0006c092694828f4b0fa409a369b798e5e26f8d",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/35936ff29b42439fda75dbb635cc57e113f17c98",
+                "reference": "35936ff29b42439fda75dbb635cc57e113f17c98",
                 "shasum": ""
             },
             "require": {
@@ -11072,7 +11072,7 @@
             },
             "conflict": {
                 "brianium/paratest": "<6.4.0 || >=7.0.0 <7.1.4 || >=8.0.0",
-                "laravel/framework": "<10.40 || >=11.0.0",
+                "laravel/framework": "<10.48.2 || >=11.0.0",
                 "nunomaduro/collision": "<6.4.0 || >=7.0.0 <7.4.0 || >=8.0.0",
                 "orchestra/testbench-dusk": "<8.21.0 || >=9.0.0",
                 "orchestra/workbench": "<1.0.0",
@@ -11080,7 +11080,7 @@
             },
             "require-dev": {
                 "fakerphp/faker": "^1.21",
-                "laravel/framework": "^10.40",
+                "laravel/framework": "^10.48.2",
                 "laravel/pint": "^1.6",
                 "mockery/mockery": "^1.5.1",
                 "phpstan/phpstan": "^1.10.7",
@@ -11094,7 +11094,7 @@
                 "brianium/paratest": "Allow using parallel testing (^6.4 || ^7.1.4).",
                 "ext-pcntl": "Required to use all features of the console signal trapping.",
                 "fakerphp/faker": "Allow using Faker for testing (^1.21).",
-                "laravel/framework": "Required for testing (^10.40).",
+                "laravel/framework": "Required for testing (^10.48.2).",
                 "mockery/mockery": "Allow using Mockery for testing (^1.5.1).",
                 "nunomaduro/collision": "Allow using Laravel style tests output and parallel testing (^6.4 || ^7.4).",
                 "orchestra/testbench-browser-kit": "Allow using legacy Laravel BrowserKit for testing (^8.0).",
@@ -11141,20 +11141,20 @@
                 "issues": "https://github.com/orchestral/testbench/issues",
                 "source": "https://github.com/orchestral/testbench-core"
             },
-            "time": "2024-02-21T23:33:22+00:00"
+            "time": "2024-03-13T04:02:37+00:00"
         },
         {
             "name": "orchestra/workbench",
-            "version": "v8.3.0",
+            "version": "v8.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/workbench.git",
-                "reference": "1246c7ffd0ab8b1cbf9a9b346a50921dd83bc24b"
+                "reference": "7db7009377fd1afe25c783e9092af911cd04b3a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/workbench/zipball/1246c7ffd0ab8b1cbf9a9b346a50921dd83bc24b",
-                "reference": "1246c7ffd0ab8b1cbf9a9b346a50921dd83bc24b",
+                "url": "https://api.github.com/repos/orchestral/workbench/zipball/7db7009377fd1afe25c783e9092af911cd04b3a9",
+                "reference": "7db7009377fd1afe25c783e9092af911cd04b3a9",
                 "shasum": ""
             },
             "require": {
@@ -11209,9 +11209,9 @@
             ],
             "support": {
                 "issues": "https://github.com/orchestral/workbench/issues",
-                "source": "https://github.com/orchestral/workbench/tree/v8.3.0"
+                "source": "https://github.com/orchestral/workbench/tree/v8.4.0"
             },
-            "time": "2024-03-03T14:32:38+00:00"
+            "time": "2024-03-13T06:02:29+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -11849,16 +11849,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.60",
+            "version": "1.10.62",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "95dcea7d6c628a3f2f56d091d8a0219485a86bbe"
+                "reference": "cd5c8a1660ed3540b211407c77abf4af193a6af9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/95dcea7d6c628a3f2f56d091d8a0219485a86bbe",
-                "reference": "95dcea7d6c628a3f2f56d091d8a0219485a86bbe",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/cd5c8a1660ed3540b211407c77abf4af193a6af9",
+                "reference": "cd5c8a1660ed3540b211407c77abf4af193a6af9",
                 "shasum": ""
             },
             "require": {
@@ -11907,7 +11907,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-07T13:30:19+00:00"
+            "time": "2024-03-13T12:27:20+00:00"
         },
         {
             "name": "phpstan/phpstan-strict-rules",
