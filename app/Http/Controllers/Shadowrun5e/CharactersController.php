@@ -210,7 +210,7 @@ class CharactersController extends Controller
 
         if ('new' === $step) {
             $character = PartialCharacter::create(['owner' => $user->email]);
-            $request->session()->put('shadowrun5e.partial', $character->id);
+            $request->session()->put('shadowrun5e-partial', $character->id);
             $step = 'rules';
         } else {
             $character = $this->findPartialCharacter($request, $step);
@@ -234,7 +234,7 @@ class CharactersController extends Controller
 
                 // No in-progress characters, create a new one.
                 $character = PartialCharacter::create(['owner' => $user->email]);
-                $request->session()->put('shadowrun5e.partial', $character->id);
+                $request->session()->put('shadowrun5e-partial', $character->id);
             }
 
             if (null === $step || $step === $character->id) {
@@ -920,7 +920,7 @@ class CharactersController extends Controller
      */
     public function saveForLater(Request $request): RedirectResponse
     {
-        $request->session()->forget('shadowrun5e.partial');
+        $request->session()->forget('shadowrun5e-partial');
 
         return new RedirectResponse(route('dashboard'));
     }
@@ -931,7 +931,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = Auth::user();
 
-        $characterId = $request->session()->get('shadowrun5e.partial');
+        $characterId = $request->session()->get('shadowrun5e-partial');
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -975,7 +975,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = Auth::user();
 
-        $characterId = $request->session()->get('shadowrun5e.partial');
+        $characterId = $request->session()->get('shadowrun5e-partial');
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -1021,7 +1021,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = Auth::user();
 
-        $characterId = $request->session()->get('shadowrun5e.partial');
+        $characterId = $request->session()->get('shadowrun5e-partial');
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -1058,7 +1058,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = Auth::user();
 
-        $characterId = $request->session()->get('shadowrun5e.partial');
+        $characterId = $request->session()->get('shadowrun5e-partial');
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -1084,7 +1084,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = Auth::user();
 
-        $characterId = $request->session()->get('shadowrun5e.partial');
+        $characterId = $request->session()->get('shadowrun5e-partial');
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -1136,7 +1136,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = Auth::user();
 
-        $characterId = $request->session()->get('shadowrun5e.partial');
+        $characterId = $request->session()->get('shadowrun5e-partial');
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -1165,7 +1165,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = Auth::user();
 
-        $characterId = $request->session()->get('shadowrun5e.partial');
+        $characterId = $request->session()->get('shadowrun5e-partial');
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -1202,9 +1202,9 @@ class CharactersController extends Controller
     public function storeSocial(SocialRequest $request): RedirectResponse
     {
         /** @var User */
-        $user = Auth::user();
+        $user = $request->user();
 
-        $characterId = $request->session()->get('shadowrun5epartial');
+        $characterId = $request->session()->get('shadowrun5e-partial');
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -1238,7 +1238,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = Auth::user();
 
-        $characterId = $request->session()->get('shadowrun5e.partial');
+        $characterId = $request->session()->get('shadowrun5e-partial');
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -1269,7 +1269,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = Auth::user();
 
-        $characterId = $request->session()->get('shadowrun5e.partial');
+        $characterId = $request->session()->get('shadowrun5e-partial');
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -1310,7 +1310,7 @@ class CharactersController extends Controller
         $user = Auth::user();
 
         // See if the user has already chosen to continue a character.
-        $characterId = $request->session()->get('shadowrun5e.partial');
+        $characterId = $request->session()->get('shadowrun5e-partial');
 
         if (null !== $characterId) {
             // Return the character they're working on.
@@ -1326,7 +1326,7 @@ class CharactersController extends Controller
         $character = PartialCharacter::where('owner', $user->email)
             ->find($step);
         if (null !== $character) {
-            $request->session()->put('shadowrun5e.partial', $character->id);
+            $request->session()->put('shadowrun5e-partial', $character->id);
         }
         return $character;
     }

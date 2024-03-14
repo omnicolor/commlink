@@ -28,7 +28,7 @@ class HeroLabController extends Controller
             $character->errors = $herolab->getErrors();
             $character->owner = $user->email;
             $character->save();
-            $request->session()->put('shadowrun5e.partial', $character->id);
+            $request->session()->put('shadowrun5e-partial', $character->id);
             return redirect(sprintf(
                 '/characters/%s/create/%s',
                 $character->system,
