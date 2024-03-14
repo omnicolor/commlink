@@ -575,7 +575,7 @@ $(function () {
     $('#specialize-modal .btn-secondary').on('click', function () {
         $('#specialize-modal').modal('hide');
     });
-    $('#specialization-entry').on('keyup', function () {
+    $('#specialization-entry').on('change', function () {
         $('#specialize-modal .btn-primary').prop(
             'disabled',
             '' == $('#specialization-entry').val()
