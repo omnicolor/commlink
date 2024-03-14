@@ -427,26 +427,30 @@ function Points(character) {
     };
 
     this.updateActiveSkills = function () {
-        let parent = this;
-        $.each(this.character.skills, function (unused, skill) {
-            parent.activeSkills -= skill.level;
+        const skills = character.skills;
+        let skillPoints = this.activeSkills;
+        $.each(skills, function (unused, skill) {
+            skillPoints -= skill.level;
             if (skill.specialization) {
-                parent.activeSkills -= 1;
+                skillPoints -= 1;
             }
         });
+        this.activeSkills = skillPoints;
     };
 
     this.updateSkillGroups = function () {
-        let parent = this;
-        $.each(character.skillGroups, function (unused, group) {
-            parent.skillGroups -= group.level;
+        const groups = this.character.skillGroups;
+        let groupPoints = this.skillGroups;
+        $.each(groups, function (group, level) {
+            groupPoints -= level;
         });
 
-        if (parent.skillGroups < 0) {
-            for (let i = parent.skillGroups; i; i++) {
-                parent.karma -= i * 5;
+        if (groupPoints < 0) {
+            for (let i = this.skillGroups; i; i++) {
+                this.karma -= i * 5;
             }
         }
+        this.skillGroups = groupPoints;
     };
 
     this.updateKnowledgeSkills = function () {
