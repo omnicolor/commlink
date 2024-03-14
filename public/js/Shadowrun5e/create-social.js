@@ -78,11 +78,21 @@ $(function () {
         $('#contact-notes').val('');
     }
 
-    /**
-     * Add an identity row.
-     * @param {!Object} identity Identity to add
-     * @param {?Object} replace
-     */
+    function suggestName(e) {
+        $(e.target).parent().children('input').val(names.shift());
+        if (0 === names.length) {
+            loadNames();
+        }
+    }
+
+    function loadNames() {
+        $.ajax({
+            dataType: 'json',
+            success: function (response) { names = response.data; },
+            url: '/api/fakes/names'
+        });
+    }
+
     function addIdentityRow(identity, replace) {
         $('#no-identities').hide();
 
