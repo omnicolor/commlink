@@ -23,7 +23,7 @@
     </datalist>
 
     <datalist id="archetypes">
-        @foreach (\App\Models\Shadowrun5e\Contact::archetypes() as $archetype)
+        @foreach ($archetypes as $archetype)
         <option value="{{ $archetype }}">
         @endforeach
     </datalist>
@@ -46,8 +46,21 @@
             <p>
                 Your contacts are the people that you know (other than your
                 runner team) that you can contact for goods, information, and
-                services.
+                services. You may spend up to your charisma &times; 3
+                ({{ $character->charisma * 3 }}) in connection and loyalty
+                across your contacts. A connection can have a maximum of 12
+                connection and 6 loyalty.
             </p>
+
+            @if ($friendsInHighPlaces)
+            <p>
+                Your character has the &ldquo;Friends in High Places&rdquo;
+                quality, so they have an additional charisma &times; 4
+                ({{ $character->charisma * 4 }}) karma to spend. Contacts from
+                this pool of karma have a <strong>minimum</strong> connection
+                rating of 8.
+            </p>
+            @endif
 
             <ul class="list-group" id="contacts-list">
                 @foreach ($character->getContacts() as $key => $contact)
@@ -276,9 +289,13 @@
                     <form class="needs-validation" novalidate>
                         <div class="form-group">
                             <label for="contact-name">Name</label>
-                            <input aria-describedby="contact-name-help"
-                                class="form-control" id="contact-name" required
-                                type="text">
+                            <div class="input-group">
+                                <input aria-describedby="contact-name-help"
+                                    class="form-control" id="contact-name"
+                                    required type="text">
+                                <button class="btn btn-outline-secondary suggest-name"
+                                    type="button">Suggest</button>
+                            </div>
                             <small class="form-text text-muted"
                                 id="contact-name-help">
                                 Your contact's handle is what they go by on the
@@ -401,8 +418,13 @@
                     <form class="needs-validation" novalidate>
                         <div class="form-group">
                             <label for="identity-name">Name</label>
-                            <input class="form-control" id="identity-name"
-                                required type="text">
+                            <div class="input-group">
+                                <input aria-describedby="identity-name-help"
+                                    class="form-control" id="identity-name"
+                                    required type="text">
+                                <button class="btn btn-outline-secondary suggest-name"
+                                    type="button">Suggest</button>
+                            </div>
                             <small class="form-text text-muted"
                                 id="identity-name-help">
                                 Name the 'Runner uses for this identity, which

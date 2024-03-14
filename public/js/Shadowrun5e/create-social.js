@@ -29,11 +29,7 @@ $(function () {
         $(html).insertBefore($('#no-contacts'));
     }
 
-    /**
-     * Handle the user clicking the add button for a contact.
-     * @param {!Event} e Event that fired this handler
-     */
-    function handleAddContact(e) {
+    function addContact(e) {
         e.preventDefault();
         e.stopPropagation();
         const form = $('#contacts-modal form')[0];
@@ -45,7 +41,6 @@ $(function () {
             name: $('#contact-name').val(),
             archetype: $('#contact-archetype').val(),
             connection: parseInt($('#contact-connection').val(), 10),
-            id: character.contacts.length,
             loyalty: parseInt($('#contact-loyalty').val(), 10),
             notes: $('#contact-notes').val()
         };
@@ -57,26 +52,14 @@ $(function () {
         updatePointsToSpendDisplay(points);
     }
 
-    /**
-     * User has chosen to remove a contact.
-     * @oaram {!Event} e Event that fired this handler
-     */
     function removeContact(e) {
         let el = $(e.target);
         if ('SPAN' === el[0].nodeName) {
             el = el.parent();
         }
-        const id = el.data('id')
-        for (let i = 0, c = character.contacts.length; i < c; i++) {
-            if (!character.contacts[i]) {
-                continue;
-            }
-            if (character.contacts[i].id === id) {
-                delete character.contacts[i];
-                break;
-            }
-        }
-        $(e.target).parents('li').remove();
+        const id = el.parents('li').data('id');
+        delete character.contacts[id];
+        el.parents('li').remove();
         const tmpContacts = character.contacts.filter(function(v){return v;});
         if (!tmpContacts.length) {
             $('#no-contacts').show();
@@ -86,9 +69,6 @@ $(function () {
         updatePointsToSpendDisplay(points);
     }
 
-    /**
-     * Reset the contacts modal to its original state.
-     */
     function resetContactsModal() {
         $('#contacts-modal form').removeClass('was-validated');
         $('#contact-name').val('').focus();
@@ -264,8 +244,10 @@ $(function () {
 
     let points = new Points(character);
     updatePointsToSpendDisplay(points);
+    let names = [];
+    loadNames();
 
-    $('#contacts-modal form').on('submit', handleAddContact);
+    $('#contacts-modal form').on('submit', addContact);
     $('#contacts-list').on('click', '.btn-danger', removeContact);
 
     $('#identities-modal form').on('submit', handleAddIdentity);
@@ -278,4 +260,6 @@ $(function () {
         );
     });
     $('#sin-modal .btn-success').on('click', handleAttachSinClick);
+
+    $('button.suggest-name').on('click', suggestName);
 });

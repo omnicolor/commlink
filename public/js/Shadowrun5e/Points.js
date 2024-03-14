@@ -707,26 +707,33 @@ function Points(character) {
     };
 
     this.updateContactPoints = function () {
-        const attributes = character.attributes;
-        if (!attributes) {
-            return;
-        }
+        let contactPoints = character.charisma * 3;
+        let friendsInHighPlaces = 0;
+        $.each(this.character.qualities, function (unused, quality) {
+            if ('friends-in-high-places' === quality.id) {
+                friendsInHighPlaces = character.charisma * 4;
+            }
+        });
 
-        let contactPoints = attributes.charisma * 3;
         $.each(this.character.contacts, function (unused, contact) {
             if (!contact) {
+                return;
+            }
+            if (8 <= contact.connection && 0 !== friendsInHighPlaces) {
+                // Contact is eligible for the friends in high places karma.
+                friendsInHighPlaces -= (contact.loyalty + contact.connection);
+                if (0 >= friendsInHighPlaces) {
+                    // Spent it all, roll any overflow into normal contact
+                    // points.
+                    contactPoints -= friendsInHighPlaces;
+                    friendsInHighPlaces = 0;
+                }
                 return;
             }
             contactPoints -= contact.loyalty + contact.connection;
         });
 
-        $.each(this.character.qualities, function (unused, quality) {
-            if ('friends-in-high-places' === quality.id) {
-                contactPoints += attributes.charisma * 4;
-            }
-        });
-
-        this.contacts = contactPoints;
+        this.contacts = contactPoints + friendsInHighPlaces;
         if (contactPoints < 0) {
             this.karma -= contactPoints;
         }

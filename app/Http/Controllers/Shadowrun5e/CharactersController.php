@@ -19,6 +19,7 @@ use App\Http\Requests\Shadowrun5e\VitalsRequest;
 use App\Http\Resources\Shadowrun5e\CharacterResource;
 use App\Models\Shadowrun5e\ActiveSkill;
 use App\Models\Shadowrun5e\Character;
+use App\Models\Shadowrun5e\Contact;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\Models\Shadowrun5e\Quality;
 use App\Models\Shadowrun5e\Rulebook;
@@ -852,12 +853,21 @@ class CharactersController extends Controller
                     ]
                 );
             case 'social':
+                $friendsInHighPlaces = false;
+                foreach ($character->qualities as $quality) {
+                    if ('friends-in-high-places' === $quality['id']) {
+                        $friendsInHighPlaces = true;
+                        break;
+                    }
+                }
                 return view(
                     'Shadowrun5e.create-social',
                     [
+                        'archetypes' => Contact::archetypes(),
                         'books' => $books,
                         'character' => $character,
                         'currentStep' => 'social',
+                        'friendsInHighPlaces' => $friendsInHighPlaces,
                         'nextStep' => $this->nextStep('social', $character),
                         'previousStep' => $this->previousStep('social', $character),
                     ]
