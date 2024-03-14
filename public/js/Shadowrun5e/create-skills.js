@@ -553,6 +553,7 @@ $(function () {
         character.skillGroups = [];
     }
     let points = new Points(character);
+    updatePointsToSpendDisplay(points);
 
     $('[data-bs-toggle="tooltip"]').tooltip();
 

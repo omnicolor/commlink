@@ -53,6 +53,8 @@ $(function () {
         character.contacts.push(contact);
         addContactRow(contact);
         resetContactsModal();
+        points = new Points(character);
+        updatePointsToSpendDisplay(points);
     }
 
     /**
@@ -80,6 +82,8 @@ $(function () {
             $('#no-contacts').show();
             character.contacts = [];
         }
+        points = new Points(character);
+        updatePointsToSpendDisplay(points);
     }
 
     /**
@@ -259,6 +263,7 @@ $(function () {
     }
 
     let points = new Points(character);
+    updatePointsToSpendDisplay(points);
 
     $('#contacts-modal form').on('submit', handleAddContact);
     $('#contacts-list').on('click', '.btn-danger', removeContact);

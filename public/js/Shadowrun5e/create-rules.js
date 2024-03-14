@@ -2,6 +2,7 @@ $(function () {
     'use strict';
 
     let points = new Points(character);
+    updatePointsToSpendDisplay(points);
 
     $('[name="gameplay"]').on('change', function (event) {
         character.priorities.gameplay = $(event.target).val();

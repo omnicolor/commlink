@@ -262,6 +262,9 @@ $(function () {
 
             character.knowledgeSkills[i].level = parent.find('.language-level').val();
         }
+
+        points = new Points(character);
+        updatePointsToSpendDisplay(points);
     }
 
     /**
@@ -343,6 +346,7 @@ $(function () {
     }
 
     let points = new Points(character);
+    updatePointsToSpendDisplay(points);
 
     $('#knowledge-modal').on('shown.bs.modal', clearKnowledgeModal);
     $('#choose-knowledge')

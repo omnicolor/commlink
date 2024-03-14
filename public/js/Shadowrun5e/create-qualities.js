@@ -936,6 +936,7 @@ $(function () {
     $('body').tooltip({selector: '[data-bs-toggle="tooltip"]'});
 
     let points = new Points(character);
+    updatePointsToSpendDisplay(points);
 
     let modal = $('#quality-modal');
     // Close the modal when escape is pressed.
