@@ -854,7 +854,7 @@ class CharactersController extends Controller
                 );
             case 'social':
                 $friendsInHighPlaces = false;
-                foreach ($character->qualities as $quality) {
+                foreach ($character->qualities ?? [] as $quality) {
                     if ('friends-in-high-places' === $quality['id']) {
                         $friendsInHighPlaces = true;
                         break;
