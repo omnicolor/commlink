@@ -166,7 +166,6 @@ class CharactersController extends Controller
 
     public function view(Request $request, Character $character): View
     {
-        /** @var ?User */
         $user = $request->user();
 
         return view(
