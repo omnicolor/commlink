@@ -110,7 +110,6 @@ class Campaign extends Model
 
     /**
      * Create a new Campaign, subclassed if available.
-     * @phpstan-ignore-next-line
      * @param array<mixed, mixed> $attributes
      * @param ?string $connection
      * @psalm-suppress InvalidPropertyFetch
