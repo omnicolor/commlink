@@ -39,6 +39,8 @@ tags:
     description: Information about the service itself
   - name: shadowrun
     description: Shadowrun RPG
+  - name: subversion
+    description: Subversion RPG
   - name: user
     description: Operations about users
 
@@ -2417,6 +2419,29 @@ paths:
           description: Collection of Shadowrun 5E weapons.
       tags:
         - shadowrun
+  /subversion/lineages:
+    get:
+      summary: Subversion lineages
+      operationId: subversion-lineages-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionLineage'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion lineages.
+      tags:
+        - subversion
   /users:
     get:
       summary: All users
@@ -6027,6 +6052,44 @@ components:
           type: string
         wireless_effects:
           type: object
+      type: object
+    SubversionLineage:
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        options:
+          items:
+            $ref: '#/components/schemas/SubversionLineageOption'
+          type: array
+        page:
+          type: integer
+        ruleset:
+          type: string
+      required:
+        - id
+        - name
+        - options
+        - page
+        - ruleset
+        - links
+      type: object
+    SubversionLineageOption:
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - name
       type: object
     User:
       properties:
