@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Subversion;
 
-use App\Models\Subversion\Lineage;
+use App\Models\Subversion\Origin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin Lineage
+ * @mixin Origin
  * @psalm-suppress UnusedClass
  */
-class LineageResource extends JsonResource
+class OriginResource extends JsonResource
 {
     /**
      * @return array<string, array<string, string>|int|string>
@@ -29,11 +29,10 @@ class LineageResource extends JsonResource
             ),
             'id' => $this->id,
             'name' => $this->name,
-            'options' => LineageOptionResource::collection(array_values($this->options)),
             'page' => $this->page,
             'ruleset' => $this->ruleset,
             'links' => [
-                'self' => route('subversion.lineages.show', $this->id),
+                'self' => route('subversion.origins.show', $this->id),
             ],
         ];
     }

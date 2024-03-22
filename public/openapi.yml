@@ -2442,6 +2442,29 @@ paths:
           description: Collection of Subversion lineages.
       tags:
         - subversion
+  /subversion/origins:
+    get:
+      summary: Subversion origins
+      operationId: subversion-origins-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionOrigin'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion origins.
+      tags:
+        - subversion
   /users:
     get:
       summary: All users
@@ -6054,6 +6077,18 @@ components:
           type: object
       type: object
     SubversionLineage:
+      example:
+        description: 'Dwarves tend to be shorter and sturdier than most other lineages. While Dwarves are the most common lineage in Acape Anya, they are a common sight throughout the world.'
+        id: 'dwarven'
+        name: 'Dwarven'
+        options:
+          - description: 'Gain +4 to defenses when resisting Toxins or Metabolic Damage.'
+            id: 'toxin-resistant'
+            name: 'Toxin resistant'
+        page: 82
+        ruleset: 'core'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/lineages/dwarven'
       properties:
         description:
           type: string
@@ -6080,6 +6115,10 @@ components:
         - links
       type: object
     SubversionLineageOption:
+      example:
+        description: 'Gain +4 to defenses when resisting Toxins or Metabolic Damage.'
+        id: 'toxin-resistant'
+        name: 'Toxin resistant'
       properties:
         description:
           type: string
@@ -6090,6 +6129,35 @@ components:
       required:
         - id
         - name
+      type: object
+    SubversionOrigin:
+      example:
+        description: 'The physically largest of the lineages, Yettin have historically congregated in their own communities in Altaiphera, and for much of history, integrated less with the surrounding cultures (and each other). This tradition has led to wide variance among different strains of Altaipheran culture, though most place an emphasis on the importance of tight-knit community and are influenced by rural life.||The UYC may have rebelled against the more warlike Altaipheran Yettin, but they share a common culture.'
+        id: 'altaipheran'
+        name: 'Altaipheran'
+        page: 85
+        ruleset: 'core'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/origins/altaipheran'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - id
+        - links
+        - name
+        - page
+        - ruleset
       type: object
     User:
       properties:

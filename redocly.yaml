@@ -47,6 +47,7 @@ rules:
       - roll
       - rsvp
       - shadowrun5e
+      - subversion
       - token
       - varz
   paths-kebab-case: error
