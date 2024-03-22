@@ -38,6 +38,7 @@ class CharacterFactory extends Factory
                 'toxin-resistant',
             ]),
             'name' => $this->faker->name,
+            'origin' => 'altaipheran',
             'owner' => $this->faker->email,
             'system' => 'subversion',
             'will' => $this->faker->numberBetween(0, 7),

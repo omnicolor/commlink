@@ -106,6 +106,9 @@ class Character extends Model
             case 'star-trek-adventures':
                 $character = new StarTrekAdventures\Character($attributes);
                 break;
+            case 'subversion':
+                $character = new Subversion\Character($attributes);
+                break;
             default:
                 $character = new Character($attributes);
                 break;

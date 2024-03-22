@@ -16,11 +16,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property int $awareness
  * @property int $brawn
  * @property int $charisma
- * @property int $grit_starting
- * @property-read Lineage $lineage
+ * @property-read int $grit_starting
+ * @property-read ?Lineage $lineage
  * @property-write Lineage|string $lineage
  * @property string $lineage_option
  * @property string $name
+ * @property-read ?Origin $origin
+ * @property-write Origin|string $origin
  * @property string $owner
  * @property string $system
  * @property int $will
@@ -54,11 +56,14 @@ class Character extends BaseCharacter
         'arts',
         'awareness',
         'brawn',
+        'campaign_id',
         'charisma',
         'lineage',
         'lineage_option',
         'name',
+        'origin',
         'owner',
+        'system',
         'will',
         'wit',
     ];
@@ -69,7 +74,7 @@ class Character extends BaseCharacter
     }
 
     /**
-     * Force this model to only load for Avatar characters.
+     * Force this model to only load for Subversion characters.
      */
     protected static function booted(): void
     {
@@ -99,7 +104,10 @@ class Character extends BaseCharacter
     public function lineage(): Attribute
     {
         return Attribute::make(
-            get: function (): Lineage {
+            get: function (): ?Lineage {
+                if (!isset($this->attributes['lineage'])) {
+                    return null;
+                }
                 return new Lineage(
                     $this->attributes['lineage'],
                     $this->attributes['lineage_option'] ?? null,
@@ -113,6 +121,29 @@ class Character extends BaseCharacter
                 }
                 $this->attributes['lineage'] = $lineage;
                 return $lineage;
+            },
+        );
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function origin(): Attribute
+    {
+        return Attribute::make(
+            get: function (): ?Origin {
+                if (!isset($this->attributes['origin'])) {
+                    return null;
+                }
+                return new Origin($this->attributes['origin']);
+            },
+            set: function (Origin|string $origin): string {
+                if ($origin instanceof Origin) {
+                    $this->attributes['origin'] = $origin->id;
+                    return $origin->id;
+                }
+                $this->attributes['origin'] = $origin;
+                return $origin;
             },
         );
     }

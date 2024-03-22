@@ -16,7 +16,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class LineageResource extends JsonResource
 {
     /**
-     * @return array<string, array<string, string>|int|string>
+     * @return array<string, mixed>
      */
     public function toArray(Request $request): array
     {
@@ -30,6 +30,7 @@ class LineageResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'options' => LineageOptionResource::collection(array_values($this->options)),
+            'option' => $this->option,
             'page' => $this->page,
             'ruleset' => $this->ruleset,
             'links' => [

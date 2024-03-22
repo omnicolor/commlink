@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Subversion;
 
 use App\Models\Subversion\Character;
 use App\Models\Subversion\Lineage;
+use App\Models\Subversion\Origin;
 use Tests\TestCase;
 
 /**
@@ -34,6 +35,12 @@ final class CharacterTest extends TestCase
         self::assertSame(8, $character->grit_starting);
     }
 
+    public function testLineageNotSet(): void
+    {
+        $character = new Character();
+        self::assertNull($character->lineage);
+    }
+
     public function testLineage(): void
     {
         $character = new Character([
@@ -41,18 +48,44 @@ final class CharacterTest extends TestCase
             'lineage_option' => 'small',
         ]);
 
-        self::assertSame('Dwarven', $character->lineage->name);
+        self::assertSame('Dwarven', $character->lineage?->name);
         // @phpstan-ignore-next-line
-        self::assertSame('Small', $character->lineage->option->name);
+        self::assertSame('Small', $character->lineage?->option?->name);
     }
 
-    public function testSetLineage(): void
+    public function testSetLineageObject(): void
     {
         $character = new Character();
         $character->lineage = new Lineage('dwarven', 'toxin-resistant');
 
-        self::assertSame('Dwarven', $character->lineage->name);
+        self::assertSame('Dwarven', $character->lineage?->name);
         // @phpstan-ignore-next-line
         self::assertSame('Toxin resistant', $character->lineage->option->name);
+    }
+
+    public function testSetLineageString(): void
+    {
+        $character = new Character();
+        $character->lineage = 'dwarven';
+        self::assertSame('Dwarven', $character->lineage?->name);
+    }
+
+    public function testOriginNotSet(): void
+    {
+        $character = new Character();
+        self::assertNull($character->origin);
+    }
+
+    public function testOrigin(): void
+    {
+        $character = new Character(['origin' => 'altaipheran']);
+        self::assertSame('Altaipheran', $character->origin?->name);
+    }
+
+    public function testSetOrigin(): void
+    {
+        $character = new Character();
+        $character->origin = new Origin('altaipheran');
+        self::assertSame('Altaipheran', $character->origin?->name);
     }
 }
