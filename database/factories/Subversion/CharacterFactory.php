@@ -30,6 +30,14 @@ class CharacterFactory extends Factory
             'awareness' => $this->faker->numberBetween(0, 7),
             'background' => 'agriculturist',
             'brawn' => $this->faker->numberBetween(0, 7),
+            'caste' => $this->faker->randomElement([
+                'undercity',
+                'lower',
+                'lower-middle',
+                'upper-middle',
+                'upper',
+                'elite',
+            ]),
             'charisma' => $this->faker->numberBetween(0, 7),
             'lineage' => 'dwarven',
             'lineage_option' => $this->faker->randomElement([

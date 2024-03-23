@@ -17,6 +17,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read ?Background $background
  * @property-write Background|string $background
  * @property int $brawn
+ * @property-read ?Caste $caste
+ * @property-write Caste|string $caste
  * @property int $charisma
  * @property-read int $grit_starting
  * @property-read ?Lineage $lineage
@@ -109,6 +111,29 @@ class Character extends BaseCharacter
             function (Builder $builder): void {
                 $builder->where('system', 'subversion');
             }
+        );
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function caste(): Attribute
+    {
+        return Attribute::make(
+            get: function (): ?Caste {
+                if (!isset($this->attributes['caste'])) {
+                    return null;
+                }
+                return new Caste($this->attributes['caste']);
+            },
+            set: function (Caste|string $caste): string {
+                if ($caste instanceof Caste) {
+                    $this->attributes['caste'] = $caste->id;
+                    return $caste->id;
+                }
+                $this->attributes['caste'] = $caste;
+                return $caste;
+            },
         );
     }
 

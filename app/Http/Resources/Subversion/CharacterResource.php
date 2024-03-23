@@ -33,6 +33,7 @@ class CharacterResource extends JsonResource
                 // @phpstan-ignore-next-line
                 new CampaignResource($this->campaign()),
             ),
+            'caste' => new CasteResource($this->caste),
             'charisma' => $this->charisma,
             'grit_starting' => $this->grit_starting,
             'id' => $this->_id,

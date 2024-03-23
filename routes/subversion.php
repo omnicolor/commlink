@@ -3,10 +3,12 @@
 declare(strict_types=1);
 
 use App\Http\Resources\Subversion\BackgroundResource;
+use App\Http\Resources\Subversion\CasteResource;
 use App\Http\Resources\Subversion\CharacterResource;
 use App\Http\Resources\Subversion\LineageResource;
 use App\Http\Resources\Subversion\OriginResource;
 use App\Models\Subversion\Background;
+use App\Models\Subversion\Caste;
 use App\Models\Subversion\Character;
 use App\Models\Subversion\Lineage;
 use App\Models\Subversion\Origin;
@@ -26,6 +28,16 @@ Route::middleware('auth:sanctum')
                 return new BackgroundResource(new Background($background));
             }
         )->name('backgrounds.show');
+
+        Route::get('castes', function (): AnonymousResourceCollection {
+            return CasteResource::collection(Caste::all());
+        })->name('castes.index');
+        Route::get(
+            'castes/{caste}',
+            function (string $caste): CasteResource {
+                return new CasteResource(new Caste($caste));
+            }
+        )->name('castes.show');
 
         Route::get(
             'characters',
