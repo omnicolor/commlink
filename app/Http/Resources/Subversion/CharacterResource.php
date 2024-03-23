@@ -26,6 +26,7 @@ class CharacterResource extends JsonResource
             'agility' => $this->agility,
             'arts' => $this->arts,
             'awareness' => $this->awareness,
+            'background' => new BackgroundResource($this->background),
             'brawn' => $this->brawn,
             'campaign' => $this->when(
                 null !== $this->campaign_id,

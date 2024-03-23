@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property int $agility
  * @property int $arts
  * @property int $awareness
+ * @property-read ?Background $background
+ * @property-write Background|string $background
  * @property int $brawn
  * @property int $charisma
  * @property-read int $grit_starting
@@ -55,6 +57,7 @@ class Character extends BaseCharacter
         'agility',
         'arts',
         'awareness',
+        'background',
         'brawn',
         'campaign_id',
         'charisma',
@@ -71,6 +74,29 @@ class Character extends BaseCharacter
     public function __toString(): string
     {
         return $this->attributes['name'] ?? 'Unnamed character';
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function background(): Attribute
+    {
+        return Attribute::make(
+            get: function (): ?Background {
+                if (!isset($this->attributes['background'])) {
+                    return null;
+                }
+                return new Background($this->attributes['background']);
+            },
+            set: function (Background|string $background): string {
+                if ($background instanceof Background) {
+                    $this->attributes['background'] = $background->id;
+                    return $background->id;
+                }
+                $this->attributes['background'] = $background;
+                return $background;
+            },
+        );
     }
 
     /**

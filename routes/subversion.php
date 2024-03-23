@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Http\Resources\Subversion\BackgroundResource;
 use App\Http\Resources\Subversion\CharacterResource;
 use App\Http\Resources\Subversion\LineageResource;
 use App\Http\Resources\Subversion\OriginResource;
+use App\Models\Subversion\Background;
 use App\Models\Subversion\Character;
 use App\Models\Subversion\Lineage;
 use App\Models\Subversion\Origin;
@@ -15,6 +17,16 @@ Route::middleware('auth:sanctum')
     ->prefix('subversion')
     ->name('subversion.')
     ->group(function (): void {
+        Route::get('backgrounds', function (): AnonymousResourceCollection {
+            return BackgroundResource::collection(Background::all());
+        })->name('backgrounds.index');
+        Route::get(
+            'backgrounds/{background}',
+            function (string $background): BackgroundResource {
+                return new BackgroundResource(new Background($background));
+            }
+        )->name('backgrounds.show');
+
         Route::get(
             'characters',
             function (Request $request): AnonymousResourceCollection {

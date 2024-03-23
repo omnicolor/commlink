@@ -2419,6 +2419,52 @@ paths:
           description: Collection of Shadowrun 5E weapons.
       tags:
         - shadowrun
+  /subversion/backgrounds:
+    get:
+      summary: Subversion backgrounds
+      operationId: subversion-backgrounds-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionBackground'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion backgrounds.
+      tags:
+        - subversion
+  /subversion/characters:
+    get:
+      summary: Subversion characters
+      operationId: subversion-characters-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionCharacter'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion characters.
+      tags:
+        - subversion
   /subversion/lineages:
     get:
       summary: Subversion lineages
@@ -6075,6 +6121,128 @@ components:
           type: string
         wireless_effects:
           type: object
+      type: object
+    SubversionBackground:
+      example:
+        description: You are, or have been, in touch with nature or the earth is some way. You may have been a farmer, or lived off the land, or have been part of a group that worships, protects, or venerates the earth or growing things. Are you still farming? Have you lost the farm? Has some place you loved been despoiled? Are you trying to stop it? Environmentalist? Just have a green thumb?
+        id: agriculturist
+        name: Agriculturist
+        page: 86
+        ruleset: core
+        links:
+          self: https://commlink-dev.digitaldarkness.com/api/subversion/backgrounds/agriculturist
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - id
+        - links
+        - name
+        - page
+        - ruleset
+      type: object
+    SubversionCharacter:
+      example:
+        name: Test character
+        agility: 3
+        arts: 1
+        awareness: 2
+        background:
+          description: You are, or have been, in touch with nature or the earth is some way. You may have been a farmer, or lived off the land, or have been part of a group that worships, protects, or venerates the earth or growing things. Are you still farming? Have you lost the farm? Has some place you loved been despoiled? Are you trying to stop it? Environmentalist? Just have a green thumb?
+          id: agriculturist
+          name: Agriculturist
+          page: 86
+          ruleset: core
+          links:
+            self: https://commlink-dev.digitaldarkness.com/api/subversion/backgrounds/agriculturist
+        brawn: 3
+        charisma: 2
+        grit_starting: 9
+        id: 65fde97e178d3cca2e0224f3
+        lineage:
+          description: Dwarves tend to be shorter and sturdier than most other lineages. While Dwarves are the most common lineage in Acape Anya, they are a common sight throughout the world.
+          id: dwarven
+          name: Dwarven
+          options:
+            - description: Gain +4 to defenses when resisting Toxins or Metabolic Damage.
+              id: toxin-resistant
+              name: Toxin resistant
+            - description: Increase Brawn to 2.
+              id: lessons-from-the-ground
+              name: Lessons from the ground
+            - description: You and/or your family are smaller and less stocky than most dwarves. Gain +2 on physicality rolls related to hiding or navigating tight spaces.
+              id: small
+              name: Small
+            - description: You grow moss or grass in place of hair. Your Unarmed attacks do 2d6 damage (+Brawn) and have AP 1.
+              id: monstrous-heritage
+              name: Monstrous heritage
+          option:
+            id: small
+            name: Small
+            description: You and/or your family are smaller and less stocky than most dwarves. Gain +2 on physicality rolls related to hiding or navigating tight spaces.
+          page: 82
+          ruleset: core
+          links:
+            self: https://commlink-dev.digitaldarkness.com/api/subversion/lineages/dwarven
+        links:
+          self: https://commlink-dev.digitaldarkness.com/api/subversion/characters/65fde97e178d3cca2e0224f3
+          owner: https://commlink-dev.digitaldarkness.com/users/3
+        origin:
+          description: The physically largest of the lineages, Yettin have historically congregated in their own communities in Altaiphera, and for much of history, integrated less with the surrounding cultures (and each other). This tradition has led to wide variance among different strains of Altaipheran culture, though most place an emphasis on the importance of tight-knit community and are influenced by rural life.||The UYC may have rebelled against the more warlike Altaipheran Yettin, but they share a common culture.
+          id: altaipheran
+          name: Altaipheran
+          page: 85
+          ruleset: core
+          links:
+            self: https://commlink-dev.digitaldarkness.com/api/subversion/origins/altaipheran
+        owner: omni@digitaldarkness.com
+        system: subversion
+        will: 3
+        wit: 5
+      properties:
+        agility:
+          type: integer
+        arts:
+          type: integer
+        awareness:
+          type: integer
+        background:
+          $ref: '#/components/schemas/SubversionBackground'
+        brawn:
+          type: integer
+        charisma:
+          type: integer
+        grit_starting:
+          type: integer
+        id:
+          type: string
+        lineage:
+          $ref: '#/components/schemas/SubversionLineage'
+        name:
+          type: string
+        origin:
+          $ref: '#/components/schemas/SubversionOrigin'
+        owner:
+          format: email
+          type: string
+        system:
+          type: string
+        will:
+          type: integer
+        wit:
+          type: integer
+        links:
+          $ref: '#/components/schemas/Links'
       type: object
     SubversionLineage:
       example:

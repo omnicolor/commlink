@@ -28,6 +28,7 @@ class CharacterFactory extends Factory
             'agility' => $this->faker->numberBetween(0, 7),
             'arts' => 0,
             'awareness' => $this->faker->numberBetween(0, 7),
+            'background' => 'agriculturist',
             'brawn' => $this->faker->numberBetween(0, 7),
             'charisma' => $this->faker->numberBetween(0, 7),
             'lineage' => 'dwarven',
