@@ -21,6 +21,6 @@
         "tailwindcss": "^2.0.4"
     },
     "dependencies": {
-        "@redocly/cli": "^1.10.5"
+        "@redocly/cli": "^1.10.6"
     }
 }
