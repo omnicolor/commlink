@@ -12118,16 +12118,16 @@
         },
         {
             "name": "psalm/plugin-laravel",
-            "version": "v2.10.1",
+            "version": "v2.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/psalm/psalm-plugin-laravel.git",
-                "reference": "a87f401437c0555af5f6570566bf6e689916a316"
+                "reference": "ffd51399b672959331ed3ef4eaae13984474e2f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/psalm/psalm-plugin-laravel/zipball/a87f401437c0555af5f6570566bf6e689916a316",
-                "reference": "a87f401437c0555af5f6570566bf6e689916a316",
+                "url": "https://api.github.com/repos/psalm/psalm-plugin-laravel/zipball/ffd51399b672959331ed3ef4eaae13984474e2f0",
+                "reference": "ffd51399b672959331ed3ef4eaae13984474e2f0",
                 "shasum": ""
             },
             "require": {
@@ -12146,17 +12146,15 @@
                 "orchestra/testbench-core": "^8.22 || ^9.0",
                 "php": "^8.1",
                 "symfony/console": "^6.0 || ^7.0",
+                "symfony/finder": "^6.0 || ^7.0",
                 "vimeo/psalm": "^5.20"
             },
             "require-dev": {
-                "codeception/codeception": "^5.0",
-                "codeception/module-asserts": "^3.0",
-                "codeception/module-cli": "^2.0",
-                "codeception/module-filesystem": "^3.0",
-                "codeception/module-phpbrowser": "^3.0",
                 "laravel/framework": "^10.48 || ^11.0",
                 "phpunit/phpunit": "^10.5 || ^11.0",
+                "phpyh/psalm-tester": "^0.1.0",
                 "ramsey/collection": "^1.3",
+                "rector/rector": "^1.0",
                 "slevomat/coding-standard": "^8.8",
                 "squizlabs/php_codesniffer": "*",
                 "symfony/http-foundation": "^6.0 || ^7.0"
@@ -12186,9 +12184,9 @@
             "homepage": "https://github.com/psalm/psalm-plugin-laravel",
             "support": {
                 "issues": "https://github.com/psalm/psalm-plugin-laravel/issues",
-                "source": "https://github.com/psalm/psalm-plugin-laravel/tree/v2.10.1"
+                "source": "https://github.com/psalm/psalm-plugin-laravel/tree/v2.11.0"
             },
-            "time": "2024-03-13T11:16:29+00:00"
+            "time": "2024-03-19T21:40:03+00:00"
         },
         {
             "name": "psr/cache",
