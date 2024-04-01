@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models\Subversion;
 
+use App\Models\Subversion\Background;
+use App\Models\Subversion\Caste;
 use App\Models\Subversion\Character;
 use App\Models\Subversion\Lineage;
 use App\Models\Subversion\Origin;
+use App\Models\Subversion\Skill;
 use Tests\TestCase;
 
 /**
@@ -33,6 +36,46 @@ final class CharacterTest extends TestCase
         self::assertSame(11, $character->grit_starting);
         $character = new Character(['will' => 2]);
         self::assertSame(8, $character->grit_starting);
+    }
+
+    public function testBackgroundNotSet(): void
+    {
+        $character = new Character();
+        self::assertNull($character->background);
+    }
+
+    public function testBackground(): void
+    {
+        $character = new Character(['background' => 'agriculturist']);
+        self::assertSame('Agriculturist', (string)$character->background);
+    }
+
+    public function testSetBackground(): void
+    {
+        $character = new Character();
+        $background = new Background('agriculturist');
+        $character->background = $background;
+        self::assertSame('Agriculturist', (string)$character->background);
+    }
+
+    public function testCasteNotSet(): void
+    {
+        $character = new Character();
+        self::assertNull($character->caste);
+    }
+
+    public function testCaste(): void
+    {
+        $character = new Character(['caste' => 'lower-middle']);
+        self::assertSame('Lower-middle caste', (string)$character->caste);
+    }
+
+    public function testSetCaste(): void
+    {
+        $character = new Character();
+        $caste = new Caste('lower-middle');
+        $character->caste = $caste;
+        self::assertSame('Lower-middle caste', (string)$character->caste);
     }
 
     public function testLineageNotSet(): void
@@ -87,5 +130,48 @@ final class CharacterTest extends TestCase
         $character = new Character();
         $character->origin = new Origin('altaipheran');
         self::assertSame('Altaipheran', $character->origin?->name);
+    }
+
+    public function testSkillsEmpty(): void
+    {
+        $character = new Character();
+        $skills = $character->skills;
+        self::assertCount(12, $skills);
+        foreach ($skills as $skill) {
+            self::assertNull($skill->rank);
+        }
+    }
+
+    public function testSkillsSetArray(): void
+    {
+        $character = new Character();
+        $character->skills = [
+            ['id' => 'arts', 'rank' => 0],
+        ];
+
+        $skill = $character->skills['arts'];
+        self::assertSame(0, $skill->rank);
+    }
+
+    public function testSkillsFromConstructor(): void
+    {
+        $character = new Character([
+            'skills' => [
+                ['id' => 'arts', 'rank' => 1],
+            ],
+        ]);
+
+        self::assertSame(1, $character->skills['arts']->rank);
+        self::assertNull($character->skills['deception']->rank);
+    }
+
+    public function testSkillsSetObject(): void
+    {
+        $character = new Character();
+        $character->skills = [
+            new Skill('deception', 2),
+        ];
+        self::assertNull($character->skills['arts']->rank);
+        self::assertSame(2, $character->skills['deception']->rank);
     }
 }

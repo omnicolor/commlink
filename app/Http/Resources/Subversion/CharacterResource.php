@@ -9,6 +9,8 @@ use App\Models\Subversion\Character;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+use function array_values;
+
 /**
  * @mixin Character
  * @psalm-suppress UnusedClass
@@ -45,6 +47,7 @@ class CharacterResource extends JsonResource
             ],
             'origin' => new OriginResource($this->origin),
             'owner' => $this->owner,
+            'skills' => SkillResource::collection(array_values($this->skills)),
             'system' => $this->system,
             'will' => $this->will,
             'wit' => $this->wit,

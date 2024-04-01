@@ -2442,6 +2442,29 @@ paths:
           description: Collection of Subversion backgrounds.
       tags:
         - subversion
+  /subversion/castes:
+    get:
+      summary: Subversion castes
+      operationId: subversion-castes-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionCaste'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion castes.
+      tags:
+        - subversion
   /subversion/characters:
     get:
       summary: Subversion characters
@@ -2509,6 +2532,29 @@ paths:
                   - links
                 type: object
           description: Collection of Subversion origins.
+      tags:
+        - subversion
+  /subversion/skills:
+    get:
+      summary: Subversion skills
+      operationId: subversion-skills-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionSkill'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion skills.
       tags:
         - subversion
   /users:
@@ -6122,6 +6168,15 @@ components:
         wireless_effects:
           type: object
       type: object
+    SubversionAttribute:
+      enum:
+        - agility
+        - awareness
+        - brawn
+        - charisma
+        - will
+        - wit
+      type: string
     SubversionBackground:
       example:
         description: You are, or have been, in touch with nature or the earth is some way. You may have been a farmer, or lived off the land, or have been part of a group that worships, protects, or venerates the earth or growing things. Are you still farming? Have you lost the farm? Has some place you loved been despoiled? Are you trying to stop it? Environmentalist? Just have a green thumb?
@@ -6150,6 +6205,32 @@ components:
         - name
         - page
         - ruleset
+      type: object
+    SubversionCaste:
+      example:
+        description: "You have enough income to cover the necessities and the occasional splurge, but little else. You wouldn't call your housing spacious, but at least it's yours. Your food tends towards the economical, but is broadly acceptable. You probably own a small electric commuter bike, and can afford a multiuser taxi service when you need it. Lawjacks are ambivalent to you as long as you don't cause trouble.||Lower-middle caste characters start with the normal amount of Fortune."
+        fortune: 0
+        id: 'lower-middle'
+        name: 'Lower-middle caste'
+        page: 76
+        ruleset: core
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/castes/lower-middle'
+      properties:
+        description:
+          type: string
+        fortune:
+          type: integer
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
       type: object
     SubversionCharacter:
       example:
@@ -6206,6 +6287,18 @@ components:
           links:
             self: https://commlink-dev.digitaldarkness.com/api/subversion/origins/altaipheran
         owner: omni@digitaldarkness.com
+        skills:
+          - attributes:
+            - 'awareness'
+            - 'wit'
+            description: 'Observation is the skill of learning things about the world, whether it be determining if someone is telling the truth, finding evidence, looking for food or shelter, judging what is safe or not, spotting traps, or deeply seeing the world around you. Searching and finding use Awareness while memory, pattern recognition, deduction, and analysis use Wit.'
+            id: 'observation'
+            name: 'Observation'
+            page: 16
+            rank: 2
+            ruleset: 'core'
+            links:
+              self: 'https://commlink-dev.digitaldarkness.com/api/subversion/skills/observation'
         system: subversion
         will: 3
         wit: 5
@@ -6220,6 +6313,8 @@ components:
           $ref: '#/components/schemas/SubversionBackground'
         brawn:
           type: integer
+        caste:
+          $ref: '#/components/schemas/SubversionCaste'
         charisma:
           type: integer
         grit_starting:
@@ -6326,6 +6421,48 @@ components:
         - name
         - page
         - ruleset
+      type: object
+    SubversionSkill:
+      example:
+        attributes:
+          - 'awareness'
+          - 'wit'
+        description: 'Observation is the skill of learning things about the world, whether it be determining if someone is telling the truth, finding evidence, looking for food or shelter, judging what is safe or not, spotting traps, or deeply seeing the world around you. Searching and finding use Awareness while memory, pattern recognition, deduction, and analysis use Wit.'
+        id: 'observation'
+        name: 'Observation'
+        page: 16
+        rank: null
+        ruleset: 'core'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/skills/observation'
+      properties:
+        attributes:
+          items:
+            $ref: '#/components/schemas/SubversionAttribute'
+          type: array
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        rank:
+          nullable: true
+          type: integer
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - attributes
+        - id
+        - name
+        - page
+        - rank
+        - ruleset
+        - links
       type: object
     User:
       properties:

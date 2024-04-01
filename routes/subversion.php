@@ -7,11 +7,13 @@ use App\Http\Resources\Subversion\CasteResource;
 use App\Http\Resources\Subversion\CharacterResource;
 use App\Http\Resources\Subversion\LineageResource;
 use App\Http\Resources\Subversion\OriginResource;
+use App\Http\Resources\Subversion\SkillResource;
 use App\Models\Subversion\Background;
 use App\Models\Subversion\Caste;
 use App\Models\Subversion\Character;
 use App\Models\Subversion\Lineage;
 use App\Models\Subversion\Origin;
+use App\Models\Subversion\Skill;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -77,4 +79,14 @@ Route::middleware('auth:sanctum')
         Route::get('origins/{origin}', function (string $origin): OriginResource {
             return new OriginResource(new Origin($origin));
         })->name('origins.show');
+
+        Route::get('skills', function (): AnonymousResourceCollection {
+            return SkillResource::collection(Skill::all());
+        })->name('skills.index');
+        Route::get(
+            'skills/{skill}',
+            function (string $skill): SkillResource {
+                return new SkillResource(new Skill($skill));
+            }
+        )->name('skills.show');
     });

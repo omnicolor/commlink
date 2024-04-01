@@ -28,6 +28,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read ?Origin $origin
  * @property-write Origin|string $origin
  * @property string $owner
+ * @property-read array<string, Skill> $skills
+ * @property-write array<int|string, Skill|array<string, int|string>> $skills
  * @property string $system
  * @property int $will
  * @property int $wit
@@ -62,12 +64,14 @@ class Character extends BaseCharacter
         'background',
         'brawn',
         'campaign_id',
+        'caste',
         'charisma',
         'lineage',
         'lineage_option',
         'name',
         'origin',
         'owner',
+        'skills',
         'system',
         'will',
         'wit',
@@ -195,6 +199,42 @@ class Character extends BaseCharacter
                 }
                 $this->attributes['origin'] = $origin;
                 return $origin;
+            },
+        );
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function skills(): Attribute
+    {
+        return Attribute::make(
+            get: function (): array {
+                $skills = Skill::all();
+                foreach ($this->attributes['skills'] ?? [] as $skill) {
+                    $skills[$skill['id']] = new Skill(
+                        $skill['id'],
+                        $skill['rank']
+                    );
+                }
+                return $skills;
+            },
+            set: function (array $setSkills): array {
+                $skills = [];
+                foreach ($setSkills as $skill) {
+                    if ($skill instanceof Skill) {
+                        if (null !== $skill->rank) {
+                            $skills[] = [
+                                'id' => $skill->id,
+                                'rank' => $skill->rank,
+                            ];
+                        }
+                        continue;
+                    }
+
+                    $skills[] = $skill;
+                }
+                return ['skills' => $skills];
             },
         );
     }
