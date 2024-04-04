@@ -14554,16 +14554,16 @@
         },
         {
             "name": "symfony/config",
-            "version": "v7.0.4",
+            "version": "v7.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
-                "reference": "44deeba7233f08f383185ffa37dace3b3bc87364"
+                "reference": "7fc7e18a73ec8125fd95928c0340470d64760deb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/44deeba7233f08f383185ffa37dace3b3bc87364",
-                "reference": "44deeba7233f08f383185ffa37dace3b3bc87364",
+                "url": "https://api.github.com/repos/symfony/config/zipball/7fc7e18a73ec8125fd95928c0340470d64760deb",
+                "reference": "7fc7e18a73ec8125fd95928c0340470d64760deb",
                 "shasum": ""
             },
             "require": {
@@ -14609,7 +14609,7 @@
             "description": "Helps you find, load, combine, autofill and validate configuration values of any kind",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/config/tree/v7.0.4"
+                "source": "https://github.com/symfony/config/tree/v7.0.6"
             },
             "funding": [
                 {
@@ -14625,7 +14625,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-02-26T07:52:39+00:00"
+            "time": "2024-03-27T19:55:25+00:00"
         },
         {
             "name": "symfony/dependency-injection",
