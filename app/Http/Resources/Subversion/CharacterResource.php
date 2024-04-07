@@ -39,6 +39,7 @@ class CharacterResource extends JsonResource
             'charisma' => $this->charisma,
             'grit_starting' => $this->grit_starting,
             'id' => $this->_id,
+            'ideology' => new IdeologyResource($this->ideology),
             'lineage' => new LineageResource($this->lineage),
             'links' => [
                 'self' => route('subversion.characters.show', $this),

@@ -21,6 +21,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-write Caste|string $caste
  * @property int $charisma
  * @property-read int $grit_starting
+ * @property-read ?Ideology $ideology
+ * @property-write Ideology|string $ideology
  * @property-read ?Lineage $lineage
  * @property-write Lineage|string $lineage
  * @property string $lineage_option
@@ -66,6 +68,7 @@ class Character extends BaseCharacter
         'campaign_id',
         'caste',
         'charisma',
+        'ideology',
         'lineage',
         'lineage_option',
         'name',
@@ -149,6 +152,29 @@ class Character extends BaseCharacter
         return Attribute::make(
             get: function (): int {
                 return $this->will + 6;
+            },
+        );
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function ideology(): Attribute
+    {
+        return Attribute::make(
+            get: function (): ?Ideology {
+                if (!isset($this->attributes['ideology'])) {
+                    return null;
+                }
+                return new Ideology($this->attributes['ideology']);
+            },
+            set: function (Ideology|string $ideology): string {
+                if ($ideology instanceof Ideology) {
+                    $this->attributes['ideology'] = $ideology->id;
+                    return $ideology->id;
+                }
+                $this->attributes['ideology'] = $ideology;
+                return $ideology;
             },
         );
     }

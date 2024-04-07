@@ -5,12 +5,14 @@ declare(strict_types=1);
 use App\Http\Resources\Subversion\BackgroundResource;
 use App\Http\Resources\Subversion\CasteResource;
 use App\Http\Resources\Subversion\CharacterResource;
+use App\Http\Resources\Subversion\IdeologyResource;
 use App\Http\Resources\Subversion\LineageResource;
 use App\Http\Resources\Subversion\OriginResource;
 use App\Http\Resources\Subversion\SkillResource;
 use App\Models\Subversion\Background;
 use App\Models\Subversion\Caste;
 use App\Models\Subversion\Character;
+use App\Models\Subversion\Ideology;
 use App\Models\Subversion\Lineage;
 use App\Models\Subversion\Origin;
 use App\Models\Subversion\Skill;
@@ -62,6 +64,16 @@ Route::middleware('auth:sanctum')
                 return new CharacterResource($character);
             }
         )->name('characters.show');
+
+        Route::get('ideologies', function (): AnonymousResourceCollection {
+            return IdeologyResource::collection(Ideology::all());
+        })->name('ideologies.index');
+        Route::get(
+            'ideologies/{ideology}',
+            function (string $ideology): IdeologyResource {
+                return new IdeologyResource(new Ideology($ideology));
+            }
+        )->name('ideologies.show');
 
         Route::get('lineages', function (): AnonymousResourceCollection {
             return LineageResource::collection(Lineage::all());

@@ -7,6 +7,7 @@ namespace Tests\Feature\Models\Subversion;
 use App\Models\Subversion\Background;
 use App\Models\Subversion\Caste;
 use App\Models\Subversion\Character;
+use App\Models\Subversion\Ideology;
 use App\Models\Subversion\Lineage;
 use App\Models\Subversion\Origin;
 use App\Models\Subversion\Skill;
@@ -76,6 +77,33 @@ final class CharacterTest extends TestCase
         $caste = new Caste('lower-middle');
         $character->caste = $caste;
         self::assertSame('Lower-middle caste', (string)$character->caste);
+    }
+
+    public function testIdeologyNotSet(): void
+    {
+        $character = new Character();
+        self::assertNull($character->ideology);
+    }
+
+    public function testIdeology(): void
+    {
+        $character = new Character(['ideology' => 'neo-anarchist']);
+        self::assertSame('Neo-anarchist', (string)$character->ideology);
+        self::assertSame(88, $character->ideology?->page);
+    }
+
+    public function testSetIdeologyObject(): void
+    {
+        $character = new Character();
+        $character->ideology = new Ideology('neo-anarchist');
+        self::assertSame('Neo-anarchist', (string)$character->ideology);
+    }
+
+    public function testSetIdeologyString(): void
+    {
+        $character = new Character();
+        $character->ideology = 'neo-anarchist';
+        self::assertSame('Neo-anarchist', (string)$character->ideology);
     }
 
     public function testLineageNotSet(): void

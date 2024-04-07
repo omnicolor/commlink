@@ -2488,6 +2488,29 @@ paths:
           description: Collection of Subversion characters.
       tags:
         - subversion
+  /subversion/ideologies:
+    get:
+      summary: Subversion ideologies
+      operationId: subversion-ideologies-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionIdeology'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion ideologies.
+      tags:
+        - subversion
   /subversion/lineages:
     get:
       summary: Subversion lineages
@@ -6247,9 +6270,27 @@ components:
           links:
             self: https://commlink-dev.digitaldarkness.com/api/subversion/backgrounds/agriculturist
         brawn: 3
+        caste:
+          description: "You have enough income to cover the necessities and the occasional splurge, but little else. You wouldn't call your housing spacious, but at least it's yours. Your food tends towards the economical, but is broadly acceptable. You probably own a small electric commuter bike, and can afford a multiuser taxi service when you need it. Lawjacks are ambivalent to you as long as you don't cause trouble.||Lower-middle caste characters start with the normal amount of Fortune."
+          fortune: 0
+          id: 'lower-middle'
+          name: 'Lower-middle caste'
+          page: 76
+          ruleset: core
+          links:
+            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/castes/lower-middle'
         charisma: 2
         grit_starting: 9
         id: 65fde97e178d3cca2e0224f3
+        ideology:
+          description: 'No one should be coerced into following or providing aid to any person or organization against their will, and society should be constructed based on voluntary contributions. Often called nomastics because of their “no masters” rallying cry.'
+          id: 'neo-anarchist'
+          name: 'Neo-anarchist'
+          page: 88
+          ruleset: 'core'
+          value: 'I will strive to give everyone the ability to choose their own life absent of any external edicts or expectations.'
+          links:
+            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/ideologies/neo-anarchist'
         lineage:
           description: Dwarves tend to be shorter and sturdier than most other lineages. While Dwarves are the most common lineage in Acape Anya, they are a common sight throughout the world.
           id: dwarven
@@ -6321,6 +6362,8 @@ components:
           type: integer
         id:
           type: string
+        ideology:
+          $ref: '#/components/schemas/SubversionIdeology'
         lineage:
           $ref: '#/components/schemas/SubversionLineage'
         name:
@@ -6338,6 +6381,38 @@ components:
           type: integer
         links:
           $ref: '#/components/schemas/Links'
+      type: object
+    SubversionIdeology:
+      example:
+        description: 'No one should be coerced into following or providing aid to any person or organization against their will, and society should be constructed based on voluntary contributions. Often called nomastics because of their “no masters” rallying cry.'
+        id: 'neo-anarchist'
+        name: 'Neo-anarchist'
+        page: 88
+        ruleset: 'core'
+        value: 'I will strive to give everyone the ability to choose their own life absent of any external edicts or expectations.'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/ideologies/neo-anarchist'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        value:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - id
+        - links
+        - name
+        - page
+        - ruleset
       type: object
     SubversionLineage:
       example:
