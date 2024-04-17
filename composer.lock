@@ -2459,16 +2459,16 @@
         },
         {
             "name": "markrogoyski/math-php",
-            "version": "v2.9.0",
+            "version": "v2.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/markrogoyski/math-php.git",
-                "reference": "4d4bfad5cd5f2d5dd851fc2c350438325776593c"
+                "reference": "e587bfe3aadddfba0f3a40f49d2ed91132f30c5a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/markrogoyski/math-php/zipball/4d4bfad5cd5f2d5dd851fc2c350438325776593c",
-                "reference": "4d4bfad5cd5f2d5dd851fc2c350438325776593c",
+                "url": "https://api.github.com/repos/markrogoyski/math-php/zipball/e587bfe3aadddfba0f3a40f49d2ed91132f30c5a",
+                "reference": "e587bfe3aadddfba0f3a40f49d2ed91132f30c5a",
                 "shasum": ""
             },
             "require": {
@@ -2528,9 +2528,9 @@
             ],
             "support": {
                 "issues": "https://github.com/markrogoyski/math-php/issues",
-                "source": "https://github.com/markrogoyski/math-php/tree/v2.9.0"
+                "source": "https://github.com/markrogoyski/math-php/tree/v2.10.0"
             },
-            "time": "2024-03-03T00:21:15+00:00"
+            "time": "2024-04-17T00:09:51+00:00"
         },
         {
             "name": "mollie/polyfill-libsodium",
