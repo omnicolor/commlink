@@ -2581,20 +2581,22 @@
         },
         {
             "name": "mongodb/laravel-mongodb",
-            "version": "4.2.0",
+            "version": "4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mongodb/laravel-mongodb.git",
-                "reference": "13a112717ebbc35705ac2d52aa6aaa440c6443c7"
+                "reference": "64d6dc05a8f08d9cf09f6b2d54f891a1692f6181"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mongodb/laravel-mongodb/zipball/13a112717ebbc35705ac2d52aa6aaa440c6443c7",
-                "reference": "13a112717ebbc35705ac2d52aa6aaa440c6443c7",
+                "url": "https://api.github.com/repos/mongodb/laravel-mongodb/zipball/64d6dc05a8f08d9cf09f6b2d54f891a1692f6181",
+                "reference": "64d6dc05a8f08d9cf09f6b2d54f891a1692f6181",
                 "shasum": ""
             },
             "require": {
+                "composer-runtime-api": "^2.0.0",
                 "ext-mongodb": "^1.15",
+                "illuminate/cache": "^10.36|^11",
                 "illuminate/container": "^10.0|^11",
                 "illuminate/database": "^10.30|^11",
                 "illuminate/events": "^10.0|^11",
@@ -2608,10 +2610,14 @@
             "require-dev": {
                 "doctrine/coding-standard": "12.0.x-dev",
                 "mockery/mockery": "^1.4.4",
+                "mongodb/builder": "^0.2",
                 "orchestra/testbench": "^8.0|^9.0",
                 "phpstan/phpstan": "^1.10",
                 "phpunit/phpunit": "^10.3",
                 "spatie/laravel-query-builder": "^5.6"
+            },
+            "suggest": {
+                "mongodb/builder": "Provides a fluent aggregation builder for MongoDB pipelines"
             },
             "type": "library",
             "extra": {
@@ -2666,9 +2672,9 @@
             "support": {
                 "issues": "https://www.mongodb.com/support",
                 "security": "https://www.mongodb.com/security",
-                "source": "https://github.com/mongodb/laravel-mongodb/tree/4.2.0"
+                "source": "https://github.com/mongodb/laravel-mongodb/tree/4.3.0"
             },
-            "time": "2024-03-14T09:38:23+00:00"
+            "time": "2024-04-26T15:53:27+00:00"
         },
         {
             "name": "mongodb/mongodb",
@@ -15924,7 +15930,6 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "jerodev/php-irc-client": 20,
-        "mongodb/laravel-mongodb": 5,
         "povils/phpmnd": 20,
         "roave/security-advisories": 20
     },
