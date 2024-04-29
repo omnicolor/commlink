@@ -37,6 +37,9 @@ use Rs\Json\Patch\InvalidPatchDocumentJsonException;
 use Rs\Json\Pointer\InvalidPointerException;
 use RuntimeException;
 
+use function array_keys;
+use function sprintf;
+
 /**
  * Controller for interacting with Shadowrun 5E characters.
  */
@@ -182,13 +185,13 @@ class CharactersController extends Controller
         PartialCharacter $character
     ): RedirectResponse {
         if ('prev' === $direction) {
-            return new RedirectResponse(\sprintf(
+            return new RedirectResponse(sprintf(
                 '/characters/shadowrun5e/create/%s',
                 $this->previousStep($step, $character),
             ));
         }
 
-        return new RedirectResponse(\sprintf(
+        return new RedirectResponse(sprintf(
             '/characters/shadowrun5e/create/%s',
             $this->nextStep($step, $character),
         ));
@@ -208,10 +211,12 @@ class CharactersController extends Controller
         $user = Auth::user();
 
         if ('new' === $step) {
+            /** @var PartialCharacter */
             $character = PartialCharacter::create(['owner' => $user->email]);
             $request->session()->put('shadowrun5e.partial', $character->id);
             $step = 'rules';
         } else {
+            /** @var ?PartialCharacter */
             $character = $this->findPartialCharacter($request, $step);
             if (null !== $character && $step === $character->id) {
                 return redirect('/characters/shadowrun5e/create/rules');
@@ -232,6 +237,7 @@ class CharactersController extends Controller
                 }
 
                 // No in-progress characters, create a new one.
+                /** @var PartialCharacter */
                 $character = PartialCharacter::create(['owner' => $user->email]);
                 $request->session()->put('shadowrun5e.partial', $character->id);
             }
@@ -250,6 +256,7 @@ class CharactersController extends Controller
                 }
             );
         }
+
         switch ($step) {
             case 'armor':
                 return view(
@@ -438,7 +445,7 @@ class CharactersController extends Controller
                 if ('priority' !== $character->priorities['system']) {
                     return redirect('/characters/shadowrun5e/create/rules')
                         ->withErrors([
-                            'error' => \sprintf(
+                            'error' => sprintf(
                                 'Priority scheme "%s" not (yet) supported',
                                 $character->priorities['system']
                             ),
@@ -921,6 +928,7 @@ class CharactersController extends Controller
         $user = Auth::user();
 
         $characterId = $request->session()->get('shadowrun5e.partial');
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -965,6 +973,7 @@ class CharactersController extends Controller
         $user = Auth::user();
 
         $characterId = $request->session()->get('shadowrun5e.partial');
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -1011,6 +1020,7 @@ class CharactersController extends Controller
         $user = Auth::user();
 
         $characterId = $request->session()->get('shadowrun5e.partial');
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -1021,7 +1031,7 @@ class CharactersController extends Controller
         $specializations = $request->input('skill-specializations');
         $skills = [];
         /** @var string */
-        foreach (\array_keys($names) as $key) {
+        foreach (array_keys($names) as $key) {
             $skill = [
                 'category' => $categories[$key],
                 'name' => $names[$key],
@@ -1048,6 +1058,7 @@ class CharactersController extends Controller
         $user = Auth::user();
 
         $characterId = $request->session()->get('shadowrun5e.partial');
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -1074,6 +1085,7 @@ class CharactersController extends Controller
         $user = Auth::user();
 
         $characterId = $request->session()->get('shadowrun5e.partial');
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -1126,6 +1138,7 @@ class CharactersController extends Controller
         $user = Auth::user();
 
         $characterId = $request->session()->get('shadowrun5e.partial');
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -1155,6 +1168,7 @@ class CharactersController extends Controller
         $user = Auth::user();
 
         $characterId = $request->session()->get('shadowrun5e.partial');
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -1195,6 +1209,7 @@ class CharactersController extends Controller
         $user = Auth::user();
 
         $characterId = $request->session()->get('shadowrun5e.partial');
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -1226,6 +1241,7 @@ class CharactersController extends Controller
         $user = Auth::user();
 
         $characterId = $request->session()->get('shadowrun5e.partial');
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -1254,9 +1270,7 @@ class CharactersController extends Controller
 
     /**
      * Find a partial character if the user has already chosen one.
-     * @param Request $request
      * @param ?string $step "Step" the user is working on, which could be an ID
-     * @return ?PartialCharacter
      */
     protected function findPartialCharacter(
         Request $request,
@@ -1270,6 +1284,7 @@ class CharactersController extends Controller
 
         if (null !== $characterId) {
             // Return the character they're working on.
+            /** @var PartialCharacter */
             return PartialCharacter::where('owner', $user->email)
                 ->where('_id', $characterId)
                 ->firstOrFail();
@@ -1279,6 +1294,7 @@ class CharactersController extends Controller
         }
 
         // Maybe they're chosing to continue a character right now.
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('owner', $user->email)
             ->find($step);
         if (null !== $character) {
@@ -1421,6 +1437,7 @@ class CharactersController extends Controller
             $character = Character::where('_id', $identifier)
                 ->firstOrFail();
         } catch (ModelNotFoundException) {
+            /** @var PartialCharacter */
             $character = PartialCharacter::where('_id', $identifier)
                 ->firstOrFail();
         }
