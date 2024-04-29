@@ -46,6 +46,7 @@ class ChatCharacter extends Model
      */
     public function getCharacter(): ?Character
     {
+        // @phpstan-ignore-next-line
         return Character::find($this->character_id);
     }
 }

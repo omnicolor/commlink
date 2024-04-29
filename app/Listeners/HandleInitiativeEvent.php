@@ -16,6 +16,8 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
+use function sprintf;
+
 class HandleInitiativeEvent
 {
     use Dispatchable;
@@ -66,7 +68,7 @@ class HandleInitiativeEvent
         try {
             Http::retry(3, 100, throw: false)
                 ->withHeaders([
-                    'Authorization' => \sprintf('Bearer %s', config('app.slack_token')),
+                    'Authorization' => sprintf('Bearer %s', config('app.slack_token')),
                 ])
                 ->post('https://slack.com/api/chat.postMessage', (array)$data);
             // @codeCoverageIgnoreStart

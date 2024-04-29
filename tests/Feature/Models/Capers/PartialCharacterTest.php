@@ -34,6 +34,7 @@ final class PartialCharacterTest extends TestCase
      */
     public function testToCharacter(): void
     {
+        /** @var PartialCharacter */
         $partial = PartialCharacter::create([
             'background' => 'Detailed backstory.',
             'description' => 'A bit insane.',

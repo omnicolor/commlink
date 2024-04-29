@@ -15,6 +15,8 @@ use Spatie\SignalAwareCommand\SignalAwareCommand;
 
 use function sprintf;
 
+use const PHP_EOL;
+
 /**
  * Start an IRC bot.
  * @codeCoverageIgnore
@@ -58,10 +60,10 @@ class IrcRunCommand extends SignalAwareCommand
 
     public function __construct()
     {
-        $this->signature = 'commlink:irc-run' . \PHP_EOL
-            . '{server : Hostname of the server to connect to}' . \PHP_EOL
-            . '{--port=6667 : Port to connect to}' . \PHP_EOL
-            . '{--nickname=' . config('app.name') . ' : Nickname to use in IRC}' . \PHP_EOL
+        $this->signature = 'commlink:irc-run' . PHP_EOL
+            . '{server : Hostname of the server to connect to}' . PHP_EOL
+            . '{--port=6667 : Port to connect to}' . PHP_EOL
+            . '{--nickname=' . config('app.name') . ' : Nickname to use in IRC}' . PHP_EOL
             . '{--channel=* : Channel(s) to automatically join}';
         parent::__construct();
     }

@@ -45,6 +45,7 @@ class LinkResponse extends SlackResponse
 
         $args = explode(' ', $content);
         $characterId = $args[1];
+        /** @var Character */
         $character = Character::find($characterId);
         if (null === $character) {
             throw new SlackException(

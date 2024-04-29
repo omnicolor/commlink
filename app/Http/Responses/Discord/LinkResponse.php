@@ -11,6 +11,11 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use Discord\Parts\Channel\Channel as TextChannel;
 
+use function count;
+use function explode;
+use function implode;
+use function sprintf;
+
 /**
  * Handle a user requesting to link a character to this Discord channel.
  * @psalm-suppress UnusedClass
@@ -28,8 +33,8 @@ class LinkResponse
      */
     public function __construct(protected DiscordMessageReceived $event)
     {
-        $arguments = \explode(' ', trim($this->event->content));
-        if (self::MIN_NUM_ARGUMENTS !== \count($arguments)) {
+        $arguments = explode(' ', trim($this->event->content));
+        if (self::MIN_NUM_ARGUMENTS !== count($arguments)) {
             $this->sendMissingArgumentError();
             return;
         }
@@ -59,6 +64,7 @@ class LinkResponse
         }
 
         $characterId = $arguments[1];
+        /** @var Character */
         $character = Character::find($characterId);
         if (null === $character) {
             $this->sendNotFoundError();
@@ -82,7 +88,7 @@ class LinkResponse
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $this->event->message->reply(\sprintf(
+        $this->event->message->reply(sprintf(
             'You have linked %s to this channel.',
             (string)$character
         ));
@@ -97,11 +103,11 @@ class LinkResponse
     {
         $systems = [];
         foreach (config('app.systems') as $code => $name) {
-            $systems[] = \sprintf('%s (%s)', $code, $name);
+            $systems[] = sprintf('%s (%s)', $code, $name);
         }
         $this->message = 'This channel must be registered for a system before '
             . 'characters can be linked. Type `/roll register <system>`, where '
-            . '<system> is one of: ' . \implode(', ', $systems);
+            . '<system> is one of: ' . implode(', ', $systems);
     }
 
     protected function sendMissingArgumentError(): void
@@ -111,7 +117,7 @@ class LinkResponse
 
     protected function sendMustRegisterError(): void
     {
-        $this->message = \sprintf(
+        $this->message = sprintf(
             'You must have already created an account on %s (%s) and linked it '
                 . 'to this server before you can link a character.',
             config('app.name'),
@@ -121,7 +127,7 @@ class LinkResponse
 
     protected function sendAlreadyLinkedError(Character $character): void
     {
-        $this->event->message->reply(\sprintf(
+        $this->event->message->reply(sprintf(
             'It looks like you\'ve already linked "%s" to this channel.',
             (string)$character
         ));
@@ -142,7 +148,7 @@ class LinkResponse
     protected function sendWrongSystemError(Character $character): void
     {
         $systems = config('app.systems');
-        $this->event->message->reply(\sprintf(
+        $this->event->message->reply(sprintf(
             '%s is a %s character. This channel is playing %s.',
             (string)$character,
             $systems[$character->system] ?? 'Unknown',

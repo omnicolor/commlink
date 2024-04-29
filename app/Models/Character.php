@@ -12,6 +12,7 @@ use MongoDB\Laravel\Eloquent\Model;
 /**
  * Generic model representing a role playing character.
  * @method ?Campaign campaign()
+ * @method ?Character find()
  * @method string getSystem()
  * @property ?int $campaign_id
  * @property string $created_at
@@ -79,7 +80,6 @@ class Character extends Model
      * Create a new Character, subclassed if available.
      * @param array<int|string, mixed> $attributes
      * @param ?string $connection
-     * @phpstan-ignore-next-line
      */
     public function newFromBuilder(
         $attributes = [],
