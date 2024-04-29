@@ -8,6 +8,8 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Slack\TextAttachment;
 use Exception;
 
+use const PHP_EOL;
+
 /**
  * Exception thrown when a Slack command doesn't have the required fields.
  */
@@ -27,9 +29,9 @@ class SlackException extends Exception
     {
         if ('' === $this->message) {
             $this->message = 'You must include at least one command '
-            . 'argument.' . \PHP_EOL
+            . 'argument.' . PHP_EOL
             . 'For example: `/roll init` to roll your character\'s '
-            . 'initiative.' . \PHP_EOL . \PHP_EOL
+            . 'initiative.' . PHP_EOL . PHP_EOL
             . 'Type `/roll help` for more help.';
         }
         return (new SlackResponse('', $this->code))
