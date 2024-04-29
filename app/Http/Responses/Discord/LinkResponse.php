@@ -107,7 +107,7 @@ class LinkResponse
         }
         $this->message = 'This channel must be registered for a system before '
             . 'characters can be linked. Type `/roll register <system>`, where '
-            . '<system> is one of: ' . Implode(', ', $systems);
+            . '<system> is one of: ' . implode(', ', $systems);
     }
 
     protected function sendMissingArgumentError(): void
