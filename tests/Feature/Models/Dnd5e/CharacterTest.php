@@ -46,6 +46,7 @@ final class CharacterTest extends TestCase
      */
     public function testLoad(): void
     {
+        /** @var BaseCharacter */
         $createdCharacter = BaseCharacter::create(['system' => 'dnd5e']);
         $character = BaseCharacter::where('_id', $createdCharacter->id)
             ->firstOrFail();
