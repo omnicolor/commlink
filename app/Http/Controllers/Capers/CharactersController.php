@@ -61,7 +61,6 @@ class CharactersController extends Controller
             );
         }
 
-        /** @var ?PartialCharacter */
         $character = $this->findPartialCharacter($request, $step);
         if (null !== $character && $step === $character->id) {
             return new RedirectResponse('/characters/capers/create/basics');

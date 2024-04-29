@@ -216,7 +216,6 @@ class CharactersController extends Controller
             $request->session()->put('shadowrun5e.partial', $character->id);
             $step = 'rules';
         } else {
-            /** @var ?PartialCharacter */
             $character = $this->findPartialCharacter($request, $step);
             if (null !== $character && $step === $character->id) {
                 return redirect('/characters/shadowrun5e/create/rules');
