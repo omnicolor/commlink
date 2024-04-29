@@ -1,0 +1,46 @@
+{
+    "name": "Commlink RPG Manager",
+    "description": "Commlink is a tool for playing role playing games online, providing a character generator, campaign manager, dice roller, and more.",
+    "url": "https://commlink.digitaldarkness.com/apis.json",
+    "created": "2024-04-20",
+    "modified": "2024-04-20",
+    "specificationVersion": "0.16",
+    "tags": [
+        "RPG",
+        "role playing game"
+    ],
+    "apis": [
+        {
+            "name": "Commlink API",
+            "description": "Commlink is a tool for playing role playing games online, providing a character generator, campaign manager, dice roller, and more.",
+            "humanURL": "https://commlink.digitaldarkness.com",
+            "baseURL": "https://commlink.digitaldarkness.com/api/",
+            "tags": [
+                "RPG",
+                "role playing game"
+            ],
+            "properties": [
+                {
+                    "type": "OpenAPI",
+                    "url": "https://commlink.digitaldarkness.com/openapi.yml"
+                },
+                {
+                    "type": "Documentation",
+                    "url": "https://commlink.digitaldarkness.com/about"
+                }
+            ],
+            "contact": [
+                {
+                    "FN": "Omni Adams",
+                    "email": "omni@digitaldarkness.com"
+                }
+            ],
+            "maintainers": [
+                {
+                    "FN": "Omni Adams",
+                    "email": "omni@digitaldarkness.com"
+                }
+            ]
+        }
+    ]
+}
