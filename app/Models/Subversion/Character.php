@@ -20,9 +20,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read ?Caste $caste
  * @property-write Caste|string $caste
  * @property int $charisma
+ * @property int $dulled
  * @property-read int $grit_starting
  * @property-read ?Ideology $ideology
  * @property-write Ideology|string $ideology
+ * @property-read ?Impulse $impulse
+ * @property-write Impulse|string $impulse
  * @property-read ?Lineage $lineage
  * @property-write Lineage|string $lineage
  * @property string $lineage_option
@@ -68,7 +71,9 @@ class Character extends BaseCharacter
         'campaign_id',
         'caste',
         'charisma',
+        'dulled',
         'ideology',
+        'impulse',
         'lineage',
         'lineage_option',
         'name',
@@ -175,6 +180,29 @@ class Character extends BaseCharacter
                 }
                 $this->attributes['ideology'] = $ideology;
                 return $ideology;
+            },
+        );
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function impulse(): Attribute
+    {
+        return Attribute::make(
+            get: function (): ?Impulse {
+                if (!isset($this->attributes['impulse'])) {
+                    return null;
+                }
+                return new Impulse($this->attributes['impulse']);
+            },
+            set: function (Impulse|string $impulse): string {
+                if ($impulse instanceof Impulse) {
+                    $this->attributes['impulse'] = $impulse->id;
+                    return $impulse->id;
+                }
+                $this->attributes['impulse'] = $impulse;
+                return $impulse;
             },
         );
     }

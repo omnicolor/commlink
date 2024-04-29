@@ -8,6 +8,7 @@ use App\Models\Subversion\Background;
 use App\Models\Subversion\Caste;
 use App\Models\Subversion\Character;
 use App\Models\Subversion\Ideology;
+use App\Models\Subversion\Impulse;
 use App\Models\Subversion\Lineage;
 use App\Models\Subversion\Origin;
 use App\Models\Subversion\Skill;
@@ -104,6 +105,33 @@ final class CharacterTest extends TestCase
         $character = new Character();
         $character->ideology = 'neo-anarchist';
         self::assertSame('Neo-anarchist', (string)$character->ideology);
+    }
+
+    public function testImpulseNotSet(): void
+    {
+        $character = new Character();
+        self::assertNull($character->impulse);
+    }
+
+    public function testImpulse(): void
+    {
+        $character = new Character(['impulse' => 'indulgence']);
+        self::assertSame('Indulgence', (string)$character->impulse);
+    }
+
+    public function testSetImpulseObject(): void
+    {
+        $character = new Character();
+        $impulse = new Impulse('indulgence');
+        $character->impulse = $impulse;
+        self::assertSame('Indulgence', (string)$character->impulse);
+    }
+
+    public function testSetImpulseString(): void
+    {
+        $character = new Character();
+        $character->impulse = 'indulgence';
+        self::assertSame('Indulgence', (string)$character->impulse);
     }
 
     public function testLineageNotSet(): void
