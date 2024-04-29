@@ -12,6 +12,7 @@ use MongoDB\Laravel\Eloquent\Model;
 /**
  * Generic model representing a role playing character.
  * @method ?Campaign campaign()
+ * @method ?Character find()
  * @method string getSystem()
  * @property ?int $campaign_id
  * @property string $created_at
