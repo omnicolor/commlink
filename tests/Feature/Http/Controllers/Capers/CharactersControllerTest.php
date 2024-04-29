@@ -1434,6 +1434,7 @@ final class CharactersControllerTest extends TestCase
             ->post(route('capers.create-save'), [])
             ->assertSessionHasNoErrors();
         self::assertModelMissing($character);
+        /** @var Character */
         $character = Character::where('name', 'Save test')
             ->where('owner', $user->email)
             ->firstOrFail();
