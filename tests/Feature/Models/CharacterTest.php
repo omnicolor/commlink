@@ -62,6 +62,7 @@ final class CharacterTest extends TestCase
             'system' => 'unknown',
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
+        /** @var Character */
         $character = Character::where('_id', $character->id)->firstOrFail();
         self::assertSame('unknown', $character->system);
         self::assertFalse(is_subclass_of($character, Character::class));
@@ -80,6 +81,7 @@ final class CharacterTest extends TestCase
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
+        /** @var Character */
         $character = Character::where('_id', $character->id)
             ->firstOrFail();
         self::assertSame('shadowrun5e', $character->system);
