@@ -10,6 +10,8 @@ use Discord\Parts\Channel\Message;
 use Discord\Parts\Guild\Guild;
 use Discord\Parts\User\User;
 
+use function str_replace;
+
 /**
  * @property Message $message
  */
@@ -44,7 +46,7 @@ class DiscordMessageReceived extends MessageReceived
         // @phpstan-ignore-next-line
         $this->channel = $message->channel;
 
-        $this->content = \str_replace('/roll ', '', $message->content);
+        $this->content = str_replace('/roll ', '', $message->content);
 
         // @phpstan-ignore-next-line
         $this->user = $message->author;
