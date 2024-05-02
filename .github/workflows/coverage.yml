@@ -51,7 +51,7 @@ jobs:
         run: composer install --no-progress --no-interaction
 
       - name: Execute unit tests with code coverage
-        run: vendor/bin/phpunit --coverage-clover public/coverage/clover.xml
+        run: ./artisan test --parallel --coverage-clover public/coverage/clover.xml
 
       - if: github.event_name == 'push' && ! contains(github.event.push.user.login, 'dependabot[bot]')
         name: Monitor coverage
