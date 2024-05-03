@@ -7,7 +7,6 @@ namespace Tests\Feature\Http\Controllers\Transformers;
 use App\Models\Transformers\Character;
 use App\Models\Transformers\PartialCharacter;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 use function sprintf;
@@ -18,8 +17,6 @@ use function sprintf;
  */
 final class CharactersControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function testCreateNewCharacter(): void
     {
         session(['transformers-partial' => 'old-character-id']);

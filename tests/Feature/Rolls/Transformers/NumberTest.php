@@ -8,7 +8,6 @@ use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Transformers\Number;
 use Facades\App\Services\DiceService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -19,8 +18,6 @@ use Tests\TestCase;
  */
 final class NumberTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function testRollSlackFailure(): void
     {
         DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(5);
