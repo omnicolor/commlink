@@ -50,11 +50,13 @@ jobs:
       - name: Install Composer dependencies and app configuration
         run: composer install --no-progress --no-interaction
 
-      - name: Create SQLite database
+      - name: Configure SQLite database
         run: touch ${GITHUB_WORKSPACE}/commlink-test
 
       - name: Execute unit tests with code coverage
         run: ./artisan test --parallel --coverage-clover public/coverage/clover.xml
+        env:
+          DB_DATABASE: "${GITHUB_WORKSPACE}/commlink-test"
 
       - if: github.event_name == 'push' && ! contains(github.event.push.user.login, 'dependabot[bot]')
         name: Monitor coverage
