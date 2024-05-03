@@ -9,7 +9,6 @@ use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Rolls\Subversion\Help;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 use function json_decode;
@@ -22,8 +21,6 @@ use function sprintf;
  */
 final class HelpTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test getting help via Slack for a channel as an unregistered user.
      * @group slack

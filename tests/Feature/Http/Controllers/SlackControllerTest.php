@@ -13,7 +13,6 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
 use Facades\App\Services\DiceService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
@@ -28,7 +27,6 @@ use const PHP_EOL;
  */
 final class SlackControllerTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

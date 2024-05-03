@@ -7,7 +7,6 @@ namespace Tests\Feature\Http\Controllers\Subversion;
 use App\Models\Subversion\Character;
 use App\Models\User;
 use Database\Seeders\RoleAndPermissionSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
 
@@ -17,8 +16,6 @@ use Tests\TestCase;
  */
 final class CharactersControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected function setUp(): void
     {
         parent::setUp();

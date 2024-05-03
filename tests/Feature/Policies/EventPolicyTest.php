@@ -8,7 +8,6 @@ use App\Models\Campaign;
 use App\Models\Event;
 use App\Models\User;
 use App\Policies\EventPolicy;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -18,8 +17,6 @@ use Tests\TestCase;
  */
 final class EventPolicyTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected EventPolicy $policy;
 
     protected function setUp(): void

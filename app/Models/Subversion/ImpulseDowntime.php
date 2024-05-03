@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Subversion;
 
 /**
+ * @psalm-suppress PossiblyUnusedProperty
  * @property array<string, int> $effects
  */
 readonly class ImpulseDowntime

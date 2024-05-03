@@ -6,7 +6,6 @@ namespace Tests\Feature\Http\Controllers\Subversion;
 
 use App\Models\User;
 use Database\Seeders\RoleAndPermissionSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
 
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 final class IdeologiesControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected function setUp(): void
     {
         parent::setUp();

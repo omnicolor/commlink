@@ -10,11 +10,16 @@ use function sprintf;
 
 class Impulse
 {
+    /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
+    /** @psalm-suppress PossiblyUnusedProperty */
     public ImpulseDowntime $downtime;
     public string $name;
+    /** @psalm-suppress PossiblyUnusedProperty */
     public int $page;
+    /** @psalm-suppress PossiblyUnusedProperty */
     public string $ruleset;
+    /** @psalm-suppress PossiblyUnusedProperty */
     public string $triggers;
 
     /**
