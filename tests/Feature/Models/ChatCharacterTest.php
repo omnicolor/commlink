@@ -8,7 +8,6 @@ use App\Models\Channel;
 use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -20,8 +19,6 @@ use Tests\TestCase;
  */
 final class ChatCharacterTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test returning the relationships.
      * @test

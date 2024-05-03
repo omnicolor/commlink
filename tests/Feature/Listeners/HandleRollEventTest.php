@@ -11,7 +11,6 @@ use App\Models\Channel;
 use App\Rolls\Generic;
 use App\Rolls\Shadowrun5e\Number;
 use Facades\App\Services\DiceService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
@@ -25,8 +24,6 @@ use Tests\TestCase;
  */
 final class HandleRollEventTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test an improperly created event that has no source.
      * @test

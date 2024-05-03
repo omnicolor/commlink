@@ -7,7 +7,6 @@ namespace Tests\Feature\Http\Controllers;
 use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -17,8 +16,6 @@ use Tests\TestCase;
  */
 final class DashboardControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test an unauthenticated request.
      * @test

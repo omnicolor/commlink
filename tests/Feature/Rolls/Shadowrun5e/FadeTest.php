@@ -11,7 +11,6 @@ use App\Models\ChatUser;
 use App\Models\Shadowrun5e\Character;
 use App\Rolls\Shadowrun5e\Fade;
 use Facades\App\Services\DiceService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 use function sprintf;
@@ -26,8 +25,6 @@ use const PHP_EOL;
  */
 final class FadeTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test trying to roll a fade test without a character linked in Slack.
      * @group slack

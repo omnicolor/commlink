@@ -8,7 +8,6 @@ use App\Models\Shadowrun5e\Campaign;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\Contact;
 use App\Models\Shadowrun5e\ContactArray;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -18,8 +17,6 @@ use Tests\TestCase;
  */
 final class CampaignTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Some tests (especially failed tests) don't clean up after themselves.
      *

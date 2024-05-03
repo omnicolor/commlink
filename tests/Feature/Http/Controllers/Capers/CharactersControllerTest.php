@@ -9,7 +9,6 @@ use App\Models\Capers\Identity;
 use App\Models\Capers\PartialCharacter;
 use App\Models\Capers\Power;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Tests\TestCase;
@@ -22,7 +21,6 @@ use Tests\TestCase;
  */
 final class CharactersControllerTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**
