@@ -12,7 +12,6 @@ use App\Models\ChatUser;
 use App\Models\Shadowrun5e\Character;
 use App\Rolls\Shadowrun5e\Push;
 use Facades\App\Services\DiceService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 use const PHP_EOL;
@@ -25,8 +24,6 @@ use const PHP_EOL;
  */
 final class PushTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test trying to push the limit without having a linked character.
      * @group slack

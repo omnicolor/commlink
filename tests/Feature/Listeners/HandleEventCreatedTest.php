@@ -10,7 +10,6 @@ use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\Event;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
@@ -22,8 +21,6 @@ use function sprintf;
  */
 final class HandleEventCreatedTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function testHandlingAnEventWithNoChannels(): void
     {
         Http::fake();

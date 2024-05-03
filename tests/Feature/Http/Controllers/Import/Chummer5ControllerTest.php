@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Controllers\Import;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 final class Chummer5ControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function testInvalidFileType(): void
     {
         /** @var User */

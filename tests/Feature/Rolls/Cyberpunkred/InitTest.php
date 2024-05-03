@@ -14,7 +14,6 @@ use App\Models\Cyberpunkred\Character;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Cyberpunkred\Init;
 use Facades\App\Services\DiceService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
@@ -29,7 +28,6 @@ use const PHP_EOL;
  */
 final class InitTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

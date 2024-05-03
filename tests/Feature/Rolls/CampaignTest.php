@@ -11,7 +11,6 @@ use App\Models\Channel;
 use App\Models\ChatUser;
 use App\Models\User;
 use App\Rolls\Campaign as CampaignRoll;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
@@ -25,7 +24,6 @@ use function sprintf;
  */
 final class CampaignTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

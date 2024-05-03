@@ -7,7 +7,6 @@ namespace Tests\Feature\Events;
 use App\Events\UserLinked;
 use App\Models\ChatUser;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -18,8 +17,6 @@ use Tests\TestCase;
  */
 final class UserLinkedTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function testBroadcast(): void
     {
         /** @var ChatUser */

@@ -6,7 +6,6 @@ namespace Tests\Feature\Http\Controllers\Dnd5e;
 
 use App\Models\Dnd5e\Character;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -17,8 +16,6 @@ use Tests\TestCase;
  */
 final class CharactersControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test loading D&D 5E characters if unauthenticated.
      * @test

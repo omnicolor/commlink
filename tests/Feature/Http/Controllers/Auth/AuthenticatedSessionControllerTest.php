@@ -8,7 +8,6 @@ use App\Models\Campaign;
 use App\Models\CampaignInvitation;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -18,7 +17,6 @@ use Tests\TestCase;
  */
 final class AuthenticatedSessionControllerTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     public function testLoginScreenCanBeRendered(): void

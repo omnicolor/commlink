@@ -7,7 +7,6 @@ namespace Tests\Feature\Models;
 use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -18,7 +17,6 @@ use Tests\TestCase;
  */
 final class CharacterTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

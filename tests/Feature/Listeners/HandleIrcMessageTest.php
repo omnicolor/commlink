@@ -11,7 +11,6 @@ use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\Irc\User;
 use Facades\App\Services\DiceService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Jerodev\PhpIrcClient\IrcChannel;
@@ -29,7 +28,6 @@ use const PHP_EOL;
  */
 final class HandleIrcMessageTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

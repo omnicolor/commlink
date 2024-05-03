@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Controllers\Shadowrun5e;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -19,8 +18,6 @@ use Tests\TestCase;
  */
 final class GearControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test loading the collection if the config is broken.
      * @test

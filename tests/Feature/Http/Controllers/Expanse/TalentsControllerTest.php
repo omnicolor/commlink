@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Controllers\Expanse;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -20,8 +19,6 @@ use function count;
  */
 final class TalentsControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test loading the collection if the config is broken.
      * @test

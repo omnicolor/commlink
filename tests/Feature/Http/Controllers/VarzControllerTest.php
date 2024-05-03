@@ -12,7 +12,6 @@ use App\Models\ChatCharacter;
 use App\Models\Deck;
 use App\Models\Initiative;
 use App\Models\Shadowrun5e\Character as Runner;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -22,8 +21,6 @@ use Tests\TestCase;
  */
 final class VarzControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function setUp(): void
     {
         parent::setUp();

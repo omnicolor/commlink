@@ -10,7 +10,6 @@ use App\Models\Character;
 use App\Models\ChatUser;
 use App\Models\Event;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
@@ -22,8 +21,6 @@ use Tests\TestCase;
  */
 final class UserTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test getting a user's campaigns if they have none.
      * @test

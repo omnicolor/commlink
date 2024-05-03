@@ -17,7 +17,6 @@ use App\Models\EventRsvp;
 use App\Models\Initiative;
 use App\Models\User;
 use Carbon\CarbonImmutable;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -34,8 +33,6 @@ use Tests\TestCase;
  */
 final class UsersControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected function createAdmin(): User
     {
         $user = User::factory()->create();

@@ -13,7 +13,6 @@ use App\Models\Shadowrun5e\Character;
 use App\Models\User;
 use App\Rolls\Shadowrun5e\Init;
 use Facades\App\Services\DiceService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 use function json_decode;
@@ -28,8 +27,6 @@ use const PHP_EOL;
  */
 final class InitTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test attempting a GM command as an unregistered user in a channel with
      * a campaign.

@@ -8,7 +8,6 @@ use App\Events\RollEvent;
 use App\Models\Channel;
 use App\Rolls\Shadowrun5e\Number;
 use Facades\App\Services\DiceService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -18,8 +17,6 @@ use Tests\TestCase;
  */
 final class RollEventTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test the constructor.
      * @test

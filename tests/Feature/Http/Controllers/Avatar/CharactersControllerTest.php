@@ -6,7 +6,6 @@ namespace Tests\Feature\Http\Controllers\Avatar;
 
 use App\Models\Avatar\Character;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 final class CharactersControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test loading a character view.
      * @test

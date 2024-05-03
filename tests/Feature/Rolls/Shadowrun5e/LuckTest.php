@@ -11,7 +11,6 @@ use App\Models\ChatUser;
 use App\Models\Shadowrun5e\Character;
 use App\Rolls\Shadowrun5e\Luck;
 use Facades\App\Services\DiceService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 use function json_decode;
@@ -27,8 +26,6 @@ use const PHP_EOL;
  */
 final class LuckTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test trying to roll a luck test without a character linked in Slack.
      * @group slack

@@ -7,7 +7,6 @@ namespace Tests\Feature\Policies;
 use App\Models\Campaign;
 use App\Models\User;
 use App\Policies\CampaignPolicy;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -17,8 +16,6 @@ use Tests\TestCase;
  */
 final class CampaignPolicyTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected CampaignPolicy $policy;
 
     protected function setUp(): void

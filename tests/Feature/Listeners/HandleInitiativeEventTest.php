@@ -9,7 +9,6 @@ use App\Listeners\HandleInitiativeEvent;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\Initiative;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
@@ -20,8 +19,6 @@ use Tests\TestCase;
  */
 final class HandleInitiativeEventTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test an event that has no source.
      * @test

@@ -6,7 +6,6 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Channel;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
@@ -20,7 +19,6 @@ use Tests\TestCase;
  */
 final class ChannelsControllerTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**
