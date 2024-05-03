@@ -9,7 +9,6 @@ use App\Models\Campaign;
 use App\Models\Cyberpunkred\Character;
 use App\Models\Initiative;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -19,8 +18,6 @@ use Tests\TestCase;
  */
 final class InitiativeAddedTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test the constructor.
      * @test

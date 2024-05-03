@@ -6,6 +6,7 @@
     colors="true"
     enforceTimeLimit="true"
     executionOrder="random"
+    timeoutForSmallTests="5"
     timeoutForMediumTests="15"
     timeoutForLargeTests="120"
     cacheDirectory=".phpunit.cache">
@@ -22,8 +23,6 @@
         <server name="BCRYPT_ROUNDS" value="4"/>
         <server name="CACHE_DRIVER" value="array"/>
         <server name="DATA_URL" value="data/"/>
-        <!-- Don't remove the leading space -->
-        <server name="DATABASE_URL" value=" storage/framework/db.sqlite"/>
         <server name="DB_CONNECTION" value="sqlite"/>
         <server name="LOG_CHANNEL" value="null"/>
         <server name="MONGO_CONNECTION" value="mongo-test"/>

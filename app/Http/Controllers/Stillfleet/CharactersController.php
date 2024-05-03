@@ -34,6 +34,7 @@ class CharactersController extends Controller
         $user = $request->user();
 
         if ('new' === $step) {
+            /** @var PartialCharacter */
             $character = PartialCharacter::create(['owner' => $user->email]);
             $request->session()->put('stillfleet-partial', $character->id);
             return new RedirectResponse('/characters/stillfleet/create/class');
@@ -59,6 +60,7 @@ class CharactersController extends Controller
             }
 
             // No in-progress characters, create a new one.
+            /** @var PartialCharacter */
             $character = PartialCharacter::create(['owner' => $user->email]);
             $request->session()->put('stillfleet-partial', $character->id);
         }
@@ -101,6 +103,7 @@ class CharactersController extends Controller
         $user = $request->user();
 
         $characterId = $request->session()->get('stillfleet-partial');
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -146,6 +149,7 @@ class CharactersController extends Controller
 
         if (null !== $characterId) {
             // Return the character they're working on.
+            /** @var ?PartialCharacter */
             return PartialCharacter::where('owner', $user->email)
                 ->where('_id', $characterId)
                 ->firstOrFail();
@@ -156,6 +160,7 @@ class CharactersController extends Controller
         }
 
         // Maybe they're chosing to continue a character right now.
+        /** @var ?PartialCharacter */
         $character = PartialCharacter::where('owner', $user->email)
             ->find($step);
         if (null !== $character) {

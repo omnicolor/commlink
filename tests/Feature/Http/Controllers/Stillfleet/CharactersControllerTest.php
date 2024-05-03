@@ -8,7 +8,6 @@ use App\Features\Stillfleet as StillfleetFeature;
 use App\Models\Stillfleet\Character;
 use App\Models\Stillfleet\PartialCharacter;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Pennant\Feature;
 use Tests\TestCase;
 
@@ -19,8 +18,6 @@ use Tests\TestCase;
  */
 final class CharactersControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected User $user;
 
     public function setUp(): void
@@ -113,6 +110,7 @@ final class CharactersControllerTest extends TestCase
     public function testResumeSpecific(): void
     {
         session()->flush();
+        /** @var PartialCharacter */
         $character = PartialCharacter::create(['owner' => $this->user->email]);
         self::actingAs($this->user)
             ->get(sprintf('/characters/stillfleet/create/%s', $character->_id))
@@ -122,6 +120,7 @@ final class CharactersControllerTest extends TestCase
 
     public function testResumeLast(): void
     {
+        /** @var PartialCharacter */
         $character = PartialCharacter::create(['owner' => $this->user->email]);
         session()->put('stillfleet-partial', $character->_id);
         self::actingAs($this->user)

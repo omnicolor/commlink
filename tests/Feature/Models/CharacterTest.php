@@ -9,7 +9,6 @@ use App\Models\Character;
 use App\Models\Shadowrun5e\Character as ShadowrunCharacter;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -22,7 +21,6 @@ use function is_subclass_of;
  */
 final class CharacterTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

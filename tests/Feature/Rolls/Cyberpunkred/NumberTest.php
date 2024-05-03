@@ -8,7 +8,6 @@ use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Cyberpunkred\Number;
 use Facades\App\Services\DiceService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -20,8 +19,6 @@ use Tests\TestCase;
  */
 final class NumberTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test trying to roll.
      * @group slack
