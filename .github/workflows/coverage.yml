@@ -56,7 +56,7 @@ jobs:
       - name: Execute unit tests with code coverage
         run: ./artisan test --parallel --coverage-clover public/coverage/clover.xml
         env:
-          DB_DATABASE: "${GITHUB_WORKSPACE}/commlink-test"
+          DB_DATABASE: ${GITHUB_WORKSPACE}/commlink-test
 
       - if: github.event_name == 'push' && ! contains(github.event.push.user.login, 'dependabot[bot]')
         name: Monitor coverage
