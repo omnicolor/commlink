@@ -6,7 +6,6 @@ namespace Tests\Feature;
 
 use App\Mail\Auth\ForgotPassword;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
@@ -15,8 +14,6 @@ use Tests\TestCase;
  */
 final class PasswordResetTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function testResetPasswordLinkScreenCanBeRendered(): void
     {
         $this->get('/forgot-password')->assertOk();

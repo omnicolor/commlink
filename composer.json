@@ -135,7 +135,7 @@
             "@phpcs",
             "@php-cs-fixer"
         ],
-        "test": "./artisan test --parallel"
+        "test": "./artisan test --parallel --recreate-databases"
     },
     "scripts-descriptions": {
         "all": "Run all unit/feature tests with code coverage, then code style check, then PHPstan",

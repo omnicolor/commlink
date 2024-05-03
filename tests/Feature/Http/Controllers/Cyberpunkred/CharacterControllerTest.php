@@ -9,7 +9,6 @@ use App\Models\Cyberpunkred\Character;
 use App\Models\Cyberpunkred\PartialCharacter;
 use App\Models\Cyberpunkred\Role\Exec;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -21,7 +20,6 @@ use Tests\TestCase;
  */
 final class CharacterControllerTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

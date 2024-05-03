@@ -12,7 +12,6 @@ use App\Models\Event;
 use App\Models\EventRsvp;
 use App\Models\User;
 use App\Rolls\Rsvp;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
@@ -26,8 +25,6 @@ use function json_encode;
  */
 final class RsvpTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * @group discord
      */

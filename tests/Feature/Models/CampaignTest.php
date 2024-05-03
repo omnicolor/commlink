@@ -9,7 +9,6 @@ use App\Models\Channel;
 use App\Models\Event;
 use App\Models\Shadowrun5e\Campaign as ShadowrunCampaign;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 use function key;
@@ -21,8 +20,6 @@ use function key;
  */
 final class CampaignTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test getting the users associated with the campaign.
      * @test

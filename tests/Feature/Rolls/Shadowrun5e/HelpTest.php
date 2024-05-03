@@ -11,7 +11,6 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
 use App\Rolls\Shadowrun5e\Help;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -24,8 +23,6 @@ use Tests\TestCase;
  */
 final class HelpTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test getting help via Slack.
      * @test

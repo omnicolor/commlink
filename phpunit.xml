@@ -6,6 +6,7 @@
     colors="true"
     enforceTimeLimit="true"
     executionOrder="random"
+    timeoutForSmallTests="5"
     timeoutForMediumTests="15"
     timeoutForLargeTests="120"
     cacheDirectory=".phpunit.cache">

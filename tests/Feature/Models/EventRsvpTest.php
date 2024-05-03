@@ -7,7 +7,6 @@ namespace Tests\Feature\Models;
 use App\Models\Event;
 use App\Models\EventRsvp;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -17,8 +16,6 @@ use Tests\TestCase;
  */
 final class EventRsvpTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function testEvent(): void
     {
         $event = Event::factory()->create(['name' => 'RSVP test event']);

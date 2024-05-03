@@ -24,8 +24,12 @@ class AppServiceProvider extends ServiceProvider
     {
         Feature::discover();
         ParallelTesting::setUpTestCase(function (int $token): void {
-            $dbName = env('MONGO_DATABASE') . $token;
-            config(['database.connections.mongodb.database' => $dbName]);
+            $mongo = env('MONGO_DATABASE') . $token;
+            config(['database.connections.mongodb.database' => $mongo]);
+
+            touch(env('DB_DATABASE'));
+            $sqlite = env('DB_DATABASE') . $token;
+            touch($sqlite);
         });
     }
 }
