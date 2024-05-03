@@ -5,16 +5,18 @@ on: pull_request
 jobs:
   PHP-Code-Sniffer:
     runs-on: "ubuntu-latest"
-    strategy:
-      matrix:
-        php-version:
-          - "8.3"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: PHP Code Style (phpcs)
-        uses: chindit/actions-phpcs@1.0.1
+      - name: Install PHP_CodeSniffer
+        run: curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
+
+      - uses: thenabeel/action-phpcs@v8
+        with:
+          files: "**.php"
+          phpcs_path: php phpcs.phar
+          standard: phpcs.xml
 
   PHP-CS-Fixer:
     runs-on: "ubuntu-latest"
