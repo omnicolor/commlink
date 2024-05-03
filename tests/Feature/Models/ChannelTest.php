@@ -9,7 +9,6 @@ use App\Models\Channel;
 use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
@@ -29,7 +28,6 @@ use function sprintf;
  */
 final class ChannelTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**

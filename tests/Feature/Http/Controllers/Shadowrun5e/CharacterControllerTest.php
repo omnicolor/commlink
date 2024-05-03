@@ -10,7 +10,6 @@ use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\KnowledgeSkill;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
@@ -23,8 +22,6 @@ use Tests\TestCase;
  */
 final class CharacterControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function setUp(): void
     {
         parent::setUp();

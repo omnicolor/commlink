@@ -10,7 +10,6 @@ use App\Models\User;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request as GuzzleRequest;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
@@ -27,7 +26,6 @@ use function sprintf;
 final class DiscordControllerTest extends TestCase
 {
     use InteractsWithDiscord;
-    use RefreshDatabase;
     use WithFaker;
 
     /**

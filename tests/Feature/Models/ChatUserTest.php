@@ -8,7 +8,6 @@ use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -18,8 +17,6 @@ use Tests\TestCase;
  */
 final class ChatUserTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test getting the verification code for a user.
      * @test
