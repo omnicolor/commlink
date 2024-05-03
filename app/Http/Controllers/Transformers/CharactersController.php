@@ -30,6 +30,7 @@ class CharactersController extends Controller
         $user = Auth::user();
 
         if ('new' === $step) {
+            /** @var PartialCharacter */
             $character = PartialCharacter::create(['owner' => $user->email]);
             $request->session()->put(self::SESSION_KEY, $character->id);
             return new RedirectResponse('/characters/transformers/create/base');
@@ -55,6 +56,7 @@ class CharactersController extends Controller
             }
 
             // No in-progress characters, create a new one.
+            /** @var PartialCharacter */
             $character = PartialCharacter::create(['owner' => $user->email]);
             $request->session()->put(self::SESSION_KEY, $character->id);
         }
@@ -142,6 +144,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = Auth::user();
 
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $character_id)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -160,6 +163,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = Auth::user();
 
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $character_id)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -178,6 +182,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = Auth::user();
 
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $character_id)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -207,6 +212,7 @@ class CharactersController extends Controller
 
         if (null !== $character_id) {
             // Return the character they're working on.
+            /** @var PartialCharacter */
             return PartialCharacter::where('owner', $user->email)
                 ->where('_id', $character_id)
                 ->firstOrFail();
@@ -216,6 +222,7 @@ class CharactersController extends Controller
         }
 
         // Maybe they're chosing to continue a character right now.
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('owner', $user->email)
             ->find($step);
         if (null !== $character) {

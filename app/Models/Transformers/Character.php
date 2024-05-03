@@ -30,6 +30,7 @@ use RuntimeException;
  * @property-write int|Size $size
  * @property-read SubgroupArray $subgroups
  * @property-write array<int, string>|SubgroupArray $subgroups
+ * @property string $updated_at
  * @property-read WeaponArray $weapons
  * @property-write array<int, string>|WeaponArray $weapons
  */
