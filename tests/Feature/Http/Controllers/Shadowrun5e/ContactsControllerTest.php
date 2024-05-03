@@ -7,7 +7,6 @@ namespace Tests\Feature\Http\Controllers\Shadowrun5e;
 use App\Models\Campaign;
 use App\Models\Shadowrun5e\Character;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -18,8 +17,6 @@ use Tests\TestCase;
  */
 final class ContactsControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test getting contacts for another user without being the GM.
      * @test

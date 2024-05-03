@@ -8,7 +8,6 @@ use App\Models\Campaign;
 use App\Models\Event;
 use App\Models\EventRsvp;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -18,8 +17,6 @@ use Tests\TestCase;
  */
 final class EventTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function testToStringWithName(): void
     {
         $event = new Event([

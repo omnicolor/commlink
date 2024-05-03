@@ -9,7 +9,6 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\Cyberpunkred\Character;
 use App\Rolls\Cyberpunkred\Help;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -20,8 +19,6 @@ use Tests\TestCase;
  */
 final class HelpTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test getting help in a Cyberpunk Red Slack channel with no user or
      * campaign registered.
