@@ -8,7 +8,6 @@ use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\Initiative;
 use App\Models\Shadowrun5e\Character;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -18,8 +17,6 @@ use Tests\TestCase;
  */
 final class InitiativeTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function testToStringWithoutCharacter(): void
     {
         $initiative = new Initiative(['character_name' => 'Conan']);

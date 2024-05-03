@@ -9,7 +9,6 @@ use App\Listeners\Shadowrun5e\HandleDamageEvent;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\Shadowrun5e\Character;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
@@ -23,8 +22,6 @@ use Tests\TestCase;
  */
 final class HandleDamageEventTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test trying to broadcast to a Discord channel that doesn't have
      * a webhook set up.

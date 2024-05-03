@@ -11,7 +11,6 @@ use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -24,8 +23,6 @@ use function sha1;
  */
 final class LinkResponseTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test trying to link a character if the user has no Commlink account.
      * @test

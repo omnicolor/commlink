@@ -8,7 +8,6 @@ use App\Models\Campaign;
 use App\Models\Event;
 use App\Models\EventRsvp;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Tests\TestCase;
@@ -19,8 +18,6 @@ use Tests\TestCase;
  */
 final class EventsControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function testIndexNoEvents(): void
     {
         $user = User::factory()->create();
