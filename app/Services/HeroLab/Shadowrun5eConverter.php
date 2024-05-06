@@ -27,7 +27,31 @@ use RuntimeException;
 use SimpleXMLElement;
 use ZipArchive;
 
+use function array_key_exists;
+use function array_merge;
+use function array_unique;
+use function array_walk;
+use function count;
+use function explode;
+use function file_get_contents;
+use function implode;
+use function in_array;
+use function is_array;
+use function mkdir;
+use function next;
+use function rmdir;
+use function simplexml_load_file;
+use function sort;
 use function sprintf;
+use function str_contains;
+use function str_replace;
+use function str_starts_with;
+use function strpos;
+use function strtolower;
+use function substr;
+use function sys_get_temp_dir;
+use function tempnam;
+use function unlink;
 
 use const DIRECTORY_SEPARATOR;
 use const LIBXML_NOERROR;
@@ -174,10 +198,15 @@ class Shadowrun5eConverter implements ConverterInterface
         $this->parseFiles();
     }
 
+    public function __destruct()
+    {
+        $this->cleanup();
+    }
+
     /**
      * Clean up any temporary files left over.
      */
-    public function __destruct()
+    protected function cleanup(): void
     {
         $files = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator(
@@ -220,10 +249,13 @@ class Shadowrun5eConverter implements ConverterInterface
         if (true !== $res) {
             switch ($res) {
                 case ZipArchive::ER_NOZIP:
+                    $this->cleanup();
                     throw new RuntimeException('Portfolio is not valid');
                 case ZipArchive::ER_NOENT:
+                    $this->cleanup();
                     throw new RuntimeException('Portfolio not found');
                 default:
+                    $this->cleanup();
                     throw new RuntimeException(sprintf(
                         'Opening portfolio failed with unknown code: %d',
                         $res
@@ -233,6 +265,7 @@ class Shadowrun5eConverter implements ConverterInterface
 
         // @codeCoverageIgnoreStart
         if (false === $zip->extractTo($this->directory)) {
+            $this->cleanup();
             throw new RuntimeException(
                 'Unable to extract Portfolio to temporary directory'
             );
@@ -253,10 +286,12 @@ class Shadowrun5eConverter implements ConverterInterface
         try {
             $index = simplexml_load_file($index);
         } catch (ErrorException) {
+            $this->cleanup();
             throw new RuntimeException('Portfolio metadata is invalid');
         }
         // @phpstan-ignore-next-line
         if ('Shadowrun (5th)' !== (string)$index->game['name']) {
+            $this->cleanup();
             throw new RuntimeException(
                 'The portfolio isn\'t a Shadowrun 5th edition character'
             );
@@ -277,6 +312,7 @@ class Shadowrun5eConverter implements ConverterInterface
             );
             $xml = simplexml_load_file(filename: $file, options: LIBXML_NOERROR);
             if (false === $xml) {
+                $this->cleanup();
                 throw new RuntimeException('Failed to load Portfolio stats');
             }
             $this->xml = $xml->public->character;
@@ -296,11 +332,13 @@ class Shadowrun5eConverter implements ConverterInterface
         try {
             $xml = simplexml_load_file($meta);
         } catch (ErrorException) {
+            $this->cleanup();
             throw new RuntimeException('Portfolio metadata is invalid');
         }
 
         // @codeCoverageIgnoreStart
         if (false === $xml) {
+            $this->cleanup();
             throw new RuntimeException('Failed to load Portfolio metadata');
         }
         // @codeCoverageIgnoreEnd
@@ -756,7 +794,7 @@ class Shadowrun5eConverter implements ConverterInterface
 
                 try {
                     $gear = GearFactory::get($id);
-                } catch (RuntimeException $ex) {
+                } catch (RuntimeException) {
                     try {
                         $gear = Gear::findByName($name);
                     } catch (RuntimeException $ex) {
