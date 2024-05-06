@@ -9,6 +9,13 @@ use App\Services\HeroLab\Shadowrun5eConverter;
 use RuntimeException;
 use Tests\TestCase;
 
+use function dirname;
+use function explode;
+use function implode;
+
+// __DIR__ and __FILE__ are not considered constants with respect to importing.
+use const DIRECTORY_SEPARATOR;
+
 /**
  * Functional tests for HeroLab Shadowrun5e converter.
  * @group herolab
@@ -21,14 +28,14 @@ final class Shadowrun5eConverterTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         $path = explode(
-            \DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR,
             dirname(dirname(dirname(__DIR__)))
         );
         $path[] = 'Data';
         $path[] = 'HeroLab';
         $path[] = 'Shadowrun5e';
         $path[] = null;
-        self::$dataDirectory = implode(\DIRECTORY_SEPARATOR, $path);
+        self::$dataDirectory = implode(DIRECTORY_SEPARATOR, $path);
     }
 
     /**
