@@ -19,7 +19,9 @@
             "wyrihaximus/composer-update-bin-autoload-path": false,
             "icanhazstring/composer-unused": true,
             "infection/extension-installer": false,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "captainhook/captainhook-phar": true,
+            "captainhook/hook-installer": true
         }
     },
     "description": "Commlink is a manager for characters and campaigns for various table top role playing games.",
@@ -49,13 +51,14 @@
         "ext-random": "*",
         "ext-redis": "*",
         "ext-zip": "*",
+        "captainhook/hook-installer": "^1.0",
         "fakerphp/faker": "^1.23",
         "guzzlehttp/guzzle": "^7.3",
+        "jerodev/php-irc-client": "dev-main",
         "laravel/framework": "^10.0",
         "laravel/pennant": "^1.1",
         "laravel/sanctum": "^3.2",
         "laravel/socialite": "^5.6",
-        "jerodev/php-irc-client": "dev-main",
         "markrogoyski/math-php": "^2.8",
         "mongodb/laravel-mongodb": "^4.3",
         "php-jsonpatch/php-jsonpatch": "^4.1",
@@ -69,6 +72,7 @@
     "require-dev": {
         "ext-sqlite3": "*",
         "brianium/paratest": "^7.4",
+        "captainhook/captainhook-phar": "^5.23",
         "cypresslab/gitelephant": "^4.5",
         "doctrine/dbal": "^3.1",
         "friendsofphp/php-cs-fixer": "^3.49",
@@ -118,7 +122,8 @@
         "psalm": "psalm",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "captainhook install -f -s"
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
