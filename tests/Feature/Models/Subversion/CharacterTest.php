@@ -9,6 +9,8 @@ use App\Models\Subversion\Caste;
 use App\Models\Subversion\Character;
 use App\Models\Subversion\Ideology;
 use App\Models\Subversion\Impulse;
+use App\Models\Subversion\Language;
+use App\Models\Subversion\LanguageArray;
 use App\Models\Subversion\Lineage;
 use App\Models\Subversion\Origin;
 use App\Models\Subversion\Skill;
@@ -38,6 +40,22 @@ final class CharacterTest extends TestCase
         self::assertSame(11, $character->grit_starting);
         $character = new Character(['will' => 2]);
         self::assertSame(8, $character->grit_starting);
+    }
+
+    public function testAegisAttribute(): void
+    {
+        $character = new Character(['awareness' => 5]);
+        self::assertSame(18, $character->aegis);
+        $character->awareness = 1;
+        self::assertSame(10, $character->aegis);
+    }
+
+    public function testAnimityMaximumAttribute(): void
+    {
+        $character = new Character(['charisma' => 1]);
+        self::assertSame(16, $character->animity_maximum);
+        $character->charisma = 5;
+        self::assertSame(32, $character->animity_maximum);
     }
 
     public function testBackgroundNotSet(): void
@@ -78,6 +96,22 @@ final class CharacterTest extends TestCase
         $caste = new Caste('lower-middle');
         $character->caste = $caste;
         self::assertSame('Lower-middle caste', (string)$character->caste);
+    }
+
+    public function testGuardAttribute(): void
+    {
+        $character = new Character(['agility' => 5]);
+        self::assertSame(18, $character->guard_defense);
+        $character->agility = 3;
+        self::assertSame(14, $character->guard_defense);
+    }
+
+    public function testHealthMaximum(): void
+    {
+        $character = new Character(['brawn' => 5]);
+        self::assertSame(32, $character->health_maximum);
+        $character->brawn = 1;
+        self::assertSame(16, $character->health_maximum);
     }
 
     public function testIdeologyNotSet(): void
@@ -132,6 +166,46 @@ final class CharacterTest extends TestCase
         $character = new Character();
         $character->impulse = 'indulgence';
         self::assertSame('Indulgence', (string)$character->impulse);
+    }
+
+    public function testInitiative(): void
+    {
+        $character = new Character([
+            'agility' => 3,
+            'awareness' => 2,
+            'wit' => 1,
+        ]);
+        self::assertSame(14, $character->initiative);
+        $character = new Character([
+            'agility' => 5,
+            'awareness' => 5,
+            'wit' => 5,
+        ]);
+        self::assertSame(30, $character->initiative);
+    }
+
+    public function testEmptyLanguages(): void
+    {
+        $character = new Character();
+        self::assertCount(0, $character->languages);
+    }
+
+    public function testGetLanguages(): void
+    {
+        $character = new Character([
+            'languages' => ['commonur', 'fae'],
+        ]);
+        self::assertCount(2, $character->languages);
+    }
+
+    public function testSetLanguagesLanguageArray(): void
+    {
+        $languages = new LanguageArray();
+        $languages[] = new Language('commonur');
+        $languages[] = new Language('fae');
+        $character = new Character();
+        $character->languages = $languages;
+        self::assertCount(2, $character->languages);
     }
 
     public function testLineageNotSet(): void
@@ -229,5 +303,13 @@ final class CharacterTest extends TestCase
         ];
         self::assertNull($character->skills['arts']->rank);
         self::assertSame(2, $character->skills['deception']->rank);
+    }
+
+    public function testVigilianceAttribute(): void
+    {
+        $character = new Character(['wit' => 5]);
+        self::assertSame(18, $character->vigilance);
+        $character->wit = 2;
+        self::assertSame(12, $character->vigilance);
     }
 }

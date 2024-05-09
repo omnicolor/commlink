@@ -11,7 +11,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @property string $_id
+ * @property-read int $aegis
  * @property int $agility
+ * @property-read int $animity_maximum
  * @property int $arts
  * @property int $awareness
  * @property-read ?Background $background
@@ -22,10 +24,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property int $charisma
  * @property int $dulled
  * @property-read int $grit_starting
+ * @property-read int $guard_defense
+ * @property-read int $health_maximum
  * @property-read ?Ideology $ideology
  * @property-write Ideology|string $ideology
  * @property-read ?Impulse $impulse
  * @property-write Impulse|string $impulse
+ * @property-read int $initiative
+ * @property-read LanguageArray $languages
+ * @property-write LanguageArray|array $languages
  * @property-read ?Lineage $lineage
  * @property-write Lineage|string $lineage
  * @property string $lineage_option
@@ -36,6 +43,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read array<string, Skill> $skills
  * @property-write array<int|string, Skill|array<string, int|string>> $skills
  * @property string $system
+ * @property-read int $vigilance
  * @property int $will
  * @property int $wit
  */
@@ -74,6 +82,7 @@ class Character extends BaseCharacter
         'dulled',
         'ideology',
         'impulse',
+        'languages',
         'lineage',
         'lineage_option',
         'name',
@@ -88,6 +97,30 @@ class Character extends BaseCharacter
     public function __toString(): string
     {
         return $this->attributes['name'] ?? 'Unnamed character';
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function aegis(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return $this->awareness * 2 + 8;
+            },
+        );
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function animityMaximum(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return $this->charisma * 4 + 12;
+            },
+        );
     }
 
     /**
@@ -162,6 +195,32 @@ class Character extends BaseCharacter
     }
 
     /**
+     * Named guard_defense instead of just guard to avoid conflicting with
+     * eloquent's guard() method.
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function guardDefense(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return $this->agility * 2 + 8;
+            },
+        );
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function healthMaximum(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return $this->brawn * 4 + 12;
+            },
+        );
+    }
+
+    /**
      * @psalm-suppress PossiblyUnusedMethod
      */
     public function ideology(): Attribute
@@ -203,6 +262,47 @@ class Character extends BaseCharacter
                 }
                 $this->attributes['impulse'] = $impulse;
                 return $impulse;
+            },
+        );
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function initiative(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return $this->agility * 3 + $this->awareness * 2 + $this->wit;
+            },
+        );
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function languages(): Attribute
+    {
+        return Attribute::make(
+            get: function (): LanguageArray {
+                $languages = new LanguageArray();
+                foreach ($this->attributes['languages'] ?? [] as $language) {
+                    $languages[] = new Language($language);
+                }
+                return $languages;
+            },
+            set: function (LanguageArray|array $languages): array {
+                if ($languages instanceof LanguageArray) {
+                    $tmp = [];
+                    foreach ($languages as $language) {
+                        $tmp[] = $language->id;
+                    }
+                    $this->attributes['languages'] = $tmp;
+                    return $tmp;
+                }
+
+                $this->attributes['languages'] = $languages;
+                return ['languages' => $languages];
             },
         );
     }
@@ -289,6 +389,18 @@ class Character extends BaseCharacter
                     $skills[] = $skill;
                 }
                 return ['skills' => $skills];
+            },
+        );
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function vigilance(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return $this->wit * 2 + 8;
             },
         );
     }
