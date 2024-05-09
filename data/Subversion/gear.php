@@ -26,4 +26,15 @@ return [
         'page' => 104,
         'ruleset' => 'core',
     ],
+    'paylo' => [
+        'category' => 'Electronics and software',
+        'description' => 'Low end halos, colloquially known as “paylos” for their dirt cheap prices, can be bought at every store or C-link. Interacting with them relies on low-resolution touch-screens, speakers, and microphones. Sold at a loss, they make it up by steering the user towards buying certain products and selling their information. Notoriously cheap and insecure, they’re nonetheless the mainstay of those who can’t afford better.',
+        'firewall' => 0,
+        'fortune' => 1,
+        'id' => 'paylo',
+        'name' => 'Paylo',
+        'page' => 99,
+        'ruleset' => 'core',
+        'security' => 8,
+    ],
 ];

@@ -23,6 +23,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-write Caste|string $caste
  * @property int $charisma
  * @property int $dulled
+ * @property-read GearArray $gear
+ * @property-write GearArray|array $gear
  * @property-read int $grit_starting
  * @property-read int $guard_defense
  * @property-read int $health_maximum
@@ -80,6 +82,7 @@ class Character extends BaseCharacter
         'caste',
         'charisma',
         'dulled',
+        'gear',
         'ideology',
         'impulse',
         'languages',
@@ -178,6 +181,35 @@ class Character extends BaseCharacter
                 }
                 $this->attributes['caste'] = $caste;
                 return $caste;
+            },
+        );
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function gear(): Attribute
+    {
+        return Attribute::make(
+            get: function (): GearArray {
+                $gear = new GearArray();
+                foreach ($this->attributes['gear'] ?? [] as $item) {
+                    $gear[] = new Gear($item['id'], $item);
+                }
+                return $gear;
+            },
+            set: function (GearArray|array $gear): array {
+                if ($gear instanceof GearArray) {
+                    $tmp = [];
+                    foreach ($gear as $item) {
+                        $tmp[] = $item->id;
+                    }
+                    $this->attributes['gear'] = $tmp;
+                    return $tmp;
+                }
+
+                $this->attributes['gear'] = $gear;
+                return ['gear' => $gear];
             },
         );
     }

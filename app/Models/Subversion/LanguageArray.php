@@ -15,7 +15,7 @@ use TypeError;
 class LanguageArray extends ArrayObject
 {
     /**
-     * Add an language to the array.
+     * Add a language to the array.
      * @param ?int $index
      * @param Language $language
      * @psalm-suppress ParamNameMismatch

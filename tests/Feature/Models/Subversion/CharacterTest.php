@@ -7,6 +7,8 @@ namespace Tests\Feature\Models\Subversion;
 use App\Models\Subversion\Background;
 use App\Models\Subversion\Caste;
 use App\Models\Subversion\Character;
+use App\Models\Subversion\Gear;
+use App\Models\Subversion\GearArray;
 use App\Models\Subversion\Ideology;
 use App\Models\Subversion\Impulse;
 use App\Models\Subversion\Language;
@@ -96,6 +98,31 @@ final class CharacterTest extends TestCase
         $caste = new Caste('lower-middle');
         $character->caste = $caste;
         self::assertSame('Lower-middle caste', (string)$character->caste);
+    }
+
+    public function testEmptyGear(): void
+    {
+        $character = new Character();
+        self::assertCount(0, $character->gear);
+    }
+
+    public function testGetGear(): void
+    {
+        $character = new Character([
+            'gear' => [
+                ['id' => 'paylo'],
+            ],
+        ]);
+        self::assertCount(1, $character->gear);
+    }
+
+    public function testSetGear(): void
+    {
+        $gear = new GearArray();
+        $gear[] = new Gear('auto-intruder');
+        $character = new Character();
+        $character->gear = $gear;
+        self::assertCount(1, $character->gear);
     }
 
     public function testGuardAttribute(): void
