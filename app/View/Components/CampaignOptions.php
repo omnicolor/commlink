@@ -8,6 +8,8 @@ use App\Models\Campaign;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
+use function sprintf;
+
 class CampaignOptions extends Component
 {
     public function __construct(public Campaign $campaign)
@@ -18,7 +20,7 @@ class CampaignOptions extends Component
 
     public function render(): View
     {
-        $systemView = \sprintf(
+        $systemView = sprintf(
             'components.%s.campaign-metadata',
             $this->campaign->system
         );

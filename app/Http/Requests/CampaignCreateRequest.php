@@ -8,6 +8,8 @@ use App\Models\Avatar\Era;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+use function array_keys;
+
 class CampaignCreateRequest extends FormRequest
 {
     /**
@@ -72,10 +74,16 @@ class CampaignCreateRequest extends FormRequest
                 'max:10',
                 'nullable',
             ],
+            'subversion-community-description' => [
+                'string',
+            ],
+            'subversion-community-type' => [
+                'string',
+            ],
             'system' => [
                 'max:30',
                 'required',
-                Rule::in(\array_keys(config('app.systems'))),
+                Rule::in(array_keys(config('app.systems'))),
             ],
         ];
     }

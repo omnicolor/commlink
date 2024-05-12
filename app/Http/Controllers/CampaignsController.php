@@ -81,6 +81,12 @@ class CampaignsController extends Controller
                     'startDate' => (string)$request->input('sr5e-start-date'),
                 ];
                 break;
+            case 'subversion':
+                $campaign->options = [
+                    'community-description' => $request->input('subversion-community-description'),
+                    'community-type' => $request->input('subversion-community-type'),
+                ];
+                break;
         }
         $campaign->save();
         CampaignCreated::dispatch($campaign);
