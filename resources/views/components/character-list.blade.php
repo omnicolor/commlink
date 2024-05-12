@@ -15,6 +15,7 @@ use App\Features\Shadowrun5eCharacterGeneration;
             @case ('shadowrun5e')
             @case ('shadowrun6e')
             @case ('star-trek-adventures')
+            @case ('subversion')
                 <a href="/characters/{{ $character->system }}/{{ $character->id }}">
                     {{ $character }}</a>
                     @if ($character->campaign())

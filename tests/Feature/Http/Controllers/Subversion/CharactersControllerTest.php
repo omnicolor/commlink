@@ -44,4 +44,21 @@ final class CharactersControllerTest extends TestCase
             ->assertOk()
             ->assertJsonPath('data.name', $character->name);
     }
+
+    public function testView(): void
+    {
+        $user = User::factory()->create();
+        /** @var Character */
+        $character = Character::factory()->create(['owner' => $user->email]);
+
+        self::actingAs($user)
+            ->get(
+                route('subversion.character', $character),
+                ['character' => $character, 'user' => $user]
+            )
+            ->assertSee($user->email)
+            ->assertSee(e($character->name), false);
+
+        $character->delete();
+    }
 }
