@@ -170,6 +170,15 @@ Route::middleware('auth')->group(function (): void {
         Route::prefix('star-trek-adventures')->name('star-trek-adventures.')->group(function (): void {
             Route::get('/', [StarTrekController::class, 'list']);
         });
+
+        Route::prefix('subversion')
+            ->name('subversion')
+            ->group(function (): void {
+                Route::get(
+                    'create/{step?}',
+                    [SubversionController::class, 'create'],
+                );
+            });
     });
 
     Route::get('/dashboard', [DashboardController::class, 'show'])

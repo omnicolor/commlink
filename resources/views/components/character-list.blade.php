@@ -3,6 +3,7 @@ use App\Features\ChummerImport;
 use App\Features\HeroLabImport;
 use App\Features\CyberpunkCharacterGeneration;
 use App\Features\Shadowrun5eCharacterGeneration;
+use App\Features\SubversionCharacterGeneration;
 @endphp
 <ul class="list-group">
     @forelse ($characters as $character)
@@ -64,6 +65,12 @@ use App\Features\Shadowrun5eCharacterGeneration;
                     @feature(Shadowrun5eCharacterGeneration::class)
                     <a class="dropdown-item" href="/characters/shadowrun5e/create">
                         Shadowrun 5th Edition
+                        <span class="badge bg-danger">Not complete</span>
+                    </a>
+                    @endfeature
+                    @feature(SubversionCharacterGeneration::class)
+                    <a class="dropdown-item" href="/characters/subversion/create">
+                        Subversion
                         <span class="badge bg-danger">Not complete</span>
                     </a>
                     @endfeature
