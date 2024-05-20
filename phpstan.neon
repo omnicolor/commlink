@@ -2,10 +2,11 @@ includes:
     - vendor/larastan/larastan/extension.neon
     - vendor/phpstan/phpstan-strict-rules/rules.neon
 parameters:
-    checkGenericClassInNonGenericObjectType: false
     exceptions:
         check:
             tooWideThrowType: true
+    ignoreErrors:
+        - identifier: missingType.generics
     level: 8
     paths:
         - %currentWorkingDirectory%/app

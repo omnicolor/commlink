@@ -113,6 +113,7 @@ class Character extends BaseCharacter
         return Attribute::make(
             get: function (): array {
                 if (
+                    // @phpstan-ignore-next-line
                     !isset($this->attributes['focuses'])
                     || !is_array($this->attributes['focuses'])
                 ) {
@@ -160,6 +161,7 @@ class Character extends BaseCharacter
         return Attribute::make(
             get: function (): TalentArray {
                 $talents = new TalentArray();
+                // @phpstan-ignore-next-line
                 foreach ($this->attributes['talents'] ?? [] as $talent) {
                     try {
                         $talents[] = new Talent(
