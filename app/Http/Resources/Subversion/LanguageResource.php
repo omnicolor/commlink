@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Subversion;
 
-use App\Models\Subversion\Ideology;
+use App\Models\Subversion\Language;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\MissingValue;
 
 /**
- * @mixin Ideology
+ * @mixin Language
  * @psalm-suppress UnusedClass
  */
-class IdeologyResource extends JsonResource
+class LanguageResource extends JsonResource
 {
     /**
      * @return array{
@@ -23,7 +23,6 @@ class IdeologyResource extends JsonResource
      *   name: string,
      *   page: int,
      *   ruleset: string,
-     *   value: MissingValue|string,
      *   links: array{
      *     self: string,
      *   }
@@ -42,12 +41,8 @@ class IdeologyResource extends JsonResource
             'name' => $this->name,
             'page' => $this->page,
             'ruleset' => $this->ruleset,
-            'value' => $this->when(
-                $user->hasPermissionTo('view data'),
-                $this->value,
-            ),
             'links' => [
-                'self' => route('subversion.ideologies.show', $this->id),
+                'self' => route('subversion.languages.show', $this->id),
             ],
         ];
     }

@@ -8,6 +8,7 @@ use App\Models\Subversion\LineageOption;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\MissingValue;
 
 /**
  * @mixin LineageOption
@@ -15,7 +16,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class LineageOptionResource extends JsonResource
 {
     /**
-     * @return array<string, string>
+     * @return array{
+     *   description: MissingValue|string,
+     *   id: string,
+     *   name: string,
+     * }
      */
     public function toArray(Request $request): array
     {

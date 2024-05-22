@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Resources\Subversion;
 
 use App\Models\Subversion\Lineage;
+use App\Models\Subversion\LineageOption;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\MissingValue;
 
 /**
  * @mixin Lineage
@@ -16,7 +19,18 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class LineageResource extends JsonResource
 {
     /**
-     * @return array<string, mixed>
+     * @return array{
+     *   description: MissingValue|string,
+     *   id: string,
+     *   name: string,
+     *   option: ?LineageOption,
+     *   options: AnonymousResourceCollection,
+     *   page: int,
+     *   ruleset: string,
+     *   links: array{
+     *     self: string,
+     *   },
+     * }
      */
     public function toArray(Request $request): array
     {

@@ -199,9 +199,9 @@ paths:
                 $ref: '#/components/schemas/JsonPatchOperation'
               type: array
             example:
-              - op: "replace"
-                path: "/options/currentDate"
-                value: "2080-04-04"
+              - op: 'replace'
+                path: '/options/currentDate'
+                value: '2080-04-04'
       responses:
         '202':
           description: The campaign has been updated.
@@ -2488,6 +2488,29 @@ paths:
           description: Collection of Subversion characters.
       tags:
         - subversion
+  /subversion/gear:
+    get:
+      summary: Subversion gear
+      operationId: subversion-gear-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionGear'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion gear.
+      tags:
+        - subversion
   /subversion/ideologies:
     get:
       summary: Subversion ideologies
@@ -2509,6 +2532,52 @@ paths:
                   - links
                 type: object
           description: Collection of Subversion ideologies.
+      tags:
+        - subversion
+  /subversion/impulses:
+    get:
+      summary: Subversion impulses
+      operationId: subversion-impulses-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionImpulse'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion impulses.
+      tags:
+        - subversion
+  /subversion/languages:
+    get:
+      summary: Subversion languages
+      operationId: subversion-languages-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionLanguage'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion languages.
       tags:
         - subversion
   /subversion/lineages:
@@ -6262,13 +6331,13 @@ components:
         arts: 1
         awareness: 2
         background:
-          description: You are, or have been, in touch with nature or the earth is some way. You may have been a farmer, or lived off the land, or have been part of a group that worships, protects, or venerates the earth or growing things. Are you still farming? Have you lost the farm? Has some place you loved been despoiled? Are you trying to stop it? Environmentalist? Just have a green thumb?
-          id: agriculturist
-          name: Agriculturist
+          description: 'You are, or have been, in touch with nature or the earth is some way. You may have been a farmer, or lived off the land, or have been part of a group that worships, protects, or venerates the earth or growing things. Are you still farming? Have you lost the farm? Has some place you loved been despoiled? Are you trying to stop it? Environmentalist? Just have a green thumb?'
+          id: 'agriculturist'
+          name: 'Agriculturist'
           page: 86
-          ruleset: core
+          ruleset: 'core'
           links:
-            self: https://commlink-dev.digitaldarkness.com/api/subversion/backgrounds/agriculturist
+            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/backgrounds/agriculturist'
         brawn: 3
         caste:
           description: "You have enough income to cover the necessities and the occasional splurge, but little else. You wouldn't call your housing spacious, but at least it's yours. Your food tends towards the economical, but is broadly acceptable. You probably own a small electric commuter bike, and can afford a multiuser taxi service when you need it. Lawjacks are ambivalent to you as long as you don't cause trouble.||Lower-middle caste characters start with the normal amount of Fortune."
@@ -6276,12 +6345,12 @@ components:
           id: 'lower-middle'
           name: 'Lower-middle caste'
           page: 76
-          ruleset: core
+          ruleset: 'core'
           links:
             self: 'https://commlink-dev.digitaldarkness.com/api/subversion/castes/lower-middle'
         charisma: 2
         grit_starting: 9
-        id: 65fde97e178d3cca2e0224f3
+        id: '65fde97e178d3cca2e0224f3'
         ideology:
           description: 'No one should be coerced into following or providing aid to any person or organization against their will, and society should be constructed based on voluntary contributions. Often called nomastics because of their “no masters” rallying cry.'
           id: 'neo-anarchist'
@@ -6292,42 +6361,42 @@ components:
           links:
             self: 'https://commlink-dev.digitaldarkness.com/api/subversion/ideologies/neo-anarchist'
         lineage:
-          description: Dwarves tend to be shorter and sturdier than most other lineages. While Dwarves are the most common lineage in Acape Anya, they are a common sight throughout the world.
-          id: dwarven
-          name: Dwarven
+          description: 'Dwarves tend to be shorter and sturdier than most other lineages. While Dwarves are the most common lineage in Acape Anya, they are a common sight throughout the world.'
+          id: 'dwarven'
+          name: 'Dwarven'
           options:
-            - description: Gain +4 to defenses when resisting Toxins or Metabolic Damage.
-              id: toxin-resistant
-              name: Toxin resistant
-            - description: Increase Brawn to 2.
-              id: lessons-from-the-ground
-              name: Lessons from the ground
-            - description: You and/or your family are smaller and less stocky than most dwarves. Gain +2 on physicality rolls related to hiding or navigating tight spaces.
-              id: small
-              name: Small
-            - description: You grow moss or grass in place of hair. Your Unarmed attacks do 2d6 damage (+Brawn) and have AP 1.
-              id: monstrous-heritage
-              name: Monstrous heritage
+            - description: 'Gain +4 to defenses when resisting Toxins or Metabolic Damage.'
+              id: 'toxin-resistant'
+              name: 'Toxin resistant'
+            - description: 'Increase Brawn to 2.'
+              id: 'lessons-from-the-ground'
+              name: 'Lessons from the ground'
+            - description: 'You and/or your family are smaller and less stocky than most dwarves. Gain +2 on physicality rolls related to hiding or navigating tight spaces.'
+              id: 'small'
+              name: 'Small'
+            - description: 'You grow moss or grass in place of hair. Your Unarmed attacks do 2d6 damage (+Brawn) and have AP 1.'
+              id: 'monstrous-heritage'
+              name: 'Monstrous heritage'
           option:
-            id: small
-            name: Small
-            description: You and/or your family are smaller and less stocky than most dwarves. Gain +2 on physicality rolls related to hiding or navigating tight spaces.
+            id: 'small'
+            name: 'Small'
+            description: 'You and/or your family are smaller and less stocky than most dwarves. Gain +2 on physicality rolls related to hiding or navigating tight spaces.'
           page: 82
-          ruleset: core
+          ruleset: 'core'
           links:
-            self: https://commlink-dev.digitaldarkness.com/api/subversion/lineages/dwarven
+            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/lineages/dwarven'
         links:
-          self: https://commlink-dev.digitaldarkness.com/api/subversion/characters/65fde97e178d3cca2e0224f3
-          owner: https://commlink-dev.digitaldarkness.com/users/3
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/characters/65fde97e178d3cca2e0224f3'
+          owner: 'https://commlink-dev.digitaldarkness.com/users/3'
         origin:
-          description: The physically largest of the lineages, Yettin have historically congregated in their own communities in Altaiphera, and for much of history, integrated less with the surrounding cultures (and each other). This tradition has led to wide variance among different strains of Altaipheran culture, though most place an emphasis on the importance of tight-knit community and are influenced by rural life.||The UYC may have rebelled against the more warlike Altaipheran Yettin, but they share a common culture.
-          id: altaipheran
-          name: Altaipheran
+          description: 'The physically largest of the lineages, Yettin have historically congregated in their own communities in Altaiphera, and for much of history, integrated less with the surrounding cultures (and each other). This tradition has led to wide variance among different strains of Altaipheran culture, though most place an emphasis on the importance of tight-knit community and are influenced by rural life.||The UYC may have rebelled against the more warlike Altaipheran Yettin, but they share a common culture.'
+          id: 'altaipheran'
+          name: 'Altaipheran'
           page: 85
-          ruleset: core
+          ruleset: 'core'
           links:
-            self: https://commlink-dev.digitaldarkness.com/api/subversion/origins/altaipheran
-        owner: omni@digitaldarkness.com
+            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/origins/altaipheran'
+        owner: 'omni@digitaldarkness.com'
         skills:
           - attributes:
             - 'awareness'
@@ -6340,7 +6409,7 @@ components:
             ruleset: 'core'
             links:
               self: 'https://commlink-dev.digitaldarkness.com/api/subversion/skills/observation'
-        system: subversion
+        system: 'subversion'
         will: 3
         wit: 5
       properties:
@@ -6373,6 +6442,10 @@ components:
         owner:
           format: email
           type: string
+        skills:
+          items:
+            $ref: '#/components/schemas/SubversionSkill'
+          type: array
         system:
           type: string
         will:
@@ -6381,6 +6454,49 @@ components:
           type: integer
         links:
           $ref: '#/components/schemas/Links'
+      type: object
+    SubversionGear:
+      example:
+        category: Electronics and software
+        description: Low end halos, colloquially known as “paylos” for their dirt cheap prices, can be bought at every store or C-link. Interacting with them relies on low-resolution touch-screens, speakers, and microphones. Sold at a loss, they make it up by steering the user towards buying certain products and selling their information. Notoriously cheap and insecure, they’re nonetheless the mainstay of those who can’t afford better.
+        firewall: 0
+        fortune: 1
+        id: paylo
+        name: Paylo
+        page: 99
+        ruleset: core
+        security_rating: 8
+        links:
+          self: https://commlink-dev.digitaldarkness.com/api/subversion/gear/paylo
+      properties:
+        category:
+          type: string
+        description:
+          type: string
+        firewall:
+          type: integer
+        fortune:
+          type: integer
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        security_rating:
+          type: integer
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - category
+        - fortune
+        - id
+        - name
+        - page
+        - ruleset
+        - links
       type: object
     SubversionIdeology:
       example:
@@ -6413,6 +6529,122 @@ components:
         - name
         - page
         - ruleset
+      type: object
+    SubversionImpulse:
+      example:
+        description: 'You have a hedonistic pleasure that you turn to when you want to have fun, when you need a pick me up, or sometimes, just because it’s there. On a good day you just tell yourself you’re enjoying the finer things in life, on a bad day it’s just easier than dealing with the important things in life. Sample Indulgences: Alcohol, Drugs, Gambling, Clubbing, Sex, Videogames, etc.'
+        downtime:
+          description: 'You spent a large chunk of the time partaking of your indulgence to excess. Spend 1 fortune, recover 3 Grit, and the GM gains 5 Grit.'
+          effects:
+            fortune: -1
+            grit: 3
+            grit-gm: 5
+          name: 'Indulge'
+        id: 'indulgence'
+        name: 'Indulgence'
+        page: 27
+        responses:
+          - description: 'You partake of a drug or other activity that numbs your abilities or connection to the world. If you are addicted to a substance with specific rules (see "Drugs", core ruleset pg 100), you take a dose of the drug, following those rules. For other substances or activities, you partake to the point of impairment. Gain a temporary Consequence until the next time you get a full nights sleep.'
+            effects:
+              consequence: 1
+            id: 'intoxication'
+            name: 'Intoxication'
+        ruleset: 'core'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/impulses/indulgence'
+      properties:
+        description:
+          type: string
+        downtime:
+          $ref: '#/components/schemas/SubversionImpulseDowntime'
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        responses:
+          items:
+            $ref: '#/components/schemas/SubversionImpulseResponse'
+          type: array
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - downtime
+        - id
+        - name
+        - page
+        - responses
+        - ruleset
+        - links
+      type: object
+    SubversionImpulseDowntime:
+      example:
+        description: 'You spent a large chunk of the time partaking of your indulgence to excess. Spend 1 fortune, recover 3 Grit, and the GM gains 5 Grit.'
+        effects:
+          fortune: -1
+          grit: 3
+          grit-gm: 5
+        name: 'Indulge'
+      properties:
+        description:
+          type: string
+        effects:
+          type: object
+        name:
+          type: string
+      type: object
+    SubversionImpulseResponse:
+      example:
+        description: 'You partake of a drug or other activity that numbs your abilities or connection to the world. If you are addicted to a substance with specific rules (see "Drugs", core ruleset pg 100), you take a dose of the drug, following those rules. For other substances or activities, you partake to the point of impairment. Gain a temporary Consequence until the next time you get a full nights sleep.'
+        effects:
+          consequence: 1
+        id: 'intoxication'
+        name: 'Intoxication'
+      properties:
+        description:
+          type: string
+        effects:
+          type: object
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - effects
+        - id
+        - name
+      type: object
+    SubversionLanguage:
+      example:
+        description: 'The language of Altaiphera and the UYC, Altaipheran is difficult for non-yettin to pronounce properly.'
+        id: 'altaipheran'
+        name: 'Altaipheran'
+        page: 97
+        ruleset: 'core'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/languages/altaipheran'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - id
+        - name
+        - page
+        - ruleset
+        - links
       type: object
     SubversionLineage:
       example:

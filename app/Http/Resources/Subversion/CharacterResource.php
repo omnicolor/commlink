@@ -7,7 +7,9 @@ namespace App\Http\Resources\Subversion;
 use App\Http\Resources\CampaignResource;
 use App\Models\Subversion\Character;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\MissingValue;
 
 use function array_values;
 
@@ -19,7 +21,31 @@ class CharacterResource extends JsonResource
 {
     /**
      * @psalm-suppress InvalidArgument
-     * @return array<string, mixed>
+     * @return array{
+     *   name: string,
+     *   agility: int,
+     *   arts: int,
+     *   awareness: int,
+     *   background: BackgroundResource,
+     *   brawn: int,
+     *   campaign: CampaignResource|MissingValue,
+     *   caste: CasteResource,
+     *   charisma: int,
+     *   grit_starting: int,
+     *   id: string,
+     *   ideology: IdeologyResource,
+     *   lineage: LineageResource,
+     *   links: array{
+     *      self: string,
+     *      owner: string,
+     *   },
+     *   origin: OriginResource,
+     *   owner: string,
+     *   skills: AnonymousResourceCollection,
+     *   system: string,
+     *   will: int,
+     *   wit: int,
+     * }
      */
     public function toArray(Request $request): array
     {

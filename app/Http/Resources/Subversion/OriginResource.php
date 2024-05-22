@@ -8,6 +8,7 @@ use App\Models\Subversion\Origin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\MissingValue;
 
 /**
  * @mixin Origin
@@ -16,7 +17,16 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class OriginResource extends JsonResource
 {
     /**
-     * @return array<string, array<string, string>|int|string>
+     * @return array{
+     *   description: MissingValue|string,
+     *   id: string,
+     *   name: string,
+     *   page: int,
+     *   ruleset: string,
+     *   links: array{
+     *     self: string,
+     *   },
+     * }
      */
     public function toArray(Request $request): array
     {

@@ -8,6 +8,7 @@ use App\Models\Subversion\Background;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\MissingValue;
 
 /**
  * @mixin Background
@@ -16,7 +17,16 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class BackgroundResource extends JsonResource
 {
     /**
-     * @return array<string, mixed>
+     * @return array{
+     *   description: MissingValue|string,
+     *   id: string,
+     *   name: string,
+     *   page: int,
+     *   ruleset: string,
+     *   links: array{
+     *     self: string,
+     *   }
+     * }
      */
     public function toArray(Request $request): array
     {
