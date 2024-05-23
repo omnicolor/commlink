@@ -172,12 +172,28 @@ Route::middleware('auth')->group(function (): void {
         });
 
         Route::prefix('subversion')
-            ->name('subversion')
+            ->name('subversion.')
             ->group(function (): void {
                 Route::get(
                     'create/{step?}',
                     [SubversionController::class, 'create'],
-                );
+                )->name('create');
+                Route::post(
+                    'create/background',
+                    [SubversionController::class, 'storeBackground']
+                )->name('create-background');
+                Route::post(
+                    'create/caste',
+                    [SubversionController::class, 'storeCaste']
+                )->name('create-caste');
+                Route::post(
+                    'create/lineage',
+                    [SubversionController::class, 'storeLineage']
+                )->name('create-lineage');
+                Route::post(
+                    'create/origin',
+                    [SubversionController::class, 'storeOrigin']
+                )->name('create-origin');
             });
     });
 

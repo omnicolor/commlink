@@ -1,4 +1,4 @@
-<button aria-controls="fortune" class="btn btn-primary"
+<button aria-controls="fortune" class="btn btn-primary mt-4 position-fixed top-0 end-0"
     data-bs-toggle="offcanvas" data-bs-target="#fortune" id="fortune-button"
     type="button">
     Fortune
@@ -26,8 +26,21 @@
         </div>
 
         <div class="row">
-            <div class="col">Caste (Lower Middle)</div>
-            <div class="col-3 text-end">+0</div>
+            <div class="col" id="fortune-caste-name">
+                Caste
+                @if (null !== $character->caste)
+                    ({{ $character->caste }})
+                @endif
+            </div>
+            <div class="col-3 text-end" id="fortune-caste-amount">
+                @if (null !== $character->caste && 0 <= $character->caste->fortune)
+                    &plus;{{ $character->caste->fortune }}
+                @elseif (null !== $character->caste)
+                    {{ $character->caste->fortune }}
+                @else
+                +0
+                @endif
+            </div>
         </div>
 
         <div class="row">

@@ -37,7 +37,11 @@ class PartialCharacter extends Character
     {
         return Attribute::make(
             get: function (): int {
-                return self::STARTING_FORTUNE;
+                $fortune = self::STARTING_FORTUNE;
+                if (null !== $this->caste) {
+                    $fortune += $this->caste->fortune;
+                }
+                return $fortune;
             },
         );
     }

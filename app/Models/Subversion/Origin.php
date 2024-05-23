@@ -11,6 +11,8 @@ use function sprintf;
 class Origin
 {
     public string $description;
+    /** @psalm-suppress PossiblyUnusedProperty */
+    public string $more;
     public string $name;
     public int $page;
     public string $ruleset;
@@ -31,6 +33,7 @@ class Origin
 
         $origin = self::$origins[$id];
         $this->description = $origin['description'];
+        $this->more = $origin['more'];
         $this->name = $origin['name'];
         $this->page = $origin['page'];
         $this->ruleset = $origin['ruleset'];

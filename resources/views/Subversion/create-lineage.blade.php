@@ -7,6 +7,7 @@
             }
         </style>
     </x-slot>
+    @include('Subversion.create-navigation')
 
     @if ($errors->any())
         <div class="my-4 row">
@@ -24,8 +25,8 @@
         </div>
     @endif
 
-    <form action="" id="form" method="POST"
-        @if ($errors->any()) class="was-validated" @endif
+    <form action="{{ route('subversion.create-lineage') }}" id="form"
+        method="POST" @if ($errors->any()) class="was-validated" @endif
         novalidate>
     @csrf
 
@@ -110,6 +111,16 @@
     </div>
     @endforeach
 
+    <div class="my-1 row">
+        <div class="col-1"></div>
+        <div class="col text-end">
+            <button class="btn btn-primary" name="nav" type="submit"
+                value="origin">
+                Next: Origin
+            </button>
+        </div>
+        <div class="col-4"></div>
+    </div>
     </form>
 
     @include('Subversion.create-fortune')
