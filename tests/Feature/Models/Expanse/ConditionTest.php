@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\Condition;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
 /**
  * Tests for Expanse conditions.
- * @group models
  * @group expanse
- * @small
  */
+#[Small]
 final class ConditionTest extends TestCase
 {
     public function testLoadInvalidCondition(): void

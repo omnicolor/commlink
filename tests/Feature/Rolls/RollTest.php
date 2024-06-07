@@ -7,12 +7,10 @@ namespace Tests\Feature\Rolls;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Rolls\Roll;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * Tests for the concrete methods in the base Roll class.
- * @small
- */
+#[Small]
 final class RollTest extends TestCase
 {
     /**

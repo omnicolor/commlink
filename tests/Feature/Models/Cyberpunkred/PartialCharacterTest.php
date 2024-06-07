@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\PartialCharacter;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
 /**
  * @group cyberpunkred
- * @group models
- * @small
  */
+#[Small]
 final class PartialCharacterTest extends TestCase
 {
     /**

@@ -15,14 +15,15 @@ use App\Models\Shadowrun5e\KnowledgeSkill;
 use App\Models\Shadowrun5e\MentorSpirit;
 use App\Models\Shadowrun5e\Quality;
 use App\Models\Shadowrun5e\QualityArray;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
 /**
  * Tests for Shadowrun 5E characters.
  * @group shadowrun
  * @group shadowrun5e
- * @small
  */
+#[Small]
 final class CharacterTest extends TestCase
 {
     /**

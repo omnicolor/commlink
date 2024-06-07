@@ -8,15 +8,15 @@ use App\Models\Expanse\Origin;
 use App\Models\Expanse\Origin\Belter;
 use App\Models\Expanse\Origin\Earther;
 use App\Models\Expanse\Origin\Martian;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
 /**
  * Tests for Expanse origins.
- * @group models
  * @group expanse
- * @small
  */
+#[Small]
 final class OriginTest extends TestCase
 {
     /**

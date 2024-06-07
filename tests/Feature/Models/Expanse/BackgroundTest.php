@@ -9,15 +9,15 @@ use App\Models\Expanse\Focus;
 use App\Models\Expanse\FocusArray;
 use App\Models\Expanse\Talent;
 use App\Models\Expanse\TalentArray;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
 /**
  * Tests for Expanse backgrounds.
- * @group models
  * @group expanse
- * @small
  */
+#[Small]
 final class BackgroundTest extends TestCase
 {
     public function testLoadInvalidBackground(): void

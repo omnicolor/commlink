@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Metamagic;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -12,8 +13,8 @@ use Tests\TestCase;
  * Tests for Metamagic class.
  * @group shadowrun
  * @group shadowrun5e
- * @small
  */
+#[Small]
 final class MetamagicTest extends TestCase
 {
     /**

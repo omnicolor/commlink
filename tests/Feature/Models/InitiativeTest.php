@@ -12,7 +12,6 @@ use Tests\TestCase;
 
 /**
  * Tests for the Initiative model.
- * @group models
  * @medium
  */
 final class InitiativeTest extends TestCase

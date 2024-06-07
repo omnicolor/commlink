@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\CostCategory;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use ValueError;
 
 /**
  * Unit tests for Cyberpunk Red CostCategory.
- * @group models
  * @group cyberpunkred
- * @small
  */
+#[Small]
 final class CostCategoryTest extends TestCase
 {
     /**

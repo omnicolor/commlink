@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\TarotDeck;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
 /**
  * @group shadowrun
  * @group shadowrun5e
- * @small
  */
+#[Small]
 final class TarotDeckTest extends TestCase
 {
     /**

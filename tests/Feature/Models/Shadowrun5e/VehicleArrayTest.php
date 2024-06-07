@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Vehicle;
 use App\Models\Shadowrun5e\VehicleArray;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
@@ -14,8 +15,8 @@ use stdClass;
  * Tests for the VehicleArray class.
  * @group shadowrun
  * @group shadowrun5e
- * @small
  */
+#[Small]
 final class VehicleArrayTest extends TestCase
 {
     /**

@@ -10,6 +10,7 @@ use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\KarmaLog;
 use App\Models\Shadowrun5e\KarmaLogEntry;
 use App\Models\Shadowrun5e\KnowledgeSkill;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 use TypeError;
@@ -23,8 +24,8 @@ use function json_decode;
  * Tests for Karma Log.
  * @group shadowrun
  * @group shadowrun5e
- * @small
  */
+#[Small]
 final class KarmaLogTest extends TestCase
 {
     /**

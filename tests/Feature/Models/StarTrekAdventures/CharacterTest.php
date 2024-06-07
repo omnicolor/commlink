@@ -6,13 +6,14 @@ namespace Tests\Feature\Models\StarTrekAdventures;
 
 use App\Models\StarTrekAdventures\Character;
 use App\Models\StarTrekAdventures\Species;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
 /**
  * Tests for Star Trek Adventures character.
  * @group star-trek-adventures
- * @small
  */
+#[Small]
 final class CharacterTest extends TestCase
 {
     /**

@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun6e;
 
 use App\Models\Shadowrun6e\Quality;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
 /**
  * Unit tests for Shadowrun 6E qualities.
- * @group models
  * @group shadowrun
  * @group shadowrun6e
- * @small
  */
+#[Small]
 final class QualityTest extends TestCase
 {
     /**

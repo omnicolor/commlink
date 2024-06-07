@@ -6,15 +6,15 @@ namespace Tests\Feature\Models\Shadowrun6e;
 
 use App\Models\Shadowrun6e\Character;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
 /**
  * Tests for Shadowrun 6E characters.
- * @group models
  * @group shadowrun
  * @group shadowrun6e
- * @small
  */
+#[Small]
 final class CharacterTest extends TestCase
 {
     use WithFaker;

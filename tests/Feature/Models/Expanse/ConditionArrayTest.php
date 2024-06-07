@@ -6,16 +6,16 @@ namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\Condition;
 use App\Models\Expanse\ConditionArray;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
 /**
  * Tests for the ConditionArray class.
- * @group models
  * @group expanse
- * @small
  */
+#[Small]
 final class ConditionArrayTest extends TestCase
 {
     /**

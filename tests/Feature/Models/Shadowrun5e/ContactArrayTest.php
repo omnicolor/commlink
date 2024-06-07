@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Contact;
 use App\Models\Shadowrun5e\ContactArray;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
@@ -14,8 +15,8 @@ use stdClass;
  * Tests for the ContactArray class.
  * @group shadowrun
  * @group shadowrun5e
- * @small
  */
+#[Small]
 final class ContactArrayTest extends TestCase
 {
     /**

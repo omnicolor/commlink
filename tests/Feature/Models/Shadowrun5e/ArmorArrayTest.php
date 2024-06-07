@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Armor;
 use App\Models\Shadowrun5e\ArmorArray;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
@@ -14,8 +15,8 @@ use stdClass;
  * Tests for the ArmorArray class.
  * @group shadowrun
  * @group shadowrun5e
- * @small
  */
+#[Small]
 final class ArmorArrayTest extends TestCase
 {
     /**

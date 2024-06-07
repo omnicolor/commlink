@@ -7,6 +7,7 @@ namespace Tests\Feature\Models\Dnd5e;
 use App\Models\Character as BaseCharacter;
 use App\Models\Dnd5e\Character;
 use OutOfRangeException;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -14,10 +15,9 @@ use function is_subclass_of;
 
 /**
  * Tests for D&D 5E characters.
- * @group models
  * @group dnd5e
- * @small
  */
+#[Small]
 final class CharacterTest extends TestCase
 {
     /**

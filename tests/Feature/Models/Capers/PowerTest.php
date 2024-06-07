@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Power;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
 /**
  * Tests for Capers powers.
  * @group capers
- * @small
  */
+#[Small]
 final class PowerTest extends TestCase
 {
     /**

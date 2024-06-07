@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\ForceTrait;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
 /**
  * Tests for the Force trait.
  * @group shadowrun
  * @group shadowrun5e
- * @small
  */
+#[Small]
 final class ForceTraitTest extends TestCase
 {
     /**

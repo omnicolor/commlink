@@ -13,7 +13,6 @@ use Tests\TestCase;
 /**
  * Tests for the ChatCharacter class.
  * @group discord
- * @group models
  * @group slack
  * @medium
  */

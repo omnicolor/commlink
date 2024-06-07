@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\Focus;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -13,8 +14,8 @@ use function count;
 /**
  * Tests for Expanse focuses.
  * @group expanse
- * @small
  */
+#[Small]
 final class FocusTest extends TestCase
 {
     public function testLoadInvalidFocus(): void

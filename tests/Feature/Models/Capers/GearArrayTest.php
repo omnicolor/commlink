@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Gear;
 use App\Models\Capers\GearArray;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
@@ -13,9 +14,8 @@ use stdClass;
 /**
  * Tests for the GearArray class.
  * @group capers
- * @group models
- * @small
  */
+#[Small]
 final class GearArrayTest extends TestCase
 {
     /**

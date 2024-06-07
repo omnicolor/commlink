@@ -12,7 +12,6 @@ use Tests\TestCase;
 
 /**
  * Tests for the ChatUser test.
- * @group models
  * @medium
  */
 final class ChatUserTest extends TestCase

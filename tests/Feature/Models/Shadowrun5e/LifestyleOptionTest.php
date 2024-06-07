@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Lifestyle;
 use App\Models\Shadowrun5e\LifestyleOption;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -13,8 +14,8 @@ use Tests\TestCase;
  * Tests for LifestyleOption.
  * @group shadowrun
  * @group shadowrun5e
- * @small
  */
+#[Small]
 final class LifestyleOptionTest extends TestCase
 {
     /**

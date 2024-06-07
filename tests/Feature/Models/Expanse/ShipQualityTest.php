@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\ShipQuality;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
 /**
  * Tests for the ShipQuality class.
- * @group models
  * @group expanse
- * @small
  */
+#[Small]
 final class ShipQualityTest extends TestCase
 {
     public function testLoadNotFound(): void

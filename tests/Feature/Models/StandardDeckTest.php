@@ -8,13 +8,12 @@ use App\Models\Campaign;
 use App\Models\Deck;
 use App\Models\StandardDeck;
 use Illuminate\Support\Facades\DB;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 use UnderflowException;
 
-/**
- * @small
- */
+#[Small]
 final class StandardDeckTest extends TestCase
 {
     /**

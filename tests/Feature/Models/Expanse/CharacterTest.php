@@ -12,15 +12,15 @@ use App\Models\Expanse\Origin\Earther;
 use App\Models\Expanse\SocialClass;
 use App\Models\Expanse\Talent;
 use App\Models\Expanse\TalentArray;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
 /**
  * Tests for Expanse characters.
  * @group expanse
- * @group models
- * @small
  */
+#[Small]
 final class CharacterTest extends TestCase
 {
     /**

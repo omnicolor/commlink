@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Quality;
 use App\Models\Shadowrun5e\QualityArray;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
@@ -14,8 +15,8 @@ use stdClass;
  * Tests for the QualityArray class.
  * @group shadowrun
  * @group shadowrun5e
- * @small
  */
+#[Small]
 final class QualityArrayTest extends TestCase
 {
     /**

@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\Weapon;
 use App\Models\Cyberpunkred\WeaponArray;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
@@ -13,9 +14,8 @@ use stdClass;
 /**
  * Tests for the WeaponArray class.
  * @group cyberpunkred
- * @group models
- * @small
  */
+#[Small]
 final class WeaponArrayTest extends TestCase
 {
     /**

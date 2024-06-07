@@ -6,15 +6,15 @@ namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\Armor;
 use App\Models\Cyberpunkred\CostCategory;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
 /**
  * Unit tests for Cyberpunk Red armor.
- * @group models
  * @group cyberpunkred
- * @small
  */
+#[Small]
 final class ArmorTest extends TestCase
 {
     /**

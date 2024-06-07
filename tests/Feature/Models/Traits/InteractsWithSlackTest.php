@@ -7,6 +7,7 @@ namespace Tests\Feature\Models\Traits;
 use App\Models\Traits\InteractsWithSlack;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
@@ -15,8 +16,8 @@ use function sprintf;
 /**
  * Tests for the InteractsWithSlackTest.
  * @group slack
- * @small
  */
+#[Small]
 final class InteractsWithSlackTest extends TestCase
 {
     protected const API_CHANNELS = 'https://slack.com/api/conversations.info';

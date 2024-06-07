@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Slack;
 
 use App\Models\Slack\TextAttachment;
+use PHPUnit\Framework\Attributes\Small;
+use PHPUnit\Framework\TestCase;
 
 /**
- * Tests for the Slack TextAttachment class.
  * @group slack
- * @small
  */
-final class TextAttachmentTest extends \PHPUnit\Framework\TestCase
+#[Small]
+final class TextAttachmentTest extends TestCase
 {
     /**
      * Test formatting a TextAttachment as an array.

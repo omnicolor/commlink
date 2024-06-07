@@ -6,6 +6,7 @@ namespace Tests\Feature\Services\Omae;
 
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\Services\Omae\Shadowrun5eConverter;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -13,9 +14,7 @@ use function dirname;
 
 use const DIRECTORY_SEPARATOR;
 
-/**
- * @small
- */
+#[Small]
 final class Shadowrun5eConverterTest extends TestCase
 {
     /**

@@ -8,11 +8,10 @@ use App\Models\Cyberpunkred\TarotCard;
 use App\Models\Cyberpunkred\TarotDeck;
 use Generator;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @small
- */
+#[Small]
 final class TarotCardTest extends TestCase
 {
     /**

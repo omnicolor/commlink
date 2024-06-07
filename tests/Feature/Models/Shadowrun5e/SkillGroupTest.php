@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\ActiveSkill;
 use App\Models\Shadowrun5e\SkillGroup;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -13,8 +14,8 @@ use Tests\TestCase;
  * Unit tests for SkillGroups.
  * @group shadowrun
  * @group shadowrun5e
- * @small
  */
+#[Small]
 final class SkillGroupTest extends TestCase
 {
     /**

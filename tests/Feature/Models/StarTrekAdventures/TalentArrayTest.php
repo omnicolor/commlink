@@ -6,16 +6,16 @@ namespace Tests\Feature\Models\StarTrekAdventures;
 
 use App\Models\StarTrekAdventures\Talent;
 use App\Models\StarTrekAdventures\TalentArray;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
 /**
  * Tests for TalentArray class.
- * @group models
  * @group star-trek-adventures
- * @small
  */
+#[Small]
 final class TalentArrayTest extends TestCase
 {
     /**

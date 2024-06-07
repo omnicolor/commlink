@@ -8,13 +8,14 @@ use App\Models\Traits\InteractsWithDiscord;
 use Illuminate\Http\Client\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\MockObject\MockObject;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * @small
- */
+#[Group('discord')]
+#[Small]
 final class InteractsWithDiscordTest extends TestCase
 {
     /**

@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Boost;
 use App\Models\Capers\BoostArray;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
@@ -13,9 +14,8 @@ use stdClass;
 /**
  * Tests for the BoostArray class.
  * @group capers
- * @group models
- * @small
  */
+#[Small]
 final class BoostArrayTest extends TestCase
 {
     /**

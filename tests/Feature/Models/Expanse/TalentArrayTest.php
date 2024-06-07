@@ -6,16 +6,16 @@ namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\Talent;
 use App\Models\Expanse\TalentArray;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
 /**
  * Tests for the TalentArray class.
- * @group models
  * @group expanse
- * @small
  */
+#[Small]
 final class TalentArrayTest extends TestCase
 {
     /**

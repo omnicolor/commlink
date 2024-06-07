@@ -6,14 +6,15 @@ namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Virtue;
 use App\Models\Card;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
 /**
  * Tests for Capers virtues.
  * @group capers
- * @small
  */
+#[Small]
 final class VirtueTest extends TestCase
 {
     /**

@@ -9,14 +9,15 @@ use App\Models\Capers\GearArray;
 use App\Models\Capers\Identity;
 use App\Models\Capers\Power;
 use App\Models\Capers\PowerArray;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
 /**
  * Tests for Capers characters.
  * @group capers
- * @small
  */
+#[Small]
 final class CharacterTest extends TestCase
 {
     /**

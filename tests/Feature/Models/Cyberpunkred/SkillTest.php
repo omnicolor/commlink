@@ -6,15 +6,15 @@ namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\Character;
 use App\Models\Cyberpunkred\Skill;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
 /**
  * Unit tests for the skill class.
  * @group cyberpunkred
- * @group models
- * @small
  */
+#[Small]
 final class SkillTest extends TestCase
 {
     /**

@@ -7,6 +7,7 @@ namespace Tests\Feature\Services\Chummer;
 use App\Models\Shadowrun5e\Identity;
 use App\Models\Shadowrun5e\Tradition;
 use App\Services\Chummer5\Shadowrun5eConverter;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -15,8 +16,8 @@ use const DIRECTORY_SEPARATOR;
 /**
  * Tests for Chummer 5 converter.
  * @group chummer5
- * @small
  */
+#[Small]
 final class Shadowrun5eConverterTest extends TestCase
 {
     protected static string $dataDirectory;

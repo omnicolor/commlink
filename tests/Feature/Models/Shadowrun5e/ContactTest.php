@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Contact;
+use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for Contact class.
  * @group shadowrun
  * @group shadowrun5e
- * @small
  */
+#[Small]
 final class ContactTest extends TestCase
 {
     /**

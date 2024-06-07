@@ -6,15 +6,15 @@ namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\MeleeWeapon;
 use App\Models\Cyberpunkred\Weapon;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
 /**
  * Unit tests for MeleeWeapon class.
- * @group models
  * @group cyberpunkred
- * @small
  */
+#[Small]
 final class MeleeWeaponTest extends TestCase
 {
     /**

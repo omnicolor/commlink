@@ -7,6 +7,7 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\ActiveSkill;
 use App\Models\Shadowrun5e\Skill;
 use App\Models\Shadowrun5e\SkillArray;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
@@ -15,8 +16,8 @@ use stdClass;
  * Tests for the SkillArray class.
  * @group shadowrun
  * @group shadowrun5e
- * @small
  */
+#[Small]
 final class SkillArrayTest extends TestCase
 {
     /**

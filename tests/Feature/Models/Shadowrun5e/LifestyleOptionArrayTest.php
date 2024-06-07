@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\LifestyleOption;
 use App\Models\Shadowrun5e\LifestyleOptionArray;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
@@ -14,8 +15,8 @@ use stdClass;
  * Tests for LifestyleOptionArray.
  * @group shadowrun
  * @group shadowrun5e
- * @small
  */
+#[Small]
 final class LifestyleOptionArrayTest extends TestCase
 {
     /**

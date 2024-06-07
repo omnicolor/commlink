@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\SocialClass;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
 /**
  * Tests for Expanse social classes.
- * @group models
  * @group expanse
- * @small
  */
+#[Small]
 final class SocialClassTest extends TestCase
 {
     public function testLoadInvalidClass(): void

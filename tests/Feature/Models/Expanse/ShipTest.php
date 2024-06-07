@@ -6,15 +6,15 @@ namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\Ship;
 use App\Models\Expanse\ShipSize;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
 /**
  * Tests for Expanse ships.
  * @group expanse
- * @group models
- * @small
  */
+#[Small]
 final class ShipTest extends TestCase
 {
     public function testLoadInvalid(): void

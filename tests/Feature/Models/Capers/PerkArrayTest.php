@@ -6,16 +6,16 @@ namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Perk;
 use App\Models\Capers\PerkArray;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
 /**
  * Tests for the PerkArray class.
- * @group models
  * @group capers
- * @small
  */
+#[Small]
 final class PerkArrayTest extends TestCase
 {
     /**

@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\Lifepath;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
 /**
  * Unit tests for Cyberpunkred lifepath.
  * @group cyberpunkred
- * @group models
- * @small
  */
+#[Small]
 final class LifepathTest extends TestCase
 {
     public function testGetAffectationNoValue(): void

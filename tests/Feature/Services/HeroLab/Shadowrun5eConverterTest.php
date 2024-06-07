@@ -6,6 +6,7 @@ namespace Tests\Feature\Services\HeroLab;
 
 use App\Models\Shadowrun5e\Character;
 use App\Services\HeroLab\Shadowrun5eConverter;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -19,8 +20,8 @@ use const DIRECTORY_SEPARATOR;
 /**
  * Functional tests for HeroLab Shadowrun5e converter.
  * @group herolab
- * @small
  */
+#[Small]
 final class Shadowrun5eConverterTest extends TestCase
 {
     protected static string $dataDirectory;

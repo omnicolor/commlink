@@ -10,6 +10,7 @@ use App\Models\Shadowrun5e\GearModification;
 use App\Models\Shadowrun5e\Program;
 use App\Models\Shadowrun5e\Vehicle;
 use App\Models\Shadowrun5e\Weapon;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -17,8 +18,8 @@ use Tests\TestCase;
  * Unit tests for gear class.
  * @group shadowrun
  * @group shadowrun5e
- * @small
  */
+#[Small]
 final class GearTest extends TestCase
 {
     /**

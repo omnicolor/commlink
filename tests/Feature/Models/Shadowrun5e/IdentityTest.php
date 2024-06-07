@@ -8,14 +8,15 @@ use App\Models\Shadowrun5e\Identity;
 use App\Models\Shadowrun5e\License;
 use App\Models\Shadowrun5e\Lifestyle;
 use App\Models\Shadowrun5e\LifestyleOption;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
 /**
  * Tests for Identity class.
  * @group shadowrun
  * @group shadowrun5e
- * @small
  */
+#[Small]
 final class IdentityTest extends TestCase
 {
     /**

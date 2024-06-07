@@ -6,14 +6,15 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\KarmaLogEntry;
 use DateTimeImmutable;
+use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for KarmaLogEntry class.
  * @group shadowrun
  * @group shadowrun5e
- * @small
  */
+#[Small]
 final class KarmaLogEntryTest extends TestCase
 {
     /**

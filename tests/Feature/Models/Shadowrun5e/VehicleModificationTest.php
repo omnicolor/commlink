@@ -7,6 +7,7 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\Vehicle;
 use App\Models\Shadowrun5e\VehicleModification;
 use App\Models\Shadowrun5e\VehicleModificationSlotType;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -14,8 +15,8 @@ use Tests\TestCase;
  * Unit tests for Vehicle Modifications.
  * @group shadowrun
  * @group shadowrun5e
- * @small
  */
+#[Small]
 final class VehicleModificationTest extends TestCase
 {
     /**

@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Power;
 use App\Models\Capers\PowerArray;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
@@ -13,9 +14,8 @@ use stdClass;
 /**
  * Tests for the PowerArray class.
  * @group capers
- * @group models
- * @small
  */
+#[Small]
 final class PowerArrayTest extends TestCase
 {
     /**

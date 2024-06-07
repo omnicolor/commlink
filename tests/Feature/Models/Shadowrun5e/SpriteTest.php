@@ -8,6 +8,7 @@ use App\Models\Shadowrun5e\ActiveSkill;
 use App\Models\Shadowrun5e\SkillArray;
 use App\Models\Shadowrun5e\Sprite;
 use BadMethodCallException;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -15,8 +16,8 @@ use Tests\TestCase;
  * Unit tests for the Sprite class.
  * @group shadowrun
  * @group shadowrun5e
- * @small
  */
+#[Small]
 final class SpriteTest extends TestCase
 {
     /**

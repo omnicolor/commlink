@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Sprite;
 use App\Models\Shadowrun5e\SpriteArray;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
@@ -14,8 +15,8 @@ use stdClass;
  * Tests for the SpriteArray.
  * @group shadowrun
  * @group shadowrun5e
- * @small
  */
+#[Small]
 final class SpriteArrayTest extends TestCase
 {
     /**

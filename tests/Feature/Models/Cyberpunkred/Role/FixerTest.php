@@ -6,14 +6,14 @@ namespace Tests\Feature\Models\Cyberpunkred\Role;
 
 use App\Models\Cyberpunkred\Role\Fixer;
 use OutOfBoundsException;
+use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for the Fixer role.
  * @group cyberpunkred
- * @group models
- * @small
  */
+#[Small]
 final class FixerTest extends TestCase
 {
     public function testToString(): void

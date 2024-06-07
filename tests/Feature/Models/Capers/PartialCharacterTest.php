@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\PartialCharacter;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
 /**
  * @group capers
- * @group models
- * @small
  */
+#[Small]
 final class PartialCharacterTest extends TestCase
 {
     public function testNewFromBuilder(): void
