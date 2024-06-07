@@ -60,9 +60,9 @@ class UsersController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Get a listing of the resource.
      */
-    public function index(Request $request): JsonResponse | View
+    public function index(Request $request): JsonResponse
     {
         $features = [];
         foreach (new DirectoryIterator(app_path('Features')) as $file) {
@@ -83,18 +83,15 @@ class UsersController extends Controller
         }
         ksort($features);
 
-        if ('application/json' !== $request->header('Accept')) {
-            return view(
-                'users.index',
-                [
-                    'features' => $features,
-                    'roles' => Role::all(),
-                    'user' => $request->user(),
-                    'users' => User::all(),
-                ]
-            );
-        }
         return new JsonResponse(UserResource::collection(User::all()));
+    }
+
+    /**
+     * Return a single User as JSON.
+     */
+    public function show(User $user): UserResource
+    {
+        return new UserResource($user);
     }
 
     /**
@@ -155,10 +152,37 @@ class UsersController extends Controller
     }
 
     /**
-     * Return a single User as JSON.
+     * View the admin interface for users.
      */
-    public function show(User $user): UserResource
+    public function view(Request $request): View
     {
-        return new UserResource($user);
+        $features = [];
+        foreach (new DirectoryIterator(app_path('Features')) as $file) {
+            if ($file->isDot()) {
+                continue;
+            }
+
+            // Unlikely to happen, but just in case there's something non-PHP in
+            // the Features directory...
+            if ('text/x-php' !== mime_content_type($file->getPathname())) {
+                continue; // @codeCoverageIgnore
+            }
+
+            $class = 'App\\Features\\' . $file->getBasename('.php');
+            /** @var Stringable */
+            $feature = new $class();
+            $features[(string)$feature] = $feature;
+        }
+        ksort($features);
+
+        return view(
+            'users.index',
+            [
+                'features' => $features,
+                'roles' => Role::all(),
+                'user' => $request->user(),
+                'users' => User::all(),
+            ]
+        );
     }
 }
