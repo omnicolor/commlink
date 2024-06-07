@@ -165,10 +165,7 @@ final class CharactersControllerTest extends TestCase
         self::actingAs($user)
             ->postJson(
                 route('subversion.create-background'),
-                [
-                    'background' => 'agriculturist',
-                    'nav' => 'caste',
-                ]
+                ['background' => 'agriculturist']
             )
             ->assertSessionHasNoErrors()
             ->assertRedirect(route('subversion.create', 'caste'));
@@ -213,16 +210,76 @@ final class CharactersControllerTest extends TestCase
         self::actingAs($user)
             ->postJson(
                 route('subversion.create-caste'),
-                [
-                    'caste' => 'lower',
-                    'nav' => 'ideology',
-                ]
+                ['caste' => 'lower']
             )
             ->assertSessionHasNoErrors()
             ->assertRedirect(route('subversion.create', 'ideology'));
 
         $character->refresh();
         self::assertSame('lower', $character->caste?->id);
+        $character->delete();
+    }
+
+    public function testCreateIdeology(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+        session(['subversion-partial' => $character->id]);
+
+        self::actingAs($user)
+            ->get(route('subversion.create', 'ideology'))
+            ->assertOk()
+            ->assertSee('Ideology and Values are the fundamental beliefs of the PC.');
+        $character->delete();
+    }
+
+    public function testStoreIdeology(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+        session(['subversion-partial' => $character->id]);
+
+        self::actingAs($user)
+            ->postJson(
+                route('subversion.create-ideology'),
+                ['ideology' => 'neo-anarchist']
+            )
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(route('subversion.create', 'values'));
+
+        $character->refresh();
+        self::assertSame('neo-anarchist', $character->ideology?->id);
+        $character->delete();
+    }
+
+    public function testCreateImpulse(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+        session(['subversion-partial' => $character->id]);
+
+        self::actingAs($user)
+            ->get(route('subversion.create', 'impulse'))
+            ->assertOk()
+            ->assertSee('If Values are a character\'s motivations driven by their beliefs', false);
         $character->delete();
     }
 
@@ -246,7 +303,6 @@ final class CharactersControllerTest extends TestCase
                     'name' => $name,
                     'lineage' => 'dwarven',
                     'option' => 'toxin-resistant',
-                    'nav' => 'origin',
                 ]
             )
             ->assertSessionHasNoErrors()
@@ -279,7 +335,6 @@ final class CharactersControllerTest extends TestCase
                     'name' => $name,
                     'lineage' => 'invalid',
                     'option' => 'does not matter',
-                    'nav' => 'origin',
                 ]
             )
             ->assertJson([
@@ -318,7 +373,6 @@ final class CharactersControllerTest extends TestCase
                     'name' => $name,
                     'lineage' => 'dwarven',
                     'option' => 'invalid',
-                    'nav' => 'origin',
                 ]
             )
             ->assertJson([
@@ -388,16 +442,68 @@ final class CharactersControllerTest extends TestCase
         self::actingAs($user)
             ->postJson(
                 route('subversion.create-origin'),
-                [
-                    'origin' => 'altaipheran',
-                    'nav' => 'background',
-                ]
+                ['origin' => 'altaipheran']
             )
             ->assertSessionHasNoErrors()
             ->assertRedirect(route('subversion.create', 'background'));
 
         $character->refresh();
         self::assertSame('altaipheran', $character->origin?->id);
+        $character->delete();
+    }
+
+    public function testCreateValues(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+        session(['subversion-partial' => $character->id]);
+
+        self::actingAs($user)
+            ->get(route('subversion.create', 'values'))
+            ->assertOk()
+            ->assertSee('In addition to the beliefs that line up with their ideology');
+
+        $character->delete();
+    }
+
+    public function testStoreValues(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+        session(['subversion-partial' => $character->id]);
+
+        $corrupted = $this->faker->boolean();
+        self::actingAs($user)
+            ->postJson(
+                route('subversion.create-values'),
+                [
+                    'corrupted' => $corrupted,
+                    // @phpstan-ignore-next-line
+                    'value1' => $this->faker->catchPhrase(),
+                    // @phpstan-ignore-next-line
+                    'value2' => $this->faker->catchPhrase(),
+                    // @phpstan-ignore-next-line
+                    'value3' => $this->faker->catchPhrase(),
+                ],
+            )
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(route('subversion.create', 'impulse'));
+
+        $character->refresh();
+        self::assertCount(3, $character->values);
+        self::assertSame($corrupted, $character->corrupted_value);
         $character->delete();
     }
 

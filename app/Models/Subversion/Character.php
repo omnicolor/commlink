@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read ?Caste $caste
  * @property-write Caste|string $caste
  * @property int $charisma
+ * @property bool $corrupted_value
  * @property int $dulled
  * @property-read GearArray $gear
  * @property-write GearArray|array $gear
@@ -45,6 +46,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read array<string, Skill> $skills
  * @property-write array<int|string, Skill|array<string, int|string>> $skills
  * @property string $system
+ * @property array<int, string> $values
  * @property-read int $vigilance
  * @property int $will
  * @property int $wit
@@ -93,6 +95,7 @@ class Character extends BaseCharacter
         'owner',
         'skills',
         'system',
+        'values',
         'will',
         'wit',
     ];

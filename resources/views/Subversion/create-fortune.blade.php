@@ -45,7 +45,7 @@
 
         <div class="row">
             <div class="col">Corrupted value</div>
-            <div class="col-3 text-end">+0</div>
+            <div class="col-3 text-end" id="fortune-corrupted">+0</div>
         </div>
 
         <div class="row">
@@ -84,7 +84,9 @@
 
         <div class="row">
             <div class="col">Remaining fortune</div>
-            <div class="col-3 text-end">{{ $character->fortune }}</div>
+            <div class="col-3 text-end" id="fortune-remaining">
+                {{ $character->fortune }}
+            </div>
         </div>
     </div>
 </div>

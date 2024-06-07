@@ -40,7 +40,6 @@
     <form action="{{ route('subversion.create-background') }}" id="form"
         method="POST">
     @csrf
-    <input type="hidden" name="nav" value="caste">
 
     <div class="my-4 row">
         <div class="col-1"></div>

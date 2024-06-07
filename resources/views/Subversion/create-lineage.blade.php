@@ -114,8 +114,7 @@
     <div class="my-1 row">
         <div class="col-1"></div>
         <div class="col text-end">
-            <button class="btn btn-primary" name="nav" type="submit"
-                value="origin">
+            <button class="btn btn-primary" type="submit">
                 Next: Origin
             </button>
         </div>
@@ -124,12 +123,4 @@
     </form>
 
     @include('Subversion.create-fortune')
-
-    <x-slot name="javascript">
-        <script>
-			(function () {
-				'use strict';
-            })();
-        </script>
-    </x-slot>
 </x-app>

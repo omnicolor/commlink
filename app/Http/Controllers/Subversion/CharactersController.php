@@ -7,11 +7,15 @@ namespace App\Http\Controllers\Subversion;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Subversion\CreateBackgroundRequest;
 use App\Http\Requests\Subversion\CreateCasteRequest;
+use App\Http\Requests\Subversion\CreateIdeologyRequest;
 use App\Http\Requests\Subversion\CreateLineageRequest;
 use App\Http\Requests\Subversion\CreateOriginRequest;
+use App\Http\Requests\Subversion\CreateValuesRequest;
 use App\Models\Subversion\Background;
 use App\Models\Subversion\Caste;
 use App\Models\Subversion\Character;
+use App\Models\Subversion\Ideology;
+use App\Models\Subversion\Impulse;
 use App\Models\Subversion\Lineage;
 use App\Models\Subversion\Origin;
 use App\Models\Subversion\PartialCharacter;
@@ -103,6 +107,28 @@ class CharactersController extends Controller
                         'user' => $user,
                     ],
                 );
+            case 'ideology':
+                return view(
+                    'Subversion.create-ideology',
+                    [
+                        'ideologyId' => $character->ideology?->id,
+                        'ideologies' => Ideology::all(),
+                        'character' => $character,
+                        'creating' => 'ideology',
+                        'user' => $user,
+                    ],
+                );
+            case 'impulse':
+                return view(
+                    'Subversion.create-impulse',
+                    [
+                        'impulseId' => $character->impulse?->id,
+                        'impulses' => Impulse::all(),
+                        'character' => $character,
+                        'creating' => 'impulse',
+                        'user' => $user,
+                    ],
+                );
             case 'lineage':
                 return view(
                     'Subversion.create-lineage',
@@ -123,6 +149,15 @@ class CharactersController extends Controller
                         'creating' => 'origin',
                         'originId' => $character->origin?->id,
                         'origins' => Origin::all(),
+                        'user' => $user,
+                    ],
+                );
+            case 'values':
+                return view(
+                    'Subversion.create-values',
+                    [
+                        'character' => $character,
+                        'creating' => 'values',
                         'user' => $user,
                     ],
                 );
@@ -179,7 +214,7 @@ class CharactersController extends Controller
         $character->background = $request->background;
         $character->update();
 
-        return new RedirectResponse(route('subversion.create', $request->nav));
+        return new RedirectResponse(route('subversion.create', 'caste'));
     }
 
     public function storeCaste(CreateCasteRequest $request): RedirectResponse
@@ -196,7 +231,24 @@ class CharactersController extends Controller
         $character->caste = $request->caste;
         $character->update();
 
-        return new RedirectResponse(route('subversion.create', $request->nav));
+        return new RedirectResponse(route('subversion.create', 'ideology'));
+    }
+
+    public function storeIdeology(CreateIdeologyRequest $request): RedirectResponse
+    {
+        /** @var User */
+        $user = $request->user();
+        /** @var string */
+        $characterId = $request->session()->get('subversion-partial');
+
+        /** @var PartialCharacter */
+        $character = PartialCharacter::where('_id', $characterId)
+            ->where('owner', $user->email)
+            ->firstOrFail();
+        $character->ideology = $request->ideology;
+        $character->update();
+
+        return new RedirectResponse(route('subversion.create', 'values'));
     }
 
     public function storeLineage(CreateLineageRequest $request): RedirectResponse
@@ -215,7 +267,7 @@ class CharactersController extends Controller
         $character->lineage_option = $request->option;
         $character->update();
 
-        return new RedirectResponse(route('subversion.create', $request->nav));
+        return new RedirectResponse(route('subversion.create', 'origin'));
     }
 
     public function storeOrigin(CreateOriginRequest $request): RedirectResponse
@@ -232,7 +284,29 @@ class CharactersController extends Controller
         $character->origin = $request->origin;
         $character->update();
 
-        return new RedirectResponse(route('subversion.create', $request->nav));
+        return new RedirectResponse(route('subversion.create', 'background'));
+    }
+
+    public function storeValues(CreateValuesRequest $request): RedirectResponse
+    {
+        /** @var User */
+        $user = $request->user();
+        /** @var string */
+        $characterId = $request->session()->get('subversion-partial');
+
+        /** @var PartialCharacter */
+        $character = PartialCharacter::where('_id', $characterId)
+            ->where('owner', $user->email)
+            ->firstOrFail();
+        $character->values = [
+            $request->value1,
+            $request->value2,
+            $request->value3,
+        ];
+        $character->corrupted_value = (bool)$request->corrupted;
+        $character->update();
+
+        return new RedirectResponse(route('subversion.create', 'impulse'));
     }
 
     public function view(Character $character): View

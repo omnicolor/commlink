@@ -187,6 +187,10 @@ Route::middleware('auth')->group(function (): void {
                     [SubversionController::class, 'storeCaste']
                 )->name('create-caste');
                 Route::post(
+                    'create/ideology',
+                    [SubversionController::class, 'storeIdeology']
+                )->name('create-ideology');
+                Route::post(
                     'create/lineage',
                     [SubversionController::class, 'storeLineage']
                 )->name('create-lineage');
@@ -194,6 +198,10 @@ Route::middleware('auth')->group(function (): void {
                     'create/origin',
                     [SubversionController::class, 'storeOrigin']
                 )->name('create-origin');
+                Route::post(
+                    'create/values',
+                    [SubversionController::class, 'storeValues']
+                )->name('create-values');
             });
     });
 

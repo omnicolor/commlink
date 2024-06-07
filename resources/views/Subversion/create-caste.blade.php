@@ -20,7 +20,6 @@
 
     <form action="{{ route('subversion.create-caste') }}" id="form" method="POST">
     @csrf
-    <input name="nav" type="hidden" value="ideology">
 
     <div class="my-4 row">
         <div class="col-1"></div>
