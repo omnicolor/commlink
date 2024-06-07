@@ -11,7 +11,6 @@ use Tests\TestCase;
 
 /**
  * Tests for the characters/{characterId}/contacts controller for Shadowrun 5E.
- * @group controllers
  * @group shadowrun5e
  * @medium
  */

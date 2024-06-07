@@ -11,7 +11,6 @@ use Tests\TestCase;
 
 /**
  * Tests for the Complex Forms controller.
- * @group controllers
  * @group shadowrun
  * @group shadowrun5e
  * @medium

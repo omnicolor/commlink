@@ -13,7 +13,6 @@ use function count;
 
 /**
  * Tests for the AdeptPowersController.
- * @group controllers
  * @group shadowrun
  * @group shadowrun5e
  * @medium

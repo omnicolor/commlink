@@ -10,7 +10,6 @@ use Tests\TestCase;
 
 /**
  * @group star-trek-adventures
- * @group controllers
  * @medium
  */
 final class CharactersControllerTest extends TestCase

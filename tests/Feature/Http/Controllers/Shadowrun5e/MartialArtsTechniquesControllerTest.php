@@ -11,7 +11,6 @@ use Tests\TestCase;
 
 /**
  * Tests for the martial-arts-techniques route for Shadowrun 5E.
- * @group controllers
  * @group shadowrun
  * @group shadowrun5e
  * @medium

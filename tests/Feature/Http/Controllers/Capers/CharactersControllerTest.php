@@ -16,7 +16,6 @@ use Tests\TestCase;
 /**
  * Tests for the Capers character controller.
  * @group capers
- * @group controllers
  * @medium
  */
 final class CharactersControllerTest extends TestCase

@@ -41,7 +41,7 @@ final class PushTest extends TestCase
 
     /**
      * Test trying to push the limit without saying how many dice to roll.
-     * @group Slack
+     * @group slack
      */
     public function testPushNoDice(): void
     {

@@ -14,7 +14,6 @@ use Tests\TestCase;
 
 /**
  * Tests for the channels controller.
- * @group controllers
  * @medium
  */
 final class ChannelsControllerTest extends TestCase

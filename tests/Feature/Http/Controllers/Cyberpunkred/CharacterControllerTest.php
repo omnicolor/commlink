@@ -14,7 +14,6 @@ use Tests\TestCase;
 
 /**
  * Controller for the Cyberpunk Red characters controller.
- * @group controllers
  * @group cyberpunkred
  * @medium
  */

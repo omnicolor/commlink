@@ -16,7 +16,6 @@ use Tests\TestCase;
 
 /**
  * Tests for the Varz controller.
- * @group controllers
  * @medium
  */
 final class VarzControllerTest extends TestCase

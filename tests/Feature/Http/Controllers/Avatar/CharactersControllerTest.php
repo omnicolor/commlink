@@ -10,7 +10,6 @@ use Tests\TestCase;
 
 /**
  * @group avatar
- * @group controllers
  * @medium
  */
 final class CharactersControllerTest extends TestCase

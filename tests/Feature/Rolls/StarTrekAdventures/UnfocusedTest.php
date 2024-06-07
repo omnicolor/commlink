@@ -45,7 +45,7 @@ final class UnfocusedTest extends TestCase
 
     /**
      * Test making an unfocused roll with extra dice.
-     * @group discor
+     * @group discord
      */
     public function testUnfocusedExtraDice(): void
     {

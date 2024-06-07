@@ -13,7 +13,6 @@ use function count;
 
 /**
  * Tests for the talents controller.
- * @group controllers
  * @group expanse
  * @medium
  */

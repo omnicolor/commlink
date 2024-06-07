@@ -27,7 +27,6 @@ use Tests\TestCase;
 
 /**
  * Tests for the users controller.
- * @group controllers
  * @group user
  * @medium
  */

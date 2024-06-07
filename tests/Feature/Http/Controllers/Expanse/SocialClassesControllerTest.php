@@ -13,7 +13,6 @@ use function count;
 
 /**
  * Tests for the social classes controller.
- * @group controllers
  * @group expanse
  * @medium
  */

@@ -11,7 +11,6 @@ use Tests\TestCase;
 /**
  * Tests for the D&D 5E characters controller.
  * @group dnd5e
- * @group controllers
  * @medium
  */
 final class CharactersControllerTest extends TestCase

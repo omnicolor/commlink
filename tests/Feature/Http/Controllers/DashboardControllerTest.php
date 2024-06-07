@@ -11,7 +11,6 @@ use Tests\TestCase;
 
 /**
  * Tests for the main dashboard.
- * @group controllers
  * @medium
  */
 final class DashboardControllerTest extends TestCase

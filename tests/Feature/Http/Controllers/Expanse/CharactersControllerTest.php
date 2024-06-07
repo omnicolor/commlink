@@ -11,7 +11,6 @@ use App\Models\User;
 use Tests\TestCase;
 
 /**
- * @group controllers
  * @group expanse
  * @medium
  */

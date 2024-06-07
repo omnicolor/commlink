@@ -17,7 +17,6 @@ use Tests\TestCase;
  * Controller for the Shadowrun 5E characters controller.
  * @group shadowrun
  * @group shadowrun5e
- * @group controllers
  * @medium
  */
 final class CharacterControllerTest extends TestCase
@@ -1533,7 +1532,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test loading the knowledge skills page, with a magical character (for
      * navigation).
-     * @est
      */
     public function testLoadKnowledgeSkillsMagical(): void
     {
@@ -1564,7 +1562,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test loading the knowledge skills page, with a technomancer (for
      * navigation).
-     * @est
      */
     public function testLoadKnowledgeSkillsResonance(): void
     {

@@ -389,7 +389,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test essence loss for a character with biocompatibility (cyberware).
-     * @tst
      */
     public function testEssenceLossWithBiocompatibilityCyberware(): void
     {
@@ -410,7 +409,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test essence loss for a character with biocompatibility (bioware).
-     * @tst
      */
     public function testEssenceLossWithBiocompatibilityBioware(): void
     {

@@ -13,7 +13,6 @@ use function count;
 
 /**
  * Tests for the focuses controller.
- * @group controllers
  * @group expanse
  * @medium
  */

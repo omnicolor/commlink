@@ -13,7 +13,6 @@ use Tests\TestCase;
 
 /**
  * Tests for the settings controller.
- * @group controllers
  * @group settings
  * @medium
  */

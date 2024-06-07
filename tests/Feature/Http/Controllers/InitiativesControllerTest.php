@@ -12,7 +12,6 @@ use Tests\TestCase;
 
 /**
  * Tests for the initiatives controller.
- * @group controllers
  * @group initiatives
  * @medium
  */

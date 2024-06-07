@@ -11,7 +11,6 @@ use Tests\TestCase;
 
 /**
  * Tests for the Spirits controller for Shadowrun 5E.
- * @group controllers
  * @group shadowrun
  * @group shadowrun5e
  * @medium
