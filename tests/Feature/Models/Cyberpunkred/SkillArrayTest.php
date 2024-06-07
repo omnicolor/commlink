@@ -35,7 +35,6 @@ final class SkillArrayTest extends TestCase
 
     /**
      * Test an empty SkillArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +43,6 @@ final class SkillArrayTest extends TestCase
 
     /**
      * Test adding a skill to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -55,7 +53,6 @@ final class SkillArrayTest extends TestCase
     /**
      * Test that adding something other than a skill to the array throws an
      * exception.
-     * @test
      */
     public function testAddWrongTypeThrowsException(): void
     {
@@ -67,7 +64,6 @@ final class SkillArrayTest extends TestCase
     /**
      * Test that adding something other than a skill to the array doesn't add
      * anything.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

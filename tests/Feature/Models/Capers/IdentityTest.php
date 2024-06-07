@@ -18,7 +18,6 @@ final class IdentityTest extends TestCase
 {
     /**
      * Try to create an invalid Identity.
-     * @test
      */
     public function testInvalid(): void
     {
@@ -29,7 +28,6 @@ final class IdentityTest extends TestCase
 
     /**
      * Test creating a valid Identity.
-     * @test
      */
     public function testIdentity(): void
     {
@@ -46,7 +44,6 @@ final class IdentityTest extends TestCase
 
     /**
      * Test getting all identities.
-     * @test
      */
     public function testAll(): void
     {
@@ -58,7 +55,6 @@ final class IdentityTest extends TestCase
 
     /**
      * Test finding an identity for a joker.
-     * @test
      */
     public function testFindForJoker(): void
     {
@@ -85,7 +81,6 @@ final class IdentityTest extends TestCase
      * @dataProvider findForCardProvider
      * @param Card $card
      * @param string $expectedIdentity
-     * @test
      */
     public function testFindForCard(Card $card, string $expectedIdentity): void
     {
@@ -95,7 +90,6 @@ final class IdentityTest extends TestCase
 
     /**
      * Test trying to find an identity for a card with an invalid suit.
-     * @test
      */
     public function testFindForCardInvalidSuit(): void
     {
@@ -106,7 +100,6 @@ final class IdentityTest extends TestCase
 
     /**
      * Test trying to find an identity of a valid suit but invalid value.
-     * @test
      */
     public function testFindForCardInvalidValue(): void
     {

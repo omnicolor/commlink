@@ -20,7 +20,6 @@ final class Shadowrun5eConverterTest extends TestCase
 {
     /**
      * Test trying to load a file that doesn't exist.
-     * @test
      */
     public function testLoadNotFoundFile(): void
     {
@@ -31,7 +30,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test trying to load a non-text file.
-     * @test
      */
     public function testLoadBinaryFile(): void
     {
@@ -50,7 +48,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test loading a file that is a plain text file, but not an Omae file.
-     * @test
      */
     public function testLoadNotOmae(): void
     {
@@ -61,7 +58,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test loading a valid Omae sheet.
-     * @test
      */
     public function testLoadOmae(): PartialCharacter
     {
@@ -82,7 +78,6 @@ final class Shadowrun5eConverterTest extends TestCase
      * Test the character's metadata.
      * @depends testLoadOmae
      * @param PartialCharacter $character
-     * @test
      */
     public function testMetadata(PartialCharacter $character): void
     {
@@ -95,7 +90,6 @@ final class Shadowrun5eConverterTest extends TestCase
      * Test the character's priorities.
      * @depends testLoadOmae
      * @param PartialCharacter $character
-     * @test
      */
     public function testPriorities(PartialCharacter $character): void
     {
@@ -113,7 +107,6 @@ final class Shadowrun5eConverterTest extends TestCase
      * Test the character's remaining karma.
      * @depends testLoadOmae
      * @param PartialCharacter $character
-     * @test
      */
     public function testKarma(PartialCharacter $character): void
     {
@@ -125,7 +118,6 @@ final class Shadowrun5eConverterTest extends TestCase
      * Test the character's attributes.
      * @depends testLoadOmae
      * @param PartialCharacter $character
-     * @test
      */
     public function testAttributes(PartialCharacter $character): void
     {
@@ -147,7 +139,6 @@ final class Shadowrun5eConverterTest extends TestCase
      * Test the character's qualities.
      * @depends testLoadOmae
      * @param PartialCharacter $character
-     * @test
      */
     public function testQualitites(PartialCharacter $character): void
     {
@@ -163,7 +154,6 @@ final class Shadowrun5eConverterTest extends TestCase
      * Test the character's skills.
      * @depends testLoadOmae
      * @param PartialCharacter $character
-     * @test
      */
     public function testSkills(PartialCharacter $character): void
     {
@@ -185,7 +175,6 @@ final class Shadowrun5eConverterTest extends TestCase
      * Test the character's weapons.
      * @depends testLoadOmae
      * @param PartialCharacter $character
-     * @test
      */
     public function testWeapons(PartialCharacter $character): void
     {
@@ -210,7 +199,6 @@ final class Shadowrun5eConverterTest extends TestCase
      * Test the character's armor.
      * @depends testLoadOmae
      * @param PartialCharacter $character
-     * @test
      */
     public function testArmor(PartialCharacter $character): void
     {
@@ -238,7 +226,6 @@ final class Shadowrun5eConverterTest extends TestCase
      * Test the character's augmentations.
      * @depends testLoadOmae
      * @param PartialCharacter $character
-     * @test
      */
     public function testAugmentations(PartialCharacter $character): void
     {
@@ -252,7 +239,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test the errors from converting the character.
-     * @test
      */
     public function testErrors(): void
     {
@@ -294,7 +280,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test loading a character with invalid data.
-     * @test
      */
     public function testInvalid(): void
     {
@@ -316,7 +301,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test loading a mage's sheet.
-     * @test
      */
     public function testLoadMage(): void
     {
@@ -345,7 +329,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test loading a technomancer's sheet.
-     * @test
      */
     public function testLoadTechno(): void
     {

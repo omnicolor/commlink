@@ -18,7 +18,6 @@ final class TraditionTest extends TestCase
 {
     /**
      * Test loading an invalid tradition.
-     * @test
      */
     public function testInvalidTradition(): void
     {
@@ -29,7 +28,6 @@ final class TraditionTest extends TestCase
 
     /**
      * Test that the constructor sets the things it should set.
-     * @test
      */
     public function testConstructor(): void
     {
@@ -54,7 +52,6 @@ final class TraditionTest extends TestCase
 
     /**
      * Test the __toString method.
-     * @test
      */
     public function testToString(): void
     {
@@ -64,7 +61,6 @@ final class TraditionTest extends TestCase
 
     /**
      * Test returning the drain attributes.
-     * @test
      */
     public function testGetDrainAttributes(): void
     {

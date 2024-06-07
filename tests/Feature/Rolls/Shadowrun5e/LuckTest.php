@@ -29,7 +29,6 @@ final class LuckTest extends TestCase
     /**
      * Test trying to roll a luck test without a character linked in Slack.
      * @group slack
-     * @test
      */
     public function testWithoutCharacterSlack(): void
     {
@@ -46,7 +45,6 @@ final class LuckTest extends TestCase
     /**
      * Test trying to roll a luck test without a character linked in Discord.
      * @group discord
-     * @test
      */
     public function testWithoutCharacterDiscord(): void
     {
@@ -76,7 +74,6 @@ final class LuckTest extends TestCase
     /**
      * Test a character doing with would be a critical glitch on a luck test.
      * @group slack
-     * @test
      */
     public function testCritGlitch(): void
     {
@@ -124,7 +121,6 @@ final class LuckTest extends TestCase
     /**
      * Test a non-glitch luck test.
      * @group discord
-     * @test
      */
     public function testLuck(): void
     {

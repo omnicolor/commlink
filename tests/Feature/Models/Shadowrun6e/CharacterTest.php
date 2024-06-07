@@ -21,7 +21,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test toString if the character has neither a handle nor a name.
-     * @test
      */
     public function testToStringNoHandleOrName(): void
     {
@@ -31,7 +30,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test toString if the character has a name but no handle.
-     * @test
      */
     public function testToStringNoHandle(): void
     {
@@ -41,7 +39,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test toString if the character has a handle and a name.
-     * @test
      */
     public function testToString(): void
     {
@@ -54,7 +51,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's qualities if they have none.
-     * @test
      */
     public function testGetQualitiesNone(): void
     {
@@ -64,7 +60,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's qualities if they only have an invalid one.
-     * @test
      */
     public function testGetQualitiesInvalid(): void
     {
@@ -78,7 +73,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's qualities.
-     * @test
      */
     public function testGetQualities(): void
     {
@@ -93,7 +87,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's initiative.
-     * @test
      */
     public function testInitiative(): void
     {

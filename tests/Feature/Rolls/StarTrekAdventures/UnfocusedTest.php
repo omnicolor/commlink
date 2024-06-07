@@ -23,7 +23,6 @@ final class UnfocusedTest extends TestCase
     /**
      * Test making a simple unfocused roll.
      * @group slack
-     * @test
      */
     public function testUnfocusedSlack(): void
     {
@@ -47,7 +46,6 @@ final class UnfocusedTest extends TestCase
     /**
      * Test making an unfocused roll with extra dice.
      * @group discor
-     * @test
      */
     public function testUnfocusedExtraDice(): void
     {
@@ -67,7 +65,6 @@ final class UnfocusedTest extends TestCase
     /**
      * Test making an unfocused roll resulting in a complication.
      * @group discord
-     * @test
      */
     public function testUnfocusedWithComplication(): void
     {
@@ -91,7 +88,6 @@ final class UnfocusedTest extends TestCase
     /**
      * Test getting extra successes with natural ones.
      * @group discord
-     * @test
      */
     public function testUnfocusedNaturalOnes(): void
     {
@@ -112,7 +108,6 @@ final class UnfocusedTest extends TestCase
     /**
      * Test making an unfocused roll with optional text.
      * @group slack
-     * @test
      */
     public function testUnfocusedRollWithOptionalText(): void
     {

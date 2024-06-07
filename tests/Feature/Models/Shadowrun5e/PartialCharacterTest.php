@@ -14,9 +14,6 @@ use Tests\TestCase;
  */
 final class PartialCharacterTest extends TestCase
 {
-    /**
-     * @test
-     */
     public function testNewFromBuilder(): void
     {
         $character = new PartialCharacter([
@@ -33,7 +30,6 @@ final class PartialCharacterTest extends TestCase
 
     /**
      * Test seeing if a newly created partial character is awakened.
-     * @test
      */
     public function testAwakenedOnNewCharacter(): void
     {
@@ -44,7 +40,6 @@ final class PartialCharacterTest extends TestCase
 
     /**
      * Test awakened checks on a technomancer.
-     * @test
      */
     public function testTechnomancer(): void
     {
@@ -59,7 +54,6 @@ final class PartialCharacterTest extends TestCase
 
     /**
      * Test awakened checks on a mage.
-     * @test
      */
     public function testMagician(): void
     {
@@ -74,7 +68,6 @@ final class PartialCharacterTest extends TestCase
 
     /**
      * Test awakened checks on an adept.
-     * @test
      */
     public function testAdept(): void
     {
@@ -155,7 +148,6 @@ final class PartialCharacterTest extends TestCase
      * @param PartialCharacter $character
      * @param string $attribute
      * @param int $maximum
-     * @test
      */
     public function testGetMaximumAttributes(
         PartialCharacter $character,

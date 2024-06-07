@@ -18,7 +18,6 @@ final class HelpTest extends TestCase
     /**
      * Test getting help via Slack.
      * @group slack
-     * @test
      */
     public function testHelpSlack(): void
     {
@@ -38,7 +37,6 @@ final class HelpTest extends TestCase
     /**
      * Test getting help via Discord.
      * @group discord
-     * @test
      */
     public function testHelpDiscord(): void
     {
@@ -57,7 +55,6 @@ final class HelpTest extends TestCase
     /**
      * Test getting help via IRC.
      * @group irc
-     * @test
      */
     public function testHelpIrc(): void
     {

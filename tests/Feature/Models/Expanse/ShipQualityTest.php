@@ -16,10 +16,6 @@ use Tests\TestCase;
  */
 final class ShipQualityTest extends TestCase
 {
-    /**
-     * Test trying to load an invalid quality.
-     * @test
-     */
     public function testLoadNotFound(): void
     {
         self::expectException(RuntimeException::class);
@@ -29,10 +25,6 @@ final class ShipQualityTest extends TestCase
         new ShipQuality('not-found');
     }
 
-    /**
-     * Test load.
-     * @test
-     */
     public function testLoad(): void
     {
         $quality = new ShipQuality('advanced-sensor-package-1');
@@ -43,10 +35,6 @@ final class ShipQualityTest extends TestCase
         self::assertSame('core', $quality->ruleset);
     }
 
-    /**
-     * Test loading all qualities.
-     * @test
-     */
     public function testAll(): void
     {
         self::assertCount(5, ShipQuality::all());

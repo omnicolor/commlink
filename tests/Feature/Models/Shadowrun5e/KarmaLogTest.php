@@ -73,7 +73,6 @@ final class KarmaLogTest extends TestCase
     /**
      * Test trying to put a different kind of object into the log throws an
      * exception.
-     * @test
      */
     public function testWrongObjectTypeThrowsException(): void
     {
@@ -88,7 +87,6 @@ final class KarmaLogTest extends TestCase
     /**
      * Test trying to put a different kind of object into the log doesn't add
      * it.
-     * @test
      */
     public function testWrongObjectTypeDoesntAdd(): void
     {
@@ -103,7 +101,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test count on a new KarmaLog.
-     * @test
      */
     public function testCountNewLog(): void
     {
@@ -112,7 +109,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test count on a log with a few entries.
-     * @test
      */
     public function testCountWithEntries(): void
     {
@@ -123,7 +119,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test iterating across the karma log.
-     * @test
      */
     public function testIterator(): void
     {
@@ -140,7 +135,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test getKarma on an empty array.
-     * @test
      */
     public function testGetKarmaEmptyArray(): void
     {
@@ -149,7 +143,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test getKarma() with a non-empty KarmaLog.
-     * @test
      */
     public function testGetKarmaNonEmptyArray(): void
     {
@@ -161,7 +154,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test countSkillPoints on an empty array.
-     * @test
      */
     public function testCountSkillPointsEmptyArray(): void
     {
@@ -173,7 +165,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test countSkillPoints with a some Knowledge Skills.
-     * @test
      */
     public function testCountSkillPoints(): void
     {
@@ -192,7 +183,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test countSkillPoints with a native language skill.
-     * @test
      */
     public function testCountSkillPointsNative(): void
     {
@@ -211,7 +201,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test countSkillPoints with a specialized skill.
-     * @test
      */
     public function testCountSkillPointsSpecialized(): void
     {
@@ -230,7 +219,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test filterUnspecialized.
-     * @test
      */
     public function testFilterUnspecialized(): void
     {
@@ -374,7 +362,6 @@ final class KarmaLogTest extends TestCase
     /**
      * Test that trying to initialize a Karma Log without priorities being set
      * throws an exception.
-     * @test
      */
     public function testInitializeEmptyCharacter(): void
     {
@@ -386,7 +373,6 @@ final class KarmaLogTest extends TestCase
     /**
      * Test trying to initialize a KarmaLog on a character that hasn't gone
      * over in any way.
-     * @test
      */
     public function testInitializeBoringCharacter(): void
     {
@@ -398,7 +384,6 @@ final class KarmaLogTest extends TestCase
     /**
      * Test trying to initialize a KarmaLog on a sum-to-ten character that spent
      * too much on attributes.
-     * @test
      */
     public function testInitializeSumToTenCharacter(): void
     {
@@ -424,7 +409,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test initializing a character that spent chargen karma on attributes.
-     * @test
      */
     public function testAttributesTooHigh(): void
     {
@@ -454,7 +438,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test initializing a character that spent chargen karma on martial arts.
-     * @test
      */
     public function testMartialArts(): void
     {
@@ -481,7 +464,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test initializing a log with a character that bought qualities.
-     * @test
      */
     public function testQualities(): void
     {
@@ -502,7 +484,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test initializing a log with a character that didn't overspend on skills.
-     * @test
      */
     public function testSkillsOkay(): void
     {
@@ -515,7 +496,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test initializing a log with a character that overspent on skills.
-     * @test
      */
     public function testSkills(): void
     {
@@ -554,7 +534,6 @@ final class KarmaLogTest extends TestCase
     /**
      * Test initializing a log with a character where overspending on skills
      * lead to buying a specialization with karma is the cheapest option.
-     * @test
      */
     public function testSkillsSpecialization(): void
     {
@@ -590,7 +569,6 @@ final class KarmaLogTest extends TestCase
     /**
      * Test initializing a karma log with a magical character that overspent on
      * skills, including their free ones.
-     * @test
      */
     public function testMagicalSkills(): void
     {
@@ -625,7 +603,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test a character that bought knowledge, but didn't overspend.
-     * @test
      */
     public function testNotTooMuchKnowledge(): void
     {
@@ -643,7 +620,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test a character that overspent on knowledge skills.
-     * @test
      */
     public function testKnowledge(): void
     {
@@ -677,7 +653,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test initializing a log with a character that overspent skill groups.
-     * @test
      */
     public function testSkillGroups(): void
     {
@@ -714,7 +689,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test initializing a log with a character that overspent contacts.
-     * @test
      */
     public function testContacts(): void
     {
@@ -751,7 +725,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test a magical character with no spells.
-     * @test
      */
     public function testNoSpells(): void
     {
@@ -774,7 +747,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test a magical character with extra spells.
-     * @test
      */
     public function testExtraSpells(): void
     {
@@ -810,7 +782,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test a character spending extra on complex forms.
-     * @test
      */
     public function testExtraForms(): void
     {
@@ -845,7 +816,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test a character spending too much on gear.
-     * @test
      */
     public function testExtraNuyen(): void
     {
@@ -961,7 +931,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test initializing a Karma Log from an array.
-     * @test
      */
     public function testFromArray(): void
     {

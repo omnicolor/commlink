@@ -31,7 +31,6 @@ final class InitTest extends TestCase
      * Test attempting a GM command as an unregistered user in a channel with
      * a campaign.
      * @group slack
-     * @test
      */
     public function testGmCommandUnregistered(): void
     {
@@ -55,7 +54,6 @@ final class InitTest extends TestCase
     /**
      * Test attempting to clear initiative as a GM.
      * @group slack
-     * @test
      */
     public function testGmClearInitiativeWithCampaign(): void
     {
@@ -102,7 +100,6 @@ final class InitTest extends TestCase
     /**
      * Test attempting to start initiative as a GM.
      * @group slack
-     * @test
      */
     public function testGmStartInitiative(): void
     {
@@ -150,7 +147,6 @@ final class InitTest extends TestCase
 
     /**
      * Test attempting something else as a GM.
-     * @test
      */
     public function testGmInvalidCommand(): void
     {
@@ -188,7 +184,6 @@ final class InitTest extends TestCase
 
     /**
      * Test attempting to clear initiative in a channel without a campaign.
-     * @test
      */
     public function testGmClearInitiativeWithoutCampaign(): void
     {
@@ -223,7 +218,6 @@ final class InitTest extends TestCase
 
     /**
      * Test attempted to create initiative in a channel without a campaign.
-     * @test
      */
     public function testGmStartInitiativeWithoutCampaign(): void
     {
@@ -261,7 +255,6 @@ final class InitTest extends TestCase
     /**
      * Test rolling initiative with a linked Shadowrun character.
      * @group slack
-     * @test
      */
     public function testRollInitiativeForCharacter(): void
     {
@@ -329,7 +322,6 @@ final class InitTest extends TestCase
      * Test manually rolling initiative in a channel without a campaign and the
      * user has no linked Character.
      * @group slack
-     * @test
      */
     public function testRollInitiativeForUser(): void
     {
@@ -369,7 +361,6 @@ final class InitTest extends TestCase
 
     /**
      * Test trying to roll initiative with too many arguments.
-     * @test
      */
     public function testRollInitiativeTooManyArguments(): void
     {
@@ -392,7 +383,6 @@ final class InitTest extends TestCase
     /**
      * Test trying to roll with base and dice as separate numbers with
      * a non-numeric base initiative.
-     * @test
      */
     public function testRollInitiativeInvalidBaseInit(): void
     {
@@ -415,7 +405,6 @@ final class InitTest extends TestCase
     /**
      * Test trying to roll with base and dice as separate numbers using
      * a non-numeric dice argument.
-     * @test
      */
     public function testRollInitiativeInvalidDice(): void
     {
@@ -437,7 +426,6 @@ final class InitTest extends TestCase
 
     /**
      * Test trying to roll with base and dice as separate numbers.
-     * @test
      */
     public function testRollInitiativeWithBaseAndDice(): void
     {
@@ -464,7 +452,6 @@ final class InitTest extends TestCase
 
     /**
      * Test manually rolling initiative trying to use too many dice.
-     * @test
      */
     public function testRollInitiativeTooManyDice(): void
     {
@@ -486,7 +473,6 @@ final class InitTest extends TestCase
 
     /**
      * Test trying to use the wrong sized dice for initiative.
-     * @test
      */
     public function testRollInitiativeWrongDiceSize(): void
     {
@@ -507,7 +493,6 @@ final class InitTest extends TestCase
 
     /**
      * Test rolling using dice notation with a non-numeric base initiative.
-     * @test
      */
     public function testRollInitiativeDiceNotationInvalidBase(): void
     {
@@ -528,7 +513,6 @@ final class InitTest extends TestCase
 
     /**
      * Test rolling using dice notation with a non-numeric number of dice.
-     * @test
      */
     public function testRollDiceNotationInvalidDice(): void
     {
@@ -551,7 +535,6 @@ final class InitTest extends TestCase
     /**
      * Test rolling using just their base initiative.
      * @group discord
-     * @test
      */
     public function testRollJustBaseInitiative(): void
     {

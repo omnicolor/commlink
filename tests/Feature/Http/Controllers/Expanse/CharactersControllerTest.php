@@ -19,7 +19,6 @@ final class CharactersControllerTest extends TestCase
 {
     /**
      * Test loading Expanse characters if unauthenticated.
-     * @test
      */
     public function testUnauthenticated(): void
     {
@@ -29,7 +28,6 @@ final class CharactersControllerTest extends TestCase
     /**
      * Test loading Expanse characters if authenticated but the user doesn't
      * have any characters.
-     * @test
      */
     public function testAuthenticatedNoCharacters(): void
     {
@@ -43,7 +41,6 @@ final class CharactersControllerTest extends TestCase
     /**
      * Test loading Expanse characters if authenticated, but all of the user's
      * characters are for different systems.
-     * @test
      */
     public function testAuthenticatedNoCharactersFromSystem(): void
     {
@@ -63,7 +60,6 @@ final class CharactersControllerTest extends TestCase
     /**
      * Test loading Expanse characters if authenticated, and the user has a
      * character for SR5E (in addition to another system).
-     * @test
      */
     public function testAuthenticatedWithCharacters(): void
     {
@@ -97,7 +93,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test listing a user's Expanse characters if they have none.
-     * @test
      */
     public function testListCharactersIfTheyHaveNone(): void
     {
@@ -110,7 +105,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test listing a user's Expanse characters if they've got at least one.
-     * @test
      */
     public function testListCharacters(): void
     {
@@ -133,7 +127,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test loading an individual character.
-     * @test
      */
     public function testShowCharacter(): void
     {
@@ -169,7 +162,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test loading an individual character for another system.
-     * @test
      */
     public function testShowCharacterOtherSystem(): void
     {
@@ -190,7 +182,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test loading a character view.
-     * @test
      */
     public function testViewCharacter(): void
     {

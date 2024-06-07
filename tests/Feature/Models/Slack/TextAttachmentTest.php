@@ -15,7 +15,6 @@ final class TextAttachmentTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test formatting a TextAttachment as an array.
-     * @test
      */
     public function testToArrayDefault(): void
     {
@@ -30,7 +29,6 @@ final class TextAttachmentTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test formatting a TextAttachment when giving a color.
-     * @test
      */
     public function testToArrayWithColor(): void
     {
@@ -45,7 +43,6 @@ final class TextAttachmentTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test formatting a TextAttachment when adding a footer.
-     * @test
      */
     public function testWithFooter(): void
     {

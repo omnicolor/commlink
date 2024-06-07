@@ -19,7 +19,6 @@ final class ArmorTest extends TestCase
 {
     /**
      * Test loading an invalid armor.
-     * @test
      */
     public function testLoadNotFound(): void
     {
@@ -30,7 +29,6 @@ final class ArmorTest extends TestCase
 
     /**
      * Test loading a valid armor.
-     * @test
      */
     public function testLoadArmor(): void
     {

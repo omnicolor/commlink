@@ -14,9 +14,6 @@ use Tests\TestCase;
  */
 final class PartialCharacterTest extends TestCase
 {
-    /**
-     * @test
-     */
     public function testNewFromBuilder(): void
     {
         $character = new PartialCharacter(['name' => 'Test Capers character']);
@@ -30,7 +27,6 @@ final class PartialCharacterTest extends TestCase
 
     /**
      * Test converting a partial character to a real character.
-     * @test
      */
     public function testToCharacter(): void
     {

@@ -9,19 +9,14 @@ use App\Models\Campaign;
 use App\Models\Cyberpunkred\Character;
 use App\Models\Initiative;
 use Illuminate\Broadcasting\PrivateChannel;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for initiative getting added and broadcast.
- * @group events
- * @medium
- */
+#[Group('events')]
+#[Medium]
 final class InitiativeAddedTest extends TestCase
 {
-    /**
-     * Test the constructor.
-     * @test
-     */
     public function testConstructor(): void
     {
         /** @var Campaign */

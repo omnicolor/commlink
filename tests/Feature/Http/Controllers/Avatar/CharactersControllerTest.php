@@ -17,7 +17,6 @@ final class CharactersControllerTest extends TestCase
 {
     /**
      * Test loading a character view.
-     * @test
      */
     public function testViewCharacter(): void
     {

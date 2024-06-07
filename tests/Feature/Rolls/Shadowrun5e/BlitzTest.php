@@ -30,7 +30,6 @@ final class BlitzTest extends TestCase
     /**
      * Test trying to blitz initiative as the GM.
      * @group slack
-     * @test
      */
     public function testGmBlitz(): void
     {
@@ -68,7 +67,6 @@ final class BlitzTest extends TestCase
     /**
      * Test trying to blitz without a character to pay edge from.
      * @group slack
-     * @test
      */
     public function testBlitzWithoutCharacter(): void
     {
@@ -84,7 +82,6 @@ final class BlitzTest extends TestCase
     /**
      * Test trying to blitz with a character that's out of edge.
      * @group discord
-     * @test
      */
     public function testBlitzOutOfEdge(): void
     {
@@ -161,7 +158,6 @@ final class BlitzTest extends TestCase
     /**
      * Test trying to blitz from Slack.
      * @group slack
-     * @test
      */
     public function testBlitzSlack(): void
     {
@@ -232,7 +228,6 @@ final class BlitzTest extends TestCase
     /**
      * Test trying to blitz from Discord.
      * @group discord
-     * @test
      */
     public function testBlitzDiscord(): void
     {
@@ -301,7 +296,6 @@ final class BlitzTest extends TestCase
     /**
      * Test trying to blitz from IRC.
      * @group irc
-     * @test
      */
     public function testBlitzIrc(): void
     {

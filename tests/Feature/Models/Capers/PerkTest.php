@@ -17,7 +17,6 @@ final class PerkTest extends TestCase
 {
     /**
      * Test trying to create a perk that doesn't exist.
-     * @test
      */
     public function testInvalidPerk(): void
     {
@@ -28,7 +27,6 @@ final class PerkTest extends TestCase
 
     /**
      * Test creating a perk and casting it to a string.
-     * @test
      */
     public function testToString(): void
     {
@@ -44,7 +42,6 @@ final class PerkTest extends TestCase
 
     /**
      * Test the specialty skill perk, which populates the skillId property.
-     * @test
      */
     public function testSpecialtyString(): void
     {

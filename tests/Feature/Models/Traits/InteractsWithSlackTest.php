@@ -36,7 +36,6 @@ final class InteractsWithSlackTest extends TestCase
 
     /**
      * Test getting a Slack channel's name if the API call fails.
-     * @test
      */
     public function testGetChannelNameCallFails(): void
     {
@@ -50,7 +49,6 @@ final class InteractsWithSlackTest extends TestCase
 
     /**
      * Test getting a Slack channel's name if the Slack call fails auth.
-     * @test
      */
     public function testGetChannelNameCallErrors(): void
     {
@@ -67,7 +65,6 @@ final class InteractsWithSlackTest extends TestCase
 
     /**
      * Test getting a Slack channel's name.
-     * @test
      */
     public function testGetChannelName(): void
     {
@@ -86,7 +83,6 @@ final class InteractsWithSlackTest extends TestCase
 
     /**
      * Test getting a Slack server's name if the Slack API call fails.
-     * @test
      */
     public function testGetServerNameSlackCallFails(): void
     {
@@ -103,7 +99,6 @@ final class InteractsWithSlackTest extends TestCase
     /**
      * Test getting a Slack server's name if we don't have it, and none of the
      * teams returned match.
-     * @test
      */
     public function testGetServerNameSlackNoMatches(): void
     {
@@ -124,7 +119,6 @@ final class InteractsWithSlackTest extends TestCase
 
     /**
      * Test getting a Slack server's name with a match.
-     * @test
      */
     public function testGetServerNameSlackMatch(): void
     {
@@ -147,7 +141,6 @@ final class InteractsWithSlackTest extends TestCase
 
     /**
      * Test getting a Slack user's name if the call fails.
-     * @test
      */
     public function testGetUserNameCallFails(): void
     {
@@ -161,7 +154,6 @@ final class InteractsWithSlackTest extends TestCase
 
     /**
      * Test getting a Slack user's name if the call errors.
-     * @test
      */
     public function testGetUserNameCallErrors(): void
     {
@@ -178,7 +170,6 @@ final class InteractsWithSlackTest extends TestCase
 
     /**
      * Test getting a Slack user's name.
-     * @test
      */
     public function testGetUserName(): void
     {

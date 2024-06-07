@@ -18,7 +18,6 @@ final class CritterPowerTest extends TestCase
 {
     /**
      * Test trying to load an invalid power.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -31,7 +30,6 @@ final class CritterPowerTest extends TestCase
 
     /**
      * Test loading a valid power.
-     * @test
      */
     public function testLoad(): void
     {
@@ -49,7 +47,6 @@ final class CritterPowerTest extends TestCase
 
     /**
      * Test loading a valid power with a subname.
-     * @test
      */
     public function testLoadWithSubname(): void
     {

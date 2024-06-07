@@ -22,7 +22,6 @@ final class AdeptPowerControllerTest extends TestCase
 {
     /**
      * Test loading the collection of Adept Powers if the config is broken.
-     * @test
      */
     public function testIndexBrokenConfig(): void
     {
@@ -35,7 +34,6 @@ final class AdeptPowerControllerTest extends TestCase
 
     /**
      * Test loading the collection of Adept Powers without authentication.
-     * @test
      */
     public function testNoAuthIndex(): void
     {
@@ -45,7 +43,6 @@ final class AdeptPowerControllerTest extends TestCase
 
     /**
      * Test loading the collection of Adept Powers as an authenticated user.
-     * @test
      */
     public function testAuthIndex(): void
     {
@@ -66,7 +63,6 @@ final class AdeptPowerControllerTest extends TestCase
 
     /**
      * Test loading an individual Adept Power without authentication.
-     * @test
      */
     public function testNoAuthShow(): void
     {
@@ -79,7 +75,6 @@ final class AdeptPowerControllerTest extends TestCase
 
     /**
      * Test loading an invalid Adept Power without authentication.
-     * @test
      */
     public function testNoAuthShowNotFound(): void
     {
@@ -89,7 +84,6 @@ final class AdeptPowerControllerTest extends TestCase
 
     /**
      * Test loading an individual Adept Power with authentication.
-     * @test
      */
     public function testAuthShow(): void
     {
@@ -113,7 +107,6 @@ final class AdeptPowerControllerTest extends TestCase
 
     /**
      * Test loading an invalid Adept Power with authentication.
-     * @test
      */
     public function testAuthShowNotFound(): void
     {

@@ -40,7 +40,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test creating an ID from something's name.
-     * @test
      */
     public function testCreateIDFromName(): void
     {
@@ -60,7 +59,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test trying to load a portfolio that doesn't exist.
-     * @test
      */
     public function testLoadNotFound(): void
     {
@@ -72,7 +70,6 @@ final class Shadowrun5eConverterTest extends TestCase
     /**
      * Test trying to load a portfolio that is an existing file, but is not
      * a Hero Lab portfolio.
-     * @test
      */
     public function testInvalidPortfolio(): void
     {
@@ -83,7 +80,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test trying to load an invalid file.
-     * @test
      */
     public function testBadZipPortfolio(): void
     {
@@ -103,7 +99,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test trying to load a portfolio with invalid XML.
-     * @test
      */
     public function testBadXml(): void
     {
@@ -115,7 +110,6 @@ final class Shadowrun5eConverterTest extends TestCase
     /**
      * Test trying to load a portfolio with valid main XML but invalid lead1
      * XML.
-     * @test
      */
     public function testBadLeadXml(): void
     {
@@ -129,7 +123,6 @@ final class Shadowrun5eConverterTest extends TestCase
     /**
      * Test trying to load a portfolio with valid main XML but lead1.xml is
      * missing.
-     * @test
      */
     public function testMissingLeadXml(): void
     {
@@ -140,7 +133,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test trying to load a portfolio without the required XML files.
-     * @test
      */
     public function testEmptyPortfolio(): void
     {
@@ -159,7 +151,6 @@ final class Shadowrun5eConverterTest extends TestCase
     /**
      * Test that converting a valid Hero Lab portfolio returns a Commlink
      * character.
-     * @test
      */
     public function testConvertPortfolio(): void
     {
@@ -232,7 +223,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test converting a test Hero Lab portfolio.
-     * @test
      */
     public function testAnotherPortfolio(): void
     {
@@ -272,7 +262,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test converting a mage that has initiated.
-     * @test
      */
     public function testPrime(): void
     {
@@ -287,7 +276,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test converting a portfolio that uses the life module system.
-     * @test
      */
     public function testLifeModule(): void
     {
@@ -305,7 +293,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test converting a portfolio that uses the point buy system.
-     * @test
      */
     public function testPointBuy(): void
     {
@@ -324,7 +311,6 @@ final class Shadowrun5eConverterTest extends TestCase
     /**
      * Test a portfolio for a seasoned mage that has initiated and gained a
      * metamagic.
-     * @test
      */
     public function testMetamagic(): void
     {

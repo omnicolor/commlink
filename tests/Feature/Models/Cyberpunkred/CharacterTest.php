@@ -20,7 +20,6 @@ final class CharacterTest extends TestCase
 {
     /**
      * Test filling up a character with the constructor.
-     * @test
      */
     public function testConstructor(): void
     {
@@ -55,7 +54,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test the __toString() method.
-     * @test
      */
     public function testToString(): void
     {
@@ -65,7 +63,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's death save.
-     * @test
      */
     public function testGetDeathSave(): void
     {
@@ -147,7 +144,6 @@ final class CharacterTest extends TestCase
      * @param int $body
      * @param int $will
      * @param int $threshold
-     * @test
      */
     public function testSeriousWoundThreshold(
         int $body,
@@ -160,7 +156,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's roles if they have none.
-     * @test
      */
     public function testGetRolesNone(): void
     {
@@ -170,7 +165,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's roles if they only have an invalid one.
-     * @test
      */
     public function testGetRolesInvalid(): void
     {
@@ -180,7 +174,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's roles.
-     * @test
      */
     public function testGetRoles(): void
     {
@@ -199,7 +192,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's skills if the have none.
-     * @test
      */
     public function testGetSkillsNone(): void
     {
@@ -209,7 +201,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's skills if they only have an invalid one.
-     * @test
      */
     public function testGetSkillsInvalid(): void
     {
@@ -219,7 +210,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's skills if they have a valid skill.
-     * @test
      */
     public function testGetSkills(): void
     {
@@ -231,7 +221,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting all skills if the character doesn't have any levels.
-     * @test
      */
     public function testGetAllSkillsNoRanks(): void
     {
@@ -244,7 +233,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting all skills if the character has levels.
-     * @test
      */
     public function testGetAllSkills(): void
     {
@@ -265,7 +253,6 @@ final class CharacterTest extends TestCase
     /**
      * Test getting all skills categorized if the character doesn't have any
      * levels.
-     * @test
      */
     public function testGetSkillsByCategoryNoRanks(): void
     {
@@ -281,7 +268,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting all skills categorized if the character has some levels.
-     * @test
      */
     public function testGetSkillsByCategory(): void
     {
@@ -300,7 +286,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's original empathy statistic.
-     * @test
      */
     public function testGetOriginalEmpathy(): void
     {
@@ -310,7 +295,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test trying to get an invalid class of weapons.
-     * @test
      */
     public function testGetInvalidWeaponsType(): void
     {
@@ -321,7 +305,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test trying to get the different classes of weapons.
-     * @test
      */
     public function testGetWeapons(): void
     {

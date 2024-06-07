@@ -23,7 +23,6 @@ final class NumberTest extends TestCase
      * Test trying to roll a simple three-dice roll without an attribute or TN
      * set in Slack.
      * @group slack
-     * @test
      */
     public function testSimpleRollSlack(): void
     {
@@ -56,7 +55,6 @@ final class NumberTest extends TestCase
      * Test trying to roll a simple three-dice roll without the TN set in
      * Discord, but including an attribute.
      * @group discord
-     * @test
      */
     public function testSimpleRollDiscord(): void
     {

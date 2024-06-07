@@ -19,7 +19,6 @@ final class CostCategoryTest extends TestCase
 {
     /**
      * Test loading a cost category that isn't valid.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -33,7 +32,6 @@ final class CostCategoryTest extends TestCase
 
     /**
      * Test trying to load a cost category with a non-string.
-     * @test
      */
     public function testLoadNonString(): void
     {
@@ -66,7 +64,6 @@ final class CostCategoryTest extends TestCase
     /**
      * Test the market price for each cost category.
      * @dataProvider categoryProvider
-     * @test
      */
     public function testMarketPrice(string $categoryName, int $cost): void
     {

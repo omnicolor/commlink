@@ -30,7 +30,6 @@ final class JudgeTest extends TestCase
      * Test trying to roll a judge intentions test without a character linked in
      * Slack.
      * @group slack
-     * @test
      */
     public function testWithoutCharacterSlack(): void
     {
@@ -48,7 +47,6 @@ final class JudgeTest extends TestCase
      * Test trying to roll a judge intentions test without a character linked in
      * Discord.
      * @group discord
-     * @test
      */
     public function testWithoutCharacterDiscord(): void
     {
@@ -80,7 +78,6 @@ final class JudgeTest extends TestCase
     /**
      * Test a character critical glitching on a judge intentions test.
      * @group slack
-     * @test
      */
     public function testCritGlitch(): void
     {
@@ -130,7 +127,6 @@ final class JudgeTest extends TestCase
     /**
      * Test a non-glitch judge intentions test.
      * @group discord
-     * @test
      */
     public function testJudge(): void
     {

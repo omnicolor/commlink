@@ -33,7 +33,6 @@ final class SkillGroupTest extends TestCase
 
     /**
      * Test loading an invalid skill group.
-     * @test
      */
     public function testInvalidGroup(): void
     {
@@ -47,7 +46,6 @@ final class SkillGroupTest extends TestCase
 
     /**
      * Test that loading the skill group sets the ID.
-     * @test
      */
     public function testSetsId(): void
     {
@@ -56,7 +54,6 @@ final class SkillGroupTest extends TestCase
 
     /**
      * Test that loading the skill group sets the level.
-     * @test
      */
     public function testSetsLevel(): void
     {
@@ -65,7 +62,6 @@ final class SkillGroupTest extends TestCase
 
     /**
      * Test that loading the skill group sets the name.
-     * @test
      */
     public function testSetsName(): void
     {
@@ -75,7 +71,6 @@ final class SkillGroupTest extends TestCase
     /**
      * Test that loading the skill group sets the skills that are part of the
      * group.
-     * @test
      */
     public function testSetsSubSkills(): void
     {
@@ -87,7 +82,6 @@ final class SkillGroupTest extends TestCase
 
     /**
      * Test casting the group to a string.
-     * @test
      */
     public function testToString(): void
     {

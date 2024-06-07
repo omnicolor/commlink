@@ -59,7 +59,6 @@ final class UsersControllerTest extends TestCase
 
     /**
      * Test an authenticated request that's missing the admin role.
-     * @test
      */
     public function testNonAdminIndex(): void
     {
@@ -72,7 +71,6 @@ final class UsersControllerTest extends TestCase
     /**
      * Test that an admin can load the user admin page.
      * @large
-     * @test
      */
     public function testAdminIndex(): void
     {
@@ -86,7 +84,6 @@ final class UsersControllerTest extends TestCase
     /**
      * Test loading the API index.
      * @large
-     * @test
      */
     public function testIndexApi(): void
     {
@@ -104,7 +101,6 @@ final class UsersControllerTest extends TestCase
 
     /**
      * Test getting a user's information.
-     * @test
      */
     public function testShowUser(): void
     {
@@ -117,7 +113,6 @@ final class UsersControllerTest extends TestCase
 
     /**
      * Test trying to patch a user with an invalid patch.
-     * @test
      */
     public function testInvalidPatch(): void
     {
@@ -136,7 +131,6 @@ final class UsersControllerTest extends TestCase
 
     /**
      * Test trying to give a user a Feature that isn't found.
-     * @test
      */
     public function testPatchForInvalidFeature(): void
     {
@@ -157,7 +151,6 @@ final class UsersControllerTest extends TestCase
 
     /**
      * Test adding a feature to a user.
-     * @test
      */
     public function testPatchUserAddFeature(): void
     {
@@ -180,7 +173,6 @@ final class UsersControllerTest extends TestCase
 
     /**
      * Test removing a feature from a user.
-     * @test
      */
     public function testPatchUserRemoveFeature(): void
     {
@@ -209,7 +201,6 @@ final class UsersControllerTest extends TestCase
 
     /**
      * Test trying to add an invalid role.
-     * @test
      */
     public function testPatchAddInvalidRole(): void
     {
@@ -232,7 +223,6 @@ final class UsersControllerTest extends TestCase
 
     /**
      * Test giving a user a new role.
-     * @test
      */
     public function testPatchAddRole(): void
     {
@@ -263,7 +253,6 @@ final class UsersControllerTest extends TestCase
 
     /**
      * Test removing a role from a user.
-     * @test
      */
     public function testPatchRemoveRole(): void
     {

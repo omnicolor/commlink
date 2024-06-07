@@ -36,7 +36,6 @@ final class VarzControllerTest extends TestCase
 
     /**
      * Test getting system metrics.
-     * @test
      */
     public function testVarzEmpty(): void
     {
@@ -66,7 +65,6 @@ final class VarzControllerTest extends TestCase
 
     /**
      * Test getting system metrics after creating some things.
-     * @test
      */
     public function testVarz(): void
     {

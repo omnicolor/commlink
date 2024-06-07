@@ -35,7 +35,6 @@ final class LifestyleOptionArrayTest extends TestCase
 
     /**
      * Test an empty array.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +43,6 @@ final class LifestyleOptionArrayTest extends TestCase
 
     /**
      * Test adding an option to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -54,7 +52,6 @@ final class LifestyleOptionArrayTest extends TestCase
 
     /**
      * Test adding the same option twice.
-     * @test
      */
     public function testAddTwice(): void
     {
@@ -65,7 +62,6 @@ final class LifestyleOptionArrayTest extends TestCase
 
     /**
      * Test adding a non-LifestyleOption to the array.
-     * @test
      */
     public function testAddInvalidObject(): void
     {

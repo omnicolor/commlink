@@ -7,16 +7,17 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Powers;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class PowersTest extends TestCase
 {
     /**
      * Test rendering a lack of powers for an existing character.
-     * @test
      */
     public function testNoPowersExistingCharacter(): void
     {
@@ -36,7 +37,6 @@ final class PowersTest extends TestCase
 
     /**
      * Test rendering a lack of powers for a mundane new character.
-     * @test
      */
     public function testNoPowersNewMundaneCharacter(): void
     {
@@ -56,7 +56,6 @@ final class PowersTest extends TestCase
 
     /**
      * Test rendering a lack of powers for a new adept.
-     * @test
      */
     public function testNoPowersNewAdept(): void
     {
@@ -78,7 +77,6 @@ final class PowersTest extends TestCase
 
     /**
      * Test rendering a lack of powers for a new mystic adept.
-     * @test
      */
     public function testNoPowersNewMysticAdept(): void
     {
@@ -100,7 +98,6 @@ final class PowersTest extends TestCase
 
     /**
      * Test rendering some powers.
-     * @test
      */
     public function testPowers(): void
     {

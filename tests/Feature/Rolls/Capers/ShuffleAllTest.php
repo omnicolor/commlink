@@ -27,7 +27,6 @@ final class ShuffleAllTest extends TestCase
     /**
      * Test trying to request shuffle all without an attached campaign.
      * @group slack
-     * @test
      */
     public function testShuffleWithNoCampaign(): void
     {
@@ -46,7 +45,6 @@ final class ShuffleAllTest extends TestCase
     /**
      * Test trying to shuffle Capers decks somehow from a non-Capers campaign.
      * @group discord
-     * @test
      */
     public function testShuffleFromOtherSystem(): void
     {
@@ -71,7 +69,6 @@ final class ShuffleAllTest extends TestCase
     /**
      * Test trying to request all users shuffle as a non-GM.
      * @group slack
-     * @test
      */
     public function testShuffleAllNotGm(): void
     {
@@ -96,7 +93,6 @@ final class ShuffleAllTest extends TestCase
     /**
      * Test trying to shuffle all as the game's GM from Slack.
      * @group slack
-     * @test
      */
     public function testShuffleAllWithNoDecks(): void
     {
@@ -140,7 +136,6 @@ final class ShuffleAllTest extends TestCase
     /**
      * Test trying to shuffle all as the game's GM in Discord.
      * @group discord
-     * @test
      */
     public function testShuffleAllFromDiscord(): void
     {

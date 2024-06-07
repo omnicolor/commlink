@@ -17,7 +17,6 @@ final class SkillTest extends TestCase
 {
     /**
      * Test trying to initialize an invalid skill.
-     * @test
      */
     public function testInvalidSkill(): void
     {
@@ -28,7 +27,6 @@ final class SkillTest extends TestCase
 
     /**
      * Test constructing a valid skill.
-     * @test
      */
     public function testSkill(): void
     {
@@ -43,7 +41,6 @@ final class SkillTest extends TestCase
 
     /**
      * Test getting all skills.
-     * @test
      */
     public function testAll(): void
     {

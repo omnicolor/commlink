@@ -28,7 +28,6 @@ final class FadeTest extends TestCase
     /**
      * Test trying to roll a fade test without a character linked in Slack.
      * @group slack
-     * @test
      */
     public function testWithoutCharacterSlack(): void
     {
@@ -45,7 +44,6 @@ final class FadeTest extends TestCase
     /**
      * Test trying to roll a fade test without a character linked in Discord.
      * @group discord
-     * @test
      */
     public function testWithoutCharacterDiscord(): void
     {
@@ -61,7 +59,6 @@ final class FadeTest extends TestCase
     /**
      * Test trying to make a fade test without being a technomancer.
      * @group discord
-     * @test
      */
     public function testFadeNotTechnomancer(): void
     {
@@ -107,7 +104,6 @@ final class FadeTest extends TestCase
     /**
      * Test a fade test.
      * @group discord
-     * @test
      */
     public function testFadeDiscord(): void
     {
@@ -157,7 +153,6 @@ final class FadeTest extends TestCase
     /**
      * Test a fade test in Slack.
      * @group slack
-     * @test
      */
     public function testFadeSlack(): void
     {
@@ -224,7 +219,6 @@ final class FadeTest extends TestCase
     /**
      * Test a fade test.
      * @group irc
-     * @test
      */
     public function testFadeIRC(): void
     {

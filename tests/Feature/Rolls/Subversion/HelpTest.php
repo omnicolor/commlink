@@ -24,7 +24,6 @@ final class HelpTest extends TestCase
     /**
      * Test getting help via Slack for a channel as an unregistered user.
      * @group slack
-     * @test
      */
     public function testHelpSlack(): void
     {

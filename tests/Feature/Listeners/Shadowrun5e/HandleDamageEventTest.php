@@ -25,7 +25,6 @@ final class HandleDamageEventTest extends TestCase
     /**
      * Test trying to broadcast to a Discord channel that doesn't have
      * a webhook set up.
-     * @test
      */
     public function testDiscordNoWebhook(): void
     {
@@ -57,7 +56,6 @@ final class HandleDamageEventTest extends TestCase
 
     /**
      * Test a character taking some stun damage and sending to Discord.
-     * @test
      */
     public function testStunDamageToDiscord(): void
     {
@@ -99,7 +97,6 @@ final class HandleDamageEventTest extends TestCase
 
     /**
      * Test a character overflowing their stun track into physical on Discord.
-     * @test
      */
     public function testStunOverflowToDiscord(): void
     {
@@ -145,7 +142,6 @@ final class HandleDamageEventTest extends TestCase
 
     /**
      * Test a character taking so much stun damage they go into overflow.
-     * @test
      */
     public function testStunToOverflowDiscord(): void
     {
@@ -194,7 +190,6 @@ final class HandleDamageEventTest extends TestCase
 
     /**
      * Test a character taking some physical damage.
-     * @test
      */
     public function testPhysicalSlack(): void
     {
@@ -232,7 +227,6 @@ final class HandleDamageEventTest extends TestCase
 
     /**
      * Test a character taking some physical and overflow damage.
-     * @test
      */
     public function testPhysicalAndOverflowSlack(): void
     {
@@ -274,7 +268,6 @@ final class HandleDamageEventTest extends TestCase
 
     /**
      * Test a character that's already down and out taking more damage.
-     * @test
      */
     public function testOverflowSlack(): void
     {

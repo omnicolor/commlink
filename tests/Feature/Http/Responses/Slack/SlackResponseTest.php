@@ -32,7 +32,6 @@ final class SlackResponseTest extends TestCase
 
     /**
      * Test the most basic Slack Response.
-     * @test
      */
     public function testBaseSlackResponse(): void
     {
@@ -44,7 +43,6 @@ final class SlackResponseTest extends TestCase
 
     /**
      * Test setting things in the constructor.
-     * @test
      */
     public function testConstructor(): void
     {
@@ -61,7 +59,6 @@ final class SlackResponseTest extends TestCase
 
     /**
      * Test changing a Slack Response to go to the channel.
-     * @test
      */
     public function testToChannel(): void
     {
@@ -74,7 +71,6 @@ final class SlackResponseTest extends TestCase
 
     /**
      * Test setting some text to send with the response.
-     * @test
      */
     public function testWithText(): void
     {
@@ -87,7 +83,6 @@ final class SlackResponseTest extends TestCase
 
     /**
      * Test adding an attachment to the response.
-     * @test
      */
     public function testWithAttachment(): void
     {
@@ -105,7 +100,6 @@ final class SlackResponseTest extends TestCase
 
     /**
      * Test replacing the original message with this response.
-     * @test
      */
     public function testReplaceOriginal(): void
     {
@@ -118,7 +112,6 @@ final class SlackResponseTest extends TestCase
 
     /**
      * Test deleting the original message.
-     * @test
      */
     public function testDeleteOriginal(): void
     {

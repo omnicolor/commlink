@@ -32,7 +32,6 @@ final class ForceTraitTest extends TestCase
 
     /**
      * Test calculating when adding a number.
-     * @test
      */
     public function testAdd(): void
     {
@@ -44,7 +43,6 @@ final class ForceTraitTest extends TestCase
 
     /**
      * Test calculating when subtracting a number.
-     * @test
      */
     public function testSubtract(): void
     {
@@ -56,7 +54,6 @@ final class ForceTraitTest extends TestCase
 
     /**
      * Test calculating when dividing.
-     * @test
      */
     public function testDivide(): void
     {
@@ -66,7 +63,6 @@ final class ForceTraitTest extends TestCase
 
     /**
      * Test calculating when multiplying.
-     * @test
      */
     public function testMultiply(): void
     {
@@ -76,7 +72,6 @@ final class ForceTraitTest extends TestCase
 
     /**
      * Test calulating an invalid string.
-     * @test
      */
     public function testInvalid(): void
     {

@@ -18,7 +18,6 @@ final class AdeptPowerTest extends TestCase
 {
     /**
      * Test trying to load an invalid Power.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -30,7 +29,6 @@ final class AdeptPowerTest extends TestCase
 
     /**
      * Test the constructor.
-     * @test
      */
     public function testConstructor(): void
     {
@@ -47,7 +45,6 @@ final class AdeptPowerTest extends TestCase
 
     /**
      * Test the __toString() method.
-     * @test
      */
     public function testToString(): void
     {

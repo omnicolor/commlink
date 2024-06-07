@@ -24,7 +24,6 @@ final class RegisterResponseTest extends TestCase
 {
     /**
      * Test trying to handle a response missing the system code.
-     * @test
      */
     public function testRegisterWithoutSystem(): void
     {
@@ -51,7 +50,6 @@ final class RegisterResponseTest extends TestCase
 
     /**
      * Test trying to handle a user trying to register for an invalid system.
-     * @test
      */
     public function testRegisterWithInvalidSystem(): void
     {
@@ -81,7 +79,6 @@ final class RegisterResponseTest extends TestCase
 
     /**
      * Test trying to register a channel that's already registered.
-     * @test
      */
     public function testRegisterAlreadyRegistered(): void
     {
@@ -115,7 +112,6 @@ final class RegisterResponseTest extends TestCase
     /**
      * Test trying to register an unregistered channel from an unregistered
      * user.
-     * @test
      */
     public function testRegisterWithoutChatUser(): void
     {
@@ -147,7 +143,6 @@ final class RegisterResponseTest extends TestCase
 
     /**
      * Test successfully registering a channel, but Discord's API fails.
-     * @test
      */
     public function testRegisterDiscordFails(): void
     {
@@ -200,7 +195,6 @@ final class RegisterResponseTest extends TestCase
 
     /**
      * Test successfully registering a channel.
-     * @test
      */
     public function testRegister(): void
     {

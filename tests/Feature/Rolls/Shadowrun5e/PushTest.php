@@ -27,7 +27,6 @@ final class PushTest extends TestCase
     /**
      * Test trying to push the limit without having a linked character.
      * @group slack
-     * @test
      */
     public function testPushNoCharacter(): void
     {
@@ -43,7 +42,6 @@ final class PushTest extends TestCase
     /**
      * Test trying to push the limit without saying how many dice to roll.
      * @group Slack
-     * @test
      */
     public function testPushNoDice(): void
     {
@@ -85,7 +83,6 @@ final class PushTest extends TestCase
     /**
      * Test trying to push the limit in Slack with more than 100 dice.
      * @group discord
-     * @test
      */
     public function testPushTooManyDice(): void
     {
@@ -124,7 +121,6 @@ final class PushTest extends TestCase
     /**
      * Test trying to push the limit on a character with no edge.
      * @group slack
-     * @test
      */
     public function testPushOutOfEdge(): void
     {
@@ -164,7 +160,6 @@ final class PushTest extends TestCase
     /**
      * Test pushing the limit and blowing past the limit.
      * @group discord
-     * @test
      */
     public function testPushPastLimit(): void
     {
@@ -213,7 +208,6 @@ final class PushTest extends TestCase
     /**
      * Test pushing the limit with some exploding sixes.
      * @group slack
-     * @test
      */
     public function testExplodingSixes(): void
     {
@@ -277,7 +271,6 @@ final class PushTest extends TestCase
      * Test a character managing to still critical glitch when pushing the
      * limit.
      * @group slack
-     * @test
      */
     public function testPushCriticalGlitch(): void
     {

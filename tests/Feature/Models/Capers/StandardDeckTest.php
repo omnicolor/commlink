@@ -18,7 +18,6 @@ final class StandardDeckTest extends TestCase
 {
     /**
      * Test a new StandardDeck.
-     * @test
      */
     public function testNewDeck(): void
     {
@@ -29,7 +28,6 @@ final class StandardDeckTest extends TestCase
     /**
      * Test trying to load a deck for a character that doesn't have one.
      * @medium
-     * @test
      */
     public function testLoadDeckNotFound(): void
     {
@@ -44,7 +42,6 @@ final class StandardDeckTest extends TestCase
     /**
      * Test trying to load a deck for a character that has one.
      * @medium
-     * @test
      */
     public function testLoadDeck(): void
     {
@@ -63,7 +60,6 @@ final class StandardDeckTest extends TestCase
 
     /**
      * Test trying to save a deck with no campaign set.
-     * @test
      */
     public function testSaveNoCampaign(): void
     {
@@ -75,7 +71,6 @@ final class StandardDeckTest extends TestCase
     /**
      * Test trying to update an existing deck.
      * @medium
-     * @test
      */
     public function testUpdate(): void
     {

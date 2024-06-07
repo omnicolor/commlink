@@ -19,7 +19,6 @@ final class ChatUserTest extends TestCase
 {
     /**
      * Test getting the verification code for a user.
-     * @test
      */
     public function testGetVerificationAttribute(): void
     {
@@ -37,7 +36,6 @@ final class ChatUserTest extends TestCase
 
     /**
      * Test limiting the scope to Slack chat users.
-     * @test
      */
     public function testScopeSlack(): void
     {
@@ -83,7 +81,6 @@ final class ChatUserTest extends TestCase
 
     /**
      * Test limiting the scope to Discord chat users.
-     * @test
      */
     public function testScopeDiscord(): void
     {
@@ -130,7 +127,6 @@ final class ChatUserTest extends TestCase
 
     /**
      * Test limiting the scope to unverified users.
-     * @test
      */
     public function testScopeUnverified(): void
     {
@@ -155,7 +151,6 @@ final class ChatUserTest extends TestCase
 
     /**
      * Test limiting the scope to verified users.
-     * @test
      */
     public function testScopeVerified(): void
     {
@@ -180,7 +175,6 @@ final class ChatUserTest extends TestCase
 
     /**
      * Test trying to load a chat character.
-     * @test
      */
     public function testGetChatCharacter(): void
     {
@@ -205,7 +199,6 @@ final class ChatUserTest extends TestCase
 
     /**
      * Test getting the Commlink user attached to a ChatUser.
-     * @test
      */
     public function testGetUser(): void
     {

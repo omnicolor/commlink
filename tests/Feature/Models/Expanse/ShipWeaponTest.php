@@ -16,10 +16,6 @@ use Tests\TestCase;
  */
 final class ShipWeaponTest extends TestCase
 {
-    /**
-     * Test trying to load an invalid weapon.
-     * @test
-     */
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
@@ -29,10 +25,6 @@ final class ShipWeaponTest extends TestCase
         new ShipWeapon('not-found', 'fore');
     }
 
-    /**
-     * Test loading a valid weapon.
-     * @test
-     */
     public function testLoad(): void
     {
         $weapon = new ShipWeapon('ToRpEdO', 'fore');
@@ -45,10 +37,6 @@ final class ShipWeaponTest extends TestCase
         self::assertSame('core', $weapon->ruleset);
     }
 
-    /**
-     * Test loading all weapons.
-     * @test
-     */
     public function testAll(): void
     {
         self::assertNotEmpty(ShipWeapon::all());

@@ -33,29 +33,17 @@ final class ConditionArrayTest extends TestCase
         $this->array = new ConditionArray();
     }
 
-    /**
-     * Test an empty array.
-     * @test
-     */
     public function testEmpty(): void
     {
         self::assertEmpty($this->array);
     }
 
-    /**
-     * Test adding a valid object to the array.
-     * @test
-     */
     public function testAdd(): void
     {
         $this->array[] = new Condition('deafened');
         self::assertNotEmpty($this->array);
     }
 
-    /**
-     * Test that adding an object of the wrong type throws an exception.
-     * @test
-     */
     public function testAddWrongTypeException(): void
     {
         self::expectException(TypeError::class);
@@ -63,10 +51,6 @@ final class ConditionArrayTest extends TestCase
         $this->array[] = new stdClass();
     }
 
-    /**
-     * Test that adding the wrong type to the array doesn't add it.
-     * @test
-     */
     public function testAddWrongTypeDoesntAdd(): void
     {
         try {

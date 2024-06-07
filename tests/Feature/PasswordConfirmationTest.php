@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * @medium
- */
+#[Medium]
 final class PasswordConfirmationTest extends TestCase
 {
     public function testConfirmPasswordScreenCanBeRendered(): void
@@ -17,8 +16,7 @@ final class PasswordConfirmationTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
 
-        $this->actingAs($user)->get('/confirm-password')
-            ->assertOk();
+        self::actingAs($user)->get('/confirm-password')->assertOk();
     }
 
     public function testPasswordCanBeConfirmed(): void
@@ -26,7 +24,7 @@ final class PasswordConfirmationTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
 
-        $this->actingAs($user)->post('/confirm-password', [
+        self::actingAs($user)->post('/confirm-password', [
             'password' => 'password',
         ])
             ->assertRedirect()
@@ -37,7 +35,7 @@ final class PasswordConfirmationTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)->post('/confirm-password', [
+        self::actingAs($user)->post('/confirm-password', [
             'password' => 'wrong-password',
         ])
             ->assertSessionHasErrors();

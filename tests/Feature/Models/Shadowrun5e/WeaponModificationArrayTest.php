@@ -35,7 +35,6 @@ final class WeaponModificationArrayTest extends TestCase
 
     /**
      * Test an empty array.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +43,6 @@ final class WeaponModificationArrayTest extends TestCase
 
     /**
      * Test adding to the array.
-     * @test
      */
     public function testAppend(): void
     {
@@ -54,7 +52,6 @@ final class WeaponModificationArrayTest extends TestCase
 
     /**
      * Test setting up a weapon's slots.
-     * @test
      */
     public function testInitializeSlots(): void
     {
@@ -66,7 +63,6 @@ final class WeaponModificationArrayTest extends TestCase
 
     /**
      * Test adding a modification to a weapon's slot.
-     * @test
      */
     public function testAddToSlot(): void
     {
@@ -76,7 +72,6 @@ final class WeaponModificationArrayTest extends TestCase
 
     /**
      * Test that adding the wrong type to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -87,7 +82,6 @@ final class WeaponModificationArrayTest extends TestCase
 
     /**
      * Test that adding the wrong type to the array doesn't add the object.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

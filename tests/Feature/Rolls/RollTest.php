@@ -17,7 +17,6 @@ final class RollTest extends TestCase
 {
     /**
      * Test isGm for a request with no campaign.
-     * @test
      */
     public function testIsGmNoCampaign(): void
     {
@@ -31,7 +30,6 @@ final class RollTest extends TestCase
     /**
      * Test isGm for a request that has a campaign but no user.
      * @medium
-     * @test
      */
     public function testIsGmNoChatUser(): void
     {

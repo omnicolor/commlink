@@ -29,7 +29,6 @@ final class CampaignTest extends TestCase
     /**
      * Test trying to link a campaign to a Slack channel without the ID.
      * @group slack
-     * @test
      */
     public function testSlackLinkCampaignNoId(): void
     {
@@ -51,7 +50,6 @@ final class CampaignTest extends TestCase
     /**
      * Test trying to link a campaign to a Discord channel without the ID.
      * @group discord
-     * @test
      */
     public function testDiscordLinkCampaignNoId(): void
     {
@@ -90,7 +88,6 @@ final class CampaignTest extends TestCase
      * Test trying to link a campaign to a Slack channel if the channel already
      * has one.
      * @group slack
-     * @test
      */
     public function testSlackLinkCampaignRedundant(): void
     {
@@ -120,7 +117,6 @@ final class CampaignTest extends TestCase
      * Test trying to link a campaign to a Discord channel if the channel
      * already has one.
      * @group discord
-     * @test
      */
     public function testDiscordLinkCampaignRedundant(): void
     {
@@ -151,7 +147,6 @@ final class CampaignTest extends TestCase
      * Test trying to link a campaign to a Slack channel if the user isn't
      * registered.
      * @group slack
-     * @test
      */
     public function testSlackLinkCampaignNoChatUser(): void
     {
@@ -178,7 +173,6 @@ final class CampaignTest extends TestCase
      * Test trying to link a campaign to a Discord channel if the user isn't
      * registered.
      * @group discord
-     * @test
      */
     public function testDiscordLinkCampaignNoChatUser(): void
     {
@@ -207,7 +201,6 @@ final class CampaignTest extends TestCase
      * Test trying to link a campaign to a Slack channel if the campaign isn't
      * found.
      * @group slack
-     * @test
      */
     public function testSlackLinkCampaignNoCampaign(): void
     {
@@ -236,7 +229,6 @@ final class CampaignTest extends TestCase
      * Test trying to link a campaign to a Discord channel if the campaign isn't
      * found.
      * @group discord
-     * @test
      */
     public function testDiscordLinkCampaignNoCampaign(): void
     {
@@ -268,7 +260,6 @@ final class CampaignTest extends TestCase
      * Test trying to link a campaign to a Slack channel if the campaign is for
      * a different system.
      * @group slack
-     * @test
      */
     public function testSlackLinkCampaignDifferentSystem(): void
     {
@@ -312,7 +303,6 @@ final class CampaignTest extends TestCase
      * Test trying to link a campaign to a Discord channel if the campaign is
      * playing a different system.
      * @group discord
-     * @test
      */
     public function testDiscordLinkCampaignDifferentSystem(): void
     {
@@ -358,7 +348,6 @@ final class CampaignTest extends TestCase
      * Test trying to link a campaign to a Slack channel if the user doesn't
      * have permission to do so.
      * @group slack
-     * @test
      */
     public function testSlackLinkCampaignPermissionDenied(): void
     {
@@ -401,7 +390,6 @@ final class CampaignTest extends TestCase
      * Test trying to link a campaign to a Discord channel if the user doesn't
      * have permission to do so.
      * @group discord
-     * @test
      */
     public function testDiscordLinkCampaignPermissionDenied(): void
     {
@@ -441,7 +429,6 @@ final class CampaignTest extends TestCase
     /**
      * Test linking a campaign to a new Slack channel.
      * @group slack
-     * @test
      */
     public function testSlackLinkCampaignSuccessNewChannel(): void
     {
@@ -495,7 +482,6 @@ final class CampaignTest extends TestCase
     /**
      * Test linking a campaign to a new Discord channel.
      * @group discord
-     * @test
      */
     public function testDiscordLinkCampaignSuccessNewChannel(): void
     {
@@ -547,7 +533,6 @@ final class CampaignTest extends TestCase
     /**
      * Test linking a campaign to an old Slack channel.
      * @group slack
-     * @test
      */
     public function testSlackLinkCampaignSuccessOldChannel(): void
     {
@@ -602,7 +587,6 @@ final class CampaignTest extends TestCase
     /**
      * Test linking a campaign to an old Discord channel.
      * @group discord
-     * @test
      */
     public function testDiscordLinkCampaignSuccessOldChannel(): void
     {

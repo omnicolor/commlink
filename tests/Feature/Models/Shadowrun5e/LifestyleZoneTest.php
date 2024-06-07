@@ -18,7 +18,6 @@ final class LifestyleZoneTest extends TestCase
 {
     /**
      * Test trying to load an invalid zone.
-     * @test
      */
     public function testLoadInvalidZone(): void
     {
@@ -29,7 +28,6 @@ final class LifestyleZoneTest extends TestCase
 
     /**
      * Test trying to load a valid zone.
-     * @test
      */
     public function testLoadValidZone(): void
     {
@@ -41,7 +39,6 @@ final class LifestyleZoneTest extends TestCase
 
     /**
      * Test casting a zone to a string.
-     * @test
      */
     public function testToString(): void
     {

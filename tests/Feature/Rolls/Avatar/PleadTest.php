@@ -26,7 +26,6 @@ final class PleadTest extends TestCase
     /**
      * Test trying to plead in a non-Avatar Slack channel.
      * @group slack
-     * @test
      */
     public function testWrongSystemSlack(): void
     {
@@ -45,7 +44,6 @@ final class PleadTest extends TestCase
     /**
      * Test trying to plead in a non-Avatar Discord channel.
      * @group discord
-     * @test
      */
     public function testWrongSystemDiscord(): void
     {
@@ -65,7 +63,6 @@ final class PleadTest extends TestCase
     /**
      * Test trying to plead in a non-Avatar IRC channel.
      * @group irc
-     * @test
      */
     public function testWrongSystemIrc(): void
     {
@@ -85,7 +82,6 @@ final class PleadTest extends TestCase
     /**
      * Test failing pleading with no additional arguments.
      * @group discord
-     * @test
      */
     public function testSimplePleadDiscord(): void
     {
@@ -112,7 +108,6 @@ final class PleadTest extends TestCase
     /**
      * Test failing pleading with no additional arguments.
      * @group irc
-     * @test
      */
     public function testSimplePleadIrc(): void
     {
@@ -139,7 +134,6 @@ final class PleadTest extends TestCase
     /**
      * Test pleading successfully with additional arguments.
      * @group slack
-     * @test
      */
     public function testPlead(): void
     {
@@ -172,7 +166,6 @@ final class PleadTest extends TestCase
     /**
      * Test failing pleading because of a negative modifier.
      * @group slack
-     * @test
      */
     public function testFailingPleadNegativeModifier(): void
     {

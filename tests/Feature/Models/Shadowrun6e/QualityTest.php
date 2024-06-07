@@ -19,7 +19,6 @@ final class QualityTest extends TestCase
 {
     /**
      * Test loading an invalid quality.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -32,7 +31,6 @@ final class QualityTest extends TestCase
 
     /**
      * Test loading a valid quality.
-     * @test
      */
     public function testLoad(): void
     {
@@ -50,7 +48,6 @@ final class QualityTest extends TestCase
 
     /**
      * Test failing to find a quality by its name.
-     * @test
      */
     public function testFindByNameNotFound(): void
     {
@@ -63,7 +60,6 @@ final class QualityTest extends TestCase
 
     /**
      * Test finding a quality by name.
-     * @test
      */
     public function testFindByName(): void
     {

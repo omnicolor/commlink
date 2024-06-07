@@ -21,7 +21,6 @@ final class ChatCharacterTest extends TestCase
 {
     /**
      * Test returning the relationships.
-     * @test
      */
     public function testRelationships(): void
     {

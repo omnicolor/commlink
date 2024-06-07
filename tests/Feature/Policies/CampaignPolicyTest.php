@@ -26,7 +26,6 @@ final class CampaignPolicyTest extends TestCase
 
     /**
      * Test the viewAny method. It doesn't matter what the user is.
-     * @test
      */
     public function testViewAny(): void
     {
@@ -38,7 +37,6 @@ final class CampaignPolicyTest extends TestCase
     /**
      * Test trying to view a campaign if the user isn't the one that registered
      * it, or the GM, or a player.
-     * @test
      */
     public function testViewNoConnection(): void
     {
@@ -51,7 +49,6 @@ final class CampaignPolicyTest extends TestCase
 
     /**
      * Test trying to view a campaign as the user that registered it.
-     * @test
      */
     public function testViewAsRegisterer(): void
     {
@@ -66,7 +63,6 @@ final class CampaignPolicyTest extends TestCase
 
     /**
      * Test trying to view a campaign as the GM.
-     * @test
      */
     public function testViewAsGm(): void
     {
@@ -81,7 +77,6 @@ final class CampaignPolicyTest extends TestCase
 
     /**
      * Test trying to view a campaign as both the registerer and GM.
-     * @test
      */
     public function testViewAsGmAndRegisterer(): void
     {
@@ -97,7 +92,6 @@ final class CampaignPolicyTest extends TestCase
 
     /**
      * Test trying to view a campaign as a player that has been invited.
-     * @test
      */
     public function testViewAsInvitedPlayer(): void
     {
@@ -111,7 +105,6 @@ final class CampaignPolicyTest extends TestCase
 
     /**
      * Test trying to view a campaign as a player that accepted the invite.
-     * @test
      */
     public function testViewAsAcceptedPlayer(): void
     {
@@ -126,7 +119,6 @@ final class CampaignPolicyTest extends TestCase
     /**
      * Test trying to view a campaign as a player that has been removed from the
      * campaign.
-     * @test
      */
     public function testViewAsRemovedPlayer(): void
     {
@@ -140,7 +132,6 @@ final class CampaignPolicyTest extends TestCase
 
     /**
      * Test trying to view a campaign as a player that has been banned.
-     * @test
      */
     public function testViewAsBannedPlayer(): void
     {
@@ -154,7 +145,6 @@ final class CampaignPolicyTest extends TestCase
 
     /**
      * Any user can create a campaign.
-     * @test
      */
     public function testCreate(): void
     {
@@ -229,7 +219,6 @@ final class CampaignPolicyTest extends TestCase
     /**
      * No user can currently restore a campaign, even the one that registered it
      * and acts as both the GM and a player.
-     * @test
      */
     public function testRestore(): void
     {
@@ -248,7 +237,6 @@ final class CampaignPolicyTest extends TestCase
     /**
      * No user can currently force delete a campaign, even the one that
      * registered it and acts as both the GM and a player.
-     * @test
      */
     public function testForceDelete(): void
     {
@@ -266,7 +254,6 @@ final class CampaignPolicyTest extends TestCase
 
     /**
      * Test whether a normal user can GM a campaign.
-     * @test
      */
     public function testNonGmTryingToGm(): void
     {
@@ -280,7 +267,6 @@ final class CampaignPolicyTest extends TestCase
 
     /**
      * Test a GM trying to GM a campaign.
-     * @test
      */
     public function testGmTryingToGm(): void
     {

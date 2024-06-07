@@ -18,7 +18,6 @@ final class QualityTest extends TestCase
 {
     /**
      * Test that loading an invalid quality throws an exception.
-     * @test
      */
     public function testLoadingInvalidQualityThrowsException(): void
     {
@@ -31,7 +30,6 @@ final class QualityTest extends TestCase
     /**
      * Test that loading a quality sets the ID.
      * @return Quality
-     * @test
      */
     public function testLoadingLuckyId(): Quality
     {
@@ -44,7 +42,6 @@ final class QualityTest extends TestCase
      * Test that loading a quality sets the description.
      * @depends testLoadingLuckyId
      * @param Quality $quality
-     * @test
      */
     public function testLoadingLuckyDescription(Quality $quality): void
     {
@@ -55,7 +52,6 @@ final class QualityTest extends TestCase
      * Test that loading a quality with effects sets the effects property.
      * @depends testLoadingLuckyId
      * @param Quality $quality
-     * @test
      */
     public function testLoadingLuckySetsEffects(Quality $quality): void
     {
@@ -67,7 +63,6 @@ final class QualityTest extends TestCase
      * Test that loading a quality with incompatibilities sets the property.
      * @depends testLoadingLuckyId
      * @param Quality $quality
-     * @test
      */
     public function testLoadingLuckySetsIncompatibilities(
         Quality $quality
@@ -82,7 +77,6 @@ final class QualityTest extends TestCase
      * Test that loading a quality sets the karma value.
      * @depends testLoadingLuckyId
      * @param Quality $quality
-     * @test
      */
     public function testLoadingLuckyKarma(Quality $quality): void
     {
@@ -93,7 +87,6 @@ final class QualityTest extends TestCase
      * Test that loading a quality sets the name.
      * @depends testLoadingLuckyId
      * @param Quality $quality
-     * @test
      */
     public function testLoadingLuckyName(Quality $quality): void
     {
@@ -105,7 +98,6 @@ final class QualityTest extends TestCase
      * ruleset.
      * @depends testLoadingLuckyId
      * @param Quality $quality
-     * @test
      */
     public function testLoadingLuckyRuleset(Quality $quality): void
     {
@@ -116,7 +108,6 @@ final class QualityTest extends TestCase
      * Test the __toString method.
      * @depends testLoadingLuckyId
      * @param Quality $quality
-     * @test
      */
     public function testLoadingLuckyToString(Quality $quality): void
     {
@@ -125,7 +116,6 @@ final class QualityTest extends TestCase
 
     /**
      * Test loading Indomitable.
-     * @test
      */
     public function testLoadingIndomitable(): void
     {
@@ -139,7 +129,6 @@ final class QualityTest extends TestCase
 
     /**
      * Test loading an allergy.
-     * @test
      */
     public function testLoadingAllergy(): void
     {
@@ -155,7 +144,6 @@ final class QualityTest extends TestCase
 
     /**
      * Test loading an addiction.
-     * @test
      */
     public function testLoadingAddiction(): void
     {
@@ -171,7 +159,6 @@ final class QualityTest extends TestCase
 
     /**
      * Test findByName() with a quality that isn't found.
-     * @test
      */
     public function testFindByNameNotFound(): void
     {
@@ -182,7 +169,6 @@ final class QualityTest extends TestCase
 
     /**
      * Test findByName() with a quality that is found.
-     * @test
      */
     public function testFindByName(): void
     {
@@ -191,7 +177,6 @@ final class QualityTest extends TestCase
 
     /**
      * Test initializing the Aptitude quality.
-     * @test
      */
     public function testAptitude(): void
     {
@@ -201,7 +186,6 @@ final class QualityTest extends TestCase
 
     /**
      * Test initializing the Exceptional Attribute quality.
-     * @test
      */
     public function testExceptionalAttribute(): void
     {
@@ -211,7 +195,6 @@ final class QualityTest extends TestCase
 
     /**
      * Test initializing a quality with a severity.
-     * @test
      */
     public function testQualityWithSeverity(): void
     {
@@ -221,7 +204,6 @@ final class QualityTest extends TestCase
 
     /**
      * Test loading a mentor spirit quality.
-     * @test
      */
     public function testMentorSpiritQuality(): void
     {

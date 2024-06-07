@@ -33,19 +33,11 @@ final class FocusArrayTest extends TestCase
         $this->array = new FocusArray();
     }
 
-    /**
-     * Test an empty array.
-     * @test
-     */
     public function testEmpty(): void
     {
         self::assertEmpty($this->array);
     }
 
-    /**
-     * Test adding a valid object to the array.
-     * @test
-     */
     public function testAdd(): void
     {
         $this->array[] = new Focus('crafting');
@@ -54,7 +46,6 @@ final class FocusArrayTest extends TestCase
 
     /**
      * Test that adding an object of the wrong type throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -65,7 +56,6 @@ final class FocusArrayTest extends TestCase
 
     /**
      * Test that adding the wrong type to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

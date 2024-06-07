@@ -17,7 +17,6 @@ final class NomadTest extends TestCase
 {
     /**
      * Test the toString method.
-     * @test
      */
     public function testToString(): void
     {

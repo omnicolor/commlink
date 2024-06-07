@@ -18,7 +18,6 @@ final class KarmaLogEntryTest extends TestCase
 {
     /**
      * Test the constructor with null dates.
-     * @test
      */
     public function testConstructorNullDates(): void
     {
@@ -31,7 +30,6 @@ final class KarmaLogEntryTest extends TestCase
 
     /**
      * Test the constructor with dates.
-     * @test
      */
     public function testConstructorDates(): void
     {

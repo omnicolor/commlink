@@ -20,7 +20,6 @@ final class ComplexFormsControllerTest extends TestCase
 {
     /**
      * Test loading the collection if the config is broken.
-     * @test
      */
     public function testIndexBrokenConfig(): void
     {
@@ -34,7 +33,6 @@ final class ComplexFormsControllerTest extends TestCase
 
     /**
      * Test loading the collection without authentication.
-     * @test
      */
     public function testNoAuthIndex(): void
     {
@@ -44,7 +42,6 @@ final class ComplexFormsControllerTest extends TestCase
 
     /**
      * Test loading the collection as an authenticated user.
-     * @test
      */
     public function testAuthIndex(): void
     {
@@ -63,7 +60,6 @@ final class ComplexFormsControllerTest extends TestCase
 
     /**
      * Test loading an individual form without authentication.
-     * @test
      */
     public function testNoAuthShow(): void
     {
@@ -73,7 +69,6 @@ final class ComplexFormsControllerTest extends TestCase
 
     /**
      * Test loading an invalid form without authentication.
-     * @test
      */
     public function testNoAuthShowNotFound(): void
     {
@@ -83,7 +78,6 @@ final class ComplexFormsControllerTest extends TestCase
 
     /**
      * Test loading an individual form with authentication.
-     * @test
      */
     public function testAuthShow(): void
     {
@@ -107,7 +101,6 @@ final class ComplexFormsControllerTest extends TestCase
 
     /**
      * Test loading an invalid form with authentication.
-     * @test
      */
     public function testAuthShowNotFound(): void
     {

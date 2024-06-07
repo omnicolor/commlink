@@ -25,7 +25,6 @@ final class LinkResponseTest extends TestCase
 {
     /**
      * Test trying to link a character if the user has no Commlink account.
-     * @test
      */
     public function testResponseNoCommlink(): void
     {
@@ -42,7 +41,6 @@ final class LinkResponseTest extends TestCase
     /**
      * Test trying to link a character if the user has an unverified Commlink
      * account.
-     * @test
      */
     public function testWithUnverifiedCommlinkAccount(): void
     {
@@ -67,7 +65,6 @@ final class LinkResponseTest extends TestCase
     /**
      * Test trying to link a character if the user has a Commlink account and
      * has already linked a character to the channel.
-     * @test
      */
     public function testResponseAlreadyLinked(): void
     {
@@ -107,7 +104,6 @@ final class LinkResponseTest extends TestCase
 
     /**
      * Test trying to link an ID for a character that doesn't exist.
-     * @test
      */
     public function testLinkNotFoundCharacter(): void
     {
@@ -136,7 +132,6 @@ final class LinkResponseTest extends TestCase
 
     /**
      * Test trying to link a different user's Character to the channel.
-     * @test
      */
     public function testLinkAnotherUsersCharacter(): void
     {
@@ -176,7 +171,6 @@ final class LinkResponseTest extends TestCase
     /**
      * Test trying to link a character to the channel that isn't the right
      * system.
-     * @test
      */
     public function testLinkWrongSystem(): void
     {
@@ -223,7 +217,6 @@ final class LinkResponseTest extends TestCase
 
     /**
      * Test linking a character of the correct system.
-     * @test
      */
     public function testLinkCharacter(): void
     {

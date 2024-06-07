@@ -19,7 +19,6 @@ final class RoleTest extends TestCase
 {
     /**
      * Test building a role that doesnt exist.
-     * @test
      */
     public function testBuildInvalidRole(): void
     {
@@ -29,7 +28,6 @@ final class RoleTest extends TestCase
 
     /**
      * Test building a valid role.
-     * @test
      */
     public function testBuildValid(): void
     {
@@ -39,7 +37,6 @@ final class RoleTest extends TestCase
 
     /**
      * Test getting all of the roles.
-     * @test
      */
     public function testAll(): void
     {

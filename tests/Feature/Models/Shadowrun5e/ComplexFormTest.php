@@ -18,7 +18,6 @@ final class ComplexFormTest extends TestCase
 {
     /**
      * Test trying to load an invalid Complex Form.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -29,7 +28,6 @@ final class ComplexFormTest extends TestCase
 
     /**
      * Test toString.
-     * @test
      */
     public function testToString(): void
     {
@@ -39,7 +37,6 @@ final class ComplexFormTest extends TestCase
 
     /**
      * Test setting the level.
-     * @test
      */
     public function testSetLevel(): void
     {
@@ -51,7 +48,6 @@ final class ComplexFormTest extends TestCase
 
     /**
      * Test getFade() without setting the level.
-     * @test
      */
     public function testGetFadeNoLevel(): void
     {
@@ -63,7 +59,6 @@ final class ComplexFormTest extends TestCase
 
     /**
      * Test getFade().
-     * @test
      */
     public function testGetFade(): void
     {

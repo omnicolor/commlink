@@ -16,10 +16,6 @@ use Tests\TestCase;
  */
 final class ConditionTest extends TestCase
 {
-    /**
-     * Test trying to load an invalid Condition.
-     * @test
-     */
     public function testLoadInvalidCondition(): void
     {
         self::expectException(RuntimeException::class);
@@ -27,10 +23,6 @@ final class ConditionTest extends TestCase
         new Condition('q');
     }
 
-    /**
-     * Test trying to load a valid Condition.
-     * @test
-     */
     public function testLoadValidCondition(): void
     {
         $condition = new Condition('deafened');
@@ -40,10 +32,6 @@ final class ConditionTest extends TestCase
         self::assertSame(21, $condition->page);
     }
 
-    /**
-     * Test casting a condition to a string.
-     * @test
-     */
     public function testToString(): void
     {
         $condition = new Condition('deafened');

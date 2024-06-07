@@ -36,7 +36,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test an empty GearArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -45,7 +44,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test adding a normal piece of gear to the array.
-     * @test
      */
     public function testAddGear(): void
     {
@@ -55,7 +53,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test adding a matrix-device to the array.
-     * @test
      */
     public function testAddCommlink(): void
     {
@@ -65,7 +62,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test that adding a non-gear to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -76,7 +72,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test that adding a non-gear to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

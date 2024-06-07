@@ -20,7 +20,6 @@ final class SkillsControllerTest extends TestCase
 {
     /**
      * Test loading the collection of Skills if the config is broken.
-     * @test
      */
     public function testIndexBrokenConfig(): void
     {
@@ -34,7 +33,6 @@ final class SkillsControllerTest extends TestCase
 
     /**
      * Test loading the collection of skills without authentication.
-     * @test
      */
     public function testNoAuthIndex(): void
     {
@@ -44,7 +42,6 @@ final class SkillsControllerTest extends TestCase
 
     /**
      * Test loading the collection of skills as an authenticated user.
-     * @test
      */
     public function testAuthIndex(): void
     {
@@ -63,7 +60,6 @@ final class SkillsControllerTest extends TestCase
 
     /**
      * Test loading an individual skills without authentication.
-     * @test
      */
     public function testNoAuthShow(): void
     {
@@ -73,7 +69,6 @@ final class SkillsControllerTest extends TestCase
 
     /**
      * Test loading an invalid skill without authentication.
-     * @test
      */
     public function testNoAuthShowNotFound(): void
     {
@@ -83,7 +78,6 @@ final class SkillsControllerTest extends TestCase
 
     /**
      * Test loading an individual skill with authentication.
-     * @test
      */
     public function testAuthShow(): void
     {
@@ -112,7 +106,6 @@ final class SkillsControllerTest extends TestCase
 
     /**
      * Test loading an invalid skill with authentication.
-     * @test
      */
     public function testAuthShowNotFound(): void
     {

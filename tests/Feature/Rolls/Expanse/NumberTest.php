@@ -23,7 +23,6 @@ final class NumberTest extends TestCase
     /**
      * Test a basic roll generating stunt points in Slack without a description.
      * @group slack
-     * @test
      */
     public function testSimpleRollSlack(): void
     {
@@ -47,7 +46,6 @@ final class NumberTest extends TestCase
      * Test a basic roll generating stunt points in Discord without a
      * description.
      * @group discord
-     * @test
      */
     public function testSimpleRollDiscord(): void
     {
@@ -68,7 +66,6 @@ final class NumberTest extends TestCase
      * Test a basic roll not generating stunt points in Discord with a
      * description.
      * @group discord
-     * @test
      */
     public function testRollWithDescriptionDiscord(): void
     {
@@ -88,7 +85,6 @@ final class NumberTest extends TestCase
     /**
      * Test a basic roll not generating stunt points in IRC with a description.
      * @group irc
-     * @test
      */
     public function testRollWithDescriptionIrc(): void
     {

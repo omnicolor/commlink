@@ -35,7 +35,6 @@ final class AugmentationArrayTest extends TestCase
 
     /**
      * Test an empty AugmentationArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +43,6 @@ final class AugmentationArrayTest extends TestCase
 
     /**
      * Test adding an augmentation to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -54,7 +52,6 @@ final class AugmentationArrayTest extends TestCase
 
     /**
      * Test that adding a non-augmentation to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -65,7 +62,6 @@ final class AugmentationArrayTest extends TestCase
 
     /**
      * Test that adding a non-augmentation to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

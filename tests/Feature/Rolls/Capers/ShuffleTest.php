@@ -26,7 +26,6 @@ final class ShuffleTest extends TestCase
     /**
      * Test trying to shuffle a deck in a Slack channel with no campaign.
      * @group slack
-     * @test
      */
     public function testShuffleWithNoCampaign(): void
     {
@@ -44,7 +43,6 @@ final class ShuffleTest extends TestCase
     /**
      * Test trying to shuffle a Capers deck somehow from a non-Capers campaign.
      * @group discord
-     * @test
      */
     public function testShuffleFromOtherSystem(): void
     {
@@ -69,7 +67,6 @@ final class ShuffleTest extends TestCase
     /**
      * Test trying to shuffle a Capers deck for the first time.
      * @group slack
-     * @test
      */
     public function testShuffleFirstTime(): void
     {
@@ -110,7 +107,6 @@ final class ShuffleTest extends TestCase
      * Test trying to shuffle a Capers deck if the character already has done
      * so.
      * @group discord
-     * @test
      */
     public function testShuffleAgain(): void
     {

@@ -23,7 +23,6 @@ final class HelpTest extends TestCase
      * Test getting help in a Cyberpunk Red Slack channel with no user or
      * campaign registered.
      * @group slack
-     * @test
      */
     public function testGetSlackHelpNothingRegistered(): void
     {
@@ -51,7 +50,6 @@ final class HelpTest extends TestCase
      * Test getting help in a Cyberpunk Red Slack channel with a user
      * registered, but no campaign or character.
      * @group slack
-     * @test
      */
     public function testGetSlackHelpWithChatUser(): void
     {
@@ -86,7 +84,6 @@ final class HelpTest extends TestCase
      * Test getting help in a Cyberpunk Red Slack channel with a character
      * linked to the channel.
      * @group slack
-     * @test
      */
     public function testGetSlackHelpWithCharacter(): void
     {
@@ -134,7 +131,6 @@ final class HelpTest extends TestCase
      * Test getting help in a Cyberpunk Red Discord channel with a character
      * linked to the channel.
      * @group discord
-     * @test
      */
     public function testGetDiscordHelpWithCharacter(): void
     {
@@ -181,7 +177,6 @@ final class HelpTest extends TestCase
      * Test getting help in a Cyberpunk Red IRC channel with no character
      * linked.
      * @group irc
-     * @test
      */
     public function testGetHelpIrc(): void
     {

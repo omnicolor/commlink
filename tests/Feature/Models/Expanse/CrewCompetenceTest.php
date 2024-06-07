@@ -33,9 +33,6 @@ final class CrewCompetenceTest extends TestCase
 
     /**
      * @dataProvider competenceProvider
-     * @param CrewCompetence $competence
-     * @param int $bonus
-     * @test
      */
     public function testBonus(CrewCompetence $competence, int $bonus): void
     {

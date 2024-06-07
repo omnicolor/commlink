@@ -16,7 +16,6 @@ final class TarotDeckTest extends TestCase
 {
     /**
      * Test that a new TarotDeck has 74 cards.
-     * @test
      */
     public function testNewDeck(): void
     {

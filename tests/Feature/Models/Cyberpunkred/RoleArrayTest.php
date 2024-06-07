@@ -36,7 +36,6 @@ final class RoleArrayTest extends TestCase
 
     /**
      * Test an empty RoleArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -45,7 +44,6 @@ final class RoleArrayTest extends TestCase
 
     /**
      * Test adding a role to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -59,7 +57,6 @@ final class RoleArrayTest extends TestCase
     /**
      * Test that adding something other than a Role to the array throws an
      * exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -71,7 +68,6 @@ final class RoleArrayTest extends TestCase
 
     /**
      * Test that adding something other than a Role to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

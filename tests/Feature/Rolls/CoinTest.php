@@ -22,7 +22,6 @@ final class CoinTest extends TestCase
     /**
      * Test a coin flip.
      * @group slack
-     * @test
      */
     public function testTails(): void
     {
@@ -41,7 +40,6 @@ final class CoinTest extends TestCase
     /**
      * Test a coin flip.
      * @group discord
-     * @test
      */
     public function testHeads(): void
     {

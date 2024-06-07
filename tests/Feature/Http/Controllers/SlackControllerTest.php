@@ -31,7 +31,6 @@ final class SlackControllerTest extends TestCase
 
     /**
      * Test an OPTIONS request to the dice roller.
-     * @test
      */
     public function testOptions(): void
     {
@@ -44,7 +43,6 @@ final class SlackControllerTest extends TestCase
      * Test a POST request to the dice roller without required fields.
      *
      * Slack expects 200 responses for everything.
-     * @test
      */
     public function testPostNoPayload(): void
     {
@@ -66,7 +64,6 @@ final class SlackControllerTest extends TestCase
      * Test a POST request to the dice roller that has all of the required
      * fields. The values at this point don't matter, there's nothing for it to
      * do.
-     * @test
      */
     public function testPostFullPayload(): void
     {
@@ -92,7 +89,6 @@ final class SlackControllerTest extends TestCase
 
     /**
      * Test a POST request for a valid command.
-     * @test
      */
     public function testPostHelpCommandUnregisteredChannel(): void
     {
@@ -115,7 +111,6 @@ final class SlackControllerTest extends TestCase
 
     /**
      * Test a Slash command for getting help in a registered channel.
-     * @test
      */
     public function testGetHelpInRegisteredChannel(): void
     {
@@ -143,7 +138,6 @@ final class SlackControllerTest extends TestCase
 
     /**
      * Test a Slack command for rolling dice in a Shadowrun 5E channel.
-     * @test
      */
     public function testRollDiceShadowrun(): void
     {
@@ -175,7 +169,6 @@ final class SlackControllerTest extends TestCase
     /**
      * Test trying a generic number command in a channel for a system that
      * doesn't have it.
-     * @test
      */
     public function testRollNumberUnsupported(): void
     {
@@ -204,7 +197,6 @@ final class SlackControllerTest extends TestCase
 
     /**
      * Test a Slack command for rolling dice with a linked character.
-     * @test
      */
     public function testRollDiceShadowrunWithCharacter(): void
     {
@@ -257,7 +249,6 @@ final class SlackControllerTest extends TestCase
 
     /**
      * Test a Slack command for rolling a system-specific, non-numeric roll.
-     * @test
      */
     public function testRollSystemSpecificNonNumeric(): void
     {
@@ -312,7 +303,6 @@ final class SlackControllerTest extends TestCase
 
     /**
      * Test trying to `/roll 5` in an unregistered channel.
-     * @test
      */
     public function testRollDiceUnregistered(): void
     {
@@ -338,7 +328,6 @@ final class SlackControllerTest extends TestCase
 
     /**
      * Test trying to `/roll 1d20' in an unregistered channel.
-     * @test
      */
     public function testRollGenericDiceUnregistered(): void
     {
@@ -362,7 +351,6 @@ final class SlackControllerTest extends TestCase
     /**
      * Test trying to `/roll 5` in an channel registered to a system that
      * doesn't use that format.
-     * @test
      */
     public function testRollDiceInvalidNumericForSystem(): void
     {
@@ -390,7 +378,6 @@ final class SlackControllerTest extends TestCase
 
     /**
      * Test trying to `/roll info`.
-     * @test
      */
     public function testRollInfo(): void
     {
@@ -411,7 +398,6 @@ final class SlackControllerTest extends TestCase
 
     /**
      * Test a non-generic, non-system roll.
-     * @test
      */
     public function testFlipCoin(): void
     {
@@ -497,7 +483,6 @@ final class SlackControllerTest extends TestCase
     /**
      * Test that logging in through Slack as a new user creates a User and
      * a ChatUser.
-     * @test
      */
     public function testLoginThroughSlackNewUser(): void
     {
@@ -547,7 +532,6 @@ final class SlackControllerTest extends TestCase
 
     /**
      * Test a Slack-specific response not tied to a system.
-     * @test
      */
     public function testSlackResponseNotForSystem(): void
     {

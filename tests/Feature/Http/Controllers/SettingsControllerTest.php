@@ -26,7 +26,6 @@ final class SettingsControllerTest extends TestCase
 
     /**
      * Test an unauthenticated request.
-     * @test
      */
     public function testUnauthenticated(): void
     {
@@ -35,7 +34,6 @@ final class SettingsControllerTest extends TestCase
 
     /**
      * Test an authenticated user with no linked users.
-     * @test
      */
     public function testNoLinkedUsers(): void
     {
@@ -49,7 +47,6 @@ final class SettingsControllerTest extends TestCase
 
     /**
      * Test an authenticated user that has a linked user.
-     * @test
      */
     public function testWithLinkedUser(): void
     {
@@ -74,7 +71,6 @@ final class SettingsControllerTest extends TestCase
 
     /**
      * Test creating a linked user without sending the required fields.
-     * @test
      */
     public function testLinkUserMissingData(): void
     {
@@ -97,7 +93,6 @@ final class SettingsControllerTest extends TestCase
     /**
      * Test creating a chat user where the Slack requests for the team and user
      * names fail but the request otherwise succeeds.
-     * @test
      */
     public function testLinkUserSlackCallsFail(): void
     {
@@ -141,7 +136,6 @@ final class SettingsControllerTest extends TestCase
 
     /**
      * Test trying to create a duplicate chat user.
-     * @test
      */
     public function testLinkDuplicateSlackUser(): void
     {
@@ -170,7 +164,6 @@ final class SettingsControllerTest extends TestCase
 
     /**
      * Test trying to create a linked Discord user if the API calls fail.
-     * @test
      */
     public function testLinkDiscordUserAPICallsFail(): void
     {
@@ -209,7 +202,6 @@ final class SettingsControllerTest extends TestCase
 
     /**
      * Test trying to create a linked Discord user.
-     * @test
      */
     public function testLinkDiscordUser(): void
     {
@@ -257,7 +249,6 @@ final class SettingsControllerTest extends TestCase
 
     /**
      * Test trying to create a duplicate Discord chat user.
-     * @test
      */
     public function testLinkDuplicateDiscordUser(): void
     {
@@ -286,7 +277,6 @@ final class SettingsControllerTest extends TestCase
 
     /**
      * Test trying to link a duplicate IRC user.
-     * @test
      */
     public function testLinkDuplicateIrcUser(): void
     {
@@ -315,7 +305,6 @@ final class SettingsControllerTest extends TestCase
 
     /**
      * Test linking a new IRC user.
-     * @test
      */
     public function testLinkIrcUser(): void
     {

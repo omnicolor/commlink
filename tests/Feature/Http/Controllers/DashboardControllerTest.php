@@ -18,7 +18,6 @@ final class DashboardControllerTest extends TestCase
 {
     /**
      * Test an unauthenticated request.
-     * @test
      */
     public function testUnauthenticated(): void
     {
@@ -27,7 +26,6 @@ final class DashboardControllerTest extends TestCase
 
     /**
      * Test an authenticated request with no characters.
-     * @test
      */
     public function testAuthenticatedNoCharactersNoCampaigns(): void
     {
@@ -42,7 +40,6 @@ final class DashboardControllerTest extends TestCase
 
     /**
      * Test an authenticated request that has characters.
-     * @test
      */
     public function testAuthenticatedWithCharacters(): void
     {
@@ -71,7 +68,6 @@ final class DashboardControllerTest extends TestCase
 
     /**
      * Test an authenticated request that has registered campaigns.
-     * @test
      */
     public function testWithRegisteredCampaigns(): void
     {
@@ -91,7 +87,6 @@ final class DashboardControllerTest extends TestCase
 
     /**
      * Test a the dashboard with a gamemastering campaign.
-     * @test
      */
     public function testWithGamemasterCampaign(): void
     {

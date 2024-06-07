@@ -20,7 +20,6 @@ final class ArmorTest extends TestCase
 {
     /**
      * Test loading an armor with an invalid ID.
-     * @test
      */
     public function testLoadingArmorWithInvalidId(): void
     {
@@ -32,7 +31,6 @@ final class ArmorTest extends TestCase
     /**
      * Test loading an armor with a valid ID.
      * @return Armor
-     * @test
      */
     public function testLoadingArmorJacketId(): Armor
     {
@@ -45,7 +43,6 @@ final class ArmorTest extends TestCase
      * Test loading an armor sets the availability.
      * @depends testLoadingArmorJacketId
      * @param Armor $armor
-     * @test
      */
     public function testLoadingArmorJacketAvailability(Armor $armor): void
     {
@@ -56,7 +53,6 @@ final class ArmorTest extends TestCase
      * Test that loading an armor sets the cost.
      * @depends testLoadingArmorJacketId
      * @param Armor $armor
-     * @test
      */
     public function testLoadingArmorJacketCost(Armor $armor): void
     {
@@ -67,7 +63,6 @@ final class ArmorTest extends TestCase
      * Test that loading an armor sets the name.
      * @depends testLoadingArmorJacketId
      * @param Armor $armor
-     * @test
      */
     public function testLoadingArmorJacketName(Armor $armor): void
     {
@@ -78,7 +73,6 @@ final class ArmorTest extends TestCase
      * Test that loading an armor sets the armor rating.
      * @depends testLoadingArmorJacketId
      * @param Armor $armor
-     * @test
      */
     public function testLoadingArmorJacketRating(Armor $armor): void
     {
@@ -89,7 +83,6 @@ final class ArmorTest extends TestCase
      * Test that loading an armor sets the ruleset if none is given.
      * @depends testLoadingArmorJacketId
      * @param Armor $armor
-     * @test
      */
     public function testLoadingArmorJacketRulesetDefault(Armor $armor): void
     {
@@ -98,7 +91,6 @@ final class ArmorTest extends TestCase
 
     /**
      * Test that loading an armor from a different book sets the ruleset.
-     * @test
      */
     public function testLoadingArmorDifferentBookDifferentRuleset(): void
     {
@@ -110,7 +102,6 @@ final class ArmorTest extends TestCase
      * Test that an armor item's __toString method returns its name.
      * @depends testLoadingArmorJacketId
      * @param Armor $armor
-     * @test
      */
     public function testLoadingArmorJacketToString(Armor $armor): void
     {
@@ -119,7 +110,6 @@ final class ArmorTest extends TestCase
 
     /**
      * Test that loading an armor with additional effects loads them.
-     * @test
      */
     public function testLoadingArmorLoadsEffects(): void
     {
@@ -135,7 +125,6 @@ final class ArmorTest extends TestCase
      * Test getModifiedRating on an unmodified piece of armor.
      * @depends testLoadingArmorJacketId
      * @param Armor $armor
-     * @test
      */
     public function testGetModifiedRatingUnmodified(Armor $armor): void
     {
@@ -145,7 +134,6 @@ final class ArmorTest extends TestCase
     /**
      * Test getModifiedRating on a modified piece of armor, where the
      * modification changes the rating.
-     * @test
      */
     public function testGetModifiedRatingModified(): void
     {
@@ -157,7 +145,6 @@ final class ArmorTest extends TestCase
     /**
      * Test getModifiedRating on a modified piece of armor, where the
      * modifications have no game effects.
-     * @test
      */
     public function testGetModifiedRatingModifiedWithNoEffects(): void
     {
@@ -168,7 +155,6 @@ final class ArmorTest extends TestCase
 
     /**
      * Test getCost() with no modifications.
-     * @test
      */
     public function testGetCostNoModifications(): void
     {
@@ -178,7 +164,6 @@ final class ArmorTest extends TestCase
 
     /**
      * Test getCost() with a modification that has a flat cost.
-     * @test
      */
     public function testGetCostFlatModification(): void
     {
@@ -189,7 +174,6 @@ final class ArmorTest extends TestCase
 
     /**
      * Test getCost() with a modification that multiplies the armor's cost.
-     * @test
      */
     public function testGetCostMultiplicativeModification(): void
     {
@@ -200,7 +184,6 @@ final class ArmorTest extends TestCase
 
     /**
      * Test build() with an ID that doesn't exist.
-     * @test
      */
     public function testBuildArmorNotFound(): void
     {
@@ -211,7 +194,6 @@ final class ArmorTest extends TestCase
 
     /**
      * Test build() with valid armor, setting active property, no mods.
-     * @test
      */
     public function testBuildArmorActiveNoModifications(): void
     {
@@ -226,9 +208,7 @@ final class ArmorTest extends TestCase
     }
 
     /**
-     * Test build() with some modded armor (gear and armor mods), not
-     * active.
-     * @test
+     * Test build() with some modded armor (gear and armor mods), not active.
      */
     public function testBuildArmorWithMods(): void
     {
@@ -255,7 +235,6 @@ final class ArmorTest extends TestCase
 
     /**
      * Test build() with an illegal mod.
-     * @test
      */
     public function testBuildArmorWithUnknownMods(): void
     {
@@ -272,7 +251,6 @@ final class ArmorTest extends TestCase
 
     /**
      * Test findByName() with an item that isn't found.
-     * @test
      */
     public function testFindByNameNotFound(): void
     {
@@ -283,7 +261,6 @@ final class ArmorTest extends TestCase
 
     /**
      * Test findByName() with an item that is found.
-     * @test
      */
     public function testFindByName(): void
     {

@@ -21,7 +21,6 @@ final class FocusedTest extends TestCase
     /**
      * Test making a simple focused roll.
      * @group slack
-     * @test
      */
     public function testFocusedSlack(): void
     {
@@ -44,7 +43,6 @@ final class FocusedTest extends TestCase
     /**
      * Test making a focused roll with extra dice.
      * @group discord
-     * @test
      */
     public function testFocusedExtraDice(): void
     {
@@ -63,7 +61,6 @@ final class FocusedTest extends TestCase
     /**
      * Test making an focused roll resulting in a complication.
      * @group irc
-     * @test
      */
     public function testFocusedWithComplication(): void
     {
@@ -83,7 +80,6 @@ final class FocusedTest extends TestCase
     /**
      * Test getting extra successes with natural ones.
      * @group discord
-     * @test
      */
     public function testFocusedNaturalOnes(): void
     {
@@ -103,7 +99,6 @@ final class FocusedTest extends TestCase
     /**
      * Test making a focused roll with optional text.
      * @group slack
-     * @test
      */
     public function testFocusedRollWithOptionalText(): void
     {

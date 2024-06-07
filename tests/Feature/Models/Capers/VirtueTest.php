@@ -18,7 +18,6 @@ final class VirtueTest extends TestCase
 {
     /**
      * Test trying to create a virtue that doesn't exist.
-     * @test
      */
     public function testInvalidVirtue(): void
     {
@@ -29,7 +28,6 @@ final class VirtueTest extends TestCase
 
     /**
      * Test loading a virtue.
-     * @test
      */
     public function testVirtue(): void
     {
@@ -44,7 +42,6 @@ final class VirtueTest extends TestCase
 
     /**
      * Test getting all virtues.
-     * @test
      */
     public function testAll(): void
     {
@@ -55,7 +52,6 @@ final class VirtueTest extends TestCase
 
     /**
      * Test trying to find a virtue for a card with an invalid value.
-     * @test
      */
     public function testFindForInvalidCard(): void
     {
@@ -67,7 +63,6 @@ final class VirtueTest extends TestCase
 
     /**
      * Test trying to find a virtue for a card.
-     * @test
      */
     public function testFindForCard(): void
     {

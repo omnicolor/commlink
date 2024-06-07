@@ -33,7 +33,6 @@ final class InitTest extends TestCase
     /**
      * Test rolling init with no ChatUser registered in Slack and no reflexes.
      * @group slack
-     * @test
      */
     public function testSlackRollInitNoChatUserNoArgs(): void
     {
@@ -57,7 +56,6 @@ final class InitTest extends TestCase
     /**
      * Test rolling init with no ChatUser registered in Discord and no reflexes.
      * @group discord
-     * @test
      */
     public function testDiscordRollInitNoChatUserNoArgs(): void
     {
@@ -81,7 +79,6 @@ final class InitTest extends TestCase
     /**
      * Test rolling init with no ChatUser registered in IRC and no reflexes.
      * @group irc
-     * @test
      */
     public function testIRCRollInitNoChatUserNoArgs(): void
     {
@@ -105,7 +102,6 @@ final class InitTest extends TestCase
     /**
      * Test rolling init with no ChatUser in Slack, but including reflexes.
      * @group slack
-     * @test
      */
     public function testSlackRollInitNoChatUser(): void
     {
@@ -141,7 +137,6 @@ final class InitTest extends TestCase
      * Test rolling init with no ChatUser in Discord, but including reflexes
      * and a modifier.
      * @group discord
-     * @test
      */
     public function testDiscordRollInitNoChatUser(): void
     {
@@ -168,7 +163,6 @@ final class InitTest extends TestCase
     /**
      * Test rolling init in Slack with a linked character, but no campaign.
      * @group slack
-     * @test
      */
     public function testSlackRollInitCharacterNoCampaign(): void
     {
@@ -233,7 +227,6 @@ final class InitTest extends TestCase
      * Test rolling init in Discord with a linked character and including the
      * character's reflexes and a modifier.
      * @group discord
-     * @test
      */
     public function testDiscordRollInitCharacterNoCampaign(): void
     {
@@ -287,7 +280,6 @@ final class InitTest extends TestCase
     /**
      * Test rolling initiative with a linked character and campaign.
      * @group discord
-     * @test
      */
     public function testRollInitiativeWithCampaign(): void
     {
@@ -345,7 +337,6 @@ final class InitTest extends TestCase
     /**
      * Test rolling initiative without things linked.
      * @group irc
-     * @test
      */
     public function testIRCRollInitiativeNoCampaign(): void
     {

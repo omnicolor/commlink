@@ -18,7 +18,6 @@ final class MentorSpiritTest extends TestCase
 {
     /**
      * Test trying to load an invalid MentorSpirit.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -30,7 +29,6 @@ final class MentorSpiritTest extends TestCase
 
     /**
      * Test the constructor.
-     * @test
      */
     public function testConstructor(): void
     {
@@ -45,7 +43,6 @@ final class MentorSpiritTest extends TestCase
 
     /**
      * Test the __toString() method.
-     * @test
      */
     public function testToString(): void
     {
@@ -55,7 +52,6 @@ final class MentorSpiritTest extends TestCase
 
     /**
      * Test trying to find a mentor spirit by name with an invalid name.
-     * @test
      */
     public function testFindByNameNotFound(): void
     {
@@ -68,7 +64,6 @@ final class MentorSpiritTest extends TestCase
 
     /**
      * Test finding a mentor spirit by name.
-     * @test
      */
     public function testFindByName(): void
     {

@@ -20,7 +20,6 @@ final class MartialArtsStylesControllerTest extends TestCase
 {
     /**
      * Test loading the collection if the config is broken.
-     * @test
      */
     public function testIndexBrokenConfig(): void
     {
@@ -34,7 +33,6 @@ final class MartialArtsStylesControllerTest extends TestCase
 
     /**
      * Test loading the collection without authentication.
-     * @test
      */
     public function testNoAuthIndex(): void
     {
@@ -44,7 +42,6 @@ final class MartialArtsStylesControllerTest extends TestCase
 
     /**
      * Test loading the collection with authentication.
-     * @test
      */
     public function testIndex(): void
     {
@@ -63,7 +60,6 @@ final class MartialArtsStylesControllerTest extends TestCase
 
     /**
      * Test loading an individual resource without authentication.
-     * @test
      */
     public function testNoAuthShow(): void
     {
@@ -73,7 +69,6 @@ final class MartialArtsStylesControllerTest extends TestCase
 
     /**
      * Test loading an individual resource that doesn't exist.
-     * @test
      */
     public function testNotFound(): void
     {
@@ -88,7 +83,6 @@ final class MartialArtsStylesControllerTest extends TestCase
 
     /**
      * Test loading an individual resource.
-     * @test
      */
     public function testShow(): void
     {

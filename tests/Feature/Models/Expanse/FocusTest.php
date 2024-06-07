@@ -17,10 +17,6 @@ use function count;
  */
 final class FocusTest extends TestCase
 {
-    /**
-     * Test trying to load an invalid focus.
-     * @test
-     */
     public function testLoadInvalidFocus(): void
     {
         self::expectException(RuntimeException::class);
@@ -28,10 +24,6 @@ final class FocusTest extends TestCase
         new Focus('q');
     }
 
-    /**
-     * Test trying to load a valid focus.
-     * @test
-     */
     public function testLoadValidFocus(): void
     {
         $focus = new Focus('crafting');
@@ -42,10 +34,6 @@ final class FocusTest extends TestCase
         self::assertSame(47, $focus->page);
     }
 
-    /**
-     * Test casting a focus to a string.
-     * @test
-     */
     public function testToString(): void
     {
         $focus = new Focus('crafting');
@@ -54,7 +42,6 @@ final class FocusTest extends TestCase
 
     /**
      * Test not setting the level for the focus.
-     * @test
      */
     public function testDefaultLevel(): void
     {
@@ -64,7 +51,6 @@ final class FocusTest extends TestCase
 
     /**
      * Test setting the level for the focus.
-     * @test
      */
     public function testSetLevel(): void
     {

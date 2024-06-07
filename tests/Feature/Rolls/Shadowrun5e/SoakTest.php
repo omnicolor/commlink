@@ -29,7 +29,6 @@ final class SoakTest extends TestCase
     /**
      * Test trying to roll a soak test without a character linked in Slack.
      * @group slack
-     * @test
      */
     public function testWithoutCharacterSlack(): void
     {
@@ -46,7 +45,6 @@ final class SoakTest extends TestCase
     /**
      * Test trying to roll a soak test without a character linked in Discord.
      * @group discord
-     * @test
      */
     public function testWithoutCharacterDiscord(): void
     {
@@ -76,7 +74,6 @@ final class SoakTest extends TestCase
     /**
      * Test a character doing with would be a critical glitch on a soak test.
      * @group slack
-     * @test
      */
     public function testCritGlitch(): void
     {
@@ -121,7 +118,6 @@ final class SoakTest extends TestCase
     /**
      * Test a non-glitch soak test.
      * @group discord
-     * @test
      */
     public function testSoak(): void
     {

@@ -22,7 +22,6 @@ final class LinkResponseTest extends TestCase
 {
     /**
      * Test trying to link a character without sending their ID.
-     * @test
      */
     public function testLinkWithoutId(): void
     {
@@ -41,7 +40,6 @@ final class LinkResponseTest extends TestCase
 
     /**
      * Test trying to link to an unregistered channel.
-     * @test
      */
     public function testLinkUnregisteredChannel(): void
     {
@@ -64,7 +62,6 @@ final class LinkResponseTest extends TestCase
     /**
      * Test trying to link a character without having a registered Commlink
      * user.
-     * @test
      */
     public function testLinkWithoutCommlinkUser(): void
     {
@@ -98,7 +95,6 @@ final class LinkResponseTest extends TestCase
     /**
      * Test trying to link a character if there's already a character linked to
      * the channel.
-     * @test
      */
     public function testLinkCharacterAlreadyLinked(): void
     {
@@ -146,7 +142,6 @@ final class LinkResponseTest extends TestCase
 
     /**
      * Test trying to link an invalid ID to the channel.
-     * @test
      */
     public function testLinkInvalidCharacter(): void
     {
@@ -179,7 +174,6 @@ final class LinkResponseTest extends TestCase
 
     /**
      * Test trying to link someone else's character to the channel.
-     * @test
      */
     public function testLinkCharacterNotYours(): void
     {
@@ -223,7 +217,6 @@ final class LinkResponseTest extends TestCase
     /**
      * Test trying to link one of your characters that is for a different
      * system than the channel is registered for.
-     * @test
      */
     public function testLinkCharacterOtherSystem(): void
     {
@@ -275,7 +268,6 @@ final class LinkResponseTest extends TestCase
 
     /**
      * Test linking a character to the channel.
-     * @test
      */
     public function testLinkCharacter(): void
     {

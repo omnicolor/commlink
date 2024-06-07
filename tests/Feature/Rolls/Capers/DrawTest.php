@@ -24,7 +24,6 @@ final class DrawTest extends TestCase
     /**
      * Test trying to draw a card in a Slack channel with no campaign.
      * @group slack
-     * @test
      */
     public function testDrawWithNoCampaign(): void
     {
@@ -42,7 +41,6 @@ final class DrawTest extends TestCase
     /**
      * Test trying to draw a Capers card somehow from a non-Capers campaign.
      * @group slack
-     * @test
      */
     public function testDrawFromOtherSystem(): void
     {
@@ -66,7 +64,6 @@ final class DrawTest extends TestCase
     /**
      * Test trying to draw a Capers card for the first time.
      * @group slack
-     * @test
      */
     public function testDrawFirstTime(): void
     {
@@ -110,7 +107,6 @@ final class DrawTest extends TestCase
     /**
      * Test trying to draw a Capers card if the character already has done so.
      * @group slack
-     * @test
      */
     public function testDrawAgain(): void
     {
@@ -147,7 +143,6 @@ final class DrawTest extends TestCase
     /**
      * Test trying to draw from an empty deck.
      * @group slack
-     * @test
      */
     public function testDrawEmptySlack(): void
     {
@@ -176,7 +171,6 @@ final class DrawTest extends TestCase
     /**
      * Test trying to draw a card in Discord.
      * @group discord
-     * @test
      */
     public function testDrawDiscord(): void
     {
@@ -202,7 +196,6 @@ final class DrawTest extends TestCase
     /**
      * Test trying to draw from an empty deck in Discord.
      * @group discord
-     * @test
      */
     public function testDrawEmptyDiscord(): void
     {
@@ -231,7 +224,6 @@ final class DrawTest extends TestCase
     /**
      * Test trying to draw a card in IRC.
      * @group irc
-     * @test
      */
     public function testDrawIrc(): void
     {
@@ -257,7 +249,6 @@ final class DrawTest extends TestCase
     /**
      * Test trying to draw from an empty deck in IRC.
      * @group irc
-     * @test
      */
     public function testDrawEmptyIRC(): void
     {

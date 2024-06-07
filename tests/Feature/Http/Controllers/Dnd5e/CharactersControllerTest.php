@@ -18,7 +18,6 @@ final class CharactersControllerTest extends TestCase
 {
     /**
      * Test loading D&D 5E characters if unauthenticated.
-     * @test
      */
     public function testUnauthenticated(): void
     {
@@ -29,7 +28,6 @@ final class CharactersControllerTest extends TestCase
     /**
      * Test loading D&D 5E characters if authenticated but the user doesn't have
      * any characters.
-     * @test
      */
     public function testAuthenticatedNoCharacters(): void
     {
@@ -44,7 +42,6 @@ final class CharactersControllerTest extends TestCase
     /**
      * Test loading D&D 5E characters if authenticated, but all of the user's
      * characters are for different systems.
-     * @test
      */
     public function testAuthenticatedNoCharactersFromSystem(): void
     {
@@ -66,7 +63,6 @@ final class CharactersControllerTest extends TestCase
     /**
      * Test loading D&D 5E characters if authenticated, and the user has a
      * character for D&D 5E (in addition to another system).
-     * @test
      */
     public function testAuthenticatedWithSR5ECharacter(): void
     {
@@ -102,7 +98,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test showing an individual character.
-     * @test
      */
     public function testShowCharacter(): void
     {
@@ -131,7 +126,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test loading an individual character from a different system.
-     * @test
      */
     public function testShowCharacterOtherSystem(): void
     {

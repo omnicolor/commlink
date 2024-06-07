@@ -18,7 +18,6 @@ final class MetamagicTest extends TestCase
 {
     /**
      * Test trying to load an invalid Metamagic.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -29,7 +28,6 @@ final class MetamagicTest extends TestCase
 
     /**
      * Test trying to load a valid Metamagic and convert it to a string.
-     * @test
      */
     public function testToString(): void
     {
@@ -39,7 +37,6 @@ final class MetamagicTest extends TestCase
 
     /**
      * Test trying to find a metamagic by name, not found.
-     * @test
      */
     public function testFindByNameNotFound(): void
     {
@@ -50,7 +47,6 @@ final class MetamagicTest extends TestCase
 
     /**
      * Test trying to find a metamagic by name.
-     * @test
      */
     public function testFindByName(): void
     {

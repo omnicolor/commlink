@@ -35,7 +35,6 @@ final class VehicleModificationArrayTest extends TestCase
 
     /**
      * Test an empty VehicleModificationArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +43,6 @@ final class VehicleModificationArrayTest extends TestCase
 
     /**
      * Test adding an item to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -54,7 +52,6 @@ final class VehicleModificationArrayTest extends TestCase
 
     /**
      * Test that adding the wrong type to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -65,7 +62,6 @@ final class VehicleModificationArrayTest extends TestCase
 
     /**
      * Test that adding the wrong type to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

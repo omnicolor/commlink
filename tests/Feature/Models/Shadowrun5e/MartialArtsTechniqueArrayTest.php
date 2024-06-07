@@ -35,7 +35,6 @@ final class MartialArtsTechniqueArrayTest extends TestCase
 
     /**
      * Test an empty MartialArtsTechniqueArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +43,6 @@ final class MartialArtsTechniqueArrayTest extends TestCase
 
     /**
      * Test adding a technique to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -54,7 +52,6 @@ final class MartialArtsTechniqueArrayTest extends TestCase
 
     /**
      * Test that adding a non-technique to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -65,7 +62,6 @@ final class MartialArtsTechniqueArrayTest extends TestCase
 
     /**
      * Test that adding a non-technique to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

@@ -19,7 +19,6 @@ final class ContactsControllerTest extends TestCase
 {
     /**
      * Test getting contacts for another user without being the GM.
-     * @test
      */
     public function testGetContactsNotRelated(): void
     {
@@ -39,7 +38,6 @@ final class ContactsControllerTest extends TestCase
 
     /**
      * Test getting contacts for a character owned by the current user.
-     * @test
      */
     public function testGetContactsAsOwner(): void
     {
@@ -72,7 +70,6 @@ final class ContactsControllerTest extends TestCase
     /**
      * Test getting contacts for a character that plays in a campaign, but the
      * requesting user isn't the GM.
-     * @test
      */
     public function testGetContactsAsAnotherPlayer(): void
     {
@@ -106,7 +103,6 @@ final class ContactsControllerTest extends TestCase
     /**
      * Test getting contacts for a character that plays in a campaign and the
      * requestor is the GM.
-     * @test
      */
     public function testGetContactsAsGm(): void
     {
@@ -145,7 +141,6 @@ final class ContactsControllerTest extends TestCase
     /**
      * Test trying to create a contact for a Shadowrun 5E character that has no
      * campaign.
-     * @test
      */
     public function testCreateContactNoCampaign(): void
     {
@@ -171,7 +166,6 @@ final class ContactsControllerTest extends TestCase
     /**
      * Test trying to create a contact for a Shadowrun 5E character that has
      * a campaign, but the current user is not the GM.
-     * @test
      */
     public function testCreateContactNotGM(): void
     {
@@ -208,7 +202,6 @@ final class ContactsControllerTest extends TestCase
 
     /**
      * Test creating a contact for a Shadowrun 5E character as the GM.
-     * @test
      */
     public function testCreateContactAsGm(): void
     {

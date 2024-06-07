@@ -17,7 +17,6 @@ final class PowerTest extends TestCase
 {
     /**
      * Test creating an invalid power.
-     * @test
      */
     public function testLoadInvalidPower(): void
     {
@@ -28,7 +27,6 @@ final class PowerTest extends TestCase
 
     /**
      * Test creating a power with no boosts and no additional ranks.
-     * @test
      */
     public function testLoadPower(): void
     {
@@ -52,7 +50,6 @@ final class PowerTest extends TestCase
 
     /**
      * Test creating a power with a chosen boost.
-     * @test
      */
     public function testLoadPowerWithBoost(): void
     {
@@ -63,7 +60,6 @@ final class PowerTest extends TestCase
 
     /**
      * Test loading all powers.
-     * @test
      */
     public function testLoadAll(): void
     {
@@ -86,7 +82,6 @@ final class PowerTest extends TestCase
 
     /**
      * Test loading major powers only.
-     * @test
      */
     public function testMajor(): void
     {
@@ -102,7 +97,6 @@ final class PowerTest extends TestCase
 
     /**
      * Test loading minor powers only.
-     * @test
      */
     public function testMinor(): void
     {

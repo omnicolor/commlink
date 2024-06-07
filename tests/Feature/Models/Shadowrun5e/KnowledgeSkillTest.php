@@ -36,7 +36,6 @@ final class KnowledgeSkillTest extends TestCase
 
     /**
      * Test creating a knowledge skill with an invalid category.
-     * @test
      */
     public function testInvalidCategory(): void
     {
@@ -49,7 +48,6 @@ final class KnowledgeSkillTest extends TestCase
 
     /**
      * Test returning the object as a string.
-     * @test
      */
     public function testToString(): void
     {
@@ -62,7 +60,6 @@ final class KnowledgeSkillTest extends TestCase
 
     /**
      * Test returning the object's attribute.
-     * @test
      */
     public function testAttribute(): void
     {
@@ -93,7 +90,6 @@ final class KnowledgeSkillTest extends TestCase
      * @dataProvider provideCategoryAttributeMappings
      * @param string $category Category to test
      * @param string $attribute Attribute it should link to
-     * @test
      */
     public function testCategoryAttributeMappings(
         string $category,
@@ -127,7 +123,6 @@ final class KnowledgeSkillTest extends TestCase
      * @dataProvider provideShortCategoryMappings
      * @param string $category
      * @param string $short
-     * @test
      */
     public function testShortCategory(string $category, string $short): void
     {
@@ -154,7 +149,6 @@ final class KnowledgeSkillTest extends TestCase
      * @dataProvider namesProvider
      * @param string $name
      * @param string $id
-     * @test
      */
     public function testNamesToId(string $name, string $id): void
     {
@@ -164,7 +158,6 @@ final class KnowledgeSkillTest extends TestCase
 
     /**
      * Test getting an unknown property.
-     * @test
      */
     public function testGetUnknownProperty(): void
     {

@@ -29,7 +29,6 @@ final class MemoryTest extends TestCase
     /**
      * Test trying to roll a memory test without a character linked in Slack.
      * @group slack
-     * @test
      */
     public function testWithoutCharacterSlack(): void
     {
@@ -46,7 +45,6 @@ final class MemoryTest extends TestCase
     /**
      * Test trying to roll a memory test without a character linked in Discord.
      * @group discord
-     * @test
      */
     public function testWithoutCharacterDiscord(): void
     {
@@ -76,7 +74,6 @@ final class MemoryTest extends TestCase
     /**
      * Test a character critical glitching on a memory test.
      * @group slack
-     * @test
      */
     public function testCritGlitch(): void
     {
@@ -126,7 +123,6 @@ final class MemoryTest extends TestCase
     /**
      * Test a non-glitch memory test.
      * @group discord
-     * @test
      */
     public function testMemory(): void
     {

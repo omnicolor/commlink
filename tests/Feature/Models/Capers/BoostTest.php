@@ -16,7 +16,6 @@ final class BoostTest extends TestCase
 {
     /**
      * Test creating a new Boost.
-     * @test
      */
     public function testBoost(): void
     {

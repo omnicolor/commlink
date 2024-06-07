@@ -21,7 +21,6 @@ final class HandleInitiativeEventTest extends TestCase
 {
     /**
      * Test an event that has no source.
-     * @test
      */
     public function testNoSource(): void
     {
@@ -45,7 +44,6 @@ final class HandleInitiativeEventTest extends TestCase
     /**
      * Test an event that has a source that is the same as the only registered
      * channel.
-     * @test
      */
     public function testSameSource(): void
     {
@@ -72,7 +70,6 @@ final class HandleInitiativeEventTest extends TestCase
 
     /**
      * Test an event that has an attached Slack channel.
-     * @test
      */
     public function testAttachedSlackChannel(): void
     {
@@ -101,7 +98,6 @@ final class HandleInitiativeEventTest extends TestCase
 
     /**
      * Test an event that has an attached Discord channel but no webhook.
-     * @test
      */
     public function testDiscordChannelNoWebhook(): void
     {
@@ -131,7 +127,6 @@ final class HandleInitiativeEventTest extends TestCase
 
     /**
      * Test an event that has an attached Discord channel.
-     * @test
      */
     public function testAttachedDiscordChannel(): void
     {

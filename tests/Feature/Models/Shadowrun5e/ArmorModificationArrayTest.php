@@ -36,7 +36,6 @@ final class ArmorModificationArrayTest extends TestCase
 
     /**
      * Test an empty ArmorModificationArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -45,7 +44,6 @@ final class ArmorModificationArrayTest extends TestCase
 
     /**
      * Test adding an armor mod to the array.
-     * @test
      */
     public function testAddArmorMod(): void
     {
@@ -55,7 +53,6 @@ final class ArmorModificationArrayTest extends TestCase
 
     /**
      * Test adding a gear mod to the array.
-     * @test
      */
     public function testAddGearMod(): void
     {
@@ -65,7 +62,6 @@ final class ArmorModificationArrayTest extends TestCase
 
     /**
      * Test that adding a non-armor mod to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -79,7 +75,6 @@ final class ArmorModificationArrayTest extends TestCase
 
     /**
      * Test that adding a non-armor mod to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

@@ -7,42 +7,41 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Contacts;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class ContactsTest extends TestCase
 {
     /**
      * Test rendering a lack of contacts for an existing character.
-     * @test
      */
     public function testNoContactsExistingCharacter(): void
     {
-        $this->component(Contacts::class, ['character' => new Character()])
+        self::component(Contacts::class, ['character' => new Character()])
             ->assertDontSee('contacts', false)
             ->assertDontSee('Character does not know anyone.');
     }
 
     /**
      * Test rendering a lack of contacts for a new character.
-     * @test
      */
     public function testNoContactsNewCharacter(): void
     {
-        $this->component(Contacts::class, ['character' => new PartialCharacter()])
+        self::component(Contacts::class, ['character' => new PartialCharacter()])
             ->assertSee('contacts')
             ->assertSee('Character does not know anyone.');
     }
 
     /**
      * Test rendering a contact.
-     * @test
      */
     public function testContacts(): void
     {
-        $this->component(
+        self::component(
             Contacts::class,
             [
                 'character' => new Character([

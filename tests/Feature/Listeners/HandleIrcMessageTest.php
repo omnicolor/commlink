@@ -32,7 +32,6 @@ final class HandleIrcMessageTest extends TestCase
 
     /**
      * Test a user trying to roll something invalid.
-     * @test
      */
     public function testHandleInvalidComment(): void
     {
@@ -58,7 +57,6 @@ final class HandleIrcMessageTest extends TestCase
 
     /**
      * Test rolling a non-dice, non-specific roll.
-     * @test
      */
     public function testHandleInfoRoll(): void
     {
@@ -103,7 +101,6 @@ final class HandleIrcMessageTest extends TestCase
 
     /**
      * Test getting info for a registered channel.
-     * @test
      */
     public function testHandleInfoRegisteredChannel(): void
     {
@@ -162,7 +159,6 @@ final class HandleIrcMessageTest extends TestCase
 
     /**
      * Test rolling a non-system specific roll.
-     * @test
      */
     public function testHandleGenericRoll(): void
     {

@@ -17,7 +17,6 @@ final class CharacterTest extends TestCase
 {
     /**
      * Test loading from data store.
-     * @test
      */
     public function testNewFromBuilder(): void
     {
@@ -32,7 +31,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test converting a character without a name to a string.
-     * @test
      */
     public function testToStringNoName(): void
     {
@@ -41,7 +39,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test toString on a character with a name.
-     * @test
      */
     public function testToString(): void
     {
@@ -50,7 +47,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's attributes.
-     * @test
      */
     public function testGetAttributes(): void
     {
@@ -74,7 +70,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's disciplines.
-     * @test
      */
     public function testGetDisciplines(): void
     {
@@ -116,7 +111,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's species.
-     * @test
      */
     public function testSpecies(): void
     {
@@ -127,7 +121,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's stress attribute.
-     * @test
      */
     public function testGetStress(): void
     {
@@ -154,7 +147,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's talents if they have none.
-     * @test
      */
     public function testGetTalentsNone(): void
     {
@@ -164,7 +156,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's talents.
-     * @test
      */
     public function testGetTalents(): void
     {
@@ -178,7 +169,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test trying to get a character's talents if they've got an invalid one.
-     * @test
      */
     public function testGetTalentsInvalid(): void
     {

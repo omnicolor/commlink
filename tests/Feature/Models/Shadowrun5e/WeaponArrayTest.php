@@ -35,7 +35,6 @@ final class WeaponArrayTest extends TestCase
 
     /**
      * Test an empty WeaponArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +43,6 @@ final class WeaponArrayTest extends TestCase
 
     /**
      * Test adding a weapon to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -54,7 +52,6 @@ final class WeaponArrayTest extends TestCase
 
     /**
      * Test that adding a non-weapon to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -66,7 +63,6 @@ final class WeaponArrayTest extends TestCase
 
     /**
      * Test that adding a non-weapon to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

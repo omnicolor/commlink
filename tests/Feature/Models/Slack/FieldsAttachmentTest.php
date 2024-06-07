@@ -16,7 +16,6 @@ final class FieldsAttachmentTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test an empty fields attachment.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -30,7 +29,6 @@ final class FieldsAttachmentTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test adding some fields.
-     * @test
      */
     public function testWithFields(): void
     {

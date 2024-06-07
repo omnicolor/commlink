@@ -22,7 +22,6 @@ final class CampaignTest extends TestCase
 {
     /**
      * Test getting the users associated with the campaign.
-     * @test
      */
     public function testGetUsers(): void
     {
@@ -39,7 +38,6 @@ final class CampaignTest extends TestCase
 
     /**
      * Test that the GM for a campaign can be null.
-     * @test
      */
     public function testNullGM(): void
     {
@@ -50,7 +48,6 @@ final class CampaignTest extends TestCase
 
     /**
      * Test setting the system to a valid value sets it.
-     * @test
      */
     public function testSetSystem(): void
     {
@@ -62,7 +59,6 @@ final class CampaignTest extends TestCase
 
     /**
      * Test getting the campaign's channels when none have been set.
-     * @test
      */
     public function testGetChannelsNone(): void
     {
@@ -73,7 +69,6 @@ final class CampaignTest extends TestCase
 
     /**
      * Test getting the campaign's channels when it has several.
-     * @test
      */
     public function testGetChannels(): void
     {
@@ -101,7 +96,6 @@ final class CampaignTest extends TestCase
     /**
      * Test that getting a campaign that's been subclassed returns the
      * subclass.
-     * @test
      */
     public function testGetSubclass(): void
     {

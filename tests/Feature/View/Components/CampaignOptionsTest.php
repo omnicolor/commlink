@@ -7,11 +7,10 @@ namespace Tests\Feature\View\Components;
 use App\Models\Campaign;
 use App\Models\User;
 use App\View\Components\CampaignOptions;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * @medium
- */
+#[Medium]
 final class CampaignOptionsTest extends TestCase
 {
     public function testGenericCampaign(): void
@@ -21,7 +20,7 @@ final class CampaignOptionsTest extends TestCase
             'registered_by' => $user,
             'system' => 'dnd5e',
         ]);
-        $this->component(CampaignOptions::class, ['campaign' => $campaign])
+        self::component(CampaignOptions::class, ['campaign' => $campaign])
             ->assertDontSee('Start date');
     }
 
@@ -32,7 +31,7 @@ final class CampaignOptionsTest extends TestCase
             'registered_by' => $user,
             'system' => 'shadowrun5e',
         ]);
-        $this->component(CampaignOptions::class, ['campaign' => $campaign])
+        self::component(CampaignOptions::class, ['campaign' => $campaign])
             ->assertSee('Start date');
     }
 }

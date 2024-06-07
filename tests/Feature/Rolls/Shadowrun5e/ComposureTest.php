@@ -29,7 +29,6 @@ final class ComposureTest extends TestCase
     /**
      * Test trying to roll a composure test without a character linked in Slack.
      * @group slack
-     * @test
      */
     public function testWithoutCharacterSlack(): void
     {
@@ -47,7 +46,6 @@ final class ComposureTest extends TestCase
      * Test trying to roll a composure test without a character linked in
      * Discord.
      * @group discord
-     * @test
      */
     public function testWithoutCharacterDiscord(): void
     {
@@ -77,7 +75,6 @@ final class ComposureTest extends TestCase
     /**
      * Test a character critical glitching on a Composure test.
      * @group slack
-     * @test
      */
     public function testCritGlitch(): void
     {
@@ -129,7 +126,6 @@ final class ComposureTest extends TestCase
     /**
      * Test a non-glitch composure test.
      * @group discord
-     * @test
      */
     public function testComposure(): void
     {
@@ -181,7 +177,6 @@ final class ComposureTest extends TestCase
     /**
      * Test a non-glitch composure test.
      * @group irc
-     * @test
      */
     public function testComposureIRC(): void
     {

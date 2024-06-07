@@ -23,7 +23,6 @@ final class ChallengeTest extends TestCase
     /**
      * Test a roll in Slack that produces no score.
      * @group slack
-     * @test
      */
     public function testNoScore(): void
     {
@@ -47,7 +46,6 @@ final class ChallengeTest extends TestCase
     /**
      * Test a roll in Discord that produces an effect.
      * @group discord
-     * @test
      */
     public function testWithEffect(): void
     {
@@ -67,7 +65,6 @@ final class ChallengeTest extends TestCase
     /**
      * Test a roll of one on two challenge dice with optional text.
      * @group irc
-     * @test
      */
     public function testWithText(): void
     {

@@ -7,31 +7,28 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Weapons;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
+use PHPUnit\Framework\Attributes\TestDox;
 use Tests\TestCase;
 
-/**
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class WeaponsTest extends TestCase
 {
-    /**
-     * Test rendering a lack of weapons for an existing character.
-     * @test
-     */
+    #[TestDox('Test rendering a lack of weapons for an existing character')]
     public function testNoWeaponsExistingCharacter(): void
     {
-        $this->component(Weapons::class, ['character' => new Character()])
+        self::component(Weapons::class, ['character' => new Character()])
             ->assertDontSee('Purchase weapons on')
             ->assertSee('Character is unarmed.');
     }
 
-    /**
-     * Test rendering a lack of weapons for a new character.
-     * @test
-     */
+    #[TestDox('Test rendering a lack of weapons for a new character')]
     public function testNoWeaponsNewCharacter(): void
     {
-        $this->component(
+        self::component(
             Weapons::class,
             ['character' => new PartialCharacter()]
         )
@@ -39,13 +36,10 @@ final class WeaponsTest extends TestCase
             ->assertSee('Character is unarmed.');
     }
 
-    /**
-     * Test rendering a character with a weapon.
-     * @test
-     */
+    #[TestDox('Test rendering a character with a weapon')]
     public function testWithWeapon(): void
     {
-        $this->component(
+        self::component(
             Weapons::class,
             [
                 'character' => new Character([

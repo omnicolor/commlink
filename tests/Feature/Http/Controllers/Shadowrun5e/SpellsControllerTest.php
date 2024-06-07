@@ -20,7 +20,6 @@ final class SpellsControllerTest extends TestCase
 {
     /**
      * Test loading the collection if the config is broken.
-     * @test
      */
     public function testIndexBrokenConfig(): void
     {
@@ -34,7 +33,6 @@ final class SpellsControllerTest extends TestCase
 
     /**
      * Test loading the collection without authentication.
-     * @test
      */
     public function testNoAuthIndex(): void
     {
@@ -44,7 +42,6 @@ final class SpellsControllerTest extends TestCase
 
     /**
      * Test loading the collection as an authenticated user.
-     * @test
      */
     public function testAuthIndex(): void
     {
@@ -63,7 +60,6 @@ final class SpellsControllerTest extends TestCase
 
     /**
      * Test loading an individual spell with authentication.
-     * @test
      */
     public function testAuthShow(): void
     {
@@ -90,7 +86,6 @@ final class SpellsControllerTest extends TestCase
 
     /**
      * Test loading an invalid spell with authentication.
-     * @test
      */
     public function testAuthShowNotFound(): void
     {

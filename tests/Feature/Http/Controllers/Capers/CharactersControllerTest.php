@@ -25,7 +25,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test loading a character view.
-     * @test
      */
     public function testViewCharacter(): void
     {
@@ -51,7 +50,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test loading an individual character from a different system.
-     * @test
      */
     public function testShowCharacterOtherSystem(): void
     {
@@ -72,7 +70,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to create a brand new character.
-     * @test
      */
     public function testCreateNewCharacter(): void
     {
@@ -94,7 +91,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to resume building a character if the user has multiple.
-     * @test
      */
     public function testCreateNewCharacterChoose(): void
     {
@@ -121,7 +117,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test choosing which character to continue.
-     * @test
      */
     public function testCreateNewCharacterContinue(): void
     {
@@ -143,7 +138,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to switch to a new character from an in-progress character.
-     * @test
      */
     public function testCreateNewAfterContinuing(): void
     {
@@ -169,7 +163,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to set the basics for a character without sending any.
-     * @test
      */
     public function testCreateBasicsEmpty(): void
     {
@@ -183,7 +176,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to set the basics for a character.
-     * @test
      */
     public function testCreateBasics(): void
     {
@@ -221,7 +213,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to load the anchors page.
-     * @test
      */
     public function testAnchorsPage(): void
     {
@@ -245,7 +236,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to set the anchors for a character without sending any.
-     * @test
      */
     public function testCreateAnchorsEmpty(): void
     {
@@ -259,7 +249,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to save a character's anchors.
-     * @test
      */
     public function testCreateAnchors(): void
     {
@@ -297,7 +286,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to load the traits page.
-     * @test
      */
     public function testTraitsPage(): void
     {
@@ -322,7 +310,6 @@ final class CharactersControllerTest extends TestCase
     /**
      * Test trying to set a character's traits without choosing a high and low
      * one.
-     * @test
      */
     public function testCreateTraitsNotChoosing(): void
     {
@@ -350,7 +337,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to set a character's traits to invalid attributes.
-     * @test
      */
     public function testCreateTraitsInvalidAttributes(): void
     {
@@ -380,7 +366,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to set a character's traits to valid attributes.
-     * @test
      */
     public function testCreateTraits(): void
     {
@@ -418,7 +403,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to load the skills page.
-     * @test
      */
     public function testSkillsPage(): void
     {
@@ -442,7 +426,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to save a character's skills.
-     * @test
      */
     public function testCreateSkills(): void
     {
@@ -477,7 +460,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to load the perks page as an exceptional.
-     * @test
      */
     public function testPerksPageExceptional(): void
     {
@@ -501,7 +483,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to load the perks page as a caper.
-     * @test
      */
     public function testPerksPageCaper(): void
     {
@@ -528,7 +509,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to load the powers page as an exceptional.
-     * @test
      */
     public function testPowersPageExceptional(): void
     {
@@ -555,7 +535,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to load the powers page.
-     * @test
      */
     public function testPowersPageCaper(): void
     {
@@ -586,7 +565,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to save a character's powers if they shouldn't have them.
-     * @test
      */
     public function testCreatePowersExceptional(): void
     {
@@ -622,7 +600,6 @@ final class CharactersControllerTest extends TestCase
     /**
      * Test trying to save a character's powers with an invalid choice of the
      * number and type of powers.
-     * @test
      */
     public function testCreatePowersInvalidChoice(): void
     {
@@ -658,7 +635,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to save a character's powers with one major power.
-     * @test
      */
     public function testCreatePowersOneMajor(): void
     {
@@ -698,7 +674,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to add two major powers when choosing the one-major option.
-     * @test
      */
     public function testCreatePowersTwoMajorChoseOneMajor(): void
     {
@@ -735,7 +710,6 @@ final class CharactersControllerTest extends TestCase
     /**
      * Test trying to add a single minor power when choosing the one-major
      * option.
-     * @test
      */
     public function testCreatePowersOneMinorChoseOneMajor(): void
     {
@@ -771,7 +745,6 @@ final class CharactersControllerTest extends TestCase
     /**
      * Test trying to add multiple minor powers after choosing to have one at
      * rank 2.
-     * @test
      */
     public function testCreatePowersTwoMinorsChoseOneMinor(): void
     {
@@ -807,7 +780,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to add a major power after choosing to have one minor power.
-     * @test
      */
     public function testCreatePowersOneMajorChoseOneMinor(): void
     {
@@ -842,7 +814,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test choosing to have two minor powers but only selecting one.
-     * @test
      */
     public function testCreatePowersOneMinorChoseTwoMinors(): void
     {
@@ -877,7 +848,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test choosing to have two minor powers but choosing two major powers.
-     * @test
      */
     public function testCreatePowersTwoMajorsChoseTwoMinors(): void
     {
@@ -913,7 +883,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to save a character's powers if they have a rank 2 minor.
-     * @test
      */
     public function testCreatePowersOneMinor(): void
     {
@@ -953,7 +922,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to save a character's powers if they have two rank 1 minors.
-     * @test
      */
     public function testCreatePowersTwoMinor(): void
     {
@@ -997,7 +965,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to load the boosts page as an exceptional.
-     * @test
      */
     public function testBoostsPageExceptional(): void
     {
@@ -1025,7 +992,6 @@ final class CharactersControllerTest extends TestCase
     /**
      * Test trying to load the boosts page as a caper that hasn't chosen a
      * power yet.
-     * @test
      */
     public function testPowersPageCaperNoPowers(): void
     {
@@ -1052,7 +1018,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to load the boosts page as a caper that has chosen a power.
-     * @test
      */
     public function testBoostsPageCaper(): void
     {
@@ -1089,7 +1054,6 @@ final class CharactersControllerTest extends TestCase
      *
      * The character shouldn't have even been able to add a power in the first
      * place, but whatever.
-     * @test
      */
     public function testCreateBoostsExceptional(): void
     {
@@ -1132,7 +1096,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to store boosts for a caper that doesn't have any powers.
-     * @test
      */
     public function testCreateBoostsNoPowers(): void
     {
@@ -1171,7 +1134,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to store too many boosts for a power.
-     * @test
      */
     public function testCreateBoostsTooMany(): void
     {
@@ -1222,7 +1184,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to add a boost that doesn't work with a given power.
-     * @test
      */
     public function testCreateBoostsInvalid(): void
     {
@@ -1270,7 +1231,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test adding boosts to a caper's power.
-     * @test
      */
     public function testCreateBoosts(): void
     {
@@ -1318,7 +1278,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to load the gear page.
-     * @test
      */
     public function testGearPage(): void
     {
@@ -1347,7 +1306,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test saving some gear.
-     * @test
      */
     public function testCreateGear(): void
     {
@@ -1388,7 +1346,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to load the review page.
-     * @test
      */
     public function testReviewPage(): void
     {
@@ -1412,7 +1369,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test saving a character.
-     * @test
      */
     public function testSave(): void
     {
@@ -1444,7 +1400,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test trying to load an invalid page.
-     * @test
      */
     public function testUnknownPage(): void
     {

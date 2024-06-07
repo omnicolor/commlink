@@ -16,7 +16,6 @@ final class PartialCharacterTest extends TestCase
 {
     /**
      * Test creating a new lifepath array for a character.
-     * @test
      */
     public function testInitializeLifepath(): void
     {
@@ -42,7 +41,6 @@ final class PartialCharacterTest extends TestCase
     /**
      * Test that initializing a lifepath doesn't overwrite one if it already
      * exists.
-     * @test
      */
     public function testInitializeLifepathDoesntOverwrite(): void
     {
@@ -54,7 +52,6 @@ final class PartialCharacterTest extends TestCase
 
     /**
      * @medium
-     * @test
      */
     public function testNewFromBuilder(): void
     {

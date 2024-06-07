@@ -16,10 +16,6 @@ use Tests\TestCase;
  */
 final class ShipFlawTest extends TestCase
 {
-    /**
-     * Test trying to load an invalid flaw.
-     * @test
-     */
     public function testLoadNotFound(): void
     {
         self::expectException(RuntimeException::class);
@@ -29,10 +25,6 @@ final class ShipFlawTest extends TestCase
         new ShipFlaw('not-found');
     }
 
-    /**
-     * Test load.
-     * @test
-     */
     public function testLoad(): void
     {
         $flaw = new ShipFlaw('bad-juice');
@@ -45,7 +37,6 @@ final class ShipFlawTest extends TestCase
 
     /**
      * Test loading all flaws.
-     * @test
      */
     public function testAll(): void
     {

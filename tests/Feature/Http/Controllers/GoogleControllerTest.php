@@ -18,7 +18,6 @@ final class GoogleControllerTest extends TestCase
 
     /**
      * Test the login with Google redirect.
-     * @test
      */
     public function testAuthThroughGoogle(): void
     {
@@ -28,7 +27,6 @@ final class GoogleControllerTest extends TestCase
 
     /**
      * Test that logging in through Google as a new user creates a User.
-     * @test
      */
     public function testLoginThroughSlackNewUser(): void
     {

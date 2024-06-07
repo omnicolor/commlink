@@ -35,7 +35,6 @@ final class InfoTest extends TestCase
     /**
      * Test trying to get info for an unregistered Discord channel.
      * @group discord
-     * @test
      */
     public function testDiscordInfoUnregistered(): void
     {
@@ -76,7 +75,6 @@ final class InfoTest extends TestCase
      * Test trying to get info for a registered Discord channel without a
      * campaign.
      * @group discord
-     * @test
      */
     public function testDiscordInfoRegisteredNoCampaign(): void
     {
@@ -120,7 +118,6 @@ final class InfoTest extends TestCase
     /**
      * Test a info roll in IRC for a registered channel with a campaign.
      * @group irc
-     * @test
      */
     public function testIrcInfoRegistered(): void
     {
@@ -202,7 +199,6 @@ final class InfoTest extends TestCase
      * Test a info roll in IRC for a registered channel with a chat user but no
      * character.
      * @group irc
-     * @test
      */
     public function testIrcInfoRegisteredNoCharacter(): void
     {
@@ -270,7 +266,6 @@ final class InfoTest extends TestCase
      * Test rolling info in a Slack channel that somehow has an invalid
      * character ID linked.
      * @group slack
-     * @test
      */
     public function testSlackRegisteredWithInvalidCharacter(): void
     {

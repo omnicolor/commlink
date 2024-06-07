@@ -19,7 +19,6 @@ final class StandardDeckTest extends TestCase
 {
     /**
      * Test that a new StandardDeck has 52 cards.
-     * @test
      */
     public function testNewDeck(): void
     {
@@ -29,7 +28,6 @@ final class StandardDeckTest extends TestCase
 
     /**
      * Test drawing a card from a new, unshuffled deck.
-     * @test
      */
     public function testDrawingOneFromNewDeck(): void
     {
@@ -39,7 +37,6 @@ final class StandardDeckTest extends TestCase
 
     /**
      * Test drawing from a shuffled deck.
-     * @test
      */
     public function testDrawFromShuffledDeck(): void
     {
@@ -57,7 +54,6 @@ final class StandardDeckTest extends TestCase
 
     /**
      * Test trying to draw too many cards from a deck.
-     * @test
      */
     public function testDrawTooMany(): void
     {
@@ -69,7 +65,6 @@ final class StandardDeckTest extends TestCase
 
     /**
      * Test emptying the deck and trying to peek at the top card.
-     * @test
      */
     public function testPeekingAtEmptyDeck(): void
     {
@@ -82,7 +77,6 @@ final class StandardDeckTest extends TestCase
 
     /**
      * Test trying to draw an invalid number of cards.
-     * @test
      */
     public function testDrawNegative(): void
     {
@@ -94,7 +88,6 @@ final class StandardDeckTest extends TestCase
 
     /**
      * Test failing to find a deck in the database.
-     * @test
      */
     public function testDeckNotFound(): void
     {
@@ -108,7 +101,6 @@ final class StandardDeckTest extends TestCase
 
     /**
      * Test the database returning an invalid deck type.
-     * @test
      */
     public function testInvalidDeckType(): void
     {
@@ -122,7 +114,6 @@ final class StandardDeckTest extends TestCase
 
     /**
      * Test loading a deck from the database.
-     * @test
      */
     public function testLoadDeck(): void
     {
@@ -142,7 +133,6 @@ final class StandardDeckTest extends TestCase
 
     /**
      * Test saving a deck that has no campaign.
-     * @test
      */
     public function testSaveNoCampaign(): void
     {
@@ -154,7 +144,6 @@ final class StandardDeckTest extends TestCase
 
     /**
      * Test saving a new deck.
-     * @test
      */
     public function testSaveNewDeck(): void
     {
@@ -175,7 +164,6 @@ final class StandardDeckTest extends TestCase
 
     /**
      * Test updating an existing deck.
-     * @test
      */
     public function testUpdateDeck(): void
     {
@@ -194,7 +182,6 @@ final class StandardDeckTest extends TestCase
     /**
      * Test finding decks for a campaign if the campaign has none.
      * @medium
-     * @test
      */
     public function testFindForCampaignNoDecks(): void
     {
@@ -209,7 +196,6 @@ final class StandardDeckTest extends TestCase
     /**
      * Test finding decks for a campaign if the campaign has one.
      * @medium
-     * @test
      */
     public function testFindForDeck(): void
     {
@@ -236,7 +222,6 @@ final class StandardDeckTest extends TestCase
     /**
      * Test truncating the deck table.
      * @medium
-     * @test
      */
     public function testTruncate(): void
     {

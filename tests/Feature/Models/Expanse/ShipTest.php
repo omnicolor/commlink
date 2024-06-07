@@ -17,10 +17,6 @@ use Tests\TestCase;
  */
 final class ShipTest extends TestCase
 {
-    /**
-     * Test loading an invalid ship.
-     * @test
-     */
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
@@ -28,10 +24,6 @@ final class ShipTest extends TestCase
         new Ship('not-found');
     }
 
-    /**
-     * Testing loading a valid ship that uses mostly defaults.
-     * @test
-     */
     public function testLoad(): void
     {
         $ship = new Ship('DeStRoYeR');
@@ -52,10 +44,6 @@ final class ShipTest extends TestCase
         self::assertCount(3, $ship->weapons);
     }
 
-    /**
-     * Test loading all ships.
-     * @test
-     */
     public function testAll(): void
     {
         self::assertNotEmpty(Ship::all());

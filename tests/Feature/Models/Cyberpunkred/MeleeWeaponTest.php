@@ -19,7 +19,6 @@ final class MeleeWeaponTest extends TestCase
 {
     /**
      * Test that trying to load a weapon of any kind loads the data files.
-     * @test
      */
     public function testLoadDataFiles(): void
     {
@@ -36,7 +35,6 @@ final class MeleeWeaponTest extends TestCase
 
     /**
      * Test trying to load a weapon without including an ID.
-     * @test
      */
     public function testLoadNoId(): void
     {
@@ -49,7 +47,6 @@ final class MeleeWeaponTest extends TestCase
 
     /**
      * Test trying to load an invalid weapon.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -60,7 +57,6 @@ final class MeleeWeaponTest extends TestCase
 
     /**
      * Test loading a ranged weapon with the minimal amount of information.
-     * @test
      */
     public function testLoadMinimum(): void
     {
@@ -71,7 +67,6 @@ final class MeleeWeaponTest extends TestCase
 
     /**
      * Test converting a weapon to a string.
-     * @test
      */
     public function testToString(): void
     {
@@ -81,7 +76,6 @@ final class MeleeWeaponTest extends TestCase
 
     /**
      * Test loading a weapon that sets the quality.
-     * @test
      */
     public function testLoadWithQuality(): void
     {
@@ -94,7 +88,6 @@ final class MeleeWeaponTest extends TestCase
 
     /**
      * Test loading a weapon with an invalid quality.
-     * @test
      */
     public function testLoadWithInvalidQuality(): void
     {
@@ -107,7 +100,6 @@ final class MeleeWeaponTest extends TestCase
 
     /**
      * Test loading a weapon that chooses a name for the weapon.
-     * @test
      */
     public function testLoadWithName(): void
     {
@@ -146,7 +138,6 @@ final class MeleeWeaponTest extends TestCase
      * @param int $cost
      * @param string $quality
      * @param int $expected
-     * @test
      */
     public function testGetCost(
         int $cost,

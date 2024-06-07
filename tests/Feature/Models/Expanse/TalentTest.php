@@ -18,7 +18,6 @@ final class TalentTest extends TestCase
 {
     /**
      * Test trying to load an invalid talent.
-     * @test
      */
     public function testLoadInvalidTalent(): void
     {
@@ -29,7 +28,6 @@ final class TalentTest extends TestCase
 
     /**
      * Test trying to load a valid talent.
-     * @test
      */
     public function testLoadValidTalent(): void
     {
@@ -41,7 +39,6 @@ final class TalentTest extends TestCase
 
     /**
      * Test casting a talent to a string.
-     * @test
      */
     public function testToString(): void
     {
@@ -51,7 +48,6 @@ final class TalentTest extends TestCase
 
     /**
      * Test loading a talent without setting the level defaults to Novice.
-     * @test
      */
     public function testDefaultLevel(): void
     {
@@ -61,7 +57,6 @@ final class TalentTest extends TestCase
 
     /**
      * Test setting the level to an invalid level.
-     * @test
      */
     public function testSetLevelInvalid(): void
     {

@@ -18,7 +18,6 @@ final class MartialArtsTechniqueTest extends TestCase
 {
     /**
      * Test trying to load an invalid MartialArtsTechnique.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -31,7 +30,6 @@ final class MartialArtsTechniqueTest extends TestCase
 
     /**
      * Test the constructor for a technique without a subname.
-     * @test
      */
     public function testConstructor(): void
     {
@@ -46,7 +44,6 @@ final class MartialArtsTechniqueTest extends TestCase
 
     /**
      * Test the constructor for a technique with a subname.
-     * @test
      */
     public function testConstructorSubname(): void
     {
@@ -56,7 +53,6 @@ final class MartialArtsTechniqueTest extends TestCase
 
     /**
      * Test the __toString() method if the technique doesn't have a subname.
-     * @test
      */
     public function testToString(): void
     {
@@ -66,7 +62,6 @@ final class MartialArtsTechniqueTest extends TestCase
 
     /**
      * Test the __toString() method if the technique has a subname.
-     * @test
      */
     public function testToStringSubname(): void
     {

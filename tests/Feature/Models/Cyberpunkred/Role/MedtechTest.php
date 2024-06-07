@@ -15,10 +15,6 @@ use PHPUnit\Framework\TestCase;
  */
 final class MedtechTest extends TestCase
 {
-    /**
-     * Test the toString method.
-     * @test
-     */
     public function testToString(): void
     {
         $role = new Medtech([

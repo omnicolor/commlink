@@ -19,7 +19,6 @@ final class ActiveSkillTest extends TestCase
 {
     /**
      * Test trying to load an invalid skill.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -32,7 +31,6 @@ final class ActiveSkillTest extends TestCase
 
     /**
      * Test loading a valid skill.
-     * @test
      */
     public function testLoadSkill(): void
     {

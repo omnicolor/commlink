@@ -19,7 +19,6 @@ final class GenericTest extends TestCase
 {
     /**
      * Test a simple roll with no addition or subtraction.
-     * @test
      */
     public function testSimple(): void
     {
@@ -41,7 +40,6 @@ final class GenericTest extends TestCase
 
     /**
      * Test a simple roll with a description.
-     * @test
      */
     public function testWithDescription(): void
     {
@@ -76,7 +74,6 @@ final class GenericTest extends TestCase
 
     /**
      * Test a more complex calculation.
-     * @test
      */
     public function testWithCalculation(): void
     {

@@ -35,7 +35,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test an empty GearArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +43,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test adding a Gear item to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -54,7 +52,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test adding a weapon to the array.
-     * @test
      */
     public function testAddWeapon(): void
     {
@@ -64,7 +61,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test adding an explosive to the array.
-     * @test
      */
     public function testAddExplosive(): void
     {
@@ -74,7 +70,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test that adding a non-gear to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -85,7 +80,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test that adding a non-gear to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

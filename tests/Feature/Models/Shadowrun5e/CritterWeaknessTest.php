@@ -18,7 +18,6 @@ final class CritterWeaknessTest extends TestCase
 {
     /**
      * Test trying to load an invalid weakness.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -31,7 +30,6 @@ final class CritterWeaknessTest extends TestCase
 
     /**
      * Test loading a weakness without a subname.
-     * @test
      */
     public function testLoadNoSubname(): void
     {
@@ -45,7 +43,6 @@ final class CritterWeaknessTest extends TestCase
 
     /**
      * Test loading a weakness with a subname.
-     * @test
      */
     public function testLoadWithSubname(): void
     {

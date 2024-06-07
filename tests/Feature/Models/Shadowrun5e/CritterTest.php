@@ -18,7 +18,6 @@ final class CritterTest extends TestCase
 {
     /**
      * Test trying to load an invalid critter.
-     * @test
      */
     public function testInvalid(): void
     {
@@ -29,7 +28,6 @@ final class CritterTest extends TestCase
 
     /**
      * Test loading a valid, magical critter.
-     * @test
      */
     public function testLoad(): void
     {
@@ -64,7 +62,6 @@ final class CritterTest extends TestCase
 
     /**
      * Test loading a critter with a vulnerability.
-     * @test
      */
     public function testLoadWithVulnerability(): void
     {

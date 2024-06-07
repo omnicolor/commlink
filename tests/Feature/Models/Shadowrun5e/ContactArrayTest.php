@@ -35,7 +35,6 @@ final class ContactArrayTest extends TestCase
 
     /**
      * Test an empty ContactArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +43,6 @@ final class ContactArrayTest extends TestCase
 
     /**
      * Test adding a contact to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -60,7 +58,6 @@ final class ContactArrayTest extends TestCase
 
     /**
      * Test that adding a non-contact to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -72,7 +69,6 @@ final class ContactArrayTest extends TestCase
 
     /**
      * Test that adding a non-contact to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

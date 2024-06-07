@@ -35,7 +35,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test trying to load a Chummer file that doesn't exist.
-     * @test
      */
     public function testLoadNotFound(): void
     {
@@ -46,7 +45,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test trying to load a Chummer file that isn't XML.
-     * @test
      */
     public function testLoadNotXML(): void
     {
@@ -57,7 +55,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test trying to convert a valid Chummer 5 file.
-     * @test
      */
     public function testConvertBirdman(): void
     {
@@ -99,7 +96,6 @@ final class Shadowrun5eConverterTest extends TestCase
     /**
      * Test trying to load a Chummer 5 file for a non-magician and non-adept
      * that has a magic rating.
-     * @test
      */
     public function testConvertInvalidMagicAttribute(): void
     {
@@ -112,7 +108,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test trying to load a lifestyles if the character doesn't have any SINs.
-     * @test
      */
     public function testLifestylesWithoutIdentities(): void
     {
@@ -125,7 +120,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test trying to load a character's identities.
-     * @test
      */
     public function testIdentities(): void
     {
@@ -145,7 +139,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test a character that specialized in a knowledge skill.
-     * @test
      */
     public function testKnowledgeSpecializations(): void
     {
@@ -169,7 +162,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test a character that specialized in an active skill.
-     * @test
      */
     public function testActiveSkillSpecializations(): void
     {
@@ -196,7 +188,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test loading a character's magical tradition if they have one.
-     * @test
      */
     public function testTradition(): void
     {
@@ -211,7 +202,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test loading a weapon.
-     * @test
      */
     public function testWeapons(): void
     {
@@ -234,7 +224,6 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test loading a character with a mapped quality.
-     * @test
      */
     public function testMappedQuality(): void
     {

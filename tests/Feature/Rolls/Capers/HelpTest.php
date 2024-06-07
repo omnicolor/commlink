@@ -27,7 +27,6 @@ final class HelpTest extends TestCase
     /**
      * Test asking for help as an unlinked user.
      * @group slack
-     * @test
      */
     public function testHelpNoLinkedUser(): void
     {
@@ -56,7 +55,6 @@ final class HelpTest extends TestCase
     /**
      * Test asking for help as a Gamemaster.
      * @group discord
-     * @test
      */
     public function testHelpGamemaster(): void
     {
@@ -94,7 +92,6 @@ final class HelpTest extends TestCase
     /**
      * Test asking for help as a registered player.
      * @group discord
-     * @test
      */
     public function testHelpPlayerNoCharacter(): void
     {
@@ -129,7 +126,6 @@ final class HelpTest extends TestCase
     /**
      * Test asking for help as a character.
      * @group irc
-     * @test
      */
     public function testHelpPlayerCharacter(): void
     {

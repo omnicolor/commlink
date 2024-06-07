@@ -17,7 +17,6 @@ final class SoloTest extends TestCase
 {
     /**
      * Test the toString method.
-     * @test
      */
     public function testToString(): void
     {

@@ -35,7 +35,6 @@ final class QualityArrayTest extends TestCase
 
     /**
      * Test an empty QualityArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +43,6 @@ final class QualityArrayTest extends TestCase
 
     /**
      * Test adding a quality to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -54,7 +52,6 @@ final class QualityArrayTest extends TestCase
 
     /**
      * Test that adding a non-quality to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -68,7 +65,6 @@ final class QualityArrayTest extends TestCase
 
     /**
      * Test that adding a non-quality to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

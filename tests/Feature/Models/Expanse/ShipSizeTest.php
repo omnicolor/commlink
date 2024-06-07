@@ -35,9 +35,6 @@ final class ShipSizeTest extends TestCase
 
     /**
      * @dataProvider lengthProvider
-     * @param ShipSize $size,
-     * @param string $length
-     * @test
      */
     public function testLength(ShipSize $size, string $length): void
     {
@@ -64,9 +61,6 @@ final class ShipSizeTest extends TestCase
 
     /**
      * @dataProvider hullProvider
-     * @param ShipSize $size
-     * @param string $hull
-     * @test
      */
     public function testHull(ShipSize $size, string $hull): void
     {
@@ -93,10 +87,6 @@ final class ShipSizeTest extends TestCase
 
     /**
      * @dataProvider crewProvider
-     * @param ShipSize $size
-     * @param int $minimum
-     * @param int $standard
-     * @test
      */
     public function testCrew(ShipSize $size, int $minimum, int $standard): void
     {

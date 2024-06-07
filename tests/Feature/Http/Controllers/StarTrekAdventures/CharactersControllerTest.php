@@ -17,7 +17,6 @@ final class CharactersControllerTest extends TestCase
 {
     /**
      * Test listing a user's Star Trek Adventures characters.
-     * @test
      */
     public function testListCharactersWithNone(): void
     {
@@ -32,7 +31,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test listing a user's Star Trek Adventures characters.
-     * @test
      */
     public function testListCharacters(): void
     {
@@ -55,7 +53,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test loading a character view.
-     * @test
      */
     public function testViewCharacter(): void
     {

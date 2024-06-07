@@ -23,7 +23,6 @@ final class UserTest extends TestCase
 {
     /**
      * Test getting a user's campaigns if they have none.
-     * @test
      */
     public function testCampaignsNone(): void
     {
@@ -35,7 +34,6 @@ final class UserTest extends TestCase
 
     /**
      * Test getting a user's campaigns.
-     * @test
      */
     public function testCampaignsGmed(): void
     {
@@ -52,7 +50,6 @@ final class UserTest extends TestCase
 
     /**
      * Test getting a user's characters if they have none.
-     * @test
      */
     public function testGetCharactersNone(): void
     {
@@ -63,7 +60,6 @@ final class UserTest extends TestCase
 
     /**
      * Test getting a user's characters if they have some.
-     * @test
      */
     public function testGetCharacters(): void
     {
@@ -87,7 +83,6 @@ final class UserTest extends TestCase
 
     /**
      * Test getting a user's characters from a particular system.
-     * @test
      */
     public function testGetSystemCharacters(): void
     {
@@ -112,7 +107,6 @@ final class UserTest extends TestCase
 
     /**
      * Test getting a character's ChatUsers if they have none.
-     * @test
      */
     public function testGetChatUsersNone(): void
     {
@@ -123,7 +117,6 @@ final class UserTest extends TestCase
 
     /**
      * Test getting a character's ChatUsers.
-     * @test
      */
     public function testGetChatUsers(): void
     {

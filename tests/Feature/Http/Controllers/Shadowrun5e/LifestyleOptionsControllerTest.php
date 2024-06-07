@@ -20,7 +20,6 @@ final class LifestyleOptionsControllerTest extends TestCase
 {
     /**
      * Test loading the collection if the config is broken.
-     * @test
      */
     public function testIndexBrokenConfig(): void
     {
@@ -34,7 +33,6 @@ final class LifestyleOptionsControllerTest extends TestCase
 
     /**
      * Test loading the collection without authentication.
-     * @test
      */
     public function testNoAuthIndex(): void
     {
@@ -44,7 +42,6 @@ final class LifestyleOptionsControllerTest extends TestCase
 
     /**
      * Test loading the collection as an authenticated user.
-     * @test
      */
     public function testAuthIndex(): void
     {
@@ -63,7 +60,6 @@ final class LifestyleOptionsControllerTest extends TestCase
 
     /**
      * Test loading an individual resource without authentication.
-     * @test
      */
     public function testNoAuthShow(): void
     {
@@ -75,7 +71,6 @@ final class LifestyleOptionsControllerTest extends TestCase
 
     /**
      * Test loading an invalid resource without authentication.
-     * @test
      */
     public function testNoAuthShowNotFound(): void
     {
@@ -85,7 +80,6 @@ final class LifestyleOptionsControllerTest extends TestCase
 
     /**
      * Test loading an individual resource with authentication.
-     * @test
      */
     public function testAuthShow(): void
     {
@@ -112,7 +106,6 @@ final class LifestyleOptionsControllerTest extends TestCase
 
     /**
      * Test loading an invalid resource with authentication.
-     * @test
      */
     public function testAuthShowNotFound(): void
     {

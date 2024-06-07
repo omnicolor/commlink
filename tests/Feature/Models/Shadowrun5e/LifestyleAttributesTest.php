@@ -18,7 +18,6 @@ final class LifestyleAttributesTest extends TestCase
 {
     /**
      * Test trying to initialize attributes without required data.
-     * @test
      */
     public function testMissingAttributes(): void
     {
@@ -29,7 +28,6 @@ final class LifestyleAttributesTest extends TestCase
 
     /**
      * Test initializing lifestyle attributes with garbage.
-     * @test
      */
     public function testGarbageAttributes(): void
     {
@@ -52,7 +50,6 @@ final class LifestyleAttributesTest extends TestCase
 
     /**
      * Test initializing lifestyle attributes with data.
-     * @test
      */
     public function testAttributes(): void
     {

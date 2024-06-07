@@ -34,7 +34,6 @@ final class InteractsWithDiscordTest extends TestCase
 
     /**
      * Test creating a Discord webhook.
-     * @test
      */
     public function testCreateDiscordWebHook(): void
     {
@@ -57,7 +56,6 @@ final class InteractsWithDiscordTest extends TestCase
 
     /**
      * Test creating a Discord webhook if the call fails.
-     * @test
      */
     public function testCreateDiscordWebHookFails(): void
     {
@@ -70,7 +68,6 @@ final class InteractsWithDiscordTest extends TestCase
 
     /**
      * Test getting a Discord Channel name.
-     * @test
      */
     public function testGetDiscordChannelName(): void
     {
@@ -92,7 +89,6 @@ final class InteractsWithDiscordTest extends TestCase
 
     /**
      * Test getting a Discord channel name if the call fails.
-     * @test
      */
     public function testGetDiscordChannelNameFail(): void
     {
@@ -109,7 +105,6 @@ final class InteractsWithDiscordTest extends TestCase
 
     /**
      * Test getting a Discord username with a failing call.
-     * @test
      */
     public function testGetDiscordUsernameFail(): void
     {
@@ -126,7 +121,6 @@ final class InteractsWithDiscordTest extends TestCase
 
     /**
      * Test getting a Discord username.
-     * @test
      */
     public function testGetDiscordUsername(): void
     {
@@ -146,7 +140,6 @@ final class InteractsWithDiscordTest extends TestCase
 
     /**
      * Test getting a Discord server name with a failing call.
-     * @test
      */
     public function testGetDiscordServerNameFails(): void
     {
@@ -162,7 +155,6 @@ final class InteractsWithDiscordTest extends TestCase
 
     /**
      * Test getting a Discord server name.
-     * @test
      */
     public function testGetDiscordServerName(): void
     {
@@ -184,7 +176,6 @@ final class InteractsWithDiscordTest extends TestCase
 
     /**
      * Test getting a Discord access token with a failing call.
-     * @test
      */
     public function testGetDiscordAccessTokenFail(): void
     {
@@ -206,7 +197,6 @@ final class InteractsWithDiscordTest extends TestCase
 
     /**
      * Test getting a Discord access token.
-     * @test
      */
     public function testGetDiscordAccessToken(): void
     {
@@ -232,7 +222,6 @@ final class InteractsWithDiscordTest extends TestCase
 
     /**
      * Test getting a Discord user's record if the call fails.
-     * @test
      */
     public function testGetDiscordUserFail(): void
     {
@@ -254,7 +243,6 @@ final class InteractsWithDiscordTest extends TestCase
 
     /**
      * Test getting a Discord user's record that doesn't have an avatar.
-     * @test
      */
     public function testGetDiscordUserNoAvatar(): void
     {
@@ -285,7 +273,6 @@ final class InteractsWithDiscordTest extends TestCase
 
     /**
      * Test getting a Discord user's record that has an avatar.
-     * @test
      */
     public function testGetDiscordUserAvatar(): void
     {
@@ -316,7 +303,6 @@ final class InteractsWithDiscordTest extends TestCase
 
     /**
      * Test getting a Discord user's guilds if the call fails.
-     * @test
      */
     public function testGetDiscordGuildsFail(): void
     {
@@ -338,7 +324,6 @@ final class InteractsWithDiscordTest extends TestCase
 
     /**
      * Test getting a Discord user's guilds if they have none.
-     * @test
      */
     public function testGetDiscordGuildsNone(): void
     {
@@ -358,7 +343,6 @@ final class InteractsWithDiscordTest extends TestCase
 
     /**
      * Test getting a Discord user's guilds.
-     * @test
      */
     public function testGetDiscordGuilds(): void
     {
@@ -405,7 +389,6 @@ final class InteractsWithDiscordTest extends TestCase
 
     /**
      * Test getting the Discord Oauth2 URL for authorization.
-     * @test
      */
     public function testGetOauthUrl(): void
     {

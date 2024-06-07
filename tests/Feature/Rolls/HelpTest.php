@@ -20,7 +20,6 @@ final class HelpTest extends TestCase
      * Test getting help in an unlinked channel for a registered user that has
      * no campaigns.
      * @group discord
-     * @test
      */
     public function testGetHelpUnlinkedChannelRegisteredUserNoCampaigns(): void
     {
@@ -50,8 +49,7 @@ final class HelpTest extends TestCase
     /**
      * Test getting help in an unlinked channel for a registered user with
      * campaigns.
-     * @irc
-     * @test
+     * @group irc
      */
     public function testGetHelpUnlinkedChannelRegisteredUserWithCampaigns(): void
     {

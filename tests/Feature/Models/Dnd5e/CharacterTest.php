@@ -22,7 +22,6 @@ final class CharacterTest extends TestCase
 {
     /**
      * Test displaying the character as a string.
-     * @test
      */
     public function testToString(): void
     {
@@ -32,7 +31,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test that the character's system is set correctly.
-     * @test
      */
     public function testSystem(): void
     {
@@ -42,7 +40,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test loading a D&D 5E character.
-     * @test
      */
     public function testLoad(): void
     {
@@ -55,7 +52,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's ability modifier for an invalid attribute.
-     * @test
      */
     public function testGetAbilityModifierInvalid(): void
     {
@@ -68,7 +64,6 @@ final class CharacterTest extends TestCase
     /**
      * Test getting the character's ability modifier if the value is out of
      * acceptable range.
-     * @test
      */
     public function testGetAbilityModifierOutOfRange(): void
     {
@@ -81,7 +76,6 @@ final class CharacterTest extends TestCase
     /**
      * Test getting the character's ability modifier for a few different
      * values.
-     * @test
      */
     public function testGetAbilityModifier(): void
     {
@@ -103,7 +97,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's armor class if the dexterity is not set.
-     * @test
      */
     public function testGetArmorClassNotSet(): void
     {
@@ -115,7 +108,6 @@ final class CharacterTest extends TestCase
     /**
      * Test getting the character's armor class if the dexterity is out of
      * range.
-     * @test
      */
     public function testGetArmorClassOutOfRange(): void
     {
@@ -126,7 +118,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's armor class.
-     * @test
      */
     public function testGetArmorClass(): void
     {

@@ -17,7 +17,6 @@ final class ContactTest extends TestCase
 {
     /**
      * Test that the constructor sets all of the properties.
-     * @test
      */
     public function testInitializationWithGmNotes(): void
     {
@@ -40,7 +39,6 @@ final class ContactTest extends TestCase
 
     /**
      * Test that the constructor sets all of the properties.
-     * @test
      */
     public function testInitializationWithoutGmNotes(): void
     {
@@ -62,7 +60,6 @@ final class ContactTest extends TestCase
 
     /**
      * Test the __toString() method.
-     * @test
      */
     public function testToString(): void
     {

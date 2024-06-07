@@ -18,7 +18,6 @@ final class MartialArtsStyleTest extends TestCase
 {
     /**
      * Test trying to load an invalid MartialArtsStyle.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -29,7 +28,6 @@ final class MartialArtsStyleTest extends TestCase
 
     /**
      * Test loading style.
-     * @test
      */
     public function testConstructor(): void
     {
@@ -44,7 +42,6 @@ final class MartialArtsStyleTest extends TestCase
 
     /**
      * Test the __toString() method.
-     * @test
      */
     public function testToString(): void
     {

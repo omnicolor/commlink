@@ -34,7 +34,6 @@ final class PreparationTest extends TestCase
 
     /**
      * Test trying to set an invalid trigger.
-     * @test
      */
     public function testInvalidTrigger(): void
     {
@@ -45,7 +44,6 @@ final class PreparationTest extends TestCase
 
     /**
      * Test the setters.
-     * @test
      */
     public function testSetters(): void
     {
@@ -65,7 +63,6 @@ final class PreparationTest extends TestCase
 
     /**
      * Test setting the spell by ID.
-     * @test
      */
     public function testSetSpellId(): void
     {

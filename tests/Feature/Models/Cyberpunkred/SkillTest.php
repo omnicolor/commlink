@@ -19,7 +19,6 @@ final class SkillTest extends TestCase
 {
     /**
      * Test trying to load an invalid skill throws an exception.
-     * @test
      */
     public function testLoadingInvalidSkill(): void
     {
@@ -31,7 +30,6 @@ final class SkillTest extends TestCase
 
     /**
      * Test that loading a skill sets all of the fields.
-     * @test
      */
     public function testLoadingSetsFields(): void
     {
@@ -48,7 +46,6 @@ final class SkillTest extends TestCase
 
     /**
      * Test the __toString() method.
-     * @test
      */
     public function testToString(): void
     {
@@ -58,7 +55,6 @@ final class SkillTest extends TestCase
 
     /**
      * Test getBase().
-     * @test
      */
     public function testGetBase(): void
     {
@@ -93,7 +89,6 @@ final class SkillTest extends TestCase
      * @dataProvider attributeProvider
      * @param string $attribute
      * @param string $expected
-     * @test
      */
     public function testGetShort($attribute, $expected): void
     {

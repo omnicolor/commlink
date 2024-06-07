@@ -15,9 +15,6 @@ use Tests\TestCase;
  */
 final class RulebookTest extends TestCase
 {
-    /**
-     * @test
-     */
     public function testNotFound(): void
     {
         self::expectException(RuntimeException::class);
@@ -25,9 +22,6 @@ final class RulebookTest extends TestCase
         new Rulebook('not-found');
     }
 
-    /**
-     * @test
-     */
     public function testLoadCore(): void
     {
         $book = new Rulebook('core');
@@ -37,9 +31,6 @@ final class RulebookTest extends TestCase
         self::assertNotNull($book->description);
     }
 
-    /**
-     * @test
-     */
     public function testLoadForbiddenArcana(): void
     {
         $book = new Rulebook('forbidden-arcana');
@@ -49,9 +40,6 @@ final class RulebookTest extends TestCase
         self::assertNotNull($book->description);
     }
 
-    /**
-     * @test
-     */
     public function testAll(): void
     {
         $books = Rulebook::all();

@@ -20,7 +20,6 @@ final class VehicleTest extends TestCase
 {
     /**
      * Test trying to load an invalid vehicle.
-     * @test
      */
     public function testLoadInvalidVehicle(): void
     {
@@ -31,7 +30,6 @@ final class VehicleTest extends TestCase
 
     /**
      * Test that the constructor sets the things it should set.
-     * @test
      */
     public function testConstructorVehicle(): void
     {
@@ -58,7 +56,6 @@ final class VehicleTest extends TestCase
 
     /**
      * Test the constructor on a drone.
-     * @test
      */
     public function testConstructorDrone(): void
     {
@@ -70,7 +67,6 @@ final class VehicleTest extends TestCase
 
     /**
      * Test loading a vehicle with some equipment.
-     * @test
      */
     public function testConstructorWithEquipment(): void
     {
@@ -87,7 +83,6 @@ final class VehicleTest extends TestCase
 
     /**
      * Test loading a vehicle with modifications.
-     * @test
      */
     public function testConstructorWithModification(): void
     {
@@ -104,7 +99,6 @@ final class VehicleTest extends TestCase
 
     /**
      * Test the __toString method.
-     * @test
      */
     public function testToString(): void
     {
@@ -114,7 +108,6 @@ final class VehicleTest extends TestCase
 
     /**
      * Test the isDrone() method on a drone.
-     * @test
      */
     public function testIsDroneOnADrone(): void
     {
@@ -124,7 +117,6 @@ final class VehicleTest extends TestCase
 
     /**
      * Test the isDrone() method on a normal vehicle.
-     * @test
      */
     public function testIsDroneOnAVehicle(): void
     {
@@ -134,7 +126,6 @@ final class VehicleTest extends TestCase
 
     /**
      * Test creating a vehicle with built-in weapons.
-     * @test
      */
     public function testWithWeapons(): void
     {
@@ -153,7 +144,6 @@ final class VehicleTest extends TestCase
     /**
      * Test getting the matrix condition monitor for a vehicle without a device
      * rating.
-     * @test
      */
     public function testGetMatrixConditionMonitorNoDR(): void
     {
@@ -164,7 +154,6 @@ final class VehicleTest extends TestCase
 
     /**
      * Test getMatrixConditionMonitor() on a vehicle that has a device rating.
-     * @test
      */
     public function testGetMatrixConditionMonitor(): void
     {
@@ -174,7 +163,6 @@ final class VehicleTest extends TestCase
 
     /**
      * Test getPhysicalConditionMonitor() on a drone.
-     * @test
      */
     public function testGetPhysicalConditionMonitorDrone(): void
     {
@@ -184,7 +172,6 @@ final class VehicleTest extends TestCase
 
     /**
      * Test getPhysicalConditionMonitor() on a vehicle.
-     * @test
      */
     public function testGetPhysicalConditionMonitorVehicle(): void
     {
@@ -194,7 +181,6 @@ final class VehicleTest extends TestCase
 
     /**
      * Test getCost() on an unmodified vehicle.
-     * @test
      */
     public function testGetCost(): void
     {
@@ -206,7 +192,6 @@ final class VehicleTest extends TestCase
 
     /**
      * Test getCost() on a modified vehicle.
-     * @test
      */
     public function testGetCostModified(): void
     {
@@ -219,7 +204,6 @@ final class VehicleTest extends TestCase
 
     /**
      * Test getCost() on a vehicle with weapons.
-     * @test
      */
     public function testGetCostWeapons(): void
     {
@@ -230,7 +214,6 @@ final class VehicleTest extends TestCase
 
     /**
      * Test getCost() on a vehicle with attribute-dependant modifications.
-     * @test
      */
     public function testGetCostFancyModification(): void
     {
@@ -318,7 +301,6 @@ final class VehicleTest extends TestCase
 
     /**
      * Test a vehicle with a more complicated stock modification loadout.
-     * @test
      */
     public function testVehicleWithStockWeaponMounts(): void
     {

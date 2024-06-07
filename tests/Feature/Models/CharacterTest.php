@@ -22,7 +22,6 @@ final class CharacterTest extends TestCase
     /**
      * Characters are required to have an owner.
      * @medium
-     * @test
      */
     public function testNoUser(): void
     {
@@ -38,7 +37,6 @@ final class CharacterTest extends TestCase
     /**
      * Load a character's owner.
      * @medium
-     * @test
      */
     public function testGetUser(): void
     {
@@ -50,7 +48,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test finding a character with no system returns an \App\Model\Character.
-     * @test
      */
     public function testBuildDefault(): void
     {
@@ -68,7 +65,6 @@ final class CharacterTest extends TestCase
     /**
      * Test finding a character that has a system returns a subclass of
      * \App\Model\Character.
-     * @test
      */
     public function testBuildSubclass(): void
     {
@@ -96,7 +92,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the campaign attached to a character if they don't have one.
-     * @test
      */
     public function testCampaignNone(): void
     {
@@ -110,7 +105,6 @@ final class CharacterTest extends TestCase
     /**
      * Test trying to get a campaign attached to a character if it is not found.
      * @medium
-     * @test
      */
     public function testCampaignNotFound(): void
     {
@@ -125,7 +119,6 @@ final class CharacterTest extends TestCase
     /**
      * Test getting the campaign attached to a character.
      * @medium
-     * @test
      */
     public function testCampaign(): void
     {
@@ -143,7 +136,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test the getSystem() method from the GameSystem trait.
-     * @test
      */
     public function testGameSystem(): void
     {
@@ -157,7 +149,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test the getSystem() method with an unknown system.
-     * @test
      */
     public function testGameSystemNotFound(): void
     {

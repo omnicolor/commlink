@@ -35,7 +35,6 @@ final class SpellArrayTest extends TestCase
 
     /**
      * Test an empty array.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +43,6 @@ final class SpellArrayTest extends TestCase
 
     /**
      * Test adding to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -54,7 +52,6 @@ final class SpellArrayTest extends TestCase
 
     /**
      * Test that adding the wrong type to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -65,7 +62,6 @@ final class SpellArrayTest extends TestCase
 
     /**
      * Test that adding the wrong type to the array doesn't add the object.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

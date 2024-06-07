@@ -25,7 +25,6 @@ final class TarotTest extends TestCase
     /**
      * Test trying to draw a card in a Slack channel with no campaign.
      * @group slack
-     * @test
      */
     public function testSlackTarotWithNoCampaign(): void
     {
@@ -44,7 +43,6 @@ final class TarotTest extends TestCase
      * Test trying to draw a card in a Slack channel with a campaign for
      * a different system.
      * @group slack
-     * @test
      */
     public function testSlackTarotCampaignHasWrongSystem(): void
     {
@@ -69,7 +67,6 @@ final class TarotTest extends TestCase
      * Test trying to draw a card in a Slack channel with a campaign that
      * hasn't enabled it.
      * @group slack
-     * @test
      */
     public function testSlackTarotCampaignNotEnabled(): void
     {
@@ -93,7 +90,6 @@ final class TarotTest extends TestCase
     /**
      * Test trying to draw a card in a Discord channel with no campaign.
      * @group discord
-     * @test
      */
     public function testDiscordTarotWithNoCampaign(): void
     {
@@ -112,7 +108,6 @@ final class TarotTest extends TestCase
      * Test trying to draw a card in a Discord channel with a campaign for
      * a different system.
      * @group discord
-     * @test
      */
     public function testDiscordTarotCampaignHasWrongSystem(): void
     {
@@ -138,7 +133,6 @@ final class TarotTest extends TestCase
      * Test trying to draw a card in a Slack channel that has never initialized
      * a deck before.
      * @group slack
-     * @test
      */
     public function testDrawCardFromNewDeck(): void
     {
@@ -174,7 +168,6 @@ final class TarotTest extends TestCase
     /**
      * Test trying to shuffle a deck in a Slack channel.
      * @group slack
-     * @test
      */
     public function testShuffleDeckSlack(): void
     {
@@ -208,7 +201,6 @@ final class TarotTest extends TestCase
     /**
      * Test trying to shuffle a deck in a Discord channel.
      * @group discord
-     * @test
      */
     public function testShuffleDeckDiscord(): void
     {
@@ -245,7 +237,6 @@ final class TarotTest extends TestCase
     /**
      * Test trying to draw a card from an empty deck.
      * @group discord
-     * @test
      */
     public function testDrawFromEmptyDeckDiscord(): void
     {
@@ -280,7 +271,6 @@ final class TarotTest extends TestCase
      * Test trying to draw a card in a IRC channel with a campaign for a
      * different system.
      * @group irc
-     * @test
      */
     public function testIRCTarotCampaignHasWrongSystem(): void
     {
@@ -305,7 +295,6 @@ final class TarotTest extends TestCase
     /**
      * Test trying to shuffle a deck in an IRC channel.
      * @group irc
-     * @test
      */
     public function testShuffleDeckIRC(): void
     {
@@ -340,7 +329,6 @@ final class TarotTest extends TestCase
      * Test trying to draw a card in an IRC channel that has never initialized a
      * deck before.
      * @group irc
-     * @test
      */
     public function testDrawCardFromNewDeckIRC(): void
     {

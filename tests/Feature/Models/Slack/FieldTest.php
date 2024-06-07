@@ -15,7 +15,6 @@ final class FieldTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test toArray() with minimum amount of data.
-     * @test
      */
     public function testToArrayMinimum(): void
     {
@@ -26,7 +25,6 @@ final class FieldTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test toArray() setting the short field.
-     * @test
      */
     public function testToArray(): void
     {

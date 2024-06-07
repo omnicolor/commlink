@@ -31,7 +31,6 @@ final class TarotCardTest extends TestCase
      * Test that all of the cards have descriptions.
      * @dataProvider cardProvider
      * @param string $cardName
-     * @test
      */
     public function testAllCardsHaveDescriptions(string $cardName): void
     {
@@ -41,7 +40,6 @@ final class TarotCardTest extends TestCase
 
     /**
      * Test getting the description of an invalid card.
-     * @test
      */
     public function testDescriptionOfInvalidCard(): void
     {
@@ -54,7 +52,6 @@ final class TarotCardTest extends TestCase
      * Test that all of the cards have effects.
      * @dataProvider cardProvider
      * @param string $cardName
-     * @test
      */
     public function testAllCardsHaveEffects(string $cardName): void
     {
@@ -64,7 +61,6 @@ final class TarotCardTest extends TestCase
 
     /**
      * Test getting the effect of an invalid card.
-     * @test
      */
     public function testEffectOfInvalidCard(): void
     {
@@ -77,7 +73,6 @@ final class TarotCardTest extends TestCase
      * Test converting Night City Tarot cards to strings.
      * @dataProvider cardProvider
      * @param string $cardName
-     * @test
      */
     public function testToString(string $cardName): void
     {
