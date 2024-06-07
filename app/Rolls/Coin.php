@@ -11,15 +11,20 @@ use Facades\App\Services\DiceService;
 
 use function sprintf;
 
+use const PHP_EOL;
+
 /**
  * Class representing a coin flip.
  */
 class Coin extends Roll
 {
+    /**
+     * @psalm-suppress UndefinedClass
+     */
     public function __construct(
         string $content,
         string $username,
-        Channel $channel
+        Channel $channel,
     ) {
         parent::__construct($content, $username, $channel);
 
@@ -34,7 +39,7 @@ class Coin extends Roll
 
     public function forDiscord(): string
     {
-        return sprintf('**%s**', $this->title) . \PHP_EOL;
+        return sprintf('**%s**', $this->title) . PHP_EOL;
     }
 
     public function forIrc(): string

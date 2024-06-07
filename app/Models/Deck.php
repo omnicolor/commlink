@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\DB;
 use RuntimeException;
 use UnderflowException;
 
+use function array_pop;
+use function count;
+use function shuffle;
+use function unserialize;
+
 abstract class Deck implements Countable
 {
     /**
@@ -68,6 +73,8 @@ abstract class Deck implements Countable
 
     /**
      * Draw one or more cards from the deck.
+     * @psalm-suppress InvalidReturnStatement
+     * @psalm-suppress InvalidReturnType
      * @return array<int, Card>
      */
     public function draw(?int $number = 1): array
@@ -98,6 +105,7 @@ abstract class Deck implements Countable
     /**
      * Find a deck in the database.
      * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-suppress UndefinedPropertyFetch
      * @throws RuntimeException
      */
     public static function find(int $id): Deck

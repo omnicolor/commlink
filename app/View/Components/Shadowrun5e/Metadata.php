@@ -21,6 +21,7 @@ class Metadata extends Component
 
     /**
      * Get the view / contents that represent the component.
+     * @psalm-suppress InvalidReturnStatement
      */
     public function render(): View
     {
