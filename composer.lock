@@ -2618,16 +2618,16 @@
         },
         {
             "name": "mongodb/laravel-mongodb",
-            "version": "4.3.0",
+            "version": "4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mongodb/laravel-mongodb.git",
-                "reference": "64d6dc05a8f08d9cf09f6b2d54f891a1692f6181"
+                "reference": "57b76b463ddcd5e023029a21be9a8239d50bae7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mongodb/laravel-mongodb/zipball/64d6dc05a8f08d9cf09f6b2d54f891a1692f6181",
-                "reference": "64d6dc05a8f08d9cf09f6b2d54f891a1692f6181",
+                "url": "https://api.github.com/repos/mongodb/laravel-mongodb/zipball/57b76b463ddcd5e023029a21be9a8239d50bae7e",
+                "reference": "57b76b463ddcd5e023029a21be9a8239d50bae7e",
                 "shasum": ""
             },
             "require": {
@@ -2640,6 +2640,9 @@
                 "illuminate/support": "^10.0|^11",
                 "mongodb/mongodb": "^1.15",
                 "php": "^8.1"
+            },
+            "conflict": {
+                "illuminate/bus": "< 10.37.2"
             },
             "replace": {
                 "jenssegers/mongodb": "self.version"
@@ -2661,7 +2664,8 @@
                 "laravel": {
                     "providers": [
                         "MongoDB\\Laravel\\MongoDBServiceProvider",
-                        "MongoDB\\Laravel\\MongoDBQueueServiceProvider"
+                        "MongoDB\\Laravel\\MongoDBQueueServiceProvider",
+                        "MongoDB\\Laravel\\MongoDBBusServiceProvider"
                     ]
                 }
             },
@@ -2709,9 +2713,9 @@
             "support": {
                 "issues": "https://www.mongodb.com/support",
                 "security": "https://www.mongodb.com/security",
-                "source": "https://github.com/mongodb/laravel-mongodb/tree/4.3.0"
+                "source": "https://github.com/mongodb/laravel-mongodb/tree/4.4.0"
             },
-            "time": "2024-04-26T15:53:27+00:00"
+            "time": "2024-05-31T07:04:07+00:00"
         },
         {
             "name": "mongodb/mongodb",
