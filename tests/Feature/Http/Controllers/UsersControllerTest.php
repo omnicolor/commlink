@@ -65,7 +65,7 @@ final class UsersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         self::actingAs($user)
-            ->get(route('users.index'))
+            ->get(route('users.view'))
             ->assertForbidden();
     }
 
@@ -78,7 +78,7 @@ final class UsersControllerTest extends TestCase
     {
         $user = $this->createAdmin();
         self::actingAs($user)
-            ->get(route('users.index'))
+            ->get(route('users.view'))
             ->assertOk()
             ->assertSee($user->email);
     }
@@ -98,7 +98,6 @@ final class UsersControllerTest extends TestCase
         $campaign = Campaign::factory()->create(['gm' => $user->id]);
 
         self::actingAs($user)
-            ->withHeaders(['Accept' => 'application/json'])
             ->get(route('users.index'))
             ->assertJsonFragment(['id' => $character->id]);
     }

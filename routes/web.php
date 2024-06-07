@@ -210,7 +210,7 @@ Route::middleware('auth')->group(function (): void {
 });
 
 Route::group(['middleware' => ['auth', 'permission:admin users']], function (): void {
-    Route::resource('users', UsersController::class);
+    Route::get('users', [UsersController::class, 'view'])->name('users.view');
 });
 
 Route::get('/', function () {
