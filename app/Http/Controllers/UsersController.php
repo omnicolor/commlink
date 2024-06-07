@@ -62,27 +62,8 @@ class UsersController extends Controller
     /**
      * Get a listing of the resource.
      */
-    public function index(Request $request): JsonResponse
+    public function index(): JsonResponse
     {
-        $features = [];
-        foreach (new DirectoryIterator(app_path('Features')) as $file) {
-            if ($file->isDot()) {
-                continue;
-            }
-
-            // Unlikely to happen, but just in case there's something non-PHP in
-            // the Features directory...
-            if ('text/x-php' !== mime_content_type($file->getPathname())) {
-                continue; // @codeCoverageIgnore
-            }
-
-            $class = 'App\\Features\\' . $file->getBasename('.php');
-            /** @var Stringable */
-            $feature = new $class();
-            $features[(string)$feature] = $feature;
-        }
-        ksort($features);
-
         return new JsonResponse(UserResource::collection(User::all()));
     }
 

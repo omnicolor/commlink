@@ -191,7 +191,7 @@ Route::middleware('auth')->group(function (): void {
 });
 
 Route::group(['middleware' => ['auth', 'permission:admin users']], function (): void {
-    Route::get('users', [UsersController::class, 'view']);
+    Route::get('users', [UsersController::class, 'view'])->name('users.view');
 });
 
 Route::get('/', function () {
