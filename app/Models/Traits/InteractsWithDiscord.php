@@ -7,6 +7,16 @@ namespace App\Models\Traits;
 use Illuminate\Support\Facades\Http;
 use RuntimeException;
 
+use function base64_encode;
+use function config;
+use function fclose;
+use function filesize;
+use function fopen;
+use function fread;
+use function http_build_query;
+use function public_path;
+use function sprintf;
+
 /**
  * Trait for trying to get information from Discord's API.
  */
@@ -22,7 +32,7 @@ trait InteractsWithDiscord
         $filename = public_path('images/commlink.png');
         $fileHandle = fopen($filename, 'r');
         // @codeCoverageIgnoreStart
-        if (false === $fileHandle) {
+        if (false === $fileHandle || 0 === (int)filesize($filename)) {
             return null;
         }
         // @codeCoverageIgnoreEnd
@@ -66,7 +76,7 @@ trait InteractsWithDiscord
     public function getDiscordChannelName(string $snowflake): ?string
     {
         $response = Http::withHeaders([
-            'Authorization' => \sprintf('Bot %s', config('services.discord.token')),
+            'Authorization' => sprintf('Bot %s', config('services.discord.token')),
         ])
             ->get(sprintf('https://discord.com/api/channels/%s', $snowflake));
 
@@ -85,7 +95,7 @@ trait InteractsWithDiscord
     public function getDiscordUserName(string $snowflake): ?string
     {
         $response = Http::withHeaders([
-            'Authorization' => \sprintf('Bot %s', config('services.discord.token')),
+            'Authorization' => sprintf('Bot %s', config('services.discord.token')),
         ])
             ->get(sprintf('https://discord.com/api/users/%s', $snowflake));
 
@@ -104,7 +114,7 @@ trait InteractsWithDiscord
     public function getDiscordServerName(string $serverId): ?string
     {
         $response = Http::withHeaders([
-            'Authorization' => \sprintf('Bot %s', config('services.discord.token')),
+            'Authorization' => sprintf('Bot %s', config('services.discord.token')),
         ])
             ->get(sprintf('https://discord.com/api/guilds/%s', $serverId));
 
@@ -152,7 +162,7 @@ trait InteractsWithDiscord
     public function getDiscordUser(string $token): array
     {
         $response = Http::withHeaders([
-            'Authorization' => \sprintf('Bearer %s', $token),
+            'Authorization' => sprintf('Bearer %s', $token),
         ])
             ->get('https://discord.com/api/users/@me');
 
@@ -186,7 +196,7 @@ trait InteractsWithDiscord
     public function getDiscordGuilds(string $token): array
     {
         $response = Http::withHeaders([
-            'Authorization' => \sprintf('Bearer %s', $token),
+            'Authorization' => sprintf('Bearer %s', $token),
         ])
             ->get('https://discord.com/api/users/@me/guilds');
 
@@ -220,7 +230,7 @@ trait InteractsWithDiscord
      */
     public function getDiscordOauthURL(): string
     {
-        return 'https://discord.com/api/oauth2/authorize?' . \http_build_query([
+        return 'https://discord.com/api/oauth2/authorize?' . http_build_query([
             'client_id' => config('services.discord.client_id'),
             'redirect_uri' => config('services.discord.redirect'),
             'response_type' => 'code',
