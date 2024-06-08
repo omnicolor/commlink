@@ -7,6 +7,7 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\Armor;
 use App\Models\Shadowrun5e\ArmorModification;
 use App\Models\Shadowrun5e\GearModification;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -40,9 +41,8 @@ final class ArmorTest extends TestCase
 
     /**
      * Test loading an armor sets the availability.
-     * @depends testLoadingArmorJacketId
-     * @param Armor $armor
      */
+    #[Depends('testLoadingArmorJacketId')]
     public function testLoadingArmorJacketAvailability(Armor $armor): void
     {
         self::assertEquals('2', $armor->availability);
@@ -50,9 +50,8 @@ final class ArmorTest extends TestCase
 
     /**
      * Test that loading an armor sets the cost.
-     * @depends testLoadingArmorJacketId
-     * @param Armor $armor
      */
+    #[Depends('testLoadingArmorJacketId')]
     public function testLoadingArmorJacketCost(Armor $armor): void
     {
         self::assertEquals(1000, $armor->cost);
@@ -60,9 +59,8 @@ final class ArmorTest extends TestCase
 
     /**
      * Test that loading an armor sets the name.
-     * @depends testLoadingArmorJacketId
-     * @param Armor $armor
      */
+    #[Depends('testLoadingArmorJacketId')]
     public function testLoadingArmorJacketName(Armor $armor): void
     {
         self::assertEquals('Armor Jacket', $armor->name);
@@ -70,9 +68,8 @@ final class ArmorTest extends TestCase
 
     /**
      * Test that loading an armor sets the armor rating.
-     * @depends testLoadingArmorJacketId
-     * @param Armor $armor
      */
+    #[Depends('testLoadingArmorJacketId')]
     public function testLoadingArmorJacketRating(Armor $armor): void
     {
         self::assertEquals(12, $armor->rating);
@@ -80,9 +77,8 @@ final class ArmorTest extends TestCase
 
     /**
      * Test that loading an armor sets the ruleset if none is given.
-     * @depends testLoadingArmorJacketId
-     * @param Armor $armor
      */
+    #[Depends('testLoadingArmorJacketId')]
     public function testLoadingArmorJacketRulesetDefault(Armor $armor): void
     {
         self::assertEquals('core', $armor->ruleset);
@@ -99,9 +95,8 @@ final class ArmorTest extends TestCase
 
     /**
      * Test that an armor item's __toString method returns its name.
-     * @depends testLoadingArmorJacketId
-     * @param Armor $armor
      */
+    #[Depends('testLoadingArmorJacketId')]
     public function testLoadingArmorJacketToString(Armor $armor): void
     {
         self::assertEquals('Armor Jacket', (string)$armor);
@@ -122,9 +117,8 @@ final class ArmorTest extends TestCase
 
     /**
      * Test getModifiedRating on an unmodified piece of armor.
-     * @depends testLoadingArmorJacketId
-     * @param Armor $armor
      */
+    #[Depends('testLoadingArmorJacketId')]
     public function testGetModifiedRatingUnmodified(Armor $armor): void
     {
         self::assertEquals(12, $armor->getModifiedRating());

@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Armor;
 use App\Models\Shadowrun5e\ArmorModification;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -40,9 +41,8 @@ final class ArmorModificationTest extends TestCase
 
     /**
      * Test loading a valid modification sets the cost.
-     * @depends testLoadArmorModificationSetsId
-     * @param ArmorModification $mod
      */
+    #[Depends('testLoadArmorModificationSetsId')]
     public function testLoadArmorModificationSetsCost(
         ArmorModification $mod
     ): void {
@@ -51,9 +51,8 @@ final class ArmorModificationTest extends TestCase
 
     /**
      * Test loading a valid modification sets the description.
-     * @depends testLoadArmorModificationSetsId
-     * @param ArmorModification $mod
      */
+    #[Depends('testLoadArmorModificationSetsId')]
     public function testLoadArmorModificationSetsDescription(
         ArmorModification $mod
     ): void {
@@ -62,9 +61,8 @@ final class ArmorModificationTest extends TestCase
 
     /**
      * Test loading a valid modification sets the effects.
-     * @depends testLoadArmorModificationSetsId
-     * @param ArmorModification $mod
      */
+    #[Depends('testLoadArmorModificationSetsId')]
     public function testLoadArmorModificationSetsEffects(
         ArmorModification $mod
     ): void {
@@ -73,9 +71,8 @@ final class ArmorModificationTest extends TestCase
 
     /**
      * Test loading a valid modification sets the ruleset.
-     * @depends testLoadArmorModificationSetsId
-     * @param ArmorModification $mod
      */
+    #[Depends('testLoadArmorModificationSetsId')]
     public function testLoadArmorModificationSetsRuleset(
         ArmorModification $mod
     ): void {
@@ -85,9 +82,8 @@ final class ArmorModificationTest extends TestCase
     /**
      * Test loading a valid modification doesn't set the rating if there isn't
      * one.
-     * @depends testLoadArmorModificationSetsId
-     * @param ArmorModification $mod
      */
+    #[Depends('testLoadArmorModificationSetsId')]
     public function testLoadArmorModificationDoesntSetRating(
         ArmorModification $mod
     ): void {
@@ -96,9 +92,8 @@ final class ArmorModificationTest extends TestCase
 
     /**
      * Test loading a valid modification sets the name.
-     * @depends testLoadArmorModificationSetsId
-     * @param ArmorModification $mod
      */
+    #[Depends('testLoadArmorModificationSetsId')]
     public function testLoadArmorModificationSetsName(
         ArmorModification $mod
     ): void {
@@ -107,9 +102,8 @@ final class ArmorModificationTest extends TestCase
 
     /**
      * Test the toString method.
-     * @depends testLoadArmorModificationSetsId
-     * @param ArmorModification $mod
      */
+    #[Depends('testLoadArmorModificationSetsId')]
     public function testToString(ArmorModification $mod): void
     {
         self::assertEquals('Auto-injector', (string)$mod);

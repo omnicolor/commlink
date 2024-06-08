@@ -6,6 +6,7 @@ namespace Tests\Feature\Services\Omae;
 
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\Services\Omae\Shadowrun5eConverter;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
@@ -75,9 +76,8 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test the character's metadata.
-     * @depends testLoadOmae
-     * @param PartialCharacter $character
      */
+    #[Depends('testLoadOmae')]
     public function testMetadata(PartialCharacter $character): void
     {
         self::assertSame('Fastjack', $character->handle);
@@ -87,9 +87,8 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test the character's priorities.
-     * @depends testLoadOmae
-     * @param PartialCharacter $character
      */
+    #[Depends('testLoadOmae')]
     public function testPriorities(PartialCharacter $character): void
     {
         $priorities = $character->priorities;
@@ -104,9 +103,8 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test the character's remaining karma.
-     * @depends testLoadOmae
-     * @param PartialCharacter $character
      */
+    #[Depends('testLoadOmae')]
     public function testKarma(PartialCharacter $character): void
     {
         self::assertSame(7, $character->karmaCurrent);
@@ -115,9 +113,8 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test the character's attributes.
-     * @depends testLoadOmae
-     * @param PartialCharacter $character
      */
+    #[Depends('testLoadOmae')]
     public function testAttributes(PartialCharacter $character): void
     {
         self::assertSame(3, $character->body);
@@ -136,9 +133,8 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test the character's qualities.
-     * @depends testLoadOmae
-     * @param PartialCharacter $character
      */
+    #[Depends('testLoadOmae')]
     public function testQualitites(PartialCharacter $character): void
     {
         /** @var array<string, int|string> */
@@ -151,9 +147,8 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test the character's skills.
-     * @depends testLoadOmae
-     * @param PartialCharacter $character
      */
+    #[Depends('testLoadOmae')]
     public function testSkills(PartialCharacter $character): void
     {
         /** @var array<string, string|int> */
@@ -172,9 +167,8 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test the character's weapons.
-     * @depends testLoadOmae
-     * @param PartialCharacter $character
      */
+    #[Depends('testLoadOmae')]
     public function testWeapons(PartialCharacter $character): void
     {
         /** @var array<string, string|array<int, string>> */
@@ -196,9 +190,8 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test the character's armor.
-     * @depends testLoadOmae
-     * @param PartialCharacter $character
      */
+    #[Depends('testLoadOmae')]
     public function testArmor(PartialCharacter $character): void
     {
         /** @var array<int, array<string, string>> */
@@ -223,9 +216,8 @@ final class Shadowrun5eConverterTest extends TestCase
 
     /**
      * Test the character's augmentations.
-     * @depends testLoadOmae
-     * @param PartialCharacter $character
      */
+    #[Depends('testLoadOmae')]
     public function testAugmentations(PartialCharacter $character): void
     {
         /** @var array<string, string|array<int, string>> */

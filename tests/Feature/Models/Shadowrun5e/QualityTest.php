@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Quality;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -39,9 +40,8 @@ final class QualityTest extends TestCase
 
     /**
      * Test that loading a quality sets the description.
-     * @depends testLoadingLuckyId
-     * @param Quality $quality
      */
+    #[Depends('testLoadingLuckyId')]
     public function testLoadingLuckyDescription(Quality $quality): void
     {
         self::assertNotNull($quality->description);
@@ -49,9 +49,8 @@ final class QualityTest extends TestCase
 
     /**
      * Test that loading a quality with effects sets the effects property.
-     * @depends testLoadingLuckyId
-     * @param Quality $quality
      */
+    #[Depends('testLoadingLuckyId')]
     public function testLoadingLuckySetsEffects(Quality $quality): void
     {
         $expected = ['maximum-edge' => 1, 'notoriety' => -1];
@@ -60,9 +59,8 @@ final class QualityTest extends TestCase
 
     /**
      * Test that loading a quality with incompatibilities sets the property.
-     * @depends testLoadingLuckyId
-     * @param Quality $quality
      */
+    #[Depends('testLoadingLuckyId')]
     public function testLoadingLuckySetsIncompatibilities(
         Quality $quality
     ): void {
@@ -74,9 +72,8 @@ final class QualityTest extends TestCase
 
     /**
      * Test that loading a quality sets the karma value.
-     * @depends testLoadingLuckyId
-     * @param Quality $quality
      */
+    #[Depends('testLoadingLuckyId')]
     public function testLoadingLuckyKarma(Quality $quality): void
     {
         self::assertEquals(-12, $quality->karma);
@@ -84,9 +81,8 @@ final class QualityTest extends TestCase
 
     /**
      * Test that loading a quality sets the name.
-     * @depends testLoadingLuckyId
-     * @param Quality $quality
      */
+    #[Depends('testLoadingLuckyId')]
     public function testLoadingLuckyName(Quality $quality): void
     {
         self::assertEquals('Lucky', $quality->name);
@@ -95,19 +91,14 @@ final class QualityTest extends TestCase
     /**
      * Test that loading a quality from core rulebook doesn't change the
      * ruleset.
-     * @depends testLoadingLuckyId
-     * @param Quality $quality
      */
+    #[Depends('testLoadingLuckyId')]
     public function testLoadingLuckyRuleset(Quality $quality): void
     {
         self::assertEquals('core', $quality->ruleset);
     }
 
-    /**
-     * Test the __toString method.
-     * @depends testLoadingLuckyId
-     * @param Quality $quality
-     */
+    #[Depends('testLoadingLuckyId')]
     public function testLoadingLuckyToString(Quality $quality): void
     {
         self::assertEquals('Lucky', (string)$quality);
