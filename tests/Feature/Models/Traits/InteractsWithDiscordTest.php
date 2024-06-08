@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models\Traits;
 
-use App\Models\Traits\InteractsWithDiscord;
+use App\Models\Channel;
 use Illuminate\Http\Client\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
-use PHPUnit\Framework\MockObject\MockObject;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -18,19 +17,12 @@ use Tests\TestCase;
 #[Small]
 final class InteractsWithDiscordTest extends TestCase
 {
-    /**
-     * Subject under test.
-     * @var MockObject
-     */
-    protected $mock;
+    protected Channel $mock;
 
-    /**
-     * Set up the subject under test.
-     */
     public function setUp(): void
     {
         parent::setUp();
-        $this->mock = $this->getMockForTrait(InteractsWithDiscord::class);
+        $this->mock = new Channel(['type' => Channel::TYPE_DISCORD]);
     }
 
     /**
@@ -50,7 +42,6 @@ final class InteractsWithDiscordTest extends TestCase
         ]);
         self::assertSame(
             'https://discord.com/api/webhooks/987/abc',
-            // @phpstan-ignore-next-line
             $this->mock->createDiscordWebhook('456')
         );
     }
@@ -63,7 +54,6 @@ final class InteractsWithDiscordTest extends TestCase
         Http::fake([
             '*' => Http::response('', Response::HTTP_BAD_REQUEST),
         ]);
-        // @phpstan-ignore-next-line
         self::assertNull($this->mock->createDiscordWebhook('123'));
     }
 
@@ -83,7 +73,6 @@ final class InteractsWithDiscordTest extends TestCase
         ]);
         self::assertSame(
             '#foo-channel',
-            // @phpstan-ignore-next-line
             $this->mock->getDiscordChannelName('765')
         );
     }
@@ -96,7 +85,6 @@ final class InteractsWithDiscordTest extends TestCase
         Http::fake([
             '*' => Http::response('', Response::HTTP_BAD_REQUEST),
         ]);
-        // @phpstan-ignore-next-line
         self::assertNull($this->mock->getDiscordChannelName('765'));
 
         Http::assertSent(function (Request $request): bool {
@@ -112,7 +100,6 @@ final class InteractsWithDiscordTest extends TestCase
         Http::fake([
             '*' => Http::response('', Response::HTTP_BAD_REQUEST),
         ]);
-        // @phpstan-ignore-next-line
         self::assertNull($this->mock->getDiscordUserName('42'));
 
         Http::assertSent(function (Request $request): bool {
@@ -135,7 +122,6 @@ final class InteractsWithDiscordTest extends TestCase
             ),
             '*' => Http::response('', Response::HTTP_BAD_REQUEST),
         ]);
-        // @phpstan-ignore-next-line
         self::assertSame('user#1234', $this->mock->getDiscordUserName('99'));
     }
 
@@ -147,7 +133,6 @@ final class InteractsWithDiscordTest extends TestCase
         Http::fake([
             '*' => Http::response('', Response::HTTP_BAD_REQUEST),
         ]);
-        // @phpstan-ignore-next-line
         self::assertNull($this->mock->getDiscordServerName('13'));
         Http::assertSent(function (Request $request): bool {
             return 'https://discord.com/api/guilds/13' === $request->url();
@@ -170,7 +155,6 @@ final class InteractsWithDiscordTest extends TestCase
         ]);
         self::assertSame(
             'Burning Edge',
-            // @phpstan-ignore-next-line
             $this->mock->getDiscordServerName('234')
         );
     }
@@ -184,7 +168,6 @@ final class InteractsWithDiscordTest extends TestCase
             '*' => Http::response('Nope', Response::HTTP_BAD_REQUEST),
         ]);
         try {
-            // @phpstan-ignore-next-line
             $this->mock->getDiscordAccessToken('13');
         } catch (RuntimeException $ex) {
             self::assertSame('Nope', $ex->getMessage());
@@ -213,7 +196,6 @@ final class InteractsWithDiscordTest extends TestCase
         self::assertSame(
             // There's only one Jame.
             'Jame-Bond',
-            // @phpstan-ignore-next-line
             $this->mock->getDiscordAccessToken('007')
         );
         Http::assertSent(function (Request $request): bool {
@@ -230,7 +212,6 @@ final class InteractsWithDiscordTest extends TestCase
             '*' => Http::response('forget it', Response::HTTP_BAD_REQUEST),
         ]);
         try {
-            // @phpstan-ignore-next-line
             $this->mock->getDiscordUser('13');
         } catch (RuntimeException $ex) {
             self::assertSame('forget it', $ex->getMessage());
@@ -265,7 +246,6 @@ final class InteractsWithDiscordTest extends TestCase
             'snowflake' => '987654321',
             'username' => 'bob-king',
         ];
-        // @phpstan-ignore-next-line
         self::assertSame($expected, $this->mock->getDiscordUser('user-token'));
         Http::assertSent(function (Request $request): bool {
             return 'https://discord.com/api/users/@me' === $request->url();
@@ -295,7 +275,6 @@ final class InteractsWithDiscordTest extends TestCase
             'snowflake' => '987654321',
             'username' => 'bob-king',
         ];
-        // @phpstan-ignore-next-line
         self::assertSame($expected, $this->mock->getDiscordUser('user-token'));
         Http::assertSent(function (Request $request): bool {
             return 'https://discord.com/api/users/@me' === $request->url();
@@ -311,7 +290,6 @@ final class InteractsWithDiscordTest extends TestCase
             '*' => Http::response('broken', Response::HTTP_BAD_REQUEST),
         ]);
         try {
-            // @phpstan-ignore-next-line
             $this->mock->getDiscordGuilds('13');
         } catch (RuntimeException $ex) {
             self::assertSame('broken', $ex->getMessage());
@@ -335,7 +313,6 @@ final class InteractsWithDiscordTest extends TestCase
             ),
             '*' => Http::response('', Response::HTTP_BAD_REQUEST),
         ]);
-        // @phpstan-ignore-next-line
         self::assertCount(0, $this->mock->getDiscordGuilds('user-token'));
         Http::assertSent(function (Request $request): bool {
             return 'https://discord.com/api/users/@me/guilds' === $request->url();
@@ -367,7 +344,6 @@ final class InteractsWithDiscordTest extends TestCase
             ),
             '*' => Http::response('', Response::HTTP_BAD_REQUEST),
         ]);
-        // @phpstan-ignore-next-line
         $guilds = $this->mock->getDiscordGuilds('user-token');
         self::assertCount(2, $guilds);
         self::assertSame(
@@ -399,7 +375,6 @@ final class InteractsWithDiscordTest extends TestCase
             config('services.discord.client_id'),
             urlencode(config('services.discord.redirect')),
         );
-        // @phpstan-ignore-next-line
         self::assertSame($expected, $this->mock->getDiscordOauthURL());
     }
 }

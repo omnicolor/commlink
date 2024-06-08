@@ -4,19 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models\Traits;
 
-use App\Models\Traits\InteractsWithSlack;
+use App\Models\Channel;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
-use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
 use function sprintf;
 
-/**
- * Tests for the InteractsWithSlackTest.
- * @group slack
- */
+#[Group('slack')]
 #[Small]
 final class InteractsWithSlackTest extends TestCase
 {
@@ -24,15 +21,12 @@ final class InteractsWithSlackTest extends TestCase
     protected const API_TEAMS = 'https://slack.com/api/auth.teams.list';
     protected const API_USERS = 'https://slack.com/api/users.info';
 
-    protected MockObject $mock;
+    protected Channel $mock;
 
-    /**
-     * Set up the subject under test.
-     */
     public function setUp(): void
     {
         parent::setUp();
-        $this->mock = $this->getMockForTrait(InteractsWithSlack::class);
+        $this->mock = new Channel(['type' => Channel::TYPE_SLACK]);
     }
 
     /**
@@ -44,7 +38,6 @@ final class InteractsWithSlackTest extends TestCase
         Http::fake([
             $url => Http::response([], 500),
         ]);
-        // @phpstan-ignore-next-line
         self::assertNull($this->mock->getSlackChannelName('C00'));
     }
 
@@ -60,7 +53,6 @@ final class InteractsWithSlackTest extends TestCase
                 'error' => 'not_authed',
             ]),
         ]);
-        // @phpstan-ignore-next-line
         self::assertNull($this->mock->getSlackChannelName('C0000'));
     }
 
@@ -78,7 +70,6 @@ final class InteractsWithSlackTest extends TestCase
                 ],
             ]),
         ]);
-        // @phpstan-ignore-next-line
         self::assertSame('Channel NAME', $this->mock->getSlackChannelName('a'));
     }
 
@@ -93,7 +84,6 @@ final class InteractsWithSlackTest extends TestCase
                 'error' => 'not_authed',
             ]),
         ]);
-        // @phpstan-ignore-next-line
         self::assertNull($this->mock->getSlackTeamName('aaa'));
     }
 
@@ -114,7 +104,6 @@ final class InteractsWithSlackTest extends TestCase
                 ],
             ]),
         ]);
-        // @phpstan-ignore-next-line
         self::assertNull($this->mock->getSlackTeamName('foo'));
     }
 
@@ -136,7 +125,6 @@ final class InteractsWithSlackTest extends TestCase
                 ],
             ]),
         ]);
-        // @phpstan-ignore-next-line
         self::assertSame($name, $this->mock->getSlackTeamName($teamId));
     }
 
@@ -149,7 +137,6 @@ final class InteractsWithSlackTest extends TestCase
         Http::fake([
             $url => Http::response([], 500),
         ]);
-        // @phpstan-ignore-next-line
         self::assertNull($this->mock->getSlackUserName('UF0'));
     }
 
@@ -165,7 +152,6 @@ final class InteractsWithSlackTest extends TestCase
                 'error' => 'not_authed',
             ]),
         ]);
-        // @phpstan-ignore-next-line
         self::assertNull($this->mock->getSlackUserName('UF00'));
     }
 
@@ -183,7 +169,6 @@ final class InteractsWithSlackTest extends TestCase
                 ],
             ]),
         ]);
-        // @phpstan-ignore-next-line
         self::assertSame('Batman', $this->mock->getSlackUserName('UF000'));
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models\Shadowrun5e;
 
-use App\Models\Shadowrun5e\ForceTrait;
+use App\Models\Shadowrun5e\Spirit;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
@@ -14,19 +14,12 @@ use Tests\TestCase;
 #[Small]
 final class ForceTraitTest extends TestCase
 {
-    /**
-     * Subject under test.
-     * @var mixed
-     */
-    protected $force;
+    protected Spirit $force;
 
-    /**
-     * Set up the subject under test.
-     */
     public function setUp(): void
     {
         parent::setUp();
-        $this->force = $this->getMockForTrait(ForceTrait::class);
+        $this->force = new Spirit('air');
     }
 
     /**
