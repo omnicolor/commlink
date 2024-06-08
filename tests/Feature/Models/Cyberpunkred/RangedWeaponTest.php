@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\RangedWeapon;
 use App\Models\Cyberpunkred\Weapon;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -116,11 +117,8 @@ final class RangedWeaponTest extends TestCase
     /**
      * Test getting the cost for a weapon with a base cost and different
      * qualities.
-     * @dataProvider costDataProvider
-     * @param int $cost
-     * @param string $quality
-     * @param int $expected
      */
+    #[DataProvider('costDataProvider')]
     public function testGetCost(
         int $cost,
         string $quality,

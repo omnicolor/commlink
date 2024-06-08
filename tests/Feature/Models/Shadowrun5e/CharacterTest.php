@@ -15,6 +15,7 @@ use App\Models\Shadowrun5e\KnowledgeSkill;
 use App\Models\Shadowrun5e\MentorSpirit;
 use App\Models\Shadowrun5e\Quality;
 use App\Models\Shadowrun5e\QualityArray;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
@@ -181,10 +182,9 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's armor value.
-     * @dataProvider armorValueProvider
      * @param array<int, array<string, array<int, string>|bool|string>> $armor
-     * @param int $expected
      */
+    #[DataProvider('armorValueProvider')]
     public function testGetArmorValue(array $armor, int $expected): void
     {
         $character = new Character(['armor' => $armor]);

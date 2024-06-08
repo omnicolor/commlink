@@ -7,6 +7,7 @@ namespace Tests\Feature\Models\Cyberpunkred;
 use App\Models\Cyberpunkred\Character;
 use App\Models\Cyberpunkred\Role\Fixer;
 use App\Models\Cyberpunkred\Weapon;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -86,11 +87,8 @@ final class CharacterTest extends TestCase
 
     /**
      * Data provider for the max hit points tests.
-     * @dataProvider hitPointsProvider
-     * @param int $body
-     * @param int $will
-     * @param int $hp
      */
+    #[DataProvider('hitPointsProvider')]
     public function testHitPointsMax(int $body, int $will, int $hp): void
     {
         $character = new Character(['body' => $body, 'willpower' => $will]);
@@ -113,10 +111,8 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's humanity.
-     * @dataProvider humanityProvider
-     * @param int $empathy
-     * @param int $humanity
      */
+    #[DataProvider('humanityProvider')]
     public function testHumanity(int $empathy, int $humanity): void
     {
         $character = new Character(['empathy' => $empathy]);
@@ -138,11 +134,8 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the serious wound threshold.
-     * @dataProvider woundThresholdProvider
-     * @param int $body
-     * @param int $will
-     * @param int $threshold
      */
+    #[DataProvider('woundThresholdProvider')]
     public function testSeriousWoundThreshold(
         int $body,
         int $will,

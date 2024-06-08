@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Identity;
 use App\Models\Card;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -77,10 +78,8 @@ final class IdentityTest extends TestCase
 
     /**
      * Test finding an identity for a normal card.
-     * @dataProvider findForCardProvider
-     * @param Card $card
-     * @param string $expectedIdentity
      */
+    #[DataProvider('findForCardProvider')]
     public function testFindForCard(Card $card, string $expectedIdentity): void
     {
         $identity = Identity::findForCard($card);

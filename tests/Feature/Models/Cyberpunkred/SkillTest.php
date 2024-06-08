@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\Character;
 use App\Models\Cyberpunkred\Skill;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -84,11 +85,9 @@ final class SkillTest extends TestCase
 
     /**
      * Test getting a skill's shortened attribute.
-     * @dataProvider attributeProvider
-     * @param string $attribute
-     * @param string $expected
      */
-    public function testGetShort($attribute, $expected): void
+    #[DataProvider('attributeProvider')]
+    public function testGetShort(string $attribute, string $expected): void
     {
         $skill = new Skill('business');
         $skill->attribute = $attribute;

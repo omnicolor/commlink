@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\CostCategory;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
@@ -61,8 +62,8 @@ final class CostCategoryTest extends TestCase
 
     /**
      * Test the market price for each cost category.
-     * @dataProvider categoryProvider
      */
+    #[DataProvider('categoryProvider')]
     public function testMarketPrice(string $categoryName, int $cost): void
     {
         $category = CostCategory::from($categoryName);

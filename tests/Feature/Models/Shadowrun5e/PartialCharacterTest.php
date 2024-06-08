@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\PartialCharacter;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
@@ -144,11 +145,8 @@ final class PartialCharacterTest extends TestCase
 
     /**
      * Test getting a character's maximum attributes.
-     * @dataProvider maximumAttributeDataProvider
-     * @param PartialCharacter $character
-     * @param string $attribute
-     * @param int $maximum
      */
+    #[DataProvider('maximumAttributeDataProvider')]
     public function testGetMaximumAttributes(
         PartialCharacter $character,
         string $attribute,

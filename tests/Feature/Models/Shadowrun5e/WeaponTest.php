@@ -6,6 +6,7 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Weapon;
 use App\Models\Shadowrun5e\WeaponModification;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -205,8 +206,8 @@ final class WeaponTest extends TestCase
 
     /**
      * Test getting the range for various classes of weapons.
-     * @dataProvider weaponRangeDataProvider
      */
+    #[DataProvider('weaponRangeDataProvider')]
     public function testGetRange(string $class, string $range): void
     {
         $this->weapon->class = $class;

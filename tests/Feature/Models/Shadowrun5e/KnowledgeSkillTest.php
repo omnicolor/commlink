@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\KnowledgeSkill;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -86,10 +87,8 @@ final class KnowledgeSkillTest extends TestCase
 
     /**
      * Test getting attributes linked to each category.
-     * @dataProvider provideCategoryAttributeMappings
-     * @param string $category Category to test
-     * @param string $attribute Attribute it should link to
      */
+    #[DataProvider('provideCategoryAttributeMappings')]
     public function testCategoryAttributeMappings(
         string $category,
         string $attribute
@@ -119,10 +118,8 @@ final class KnowledgeSkillTest extends TestCase
 
     /**
      * Test getting the short category names.
-     * @dataProvider provideShortCategoryMappings
-     * @param string $category
-     * @param string $short
      */
+    #[DataProvider('provideShortCategoryMappings')]
     public function testShortCategory(string $category, string $short): void
     {
         $skill = new KnowledgeSkill('unused', $category, 1);
@@ -145,10 +142,8 @@ final class KnowledgeSkillTest extends TestCase
 
     /**
      * Test getting a knowledge skill's ID.
-     * @dataProvider namesProvider
-     * @param string $name
-     * @param string $id
      */
+    #[DataProvider('namesProvider')]
     public function testNamesToId(string $name, string $id): void
     {
         $skill = new KnowledgeSkill($name, 'academic', 2);

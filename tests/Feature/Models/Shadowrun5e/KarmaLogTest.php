@@ -10,6 +10,7 @@ use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\KarmaLog;
 use App\Models\Shadowrun5e\KarmaLogEntry;
 use App\Models\Shadowrun5e\KnowledgeSkill;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -346,9 +347,8 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Test compare with two skills.
-     * @dataProvider skillProvider
-     * @param callable $provider
      */
+    #[DataProvider('skillProvider')]
     public function testCompareSkills(callable $provider): void
     {
         [$skillA, $skillB, $expected] = $provider();

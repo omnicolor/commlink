@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Augmentation;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -132,8 +133,8 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test the different grades of cyberware.
-     * @dataProvider cyberwareGradesAndEssenceProvider
      */
+    #[DataProvider('cyberwareGradesAndEssenceProvider')]
     public function testCyberwareStandardGrade(
         string $grade,
         float $expectedEssence,
@@ -244,8 +245,8 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test a modification that has a built-in modification.
-     * @dataProvider cyberwareGradesAndCostProvider
      */
+    #[DataProvider('cyberwareGradesAndCostProvider')]
     public function testModifiedModification(string $grade, int $cost): void
     {
         $aug = new Augmentation('cybereyes-1', $grade);
