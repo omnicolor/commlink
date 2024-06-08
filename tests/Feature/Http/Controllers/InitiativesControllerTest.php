@@ -8,13 +8,14 @@ use App\Models\Campaign;
 use App\Models\Initiative;
 use App\Models\User;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Tests for the initiatives controller.
  * @group initiatives
- * @medium
  */
+#[Medium]
 final class InitiativesControllerTest extends TestCase
 {
     /**

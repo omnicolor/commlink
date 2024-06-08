@@ -7,6 +7,7 @@ namespace Tests\Feature\Rolls\Expanse;
 use App\Models\Channel;
 use App\Rolls\Expanse\Number;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function explode;
@@ -16,8 +17,8 @@ use const PHP_EOL;
 /**
  * Tests for rolling dice in The Expanse.
  * @group expanse
- * @medium
  */
+#[Medium]
 final class NumberTest extends TestCase
 {
     /**

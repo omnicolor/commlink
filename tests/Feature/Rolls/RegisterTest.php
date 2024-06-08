@@ -13,15 +13,14 @@ use App\Rolls\Register;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function implode;
 use function json_decode;
 use function sprintf;
 
-/**
- * @medium
- */
+#[Medium]
 final class RegisterTest extends TestCase
 {
     use WithFaker;

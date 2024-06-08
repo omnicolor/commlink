@@ -16,13 +16,12 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\InvalidStateException;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function sprintf;
 
-/**
- * @medium
- */
+#[Medium]
 final class DiscordControllerTest extends TestCase
 {
     use InteractsWithDiscord;

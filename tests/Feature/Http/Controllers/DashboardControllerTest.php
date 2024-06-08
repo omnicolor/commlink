@@ -7,12 +7,10 @@ namespace Tests\Feature\Http\Controllers;
 use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for the main dashboard.
- * @medium
- */
+#[Medium]
 final class DashboardControllerTest extends TestCase
 {
     /**

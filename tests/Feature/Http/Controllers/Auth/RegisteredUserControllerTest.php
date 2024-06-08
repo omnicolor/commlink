@@ -8,11 +8,10 @@ use App\Models\Campaign;
 use App\Models\CampaignInvitation;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * @medium
- */
+#[Medium]
 final class RegisteredUserControllerTest extends TestCase
 {
     use WithFaker;

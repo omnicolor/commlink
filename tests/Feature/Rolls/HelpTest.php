@@ -9,11 +9,10 @@ use App\Models\Channel;
 use App\Models\ChatUser;
 use App\Rolls\Help;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * @medium
- */
+#[Medium]
 final class HelpTest extends TestCase
 {
     /**

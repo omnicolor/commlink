@@ -8,12 +8,13 @@ use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Tests for the ChatUser test.
- * @medium
  */
+#[Medium]
 final class ChatUserTest extends TestCase
 {
     /**

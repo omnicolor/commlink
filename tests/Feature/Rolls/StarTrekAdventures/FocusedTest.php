@@ -7,6 +7,7 @@ namespace Tests\Feature\Rolls\StarTrekAdventures;
 use App\Models\Channel;
 use App\Rolls\StarTrekAdventures\Focused;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use const PHP_EOL;
@@ -14,8 +15,8 @@ use const PHP_EOL;
 /**
  * Tests for trying a focused test in Star Trek Adventures.
  * @group star-trek-adventures
- * @medium
  */
+#[Medium]
 final class FocusedTest extends TestCase
 {
     /**

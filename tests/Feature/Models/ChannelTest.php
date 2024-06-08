@@ -13,6 +13,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Medium;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -24,8 +25,8 @@ use function sprintf;
  * Tests for the channel model class.
  * @group discord
  * @group slack
- * @medium
  */
+#[Medium]
 final class ChannelTest extends TestCase
 {
     use WithFaker;

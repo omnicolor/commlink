@@ -8,6 +8,7 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Rolls\Subversion\Number;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use const PHP_EOL;
@@ -15,8 +16,8 @@ use const PHP_EOL;
 /**
  * Tests for rolling dice in Subversion.
  * @group subversion
- * @medium
  */
+#[Medium]
 final class NumberTest extends TestCase
 {
     /**

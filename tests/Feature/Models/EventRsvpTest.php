@@ -7,13 +7,14 @@ namespace Tests\Feature\Models;
 use App\Models\Event;
 use App\Models\EventRsvp;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Tests for the EventRsvp class.
  * @group events
- * @medium
  */
+#[Medium]
 final class EventRsvpTest extends TestCase
 {
     public function testEvent(): void

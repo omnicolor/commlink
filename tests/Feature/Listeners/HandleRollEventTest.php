@@ -13,6 +13,7 @@ use App\Rolls\Shadowrun5e\Number;
 use Facades\App\Services\DiceService;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
@@ -20,8 +21,8 @@ use Tests\TestCase;
  * @group discord
  * @group events
  * @group slack
- * @medium
  */
+#[Medium]
 final class HandleRollEventTest extends TestCase
 {
     /**
@@ -64,7 +65,6 @@ final class HandleRollEventTest extends TestCase
     /**
      * Test an event that has a source and a campaign that only points to the
      * source as a channel.
-     * @medium
      */
     public function testOnlySource(): void
     {
@@ -90,7 +90,6 @@ final class HandleRollEventTest extends TestCase
     /**
      * Test an event that has a source, a campaign, and more than one channel,
      * but none of the channels have webhooks.
-     * @medium
      */
     public function testNoWebhooks(): void
     {
@@ -118,7 +117,6 @@ final class HandleRollEventTest extends TestCase
     /**
      * Test an event that has a source, a campaign, and more than one channel,
      * one of which has a webhook.
-     * @medium
      */
     public function testSlack(): void
     {
@@ -152,7 +150,6 @@ final class HandleRollEventTest extends TestCase
     /**
      * Test an event that has a source, a campaign, and more than one channel,
      * one of which has a webhook.
-     * @medium
      */
     public function testDiscord(): void
     {
@@ -186,7 +183,6 @@ final class HandleRollEventTest extends TestCase
     /**
      * Test an event that throws a Slack exception from another channel's
      * command.
-     * @medium
      */
     public function testSlackException(): void
     {

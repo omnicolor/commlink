@@ -12,6 +12,7 @@ use App\Models\ChatUser;
 use App\Models\User;
 use App\Rolls\Shadowrun5e\Help;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
@@ -19,8 +20,8 @@ use Tests\TestCase;
  * @group discord
  * @group shadowrun5e
  * @group slack
- * @medium
  */
+#[Medium]
 final class HelpTest extends TestCase
 {
     /**

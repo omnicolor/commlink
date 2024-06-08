@@ -7,13 +7,14 @@ namespace Tests\Feature\Policies;
 use App\Models\Campaign;
 use App\Models\User;
 use App\Policies\CampaignPolicy;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Tests for the Campaigns policy.
  * @group campaigns
- * @medium
  */
+#[Medium]
 final class CampaignPolicyTest extends TestCase
 {
     protected CampaignPolicy $policy;

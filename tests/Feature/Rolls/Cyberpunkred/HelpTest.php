@@ -10,13 +10,14 @@ use App\Models\ChatUser;
 use App\Models\Cyberpunkred\Character;
 use App\Rolls\Cyberpunkred\Help;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Tests for getting help in Cyberpunk Red.
  * @group cyberpunkred
- * @medium
  */
+#[Medium]
 final class HelpTest extends TestCase
 {
     /**

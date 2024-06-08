@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Event;
 use Jerodev\PhpIrcClient\IrcChannel;
 use Jerodev\PhpIrcClient\IrcClient;
 use Jerodev\PhpIrcClient\IrcConnection;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use const PHP_EOL;
@@ -24,8 +25,8 @@ use const PHP_EOL;
  * Test for IRC message event listener.
  * @group irc
  * @group events
- * @medium
  */
+#[Medium]
 final class HandleIrcMessageTest extends TestCase
 {
     use WithFaker;

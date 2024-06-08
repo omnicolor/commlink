@@ -11,6 +11,7 @@ use App\Models\ChatUser;
 use App\Models\Shadowrun5e\Character;
 use App\Rolls\Shadowrun5e\Fade;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function sprintf;
@@ -21,8 +22,8 @@ use const PHP_EOL;
  * Tests for rolling a fade test Shadowrun 5E.
  * @group shadowrun
  * @group shadowrun5e
- * @medium
  */
+#[Medium]
 final class FadeTest extends TestCase
 {
     /**

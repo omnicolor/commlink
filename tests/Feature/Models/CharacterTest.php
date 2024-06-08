@@ -22,7 +22,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Characters are required to have an owner.
-     * @medium
      */
     public function testNoUser(): void
     {
@@ -37,7 +36,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Load a character's owner.
-     * @medium
      */
     public function testGetUser(): void
     {
@@ -105,7 +103,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test trying to get a campaign attached to a character if it is not found.
-     * @medium
      */
     public function testCampaignNotFound(): void
     {
@@ -119,7 +116,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the campaign attached to a character.
-     * @medium
      */
     public function testCampaign(): void
     {

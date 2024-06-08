@@ -39,7 +39,6 @@ final class CharacterTest extends TestCase
      * Test getting the hidden Mongo _id field.
      *
      * It's hidden, but still gettable.
-     * @medium
      */
     public function testHiddenId(): void
     {
@@ -53,7 +52,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's ID.
-     * @medium
      */
     public function testGetId(): void
     {

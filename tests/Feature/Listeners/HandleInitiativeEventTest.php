@@ -11,12 +11,10 @@ use App\Models\Channel;
 use App\Models\Initiative;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for handling a character rolling their initiative.
- * @medium
- */
+#[Medium]
 final class HandleInitiativeEventTest extends TestCase
 {
     /**

@@ -21,13 +21,12 @@ use Illuminate\Support\Str;
 use Jerodev\PhpIrcClient\IrcChannel;
 use Jerodev\PhpIrcClient\IrcClient;
 use Jerodev\PhpIrcClient\IrcConnection;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use const PHP_EOL;
 
-/**
- * @medium
- */
+#[Medium]
 final class InfoTest extends TestCase
 {
     use WithFaker;

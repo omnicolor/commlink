@@ -28,7 +28,6 @@ final class StandardDeckTest extends TestCase
 
     /**
      * Test trying to load a deck for a character that doesn't have one.
-     * @medium
      */
     public function testLoadDeckNotFound(): void
     {
@@ -42,7 +41,6 @@ final class StandardDeckTest extends TestCase
 
     /**
      * Test trying to load a deck for a character that has one.
-     * @medium
      */
     public function testLoadDeck(): void
     {
@@ -71,7 +69,6 @@ final class StandardDeckTest extends TestCase
 
     /**
      * Test trying to update an existing deck.
-     * @medium
      */
     public function testUpdate(): void
     {

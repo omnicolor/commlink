@@ -11,6 +11,7 @@ use App\Models\Channel;
 use App\Models\Shadowrun5e\Character;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
@@ -18,8 +19,8 @@ use Tests\TestCase;
  * @group discord
  * @group events
  * @group slack
- * @medium
  */
+#[Medium]
 final class HandleDamageEventTest extends TestCase
 {
     /**

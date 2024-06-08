@@ -7,14 +7,15 @@ namespace Tests\Feature\Http\Controllers\Shadowrun5e;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Tests for the skills controller for Shadowrun 5E.
  * @group shadowrun
  * @group shadowrun5e
- * @medium
  */
+#[Medium]
 final class SkillsControllerTest extends TestCase
 {
     /**

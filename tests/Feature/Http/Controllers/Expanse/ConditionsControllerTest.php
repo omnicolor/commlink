@@ -7,15 +7,15 @@ namespace Tests\Feature\Http\Controllers\Expanse;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function count;
 
 /**
- * Tests for the conditions controller.
  * @group expanse
- * @medium
  */
+#[Medium]
 final class ConditionsControllerTest extends TestCase
 {
     /**

@@ -12,12 +12,13 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
 use Discord\Discord;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * @group discord
- * @medium
  */
+#[Medium]
 final class LinkResponseTest extends TestCase
 {
     /**

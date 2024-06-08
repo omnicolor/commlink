@@ -10,13 +10,14 @@ use App\Models\Cyberpunkred\PartialCharacter;
 use App\Models\Cyberpunkred\Role\Exec;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Controller for the Cyberpunk Red characters controller.
  * @group cyberpunkred
- * @medium
  */
+#[Medium]
 final class CharacterControllerTest extends TestCase
 {
     use WithFaker;

@@ -7,15 +7,12 @@ namespace Tests\Feature\Rolls;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Rolls\Roll;
-use PHPUnit\Framework\Attributes\Small;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-#[Small]
+#[Medium]
 final class RollTest extends TestCase
 {
-    /**
-     * Test isGm for a request with no campaign.
-     */
     public function testIsGmNoCampaign(): void
     {
         $mock = $this->getMockBuilder(Roll::class)
@@ -25,10 +22,6 @@ final class RollTest extends TestCase
         self::assertFalse($mock->isGm());
     }
 
-    /**
-     * Test isGm for a request that has a campaign but no user.
-     * @medium
-     */
     public function testIsGmNoChatUser(): void
     {
         /** @var Campaign */

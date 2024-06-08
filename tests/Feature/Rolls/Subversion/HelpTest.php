@@ -9,6 +9,7 @@ use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Rolls\Subversion\Help;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function json_decode;
@@ -17,8 +18,8 @@ use function sprintf;
 /**
  * Tests for getting help in a Subversion channel.
  * @group subversion
- * @medium
  */
+#[Medium]
 final class HelpTest extends TestCase
 {
     /**

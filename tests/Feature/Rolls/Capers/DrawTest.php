@@ -10,13 +10,14 @@ use App\Models\Capers\StandardDeck;
 use App\Models\Channel;
 use App\Rolls\Capers\Draw;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Tests for drawing a card in the Capers system.
  * @group capers
- * @medium
  */
+#[Medium]
 final class DrawTest extends TestCase
 {
     use WithFaker;

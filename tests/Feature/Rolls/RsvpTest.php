@@ -15,14 +15,12 @@ use App\Rolls\Rsvp;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function json_encode;
 
-/**
- * Tests for RSVPing to an event.
- * @medium
- */
+#[Medium]
 final class RsvpTest extends TestCase
 {
     /**

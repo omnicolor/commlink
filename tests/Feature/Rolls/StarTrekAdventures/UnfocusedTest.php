@@ -7,6 +7,7 @@ namespace Tests\Feature\Rolls\StarTrekAdventures;
 use App\Models\Channel;
 use App\Rolls\StarTrekAdventures\Unfocused;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function json_decode;
@@ -16,8 +17,8 @@ use const PHP_EOL;
 /**
  * Tests for trying an unfocused test in Star Trek Adventures.
  * @group star-trek-adventures
- * @medium
  */
+#[Medium]
 final class UnfocusedTest extends TestCase
 {
     /**

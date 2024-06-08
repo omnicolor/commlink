@@ -7,6 +7,7 @@ namespace Tests\Feature\Http\Controllers\Expanse;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function count;
@@ -14,8 +15,8 @@ use function count;
 /**
  * Tests for the backgrounds controller.
  * @group expanse
- * @medium
  */
+#[Medium]
 final class BackgroundsControllerTest extends TestCase
 {
     /**

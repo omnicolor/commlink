@@ -17,6 +17,7 @@ use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use const PHP_EOL;
@@ -24,8 +25,8 @@ use const PHP_EOL;
 /**
  * Tests for rolling initiative in Cyberpunk Red.
  * @group cyberpunkred
- * @medium
  */
+#[Medium]
 final class InitTest extends TestCase
 {
     use WithFaker;

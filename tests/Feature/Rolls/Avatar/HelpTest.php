@@ -13,13 +13,14 @@ use App\Models\User;
 use App\Rolls\Avatar\Help;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Tests asking for help in a channel registered to the Avatar RPG.
  * @group avatar
- * @medium
  */
+#[Medium]
 final class HelpTest extends TestCase
 {
     use WithFaker;

@@ -13,6 +13,7 @@ use App\Models\Shadowrun5e\Character;
 use App\Models\User;
 use App\Rolls\Shadowrun5e\Init;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function json_decode;
@@ -23,8 +24,8 @@ use const PHP_EOL;
  * Tests for rolling initiative for Shadowrun 5th edition.
  * @group shadowrun
  * @group shadowrun5e
- * @medium
  */
+#[Medium]
 final class InitTest extends TestCase
 {
     /**

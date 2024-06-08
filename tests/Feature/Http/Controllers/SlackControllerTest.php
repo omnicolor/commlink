@@ -17,14 +17,15 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use const PHP_EOL;
 
 /**
  * @group slack
- * @medium
  */
+#[Medium]
 final class SlackControllerTest extends TestCase
 {
     use WithFaker;

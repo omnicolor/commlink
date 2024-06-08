@@ -6,13 +6,14 @@ namespace Tests\Feature\Http\Controllers\Dnd5e;
 
 use App\Models\Dnd5e\Character;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Tests for the D&D 5E characters controller.
  * @group dnd5e
- * @medium
  */
+#[Medium]
 final class CharactersControllerTest extends TestCase
 {
     /**

@@ -50,9 +50,6 @@ final class PartialCharacterTest extends TestCase
         self::assertSame('huh...', $character->lifepath);
     }
 
-    /**
-     * @medium
-     */
     public function testNewFromBuilder(): void
     {
         $character = new PartialCharacter([

@@ -21,15 +21,15 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Feature;
+use PHPUnit\Framework\Attributes\Medium;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 /**
- * Tests for the users controller.
  * @group user
- * @medium
  */
+#[Medium]
 final class UsersControllerTest extends TestCase
 {
     protected function createAdmin(): User

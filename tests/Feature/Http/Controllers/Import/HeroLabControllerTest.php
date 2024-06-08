@@ -6,6 +6,7 @@ namespace Tests\Feature\Http\Controllers\Import;
 
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function dirname;
@@ -15,8 +16,8 @@ use const DIRECTORY_SEPARATOR;
 
 /**
  * @group herolab
- * @medium
  */
+#[Medium]
 final class HeroLabControllerTest extends TestCase
 {
     public function testInvalidFileType(): void

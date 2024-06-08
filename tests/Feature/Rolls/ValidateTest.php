@@ -12,14 +12,13 @@ use App\Rolls\Validate;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function json_decode;
 use function sprintf;
 
-/**
- * @medium
- */
+#[Medium]
 final class ValidateTest extends TestCase
 {
     use WithFaker;

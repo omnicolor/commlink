@@ -14,12 +14,13 @@ use Illuminate\Http\Client\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * @group discord
- * @medium
  */
+#[Medium]
 final class RegisterResponseTest extends TestCase
 {
     /**

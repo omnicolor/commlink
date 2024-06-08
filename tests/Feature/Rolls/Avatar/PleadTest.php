@@ -9,6 +9,7 @@ use App\Models\Channel;
 use App\Rolls\Avatar\Plead;
 use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function json_decode;
@@ -17,8 +18,8 @@ use function sprintf;
 /**
  * Tests for the Plead roll in Avatar.
  * @group avatar
- * @medium
  */
+#[Medium]
 final class PleadTest extends TestCase
 {
     use WithFaker;

@@ -6,13 +6,14 @@ namespace Tests\Feature\Rolls\Expanse;
 
 use App\Models\Channel;
 use App\Rolls\Expanse\Help;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Tests for getting help in a Channel registered to The Expanse.
  * @group expanse
- * @medium
  */
+#[Medium]
 final class HelpTest extends TestCase
 {
     /**

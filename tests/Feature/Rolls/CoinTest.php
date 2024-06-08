@@ -7,16 +7,14 @@ namespace Tests\Feature\Rolls;
 use App\Models\Channel;
 use App\Rolls\Coin;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function json_decode;
 
 use const PHP_EOL;
 
-/**
- * Tests for flipping a coin.
- * @medium
- */
+#[Medium]
 final class CoinTest extends TestCase
 {
     /**

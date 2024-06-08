@@ -9,12 +9,13 @@ use App\Models\CampaignInvitation;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * @group user
- * @medium
  */
+#[Medium]
 final class AuthenticatedSessionControllerTest extends TestCase
 {
     use WithFaker;

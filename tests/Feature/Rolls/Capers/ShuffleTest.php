@@ -10,6 +10,7 @@ use App\Models\Capers\StandardDeck;
 use App\Models\Channel;
 use App\Rolls\Capers\Shuffle;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function sprintf;
@@ -17,8 +18,8 @@ use function sprintf;
 /**
  * Tests for shuffling a player's deck in the Capers system.
  * @group capers
- * @medium
  */
+#[Medium]
 final class ShuffleTest extends TestCase
 {
     use WithFaker;

@@ -12,12 +12,13 @@ use App\Models\ChatCharacter;
 use App\Models\Deck;
 use App\Models\Initiative;
 use App\Models\Shadowrun5e\Character as Runner;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Tests for the Varz controller.
- * @medium
  */
+#[Medium]
 final class VarzControllerTest extends TestCase
 {
     public function setUp(): void

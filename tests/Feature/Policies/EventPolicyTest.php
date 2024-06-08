@@ -8,13 +8,14 @@ use App\Models\Campaign;
 use App\Models\Event;
 use App\Models\User;
 use App\Policies\EventPolicy;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Tests for the Event policy.
  * @group events
- * @medium
  */
+#[Medium]
 final class EventPolicyTest extends TestCase
 {
     protected EventPolicy $policy;

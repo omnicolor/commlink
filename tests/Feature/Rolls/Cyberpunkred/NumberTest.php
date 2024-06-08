@@ -8,6 +8,7 @@ use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Cyberpunkred\Number;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
@@ -15,8 +16,8 @@ use Tests\TestCase;
  * @group cyberpunkred
  * @group discord
  * @group slack
- * @medium
  */
+#[Medium]
 final class NumberTest extends TestCase
 {
     /**

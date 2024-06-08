@@ -9,13 +9,14 @@ use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Tests for the settings controller.
  * @group settings
- * @medium
  */
+#[Medium]
 final class SettingsControllerTest extends TestCase
 {
     protected const API_DISCORD_GUILDS = 'discord.com/api/guilds/';

@@ -14,14 +14,13 @@ use App\Rolls\Campaign as CampaignRoll;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function json_decode;
 use function sprintf;
 
-/**
- * @medium
- */
+#[Medium]
 final class CampaignTest extends TestCase
 {
     use WithFaker;

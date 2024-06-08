@@ -7,11 +7,10 @@ namespace Tests\Feature\Http\Controllers;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Socialite\Facades\Socialite;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * @medium
- */
+#[Medium]
 final class GoogleControllerTest extends TestCase
 {
     use WithFaker;

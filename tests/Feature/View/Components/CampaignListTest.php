@@ -8,11 +8,10 @@ use App\Models\Campaign;
 use App\Models\User;
 use App\View\Components\CampaignList;
 use Illuminate\Database\Eloquent\Collection;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * @medium
- */
+#[Medium]
 final class CampaignListTest extends TestCase
 {
     /**

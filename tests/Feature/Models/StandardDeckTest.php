@@ -180,7 +180,6 @@ final class StandardDeckTest extends TestCase
 
     /**
      * Test finding decks for a campaign if the campaign has none.
-     * @medium
      */
     public function testFindForCampaignNoDecks(): void
     {
@@ -194,7 +193,6 @@ final class StandardDeckTest extends TestCase
 
     /**
      * Test finding decks for a campaign if the campaign has one.
-     * @medium
      */
     public function testFindForDeck(): void
     {
@@ -220,7 +218,6 @@ final class StandardDeckTest extends TestCase
 
     /**
      * Test truncating the deck table.
-     * @medium
      */
     public function testTruncate(): void
     {

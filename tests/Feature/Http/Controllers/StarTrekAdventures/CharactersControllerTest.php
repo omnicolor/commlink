@@ -6,12 +6,13 @@ namespace Tests\Feature\Http\Controllers\StarTrekAdventures;
 
 use App\Models\StarTrekAdventures\Character;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * @group star-trek-adventures
- * @medium
  */
+#[Medium]
 final class CharactersControllerTest extends TestCase
 {
     /**

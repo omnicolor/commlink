@@ -6,13 +6,13 @@ namespace Tests\Feature\Http\Controllers\Import;
 
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
- * Tests for Chummer5 imports.
  * @group chummer5
- * @medium
  */
+#[Medium]
 final class Chummer5ControllerTest extends TestCase
 {
     public function testInvalidFileType(): void

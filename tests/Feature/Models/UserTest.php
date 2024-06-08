@@ -11,14 +11,15 @@ use App\Models\ChatUser;
 use App\Models\Event;
 use App\Models\User;
 use Laravel\Pennant\Feature;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Tests for the user class.
  * @group campaigns
  * @group user
- * @medium
  */
+#[Medium]
 final class UserTest extends TestCase
 {
     /**

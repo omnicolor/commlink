@@ -13,13 +13,14 @@ use App\Models\User;
 use App\Rolls\Capers\ShuffleAll;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Tests for the GM requesting everyone to shuffle their decks.
  * @group capers
- * @medium
  */
+#[Medium]
 final class ShuffleAllTest extends TestCase
 {
     use WithFaker;
