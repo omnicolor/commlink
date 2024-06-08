@@ -21,7 +21,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Laravel\Pennant\Feature;
-use PHPUnit\Framework\Attributes\Medium;
+use PHPUnit\Framework\Attributes\Large;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
@@ -29,7 +29,7 @@ use Tests\TestCase;
 /**
  * @group user
  */
-#[Medium]
+#[Large]
 final class UsersControllerTest extends TestCase
 {
     protected function createAdmin(): User
@@ -67,10 +67,6 @@ final class UsersControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /**
-     * Test that an admin can load the user admin page.
-     * @large
-     */
     public function testAdminIndex(): void
     {
         $user = $this->createAdmin();
@@ -82,7 +78,6 @@ final class UsersControllerTest extends TestCase
 
     /**
      * Test loading the API index.
-     * @large
      */
     public function testIndexApi(): void
     {
