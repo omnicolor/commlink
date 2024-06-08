@@ -16,6 +16,9 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function implode;
+use function sprintf;
+
 #[Group('discord')]
 #[Medium]
 final class LinkResponseTest extends TestCase
@@ -31,7 +34,6 @@ final class LinkResponseTest extends TestCase
             self::createStub(Discord::class)
         );
 
-        $expected = 'To link a character, use `link <characterId>`.';
         self::assertSame(
             'To link a character, use `link <characterId>`.',
             (string)(new LinkResponse($event))
@@ -51,11 +53,11 @@ final class LinkResponseTest extends TestCase
 
         $systems = [];
         foreach (config('app.systems') as $code => $name) {
-            $systems[] = \sprintf('%s (%s)', $code, $name);
+            $systems[] = sprintf('%s (%s)', $code, $name);
         }
         $expected = 'This channel must be registered for a system before '
             . 'characters can be linked. Type `/roll register <system>`, where '
-            . '<system> is one of: ' . \implode(', ', $systems);
+            . '<system> is one of: ' . implode(', ', $systems);
         self::assertSame($expected, (string)(new LinkResponse($event)));
     }
 
@@ -65,7 +67,7 @@ final class LinkResponseTest extends TestCase
      */
     public function testLinkWithoutCommlinkUser(): void
     {
-        $expected = \sprintf(
+        $expected = sprintf(
             'You must have already created an account on %s (%s) and '
                 . 'linked it to this server before you can link a character.',
             config('app.name'),
@@ -103,7 +105,7 @@ final class LinkResponseTest extends TestCase
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
-        $expected = \sprintf(
+        $expected = sprintf(
             'It looks like you\'ve already linked "%s" to this channel.',
             (string)$alreadyLinkedCharacter
         );
@@ -183,7 +185,7 @@ final class LinkResponseTest extends TestCase
         ]);
 
         $expected = 'You don\'t own that character.';
-        $messageMock = $this->createDiscordMessageMock(\sprintf(
+        $messageMock = $this->createDiscordMessageMock(sprintf(
             '/roll link %s',
             $character->id
         ));
@@ -229,11 +231,11 @@ final class LinkResponseTest extends TestCase
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
-        $expected = \sprintf(
+        $expected = sprintf(
             '%s is a Capers character. This channel is playing Shadowrun 5th Edition.',
             (string)$character,
         );
-        $messageMock = $this->createDiscordMessageMock(\sprintf(
+        $messageMock = $this->createDiscordMessageMock(sprintf(
             '/roll link %s',
             $character->id
         ));
@@ -279,11 +281,11 @@ final class LinkResponseTest extends TestCase
             'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
-        $expected = \sprintf(
+        $expected = sprintf(
             'You have linked %s to this channel.',
             (string)$character,
         );
-        $messageMock = $this->createDiscordMessageMock(\sprintf(
+        $messageMock = $this->createDiscordMessageMock(sprintf(
             '/roll link %s',
             $character->id
         ));
