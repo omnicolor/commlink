@@ -12,16 +12,14 @@ use App\Models\ChatUser;
 use App\Models\Shadowrun5e\Character;
 use App\Rolls\Shadowrun5e\Push;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use const PHP_EOL;
 
-/**
- * Tests for pushing the limit in Shadowrun 5E.
- * @group shadowrun
- * @group shadowrun5e
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
 #[Medium]
 final class PushTest extends TestCase
 {

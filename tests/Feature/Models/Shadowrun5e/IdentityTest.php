@@ -8,14 +8,12 @@ use App\Models\Shadowrun5e\Identity;
 use App\Models\Shadowrun5e\License;
 use App\Models\Shadowrun5e\Lifestyle;
 use App\Models\Shadowrun5e\LifestyleOption;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * Tests for Identity class.
- * @group shadowrun
- * @group shadowrun5e
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
 #[Small]
 final class IdentityTest extends TestCase
 {

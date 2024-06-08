@@ -6,16 +6,14 @@ namespace Tests\Feature\Http\Controllers\Shadowrun5e;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Config;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function count;
 
-/**
- * Tests for the armor-modifications controller.
- * @group shadowrun
- * @group shadowrun5e
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
 #[Medium]
 final class ArmorModificationsControllerTest extends TestCase
 {

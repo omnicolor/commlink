@@ -5,15 +5,13 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun6e;
 
 use App\Models\Shadowrun6e\ActiveSkill;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Shadowrun 6E active skills.
- * @group shadowrun
- * @group shadowrun6e
- */
+#[Group('shadowrun')]
+#[Group('shadowrun6e')]
 #[Small]
 final class ActiveSkillTest extends TestCase
 {

@@ -6,16 +6,14 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Identity;
 use App\Models\Shadowrun5e\IdentityArray;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for the IdentityArray class.
- * @group shadowrun
- * @group shadowrun5e
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
 #[Small]
 final class IdentityArrayTest extends TestCase
 {

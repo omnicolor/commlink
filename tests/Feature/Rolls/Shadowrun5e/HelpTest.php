@@ -12,15 +12,17 @@ use App\Models\ChatUser;
 use App\Models\User;
 use App\Rolls\Shadowrun5e\Help;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Tests for getting help in a Channel registered as Shadowrun 5E.
  * @group discord
- * @group shadowrun5e
  * @group slack
  */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
 #[Medium]
 final class HelpTest extends TestCase
 {

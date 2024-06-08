@@ -7,13 +7,12 @@ namespace Tests\Feature\Http\Controllers\Shadowrun5e;
 use App\Models\Campaign;
 use App\Models\Shadowrun5e\Character;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for the characters/{characterId}/contacts controller for Shadowrun 5E.
- * @group shadowrun5e
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
 #[Medium]
 final class ContactsControllerTest extends TestCase
 {

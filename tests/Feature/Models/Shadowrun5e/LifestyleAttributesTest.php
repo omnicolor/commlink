@@ -5,15 +5,13 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\LifestyleAttributes;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
-/**
- * Tests for Shadowrun 5E lifestyle attributes.
- * @group shadowrun
- * @group shadowrun5e
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
 #[Small]
 final class LifestyleAttributesTest extends TestCase
 {

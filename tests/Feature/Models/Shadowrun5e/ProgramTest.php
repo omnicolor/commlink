@@ -8,15 +8,13 @@ use App\Models\Shadowrun5e\Program;
 use App\Models\Shadowrun5e\ProgramArray;
 use App\Models\Shadowrun5e\Vehicle;
 use App\Models\Shadowrun5e\Weapon;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for Program class.
- * @group shadowrun
- * @group shadowrun5e
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
 #[Small]
 final class ProgramTest extends TestCase
 {

@@ -7,14 +7,12 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\Commlink;
 use App\Models\Shadowrun5e\GearModification;
 use App\Models\Shadowrun5e\Program;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * Tests for the Commlink class.
- * @group shadowrun
- * @group shadowrun5e
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
 #[Small]
 final class CommlinkTest extends TestCase
 {

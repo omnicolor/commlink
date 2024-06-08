@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Controllers\Shadowrun5e;
 
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for the RulebooksController.
- * @group shadowrun
- * @group shadowrun5e
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
 #[Medium]
 final class RulebooksControllerTest extends TestCase
 {

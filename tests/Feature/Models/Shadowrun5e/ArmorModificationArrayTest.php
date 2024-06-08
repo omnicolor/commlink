@@ -7,16 +7,14 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\ArmorModification;
 use App\Models\Shadowrun5e\ArmorModificationArray;
 use App\Models\Shadowrun5e\GearModification;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for the ArmorModificationArray class.
- * @group shadowrun
- * @group shadowrun5e
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
 #[Small]
 final class ArmorModificationArrayTest extends TestCase
 {

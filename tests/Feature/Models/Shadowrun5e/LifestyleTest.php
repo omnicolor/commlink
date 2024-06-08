@@ -8,15 +8,13 @@ use App\Models\Shadowrun5e\Lifestyle;
 use App\Models\Shadowrun5e\LifestyleAttributes;
 use App\Models\Shadowrun5e\LifestyleOption;
 use App\Models\Shadowrun5e\LifestyleZone;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Shadowrun 5E lifestyles.
- * @group shadowrun
- * @group shadowrun5e
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
 #[Small]
 final class LifestyleTest extends TestCase
 {
