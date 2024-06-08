@@ -9,16 +9,14 @@ use App\Models\Channel;
 use App\Rolls\Avatar\Plead;
 use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function json_decode;
 use function sprintf;
 
-/**
- * Tests for the Plead roll in Avatar.
- * @group avatar
- */
+#[Group('avatar')]
 #[Medium]
 final class PleadTest extends TestCase
 {
@@ -26,8 +24,8 @@ final class PleadTest extends TestCase
 
     /**
      * Test trying to plead in a non-Avatar Slack channel.
-     * @group slack
      */
+    #[Group('slack')]
     public function testWrongSystemSlack(): void
     {
         /** @var Channel */
@@ -44,8 +42,8 @@ final class PleadTest extends TestCase
 
     /**
      * Test trying to plead in a non-Avatar Discord channel.
-     * @group discord
      */
+    #[Group('discord')]
     public function testWrongSystemDiscord(): void
     {
         /** @var Channel */
@@ -63,8 +61,8 @@ final class PleadTest extends TestCase
 
     /**
      * Test trying to plead in a non-Avatar IRC channel.
-     * @group irc
      */
+    #[Group('irc')]
     public function testWrongSystemIrc(): void
     {
         /** @var Channel */
@@ -82,8 +80,8 @@ final class PleadTest extends TestCase
 
     /**
      * Test failing pleading with no additional arguments.
-     * @group discord
      */
+    #[Group('discord')]
     public function testSimplePleadDiscord(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -108,8 +106,8 @@ final class PleadTest extends TestCase
 
     /**
      * Test failing pleading with no additional arguments.
-     * @group irc
      */
+    #[Group('irc')]
     public function testSimplePleadIrc(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -134,8 +132,8 @@ final class PleadTest extends TestCase
 
     /**
      * Test pleading successfully with additional arguments.
-     * @group slack
      */
+    #[Group('slack')]
     public function testPlead(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -166,8 +164,8 @@ final class PleadTest extends TestCase
 
     /**
      * Test failing pleading because of a negative modifier.
-     * @group slack
      */
+    #[Group('slack')]
     public function testFailingPleadNegativeModifier(): void
     {
         DiceService::shouldReceive('rollMany')

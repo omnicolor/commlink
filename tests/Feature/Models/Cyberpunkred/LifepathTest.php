@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\Lifepath;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for Cyberpunkred lifepath.
- * @group cyberpunkred
- */
+#[Group('cyberpunkred')]
 #[Small]
 final class LifepathTest extends TestCase
 {

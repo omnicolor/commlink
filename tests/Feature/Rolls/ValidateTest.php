@@ -12,6 +12,7 @@ use App\Rolls\Validate;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
@@ -23,9 +24,7 @@ final class ValidateTest extends TestCase
 {
     use WithFaker;
 
-    /**
-     * @group slack
-     */
+    #[Group('slack')]
     public function testWrongNumberOfArguments(): void
     {
         Event::fake();
@@ -52,9 +51,7 @@ final class ValidateTest extends TestCase
         Event::assertNotDispatched(UserLinked::class);
     }
 
-    /**
-     * @group discord
-     */
+    #[Group('discord')]
     public function testInvalidHash(): void
     {
         Event::fake();
@@ -94,9 +91,7 @@ final class ValidateTest extends TestCase
         Event::assertNotDispatched(UserLinked::class);
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testAlreadyValidated(): void
     {
         Event::fake();
@@ -126,9 +121,7 @@ final class ValidateTest extends TestCase
         Event::assertNotDispatched(UserLinked::class);
     }
 
-    /**
-     * @group slack
-     */
+    #[Group('slack')]
     public function testValidateSlack(): void
     {
         Event::fake();
@@ -165,9 +158,7 @@ final class ValidateTest extends TestCase
         Event::assertDispatched(UserLinked::class);
     }
 
-    /**
-     * @group discord
-     */
+    #[Group('discord')]
     public function testValidateDiscord(): void
     {
         Event::fake();
@@ -203,9 +194,7 @@ final class ValidateTest extends TestCase
         Event::assertDispatched(UserLinked::class);
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testValidateIrc(): void
     {
         Event::fake();

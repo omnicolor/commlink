@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\Talent;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Expanse talents.
- * @group expanse
- */
+#[Group('expanse')]
 #[Small]
 final class TalentTest extends TestCase
 {

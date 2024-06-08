@@ -10,21 +10,19 @@ use App\Models\ChatUser;
 use App\Models\Cyberpunkred\Character;
 use App\Rolls\Cyberpunkred\Help;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for getting help in Cyberpunk Red.
- * @group cyberpunkred
- */
+#[Group('cyberpunkred')]
 #[Medium]
 final class HelpTest extends TestCase
 {
     /**
      * Test getting help in a Cyberpunk Red Slack channel with no user or
      * campaign registered.
-     * @group slack
      */
+    #[Group('slack')]
     public function testGetSlackHelpNothingRegistered(): void
     {
         /** @var Channel */
@@ -50,8 +48,8 @@ final class HelpTest extends TestCase
     /**
      * Test getting help in a Cyberpunk Red Slack channel with a user
      * registered, but no campaign or character.
-     * @group slack
      */
+    #[Group('slack')]
     public function testGetSlackHelpWithChatUser(): void
     {
         /** @var Channel */
@@ -84,8 +82,8 @@ final class HelpTest extends TestCase
     /**
      * Test getting help in a Cyberpunk Red Slack channel with a character
      * linked to the channel.
-     * @group slack
      */
+    #[Group('slack')]
     public function testGetSlackHelpWithCharacter(): void
     {
         /** @var Channel */
@@ -131,8 +129,8 @@ final class HelpTest extends TestCase
     /**
      * Test getting help in a Cyberpunk Red Discord channel with a character
      * linked to the channel.
-     * @group discord
      */
+    #[Group('discord')]
     public function testGetDiscordHelpWithCharacter(): void
     {
         /** @var Channel */
@@ -177,8 +175,8 @@ final class HelpTest extends TestCase
     /**
      * Test getting help in a Cyberpunk Red IRC channel with no character
      * linked.
-     * @group irc
      */
+    #[Group('irc')]
     public function testGetHelpIrc(): void
     {
         /** @var Channel */

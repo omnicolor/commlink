@@ -12,15 +12,13 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function sha1;
 
-/**
- * Tests for linking a character to a channel.
- * @group slack
- */
+#[Group('slack')]
 #[Medium]
 final class LinkResponseTest extends TestCase
 {

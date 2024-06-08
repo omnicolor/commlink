@@ -11,15 +11,16 @@ use App\Models\Channel;
 use App\Models\Shadowrun5e\Character;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Tests for listening for a damage event and re-broadcasting.
- * @group discord
- * @group events
- * @group slack
  */
+#[Group('discord')]
+#[Group('events')]
+#[Group('slack')]
 #[Medium]
 final class HandleDamageEventTest extends TestCase
 {

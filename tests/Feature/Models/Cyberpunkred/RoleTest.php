@@ -6,14 +6,12 @@ namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\Role;
 use App\Models\Cyberpunkred\Role\Fixer;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
-/**
- * Tests for the Role abstract class.
- * @group cyberpunkred
- */
+#[Group('cyberpunkred')]
 #[Small]
 final class RoleTest extends TestCase
 {

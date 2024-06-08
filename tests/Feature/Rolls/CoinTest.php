@@ -7,6 +7,7 @@ namespace Tests\Feature\Rolls;
 use App\Models\Channel;
 use App\Rolls\Coin;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
@@ -19,8 +20,8 @@ final class CoinTest extends TestCase
 {
     /**
      * Test a coin flip.
-     * @group slack
      */
+    #[Group('slack')]
     public function testTails(): void
     {
         DiceService::shouldReceive('rollOne')->once()->with(2)->andReturn(2);
@@ -37,8 +38,8 @@ final class CoinTest extends TestCase
 
     /**
      * Test a coin flip.
-     * @group discord
      */
+    #[Group('discord')]
     public function testHeads(): void
     {
         DiceService::shouldReceive('rollOne')->once()->with(2)->andReturn(1);
@@ -53,6 +54,7 @@ final class CoinTest extends TestCase
         );
     }
 
+    #[Group('irc')]
     public function testIrc(): void
     {
         DiceService::shouldReceive('rollOne')->once()->with(2)->andReturn(1);

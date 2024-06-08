@@ -28,8 +28,8 @@ final class JudgeTest extends TestCase
     /**
      * Test trying to roll a judge intentions test without a character linked in
      * Slack.
-     * @group slack
      */
+    #[Group('slack')]
     public function testWithoutCharacterSlack(): void
     {
         /** @var Channel */
@@ -45,8 +45,8 @@ final class JudgeTest extends TestCase
     /**
      * Test trying to roll a judge intentions test without a character linked in
      * Discord.
-     * @group discord
      */
+    #[Group('discord')]
     public function testWithoutCharacterDiscord(): void
     {
         /** @var Channel */
@@ -59,9 +59,7 @@ final class JudgeTest extends TestCase
         );
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testWithoutCharacterIrc(): void
     {
         /** @var Channel */
@@ -76,8 +74,8 @@ final class JudgeTest extends TestCase
 
     /**
      * Test a character critical glitching on a judge intentions test.
-     * @group slack
      */
+    #[Group('slack')]
     public function testCritGlitch(): void
     {
         DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(1);
@@ -125,8 +123,8 @@ final class JudgeTest extends TestCase
 
     /**
      * Test a non-glitch judge intentions test.
-     * @group discord
      */
+    #[Group('discord')]
     public function testJudge(): void
     {
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(6);
@@ -172,9 +170,7 @@ final class JudgeTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testJudgeIrc(): void
     {
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(6);

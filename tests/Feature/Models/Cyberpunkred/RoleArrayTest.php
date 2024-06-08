@@ -7,15 +7,13 @@ namespace Tests\Feature\Models\Cyberpunkred;
 use App\Models\Cyberpunkred\Role;
 use App\Models\Cyberpunkred\Role\Fixer;
 use App\Models\Cyberpunkred\RoleArray;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for the RoleArray class.
- * @group cyberpunkred
- */
+#[Group('cyberpunkred')]
 #[Small]
 final class RoleArrayTest extends TestCase
 {

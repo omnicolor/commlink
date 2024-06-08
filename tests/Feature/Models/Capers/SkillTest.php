@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Skill;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Capers skills.
- * @group capers
- */
+#[Group('capers')]
 #[Small]
 final class SkillTest extends TestCase
 {

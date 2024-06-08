@@ -6,13 +6,11 @@ namespace Tests\Feature\Models\Cyberpunkred\Role;
 
 use App\Models\Cyberpunkred\Role\Rockerboy;
 use OutOfBoundsException;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Tests for the Rockerboy role.
- * @group cyberpunkred
- */
+#[Group('cyberpunkred')]
 #[Small]
 final class RockerboyTest extends TestCase
 {

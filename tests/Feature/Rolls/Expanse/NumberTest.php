@@ -7,6 +7,7 @@ namespace Tests\Feature\Rolls\Expanse;
 use App\Models\Channel;
 use App\Rolls\Expanse\Number;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
@@ -14,17 +15,14 @@ use function explode;
 
 use const PHP_EOL;
 
-/**
- * Tests for rolling dice in The Expanse.
- * @group expanse
- */
+#[Group('expanse')]
 #[Medium]
 final class NumberTest extends TestCase
 {
     /**
      * Test a basic roll generating stunt points in Slack without a description.
-     * @group slack
      */
+    #[Group('slack')]
     public function testSimpleRollSlack(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -46,8 +44,8 @@ final class NumberTest extends TestCase
     /**
      * Test a basic roll generating stunt points in Discord without a
      * description.
-     * @group discord
      */
+    #[Group('discord')]
     public function testSimpleRollDiscord(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -66,8 +64,8 @@ final class NumberTest extends TestCase
     /**
      * Test a basic roll not generating stunt points in Discord with a
      * description.
-     * @group discord
      */
+    #[Group('discord')]
     public function testRollWithDescriptionDiscord(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -85,8 +83,8 @@ final class NumberTest extends TestCase
 
     /**
      * Test a basic roll not generating stunt points in IRC with a description.
-     * @group irc
      */
+    #[Group('irc')]
     public function testRollWithDescriptionIrc(): void
     {
         DiceService::shouldReceive('rollMany')

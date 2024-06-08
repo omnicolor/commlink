@@ -28,8 +28,8 @@ final class BlitzTest extends TestCase
 {
     /**
      * Test trying to blitz initiative as the GM.
-     * @group slack
      */
+    #[Group('slack')]
     public function testGmBlitz(): void
     {
         /** @var User */
@@ -65,8 +65,8 @@ final class BlitzTest extends TestCase
 
     /**
      * Test trying to blitz without a character to pay edge from.
-     * @group slack
      */
+    #[Group('slack')]
     public function testBlitzWithoutCharacter(): void
     {
         /** @var Channel */
@@ -80,8 +80,8 @@ final class BlitzTest extends TestCase
 
     /**
      * Test trying to blitz with a character that's out of edge.
-     * @group discord
      */
+    #[Group('discord')]
     public function testBlitzOutOfEdge(): void
     {
         /** @var Channel */
@@ -118,6 +118,7 @@ final class BlitzTest extends TestCase
         $character->delete();
     }
 
+    #[Group('irc')]
     public function testBlitzErrorIrc(): void
     {
         /** @var Channel */
@@ -156,8 +157,8 @@ final class BlitzTest extends TestCase
 
     /**
      * Test trying to blitz from Slack.
-     * @group slack
      */
+    #[Group('slack')]
     public function testBlitzSlack(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -226,8 +227,8 @@ final class BlitzTest extends TestCase
 
     /**
      * Test trying to blitz from Discord.
-     * @group discord
      */
+    #[Group('discord')]
     public function testBlitzDiscord(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -294,8 +295,8 @@ final class BlitzTest extends TestCase
 
     /**
      * Test trying to blitz from IRC.
-     * @group irc
      */
+    #[Group('irc')]
     public function testBlitzIrc(): void
     {
         DiceService::shouldReceive('rollMany')

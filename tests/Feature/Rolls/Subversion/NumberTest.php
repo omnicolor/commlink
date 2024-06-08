@@ -8,23 +8,21 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Rolls\Subversion\Number;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use const PHP_EOL;
 
-/**
- * Tests for rolling dice in Subversion.
- * @group subversion
- */
+#[Group('subversion')]
 #[Medium]
 final class NumberTest extends TestCase
 {
     /**
      * Test trying to roll a simple three-dice roll without an attribute or TN
      * set in Slack.
-     * @group slack
      */
+    #[Group('slack')]
     public function testSimpleRollSlack(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -55,8 +53,8 @@ final class NumberTest extends TestCase
     /**
      * Test trying to roll a simple three-dice roll without the TN set in
      * Discord, but including an attribute.
-     * @group discord
      */
+    #[Group('discord')]
     public function testSimpleRollDiscord(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -75,9 +73,7 @@ final class NumberTest extends TestCase
         );
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testRollIrc(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -96,9 +92,7 @@ final class NumberTest extends TestCase
         );
     }
 
-    /**
-     * @group discord
-     */
+    #[Group('discord')]
     public function testDulled5Roll(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -117,9 +111,7 @@ final class NumberTest extends TestCase
         );
     }
 
-    /**
-     * @group discord
-     */
+    #[Group('discord')]
     public function testDulled4Roll(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -138,9 +130,7 @@ final class NumberTest extends TestCase
         );
     }
 
-    /**
-     * @group discord
-     */
+    #[Group('discord')]
     public function testDulled3Roll(): void
     {
         DiceService::shouldReceive('rollMany')

@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\ShipQuality;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for the ShipQuality class.
- * @group expanse
- */
+#[Group('expanse')]
 #[Small]
 final class ShipQualityTest extends TestCase
 {

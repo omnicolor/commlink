@@ -13,15 +13,16 @@ use App\Rolls\Shadowrun5e\Number;
 use Facades\App\Services\DiceService;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Tests for listening for a Roll event and rebroadcasting.
- * @group discord
- * @group events
- * @group slack
  */
+#[Group('discord')]
+#[Group('events')]
+#[Group('slack')]
 #[Medium]
 final class HandleRollEventTest extends TestCase
 {

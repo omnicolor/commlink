@@ -11,13 +11,11 @@ use App\Models\Cyberpunkred\TarotDeck;
 use App\Rolls\Cyberpunkred\Tarot;
 use DB;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests drawing a Night City Tarot card in Cyberpunk Red.
- * @group cyberpunkred
- */
+#[Group('cyberpunkred')]
 #[Medium]
 final class TarotTest extends TestCase
 {
@@ -25,8 +23,8 @@ final class TarotTest extends TestCase
 
     /**
      * Test trying to draw a card in a Slack channel with no campaign.
-     * @group slack
      */
+    #[Group('slack')]
     public function testSlackTarotWithNoCampaign(): void
     {
         /** @var Channel */
@@ -43,8 +41,8 @@ final class TarotTest extends TestCase
     /**
      * Test trying to draw a card in a Slack channel with a campaign for
      * a different system.
-     * @group slack
      */
+    #[Group('slack')]
     public function testSlackTarotCampaignHasWrongSystem(): void
     {
         /** @var Campaign */
@@ -67,8 +65,8 @@ final class TarotTest extends TestCase
     /**
      * Test trying to draw a card in a Slack channel with a campaign that
      * hasn't enabled it.
-     * @group slack
      */
+    #[Group('slack')]
     public function testSlackTarotCampaignNotEnabled(): void
     {
         /** @var Campaign */
@@ -90,8 +88,8 @@ final class TarotTest extends TestCase
 
     /**
      * Test trying to draw a card in a Discord channel with no campaign.
-     * @group discord
      */
+    #[Group('discord')]
     public function testDiscordTarotWithNoCampaign(): void
     {
         /** @var Channel */
@@ -108,8 +106,8 @@ final class TarotTest extends TestCase
     /**
      * Test trying to draw a card in a Discord channel with a campaign for
      * a different system.
-     * @group discord
      */
+    #[Group('discord')]
     public function testDiscordTarotCampaignHasWrongSystem(): void
     {
         /** @var Campaign */
@@ -133,8 +131,8 @@ final class TarotTest extends TestCase
     /**
      * Test trying to draw a card in a Slack channel that has never initialized
      * a deck before.
-     * @group slack
      */
+    #[Group('slack')]
     public function testDrawCardFromNewDeck(): void
     {
         /** @var Campaign */
@@ -168,8 +166,8 @@ final class TarotTest extends TestCase
 
     /**
      * Test trying to shuffle a deck in a Slack channel.
-     * @group slack
      */
+    #[Group('slack')]
     public function testShuffleDeckSlack(): void
     {
         /** @var Campaign */
@@ -201,8 +199,8 @@ final class TarotTest extends TestCase
 
     /**
      * Test trying to shuffle a deck in a Discord channel.
-     * @group discord
      */
+    #[Group('discord')]
     public function testShuffleDeckDiscord(): void
     {
         /** @var Campaign */
@@ -237,8 +235,8 @@ final class TarotTest extends TestCase
 
     /**
      * Test trying to draw a card from an empty deck.
-     * @group discord
      */
+    #[Group('discord')]
     public function testDrawFromEmptyDeckDiscord(): void
     {
         /** @var Campaign */
@@ -271,8 +269,8 @@ final class TarotTest extends TestCase
     /**
      * Test trying to draw a card in a IRC channel with a campaign for a
      * different system.
-     * @group irc
      */
+    #[Group('irc')]
     public function testIRCTarotCampaignHasWrongSystem(): void
     {
         /** @var Campaign */
@@ -295,8 +293,8 @@ final class TarotTest extends TestCase
 
     /**
      * Test trying to shuffle a deck in an IRC channel.
-     * @group irc
      */
+    #[Group('irc')]
     public function testShuffleDeckIRC(): void
     {
         /** @var Campaign */
@@ -329,8 +327,8 @@ final class TarotTest extends TestCase
     /**
      * Test trying to draw a card in an IRC channel that has never initialized a
      * deck before.
-     * @group irc
      */
+    #[Group('irc')]
     public function testDrawCardFromNewDeckIRC(): void
     {
         /** @var Campaign */

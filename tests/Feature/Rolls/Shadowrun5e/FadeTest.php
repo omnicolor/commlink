@@ -26,8 +26,8 @@ final class FadeTest extends TestCase
 {
     /**
      * Test trying to roll a fade test without a character linked in Slack.
-     * @group slack
      */
+    #[Group('slack')]
     public function testWithoutCharacterSlack(): void
     {
         /** @var Channel */
@@ -42,8 +42,8 @@ final class FadeTest extends TestCase
 
     /**
      * Test trying to roll a fade test without a character linked in Discord.
-     * @group discord
      */
+    #[Group('discord')]
     public function testWithoutCharacterDiscord(): void
     {
         /** @var Channel */
@@ -57,8 +57,8 @@ final class FadeTest extends TestCase
 
     /**
      * Test trying to make a fade test without being a technomancer.
-     * @group discord
      */
+    #[Group('discord')]
     public function testFadeNotTechnomancer(): void
     {
         /** @var Channel */
@@ -102,8 +102,8 @@ final class FadeTest extends TestCase
 
     /**
      * Test a fade test.
-     * @group discord
      */
+    #[Group('discord')]
     public function testFadeDiscord(): void
     {
         DiceService::shouldReceive('rollOne')->times(11)->with(6)->andReturn(6);
@@ -151,8 +151,8 @@ final class FadeTest extends TestCase
 
     /**
      * Test a fade test in Slack.
-     * @group slack
      */
+    #[Group('slack')]
     public function testFadeSlack(): void
     {
         DiceService::shouldReceive('rollOne')->times(7)->with(6)->andReturn(2);
@@ -201,9 +201,7 @@ final class FadeTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testErrorIrc(): void
     {
         /** @var Channel */
@@ -217,8 +215,8 @@ final class FadeTest extends TestCase
 
     /**
      * Test a fade test.
-     * @group irc
      */
+    #[Group('irc')]
     public function testFadeIRC(): void
     {
         DiceService::shouldReceive('rollOne')->times(11)->with(6)->andReturn(6);

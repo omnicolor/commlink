@@ -11,13 +11,11 @@ use App\Models\Capers\Power;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for the Capers character controller.
- * @group capers
- */
+#[Group('capers')]
 #[Medium]
 final class CharactersControllerTest extends TestCase
 {

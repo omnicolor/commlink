@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\CrewCompetence;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * Tests for crew competence enum.
- * @group expanse
- */
+#[Group('expanse')]
 #[Small]
 final class CrewCompetenceTest extends TestCase
 {

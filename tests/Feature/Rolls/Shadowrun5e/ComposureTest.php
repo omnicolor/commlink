@@ -27,8 +27,8 @@ final class ComposureTest extends TestCase
 {
     /**
      * Test trying to roll a composure test without a character linked in Slack.
-     * @group slack
      */
+    #[Group('slack')]
     public function testWithoutCharacterSlack(): void
     {
         /** @var Channel */
@@ -44,8 +44,8 @@ final class ComposureTest extends TestCase
     /**
      * Test trying to roll a composure test without a character linked in
      * Discord.
-     * @group discord
      */
+    #[Group('discord')]
     public function testWithoutCharacterDiscord(): void
     {
         /** @var Channel */
@@ -57,9 +57,7 @@ final class ComposureTest extends TestCase
         );
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testWithoutCharacterIrc(): void
     {
         /** @var Channel */
@@ -73,8 +71,8 @@ final class ComposureTest extends TestCase
 
     /**
      * Test a character critical glitching on a Composure test.
-     * @group slack
      */
+    #[Group('slack')]
     public function testCritGlitch(): void
     {
         /** @var Channel */
@@ -124,8 +122,8 @@ final class ComposureTest extends TestCase
 
     /**
      * Test a non-glitch composure test.
-     * @group discord
      */
+    #[Group('discord')]
     public function testComposure(): void
     {
         /** @var Channel */
@@ -175,8 +173,8 @@ final class ComposureTest extends TestCase
 
     /**
      * Test a non-glitch composure test.
-     * @group irc
      */
+    #[Group('irc')]
     public function testComposureIRC(): void
     {
         DiceService::shouldReceive('rollOne')

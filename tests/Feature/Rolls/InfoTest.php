@@ -21,6 +21,7 @@ use Illuminate\Support\Str;
 use Jerodev\PhpIrcClient\IrcChannel;
 use Jerodev\PhpIrcClient\IrcClient;
 use Jerodev\PhpIrcClient\IrcConnection;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
@@ -33,8 +34,8 @@ final class InfoTest extends TestCase
 
     /**
      * Test trying to get info for an unregistered Discord channel.
-     * @group discord
      */
+    #[Group('discord')]
     public function testDiscordInfoUnregistered(): void
     {
         $messageMock = $this->createDiscordMessageMock('info');
@@ -73,8 +74,8 @@ final class InfoTest extends TestCase
     /**
      * Test trying to get info for a registered Discord channel without a
      * campaign.
-     * @group discord
      */
+    #[Group('discord')]
     public function testDiscordInfoRegisteredNoCampaign(): void
     {
         $messageMock = $this->createDiscordMessageMock('info');
@@ -116,8 +117,8 @@ final class InfoTest extends TestCase
 
     /**
      * Test a info roll in IRC for a registered channel with a campaign.
-     * @group irc
      */
+    #[Group('irc')]
     public function testIrcInfoRegistered(): void
     {
         $server = $this->faker->domainName();
@@ -197,8 +198,8 @@ final class InfoTest extends TestCase
     /**
      * Test a info roll in IRC for a registered channel with a chat user but no
      * character.
-     * @group irc
      */
+    #[Group('irc')]
     public function testIrcInfoRegisteredNoCharacter(): void
     {
         $server = $this->faker->domainName();
@@ -264,8 +265,8 @@ final class InfoTest extends TestCase
     /**
      * Test rolling info in a Slack channel that somehow has an invalid
      * character ID linked.
-     * @group slack
      */
+    #[Group('slack')]
     public function testSlackRegisteredWithInvalidCharacter(): void
     {
         /** @var User */

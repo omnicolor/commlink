@@ -8,13 +8,11 @@ use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * Tests for the top-level Character class.
- * @group character
- */
+#[Group('character')]
 #[Small]
 final class CharacterTest extends TestCase
 {

@@ -27,8 +27,8 @@ final class MemoryTest extends TestCase
 {
     /**
      * Test trying to roll a memory test without a character linked in Slack.
-     * @group slack
      */
+    #[Group('slack')]
     public function testWithoutCharacterSlack(): void
     {
         /** @var Channel */
@@ -43,8 +43,8 @@ final class MemoryTest extends TestCase
 
     /**
      * Test trying to roll a memory test without a character linked in Discord.
-     * @group discord
      */
+    #[Group('discord')]
     public function testWithoutCharacterDiscord(): void
     {
         /** @var Channel */
@@ -56,9 +56,7 @@ final class MemoryTest extends TestCase
         );
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testWithoutCharacterIrc(): void
     {
         /** @var Channel */
@@ -72,8 +70,8 @@ final class MemoryTest extends TestCase
 
     /**
      * Test a character critical glitching on a memory test.
-     * @group slack
      */
+    #[Group('slack')]
     public function testCritGlitch(): void
     {
         DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(1);
@@ -121,8 +119,8 @@ final class MemoryTest extends TestCase
 
     /**
      * Test a non-glitch memory test.
-     * @group discord
      */
+    #[Group('discord')]
     public function testMemory(): void
     {
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(6);
@@ -168,9 +166,7 @@ final class MemoryTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testMemoryIrc(): void
     {
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(6);

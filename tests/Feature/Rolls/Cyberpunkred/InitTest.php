@@ -17,15 +17,13 @@ use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use const PHP_EOL;
 
-/**
- * Tests for rolling initiative in Cyberpunk Red.
- * @group cyberpunkred
- */
+#[Group('cyberpunkred')]
 #[Medium]
 final class InitTest extends TestCase
 {
@@ -33,8 +31,8 @@ final class InitTest extends TestCase
 
     /**
      * Test rolling init with no ChatUser registered in Slack and no reflexes.
-     * @group slack
      */
+    #[Group('slack')]
     public function testSlackRollInitNoChatUserNoArgs(): void
     {
         Event::fake();
@@ -56,8 +54,8 @@ final class InitTest extends TestCase
 
     /**
      * Test rolling init with no ChatUser registered in Discord and no reflexes.
-     * @group discord
      */
+    #[Group('discord')]
     public function testDiscordRollInitNoChatUserNoArgs(): void
     {
         Event::fake();
@@ -79,8 +77,8 @@ final class InitTest extends TestCase
 
     /**
      * Test rolling init with no ChatUser registered in IRC and no reflexes.
-     * @group irc
      */
+    #[Group('irc')]
     public function testIRCRollInitNoChatUserNoArgs(): void
     {
         Event::fake();
@@ -102,8 +100,8 @@ final class InitTest extends TestCase
 
     /**
      * Test rolling init with no ChatUser in Slack, but including reflexes.
-     * @group slack
      */
+    #[Group('slack')]
     public function testSlackRollInitNoChatUser(): void
     {
         Event::fake();
@@ -137,8 +135,8 @@ final class InitTest extends TestCase
     /**
      * Test rolling init with no ChatUser in Discord, but including reflexes
      * and a modifier.
-     * @group discord
      */
+    #[Group('discord')]
     public function testDiscordRollInitNoChatUser(): void
     {
         Event::fake();
@@ -163,8 +161,8 @@ final class InitTest extends TestCase
 
     /**
      * Test rolling init in Slack with a linked character, but no campaign.
-     * @group slack
      */
+    #[Group('slack')]
     public function testSlackRollInitCharacterNoCampaign(): void
     {
         Event::fake();
@@ -227,8 +225,8 @@ final class InitTest extends TestCase
     /**
      * Test rolling init in Discord with a linked character and including the
      * character's reflexes and a modifier.
-     * @group discord
      */
+    #[Group('discord')]
     public function testDiscordRollInitCharacterNoCampaign(): void
     {
         Event::fake();
@@ -280,8 +278,8 @@ final class InitTest extends TestCase
 
     /**
      * Test rolling initiative with a linked character and campaign.
-     * @group discord
      */
+    #[Group('discord')]
     public function testRollInitiativeWithCampaign(): void
     {
         Event::fake();
@@ -337,8 +335,8 @@ final class InitTest extends TestCase
 
     /**
      * Test rolling initiative without things linked.
-     * @group irc
      */
+    #[Group('irc')]
     public function testIRCRollInitiativeNoCampaign(): void
     {
         Event::fake();

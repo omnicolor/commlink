@@ -7,14 +7,12 @@ namespace Tests\Feature\Models\Cyberpunkred;
 use App\Models\Cyberpunkred\Character;
 use App\Models\Cyberpunkred\Role\Fixer;
 use App\Models\Cyberpunkred\Weapon;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for Cyberpunkred Characters.
- * @group cyberpunkred
- */
+#[Group('cyberpunkred')]
 #[Small]
 final class CharacterTest extends TestCase
 {

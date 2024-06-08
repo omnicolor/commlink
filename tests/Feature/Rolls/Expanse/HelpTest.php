@@ -6,20 +6,18 @@ namespace Tests\Feature\Rolls\Expanse;
 
 use App\Models\Channel;
 use App\Rolls\Expanse\Help;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for getting help in a Channel registered to The Expanse.
- * @group expanse
- */
+#[Group('expanse')]
 #[Medium]
 final class HelpTest extends TestCase
 {
     /**
      * Test getting help via Slack.
-     * @group slack
      */
+    #[Group('slack')]
     public function testHelpSlack(): void
     {
         /** @var Channel */
@@ -37,8 +35,8 @@ final class HelpTest extends TestCase
 
     /**
      * Test getting help via Discord.
-     * @group discord
      */
+    #[Group('discord')]
     public function testHelpDiscord(): void
     {
         /** @var Channel */
@@ -55,8 +53,8 @@ final class HelpTest extends TestCase
 
     /**
      * Test getting help via IRC.
-     * @group irc
      */
+    #[Group('irc')]
     public function testHelpIrc(): void
     {
         /** @var Channel */

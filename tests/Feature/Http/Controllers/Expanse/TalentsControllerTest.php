@@ -7,14 +7,13 @@ namespace Tests\Feature\Http\Controllers\Expanse;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function count;
 
-/**
- * @group expanse
- */
+#[Group('expanse')]
 #[Medium]
 final class TalentsControllerTest extends TestCase
 {

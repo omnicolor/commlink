@@ -6,12 +6,12 @@ namespace Tests\Feature\Http\Controllers\Import;
 
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * @group chummer5
- */
+#[Group('chummer5')]
+#[Group('shadowrun5e')]
 #[Medium]
 final class Chummer5ControllerTest extends TestCase
 {

@@ -9,15 +9,13 @@ use App\Models\Channel;
 use App\Models\Event;
 use App\Models\Shadowrun5e\Campaign as ShadowrunCampaign;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function key;
 
-/**
- * Tests for the campaign model.
- * @group campaigns
- */
+#[Group('campaigns')]
 #[Medium]
 final class CampaignTest extends TestCase
 {

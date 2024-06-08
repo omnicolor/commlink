@@ -6,14 +6,12 @@ namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\RangedWeapon;
 use App\Models\Cyberpunkred\Weapon;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for RangedWeapon class.
- * @group cyberpunkred
- */
+#[Group('cyberpunkred')]
 #[Small]
 final class RangedWeaponTest extends TestCase
 {

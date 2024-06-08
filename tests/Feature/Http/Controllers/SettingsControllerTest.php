@@ -9,13 +9,12 @@ use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for the settings controller.
- * @group settings
- */
+#[Group('settings')]
+#[Group('settings')]
 #[Medium]
 final class SettingsControllerTest extends TestCase
 {

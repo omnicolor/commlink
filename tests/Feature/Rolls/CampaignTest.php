@@ -14,12 +14,14 @@ use App\Rolls\Campaign as CampaignRoll;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function json_decode;
 use function sprintf;
 
+#[Group('campaigns')]
 #[Medium]
 final class CampaignTest extends TestCase
 {
@@ -27,8 +29,8 @@ final class CampaignTest extends TestCase
 
     /**
      * Test trying to link a campaign to a Slack channel without the ID.
-     * @group slack
      */
+    #[Group('slack')]
     public function testSlackLinkCampaignNoId(): void
     {
         Event::fake();
@@ -48,8 +50,8 @@ final class CampaignTest extends TestCase
 
     /**
      * Test trying to link a campaign to a Discord channel without the ID.
-     * @group discord
      */
+    #[Group('discord')]
     public function testDiscordLinkCampaignNoId(): void
     {
         Event::fake();
@@ -65,9 +67,7 @@ final class CampaignTest extends TestCase
         Event::assertNotDispatched(ChannelLinked::class);
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testIrcError(): void
     {
         Event::fake();
@@ -86,8 +86,8 @@ final class CampaignTest extends TestCase
     /**
      * Test trying to link a campaign to a Slack channel if the channel already
      * has one.
-     * @group slack
      */
+    #[Group('slack')]
     public function testSlackLinkCampaignRedundant(): void
     {
         Event::fake();
@@ -115,8 +115,8 @@ final class CampaignTest extends TestCase
     /**
      * Test trying to link a campaign to a Discord channel if the channel
      * already has one.
-     * @group discord
      */
+    #[Group('discord')]
     public function testDiscordLinkCampaignRedundant(): void
     {
         Event::fake();
@@ -145,8 +145,8 @@ final class CampaignTest extends TestCase
     /**
      * Test trying to link a campaign to a Slack channel if the user isn't
      * registered.
-     * @group slack
      */
+    #[Group('slack')]
     public function testSlackLinkCampaignNoChatUser(): void
     {
         Event::fake();
@@ -171,8 +171,8 @@ final class CampaignTest extends TestCase
     /**
      * Test trying to link a campaign to a Discord channel if the user isn't
      * registered.
-     * @group discord
      */
+    #[Group('discord')]
     public function testDiscordLinkCampaignNoChatUser(): void
     {
         Event::fake();
@@ -199,8 +199,8 @@ final class CampaignTest extends TestCase
     /**
      * Test trying to link a campaign to a Slack channel if the campaign isn't
      * found.
-     * @group slack
      */
+    #[Group('slack')]
     public function testSlackLinkCampaignNoCampaign(): void
     {
         Event::fake();
@@ -227,8 +227,8 @@ final class CampaignTest extends TestCase
     /**
      * Test trying to link a campaign to a Discord channel if the campaign isn't
      * found.
-     * @group discord
      */
+    #[Group('discord')]
     public function testDiscordLinkCampaignNoCampaign(): void
     {
         Event::fake();
@@ -258,8 +258,8 @@ final class CampaignTest extends TestCase
     /**
      * Test trying to link a campaign to a Slack channel if the campaign is for
      * a different system.
-     * @group slack
      */
+    #[Group('slack')]
     public function testSlackLinkCampaignDifferentSystem(): void
     {
         Event::fake();
@@ -301,8 +301,8 @@ final class CampaignTest extends TestCase
     /**
      * Test trying to link a campaign to a Discord channel if the campaign is
      * playing a different system.
-     * @group discord
      */
+    #[Group('discord')]
     public function testDiscordLinkCampaignDifferentSystem(): void
     {
         Event::fake();
@@ -346,8 +346,8 @@ final class CampaignTest extends TestCase
     /**
      * Test trying to link a campaign to a Slack channel if the user doesn't
      * have permission to do so.
-     * @group slack
      */
+    #[Group('slack')]
     public function testSlackLinkCampaignPermissionDenied(): void
     {
         Event::fake();
@@ -388,8 +388,8 @@ final class CampaignTest extends TestCase
     /**
      * Test trying to link a campaign to a Discord channel if the user doesn't
      * have permission to do so.
-     * @group discord
      */
+    #[Group('discord')]
     public function testDiscordLinkCampaignPermissionDenied(): void
     {
         Event::fake();
@@ -427,8 +427,8 @@ final class CampaignTest extends TestCase
 
     /**
      * Test linking a campaign to a new Slack channel.
-     * @group slack
      */
+    #[Group('slack')]
     public function testSlackLinkCampaignSuccessNewChannel(): void
     {
         Event::fake();
@@ -480,8 +480,8 @@ final class CampaignTest extends TestCase
 
     /**
      * Test linking a campaign to a new Discord channel.
-     * @group discord
      */
+    #[Group('discord')]
     public function testDiscordLinkCampaignSuccessNewChannel(): void
     {
         Event::fake();
@@ -531,8 +531,8 @@ final class CampaignTest extends TestCase
 
     /**
      * Test linking a campaign to an old Slack channel.
-     * @group slack
      */
+    #[Group('slack')]
     public function testSlackLinkCampaignSuccessOldChannel(): void
     {
         Event::fake();
@@ -585,8 +585,8 @@ final class CampaignTest extends TestCase
 
     /**
      * Test linking a campaign to an old Discord channel.
-     * @group discord
      */
+    #[Group('discord')]
     public function testDiscordLinkCampaignSuccessOldChannel(): void
     {
         Event::fake();
@@ -632,9 +632,7 @@ final class CampaignTest extends TestCase
         Event::assertNotDispatched(ChannelLinked::class);
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testLinkIrc(): void
     {
         Event::fake();

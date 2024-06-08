@@ -6,13 +6,11 @@ namespace Tests\Feature\Http\Responses\Slack;
 
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Slack\TextAttachment;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for the SlackResponse class.
- * @group slack
- */
+#[Group('slack')]
 #[Medium]
 final class SlackResponseTest extends TestCase
 {

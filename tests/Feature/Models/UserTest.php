@@ -11,14 +11,12 @@ use App\Models\ChatUser;
 use App\Models\Event;
 use App\Models\User;
 use Laravel\Pennant\Feature;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for the user class.
- * @group campaigns
- * @group user
- */
+#[Group('campaigns')]
+#[Group('user')]
 #[Medium]
 final class UserTest extends TestCase
 {
@@ -128,14 +126,14 @@ final class UserTest extends TestCase
         self::assertNotEmpty($user->chatUsers);
     }
 
-    /** @group events */
+    #[Group('events')]
     public function testEventsEmpty(): void
     {
         $user = User::factory()->create();
         self::assertCount(0, $user->events);
     }
 
-    /** @group events */
+    #[Group('events')]
     public function testEvents(): void
     {
         /** @var Campaign */

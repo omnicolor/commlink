@@ -13,13 +13,11 @@ use App\Models\User;
 use App\Rolls\Capers\Help;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests asking for help in a channel registered to the Capers RPG.
- * @group capers
- */
+#[Group('capers')]
 #[Medium]
 final class HelpTest extends TestCase
 {
@@ -27,8 +25,8 @@ final class HelpTest extends TestCase
 
     /**
      * Test asking for help as an unlinked user.
-     * @group slack
      */
+    #[Group('slack')]
     public function testHelpNoLinkedUser(): void
     {
         /** @var Campaign */
@@ -55,8 +53,8 @@ final class HelpTest extends TestCase
 
     /**
      * Test asking for help as a Gamemaster.
-     * @group discord
      */
+    #[Group('discord')]
     public function testHelpGamemaster(): void
     {
         /** @var User */
@@ -92,8 +90,8 @@ final class HelpTest extends TestCase
 
     /**
      * Test asking for help as a registered player.
-     * @group discord
      */
+    #[Group('discord')]
     public function testHelpPlayerNoCharacter(): void
     {
         /** @var User */
@@ -126,8 +124,8 @@ final class HelpTest extends TestCase
 
     /**
      * Test asking for help as a character.
-     * @group irc
      */
+    #[Group('irc')]
     public function testHelpPlayerCharacter(): void
     {
         /** @var User */

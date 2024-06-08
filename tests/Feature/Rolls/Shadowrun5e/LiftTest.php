@@ -28,8 +28,8 @@ final class LiftTest extends TestCase
     /**
      * Test trying to roll a lift/carry test without a character linked in
      * Slack.
-     * @group slack
      */
+    #[Group('slack')]
     public function testWithoutCharacterSlack(): void
     {
         /** @var Channel */
@@ -45,8 +45,8 @@ final class LiftTest extends TestCase
     /**
      * Test trying to roll a lift/carry test without a character linked in
      * Discord.
-     * @group discord
      */
+    #[Group('discord')]
     public function testWithoutCharacterDiscord(): void
     {
         /** @var Channel */
@@ -59,9 +59,7 @@ final class LiftTest extends TestCase
         );
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testWithoutCharacterIrc(): void
     {
         /** @var Channel */
@@ -76,8 +74,8 @@ final class LiftTest extends TestCase
 
     /**
      * Test a character critical glitching on a lift/carry test.
-     * @group slack
      */
+    #[Group('slack')]
     public function testCritGlitch(): void
     {
         DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(1);
@@ -125,8 +123,8 @@ final class LiftTest extends TestCase
 
     /**
      * Test a non-glitch lift/carry test.
-     * @group discord
      */
+    #[Group('discord')]
     public function testLift(): void
     {
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(6);
@@ -172,9 +170,7 @@ final class LiftTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testListIrc(): void
     {
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(6);

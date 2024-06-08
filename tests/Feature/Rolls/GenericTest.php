@@ -7,14 +7,12 @@ namespace Tests\Feature\Rolls;
 use App\Models\Channel;
 use App\Rolls\Generic;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for rolling generic dice.
- * @group discord
- * @group slack
- */
+#[Group('discord')]
+#[Group('slack')]
 #[Medium]
 final class GenericTest extends TestCase
 {

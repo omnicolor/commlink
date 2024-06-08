@@ -16,11 +16,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for getting help in a Channel registered as Shadowrun 5E.
- * @group discord
- * @group slack
- */
+#[Group('discord')]
+#[Group('slack')]
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
 #[Medium]

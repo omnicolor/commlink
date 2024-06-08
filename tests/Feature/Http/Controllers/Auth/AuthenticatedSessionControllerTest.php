@@ -9,12 +9,11 @@ use App\Models\CampaignInvitation;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * @group user
- */
+#[Group('user')]
 #[Medium]
 final class AuthenticatedSessionControllerTest extends TestCase
 {
@@ -50,9 +49,7 @@ final class AuthenticatedSessionControllerTest extends TestCase
         self::assertGuest();
     }
 
-    /**
-     * @group campaigns
-     */
+    #[Group('campaigns')]
     public function testUserLoginWithInvitationBadHash(): void
     {
         $user = User::factory()->create();
@@ -77,9 +74,7 @@ final class AuthenticatedSessionControllerTest extends TestCase
             ->assertSee('The token does not appear to be valid for the invitation');
     }
 
-    /**
-     * @group campaigns
-     */
+    #[Group('campaigns')]
     public function testUserLoginWithInvitationAlreadyResponded(): void
     {
         $user = User::factory()->create();
@@ -105,9 +100,7 @@ final class AuthenticatedSessionControllerTest extends TestCase
             ->assertSee('It appears you\'ve already responded to the invitation');
     }
 
-    /**
-     * @group campaigns
-     */
+    #[Group('campaigns')]
     public function testUserLoginWithInvitationAsGM(): void
     {
         $user = User::factory()->create();
@@ -131,9 +124,7 @@ final class AuthenticatedSessionControllerTest extends TestCase
             ->assertSee('You can\'t join a game when you\'re the GM');
     }
 
-    /**
-     * @group campaigns
-     */
+    #[Group('campaigns')]
     public function testUserAcceptingInvitation(): void
     {
         $user = User::factory()->create();

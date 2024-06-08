@@ -10,13 +10,11 @@ use App\Models\Channel;
 use App\Models\ChatUser;
 use App\Models\User;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for registering a channel in Slack.
- * @group slack
- */
+#[Group('slack')]
 #[Medium]
 final class RegisterResponseTest extends TestCase
 {

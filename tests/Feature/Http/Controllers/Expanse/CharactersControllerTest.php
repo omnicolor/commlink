@@ -8,12 +8,11 @@ use App\Models\Campaign;
 use App\Models\Cyberpunkred\Character as CprCharacter;
 use App\Models\Expanse\Character;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * @group expanse
- */
+#[Group('expanse')]
 #[Medium]
 final class CharactersControllerTest extends TestCase
 {

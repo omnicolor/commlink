@@ -9,14 +9,12 @@ use App\Models\Expanse\Focus;
 use App\Models\Expanse\FocusArray;
 use App\Models\Expanse\Talent;
 use App\Models\Expanse\TalentArray;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Expanse backgrounds.
- * @group expanse
- */
+#[Group('expanse')]
 #[Small]
 final class BackgroundTest extends TestCase
 {

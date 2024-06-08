@@ -13,13 +13,11 @@ use App\Models\User;
 use App\Rolls\Capers\ShuffleAll;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for the GM requesting everyone to shuffle their decks.
- * @group capers
- */
+#[Group('capers')]
 #[Medium]
 final class ShuffleAllTest extends TestCase
 {
@@ -27,8 +25,8 @@ final class ShuffleAllTest extends TestCase
 
     /**
      * Test trying to request shuffle all without an attached campaign.
-     * @group slack
      */
+    #[Group('slack')]
     public function testShuffleWithNoCampaign(): void
     {
         /** @var Channel */
@@ -45,8 +43,8 @@ final class ShuffleAllTest extends TestCase
 
     /**
      * Test trying to shuffle Capers decks somehow from a non-Capers campaign.
-     * @group discord
      */
+    #[Group('discord')]
     public function testShuffleFromOtherSystem(): void
     {
         /** @var Campaign */
@@ -69,8 +67,8 @@ final class ShuffleAllTest extends TestCase
 
     /**
      * Test trying to request all users shuffle as a non-GM.
-     * @group slack
      */
+    #[Group('slack')]
     public function testShuffleAllNotGm(): void
     {
         /** @var Campaign */
@@ -93,8 +91,8 @@ final class ShuffleAllTest extends TestCase
 
     /**
      * Test trying to shuffle all as the game's GM from Slack.
-     * @group slack
      */
+    #[Group('slack')]
     public function testShuffleAllWithNoDecks(): void
     {
         /** @var User */
@@ -136,8 +134,8 @@ final class ShuffleAllTest extends TestCase
 
     /**
      * Test trying to shuffle all as the game's GM in Discord.
-     * @group discord
      */
+    #[Group('discord')]
     public function testShuffleAllFromDiscord(): void
     {
         /** @var User */
@@ -187,9 +185,7 @@ final class ShuffleAllTest extends TestCase
         self::assertCount(54, $deck);
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testNotGmInIrc(): void
     {
         /** @var Campaign */
@@ -210,9 +206,7 @@ final class ShuffleAllTest extends TestCase
         );
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testForIrc(): void
     {
         /** @var User */

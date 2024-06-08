@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\ShipWeapon;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for ship weapons.
- * @group expanse
- */
+#[Group('expanse')]
 #[Small]
 final class ShipWeaponTest extends TestCase
 {

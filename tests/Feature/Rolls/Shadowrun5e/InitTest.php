@@ -29,8 +29,8 @@ final class InitTest extends TestCase
     /**
      * Test attempting a GM command as an unregistered user in a channel with
      * a campaign.
-     * @group slack
      */
+    #[Group('slack')]
     public function testGmCommandUnregistered(): void
     {
         /** @var Campaign */
@@ -52,8 +52,8 @@ final class InitTest extends TestCase
 
     /**
      * Test attempting to clear initiative as a GM.
-     * @group slack
      */
+    #[Group('slack')]
     public function testGmClearInitiativeWithCampaign(): void
     {
         $user = User::factory()->create();
@@ -98,8 +98,8 @@ final class InitTest extends TestCase
 
     /**
      * Test attempting to start initiative as a GM.
-     * @group slack
      */
+    #[Group('slack')]
     public function testGmStartInitiative(): void
     {
         $user = User::factory()->create();
@@ -147,6 +147,7 @@ final class InitTest extends TestCase
     /**
      * Test attempting something else as a GM.
      */
+    #[Group('slack')]
     public function testGmInvalidCommand(): void
     {
         $user = User::factory()->create();
@@ -184,6 +185,7 @@ final class InitTest extends TestCase
     /**
      * Test attempting to clear initiative in a channel without a campaign.
      */
+    #[Group('discord')]
     public function testGmClearInitiativeWithoutCampaign(): void
     {
         $user = User::factory()->create();
@@ -218,6 +220,7 @@ final class InitTest extends TestCase
     /**
      * Test attempted to create initiative in a channel without a campaign.
      */
+    #[Group('discord')]
     public function testGmStartInitiativeWithoutCampaign(): void
     {
         $user = User::factory()->create();
@@ -253,8 +256,8 @@ final class InitTest extends TestCase
 
     /**
      * Test rolling initiative with a linked Shadowrun character.
-     * @group slack
      */
+    #[Group('slack')]
     public function testRollInitiativeForCharacter(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -320,8 +323,8 @@ final class InitTest extends TestCase
     /**
      * Test manually rolling initiative in a channel without a campaign and the
      * user has no linked Character.
-     * @group slack
      */
+    #[Group('slack')]
     public function testRollInitiativeForUser(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -533,8 +536,8 @@ final class InitTest extends TestCase
 
     /**
      * Test rolling using just their base initiative.
-     * @group discord
      */
+    #[Group('discord')]
     public function testRollJustBaseInitiative(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -558,9 +561,7 @@ final class InitTest extends TestCase
         );
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testRollInitiativeInvalidBaseIrc(): void
     {
         $user = User::factory()->create();
@@ -578,9 +579,7 @@ final class InitTest extends TestCase
         );
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testRollInitiativeIrc(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -604,9 +603,7 @@ final class InitTest extends TestCase
         );
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testClearInitiativeIrc(): void
     {
         $user = User::factory()->create();

@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\Condition;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Expanse conditions.
- * @group expanse
- */
+#[Group('expanse')]
 #[Small]
 final class ConditionTest extends TestCase
 {

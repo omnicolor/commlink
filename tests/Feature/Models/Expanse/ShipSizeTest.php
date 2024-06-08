@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\ShipSize;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * Tests for the ship size enum.
- * @group expanse
- */
+#[Group('expanse')]
 #[Small]
 final class ShipSizeTest extends TestCase
 {

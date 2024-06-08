@@ -6,14 +6,12 @@ namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Identity;
 use App\Models\Card;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Capers identities.
- * @group capers
- */
+#[Group('capers')]
 #[Small]
 final class IdentityTest extends TestCase
 {

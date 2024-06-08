@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Slack;
 
 use App\Models\Slack\TextAttachment;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @group slack
- */
+#[Group('slack')]
 #[Small]
 final class TextAttachmentTest extends TestCase
 {

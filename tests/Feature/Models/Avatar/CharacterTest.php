@@ -7,13 +7,11 @@ namespace Tests\Feature\Models\Avatar;
 use App\Models\Avatar\Background;
 use App\Models\Avatar\Character;
 use App\Models\Avatar\Era;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * Unit tests for Avatar characters.
- * @group avatar
- */
+#[Group('avatar')]
 #[Small]
 final class CharacterTest extends TestCase
 {

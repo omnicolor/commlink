@@ -6,15 +6,13 @@ namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\Focus;
 use App\Models\Expanse\FocusArray;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for the FocusArray class.
- * @group expanse
- */
+#[Group('expanse')]
 #[Small]
 final class FocusArrayTest extends TestCase
 {

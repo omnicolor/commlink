@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Slack;
 
 use App\Models\Slack\Field;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Tests for Slack Field class.
- * @group slack
- */
+#[Group('slack')]
 #[Small]
 final class FieldTest extends TestCase
 {

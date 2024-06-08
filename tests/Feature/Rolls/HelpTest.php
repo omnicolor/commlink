@@ -9,6 +9,7 @@ use App\Models\Channel;
 use App\Models\ChatUser;
 use App\Rolls\Help;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
@@ -18,8 +19,8 @@ final class HelpTest extends TestCase
     /**
      * Test getting help in an unlinked channel for a registered user that has
      * no campaigns.
-     * @group discord
      */
+    #[Group('discord')]
     public function testGetHelpUnlinkedChannelRegisteredUserNoCampaigns(): void
     {
         $username = Str::random(5);
@@ -48,8 +49,8 @@ final class HelpTest extends TestCase
     /**
      * Test getting help in an unlinked channel for a registered user with
      * campaigns.
-     * @group irc
      */
+    #[Group('irc')]
     public function testGetHelpUnlinkedChannelRegisteredUserWithCampaigns(): void
     {
         $username = Str::random(5);

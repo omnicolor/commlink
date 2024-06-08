@@ -7,14 +7,12 @@ namespace Tests\Feature\Models\Capers;
 use App\Models\Capers\Explosive;
 use App\Models\Capers\Gear;
 use App\Models\Capers\Weapon;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Capers gear.
- * @group capers
- */
+#[Group('capers')]
 #[Small]
 final class GearTest extends TestCase
 {

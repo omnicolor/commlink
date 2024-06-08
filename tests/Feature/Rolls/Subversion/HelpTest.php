@@ -9,23 +9,21 @@ use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Rolls\Subversion\Help;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function json_decode;
 use function sprintf;
 
-/**
- * Tests for getting help in a Subversion channel.
- * @group subversion
- */
+#[Group('subversion')]
 #[Medium]
 final class HelpTest extends TestCase
 {
     /**
      * Test getting help via Slack for a channel as an unregistered user.
-     * @group slack
      */
+    #[Group('slack')]
     public function testHelpSlack(): void
     {
         /** @var Channel */
@@ -45,9 +43,7 @@ final class HelpTest extends TestCase
         );
     }
 
-    /**
-     * @group discord
-     */
+    #[Group('discord')]
     public function testHelpInDiscordWithCharacter(): void
     {
         /** @var Channel */
@@ -83,6 +79,7 @@ final class HelpTest extends TestCase
         );
     }
 
+    #[Group('irc')]
     public function testHelpIrc(): void
     {
         /** @var Channel */

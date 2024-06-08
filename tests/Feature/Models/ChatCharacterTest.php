@@ -8,14 +8,12 @@ use App\Models\Channel;
 use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for the ChatCharacter class.
- * @group discord
- * @group slack
- */
+#[Group('discord')]
+#[Group('slack')]
 #[Medium]
 final class ChatCharacterTest extends TestCase
 {

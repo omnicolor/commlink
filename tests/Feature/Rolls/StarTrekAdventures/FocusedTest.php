@@ -7,22 +7,17 @@ namespace Tests\Feature\Rolls\StarTrekAdventures;
 use App\Models\Channel;
 use App\Rolls\StarTrekAdventures\Focused;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use const PHP_EOL;
 
-/**
- * Tests for trying a focused test in Star Trek Adventures.
- * @group star-trek-adventures
- */
+#[Group('star-trek-adventures')]
 #[Medium]
 final class FocusedTest extends TestCase
 {
-    /**
-     * Test making a simple focused roll.
-     * @group slack
-     */
+    #[Group('slack')]
     public function testFocusedSlack(): void
     {
         DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(3);
@@ -41,10 +36,7 @@ final class FocusedTest extends TestCase
         );
     }
 
-    /**
-     * Test making a focused roll with extra dice.
-     * @group discord
-     */
+    #[Group('discord')]
     public function testFocusedExtraDice(): void
     {
         DiceService::shouldReceive('rollOne')->times(6)->with(20)->andReturn(3);
@@ -59,10 +51,7 @@ final class FocusedTest extends TestCase
         self::assertSame($expected, $response);
     }
 
-    /**
-     * Test making an focused roll resulting in a complication.
-     * @group irc
-     */
+    #[Group('irc')]
     public function testFocusedWithComplication(): void
     {
         DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(20);
@@ -78,10 +67,7 @@ final class FocusedTest extends TestCase
         self::assertSame($expected, $response);
     }
 
-    /**
-     * Test getting extra successes with natural ones.
-     * @group discord
-     */
+    #[Group('discord')]
     public function testFocusedNaturalOnes(): void
     {
         DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(1);
@@ -97,10 +83,7 @@ final class FocusedTest extends TestCase
         self::assertSame($expected, $response);
     }
 
-    /**
-     * Test making a focused roll with optional text.
-     * @group slack
-     */
+    #[Group('slack')]
     public function testFocusedRollWithOptionalText(): void
     {
         DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(3);

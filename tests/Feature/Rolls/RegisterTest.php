@@ -13,6 +13,7 @@ use App\Rolls\Register;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
@@ -25,9 +26,7 @@ final class RegisterTest extends TestCase
 {
     use WithFaker;
 
-    /**
-     * @group slack
-     */
+    #[Group('slack')]
     public function testRegisterWithoutSystem(): void
     {
         Event::fake();
@@ -46,9 +45,7 @@ final class RegisterTest extends TestCase
         Event::assertNotDispatched(ChannelLinked::class);
     }
 
-    /**
-     * @group discord
-     */
+    #[Group('discord')]
     public function testRegisterAlreadyRegistered(): void
     {
         Event::fake();
@@ -72,9 +69,7 @@ final class RegisterTest extends TestCase
         Event::assertNotDispatched(ChannelLinked::class);
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testRegisterInvalidSystem(): void
     {
         Event::fake();
@@ -97,9 +92,7 @@ final class RegisterTest extends TestCase
         Event::assertNotDispatched(ChannelLinked::class);
     }
 
-    /**
-     * @group slack
-     */
+    #[Group('slack')]
     public function testRegisteringWithoutRegisteredUser(): void
     {
         Event::fake();
@@ -120,9 +113,7 @@ final class RegisterTest extends TestCase
         Event::assertNotDispatched(ChannelLinked::class);
     }
 
-    /**
-     * @group slack
-     */
+    #[Group('slack')]
     public function testRegisterInSlack(): void
     {
         Event::fake();
@@ -160,9 +151,7 @@ final class RegisterTest extends TestCase
         Event::assertDispatched(ChannelLinked::class);
     }
 
-    /**
-     * @group discord
-     */
+    #[Group('discord')]
     public function testRegisterInDiscord(): void
     {
         Event::fake();
@@ -199,9 +188,7 @@ final class RegisterTest extends TestCase
         Event::assertDispatched(ChannelLinked::class);
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testRegisterInIrc(): void
     {
         Event::fake();

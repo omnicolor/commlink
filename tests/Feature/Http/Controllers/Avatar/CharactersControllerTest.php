@@ -6,12 +6,11 @@ namespace Tests\Feature\Http\Controllers\Avatar;
 
 use App\Models\Avatar\Character;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * @group avatar
- */
+#[Group('avatar')]
 #[Medium]
 final class CharactersControllerTest extends TestCase
 {

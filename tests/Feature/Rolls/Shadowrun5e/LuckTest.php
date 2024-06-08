@@ -27,8 +27,8 @@ final class LuckTest extends TestCase
 {
     /**
      * Test trying to roll a luck test without a character linked in Slack.
-     * @group slack
      */
+    #[Group('slack')]
     public function testWithoutCharacterSlack(): void
     {
         /** @var Channel */
@@ -43,8 +43,8 @@ final class LuckTest extends TestCase
 
     /**
      * Test trying to roll a luck test without a character linked in Discord.
-     * @group discord
      */
+    #[Group('discord')]
     public function testWithoutCharacterDiscord(): void
     {
         /** @var Channel */
@@ -56,9 +56,7 @@ final class LuckTest extends TestCase
         );
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testWithoutCharacterIrc(): void
     {
         /** @var Channel */
@@ -72,8 +70,8 @@ final class LuckTest extends TestCase
 
     /**
      * Test a character doing with would be a critical glitch on a luck test.
-     * @group slack
      */
+    #[Group('slack')]
     public function testCritGlitch(): void
     {
         DiceService::shouldReceive('rollOne')
@@ -119,8 +117,8 @@ final class LuckTest extends TestCase
 
     /**
      * Test a non-glitch luck test.
-     * @group discord
      */
+    #[Group('discord')]
     public function testLuck(): void
     {
         DiceService::shouldReceive('rollOne')
@@ -167,9 +165,7 @@ final class LuckTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testLuckIrc(): void
     {
         DiceService::shouldReceive('rollOne')
