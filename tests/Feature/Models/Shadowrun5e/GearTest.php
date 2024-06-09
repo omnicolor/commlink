@@ -10,15 +10,14 @@ use App\Models\Shadowrun5e\GearModification;
 use App\Models\Shadowrun5e\Program;
 use App\Models\Shadowrun5e\Vehicle;
 use App\Models\Shadowrun5e\Weapon;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for gear class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class GearTest extends TestCase
 {
     /**
@@ -37,7 +36,6 @@ final class GearTest extends TestCase
 
     /**
      * Test that loading an invalid item throws an exception.
-     * @test
      */
     public function testLoadingInvalidItemThrowsException(): void
     {
@@ -49,7 +47,6 @@ final class GearTest extends TestCase
 
     /**
      * Test that loading an item sets the availability.
-     * @test
      */
     public function testLoadingSetsAvailability(): void
     {
@@ -58,7 +55,6 @@ final class GearTest extends TestCase
 
     /**
      * Test that loading an item sets the base cost.
-     * @test
      */
     public function testLoadingSetsCost(): void
     {
@@ -67,7 +63,6 @@ final class GearTest extends TestCase
 
     /**
      * Test that loading an item sets the item's description.
-     * @test
      */
     public function testLoadingSetsDescription(): void
     {
@@ -76,7 +71,6 @@ final class GearTest extends TestCase
 
     /**
      * Test that loading an item sets the ID.
-     * @test
      */
     public function testLoadingSetsId(): void
     {
@@ -85,7 +79,6 @@ final class GearTest extends TestCase
 
     /**
      * Test that loading an items sets the name.
-     * @test
      */
     public function testLoadingSetsName(): void
     {
@@ -95,7 +88,6 @@ final class GearTest extends TestCase
     /**
      * Test that loading an item doesn't set rating if the item doesn't have
      * one.
-     * @test
      */
     public function testLoadingDoesNotSetRating(): void
     {
@@ -105,7 +97,6 @@ final class GearTest extends TestCase
 
     /**
      * Test that loading an item sets the rating if the item has one.
-     * @test
      */
     public function testLoadingSetsRating(): void
     {
@@ -115,7 +106,6 @@ final class GearTest extends TestCase
 
     /**
      * Test that __toString returns the item's name.
-     * @test
      */
     public function testToString(): void
     {
@@ -125,7 +115,6 @@ final class GearTest extends TestCase
 
     /**
      * Test the __toString method for an item with a subname.
-     * @test
      */
     public function testToStringWithSubname(): void
     {
@@ -135,7 +124,6 @@ final class GearTest extends TestCase
 
     /**
      * Test build() with an invalid item.
-     * @test
      */
     public function testBuildInvalid(): void
     {
@@ -145,7 +133,6 @@ final class GearTest extends TestCase
 
     /**
      * Test build() with a normal, simple item.
-     * @test
      */
     public function testBuildSimple(): void
     {
@@ -156,7 +143,6 @@ final class GearTest extends TestCase
 
     /**
      * Test build() with modded gear.
-     * @test
      */
     public function testBuildModded(): void
     {
@@ -177,7 +163,6 @@ final class GearTest extends TestCase
 
     /**
      * Test build() with a matrix device that has taken some damage.
-     * @test
      */
     public function testBuildMatrixDeviceWithDamage(): void
     {
@@ -200,7 +185,6 @@ final class GearTest extends TestCase
 
     /**
      * Test build() with a RCC that has vehicle- and weapon-specific programs.
-     * @test
      */
     public function testBuildRccWithVehicleAndWeaponPrograms(): void
     {
@@ -232,7 +216,6 @@ final class GearTest extends TestCase
 
     /**
      * Test findByName() with an item that isn't found.
-     * @test
      */
     public function testFindByNameNotFound(): void
     {
@@ -244,7 +227,6 @@ final class GearTest extends TestCase
 
     /**
      * Test findByName() with an item that is found.
-     * @test
      */
     public function testFindByName(): void
     {
@@ -253,7 +235,6 @@ final class GearTest extends TestCase
 
     /**
      * Test findByName() with a subname.
-     * @test
      */
     public function testFindByNameSubname(): void
     {
@@ -262,7 +243,6 @@ final class GearTest extends TestCase
 
     /**
      * Test getCost() on an unmodified item.
-     * @test
      */
     public function testGetCost(): void
     {
@@ -272,7 +252,6 @@ final class GearTest extends TestCase
 
     /**
      * Test getCost() on a modified item.
-     * @test
      */
     public function testGetCostModified(): void
     {
@@ -283,7 +262,6 @@ final class GearTest extends TestCase
 
     /**
      * Test getCost() on a multiple modified items.
-     * @test
      */
     public function testGetCostMultipleModified(): void
     {

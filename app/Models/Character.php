@@ -80,6 +80,7 @@ class Character extends Model
      * Create a new Character, subclassed if available.
      * @param array<int|string, mixed> $attributes
      * @param ?string $connection
+     * @psalm-suppress LessSpecificImplementedReturnType
      */
     public function newFromBuilder(
         $attributes = [],

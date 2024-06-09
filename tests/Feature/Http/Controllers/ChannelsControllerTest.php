@@ -10,20 +10,16 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for the channels controller.
- * @group controllers
- * @medium
- */
+#[Medium]
 final class ChannelsControllerTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Test an unauthenticated request to update a channel.
-     * @test
      */
     public function testUnauthenticated(): void
     {
@@ -36,7 +32,6 @@ final class ChannelsControllerTest extends TestCase
 
     /**
      * Test trying to update a channel that doesn't exist.
-     * @test
      */
     public function testUpdateNotFoundChannel(): void
     {
@@ -52,7 +47,6 @@ final class ChannelsControllerTest extends TestCase
 
     /**
      * Test trying to update someone else's channel.
-     * @test
      */
     public function testUpdateSomeoneElsesChannel(): void
     {
@@ -70,7 +64,6 @@ final class ChannelsControllerTest extends TestCase
 
     /**
      * Test updating a channel with no changes.
-     * @test
      */
     public function testUpdateNoChanges(): void
     {
@@ -90,7 +83,6 @@ final class ChannelsControllerTest extends TestCase
 
     /**
      * Test updating a channel with incompatible changes.
-     * @test
      */
     public function testUpdateIncompatibleChanges(): void
     {
@@ -110,7 +102,6 @@ final class ChannelsControllerTest extends TestCase
 
     /**
      * Test updating a channel with a webhook URL.
-     * @test
      */
     public function testUpdateWebhookURL(): void
     {
@@ -137,7 +128,6 @@ final class ChannelsControllerTest extends TestCase
 
     /**
      * Test trying to auto-add a webhook to a non-Discord channel.
-     * @test
      */
     public function testAutoNonDiscord(): void
     {
@@ -159,7 +149,6 @@ final class ChannelsControllerTest extends TestCase
 
     /**
      * Test auto-adding a webhook to a Discord channel.
-     * @test
      */
     public function testAutoDiscord(): void
     {

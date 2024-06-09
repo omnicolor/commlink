@@ -5,20 +5,18 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\GearModification;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for GearModification class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class GearModificationTest extends TestCase
 {
     /**
      * Test trying to load an invalid gear modification.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -29,7 +27,6 @@ final class GearModificationTest extends TestCase
 
     /**
      * Test the constructor.
-     * @test
      */
     public function testConstructor(): void
     {
@@ -50,7 +47,6 @@ final class GearModificationTest extends TestCase
 
     /**
      * Test the constructor for a more fleshed out mod.
-     * @test
      */
     public function testConstructorRating(): void
     {
@@ -66,7 +62,6 @@ final class GearModificationTest extends TestCase
 
     /**
      * Test the __toString() method.
-     * @test
      */
     public function testToString(): void
     {
@@ -76,7 +71,6 @@ final class GearModificationTest extends TestCase
 
     /**
      * Test getCost().
-     * @test
      */
     public function testGetCost(): void
     {

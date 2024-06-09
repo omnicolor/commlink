@@ -8,20 +8,18 @@ use App\Models\Shadowrun5e\Program;
 use App\Models\Shadowrun5e\ProgramArray;
 use App\Models\Shadowrun5e\Vehicle;
 use App\Models\Shadowrun5e\Weapon;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for Program class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class ProgramTest extends TestCase
 {
     /**
      * Test trying to load an invalid program.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -32,7 +30,6 @@ final class ProgramTest extends TestCase
 
     /**
      * Test the constructor with a program with a rating.
-     * @test
      */
     public function testConstructor(): void
     {
@@ -52,7 +49,6 @@ final class ProgramTest extends TestCase
 
     /**
      * Test the constructor with a running program with effects.
-     * @test
      */
     public function testConstructorEffects(): void
     {
@@ -65,7 +61,6 @@ final class ProgramTest extends TestCase
 
     /**
      * Test the __toString() method.
-     * @test
      */
     public function testToString(): void
     {
@@ -75,7 +70,6 @@ final class ProgramTest extends TestCase
 
     /**
      * Test the getCost method.
-     * @test
      */
     public function testGetCost(): void
     {
@@ -85,7 +79,6 @@ final class ProgramTest extends TestCase
 
     /**
      * Test building a program from a string ID that isn't valid.
-     * @test
      */
     public function testBuildFromStringNotFound(): void
     {
@@ -96,7 +89,6 @@ final class ProgramTest extends TestCase
 
     /**
      * Test building a program from a string.
-     * @test
      */
     public function testBuildFromString(): void
     {
@@ -107,7 +99,6 @@ final class ProgramTest extends TestCase
 
     /**
      * Test building a program from a string, that's running.
-     * @test
      */
     public function testBuildFromStringRunning(): void
     {
@@ -120,7 +111,6 @@ final class ProgramTest extends TestCase
 
     /**
      * Test building a program from an array that is used by a vehicle.
-     * @test
      */
     public function testBuildVehicleProgram(): void
     {
@@ -138,7 +128,6 @@ final class ProgramTest extends TestCase
 
     /**
      * Test building a program from an array that is used by a weapon.
-     * @test
      */
     public function testBuildWeaponProgram(): void
     {
@@ -159,7 +148,6 @@ final class ProgramTest extends TestCase
 
     /**
      * Test whether the program is running on a not-running program.
-     * @test
      */
     public function testIsRunningNot(): void
     {
@@ -169,7 +157,6 @@ final class ProgramTest extends TestCase
 
     /**
      * Test whether the program is running on a running program.
-     * @test
      */
     public function testIsRunning(): void
     {

@@ -13,20 +13,21 @@ use App\Rolls\Shadowrun5e\Number;
 use Facades\App\Services\DiceService;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Tests for listening for a Roll event and rebroadcasting.
- * @group discord
- * @group events
- * @group slack
- * @medium
  */
+#[Group('discord')]
+#[Group('events')]
+#[Group('slack')]
+#[Medium]
 final class HandleRollEventTest extends TestCase
 {
     /**
      * Test an improperly created event that has no source.
-     * @test
      */
     public function testNoSource(): void
     {
@@ -44,7 +45,6 @@ final class HandleRollEventTest extends TestCase
 
     /**
      * Test an event that has a source without a campaign.
-     * @test
      */
     public function testNoCampaign(): void
     {
@@ -66,8 +66,6 @@ final class HandleRollEventTest extends TestCase
     /**
      * Test an event that has a source and a campaign that only points to the
      * source as a channel.
-     * @medium
-     * @test
      */
     public function testOnlySource(): void
     {
@@ -93,8 +91,6 @@ final class HandleRollEventTest extends TestCase
     /**
      * Test an event that has a source, a campaign, and more than one channel,
      * but none of the channels have webhooks.
-     * @medium
-     * @test
      */
     public function testNoWebhooks(): void
     {
@@ -122,8 +118,6 @@ final class HandleRollEventTest extends TestCase
     /**
      * Test an event that has a source, a campaign, and more than one channel,
      * one of which has a webhook.
-     * @medium
-     * @test
      */
     public function testSlack(): void
     {
@@ -157,8 +151,6 @@ final class HandleRollEventTest extends TestCase
     /**
      * Test an event that has a source, a campaign, and more than one channel,
      * one of which has a webhook.
-     * @medium
-     * @test
      */
     public function testDiscord(): void
     {
@@ -192,8 +184,6 @@ final class HandleRollEventTest extends TestCase
     /**
      * Test an event that throws a Slack exception from another channel's
      * command.
-     * @medium
-     * @test
      */
     public function testSlackException(): void
     {

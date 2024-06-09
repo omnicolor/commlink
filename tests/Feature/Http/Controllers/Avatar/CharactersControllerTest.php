@@ -6,18 +6,16 @@ namespace Tests\Feature\Http\Controllers\Avatar;
 
 use App\Models\Avatar\Character;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * @group avatar
- * @group controllers
- * @medium
- */
+#[Group('avatar')]
+#[Medium]
 final class CharactersControllerTest extends TestCase
 {
     /**
      * Test loading a character view.
-     * @test
      */
     public function testViewCharacter(): void
     {

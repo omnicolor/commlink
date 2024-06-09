@@ -8,20 +8,17 @@ use App\Models\Expanse\Origin;
 use App\Models\Expanse\Origin\Belter;
 use App\Models\Expanse\Origin\Earther;
 use App\Models\Expanse\Origin\Martian;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Expanse origins.
- * @group models
- * @group expanse
- * @small
- */
+#[Group('expanse')]
+#[Small]
 final class OriginTest extends TestCase
 {
     /**
      * Test trying to create an invalid origin.
-     * @test
      */
     public function testInvalidOrigin(): void
     {
@@ -32,7 +29,6 @@ final class OriginTest extends TestCase
 
     /**
      * Test trying to create a belter.
-     * @test
      */
     public function testBelter(): void
     {
@@ -43,7 +39,6 @@ final class OriginTest extends TestCase
 
     /**
      * Test trying to create an Earther.
-     * @test
      */
     public function testEarther(): void
     {
@@ -54,7 +49,6 @@ final class OriginTest extends TestCase
 
     /**
      * Test trying to create a Martian.
-     * @test
      */
     public function testMartian(): void
     {

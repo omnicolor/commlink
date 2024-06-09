@@ -8,19 +8,14 @@ use App\Events\RollEvent;
 use App\Models\Channel;
 use App\Rolls\Shadowrun5e\Number;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for RollEvents.
- * @group events
- * @medium
- */
+#[Group('events')]
+#[Medium]
 final class RollEventTest extends TestCase
 {
-    /**
-     * Test the constructor.
-     * @test
-     */
     public function testConstructor(): void
     {
         DiceService::shouldReceive('rollOne')
