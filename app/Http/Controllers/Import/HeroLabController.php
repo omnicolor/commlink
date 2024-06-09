@@ -13,11 +13,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use RuntimeException;
 
+use function back;
+use function redirect;
+use function sprintf;
+use function view;
+
 /**
  * @psalm-suppress UnusedClass
  */
 class HeroLabController extends Controller
 {
+    /**
+     * @psalm-suppress InvalidReturnStatement
+     * @psalm-suppress InvalidReturnType
+     */
     public function upload(Request $request): RedirectResponse
     {
         /** @var User */

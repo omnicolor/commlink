@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 use function sprintf;
+use function view;
 
 class CampaignOptions extends Component
 {
@@ -18,6 +19,9 @@ class CampaignOptions extends Component
         $this->componentName = 'CampaignOptions';
     }
 
+    /**
+     * @psalm-suppress InvalidReturnStatement
+     */
     public function render(): View
     {
         $systemView = sprintf(

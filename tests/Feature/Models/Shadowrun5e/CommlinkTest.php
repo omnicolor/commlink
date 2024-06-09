@@ -7,19 +7,17 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\Commlink;
 use App\Models\Shadowrun5e\GearModification;
 use App\Models\Shadowrun5e\Program;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * Tests for the Commlink class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class CommlinkTest extends TestCase
 {
     /**
      * Test initializing a commlink device with an attributes array.
-     * @test
      */
     public function testSettingAttributesArray(): void
     {
@@ -32,7 +30,6 @@ final class CommlinkTest extends TestCase
 
     /**
      * Test setting the attributes for a commlink.
-     * @test
      */
     public function testAttributesForCommlink(): void
     {
@@ -45,7 +42,6 @@ final class CommlinkTest extends TestCase
 
     /**
      * Test setting the attributes for a configurable cyberdeck.
-     * @test
      */
     public function testAttributesForConfigurableCyberdeck(): void
     {
@@ -58,7 +54,6 @@ final class CommlinkTest extends TestCase
 
     /**
      * Test handling a device with no rating (which shouldn't happen).
-     * @test
      */
     public function testNoRatingConditionMonitor(): void
     {
@@ -69,7 +64,6 @@ final class CommlinkTest extends TestCase
 
     /**
      * Test getCost() on a modified Commlink with a program.
-     * @test
      */
     public function testGetCost(): void
     {

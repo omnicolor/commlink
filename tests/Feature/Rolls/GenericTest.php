@@ -7,19 +7,17 @@ namespace Tests\Feature\Rolls;
 use App\Models\Channel;
 use App\Rolls\Generic;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for rolling generic dice.
- * @group discord
- * @group slack
- * @medium
- */
+#[Group('discord')]
+#[Group('slack')]
+#[Medium]
 final class GenericTest extends TestCase
 {
     /**
      * Test a simple roll with no addition or subtraction.
-     * @test
      */
     public function testSimple(): void
     {
@@ -41,7 +39,6 @@ final class GenericTest extends TestCase
 
     /**
      * Test a simple roll with a description.
-     * @test
      */
     public function testWithDescription(): void
     {
@@ -76,7 +73,6 @@ final class GenericTest extends TestCase
 
     /**
      * Test a more complex calculation.
-     * @test
      */
     public function testWithCalculation(): void
     {

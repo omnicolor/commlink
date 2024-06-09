@@ -7,16 +7,15 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\Gear;
 use App\Models\Shadowrun5e\GearArray;
 use App\Models\Shadowrun5e\GearFactory;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for the GearArray class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class GearArrayTest extends TestCase
 {
     /**
@@ -36,7 +35,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test an empty GearArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -45,7 +43,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test adding a normal piece of gear to the array.
-     * @test
      */
     public function testAddGear(): void
     {
@@ -55,7 +52,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test adding a matrix-device to the array.
-     * @test
      */
     public function testAddCommlink(): void
     {
@@ -65,7 +61,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test that adding a non-gear to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -76,7 +71,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test that adding a non-gear to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

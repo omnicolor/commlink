@@ -16,13 +16,12 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\InvalidStateException;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function sprintf;
 
-/**
- * @medium
- */
+#[Medium]
 final class DiscordControllerTest extends TestCase
 {
     use InteractsWithDiscord;
@@ -30,7 +29,6 @@ final class DiscordControllerTest extends TestCase
 
     /**
      * Test getting a redirect to /discord without being logged in.
-     * @test
      */
     public function testGetNotLoggedIn(): void
     {
@@ -39,7 +37,6 @@ final class DiscordControllerTest extends TestCase
 
     /**
      * Test getting a redirect to /discord without a code.
-     * @test
      */
     public function testGetNoCode(): void
     {
@@ -54,7 +51,6 @@ final class DiscordControllerTest extends TestCase
 
     /**
      * Test getting a redirect to /discord with an improper length code.
-     * @test
      */
     public function testGetWrongLengthCode(): void
     {
@@ -70,7 +66,6 @@ final class DiscordControllerTest extends TestCase
 
     /**
      * Test trying to login with Discord, but the Discord API fails.
-     * @test
      */
     public function testGetDiscordAPIFails(): void
     {
@@ -92,7 +87,6 @@ final class DiscordControllerTest extends TestCase
 
     /**
      * Test login with Discord.
-     * @test
      */
     public function testGetDiscord(): void
     {
@@ -140,7 +134,6 @@ final class DiscordControllerTest extends TestCase
 
     /**
      * Test a request to link a user without selecting a guild.
-     * @test
      */
     public function testSaveWithNoGuilds(): void
     {
@@ -156,7 +149,6 @@ final class DiscordControllerTest extends TestCase
 
     /**
      * Test a request to link a user that wasn't in the list of guilds.
-     * @test
      */
     public function testSaveWithInvalidGuild(): void
     {
@@ -172,7 +164,6 @@ final class DiscordControllerTest extends TestCase
 
     /**
      * Test a request to link a Discord user.
-     * @test
      */
     public function testSaveDiscordUser(): void
     {
@@ -210,7 +201,6 @@ final class DiscordControllerTest extends TestCase
 
     /**
      * Test trying to authenticate through Discord.
-     * @test
      */
     public function testAuthThroughDiscord(): void
     {
@@ -220,7 +210,6 @@ final class DiscordControllerTest extends TestCase
 
     /**
      * Test a successful login through Discord with an existing user.
-     * @test
      */
     public function testLoginThroughDiscordExistingUser(): void
     {
@@ -244,7 +233,6 @@ final class DiscordControllerTest extends TestCase
 
     /**
      * Test a successful login through Discord with a new user.
-     * @test
      */
     public function testLoginThroughDiscordNewUser(): void
     {
@@ -277,7 +265,6 @@ final class DiscordControllerTest extends TestCase
 
     /**
      * Test logging in with Discord with new Guilds.
-     * @test
      */
     public function testLoginThroughDiscordNewGuilds(): void
     {
@@ -325,7 +312,6 @@ final class DiscordControllerTest extends TestCase
     /**
      * Test logging in with Discord if the user has already registered all of
      * their guilds.
-     * @test
      */
     public function testLoginThroughDiscordNoNewGuilds(): void
     {
@@ -376,7 +362,6 @@ final class DiscordControllerTest extends TestCase
     /**
      * Test a successful login through Discord with an existing user, but the
      * call back to Discord for the guild list fails.
-     * @test
      */
     public function testLoginThroughDiscordGuildRequestFails(): void
     {

@@ -134,6 +134,9 @@ class Unfocused extends Roll
         );
     }
 
+    /**
+     * @psalm-suppress UndefinedClass
+     */
     protected function roll(): void
     {
         for ($i = 2 + $this->extraDice; 0 < $i; $i--) {

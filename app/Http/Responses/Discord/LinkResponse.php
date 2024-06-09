@@ -11,6 +11,7 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use Discord\Parts\Channel\Channel as TextChannel;
 
+use function config;
 use function count;
 use function explode;
 use function implode;
@@ -18,6 +19,7 @@ use function sprintf;
 
 /**
  * Handle a user requesting to link a character to this Discord channel.
+ * @psalm-suppress InvalidStaticInvocation
  * @psalm-suppress UnusedClass
  */
 class LinkResponse
@@ -64,7 +66,10 @@ class LinkResponse
         }
 
         $characterId = $arguments[1];
-        /** @var Character */
+        /**
+         * @psalm-suppress InvalidStaticInvocation
+         * @var Character
+         */
         $character = Character::find($characterId);
         if (null === $character) {
             $this->sendNotFoundError();

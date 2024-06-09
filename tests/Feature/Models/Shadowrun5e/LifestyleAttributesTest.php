@@ -5,20 +5,18 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\LifestyleAttributes;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
-/**
- * Tests for Shadowrun 5E lifestyle attributes.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class LifestyleAttributesTest extends TestCase
 {
     /**
      * Test trying to initialize attributes without required data.
-     * @test
      */
     public function testMissingAttributes(): void
     {
@@ -29,7 +27,6 @@ final class LifestyleAttributesTest extends TestCase
 
     /**
      * Test initializing lifestyle attributes with garbage.
-     * @test
      */
     public function testGarbageAttributes(): void
     {
@@ -52,7 +49,6 @@ final class LifestyleAttributesTest extends TestCase
 
     /**
      * Test initializing lifestyle attributes with data.
-     * @test
      */
     public function testAttributes(): void
     {

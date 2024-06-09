@@ -6,16 +6,14 @@ namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Gear;
 use App\Models\Capers\GearArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for the GearArray class.
- * @group capers
- * @group models
- * @small
- */
+#[Group('capers')]
+#[Small]
 final class GearArrayTest extends TestCase
 {
     /**
@@ -35,7 +33,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test an empty GearArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +41,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test adding a Gear item to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -54,7 +50,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test adding a weapon to the array.
-     * @test
      */
     public function testAddWeapon(): void
     {
@@ -64,7 +59,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test adding an explosive to the array.
-     * @test
      */
     public function testAddExplosive(): void
     {
@@ -74,7 +68,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test that adding a non-gear to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -85,7 +78,6 @@ final class GearArrayTest extends TestCase
 
     /**
      * Test that adding a non-gear to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

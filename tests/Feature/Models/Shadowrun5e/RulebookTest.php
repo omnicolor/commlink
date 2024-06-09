@@ -5,19 +5,16 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Rulebook;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class RulebookTest extends TestCase
 {
-    /**
-     * @test
-     */
     public function testNotFound(): void
     {
         self::expectException(RuntimeException::class);
@@ -25,9 +22,6 @@ final class RulebookTest extends TestCase
         new Rulebook('not-found');
     }
 
-    /**
-     * @test
-     */
     public function testLoadCore(): void
     {
         $book = new Rulebook('core');
@@ -37,9 +31,6 @@ final class RulebookTest extends TestCase
         self::assertNotNull($book->description);
     }
 
-    /**
-     * @test
-     */
     public function testLoadForbiddenArcana(): void
     {
         $book = new Rulebook('forbidden-arcana');
@@ -49,9 +40,6 @@ final class RulebookTest extends TestCase
         self::assertNotNull($book->description);
     }
 
-    /**
-     * @test
-     */
     public function testAll(): void
     {
         $books = Rulebook::all();

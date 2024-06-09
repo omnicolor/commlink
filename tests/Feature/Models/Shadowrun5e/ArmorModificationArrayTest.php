@@ -7,16 +7,15 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\ArmorModification;
 use App\Models\Shadowrun5e\ArmorModificationArray;
 use App\Models\Shadowrun5e\GearModification;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for the ArmorModificationArray class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class ArmorModificationArrayTest extends TestCase
 {
     /**
@@ -36,7 +35,6 @@ final class ArmorModificationArrayTest extends TestCase
 
     /**
      * Test an empty ArmorModificationArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -45,7 +43,6 @@ final class ArmorModificationArrayTest extends TestCase
 
     /**
      * Test adding an armor mod to the array.
-     * @test
      */
     public function testAddArmorMod(): void
     {
@@ -55,7 +52,6 @@ final class ArmorModificationArrayTest extends TestCase
 
     /**
      * Test adding a gear mod to the array.
-     * @test
      */
     public function testAddGearMod(): void
     {
@@ -65,7 +61,6 @@ final class ArmorModificationArrayTest extends TestCase
 
     /**
      * Test that adding a non-armor mod to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -79,7 +74,6 @@ final class ArmorModificationArrayTest extends TestCase
 
     /**
      * Test that adding a non-armor mod to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

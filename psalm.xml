@@ -44,11 +44,6 @@
                 <directory name="app/Http/Requests" />
             </errorLevel>
         </PossiblyUnusedMethod>
-        <PossiblyUnusedProperty>
-            <errorLevel type="suppress">
-                <file name="app/Models/StarTrekAdventures/Character.php" />
-            </errorLevel>
-        </PossiblyUnusedProperty>
         <TooManyTemplateParams>
             <errorLevel type="suppress">
                 <directory name="app/Http/Responses/Discord" />
@@ -77,18 +72,10 @@
                 <directory name="tests" />
             </errorLevel>
         </UnusedClass>
-        <UndefinedClass>
-            <errorLevel type="suppress">
-                <file name="app/Models/Avatar/Character.php" />
-            </errorLevel>
-        </UndefinedClass>
         <UndefinedMethod>
             <errorLevel type="suppress">
                 <file name="app/Models/StarTrekAdventures/Character.php" />
             </errorLevel>
         </UndefinedMethod>
     </issueHandlers>
-    <plugins>
-        <pluginClass class="Psalm\LaravelPlugin\Plugin"/>
-    </plugins>
 </psalm>

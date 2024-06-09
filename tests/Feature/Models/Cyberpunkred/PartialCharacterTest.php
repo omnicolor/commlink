@@ -5,18 +5,16 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\PartialCharacter;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @group cyberpunkred
- * @group models
- * @small
- */
+#[Group('cyberpunkred')]
+#[Small]
 final class PartialCharacterTest extends TestCase
 {
     /**
      * Test creating a new lifepath array for a character.
-     * @test
      */
     public function testInitializeLifepath(): void
     {
@@ -42,7 +40,6 @@ final class PartialCharacterTest extends TestCase
     /**
      * Test that initializing a lifepath doesn't overwrite one if it already
      * exists.
-     * @test
      */
     public function testInitializeLifepathDoesntOverwrite(): void
     {
@@ -52,10 +49,6 @@ final class PartialCharacterTest extends TestCase
         self::assertSame('huh...', $character->lifepath);
     }
 
-    /**
-     * @medium
-     * @test
-     */
     public function testNewFromBuilder(): void
     {
         $character = new PartialCharacter([

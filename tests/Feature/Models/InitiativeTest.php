@@ -8,13 +8,13 @@ use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\Initiative;
 use App\Models\Shadowrun5e\Character;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Tests for the Initiative model.
- * @group models
- * @medium
  */
+#[Medium]
 final class InitiativeTest extends TestCase
 {
     public function testToStringWithoutCharacter(): void

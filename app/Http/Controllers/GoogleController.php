@@ -11,6 +11,8 @@ use Laravel\Socialite\AbstractUser as SocialiteUser;
 use Laravel\Socialite\Facades\Socialite;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
+use function redirect;
+
 /**
  * @psalm-suppress UnusedClass
  */
@@ -18,6 +20,8 @@ class GoogleController extends Controller
 {
     /**
      * Handle a successful login from Google.
+     * @psalm-suppress InvalidReturnStatement
+     * @psalm-suppress InvalidReturnType
      */
     public function handleCallback(): RedirectResponse
     {

@@ -6,18 +6,16 @@ namespace Tests\Feature\Http\Controllers\StarTrekAdventures;
 
 use App\Models\StarTrekAdventures\Character;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * @group star-trek-adventures
- * @group controllers
- * @medium
- */
+#[Group('star-trek-adventures')]
+#[Medium]
 final class CharactersControllerTest extends TestCase
 {
     /**
      * Test listing a user's Star Trek Adventures characters.
-     * @test
      */
     public function testListCharactersWithNone(): void
     {
@@ -32,7 +30,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test listing a user's Star Trek Adventures characters.
-     * @test
      */
     public function testListCharacters(): void
     {
@@ -55,7 +52,6 @@ final class CharactersControllerTest extends TestCase
 
     /**
      * Test loading a character view.
-     * @test
      */
     public function testViewCharacter(): void
     {

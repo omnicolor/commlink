@@ -11,7 +11,14 @@ use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
 
+use function array_shift;
+use function array_sum;
+use function explode;
+use function implode;
+use function min;
+use function rsort;
 use function sprintf;
+use function trim;
 
 use const PHP_EOL;
 
@@ -44,8 +51,8 @@ class Number extends Roll
     ) {
         parent::__construct($content, $character, $channel);
 
-        $args = \explode(' ', \trim($content));
-        $this->dice = (int)\array_shift($args);
+        $args = explode(' ', trim($content));
+        $this->dice = (int)array_shift($args);
         while ($this->dice < 3) {
             $this->dice++;
             $this->dulled--;
@@ -100,22 +107,25 @@ class Number extends Roll
             ),
             TextAttachment::COLOR_INFO,
         );
-        $attachment->addFooter(\implode(' ', $this->rolls));
+        $attachment->addFooter(implode(' ', $this->rolls));
         $response = new SlackResponse(channel: $this->channel);
         return $response->addAttachment($attachment)->sendToChannel();
     }
 
+    /**
+     * @psalm-suppress UndefinedClass
+     */
     protected function roll(): void
     {
         $this->rolls = DiceService::rollMany($this->dice, 6);
-        \rsort($this->rolls);
+        rsort($this->rolls);
 
         if (6 > $this->dulled) {
             foreach (array_slice($this->rolls, 0, 3) as $roll) {
                 $this->result += min($roll, $this->dulled);
             }
         } else {
-            $this->result = \array_sum(array_slice($this->rolls, 0, 3));
+            $this->result = array_sum(array_slice($this->rolls, 0, 3));
         }
     }
 }

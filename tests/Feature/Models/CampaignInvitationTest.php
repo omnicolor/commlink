@@ -11,13 +11,12 @@ use App\Models\CampaignInvitation;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for the CampaignInvitation model.
- * @group campaigns
- * @medium
- */
+#[Group('campaigns')]
+#[Medium]
 final class CampaignInvitationTest extends TestCase
 {
     use WithFaker;

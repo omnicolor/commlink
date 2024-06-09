@@ -42,6 +42,10 @@ class CampaignsController extends Controller
         return view('campaign.create');
     }
 
+    /**
+     * @psalm-suppress InvalidReturnStatement
+     * @psalm-suppress InvalidReturnType
+     */
     public function create(CampaignCreateRequest $request): RedirectResponse
     {
         $campaign = new Campaign($request->only([
@@ -93,6 +97,10 @@ class CampaignsController extends Controller
         return redirect('dashboard');
     }
 
+    /**
+     * @psalm-suppress InvalidReturnStatement
+     * @psalm-suppress InvalidReturnType
+     */
     public function destroy(Campaign $campaign): Response
     {
         Gate::authorize('delete', $campaign);
@@ -352,6 +360,8 @@ class CampaignsController extends Controller
 
     /**
      * Allow a player to respond to a GM or registrant invitation to a table.
+     * @psalm-suppress InvalidReturnStatement
+     * @psalm-suppress InvalidReturnType
      */
     public function respond(
         Campaign $campaign,

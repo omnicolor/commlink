@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Slack;
 
 use App\Models\Slack\Field;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
+use PHPUnit\Framework\TestCase;
 
-/**
- * Tests for Slack Field class.
- * @group slack
- * @small
- */
-final class FieldTest extends \PHPUnit\Framework\TestCase
+#[Group('slack')]
+#[Small]
+final class FieldTest extends TestCase
 {
     /**
      * Test toArray() with minimum amount of data.
-     * @test
      */
     public function testToArrayMinimum(): void
     {
@@ -26,7 +25,6 @@ final class FieldTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test toArray() setting the short field.
-     * @test
      */
     public function testToArray(): void
     {

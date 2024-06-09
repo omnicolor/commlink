@@ -10,6 +10,8 @@ use App\Models\Shadowrun5e\Character;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function array_keys;
@@ -17,18 +19,14 @@ use function count;
 use function in_array;
 use function json_encode;
 
-/**
- * Tests for the campaigns controller.
- * @group campaigns
- * @medium
- */
+#[Group('campaigns')]
+#[Medium]
 final class CampaignsControllerTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Test loading the campaign creation form.
-     * @test
      */
     public function testLoadForm(): void
     {
@@ -41,7 +39,6 @@ final class CampaignsControllerTest extends TestCase
 
     /**
      * Test creating a new campaign.
-     * @test
      */
     public function testCreateNewDnd5eCampaign(): void
     {
@@ -79,7 +76,6 @@ final class CampaignsControllerTest extends TestCase
 
     /**
      * Test creating a new Avatar Legends campaign with options.
-     * @test
      */
     public function testCreateNewAvatarCampaign(): void
     {
@@ -131,7 +127,6 @@ final class CampaignsControllerTest extends TestCase
 
     /**
      * Test creating a new Shadowrun 5E campaign with options.
-     * @test
      */
     public function testCreateNewSr5eCampaign(): void
     {
@@ -187,7 +182,6 @@ final class CampaignsControllerTest extends TestCase
 
     /**
      * Test creating a new Cyberpunk Red campaign with options.
-     * @test
      */
     public function testCreateNewCyberpunkredCampaign(): void
     {
@@ -275,7 +269,6 @@ final class CampaignsControllerTest extends TestCase
 
     /**
      * Test trying to view a campaign without being authorized.
-     * @test
      */
     public function testViewCampaignUnauthenticated(): void
     {
@@ -287,7 +280,6 @@ final class CampaignsControllerTest extends TestCase
     /**
      * Test trying to view a campaign without being a player, the GM, or the
      * person that registered the campaign.
-     * @test
      */
     public function testViewCampaignNotAllowed(): void
     {
@@ -300,7 +292,6 @@ final class CampaignsControllerTest extends TestCase
 
     /**
      * Test trying to view a campaign as the person that registered it.
-     * @test
      */
     public function testViewCampaignAsRegisterer(): void
     {
@@ -316,7 +307,6 @@ final class CampaignsControllerTest extends TestCase
 
     /**
      * Test trying to view a campaign as the GM.
-     * @test
      */
     public function testViewCampaignAsGm(): void
     {
@@ -332,7 +322,6 @@ final class CampaignsControllerTest extends TestCase
 
     /**
      * Test loading GM screen as a non-GM.
-     * @test
      */
     public function testViewGmScreenAsNonGM(): void
     {
@@ -345,7 +334,6 @@ final class CampaignsControllerTest extends TestCase
 
     /**
      * Test loading GM screen as a GM for a system that doesn't yet have it.
-     * @test
      */
     public function testViewGmScreenNotSupported(): void
     {
@@ -361,7 +349,6 @@ final class CampaignsControllerTest extends TestCase
 
     /**
      * Test loading a GM screen as a GM for a supported system.
-     * @test
      */
     public function testViewCyberpunkredGmScreen(): void
     {
@@ -377,7 +364,6 @@ final class CampaignsControllerTest extends TestCase
 
     /**
      * Test loading a Shadowrun GM screen.
-     * @test
      */
     public function testViewShadowrun5eGmScreen(): void
     {

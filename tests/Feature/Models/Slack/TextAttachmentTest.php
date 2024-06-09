@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Slack;
 
 use App\Models\Slack\TextAttachment;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
+use PHPUnit\Framework\TestCase;
 
-/**
- * Tests for the Slack TextAttachment class.
- * @group slack
- * @small
- */
-final class TextAttachmentTest extends \PHPUnit\Framework\TestCase
+#[Group('slack')]
+#[Small]
+final class TextAttachmentTest extends TestCase
 {
     /**
      * Test formatting a TextAttachment as an array.
-     * @test
      */
     public function testToArrayDefault(): void
     {
@@ -30,7 +29,6 @@ final class TextAttachmentTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test formatting a TextAttachment when giving a color.
-     * @test
      */
     public function testToArrayWithColor(): void
     {
@@ -45,7 +43,6 @@ final class TextAttachmentTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test formatting a TextAttachment when adding a footer.
-     * @test
      */
     public function testWithFooter(): void
     {
