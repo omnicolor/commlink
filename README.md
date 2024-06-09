@@ -88,8 +88,6 @@ If you'd like to run an individual check:
 * `php-cs-fixer` - Run
     [PHP-CS-Fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer)'s dry run on
     the entire codebase.
-* `phpmnd` - Run [PHP Magic Number Detector](https://github.com/povils/phpmnd)
-    on the App directory.
 * `phpstan` - Run [PHPstan](https://phpstan.org/)'s highest level across the
     entire codebase.
 * `psalm` - Run [Psalm](https://psalm.dev/) across the entire codebase.
