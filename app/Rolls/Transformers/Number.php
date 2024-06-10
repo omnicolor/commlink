@@ -25,6 +25,9 @@ class Number extends Roll
     protected string $title;
     protected string $text;
 
+    /**
+     * @psalm-suppress UndefinedClass
+     */
     public function __construct(
         string $content,
         string $character,

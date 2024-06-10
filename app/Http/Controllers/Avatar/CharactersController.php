@@ -9,16 +9,13 @@ use App\Models\Avatar\Character;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
+use function view;
+
 /**
  * Controller for interacting with Avatar characters.
  */
 class CharactersController extends Controller
 {
-    /**
-     * View a character's sheet.
-     * @param Character $character
-     * @return View
-     */
     public function view(Character $character): View
     {
         $user = Auth::user();

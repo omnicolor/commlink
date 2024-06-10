@@ -7,16 +7,17 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Spells;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class SpellsTest extends TestCase
 {
     /**
      * Test rendering a lack of spells for an existing character.
-     * @test
      */
     public function testNoSpellsExistingCharacter(): void
     {
@@ -36,7 +37,6 @@ final class SpellsTest extends TestCase
 
     /**
      * Test rendering a new character without their priorities in order.
-     * @test
      */
     public function testNoPrioritiesNewCharacter(): void
     {
@@ -50,7 +50,6 @@ final class SpellsTest extends TestCase
 
     /**
      * Test rendering a new mundane character.
-     * @test
      */
     public function testNoPrioritiesMundaneCharacter(): void
     {
@@ -69,7 +68,6 @@ final class SpellsTest extends TestCase
 
     /**
      * Test rendering a new technomancer character.
-     * @test
      */
     public function testNoPrioritiesTechnoCharacter(): void
     {
@@ -88,7 +86,6 @@ final class SpellsTest extends TestCase
 
     /**
      * Test rendering a lack of spells for a new magician character.
-     * @test
      */
     public function testNoSpellsNewCharacter(): void
     {
@@ -108,7 +105,6 @@ final class SpellsTest extends TestCase
 
     /**
      * Test rendering a character with some spells.
-     * @test
      */
     public function testWithSpell(): void
     {

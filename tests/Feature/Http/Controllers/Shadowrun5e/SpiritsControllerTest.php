@@ -7,20 +7,17 @@ namespace Tests\Feature\Http\Controllers\Shadowrun5e;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for the Spirits controller for Shadowrun 5E.
- * @group controllers
- * @group shadowrun
- * @group shadowrun5e
- * @medium
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Medium]
 final class SpiritsControllerTest extends TestCase
 {
     /**
      * Test loading the collection if the config is broken.
-     * @test
      */
     public function testIndexBrokenConfig(): void
     {
@@ -34,7 +31,6 @@ final class SpiritsControllerTest extends TestCase
 
     /**
      * Test loading the collection without authentication.
-     * @test
      */
     public function testNoAuthIndex(): void
     {
@@ -44,7 +40,6 @@ final class SpiritsControllerTest extends TestCase
 
     /**
      * Test loading the collection as an authenticated user.
-     * @test
      */
     public function testAuthIndex(): void
     {
@@ -63,7 +58,6 @@ final class SpiritsControllerTest extends TestCase
 
     /**
      * Test loading an individual spirit with authentication.
-     * @test
      */
     public function testAuthShow(): void
     {
@@ -125,7 +119,6 @@ final class SpiritsControllerTest extends TestCase
 
     /**
      * Test loading an invalid spirit with authentication.
-     * @test
      */
     public function testAuthShowNotFound(): void
     {

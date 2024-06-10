@@ -10,18 +10,16 @@ use App\Models\Channel;
 use App\Models\ChatUser;
 use App\Models\User;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for registering a channel in Slack.
- * @group slack
- * @medium
- */
+#[Group('slack')]
+#[Medium]
 final class RegisterResponseTest extends TestCase
 {
     /**
      * Test trying to register a channel without passing in the channel.
-     * @test
      */
     public function testChannelMissing(): void
     {
@@ -32,7 +30,6 @@ final class RegisterResponseTest extends TestCase
 
     /**
      * Test trying to register a system without creating a Commlink account.
-     * @test
      */
     public function testRegisterNoAccount(): void
     {
@@ -59,7 +56,6 @@ final class RegisterResponseTest extends TestCase
 
     /**
      * Test registering a channel that's already registered.
-     * @test
      */
     public function testChannelAlreadyRegistered(): void
     {
@@ -74,7 +70,6 @@ final class RegisterResponseTest extends TestCase
 
     /**
      * Test registering a channel without specifying the system.
-     * @test
      */
     public function testRegisterWithoutSystem(): void
     {
@@ -105,7 +100,6 @@ final class RegisterResponseTest extends TestCase
 
     /**
      * Test registering a channel to an invalid system.
-     * @test
      */
     public function testRegisterInvalidSystem(): void
     {
@@ -138,7 +132,6 @@ final class RegisterResponseTest extends TestCase
     /**
      * Test registering a channel to a valid system after creating a Commlink
      * account and having all other required data.
-     * @test
      */
     public function testRegister(): void
     {

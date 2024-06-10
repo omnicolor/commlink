@@ -5,19 +5,17 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Skill;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Capers skills.
- * @group capers
- * @small
- */
+#[Group('capers')]
+#[Small]
 final class SkillTest extends TestCase
 {
     /**
      * Test trying to initialize an invalid skill.
-     * @test
      */
     public function testInvalidSkill(): void
     {
@@ -28,7 +26,6 @@ final class SkillTest extends TestCase
 
     /**
      * Test constructing a valid skill.
-     * @test
      */
     public function testSkill(): void
     {
@@ -43,7 +40,6 @@ final class SkillTest extends TestCase
 
     /**
      * Test getting all skills.
-     * @test
      */
     public function testAll(): void
     {

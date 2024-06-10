@@ -28,6 +28,7 @@ class Qualities extends Component
 
     /**
      * Get the view that represents the component.
+     * @psalm-suppress InvalidReturnStatement
      */
     public function render(): View
     {

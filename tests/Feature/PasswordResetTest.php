@@ -7,16 +7,15 @@ namespace Tests\Feature;
 use App\Mail\Auth\ForgotPassword;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * @medium
- */
+#[Medium]
 final class PasswordResetTest extends TestCase
 {
     public function testResetPasswordLinkScreenCanBeRendered(): void
     {
-        $this->get('/forgot-password')->assertOk();
+        self::get('/forgot-password')->assertOk();
     }
 
     public function testResetPasswordLinkCanBeRequested(): void

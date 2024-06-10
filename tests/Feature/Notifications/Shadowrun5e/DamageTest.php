@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Tests\Feature\Notifications\Shadowrun5e;
 
 use App\Notifications\Shadowrun5e\Damage;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @small
- */
+#[Small]
 final class DamageTest extends TestCase
 {
     public function testConstruct(): void

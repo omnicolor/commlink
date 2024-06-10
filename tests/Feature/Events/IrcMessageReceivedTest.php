@@ -8,19 +8,15 @@ use App\Events\IrcMessageReceived;
 use App\Models\Irc\User;
 use Jerodev\PhpIrcClient\IrcChannel;
 use Jerodev\PhpIrcClient\IrcClient;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @group irc
- * @group events
- * @small
- */
+#[Group('events')]
+#[Group('irc')]
+#[Small]
 final class IrcMessageReceivedTest extends TestCase
 {
-    /**
-     * Test the constructor.
-     * @test
-     */
     public function testConstructor(): void
     {
         $clientStub = self::createStub(IrcClient::class);

@@ -7,19 +7,17 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Identities;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @group models
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class IdentitiesTest extends TestCase
 {
     /**
      * Test no identities for an existing character.
-     * @test
      */
     public function testNoIdentitiesExistingCharacter(): void
     {
@@ -30,7 +28,6 @@ final class IdentitiesTest extends TestCase
 
     /**
      * Test no identities for a new character.
-     * @test
      */
     public function testNoIdentitiesNewCharacter(): void
     {
@@ -44,7 +41,6 @@ final class IdentitiesTest extends TestCase
 
     /**
      * Test rendering an identity.
-     * @test
      */
     public function testIdentity(): void
     {

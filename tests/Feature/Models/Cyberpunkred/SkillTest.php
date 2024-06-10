@@ -6,20 +6,18 @@ namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\Character;
 use App\Models\Cyberpunkred\Skill;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for the skill class.
- * @group cyberpunkred
- * @group models
- * @small
- */
+#[Group('cyberpunkred')]
+#[Small]
 final class SkillTest extends TestCase
 {
     /**
      * Test trying to load an invalid skill throws an exception.
-     * @test
      */
     public function testLoadingInvalidSkill(): void
     {
@@ -31,7 +29,6 @@ final class SkillTest extends TestCase
 
     /**
      * Test that loading a skill sets all of the fields.
-     * @test
      */
     public function testLoadingSetsFields(): void
     {
@@ -48,7 +45,6 @@ final class SkillTest extends TestCase
 
     /**
      * Test the __toString() method.
-     * @test
      */
     public function testToString(): void
     {
@@ -58,7 +54,6 @@ final class SkillTest extends TestCase
 
     /**
      * Test getBase().
-     * @test
      */
     public function testGetBase(): void
     {
@@ -90,12 +85,9 @@ final class SkillTest extends TestCase
 
     /**
      * Test getting a skill's shortened attribute.
-     * @dataProvider attributeProvider
-     * @param string $attribute
-     * @param string $expected
-     * @test
      */
-    public function testGetShort($attribute, $expected): void
+    #[DataProvider('attributeProvider')]
+    public function testGetShort(string $attribute, string $expected): void
     {
         $skill = new Skill('business');
         $skill->attribute = $attribute;

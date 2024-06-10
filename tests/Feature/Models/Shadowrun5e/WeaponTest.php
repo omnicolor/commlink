@@ -6,15 +6,15 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Weapon;
 use App\Models\Shadowrun5e\WeaponModification;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for weapon class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class WeaponTest extends TestCase
 {
     private Weapon $weapon;
@@ -30,7 +30,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test loading a weapon with an invalid ID.
-     * @test
      */
     public function testWeaponNotFound(): void
     {
@@ -41,7 +40,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test that loading a weapon sets its ID.
-     * @test
      */
     public function testWeaponHasId(): void
     {
@@ -50,7 +48,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test that loading a weapon sets its availability.
-     * @test
      */
     public function testWeaponHasAvailability(): void
     {
@@ -59,7 +56,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test that loading a weapon sets its cost.
-     * @test
      */
     public function testWeaponHasCost(): void
     {
@@ -68,7 +64,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test that loading a weapon sets its description.
-     * @test
      */
     public function testWeaponHasDescription(): void
     {
@@ -77,7 +72,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test that loading a weapon sets its damage.
-     * @test
      */
     public function testWeaponHasDamage(): void
     {
@@ -86,7 +80,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test that loading a weapon sets its name.
-     * @test
      */
     public function testWeaponHasName(): void
     {
@@ -95,7 +88,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test that loading a weapon that doesn't have a subname leaves it alone.
-     * @test
      */
     public function testWeaponDoesntHaveSubname(): void
     {
@@ -104,7 +96,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test that loading a weapon sets its ruleset when it has one.
-     * @test
      */
     public function testWeaponSetsRuleset(): void
     {
@@ -113,7 +104,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test that loading a weapon doesn't change the ruleset if it is from core.
-     * @test
      */
     public function testWeaponDoesntSetRuleset(): void
     {
@@ -123,7 +113,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test that a weapon can be cast to a string.
-     * @test
      */
     public function testCastWeaponToString(): void
     {
@@ -132,7 +121,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Every character can use an unarmed strike.
-     * @test
      */
     public function testUnarmedStrike(): void
     {
@@ -157,7 +145,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test that loading a weapon with an integrated modification loads it.
-     * @test
      */
     public function testWeaponWithIntegratedModification(): void
     {
@@ -171,7 +158,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test loading a weapon with an invalid modification.
-     * @test
      */
     public function testLoadingWeaponWithInvalidModification(): void
     {
@@ -220,11 +206,8 @@ final class WeaponTest extends TestCase
 
     /**
      * Test getting the range for various classes of weapons.
-     * @dataProvider weaponRangeDataProvider
-     * @param string $class Class to assign to the weapon
-     * @param string $range Expected range
-     * @test
      */
+    #[DataProvider('weaponRangeDataProvider')]
     public function testGetRange(string $class, string $range): void
     {
         $this->weapon->class = $class;
@@ -234,7 +217,6 @@ final class WeaponTest extends TestCase
     /**
      * Test getting the damage for a weapon that doesn't take strength into
      * account.
-     * @test
      */
     public function testGetDamageNotStrengthBased(): void
     {
@@ -244,7 +226,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test getting the damage for a weapon based on strength.
-     * @test
      */
     public function testGetDamageStrengthBased(): void
     {
@@ -255,7 +236,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test getting damage for an unarmed strike.
-     * @test
      */
     public function testGetDamageUnarmedStrike(): void
     {
@@ -266,7 +246,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test buildWeapon() with an invalid ID.
-     * @test
      */
     public function testBuildWeaponNotFound(): void
     {
@@ -277,7 +256,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test buildWeapon() with nothing extra added.
-     * @test
      */
     public function testBuildWeaponNoMods(): void
     {
@@ -294,7 +272,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test buildWeapon() with a built-in modification.
-     * @test
      */
     public function testBuildWeaponBuiltin(): void
     {
@@ -310,7 +287,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test buildWeapon() with an after market mod and accessory.
-     * @test
      */
     public function testBuildWeaponAddons(): void
     {
@@ -333,7 +309,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test buildWeapon() with some ammunition.
-     * @test
      */
     public function testBuildWeaponAmmo(): void
     {
@@ -355,7 +330,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test findByName() with an item that isn't found.
-     * @test
      */
     public function testFindByNameNotFound(): void
     {
@@ -366,7 +340,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test findByName() with an item that is found.
-     * @test
      */
     public function testFindByName(): void
     {
@@ -375,7 +348,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test getCost() on an unloaded and unmodified weapon.
-     * @test
      */
     public function testGetCost(): void
     {
@@ -385,7 +357,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test getting the cost of a weapon with modifications.
-     * @test
      */
     public function testGetCostModified(): void
     {
@@ -396,7 +367,6 @@ final class WeaponTest extends TestCase
 
     /**
      * Test getting the cost of a weapon with accessories.
-     * @test
      */
     public function testGetCostAccessories(): void
     {

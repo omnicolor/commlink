@@ -5,20 +5,18 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\MartialArtsStyle;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for MartialArtsStyle class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class MartialArtsStyleTest extends TestCase
 {
     /**
      * Test trying to load an invalid MartialArtsStyle.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -29,7 +27,6 @@ final class MartialArtsStyleTest extends TestCase
 
     /**
      * Test loading style.
-     * @test
      */
     public function testConstructor(): void
     {
@@ -44,7 +41,6 @@ final class MartialArtsStyleTest extends TestCase
 
     /**
      * Test the __toString() method.
-     * @test
      */
     public function testToString(): void
     {

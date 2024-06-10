@@ -7,11 +7,10 @@ namespace Tests\Feature\View\Components\Avatar;
 use App\Models\Campaign;
 use App\Models\User;
 use App\View\Components\Avatar\CampaignOptions;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @medium
- */
+#[Small]
 final class CampaignOptionsTest extends TestCase
 {
     public function testCampaignOptionsView(): void

@@ -5,20 +5,18 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\ComplexForm;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for ComplexForm object.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class ComplexFormTest extends TestCase
 {
     /**
      * Test trying to load an invalid Complex Form.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -29,7 +27,6 @@ final class ComplexFormTest extends TestCase
 
     /**
      * Test toString.
-     * @test
      */
     public function testToString(): void
     {
@@ -39,7 +36,6 @@ final class ComplexFormTest extends TestCase
 
     /**
      * Test setting the level.
-     * @test
      */
     public function testSetLevel(): void
     {
@@ -51,7 +47,6 @@ final class ComplexFormTest extends TestCase
 
     /**
      * Test getFade() without setting the level.
-     * @test
      */
     public function testGetFadeNoLevel(): void
     {
@@ -63,7 +58,6 @@ final class ComplexFormTest extends TestCase
 
     /**
      * Test getFade().
-     * @test
      */
     public function testGetFade(): void
     {

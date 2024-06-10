@@ -19,25 +19,22 @@ use Discord\Parts\Guild\Guild;
 use Discord\Parts\Interactions\Interaction;
 use Discord\Parts\User\User;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
+use PHPUnit\Framework\Attributes\TestDox;
 use Tests\TestCase;
 
 use function sprintf;
 
 use const PHP_EOL;
 
-/**
- * Tests for rolling dice in Shadowrun 5E.
- * @group shadowrun
- * @group shadowrun5e
- * @medium
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Medium]
 final class NumberTest extends TestCase
 {
-    /**
-     * Test trying to roll without a limit or description.
-     * @group slack
-     * @test
-     */
+    #[Group('slack')]
+    #[TestDox('Test trying to roll without a limit or description')]
     public function testRollNoLimitNoDescription(): void
     {
         /** @var Channel */
@@ -48,11 +45,8 @@ final class NumberTest extends TestCase
         self::assertStringNotContainsString('for', $response);
     }
 
-    /**
-     * Test trying to roll with a limit.
-     * @group slack
-     * @test
-     */
+    #[Group('slack')]
+    #[TestDox('Test trying to roll with a limit')]
     public function testRollWithLimit(): void
     {
         /** @var Channel */
@@ -63,11 +57,8 @@ final class NumberTest extends TestCase
         self::assertStringNotContainsString('for', $response);
     }
 
-    /**
-     * Test trying to roll with a description.
-     * @group slack
-     * @test
-     */
+    #[Group('slack')]
+    #[TestDox('Test trying to roll with a description')]
     public function testRollWithDescription(): void
     {
         /** @var Channel */
@@ -78,11 +69,8 @@ final class NumberTest extends TestCase
         self::assertStringContainsString('for \\"description\\"', $response);
     }
 
-    /**
-     * Test trying to roll with both a description and a limit.
-     * @group slack
-     * @test
-     */
+    #[Group('slack')]
+    #[TestDox('Test trying to roll with both a description and a limit')]
     public function testRollBoth(): void
     {
         /** @var Channel */
@@ -93,11 +81,8 @@ final class NumberTest extends TestCase
         self::assertStringContainsString('for \\"description\\"', $response);
     }
 
-    /**
-     * Test trying to roll too many dice.
-     * @group slack
-     * @test
-     */
+    #[Group('slack')]
+    #[TestDox('Test trying to roll too many dice')]
     public function testRollTooMany(): void
     {
         self::expectException(SlackException::class);
@@ -107,11 +92,8 @@ final class NumberTest extends TestCase
         (new Number('101', 'username', $channel))->forSlack();
     }
 
-    /**
-     * Test the user rolling a critical glitch.
-     * @group slack
-     * @test
-     */
+    #[Group('slack')]
+    #[TestDox('Test the user rolling a critical glitch')]
     public function testCriticalGlitch(): void
     {
         DiceService::shouldReceive('rollOne')->times(3)->with(6)->andReturn(1);
@@ -126,11 +108,8 @@ final class NumberTest extends TestCase
         );
     }
 
-    /**
-     * Test the footer formatting a user getting successes.
-     * @group slack
-     * @test
-     */
+    #[Group('slack')]
+    #[TestDox('Test the footer formatting a user getting successes')]
     public function testFooterSixes(): void
     {
         DiceService::shouldReceive('rollOne')->times(3)->with(6)->andReturn(6);
@@ -142,11 +121,8 @@ final class NumberTest extends TestCase
         self::assertStringContainsString('*6* *6* *6*', $response);
     }
 
-    /**
-     * Test the description when the roll hits the limit.
-     * @group slack
-     * @test
-     */
+    #[TestDox('Test the description when the roll hits the limit')]
+    #[Group('slack')]
     public function testDescriptionHitLimit(): void
     {
         DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(5);
@@ -161,11 +137,8 @@ final class NumberTest extends TestCase
         );
     }
 
-    /**
-     * Test formatting a roll for Discord.
-     * @group discord
-     * @test
-     */
+    #[Group('discord')]
+    #[TestDox('Test formatting a roll for Discord')]
     public function testFormattedForDiscord(): void
     {
         DiceService::shouldReceive('rollOne')->times(1)->with(6)->andReturn(6);
@@ -177,11 +150,8 @@ final class NumberTest extends TestCase
         self::assertSame($expected, $response->forDiscord());
     }
 
-    /**
-     * Test formatting a roll for Discord with a limit and description.
-     * @group discord
-     * @test
-     */
+    #[Group('discord')]
+    #[TestDox('Test formatting a roll for Discord with a limit and description')]
     public function testFormattedForDiscordMaxedOut(): void
     {
         DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(6);
@@ -193,11 +163,8 @@ final class NumberTest extends TestCase
         self::assertSame($expected, $response->forDiscord());
     }
 
-    /**
-     * Test rolling too many dice in Discord.
-     * @group discord
-     * @test
-     */
+    #[Group('discord')]
+    #[TestDox('Test rolling too many dice in Discord')]
     public function testFormattedForDiscordTooManyDice(): void
     {
         $response = new Number('101', 'Loftwyr', new Channel());
@@ -207,9 +174,8 @@ final class NumberTest extends TestCase
         );
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
+    #[TestDox('Test rolling in IRC')]
     public function testIrc(): void
     {
         DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(6);
@@ -221,9 +187,8 @@ final class NumberTest extends TestCase
         self::assertSame($expected, $response->forIrc());
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
+    #[TestDox('Test an error in IRC')]
     public function testIrcError(): void
     {
         $response = new Number('101', 'Loftwyr', new Channel());
@@ -233,11 +198,8 @@ final class NumberTest extends TestCase
         );
     }
 
-    /**
-     * Test rolling with too many initial spaces.
-     * @group discord
-     * @test
-     */
+    #[Group('discord')]
+    #[TestDox('Test rolling with too many initial spaces')]
     public function testTooManySpaces(): void
     {
         DiceService::shouldReceive('rollOne')->times(1)->with(6)->andReturn(6);
@@ -249,12 +211,9 @@ final class NumberTest extends TestCase
         self::assertSame($expected, $response->forDiscord());
     }
 
-    /**
-     * Test rolling a SR 5e number in Discord with a critical glitch, so they
-     * shouldn't see the second chance button.
-     * @group discord
-     * @test
-     */
+    #[Group('discord')]
+    #[TestDox('Test rolling a SR 5e number in Discord with a critical glitch,
+    # so they shouldn\'t see the second chance button')]
     public function testSecondChanceButtonMissingOnCritGlitch(): void
     {
         DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(1);
@@ -313,12 +272,9 @@ final class NumberTest extends TestCase
         self::assertSame($expected, $response);
     }
 
-    /**
-     * Test rolling a SR 5E number in Discord with a character that hasn't used
-     * any edge yet, so they should see the second chance button.
-     * @group discord
-     * @test
-     */
+    #[Group('discord')]
+    #[TestDox('Test rolling a SR 5E number in Discord with a character that
+    # hasn\'t used any edge yet, so they should see the second chance button')]
     public function testSeeSecondChanceFullEdge(): void
     {
         DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(3);
@@ -377,11 +333,8 @@ final class NumberTest extends TestCase
         self::assertNotEmpty($response['components']);
     }
 
-    /**
-     * Test another user trying to second chance a roll.
-     * @group discord
-     * @test
-     */
+    #[Group('discord')]
+    #[TestDox('Test another user trying to second chance a roll')]
     public function testAnotherUserClickingSecondChance(): void
     {
         DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(3);
@@ -445,11 +398,8 @@ final class NumberTest extends TestCase
         self::assertNull($character->edgeCurrent);
     }
 
-    /**
-     * Test a user using second chance.
-     * @group discord
-     * @test
-     */
+    #[Group('discord')]
+    #[TestDox('Test a user using second chance')]
     public function testSecondChance(): void
     {
         DiceService::shouldReceive('rollOne')
@@ -483,37 +433,36 @@ final class NumberTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $channelStub = self::createStub(DiscordChannel::class);
-        $channelStub->method('__get')
+        $channelMock = self::createMock(DiscordChannel::class);
+        $channelMock->method('__get')
             ->willReturn(self::createStub(Guild::class));
         $user = self::createStub(User::class);
         $map = [
             ['author', $user],
-            ['channel', $channelStub],
+            ['channel', $channelMock],
             ['content', '/roll foo'],
         ];
-        $message = self::createStub(Message::class);
-        $message->method('__get')->willReturnMap($map);
+        $messageMock = self::createMock(Message::class);
+        $messageMock->method('__get')->willReturnMap($map);
 
         $event = new DiscordMessageReceived(
-            $message,
+            $messageMock,
             self::createStub(Discord::class)
         );
         $roll = (new Number('6 3', (string)$character, $channel, $event));
         $roll->forDiscord();
 
-        $interactedMessage = self::createStub(Message::class);
-        $interactedMessage->method('__get')->willReturn($message);
-        // @phpstan-ignore-next-line
-        $interactedMessage->expects(self::once())->method('edit');
+        $interactedMessageMock = self::createMock(Message::class);
+        $interactedMessageMock->method('__get')->willReturn($messageMock);
+        $interactedMessageMock->expects(self::once())->method('edit');
 
         $interactionMap = [
-            ['message', $interactedMessage],
+            ['message', $interactedMessageMock],
             ['user', $user],
         ];
-        $interaction = $this->createMock(Interaction::class);
-        $interaction->method('__get')->willReturnMap($interactionMap);
+        $interactionMock = $this->createMock(Interaction::class);
+        $interactionMock->method('__get')->willReturnMap($interactionMap);
 
-        $roll->secondChance($interaction);
+        $roll->secondChance($interactionMock);
     }
 }
