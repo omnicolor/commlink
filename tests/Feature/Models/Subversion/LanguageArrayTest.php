@@ -6,16 +6,14 @@ namespace Tests\Feature\Models\Subversion;
 
 use App\Models\Subversion\Language;
 use App\Models\Subversion\LanguageArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for the LanguageArray class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('subversion')]
+#[Small]
 final class LanguageArrayTest extends TestCase
 {
     /**
@@ -35,7 +33,6 @@ final class LanguageArrayTest extends TestCase
 
     /**
      * Test an empty LanguageArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +41,6 @@ final class LanguageArrayTest extends TestCase
 
     /**
      * Test adding a language to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -54,7 +50,6 @@ final class LanguageArrayTest extends TestCase
 
     /**
      * Test that adding a non-language to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -65,7 +60,6 @@ final class LanguageArrayTest extends TestCase
 
     /**
      * Test that adding a non-language to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

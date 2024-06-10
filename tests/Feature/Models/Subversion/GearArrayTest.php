@@ -6,16 +6,14 @@ namespace Tests\Feature\Models\Subversion;
 
 use App\Models\Subversion\Gear;
 use App\Models\Subversion\GearArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for the GearArray class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('subversion')]
+#[Small]
 final class GearArrayTest extends TestCase
 {
     /**

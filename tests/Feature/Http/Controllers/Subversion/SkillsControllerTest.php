@@ -6,13 +6,13 @@ namespace Tests\Feature\Http\Controllers\Subversion;
 
 use App\Models\User;
 use Database\Seeders\RoleAndPermissionSeeder;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
 
-/**
- * @group subversion
- * @medium
- */
+#[Group('subversion')]
+#[Medium]
 final class SkillsControllerTest extends TestCase
 {
     protected function setUp(): void

@@ -16,12 +16,12 @@ use App\Models\Subversion\LanguageArray;
 use App\Models\Subversion\Lineage;
 use App\Models\Subversion\Origin;
 use App\Models\Subversion\Skill;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @group subversion
- * @small
- */
+#[Group('subversion')]
+#[Small]
 final class CharacterTest extends TestCase
 {
     public function testToStringNoName(): void

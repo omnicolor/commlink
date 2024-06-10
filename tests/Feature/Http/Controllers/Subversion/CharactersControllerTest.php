@@ -9,13 +9,13 @@ use App\Models\Subversion\PartialCharacter;
 use App\Models\User;
 use Database\Seeders\RoleAndPermissionSeeder;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
 
-/**
- * @group subversion
- * @medium
- */
+#[Group('subversion')]
+#[Medium]
 final class CharactersControllerTest extends TestCase
 {
     use WithFaker;

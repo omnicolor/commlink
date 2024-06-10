@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Subversion;
 
 use App\Models\Subversion\Ideology;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * @group subversion
- * @small
- */
+#[Group('subversion')]
+#[Small]
 final class IdeologyTest extends TestCase
 {
     public function testNotFound(): void

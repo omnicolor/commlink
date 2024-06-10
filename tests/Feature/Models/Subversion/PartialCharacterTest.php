@@ -6,12 +6,12 @@ namespace Tests\Feature\Models\Subversion;
 
 use App\Models\Subversion\Caste;
 use App\Models\Subversion\PartialCharacter;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @group subversion
- * @small
- */
+#[Group('subversion')]
+#[Small]
 final class PartialCharacterTest extends TestCase
 {
     public function testGetFortuneBrandNew(): void

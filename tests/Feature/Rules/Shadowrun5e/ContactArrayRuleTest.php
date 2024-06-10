@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace Tests\Feature\Rules\Shadowrun5e;
 
 use App\Rules\Shadowrun5e\ContactArrayRule;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class ContactArrayRuleTest extends TestCase
 {
     public function testFailure(): void
@@ -31,9 +34,7 @@ final class ContactArrayRuleTest extends TestCase
         });
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
     public function testSuccessEmpty(): void
     {
         $rule = new ContactArrayRule();
@@ -43,9 +44,7 @@ final class ContactArrayRuleTest extends TestCase
         });
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
     public function testSuccess(): void
     {
         $data = [
