@@ -5,18 +5,16 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Boost;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * Tests for Boost model.
- * @group capers
- * @small
- */
+#[Group('capers')]
+#[Small]
 final class BoostTest extends TestCase
 {
     /**
      * Test creating a new Boost.
-     * @test
      */
     public function testBoost(): void
     {

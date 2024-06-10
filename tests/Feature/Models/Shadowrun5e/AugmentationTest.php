@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Augmentation;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for Augmentation class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class AugmentationTest extends TestCase
 {
     /**
@@ -32,7 +32,6 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test loading an invalid augmentation.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -43,7 +42,6 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test that loading an augmentation sets the ID.
-     * @test
      */
     public function testLoadSetsId(): void
     {
@@ -52,7 +50,6 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test that loading an augmentation sets the availability.
-     * @test
      */
     public function testLoadSetsAvailability(): void
     {
@@ -61,7 +58,6 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test that loading an augmentation sets the cost.
-     * @test
      */
     public function testLoadSetsCost(): void
     {
@@ -70,7 +66,6 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test that loading an augmentation sets essence cost.
-     * @test
      */
     public function testLoadSetsEssence(): void
     {
@@ -79,7 +74,6 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test that loading an augmentation sets its incompatabilities.
-     * @test
      */
     public function testLoadSetsIncompatibilities(): void
     {
@@ -94,7 +88,6 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test that loading an augmentation sets the name.
-     * @test
      */
     public function testLoadSetsName(): void
     {
@@ -103,7 +96,6 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test that loading an augmentation sets the type of augmentation.
-     * @test
      */
     public function testLoadSetsType(): void
     {
@@ -115,7 +107,6 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test the __toString method.
-     * @test
      */
     public function testToString(): void
     {
@@ -142,14 +133,11 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test the different grades of cyberware.
-     * @dataProvider cyberwareGradesAndEssenceProvider
-     * @param string $grade
-     * @param float $expectedEssence
-     * @test
      */
+    #[DataProvider('cyberwareGradesAndEssenceProvider')]
     public function testCyberwareStandardGrade(
         string $grade,
-        float $expectedEssence
+        float $expectedEssence,
     ): void {
         $mod = new Augmentation('bone-lacing-aluminum', $grade);
         self::assertSame($expectedEssence, $mod->essence);
@@ -157,7 +145,6 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test build with an invalid augmentation.
-     * @test
      */
     public function testBuildInvalid(): void
     {
@@ -167,7 +154,6 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test build() with a valid, but plain augmentation.
-     * @test
      */
     public function testBuild(): void
     {
@@ -178,7 +164,6 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test build() with a modded augmentation.
-     * @test
      */
     public function testBuildModded(): void
     {
@@ -197,7 +182,6 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test build() with a Skilljack.
-     * @test
      */
     public function testBuildSkilljack(): void
     {
@@ -215,7 +199,6 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test getCost() on some unmodified standard grade augmentations.
-     * @test
      */
     public function testGetCostSimple(): void
     {
@@ -224,7 +207,6 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test getCost() on some augmentations with modifications.
-     * @test
      */
     public function testGetCostWithModifications(): void
     {
@@ -235,7 +217,6 @@ final class AugmentationTest extends TestCase
     /**
      * Test getCost() on some augmentations with modifications and different
      * grade.
-     * @test
      */
     public function testGetCostWithModificationsAndGrade(): void
     {
@@ -264,11 +245,8 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test a modification that has a built-in modification.
-     * @dataProvider cyberwareGradesAndCostProvider
-     * @param string $grade
-     * @param int $cost
-     * @test
      */
+    #[DataProvider('cyberwareGradesAndCostProvider')]
     public function testModifiedModification(string $grade, int $cost): void
     {
         $aug = new Augmentation('cybereyes-1', $grade);
@@ -280,7 +258,6 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test trying to find an invalid augmentation by name.
-     * @test
      */
     public function testFindByNameNotFound(): void
     {
@@ -291,7 +268,6 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test finding an augmentation by name with a string rating.
-     * @test
      */
     public function testFindByNameWithStringRating(): void
     {
@@ -301,7 +277,6 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test finding an augmentation by name with a numeric rating.
-     * @test
      */
     public function testFindByNameWithIntRating(): void
     {
@@ -311,7 +286,6 @@ final class AugmentationTest extends TestCase
 
     /**
      * Test finding an augmentation by name for an item without a rating.
-     * @test
      */
     public function testFindByNameNoRating(): void
     {

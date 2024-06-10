@@ -6,16 +6,14 @@ namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Boost;
 use App\Models\Capers\BoostArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for the BoostArray class.
- * @group capers
- * @group models
- * @small
- */
+#[Group('capers')]
+#[Small]
 final class BoostArrayTest extends TestCase
 {
     /**
@@ -35,7 +33,6 @@ final class BoostArrayTest extends TestCase
 
     /**
      * Test an empty BoostArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +41,6 @@ final class BoostArrayTest extends TestCase
 
     /**
      * Test adding a skill to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -54,7 +50,6 @@ final class BoostArrayTest extends TestCase
 
     /**
      * Test that adding a non-skill to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -65,7 +60,6 @@ final class BoostArrayTest extends TestCase
 
     /**
      * Test that adding a non-skill to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

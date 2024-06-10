@@ -5,21 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\ShipFlaw;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for the ShipFlaw class.
- * @group models
- * @group expanse
- * @small
- */
+#[Group('expanse')]
+#[Small]
 final class ShipFlawTest extends TestCase
 {
-    /**
-     * Test trying to load an invalid flaw.
-     * @test
-     */
     public function testLoadNotFound(): void
     {
         self::expectException(RuntimeException::class);
@@ -29,10 +23,6 @@ final class ShipFlawTest extends TestCase
         new ShipFlaw('not-found');
     }
 
-    /**
-     * Test load.
-     * @test
-     */
     public function testLoad(): void
     {
         $flaw = new ShipFlaw('bad-juice');
@@ -45,7 +35,6 @@ final class ShipFlawTest extends TestCase
 
     /**
      * Test loading all flaws.
-     * @test
      */
     public function testAll(): void
     {

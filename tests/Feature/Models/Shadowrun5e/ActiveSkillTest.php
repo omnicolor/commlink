@@ -5,20 +5,19 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\ActiveSkill;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for ActiveSkill class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class ActiveSkillTest extends TestCase
 {
     /**
      * Test trying to load an invalid skill throws an exception.
-     * @test
      */
     public function testLoadingInvalidSkill(): void
     {
@@ -31,7 +30,6 @@ final class ActiveSkillTest extends TestCase
     /**
      * Test loading a skill.
      * @return ActiveSkill
-     * @test
      */
     public function testLoadSkillSetsId(): ActiveSkill
     {
@@ -42,10 +40,8 @@ final class ActiveSkillTest extends TestCase
 
     /**
      * Test that loading a skill sets the linked attribute.
-     * @depends testLoadSkillSetsId
-     * @param ActiveSkill $skill
-     * @test
      */
+    #[Depends('testLoadSkillSetsId')]
     public function testLoadSkillSetsAttribute(ActiveSkill $skill): void
     {
         self::assertEquals('agility', $skill->attribute);
@@ -54,10 +50,8 @@ final class ActiveSkillTest extends TestCase
     /**
      * Test that loading a skill sets default property if the skill can be
      * defaulted to.
-     * @depends testLoadSkillSetsId
-     * @param ActiveSkill $skill
-     * @test
      */
+    #[Depends('testLoadSkillSetsId')]
     public function testLoadSkillSetsDefault(ActiveSkill $skill): void
     {
         self::assertTrue($skill->default);
@@ -65,10 +59,8 @@ final class ActiveSkillTest extends TestCase
 
     /**
      * Test that loading a skill sets the description.
-     * @depends testLoadSkillSetsId
-     * @param ActiveSkill $skill
-     * @test
      */
+    #[Depends('testLoadSkillSetsId')]
     public function testLoadSkillSetsDescription(ActiveSkill $skill): void
     {
         self::assertNotNull($skill->description);
@@ -76,10 +68,8 @@ final class ActiveSkillTest extends TestCase
 
     /**
      * Test that loading a skills sets the group.
-     * @depends testLoadSkillSetsId
-     * @param ActiveSkill $skill
-     * @test
      */
+    #[Depends('testLoadSkillSetsId')]
     public function testLoadSkillSetsGroup(ActiveSkill $skill): void
     {
         self::assertEquals('firearms', $skill->group);
@@ -87,10 +77,8 @@ final class ActiveSkillTest extends TestCase
 
     /**
      * Test that loading a skill sets the level.
-     * @depends testLoadSkillSetsId
-     * @param ActiveSkill $skill
-     * @test
      */
+    #[Depends('testLoadSkillSetsId')]
     public function testLoadSkillSetsLevel(ActiveSkill $skill): void
     {
         self::assertEquals(4, $skill->level);
@@ -98,10 +86,8 @@ final class ActiveSkillTest extends TestCase
 
     /**
      * Test that loading a skill sets the name.
-     * @depends testLoadSkillSetsId
-     * @param ActiveSkill $skill
-     * @test
      */
+    #[Depends('testLoadSkillSetsId')]
     public function testLoadSkillSetsName(ActiveSkill $skill): void
     {
         self::assertEquals('Automatics', $skill->name);
@@ -109,10 +95,8 @@ final class ActiveSkillTest extends TestCase
 
     /**
      * Test the __toString method.
-     * @depends testLoadSkillSetsId
-     * @param ActiveSkill $skill
-     * @test
      */
+    #[Depends('testLoadSkillSetsId')]
     public function testLoadSkillToString(ActiveSkill $skill): void
     {
         self::assertEquals('Automatics', (string)$skill);
@@ -121,7 +105,6 @@ final class ActiveSkillTest extends TestCase
     /**
      * Test that loading a skill without a group doesn't change the group
      * property.
-     * @test
      */
     public function testLoadGrouplessSkill(): void
     {
@@ -132,7 +115,6 @@ final class ActiveSkillTest extends TestCase
     /**
      * Test that loading a skill that can't be defaulted doesn't change the
      * default property.
-     * @test
      */
     public function testLoadNotDefaultableSkill(): void
     {
@@ -142,7 +124,6 @@ final class ActiveSkillTest extends TestCase
 
     /**
      * Test trying to find the ID of a skill if the skill isn't found.
-     * @test
      */
     public function testFindIdByNameNotFound(): void
     {
@@ -154,7 +135,6 @@ final class ActiveSkillTest extends TestCase
 
     /**
      * Test finding a skill's ID by its name.
-     * @test
      */
     public function testFindIdByName(): void
     {

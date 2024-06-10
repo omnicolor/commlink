@@ -7,11 +7,13 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Campaign;
 use App\Models\User;
 use App\View\Components\Shadowrun5e\CampaignOptions;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class CampaignOptionsTest extends TestCase
 {
     public function testShadowrunCampaignOptionsView(): void
@@ -21,7 +23,7 @@ final class CampaignOptionsTest extends TestCase
             'registered_by' => $user,
             'system' => 'shadowrun5e',
         ]);
-        $this->component(CampaignOptions::class, ['campaign' => $campaign])
+        self::component(CampaignOptions::class, ['campaign' => $campaign])
             ->assertSee('Start date');
     }
 

@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\CrewCompetence;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * Tests for crew competence enum.
- * @group expanse
- * @group models
- * @small
- */
+#[Group('expanse')]
+#[Small]
 final class CrewCompetenceTest extends TestCase
 {
     /**
@@ -31,12 +30,7 @@ final class CrewCompetenceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider competenceProvider
-     * @param CrewCompetence $competence
-     * @param int $bonus
-     * @test
-     */
+    #[DataProvider('competenceProvider')]
     public function testBonus(CrewCompetence $competence, int $bonus): void
     {
         self::assertSame($bonus, $competence->bonus());

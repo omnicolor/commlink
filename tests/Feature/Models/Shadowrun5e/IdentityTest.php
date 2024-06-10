@@ -8,19 +8,17 @@ use App\Models\Shadowrun5e\Identity;
 use App\Models\Shadowrun5e\License;
 use App\Models\Shadowrun5e\Lifestyle;
 use App\Models\Shadowrun5e\LifestyleOption;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * Tests for Identity class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class IdentityTest extends TestCase
 {
     /**
      * Test creating an identity with the minimum amount of info.
-     * @test
      */
     public function testFromArrayMinimum(): void
     {
@@ -41,7 +39,6 @@ final class IdentityTest extends TestCase
 
     /**
      * Test converting an identity to a string.
-     * @test
      */
     public function testToString(): void
     {
@@ -57,7 +54,6 @@ final class IdentityTest extends TestCase
 
     /**
      * Test creating a SINner identity.
-     * @test
      */
     public function testFromArraySinner(): void
     {
@@ -79,7 +75,6 @@ final class IdentityTest extends TestCase
 
     /**
      * Test creating an identity that has lifestyles.
-     * @test
      */
     public function testLifestyles(): void
     {
@@ -108,7 +103,6 @@ final class IdentityTest extends TestCase
 
     /**
      * Test creating an identity that has a license.
-     * @test
      */
     public function testLicenses(): void
     {
@@ -131,7 +125,6 @@ final class IdentityTest extends TestCase
     /**
      * Test creating an identity with a lifestyle trying to load an option
      * we're not ready for.
-     * @test
      */
     public function testNotFound(): void
     {
@@ -157,7 +150,6 @@ final class IdentityTest extends TestCase
 
     /**
      * Test getting the cost of an identity with nothing attached.
-     * @test
      */
     public function testGetCostNothing(): void
     {
@@ -167,7 +159,6 @@ final class IdentityTest extends TestCase
 
     /**
      * Test getting the cost of an identity with some fake SINs.
-     * @test
      */
     public function testGetCostWithFakeSin(): void
     {
@@ -180,7 +171,6 @@ final class IdentityTest extends TestCase
 
     /**
      * Test getting the cost of an identity with some fake licenses.
-     * @test
      */
     public function testGetCostWithFakeLicense(): void
     {
@@ -193,7 +183,6 @@ final class IdentityTest extends TestCase
 
     /**
      * Test getting the cost of an identity with some lifestyles.
-     * @test
      */
     public function testGetCostWithLifestyles(): void
     {

@@ -6,22 +6,19 @@ namespace Tests\Feature\Models\Shadowrun6e;
 
 use App\Models\Shadowrun6e\Character;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * Tests for Shadowrun 6E characters.
- * @group models
- * @group shadowrun
- * @group shadowrun6e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun6e')]
+#[Small]
 final class CharacterTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Test toString if the character has neither a handle nor a name.
-     * @test
      */
     public function testToStringNoHandleOrName(): void
     {
@@ -31,7 +28,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test toString if the character has a name but no handle.
-     * @test
      */
     public function testToStringNoHandle(): void
     {
@@ -41,7 +37,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test toString if the character has a handle and a name.
-     * @test
      */
     public function testToString(): void
     {
@@ -54,7 +49,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's qualities if they have none.
-     * @test
      */
     public function testGetQualitiesNone(): void
     {
@@ -64,7 +58,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's qualities if they only have an invalid one.
-     * @test
      */
     public function testGetQualitiesInvalid(): void
     {
@@ -78,7 +71,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's qualities.
-     * @test
      */
     public function testGetQualities(): void
     {
@@ -93,7 +85,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's initiative.
-     * @test
      */
     public function testInitiative(): void
     {

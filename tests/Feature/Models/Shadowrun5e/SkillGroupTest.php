@@ -6,15 +6,14 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\ActiveSkill;
 use App\Models\Shadowrun5e\SkillGroup;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for SkillGroups.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class SkillGroupTest extends TestCase
 {
     /**
@@ -33,7 +32,6 @@ final class SkillGroupTest extends TestCase
 
     /**
      * Test loading an invalid skill group.
-     * @test
      */
     public function testInvalidGroup(): void
     {
@@ -47,7 +45,6 @@ final class SkillGroupTest extends TestCase
 
     /**
      * Test that loading the skill group sets the ID.
-     * @test
      */
     public function testSetsId(): void
     {
@@ -56,7 +53,6 @@ final class SkillGroupTest extends TestCase
 
     /**
      * Test that loading the skill group sets the level.
-     * @test
      */
     public function testSetsLevel(): void
     {
@@ -65,7 +61,6 @@ final class SkillGroupTest extends TestCase
 
     /**
      * Test that loading the skill group sets the name.
-     * @test
      */
     public function testSetsName(): void
     {
@@ -75,7 +70,6 @@ final class SkillGroupTest extends TestCase
     /**
      * Test that loading the skill group sets the skills that are part of the
      * group.
-     * @test
      */
     public function testSetsSubSkills(): void
     {
@@ -87,7 +81,6 @@ final class SkillGroupTest extends TestCase
 
     /**
      * Test casting the group to a string.
-     * @test
      */
     public function testToString(): void
     {

@@ -12,23 +12,21 @@ use App\Models\ChatUser;
 use App\Models\Shadowrun5e\Character;
 use App\Rolls\Shadowrun5e\Push;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use const PHP_EOL;
 
-/**
- * Tests for pushing the limit in Shadowrun 5E.
- * @group shadowrun
- * @group shadowrun5e
- * @medium
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Medium]
 final class PushTest extends TestCase
 {
     /**
      * Test trying to push the limit without having a linked character.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testPushNoCharacter(): void
     {
         /** @var Channel */
@@ -42,9 +40,8 @@ final class PushTest extends TestCase
 
     /**
      * Test trying to push the limit without saying how many dice to roll.
-     * @group Slack
-     * @test
      */
+    #[Group('slack')]
     public function testPushNoDice(): void
     {
         /** @var Channel */
@@ -84,9 +81,8 @@ final class PushTest extends TestCase
 
     /**
      * Test trying to push the limit in Slack with more than 100 dice.
-     * @group discord
-     * @test
      */
+    #[Group('discord')]
     public function testPushTooManyDice(): void
     {
         /** @var Channel */
@@ -123,9 +119,8 @@ final class PushTest extends TestCase
 
     /**
      * Test trying to push the limit on a character with no edge.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testPushOutOfEdge(): void
     {
         /** @var Channel */
@@ -163,9 +158,8 @@ final class PushTest extends TestCase
 
     /**
      * Test pushing the limit and blowing past the limit.
-     * @group discord
-     * @test
      */
+    #[Group('discord')]
     public function testPushPastLimit(): void
     {
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(5);
@@ -212,9 +206,8 @@ final class PushTest extends TestCase
 
     /**
      * Test pushing the limit with some exploding sixes.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testExplodingSixes(): void
     {
         DiceService::shouldReceive('rollOne')
@@ -276,9 +269,8 @@ final class PushTest extends TestCase
     /**
      * Test a character managing to still critical glitch when pushing the
      * limit.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testPushCriticalGlitch(): void
     {
         DiceService::shouldReceive('rollOne')
@@ -333,9 +325,7 @@ final class PushTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testPushPastLimitIrc(): void
     {
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(5);
@@ -377,9 +367,7 @@ final class PushTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testPushErrorIrc(): void
     {
         /** @var Channel */

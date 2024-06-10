@@ -6,17 +6,16 @@ namespace Tests\Feature\Models\Slack;
 
 use App\Models\Slack\Field;
 use App\Models\Slack\FieldsAttachment;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
+use PHPUnit\Framework\TestCase;
 
-/**
- * Tests for Slack FieldsAttachment.
- * @group slack
- * @small
- */
-final class FieldsAttachmentTest extends \PHPUnit\Framework\TestCase
+#[Group('slack')]
+#[Small]
+final class FieldsAttachmentTest extends TestCase
 {
     /**
      * Test an empty fields attachment.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -30,7 +29,6 @@ final class FieldsAttachmentTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test adding some fields.
-     * @test
      */
     public function testWithFields(): void
     {

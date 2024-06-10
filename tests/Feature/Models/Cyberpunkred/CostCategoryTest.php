@@ -5,21 +5,19 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\CostCategory;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use ValueError;
 
-/**
- * Unit tests for Cyberpunk Red CostCategory.
- * @group models
- * @group cyberpunkred
- * @small
- */
+#[Group('cyberpunkred')]
+#[Small]
 final class CostCategoryTest extends TestCase
 {
     /**
      * Test loading a cost category that isn't valid.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -33,7 +31,6 @@ final class CostCategoryTest extends TestCase
 
     /**
      * Test trying to load a cost category with a non-string.
-     * @test
      */
     public function testLoadNonString(): void
     {
@@ -65,9 +62,8 @@ final class CostCategoryTest extends TestCase
 
     /**
      * Test the market price for each cost category.
-     * @dataProvider categoryProvider
-     * @test
      */
+    #[DataProvider('categoryProvider')]
     public function testMarketPrice(string $categoryName, int $cost): void
     {
         $category = CostCategory::from($categoryName);

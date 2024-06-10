@@ -11,6 +11,8 @@ use App\Models\ChatUser;
 use App\Models\Shadowrun5e\Character;
 use App\Rolls\Shadowrun5e\Memory;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function json_decode;
@@ -18,19 +20,15 @@ use function sprintf;
 
 use const PHP_EOL;
 
-/**
- * Tests for rolling a memory test Shadowrun 5E.
- * @group shadowrun
- * @group shadowrun5e
- * @medium
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Medium]
 final class MemoryTest extends TestCase
 {
     /**
      * Test trying to roll a memory test without a character linked in Slack.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testWithoutCharacterSlack(): void
     {
         /** @var Channel */
@@ -45,9 +43,8 @@ final class MemoryTest extends TestCase
 
     /**
      * Test trying to roll a memory test without a character linked in Discord.
-     * @group discord
-     * @test
      */
+    #[Group('discord')]
     public function testWithoutCharacterDiscord(): void
     {
         /** @var Channel */
@@ -59,9 +56,7 @@ final class MemoryTest extends TestCase
         );
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testWithoutCharacterIrc(): void
     {
         /** @var Channel */
@@ -75,9 +70,8 @@ final class MemoryTest extends TestCase
 
     /**
      * Test a character critical glitching on a memory test.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testCritGlitch(): void
     {
         DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(1);
@@ -125,9 +119,8 @@ final class MemoryTest extends TestCase
 
     /**
      * Test a non-glitch memory test.
-     * @group discord
-     * @test
      */
+    #[Group('discord')]
     public function testMemory(): void
     {
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(6);
@@ -173,9 +166,7 @@ final class MemoryTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testMemoryIrc(): void
     {
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(6);

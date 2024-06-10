@@ -208,6 +208,8 @@ class SlackController extends Controller
 
     /**
      * Handle a successful login from Slack.
+     * @psalm-suppress InvalidReturnStatement
+     * @psalm-suppress InvalidReturnType
      */
     public function handleCallback(): RedirectResponse
     {

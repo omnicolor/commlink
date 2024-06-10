@@ -31,7 +31,7 @@ class PartialCharacter extends Character
 
     public function newFromBuilder(
         $attributes = [],
-        $connection = null
+        $connection = null,
     ): PartialCharacter {
         $character = new self($attributes);
         $character->exists = true;
@@ -68,6 +68,7 @@ class PartialCharacter extends Character
 
     /**
      * Store both what we roll for the user and what they choose for the value.
+     * @psalm-suppress UndefinedClass
      * @return array<string, int>
      */
     protected function createSubLifepathValue(): array

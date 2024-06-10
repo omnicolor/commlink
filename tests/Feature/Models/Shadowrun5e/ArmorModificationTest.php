@@ -6,20 +6,19 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Armor;
 use App\Models\Shadowrun5e\ArmorModification;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for armor modifications class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class ArmorModificationTest extends TestCase
 {
     /**
      * Test loading an invalid modification.
-     * @test
      */
     public function testLoadNotFoundModification(): void
     {
@@ -31,7 +30,6 @@ final class ArmorModificationTest extends TestCase
     /**
      * Test loading a valid modification sets the ID.
      * @return ArmorModification
-     * @test
      */
     public function testLoadArmorModificationSetsId(): ArmorModification
     {
@@ -43,10 +41,8 @@ final class ArmorModificationTest extends TestCase
 
     /**
      * Test loading a valid modification sets the cost.
-     * @depends testLoadArmorModificationSetsId
-     * @param ArmorModification $mod
-     * @test
      */
+    #[Depends('testLoadArmorModificationSetsId')]
     public function testLoadArmorModificationSetsCost(
         ArmorModification $mod
     ): void {
@@ -55,10 +51,8 @@ final class ArmorModificationTest extends TestCase
 
     /**
      * Test loading a valid modification sets the description.
-     * @depends testLoadArmorModificationSetsId
-     * @param ArmorModification $mod
-     * @test
      */
+    #[Depends('testLoadArmorModificationSetsId')]
     public function testLoadArmorModificationSetsDescription(
         ArmorModification $mod
     ): void {
@@ -67,10 +61,8 @@ final class ArmorModificationTest extends TestCase
 
     /**
      * Test loading a valid modification sets the effects.
-     * @depends testLoadArmorModificationSetsId
-     * @param ArmorModification $mod
-     * @test
      */
+    #[Depends('testLoadArmorModificationSetsId')]
     public function testLoadArmorModificationSetsEffects(
         ArmorModification $mod
     ): void {
@@ -79,10 +71,8 @@ final class ArmorModificationTest extends TestCase
 
     /**
      * Test loading a valid modification sets the ruleset.
-     * @depends testLoadArmorModificationSetsId
-     * @param ArmorModification $mod
-     * @test
      */
+    #[Depends('testLoadArmorModificationSetsId')]
     public function testLoadArmorModificationSetsRuleset(
         ArmorModification $mod
     ): void {
@@ -92,10 +82,8 @@ final class ArmorModificationTest extends TestCase
     /**
      * Test loading a valid modification doesn't set the rating if there isn't
      * one.
-     * @depends testLoadArmorModificationSetsId
-     * @param ArmorModification $mod
-     * @test
      */
+    #[Depends('testLoadArmorModificationSetsId')]
     public function testLoadArmorModificationDoesntSetRating(
         ArmorModification $mod
     ): void {
@@ -104,10 +92,8 @@ final class ArmorModificationTest extends TestCase
 
     /**
      * Test loading a valid modification sets the name.
-     * @depends testLoadArmorModificationSetsId
-     * @param ArmorModification $mod
-     * @test
      */
+    #[Depends('testLoadArmorModificationSetsId')]
     public function testLoadArmorModificationSetsName(
         ArmorModification $mod
     ): void {
@@ -116,10 +102,8 @@ final class ArmorModificationTest extends TestCase
 
     /**
      * Test the toString method.
-     * @depends testLoadArmorModificationSetsId
-     * @param ArmorModification $mod
-     * @test
      */
+    #[Depends('testLoadArmorModificationSetsId')]
     public function testToString(ArmorModification $mod): void
     {
         self::assertEquals('Auto-injector', (string)$mod);
@@ -127,7 +111,6 @@ final class ArmorModificationTest extends TestCase
 
     /**
      * Test that loading a modification with a rating sets the rating property.
-     * @test
      */
     public function testLoadArmorModSetRating(): void
     {
@@ -137,7 +120,6 @@ final class ArmorModificationTest extends TestCase
 
     /**
      * Test an armor modification that has a cost multiplier.
-     * @test
      */
     public function testArmorModWithCostMultiplier(): void
     {
@@ -148,7 +130,6 @@ final class ArmorModificationTest extends TestCase
 
     /**
      * Test getCost() on an armor mod with a flat cost.
-     * @test
      */
     public function testGetCostSimple(): void
     {
@@ -159,7 +140,6 @@ final class ArmorModificationTest extends TestCase
     /**
      * Test getCost() on a mod that changes its cost depending on the armor it's
      * applied to.
-     * @test
      */
     public function testGetCostCostModifier(): void
     {
@@ -169,7 +149,6 @@ final class ArmorModificationTest extends TestCase
 
     /**
      * Test findByName with a name that isn't found.
-     * @test
      */
     public function testFindByNameNotFound(): void
     {
@@ -182,7 +161,6 @@ final class ArmorModificationTest extends TestCase
 
     /**
      * Test findByName returning a weapon modification.
-     * @test
      */
     public function testFindByName(): void
     {

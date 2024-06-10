@@ -6,16 +6,15 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Armor;
 use App\Models\Shadowrun5e\ArmorArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for the ArmorArray class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class ArmorArrayTest extends TestCase
 {
     /**
@@ -35,7 +34,6 @@ final class ArmorArrayTest extends TestCase
 
     /**
      * Test an empty ArmorArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +42,6 @@ final class ArmorArrayTest extends TestCase
 
     /**
      * Test adding a armor to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -54,7 +51,6 @@ final class ArmorArrayTest extends TestCase
 
     /**
      * Test that adding a non-armor to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -65,7 +61,6 @@ final class ArmorArrayTest extends TestCase
 
     /**
      * Test that adding a non-armor to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

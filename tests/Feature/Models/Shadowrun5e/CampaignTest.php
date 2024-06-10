@@ -8,13 +8,13 @@ use App\Models\Shadowrun5e\Campaign;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\Contact;
 use App\Models\Shadowrun5e\ContactArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * @group shadowrun
- * @group shadowrun5e
- * @medium
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Medium]
 final class CampaignTest extends TestCase
 {
     /**
