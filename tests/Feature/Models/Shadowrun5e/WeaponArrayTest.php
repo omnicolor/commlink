@@ -6,16 +6,15 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Weapon;
 use App\Models\Shadowrun5e\WeaponArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for the WeaponArray class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class WeaponArrayTest extends TestCase
 {
     /**
@@ -35,7 +34,6 @@ final class WeaponArrayTest extends TestCase
 
     /**
      * Test an empty WeaponArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +42,6 @@ final class WeaponArrayTest extends TestCase
 
     /**
      * Test adding a weapon to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -54,7 +51,6 @@ final class WeaponArrayTest extends TestCase
 
     /**
      * Test that adding a non-weapon to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -66,7 +62,6 @@ final class WeaponArrayTest extends TestCase
 
     /**
      * Test that adding a non-weapon to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

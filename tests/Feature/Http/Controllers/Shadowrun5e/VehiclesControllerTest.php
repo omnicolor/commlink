@@ -7,20 +7,17 @@ namespace Tests\Feature\Http\Controllers\Shadowrun5e;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for the vehicles controller.
- * @group controllers
- * @group shadowrun
- * @group shadowrun5e
- * @medium
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Medium]
 final class VehiclesControllerTest extends TestCase
 {
     /**
      * Test loading the collection if the config is broken.
-     * @test
      */
     public function testIndexBrokenConfig(): void
     {
@@ -34,7 +31,6 @@ final class VehiclesControllerTest extends TestCase
 
     /**
      * Test loading the collection without authentication.
-     * @test
      */
     public function testNoAuthIndex(): void
     {
@@ -44,7 +40,6 @@ final class VehiclesControllerTest extends TestCase
 
     /**
      * Test loading the collection as an authenticated user.
-     * @test
      */
     public function testAuthIndex(): void
     {
@@ -63,7 +58,6 @@ final class VehiclesControllerTest extends TestCase
 
     /**
      * Test loading an individual resource without authentication.
-     * @test
      */
     public function testNoAuthShow(): void
     {
@@ -73,7 +67,6 @@ final class VehiclesControllerTest extends TestCase
 
     /**
      * Test loading an invalid resource without authentication.
-     * @test
      */
     public function testNoAuthShowNotFound(): void
     {
@@ -83,7 +76,6 @@ final class VehiclesControllerTest extends TestCase
 
     /**
      * Test loading an individual resource with authentication.
-     * @test
      */
     public function testAuthShow(): void
     {
@@ -116,7 +108,6 @@ final class VehiclesControllerTest extends TestCase
 
     /**
      * Test loading an invalid resource with authentication.
-     * @test
      */
     public function testAuthShowNotFound(): void
     {

@@ -16,6 +16,9 @@ class CharacterList extends Component
         $this->componentName = 'CharacterList';
     }
 
+    /**
+     * @psalm-suppress InvalidReturnStatement
+     */
     public function render(): View
     {
         return view('components.character-list');

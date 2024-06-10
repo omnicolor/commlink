@@ -127,6 +127,9 @@ class Number extends Roll
         return $response->addAttachment($attachment)->sendToChannel();
     }
 
+    /**
+     * @psalm-suppress UndefinedClass
+     */
     protected function roll(): void
     {
         $this->roll = DiceService::rollOne($this->die);

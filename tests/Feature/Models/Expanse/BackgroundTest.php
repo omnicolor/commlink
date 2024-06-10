@@ -9,21 +9,15 @@ use App\Models\Expanse\Focus;
 use App\Models\Expanse\FocusArray;
 use App\Models\Expanse\Talent;
 use App\Models\Expanse\TalentArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Expanse backgrounds.
- * @group models
- * @group expanse
- * @small
- */
+#[Group('expanse')]
+#[Small]
 final class BackgroundTest extends TestCase
 {
-    /**
-     * Test trying to load an invalid background.
-     * @test
-     */
     public function testLoadInvalidBackground(): void
     {
         self::expectException(RuntimeException::class);
@@ -31,10 +25,6 @@ final class BackgroundTest extends TestCase
         new Background('q');
     }
 
-    /**
-     * Test trying to load a valid background.
-     * @test
-     */
     public function testLoadValidBackground(): void
     {
         $background = new Background('trade');
@@ -48,20 +38,12 @@ final class BackgroundTest extends TestCase
         self::assertCount(2, $background->talents);
     }
 
-    /**
-     * Test casting a background to a string.
-     * @test
-     */
     public function testToString(): void
     {
         $background = new Background('trade');
         self::assertSame('Trade', (string)$background);
     }
 
-    /**
-     * Test getting the collection of potential focuses.
-     * @test
-     */
     public function testGetFocuses(): void
     {
         $focuses = (new Background('trade'))->getFocuses();
@@ -71,10 +53,6 @@ final class BackgroundTest extends TestCase
         self::assertSame('Crafting', $focus->name);
     }
 
-    /**
-     * Test getting the collection of potential talents.
-     * @test
-     */
     public function testGetTalents(): void
     {
         $talents = (new Background('trade'))->getTalents();

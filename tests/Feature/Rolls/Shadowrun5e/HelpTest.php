@@ -12,20 +12,19 @@ use App\Models\ChatUser;
 use App\Models\User;
 use App\Rolls\Shadowrun5e\Help;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for getting help in a Channel registered as Shadowrun 5E.
- * @group discord
- * @group shadowrun5e
- * @group slack
- * @medium
- */
+#[Group('discord')]
+#[Group('slack')]
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Medium]
 final class HelpTest extends TestCase
 {
     /**
      * Test getting help via Slack.
-     * @test
      */
     public function testHelpSlack(): void
     {
@@ -51,7 +50,6 @@ final class HelpTest extends TestCase
 
     /**
      * Test getting help via Discord.
-     * @test
      */
     public function testHelpDiscord(): void
     {
@@ -73,7 +71,6 @@ final class HelpTest extends TestCase
     /**
      * Test getting help in a channel that is attached to a campaign, but the
      * current user isn't registered.
-     * @test
      */
     public function testHelpWithCampaignNoChatUser(): void
     {
@@ -101,7 +98,6 @@ final class HelpTest extends TestCase
     /**
      * Test getting help in a channel that is attached to a campaign, but the
      * current user, while linked, isn't the GM.
-     * @test
      */
     public function testHelpWithCampaignWithChatUserNotGM(): void
     {
@@ -137,7 +133,6 @@ final class HelpTest extends TestCase
     /**
      * Test getting help in a channel that is attached to a campaign, but the
      * current user, while linked, isn't the GM.
-     * @test
      */
     public function testHelpWithCampaignWithChatUserWithCharacter(): void
     {
@@ -206,7 +201,6 @@ final class HelpTest extends TestCase
     /**
      * Test getting help in a channel that is attached to a campaign and
      * a linked technomancer.
-     * @test
      */
     public function testHelpForTechnomancer(): void
     {
@@ -281,7 +275,6 @@ final class HelpTest extends TestCase
     /**
      * Test getting help in a channel that is attached to a campaign and the
      * current user is the GM.
-     * @test
      */
     public function testHelpWithCampaignWithChatUserGM(): void
     {

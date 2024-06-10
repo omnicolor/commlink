@@ -6,14 +6,14 @@ namespace Tests\Feature\Services;
 
 use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
 use function sprintf;
 
-/**
- * @small
- */
+#[Small]
 final class DiceServiceTest extends TestCase
 {
     use WithFaker;
@@ -115,9 +115,7 @@ final class DiceServiceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider diceAndPipsProvider
-     */
+    #[DataProvider('diceAndPipsProvider')]
     public function testGetDiceAndPips(
         string $dynamic,
         int $dice,
@@ -184,12 +182,8 @@ final class DiceServiceTest extends TestCase
         );
     }
 
-    /** @group current */
     public function testRollMax(): void
     {
-        self::assertSame(
-            -19,
-            DiceService::rollMax('1+d2-2d4+4d6-6d8+10')
-        );
+        self::assertSame(-19, DiceService::rollMax('1+d2-2d4+4d6-6d8+10'));
     }
 }

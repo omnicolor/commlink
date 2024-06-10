@@ -6,20 +6,18 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Lifestyle;
 use App\Models\Shadowrun5e\LifestyleOption;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for LifestyleOption.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class LifestyleOptionTest extends TestCase
 {
     /**
      * Test trying to load a LifestyleOption that isn't found.
-     * @test
      */
     public function testNotFound(): void
     {
@@ -32,7 +30,6 @@ final class LifestyleOptionTest extends TestCase
 
     /**
      * Test __toString returns the name of the option.
-     * @test
      */
     public function testToString(): void
     {
@@ -44,7 +41,6 @@ final class LifestyleOptionTest extends TestCase
 
     /**
      * Test lifestyle coverages items that require commercial lifestyles.
-     * @test
      */
     public function testIsCoveredCommercial(): void
     {
@@ -61,7 +57,6 @@ final class LifestyleOptionTest extends TestCase
 
     /**
      * Test an option covered by High or higher lifestyles.
-     * @test
      */
     public function testHighLuxuryCoveredOption(): void
     {
@@ -78,7 +73,6 @@ final class LifestyleOptionTest extends TestCase
 
     /**
      * Test an option that is never covered by a lifestyle.
-     * @test
      */
     public function testNeverCoveredOption(): void
     {
@@ -95,7 +89,6 @@ final class LifestyleOptionTest extends TestCase
 
     /**
      * Test an option that requires luxury lifestyle.
-     * @test
      */
     public function testOptionCoveredByLuxury(): void
     {
@@ -112,7 +105,6 @@ final class LifestyleOptionTest extends TestCase
 
     /**
      * Test an option that requires middle lifestyle or higher.
-     * @test
      */
     public function testOptionCoveredByMiddle(): void
     {
@@ -129,7 +121,6 @@ final class LifestyleOptionTest extends TestCase
 
     /**
      * Test an option that requires low lifestyle or higher.
-     * @test
      */
     public function testOptionCoveredByLow(): void
     {
@@ -146,7 +137,6 @@ final class LifestyleOptionTest extends TestCase
 
     /**
      * Test an option that requires Squatter or higher.
-     * @test
      */
     public function testOptionCoveredBySquatter(): void
     {
@@ -163,7 +153,6 @@ final class LifestyleOptionTest extends TestCase
 
     /**
      * Test an option with an invalid MinimumLifestyle.
-     * @test
      */
     public function testOptionCoveredUnknown(): void
     {
@@ -176,7 +165,6 @@ final class LifestyleOptionTest extends TestCase
 
     /**
      * Test getting the cost of an option covered by the lifestyle.
-     * @test
      */
     public function testGetCostCovered(): void
     {
@@ -188,7 +176,6 @@ final class LifestyleOptionTest extends TestCase
     /**
      * Test getting the cost of an option that can't be covered by the
      * lifestyle.
-     * @test
      */
     public function testGetCostWithMultiplierUncoverable(): void
     {
@@ -202,7 +189,6 @@ final class LifestyleOptionTest extends TestCase
 
     /**
      * Test the cost of an option that can't be covered, and reduces the cost.
-     * @test
      */
     public function testGetCostWithNegativeMultiplier(): void
     {
@@ -217,7 +203,6 @@ final class LifestyleOptionTest extends TestCase
     /**
      * Test getting the cost of some options that aren't covered and don't
      * multiply the baseCost.
-     * @test
      */
     public function testGetCost(): void
     {

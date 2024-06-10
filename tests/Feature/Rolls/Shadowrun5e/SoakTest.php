@@ -11,6 +11,8 @@ use App\Models\ChatUser;
 use App\Models\Shadowrun5e\Character;
 use App\Rolls\Shadowrun5e\Soak;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function json_decode;
@@ -18,19 +20,15 @@ use function sprintf;
 
 use const PHP_EOL;
 
-/**
- * Tests for rolling a soak test Shadowrun 5E.
- * @group shadowrun
- * @group shadowrun5e
- * @medium
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Medium]
 final class SoakTest extends TestCase
 {
     /**
      * Test trying to roll a soak test without a character linked in Slack.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testWithoutCharacterSlack(): void
     {
         /** @var Channel */
@@ -45,9 +43,8 @@ final class SoakTest extends TestCase
 
     /**
      * Test trying to roll a soak test without a character linked in Discord.
-     * @group discord
-     * @test
      */
+    #[Group('discord')]
     public function testWithoutCharacterDiscord(): void
     {
         /** @var Channel */
@@ -59,9 +56,7 @@ final class SoakTest extends TestCase
         );
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testWithoutCharacterIrc(): void
     {
         /** @var Channel */
@@ -75,9 +70,8 @@ final class SoakTest extends TestCase
 
     /**
      * Test a character doing with would be a critical glitch on a soak test.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testCritGlitch(): void
     {
         DiceService::shouldReceive('rollOne')->times(4)->with(6)->andReturn(1);
@@ -120,9 +114,8 @@ final class SoakTest extends TestCase
 
     /**
      * Test a non-glitch soak test.
-     * @group discord
-     * @test
      */
+    #[Group('discord')]
     public function testSoak(): void
     {
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(6);
@@ -166,9 +159,7 @@ final class SoakTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testSoakIrc(): void
     {
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(6);

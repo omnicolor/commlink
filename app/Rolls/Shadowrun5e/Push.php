@@ -11,10 +11,17 @@ use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
 
+use function array_shift;
+use function explode;
+use function floor;
 use function implode;
+use function is_numeric;
+use function rsort;
 use function sprintf;
+use function trim;
 
 use const PHP_EOL;
+use const SORT_NUMERIC;
 
 /**
  * Roll a Shadowrun 5e push the limit test.
@@ -93,10 +100,10 @@ class Push extends Number
             $this->error = 'You must have a character linked to push the limit';
             return;
         }
-        $args = \explode(' ', \trim($content));
+        $args = explode(' ', trim($content));
 
         // Remove the name of the command.
-        \array_shift($args);
+        array_shift($args);
 
         if (!is_numeric($args[0])) {
             $this->error = 'Pushing the limit requires the number of dice to '
@@ -104,7 +111,7 @@ class Push extends Number
             return;
         }
 
-        $this->dice = (int)\array_shift($args);
+        $this->dice = (int)array_shift($args);
         if (self::MAX_DICE < $this->dice) {
             $this->error = 'You can\'t roll more than 100 dice';
             return;
@@ -120,8 +127,8 @@ class Push extends Number
         }
         // @phpstan-ignore-next-line
         $this->edge = $this->character->edge;
-        if (isset($args[0]) && \is_numeric($args[0])) {
-            $this->limit = (int)\array_shift($args);
+        if (isset($args[0]) && is_numeric($args[0])) {
+            $this->limit = (int)array_shift($args);
         }
         $this->description = implode(' ', $args);
 
@@ -197,6 +204,7 @@ class Push extends Number
 
     /**
      * Roll the requested number of dice, checking for successes and failures.
+     * @psalm-suppress UndefinedClass
      */
     protected function roll(): void
     {
@@ -216,7 +224,7 @@ class Push extends Number
                 $this->fails++;
             }
         }
-        \rsort($this->rolls, \SORT_NUMERIC);
+        rsort($this->rolls, SORT_NUMERIC);
     }
 
     public function forDiscord(): string
@@ -283,7 +291,7 @@ class Push extends Number
             return false;
         }
         // If half of the dice were ones, it's a glitch.
-        return $this->fails > \floor(($this->dice + $this->edge) / 2);
+        return $this->fails > floor(($this->dice + $this->edge) / 2);
     }
 
     /**

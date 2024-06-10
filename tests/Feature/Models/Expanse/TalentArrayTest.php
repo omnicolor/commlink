@@ -6,16 +6,14 @@ namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\Talent;
 use App\Models\Expanse\TalentArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for the TalentArray class.
- * @group models
- * @group expanse
- * @small
- */
+#[Group('expanse')]
+#[Small]
 final class TalentArrayTest extends TestCase
 {
     /**
@@ -33,29 +31,17 @@ final class TalentArrayTest extends TestCase
         $this->array = new TalentArray();
     }
 
-    /**
-     * Test an empty array.
-     * @test
-     */
     public function testEmpty(): void
     {
         self::assertEmpty($this->array);
     }
 
-    /**
-     * Test adding a valid object to the array.
-     * @test
-     */
     public function testAdd(): void
     {
         $this->array[] = new Talent('fringer');
         self::assertNotEmpty($this->array);
     }
 
-    /**
-     * Test that adding an object of the wrong type throws an exception.
-     * @test
-     */
     public function testAddWrongTypeException(): void
     {
         self::expectException(TypeError::class);
@@ -63,10 +49,6 @@ final class TalentArrayTest extends TestCase
         $this->array[] = new stdClass();
     }
 
-    /**
-     * Test that adding the wrong type to the array doesn't add it.
-     * @test
-     */
     public function testAddWrongTypeDoesntAdd(): void
     {
         try {

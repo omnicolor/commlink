@@ -5,20 +5,17 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\Talent;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Expanse talents.
- * @group models
- * @group expanse
- * @small
- */
+#[Group('expanse')]
+#[Small]
 final class TalentTest extends TestCase
 {
     /**
      * Test trying to load an invalid talent.
-     * @test
      */
     public function testLoadInvalidTalent(): void
     {
@@ -29,7 +26,6 @@ final class TalentTest extends TestCase
 
     /**
      * Test trying to load a valid talent.
-     * @test
      */
     public function testLoadValidTalent(): void
     {
@@ -41,7 +37,6 @@ final class TalentTest extends TestCase
 
     /**
      * Test casting a talent to a string.
-     * @test
      */
     public function testToString(): void
     {
@@ -51,7 +46,6 @@ final class TalentTest extends TestCase
 
     /**
      * Test loading a talent without setting the level defaults to Novice.
-     * @test
      */
     public function testDefaultLevel(): void
     {
@@ -61,7 +55,6 @@ final class TalentTest extends TestCase
 
     /**
      * Test setting the level to an invalid level.
-     * @test
      */
     public function testSetLevelInvalid(): void
     {

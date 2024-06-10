@@ -7,31 +7,31 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Attributes;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class AttributesTest extends TestCase
 {
     /**
      * Test rendering a mundane character.
-     * @test
      */
     public function testMundaneCharacter(): void
     {
-        $this->component(Attributes::class, ['character' => new Character()])
+        self::component(Attributes::class, ['character' => new Character()])
             ->assertDontSee("Magic\n")
             ->assertDontSee("Resonance\n");
     }
 
     /**
      * Test rendering a new character.
-     * @test
      */
     public function testNewCharacter(): void
     {
-        $this->component(
+        self::component(
             Attributes::class,
             ['character' => new PartialCharacter()]
         )
@@ -41,11 +41,10 @@ final class AttributesTest extends TestCase
 
     /**
      * Test rendering a mage character.
-     * @test
      */
     public function testMage(): void
     {
-        $this->component(
+        self::component(
             Attributes::class,
             [
                 'character' => new Character([

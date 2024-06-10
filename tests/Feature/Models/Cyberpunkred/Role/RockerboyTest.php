@@ -6,14 +6,12 @@ namespace Tests\Feature\Models\Cyberpunkred\Role;
 
 use App\Models\Cyberpunkred\Role\Rockerboy;
 use OutOfBoundsException;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Tests for the Rockerboy role.
- * @group cyberpunkred
- * @group models
- * @small
- */
+#[Group('cyberpunkred')]
+#[Small]
 final class RockerboyTest extends TestCase
 {
     /**
@@ -37,10 +35,6 @@ final class RockerboyTest extends TestCase
         ]);
     }
 
-    /**
-     * Test the toString method.
-     * @test
-     */
     public function testToString(): void
     {
         self::assertSame('Rockerboy', (string)$this->role);
@@ -48,7 +42,6 @@ final class RockerboyTest extends TestCase
 
     /**
      * Test getting the act type for a solo rockerboy.
-     * @test
      */
     public function testGetActSolo(): void
     {
@@ -57,7 +50,6 @@ final class RockerboyTest extends TestCase
 
     /**
      * Test getting the act type for a rockerboy that's part of a group.
-     * @test
      */
     public function testGetActGroup(): void
     {
@@ -73,7 +65,6 @@ final class RockerboyTest extends TestCase
 
     /**
      * Test getting the act type if the value's out of range.
-     * @test
      */
     public function testGetActOutOfRange(): void
     {
@@ -90,7 +81,6 @@ final class RockerboyTest extends TestCase
 
     /**
      * Test getting who's gunning for the rockerboy.
-     * @test
      */
     public function testGetWhosGunning(): void
     {
@@ -102,7 +92,6 @@ final class RockerboyTest extends TestCase
 
     /**
      * Test getting who's gunning if the value is out of range.
-     * @test
      */
     public function testGetWhosGunningOutOfRange(): void
     {
@@ -119,7 +108,6 @@ final class RockerboyTest extends TestCase
 
     /**
      * Test getting the type for a musician.
-     * @test
      */
     public function testGetTypeMusician(): void
     {
@@ -128,7 +116,6 @@ final class RockerboyTest extends TestCase
 
     /**
      * Test getting the type for a slam poet.
-     * @test
      */
     public function testGettingSlamPoetRockerboy(): void
     {
@@ -144,7 +131,6 @@ final class RockerboyTest extends TestCase
 
     /**
      * Test getting the type for a street artist.
-     * @test
      */
     public function testGettingStreetArtistRockerboy(): void
     {
@@ -160,7 +146,6 @@ final class RockerboyTest extends TestCase
 
     /**
      * Test getting the type if the value is out of range.
-     * @test
      */
     public function testGetTypeOutOfRange(): void
     {

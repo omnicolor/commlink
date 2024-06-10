@@ -15,19 +15,18 @@ use App\Models\Shadowrun5e\KnowledgeSkill;
 use App\Models\Shadowrun5e\MentorSpirit;
 use App\Models\Shadowrun5e\Quality;
 use App\Models\Shadowrun5e\QualityArray;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * Tests for Shadowrun 5E characters.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class CharacterTest extends TestCase
 {
     /**
      * Test displaying the character as a string just shows their handle.
-     * @test
      */
     public function testToString(): void
     {
@@ -39,8 +38,6 @@ final class CharacterTest extends TestCase
      * Test getting the hidden Mongo _id field.
      *
      * It's hidden, but still gettable.
-     * @medium
-     * @test
      */
     public function testHiddenId(): void
     {
@@ -54,8 +51,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's ID.
-     * @medium
-     * @test
      */
     public function testGetId(): void
     {
@@ -70,7 +65,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's adept powers if they don't have any.
-     * @test
      */
     public function testGetAdeptPowersEmpty(): void
     {
@@ -80,7 +74,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's adept powers if they have an invalid power.
-     * @test
      */
     public function testGetAdeptPowersInvalid(): void
     {
@@ -96,7 +89,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's adept powers.
-     * @test
      */
     public function testGetAdeptPowers(): void
     {
@@ -112,7 +104,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's armor if they don't have any.
-     * @test
      */
     public function testGetArmorEmpty(): void
     {
@@ -122,7 +113,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's armor if they have one that is invalid.
-     * @test
      */
     public function testGetArmorInvalid(): void
     {
@@ -132,7 +122,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's armor.
-     * @test
      */
     public function testGetArmor(): void
     {
@@ -193,11 +182,9 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's armor value.
-     * @dataProvider armorValueProvider
      * @param array<int, array<string, array<int, string>|bool|string>> $armor
-     * @param int $expected
-     * @test
      */
+    #[DataProvider('armorValueProvider')]
     public function testGetArmorValue(array $armor, int $expected): void
     {
         $character = new Character(['armor' => $armor]);
@@ -206,7 +193,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's astral limit for a mundane character.
-     * @test
      */
     public function testAstralLimitMundane(): void
     {
@@ -226,7 +212,6 @@ final class CharacterTest extends TestCase
     /**
      * Test getting the astral limit for an awakened character with a higher
      * social limit than mental limit.
-     * @test
      */
     public function testGetAstralLimitUsesSocialLimit(): void
     {
@@ -248,7 +233,6 @@ final class CharacterTest extends TestCase
     /**
      * Test getting the astral limit for an awakened character with a higher
      * mental limit than social limit.
-     * @test
      */
     public function testGetAstralLimitUsesMentalLimit(): void
     {
@@ -269,7 +253,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's augmentations if they don't have any.
-     * @test
      */
     public function testGetAugmentationsEmpty(): void
     {
@@ -279,7 +262,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's augmentations if they have an invalid one.
-     * @test
      */
     public function testGetAugmentationsInvalid(): void
     {
@@ -291,7 +273,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's augmentations.
-     * @test
      */
     public function testGetAugmentations(): void
     {
@@ -306,7 +287,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's contacts if they have none.
-     * @test
      */
     public function testGetContactsNone(): void
     {
@@ -316,7 +296,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's contacts.
-     * @test
      */
     public function testGetContacts(): void
     {
@@ -336,7 +315,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's complex forms if they have none.
-     * @test
      */
     public function testGetComplexFormsEmpty(): void
     {
@@ -346,7 +324,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's complex forms if they've got an invalid one.
-     * @test
      */
     public function testGetComplexFormsInvalid(): void
     {
@@ -356,7 +333,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's complex forms.
-     * @test
      */
     public function testGetComplexForms(): void
     {
@@ -366,7 +342,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's composure derived attribute.
-     * @test
      */
     public function testGetComposure(): void
     {
@@ -385,7 +360,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test that essence goes down with augmentations.
-     * @test
      */
     public function testEssenceLoss(): void
     {
@@ -397,7 +371,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test essence going down with a different grade of augmentation.
-     * @test
      */
     public function testEssenceLossWithGrade(): void
     {
@@ -412,7 +385,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test essence loss for a character with biocompatibility (cyberware).
-     * @tst
      */
     public function testEssenceLossWithBiocompatibilityCyberware(): void
     {
@@ -433,7 +405,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test essence loss for a character with biocompatibility (bioware).
-     * @tst
      */
     public function testEssenceLossWithBiocompatibilityBioware(): void
     {
@@ -454,7 +425,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's gear if they have none.
-     * @test
      */
     public function testGetGearEmpty(): void
     {
@@ -464,7 +434,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's gear if they've only got invalid gear.
-     * @test
      */
     public function testGetGearInvalid(): void
     {
@@ -474,7 +443,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's gear.
-     * @test
      */
     public function testGetGear(): void
     {
@@ -487,7 +455,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's judge intentions derived attribute.
-     * @test
      */
     public function testGetJudgeIntentions(): void
     {
@@ -506,7 +473,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's knowledge skills if they're dumB.
-     * @test
      */
     public function testGetKnowledgeSkillsNone(): void
     {
@@ -517,7 +483,6 @@ final class CharacterTest extends TestCase
     /**
      * Test getting the character's knowledge skills if they have an invalid
      * skill category.
-     * @test
      */
     public function testGetKnowledgeSkillInvalid(): void
     {
@@ -533,7 +498,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's knowledge skills.
-     * @test
      */
     public function testGetKnowledgeSkills(): void
     {
@@ -549,7 +513,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's native language knowledge skill.
-     * @test
      */
     public function testGetKnowledgeSkillLanguage(): void
     {
@@ -566,7 +529,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test filtering knowledge skills to just non-languages.
-     * @test
      */
     public function testGetKnowledgeSkillsFilterOnlyKnowledge(): void
     {
@@ -584,7 +546,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test filtering knowledge skills to just languages.
-     * @test
      */
     public function testGetKnowledgesFilterOnlyLanguages(): void
     {
@@ -603,7 +564,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test filtering knowledge skills.
-     * @test
      */
     public function testGetKnowledgeSkillsFiltered(): void
     {
@@ -627,7 +587,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's identities if they have none.
-     * @test
      */
     public function testGetIdentitiesNone(): void
     {
@@ -637,7 +596,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's identities if they've got one.
-     * @test
      */
     public function testGetIdentities(): void
     {
@@ -656,7 +614,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's lift/carry derived stat.
-     * @test
      */
     public function testGetLiftCarry(): void
     {
@@ -675,7 +632,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting limits for skills.
-     * @test
      */
     public function testGetSkillLimit(): void
     {
@@ -715,7 +671,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's karma log if they're new.
-     * @test
      */
     public function testGetKarmaLogNewCharacter(): void
     {
@@ -747,7 +702,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's karma log if they've got a log in Mongo.
-     * @test
      */
     public function testGetKarmaLogOldCharacter(): void
     {
@@ -790,7 +744,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting limit for a knowledge skill.
-     * @test
      */
     public function testGetKnowledgeSkillLimit(): void
     {
@@ -806,7 +759,6 @@ final class CharacterTest extends TestCase
     /**
      * Test getting a limit for a skill that uses a calculatable limit that has
      * a quality that updates it.
-     * @test
      */
     public function testGetSkillLimitUpdated(): void
     {
@@ -832,7 +784,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's martial arts styles if they have no style.
-     * @test
      */
     public function testGetMartialArtsStyleNone(): void
     {
@@ -843,7 +794,6 @@ final class CharacterTest extends TestCase
     /**
      * Test getting a character's martial arts styles if they have an invalid
      * style.
-     * @test
      */
     public function testGetMartialArtsStyleInvalid(): void
     {
@@ -859,7 +809,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's martial arts style.
-     * @test
      */
     public function testGetMartialArtsStyles(): void
     {
@@ -876,7 +825,6 @@ final class CharacterTest extends TestCase
     /**
      * Test getting a character's martial arts techniques if they have no
      * technique.
-     * @test
      */
     public function testGetMartialArtsTechniqueNone(): void
     {
@@ -887,7 +835,6 @@ final class CharacterTest extends TestCase
     /**
      * Test getting a character's martial arts techniques if they have an
      * invalid technique.
-     * @test
      */
     public function testGetMartialArtsTechniqueInvalid(): void
     {
@@ -903,7 +850,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's martial arts techniques.
-     * @test
      */
     public function testGetMartialArtsTechniques(): void
     {
@@ -919,7 +865,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's memory derived attribute.
-     * @test
      */
     public function testGetMemory(): void
     {
@@ -938,7 +883,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the mentor spirit of a mundane character.
-     * @test
      */
     public function testGetMentorSpiritMundane(): void
     {
@@ -949,7 +893,6 @@ final class CharacterTest extends TestCase
     /**
      * Test getting the mentor spirit of an awakened character that has no
      * mentor spirit.
-     * @test
      */
     public function testGetMentorSpiritNone(): void
     {
@@ -966,7 +909,6 @@ final class CharacterTest extends TestCase
     /**
      * Test trying to load the mentor spirit of a character with an invalid
      * spirit.
-     * @test
      */
     public function testGetMentorSpiritInvalid(): void
     {
@@ -980,7 +922,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the mentor spirit of a character that has one.
-     * @test
      */
     public function testGetMentorSpirit(): void
     {
@@ -997,7 +938,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the metatype of a character with no priorities.
-     * @test
      */
     public function testGetMetatypeNoPriority(): void
     {
@@ -1007,7 +947,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the metatype of a character with incomplete priorities.
-     * @test
      */
     public function testGetMetatypeIncompletePriorities(): void
     {
@@ -1017,7 +956,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the metatype of a character with standard priorities.
-     * @test
      */
     public function testGetMetatypeStandardPriorities(): void
     {
@@ -1038,7 +976,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the metatype of a character with sum-to-ten priorities.
-     * @test
      */
     public function testGetMetatypeSumToTenPriorities(): void
     {
@@ -1059,7 +996,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the modified attribute for an invalid attribute.
-     * @test
      */
     public function testGetModifiedAttributeInvalid(): void
     {
@@ -1070,7 +1006,6 @@ final class CharacterTest extends TestCase
     /**
      * Test getModifiedAttribute() with an armor mod or two, one of which
      * changes a stat.
-     * @test
      */
     public function testGetModifiedAttributeArmorMod(): void
     {
@@ -1102,7 +1037,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getModifiedAttribute() with an armor that changes it.
-     * @test
      */
     public function testGetModifiedAttributeArmor(): void
     {
@@ -1125,7 +1059,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test that inactive armor does not have effects.
-     * @test
      */
     public function testGetModifiedAttributeArmorInactive(): void
     {
@@ -1148,7 +1081,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test a character's unmodified initiative score.
-     * @test
      */
     public function testInitiativeUnmodified(): void
     {
@@ -1165,7 +1097,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test a character's initiative modified by an adept power.
-     * @test
      */
     public function testInitiativeWithPower(): void
     {
@@ -1187,7 +1118,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test that an unmodified character gets one initiative die.
-     * @test
      */
     public function testInitiativeDiceUnmodified(): void
     {
@@ -1198,7 +1128,6 @@ final class CharacterTest extends TestCase
     /**
      * Test that a character with a synaptic booster gets an additional
      * initiative die.
-     * @test
      */
     public function testInitiativeDiceModifiedByCyberware(): void
     {
@@ -1213,7 +1142,6 @@ final class CharacterTest extends TestCase
     /**
      * Test that a character with the improved reflexes adept power gets an
      * additional initiative die.
-     * @test
      */
     public function testInitiativeDiceModifiedByPower(): void
     {
@@ -1229,7 +1157,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test that active armor with effects for different attribute don't change.
-     * @test
      */
     public function testGetModifiedAttributeArmorOtherAttribute(): void
     {
@@ -1257,7 +1184,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting an attribute modified by a quality.
-     * @test
      */
     public function testGetModifiedAttributeQuality(): void
     {
@@ -1284,7 +1210,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting an attribute with a broken effect.
-     * @test
      */
     public function testGetModifiedAttributeBrokenEffect(): void
     {
@@ -1309,7 +1234,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's physical limit when unaugmented.
-     * @test
      */
     public function testUnaugmentedPhysicalLimit(): void
     {
@@ -1324,7 +1248,6 @@ final class CharacterTest extends TestCase
     /**
      * Test getting the character's physical limit with a quality that changes
      * it.
-     * @test
      */
     public function testPhysicalLimitAugmented(): void
     {
@@ -1350,7 +1273,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's qualities if they don't have any.
-     * @test
      */
     public function testGetQualitiesEmpty(): void
     {
@@ -1360,7 +1282,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's qualities if they have one that is invalid.
-     * @test
      */
     public function testGetQualitiesInvalid(): void
     {
@@ -1370,7 +1291,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's qualities.
-     * @test
      */
     public function testGetQualities(): void
     {
@@ -1385,7 +1305,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's skills if they have none.
-     * @test
      */
     public function testGetSkillsEmpty(): void
     {
@@ -1395,7 +1314,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's skills if they have one that is invalid.
-     * @test
      */
     public function testGetSkillsInvalid(): void
     {
@@ -1409,7 +1327,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's skills.
-     * @test
      */
     public function testGetSkills(): void
     {
@@ -1424,7 +1341,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's skill groups if they have none.
-     * @test
      */
     public function testGetSkillGroupsEmpty(): void
     {
@@ -1434,7 +1350,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's skill groups with an invalid group.
-     * @test
      */
     public function testGetSkillGroupsInvalid(): void
     {
@@ -1448,7 +1363,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's skill groups.
-     * @test
      */
     public function testGetSkillGroups(): void
     {
@@ -1465,7 +1379,6 @@ final class CharacterTest extends TestCase
     /**
      * Test getting the character's soak pool if they have nothing to change
      * their base value.
-     * @test
      */
     public function testGetBaseSoak(): void
     {
@@ -1476,7 +1389,6 @@ final class CharacterTest extends TestCase
     /**
      * Test getting a character's soak pool if they have an augmentation that
      * increases their damage resistance.
-     * @test
      */
     public function testGetSoakWithBoneDensityAugmentation(): void
     {
@@ -1495,7 +1407,6 @@ final class CharacterTest extends TestCase
     /**
      * Test getting a character's soak pool if they've got a mentor spirit that
      * toughens them up.
-     * @test
      */
     public function testGetSoakWithBearMentorSpirit(): void
     {
@@ -1511,7 +1422,6 @@ final class CharacterTest extends TestCase
     /**
      * Test getting a character's soak pool if they're a coward hiding behind
      * armor.
-     * @test
      */
     public function testGetSoakWithArmor(): void
     {
@@ -1529,7 +1439,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's spells if they are mundane.
-     * @test
      */
     public function testGetSpellsMundane(): void
     {
@@ -1539,7 +1448,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's spells if they're awakened but have no spells.
-     * @test
      */
     public function testGetSpellsNone(): void
     {
@@ -1551,7 +1459,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's spells if they have a spell, but it's invalid.
-     * @test
      */
     public function testGetSpellsInvalid(): void
     {
@@ -1567,7 +1474,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's spells if they have one.
-     * @test
      */
     public function testGetSpells(): void
     {
@@ -1583,7 +1489,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting spirits for a mundane character.
-     * @test
      */
     public function testGetSpiritsMundane(): void
     {
@@ -1593,7 +1498,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting spirits for a magical character without spirits.
-     * @test
      */
     public function testGetSpiritsNoSpirits(): void
     {
@@ -1603,7 +1507,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting spirits for character with an invalid spirit.
-     * @test
      */
     public function testGetSpiritsInvalid(): void
     {
@@ -1617,7 +1520,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting spirits for a character with a valid spirit.
-     * @test
      */
     public function testGetSpirits(): void
     {
@@ -1635,7 +1537,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's sprites if the have none.
-     * @test
      */
     public function testGetSpritesNone(): void
     {
@@ -1645,7 +1546,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's sprites if they have an invalid one.
-     * @test
      */
     public function testGetSpritesInvalid(): void
     {
@@ -1657,7 +1557,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's sprites if they've got one.
-     * @test
      */
     public function testGetSprites(): void
     {
@@ -1669,7 +1568,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a mundane character's magical tradition.
-     * @test
      */
     public function testGetTraditionMundane(): void
     {
@@ -1679,7 +1577,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's magical tradition if they have an invalid one.
-     * @test
      */
     public function testGetTraditionInvalid(): void
     {
@@ -1693,7 +1590,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's magical tradition.
-     * @test
      */
     public function testGetTradition(): void
     {
@@ -1707,7 +1603,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting vehicles for a character without any.
-     * @test
      */
     public function testGetVehiclesNone(): void
     {
@@ -1717,7 +1612,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting vehicles for a character with an invalid ride.
-     * @test
      */
     public function testGetVehiclesInvalid(): void
     {
@@ -1729,7 +1623,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting vehicles for a character with a vehicle.
-     * @test
      */
     public function testGetVehicles(): void
     {
@@ -1741,7 +1634,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting weapons for an unarmed character.
-     * @test
      */
     public function testGetWeaponsUnarmed(): void
     {
@@ -1751,7 +1643,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting weapons for a character armed with an invalid weapon.
-     * @test
      */
     public function testGetWeaponsInvalid(): void
     {
@@ -1761,7 +1652,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting weapons for an armed character.
-     * @test
      */
     public function testGetWeapons(): void
     {
@@ -1771,7 +1661,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's melee defense.
-     * @test
      */
     public function testMeleeDefense(): void
     {
@@ -1787,7 +1676,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's overflow monitor.
-     * @test
      */
     public function testOverflow(): void
     {
@@ -1797,7 +1685,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's physical damage monitor.
-     * @test
      */
     public function testPhysical(): void
     {
@@ -1807,7 +1694,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's ranged defense.
-     * @test
      */
     public function testRangedDefense(): void
     {
@@ -1820,7 +1706,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's stun monitor.
-     * @test
      */
     public function testStun(): void
     {

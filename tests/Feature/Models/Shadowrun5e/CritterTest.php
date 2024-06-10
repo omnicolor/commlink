@@ -5,20 +5,18 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Critter;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for Shadowrun 5E critters.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class CritterTest extends TestCase
 {
     /**
      * Test trying to load an invalid critter.
-     * @test
      */
     public function testInvalid(): void
     {
@@ -29,7 +27,6 @@ final class CritterTest extends TestCase
 
     /**
      * Test loading a valid, magical critter.
-     * @test
      */
     public function testLoad(): void
     {
@@ -64,7 +61,6 @@ final class CritterTest extends TestCase
 
     /**
      * Test loading a critter with a vulnerability.
-     * @test
      */
     public function testLoadWithVulnerability(): void
     {

@@ -7,16 +7,17 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\MartialArts;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class MartialArtsTest extends TestCase
 {
     /**
      * Test rendering a lack of martial arts for an existing character.
-     * @test
      */
     public function testNoMartialArtsExistingCharacter(): void
     {
@@ -28,7 +29,6 @@ final class MartialArtsTest extends TestCase
 
     /**
      * Test rendering a lack of martial arts for a new character.
-     * @test
      */
     public function testNoMartialArtsNewCharacter(): void
     {
@@ -43,7 +43,6 @@ final class MartialArtsTest extends TestCase
 
     /**
      * Test a new character with a style but no techniques.
-     * @test
      */
     public function testNewCharacterWithStyleButNoTechnique(): void
     {
@@ -66,7 +65,6 @@ final class MartialArtsTest extends TestCase
     /**
      * Test an existing character that bought a style but didn't choose
      * a technique.
-     * @test
      */
     public function testOldCharacterWithStyleButNoTechnique(): void
     {
@@ -89,7 +87,6 @@ final class MartialArtsTest extends TestCase
     /**
      * Test an existing character that bought a style but didn't choose
      * a technique.
-     * @test
      */
     public function testCharacterWithMartialArts(): void
     {

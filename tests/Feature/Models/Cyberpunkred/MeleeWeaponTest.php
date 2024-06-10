@@ -6,20 +6,18 @@ namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\MeleeWeapon;
 use App\Models\Cyberpunkred\Weapon;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for MeleeWeapon class.
- * @group models
- * @group cyberpunkred
- * @small
- */
+#[Group('cyberpunkred')]
+#[Small]
 final class MeleeWeaponTest extends TestCase
 {
     /**
      * Test that trying to load a weapon of any kind loads the data files.
-     * @test
      */
     public function testLoadDataFiles(): void
     {
@@ -36,7 +34,6 @@ final class MeleeWeaponTest extends TestCase
 
     /**
      * Test trying to load a weapon without including an ID.
-     * @test
      */
     public function testLoadNoId(): void
     {
@@ -49,7 +46,6 @@ final class MeleeWeaponTest extends TestCase
 
     /**
      * Test trying to load an invalid weapon.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -60,7 +56,6 @@ final class MeleeWeaponTest extends TestCase
 
     /**
      * Test loading a ranged weapon with the minimal amount of information.
-     * @test
      */
     public function testLoadMinimum(): void
     {
@@ -71,7 +66,6 @@ final class MeleeWeaponTest extends TestCase
 
     /**
      * Test converting a weapon to a string.
-     * @test
      */
     public function testToString(): void
     {
@@ -81,7 +75,6 @@ final class MeleeWeaponTest extends TestCase
 
     /**
      * Test loading a weapon that sets the quality.
-     * @test
      */
     public function testLoadWithQuality(): void
     {
@@ -94,7 +87,6 @@ final class MeleeWeaponTest extends TestCase
 
     /**
      * Test loading a weapon with an invalid quality.
-     * @test
      */
     public function testLoadWithInvalidQuality(): void
     {
@@ -107,7 +99,6 @@ final class MeleeWeaponTest extends TestCase
 
     /**
      * Test loading a weapon that chooses a name for the weapon.
-     * @test
      */
     public function testLoadWithName(): void
     {
@@ -142,12 +133,8 @@ final class MeleeWeaponTest extends TestCase
     /**
      * Test getting the cost for a weapon with a base cost and different
      * qualities.
-     * @dataProvider costDataProvider
-     * @param int $cost
-     * @param string $quality
-     * @param int $expected
-     * @test
      */
+    #[DataProvider('costDataProvider')]
     public function testGetCost(
         int $cost,
         string $quality,

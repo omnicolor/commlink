@@ -6,16 +6,14 @@ namespace Tests\Feature\Models\StarTrekAdventures;
 
 use App\Models\StarTrekAdventures\Talent;
 use App\Models\StarTrekAdventures\TalentArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for TalentArray class.
- * @group models
- * @group star-trek-adventures
- * @small
- */
+#[Group('star-trek-adventures')]
+#[Small]
 final class TalentArrayTest extends TestCase
 {
     /**
@@ -35,7 +33,6 @@ final class TalentArrayTest extends TestCase
 
     /**
      * Test an empty TalentArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +41,6 @@ final class TalentArrayTest extends TestCase
 
     /**
      * Test adding a talent to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -54,7 +50,6 @@ final class TalentArrayTest extends TestCase
 
     /**
      * Test that adding a non-talent to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -65,7 +60,6 @@ final class TalentArrayTest extends TestCase
 
     /**
      * Test that adding a non-talent to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

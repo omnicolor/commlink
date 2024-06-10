@@ -11,6 +11,10 @@ use App\Models\Campaign as CampaignModel;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 
+use function count;
+use function explode;
+use function sprintf;
+
 class Campaign extends Roll
 {
     protected const MIN_NUM_ARGUMENTS = 2;
@@ -42,8 +46,8 @@ class Campaign extends Roll
         protected Channel $channel
     ) {
         parent::__construct($content, $character, $channel);
-        $args = \explode(' ', $content);
-        if (self::MIN_NUM_ARGUMENTS === \count($args)) {
+        $args = explode(' ', $content);
+        if (self::MIN_NUM_ARGUMENTS === count($args)) {
             $this->campaignId = (int)$args[1];
             $this->campaign = CampaignModel::find($this->campaignId);
         }
@@ -56,7 +60,7 @@ class Campaign extends Roll
         }
 
         if (null !== $this->existingCampaign) {
-            $this->error = \sprintf(
+            $this->error = sprintf(
                 'This channel is already registered for "%s".',
                 $this->existingCampaign->name
             );
@@ -64,7 +68,7 @@ class Campaign extends Roll
         }
 
         if (null === $this->chatUser) {
-            $this->error = \sprintf(
+            $this->error = sprintf(
                 'You must have already created an account on %s (%s) and '
                     . 'linked it to this server before you can register a '
                     . 'channel to a campaign.',
@@ -75,7 +79,7 @@ class Campaign extends Roll
         }
 
         if (null === $this->campaign) {
-            $this->error = \sprintf(
+            $this->error = sprintf(
                 'No campaign was found for ID "%d".',
                 $this->campaignId
             );
@@ -86,7 +90,7 @@ class Campaign extends Roll
             null !== $this->channel->system
             && $this->channel->system !== $this->campaign->system
         ) {
-            $this->error = \sprintf(
+            $this->error = sprintf(
                 'The channel is already registered to play %s. "%s" is playing '
                     . '%s.',
                 $this->channel->getSystem(),
@@ -104,7 +108,7 @@ class Campaign extends Roll
 
         $this->linkCampaignToChannel();
 
-        $this->message = \sprintf(
+        $this->message = sprintf(
             '%s has registered this channel for the "%s" campaign, playing %s.',
             $this->channel->username,
             // @phpstan-ignore-next-line

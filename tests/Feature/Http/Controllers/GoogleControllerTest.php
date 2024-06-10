@@ -7,18 +7,16 @@ namespace Tests\Feature\Http\Controllers;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Socialite\Facades\Socialite;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * @medium
- */
+#[Medium]
 final class GoogleControllerTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Test the login with Google redirect.
-     * @test
      */
     public function testAuthThroughGoogle(): void
     {
@@ -28,7 +26,6 @@ final class GoogleControllerTest extends TestCase
 
     /**
      * Test that logging in through Google as a new user creates a User.
-     * @test
      */
     public function testLoginThroughSlackNewUser(): void
     {

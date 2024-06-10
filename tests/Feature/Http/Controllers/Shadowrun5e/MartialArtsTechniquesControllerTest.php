@@ -7,20 +7,17 @@ namespace Tests\Feature\Http\Controllers\Shadowrun5e;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for the martial-arts-techniques route for Shadowrun 5E.
- * @group controllers
- * @group shadowrun
- * @group shadowrun5e
- * @medium
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Medium]
 final class MartialArtsTechniquesControllerTest extends TestCase
 {
     /**
      * Test loading the collection if the config is broken.
-     * @test
      */
     public function testIndexBrokenConfig(): void
     {
@@ -34,7 +31,6 @@ final class MartialArtsTechniquesControllerTest extends TestCase
 
     /**
      * Test loading the collection without authentication.
-     * @test
      */
     public function testNoAuthIndex(): void
     {
@@ -44,7 +40,6 @@ final class MartialArtsTechniquesControllerTest extends TestCase
 
     /**
      * Test loading the collection with authentication.
-     * @test
      */
     public function testIndex(): void
     {
@@ -63,7 +58,6 @@ final class MartialArtsTechniquesControllerTest extends TestCase
 
     /**
      * Test loading an individual resource without authentication.
-     * @test
      */
     public function testNoAuthShow(): void
     {
@@ -76,7 +70,6 @@ final class MartialArtsTechniquesControllerTest extends TestCase
 
     /**
      * Test loading an individual resource that doesn't exist.
-     * @test
      */
     public function testNotFound(): void
     {
@@ -91,7 +84,6 @@ final class MartialArtsTechniquesControllerTest extends TestCase
 
     /**
      * Test loading an individual resource.
-     * @test
      */
     public function testShow(): void
     {

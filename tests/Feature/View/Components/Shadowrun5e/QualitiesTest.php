@@ -7,16 +7,17 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Qualities;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class QualitiesTest extends TestCase
 {
     /**
      * Test charGen property with an existing character.
-     * @test
      */
     public function testCharGenExistingCharacter(): void
     {
@@ -31,7 +32,6 @@ final class QualitiesTest extends TestCase
 
     /**
      * Test charGen property with an in-progress character.
-     * @test
      */
     public function testCharGenInprogressCharacter(): void
     {
@@ -46,7 +46,6 @@ final class QualitiesTest extends TestCase
 
     /**
      * Test rendering a quality.
-     * @test
      */
     public function testRenderQuality(): void
     {
