@@ -5,19 +5,17 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Perk;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Capers perks.
- * @group capers
- * @small
- */
+#[Group('capers')]
+#[Small]
 final class PerkTest extends TestCase
 {
     /**
      * Test trying to create a perk that doesn't exist.
-     * @test
      */
     public function testInvalidPerk(): void
     {
@@ -28,7 +26,6 @@ final class PerkTest extends TestCase
 
     /**
      * Test creating a perk and casting it to a string.
-     * @test
      */
     public function testToString(): void
     {
@@ -44,7 +41,6 @@ final class PerkTest extends TestCase
 
     /**
      * Test the specialty skill perk, which populates the skillId property.
-     * @test
      */
     public function testSpecialtyString(): void
     {

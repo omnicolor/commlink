@@ -6,16 +6,15 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Quality;
 use App\Models\Shadowrun5e\QualityArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for the QualityArray class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class QualityArrayTest extends TestCase
 {
     /**
@@ -35,7 +34,6 @@ final class QualityArrayTest extends TestCase
 
     /**
      * Test an empty QualityArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +42,6 @@ final class QualityArrayTest extends TestCase
 
     /**
      * Test adding a quality to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -54,7 +51,6 @@ final class QualityArrayTest extends TestCase
 
     /**
      * Test that adding a non-quality to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -68,7 +64,6 @@ final class QualityArrayTest extends TestCase
 
     /**
      * Test that adding a non-quality to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

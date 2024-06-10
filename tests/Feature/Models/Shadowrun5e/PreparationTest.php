@@ -6,15 +6,14 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Preparation;
 use App\Models\Shadowrun5e\Spell;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for Preparation class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class PreparationTest extends TestCase
 {
     /**
@@ -34,7 +33,6 @@ final class PreparationTest extends TestCase
 
     /**
      * Test trying to set an invalid trigger.
-     * @test
      */
     public function testInvalidTrigger(): void
     {
@@ -45,7 +43,6 @@ final class PreparationTest extends TestCase
 
     /**
      * Test the setters.
-     * @test
      */
     public function testSetters(): void
     {
@@ -65,7 +62,6 @@ final class PreparationTest extends TestCase
 
     /**
      * Test setting the spell by ID.
-     * @test
      */
     public function testSetSpellId(): void
     {

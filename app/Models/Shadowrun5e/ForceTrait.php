@@ -4,6 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use function array_search;
+use function array_splice;
+use function current;
+use function preg_split;
+use function str_replace;
+
+use const PREG_SPLIT_DELIM_CAPTURE;
+use const PREG_SPLIT_NO_EMPTY;
+
 /**
  * Calculator for things that depend on a force or level, like spells and
  * complex forms.
@@ -27,16 +36,16 @@ trait ForceTrait
     public function convertFormula(
         string $formula,
         string $letter,
-        int $rating
+        int $rating,
     ): int {
         // If $formula = "F+3", $letter = "F", and $rating = 6, change it to
         // "6+3"
-        $formula = \str_replace($letter, (string)$rating, $formula);
-        $components = \preg_split(
+        $formula = str_replace($letter, (string)$rating, $formula);
+        $components = preg_split(
             '~(?<=\d)([*/+-])~',
             $formula,
             -1,
-            \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE
+            PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE
         );
         // @codeCoverageIgnoreStart
         // The preg_split() function should only return false if the regular
@@ -47,8 +56,8 @@ trait ForceTrait
             return 0;
         }
         // @codeCoverageIgnoreEnd
-        while (false !== ($index = \array_search('*', $components, true))) {
-            \array_splice(
+        while (false !== ($index = array_search('*', $components, true))) {
+            array_splice(
                 $components,
                 $index - 1,
                 3,
@@ -57,8 +66,8 @@ trait ForceTrait
                 )
             );
         }
-        while (false !== ($index = \array_search('/', $components, true))) {
-            \array_splice(
+        while (false !== ($index = array_search('/', $components, true))) {
+            array_splice(
                 $components,
                 $index - 1,
                 3,
@@ -67,8 +76,8 @@ trait ForceTrait
                 )
             );
         }
-        while (false !== ($index = \array_search('+', $components, true))) {
-            \array_splice(
+        while (false !== ($index = array_search('+', $components, true))) {
+            array_splice(
                 $components,
                 $index - 1,
                 3,
@@ -77,8 +86,8 @@ trait ForceTrait
                 )
             );
         }
-        while (false !== ($index = \array_search('-', $components, true))) {
-            \array_splice(
+        while (false !== ($index = array_search('-', $components, true))) {
+            array_splice(
                 $components,
                 $index - 1,
                 3,
@@ -87,6 +96,6 @@ trait ForceTrait
                 )
             );
         }
-        return (int)\current($components);
+        return (int)current($components);
     }
 }

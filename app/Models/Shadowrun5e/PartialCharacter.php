@@ -32,7 +32,7 @@ class PartialCharacter extends Character
 
     public function newFromBuilder(
         $attributes = [],
-        $connection = null
+        $connection = null,
     ): PartialCharacter {
         $character = new self($attributes);
         $character->exists = true;
@@ -47,6 +47,7 @@ class PartialCharacter extends Character
     /**
      * Return the starting maximum for a character based on their metatype and
      * qualities.
+     * @psalm-suppress UndefinedThisPropertyFetch
      */
     public function getStartingMaximumAttribute(string $attribute): int
     {

@@ -7,16 +7,17 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Skills;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class SkillsTest extends TestCase
 {
     /**
      * Test rendering a lack of skills with an existing character.
-     * @test
      */
     public function testNoSkillsExistingCharacter(): void
     {
@@ -32,7 +33,6 @@ final class SkillsTest extends TestCase
 
     /**
      * Test rendering skills with a new character.
-     * @test
      */
     public function testNoSkillsNewCharacter(): void
     {
@@ -48,7 +48,6 @@ final class SkillsTest extends TestCase
 
     /**
      * Test rendering a skill.
-     * @test
      */
     public function testRenderSkill(): void
     {

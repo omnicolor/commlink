@@ -8,20 +8,18 @@ use App\Models\Shadowrun5e\ActiveSkill;
 use App\Models\Shadowrun5e\SkillArray;
 use App\Models\Shadowrun5e\Sprite;
 use BadMethodCallException;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for the Sprite class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class SpriteTest extends TestCase
 {
     /**
      * Test loading an invalid Sprite.
-     * @test
      */
     public function testSpriteNotFound(): void
     {
@@ -32,7 +30,6 @@ final class SpriteTest extends TestCase
 
     /**
      * Test loading a valid sprite without a level.
-     * @test
      */
     public function testSpriteNoLevel(): void
     {
@@ -45,7 +42,6 @@ final class SpriteTest extends TestCase
 
     /**
      * Test setting the level during instantiation works.
-     * @test
      */
     public function testSpriteWithLevel(): void
     {
@@ -55,7 +51,6 @@ final class SpriteTest extends TestCase
 
     /**
      * Test that the __toString method returns the sprite's name.
-     * @test
      */
     public function testToString(): void
     {
@@ -65,7 +60,6 @@ final class SpriteTest extends TestCase
 
     /**
      * Test trying to get an invalid attribute for a sprite.
-     * @test
      */
     public function testGetAttributeInvalid(): void
     {
@@ -79,7 +73,6 @@ final class SpriteTest extends TestCase
     /**
      * Test calculating a sprite's attributes from their level when no level is
      * set.
-     * @test
      */
     public function testGetAttributeNoLevel(): void
     {
@@ -91,7 +84,6 @@ final class SpriteTest extends TestCase
 
     /**
      * Test getting attributes after the level has been set.
-     * @test
      */
     public function testGetAttributeWithLevel(): void
     {
@@ -106,7 +98,6 @@ final class SpriteTest extends TestCase
 
     /**
      * Test getting attributes after setting the level post-instantiation.
-     * @test
      */
     public function testGetAttributeWithLateSetLevel(): void
     {
@@ -122,7 +113,6 @@ final class SpriteTest extends TestCase
 
     /**
      * Test trying to get the skills list before the level is set.
-     * @test
      */
     public function testSkillsNoLevel(): void
     {
@@ -136,7 +126,6 @@ final class SpriteTest extends TestCase
 
     /**
      * Test that a Sprite gets its skills initialized if given a level.
-     * @test
      */
     public function testSkills(): void
     {
@@ -150,7 +139,6 @@ final class SpriteTest extends TestCase
 
     /**
      * Test getting a sprite's powers.
-     * @test
      */
     public function testGetPowers(): void
     {

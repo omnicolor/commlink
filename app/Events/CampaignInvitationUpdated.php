@@ -22,6 +22,7 @@ class CampaignInvitationUpdated
 
     /**
      * @codeCoverageIgnore
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function broadcastOn(): PrivateChannel
     {

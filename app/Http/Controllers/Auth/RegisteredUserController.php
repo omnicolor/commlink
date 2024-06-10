@@ -17,6 +17,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
+use function abort_if;
+use function event;
+use function redirect;
+use function view;
+
 class RegisteredUserController extends Controller
 {
     /**
@@ -29,6 +34,8 @@ class RegisteredUserController extends Controller
 
     /**
      * Handle an incoming registration request.
+     * @psalm-suppress InvalidReturnStatement
+     * @psalm-suppress InvalidReturnType
      */
     public function store(Request $request): RedirectResponse
     {

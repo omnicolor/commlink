@@ -6,19 +6,17 @@ namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Vice;
 use App\Models\Card;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Capers vice.
- * @group capers
- * @small
- */
+#[Group('capers')]
+#[Small]
 final class ViceTest extends TestCase
 {
     /**
      * Test loading an invalid vice.
-     * @test
      */
     public function testInvalidVice(): void
     {
@@ -29,7 +27,6 @@ final class ViceTest extends TestCase
 
     /**
      * Test loading a vice.
-     * @test
      */
     public function testVice(): void
     {
@@ -42,7 +39,6 @@ final class ViceTest extends TestCase
 
     /**
      * Test getting all vices.
-     * @test
      */
     public function testAll(): void
     {
@@ -53,7 +49,6 @@ final class ViceTest extends TestCase
 
     /**
      * Test trying to find a vice for an invalid card.
-     * @test
      */
     public function testFindForInvalidCard(): void
     {
@@ -64,7 +59,6 @@ final class ViceTest extends TestCase
 
     /**
      * Test trying to find a vice for a card.
-     * @test
      */
     public function testFindForCard(): void
     {

@@ -7,11 +7,12 @@ namespace Tests\Feature\View\Components\Cyberpunkred;
 use App\Models\Campaign;
 use App\Models\User;
 use App\View\Components\Cyberpunkred\CampaignOptions;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @small
- */
+#[Group('cyberpunkred')]
+#[Small]
 final class CampaignOptionsTest extends TestCase
 {
     public function testCampaignOptionsView(): void

@@ -5,20 +5,18 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\MartialArtsTechnique;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for MartialArtsTechnique class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class MartialArtsTechniqueTest extends TestCase
 {
     /**
      * Test trying to load an invalid MartialArtsTechnique.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -31,7 +29,6 @@ final class MartialArtsTechniqueTest extends TestCase
 
     /**
      * Test the constructor for a technique without a subname.
-     * @test
      */
     public function testConstructor(): void
     {
@@ -46,7 +43,6 @@ final class MartialArtsTechniqueTest extends TestCase
 
     /**
      * Test the constructor for a technique with a subname.
-     * @test
      */
     public function testConstructorSubname(): void
     {
@@ -56,7 +52,6 @@ final class MartialArtsTechniqueTest extends TestCase
 
     /**
      * Test the __toString() method if the technique doesn't have a subname.
-     * @test
      */
     public function testToString(): void
     {
@@ -66,7 +61,6 @@ final class MartialArtsTechniqueTest extends TestCase
 
     /**
      * Test the __toString() method if the technique has a subname.
-     * @test
      */
     public function testToStringSubname(): void
     {

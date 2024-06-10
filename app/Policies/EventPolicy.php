@@ -43,7 +43,6 @@ class EventPolicy
             return true;
         }
 
-        /** @var Campaign */
         $campaign = $event->campaign;
         $gamemaster = $campaign->gamemaster;
         if (null !== $gamemaster && $gamemaster->is($user)) {

@@ -7,14 +7,13 @@ namespace Tests\Feature\Events;
 use App\Events\UserLinked;
 use App\Models\ChatUser;
 use Illuminate\Broadcasting\PrivateChannel;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for the event fired when a Discord user gets linked.
- * @group discord
- * @group events
- * @medium
- */
+#[Group('discord')]
+#[Group('events')]
+#[Medium]
 final class UserLinkedTest extends TestCase
 {
     public function testBroadcast(): void

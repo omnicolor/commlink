@@ -6,16 +6,15 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Contact;
 use App\Models\Shadowrun5e\ContactArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for the ContactArray class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class ContactArrayTest extends TestCase
 {
     /**
@@ -35,7 +34,6 @@ final class ContactArrayTest extends TestCase
 
     /**
      * Test an empty ContactArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +42,6 @@ final class ContactArrayTest extends TestCase
 
     /**
      * Test adding a contact to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -60,7 +57,6 @@ final class ContactArrayTest extends TestCase
 
     /**
      * Test that adding a non-contact to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -72,7 +68,6 @@ final class ContactArrayTest extends TestCase
 
     /**
      * Test that adding a non-contact to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

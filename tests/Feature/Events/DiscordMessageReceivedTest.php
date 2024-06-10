@@ -10,20 +10,15 @@ use Discord\Parts\Channel\Channel as TextChannel;
 use Discord\Parts\Channel\Message;
 use Discord\Parts\Guild\Guild;
 use Discord\Parts\User\User;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * Tests for Discord message events.
- * @group discord
- * @group events
- * @small
- */
+#[Group('discord')]
+#[Group('events')]
+#[Small]
 final class DiscordMessageReceivedTest extends TestCase
 {
-    /**
-     * Test the constructor.
-     * @test
-     */
     public function testConstructor(): void
     {
         $channelStub = self::createStub(TextChannel::class);

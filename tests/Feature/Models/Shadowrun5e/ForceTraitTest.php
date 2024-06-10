@@ -4,35 +4,26 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models\Shadowrun5e;
 
-use App\Models\Shadowrun5e\ForceTrait;
+use App\Models\Shadowrun5e\Spirit;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * Tests for the Force trait.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class ForceTraitTest extends TestCase
 {
-    /**
-     * Subject under test.
-     * @var mixed
-     */
-    protected $force;
+    protected Spirit $force;
 
-    /**
-     * Set up the subject under test.
-     */
     public function setUp(): void
     {
         parent::setUp();
-        $this->force = $this->getMockForTrait(ForceTrait::class);
+        $this->force = new Spirit('air');
     }
 
     /**
      * Test calculating when adding a number.
-     * @test
      */
     public function testAdd(): void
     {
@@ -44,7 +35,6 @@ final class ForceTraitTest extends TestCase
 
     /**
      * Test calculating when subtracting a number.
-     * @test
      */
     public function testSubtract(): void
     {
@@ -56,7 +46,6 @@ final class ForceTraitTest extends TestCase
 
     /**
      * Test calculating when dividing.
-     * @test
      */
     public function testDivide(): void
     {
@@ -66,7 +55,6 @@ final class ForceTraitTest extends TestCase
 
     /**
      * Test calculating when multiplying.
-     * @test
      */
     public function testMultiply(): void
     {
@@ -76,7 +64,6 @@ final class ForceTraitTest extends TestCase
 
     /**
      * Test calulating an invalid string.
-     * @test
      */
     public function testInvalid(): void
     {

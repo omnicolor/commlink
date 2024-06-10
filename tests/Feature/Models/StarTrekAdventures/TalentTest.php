@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\StarTrekAdventures;
 
 use App\Models\StarTrekAdventures\Talent;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * @group star-trek-adventures
- * @group models
- * @small
- */
+#[Group('star-trek-adventures')]
+#[Small]
 final class TalentTest extends TestCase
 {
     public function testFindNotFound(): void

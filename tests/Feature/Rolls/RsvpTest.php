@@ -15,19 +15,17 @@ use App\Rolls\Rsvp;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function json_encode;
 
-/**
- * Tests for RSVPing to an event.
- * @medium
- */
+#[Group('campaigns')]
+#[Medium]
 final class RsvpTest extends TestCase
 {
-    /**
-     * @group discord
-     */
+    #[Group('discord')]
     public function testRsvpDirectlyFromDiscord(): void
     {
         /** @var Channel */
@@ -36,9 +34,7 @@ final class RsvpTest extends TestCase
         self::assertSame('RSVP is not a valid roll', $roll->forDiscord());
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testRsvpDirectlyFromIrc(): void
     {
         /** @var Channel */
@@ -47,9 +43,7 @@ final class RsvpTest extends TestCase
         self::assertSame('RSVP is not a valid roll', $roll->forIrc());
     }
 
-    /**
-     * @group slack
-     */
+    #[Group('slack')]
     public function testRsvpDirectlyFromSlack(): void
     {
         /** @var Channel */
@@ -60,9 +54,7 @@ final class RsvpTest extends TestCase
         $roll->forSlack();
     }
 
-    /**
-     * @group slack
-     */
+    #[Group('slack')]
     public function testRsvpMalformedContent(): void
     {
         Http::fake();
@@ -75,9 +67,7 @@ final class RsvpTest extends TestCase
         Http::assertNothingSent();
     }
 
-    /**
-     * @group slack
-     */
+    #[Group('slack')]
     public function testRsvpWithNotFoundEvent(): void
     {
         Http::fake();
@@ -96,9 +86,7 @@ final class RsvpTest extends TestCase
         Http::assertNothingSent();
     }
 
-    /**
-     * @group slack
-     */
+    #[Group('slack')]
     public function testRsvpWithoutChatUser(): void
     {
         Http::fake();
@@ -122,9 +110,7 @@ final class RsvpTest extends TestCase
         });
     }
 
-    /**
-     * @group slack
-     */
+    #[Group('slack')]
     public function testRsvpWithoutPermission(): void
     {
         Http::fake();
@@ -167,9 +153,7 @@ final class RsvpTest extends TestCase
         });
     }
 
-    /**
-     * @group slack
-     */
+    #[Group('slack')]
     public function testNewRsvp(): void
     {
         Http::fake();
@@ -225,9 +209,7 @@ final class RsvpTest extends TestCase
         );
     }
 
-    /**
-     * @group slack
-     */
+    #[Group('slack')]
     public function testUpdateRsvp(): void
     {
         Http::fake();

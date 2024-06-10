@@ -6,19 +6,18 @@ namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Identity;
 use App\Models\Card;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Capers identities.
- * @group capers
- * @small
- */
+#[Group('capers')]
+#[Small]
 final class IdentityTest extends TestCase
 {
     /**
      * Try to create an invalid Identity.
-     * @test
      */
     public function testInvalid(): void
     {
@@ -29,7 +28,6 @@ final class IdentityTest extends TestCase
 
     /**
      * Test creating a valid Identity.
-     * @test
      */
     public function testIdentity(): void
     {
@@ -46,7 +44,6 @@ final class IdentityTest extends TestCase
 
     /**
      * Test getting all identities.
-     * @test
      */
     public function testAll(): void
     {
@@ -58,7 +55,6 @@ final class IdentityTest extends TestCase
 
     /**
      * Test finding an identity for a joker.
-     * @test
      */
     public function testFindForJoker(): void
     {
@@ -82,11 +78,8 @@ final class IdentityTest extends TestCase
 
     /**
      * Test finding an identity for a normal card.
-     * @dataProvider findForCardProvider
-     * @param Card $card
-     * @param string $expectedIdentity
-     * @test
      */
+    #[DataProvider('findForCardProvider')]
     public function testFindForCard(Card $card, string $expectedIdentity): void
     {
         $identity = Identity::findForCard($card);
@@ -95,7 +88,6 @@ final class IdentityTest extends TestCase
 
     /**
      * Test trying to find an identity for a card with an invalid suit.
-     * @test
      */
     public function testFindForCardInvalidSuit(): void
     {
@@ -106,7 +98,6 @@ final class IdentityTest extends TestCase
 
     /**
      * Test trying to find an identity of a valid suit but invalid value.
-     * @test
      */
     public function testFindForCardInvalidValue(): void
     {

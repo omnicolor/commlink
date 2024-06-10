@@ -31,6 +31,9 @@ use Spatie\Permission\Middleware\PermissionMiddleware;
 use Spatie\Permission\Middleware\RoleMiddleware;
 use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class Kernel extends HttpKernel
 {
     /**

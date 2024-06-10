@@ -7,16 +7,17 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Matrix;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class MatrixTest extends TestCase
 {
     /**
      * Test rendering a lack of matrix devices for an existing character.
-     * @test
      */
     public function testNoMatrixExistingCharacter(): void
     {
@@ -27,7 +28,6 @@ final class MatrixTest extends TestCase
 
     /**
      * Test rendering a lack of matrix devices for a new character.
-     * @test
      */
     public function testNoArmorNewCharacter(): void
     {
@@ -38,7 +38,6 @@ final class MatrixTest extends TestCase
 
     /**
      * Test rendering a matrix device.
-     * @test
      */
     public function testMatrixDevice(): void
     {
@@ -62,7 +61,6 @@ final class MatrixTest extends TestCase
 
     /**
      * Test that other gear doesn't show up in the matrix area.
-     * @test
      */
     public function testOnlyNonMatrixDevices(): void
     {

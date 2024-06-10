@@ -7,20 +7,18 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\Vehicle;
 use App\Models\Shadowrun5e\VehicleModification;
 use App\Models\Shadowrun5e\VehicleModificationSlotType;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for Vehicle Modifications.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class VehicleModificationTest extends TestCase
 {
     /**
      * Test trying to load an invalid modification.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -33,7 +31,6 @@ final class VehicleModificationTest extends TestCase
 
     /**
      * Test the constructor on a vehicle modification.
-     * @test
      */
     public function testConstructorModification(): void
     {
@@ -52,7 +49,6 @@ final class VehicleModificationTest extends TestCase
 
     /**
      * Test the __toString() method.
-     * @test
      */
     public function testToString(): void
     {
@@ -62,7 +58,6 @@ final class VehicleModificationTest extends TestCase
 
     /**
      * Test the constructor with a piece of equipment that has a rating.
-     * @test
      */
     public function testConstructorEquipmentWithRating(): void
     {
@@ -76,7 +71,6 @@ final class VehicleModificationTest extends TestCase
     /**
      * Test getting the cost of a simple modification that doesn't change cost
      * based on the attributes of the vehicle it's installed on.
-     * @test
      */
     public function testGetCostNoFormula(): void
     {
@@ -92,7 +86,6 @@ final class VehicleModificationTest extends TestCase
     /**
      * Test getting the cost of a modification that changes cost based on the
      * attributes of the vehicle it's installed on.
-     * @test
      */
     public function testGetCostWithFormula(): void
     {
@@ -108,7 +101,6 @@ final class VehicleModificationTest extends TestCase
     /**
      * Test getting the cost of a modification that is based on the cost of the
      * vehicle.
-     * @test
      */
     public function testGetCostMultiplied(): void
     {
@@ -125,7 +117,6 @@ final class VehicleModificationTest extends TestCase
     /**
      * Test checking whether a modification is allowed if there are no
      * requirements.
-     * @test
      */
     public function testIsAllowedNoRequirements(): void
     {
@@ -137,7 +128,6 @@ final class VehicleModificationTest extends TestCase
 
     /**
      * Test the isAllowed method on a couple of vehicles.
-     * @test
      */
     public function testIsAllowedWithRequirements(): void
     {
@@ -150,7 +140,6 @@ final class VehicleModificationTest extends TestCase
 
     /**
      * Test a vehicle modification that is itself modified.
-     * @test
      */
     public function testModifiedModification(): void
     {
@@ -170,7 +159,6 @@ final class VehicleModificationTest extends TestCase
 
     /**
      * Test getting the slots of a modification that doesn't use slots.
-     * @test
      */
     public function testGetSlotsOnEquipment(): void
     {

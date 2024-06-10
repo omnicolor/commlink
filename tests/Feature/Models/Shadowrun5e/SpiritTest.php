@@ -7,15 +7,14 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\Spirit;
 use BadMethodCallException;
 use Illuminate\Support\Facades\Config;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for the spirit class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class SpiritTest extends TestCase
 {
     /**
@@ -36,7 +35,6 @@ final class SpiritTest extends TestCase
 
     /**
      * Test a spirit that has not been given a force.
-     * @test
      */
     public function testSpiritWithoutForce(): void
     {
@@ -49,7 +47,6 @@ final class SpiritTest extends TestCase
 
     /**
      * Test getting a spirit's attributes if they have a force.
-     * @test
      */
     public function testSpiritWithForce(): void
     {
@@ -74,7 +71,6 @@ final class SpiritTest extends TestCase
 
     /**
      * Test getting an attribute that is not part of a spirit.
-     * @test
      */
     public function testGettingInvalidAttribute(): void
     {
@@ -88,7 +84,6 @@ final class SpiritTest extends TestCase
 
     /**
      * Test trying to load an invalid spirit type.
-     * @test
      */
     public function testInvalidSpirit(): void
     {
@@ -99,7 +94,6 @@ final class SpiritTest extends TestCase
 
     /**
      * Test the __toString method.
-     * @test
      */
     public function testToString(): void
     {
@@ -109,7 +103,6 @@ final class SpiritTest extends TestCase
 
     /**
      * Test setting a spirit's force.
-     * @test
      */
     public function testSetForce(): void
     {
@@ -120,7 +113,6 @@ final class SpiritTest extends TestCase
 
     /**
      * Test the data file for required fields.
-     * @test
      */
     public function testDataFileRequiredFields(): void
     {
@@ -138,7 +130,6 @@ final class SpiritTest extends TestCase
 
     /**
      * Test the data file for matching IDs.
-     * @test
      */
     public function testDataFileSpiritIds(): void
     {
@@ -157,7 +148,6 @@ final class SpiritTest extends TestCase
 
     /**
      * Test getting a spirit's powers.
-     * @test
      */
     public function testGetPowersNoOptional(): void
     {
@@ -167,7 +157,6 @@ final class SpiritTest extends TestCase
 
     /**
      * Test getting a spirit's powers if they've chosen an optional power.
-     * @test
      */
     public function testGetPowersWithOptional(): void
     {

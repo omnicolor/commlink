@@ -10,21 +10,18 @@ use App\Models\Cyberpunkred\PartialCharacter;
 use App\Models\Cyberpunkred\Role\Exec;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Controller for the Cyberpunk Red characters controller.
- * @group controllers
- * @group cyberpunkred
- * @medium
- */
+#[Group('cyberpunkred')]
+#[Medium]
 final class CharacterControllerTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Test loading Cyberpunk Red characters if unauthenticated.
-     * @test
      */
     public function testUnauthenticated(): void
     {
@@ -35,7 +32,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test loading Cyberpunk Red characters if authenticated but the user
      * doesn't have any characters.
-     * @test
      */
     public function testAuthenticatedNoCharacters(): void
     {
@@ -49,7 +45,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test loading Cyberpunk Red characters if authenticated, but all of the
      * user's characters are for different systems.
-     * @test
      */
     public function testAuthenticatedNoCharactersFromSystem(): void
     {
@@ -71,7 +66,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test loading Cyberpunk Red characters if authenticated, and the user has
      * a character for Cyberpunk (in addition to another system).
-     * @test
      */
     public function testAuthenticatedWithCyberpunkCharacter(): void
     {
@@ -108,7 +102,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading an individual character.
-     * @test
      */
     public function testShowCharacter(): void
     {
@@ -146,7 +139,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading an individual character from another system.
-     * @test
      */
     public function testShowCharacterOtherSystem(): void
     {
@@ -169,7 +161,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading a character view.
-     * @test
      */
     public function testViewCharacter(): void
     {
@@ -196,7 +187,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test trying to create a brand new character.
-     * @test
      */
     public function testCreateNewCharacter(): void
     {
@@ -218,7 +208,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test getting the option to continue an existing character.
-     * @test
      */
     public function testCreateNewCharacterWithExisting(): void
     {
@@ -241,7 +230,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test trying to continue a character.
-     * @test
      */
     public function testContinueCharacter(): void
     {
@@ -267,7 +255,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test changing from a previously started character to a new one.
-     * @test
      */
     public function testSwitchCharacter(): void
     {
@@ -298,7 +285,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test saving a character for later.
-     * @test
      */
     public function testSaveForLater(): void
     {
@@ -323,7 +309,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test trying to name a character.
-     * @test
      */
     public function testNameCharacter(): void
     {
@@ -354,7 +339,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading the role page if the character doesn't have a role yet.
-     * @test
      */
     public function testLoadRolePage(): void
     {
@@ -378,7 +362,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading the role page if the character has chosen a role.
-     * @test
      */
     public function testLoadRolePageAlreadyChosen(): void
     {
@@ -408,7 +391,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test trying to give a new character a role.
-     * @test
      */
     public function testAssignRole(): void
     {
@@ -447,7 +429,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading the lifepath page.
-     * @test
      */
     public function testLoadLifepathPage(): void
     {
@@ -470,7 +451,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading a role-based lifepath page without having chosen a role.
-     * @test
      */
     public function testLoadRoleBasedLifepathPageWithoutARole(): void
     {
@@ -492,7 +472,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading a role-based lifepath page.
-     * @test
      */
     public function testLoadRoleBasedLifepathPage(): void
     {
@@ -521,7 +500,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test updating a character's lifepath.
-     * @test
      */
     public function testAssignLifepath(): void
     {
@@ -624,7 +602,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading the stats page.
-     * @test
      */
     public function testLoadStatsPage(): void
     {
@@ -647,7 +624,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing a character's stats.
-     * @test
      */
     public function testStoreStats(): void
     {
@@ -708,7 +684,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test loading a character that has been all the way through chargen but
      * not saved.
-     * @test
      */
     public function testReview(): void
     {
@@ -788,7 +763,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading a character's review page.
-     * @test
      */
     public function testLoadReview(): void
     {
@@ -867,7 +841,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test trying to load an invalid character creation page.
-     * @test
      */
     public function testLoadNotFound(): void
     {

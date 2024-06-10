@@ -13,23 +13,17 @@ use App\Models\User;
 use App\Rolls\StarTrekAdventures\Help;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests a user asking for help in a channel registered to play Star Trek
- * Adventures.
- * @group star-trek-adventures
- * @medium
- */
+#[Group('star-trek-adventures')]
+#[Medium]
 final class HelpTest extends TestCase
 {
     use WithFaker;
 
-    /**
-     * Test asking for help as an unlinked user.
-     * @group slack
-     * @test
-     */
+    #[Group('slack')]
     public function testHelpNoLinkedUserSlack(): void
     {
         /** @var Channel */
@@ -51,11 +45,7 @@ final class HelpTest extends TestCase
         );
     }
 
-    /**
-     * Test asking for help as an unlinked user in Discord.
-     * @group discord
-     * @test
-     */
+    #[Group('discord')]
     public function testHelpNoLinkedUserDiscord(): void
     {
         /** @var Channel */
@@ -72,11 +62,7 @@ final class HelpTest extends TestCase
         );
     }
 
-    /**
-     * Test asking for help as a Gamemaster.
-     * @group discord
-     * @test
-     */
+    #[Group('discord')]
     public function testHelpGamemaster(): void
     {
         $user = User::factory()->create();
@@ -109,11 +95,7 @@ final class HelpTest extends TestCase
         self::assertStringContainsString('Gamemaster commands', $response);
     }
 
-    /**
-     * Test asking for help as a registered player.
-     * @group discord
-     * @test
-     */
+    #[Group('discord')]
     public function testHelpPlayerNoCharacter(): void
     {
         $user = User::factory()->create();
@@ -145,11 +127,7 @@ final class HelpTest extends TestCase
         self::assertStringContainsString('link <characterId>', $response);
     }
 
-    /**
-     * Test asking for help as a character.
-     * @group discord
-     * @test
-     */
+    #[Group('discord')]
     public function testHelpPlayerCharacter(): void
     {
         $user = User::factory()->create();
@@ -193,9 +171,7 @@ final class HelpTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testHelpIrc(): void
     {
         $user = User::factory()->create();

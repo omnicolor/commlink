@@ -8,13 +8,12 @@ use App\Models\Campaign;
 use App\Models\Event;
 use App\Models\EventRsvp;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for the event model.
- * @group events
- * @medium
- */
+#[Group('events')]
+#[Medium]
 final class EventTest extends TestCase
 {
     public function testToStringWithName(): void

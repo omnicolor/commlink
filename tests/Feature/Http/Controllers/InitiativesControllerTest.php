@@ -8,19 +8,16 @@ use App\Models\Campaign;
 use App\Models\Initiative;
 use App\Models\User;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for the initiatives controller.
- * @group controllers
- * @group initiatives
- * @medium
- */
+#[Group('initiatives')]
+#[Medium]
 final class InitiativesControllerTest extends TestCase
 {
     /**
      * Test trying to destroy an initiative owned by someone else.
-     * @test
      */
     public function testDestroyAnothersInitiative(): void
     {
@@ -47,7 +44,6 @@ final class InitiativesControllerTest extends TestCase
 
     /**
      * Test trying to destroy an initiative that doesn't exist.
-     * @test
      */
     public function testDestroyNotFound(): void
     {
@@ -64,7 +60,6 @@ final class InitiativesControllerTest extends TestCase
 
     /**
      * Test destroying an initiative.
-     * @test
      */
     public function testDestroy(): void
     {
@@ -91,7 +86,6 @@ final class InitiativesControllerTest extends TestCase
 
     /**
      * Test trying to view initiatives as a non-GM.
-     * @test
      */
     public function testIndexNotGm(): void
     {
@@ -113,7 +107,6 @@ final class InitiativesControllerTest extends TestCase
 
     /**
      * Test viewing initiatives for a campaign that has none.
-     * @test
      */
     public function testIndexEmpty(): void
     {
@@ -131,7 +124,6 @@ final class InitiativesControllerTest extends TestCase
 
     /**
      * Test viewing initiatives for a campaign.
-     * @test
      */
     public function testIndex(): void
     {
@@ -154,7 +146,6 @@ final class InitiativesControllerTest extends TestCase
 
     /**
      * Test updating an initiative from a different campaign.
-     * @test
      */
     public function testUpdateDifferentCampaign(): void
     {
@@ -184,7 +175,6 @@ final class InitiativesControllerTest extends TestCase
     /**
      * Test trying to update all of the initiative's fields. Only the
      * initiative and character's name should be editable.
-     * @test
      */
     public function testUpdateInitiative(): void
     {
@@ -225,7 +215,6 @@ final class InitiativesControllerTest extends TestCase
 
     /**
      * Test trying to view an initiative from a different campaign.
-     * @test
      */
     public function testShowFromDifferentCampaign(): void
     {
@@ -251,7 +240,6 @@ final class InitiativesControllerTest extends TestCase
 
     /**
      * Test trying to view an initiative.
-     * @test
      */
     public function testShowInitiative(): void
     {
@@ -286,7 +274,6 @@ final class InitiativesControllerTest extends TestCase
 
     /**
      * Test trying to create an initiative as a non-GM.
-     * @test
      */
     public function testStoreInitiativeNotGm(): void
     {
@@ -312,7 +299,6 @@ final class InitiativesControllerTest extends TestCase
 
     /**
      * Test creating an initiative setting the initiative directly.
-     * @test
      */
     public function testStoreInitiativeSettingManually(): void
     {
@@ -347,7 +333,6 @@ final class InitiativesControllerTest extends TestCase
 
     /**
      * Test creating an initiative setting the initiative base and dice.
-     * @test
      */
     public function testStoreInitiativeBaseAndDice(): void
     {
@@ -388,7 +373,6 @@ final class InitiativesControllerTest extends TestCase
 
     /**
      * Test trying to remove initiatives for a campaign GMed by another.
-     * @test
      */
     public function testTruncateInitiativesFromAnothersCampaign(): void
     {
@@ -414,7 +398,6 @@ final class InitiativesControllerTest extends TestCase
 
     /**
      * Test deleting all initiatives for a campaign.
-     * @test
      */
     public function testTruncateInitiatives(): void
     {

@@ -163,6 +163,7 @@ class Number extends Roll
     /**
      * Roll the dice and calculate the result with critical successes and
      * failures.
+     * @psalm-suppress UndefinedClass
      */
     protected function roll(): void
     {

@@ -25,7 +25,7 @@ class Initiative extends Model
         // Either campaign_id or channel_id must be filled.
         'campaign_id',
         'channel_id',
-        // Either character_id or name must be filled
+        // Either character_id or name must be filled.
         'character_id',
         'character_name',
         'grunt_id',
@@ -59,6 +59,7 @@ class Initiative extends Model
      *
      * If the initiative belongs to a character, returns their name/handle. If
      * it's a mook, returns the name assigned to them when setting initiative.
+     * @psalm-suppress InvalidStaticInvocation
      * @psalm-suppress PossiblyUnusedMethod
      */
     public function name(): Attribute

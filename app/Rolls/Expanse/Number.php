@@ -10,6 +10,16 @@ use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
 
+use function array_count_values;
+use function array_shift;
+use function array_sum;
+use function count;
+use function explode;
+use function implode;
+use function sprintf;
+
+use const PHP_EOL;
+
 class Number extends Roll
 {
     /**
@@ -34,9 +44,9 @@ class Number extends Roll
         Channel $channel
     ) {
         parent::__construct($content, $character, $channel);
-        $args = \explode(' ', $content);
-        $this->addition = (int)\array_shift($args);
-        $this->description = \implode(' ', $args);
+        $args = explode(' ', $content);
+        $this->addition = (int)array_shift($args);
+        $this->description = implode(' ', $args);
         $this->roll();
         $this->title = $this->formatTitle();
         $this->text = $this->formatText();
@@ -62,21 +72,22 @@ class Number extends Roll
 
     public function forDiscord(): string
     {
-        return \sprintf('**%s**', $this->title) . \PHP_EOL . $this->text;
+        return sprintf('**%s**', $this->title) . PHP_EOL . $this->text;
     }
 
     public function forIrc(): string
     {
-        return $this->title . \PHP_EOL . $this->text;
+        return $this->title . PHP_EOL . $this->text;
     }
 
     /**
      * Roll the dice and calculate the result and stunt points.
+     * @psalm-suppress UndefinedClass
      */
     protected function roll(): void
     {
         $this->dice = DiceService::rollMany(3, 6);
-        $this->result = \array_sum($this->dice) + $this->addition;
+        $this->result = array_sum($this->dice) + $this->addition;
     }
 
     /**
@@ -86,9 +97,9 @@ class Number extends Roll
     {
         $for = '';
         if ('' !== $this->description) {
-            $for = \sprintf(' for "%s"', $this->description);
+            $for = sprintf(' for "%s"', $this->description);
         }
-        return \sprintf('%s made a roll%s', $this->username, $for);
+        return sprintf('%s made a roll%s', $this->username, $for);
     }
 
     /**
@@ -98,7 +109,7 @@ class Number extends Roll
     {
         $result = (string)$this->result;
         if (0 !== $this->getStuntPoints()) {
-            $result = \sprintf(
+            $result = sprintf(
                 '%d (%d SP)',
                 $this->result,
                 $this->getStuntPoints()
@@ -112,7 +123,7 @@ class Number extends Roll
      */
     protected function formatFooter(): string
     {
-        return \sprintf(
+        return sprintf(
             '%d %d `%d`',
             $this->dice[0],
             $this->dice[1],
@@ -127,8 +138,8 @@ class Number extends Roll
     {
         // Count number of distinct values rolled to see if there are any that
         // are the same.
-        $values = \array_count_values($this->dice);
-        if (3 === \count($values)) {
+        $values = array_count_values($this->dice);
+        if (3 === count($values)) {
             // No doubles, no stunt points.
             return 0;
         }

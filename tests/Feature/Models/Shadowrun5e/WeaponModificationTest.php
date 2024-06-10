@@ -6,15 +6,14 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Weapon;
 use App\Models\Shadowrun5e\WeaponModification;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for weapon modification class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class WeaponModificationTest extends TestCase
 {
     /**
@@ -33,7 +32,6 @@ final class WeaponModificationTest extends TestCase
 
     /**
      * Test that loading an invalid modification throws an exception.
-     * @test
      */
     public function testInvalidId(): void
     {
@@ -47,7 +45,6 @@ final class WeaponModificationTest extends TestCase
 
     /**
      * Test that loading a weapon modification sets the ID.
-     * @test
      */
     public function testConstructorSetsId(): void
     {
@@ -56,7 +53,6 @@ final class WeaponModificationTest extends TestCase
 
     /**
      * Test that loading sets the availability.
-     * @test
      */
     public function testConstructorSetsAvailability(): void
     {
@@ -65,7 +61,6 @@ final class WeaponModificationTest extends TestCase
 
     /**
      * Test that loading sets the cost.
-     * @test
      */
     public function testConstructorSetsCost(): void
     {
@@ -74,7 +69,6 @@ final class WeaponModificationTest extends TestCase
 
     /**
      * Test that loading doesn't change the costModifier if there isn't one.
-     * @test
      */
     public function testConstructorDoesntChangeCostModifier(): void
     {
@@ -83,7 +77,6 @@ final class WeaponModificationTest extends TestCase
 
     /**
      * Test that loading sets the description.
-     * @test
      */
     public function testConstructorSetsDescription(): void
     {
@@ -92,7 +85,6 @@ final class WeaponModificationTest extends TestCase
 
     /**
      * Test that loading doesn't change effects if there are none.
-     * @test
      */
     public function testConstructorDoesntChangeEffects(): void
     {
@@ -101,7 +93,6 @@ final class WeaponModificationTest extends TestCase
 
     /**
      * Test that loading doesn't change incompatible list if there are none.
-     * @test
      */
     public function testConstructorDoesntChangeIncompatibilities(): void
     {
@@ -110,7 +101,6 @@ final class WeaponModificationTest extends TestCase
 
     /**
      * Test that loading sets the mount point list.
-     * @test
      */
     public function testConstructorSetsMountList(): void
     {
@@ -119,7 +109,6 @@ final class WeaponModificationTest extends TestCase
 
     /**
      * Test that loading sets the name.
-     * @test
      */
     public function testConstructorSetsName(): void
     {
@@ -128,7 +117,6 @@ final class WeaponModificationTest extends TestCase
 
     /**
      * Test that loading sets the ruleset, if not core.
-     * @test
      */
     public function testConstructorSetsRuleset(): void
     {
@@ -137,7 +125,6 @@ final class WeaponModificationTest extends TestCase
 
     /**
      * Test that loading sets the type.
-     * @test
      */
     public function testConstructorSetsType(): void
     {
@@ -146,7 +133,6 @@ final class WeaponModificationTest extends TestCase
 
     /**
      * Test casting modification to a string.
-     * @test
      */
     public function testToString(): void
     {
@@ -155,7 +141,6 @@ final class WeaponModificationTest extends TestCase
 
     /**
      * Test that constructor sets effects list.
-     * @test
      */
     public function testConstructorSetsEffects(): void
     {
@@ -165,7 +150,6 @@ final class WeaponModificationTest extends TestCase
 
     /**
      * Test that the constructor sets the cost modifier.
-     * @test
      */
     public function testConstructorSetsCostModifier(): void
     {
@@ -176,7 +160,6 @@ final class WeaponModificationTest extends TestCase
     /**
      * Test that the constructor doesn't change the cost if mod multiplies the
      * cost.
-     * @test
      */
     public function testConstructorDoesntChangeCost(): void
     {
@@ -187,7 +170,6 @@ final class WeaponModificationTest extends TestCase
     /**
      * Test that the constructor doesn't change the mount list if there isn't
      * one.
-     * @test
      */
     public function testConstructorDoesntChangeMountList(): void
     {
@@ -197,7 +179,6 @@ final class WeaponModificationTest extends TestCase
 
     /**
      * Test getCost() on modifications that don't multiply the weapon's cost.
-     * @test
      */
     public function testGetCost(): void
     {
@@ -208,7 +189,6 @@ final class WeaponModificationTest extends TestCase
 
     /**
      * Test getCost() on modifications that multiply the weapon's cost.
-     * @test
      */
     public function testGetCostMultiplier(): void
     {
@@ -222,7 +202,6 @@ final class WeaponModificationTest extends TestCase
 
     /**
      * Test findByName with a name that isn't found.
-     * @test
      */
     public function testFindByNameNotFound(): void
     {
@@ -235,7 +214,6 @@ final class WeaponModificationTest extends TestCase
 
     /**
      * Test finding a modification by name.
-     * @test
      */
     public function testFindByName(): void
     {

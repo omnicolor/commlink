@@ -8,17 +8,15 @@ use App\Models\Campaign;
 use App\Models\User;
 use App\View\Components\CampaignList;
 use Illuminate\Database\Eloquent\Collection;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * @medium
- */
+#[Medium]
 final class CampaignListTest extends TestCase
 {
     /**
      * Test the constructor when the list of GMed and registered campaigns are
      * different.
-     * @test
      */
     public function testConstructorDifferentRegisteredBy(): void
     {
@@ -55,7 +53,6 @@ final class CampaignListTest extends TestCase
     /**
      * Test the constructor when the list of GMed and registered campaigns are
      * the same.
-     * @test
      */
     public function testConstructorSameCampaigns(): void
     {
@@ -102,7 +99,6 @@ final class CampaignListTest extends TestCase
 
     /**
      * Test filtering out *playing* a game if the user also registered it.
-     * @test
      */
     public function testPlayingFiltered(): void
     {

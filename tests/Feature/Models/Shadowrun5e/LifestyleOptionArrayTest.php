@@ -6,16 +6,15 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\LifestyleOption;
 use App\Models\Shadowrun5e\LifestyleOptionArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for LifestyleOptionArray.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class LifestyleOptionArrayTest extends TestCase
 {
     /**
@@ -35,7 +34,6 @@ final class LifestyleOptionArrayTest extends TestCase
 
     /**
      * Test an empty array.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +42,6 @@ final class LifestyleOptionArrayTest extends TestCase
 
     /**
      * Test adding an option to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -54,7 +51,6 @@ final class LifestyleOptionArrayTest extends TestCase
 
     /**
      * Test adding the same option twice.
-     * @test
      */
     public function testAddTwice(): void
     {
@@ -65,7 +61,6 @@ final class LifestyleOptionArrayTest extends TestCase
 
     /**
      * Test adding a non-LifestyleOption to the array.
-     * @test
      */
     public function testAddInvalidObject(): void
     {

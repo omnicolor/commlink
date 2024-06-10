@@ -10,7 +10,10 @@ use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
 
+use function array_shift;
+use function explode;
 use function implode;
+use function is_numeric;
 use function sprintf;
 
 use const PHP_EOL;
@@ -36,11 +39,11 @@ class Focused extends Roll
     public function __construct(
         string $content,
         string $username,
-        Channel $channel
+        Channel $channel,
     ) {
         parent::__construct($content, $username, $channel);
 
-        $args = \explode(' ', $content);
+        $args = explode(' ', $content);
 
         // Get rid of the name of the roll.
         array_shift($args);
@@ -131,6 +134,9 @@ class Focused extends Roll
         );
     }
 
+    /**
+     * @psalm-suppress UndefinedClass
+     */
     protected function roll(): void
     {
         for ($i = 2 + $this->extraDice; 0 < $i; $i--) {

@@ -20,6 +20,13 @@ use Laravel\Socialite\Two\InvalidStateException;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
+use function collect;
+use function count;
+use function redirect;
+use function session;
+use function sprintf;
+use function view;
+
 class DiscordController extends Controller
 {
     use InteractsWithDiscord;
@@ -78,6 +85,8 @@ class DiscordController extends Controller
 
     /**
      * Handle a successful login from Discord.
+     * @psalm-suppress InvalidReturnStatement
+     * @psalm-suppress InvalidReturnType
      */
     public function handleCallback(): RedirectResponse
     {

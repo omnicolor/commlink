@@ -12,20 +12,17 @@ use App\Models\Expanse\Origin\Earther;
 use App\Models\Expanse\SocialClass;
 use App\Models\Expanse\Talent;
 use App\Models\Expanse\TalentArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Expanse characters.
- * @group expanse
- * @group models
- * @small
- */
+#[Group('expanse')]
+#[Small]
 final class CharacterTest extends TestCase
 {
     /**
      * Test displaying the character as a string just shows their name.
-     * @test
      */
     public function testToString(): void
     {
@@ -35,7 +32,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's attribute.
-     * @test
      */
     public function testGetAccuracy(): void
     {
@@ -45,7 +41,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's background.
-     * @test
      */
     public function testGetBackground(): void
     {
@@ -56,7 +51,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's background if it's invalid.
-     * @test
      */
     public function testGetBackgroundInvalid(): void
     {
@@ -67,7 +61,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's focuses if they have none.
-     * @test
      */
     public function testGetFocusesNone(): void
     {
@@ -77,7 +70,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's focuses if they only have invalid ones.
-     * @test
      */
     public function testGetFocusesInvalid(): void
     {
@@ -91,7 +83,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's focuses.
-     * @test
      */
     public function testGetFocuses(): void
     {
@@ -109,7 +100,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's focuses if a level is set.
-     * @test
      */
     public function testGetFocusesWithLevel(): void
     {
@@ -127,7 +117,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's origin.
-     * @test
      */
     public function testGetOrigin(): void
     {
@@ -139,7 +128,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's origin if it's invalid.
-     * @test
      */
     public function testGetOriginInvalid(): void
     {
@@ -150,7 +138,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's social class.
-     * @test
      */
     public function testGetSocialClass(): void
     {
@@ -161,7 +148,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's social class if it's invalid.
-     * @test
      */
     public function testGetSocialClassInvalid(): void
     {
@@ -172,7 +158,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's talents if they have none.
-     * @test
      */
     public function testGetTalentsNone(): void
     {
@@ -183,7 +168,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's talents if they only have an invalid one.
-     * @test
      */
     public function testGetTalentsInvalid(): void
     {
@@ -197,7 +181,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's talents.
-     * @test
      */
     public function testGetTalents(): void
     {
@@ -215,7 +198,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test hasFocus() if the character has none.
-     * @test
      */
     public function testHasFocusDoesnt(): void
     {
@@ -224,7 +206,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test hasFocus() if the character has it.
-     * @test
      */
     public function testHasFocus(): void
     {

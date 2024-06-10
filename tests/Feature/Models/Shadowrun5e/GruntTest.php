@@ -5,19 +5,18 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Grunt;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class GruntTest extends TestCase
 {
     /**
      * Test loading an invalid grunt.
-     * @test
      */
     public function testLoadNotFound(): void
     {
@@ -28,7 +27,6 @@ final class GruntTest extends TestCase
 
     /**
      * Test loading a grunt.
-     * @test
      */
     public function testLoadPr0Grunt(): void
     {
@@ -71,7 +69,6 @@ final class GruntTest extends TestCase
 
     /**
      * Test loading a technomancer grunt.
-     * @test
      */
     public function testLoadTechnomancer(): void
     {
@@ -117,7 +114,6 @@ final class GruntTest extends TestCase
 
     /**
      * Test loading an initated adept grunt.
-     * @test
      */
     public function testLoadAdept(): void
     {
@@ -158,7 +154,6 @@ final class GruntTest extends TestCase
     /**
      * Test loading a grunt with armor that isn't found in the default data
      * files.
-     * @test
      */
     public function testLoadInvalidArmor(): void
     {
@@ -169,7 +164,6 @@ final class GruntTest extends TestCase
 
     /**
      * Test loading a grunt with some knowledge skills.
-     * @test
      */
     public function testLoadGruntThatKnowsThings(): void
     {
@@ -180,7 +174,6 @@ final class GruntTest extends TestCase
 
     /**
      * Test getting all grunts.
-     * @test
      */
     public function testLoadAll(): void
     {

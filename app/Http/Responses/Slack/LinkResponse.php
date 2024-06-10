@@ -11,6 +11,7 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\Slack\TextAttachment;
 
+use function config;
 use function explode;
 
 /**
@@ -45,7 +46,10 @@ class LinkResponse extends SlackResponse
 
         $args = explode(' ', $content);
         $characterId = $args[1];
-        /** @var Character */
+        /**
+         * @psalm-suppress InvalidStaticInvocation
+         * @var Character
+         */
         $character = Character::find($characterId);
         if (null === $character) {
             throw new SlackException(

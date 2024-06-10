@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\KnowledgeSkill;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for knowledge skills class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class KnowledgeSkillTest extends TestCase
 {
     /**
@@ -36,7 +36,6 @@ final class KnowledgeSkillTest extends TestCase
 
     /**
      * Test creating a knowledge skill with an invalid category.
-     * @test
      */
     public function testInvalidCategory(): void
     {
@@ -49,7 +48,6 @@ final class KnowledgeSkillTest extends TestCase
 
     /**
      * Test returning the object as a string.
-     * @test
      */
     public function testToString(): void
     {
@@ -62,7 +60,6 @@ final class KnowledgeSkillTest extends TestCase
 
     /**
      * Test returning the object's attribute.
-     * @test
      */
     public function testAttribute(): void
     {
@@ -90,11 +87,8 @@ final class KnowledgeSkillTest extends TestCase
 
     /**
      * Test getting attributes linked to each category.
-     * @dataProvider provideCategoryAttributeMappings
-     * @param string $category Category to test
-     * @param string $attribute Attribute it should link to
-     * @test
      */
+    #[DataProvider('provideCategoryAttributeMappings')]
     public function testCategoryAttributeMappings(
         string $category,
         string $attribute
@@ -124,11 +118,8 @@ final class KnowledgeSkillTest extends TestCase
 
     /**
      * Test getting the short category names.
-     * @dataProvider provideShortCategoryMappings
-     * @param string $category
-     * @param string $short
-     * @test
      */
+    #[DataProvider('provideShortCategoryMappings')]
     public function testShortCategory(string $category, string $short): void
     {
         $skill = new KnowledgeSkill('unused', $category, 1);
@@ -151,11 +142,8 @@ final class KnowledgeSkillTest extends TestCase
 
     /**
      * Test getting a knowledge skill's ID.
-     * @dataProvider namesProvider
-     * @param string $name
-     * @param string $id
-     * @test
      */
+    #[DataProvider('namesProvider')]
     public function testNamesToId(string $name, string $id): void
     {
         $skill = new KnowledgeSkill($name, 'academic', 2);
@@ -164,7 +152,6 @@ final class KnowledgeSkillTest extends TestCase
 
     /**
      * Test getting an unknown property.
-     * @test
      */
     public function testGetUnknownProperty(): void
     {

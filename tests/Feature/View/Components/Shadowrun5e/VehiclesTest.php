@@ -7,16 +7,17 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Vehicles;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class VehiclesTest extends TestCase
 {
     /**
      * Test rendering a lack of vehicles for an existing character.
-     * @test
      */
     public function testNoVehiclesExistingCharacter(): void
     {
@@ -27,7 +28,6 @@ final class VehiclesTest extends TestCase
 
     /**
      * Test a lack of vehicles for a new character.
-     * @test
      */
     public function testNoVehiclesNewCharacter(): void
     {
@@ -41,7 +41,6 @@ final class VehiclesTest extends TestCase
 
     /**
      * Test rendering a vehicle.
-     * @test
      */
     public function testVehicles(): void
     {

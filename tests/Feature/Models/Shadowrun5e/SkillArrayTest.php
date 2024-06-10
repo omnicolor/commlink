@@ -7,16 +7,15 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\ActiveSkill;
 use App\Models\Shadowrun5e\Skill;
 use App\Models\Shadowrun5e\SkillArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for the SkillArray class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class SkillArrayTest extends TestCase
 {
     /**
@@ -36,7 +35,6 @@ final class SkillArrayTest extends TestCase
 
     /**
      * Test an empty SkillArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -45,7 +43,6 @@ final class SkillArrayTest extends TestCase
 
     /**
      * Test adding a skill to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -55,7 +52,6 @@ final class SkillArrayTest extends TestCase
 
     /**
      * Test that adding a non-skill to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -66,7 +62,6 @@ final class SkillArrayTest extends TestCase
 
     /**
      * Test that adding a non-skill to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

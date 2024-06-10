@@ -12,13 +12,13 @@ use App\Models\ChatCharacter;
 use App\Models\Deck;
 use App\Models\Initiative;
 use App\Models\Shadowrun5e\Character as Runner;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 /**
  * Tests for the Varz controller.
- * @group controllers
- * @medium
  */
+#[Medium]
 final class VarzControllerTest extends TestCase
 {
     public function setUp(): void
@@ -36,7 +36,6 @@ final class VarzControllerTest extends TestCase
 
     /**
      * Test getting system metrics.
-     * @test
      */
     public function testVarzEmpty(): void
     {
@@ -66,7 +65,6 @@ final class VarzControllerTest extends TestCase
 
     /**
      * Test getting system metrics after creating some things.
-     * @test
      */
     public function testVarz(): void
     {

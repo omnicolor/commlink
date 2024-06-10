@@ -5,22 +5,17 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\Focus;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
 use function count;
 
-/**
- * Tests for Expanse focuses.
- * @group expanse
- * @small
- */
+#[Group('expanse')]
+#[Small]
 final class FocusTest extends TestCase
 {
-    /**
-     * Test trying to load an invalid focus.
-     * @test
-     */
     public function testLoadInvalidFocus(): void
     {
         self::expectException(RuntimeException::class);
@@ -28,10 +23,6 @@ final class FocusTest extends TestCase
         new Focus('q');
     }
 
-    /**
-     * Test trying to load a valid focus.
-     * @test
-     */
     public function testLoadValidFocus(): void
     {
         $focus = new Focus('crafting');
@@ -42,10 +33,6 @@ final class FocusTest extends TestCase
         self::assertSame(47, $focus->page);
     }
 
-    /**
-     * Test casting a focus to a string.
-     * @test
-     */
     public function testToString(): void
     {
         $focus = new Focus('crafting');
@@ -54,7 +41,6 @@ final class FocusTest extends TestCase
 
     /**
      * Test not setting the level for the focus.
-     * @test
      */
     public function testDefaultLevel(): void
     {
@@ -64,7 +50,6 @@ final class FocusTest extends TestCase
 
     /**
      * Test setting the level for the focus.
-     * @test
      */
     public function testSetLevel(): void
     {

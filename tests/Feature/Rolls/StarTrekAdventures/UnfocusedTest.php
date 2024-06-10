@@ -7,24 +7,19 @@ namespace Tests\Feature\Rolls\StarTrekAdventures;
 use App\Models\Channel;
 use App\Rolls\StarTrekAdventures\Unfocused;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function json_decode;
 
 use const PHP_EOL;
 
-/**
- * Tests for trying an unfocused test in Star Trek Adventures.
- * @group star-trek-adventures
- * @medium
- */
+#[Group('star-trek-adventures')]
+#[Medium]
 final class UnfocusedTest extends TestCase
 {
-    /**
-     * Test making a simple unfocused roll.
-     * @group slack
-     * @test
-     */
+    #[Group('slack')]
     public function testUnfocusedSlack(): void
     {
         /** @var Channel */
@@ -46,9 +41,8 @@ final class UnfocusedTest extends TestCase
 
     /**
      * Test making an unfocused roll with extra dice.
-     * @group discor
-     * @test
      */
+    #[Group('discord')]
     public function testUnfocusedExtraDice(): void
     {
         /** @var Channel */
@@ -66,9 +60,8 @@ final class UnfocusedTest extends TestCase
 
     /**
      * Test making an unfocused roll resulting in a complication.
-     * @group discord
-     * @test
      */
+    #[Group('discord')]
     public function testUnfocusedWithComplication(): void
     {
         /** @var Channel */
@@ -90,9 +83,8 @@ final class UnfocusedTest extends TestCase
 
     /**
      * Test getting extra successes with natural ones.
-     * @group discord
-     * @test
      */
+    #[Group('discord')]
     public function testUnfocusedNaturalOnes(): void
     {
         DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(1);
@@ -111,9 +103,8 @@ final class UnfocusedTest extends TestCase
 
     /**
      * Test making an unfocused roll with optional text.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testUnfocusedRollWithOptionalText(): void
     {
         DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(3);
@@ -137,9 +128,7 @@ final class UnfocusedTest extends TestCase
         );
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testUnfocusedIrc(): void
     {
         DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(1);

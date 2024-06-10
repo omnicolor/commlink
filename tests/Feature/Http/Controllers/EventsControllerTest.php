@@ -10,12 +10,12 @@ use App\Models\EventRsvp;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * @group events
- * @medium
- */
+#[Group('events')]
+#[Medium]
 final class EventsControllerTest extends TestCase
 {
     public function testIndexNoEvents(): void

@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\ShipSize;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * Tests for the ship size enum.
- * @group expanse
- * @group models
- * @small
- */
+#[Group('expanse')]
+#[Small]
 final class ShipSizeTest extends TestCase
 {
     /**
@@ -33,12 +32,7 @@ final class ShipSizeTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider lengthProvider
-     * @param ShipSize $size,
-     * @param string $length
-     * @test
-     */
+    #[DataProvider('lengthProvider')]
     public function testLength(ShipSize $size, string $length): void
     {
         self::assertSame($length, $size->length());
@@ -62,12 +56,7 @@ final class ShipSizeTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider hullProvider
-     * @param ShipSize $size
-     * @param string $hull
-     * @test
-     */
+    #[DataProvider('hullProvider')]
     public function testHull(ShipSize $size, string $hull): void
     {
         self::assertSame($hull, $size->hull());
@@ -91,13 +80,7 @@ final class ShipSizeTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider crewProvider
-     * @param ShipSize $size
-     * @param int $minimum
-     * @param int $standard
-     * @test
-     */
+    #[DataProvider('crewProvider')]
     public function testCrew(ShipSize $size, int $minimum, int $standard): void
     {
         self::assertSame($minimum, $size->crewMin());

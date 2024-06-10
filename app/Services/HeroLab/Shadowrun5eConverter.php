@@ -277,6 +277,7 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse the XML and text files from the portfolio.
+     * @psalm-suppress InvalidPropertyFetch
      * @throws RuntimeException
      */
     protected function parseFiles(): void

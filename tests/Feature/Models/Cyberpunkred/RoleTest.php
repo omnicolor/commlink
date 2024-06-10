@@ -6,20 +6,17 @@ namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\Role;
 use App\Models\Cyberpunkred\Role\Fixer;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
-/**
- * Tests for the Role abstract class.
- * @group cyberpunkred
- * @group models
- * @small
- */
+#[Group('cyberpunkred')]
+#[Small]
 final class RoleTest extends TestCase
 {
     /**
      * Test building a role that doesnt exist.
-     * @test
      */
     public function testBuildInvalidRole(): void
     {
@@ -29,7 +26,6 @@ final class RoleTest extends TestCase
 
     /**
      * Test building a valid role.
-     * @test
      */
     public function testBuildValid(): void
     {
@@ -39,7 +35,6 @@ final class RoleTest extends TestCase
 
     /**
      * Test getting all of the roles.
-     * @test
      */
     public function testAll(): void
     {

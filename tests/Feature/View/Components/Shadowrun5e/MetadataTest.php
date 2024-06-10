@@ -6,11 +6,13 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Character;
 use App\View\Components\Shadowrun5e\Metadata;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class MetadataTest extends TestCase
 {
     public function testMetadata(): void

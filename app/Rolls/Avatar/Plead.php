@@ -11,6 +11,14 @@ use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
 
+use function array_shift;
+use function array_sum;
+use function explode;
+use function implode;
+use function sprintf;
+
+use const PHP_EOL;
+
 /**
  * Handle a character making a Plead action.
  */
@@ -59,26 +67,29 @@ class Plead extends Roll
             return;
         }
 
-        $args = \explode(' ', $content);
-        \array_shift($args);
+        $args = explode(' ', $content);
+        array_shift($args);
         if (isset($args[0]) && is_numeric($args[0])) {
-            $this->addition = (int)\array_shift($args);
+            $this->addition = (int)array_shift($args);
         }
-        $this->description = \implode(' ', $args);
+        $this->description = implode(' ', $args);
 
         $this->roll();
     }
 
+    /**
+     * @psalm-suppress UndefinedClass
+     */
     protected function roll(): void
     {
         $this->dice = DiceService::rollMany(2, 6);
-        $this->result = \array_sum($this->dice) + (int)$this->addition;
+        $this->result = array_sum($this->dice) + (int)$this->addition;
     }
 
     protected function formatBody(): string
     {
         if (null === $this->addition) {
-            return \sprintf(
+            return sprintf(
                 '2d6 = %d + %d = %d',
                 $this->dice[0],
                 $this->dice[1],
@@ -86,7 +97,7 @@ class Plead extends Roll
             );
         }
         if (0 < $this->addition) {
-            return \sprintf(
+            return sprintf(
                 '2d6 + %1$d = %2$d + %3$d + %1$d = %4$d',
                 $this->addition,
                 $this->dice[0],
@@ -94,7 +105,7 @@ class Plead extends Roll
                 $this->result
             );
         }
-        return \sprintf(
+        return sprintf(
             '2d6 - %1$d = %2$d + %3$d - %1$d = %4$d',
             abs($this->addition),
             $this->dice[0],
@@ -107,21 +118,21 @@ class Plead extends Roll
     {
         $for = '';
         if ('' !== $this->description) {
-            $for = \sprintf(' for "%s"', $this->description);
+            $for = sprintf(' for "%s"', $this->description);
         }
         if (self::FAILURE >= $this->result) {
-            return \sprintf('%s failed a plead roll%s', $this->username, $for);
+            return sprintf('%s failed a plead roll%s', $this->username, $for);
         }
 
         if (self::SUCCESS <= $this->result) {
-            return \sprintf(
+            return sprintf(
                 '%s succeeded in a plead roll%s',
                 $this->username,
                 $for
             );
         }
 
-        return \sprintf(
+        return sprintf(
             '%s is getting close to succeeding in pleading%s',
             $this->username,
             $for
@@ -134,7 +145,7 @@ class Plead extends Roll
             return $this->error;
         }
 
-        return sprintf('**%s**', $this->formatTitle()) . \PHP_EOL
+        return sprintf('**%s**', $this->formatTitle()) . PHP_EOL
             . $this->formatBody();
     }
 
@@ -144,7 +155,7 @@ class Plead extends Roll
             return $this->error;
         }
 
-        return $this->formatTitle() . \PHP_EOL . $this->formatBody();
+        return $this->formatTitle() . PHP_EOL . $this->formatBody();
     }
 
     public function forSlack(): SlackResponse

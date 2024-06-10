@@ -50,6 +50,9 @@ class CampaignList extends Component
         );
     }
 
+    /**
+     * @psalm-suppress InvalidReturnStatement
+     */
     public function render(): View
     {
         return view('components.campaign-list');

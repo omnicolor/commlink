@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Dnd5e;
 
 use App\Models\Dnd5e\CoinType;
+use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @small
- */
+#[Small]
 final class CoinTypeTest extends TestCase
 {
     public function testConvertCopper(): void

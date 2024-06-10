@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Tests\Feature\Services;
 
 use App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * @small
- */
+#[Small]
 final class DiceServiceTest extends TestCase
 {
     public function testRollManyFewerThanOneDie(): void

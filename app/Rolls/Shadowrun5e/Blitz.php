@@ -32,7 +32,9 @@ class Blitz extends Init
     protected int $initiativeDice = 5;
     protected int $initiativeScore = 0;
 
-    // @phpstan-ignore-next-line
+    /**
+     * @phpstan-ignore-next-line
+     */
     public function __construct(
         string $content,
         string $username,
@@ -128,7 +130,7 @@ class Blitz extends Init
             return $this->error;
         }
         return sprintf('%s blitzed', $this->username)
-            . \PHP_EOL
+            . PHP_EOL
             . sprintf(
                 '%1$d + 5d6 = %1$d + %3$s = %2$d',
                 $this->initiativeScore,

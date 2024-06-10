@@ -10,22 +10,20 @@ use App\Models\Capers\StandardDeck;
 use App\Models\Channel;
 use App\Rolls\Capers\Draw;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for drawing a card in the Capers system.
- * @group capers
- * @medium
- */
+#[Group('capers')]
+#[Medium]
 final class DrawTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Test trying to draw a card in a Slack channel with no campaign.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testDrawWithNoCampaign(): void
     {
         /** @var Channel */
@@ -41,9 +39,8 @@ final class DrawTest extends TestCase
 
     /**
      * Test trying to draw a Capers card somehow from a non-Capers campaign.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testDrawFromOtherSystem(): void
     {
         /** @var Campaign */
@@ -65,9 +62,8 @@ final class DrawTest extends TestCase
 
     /**
      * Test trying to draw a Capers card for the first time.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testDrawFirstTime(): void
     {
         /** @var Campaign */
@@ -109,9 +105,8 @@ final class DrawTest extends TestCase
 
     /**
      * Test trying to draw a Capers card if the character already has done so.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testDrawAgain(): void
     {
         /** @var Campaign */
@@ -146,9 +141,8 @@ final class DrawTest extends TestCase
 
     /**
      * Test trying to draw from an empty deck.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testDrawEmptySlack(): void
     {
         /** @var Campaign */
@@ -175,9 +169,8 @@ final class DrawTest extends TestCase
 
     /**
      * Test trying to draw a card in Discord.
-     * @group discord
-     * @test
      */
+    #[Group('discord')]
     public function testDrawDiscord(): void
     {
         /** @var Campaign */
@@ -201,9 +194,8 @@ final class DrawTest extends TestCase
 
     /**
      * Test trying to draw from an empty deck in Discord.
-     * @group discord
-     * @test
      */
+    #[Group('discord')]
     public function testDrawEmptyDiscord(): void
     {
         /** @var Campaign */
@@ -230,9 +222,8 @@ final class DrawTest extends TestCase
 
     /**
      * Test trying to draw a card in IRC.
-     * @group irc
-     * @test
      */
+    #[Group('irc')]
     public function testDrawIrc(): void
     {
         /** @var Campaign */
@@ -256,9 +247,8 @@ final class DrawTest extends TestCase
 
     /**
      * Test trying to draw from an empty deck in IRC.
-     * @group irc
-     * @test
      */
+    #[Group('irc')]
     public function testDrawEmptyIRC(): void
     {
         /** @var Campaign */

@@ -12,21 +12,18 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Str;
 
+use function random_int;
+
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
     use RefreshDatabase;
 
-    /**
-     * Create a mock Discord message.
-     * @param string $content Content of the message to Discord
-     * @return Message
-     */
     protected function createDiscordMessageMock(string $content): Message
     {
         $serverNameAndId = Str::random(10);
-        $serverStub = self::createStub(Guild::class);
-        $serverStub->method('__get')->willReturn($serverNameAndId);
+        $serverMock = self::createMock(Guild::class);
+        $serverMock->method('__get')->willReturn($serverNameAndId);
 
         $userTag = 'user#' . random_int(1000, 9999);
         $userId = random_int(1, 9999);
@@ -40,7 +37,7 @@ abstract class TestCase extends BaseTestCase
         $channelName = Str::random(12);
         $channelId = Str::random(10);
         $channelMap = [
-            ['guild', $serverStub],
+            ['guild', $serverMock],
             ['id', $channelId],
             ['name', $channelName],
         ];
@@ -52,7 +49,7 @@ abstract class TestCase extends BaseTestCase
             ['channel', $channelMock],
             ['content', $content],
         ];
-        $messageMock = self::createStub(Message::class);
+        $messageMock = self::createMock(Message::class);
         $messageMock->method('__get')->willReturnMap($messageMap);
         return $messageMock;
     }

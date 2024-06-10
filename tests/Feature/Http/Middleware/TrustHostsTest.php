@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Middleware;
 
 use App\Http\Middleware\TrustHosts;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @small
- */
+#[Small]
 final class TrustHostsTest extends TestCase
 {
     public function testTrustsHosts(): void

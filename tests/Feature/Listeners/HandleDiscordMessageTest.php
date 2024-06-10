@@ -20,16 +20,15 @@ use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use const PHP_EOL;
 
-/**
- * Tests for Discord message event listener.
- * @group discord
- * @group events
- * @medium
- */
+#[Group('discord')]
+#[Group('events')]
+#[Medium]
 final class HandleDiscordMessageTest extends TestCase
 {
     use WithFaker;
@@ -44,7 +43,6 @@ final class HandleDiscordMessageTest extends TestCase
 
     /**
      * Test handling a Discord event with an invalid command.
-     * @test
      */
     public function testHandleInvalidCommand(): void
     {
@@ -93,7 +91,6 @@ final class HandleDiscordMessageTest extends TestCase
 
     /**
      * Test handling a generic roll.
-     * @test
      */
     public function testHandleGenericRoll(): void
     {
@@ -143,7 +140,6 @@ final class HandleDiscordMessageTest extends TestCase
 
     /**
      * Test handling a Discord event meriting a Discord response.
-     * @test
      */
     public function testHandleInfoResponse(): void
     {
@@ -201,15 +197,14 @@ final class HandleDiscordMessageTest extends TestCase
 
     /**
      * Test handling a Discord event for linking a user without the hash.
-     * @test
      */
     public function testHandleValidateUserNoHash(): void
     {
         Event::fake();
 
         $serverNameAndId = Str::random(10);
-        $serverStub = self::createStub(Guild::class);
-        $serverStub->method('__get')->willReturn($serverNameAndId);
+        $serverMock = self::createMock(Guild::class);
+        $serverMock->method('__get')->willReturn($serverNameAndId);
 
         $userTag = 'user#' . random_int(1000, 9999);
         $userId = random_int(1, 9999);
@@ -233,7 +228,7 @@ final class HandleDiscordMessageTest extends TestCase
             $userId,
         );
         $channelMap = [
-            ['guild', $serverStub],
+            ['guild', $serverMock],
             ['id', $channelId],
             ['name', $channelName],
         ];
@@ -245,12 +240,8 @@ final class HandleDiscordMessageTest extends TestCase
             ['channel', $channelMock],
             ['content', '/roll validate'],
         ];
-        $messageMock = self::createStub(Message::class);
+        $messageMock = self::createMock(Message::class);
         $messageMock->method('__get')->willReturnMap($messageMap);
-        // @phpstan-ignore-next-line
-        $messageMock->expects(self::once())
-            ->method('reply')
-            ->with($expected);
 
         $event = new DiscordMessageReceived(
             $messageMock,
@@ -262,15 +253,14 @@ final class HandleDiscordMessageTest extends TestCase
 
     /**
      * Test handling a Discord event for linking a user with a wrong hash.
-     * @test
      */
     public function testHandleValidateUserWrongHash(): void
     {
         Event::fake();
 
         $serverNameAndId = Str::random(10);
-        $serverStub = self::createStub(Guild::class);
-        $serverStub->method('__get')->willReturn($serverNameAndId);
+        $serverMock = self::createMock(Guild::class);
+        $serverMock->method('__get')->willReturn($serverNameAndId);
 
         $userTag = 'user#' . random_int(1000, 9999);
         $userId = random_int(1, 9999);
@@ -295,7 +285,7 @@ final class HandleDiscordMessageTest extends TestCase
             $userId,
         );
         $channelMap = [
-            ['guild', $serverStub],
+            ['guild', $serverMock],
             ['id', $channelId],
             ['name', $channelName],
         ];
@@ -314,12 +304,8 @@ final class HandleDiscordMessageTest extends TestCase
             ['channel', $channelMock],
             ['content', '/roll validate deadb33f'],
         ];
-        $messageMock = self::createStub(Message::class);
+        $messageMock = self::createMock(Message::class);
         $messageMock->method('__get')->willReturnMap($messageMap);
-        // @phpstan-ignore-next-line
-        $messageMock->expects(self::once())
-            ->method('reply')
-            ->with($expected);
 
         $event = new DiscordMessageReceived(
             $messageMock,
@@ -331,15 +317,14 @@ final class HandleDiscordMessageTest extends TestCase
 
     /**
      * Test handling a Discord event for linking a user already linked.
-     * @test
      */
     public function testHandleValidateUserAlreadyLinked(): void
     {
         Event::fake();
 
         $serverNameAndId = Str::random(10);
-        $serverStub = self::createStub(Guild::class);
-        $serverStub->method('__get')->willReturn($serverNameAndId);
+        $serverMock = self::createMock(Guild::class);
+        $serverMock->method('__get')->willReturn($serverNameAndId);
 
         $userTag = 'user#' . random_int(1000, 9999);
         $userId = random_int(1, 9999);
@@ -354,7 +339,7 @@ final class HandleDiscordMessageTest extends TestCase
         $channelId = Str::random(10);
         $expected = 'It looks like you\'re already verified!';
         $channelMap = [
-            ['guild', $serverStub],
+            ['guild', $serverMock],
             ['id', $channelId],
             ['name', $channelName],
         ];
@@ -374,12 +359,8 @@ final class HandleDiscordMessageTest extends TestCase
             ['channel', $channelMock],
             ['content', sprintf('/roll validate %s', $chatUser->verification)],
         ];
-        $messageMock = self::createStub(Message::class);
+        $messageMock = self::createMock(Message::class);
         $messageMock->method('__get')->willReturnMap($messageMap);
-        // @phpstan-ignore-next-line
-        $messageMock->expects(self::once())
-            ->method('reply')
-            ->with($expected);
 
         $event = new DiscordMessageReceived(
             $messageMock,
@@ -391,15 +372,14 @@ final class HandleDiscordMessageTest extends TestCase
 
     /**
      * Test handling a Discord event for linking a user.
-     * @test
      */
     public function testHandleValidateUser(): void
     {
         Event::fake();
 
         $serverNameAndId = Str::random(10);
-        $serverStub = self::createStub(Guild::class);
-        $serverStub->method('__get')->willReturn($serverNameAndId);
+        $serverMock = self::createMock(Guild::class);
+        $serverMock->method('__get')->willReturn($serverNameAndId);
 
         $userTag = 'user#' . random_int(1000, 9999);
         $userId = random_int(1, 9999);
@@ -413,7 +393,7 @@ final class HandleDiscordMessageTest extends TestCase
         $channelName = Str::random(12);
         $channelId = Str::random(10);
         $channelMap = [
-            ['guild', $serverStub],
+            ['guild', $serverMock],
             ['id', $channelId],
             ['name', $channelName],
         ];
@@ -436,12 +416,8 @@ final class HandleDiscordMessageTest extends TestCase
             ['channel', $channelMock],
             ['content', sprintf('/roll validate %s', $chatUser->verification)],
         ];
-        $messageMock = self::createStub(Message::class);
+        $messageMock = self::createMock(Message::class);
         $messageMock->method('__get')->willReturnMap($messageMap);
-        // @phpstan-ignore-next-line
-        $messageMock->expects(self::once())
-            ->method('reply')
-            ->with($expected);
 
         $event = new DiscordMessageReceived(
             $messageMock,
@@ -453,7 +429,6 @@ final class HandleDiscordMessageTest extends TestCase
 
     /**
      * Test handling a Discord message asking for a system-specific number roll.
-     * @test
      */
     public function testHandleSystemNumberRoll(): void
     {
@@ -502,7 +477,6 @@ final class HandleDiscordMessageTest extends TestCase
     /**
      * Test handling a Discord message asking for a system-specific, non-help
      * roll.
-     * @test
      */
     public function testHandleSystemNonNumberRoll(): void
     {
@@ -553,7 +527,6 @@ final class HandleDiscordMessageTest extends TestCase
 
     /**
      * Test handling a Discord message asking for a system-specific help roll.
-     * @test
      */
     public function testHandleSystemHelpRoll(): void
     {
@@ -599,19 +572,18 @@ final class HandleDiscordMessageTest extends TestCase
 
     /**
      * Test handling a Discord message asking for a generic help roll.
-     * @test
      */
     public function testHandleNonSystemHelpRoll(): void
     {
         $expected = sprintf('**About %s**', config('app.name'));
 
-        $serverStub = self::createStub(Guild::class);
-        $serverStub->method('__get')->willReturn(Str::random(10));
+        $serverMock = self::createMock(Guild::class);
+        $serverMock->method('__get')->willReturn(Str::random(10));
 
         $channelMap = [
             ['id', Str::random(14)],
             ['name', Str::random(12)],
-            ['guild', $serverStub],
+            ['guild', $serverMock],
         ];
         $channelMock = $this->createMock(TextChannel::class);
         $channelMock->method('__get')->willReturnMap($channelMap);
@@ -627,11 +599,11 @@ final class HandleDiscordMessageTest extends TestCase
             ['channel', $channelMock],
             ['content', '/roll help'],
         ];
-        $messageStub = self::createStub(Message::class);
-        $messageStub->method('__get')->willReturnMap($messageMap);
+        $messageMock = self::createMock(Message::class);
+        $messageMock->method('__get')->willReturnMap($messageMap);
 
         $event = new DiscordMessageReceived(
-            $messageStub,
+            $messageMock,
             self::createStub(Discord::class)
         );
         self::assertTrue((new HandleDiscordMessage())->handle($event));

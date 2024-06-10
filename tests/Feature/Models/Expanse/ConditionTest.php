@@ -5,21 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\Condition;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Expanse conditions.
- * @group models
- * @group expanse
- * @small
- */
+#[Group('expanse')]
+#[Small]
 final class ConditionTest extends TestCase
 {
-    /**
-     * Test trying to load an invalid Condition.
-     * @test
-     */
     public function testLoadInvalidCondition(): void
     {
         self::expectException(RuntimeException::class);
@@ -27,10 +21,6 @@ final class ConditionTest extends TestCase
         new Condition('q');
     }
 
-    /**
-     * Test trying to load a valid Condition.
-     * @test
-     */
     public function testLoadValidCondition(): void
     {
         $condition = new Condition('deafened');
@@ -40,10 +30,6 @@ final class ConditionTest extends TestCase
         self::assertSame(21, $condition->page);
     }
 
-    /**
-     * Test casting a condition to a string.
-     * @test
-     */
     public function testToString(): void
     {
         $condition = new Condition('deafened');

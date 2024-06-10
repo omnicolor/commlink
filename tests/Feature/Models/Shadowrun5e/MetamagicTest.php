@@ -5,20 +5,18 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Metamagic;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Metamagic class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class MetamagicTest extends TestCase
 {
     /**
      * Test trying to load an invalid Metamagic.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -29,7 +27,6 @@ final class MetamagicTest extends TestCase
 
     /**
      * Test trying to load a valid Metamagic and convert it to a string.
-     * @test
      */
     public function testToString(): void
     {
@@ -39,7 +36,6 @@ final class MetamagicTest extends TestCase
 
     /**
      * Test trying to find a metamagic by name, not found.
-     * @test
      */
     public function testFindByNameNotFound(): void
     {
@@ -50,7 +46,6 @@ final class MetamagicTest extends TestCase
 
     /**
      * Test trying to find a metamagic by name.
-     * @test
      */
     public function testFindByName(): void
     {

@@ -10,24 +10,22 @@ use App\Models\Capers\StandardDeck;
 use App\Models\Channel;
 use App\Rolls\Capers\Shuffle;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function sprintf;
 
-/**
- * Tests for shuffling a player's deck in the Capers system.
- * @group capers
- * @medium
- */
+#[Group('capers')]
+#[Medium]
 final class ShuffleTest extends TestCase
 {
     use WithFaker;
 
     /**
      * Test trying to shuffle a deck in a Slack channel with no campaign.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testShuffleWithNoCampaign(): void
     {
         /** @var Channel */
@@ -43,9 +41,8 @@ final class ShuffleTest extends TestCase
 
     /**
      * Test trying to shuffle a Capers deck somehow from a non-Capers campaign.
-     * @group discord
-     * @test
      */
+    #[Group('discord')]
     public function testShuffleFromOtherSystem(): void
     {
         /** @var Campaign */
@@ -68,9 +65,8 @@ final class ShuffleTest extends TestCase
 
     /**
      * Test trying to shuffle a Capers deck for the first time.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testShuffleFirstTime(): void
     {
         /** @var Campaign */
@@ -109,9 +105,8 @@ final class ShuffleTest extends TestCase
     /**
      * Test trying to shuffle a Capers deck if the character already has done
      * so.
-     * @group discord
-     * @test
      */
+    #[Group('discord')]
     public function testShuffleAgain(): void
     {
         /** @var Campaign */
@@ -146,9 +141,7 @@ final class ShuffleTest extends TestCase
         self::assertCount(54, $deck);
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testErrorForIrc(): void
     {
         /** @var Campaign */
@@ -169,9 +162,7 @@ final class ShuffleTest extends TestCase
         );
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testForIrc(): void
     {
         /** @var Campaign */

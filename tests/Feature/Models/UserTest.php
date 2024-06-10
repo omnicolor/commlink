@@ -11,19 +11,17 @@ use App\Models\ChatUser;
 use App\Models\Event;
 use App\Models\User;
 use Laravel\Pennant\Feature;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for the user class.
- * @group campaigns
- * @group user
- * @medium
- */
+#[Group('campaigns')]
+#[Group('user')]
+#[Medium]
 final class UserTest extends TestCase
 {
     /**
      * Test getting a user's campaigns if they have none.
-     * @test
      */
     public function testCampaignsNone(): void
     {
@@ -35,7 +33,6 @@ final class UserTest extends TestCase
 
     /**
      * Test getting a user's campaigns.
-     * @test
      */
     public function testCampaignsGmed(): void
     {
@@ -52,7 +49,6 @@ final class UserTest extends TestCase
 
     /**
      * Test getting a user's characters if they have none.
-     * @test
      */
     public function testGetCharactersNone(): void
     {
@@ -63,7 +59,6 @@ final class UserTest extends TestCase
 
     /**
      * Test getting a user's characters if they have some.
-     * @test
      */
     public function testGetCharacters(): void
     {
@@ -87,7 +82,6 @@ final class UserTest extends TestCase
 
     /**
      * Test getting a user's characters from a particular system.
-     * @test
      */
     public function testGetSystemCharacters(): void
     {
@@ -112,7 +106,6 @@ final class UserTest extends TestCase
 
     /**
      * Test getting a character's ChatUsers if they have none.
-     * @test
      */
     public function testGetChatUsersNone(): void
     {
@@ -123,7 +116,6 @@ final class UserTest extends TestCase
 
     /**
      * Test getting a character's ChatUsers.
-     * @test
      */
     public function testGetChatUsers(): void
     {
@@ -134,14 +126,14 @@ final class UserTest extends TestCase
         self::assertNotEmpty($user->chatUsers);
     }
 
-    /** @group events */
+    #[Group('events')]
     public function testEventsEmpty(): void
     {
         $user = User::factory()->create();
         self::assertCount(0, $user->events);
     }
 
-    /** @group events */
+    #[Group('events')]
     public function testEvents(): void
     {
         /** @var Campaign */

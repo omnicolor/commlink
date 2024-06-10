@@ -5,18 +5,16 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\PartialCharacter;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class PartialCharacterTest extends TestCase
 {
-    /**
-     * @test
-     */
     public function testNewFromBuilder(): void
     {
         $character = new PartialCharacter([
@@ -33,7 +31,6 @@ final class PartialCharacterTest extends TestCase
 
     /**
      * Test seeing if a newly created partial character is awakened.
-     * @test
      */
     public function testAwakenedOnNewCharacter(): void
     {
@@ -44,7 +41,6 @@ final class PartialCharacterTest extends TestCase
 
     /**
      * Test awakened checks on a technomancer.
-     * @test
      */
     public function testTechnomancer(): void
     {
@@ -59,7 +55,6 @@ final class PartialCharacterTest extends TestCase
 
     /**
      * Test awakened checks on a mage.
-     * @test
      */
     public function testMagician(): void
     {
@@ -74,7 +69,6 @@ final class PartialCharacterTest extends TestCase
 
     /**
      * Test awakened checks on an adept.
-     * @test
      */
     public function testAdept(): void
     {
@@ -151,12 +145,8 @@ final class PartialCharacterTest extends TestCase
 
     /**
      * Test getting a character's maximum attributes.
-     * @dataProvider maximumAttributeDataProvider
-     * @param PartialCharacter $character
-     * @param string $attribute
-     * @param int $maximum
-     * @test
      */
+    #[DataProvider('maximumAttributeDataProvider')]
     public function testGetMaximumAttributes(
         PartialCharacter $character,
         string $attribute,

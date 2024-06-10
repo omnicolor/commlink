@@ -12,6 +12,8 @@ use Facades\App\Services\DiceService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+use function now;
+
 /**
  * @psalm-suppress UnusedClass
  */
@@ -64,9 +66,12 @@ class InitiativesController extends Controller
         return new Response(['initiative' => $initiative]);
     }
 
+    /**
+     * @psalm-suppress UndefinedClass
+     */
     public function store(
         Campaign $campaign,
-        InitiativeCreateRequest $request
+        InitiativeCreateRequest $request,
     ): Response {
         $this->authorize('gm', $campaign);
 

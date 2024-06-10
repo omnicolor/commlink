@@ -7,42 +7,41 @@ namespace Tests\Feature\View\Components\Shadowrun5e;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\View\Components\Shadowrun5e\Armor;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class ArmorTest extends TestCase
 {
     /**
      * Test rendering a lack of armor for an existing character.
-     * @test
      */
     public function testNoArmorExistingCharacter(): void
     {
-        $this->component(Armor::class, ['character' => new Character()])
+        self::component(Armor::class, ['character' => new Character()])
             ->assertDontSee('armor: ', false)
             ->assertDontSee('Character has no armor');
     }
 
     /**
      * Test rendering a lack of armor for a new character.
-     * @test
      */
     public function testNoArmorNewCharacter(): void
     {
-        $this->component(Armor::class, ['character' => new PartialCharacter()])
+        self::component(Armor::class, ['character' => new PartialCharacter()])
             ->assertSee('armor: <span id="armor-value">0', false)
             ->assertSee('Character has no armor');
     }
 
     /**
      * Test rendering some armor.
-     * @test
      */
     public function testArmor(): void
     {
-        $this->component(
+        self::component(
             Armor::class,
             [
                 'character' => new Character([

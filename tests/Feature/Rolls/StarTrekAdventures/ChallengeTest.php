@@ -7,24 +7,19 @@ namespace Tests\Feature\Rolls\StarTrekAdventures;
 use App\Models\Channel;
 use App\Rolls\StarTrekAdventures\Challenge;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function json_decode;
 
 use const PHP_EOL;
 
-/**
- * Tests for rolling challenge dice in Star Trek Adventures.
- * @group star-trek-adventures
- * @medium
- */
+#[Group('star-trek-adventures')]
+#[Medium]
 final class ChallengeTest extends TestCase
 {
-    /**
-     * Test a roll in Slack that produces no score.
-     * @group slack
-     * @test
-     */
+    #[Group('slack')]
     public function testNoScore(): void
     {
         DiceService::shouldReceive('rollOne')->times(3)->with(6)->andReturn(3);
@@ -44,11 +39,7 @@ final class ChallengeTest extends TestCase
         );
     }
 
-    /**
-     * Test a roll in Discord that produces an effect.
-     * @group discord
-     * @test
-     */
+    #[Group('discord')]
     public function testWithEffect(): void
     {
         DiceService::shouldReceive('rollOne')->times(2)->with(6)->andReturn(6);
@@ -64,11 +55,7 @@ final class ChallengeTest extends TestCase
         self::assertSame($expected, $response);
     }
 
-    /**
-     * Test a roll of one on two challenge dice with optional text.
-     * @group irc
-     * @test
-     */
+    #[Group('irc')]
     public function testWithText(): void
     {
         DiceService::shouldReceive('rollOne')->times(2)->with(6)->andReturn(1);

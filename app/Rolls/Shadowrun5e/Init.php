@@ -18,6 +18,7 @@ use RuntimeException;
 
 use function array_shift;
 use function explode;
+use function implode;
 use function preg_match;
 use function sprintf;
 
@@ -227,6 +228,9 @@ class Init extends Roll
         $this->initiativeScore = (int)$args[0];
     }
 
+    /**
+     * @psalm-suppress UndefinedClass
+     */
     protected function roll(): void
     {
         if (self::MAX_DICE < $this->initiativeDice) {

@@ -8,22 +8,18 @@ use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Cyberpunkred\Number;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for rolling dice in Cyberpunk Red.
- * @group cyberpunkred
- * @group discord
- * @group slack
- * @medium
- */
+#[Group('cyberpunkred')]
+#[Medium]
 final class NumberTest extends TestCase
 {
     /**
      * Test trying to roll.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testRollSlack(): void
     {
         DiceService::shouldReceive('rollOne')
@@ -51,9 +47,8 @@ final class NumberTest extends TestCase
 
     /**
      * Test rolling a crit success.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testRollSlackCritSuccess(): void
     {
         DiceService::shouldReceive('rollOne')
@@ -81,9 +76,8 @@ final class NumberTest extends TestCase
 
     /**
      * Test rolling a crit failure.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testRollSlackCritFail(): void
     {
         DiceService::shouldReceive('rollOne')
@@ -111,9 +105,8 @@ final class NumberTest extends TestCase
 
     /**
      * Test trying to roll in Discord.
-     * @group discord
-     * @test
      */
+    #[Group('discord')]
     public function testRollDiscord(): void
     {
         DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(5);
@@ -128,9 +121,8 @@ final class NumberTest extends TestCase
 
     /**
      * Test rolling a crit success in Discord.
-     * @group discord
-     * @test
      */
+    #[Group('discord')]
     public function testRollDiscordCritSuccess(): void
     {
         DiceService::shouldReceive('rollOne')
@@ -147,9 +139,8 @@ final class NumberTest extends TestCase
 
     /**
      * Test rolling a crit failure in Discord.
-     * @group discord
-     * @test
      */
+    #[Group('discord')]
     public function testRollDiscordCritFail(): void
     {
         DiceService::shouldReceive('rollOne')
@@ -164,9 +155,8 @@ final class NumberTest extends TestCase
 
     /**
      * Test trying to roll in IRC.
-     * @group irc
-     * @test
      */
+    #[Group('irc')]
     public function testRollIRC(): void
     {
         DiceService::shouldReceive('rollOne')
@@ -183,9 +173,8 @@ final class NumberTest extends TestCase
 
     /**
      * Test rolling a crit success in IRC.
-     * @group irc
-     * @test
      */
+    #[Group('irc')]
     public function testRollIRCCritSuccess(): void
     {
         DiceService::shouldReceive('rollOne')
@@ -202,9 +191,8 @@ final class NumberTest extends TestCase
 
     /**
      * Test rolling a crit failure in IRC.
-     * @group irc
-     * @test
      */
+    #[Group('irc')]
     public function testRollIRCCritFail(): void
     {
         DiceService::shouldReceive('rollOne')

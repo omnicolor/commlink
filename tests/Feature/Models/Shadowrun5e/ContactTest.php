@@ -5,19 +5,17 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Contact;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Tests for Contact class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class ContactTest extends TestCase
 {
     /**
      * Test that the constructor sets all of the properties.
-     * @test
      */
     public function testInitializationWithGmNotes(): void
     {
@@ -40,7 +38,6 @@ final class ContactTest extends TestCase
 
     /**
      * Test that the constructor sets all of the properties.
-     * @test
      */
     public function testInitializationWithoutGmNotes(): void
     {
@@ -62,7 +59,6 @@ final class ContactTest extends TestCase
 
     /**
      * Test the __toString() method.
-     * @test
      */
     public function testToString(): void
     {

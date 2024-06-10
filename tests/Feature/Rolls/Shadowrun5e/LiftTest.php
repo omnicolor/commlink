@@ -11,6 +11,8 @@ use App\Models\ChatUser;
 use App\Models\Shadowrun5e\Character;
 use App\Rolls\Shadowrun5e\Lift;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function json_decode;
@@ -18,20 +20,16 @@ use function sprintf;
 
 use const PHP_EOL;
 
-/**
- * Tests for rolling a lift/carry test Shadowrun 5E.
- * @group shadowrun
- * @group shadowrun5e
- * @medium
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Medium]
 final class LiftTest extends TestCase
 {
     /**
      * Test trying to roll a lift/carry test without a character linked in
      * Slack.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testWithoutCharacterSlack(): void
     {
         /** @var Channel */
@@ -47,9 +45,8 @@ final class LiftTest extends TestCase
     /**
      * Test trying to roll a lift/carry test without a character linked in
      * Discord.
-     * @group discord
-     * @test
      */
+    #[Group('discord')]
     public function testWithoutCharacterDiscord(): void
     {
         /** @var Channel */
@@ -62,9 +59,7 @@ final class LiftTest extends TestCase
         );
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testWithoutCharacterIrc(): void
     {
         /** @var Channel */
@@ -79,9 +74,8 @@ final class LiftTest extends TestCase
 
     /**
      * Test a character critical glitching on a lift/carry test.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testCritGlitch(): void
     {
         DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(1);
@@ -129,9 +123,8 @@ final class LiftTest extends TestCase
 
     /**
      * Test a non-glitch lift/carry test.
-     * @group discord
-     * @test
      */
+    #[Group('discord')]
     public function testLift(): void
     {
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(6);
@@ -177,9 +170,7 @@ final class LiftTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testListIrc(): void
     {
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(6);

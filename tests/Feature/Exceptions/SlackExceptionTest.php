@@ -6,19 +6,14 @@ namespace Tests\Feature\Exceptions;
 
 use App\Exceptions\SlackException;
 use App\Http\Responses\Slack\SlackResponse;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Tests for the Slack Exception.
- * @group exception
- * @medium
- */
+#[Group('slack')]
+#[Medium]
 class SlackExceptionTest extends TestCase
 {
-    /**
-     * Test the exception's render method.
-     * @test
-     */
     public function testRenderException(): void
     {
         try {

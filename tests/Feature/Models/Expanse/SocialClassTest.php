@@ -5,21 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\SocialClass;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Expanse social classes.
- * @group models
- * @group expanse
- * @small
- */
+#[Group('expanse')]
+#[Small]
 final class SocialClassTest extends TestCase
 {
-    /**
-     * Test trying to load an invalid class.
-     * @test
-     */
     public function testLoadInvalidClass(): void
     {
         self::expectException(RuntimeException::class);
@@ -27,10 +21,6 @@ final class SocialClassTest extends TestCase
         new SocialClass('q');
     }
 
-    /**
-     * Test trying to load a valid class.
-     * @test
-     */
     public function testLoadValidClass(): void
     {
         $class = new SocialClass('outsider');
@@ -39,10 +29,6 @@ final class SocialClassTest extends TestCase
         self::assertNotNull($class->description);
     }
 
-    /**
-     * Test casting a class to a string.
-     * @test
-     */
     public function testToString(): void
     {
         $class = new SocialClass('middle');

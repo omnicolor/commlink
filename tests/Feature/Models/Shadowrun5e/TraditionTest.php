@@ -5,20 +5,18 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Tradition;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for Tradition class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class TraditionTest extends TestCase
 {
     /**
      * Test loading an invalid tradition.
-     * @test
      */
     public function testInvalidTradition(): void
     {
@@ -29,7 +27,6 @@ final class TraditionTest extends TestCase
 
     /**
      * Test that the constructor sets the things it should set.
-     * @test
      */
     public function testConstructor(): void
     {
@@ -54,7 +51,6 @@ final class TraditionTest extends TestCase
 
     /**
      * Test the __toString method.
-     * @test
      */
     public function testToString(): void
     {
@@ -64,7 +60,6 @@ final class TraditionTest extends TestCase
 
     /**
      * Test returning the drain attributes.
-     * @test
      */
     public function testGetDrainAttributes(): void
     {

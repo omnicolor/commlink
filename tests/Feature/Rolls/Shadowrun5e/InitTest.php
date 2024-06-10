@@ -13,26 +13,24 @@ use App\Models\Shadowrun5e\Character;
 use App\Models\User;
 use App\Rolls\Shadowrun5e\Init;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function json_decode;
 
 use const PHP_EOL;
 
-/**
- * Tests for rolling initiative for Shadowrun 5th edition.
- * @group shadowrun
- * @group shadowrun5e
- * @medium
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Medium]
 final class InitTest extends TestCase
 {
     /**
      * Test attempting a GM command as an unregistered user in a channel with
      * a campaign.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testGmCommandUnregistered(): void
     {
         /** @var Campaign */
@@ -54,9 +52,8 @@ final class InitTest extends TestCase
 
     /**
      * Test attempting to clear initiative as a GM.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testGmClearInitiativeWithCampaign(): void
     {
         $user = User::factory()->create();
@@ -101,9 +98,8 @@ final class InitTest extends TestCase
 
     /**
      * Test attempting to start initiative as a GM.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testGmStartInitiative(): void
     {
         $user = User::factory()->create();
@@ -150,8 +146,8 @@ final class InitTest extends TestCase
 
     /**
      * Test attempting something else as a GM.
-     * @test
      */
+    #[Group('slack')]
     public function testGmInvalidCommand(): void
     {
         $user = User::factory()->create();
@@ -188,8 +184,8 @@ final class InitTest extends TestCase
 
     /**
      * Test attempting to clear initiative in a channel without a campaign.
-     * @test
      */
+    #[Group('discord')]
     public function testGmClearInitiativeWithoutCampaign(): void
     {
         $user = User::factory()->create();
@@ -223,8 +219,8 @@ final class InitTest extends TestCase
 
     /**
      * Test attempted to create initiative in a channel without a campaign.
-     * @test
      */
+    #[Group('discord')]
     public function testGmStartInitiativeWithoutCampaign(): void
     {
         $user = User::factory()->create();
@@ -260,9 +256,8 @@ final class InitTest extends TestCase
 
     /**
      * Test rolling initiative with a linked Shadowrun character.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testRollInitiativeForCharacter(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -328,9 +323,8 @@ final class InitTest extends TestCase
     /**
      * Test manually rolling initiative in a channel without a campaign and the
      * user has no linked Character.
-     * @group slack
-     * @test
      */
+    #[Group('slack')]
     public function testRollInitiativeForUser(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -369,7 +363,6 @@ final class InitTest extends TestCase
 
     /**
      * Test trying to roll initiative with too many arguments.
-     * @test
      */
     public function testRollInitiativeTooManyArguments(): void
     {
@@ -392,7 +385,6 @@ final class InitTest extends TestCase
     /**
      * Test trying to roll with base and dice as separate numbers with
      * a non-numeric base initiative.
-     * @test
      */
     public function testRollInitiativeInvalidBaseInit(): void
     {
@@ -415,7 +407,6 @@ final class InitTest extends TestCase
     /**
      * Test trying to roll with base and dice as separate numbers using
      * a non-numeric dice argument.
-     * @test
      */
     public function testRollInitiativeInvalidDice(): void
     {
@@ -437,7 +428,6 @@ final class InitTest extends TestCase
 
     /**
      * Test trying to roll with base and dice as separate numbers.
-     * @test
      */
     public function testRollInitiativeWithBaseAndDice(): void
     {
@@ -464,7 +454,6 @@ final class InitTest extends TestCase
 
     /**
      * Test manually rolling initiative trying to use too many dice.
-     * @test
      */
     public function testRollInitiativeTooManyDice(): void
     {
@@ -486,7 +475,6 @@ final class InitTest extends TestCase
 
     /**
      * Test trying to use the wrong sized dice for initiative.
-     * @test
      */
     public function testRollInitiativeWrongDiceSize(): void
     {
@@ -507,7 +495,6 @@ final class InitTest extends TestCase
 
     /**
      * Test rolling using dice notation with a non-numeric base initiative.
-     * @test
      */
     public function testRollInitiativeDiceNotationInvalidBase(): void
     {
@@ -528,7 +515,6 @@ final class InitTest extends TestCase
 
     /**
      * Test rolling using dice notation with a non-numeric number of dice.
-     * @test
      */
     public function testRollDiceNotationInvalidDice(): void
     {
@@ -550,9 +536,8 @@ final class InitTest extends TestCase
 
     /**
      * Test rolling using just their base initiative.
-     * @group discord
-     * @test
      */
+    #[Group('discord')]
     public function testRollJustBaseInitiative(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -576,9 +561,7 @@ final class InitTest extends TestCase
         );
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testRollInitiativeInvalidBaseIrc(): void
     {
         $user = User::factory()->create();
@@ -596,9 +579,7 @@ final class InitTest extends TestCase
         );
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testRollInitiativeIrc(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -622,9 +603,7 @@ final class InitTest extends TestCase
         );
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testClearInitiativeIrc(): void
     {
         $user = User::factory()->create();

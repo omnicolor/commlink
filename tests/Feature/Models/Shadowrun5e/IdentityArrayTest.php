@@ -6,16 +6,15 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Identity;
 use App\Models\Shadowrun5e\IdentityArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for the IdentityArray class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class IdentityArrayTest extends TestCase
 {
     /**
@@ -35,7 +34,6 @@ final class IdentityArrayTest extends TestCase
 
     /**
      * Test an empty IdentityArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +42,6 @@ final class IdentityArrayTest extends TestCase
 
     /**
      * Test adding an identity to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -54,7 +51,6 @@ final class IdentityArrayTest extends TestCase
 
     /**
      * Test that adding a non-identity to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -68,7 +64,6 @@ final class IdentityArrayTest extends TestCase
 
     /**
      * Test that adding a non-identity to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

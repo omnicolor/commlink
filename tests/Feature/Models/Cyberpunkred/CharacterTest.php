@@ -7,20 +7,18 @@ namespace Tests\Feature\Models\Cyberpunkred;
 use App\Models\Cyberpunkred\Character;
 use App\Models\Cyberpunkred\Role\Fixer;
 use App\Models\Cyberpunkred\Weapon;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for Cyberpunkred Characters.
- * @group cyberpunkred
- * @group models
- * @small
- */
+#[Group('cyberpunkred')]
+#[Small]
 final class CharacterTest extends TestCase
 {
     /**
      * Test filling up a character with the constructor.
-     * @test
      */
     public function testConstructor(): void
     {
@@ -55,7 +53,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test the __toString() method.
-     * @test
      */
     public function testToString(): void
     {
@@ -65,7 +62,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's death save.
-     * @test
      */
     public function testGetDeathSave(): void
     {
@@ -91,11 +87,8 @@ final class CharacterTest extends TestCase
 
     /**
      * Data provider for the max hit points tests.
-     * @dataProvider hitPointsProvider
-     * @param int $body
-     * @param int $will
-     * @param int $hp
      */
+    #[DataProvider('hitPointsProvider')]
     public function testHitPointsMax(int $body, int $will, int $hp): void
     {
         $character = new Character(['body' => $body, 'willpower' => $will]);
@@ -118,10 +111,8 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's humanity.
-     * @dataProvider humanityProvider
-     * @param int $empathy
-     * @param int $humanity
      */
+    #[DataProvider('humanityProvider')]
     public function testHumanity(int $empathy, int $humanity): void
     {
         $character = new Character(['empathy' => $empathy]);
@@ -143,12 +134,8 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the serious wound threshold.
-     * @dataProvider woundThresholdProvider
-     * @param int $body
-     * @param int $will
-     * @param int $threshold
-     * @test
      */
+    #[DataProvider('woundThresholdProvider')]
     public function testSeriousWoundThreshold(
         int $body,
         int $will,
@@ -160,7 +147,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's roles if they have none.
-     * @test
      */
     public function testGetRolesNone(): void
     {
@@ -170,7 +156,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's roles if they only have an invalid one.
-     * @test
      */
     public function testGetRolesInvalid(): void
     {
@@ -180,7 +165,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's roles.
-     * @test
      */
     public function testGetRoles(): void
     {
@@ -199,7 +183,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's skills if the have none.
-     * @test
      */
     public function testGetSkillsNone(): void
     {
@@ -209,7 +192,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's skills if they only have an invalid one.
-     * @test
      */
     public function testGetSkillsInvalid(): void
     {
@@ -219,7 +201,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's skills if they have a valid skill.
-     * @test
      */
     public function testGetSkills(): void
     {
@@ -231,7 +212,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting all skills if the character doesn't have any levels.
-     * @test
      */
     public function testGetAllSkillsNoRanks(): void
     {
@@ -244,7 +224,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting all skills if the character has levels.
-     * @test
      */
     public function testGetAllSkills(): void
     {
@@ -265,7 +244,6 @@ final class CharacterTest extends TestCase
     /**
      * Test getting all skills categorized if the character doesn't have any
      * levels.
-     * @test
      */
     public function testGetSkillsByCategoryNoRanks(): void
     {
@@ -281,7 +259,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting all skills categorized if the character has some levels.
-     * @test
      */
     public function testGetSkillsByCategory(): void
     {
@@ -300,7 +277,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting the character's original empathy statistic.
-     * @test
      */
     public function testGetOriginalEmpathy(): void
     {
@@ -310,7 +286,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test trying to get an invalid class of weapons.
-     * @test
      */
     public function testGetInvalidWeaponsType(): void
     {
@@ -321,7 +296,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test trying to get the different classes of weapons.
-     * @test
      */
     public function testGetWeapons(): void
     {

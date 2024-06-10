@@ -5,19 +5,17 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Capers;
 
 use App\Models\Capers\Power;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Capers powers.
- * @group capers
- * @small
- */
+#[Group('capers')]
+#[Small]
 final class PowerTest extends TestCase
 {
     /**
      * Test creating an invalid power.
-     * @test
      */
     public function testLoadInvalidPower(): void
     {
@@ -28,7 +26,6 @@ final class PowerTest extends TestCase
 
     /**
      * Test creating a power with no boosts and no additional ranks.
-     * @test
      */
     public function testLoadPower(): void
     {
@@ -52,7 +49,6 @@ final class PowerTest extends TestCase
 
     /**
      * Test creating a power with a chosen boost.
-     * @test
      */
     public function testLoadPowerWithBoost(): void
     {
@@ -63,7 +59,6 @@ final class PowerTest extends TestCase
 
     /**
      * Test loading all powers.
-     * @test
      */
     public function testLoadAll(): void
     {
@@ -86,7 +81,6 @@ final class PowerTest extends TestCase
 
     /**
      * Test loading major powers only.
-     * @test
      */
     public function testMajor(): void
     {
@@ -102,7 +96,6 @@ final class PowerTest extends TestCase
 
     /**
      * Test loading minor powers only.
-     * @test
      */
     public function testMinor(): void
     {

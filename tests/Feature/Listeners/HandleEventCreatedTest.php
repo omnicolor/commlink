@@ -12,13 +12,12 @@ use App\Models\Event;
 use App\Models\User;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function sprintf;
 
-/**
- * @medium
- */
+#[Medium]
 final class HandleEventCreatedTest extends TestCase
 {
     public function testHandlingAnEventWithNoChannels(): void

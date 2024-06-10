@@ -5,21 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\ShipQuality;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for the ShipQuality class.
- * @group models
- * @group expanse
- * @small
- */
+#[Group('expanse')]
+#[Small]
 final class ShipQualityTest extends TestCase
 {
-    /**
-     * Test trying to load an invalid quality.
-     * @test
-     */
     public function testLoadNotFound(): void
     {
         self::expectException(RuntimeException::class);
@@ -29,10 +23,6 @@ final class ShipQualityTest extends TestCase
         new ShipQuality('not-found');
     }
 
-    /**
-     * Test load.
-     * @test
-     */
     public function testLoad(): void
     {
         $quality = new ShipQuality('advanced-sensor-package-1');
@@ -43,10 +33,6 @@ final class ShipQualityTest extends TestCase
         self::assertSame('core', $quality->ruleset);
     }
 
-    /**
-     * Test loading all qualities.
-     * @test
-     */
     public function testAll(): void
     {
         self::assertCount(5, ShipQuality::all());

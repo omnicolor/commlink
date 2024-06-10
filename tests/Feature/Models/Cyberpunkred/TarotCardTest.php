@@ -8,11 +8,11 @@ use App\Models\Cyberpunkred\TarotCard;
 use App\Models\Cyberpunkred\TarotDeck;
 use Generator;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @small
- */
+#[Small]
 final class TarotCardTest extends TestCase
 {
     /**
@@ -29,10 +29,8 @@ final class TarotCardTest extends TestCase
 
     /**
      * Test that all of the cards have descriptions.
-     * @dataProvider cardProvider
-     * @param string $cardName
-     * @test
      */
+    #[DataProvider('cardProvider')]
     public function testAllCardsHaveDescriptions(string $cardName): void
     {
         $card = new TarotCard($cardName, '');
@@ -41,7 +39,6 @@ final class TarotCardTest extends TestCase
 
     /**
      * Test getting the description of an invalid card.
-     * @test
      */
     public function testDescriptionOfInvalidCard(): void
     {
@@ -52,10 +49,8 @@ final class TarotCardTest extends TestCase
 
     /**
      * Test that all of the cards have effects.
-     * @dataProvider cardProvider
-     * @param string $cardName
-     * @test
      */
+    #[DataProvider('cardProvider')]
     public function testAllCardsHaveEffects(string $cardName): void
     {
         $card = new TarotCard($cardName, '');
@@ -64,7 +59,6 @@ final class TarotCardTest extends TestCase
 
     /**
      * Test getting the effect of an invalid card.
-     * @test
      */
     public function testEffectOfInvalidCard(): void
     {
@@ -75,10 +69,8 @@ final class TarotCardTest extends TestCase
 
     /**
      * Test converting Night City Tarot cards to strings.
-     * @dataProvider cardProvider
-     * @param string $cardName
-     * @test
      */
+    #[DataProvider('cardProvider')]
     public function testToString(string $cardName): void
     {
         $card = new TarotCard($cardName, 'unused');

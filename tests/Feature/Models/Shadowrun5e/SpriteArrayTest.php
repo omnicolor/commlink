@@ -6,16 +6,15 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Sprite;
 use App\Models\Shadowrun5e\SpriteArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for the SpriteArray.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class SpriteArrayTest extends TestCase
 {
     /**
@@ -35,7 +34,6 @@ final class SpriteArrayTest extends TestCase
 
     /**
      * Test an empty array.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +42,6 @@ final class SpriteArrayTest extends TestCase
 
     /**
      * Test adding to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -54,7 +51,6 @@ final class SpriteArrayTest extends TestCase
 
     /**
      * Test that adding the wrong type to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -65,7 +61,6 @@ final class SpriteArrayTest extends TestCase
 
     /**
      * Test that adding the wrong type to the array doesn't add the object.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

@@ -10,6 +10,8 @@ use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
 
+use function array_shift;
+use function explode;
 use function implode;
 use function sprintf;
 
@@ -33,7 +35,7 @@ class Challenge extends Roll
     ) {
         parent::__construct($content, $username, $channel);
 
-        $args = \explode(' ', $content);
+        $args = explode(' ', $content);
 
         // Get rid of the name of the roll.
         array_shift($args);
@@ -96,6 +98,9 @@ class Challenge extends Roll
         return sprintf('Rolled %d challenge dice', $this->number);
     }
 
+    /**
+     * @psalm-suppress UndefinedClass
+     */
     protected function roll(): void
     {
         for ($i = 0; $i < $this->number; $i++) {

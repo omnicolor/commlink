@@ -5,20 +5,18 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\LifestyleZone;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Shadowrun 5E lifestyle zones.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class LifestyleZoneTest extends TestCase
 {
     /**
      * Test trying to load an invalid zone.
-     * @test
      */
     public function testLoadInvalidZone(): void
     {
@@ -29,7 +27,6 @@ final class LifestyleZoneTest extends TestCase
 
     /**
      * Test trying to load a valid zone.
-     * @test
      */
     public function testLoadValidZone(): void
     {
@@ -41,7 +38,6 @@ final class LifestyleZoneTest extends TestCase
 
     /**
      * Test casting a zone to a string.
-     * @test
      */
     public function testToString(): void
     {

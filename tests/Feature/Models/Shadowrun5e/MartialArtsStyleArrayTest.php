@@ -6,16 +6,15 @@ namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\MartialArtsStyle;
 use App\Models\Shadowrun5e\MartialArtsStyleArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for the MartialArtsStyleArray class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class MartialArtsStyleArrayTest extends TestCase
 {
     /**
@@ -35,7 +34,6 @@ final class MartialArtsStyleArrayTest extends TestCase
 
     /**
      * Test an empty MartialArtsStyleArray.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +42,6 @@ final class MartialArtsStyleArrayTest extends TestCase
 
     /**
      * Test adding a style to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -54,7 +51,6 @@ final class MartialArtsStyleArrayTest extends TestCase
 
     /**
      * Test that adding a non-style to the array throws an exception.
-     * @test
      */
     public function testAddWrongTypeException(): void
     {
@@ -65,7 +61,6 @@ final class MartialArtsStyleArrayTest extends TestCase
 
     /**
      * Test that adding a non-style to the array doesn't add it.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

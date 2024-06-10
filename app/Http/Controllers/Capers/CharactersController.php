@@ -334,6 +334,9 @@ class CharactersController extends Controller
         ));
     }
 
+    /**
+     * @psalm-suppress InvalidPropertyAssignmentValue
+     */
     public function storeBoosts(BoostsRequest $request): RedirectResponse
     {
         /** @var User */

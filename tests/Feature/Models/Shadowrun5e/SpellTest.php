@@ -5,20 +5,18 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Spell;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for Spell class.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class SpellTest extends TestCase
 {
     /**
      * Test trying to load an invalid spell.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -30,7 +28,6 @@ final class SpellTest extends TestCase
 
     /**
      * Test the constructor.
-     * @test
      */
     public function testConstructor(): void
     {
@@ -51,7 +48,6 @@ final class SpellTest extends TestCase
 
     /**
      * Test the __toString() method.
-     * @test
      */
     public function testToString(): void
     {
@@ -61,7 +57,6 @@ final class SpellTest extends TestCase
 
     /**
      * Test trying to get the drain before the force has been set.
-     * @test
      */
     public function testGetDrainForceNotSet(): void
     {
@@ -73,7 +68,6 @@ final class SpellTest extends TestCase
 
     /**
      * Test getting the drain for a spell.
-     * @test
      */
     public function testGetDrain(): void
     {
@@ -87,7 +81,6 @@ final class SpellTest extends TestCase
 
     /**
      * Test failing to find a spell by name.
-     * @test
      */
     public function testFindByNameNotFound(): void
     {
@@ -98,7 +91,6 @@ final class SpellTest extends TestCase
 
     /**
      * Test finding a spell by name.
-     * @test
      */
     public function testFindByName(): void
     {

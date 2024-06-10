@@ -14,7 +14,11 @@ use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
 
 use function array_shift;
+use function count;
 use function explode;
+use function optional;
+
+use const PHP_EOL;
 
 /**
  * Handle a user trying to add their initiative.
@@ -52,7 +56,7 @@ class Init extends Roll
     public function __construct(
         string $content,
         string $username,
-        Channel $channel
+        Channel $channel,
     ) {
         parent::__construct($content, $username, $channel);
 
@@ -74,6 +78,7 @@ class Init extends Roll
 
     /**
      * Roll a d10 for initiative, notifying listeners of the results.
+     * @psalm-suppress UndefinedClass
      */
     protected function roll(): void
     {
@@ -143,7 +148,7 @@ class Init extends Roll
             return $this->error;
         }
         return sprintf('**Initiative added for %s**', $this->username)
-            . \PHP_EOL . $this->formatBody();
+            . PHP_EOL . $this->formatBody();
     }
 
     public function forIrc(): string
@@ -152,7 +157,7 @@ class Init extends Roll
             return $this->error;
         }
         return sprintf('Initiative added for %s', $this->username)
-            . \PHP_EOL . $this->formatBody();
+            . PHP_EOL . $this->formatBody();
     }
 
     public function forSlack(): SlackResponse

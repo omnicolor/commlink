@@ -9,19 +9,17 @@ use App\Models\Capers\GearArray;
 use App\Models\Capers\Identity;
 use App\Models\Capers\Power;
 use App\Models\Capers\PowerArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Capers characters.
- * @group capers
- * @small
- */
+#[Group('capers')]
+#[Small]
 final class CharacterTest extends TestCase
 {
     /**
      * Test loading from data store.
-     * @test
      */
     public function testNewFromBuilder(): void
     {
@@ -39,7 +37,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test displaying the character as a string if they haven't set their name.
-     * @test
      */
     public function testToStringNoName(): void
     {
@@ -48,7 +45,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test casting a character to a string if they have a name.
-     * @test
      */
     public function testToString(): void
     {
@@ -58,7 +54,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's computed body attribute.
-     * @test
      */
     public function testBody(): void
     {
@@ -68,7 +63,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting an identity for a character that never set one.
-     * @test
      */
     public function testUnsetIdentity(): void
     {
@@ -78,7 +72,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting an identity for a character with an invalid value.
-     * @test
      */
     public function testIdentityInvalid(): void
     {
@@ -91,7 +84,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting an identity for a character.
-     * @test
      */
     public function testIdentity(): void
     {
@@ -103,7 +95,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a lowly character's maximum hits.
-     * @test
      */
     public function testGetMaximumHitsLow(): void
     {
@@ -116,7 +107,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's maximum hits if they're maxed out.
-     * @test
      */
     public function testGetMaximumHitsHigh(): void
     {
@@ -129,7 +119,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's mind attribute.
-     * @test
      */
     public function testGetMind(): void
     {
@@ -139,7 +128,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's perks if they have none.
-     * @test
      */
     public function testGetPerksNone(): void
     {
@@ -149,7 +137,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's perks.
-     * @test
      */
     public function testGetPerks(): void
     {
@@ -161,7 +148,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's powers if they've got only an invalid one.
-     * @test
      */
     public function testGetPowersOnlyInvalid(): void
     {
@@ -173,7 +159,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's powers.
-     * @test
      */
     public function testGetPowers(): void
     {
@@ -211,7 +196,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's skills if they only have an invalid one.
-     * @test
      */
     public function testGetSkillsOnlyInvalid(): void
     {
@@ -223,7 +207,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's speed.
-     * @test
      */
     public function testGetSpeed(): void
     {
@@ -232,7 +215,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's speed if they have the Fleet of Foot perk.
-     * @test
      */
     public function testGetSpeedFleedOfFoot(): void
     {
@@ -244,7 +226,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's Vice if they have an invalid Vice.
-     * @test
      */
     public function testGetInvalidVice(): void
     {
@@ -253,7 +234,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's vice.
-     * @test
      */
     public function testGetVice(): void
     {
@@ -263,7 +243,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's virtue if the have an invalid value.
-     * @test
      */
     public function testGetVirtue(): void
     {
@@ -272,7 +251,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test trying to get trait defense for an invalid attribute.
-     * @test
      */
     public function testGetTraitDefenseInvalidAttribute(): void
     {
@@ -282,7 +260,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test trying to get trait defense for an attribute that is out of range.
-     * @test
      */
     public function testGetTraitDefenseInvalidValue(): void
     {
@@ -294,7 +271,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test the different values for trait defense.
-     * @test
      */
     public function testGetTraitDefense(): void
     {
@@ -314,7 +290,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test trying to find which attribute has a certain value.
-     * @test
      */
     public function testFindAttributeAt(): void
     {
@@ -333,7 +308,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's gear if they have none.
-     * @test
      */
     public function testGetGearEmpty(): void
     {
@@ -344,7 +318,6 @@ final class CharacterTest extends TestCase
 
     /**
      * Test getting a character's gear if they've got some things.
-     * @test
      */
     public function testGetGear(): void
     {
@@ -364,7 +337,6 @@ final class CharacterTest extends TestCase
     /**
      * Test getting a character's strength if they have the super strength
      * power.
-     * @test
      */
     public function testGetStrengthWithSuperStrength(): void
     {

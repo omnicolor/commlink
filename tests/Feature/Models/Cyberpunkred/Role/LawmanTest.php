@@ -5,20 +5,14 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Cyberpunkred\Role;
 
 use App\Models\Cyberpunkred\Role\Lawman;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Tests for the Lawman role.
- * @group cyberpunkred
- * @group models
- * @small
- */
+#[Group('cyberpunkred')]
+#[Small]
 final class LawmanTest extends TestCase
 {
-    /**
-     * Test the toString method.
-     * @test
-     */
     public function testToString(): void
     {
         $role = new Lawman([

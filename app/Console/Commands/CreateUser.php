@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 
 use function Laravel\Prompts\password;
 use function Laravel\Prompts\text;
+use function event;
 
 use const FILTER_VALIDATE_EMAIL;
 
@@ -28,14 +29,10 @@ class CreateUser extends Command
 
     /**
      * The console command description.
-     * @var string
+     * @var ?string
      */
     protected $description = 'Create a new user, prompting for all information';
 
-    /**
-     * Execute the console command.
-     * @return int
-     */
     public function handle(): int
     {
         $name = text(
