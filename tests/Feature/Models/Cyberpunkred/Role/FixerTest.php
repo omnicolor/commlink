@@ -6,20 +6,14 @@ namespace Tests\Feature\Models\Cyberpunkred\Role;
 
 use App\Models\Cyberpunkred\Role\Fixer;
 use OutOfBoundsException;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Tests for the Fixer role.
- * @group cyberpunkred
- * @group models
- * @small
- */
+#[Group('cyberpunkred')]
+#[Small]
 final class FixerTest extends TestCase
 {
-    /**
-     * Test the toString method.
-     * @test
-     */
     public function testToString(): void
     {
         $fixer = new Fixer([
@@ -32,7 +26,6 @@ final class FixerTest extends TestCase
     /**
      * Test that all of the different fixer types return information for
      * getType().
-     * @test
      */
     public function testGetType(): void
     {
@@ -60,7 +53,6 @@ final class FixerTest extends TestCase
 
     /**
      * Test setting the fixer's type to an invalid value throws an exception.
-     * @test
      */
     public function testGetTypeInvalid(): void
     {

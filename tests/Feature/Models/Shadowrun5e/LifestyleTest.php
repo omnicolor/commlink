@@ -8,19 +8,18 @@ use App\Models\Shadowrun5e\Lifestyle;
 use App\Models\Shadowrun5e\LifestyleAttributes;
 use App\Models\Shadowrun5e\LifestyleOption;
 use App\Models\Shadowrun5e\LifestyleZone;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Shadowrun 5E lifestyles.
- * @group shadowrun
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class LifestyleTest extends TestCase
 {
     /**
      * Test trying to load an invalid lifestyle.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -31,7 +30,6 @@ final class LifestyleTest extends TestCase
 
     /**
      * Test loading a low lifestyle.
-     * @test
      */
     public function testLoadLowLifestyle(): void
     {
@@ -58,7 +56,6 @@ final class LifestyleTest extends TestCase
 
     /**
      * Test the toString method.
-     * @test
      */
     public function testToString(): void
     {
@@ -68,7 +65,6 @@ final class LifestyleTest extends TestCase
 
     /**
      * Test loading a luxury lifestyle.
-     * @test
      */
     public function testLoadLuxuryLifestyle(): void
     {
@@ -95,7 +91,6 @@ final class LifestyleTest extends TestCase
 
     /**
      * Test the getCost() method.
-     * @test
      */
     public function testGetCost(): void
     {
@@ -107,7 +102,6 @@ final class LifestyleTest extends TestCase
 
     /**
      * Test the getZone method with different neighborhood values.
-     * @test
      */
     public function testGetZoneWithValidNeighborhoods(): void
     {
@@ -138,7 +132,6 @@ final class LifestyleTest extends TestCase
      * Test getting the cost for a lifestyle with some multiplying options.
      *
      * Low lifestyle costs 2000.
-     * @test
      */
     public function testGetCostWithMultiplier(): void
     {
@@ -158,7 +151,6 @@ final class LifestyleTest extends TestCase
 
     /**
      * Test increasing the Lifestyle's neighborhood.
-     * @test
      */
     public function testGetNeighborhood(): void
     {

@@ -7,6 +7,9 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class Handler extends ExceptionHandler
 {
     /**

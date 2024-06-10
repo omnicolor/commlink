@@ -5,21 +5,18 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun6e;
 
 use App\Models\Shadowrun6e\Quality;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for Shadowrun 6E qualities.
- * @group models
- * @group shadowrun
- * @group shadowrun6e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun6e')]
+#[Small]
 final class QualityTest extends TestCase
 {
     /**
      * Test loading an invalid quality.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -32,7 +29,6 @@ final class QualityTest extends TestCase
 
     /**
      * Test loading a valid quality.
-     * @test
      */
     public function testLoad(): void
     {
@@ -50,7 +46,6 @@ final class QualityTest extends TestCase
 
     /**
      * Test failing to find a quality by its name.
-     * @test
      */
     public function testFindByNameNotFound(): void
     {
@@ -63,7 +58,6 @@ final class QualityTest extends TestCase
 
     /**
      * Test finding a quality by name.
-     * @test
      */
     public function testFindByName(): void
     {

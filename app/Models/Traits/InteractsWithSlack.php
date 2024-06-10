@@ -6,6 +6,9 @@ namespace App\Models\Traits;
 
 use Illuminate\Support\Facades\Http;
 
+use function sprintf;
+use function urlencode;
+
 /**
  * Trait for trying to get information from Slack's API.
  */
@@ -17,10 +20,10 @@ trait InteractsWithSlack
     public function getSlackChannelName(string $channelId): ?string
     {
         $response = Http::withHeaders([
-            'Authorization' => \sprintf('Bearer %s', config('app.slack_token')),
+            'Authorization' => sprintf('Bearer %s', config('app.slack_token')),
         ])->get(
             'https://slack.com/api/conversations.info',
-            ['channel' => \urlencode($channelId)]
+            ['channel' => urlencode($channelId)]
         );
 
         // Most Slack APIs don't fail, they return success with a false OK
@@ -38,7 +41,7 @@ trait InteractsWithSlack
     public function getSlackTeamName(string $slackTeam): ?string
     {
         $response = Http::withHeaders([
-            'Authorization' => \sprintf('Bearer %s', config('app.slack_token')),
+            'Authorization' => sprintf('Bearer %s', config('app.slack_token')),
         ])->get('https://slack.com/api/auth.teams.list');
 
         // Most Slack APIs don't fail, they return success with a false OK
@@ -64,11 +67,11 @@ trait InteractsWithSlack
     public function getSlackUserName(string $user): ?string
     {
         $response = Http::withHeaders([
-            'Authorization' => \sprintf('Bearer %s', config('app.slack_token')),
+            'Authorization' => sprintf('Bearer %s', config('app.slack_token')),
         ])
             ->get(
                 'https://slack.com/api/users.info',
-                ['user' => \urlencode($user)]
+                ['user' => urlencode($user)]
             );
 
         if ($response->failed() || false === $response['ok']) {

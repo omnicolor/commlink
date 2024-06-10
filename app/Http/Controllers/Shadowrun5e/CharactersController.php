@@ -1397,6 +1397,7 @@ class CharactersController extends Controller
 
     public function update(Request $request, Character $character): JsonResource
     {
+        /** @var User */
         $user = Auth::user();
 
         abort_if(

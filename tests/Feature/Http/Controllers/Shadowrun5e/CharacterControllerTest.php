@@ -11,15 +11,13 @@ use App\Models\Shadowrun5e\KnowledgeSkill;
 use App\Models\Shadowrun5e\PartialCharacter;
 use App\Models\User;
 use Illuminate\Http\Response;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * Controller for the Shadowrun 5E characters controller.
- * @group shadowrun
- * @group shadowrun5e
- * @group controllers
- * @medium
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Medium]
 final class CharacterControllerTest extends TestCase
 {
     public function setUp(): void
@@ -30,7 +28,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading Shadowrun 5E characters if unauthenticated.
-     * @test
      */
     public function testUnauthenticated(): void
     {
@@ -41,7 +38,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test loading Shadowrun 5E characters if authenticated but the user
      * doesn't have any characters.
-     * @test
      */
     public function testAuthenticatedNoCharacters(): void
     {
@@ -55,7 +51,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test loading Shadowrun 5E characters if authenticated, but all of the
      * user's characters are for different systems.
-     * @test
      */
     public function testAuthenticatedNoCharactersFromSystem(): void
     {
@@ -79,7 +74,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test loading Shadowrun 5E characters if authenticated, and the user has
      * a character for SR5E (in addition to another system).
-     * @test
      */
     public function testAuthenticatedWithSR5ECharacter(): void
     {
@@ -117,7 +111,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test listing a user's Shadowrun characters.
-     * @test
      */
     public function testListCharactersIfTheyHaveNone(): void
     {
@@ -131,7 +124,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test loading an individual character, verifying that keys are correctly
      * converted to snake_case.
-     * @test
      */
     public function testShowCharacter(): void
     {
@@ -181,7 +173,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading an individual character from a different system.
-     * @test
      */
     public function testShowCharacterOtherSystem(): void
     {
@@ -203,7 +194,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading a character view.
-     * @test
      */
     public function testViewCharacter(): void
     {
@@ -228,7 +218,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test trying to view a partial character without being logged in.
-     * @test
      */
     public function testViewPartialCharacterNoLogin(): void
     {
@@ -253,7 +242,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test trying to resume building a new character.
-     * @test
      */
     public function testCreateResumeCharacter(): void
     {
@@ -275,7 +263,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test trying to create a brand new character.
-     * @test
      */
     public function testCreateNewCharacter(): void
     {
@@ -297,7 +284,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test trying to resume building a character if the user has multiple.
-     * @test
      */
     public function testCreateNewCharacterChoose(): void
     {
@@ -328,7 +314,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test choosing rules for a new character without sending any.
-     * @test
      */
     public function testCreateRulesMissingFields(): void
     {
@@ -342,7 +327,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test choosing rules for a new character without including the core
      * rulebook.
-     * @test
      */
     public function testCreateRulesNoCoreBook(): void
     {
@@ -365,7 +349,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test choosing rules for a new character without starting the character.
-     * @test
      */
     public function testCreateRulesNoCharacter(): void
     {
@@ -387,7 +370,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test choosing rules for a new character.
-     * @test
      */
     public function testCreateRules(): void
     {
@@ -427,7 +409,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test trying to choose priorities without setting the rules.
-     * @test
      */
     public function testLoadPrioritiesPageWithNoRules(): void
     {
@@ -452,7 +433,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test trying to load the priorities page for a character that has set up
      * the rules.
-     * @test
      */
     public function testLoadPrioritiesPageInvalidCharGenSystem(): void
     {
@@ -482,7 +462,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test trying to load the priorities page for a character that has set up
      * the rules.
-     * @test
      */
     public function testLoadPrioritiesPage(): void
     {
@@ -514,7 +493,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing priorities without sending any.
-     * @test
      */
     public function testStorePrioritiesNoData(): void
     {
@@ -534,7 +512,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing priorities with invalid values.
-     * @test
      */
     public function testStorePrioritiesInvalidValues(): void
     {
@@ -565,7 +542,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing priorities with an invalid magic combination.
-     * @test
      */
     public function testStorePrioritiesInvalidMagic(): void
     {
@@ -587,7 +563,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test storing priorities with a priority level that requires choosing
      * an awakened discipline.
-     * @test
      */
     public function testStorePrioritiesWithoutMagic(): void
     {
@@ -607,7 +582,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing some valid priorities.
-     * @test
      */
     public function testStorePriorities(): void
     {
@@ -657,7 +631,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading the vitals page.
-     * @test
      */
     public function testLoadVitals(): void
     {
@@ -685,7 +658,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing vitals without sending any.
-     * @test
      */
     public function testStoreVitalsNoData(): void
     {
@@ -698,7 +670,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing vitals for a character.
-     * @test
      */
     public function testStoreVitals(): void
     {
@@ -752,7 +723,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading the attributes page.
-     * @test
      */
     public function testLoadAttributes(): void
     {
@@ -785,7 +755,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing attributes without sending any.
-     * @test
      */
     public function testStoreAttributesNoData(): void
     {
@@ -808,7 +777,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing attributes.
-     * @test
      */
     public function testStoreAttributes(): void
     {
@@ -861,7 +829,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test loading the qualities page for a character that has already
      * selected a quality, but doesn't have Run and Gun enabled (for nav).
-     * @test
      */
     public function testLoadQualitiesAlreadyChoseOne(): void
     {
@@ -893,7 +860,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading the qualities page for a character with Run and Gun enabled.
-     * @test
      */
     public function testLoadQualitiesNone(): void
     {
@@ -922,7 +888,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing qualities with a valid but not found quality.
-     * @test
      */
     public function testStoreQualitiesNotFound(): void
     {
@@ -942,7 +907,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing qualities with an invalid quality ID.
-     * @test
      */
     public function testStoreQualitiesNotValid(): void
     {
@@ -962,7 +926,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing a normal quality.
-     * @test
      */
     public function testStoreQuality(): void
     {
@@ -997,7 +960,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing an allergy quality with the extra info.
-     * @test
      */
     public function testStoreAllergy(): void
     {
@@ -1034,7 +996,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing an addiction quality with the extra info.
-     * @test
      */
     public function testStoreAddiction(): void
     {
@@ -1071,7 +1032,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing knowledge skills.
-     * @test
      */
     public function testStoreKnowledgeSkills(): void
     {
@@ -1132,7 +1092,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test trying to get to the martial arts page if the user chose not to
      * allow Run and Gun as a rulebook.
-     * @test
      */
     public function testMartialArtsWithoutRunAndGun(): void
     {
@@ -1156,7 +1115,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test trying to get the martial arts page with Run and Gun allowed.
-     * @test
      */
     public function testLoadMartialArts(): void
     {
@@ -1190,7 +1148,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing martial arts with an invalid style.
-     * @test
      */
     public function testStoreMartialArtsStyleInvalid(): void
     {
@@ -1210,7 +1167,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing martial arts with an invalid technique.
-     * @test
      */
     public function testStoreMartialArtsTechniqueInvalid(): void
     {
@@ -1233,7 +1189,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing a martial art.
-     * @test
      */
     public function testStoreMartialArts(): void
     {
@@ -1277,7 +1232,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test overwriting a character's previously chosen martial arts.
-     * @test
      */
     public function testMartialArtsOverwrite(): void
     {
@@ -1316,7 +1270,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading the skills page with a skill and Run and Gun not enabled.
-     * @test
      */
     public function testLoadSkillsPageWithSkill(): void
     {
@@ -1355,7 +1308,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test loading the skills page without any skills, but with Run and Gun
      * enabled.
-     * @test
      */
     public function testLaodASkillsPageNoSkills(): void
     {
@@ -1383,7 +1335,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing an invalid skill group.
-     * @test
      */
     public function testStoreSkillsInvalidGroup(): void
     {
@@ -1409,7 +1360,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing an invalid skill.
-     * @test
      */
     public function testStoreSkillsInvalidSkill(): void
     {
@@ -1435,7 +1385,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing some skills.
-     * @test
      */
     public function testStoreSkills(): void
     {
@@ -1500,7 +1449,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test loading the knowledge skills page, with a mundane character
      * (testing navigation).
-     * @test
      */
     public function testLoadKnowledgeSkillsMundane(): void
     {
@@ -1535,7 +1483,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test loading the knowledge skills page, with a magical character (for
      * navigation).
-     * @est
      */
     public function testLoadKnowledgeSkillsMagical(): void
     {
@@ -1565,7 +1512,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test loading the knowledge skills page, with a technomancer (for
      * navigation).
-     * @est
      */
     public function testLoadKnowledgeSkillsResonance(): void
     {
@@ -1594,7 +1540,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test trying to load the magic page as a mundane character.
-     * @test
      */
     public function testLoadMagicMundane(): void
     {
@@ -1618,7 +1563,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test trying to load the magic page as a mage.
-     * @test
      */
     public function testLoadMagicAsMage(): void
     {
@@ -1646,7 +1590,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading resonance as a mundane character.
-     * @test
      */
     public function testLoadResonanceMundane(): void
     {
@@ -1670,7 +1613,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test trying to load the resonance page as a technomancer.
-     * @test
      */
     public function testLoadResonanceTechnomancer(): void
     {
@@ -1698,7 +1640,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading the augmentations page as a mundane character.
-     * @test
      */
     public function testLoadAugmentationsMundane(): void
     {
@@ -1730,7 +1671,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading the augmentations page as a magical character.
-     * @test
      */
     public function testLoadAugmentationsMagical(): void
     {
@@ -1758,7 +1698,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading the augmentations page as a technomancer.
-     * @test
      */
     public function testLoadAugmentationsTechno(): void
     {
@@ -1786,7 +1725,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading the weapons page.
-     * @test
      */
     public function testLoadWeapons(): void
     {
@@ -1816,7 +1754,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading the armor page.
-     * @test
      */
     public function testLoadArmor(): void
     {
@@ -1846,7 +1783,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading the gear page.
-     * @test
      */
     public function testLoadGear(): void
     {
@@ -1876,7 +1812,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading the vehicles page.
-     * @test
      */
     public function testLoadVehicles(): void
     {
@@ -1906,7 +1841,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading the social page.
-     * @test
      */
     public function testLoadSocial(): void
     {
@@ -1932,7 +1866,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading the background page.
-     * @test
      */
     public function testLoadBackground(): void
     {
@@ -1958,7 +1891,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test storing a character's background.
-     * @test
      */
     public function testStoreBackground(): void
     {
@@ -2016,7 +1948,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test loading the review page.
-     * @test
      */
     public function testLoadReview(): void
     {
@@ -2062,7 +1993,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test trying to go to an invalid creation step.
-     * @test
      */
     public function testInvalidCreationStep(): void
     {
@@ -2084,7 +2014,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test trying to create a new character when we've already selected one.
-     * @test
      */
     public function testStartNewCharacter(): void
     {
@@ -2114,7 +2043,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test trying to update a character without being logged in.
-     * @test
      */
     public function testUpdateUnauthenticated(): void
     {
@@ -2130,7 +2058,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test trying to update a character that isn't part of a campaign.
-     * @test
      */
     public function testUpdateCharacterWithoutCampaign(): void
     {
@@ -2152,7 +2079,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test trying to update a character that's part of a campaign, but the user
      * isn't the GM.
-     * @test
      */
     public function testUpdateNotGm(): void
     {
@@ -2177,7 +2103,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test trying to patch a character with an invalid patch document.
-     * @test
      */
     public function testUpdateInvalidPatch(): void
     {
@@ -2206,7 +2131,6 @@ final class CharacterControllerTest extends TestCase
     /**
      * Test trying to patch a character with a valid patch document using an
      * invalid operation.
-     * @test
      */
     public function testUpdateInvalidPatchOperation(): void
     {
@@ -2244,7 +2168,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test trying to patch a character using an invalid path.
-     * @test
      */
     public function testUpdateInvalidPath(): void
     {
@@ -2283,7 +2206,6 @@ final class CharacterControllerTest extends TestCase
 
     /**
      * Test killing a character with stun damage.
-     * @test
      */
     public function testUpdateLotsOfStun(): void
     {

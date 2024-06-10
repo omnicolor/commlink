@@ -6,21 +6,15 @@ namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\Ship;
 use App\Models\Expanse\ShipSize;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Expanse ships.
- * @group expanse
- * @group models
- * @small
- */
+#[Group('expanse')]
+#[Small]
 final class ShipTest extends TestCase
 {
-    /**
-     * Test loading an invalid ship.
-     * @test
-     */
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
@@ -28,10 +22,6 @@ final class ShipTest extends TestCase
         new Ship('not-found');
     }
 
-    /**
-     * Testing loading a valid ship that uses mostly defaults.
-     * @test
-     */
     public function testLoad(): void
     {
         $ship = new Ship('DeStRoYeR');
@@ -52,10 +42,6 @@ final class ShipTest extends TestCase
         self::assertCount(3, $ship->weapons);
     }
 
-    /**
-     * Test loading all ships.
-     * @test
-     */
     public function testAll(): void
     {
         self::assertNotEmpty(Ship::all());

@@ -6,16 +6,14 @@ namespace Tests\Feature\Models\Cyberpunkred;
 
 use App\Models\Cyberpunkred\Weapon;
 use App\Models\Cyberpunkred\WeaponArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-/**
- * Tests for the WeaponArray class.
- * @group cyberpunkred
- * @group models
- * @small
- */
+#[Group('cyberpunkred')]
+#[Small]
 final class WeaponArrayTest extends TestCase
 {
     /**
@@ -35,7 +33,6 @@ final class WeaponArrayTest extends TestCase
 
     /**
      * Test an empty array.
-     * @test
      */
     public function testEmpty(): void
     {
@@ -44,7 +41,6 @@ final class WeaponArrayTest extends TestCase
 
     /**
      * Test adding a weapon to the array.
-     * @test
      */
     public function testAdd(): void
     {
@@ -55,7 +51,6 @@ final class WeaponArrayTest extends TestCase
     /**
      * Test that adding something other than a weapon to the array throws an
      * exception.
-     * @test
      */
     public function testAddWrongTypeThrowsException(): void
     {
@@ -67,7 +62,6 @@ final class WeaponArrayTest extends TestCase
     /**
      * That that adding something other than a weapon to the array doesn't add
      * anything.
-     * @test
      */
     public function testAddWrongTypeDoesntAdd(): void
     {

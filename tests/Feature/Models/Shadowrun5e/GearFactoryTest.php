@@ -7,20 +7,18 @@ namespace Tests\Feature\Models\Shadowrun5e;
 use App\Models\Shadowrun5e\Commlink;
 use App\Models\Shadowrun5e\Gear;
 use App\Models\Shadowrun5e\GearFactory;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for the gear factory.
- * @group shadowrun
- * @group shadowrun5e
- * @small
- */
+#[Group('shadowrun')]
+#[Group('shadowrun5e')]
+#[Small]
 final class GearFactoryTest extends TestCase
 {
     /**
      * Test trying to get a string ID that isn't found.
-     * @test
      */
     public function testGetInvalidString(): void
     {
@@ -31,7 +29,6 @@ final class GearFactoryTest extends TestCase
 
     /**
      * Test trying to get an invalid ID from an array.
-     * @test
      */
     public function testGetInvalidArrayId(): void
     {
@@ -42,7 +39,6 @@ final class GearFactoryTest extends TestCase
 
     /**
      * Test trying to get a valid item.
-     * @test
      */
     public function testGetValidString(): void
     {
@@ -52,7 +48,6 @@ final class GearFactoryTest extends TestCase
 
     /**
      * Test that quantity defaults to 1 for string items.
-     * @test
      */
     public function testGetValidStringSetsQuantity(): void
     {
@@ -62,7 +57,6 @@ final class GearFactoryTest extends TestCase
 
     /**
      * Test trying to get a valid item from an array.
-     * @test
      */
     public function testGetValidArrayId(): void
     {
@@ -72,7 +66,6 @@ final class GearFactoryTest extends TestCase
 
     /**
      * Test that quantity defaults to 1 for array items.
-     * @test
      */
     public function testGetValidArraySetsQuantity(): void
     {
@@ -82,7 +75,6 @@ final class GearFactoryTest extends TestCase
 
     /**
      * Test that quantity sets the quantity if given.
-     * @test
      */
     public function testGetValidArraySetsQuantityIfGiven(): void
     {
@@ -92,7 +84,6 @@ final class GearFactoryTest extends TestCase
 
     /**
      * Test loading a cyberdeck.
-     * @test
      */
     public function testLoadingCyberdeck(): void
     {
@@ -102,7 +93,6 @@ final class GearFactoryTest extends TestCase
 
     /**
      * Test that loading a cyberdeck sets the broadcasting SIN.
-     * @test
      */
     public function testLoadingCyberdeckSetsSin(): void
     {

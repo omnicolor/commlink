@@ -8,11 +8,12 @@ use App\Models\Campaign;
 use App\Models\CampaignInvitation;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * @medium
- */
+#[Group('user')]
+#[Medium]
 final class RegisteredUserControllerTest extends TestCase
 {
     use WithFaker;
@@ -34,9 +35,7 @@ final class RegisteredUserControllerTest extends TestCase
         self::assertAuthenticated();
     }
 
-    /**
-     * @group campaigns
-     */
+    #[Group('campaigns')]
     public function testNewUserWithBadCampaignInvitationHash(): void
     {
         /** @var Campaign */
@@ -61,9 +60,7 @@ final class RegisteredUserControllerTest extends TestCase
             ->assertSee('The token does not appear to be valid for the invitation');
     }
 
-    /**
-     * @group campaigns
-     */
+    #[Group('campaigns')]
     public function testNewUserWithInvitationAlreadyRespondedTo(): void
     {
         /** @var Campaign */
@@ -89,9 +86,7 @@ final class RegisteredUserControllerTest extends TestCase
             ->assertSee('It appears you\'ve already responded to the invitation');
     }
 
-    /**
-     * @group campaigns
-     */
+    #[Group('campaigns')]
     public function testNewUserAcceptingInvitation(): void
     {
         /** @var Campaign */

@@ -7,19 +7,17 @@ namespace Tests\Feature\Models\Capers;
 use App\Models\Capers\Explosive;
 use App\Models\Capers\Gear;
 use App\Models\Capers\Weapon;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Tests for Capers gear.
- * @group capers
- * @small
- */
+#[Group('capers')]
+#[Small]
 final class GearTest extends TestCase
 {
     /**
      * Test creating a valid piece of gear.
-     * @test
      */
     public function testLoadGear(): void
     {
@@ -32,7 +30,6 @@ final class GearTest extends TestCase
 
     /**
      * Test creating a valid piece of gear with a different quantity.
-     * @test
      */
     public function testLoadGearWithQuantity(): void
     {
@@ -42,7 +39,6 @@ final class GearTest extends TestCase
 
     /**
      * Test trying to load an invalid piece of gear.
-     * @test
      */
     public function testLoadInvalid(): void
     {
@@ -53,7 +49,6 @@ final class GearTest extends TestCase
 
     /**
      * Test trying to load a weapon.
-     * @test
      */
     public function testLoadWeapon(): void
     {
@@ -66,7 +61,6 @@ final class GearTest extends TestCase
     /**
      * Test trying to load all items, check to see if several types are in the
      * collection.
-     * @test
      */
     public function testAll(): void
     {
@@ -94,7 +88,6 @@ final class GearTest extends TestCase
 
     /**
      * Test trying to load only explosives.
-     * @test
      */
     public function testExplosives(): void
     {
@@ -109,7 +102,6 @@ final class GearTest extends TestCase
 
     /**
      * Test extra fields on an explosive.
-     * @test
      */
     public function testExplosiveFields(): void
     {
@@ -122,7 +114,6 @@ final class GearTest extends TestCase
 
     /**
      * Test trying to load only normal (non-weapon) gear.
-     * @test
      */
     public function testNormalGear(): void
     {
@@ -140,7 +131,6 @@ final class GearTest extends TestCase
 
     /**
      * Test trying to load only weapons.
-     * @test
      */
     public function testWeapons(): void
     {
@@ -155,7 +145,6 @@ final class GearTest extends TestCase
 
     /**
      * Test extra fields on a weapon.
-     * @test
      */
     public function testWeaponFields(): void
     {
