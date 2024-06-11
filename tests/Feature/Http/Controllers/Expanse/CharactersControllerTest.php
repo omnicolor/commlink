@@ -47,7 +47,7 @@ final class CharactersControllerTest extends TestCase
 
         CprCharacter::factory()->create([
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -66,13 +66,13 @@ final class CharactersControllerTest extends TestCase
 
         CprCharacter::factory()->create([
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         /** @var Character */
         $character = Character::factory()->create([
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -113,7 +113,7 @@ final class CharactersControllerTest extends TestCase
         $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'expanse',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -141,7 +141,7 @@ final class CharactersControllerTest extends TestCase
             'owner' => $user->email,
             'system' => 'expanse',
             'campaign_id' => $campaign->id,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -169,7 +169,7 @@ final class CharactersControllerTest extends TestCase
         /** @var CprCharacter */
         $character = CprCharacter::factory()->create([
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -189,7 +189,7 @@ final class CharactersControllerTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)

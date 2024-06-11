@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models\Capers;
 
+use Stringable;
+
 /**
  * @psalm-suppress PossiblyUnusedProperty
  */
-class Boost
+class Boost implements Stringable
 {
     public function __construct(
         public string $id,

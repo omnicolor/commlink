@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
+use Stringable;
 
 /**
  * Representation of an Expanse character.
@@ -40,7 +41,7 @@ use RuntimeException;
  * @property int $toughness
  * @property int $willpower
  */
-class Character extends BaseCharacter
+class Character extends BaseCharacter implements Stringable
 {
     use HasFactory;
 
@@ -95,9 +96,6 @@ class Character extends BaseCharacter
      */
     protected FocusArray $focusArray;
 
-    /**
-     * Return the character's name.
-     */
     public function __toString(): string
     {
         return $this->name ?? 'Unnamed Character';
@@ -180,7 +178,7 @@ class Character extends BaseCharacter
                     (string)$talent['name'],
                     (int)($talent['level'] ?? Talent::NOVICE)
                 );
-            } catch (RuntimeException $ex) {
+            } catch (RuntimeException) {
                 Log::warning(
                     'Expanse character "{name}" ({id}) has invalid talent "{talent}"',
                     [

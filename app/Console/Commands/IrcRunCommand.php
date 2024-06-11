@@ -189,7 +189,7 @@ class IrcRunCommand extends SignalAwareCommand
         IrcChannel $channel,
         string $message
     ): void {
-        if (':roll' !== substr($message, 0, 5)) {
+        if (!str_starts_with($message, ':roll')) {
             // Ignore non-colon messages.
             Log::debug(
                 'IRC - Ignoring message',

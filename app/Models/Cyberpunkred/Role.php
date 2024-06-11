@@ -6,10 +6,14 @@ namespace App\Models\Cyberpunkred;
 
 use Error;
 use RuntimeException;
+use Stringable;
 
-abstract class Role
+use function sprintf;
+use function ucfirst;
+
+abstract class Role implements Stringable
 {
-    protected const DEFAULT_ROLE_RANK = 4;
+    protected const int DEFAULT_ROLE_RANK = 4;
 
     /**
      * Description of the role's ability.
@@ -51,16 +55,16 @@ abstract class Role
      */
     public static function fromArray(array $role): Role
     {
-        $class = \sprintf(
+        $class = sprintf(
             'App\\Models\\Cyberpunkred\\Role\\%s',
-            \ucfirst((string)$role['role'])
+            ucfirst((string)$role['role'])
         );
         try {
             /** @var Role */
             $role = new $class($role);
             return $role;
         } catch (Error) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Role "%s" is invalid',
                 $role['role']
             ));

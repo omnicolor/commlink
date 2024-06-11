@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function ceil;
 
 /**
  * Commlink class.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class Commlink extends Gear
+class Commlink extends Gear implements Stringable
 {
     /**
      * Collection of attribute values allowed for the device.
@@ -72,12 +75,12 @@ class Commlink extends Gear
     /**
      * ID of the SIN the commlink is broadcasting.
      */
-    public ?int $sin;
+    public ?int $sin = null;
 
     /**
      * @throws RuntimeException if ID is invalid
      */
-    public function __construct(string $id, int $quantity = 1)
+    public function __construct(public string $id, int $quantity = 1)
     {
         parent::__construct($id, $quantity);
         /** @phpstan-ignore-next-line */
@@ -113,7 +116,7 @@ class Commlink extends Gear
         if (!isset($this->rating)) {
             return 0;
         }
-        return 8 + (int)\ceil($this->rating / 2);
+        return 8 + (int)ceil($this->rating / 2);
     }
 
     /**

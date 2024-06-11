@@ -15,12 +15,11 @@ class AdeptPowerArray extends ArrayObject
 {
     /**
      * Add a power to the array.
-     * @param ?int $index
      * @param AdeptPower $power
      * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
-    public function offsetSet($index = null, $power = null): void
+    public function offsetSet(mixed $index = null, $power = null): void
     {
         if ($power instanceof AdeptPower) {
             parent::offsetSet($index, $power);

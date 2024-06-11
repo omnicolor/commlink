@@ -156,7 +156,7 @@ final class HelpTest extends TestCase
         $character = Character::factory()->create([
             'name' => $this->faker->name,
             'system' => 'avatar',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -206,7 +206,7 @@ final class HelpTest extends TestCase
         $character = Character::factory()->create([
             'name' => $this->faker->name,
             'system' => 'avatar',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([

@@ -6,14 +6,20 @@ namespace App\Models\Expanse;
 
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
+use Stringable;
+
+use function array_keys;
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * @psalm-suppress UndefinedClass
  */
-class Ship
+class Ship implements Stringable
 {
     /** @psalm-suppress PossiblyUnusedProperty */
-    public ?CrewCompetence $competence;
+    public ?CrewCompetence $competence = null;
     /** @psalm-suppress PossiblyUnusedProperty */
     public ?int $crew_minimum;
     /** @psalm-suppress PossiblyUnusedProperty */
@@ -22,7 +28,6 @@ class Ship
     public ?string $favored_range;
     /** @psalm-suppress PossiblyUnusedProperty */
     public bool $has_epstein;
-    public string $id;
     /** @psalm-suppress PossiblyUnusedProperty */
     public string $length;
     public string $name;
@@ -62,20 +67,20 @@ class Ship
      */
     public static array $ships;
 
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.expanse') . 'ships.php';
         self::$ships ??= require $filename;
 
-        $this->id = \strtolower($id);
-        if (!isset(self::$ships[$this->id])) {
-            throw new RuntimeException(\sprintf(
+        $id = strtolower($id);
+        if (!isset(self::$ships[$id])) {
+            throw new RuntimeException(sprintf(
                 'Expanse ship "%s" is invalid',
-                $this->id
+                $id
             ));
         }
 
-        $ship = self::$ships[$this->id];
+        $ship = self::$ships[$id];
         $this->size = ShipSize::from($ship['size']);
         $this->crew_minimum = $ship['crew_minimum'] ?? $this->size->crewMin();
         $this->crew_standard = $ship['crew_standard'] ?? $this->size->crewStandard();

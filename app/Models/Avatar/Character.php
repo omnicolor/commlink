@@ -54,7 +54,7 @@ class Character extends BaseCharacter
 
     public function __toString(): string
     {
-        return $this->attributes['name'] ?? 'Unnamed character';
+        return (string)($this->attributes['name'] ?? 'Unnamed character');
     }
 
     /**
