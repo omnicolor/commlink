@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace App\Models\Expanse;
 
 use RuntimeException;
+use Stringable;
+
+use function sprintf;
+use function strtolower;
 
 /**
  * Representation of one of the origins in The Expanse.
  */
-abstract class Origin
+abstract class Origin implements Stringable
 {
     /**
      * Description of the origin.
@@ -22,9 +26,6 @@ abstract class Origin
      */
     public string $name;
 
-    /**
-     * Return the origin's name.
-     */
     public function __toString(): string
     {
         return $this->name;
@@ -36,18 +37,14 @@ abstract class Origin
      */
     public static function factory(string $id): Origin
     {
-        $id = \strtolower($id);
-        switch ($id) {
-            case 'belter':
-                return new Origin\Belter();
-            case 'earther':
-                return new Origin\Earther();
-            case 'martian':
-                return new Origin\Martian();
-            default:
-                throw new RuntimeException(
-                    \sprintf('Origin "%s" is invalid', $id)
-                );
-        }
+        $id = strtolower($id);
+        return match ($id) {
+            'belter' => new Origin\Belter(),
+            'earther' => new Origin\Earther(),
+            'martian' => new Origin\Martian(),
+            default => throw new RuntimeException(
+                sprintf('Origin "%s" is invalid', $id)
+            ),
+        };
     }
 }

@@ -6,6 +6,12 @@ namespace App\Models\Capers;
 
 use App\Models\Card;
 use RuntimeException;
+use Stringable;
+
+use function array_keys;
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * Representation of an Identity from the Capers RPG.
@@ -25,13 +31,12 @@ use RuntimeException;
  *
  * You can gain Moxie if your character stays consistent to their Identity.
  */
-class Identity
+class Identity implements Stringable
 {
     /** @psalm-suppress PossiblyUnusedProperty */
     public string $card;
     /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
-    public string $id;
     public string $name;
 
     /**
@@ -39,15 +44,15 @@ class Identity
      */
     public static array $identities;
 
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.capers') . 'identities.php';
         self::$identities ??= require $filename;
 
-        $this->id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$identities[$this->id])) {
             throw new RuntimeException(
-                \sprintf('Identity ID "%s" is invalid', $id)
+                sprintf('Identity ID "%s" is invalid', $id)
             );
         }
 

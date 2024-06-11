@@ -168,7 +168,7 @@ final class HelpTest extends TestCase
             'reaction' => 4,
             'strength' => 5,
             'willpower' => 6,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -237,7 +237,7 @@ final class HelpTest extends TestCase
             'resonance' => 5,
             'strength' => 5,
             'willpower' => 6,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([

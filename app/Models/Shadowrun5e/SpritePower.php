@@ -5,15 +5,19 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * A power that sprites can use.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class SpritePower
+class SpritePower implements Stringable
 {
     public string $description;
-    public string $id;
     public string $name;
     public int $page;
     public string $ruleset;
@@ -25,17 +29,16 @@ class SpritePower
     public static array $powers;
 
     /**
-     * Constructor.
      * @throws RuntimeException if the ID is not found
      */
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.shadowrun5e') . 'sprite-powers.php';
         self::$powers = require $filename;
 
-        $this->id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$powers[$this->id])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Sprite power ID "%s" is invalid',
                 $id
             ));

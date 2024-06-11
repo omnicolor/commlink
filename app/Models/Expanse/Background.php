@@ -5,11 +5,17 @@ declare(strict_types=1);
 namespace App\Models\Expanse;
 
 use RuntimeException;
+use Stringable;
+
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * Class for Expanse backgrounds.
+ * @psalm-suppress PossiblyUnusedProperty
  */
-class Background
+class Background implements Stringable
 {
     /**
      * Ability change the background gives.
@@ -21,7 +27,7 @@ class Background
      * Collection of all backgrounds.
      * @var ?array<string, array<string, string|int|array<int|string, int|string>>>
      */
-    public static ?array $backgrounds;
+    public static ?array $backgrounds = null;
 
     /**
      * Map of benefits that can be rolled for.
@@ -43,12 +49,6 @@ class Background
     public array $focuses;
 
     /**
-     * Unique ID for the background.
-     * @psalm-suppress PossiblyUnusedProperty
-     */
-    public string $id;
-
-    /**
      * Name of the background.
      */
     public string $name;
@@ -66,18 +66,17 @@ class Background
     public array $talents;
 
     /**
-     * Constructor.
      * @throws RuntimeException
      */
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.expanse') . 'backgrounds.php';
         self::$backgrounds ??= require $filename;
 
-        $id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$backgrounds[$id])) {
             throw new RuntimeException(
-                \sprintf('Background ID "%s" is invalid', $id)
+                sprintf('Background ID "%s" is invalid', $id)
             );
         }
 

@@ -17,8 +17,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-use function substr;
-
 /**
  * Start a Discord bot.
  * @codeCoverageIgnore
@@ -76,7 +74,7 @@ class DiscordRunCommand extends Command
                     $this->handleBotMessages($message);
                     return;
                 }
-                if ('/' !== substr($message->content, 0, 1)) {
+                if (!str_starts_with($message->content, '/')) {
                     // Ignore non-command chatter.
                     return;
                 }

@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Models\Expanse;
 
 use RuntimeException;
+use Stringable;
 
+use function array_keys;
+use function config;
 use function sprintf;
 use function strtolower;
 
@@ -13,7 +16,7 @@ use function strtolower;
  * Class representing an Expanse Focus.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class Focus
+class Focus implements Stringable
 {
     /**
      * Attributes the Focus is attached to.
@@ -29,12 +32,7 @@ class Focus
      * Collection of all focuses.
      * @var ?array<string, array<string, string|int>>
      */
-    public static ?array $focuses;
-
-    /**
-     * Unique identifier for the focus.
-     */
-    public string $id;
+    public static ?array $focuses = null;
 
     /**
      * Name of the Focus.
@@ -50,10 +48,8 @@ class Focus
      * Constructor.
      * @throws RuntimeException
      */
-    public function __construct(
-        string $id,
-        public int $level = 1
-    ) {
+    public function __construct(public string $id, public int $level = 1)
+    {
         $filename = config('app.data_path.expanse') . 'focuses.php';
         self::$focuses ??= require $filename;
 
@@ -67,7 +63,6 @@ class Focus
         $focus = self::$focuses[$id];
         $this->attribute = $focus['attribute'];
         $this->description = $focus['description'];
-        $this->id = $id;
         $this->name = $focus['name'];
         $this->page = $focus['page'];
     }

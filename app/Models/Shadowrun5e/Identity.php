@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
 
 use function sprintf;
 
@@ -14,7 +15,7 @@ use const PHP_EOL;
  * Class representing a Shadowrun identity.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class Identity
+class Identity implements Stringable
 {
     /**
      * Identifier for the identity.

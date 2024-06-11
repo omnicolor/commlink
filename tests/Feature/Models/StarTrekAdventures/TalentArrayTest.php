@@ -66,7 +66,7 @@ final class TalentArrayTest extends TestCase
         try {
             // @phpstan-ignore-next-line
             $this->talents->offsetSet(talent: new stdClass());
-        } catch (TypeError $e) {
+        } catch (TypeError) {
             // Ignored
         }
         self::assertEmpty($this->talents);

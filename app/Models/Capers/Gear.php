@@ -5,14 +5,19 @@ declare(strict_types=1);
 namespace App\Models\Capers;
 
 use RuntimeException;
+use Stringable;
 
+use function array_keys;
+use function config;
 use function sprintf;
+use function str_replace;
 use function strtolower;
+use function ucfirst;
 
 /**
  * @psalm-suppress PossiblyUnusedProperty
  */
-class Gear
+class Gear implements Stringable
 {
     public float $cost;
     public string $name;
@@ -39,7 +44,9 @@ class Gear
         return $this->name;
     }
 
-    /** @psalm-suppress PossiblyUnusedMethod */
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function getType(): string
     {
         return ucfirst(str_replace('-', ' ', $this->type));

@@ -5,11 +5,16 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * Something to change a piece of armor's behavior.
  */
-class ArmorModification
+class ArmorModification implements Stringable
 {
     /**
      * Availability code for the modification.
@@ -38,11 +43,6 @@ class ArmorModification
      * @var array<string, int>
      */
     public array $effects = [];
-
-    /**
-     * ID of the modification.
-     */
-    public string $id;
 
     /**
      * List of modifications this is incompatible with.
@@ -78,15 +78,15 @@ class ArmorModification
      * Construct a new modification object.
      * @throws RuntimeException
      */
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.shadowrun5e')
             . 'armor-modifications.php';
         self::$modifications ??= require $filename;
 
-        $id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$modifications[$id])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Modification ID "%s" not found',
                 $id
             ));
@@ -108,17 +108,11 @@ class ArmorModification
         $this->ruleset = $mod['ruleset'] ?? 'core';
     }
 
-    /**
-     * Return the name of the modification.
-     */
     public function __toString(): string
     {
         return $this->name;
     }
 
-    /**
-     * Return the cost of the modification.
-     */
     public function getCost(Armor $armor): int
     {
         if (0 !== $this->cost) {
@@ -133,14 +127,14 @@ class ArmorModification
      */
     public static function findByName(
         string $name,
-        ?int $rating = null
+        ?int $rating = null,
     ): ArmorModification {
         $filename = config('app.data_path.shadowrun5e')
             . 'armor-modifications.php';
         self::$modifications ??= require $filename;
 
         foreach (self::$modifications as $mod) {
-            if (\strtolower($mod['name']) !== \strtolower($name)) {
+            if (strtolower((string)$mod['name']) !== strtolower($name)) {
                 continue;
             }
             if (null !== $rating && $rating !== $mod['rating']) {
@@ -149,7 +143,7 @@ class ArmorModification
             return new self($mod['id']);
         }
 
-        throw new RuntimeException(\sprintf(
+        throw new RuntimeException(sprintf(
             'Armor modification "%s" was not found',
             $name
         ));

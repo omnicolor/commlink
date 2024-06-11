@@ -15,12 +15,11 @@ class GearModificationArray extends ArrayObject
 {
     /**
      * Add a item to the array.
-     * @param ?int $index
      * @param GearModification $mod
      * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
-    public function offsetSet($index = null, $mod = null): void
+    public function offsetSet(mixed $index = null, $mod = null): void
     {
         if ($mod instanceof GearModification) {
             parent::offsetSet($index, $mod);

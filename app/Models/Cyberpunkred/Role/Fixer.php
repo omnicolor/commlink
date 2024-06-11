@@ -6,8 +6,9 @@ namespace App\Models\Cyberpunkred\Role;
 
 use App\Models\Cyberpunkred\Role;
 use OutOfBoundsException;
+use Stringable;
 
-class Fixer extends Role
+class Fixer extends Role implements Stringable
 {
     public const TYPE_BROKER_DEALS = 1;
     public const TYPE_PROCURE_ATYPICAL = 2;
