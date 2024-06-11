@@ -373,7 +373,7 @@ final class InteractsWithDiscordTest extends TestCase
             'https://discord.com/api/oauth2/authorize?client_id=%s'
                 . '&redirect_uri=%s&response_type=code&scope=identify+guilds',
             config('services.discord.client_id'),
-            urlencode(config('services.discord.redirect')),
+            urlencode((string)config('services.discord.redirect')),
         );
         self::assertSame($expected, $this->mock->getDiscordOauthURL());
     }

@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Models\Cyberpunkred;
 
 use RuntimeException;
+use Stringable;
 
 use function in_array;
 use function sprintf;
 use function strtolower;
 
-class MeleeWeapon extends Weapon
+class MeleeWeapon extends Weapon implements Stringable
 {
     /** @psalm-suppress PossiblyUnusedProperty */
     public ?int $ammoRemaining = null;

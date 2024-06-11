@@ -15,12 +15,11 @@ class VehicleModificationArray extends ArrayObject
 {
     /**
      * Add a modification to the array.
-     * @param ?int $index
      * @param VehicleModification $mod
      * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
-    public function offsetSet($index = null, $mod = null): void
+    public function offsetSet(mixed $index = null, $mod = null): void
     {
         if ($mod instanceof VehicleModification) {
             parent::offsetSet($index, $mod);

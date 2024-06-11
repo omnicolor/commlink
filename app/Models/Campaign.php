@@ -54,7 +54,7 @@ class Campaign extends Model
 
     public function __toString(): string
     {
-        return $this->attributes['name'];
+        return (string)$this->attributes['name'];
     }
 
     /**
@@ -117,17 +117,13 @@ class Campaign extends Model
      */
     public function newFromBuilder(
         $attributes = [],
-        $connection = null
+        $connection = null,
     ): static {
         // @phpstan-ignore-next-line
-        switch ($attributes->system ?? null) {
-            case 'shadowrun5e':
-                $campaign = new Shadowrun5e\Campaign((array)$attributes);
-                break;
-            default:
-                $campaign = new Campaign((array)$attributes);
-                break;
-        }
+        $campaign = match ($attributes->system ?? null) {
+            'shadowrun5e' => new Shadowrun5e\Campaign((array)$attributes),
+            default => new Campaign((array)$attributes),
+        };
 
         $campaign->exists = true;
         $campaign->setRawAttributes((array)$attributes, true);

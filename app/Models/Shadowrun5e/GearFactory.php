@@ -8,7 +8,7 @@ use RuntimeException;
 
 use function is_array;
 use function is_numeric;
-use function strpos;
+use function str_starts_with;
 
 /**
  * Gear factory, returns an appropriate gear object.
@@ -42,9 +42,9 @@ class GearFactory
             $quantity = (int)$gear['quantity'];
         }
         if (
-            0 === strpos($gear['id'], 'cyberdeck-')
-            || 0 === strpos($gear['id'], 'commlink-')
-            || 0 === strpos($gear['id'], 'rcc-')
+            str_starts_with((string) $gear['id'], 'cyberdeck-')
+            || str_starts_with((string) $gear['id'], 'commlink-')
+            || str_starts_with((string) $gear['id'], 'rcc-')
         ) {
             $commlink = new Commlink($gear['id'], $quantity);
             if (isset($gear['sin'])) {

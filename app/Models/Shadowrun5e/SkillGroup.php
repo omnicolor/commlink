@@ -5,22 +5,18 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function config;
+use function sprintf;
+use function str_replace;
+use function ucfirst;
 
 /**
  * Skill group.
  */
-class SkillGroup
+class SkillGroup implements Stringable
 {
-    /**
-     * ID of the skill group.
-     */
-    public string $id;
-
-    /**
-     * Level of the skill group.
-     */
-    public int $level;
-
     /**
      * Name of the skill group.
      */
@@ -40,17 +36,16 @@ class SkillGroup
     public static ?array $skillGroups;
 
     /**
-     * Constructor, build the skill group object.
      * @throws RuntimeException If the ID is invalid
      */
-    public function __construct(string $id, int $level)
+    public function __construct(public string $id, public int $level)
     {
         if (!isset(self::$skillGroups)) {
             $filename = config('app.data_path.shadowrun5e') . 'skills.php';
             $skills = require $filename;
 
             foreach ($skills as $skill) {
-                // Some skills are not in any group
+                // Some skills are not in any group.
                 if (!isset($skill['group'])) {
                     continue;
                 }
@@ -60,21 +55,19 @@ class SkillGroup
                     self::$skillGroups[$group] = [];
                 }
 
-                self::$skillGroups[$group][] =
-                    new ActiveSkill($skill['id'], 0);
+                self::$skillGroups[$group][] = new ActiveSkill($skill['id'], 0);
             }
         }
 
         if (!isset(self::$skillGroups[$id])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Skill group ID "%s" is invalid',
                 $id
             ));
         }
 
         $this->id = $id;
-        $this->name = \ucfirst(\str_replace('-', ' ', $id));
-        $this->level = $level;
+        $this->name = ucfirst(str_replace('-', ' ', $id));
         $this->skills = self::$skillGroups[$id];
     }
 

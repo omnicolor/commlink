@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
+use Stringable;
 
 /**
  * Representation of a Shadowrun 6E character.
@@ -45,7 +46,7 @@ use RuntimeException;
  * @property array<int, mixed> $weapons
  * @property int $willpower
  */
-class Character extends BaseCharacter
+class Character extends BaseCharacter implements Stringable
 {
     use HasFactory;
 
@@ -116,10 +117,6 @@ class Character extends BaseCharacter
         '_id',
     ];
 
-    /**
-     * Return the character's handle.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->handle ?? $this->name ?? 'Unnamed Character';
@@ -169,7 +166,7 @@ class Character extends BaseCharacter
     public function initiativeBase(): Attribute
     {
         return Attribute::make(
-            get: function () {
+            get: function (): int {
                 return $this->intuition + $this->reaction;
             },
         );
@@ -181,7 +178,7 @@ class Character extends BaseCharacter
     public function initiativeDice(): Attribute
     {
         return Attribute::make(
-            get: function () {
+            get: function (): int {
                 return 1;
             },
         );

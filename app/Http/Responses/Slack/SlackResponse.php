@@ -26,10 +26,7 @@ class SlackResponse extends JsonResponse
      */
     protected array $attachments = [];
 
-    /**
-     * Slack channel the request.
-     */
-    protected Channel $channel;
+    protected ?Channel $channel;
 
     /**
      * Link between Slack and Commlink.

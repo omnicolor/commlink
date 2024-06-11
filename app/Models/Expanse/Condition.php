@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace App\Models\Expanse;
 
 use RuntimeException;
+use Stringable;
 
+use function config;
 use function sprintf;
 use function strtolower;
 
 /**
  * Conditions that can affect characters.
+ * @psalm-suppress PossiblyUnusedProperty
  */
-class Condition
+class Condition implements Stringable
 {
     /**
      * Collection of all conditions.
@@ -25,12 +28,6 @@ class Condition
      * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
-
-    /**
-     * Unique ID for the condition.
-     * @psalm-suppress PossiblyUnusedProperty
-     */
-    public string $id;
 
     /**
      * Name of the condition.
@@ -48,7 +45,7 @@ class Condition
      * @psalm-suppress PossiblyUnusedMethod
      * @throws RuntimeException
      */
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.expanse') . 'conditions.php';
         self::$conditions ??= require $filename;
@@ -62,15 +59,10 @@ class Condition
 
         $condition = self::$conditions[$id];
         $this->description = $condition['description'];
-        $this->id = $id;
         $this->name = $condition['name'];
         $this->page = $condition['page'];
     }
 
-    /**
-     * Return the condition's name.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;
