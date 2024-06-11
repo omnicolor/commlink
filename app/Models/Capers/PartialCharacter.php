@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models\Capers;
 
+use Stringable;
+
+use function optional;
+
 /**
  * Representation of a character currently being built.
  * @property array<int, object> $gear
@@ -11,7 +15,7 @@ namespace App\Models\Capers;
  * @property-read PowerArray $powers
  * @property-write array<int, mixed>|PowerArray $powers
  */
-class PartialCharacter extends Character
+class PartialCharacter extends Character implements Stringable
 {
     /**
      * The database connection that should be used by the model.

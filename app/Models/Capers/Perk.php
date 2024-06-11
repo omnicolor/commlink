@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace App\Models\Capers;
 
 use RuntimeException;
+use Stringable;
 
+use function config;
 use function sprintf;
 use function strtolower;
 
-class Perk
+class Perk implements Stringable
 {
     /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
-    public string $id;
     public string $name;
     /** @psalm-suppress PossiblyUnusedProperty */
     public ?string $skillId = null;
@@ -21,19 +22,17 @@ class Perk
     /**
      * @var array<string, array<string, string>>
      */
-    public static ?array $perks;
+    public static array $perks;
 
     /**
-     * Constructor.
-     * @param string $id
      * @param array<string, string> $rawPerk
      */
-    public function __construct(string $id, array $rawPerk)
+    public function __construct(public string $id, array $rawPerk)
     {
         $filename = config('app.data_path.capers') . 'perks.php';
         self::$perks ??= require $filename;
 
-        $this->id = strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$perks[$this->id])) {
             throw new RuntimeException(
                 sprintf('Perks ID "%s" is invalid', $id)

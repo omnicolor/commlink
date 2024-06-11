@@ -235,7 +235,7 @@ final class NumberTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'edge' => 2,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -296,7 +296,7 @@ final class NumberTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'edge' => 2,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -356,7 +356,7 @@ final class NumberTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'edge' => 2,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -424,7 +424,7 @@ final class NumberTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'edge' => 2,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([

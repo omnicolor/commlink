@@ -15,16 +15,16 @@ class TalentArray extends ArrayObject
 {
     /**
      * Add a talent to the array.
-     * @param ?int $index
      * @param Talent $talent
      * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
-    public function offsetSet($index, $talent): void
+    public function offsetSet(mixed $index, $talent): void
     {
-        if (!($talent instanceof Talent)) {
-            throw new TypeError('TalentArray only accepts Talent objects');
+        if ($talent instanceof Talent) {
+            parent::offsetSet($index, $talent);
+            return;
         }
-        parent::offsetSet($index, $talent);
+        throw new TypeError('TalentArray only accepts Talent objects');
     }
 }

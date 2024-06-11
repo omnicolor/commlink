@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models\Capers;
 
-class Weapon extends Gear
+use Stringable;
+
+class Weapon extends Gear implements Stringable
 {
     /** @psalm-suppress PossiblyUnusedProperty */
     public ?string $damage;

@@ -15,12 +15,11 @@ class ContactArray extends ArrayObject
 {
     /**
      * Add a contact to the array.
-     * @param int|null|string $index
      * @param Contact $contact
      * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
-    public function offsetSet($index = null, $contact = null): void
+    public function offsetSet(mixed $index = null, $contact = null): void
     {
         if ($contact instanceof Contact) {
             parent::offsetSet($index, $contact);

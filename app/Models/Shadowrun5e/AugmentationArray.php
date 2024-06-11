@@ -15,12 +15,11 @@ class AugmentationArray extends ArrayObject
 {
     /**
      * Add an augmentation to the array.
-     * @param ?int $index
      * @param Augmentation $augmentation
      * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
-    public function offsetSet($index = null, $augmentation = null): void
+    public function offsetSet(mixed $index = null, $augmentation = null): void
     {
         if ($augmentation instanceof Augmentation) {
             parent::offsetSet($index, $augmentation);

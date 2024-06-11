@@ -102,7 +102,7 @@ final class LinkResponseTest extends TestCase
     {
         /** @var Character */
         $alreadyLinkedCharacter = Character::factory()->create([
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         $expected = sprintf(
@@ -181,7 +181,7 @@ final class LinkResponseTest extends TestCase
     {
         /** @var Character */
         $character = Character::factory()->create([
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         $expected = 'You don\'t own that character.';
@@ -228,7 +228,7 @@ final class LinkResponseTest extends TestCase
         $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'capers',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         $expected = sprintf(
@@ -278,7 +278,7 @@ final class LinkResponseTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         $expected = sprintf(

@@ -102,7 +102,7 @@ final class BlitzTest extends TestCase
         $character = Character::factory()->create([
             'edgeCurrent' => 0,
             'edge' => 5,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -139,7 +139,7 @@ final class BlitzTest extends TestCase
         $character = Character::factory()->create([
             'edgeCurrent' => 0,
             'edge' => 5,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -193,7 +193,7 @@ final class BlitzTest extends TestCase
             'edge' => 4,
             'intuition' => 4,
             'reaction' => 5,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -264,7 +264,7 @@ final class BlitzTest extends TestCase
             'edgeCurrent' => 3,
             'intuition' => 3,
             'reaction' => 3,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -332,7 +332,7 @@ final class BlitzTest extends TestCase
             'edgeCurrent' => 3,
             'intuition' => 3,
             'reaction' => 3,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([

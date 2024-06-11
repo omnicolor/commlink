@@ -5,17 +5,21 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun6e;
 
 use RuntimeException;
+use Stringable;
+
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * Representation of a Shadowrun sixth edition skill.
  * @psalm-suppress UnusedClass
  */
-class ActiveSkill
+class ActiveSkill implements Stringable
 {
     public string $attribute;
     public string $attribute_secondary;
     public string $description;
-    public string $id;
     public string $name;
     public int $page;
     public bool $untrained;
@@ -31,23 +35,19 @@ class ActiveSkill
     public static array $skills;
 
     /**
-     * Constructor.
-     * @param string $id
-     * @param int $level
-     * @param ?string $specialization
      * @throws RuntimeException
      */
     public function __construct(
-        string $id,
+        public string $id,
         public int $level = 1,
         public ?string $specialization = null
     ) {
         $filename = config('app.data_path.shadowrun6e') . 'skills.php';
         self::$skills ??= require $filename;
 
-        $this->id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$skills[$id])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Shadowrun 6E skill ID "%s" is invalid',
                 $id
             ));
@@ -63,10 +63,6 @@ class ActiveSkill
         $this->untrained = $skill['untrained'];
     }
 
-    /**
-     * Return the name of the skill.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;

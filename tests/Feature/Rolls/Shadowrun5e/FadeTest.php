@@ -78,7 +78,7 @@ final class FadeTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'willpower' => 4,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -126,7 +126,7 @@ final class FadeTest extends TestCase
         $character = Character::factory()->create([
             'resonance' => 6,
             'willpower' => 5,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -175,7 +175,7 @@ final class FadeTest extends TestCase
         $character = Character::factory()->create([
             'resonance' => 4,
             'willpower' => 3,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -239,7 +239,7 @@ final class FadeTest extends TestCase
         $character = Character::factory()->create([
             'resonance' => 6,
             'willpower' => 5,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([

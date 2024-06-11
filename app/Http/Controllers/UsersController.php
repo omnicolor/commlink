@@ -91,7 +91,7 @@ class UsersController extends Controller
                     JsonResponse::HTTP_BAD_REQUEST
                 );
             }
-            $path = explode('/', $patch['path']);
+            $path = explode('/', (string)$patch['path']);
             switch ($path[1]) {
                 case 'features':
                     try {
