@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use Stringable;
+
 /**
  * Representation of a character currently being built.
  * @property array<int, string> $errors
  */
-class PartialCharacter extends Character
+class PartialCharacter extends Character implements Stringable
 {
-    protected const DEFAULT_MAX_ATTRIBUTE = 6;
+    protected const int DEFAULT_MAX_ATTRIBUTE = 6;
 
     /**
      * The database connection that should be used by the model.

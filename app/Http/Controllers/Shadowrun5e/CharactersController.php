@@ -1114,7 +1114,7 @@ class CharactersController extends Controller
         $rawQualities = $request->input('quality', []);
         foreach ($rawQualities as $id) {
             $extra = null;
-            $id = explode('_', $id);
+            $id = explode('_', (string)$id);
             if (1 !== count($id)) {
                 $extra = implode(' ', array_slice($id, 1));
             }
@@ -1434,7 +1434,7 @@ class CharactersController extends Controller
 
         try {
             $change = json_decode(
-                (new Patch(
+                (string)(new Patch(
                     (string)json_encode($document),
                     (string)json_encode($request->input('patch')),
                 ))->apply()

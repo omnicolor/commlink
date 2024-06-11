@@ -5,6 +5,15 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function ceil;
+use function config;
+use function is_array;
+use function sprintf;
+use function str_contains;
+use function str_starts_with;
+use function strtolower;
 
 /**
  * Class representing a vehicle in Shadowrun.
@@ -18,7 +27,7 @@ use RuntimeException;
  * @property-read int $speed
  * @psalm-suppress PossiblyUnusedProperty
  */
-class Vehicle
+class Vehicle implements Stringable
 {
     /**
      * Acceleration rating for the vehicle.
@@ -85,6 +94,8 @@ class Vehicle
      */
     public VehicleModificationArray $equipment;
 
+    public string $id;
+
     /**
      * Handling rating for the vehicle.
      */
@@ -94,11 +105,6 @@ class Vehicle
      * Off-road handling for the vehicle.
      */
     public ?int $stockHandlingOffRoad;
-
-    /**
-     * Unique ID for the vehicle.
-     */
-    public string $id;
 
     /**
      * Name of the vehicle.
@@ -167,14 +173,14 @@ class Vehicle
         $filename = config('app.data_path.shadowrun5e') . 'vehicles.php';
         self::$vehicles ??= require $filename;
 
-        $id = \strtolower($data['id']);
-        if (!isset(self::$vehicles[$id])) {
+        $this->id = strtolower((string)$data['id']);
+        if (!isset(self::$vehicles[$this->id])) {
             throw new RuntimeException(
-                \sprintf('Vehicle ID "%s" is invalid', $id)
+                sprintf('Vehicle ID "%s" is invalid', $this->id)
             );
         }
 
-        $vehicle = self::$vehicles[$id];
+        $vehicle = self::$vehicles[$this->id];
         $this->stockAcceleration = $vehicle['acceleration'];
         $this->active = $data['active'] ?? true;
         $this->stockArmor = $vehicle['armor'];
@@ -188,7 +194,6 @@ class Vehicle
         $this->description = $vehicle['description'];
         $this->deviceRating = $vehicle['deviceRating'] ?? 0;
         $this->stockHandling = $vehicle['handling'];
-        $this->id = $id;
         $this->name = $vehicle['name'];
         $this->stockPilot = $vehicle['pilot'];
         $this->stockSensor = $vehicle['sensor'];
@@ -280,7 +285,7 @@ class Vehicle
         $filename = config('app.data_path.shadowrun5e') . 'vehicles.php';
         self::$vehicles ??= require $filename;
         foreach (self::$vehicles as $vehicle) {
-            if (\strtolower($vehicle['name']) === \strtolower($name)) {
+            if (strtolower((string)$vehicle['name']) === strtolower($name)) {
                 return new Vehicle(['id' => $vehicle['id']]);
             }
         }
@@ -318,7 +323,7 @@ class Vehicle
         if (!isset($this->deviceRating)) {
             return 0;
         }
-        return 8 + (int)\ceil($this->deviceRating / 2);
+        return 8 + (int)ceil($this->deviceRating / 2);
     }
 
     /**
@@ -328,9 +333,9 @@ class Vehicle
     public function getPhysicalConditionMonitor(): int
     {
         if ($this->isDrone()) {
-            return 6 + (int)\ceil($this->body / 2);
+            return 6 + (int)ceil($this->body / 2);
         }
-        return 12 + (int)\ceil($this->body / 2);
+        return 12 + (int)ceil($this->body / 2);
     }
 
     /**
@@ -338,6 +343,6 @@ class Vehicle
      */
     public function isDrone(): bool
     {
-        return false !== \strpos($this->category, 'drone');
+        return str_contains($this->category, 'drone');
     }
 }

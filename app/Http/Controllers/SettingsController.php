@@ -197,7 +197,7 @@ class SettingsController extends Controller
      */
     public function linkUser(LinkUserRequest $request): RedirectResponse
     {
-        if ('T' === substr($request->input('server-id'), 0, 1)) {
+        if (str_starts_with((string)$request->input('server-id'), 'T')) {
             return $this->linkSlack($request);
         }
         if (is_numeric($request->input('server-id')[0])) {

@@ -15,12 +15,11 @@ class BoostArray extends ArrayObject
 {
     /**
      * Add a boost to the array.
-     * @param int|null|string $index
      * @param Boost $boost
      * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
-    public function offsetSet($index = null, $boost = null): void
+    public function offsetSet(mixed $index = null, $boost = null): void
     {
         if ($boost instanceof Boost) {
             parent::offsetSet($index, $boost);

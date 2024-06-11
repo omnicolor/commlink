@@ -31,7 +31,7 @@ final class SkillTest extends TestCase
     {
         $skill = new Skill('GUNS');
         self::assertSame('Guns', (string)$skill);
-        self::assertSame('guns', $skill->id);
+        self::assertSame('GUNS', $skill->id);
         self::assertSame(
             'Guns covers all manner of firearms, from pistols to Tommy guns.',
             $skill->description

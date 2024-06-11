@@ -6,12 +6,17 @@ namespace App\Models\Shadowrun5e;
 
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
+use Stringable;
+
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * Representation of a Shadowrun 5E critter.
  * @psalm-suppress UnusedClass
  */
-class Critter
+class Critter implements Stringable
 {
     public int $agility;
     public int $armor;
@@ -65,9 +70,9 @@ class Critter
         $filename = config('app.data_path.shadowrun5e') . 'critters.php';
         self::$critters ??= require $filename;
 
-        $this->id = \strtolower($id);
+        $this->id = strtolower($id);
         if (!isset(self::$critters[$this->id])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Critter ID "%s" is invalid',
                 $this->id
             ));

@@ -137,7 +137,7 @@ class Shadowrun5eConverter implements ConverterInterface
                         $this->createIDFromName((string)$rawMod->name)
                     );
                     $mods[] = $mod->id;
-                } catch (RuntimeException $ex) {
+                } catch (RuntimeException) {
                     $this->errors[] = sprintf(
                         'Could not find armor modification "%s" for "%s"',
                         (string)$rawMod->name,

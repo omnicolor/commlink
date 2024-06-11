@@ -331,7 +331,7 @@ final class CampaignsControllerTest extends TestCase
         $character = Character::factory()->create([
             'campaign_id' => $campaign,
             'system' => 'shadowrun5e',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         $this->actingAs($user)

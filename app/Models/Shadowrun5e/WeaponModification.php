@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
 
+use function config;
 use function sprintf;
 use function strtolower;
 
@@ -13,7 +15,7 @@ use function strtolower;
  * Something to add to a character's weapon.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class WeaponModification
+class WeaponModification implements Stringable
 {
     /**
      * Availability code for the modification.
@@ -40,11 +42,6 @@ class WeaponModification
      * @var array<string, int>
      */
     public array $effects;
-
-    /**
-     * ID of the modification.
-     */
-    public string $id;
 
     /**
      * List of modifications this is incompatible with.
@@ -80,16 +77,15 @@ class WeaponModification
     public static ?array $modifications;
 
     /**
-     * Construct a new modification object.
-     * @param string $id ID to load
      * @throws RuntimeException
      */
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.shadowrun5e')
             . 'weapon-modifications.php';
         self::$modifications ??= require $filename;
 
+        $id = strtolower($id);
         if (!isset(self::$modifications[$id])) {
             throw new RuntimeException(sprintf(
                 'Modification ID "%s" is invalid',
@@ -102,7 +98,6 @@ class WeaponModification
         $this->costModifier = $mod['cost-modifier'] ?? null;
         $this->description = $mod['description'];
         $this->effects = $mod['effects'] ?? [];
-        $this->id = $mod['id'];
         $this->incompatibleWith = $mod['incompatible-with'] ?? [];
         $this->mount = $mod['mount'] ?? [];
         $this->name = $mod['name'];
@@ -110,18 +105,11 @@ class WeaponModification
         $this->type = $mod['type'];
     }
 
-    /**
-     * Return the name of the modification.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;
     }
 
-    /**
-     * Return the cost of the modification.
-     */
     public function getCost(Weapon $weapon): int
     {
         if (isset($this->costModifier)) {
@@ -141,7 +129,7 @@ class WeaponModification
         self::$modifications ??= require $filename;
 
         foreach (self::$modifications as $mod) {
-            if (strtolower($mod['name']) === strtolower($name)) {
+            if (strtolower((string)$mod['name']) === strtolower($name)) {
                 return new WeaponModification($mod['id']);
             }
         }

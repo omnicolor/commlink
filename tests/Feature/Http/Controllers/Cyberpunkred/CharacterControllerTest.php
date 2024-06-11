@@ -53,7 +53,7 @@ final class CharacterControllerTest extends TestCase
             'handle' => __FUNCTION__,
             'owner' => $user->email,
             'system' => 'shadowrun5e',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         self::actingAs($user)
             ->getJson(route('cyberpunkred.characters.index'))
@@ -75,7 +75,7 @@ final class CharacterControllerTest extends TestCase
             'handle' => __FUNCTION__,
             'owner' => $user->email,
             'system' => 'shadowrun6e',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         /** @var Character */
@@ -83,7 +83,7 @@ final class CharacterControllerTest extends TestCase
             'handle' => __FUNCTION__,
             'owner' => $user->email,
             'system' => 'cyberpunkred',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -121,7 +121,7 @@ final class CharacterControllerTest extends TestCase
             'lifepath' => [
                 'what-valued' => 'Cold, hard eddies',
             ],
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -149,7 +149,7 @@ final class CharacterControllerTest extends TestCase
             'handle' => __FUNCTION__,
             'owner' => $user->email,
             'system' => 'shadowrun6e',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -171,7 +171,7 @@ final class CharacterControllerTest extends TestCase
             'handle' => __FUNCTION__,
             'owner' => $user->email,
             'system' => 'cyberpunkred',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -217,7 +217,7 @@ final class CharacterControllerTest extends TestCase
         $character = PartialCharacter::factory()->create([
             'handle' => __FUNCTION__,
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -239,7 +239,7 @@ final class CharacterControllerTest extends TestCase
         $character = PartialCharacter::factory()->create([
             'handle' => __FUNCTION__,
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -264,7 +264,7 @@ final class CharacterControllerTest extends TestCase
         $character = PartialCharacter::factory()->create([
             'handle' => __FUNCTION__,
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkred-partial' => $character->id]);
 
@@ -294,7 +294,7 @@ final class CharacterControllerTest extends TestCase
         $character = PartialCharacter::factory()->create([
             'handle' => __FUNCTION__,
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkred-partial' => $character->id]);
 
@@ -317,7 +317,7 @@ final class CharacterControllerTest extends TestCase
         /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkred-partial' => $character->id]);
 
@@ -348,7 +348,7 @@ final class CharacterControllerTest extends TestCase
         $character = PartialCharacter::factory()->create([
             'handle' => __FUNCTION__,
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkred-partial' => $character->id]);
 
@@ -377,7 +377,7 @@ final class CharacterControllerTest extends TestCase
                     'rank' => 4,
                 ],
             ],
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkred-partial' => $character->id]);
 
@@ -406,7 +406,7 @@ final class CharacterControllerTest extends TestCase
                     'rank' => 4,
                 ],
             ],
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkred-partial' => $character->id]);
 
@@ -437,7 +437,7 @@ final class CharacterControllerTest extends TestCase
         /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkred-partial' => $character->id]);
 
@@ -459,7 +459,7 @@ final class CharacterControllerTest extends TestCase
         /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkred-partial' => $character->id]);
 
@@ -486,7 +486,7 @@ final class CharacterControllerTest extends TestCase
                     'rank' => 4,
                 ],
             ],
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkred-partial' => $character->id]);
 
@@ -565,7 +565,7 @@ final class CharacterControllerTest extends TestCase
                     'rank' => 4,
                 ],
             ],
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkred-partial' => $character->id]);
 
@@ -610,7 +610,7 @@ final class CharacterControllerTest extends TestCase
         /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkred-partial' => $character->id]);
 
@@ -640,7 +640,7 @@ final class CharacterControllerTest extends TestCase
                     'rank' => 4,
                 ],
             ],
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkred-partial' => $character->id]);
 
@@ -750,7 +750,7 @@ final class CharacterControllerTest extends TestCase
                     'rank' => 4,
                 ],
             ],
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkred-partial' => $character->id]);
 
@@ -828,7 +828,7 @@ final class CharacterControllerTest extends TestCase
                     'rank' => 4,
                 ],
             ],
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkred-partial' => $character->id]);
 
@@ -906,7 +906,7 @@ final class CharacterControllerTest extends TestCase
                     'rank' => 4,
                 ],
             ],
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         session(['cyberpunkred-partial' => $character->id]);
 

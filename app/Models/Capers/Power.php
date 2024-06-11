@@ -5,11 +5,17 @@ declare(strict_types=1);
 namespace App\Models\Capers;
 
 use RuntimeException;
+use Stringable;
 
-class Power
+use function array_keys;
+use function config;
+use function sprintf;
+use function strtolower;
+
+class Power implements Stringable
 {
-    public const TYPE_MAJOR = 'Major';
-    public const TYPE_MINOR = 'Minor';
+    public const string TYPE_MAJOR = 'Major';
+    public const string TYPE_MINOR = 'Minor';
 
     /**
      * How the power gets activated.
@@ -46,11 +52,6 @@ class Power
     public string $effect;
 
     /**
-     * Unique ID for the power.
-     */
-    public string $id;
-
-    /**
      * Maximum number of ranks a character can have for the power.
      * @psalm-suppress PossiblyUnusedProperty
      */
@@ -81,24 +82,24 @@ class Power
     /**
      * @var array<string, array<string, string>>
      */
-    public static ?array $powers;
+    public static ?array $powers = null;
 
     /**
      * Constructor.
      * @param array<int, string> $boosts
      */
     public function __construct(
-        string $id,
+        public string $id,
         public int $rank = 1,
         array $boosts = []
     ) {
         $filename = config('app.data_path.capers') . 'powers.php';
         self::$powers ??= require $filename;
 
-        $this->id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$powers[$this->id])) {
             throw new RuntimeException(
-                \sprintf('Power ID "%s" is invalid', $id)
+                sprintf('Power ID "%s" is invalid', $id)
             );
         }
 
