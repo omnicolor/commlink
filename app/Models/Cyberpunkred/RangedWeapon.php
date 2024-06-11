@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Cyberpunkred;
 
 use RuntimeException;
+use Stringable;
 
 use function in_array;
 use function sprintf;
@@ -14,7 +15,7 @@ use function strtolower;
  * If something comes out of it, traverses a distance, and causes damage at the
  * end of that trajectory, it's a Ranged Weapon.
  */
-class RangedWeapon extends Weapon
+class RangedWeapon extends Weapon implements Stringable
 {
     /**
      * Number of rounds remaining in the magazine.

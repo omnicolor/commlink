@@ -15,12 +15,11 @@ class WeaponArray extends ArrayObject
 {
     /**
      * Force the array to only accept Weapon objects.
-     * @param ?int $index
      * @param Weapon $weapon
      * @psalm-suppress ParamNameMismatch
      * @throws TypeError if the object assigned isn't a weapon
      */
-    public function offsetSet($index = null, $weapon = null): void
+    public function offsetSet(mixed $index = null, $weapon = null): void
     {
         if ($weapon instanceof Weapon) {
             parent::offsetSet($index, $weapon);

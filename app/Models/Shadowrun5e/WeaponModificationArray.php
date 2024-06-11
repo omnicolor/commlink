@@ -15,12 +15,11 @@ class WeaponModificationArray extends ArrayObject
 {
     /**
      * Add a item to the array.
-     * @param null|int|string $index
      * @param ?WeaponModification $mod
      * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
-    public function offsetSet($index = null, $mod = null): void
+    public function offsetSet(mixed $index = null, $mod = null): void
     {
         if (null === $mod) {
             parent::offsetSet($index, null);

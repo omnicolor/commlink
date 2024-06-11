@@ -5,25 +5,26 @@ declare(strict_types=1);
 namespace App\Models\Cyberpunkred;
 
 use RuntimeException;
+use Stringable;
 
 use function array_key_exists;
 use function sprintf;
 use function strtolower;
 
-abstract class Weapon
+abstract class Weapon implements Stringable
 {
-    public const QUALITY_POOR = 'poor';
-    public const QUALITY_STANDARD = 'standard';
-    public const QUALITY_EXCELLENT = 'excellent';
+    public const string QUALITY_POOR = 'poor';
+    public const string QUALITY_STANDARD = 'standard';
+    public const string QUALITY_EXCELLENT = 'excellent';
 
-    public const QUALITIES = [
+    public const array QUALITIES = [
         self::QUALITY_POOR,
         self::QUALITY_STANDARD,
         self::QUALITY_EXCELLENT,
     ];
 
-    public const TYPE_MELEE = 'melee';
-    public const TYPE_RANGED = 'ranged';
+    public const string TYPE_MELEE = 'melee';
+    public const string TYPE_RANGED = 'ranged';
 
     /**
      * Whether the weapon can be concealed.

@@ -7,21 +7,15 @@ namespace Tests\Feature\Models\Cyberpunkred;
 use App\Models\Cyberpunkred\MeleeWeapon;
 use App\Models\Cyberpunkred\RangedWeapon;
 use App\Models\Cyberpunkred\Weapon;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for Weapon abstract class from CyberpunkRed.
- * @group cyberpunkred
- * @group models
- * @small
- */
+#[Group('subversion')]
+#[Small]
 final class WeaponTest extends TestCase
 {
-    /**
-     * Test trying to load a weapon without including an ID.
-     * @test
-     */
     public function testLoadNoId(): void
     {
         self::expectException(RuntimeException::class);
@@ -31,10 +25,6 @@ final class WeaponTest extends TestCase
         Weapon::build([]);
     }
 
-    /**
-     * Test trying to load an invalid weapon.
-     * @test
-     */
     public function testLoadInvalid(): void
     {
         self::expectException(RuntimeException::class);
@@ -42,10 +32,6 @@ final class WeaponTest extends TestCase
         Weapon::build(['id' => 'invalid']);
     }
 
-    /**
-     * Test converting a weapon to a string.
-     * @test
-     */
     public function testToString(): void
     {
         $weapon = Weapon::build(['id' => 'medium-pistol']);

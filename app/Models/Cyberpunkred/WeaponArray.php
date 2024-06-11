@@ -15,16 +15,16 @@ class WeaponArray extends ArrayObject
 {
     /**
      * Add a weapon to the array.
-     * @param ?int $index
      * @param ?Weapon $weapon
      * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
-    public function offsetSet($index = null, $weapon = null): void
+    public function offsetSet(mixed $index = null, $weapon = null): void
     {
-        if (!($weapon instanceof Weapon)) {
-            throw new TypeError('WeaponArray only accepts Weapon objects');
+        if ($weapon instanceof Weapon) {
+            parent::offsetSet($index, $weapon);
+            return;
         }
-        parent::offsetSet($index, $weapon);
+        throw new TypeError('WeaponArray only accepts Weapon objects');
     }
 }

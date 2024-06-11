@@ -10,10 +10,12 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
+use Stringable;
 
 use function array_key_exists;
 use function array_keys;
 use function ceil;
+use function config;
 use function floor;
 use function ksort;
 
@@ -50,7 +52,7 @@ use function ksort;
  * @property array<int, array<string, int|string>> $weapons
  * @property int $willpower
  */
-class Character extends BaseCharacter
+class Character extends BaseCharacter implements Stringable
 {
     use HasFactory;
 
@@ -114,9 +116,6 @@ class Character extends BaseCharacter
         '_id',
     ];
 
-    /**
-     * Return the character's name.
-     */
     public function __toString(): string
     {
         return $this->handle ?? 'Unnamed character';
@@ -266,7 +265,7 @@ class Character extends BaseCharacter
         foreach ($this->skills ?? [] as $skill => $level) {
             try {
                 $skills[] = new Skill($skill, $level);
-            } catch (RuntimeException $ex) {
+            } catch (RuntimeException) {
                 Log::warning(
                     'Cyberpunk Red character "{name}" ({id}) has invalid skill "{skill}"',
                     [
@@ -348,7 +347,7 @@ class Character extends BaseCharacter
                     $weapons[] = $weapon;
                     continue;
                 }
-            } catch (RuntimeException $ex) {
+            } catch (RuntimeException) {
                 Log::warning(
                     'Cyberpunk Red character "{name}" ({id}) has invalid weapon ID "{weapon}"',
                     [

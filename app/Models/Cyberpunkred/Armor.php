@@ -6,15 +6,18 @@ namespace App\Models\Cyberpunkred;
 
 use Illuminate\Support\Str;
 use RuntimeException;
+use Stringable;
 
+use function config;
 use function sprintf;
+use function strtolower;
 use function ucfirst;
 
 /**
  * @psalm-suppress PossiblyUnusedProperty
  * @psalm-suppress UnusedClass
  */
-class Armor
+class Armor implements Stringable
 {
     public CostCategory $cost_category;
     public string $description;
@@ -25,7 +28,7 @@ class Armor
     public string $type;
 
     /**
-     * @var array<string, array<string, int|string>>
+     * @var ?array<string, array<string, int|string>>
      */
     public static ?array $armor;
 
@@ -34,6 +37,7 @@ class Armor
         $filename = config('app.data_path.cyberpunkred') . 'armor.php';
         self::$armor ??= require $filename;
 
+        $id = strtolower($id);
         if (!isset(self::$armor[$id])) {
             throw new RuntimeException(sprintf(
                 'Armor ID "%s" is invalid',

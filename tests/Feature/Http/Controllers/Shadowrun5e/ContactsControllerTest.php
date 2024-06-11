@@ -26,7 +26,7 @@ final class ContactsControllerTest extends TestCase
 
         /** @var Character */
         $character = Character::factory()->create([
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -55,7 +55,7 @@ final class ContactsControllerTest extends TestCase
                 ],
             ],
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -90,7 +90,7 @@ final class ContactsControllerTest extends TestCase
                     'name' => 'Dodger',
                 ],
             ],
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -126,7 +126,7 @@ final class ContactsControllerTest extends TestCase
                     'name' => 'Dodger',
                 ],
             ],
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -150,7 +150,7 @@ final class ContactsControllerTest extends TestCase
         $character = Character::factory()->create([
             'contacts' => [],
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -187,7 +187,7 @@ final class ContactsControllerTest extends TestCase
                 ],
             ],
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -225,7 +225,7 @@ final class ContactsControllerTest extends TestCase
                     'name' => 'Dodger',
                 ],
             ],
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)

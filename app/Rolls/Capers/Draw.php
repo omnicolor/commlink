@@ -86,7 +86,7 @@ class Draw extends Roll
                 $this->username
             );
             return;
-        } catch (Exception $ex) {
+        } catch (Exception) {
             // Ignore.
         }
 

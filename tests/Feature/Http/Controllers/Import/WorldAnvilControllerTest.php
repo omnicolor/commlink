@@ -6,6 +6,8 @@ namespace Tests\Feature\Http\Controllers\Import;
 
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function dirname;
@@ -13,11 +15,8 @@ use function file_get_contents;
 
 use const DIRECTORY_SEPARATOR;
 
-/**
- * Test for World Anvil imports.
- * @group world-anvil
- * @medium
- */
+#[Group('world-anvil')]
+#[Medium]
 final class WorldAnvilControllerTest extends TestCase
 {
     public function testInvalidFileType(): void

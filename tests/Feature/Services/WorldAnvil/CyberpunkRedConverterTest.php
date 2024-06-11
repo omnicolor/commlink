@@ -5,26 +5,27 @@ declare(strict_types=1);
 namespace Tests\Feature\Services\WorldAnvil;
 
 use App\Services\WorldAnvil\CyberpunkRedConverter;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use RuntimeException;
 use Tests\TestCase;
 
 use function dirname;
+use function explode;
+use function implode;
 
 use const DIRECTORY_SEPARATOR;
 
-/**
- * Tests for World Anvil Cyberpunk Red character converter.
- * @group cyberpunk-red
- * @group world-anvil
- * @medium
- */
+#[Group('cyberpunk-red')]
+#[Group('world-anvil')]
+#[Medium]
 final class CyberpunkRedConverterTest extends TestCase
 {
     protected static string $testFile;
 
     public static function setUpBeforeClass(): void
     {
-        $path = explode(DIRECTORY_SEPARATOR, dirname(dirname(dirname(__DIR__))));
+        $path = explode(DIRECTORY_SEPARATOR, dirname(__DIR__, 3));
         $path[] = 'Data';
         $path[] = 'WorldAnvil';
         $path[] = 'CyberpunkRed';
@@ -48,11 +49,10 @@ final class CyberpunkRedConverterTest extends TestCase
         new CyberpunkRedConverter(__FILE__);
     }
 
-    /** @group current */
     public function testConstructorWrongSystem(): void
     {
         // We'll use a valid World Anvil character from The Expanse.
-        $path = explode(DIRECTORY_SEPARATOR, dirname(dirname(dirname(__DIR__))));
+        $path = explode(DIRECTORY_SEPARATOR, dirname(__DIR__, 3));
         $path[] = 'Data';
         $path[] = 'WorldAnvil';
         $path[] = 'Expanse';
@@ -80,7 +80,7 @@ final class CyberpunkRedConverterTest extends TestCase
 
     public function testConvertCharacterWithInvalidData(): void
     {
-        $path = explode(DIRECTORY_SEPARATOR, dirname(dirname(dirname(__DIR__))));
+        $path = explode(DIRECTORY_SEPARATOR, dirname(__DIR__, 3));
         $path[] = 'Data';
         $path[] = 'WorldAnvil';
         $path[] = 'CyberpunkRed';

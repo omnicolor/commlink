@@ -6,22 +6,15 @@ namespace App\Models\Cyberpunkred;
 
 use App\Models\Card;
 use InvalidArgumentException;
+use Stringable;
 
-class TarotCard extends Card
+class TarotCard extends Card implements Stringable
 {
-    /**
-     * Return the card as a string.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->value;
     }
 
-    /**
-     * Return a short description of the card.
-     * @return string
-     */
     public function getDescription(): string
     {
         return match ($this->value) {
@@ -51,10 +44,6 @@ class TarotCard extends Card
         };
     }
 
-    /**
-     * Return the effects caused by drawing the card.
-     * @return string
-     */
     public function getEffect(): string
     {
         return match ($this->value) {

@@ -25,7 +25,7 @@ final class CharacterTest extends TestCase
     {
         $character = new Character([
             'name' => 'Test Capers character',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         $character->save();
 
