@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-class Card
+use Stringable;
+
+class Card implements Stringable
 {
     /**
      * Create a new card.
@@ -17,7 +19,6 @@ class Card
 
     /**
      * Return the card as a string, like 2♦ for the two of diamonds.
-     * @return string
      */
     public function __toString(): string
     {

@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
 
+use function config;
 use function sprintf;
 use function strtolower;
 
@@ -13,7 +15,7 @@ use function strtolower;
  * Class representing a metamagic in Shadowrun.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class Metamagic
+class Metamagic implements Stringable
 {
     /**
      * Whether the metamagic is for adepts only.
@@ -24,11 +26,6 @@ class Metamagic
      * Description of the metamagic.
      */
     public string $description;
-
-    /**
-     * ID of the metamagic.
-     */
-    public string $id;
 
     /**
      * Name of the metamagic.
@@ -51,16 +48,12 @@ class Metamagic
      */
     public static ?array $metamagics;
 
-    /**
-     * Constructor.
-     * @param string $id
-     */
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.shadowrun5e') . 'metamagics.php';
         self::$metamagics ??= require $filename;
 
-        $this->id = strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$metamagics[$id])) {
             throw new RuntimeException(
                 sprintf('Metamagic ID "%s" is invalid', $id)
@@ -75,10 +68,6 @@ class Metamagic
         $this->ruleset = (string)$magic['ruleset'];
     }
 
-    /**
-     * Return the metamagic as a string.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;
@@ -86,8 +75,6 @@ class Metamagic
 
     /**
      * Find a metamagic by its name instead of ID.
-     * @param string $name
-     * @return Metamagic
      * @throws RuntimeException
      */
     public static function findByName(string $name): Metamagic
@@ -97,7 +84,7 @@ class Metamagic
 
         $name = strtolower($name);
         foreach (self::$metamagics as $meta) {
-            if (strtolower($meta['name']) === $name) {
+            if (strtolower((string)$meta['name']) === $name) {
                 return new self($meta['id']);
             }
         }

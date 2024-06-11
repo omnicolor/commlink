@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
 
+use function config;
 use function explode;
 use function sprintf;
 use function strtolower;
@@ -15,7 +17,7 @@ use function trim;
  * Class representing a magical tradition in Shadowrun.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class Tradition
+class Tradition implements Stringable
 {
     /**
      * Description of the tradition.
@@ -32,11 +34,6 @@ class Tradition
      * @var array<string, string>
      */
     public array $elements;
-
-    /**
-     * Unique ID for the tradition.
-     */
-    public string $id;
 
     /**
      * Name of the tradition.
@@ -60,27 +57,25 @@ class Tradition
     public static ?array $traditions;
 
     /**
-     * Construct a new Tradition object.
      * @throws RuntimeException if the ID is invalid or not found
      */
-    public function __construct(string $identifier)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.shadowrun5e') . 'traditions.php';
         self::$traditions ??= require $filename;
 
-        $identifier = strtolower($identifier);
-        if (!isset(self::$traditions[$identifier])) {
+        $id = strtolower($id);
+        if (!isset(self::$traditions[$id])) {
             throw new RuntimeException(sprintf(
                 'Tradition ID "%s" not found',
-                $identifier
+                $id
             ));
         }
 
-        $tradition = self::$traditions[$identifier];
+        $tradition = self::$traditions[$id];
         $this->description = $tradition['description'];
         $this->drain = $tradition['drain'];
         $this->elements = $tradition['elements'];
-        $this->id = $identifier;
         $this->name = $tradition['name'];
         $this->page = $tradition['page'] ?? null;
         $this->ruleset = $tradition['ruleset'];

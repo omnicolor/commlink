@@ -5,16 +5,18 @@ declare(strict_types=1);
 namespace App\Models\StarTrekAdventures;
 
 use RuntimeException;
+use Stringable;
+
+use function sprintf;
 
 /**
  * Class representing a Talent.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class Talent
+class Talent implements Stringable
 {
     /**
      * Description of the talent.
-     * @var string
      */
     public string $description;
 
@@ -26,13 +28,11 @@ class Talent
 
     /**
      * Name of the talent.
-     * @var string
      */
     public string $name;
 
     /**
      * Page the talent was mentioned on.
-     * @var int
      */
     public int $page;
 
@@ -44,13 +44,12 @@ class Talent
 
     /**
      * Book the talent was mentioned in.
-     * @var string
      */
     public string $ruleset;
 
     /**
      * List of all talents.
-     * @var ?array<string, array<string, int|string>>
+     * @var array<string, array<string, int|string>>
      */
     public static ?array $talents;
 
@@ -62,7 +61,7 @@ class Talent
 
         if (!isset(self::$talents[$id])) {
             throw new RuntimeException(
-                \sprintf('Talent ID "%s" is invalid', $id)
+                sprintf('Talent ID "%s" is invalid', $id)
             );
         }
 
@@ -77,13 +76,12 @@ class Talent
 
     /**
      * Return the talent's name.
-     * @return string
      */
     public function __toString(): string
     {
         if (null === $this->extra) {
             return $this->name;
         }
-        return \sprintf('%s %s', $this->name, $this->extra);
+        return sprintf('%s %s', $this->name, $this->extra);
     }
 }

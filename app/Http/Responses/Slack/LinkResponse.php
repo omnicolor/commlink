@@ -34,7 +34,7 @@ class LinkResponse extends SlackResponse
         parent::__construct($content, $status, $headers, $channel);
 
         /** @var ChatUser */
-        $chatUser = $this->channel->getChatUser();
+        $chatUser = $this->channel?->getChatUser();
         $this->requireCommlink($chatUser);
 
         // @phpstan-ignore-next-line

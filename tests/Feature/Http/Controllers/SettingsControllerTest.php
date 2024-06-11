@@ -18,10 +18,10 @@ use Tests\TestCase;
 #[Medium]
 final class SettingsControllerTest extends TestCase
 {
-    protected const API_DISCORD_GUILDS = 'discord.com/api/guilds/';
-    protected const API_DISCORD_USERS = 'discord.com/api/users/';
-    protected const API_SLACK_TEAMS = 'slack.com/api/auth.teams.list';
-    protected const API_SLACK_USERS = 'slack.com/api/users.info';
+    protected const string API_DISCORD_GUILDS = 'discord.com/api/guilds/';
+    protected const string API_DISCORD_USERS = 'discord.com/api/users/';
+    protected const string API_SLACK_TEAMS = 'slack.com/api/auth.teams.list';
+    protected const string API_SLACK_USERS = 'slack.com/api/users.info';
 
     /**
      * Test an unauthenticated request.

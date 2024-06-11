@@ -8,28 +8,37 @@ use App\Events\ChannelLinked;
 use App\Events\DiscordMessageReceived;
 use App\Models\Channel;
 use Discord\Parts\Channel\Channel as TextChannel;
+use Stringable;
+
+use function array_key_exists;
+use function array_keys;
+use function config;
+use function count;
+use function explode;
+use function implode;
+use function sprintf;
 
 /**
  * Handle a user requesting to link a Discord channel to Commlink.
  * @psalm-suppress UnusedClass
  */
-class RegisterResponse
+class RegisterResponse implements Stringable
 {
-    protected const MIN_NUM_ARGUMENTS = 2;
+    protected const int MIN_NUM_ARGUMENTS = 2;
 
     protected string $message = '';
 
     public function __construct(protected DiscordMessageReceived $event)
     {
-        $arguments = \explode(' ', trim($this->event->content));
+        $arguments = explode(' ', trim($this->event->content));
         $systems = config('app.systems');
-        if (self::MIN_NUM_ARGUMENTS !== \count($arguments)) {
+        if (self::MIN_NUM_ARGUMENTS !== count($arguments)) {
             $this->sendMissingArgumentError($systems);
             return;
         }
 
         $system = $arguments[1];
-        if (!\array_key_exists($system, $systems)) {
+        if (!array_key_exists($system, $systems)) {
             $this->sendInvalidSystemError($system, $systems);
             return;
         }
@@ -61,7 +70,7 @@ class RegisterResponse
         ]);
         $channel->save();
 
-        $event->channel->sendMessage(\sprintf(
+        $event->channel->sendMessage(sprintf(
             '%s has registered this channel for the "%s" system.',
             $channel->username,
             $systems[$system],
@@ -80,7 +89,7 @@ class RegisterResponse
      */
     protected function createNewChannel(
         TextChannel $discordChannel,
-        string $system
+        string $system,
     ): Channel {
         $channel = new Channel([
             'channel_id' => $discordChannel->id,
@@ -100,10 +109,10 @@ class RegisterResponse
      */
     protected function sendMissingArgumentError(array $systems): void
     {
-        $this->event->message->reply(\sprintf(
+        $this->event->message->reply(sprintf(
             'To register a channel, use `register [system]`, where system is a '
                 . 'system code: %s',
-            \implode(', ', \array_keys($systems))
+            implode(', ', array_keys($systems))
         ));
     }
 
@@ -113,13 +122,13 @@ class RegisterResponse
      */
     protected function sendInvalidSystemError(
         string $system,
-        array $systems
+        array $systems,
     ): void {
-        $this->event->message->reply(\sprintf(
+        $this->event->message->reply(sprintf(
             '"%s" is not a valid system code. Use `register <system>`, '
                 . 'where system is one of: %s',
             $system,
-            \implode(', ', \array_keys($systems))
+            implode(', ', array_keys($systems))
         ));
     }
 
@@ -129,7 +138,7 @@ class RegisterResponse
     protected function sendAlreadyRegisteredError(string $system): void
     {
         $this->event->message->reply(
-            \sprintf('This channel is already registered for "%s"', $system)
+            sprintf('This channel is already registered for "%s"', $system)
         );
     }
 
@@ -138,7 +147,7 @@ class RegisterResponse
      */
     protected function sendMustRegisterError(): void
     {
-        $this->event->message->reply(\sprintf(
+        $this->event->message->reply(sprintf(
             'You must have already created an account on %s (%s) and linked it '
                 . 'to this server before you can register a channel to a '
                 . 'specific system.',

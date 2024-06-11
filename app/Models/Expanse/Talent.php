@@ -5,17 +5,23 @@ declare(strict_types=1);
 namespace App\Models\Expanse;
 
 use RuntimeException;
+use Stringable;
+
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * Base class for talents in The Expanse.
+ * @psalm-suppress PossiblyUnusedProperty
  */
-class Talent
+class Talent implements Stringable
 {
-    public const NOVICE = 1;
-    public const EXPERT = 2;
-    public const MASTER = 3;
-    public const JOURNEYMAN = 3;
-    public const SHORT_LEVELS = [
+    public const int NOVICE = 1;
+    public const int EXPERT = 2;
+    public const int MASTER = 3;
+    public const int JOURNEYMAN = 3;
+    public const array SHORT_LEVELS = [
         self::NOVICE => 'N',
         self::EXPERT => 'E',
         self::MASTER => 'M',
@@ -33,12 +39,6 @@ class Talent
      * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
-
-    /**
-     * Unique ID for the Talent.
-     * @psalm-suppress PossiblyUnusedProperty
-     */
-    public string $id;
 
     /**
      * Level the character has attained in the Talent.
@@ -71,34 +71,29 @@ class Talent
     public static ?array $talents;
 
     /**
-     * Constructor.
      * @throws RuntimeException
      */
-    public function __construct(string $id, int $level = self::NOVICE)
+    public function __construct(public string $id, int $level = self::NOVICE)
     {
         $filename = config('app.data_path.expanse') . 'talents.php';
         self::$talents ??= require $filename;
 
-        $id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$talents[$id])) {
             throw new RuntimeException(
-                \sprintf('Talent ID "%s" is invalid', $id)
+                sprintf('Talent ID "%s" is invalid', $id)
             );
         }
 
         $talent = self::$talents[$id];
         $this->benefits = $talent['benefits'];
         $this->description = $talent['description'];
-        $this->id = $id;
         $this->setLevel($level);
         $this->name = $talent['name'];
         $this->page = $talent['page'];
         $this->requirements = $talent['requirements'];
     }
 
-    /**
-     * Return the Talent's name as a string.
-     */
     public function __toString(): string
     {
         return $this->name;

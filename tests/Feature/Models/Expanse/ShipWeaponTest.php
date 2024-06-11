@@ -28,7 +28,7 @@ final class ShipWeaponTest extends TestCase
         $weapon = new ShipWeapon('ToRpEdO', 'fore');
         self::assertSame('4d6', $weapon->damage);
         self::assertNotNull($weapon->description);
-        self::assertSame('torpedo', $weapon->id);
+        self::assertSame('ToRpEdO', $weapon->id);
         self::assertSame('Torpedo', (string)$weapon);
         self::assertSame(133, $weapon->page);
         self::assertSame(ShipWeapon::RANGE_LONG, $weapon->range);

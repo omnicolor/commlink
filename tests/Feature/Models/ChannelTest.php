@@ -33,13 +33,13 @@ final class ChannelTest extends TestCase
      * URL that Slack connections will go to.
      * @var string
      */
-    protected const API_SLACK_TEAMS = 'slack.com/api/auth.teams.list';
+    protected const string API_SLACK_TEAMS = 'slack.com/api/auth.teams.list';
 
     /**
      * URL that Discord connections will go to.
      * @var string
      */
-    protected const API_DISCORD_GUILDS = 'https://discord.com/api/guilds/';
+    protected const string API_DISCORD_GUILDS = 'https://discord.com/api/guilds/';
 
     /**
      * Test getting the server's name if we've already retrieved it.
@@ -380,7 +380,7 @@ final class ChannelTest extends TestCase
         // Add a character to the channel.
         /** @var Character */
         $character = Character::factory()->create([
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,

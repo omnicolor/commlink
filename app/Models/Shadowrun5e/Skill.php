@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use Stringable;
+
 /**
  * Base class for active and knowledge skills.
  */
-abstract class Skill
+abstract class Skill implements Stringable
 {
     /**
      * Attribute linked to this skill.

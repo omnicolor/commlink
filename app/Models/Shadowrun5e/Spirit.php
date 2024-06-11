@@ -7,6 +7,17 @@ namespace App\Models\Shadowrun5e;
 use BadMethodCallException;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
+use Stringable;
+
+use function array_merge;
+use function array_shift;
+use function config;
+use function in_array;
+use function preg_match;
+use function sprintf;
+use function str_replace;
+use function strtolower;
+use function ucfirst;
 
 /**
  * Class representing a spirit in Shadowrun.
@@ -24,7 +35,7 @@ use RuntimeException;
  * @method int getResonance()
  * @psalm-suppress PossiblyUnusedProperty
  */
-class Spirit
+class Spirit implements Stringable
 {
     use ForceTrait;
 
@@ -57,11 +68,6 @@ class Spirit
      * Spirit's essence.
      */
     public string $essence;
-
-    /**
-     * Spirit's ID.
-     */
-    public string $id;
 
     /**
      * Spirit's astral initiative.
@@ -154,23 +160,22 @@ class Spirit
 
     /**
      * Constructor.
-     * @param string $id ID to load
      * @param ?int $force Force of the spirit
      * @param array<int, string> $powersChosen Optional powers chosen
      * @throws RuntimeException if the ID is invalid
      */
     public function __construct(
-        string $id,
+        public string $id,
         public ?int $force = null,
-        public array $powersChosen = []
+        public array $powersChosen = [],
     ) {
         $filename = config('app.data_path.shadowrun5e') . 'spirits.php';
         self::$spirits ??= require $filename;
 
-        $id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$spirits[$id])) {
             throw new RuntimeException(
-                \sprintf('Spirit ID "%s" is invalid', $id)
+                sprintf('Spirit ID "%s" is invalid', $id)
             );
         }
 
@@ -180,7 +185,6 @@ class Spirit
         $this->charisma = $spirit['charisma'];
         $this->edge = $spirit['edge'];
         $this->essence = $spirit['essence'];
-        $this->id = $id;
         $this->initiativeAstral = $spirit['initiative-astral'];
         $this->initiative = $spirit['initiative'];
         $this->intuition = $spirit['intuition'];
@@ -204,13 +208,12 @@ class Spirit
      * @param array<mixed> $arguments Unused
      * @psalm-suppress PossiblyUnusedMethod
      * @psalm-suppress PossiblyUnusedParam
-     * @returns int
      * @throws BadMethodCallException
      * @throws RuntimeException
      */
     public function __call(string $name, array $arguments): int
     {
-        $attribute = \strtolower(\str_replace('get', '', $name));
+        $attribute = strtolower(str_replace('get', '', $name));
         $attributes = [
             'agility',
             'body',
@@ -224,10 +227,10 @@ class Spirit
             'strength',
             'willpower',
         ];
-        if (!\in_array($attribute, $attributes, true)) {
-            throw new BadMethodCallException(\sprintf(
+        if (!in_array($attribute, $attributes, true)) {
+            throw new BadMethodCallException(sprintf(
                 '%s is not an attribute of spirits',
-                \ucfirst($attribute)
+                ucfirst($attribute)
             ));
         }
         if (null === $this->force) {
@@ -241,10 +244,6 @@ class Spirit
         );
     }
 
-    /**
-     * Return the name of the spirit.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;
@@ -252,13 +251,12 @@ class Spirit
 
     /**
      * Convert an initiative string like (F*2+4)+2d6 into [init, dice].
-     * @param string $initiative
      * @return array<int, string|int> [base initiative, initiative dice]
      */
     protected function convertInitiative(string $initiative): array
     {
-        \preg_match('/\((F.*)\)\+(\d)d6/', $initiative, $matches);
-        \array_shift($matches);
+        preg_match('/\((F.*)\)\+(\d)d6/', $initiative, $matches);
+        array_shift($matches);
         return $matches;
     }
 
@@ -269,7 +267,7 @@ class Spirit
      */
     public function getAstralInitiative(): array
     {
-        list($init, $dice) = $this->convertInitiative($this->initiativeAstral);
+        [$init, $dice] = $this->convertInitiative($this->initiativeAstral);
         $init = self::convertFormula((string)$init, 'F', (int)$this->force);
         return [$init, (int)$dice];
     }
@@ -281,7 +279,7 @@ class Spirit
      */
     public function getInitiative(): array
     {
-        list($init, $dice) = $this->convertInitiative($this->initiative);
+        [$init, $dice] = $this->convertInitiative($this->initiative);
         $init = self::convertFormula((string)$init, 'F', (int)$this->force);
         return [$init, (int)$dice];
     }

@@ -10,6 +10,7 @@ use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use Discord\Parts\Channel\Channel as TextChannel;
+use Stringable;
 
 use function config;
 use function count;
@@ -22,7 +23,7 @@ use function sprintf;
  * @psalm-suppress InvalidStaticInvocation
  * @psalm-suppress UnusedClass
  */
-class LinkResponse
+class LinkResponse implements Stringable
 {
     protected const MIN_NUM_ARGUMENTS = 2;
 

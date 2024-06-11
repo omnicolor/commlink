@@ -5,11 +5,17 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function array_keys;
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * Skill a character can use.
  */
-class ActiveSkill extends Skill
+class ActiveSkill extends Skill implements Stringable
 {
     /**
      * Whether the character can default this skill.
@@ -30,13 +36,8 @@ class ActiveSkill extends Skill
     public ?string $group = null;
 
     /**
-     * ID of the skill.
-     */
-    public string $id;
-
-    /**
      * List of all skills.
-     * @var ?array<mixed>
+     * @var ?array<string, array<string, mixed>>
      */
     public static ?array $skills;
 
@@ -45,14 +46,14 @@ class ActiveSkill extends Skill
      * @throws RuntimeException If the skill isn't valid
      */
     public function __construct(
-        string $id,
+        public string $id,
         int $level,
         ?string $specialization = null
     ) {
         $filename = config('app.data_path.shadowrun5e') . 'skills.php';
         self::$skills ??= require $filename;
 
-        $id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$skills[$id])) {
             throw new RuntimeException(\sprintf(
                 'Skill ID "%s" is invalid',
@@ -65,7 +66,6 @@ class ActiveSkill extends Skill
         $this->default = $skill['default'] ?? false;
         $this->description = $skill['description'];
         $this->group = $skill['group'] ?? null;
-        $this->id = $id;
         $this->level = $level;
         $this->limit = $skill['limit'] ?? '?';
         $this->name = $skill['name'];
@@ -85,7 +85,7 @@ class ActiveSkill extends Skill
                 return $skill['id'];
             }
         }
-        throw new RuntimeException(\sprintf(
+        throw new RuntimeException(sprintf(
             'Active skill "%s" not found',
             $name
         ));

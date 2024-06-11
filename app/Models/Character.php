@@ -86,35 +86,18 @@ class Character extends Model
         $attributes = [],
         $connection = null,
     ): Character {
-        switch ($attributes['system'] ?? null) {
-            case 'avatar':
-                $character = new Avatar\Character($attributes);
-                break;
-            case 'capers':
-                $character = new Capers\Character($attributes);
-                break;
-            case 'cyberpunkred':
-                $character = new Cyberpunkred\Character($attributes);
-                break;
-            case 'dnd5e':
-                $character = new Dnd5e\Character($attributes);
-                break;
-            case 'expanse':
-                $character = new Expanse\Character($attributes);
-                break;
-            case 'shadowrun5e':
-                $character = new Shadowrun5e\Character($attributes);
-                break;
-            case 'star-trek-adventures':
-                $character = new StarTrekAdventures\Character($attributes);
-                break;
-            case 'stillfleet':
-                $character = new Stillfleet\Character($attributes);
-                break;
-            default:
-                $character = new Character($attributes);
-                break;
-        }
+        $character = match ($attributes['system'] ?? null) {
+            'avatar' => new Avatar\Character($attributes),
+            'capers' => new Capers\Character($attributes),
+            'cyberpunkred' => new Cyberpunkred\Character($attributes),
+            'dnd5e' => new Dnd5e\Character($attributes),
+            'expanse' => new Expanse\Character($attributes),
+            'shadowrun5e' => new Shadowrun5e\Character($attributes),
+            'shadowrun6e' => new Shadowrun6e\Character($attributes),
+            'star-trek-adventures' => new StarTrekAdventures\Character($attributes),
+            'stillfleet' => new Stillfleet\Character($attributes),
+            default => new Character($attributes),
+        };
         $character->exists = true;
         $character->setRawAttributes($attributes, true);
         $character->setConnection($this->connection);
