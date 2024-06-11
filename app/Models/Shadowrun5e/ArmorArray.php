@@ -15,12 +15,11 @@ class ArmorArray extends ArrayObject
 {
     /**
      * Add an armor to the array.
-     * @param ?int $index
      * @param Armor $armor
      * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
-    public function offsetSet($index = null, $armor = null): void
+    public function offsetSet(mixed $index = null, $armor = null): void
     {
         if ($armor instanceof Armor) {
             parent::offsetSet($index, $armor);

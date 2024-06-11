@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
 
+use function config;
 use function sprintf;
 use function strtolower;
 
@@ -13,9 +15,12 @@ use function strtolower;
  * Shadowrun 5E echoes: powers a technomancer can take when they submerge.
  * @psalm-suppress UnusedClass
  */
-class ResonanceEcho
+class ResonanceEcho implements Stringable
 {
     public string $description;
+    public string $name;
+    public int $page;
+    public string $ruleset;
 
     /**
      * @var array<string, int|string>
@@ -27,20 +32,12 @@ class ResonanceEcho
      */
     public int $limit;
 
-    public string $name;
-
-    public string $id;
-
-    public int $page;
-
-    public string $ruleset;
-
     /**
      * @var ?array<string, array<string, array<string, int|string>|int|string>>
      */
     public static ?array $echoes;
 
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.shadowrun5e') . 'resonance-echoes.php';
         self::$echoes ??= require $filename;
@@ -55,7 +52,6 @@ class ResonanceEcho
         $echo = self::$echoes[$id];
         $this->description = $echo['description'];
         $this->effects = $echo['effects'] ?? [];
-        $this->id = $id;
         $this->limit = $echo['limit'];
         $this->name = $echo['name'];
         $this->page = $echo['page'] ?? null;

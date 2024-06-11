@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace App\Models\Expanse;
 
 use RuntimeException;
+use Stringable;
 
-class ShipFlaw
+use function array_keys;
+use function config;
+use function sprintf;
+use function strtolower;
+
+class ShipFlaw implements Stringable
 {
     /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
-    public string $id;
     public string $name;
     /** @psalm-suppress PossiblyUnusedProperty */
     public int $page;
@@ -31,18 +36,16 @@ class ShipFlaw
     public static array $flaws;
 
     /**
-     * Constructor.
-     * @param string $id
      * @throws RuntimeException
      */
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.expanse') . 'ship-flaws.php';
         self::$flaws ??= require $filename;
 
-        $this->id = \strtolower($id);
+        $this->id = strtolower($id);
         if (!isset(self::$flaws[$this->id])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Expanse ship flaw "%s" is invalid',
                 $this->id
             ));

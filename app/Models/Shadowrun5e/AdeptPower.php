@@ -5,11 +5,16 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * Adept power.
  */
-class AdeptPower
+class AdeptPower implements Stringable
 {
     /**
      * Cost of the power in power points.
@@ -29,11 +34,6 @@ class AdeptPower
      * @var array<string, int>
      */
     public array $effects;
-
-    /**
-     * Unique ID for the power.
-     */
-    public string $id;
 
     /**
      * Level of the power.
@@ -62,18 +62,15 @@ class AdeptPower
      * Collection of all powers.
      * @var ?array<string, array<string, mixed>>
      */
-    public static ?array $powers;
+    public static ?array $powers = null;
 
-    /**
-     * Build a new AdeptPower object.
-     */
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.shadowrun5e') . 'adept-powers.php';
         self::$powers ??= require $filename;
-        $id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$powers[$id])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Adept power ID "%s" is invalid',
                 $id
             ));

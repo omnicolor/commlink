@@ -15,12 +15,11 @@ class IdentityArray extends ArrayObject
 {
     /**
      * Add an identity to the array.
-     * @param ?int $index
      * @param Identity $identity
      * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
-    public function offsetSet($index = null, $identity = null): void
+    public function offsetSet(mixed $index = null, $identity = null): void
     {
         if ($identity instanceof Identity) {
             parent::offsetSet($index, $identity);

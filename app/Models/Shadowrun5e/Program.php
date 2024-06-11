@@ -5,12 +5,18 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function config;
+use function is_array;
+use function sprintf;
+use function strtolower;
 
 /**
  * Program class, for a program installed on a commlink, 'deck, rcc, etc.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class Program
+class Program implements Stringable
 {
     /**
      * List of devices that can run the program.
@@ -38,11 +44,6 @@ class Program
      * @var array<string, int>
      */
     public array $effects = [];
-
-    /**
-     * Unique ID for the program.
-     */
-    public string $id;
 
     /**
      * Name of the program.
@@ -86,18 +87,17 @@ class Program
     public static ?array $programs;
 
     /**
-     * Construct a new program object.
      * @throws RuntimeException if the ID isn't found
      */
-    public function __construct(string $id, ?bool $running = null)
+    public function __construct(public string $id, ?bool $running = null)
     {
         // Lazy load the programs.
         $filename = config('app.data_path.shadowrun5e') . 'programs.php';
         self::$programs ??= require $filename;
 
-        $id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$programs[$id])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Program ID "%s" is invalid',
                 $id
             ));
@@ -109,7 +109,6 @@ class Program
         $this->cost = (int)$program['cost'];
         $this->description = $program['description'];
         $this->effects = $program['effects'] ?? [];
-        $this->id = $id;
         $this->name = $program['name'];
         $this->page = $program['page'] ?? null;
         $this->rating = $program['rating'] ?? null;
@@ -122,9 +121,6 @@ class Program
         return $this->name;
     }
 
-    /**
-     * Return the cost of the program.
-     */
     public function getCost(): int
     {
         return $this->cost;
@@ -139,7 +135,7 @@ class Program
         array | string $rawProgram,
         ProgramArray $running,
     ): Program {
-        if (!\is_array($rawProgram)) {
+        if (!is_array($rawProgram)) {
             $program = new Program($rawProgram);
             $program->running = $program->isRunning($running);
             return $program;

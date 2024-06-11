@@ -15,12 +15,11 @@ class LifestyleOptionArray extends ArrayObject
 {
     /**
      * Add an option to the array.
-     * @param ?int $index
      * @param LifestyleOption $option
      * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
-    public function offsetSet($index = null, $option = null): void
+    public function offsetSet(mixed $index = null, $option = null): void
     {
         if ($option instanceof LifestyleOption) {
             parent::offsetSet($index, $option);

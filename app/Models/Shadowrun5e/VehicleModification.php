@@ -5,12 +5,18 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function config;
+use function sprintf;
+use function strtolower;
+use function ucfirst;
 
 /**
  * Something to add to a vehicle.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class VehicleModification
+class VehicleModification implements Stringable
 {
     /**
      * Availability code for the modification.
@@ -42,11 +48,6 @@ class VehicleModification
      * @var array<string, int>
      */
     public array $effects;
-
-    /**
-     * Unique identifier for the modification.
-     */
-    public string $id;
 
     /**
      * Some vehicle modifications can take modifications. Weapons mounts, for
@@ -112,16 +113,16 @@ class VehicleModification
      * @param array<string, array<int|string, string>|string> $options
      * @throws RuntimeException
      */
-    public function __construct(string $id, array $options = [])
+    public function __construct(public string $id, array $options = [])
     {
         $filename = config('app.data_path.shadowrun5e')
             . 'vehicle-modifications.php';
         self::$all_modifications ??= require $filename;
 
-        $id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$all_modifications[$id])) {
             throw new RuntimeException(
-                \sprintf('Vehicle modification "%s" is invalid', $id)
+                sprintf('Vehicle modification "%s" is invalid', $id)
             );
         }
 
@@ -136,7 +137,6 @@ class VehicleModification
         }
         $this->description = $mod['description'];
         $this->effects = $mod['effects'] ?? [];
-        $this->id = $id;
         $this->name = $mod['name'];
         $this->page = $mod['page'];
         $this->rating = $mod['rating'] ?? null;
@@ -160,10 +160,6 @@ class VehicleModification
         }
     }
 
-    /**
-     * Return the name of the modification.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;

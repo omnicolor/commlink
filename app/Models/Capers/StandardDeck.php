@@ -12,12 +12,15 @@ use Illuminate\Support\Facades\DB;
 use RuntimeException;
 use stdClass;
 
+use function serialize;
+use function unserialize;
+
 class StandardDeck extends BaseDeck implements Countable
 {
     /**
      * Character the deck belongs to, null for the GM.
      */
-    public ?string $character_id;
+    public ?string $character_id = null;
 
     public array $suits = [
         'club' => '♣',

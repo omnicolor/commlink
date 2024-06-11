@@ -50,7 +50,7 @@ final class CharacterTest extends TestCase
     {
         $character = Character::factory()->create([
             'system' => 'unknown',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         /** @var Character */
         $character = Character::where('_id', $character->id)->firstOrFail();
@@ -67,7 +67,7 @@ final class CharacterTest extends TestCase
     {
         $character = Character::factory()->create([
             'system' => 'shadowrun5e',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         /** @var Character */
@@ -94,7 +94,7 @@ final class CharacterTest extends TestCase
     {
         /** @var Character */
         $character = Character::factory()->make([
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         self::assertNull($character->campaign());
     }
@@ -124,7 +124,7 @@ final class CharacterTest extends TestCase
         $character = Character::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'shadowrun5e',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         self::assertNotNull($character->campaign());
     }
@@ -137,7 +137,7 @@ final class CharacterTest extends TestCase
         /** @var Character */
         $character = Character::factory()->make([
             'system' => 'shadowrun5e',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         self::assertSame('Shadowrun 5th Edition', $character->getSystem());
     }
@@ -150,7 +150,7 @@ final class CharacterTest extends TestCase
         /** @var Character */
         $character = Character::factory()->make([
             'system' => 'unknown',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         self::assertSame('unknown', $character->getSystem());
     }

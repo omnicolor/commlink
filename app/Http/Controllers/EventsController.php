@@ -82,7 +82,7 @@ class EventsController extends Controller
         $patch = (string)json_encode($request->input());
         try {
             $updatedEvent = json_decode(
-                (new Patch($document, $patch))->apply()
+                (string)(new Patch($document, $patch))->apply()
             );
             // @phpstan-ignore-next-line
         } catch (TypeError $ex) {

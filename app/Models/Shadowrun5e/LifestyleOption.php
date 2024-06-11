@@ -5,12 +5,19 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function array_key_exists;
+use function config;
+use function floor;
+use function sprintf;
+use function strtolower;
 
 /**
  * Representation of something added to a lifestyle.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class LifestyleOption
+class LifestyleOption implements Stringable
 {
     /**
      * Nuyen cost of the option.
@@ -26,11 +33,6 @@ class LifestyleOption
      * Description of the lifestyle option.
      */
     public string $description;
-
-    /**
-     * ID of the lifestyle option.
-     */
-    public string $id;
 
     /**
      * Minimum lifestyle required to have the cost covered.
@@ -66,29 +68,27 @@ class LifestyleOption
      * Collection of all options.
      * @var ?array<string, array<string, int|string|float>>
      */
-    public static ?array $options;
+    public static ?array $options = null;
 
     /**
-     * Constructor.
      * @throws RuntimeException
      */
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.shadowrun5e')
             . 'lifestyle-options.php';
         self::$options ??= require $filename;
 
-        $id = \strtolower($id);
-        if (!\array_key_exists($id, self::$options)) {
+        $id = strtolower($id);
+        if (!array_key_exists($id, self::$options)) {
             throw new RuntimeException(
-                \sprintf('Lifestyle Option ID "%s" is invalid', $id)
+                sprintf('Lifestyle Option ID "%s" is invalid', $id)
             );
         }
 
         $option = self::$options[$id];
         $this->cost = $option['cost'] ?? null;
         $this->costMultiplier = $option['costMultiplier'] ?? null;
-        $this->id = $id;
         $this->minimumLifestyle = $option['minimumLifestyle'];
         $this->name = $option['name'];
         $this->page = (int)$option['page'];
@@ -97,10 +97,6 @@ class LifestyleOption
         $this->type = $option['type'];
     }
 
-    /**
-     * Return the option as a string.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;
@@ -109,37 +105,28 @@ class LifestyleOption
     /**
      * Given a Lifestyle, determine whether the cost is covered by the
      * lifestyle or if it needs to be paid for.
-     * @param Lifestyle $lifestyle
-     * @return bool
      * @throws RuntimeException
      */
     public function isCovered(Lifestyle $lifestyle): bool
     {
-        switch ($this->minimumLifestyle) {
-            case 'Commercial':
-                return 'Commercial' === $lifestyle->name;
-            case 'High':
-                return 'High' === $lifestyle->name
-                    || 'Luxury' === $lifestyle->name;
-            case 'Low':
-                return 'Low' === $lifestyle->name
-                    || 'Middle' === $lifestyle->name
-                    || 'High' === $lifestyle->name
-                    || 'Luxury' === $lifestyle->name;
-            case 'Luxury':
-                return 'Luxury' === $lifestyle->name;
-            case 'Middle':
-                return 'Middle' === $lifestyle->name
-                    || 'High' === $lifestyle->name
-                    || 'Luxury' === $lifestyle->name;
-            case 'None':
-                return false;
-            case 'Squatter':
-                return 'Street' !== $lifestyle->name
-                    && 'Commercial' !== $lifestyle->name
-                    && 'Hospitalized' !== $lifestyle->name;
-        }
-        throw new RuntimeException('Option has invalid minimum lifestyle');
+        return match ($this->minimumLifestyle) {
+            'Commercial' => 'Commercial' === $lifestyle->name,
+            'High' => 'High' === $lifestyle->name
+                || 'Luxury' === $lifestyle->name,
+            'Low' => 'Low' === $lifestyle->name
+                || 'Middle' === $lifestyle->name
+                || 'High' === $lifestyle->name
+                || 'Luxury' === $lifestyle->name,
+            'Luxury' => 'Luxury' === $lifestyle->name,
+            'Middle' => 'Middle' === $lifestyle->name
+                || 'High' === $lifestyle->name
+                || 'Luxury' === $lifestyle->name,
+            'None' => false,
+            'Squatter' => 'Street' !== $lifestyle->name
+                && 'Commercial' !== $lifestyle->name
+                && 'Hospitalized' !== $lifestyle->name,
+            default => throw new RuntimeException('Option has invalid minimum lifestyle'),
+        };
     }
 
     /**
@@ -147,8 +134,6 @@ class LifestyleOption
      *
      * If the option is covered by the attached lifestyle, the cost is zero.
      * Otherwise you need to pay for it.
-     * @param Lifestyle $lifestyle
-     * @return int
      */
     public function getCost(Lifestyle $lifestyle): int
     {
@@ -156,7 +141,7 @@ class LifestyleOption
             return 0;
         }
         if (isset($this->costMultiplier)) {
-            return (int)\floor($lifestyle->cost * $this->costMultiplier);
+            return (int)floor($lifestyle->cost * $this->costMultiplier);
         }
         return (int)$this->cost;
     }

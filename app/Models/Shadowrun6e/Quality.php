@@ -5,14 +5,18 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun6e;
 
 use RuntimeException;
+use Stringable;
+
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * @psalm-suppress PossiblyUnusedProperty
  */
-class Quality
+class Quality implements Stringable
 {
     public string $description;
-    public string $id;
     public int $karma_cost;
     public ?int $level;
     public string $name;
@@ -31,16 +35,17 @@ class Quality
     public static array $qualities;
 
     /**
+     * @psalm-suppress UnusedVariable
      * @throws RuntimeException
      */
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.shadowrun6e') . 'qualities.php';
         self::$qualities ??= require $filename;
 
-        $this->id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$qualities[$this->id])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Shadowrun 6E quality ID "%s" is invalid',
                 $this->id
             ));
@@ -74,12 +79,12 @@ class Quality
 
         $qualities = [];
         foreach (self::$qualities as $id => $quality) {
-            if (\strtolower($quality['name']) === \strtolower($name)) {
+            if (strtolower((string)$quality['name']) === strtolower($name)) {
                 $qualities[] = new Quality($id);
             }
         }
         if (0 === count($qualities)) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Unable to find Shadowrun 6E quality "%s"',
                 $name
             ));

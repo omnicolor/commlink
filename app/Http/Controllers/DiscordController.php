@@ -153,7 +153,7 @@ class DiscordController extends Controller
             return redirect()->route('settings')->withErrors([
                 'error' => 'Discord login failed, no Oauth code supplied',
             ]);
-        } elseif (self::DISCORD_CODE_LENGTH !== strlen($request->input('code'))) {
+        } elseif (self::DISCORD_CODE_LENGTH !== strlen((string)$request->input('code'))) {
             return redirect()->route('settings')->withErrors([
                 'error' => 'Discord login failed, invalid Oauth code',
             ]);

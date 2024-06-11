@@ -60,7 +60,7 @@ final class PushTest extends TestCase
 
         /** @var Character */
         $character = Character::factory()->create([
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -102,7 +102,7 @@ final class PushTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'edge' => 2,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -140,7 +140,7 @@ final class PushTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'edgeCurrent' => 0,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -182,7 +182,7 @@ final class PushTest extends TestCase
         $character = Character::factory()->create([
             'edge' => 4,
             'edgeCurrent' => 3,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -232,7 +232,7 @@ final class PushTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'edge' => 1,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         self::assertNull($character->edgeCurrent);
 
@@ -295,7 +295,7 @@ final class PushTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'edge' => 1,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         self::assertNull($character->edgeCurrent);
 
@@ -348,7 +348,7 @@ final class PushTest extends TestCase
         $character = Character::factory()->create([
             'edge' => 4,
             'edgeCurrent' => 3,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -387,7 +387,7 @@ final class PushTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'edge' => 2,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([

@@ -20,7 +20,6 @@ class LifestyleAttributes
     public int $securityMax;
 
     /**
-     * Constructor.
      * @param array<string, int> $attributes
      * @throws RuntimeException if attributes are missing
      */

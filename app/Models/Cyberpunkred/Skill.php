@@ -5,11 +5,19 @@ declare(strict_types=1);
 namespace App\Models\Cyberpunkred;
 
 use RuntimeException;
+use Stringable;
+
+use function array_key_exists;
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * Class representing a Cyberpunk Red skill.
+ * @property string $id
+ * @psalm-suppress PossiblyUnusedProperty
  */
-class Skill
+class Skill implements Stringable
 {
     /**
      * Attribute attached to the skill.
@@ -35,17 +43,6 @@ class Skill
     public string $examples;
 
     /**
-     * Unique ID for the skill.
-     * @psalm-suppress PossiblyUnusedProperty
-     */
-    public string $id;
-
-    /**
-     * Character's level in the skill.
-     */
-    public int $level;
-
-    /**
      * Name of the skill.
      */
     public string $name;
@@ -60,20 +57,19 @@ class Skill
      * List of all skills.
      * @var ?array<mixed>
      */
-    public static ?array $skills;
+    public static ?array $skills = null;
 
     /**
-     * Constructor.
      * @throws RuntimeException If the skill isn't valid
      */
-    public function __construct(string $id, int $level = 0)
+    public function __construct(public string $id, public int $level = 0)
     {
         $filename = config('app.data_path.cyberpunkred') . 'skills.php';
         self::$skills ??= require $filename;
 
-        $id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$skills[$id])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Skill ID "%s" is invalid',
                 $id
             ));
@@ -84,8 +80,6 @@ class Skill
         $this->category = $skill['category'];
         $this->description = $skill['description'];
         $this->examples = $skill['examples'];
-        $this->level = $level;
-        $this->id = $id;
         $this->name = $skill['name'];
         $this->page = $skill['page'];
     }
@@ -121,7 +115,7 @@ class Skill
             'technique' => 'TECH',
             'willpower' => 'WILL',
         ];
-        if (!\array_key_exists($this->attribute, $attributes)) {
+        if (!array_key_exists($this->attribute, $attributes)) {
             return $this->attribute;
         }
         return $attributes[$this->attribute];

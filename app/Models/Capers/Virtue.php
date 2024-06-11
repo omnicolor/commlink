@@ -6,6 +6,12 @@ namespace App\Models\Capers;
 
 use App\Models\Card;
 use RuntimeException;
+use Stringable;
+
+use function array_keys;
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * Representation of a Virtue from the Capers RPG.
@@ -17,13 +23,12 @@ use RuntimeException;
  * You can gain Moxie if your character stays true to their Virtue when it would
  * be easier to ignore it to accomplish something.
  */
-class Virtue
+class Virtue implements Stringable
 {
     /** @psalm-suppress PossiblyUnusedProperty */
     public string $card;
     /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
-    public string $id;
     public string $name;
 
     /**
@@ -31,15 +36,15 @@ class Virtue
      */
     public static array $virtues;
 
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.capers') . 'virtues.php';
         self::$virtues ??= require $filename;
 
-        $this->id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$virtues[$this->id])) {
             throw new RuntimeException(
-                \sprintf('Virtue ID "%s" is invalid', $id)
+                sprintf('Virtue ID "%s" is invalid', $id)
             );
         }
 

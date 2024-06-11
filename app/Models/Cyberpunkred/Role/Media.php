@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Models\Cyberpunkred\Role;
 
 use App\Models\Cyberpunkred\Role;
+use Stringable;
 
-class Media extends Role
+class Media extends Role implements Stringable
 {
     /**
      * Constructor.

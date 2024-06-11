@@ -45,7 +45,7 @@ final class HeroLabControllerTest extends TestCase
     {
         $path = explode(
             DIRECTORY_SEPARATOR,
-            dirname(dirname(dirname(dirname(__DIR__))))
+            dirname(__DIR__, 4)
         );
         $path[] = 'Data';
         $path[] = 'HeroLab';

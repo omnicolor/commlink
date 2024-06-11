@@ -46,7 +46,6 @@ use function sprintf;
 use function str_contains;
 use function str_replace;
 use function str_starts_with;
-use function strpos;
 use function strtolower;
 use function substr;
 use function sys_get_temp_dir;
@@ -427,11 +426,11 @@ class Shadowrun5eConverter implements ConverterInterface
                     $qualitiesArray[] = ['id' => $quality->id];
                 }
                 continue;
-            } catch (RuntimeException $ex) {
+            } catch (RuntimeException) {
                 // Ignore and try other ways of finding the Quality.
             }
 
-            if (false !== strpos($name, ':')) {
+            if (str_contains($name, ':')) {
                 [$shortName, $extra] = explode(':', $name);
                 try {
                     $found = Quality::findByName($shortName);
@@ -440,7 +439,7 @@ class Shadowrun5eConverter implements ConverterInterface
                         'severity' => $extra,
                     ];
                     continue;
-                } catch (RuntimeException $ex) {
+                } catch (RuntimeException) {
                     // Fall through to adding an error.
                 }
             }
@@ -634,7 +633,7 @@ class Shadowrun5eConverter implements ConverterInterface
                 continue;
             }
 
-            if (false !== strpos($name, '(')) {
+            if (str_contains($name, '(')) {
                 try {
                     $noParenthesisName = explode(' (', $name)[0];
                     $metaArray[] = Metamagic::findByName($noParenthesisName)->id;

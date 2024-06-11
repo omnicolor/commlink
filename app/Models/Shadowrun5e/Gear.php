@@ -5,12 +5,18 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function config;
+use function sort;
+use function sprintf;
+use function strtolower;
 
 /**
  * Gear, representing something a character can use.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class Gear
+class Gear implements Stringable
 {
     /**
      * Whether the item is active.
@@ -44,11 +50,6 @@ class Gear
     public array $effects = [];
 
     /**
-     * ID of the item.
-     */
-    public string $id;
-
-    /**
      * Modifications applied to the item.
      */
     public GearModificationArray $modifications;
@@ -57,11 +58,6 @@ class Gear
      * Name of the item.
      */
     public string $name;
-
-    /**
-     * Quantity of the item.
-     */
-    public int $quantity;
 
     /**
      * Optional rating for the item.
@@ -77,23 +73,20 @@ class Gear
      * List of all gear.
      * @var ?array<string, array<string, mixed>>
      */
-    public static ?array $gear;
+    public static ?array $gear = null;
 
     /**
-     * Load an item.
-     * @param string $id ID to load
-     * @param int $quantity Number of items
      * @throws RuntimeException If ID is invalid
      */
-    public function __construct(string $id, int $quantity = 1)
+    public function __construct(public string $id, public int $quantity = 1)
     {
         $filename = config('app.data_path.shadowrun5e') . 'gear.php';
         self::$gear ??= require $filename;
 
-        $id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$gear[$id])) {
             throw new RuntimeException(
-                \sprintf('Item ID "%s" is invalid', $id)
+                sprintf('Item ID "%s" is invalid', $id)
             );
         }
 
@@ -102,18 +95,12 @@ class Gear
         $this->cost = (int)$item['cost'];
         $this->description = $item['description'];
         $this->effects = $item['effects'] ?? [];
-        $this->id = $id;
         $this->modifications = new GearModificationArray();
         $this->name = $item['name'];
-        $this->quantity = $quantity;
         $this->rating = $item['rating'] ?? null;
         $this->subname = $item['subname'] ?? null;
     }
 
-    /**
-     * Return the item's name.
-     * @return string
-     */
     public function __toString(): string
     {
         if (null !== $this->subname) {
@@ -152,7 +139,7 @@ class Gear
             return $gearObj;
         }
 
-        \sort($gear['programsInstalled']);
+        sort($gear['programsInstalled']);
         foreach ($gear['programsInstalled'] as $rawProgram) {
             $gearObj->programs[] = Program::build(
                 $rawProgram,
@@ -165,8 +152,6 @@ class Gear
 
     /**
      * Return a item based on its name.
-     * @param string $name
-     * @return Gear
      * @throws RuntimeException
      */
     public static function findByName(string $name): Gear
@@ -174,17 +159,17 @@ class Gear
         $filename = config('app.data_path.shadowrun5e') . 'gear.php';
         self::$gear ??= require $filename;
         foreach (self::$gear as $gear) {
-            if (\strtolower($gear['name']) === \strtolower($name)) {
+            if (strtolower((string)$gear['name']) === strtolower($name)) {
                 return GearFactory::get($gear['id']);
             }
             if (
                 isset($gear['subname'])
-                && \strtolower($gear['subname']) === \strtolower($name)
+                && strtolower((string)$gear['subname']) === strtolower($name)
             ) {
                 return GearFactory::get($gear['id']);
             }
         }
-        throw new RuntimeException(\sprintf(
+        throw new RuntimeException(sprintf(
             'Gear name "%s" was not found',
             $name
         ));
@@ -192,7 +177,6 @@ class Gear
 
     /**
      * Return the cost of this item, including its modifications.
-     * @return int
      */
     public function getCost(): int
     {

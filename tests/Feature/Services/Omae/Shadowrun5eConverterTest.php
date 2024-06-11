@@ -37,7 +37,7 @@ final class Shadowrun5eConverterTest extends TestCase
         self::expectExceptionMessage('File does not appear to be an Omae file');
         $path = explode(
             DIRECTORY_SEPARATOR,
-            dirname(dirname(dirname(__DIR__)))
+            dirname(__DIR__, 3)
         );
         $path[] = 'Data';
         $path[] = 'HeroLab';
@@ -63,7 +63,7 @@ final class Shadowrun5eConverterTest extends TestCase
     {
         $path = explode(
             DIRECTORY_SEPARATOR,
-            dirname(dirname(dirname(__DIR__)))
+            dirname(__DIR__, 3)
         );
         $path[] = 'Data';
         $path[] = 'Omae';
@@ -235,7 +235,7 @@ final class Shadowrun5eConverterTest extends TestCase
     {
         $path = explode(
             DIRECTORY_SEPARATOR,
-            dirname(dirname(dirname(__DIR__)))
+            dirname(__DIR__, 3)
         );
         $path[] = 'Data';
         $path[] = 'Omae';
@@ -276,7 +276,7 @@ final class Shadowrun5eConverterTest extends TestCase
     {
         $path = explode(
             DIRECTORY_SEPARATOR,
-            dirname(dirname(dirname(__DIR__)))
+            dirname(__DIR__, 3)
         );
         $path[] = 'Data';
         $path[] = 'Omae';
@@ -297,7 +297,7 @@ final class Shadowrun5eConverterTest extends TestCase
     {
         $path = explode(
             DIRECTORY_SEPARATOR,
-            dirname(dirname(dirname(__DIR__)))
+            dirname(__DIR__, 3)
         );
         $path[] = 'Data';
         $path[] = 'Omae';
@@ -325,7 +325,7 @@ final class Shadowrun5eConverterTest extends TestCase
     {
         $path = explode(
             DIRECTORY_SEPARATOR,
-            dirname(dirname(dirname(__DIR__)))
+            dirname(__DIR__, 3)
         );
         $path[] = 'Data';
         $path[] = 'Omae';

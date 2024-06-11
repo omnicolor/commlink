@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
+use function array_search;
+
 /**
  * Representation of a Capers character.
  * @property int $advancementPoints
@@ -44,12 +46,12 @@ class Character extends BaseCharacter
 {
     use HasFactory;
 
-    public const TYPE_CAPER = 'caper';
-    public const TYPE_EXCEPTIONAL = 'exceptional';
-    public const TYPE_REGULAR = 'regular';
+    public const string TYPE_CAPER = 'caper';
+    public const string TYPE_EXCEPTIONAL = 'exceptional';
+    public const string TYPE_REGULAR = 'regular';
 
-    protected const SPEED_DEFAULT = 30;
-    protected const SPEED_FLEET_OF_FOOT = 40;
+    protected const int SPEED_DEFAULT = 30;
+    protected const int SPEED_FLEET_OF_FOOT = 40;
 
     /**
      * @var array<string, mixed>
@@ -125,10 +127,6 @@ class Character extends BaseCharacter
      */
     protected $table = 'characters';
 
-    /**
-     * Return the character's name.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name ?? 'Unnamed Character';
@@ -240,7 +238,7 @@ class Character extends BaseCharacter
         foreach ($this->attributes['perks'] ?? [] as $rawPerk) {
             try {
                 $perkArray[] = new Perk($rawPerk['id'], $rawPerk);
-            } catch (RuntimeException $ex) {
+            } catch (RuntimeException) {
                 Log::warning(
                     'Capers character "{name}" has invalid perk "{perk}"',
                     [

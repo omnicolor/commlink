@@ -39,7 +39,7 @@ final class HandleDamageEventTest extends TestCase
 
         /** @var Character */
         $character = Character::factory()->create([
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         $damage = (object)[
@@ -73,7 +73,7 @@ final class HandleDamageEventTest extends TestCase
 
         /** @var Character */
         $character = Character::factory()->create([
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         $damage = (object)[
@@ -115,7 +115,7 @@ final class HandleDamageEventTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'willpower' => 4,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         // A character with 4 willpower will have 10 boxes of stun. So taking
@@ -162,7 +162,7 @@ final class HandleDamageEventTest extends TestCase
             'body' => 2,
             'damageStun' => 9,
             'willpower' => 4,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         // A character with 4 willpower will have 10 boxen of stun, of which
@@ -204,7 +204,7 @@ final class HandleDamageEventTest extends TestCase
 
         /** @var Character */
         $character = Character::factory()->create([
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         $damage = (object)[
@@ -241,7 +241,7 @@ final class HandleDamageEventTest extends TestCase
 
         /** @var Character */
         $character = Character::factory()->create([
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         $damage = (object)[
@@ -282,7 +282,7 @@ final class HandleDamageEventTest extends TestCase
 
         /** @var Character */
         $character = Character::factory()->create([
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         $damage = (object)[

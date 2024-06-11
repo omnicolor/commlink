@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Models\Cyberpunkred\Role;
 
 use App\Models\Cyberpunkred\Role;
+use Stringable;
 
-class Medtech extends Role
+class Medtech extends Role implements Stringable
 {
     /**
-     * Constructor.
      * @param array<string, int> $role
      */
     public function __construct(array $role)

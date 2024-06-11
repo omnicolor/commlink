@@ -24,7 +24,7 @@ final class CostCategoryTest extends TestCase
         self::expectException(ValueError::class);
         self::expectExceptionMessage(
             '"invalid" is not a valid backing value for enum '
-                . 'App\\Models\\Cyberpunkred\\CostCategory'
+                . CostCategory::class
         );
         CostCategory::from('invalid');
     }

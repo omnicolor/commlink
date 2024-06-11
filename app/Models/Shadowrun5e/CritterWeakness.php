@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * Representation of a critter's weakness.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class CritterWeakness
+class CritterWeakness implements Stringable
 {
     /**
      * Description of the weakness.
@@ -54,9 +59,9 @@ class CritterWeakness
             . 'critter-weaknesses.php';
         self::$weaknesses ??= require $filename;
 
-        $this->id = \strtolower($id);
+        $this->id = strtolower($id);
         if (!isset(self::$weaknesses[$this->id])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Critter weakness "%s" is invalid',
                 $this->id
             ));
@@ -72,7 +77,7 @@ class CritterWeakness
     public function __toString(): string
     {
         if (null !== $this->subname) {
-            return \sprintf('%s - %s', $this->name, $this->subname);
+            return sprintf('%s - %s', $this->name, $this->subname);
         }
         return $this->name;
     }

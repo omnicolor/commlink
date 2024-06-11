@@ -11,6 +11,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
+use Stringable;
+
+use function array_key_exists;
+use function array_merge;
+use function ceil;
+use function count;
+use function is_int;
+use function max;
+use function str_replace;
+use function strtolower;
+use function ucwords;
 
 /**
  * Representation of a Shadowrun 5E character.
@@ -71,7 +82,7 @@ use RuntimeException;
  * @property ?array<int, array<string, mixed>> $weapons
  * @property int $willpower
  */
-class Character extends BaseCharacter
+class Character extends BaseCharacter implements Stringable
 {
     use HasFactory;
     use Notifiable;
@@ -163,16 +174,13 @@ class Character extends BaseCharacter
         '_id',
     ];
 
-    /**
-     * Return the character's handle.
-     */
     public function __toString(): string
     {
         return $this->handle ?? 'Unnamed Character';
     }
 
     /**
-     * Force this model to only load for Shadowrun characters.
+     * Force this model to only load for Shadowrun 5E characters.
      */
     protected static function booted(): void
     {
@@ -186,17 +194,16 @@ class Character extends BaseCharacter
 
     /**
      * Change a dashed ID to a camel case ID.
-     * @param string $string ID to convert
      */
     protected function dashedToCamel(string $string): string
     {
         if ('' == $string) {
             return '';
         }
-        $string = \str_replace('-', ' ', $string);
-        $string = \ucwords($string);
-        $string = \str_replace(' ', '', $string);
-        $string[0] = \strtolower($string[0]);
+        $string = str_replace('-', ' ', $string);
+        $string = ucwords($string);
+        $string = str_replace(' ', '', $string);
+        $string[0] = strtolower($string[0]);
         return $string;
     }
 
@@ -282,7 +289,7 @@ class Character extends BaseCharacter
                 if (!(bool)$this->magic) {
                     return 0;
                 }
-                return \max($this->mental_limit, $this->social_limit);
+                return max($this->mental_limit, $this->social_limit);
             },
         );
     }
@@ -416,7 +423,7 @@ class Character extends BaseCharacter
     public function initiativeScore(): Attribute
     {
         return Attribute::make(
-            get: function () {
+            get: function (): int {
                 return $this->getModifiedAttribute('reaction')
                     + $this->getModifiedAttribute('intuition')
                     + $this->getModifiedAttribute('initiative');
@@ -430,7 +437,7 @@ class Character extends BaseCharacter
     public function initiativeDice(): Attribute
     {
         return Attribute::make(
-            get: function () {
+            get: function (): int {
                 return 1 + $this->getModifiedAttribute('initiative-dice');
             },
         );
@@ -516,8 +523,8 @@ class Character extends BaseCharacter
     {
         return Attribute::make(
             get: function (): int {
-                return $this->getModifiedAttribute('body') +
-                    $this->getModifiedAttribute('strength');
+                return $this->getModifiedAttribute('body')
+                    + $this->getModifiedAttribute('strength');
             },
         );
     }
@@ -585,7 +592,7 @@ class Character extends BaseCharacter
     {
         return Attribute::make(
             get: function (): int {
-                return (int)\ceil(
+                return (int)ceil(
                     (
                         $this->getModifiedAttribute('logic') * 2
                         + $this->getModifiedAttribute('intuition')
@@ -603,7 +610,7 @@ class Character extends BaseCharacter
     {
         if (
             !isset($this->magics)
-            || !\array_key_exists('mentorSpirit', $this->magics)
+            || !array_key_exists('mentorSpirit', $this->magics)
         ) {
             return null;
         }
@@ -641,7 +648,7 @@ class Character extends BaseCharacter
     {
         $cleanAttributeName = $this->dashedToCamel($attribute);
         $modifiedAttribute = $this->attributes[$cleanAttributeName] ?? 0;
-        $modifiers = \array_merge(
+        $modifiers = array_merge(
             (array)$this->getAugmentations(),
             (array)$this->getQualities(),
             (array)$this->getAdeptPowers(),
@@ -650,7 +657,7 @@ class Character extends BaseCharacter
         // PHPstan seems to think $modifiers will always be an empty array.
         foreach ($modifiers as $modifier) {
             foreach ($modifier->effects as $effect => $value) {
-                if (\is_int($effect)) {
+                if (is_int($effect)) {
                     continue;
                 }
                 if (
@@ -668,7 +675,7 @@ class Character extends BaseCharacter
                 continue;
             }
             foreach ($armor->modifications as $mod) {
-                if (0 === \count($mod->effects)) {
+                if (0 === count($mod->effects)) {
                     continue;
                 }
                 if (!isset($mod->effects[$cleanAttributeName])) {
@@ -676,7 +683,7 @@ class Character extends BaseCharacter
                 }
                 $modifiedAttribute += $mod->effects[$cleanAttributeName];
             }
-            if (0 === \count($armor->effects)) {
+            if (0 === count($armor->effects)) {
                 // Armor has no effects.
                 continue;
             }
@@ -717,28 +724,18 @@ class Character extends BaseCharacter
     public function getSkillLimit(Skill $skill): string
     {
         $limitModifier = $this->getSkillLimitModifierFromQualities($skill);
-        switch ($skill->limit) {
-            case 'astral':
-                return (string)($this->astral_limit + $limitModifier);
-            case 'force':
-                return 'F';
-            case 'handling':
-                return 'H';
-            case 'level':
-                return 'L';
-            case 'matrix':
-                return 'M';
-            case 'mental':
-                return (string)($this->mental_limit + $limitModifier);
-            case 'physical':
-                return (string)($this->physical_limit + $limitModifier);
-            case 'social':
-                return (string)($this->social_limit + $limitModifier);
-            case 'weapon':
-                return 'W';
-            default:
-                return '?';
-        }
+        return match ($skill->limit) {
+            'astral' => (string)($this->astral_limit + $limitModifier),
+            'force' => 'F',
+            'handling' => 'H',
+            'level' => 'L',
+            'matrix' => 'M',
+            'mental' => (string)($this->mental_limit + $limitModifier),
+            'physical' => (string)($this->physical_limit + $limitModifier),
+            'social' => (string)($this->social_limit + $limitModifier),
+            'weapon' => 'W',
+            default => '?',
+        };
     }
 
     /**
@@ -842,15 +839,15 @@ class Character extends BaseCharacter
     public function socialLimit(): Attribute
     {
         return Attribute::make(
-            get: function () {
-                return (int)\ceil(
+            get: function (): int {
+                return (int)ceil(
                     (
                         \ceil($this->getEssenceAttribute())
                         + $this->getModifiedAttribute('willpower')
                         + ($this->getModifiedAttribute('charisma') * 2)
                     ) / 3
                 ) + $this->getModifiedAttribute('social-limit');
-            }
+            },
         );
     }
 
@@ -1003,7 +1000,7 @@ class Character extends BaseCharacter
     public function meleeDefense(): Attribute
     {
         return Attribute::make(
-            get: function () {
+            get: function (): int {
                 return $this->getModifiedAttribute('reaction')
                     + $this->getModifiedAttribute('intuition')
                     + $this->getModifiedAttribute('melee-defense');
@@ -1017,8 +1014,8 @@ class Character extends BaseCharacter
     public function physicalLimit(): Attribute
     {
         return Attribute::make(
-            get: function () {
-                return (int)\ceil(
+            get: function (): int {
+                return (int)ceil(
                     (
                         $this->getModifiedAttribute('strength') * 2
                         + $this->getModifiedAttribute('body')
@@ -1035,7 +1032,7 @@ class Character extends BaseCharacter
     public function overflowMonitor(): Attribute
     {
         return Attribute::make(
-            get: function () {
+            get: function (): int {
                 return $this->getModifiedAttribute('body')
                     + $this->getModifiedAttribute('damage-overflow');
             },
@@ -1048,8 +1045,8 @@ class Character extends BaseCharacter
     public function physicalMonitor(): Attribute
     {
         return Attribute::make(
-            get: function () {
-                return (int)\ceil($this->getModifiedAttribute('body') / 2) + 8;
+            get: function (): int {
+                return (int)ceil($this->getModifiedAttribute('body') / 2) + 8;
             },
         );
     }
@@ -1060,7 +1057,7 @@ class Character extends BaseCharacter
     public function rangedDefense(): Attribute
     {
         return Attribute::make(
-            get: function () {
+            get: function (): int {
                 return $this->getModifiedAttribute('reaction')
                     + $this->getModifiedAttribute('intuition')
                     + $this->getModifiedAttribute('range-defense');
@@ -1074,8 +1071,8 @@ class Character extends BaseCharacter
     public function stunMonitor(): Attribute
     {
         return Attribute::make(
-            get: function () {
-                return (int)\ceil($this->getModifiedAttribute('willpower') / 2) + 8;
+            get: function (): int {
+                return (int)ceil($this->getModifiedAttribute('willpower') / 2) + 8;
             },
         );
     }

@@ -27,7 +27,7 @@ final class InitiativeTest extends TestCase
     {
         /** @var Character */
         $character = Character::factory()->create([
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         $initiative = new Initiative(['character_id' => $character->id]);

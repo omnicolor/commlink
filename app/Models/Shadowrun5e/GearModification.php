@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * Something to add to an item.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class GearModification
+class GearModification implements Stringable
 {
     /**
      * Availability of the modification.
@@ -42,11 +47,6 @@ class GearModification
      * @var array<string, int>
      */
     public array $effects;
-
-    /**
-     * Unique identifier for the modification.
-     */
-    public string $id;
 
     /**
      * Name of the modification.
@@ -82,32 +82,29 @@ class GearModification
 
     /**
      * Construct a new Gear Modification object.
-     * @param string $id
      * @throws RuntimeException
      */
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.shadowrun5e')
             . 'gear-modifications.php';
         self::$modifications ??= require $filename;
 
-        $id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$modifications[$id])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Gear mod "%s" not found',
                 $id
             ));
         }
 
         $mod = self::$modifications[$id];
-
         $this->availability = $mod['availability'];
         $this->capacityCost = $mod['capacity-cost'] ?? 0;
         $this->containerType = $mod['container-type'];
         $this->cost = $mod['cost'];
         $this->description = $mod['description'];
         $this->effects = $mod['effects'] ?? [];
-        $this->id = $id;
         $this->name = $mod['name'];
         $this->page = $mod['page'] ?? null;
         $this->rating = $mod['rating'] ?? null;
@@ -115,19 +112,11 @@ class GearModification
         $this->wirelessEffects = $mod['wireless-effects'] ?? [];
     }
 
-    /**
-     * Return the modification's name.
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->name;
     }
 
-    /**
-     * Return the cost for this modification.
-     * @return int
-     */
     public function getCost(): int
     {
         return $this->cost;

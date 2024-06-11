@@ -94,7 +94,7 @@ final class MemoryTest extends TestCase
         $character = Character::factory()->create([
             'logic' => 4,
             'willpower' => 2,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -143,7 +143,7 @@ final class MemoryTest extends TestCase
         $character = Character::factory()->create([
             'logic' => 5,
             'willpower' => 3,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -189,7 +189,7 @@ final class MemoryTest extends TestCase
         $character = Character::factory()->create([
             'logic' => 5,
             'willpower' => 3,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([

@@ -93,7 +93,7 @@ class VarzController extends Controller
                 'driver' => 'local',
                 'root' => $paths[$system],
             ])->files();
-        } catch (UnableToCreateDirectory | ErrorException $ex) { // @codeCoverageIgnore
+        } catch (UnableToCreateDirectory | ErrorException) { // @codeCoverageIgnore
             return $metrics; // @codeCoverageIgnore
         }
 
@@ -117,7 +117,7 @@ class VarzController extends Controller
             }
             try {
                 $data = require $paths[$system] . $file;
-            } catch (ParseError $ex) { // @codeCoverageIgnore
+            } catch (ParseError) { // @codeCoverageIgnore
                 continue; // @codeCoverageIgnore
             }
             if (!is_array($data)) {

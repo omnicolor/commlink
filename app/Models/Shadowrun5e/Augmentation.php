@@ -5,23 +5,28 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * An augmentation (either cyberware or bioware) that the character can spend
  * essence on.
  */
-class Augmentation
+class Augmentation implements Stringable
 {
-    public const GRADE_ALPHA = 'Alpha';
-    public const GRADE_BETA = 'Beta';
-    public const GRADE_DELTA = 'Delta';
-    public const GRADE_GAMMA = 'Gamma';
-    public const GRADE_OMEGA = 'Omega';
-    public const GRADE_STANDARD = 'Standard';
-    public const GRADE_USED = 'Used';
+    public const string GRADE_ALPHA = 'Alpha';
+    public const string GRADE_BETA = 'Beta';
+    public const string GRADE_DELTA = 'Delta';
+    public const string GRADE_GAMMA = 'Gamma';
+    public const string GRADE_OMEGA = 'Omega';
+    public const string GRADE_STANDARD = 'Standard';
+    public const string GRADE_USED = 'Used';
 
-    public const TYPE_BIOWARE = 'bioware';
-    public const TYPE_CYBERWARE = 'cyberware';
+    public const string TYPE_BIOWARE = 'bioware';
+    public const string TYPE_CYBERWARE = 'cyberware';
 
     /**
      * Whether the augmentation is currently active.
@@ -61,11 +66,6 @@ class Augmentation
      * Grade of the augmentation.
      */
     public ?string $grade;
-
-    /**
-     * ID of the augmentation.
-     */
-    public ?string $id;
 
     /**
      * List of augmentations this one is incompatible with.
@@ -111,18 +111,17 @@ class Augmentation
     public static ?array $augmentations;
 
     /**
-     * Construct an augmentation.
      * @throws RuntimeException If the augmentation isn't valid
      */
-    public function __construct(string $id, ?string $grade = null)
+    public function __construct(public string $id, ?string $grade = null)
     {
         $filename = config('app.data_path.shadowrun5e') . 'cyberware.php';
         self::$augmentations ??= require $filename;
 
-        $id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$augmentations[$id])) {
             throw new RuntimeException(
-                \sprintf('Augmentation "%s" is invalid', $id)
+                sprintf('Augmentation "%s" is invalid', $id)
             );
         }
 
@@ -133,7 +132,6 @@ class Augmentation
         $this->description = $augmentation['description'];
         $this->effects = $augmentation['effects'] ?? [];
         $this->essence = $augmentation['essence'];
-        $this->id = $id;
         $this->incompatibilities = $augmentation['incompatibilities'] ?? [];
         $this->modifications = new AugmentationArray();
         foreach ($augmentation['modifications'] ?? [] as $mod) {
@@ -163,9 +161,6 @@ class Augmentation
         }
     }
 
-    /**
-     * Return the augmentation's name.
-     */
     public function __toString(): string
     {
         return $this->name;
@@ -203,13 +198,13 @@ class Augmentation
      */
     public static function findByName(
         string $name,
-        int|null|string $rating = null
+        int|null|string $rating = null,
     ): Augmentation {
         $filename = config('app.data_path.shadowrun5e') . 'cyberware.php';
         self::$augmentations ??= require $filename;
 
         foreach (self::$augmentations as $aug) {
-            if (strtolower($aug['name']) !== strtolower($name)) {
+            if (strtolower((string)$aug['name']) !== strtolower($name)) {
                 continue;
             }
 
@@ -221,7 +216,7 @@ class Augmentation
                 return new self($aug['id']);
             }
 
-            if (strtolower((string)$rating) === strtolower($aug['rating'])) {
+            if (strtolower((string)$rating) === strtolower((string)$aug['rating'])) {
                 return new self($aug['id']);
             }
         }
@@ -239,24 +234,13 @@ class Augmentation
     public function getCost(): int
     {
         $cost = $this->cost;
-        switch ($this->grade) {
-            case self::GRADE_ALPHA:
-                $cost = (float)$cost * 1.2;
-                break;
-            case self::GRADE_BETA:
-                $cost = (float)$cost * 1.5;
-                break;
-            case self::GRADE_DELTA:
-                $cost = (float)$cost * 2.5;
-                break;
-            case self::GRADE_USED:
-                $cost = (float)$cost * 0.75;
-                break;
-            case self::GRADE_STANDARD:
-            default:
-                $cost = (float)$cost * 1;
-                break;
-        }
+        $cost = match ($this->grade) {
+            self::GRADE_ALPHA => (float)$cost * 1.2,
+            self::GRADE_BETA => (float)$cost * 1.5,
+            self::GRADE_DELTA => (float)$cost * 2.5,
+            self::GRADE_USED => (float)$cost * 0.75,
+            default => (float)$cost * 1,
+        };
         foreach ($this->modifications as $mod) {
             $cost += $mod->getCost();
         }

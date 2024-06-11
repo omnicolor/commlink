@@ -29,11 +29,6 @@ abstract class Roll
     protected ?ChatUser $chatUser;
 
     /**
-     * Original text entered by the user.
-     */
-    protected string $content;
-
-    /**
      * Optional description the user added for the roll.
      */
     protected string $description = '';
@@ -54,14 +49,16 @@ abstract class Roll
     protected string $title = '';
 
     public function __construct(
-        string $content,
+        /**
+         * Original text entered by the user.
+         */
+        protected string $content,
         protected string $username,
         protected Channel $channel,
     ) {
         $this->campaign = $channel->campaign;
         $this->character = $channel->character();
         $this->chatUser = $channel->getChatUser();
-        $this->content = $content;
         if (null !== $this->character) {
             $this->username = (string)$this->character;
         }

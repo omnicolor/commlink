@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * Technomancer complex form.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class ComplexForm
+class ComplexForm implements Stringable
 {
     use ForceTrait;
 
@@ -35,11 +40,6 @@ class ComplexForm
      * Fade formula for the complex form.
      */
     public string $fade;
-
-    /**
-     * Identifier for the form.
-     */
-    public string $identifier;
 
     /**
      * Name of the form.
@@ -76,14 +76,16 @@ class ComplexForm
      * @param ?int $level Optional level to assign to the form
      * @throws RuntimeException if the ID is not found
      */
-    public function __construct(string $identifier, public ?int $level = null)
-    {
+    public function __construct(
+        public string $identifier,
+        public ?int $level = null,
+    ) {
         $filename = config('app.data_path.shadowrun5e') . 'complex-forms.php';
         self::$forms ??= require $filename;
 
-        $identifier = \strtolower($identifier);
+        $identifier = strtolower($identifier);
         if (!isset(self::$forms[$identifier])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Complex Form ID "%s" is invalid',
                 $identifier
             ));

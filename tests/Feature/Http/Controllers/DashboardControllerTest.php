@@ -45,12 +45,12 @@ final class DashboardControllerTest extends TestCase
         /** @var Character */
         $character1 = Character::factory()->create([
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         /** @var Character */
         $character2 = Character::factory()->create([
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         $this->actingAs($user)
             ->get('/dashboard')

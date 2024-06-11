@@ -98,7 +98,7 @@ final class JudgeTest extends TestCase
         $character = Character::factory()->create([
             'charisma' => 4,
             'intuition' => 2,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -147,7 +147,7 @@ final class JudgeTest extends TestCase
         $character = Character::factory()->create([
             'charisma' => 5,
             'intuition' => 3,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -193,7 +193,7 @@ final class JudgeTest extends TestCase
         $character = Character::factory()->create([
             'charisma' => 5,
             'intuition' => 3,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([

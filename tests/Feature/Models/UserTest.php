@@ -66,11 +66,11 @@ final class UserTest extends TestCase
         $user = User::factory()->create();
         $character1 = Character::factory()->create([
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         $character2 = Character::factory()->create([
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         // @phpstan-ignore-next-line
@@ -90,12 +90,12 @@ final class UserTest extends TestCase
         $character1 = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         $character2 = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'cyberpunk2077',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         // @phpstan-ignore-next-line
         self::assertSame(1, $user->characters('shadowrun5e')->count());

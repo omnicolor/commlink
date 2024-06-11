@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Models\Cyberpunkred;
 
 use Facades\App\Services\DiceService;
+use Stringable;
 
 /**
  * Representation of a character currently being built.
  */
-class PartialCharacter extends Character
+class PartialCharacter extends Character implements Stringable
 {
     /**
      * The database connection that should be used by the model.

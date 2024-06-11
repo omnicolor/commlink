@@ -5,11 +5,17 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function array_keys;
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * @psalm-suppress PossiblyUnusedProperty
  */
-class Rulebook
+class Rulebook implements Stringable
 {
     /**
      * Whether the rulebook is included in Commlink character creation by
@@ -21,11 +27,6 @@ class Rulebook
      * Description of the rulebook.
      */
     public string $description;
-
-    /**
-     * Unique ID for the rulebook.
-     */
-    public string $id;
 
     /**
      * Name of the rulebook.
@@ -44,25 +45,23 @@ class Rulebook
     public static ?array $books;
 
     /**
-     * Construct a new rulebook object.
      * @throws RuntimeException
      */
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.shadowrun5e') . 'rulebooks.php';
         self::$books ??= require $filename;
 
-        $id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$books[$id])) {
             throw new RuntimeException(
-                \sprintf('Ruleset ID "%s" is invalid', $id)
+                sprintf('Ruleset ID "%s" is invalid', $id)
             );
         }
 
         $book = self::$books[$id];
         $this->default = $book['default'] ?? true;
         $this->description = $book['description'];
-        $this->id = $id;
         $this->name = $book['name'];
         $this->required = $book['required'] ?? false;
     }

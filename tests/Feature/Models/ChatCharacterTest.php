@@ -26,7 +26,7 @@ final class ChatCharacterTest extends TestCase
         $channel = Channel::factory()->create();
         /** @var Character */
         $character = Character::factory()->create([
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create();

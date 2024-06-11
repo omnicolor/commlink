@@ -96,7 +96,7 @@ final class LuckTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'edge' => 3,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -143,7 +143,7 @@ final class LuckTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'edge' => 7,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -190,7 +190,7 @@ final class LuckTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'edge' => 7,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([

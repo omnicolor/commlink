@@ -6,11 +6,13 @@ namespace App\Models\Shadowrun5e;
 
 use Exception;
 use RuntimeException;
+use Stringable;
 
-/**
- * Armor to protect a character.
- */
-class Armor
+use function config;
+use function sprintf;
+use function strtolower;
+
+class Armor implements Stringable
 {
     /**
      * Whether the armor is currently active.
@@ -44,11 +46,6 @@ class Armor
      * Name of the item.
      */
     public string $name;
-
-    /**
-     * ID of the item.
-     */
-    public string $id;
 
     /**
      * Modifications to the item.
@@ -88,15 +85,15 @@ class Armor
      * Construct a new armor object.
      * @throws RuntimeException if the ID is invalid.
      */
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.shadowrun5e') . 'armor.php';
         self::$armor ??= require $filename;
 
-        $id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$armor[$id])) {
             throw new RuntimeException(
-                \sprintf('Armor ID "%s" is invalid', $id)
+                sprintf('Armor ID "%s" is invalid', $id)
             );
         }
 
@@ -107,7 +104,6 @@ class Armor
         if (isset($armor['effects'])) {
             $this->effects = $armor['effects'];
         }
-        $this->id = $id;
         $this->modifications = new ArmorModificationArray();
         $this->name = $armor['name'];
         $this->page = $armor['page'] ?? null;
@@ -116,9 +112,6 @@ class Armor
         $this->ruleset = $armor['ruleset'] ?? 'core';
     }
 
-    /**
-     * Return the name of the armor.
-     */
     public function __toString(): string
     {
         return $this->name;
@@ -146,7 +139,7 @@ class Armor
             } catch (Exception) {
                 // Ignore, we'll throw a different exception in a sec.
             }
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Armor/Gear mod not found: %s',
                 $mod
             ));
@@ -163,11 +156,11 @@ class Armor
         $filename = config('app.data_path.shadowrun5e') . 'armor.php';
         self::$armor ??= require $filename;
         foreach (self::$armor as $armor) {
-            if (\strtolower($armor['name']) === \strtolower($name)) {
+            if (strtolower((string) $armor['name']) === strtolower($name)) {
                 return new Armor($armor['id']);
             }
         }
-        throw new RuntimeException(\sprintf(
+        throw new RuntimeException(sprintf(
             'Armor name "%s" was not found',
             $name
         ));

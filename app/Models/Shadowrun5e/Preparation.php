@@ -6,6 +6,8 @@ namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
 
+use function in_array;
+
 /**
  * Class representing an alchemical preparation.
  * @psalm-suppress PossiblyUnusedProperty
@@ -80,7 +82,7 @@ class Preparation
      */
     public function setTrigger(string $trigger): Preparation
     {
-        if (!\in_array($trigger, ['command', 'contact', 'time'], true)) {
+        if (!in_array($trigger, ['command', 'contact', 'time'], true)) {
             throw new RuntimeException('Invalid alchemical trigger');
         }
         $this->trigger = $trigger;

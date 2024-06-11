@@ -5,30 +5,35 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * Critter/Spirit power.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class CritterPower
+class CritterPower implements Stringable
 {
-    public const ACTION_AUTO = 'Auto';
-    public const ACTION_COMPLEX = 'Complex';
-    public const ACTION_SIMPLE = 'Simple';
+    public const string ACTION_AUTO = 'Auto';
+    public const string ACTION_COMPLEX = 'Complex';
+    public const string ACTION_SIMPLE = 'Simple';
 
-    public const DURATION_ALWAYS = 'Always';
-    public const DURATION_INSTANT = 'Instant';
-    public const DURATION_PERMANENT = 'Permanent';
-    public const DURATION_SPECIAL = 'Special';
-    public const DURATION_SUSTAINED = 'Sustained';
+    public const string DURATION_ALWAYS = 'Always';
+    public const string DURATION_INSTANT = 'Instant';
+    public const string DURATION_PERMANENT = 'Permanent';
+    public const string DURATION_SPECIAL = 'Special';
+    public const string DURATION_SUSTAINED = 'Sustained';
 
-    public const RANGE_LOS = 'LOS';
-    public const RANGE_SELF = 'Self';
-    public const RANGE_SPECIAL = 'Special';
-    public const RANGE_TOUCH = 'Touch';
+    public const string RANGE_LOS = 'LOS';
+    public const string RANGE_SELF = 'Self';
+    public const string RANGE_SPECIAL = 'Special';
+    public const string RANGE_TOUCH = 'Touch';
 
-    public const TYPE_MANA = 'M';
-    public const TYPE_PHYSICAL = 'P';
+    public const string TYPE_MANA = 'M';
+    public const string TYPE_PHYSICAL = 'P';
 
     /**
      * Type of action required to use the power: Auto, Complex, or Simple.
@@ -93,9 +98,9 @@ class CritterPower
         $filename = config('app.data_path.shadowrun5e') . 'critter-powers.php';
         self::$powers ??= require $filename;
 
-        $this->id = \strtolower($id);
+        $this->id = strtolower($id);
         if (!isset(self::$powers[$this->id])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Critter/Spirit power "%s" is invalid',
                 $this->id
             ));

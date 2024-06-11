@@ -5,12 +5,21 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function array_key_exists;
+use function array_merge;
+use function config;
+use function sprintf;
+use function str_contains;
+use function str_replace;
+use function strtolower;
 
 /**
  * Weapon to take out the opposition.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class Weapon
+class Weapon implements Stringable
 {
     /**
      * Collection of accessories.
@@ -67,11 +76,6 @@ class Weapon
      * Description of the weapon.
      */
     public string $description;
-
-    /**
-     * Unique identifier for the weapon's information.
-     */
-    public string $id;
 
     /**
      * Unique identifier for this instance of the weapon.
@@ -146,10 +150,9 @@ class Weapon
     public static ?array $weapons;
 
     /**
-     * Construct a new weapon object.
      * @throws RuntimeException
      */
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.shadowrun5e') . 'weapons.php';
         self::$weapons ??= require $filename;
@@ -174,8 +177,9 @@ class Weapon
             return;
         }
 
-        if (!\array_key_exists($id, self::$weapons)) {
-            throw new RuntimeException(\sprintf(
+        $id = strtolower($id);
+        if (!array_key_exists($id, self::$weapons)) {
+            throw new RuntimeException(sprintf(
                 'Weapon ID "%s" is invalid',
                 $id
             ));
@@ -191,13 +195,12 @@ class Weapon
         $this->cost = $weapon['cost'];
         $this->description = $weapon['description'];
         $this->damage = $weapon['damage'];
-        $this->id = $weapon['id'];
         $this->modes = $weapon['modes'] ?? null;
         if (isset($weapon['modifications'])) {
             foreach ($weapon['modifications'] as $mod) {
                 try {
                     $weaponMod = new WeaponModification($mod);
-                } catch (RuntimeException $e) {
+                } catch (RuntimeException) {
                     // Ignore modifications that aren't loadable
                     continue;
                 }
@@ -255,11 +258,11 @@ class Weapon
      */
     public function getDamage(int $strength): string
     {
-        if (false === \strpos($this->damage, 'STR')) {
+        if (!str_contains($this->damage, 'STR')) {
             // Weapon is not strength-based.
             return $this->damage;
         }
-        $damage = \str_replace('(STR', '', $this->damage);
+        $damage = str_replace('(STR', '', $this->damage);
         $damage = (int)$damage + $strength;
         if ('unarmed-strike' === $this->id) {
             return $damage . 'S';
@@ -273,56 +276,32 @@ class Weapon
      */
     public function getRange(): string
     {
-        switch ($this->class) {
-            case 'Assault Cannon':
-                return '50/300/750/1200';
-            case 'Assault Rifle':
-                return '25/150/350/550';
-            case 'Bow':
-                return 'STR/STRx10/STRx30/STRx60';
-            case 'Grenade':
-                return 'STRx2/STRx4/STRx6/STRx10';
-            case 'Grenade Launcher':
-                return '5-50/100/150/500';
-            case 'Heavy Crossbow':
-                return '14/45/120/180';
-            case 'Heavy Machinegun':
-                return '40/250/750/1200';
-            case 'Heavy Pistol':
-                return '5/20/40/60';
-            case 'Hold-Out Pistol':
-                return '5/15/30/50';
-            case 'Light Crossbow':
-                return '6/24/60/120';
-            case 'Light Machinegun':
-                return '25/200/400/800';
-            case 'Light Pistol':
-                return '5/15/30/50';
-            case 'Machine Pistol':
-                return '5/15/30/50';
-            case 'Medium Crossbow':
-                return '9/36/90/150';
-            case 'Medium Machinegun':
-                return '40/250/750/1200';
-            case 'Missile Launcher':
-                return '20-70*/150/450/1500';
-            case 'Shotgun':
-                return '10/40/80/150';
-            case 'Shotgun (flechette)':
-                return '15/30/45/60';
-            case 'Sniper Rifle':
-                return '50/350/800/1500';
-            case 'Submachine Gun':
-                return '10/40/80/150';
-            case 'Taser':
-                return '5/10/15/20';
-            case 'Throwing Weapon':
-                return 'STR/STRx2/STRx5/STRx7';
-            case 'Thrown Knife':
-                return 'STR/STRx2/STRx3/STRx5';
-            default:
-                return '???';
-        }
+        return match ($this->class) {
+            'Assault Cannon' => '50/300/750/1200',
+            'Assault Rifle' => '25/150/350/550',
+            'Bow' => 'STR/STRx10/STRx30/STRx60',
+            'Grenade' => 'STRx2/STRx4/STRx6/STRx10',
+            'Grenade Launcher' => '5-50/100/150/500',
+            'Heavy Crossbow' => '14/45/120/180',
+            'Heavy Machinegun' => '40/250/750/1200',
+            'Heavy Pistol' => '5/20/40/60',
+            'Hold-Out Pistol' => '5/15/30/50',
+            'Light Crossbow' => '6/24/60/120',
+            'Light Machinegun' => '25/200/400/800',
+            'Light Pistol' => '5/15/30/50',
+            'Machine Pistol' => '5/15/30/50',
+            'Medium Crossbow' => '9/36/90/150',
+            'Medium Machinegun' => '40/250/750/1200',
+            'Missile Launcher' => '20-70*/150/450/1500',
+            'Shotgun' => '10/40/80/150',
+            'Shotgun (flechette)' => '15/30/45/60',
+            'Sniper Rifle' => '50/350/800/1500',
+            'Submachine Gun' => '10/40/80/150',
+            'Taser' => '5/10/15/20',
+            'Throwing Weapon' => 'STR/STRx2/STRx5/STRx7',
+            'Thrown Knife' => 'STR/STRx2/STRx3/STRx5',
+            default => '???',
+        };
     }
 
     /**
@@ -346,7 +325,7 @@ class Weapon
                 $ammoTypes[$ammo['id']] = $ammo;
             }
             foreach ($weapon['ammo'] as $ammo) {
-                $ammo = \array_merge($ammoTypes[$ammo['id']], $ammo);
+                $ammo = array_merge($ammoTypes[$ammo['id']], $ammo);
                 $weaponObj->ammunition[] = $ammo;
             }
         }
@@ -365,12 +344,12 @@ class Weapon
         self::$weapons ??= require $filename;
 
         foreach (self::$weapons as $weapon) {
-            if (\strtolower($weapon['name']) === \strtolower($name)) {
+            if (strtolower((string)$weapon['name']) === strtolower($name)) {
                 return new Weapon($weapon['id']);
             }
         }
 
-        throw new RuntimeException(\sprintf(
+        throw new RuntimeException(sprintf(
             'Weapon name "%s" was not found',
             $name
         ));

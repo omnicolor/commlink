@@ -15,12 +15,11 @@ class MartialArtsStyleArray extends ArrayObject
 {
     /**
      * Add a style to the array.
-     * @param ?int $index
      * @param MartialArtsStyle $style
      * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
-    public function offsetSet($index = null, $style = null): void
+    public function offsetSet(mixed $index = null, $style = null): void
     {
         if ($style instanceof MartialArtsStyle) {
             parent::offsetSet($index, $style);

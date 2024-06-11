@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * Martial art style.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class MartialArtsStyle
+class MartialArtsStyle implements Stringable
 {
     /**
      * Collection of IDs for techniques the style allows.
@@ -22,11 +27,6 @@ class MartialArtsStyle
      * Description of the style.
      */
     public string $description;
-
-    /**
-     * Unique ID for the style.
-     */
-    public string $id;
 
     /**
      * Name of the style.
@@ -50,18 +50,17 @@ class MartialArtsStyle
     public static ?array $styles;
 
     /**
-     * @param string $id ID to load
      * @throws RuntimeException if the ID is invalid
      */
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.shadowrun5e')
             . 'martial-arts-styles.php';
         self::$styles ??= require $filename;
 
-        $id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$styles[$id])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Martial Arts Style ID "%s" is invalid',
                 $id
             ));
@@ -69,7 +68,6 @@ class MartialArtsStyle
 
         $style = self::$styles[$id];
         $this->description = $style['description'];
-        $this->id = $id;
         $this->name = $style['name'];
         $this->page = $style['page'];
         $this->ruleset = $style['ruleset'];

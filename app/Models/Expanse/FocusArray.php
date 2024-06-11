@@ -15,16 +15,16 @@ class FocusArray extends ArrayObject
 {
     /**
      * Add a focus to the array.
-     * @param ?int $index
      * @param Focus $focus
      * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
-    public function offsetSet($index, $focus): void
+    public function offsetSet(mixed $index, $focus): void
     {
-        if (!($focus instanceof Focus)) {
-            throw new TypeError('FocusArray only accepts Focus objects');
+        if ($focus instanceof Focus) {
+            parent::offsetSet($index, $focus);
+            return;
         }
-        parent::offsetSet($index, $focus);
+        throw new TypeError('FocusArray only accepts Focus objects');
     }
 }

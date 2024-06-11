@@ -5,12 +5,19 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function array_key_exists;
+use function array_keys;
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * Representation of a Shadowrun 5E grunt.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class Grunt
+class Grunt implements Stringable
 {
     public ?AdeptPowerArray $adept_powers = null;
     public int $agility;
@@ -23,7 +30,6 @@ class Grunt
     public string $description;
     public float $essence = 6.0;
     public GearArray $gear;
-    public string $id;
     public ?int $initiate_grade = null;
     public int $initiative_base;
     public int $initiative_dice = 1;
@@ -50,14 +56,14 @@ class Grunt
      */
     public static ?array $grunts;
 
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.shadowrun5e') . 'grunts.php';
         self::$grunts ??= require $filename;
 
-        $this->id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$grunts[$this->id])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Grunt ID "%s" was not found',
                 $id,
             ));

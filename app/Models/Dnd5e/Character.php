@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OutOfRangeException;
 use RuntimeException;
+use Stringable;
+
+use function floor;
 
 /**
  * Representation of a D&D 5E character sheet.
@@ -21,12 +24,12 @@ use RuntimeException;
  * @property string $system
  * @property int $wisdom
  */
-class Character extends BaseCharacter
+class Character extends BaseCharacter implements Stringable
 {
     use HasFactory;
 
-    public const ATTRIBUTE_MIN = 1;
-    public const ATTRIBUTE_MAX = 30;
+    public const int ATTRIBUTE_MIN = 1;
+    public const int ATTRIBUTE_MAX = 30;
 
     /**
      * @var array<string, mixed>
@@ -66,9 +69,6 @@ class Character extends BaseCharacter
         '_id',
     ];
 
-    /**
-     * Return the character's name.
-     */
     public function __toString(): string
     {
         return $this->name ?? 'Unnamed Character';

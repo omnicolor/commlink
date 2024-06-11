@@ -254,7 +254,7 @@ class ImportChummerData extends Command implements Isolatable
         $repo = new Repository($this->chummerRepository);
         try {
             $repo->pull();
-        } catch (Throwable $ex) {
+        } catch (Throwable) {
             throw new RuntimeException('Failed to pull repository');
         }
     }

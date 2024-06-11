@@ -93,7 +93,7 @@ final class ComposureTest extends TestCase
         $character = Character::factory()->create([
             'charisma' => 4,
             'willpower' => 2,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -144,7 +144,7 @@ final class ComposureTest extends TestCase
         $character = Character::factory()->create([
             'charisma' => 5,
             'willpower' => 3,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -200,7 +200,7 @@ final class ComposureTest extends TestCase
         $character = Character::factory()->create([
             'charisma' => 5,
             'willpower' => 3,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([

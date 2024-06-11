@@ -6,6 +6,12 @@ namespace App\Models\Capers;
 
 use App\Models\Card;
 use RuntimeException;
+use Stringable;
+
+use function array_keys;
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * Your character’s Vice is their greatest weakness. It regularly causes
@@ -14,13 +20,12 @@ use RuntimeException;
  *
  * You can gain Moxie if your character is hindered by their Vice.
  */
-class Vice
+class Vice implements Stringable
 {
     /** @psalm-suppress PossiblyUnusedProperty */
     public string $card;
     /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
-    public string $id;
     public string $name;
 
     /**
@@ -28,16 +33,14 @@ class Vice
      */
     public static array $vices;
 
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.capers') . 'vices.php';
         self::$vices ??= require $filename;
 
-        $this->id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$vices[$this->id])) {
-            throw new RuntimeException(
-                \sprintf('Vice ID "%s" is invalid', $id)
-            );
+            throw new RuntimeException(sprintf('Vice ID "%s" is invalid', $id));
         }
 
         $vice = self::$vices[$this->id];

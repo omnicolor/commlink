@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models\Shadowrun5e;
 
+use Stringable;
+
 /**
  * Contacts, because it's all about who you know.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class Contact
+class Contact implements Stringable
 {
     /**
      * Archetype for the contact.

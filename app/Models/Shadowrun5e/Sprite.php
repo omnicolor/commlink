@@ -7,6 +7,15 @@ namespace App\Models\Shadowrun5e;
 use BadMethodCallException;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
+use Stringable;
+
+use function config;
+use function in_array;
+use function lcfirst;
+use function sprintf;
+use function str_replace;
+use function strtolower;
+use function ucfirst;
 
 /**
  * Representation of a Shadowrun sprite.
@@ -18,7 +27,7 @@ use RuntimeException;
  * @method int getSleaze()
  * @psalm-suppress PossiblyUnusedProperty
  */
-class Sprite
+class Sprite implements Stringable
 {
     use ForceTrait;
 
@@ -41,11 +50,6 @@ class Sprite
      * Sprite's firewall rating formula.
      */
     public string $firewall;
-
-    /**
-     * Sprite's unique ID.
-     */
-    public string $id;
 
     /**
      * Sprites formula for calculating initiative.
@@ -109,25 +113,23 @@ class Sprite
      * Constructor.
      * @throws RuntimeException if the ID is not found
      */
-    public function __construct(string $id, public ?int $level = null)
+    public function __construct(public string $id, public ?int $level = null)
     {
         $filename = config('app.data_path.shadowrun5e') . 'sprites.php';
         self::$sprites = require $filename;
-        $id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$sprites[$id])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Sprite ID "%s" is invalid',
                 $id
             ));
         }
 
         $sprite = self::$sprites[$id];
-
         $this->attack = $sprite['attack'];
         $this->dataProcessing = $sprite['data-processing'];
         $this->description = $sprite['description'];
         $this->firewall = $sprite['firewall'];
-        $this->id = $id;
         $this->initiative = $sprite['initiative'];
         $this->name = $sprite['name'];
         $this->page = $sprite['page'];
@@ -152,7 +154,7 @@ class Sprite
      */
     public function __call(string $name, array $_arguments): int
     {
-        $attribute = \lcfirst(\str_replace('get', '', $name));
+        $attribute = lcfirst(str_replace('get', '', $name));
         $attributes = [
             'attack',
             'dataProcessing',
@@ -161,16 +163,16 @@ class Sprite
             'resonance',
             'sleaze',
         ];
-        if (!\in_array($attribute, $attributes, true)) {
-            throw new BadMethodCallException(\sprintf(
+        if (!in_array($attribute, $attributes, true)) {
+            throw new BadMethodCallException(sprintf(
                 '%s is not an attribute of sprites',
-                \ucfirst($attribute)
+                ucfirst($attribute)
             ));
         }
         if (null === $this->level) {
             throw new RuntimeException('Level has not been set');
         }
-        $formula = \str_replace(
+        $formula = str_replace(
             ['L', '(', ')'],
             [(string)$this->level, '', ''],
             // @phpstan-ignore-next-line

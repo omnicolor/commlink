@@ -39,7 +39,7 @@ final class CharactersControllerTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         $this->actingAs($user)
@@ -61,7 +61,7 @@ final class CharactersControllerTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'owner' => $user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         $this->actingAs($user)

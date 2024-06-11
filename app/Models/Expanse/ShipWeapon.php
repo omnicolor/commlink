@@ -5,11 +5,17 @@ declare(strict_types=1);
 namespace App\Models\Expanse;
 
 use RuntimeException;
+use Stringable;
+
+use function array_keys;
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * @psalm-suppress PossiblyUnusedProperty
  */
-class ShipWeapon
+class ShipWeapon implements Stringable
 {
     public const RANGE_LONG = 'long';
     public const RANGE_MEDIUM = 'medium';
@@ -17,7 +23,6 @@ class ShipWeapon
 
     public ?string $damage = null;
     public string $description;
-    public string $id;
     public string $name;
     public int $page;
     public string $range;
@@ -30,26 +35,25 @@ class ShipWeapon
     public static array $weapons;
 
     /**
-     * Constructor.
      * @throws RuntimeException
      */
     public function __construct(
-        string $id,
+        public string $id,
         public string $mount,
         public ?int $quality = 1,
     ) {
         $filename = config('app.data_path.expanse') . 'ship-weapons.php';
         self::$weapons ??= require $filename;
 
-        $this->id = \strtolower($id);
-        if (!isset(self::$weapons[$this->id])) {
-            throw new RuntimeException(\sprintf(
+        $id = strtolower($id);
+        if (!isset(self::$weapons[$id])) {
+            throw new RuntimeException(sprintf(
                 'Expanse ship weapon "%s" is invalid',
-                $this->id
+                $id
             ));
         }
 
-        $weapon = self::$weapons[$this->id];
+        $weapon = self::$weapons[$id];
         $this->damage = $weapon['damage'] ?? null;
         $this->description = $weapon['description'];
         $this->name = $weapon['name'];

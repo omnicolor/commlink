@@ -16,16 +16,16 @@ class ConditionArray extends ArrayObject
 {
     /**
      * Add a condition to the array.
-     * @param ?int $index
      * @param Condition $condition
      * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
-    public function offsetSet($index, $condition): void
+    public function offsetSet(mixed $index, $condition): void
     {
-        if (!($condition instanceof Condition)) {
-            throw new TypeError('ConditionArray only accepts Condition objects');
+        if ($condition instanceof Condition) {
+            parent::offsetSet($index, $condition);
+            return;
         }
-        parent::offsetSet($index, $condition);
+        throw new TypeError('ConditionArray only accepts Condition objects');
     }
 }

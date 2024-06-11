@@ -15,19 +15,16 @@ class SpriteArray extends ArrayObject
 {
     /**
      * Add a item to the array.
-     * @param ?int $index
      * @param Sprite $sprite
      * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
-    public function offsetSet($index = null, $sprite = null): void
+    public function offsetSet(mixed $index = null, $sprite = null): void
     {
         if ($sprite instanceof Sprite) {
             parent::offsetSet($index, $sprite);
             return;
         }
-        throw new TypeError(
-            'SpriteArray only accepts Sprite objects'
-        );
+        throw new TypeError('SpriteArray only accepts Sprite objects');
     }
 }

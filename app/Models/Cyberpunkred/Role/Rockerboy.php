@@ -6,8 +6,9 @@ namespace App\Models\Cyberpunkred\Role;
 
 use App\Models\Cyberpunkred\Role;
 use OutOfBoundsException;
+use Stringable;
 
-class Rockerboy extends Role
+class Rockerboy extends Role implements Stringable
 {
     public const ACT_GROUP = 1;
     public const ACT_SOLO = 2;
@@ -102,13 +103,11 @@ class Rockerboy extends Role
      */
     public function getAct(): string
     {
-        switch ($this->act) {
-            case self::ACT_SOLO:
-                return 'solo';
-            case self::ACT_GROUP:
-                return 'group';
-        }
-        throw new OutOfBoundsException();
+        return match ($this->act) {
+            self::ACT_SOLO => 'solo',
+            self::ACT_GROUP => 'group',
+            default => throw new OutOfBoundsException(),
+        };
     }
 
     /**
@@ -118,11 +117,10 @@ class Rockerboy extends Role
      */
     public function getWhosGunning(): string
     {
-        switch ($this->gunning) {
-            case self::GUNNING_OLD_GROUP_MEMBER:
-                return 'Old group member who thinks you did them dirty.';
-        }
-        throw new OutOfBoundsException();
+        return match ($this->gunning) {
+            self::GUNNING_OLD_GROUP_MEMBER => 'Old group member who thinks you did them dirty.',
+            default => throw new OutOfBoundsException(),
+        };
     }
 
     /**
@@ -132,14 +130,11 @@ class Rockerboy extends Role
      */
     public function getType(): string
     {
-        switch ($this->type) {
-            case self::TYPE_MUSICIAN:
-                return 'musician';
-            case self::TYPE_SLAM_POET:
-                return 'slam poet';
-            case self::TYPE_STREET_ARTIST:
-                return 'street artist';
-        }
-        throw new OutOfBoundsException();
+        return match ($this->type) {
+            self::TYPE_MUSICIAN => 'musician',
+            self::TYPE_SLAM_POET => 'slam poet',
+            self::TYPE_STREET_ARTIST => 'street artist',
+            default => throw new OutOfBoundsException(),
+        };
     }
 }

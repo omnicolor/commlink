@@ -350,8 +350,8 @@ class Number extends Roll
         // Return the chance to get exactly the number of successes requested,
         // then add the probability for exactly one more success than that, etc.
         return Combinatorics::combinations($dice, $successes)
-            * pow(2 / 3, $dice - $successes)
-            * pow(1 / 3, $successes)
+            * (2 / 3) ** ($dice - $successes)
+            * (1 / 3) ** $successes
             + $this->getProbability($dice, $successes + 1);
     }
 }

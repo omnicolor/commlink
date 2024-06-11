@@ -5,12 +5,19 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function array_key_exists;
+use function config;
+use function sprintf;
+use function strtolower;
+use function urlencode;
 
 /**
  * Base class for Shadowrun lifestyles.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class Lifestyle
+class Lifestyle implements Stringable
 {
     /**
      * Base and maximum attributes for the lifestyle.
@@ -26,11 +33,6 @@ class Lifestyle
      * Description of the lifestyle.
      */
     public string $description;
-
-    /**
-     * Identifier for the lifestyle.
-     */
-    public string $id;
 
     /**
      * Name of the lifestyle.
@@ -71,22 +73,21 @@ class Lifestyle
      * Collection of all lifestyles.
      * @var ?array<string, array<string, mixed>>
      */
-    public static ?array $lifestyles;
+    public static ?array $lifestyles = null;
 
     /**
-     * Constructor.
      * @throws RuntimeException
      */
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $this->options = new LifestyleOptionArray();
         $filename = config('app.data_path.shadowrun5e') . 'lifestyles.php';
         self::$lifestyles ??= require $filename;
 
-        $id = \strtolower($id);
-        if (!\array_key_exists($id, self::$lifestyles)) {
+        $id = strtolower($id);
+        if (!array_key_exists($id, self::$lifestyles)) {
             throw new RuntimeException(
-                \sprintf('Lifestyle ID "%s" is invalid', \urlencode($id))
+                sprintf('Lifestyle ID "%s" is invalid', urlencode($id))
             );
         }
 
@@ -94,7 +95,6 @@ class Lifestyle
         $this->attributes = new LifestyleAttributes($lifestyle['attributes']);
         $this->cost = $lifestyle['cost'];
         $this->description = $lifestyle['description'];
-        $this->id = $id;
         $this->name = $lifestyle['name'];
         $this->page = $lifestyle['page'];
         $this->points = $lifestyle['points'];

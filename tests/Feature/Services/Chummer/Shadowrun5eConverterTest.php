@@ -25,7 +25,7 @@ final class Shadowrun5eConverterTest extends TestCase
     {
         $path = explode(
             DIRECTORY_SEPARATOR,
-            dirname(dirname(dirname(__DIR__)))
+            dirname(__DIR__, 3)
         );
         $path[] = 'Data';
         $path[] = 'Chummer5';

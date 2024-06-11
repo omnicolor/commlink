@@ -48,7 +48,7 @@ final class CharactersControllerTest extends TestCase
         $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'cyberpunkred',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         $this->actingAs($user)
             ->getJson(route('dnd5e.characters.index'))
@@ -70,13 +70,13 @@ final class CharactersControllerTest extends TestCase
         $character1 = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun6e',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         /** @var Character */
         $character2 = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'dnd5e',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         $this->actingAs($user)
             ->getJson(route('dnd5e.characters.index'))
@@ -105,7 +105,7 @@ final class CharactersControllerTest extends TestCase
         $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'dnd5e',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         $this->actingAs($user)
             ->getJson(route('dnd5e.characters.show', $character->id))
@@ -133,7 +133,7 @@ final class CharactersControllerTest extends TestCase
         $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun6e',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         $this->actingAs($user)
             ->getJson(route('dnd5e.characters.show', $character->id))

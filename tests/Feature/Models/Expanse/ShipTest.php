@@ -32,7 +32,7 @@ final class ShipTest extends TestCase
         self::assertSame([], $ship->favored_stunts);
         self::assertSame([], $ship->flaws);
         self::assertTrue($ship->has_epstein);
-        self::assertSame('destroyer', $ship->id);
+        self::assertSame('DeStRoYeR', $ship->id);
         self::assertSame('100m', $ship->length);
         self::assertSame(127, $ship->page);
         self::assertCount(2, $ship->qualities);

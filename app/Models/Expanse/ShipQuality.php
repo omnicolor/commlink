@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace App\Models\Expanse;
 
 use RuntimeException;
+use Stringable;
 
-class ShipQuality
+use function array_keys;
+use function config;
+use function sprintf;
+use function strtolower;
+
+class ShipQuality implements Stringable
 {
     /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
-    public string $id;
     public string $name;
     /** @psalm-suppress PossiblyUnusedProperty */
     public int $page;
@@ -31,17 +36,17 @@ class ShipQuality
     public static array $qualities;
 
     /**
-     * Constructor.
+     * @psalm-suppress UnusedVariable
      * @throws RuntimeException
      */
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.expanse') . 'ship-qualities.php';
         self::$qualities ??= require $filename;
 
-        $this->id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$qualities[$this->id])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Expanse ship quality "%s" is invalid',
                 $this->id
             ));

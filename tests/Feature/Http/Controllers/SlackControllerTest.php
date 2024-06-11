@@ -213,7 +213,7 @@ final class SlackControllerTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'system' => 'shadowrun5e',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         $chatUser = ChatUser::factory()->create([
@@ -272,7 +272,7 @@ final class SlackControllerTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'system' => 'cyberpunkred',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         $chatUser = ChatUser::factory()->create([
@@ -551,7 +551,7 @@ final class SlackControllerTest extends TestCase
         $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'cyberpunkred',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         $chatUser = ChatUser::factory()->create([

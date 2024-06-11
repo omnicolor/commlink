@@ -15,12 +15,11 @@ class SpiritArray extends ArrayObject
 {
     /**
      * Add a spirit to the array.
-     * @param ?int $index
      * @param Spirit $spirit
      * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
-    public function offsetSet($index = null, $spirit = null): void
+    public function offsetSet(mixed $index = null, $spirit = null): void
     {
         if ($spirit instanceof Spirit) {
             parent::offsetSet($index, $spirit);

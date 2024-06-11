@@ -9,15 +9,32 @@ use DateTimeImmutable;
 use RuntimeException;
 use TypeError;
 
+use function array_filter;
+use function array_merge;
+use function array_reduce;
+use function array_search;
+use function array_shift;
+use function array_sum;
+use function asort;
+use function ceil;
+use function count;
+use function current;
+use function in_array;
+use function key;
+use function number_format;
+use function sprintf;
+use function ucfirst;
+use function usort;
+
 /**
  * Collection of karma log entries.
  * @extends ArrayObject<int, KarmaLogEntry>
  */
 class KarmaLog extends ArrayObject
 {
-    protected const KARMA_SKILL = 2;
-    protected const KARMA_KNOWLEDGE = 1;
-    protected const KARMA_SPECIALIZATION = 7;
+    protected const int KARMA_SKILL = 2;
+    protected const int KARMA_KNOWLEDGE = 1;
+    protected const int KARMA_SPECIALIZATION = 7;
 
     /**
      * Number of points for attributes from priorities.
@@ -68,12 +85,11 @@ class KarmaLog extends ArrayObject
 
     /**
      * Add an entry to the array.
-     * @param ?int $index
      * @param KarmaLogEntry $entry
      * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
-    public function offsetSet($index = null, $entry = null): void
+    public function offsetSet(mixed $index = null, $entry = null): void
     {
         if ($entry instanceof KarmaLogEntry) {
             parent::offsetSet($index, $entry);
@@ -98,10 +114,8 @@ class KarmaLog extends ArrayObject
     /**
      * Count up skill points spent.
      */
-    public static function countSkillPoints(
-        ?int $carry,
-        Skill $item
-    ): int {
+    public static function countSkillPoints(?int $carry, Skill $item): int
+    {
         // A character should only have one native language, or two with the
         // bilingual quality, which are free.
         if ('N' == $item->level) {
@@ -438,17 +452,17 @@ class KarmaLog extends ArrayObject
             ],
         ];
         $this->attributePoints
-            = $priorityMap[\array_search('attributes', $priorities, true)]['attributes'];
+            = $priorityMap[array_search('attributes', $priorities, true)]['attributes'];
         $this->resources
-            = $priorityMap[\array_search('resources', $priorities, true)]['resources'][$priorities['gameplay']];
+            = $priorityMap[array_search('resources', $priorities, true)]['resources'][$priorities['gameplay']];
         $this->skillPoints
-            = $priorityMap[\array_search('skills', $priorities, true)]['skills'];
+            = $priorityMap[array_search('skills', $priorities, true)]['skills'];
         $this->skillGroupPoints
-            = $priorityMap[\array_search('skills', $priorities, true)]['skillGroups'];
+            = $priorityMap[array_search('skills', $priorities, true)]['skillGroups'];
         $this->specialPoints
-            = $priorityMap[\array_search('metatype', $priorities, true)]['metatype'][$priorities['metatype']];
+            = $priorityMap[array_search('metatype', $priorities, true)]['metatype'][$priorities['metatype']];
 
-        $magic = $priorityMap[\array_search('magic', $priorities, true)]['magic'];
+        $magic = $priorityMap[array_search('magic', $priorities, true)]['magic'];
         $this->spells = $magic[$priorities['magic']]['spells'] ?? 0;
         $this->magicSkills = $magic[$priorities['magic']]['skills'] ?? [];
         $this->complexForms = $magic[$priorities['magic']]['complex-forms'] ?? 0;
@@ -469,12 +483,12 @@ class KarmaLog extends ArrayObject
             'intuition' => $this->character->intuition,
             'charisma' => $this->character->charisma,
         ];
-        for ($i = \array_sum($attributeList) - 8 - $this->attributePoints; $i > 0; $i--) {
-            \asort($attributeList);
-            $value = (int)\current($attributeList);
-            $key = \key($attributeList);
+        for ($i = array_sum($attributeList) - 8 - $this->attributePoints; $i > 0; $i--) {
+            asort($attributeList);
+            $value = (int)current($attributeList);
+            $key = key($attributeList);
             $this[] = new KarmaLogEntry(
-                \sprintf('Increase %s to %d', $key, $value),
+                sprintf('Increase %s to %d', $key, $value),
                 $value * -5,
             );
             if (2 == $value) {
@@ -494,23 +508,23 @@ class KarmaLog extends ArrayObject
     protected function processMartialArts(): void
     {
         $styles = $this->character->getMartialArtsStyles();
-        if (0 === \count($styles)) {
+        if (0 === count($styles)) {
             return;
         }
 
         foreach ($styles as $style) {
             $this[] = new KarmaLogEntry(
-                \sprintf('Add martial art %s', $style->name),
+                sprintf('Add martial art %s', $style->name),
                 -7,
             );
         }
 
         $techniques = (array)$this->character->getMartialArtsTechniques();
         // Only techniques past the first cost karma.
-        \array_shift($techniques);
+        array_shift($techniques);
         foreach ($techniques as $technique) {
             $this[] = new KarmaLogEntry(
-                \sprintf('Add technique %s', $technique->name),
+                sprintf('Add technique %s', $technique->name),
                 -5,
             );
         }
@@ -523,7 +537,7 @@ class KarmaLog extends ArrayObject
     {
         foreach ($this->character->getQualities() as $quality) {
             $this[] = new KarmaLogEntry(
-                \sprintf('Add quality %s', $quality->name),
+                sprintf('Add quality %s', $quality->name),
                 $quality->karma,
             );
         }
@@ -536,7 +550,7 @@ class KarmaLog extends ArrayObject
     protected function processSkillGroups(): void
     {
         $groups = $this->character->getSkillGroups();
-        \usort($groups, function (SkillGroup $a, SkillGroup $b): int {
+        usort($groups, function (SkillGroup $a, SkillGroup $b): int {
             return $b->level - $a->level;
         });
         foreach ($groups as $group) {
@@ -546,9 +560,9 @@ class KarmaLog extends ArrayObject
             }
             for ($i = $this->skillGroupPoints; $i < $group->level; $i++) {
                 $this[] = new KarmaLogEntry(
-                    \sprintf(
+                    sprintf(
                         'Raise skill group %s to %d',
-                        \ucfirst($group->name),
+                        ucfirst($group->name),
                         $i + 1
                     ),
                     ($i + 1) * -5
@@ -584,7 +598,7 @@ class KarmaLog extends ArrayObject
         while ($this->magicSkills['number']--) {
             /** @var ActiveSkill $skill */
             foreach ($skills as $key => $skill) {
-                if (!\in_array($skill->id, $validSkills, true)) {
+                if (!in_array($skill->id, $validSkills, true)) {
                     continue;
                 }
                 if ($skill->level < $this->magicSkills['rating']) {
@@ -604,42 +618,42 @@ class KarmaLog extends ArrayObject
      */
     protected function processSkills(): void
     {
-        if (0 === \count($this->character->getSkills())) {
+        if (0 === count($this->character->getSkills())) {
             // Character has no skills.
             return;
         }
         $skills = $this->processMagicalSkills($this->character->getSkills());
         $skills = (array)$skills;
-        $deficit = (int)\array_reduce($skills, [$this, 'countSkillPoints'])
+        $deficit = (int)array_reduce($skills, [$this, 'countSkillPoints'])
             - $this->skillPoints;
         if (0 >= $deficit) {
             // If they didn't spend too much, don't worry about the rest.
             return;
         }
-        $specializations = \array_filter(
+        $specializations = array_filter(
             $skills,
             [$this, 'filterUnspecialized']
         );
-        \usort($skills, [$this, 'compareSkills']);
+        usort($skills, [$this, 'compareSkills']);
 
         /** @var ActiveSkill */
-        $skill = \array_shift($skills);
+        $skill = array_shift($skills);
         while (0 < $deficit && null !== $skill) {
             if (0 === $skill->level) {
-                $skill = \array_shift($skills);
+                $skill = array_shift($skills);
                 continue;
             }
             $skill->level = $skill->level;
 
             if (
                 (int)$skill->level * self::KARMA_SKILL > self::KARMA_SPECIALIZATION
-                && 0 !== \count($specializations)
+                && 0 !== count($specializations)
             ) {
                 // The next cheapest skill, karma-wise, is a specialization.
                 /** @var ActiveSkill */
-                $tmp = \array_shift($specializations);
+                $tmp = array_shift($specializations);
                 $this[] = new KarmaLogEntry(
-                    \sprintf(
+                    sprintf(
                         '%d₭ for %s specialization %s',
                         self::KARMA_SPECIALIZATION,
                         $tmp->name,
@@ -653,7 +667,7 @@ class KarmaLog extends ArrayObject
 
             // Charge karma for the next lowest skill level.
             $this[] = new KarmaLogEntry(
-                \sprintf(
+                sprintf(
                     '%d₭ for %s (%d)',
                     (int)$skill->level * self::KARMA_SKILL,
                     $skill->name,
@@ -671,41 +685,41 @@ class KarmaLog extends ArrayObject
      */
     protected function processKnowledgeSkills(): void
     {
-        if (0 === \count($this->character->getKnowledgeSkills())) {
+        if (0 === count($this->character->getKnowledgeSkills())) {
             // They have no knowledge.
             return;
         }
         $points = ($this->character->intuition + $this->character->logic) * 2;
         $skills = (array)$this->character->getKnowledgeSkills();
-        $deficit = (int)\array_reduce($skills, [$this, 'countSkillPoints']) - $points;
+        $deficit = (int)array_reduce($skills, [$this, 'countSkillPoints']) - $points;
         if (0 >= $deficit) {
             // They didn't overspend.
             return;
         }
-        $specializations = \array_filter(
+        $specializations = array_filter(
             $skills,
             [$this, 'filterUnspecialized']
         );
-        \usort($skills, [$this, 'compareSkills']);
+        usort($skills, [$this, 'compareSkills']);
 
         /** @var Skill */
-        $skill = \array_shift($skills);
+        $skill = array_shift($skills);
         while (0 < $deficit && null !== $skill) {
             if ('N' === $skill->level) {
-                $skill = \array_shift($skills);
+                $skill = array_shift($skills);
                 continue;
             }
             $skill->level = (int)$skill->level;
 
             if (
                 $skill->level * self::KARMA_KNOWLEDGE > self::KARMA_SPECIALIZATION
-                && 0 !== \count($specializations)
+                && 0 !== count($specializations)
             ) {
                 // The next cheapest skill, karma-wise, is a specialization.
                 /** @var Skill */
-                $tmp = \array_shift($specializations);
+                $tmp = array_shift($specializations);
                 $this[] = new KarmaLogEntry(
-                    \sprintf(
+                    sprintf(
                         '%d₭ for %s specialization %s',
                         self::KARMA_SPECIALIZATION,
                         $tmp->name,
@@ -719,7 +733,7 @@ class KarmaLog extends ArrayObject
 
             // Charge karma for the next lowest skill level.
             $this[] = new KarmaLogEntry(
-                \sprintf(
+                sprintf(
                     '%d₭ for %s (%d)',
                     $skill->level * self::KARMA_KNOWLEDGE,
                     $skill->name,
@@ -742,7 +756,7 @@ class KarmaLog extends ArrayObject
             $points = (int)$contact->loyalty + (int)$contact->connection;
             if ($points > $contactPoints) {
                 $this[] = new KarmaLogEntry(
-                    \sprintf(
+                    sprintf(
                         'Karma for extra contact rating (%s)',
                         $contact->name
                     ),
@@ -761,8 +775,8 @@ class KarmaLog extends ArrayObject
     protected function processSpells(): void
     {
         if (
-            0 === \count($this->character->getSpells())
-            || $this->spells >= \count($this->character->getSpells())
+            0 === count($this->character->getSpells())
+            || $this->spells >= count($this->character->getSpells())
         ) {
             return;
         }
@@ -772,7 +786,7 @@ class KarmaLog extends ArrayObject
                 continue;
             }
             $this[] = new KarmaLogEntry(
-                \sprintf('Extra spell (%s)', $spell->name),
+                sprintf('Extra spell (%s)', $spell->name),
                 -5
             );
         }
@@ -785,7 +799,7 @@ class KarmaLog extends ArrayObject
     protected function processNuyen(): void
     {
         $spent = 0;
-        $items = \array_merge(
+        $items = array_merge(
             (array)$this->character->getAugmentations(),
             (array)$this->character->getArmor(),
             (array)$this->character->getGear(),
@@ -801,12 +815,12 @@ class KarmaLog extends ArrayObject
         if ($spent <= $this->resources) {
             return;
         }
-        $karma = (int)\ceil(($spent - $this->resources) / 2000);
+        $karma = (int)ceil(($spent - $this->resources) / 2000);
         $this[] = new KarmaLogEntry(
-            \sprintf(
+            sprintf(
                 '%d karma converted to ¥%s',
                 $karma,
-                \number_format($karma * 2000)
+                number_format($karma * 2000)
             ),
             $karma * -1
         );
@@ -819,7 +833,7 @@ class KarmaLog extends ArrayObject
     protected function processComplexForms(): void
     {
         // Character has no complex forms, no need to charge Karma.
-        if (0 === \count($this->character->getComplexForms())) {
+        if (0 === count($this->character->getComplexForms())) {
             return;
         }
 
@@ -829,7 +843,7 @@ class KarmaLog extends ArrayObject
                 continue;
             }
             $this[] = new KarmaLogEntry(
-                \sprintf('Extra complex form (%s)', $form->name),
+                sprintf('Extra complex form (%s)', $form->name),
                 -4
             );
         }

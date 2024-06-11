@@ -290,7 +290,7 @@ final class InitTest extends TestCase
         $character = Character::factory()->create([
             'intuition' => 4,
             'reaction' => 5,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([

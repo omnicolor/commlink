@@ -27,7 +27,7 @@ final class IntrusionCountermeasureTest extends TestCase
     public function testLoadNoRatings(): void
     {
         $ice = new IntrusionCountermeasure('ACID');
-        self::assertSame('acid', $ice->id);
+        self::assertSame('ACID', $ice->id);
         self::assertSame('Willpower + Firewall', $ice->defense);
         self::assertSame('Acid', $ice->name);
         self::assertSame(248, $ice->page);
@@ -70,7 +70,7 @@ final class IntrusionCountermeasureTest extends TestCase
         $ice = new IntrusionCountermeasure(
             id: 'blue-goo',
             attack: 3,
-            dataProcessing: 4,
+            data_processing: 4,
             firewall: 5,
             sleaze: 6
         );

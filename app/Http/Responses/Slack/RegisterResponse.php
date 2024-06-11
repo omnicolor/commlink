@@ -38,7 +38,7 @@ class RegisterResponse extends SlackResponse
                 $channel->system
             ));
         }
-        $chatUser = $this->channel->getChatUser();
+        $chatUser = $this->channel?->getChatUser();
         if (null === $chatUser) {
             throw new SlackException(\sprintf(
                 'You must have already created an account on <%s|%s> and '

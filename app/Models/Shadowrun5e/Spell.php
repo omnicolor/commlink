@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace App\Models\Shadowrun5e;
 
 use RuntimeException;
+use Stringable;
+
+use function config;
+use function sprintf;
+use function strtolower;
 
 /**
  * Class representing a spell in Shadowrun 5E.
  * @psalm-suppress PossiblyUnusedProperty
  */
-class Spell
+class Spell implements Stringable
 {
     use ForceTrait;
 
@@ -43,11 +48,6 @@ class Spell
      * Force of the spell.
      */
     public int $force;
-
-    /**
-     * Unique ID of the spell.
-     */
-    public string $id;
 
     /**
      * Name of the spell.
@@ -87,18 +87,17 @@ class Spell
     public static ?array $spells;
 
     /**
-     * Construct a new spell object.
      * @throws RuntimeException if the ID is invalid
      */
-    public function __construct(string $id)
+    public function __construct(public string $id)
     {
         $filename = config('app.data_path.shadowrun5e') . 'spells.php';
         self::$spells ??= require $filename;
 
-        $id = \strtolower($id);
+        $id = strtolower($id);
         if (!isset(self::$spells[$id])) {
             throw new RuntimeException(
-                \sprintf('Spell ID "%s" is invalid', $id)
+                sprintf('Spell ID "%s" is invalid', $id)
             );
         }
 
@@ -108,7 +107,6 @@ class Spell
         $this->description = $spell['description'];
         $this->drain = $spell['drain'];
         $this->duration = $spell['duration'];
-        $this->id = $id;
         $this->name = $spell['name'];
         $this->page = $spell['page'] ?? null;
         $this->range = $spell['range'];
@@ -132,15 +130,12 @@ class Spell
         self::$spells ??= require $filename;
 
         foreach (self::$spells as $spell) {
-            if (\strtolower($name) === \strtolower($spell['name'])) {
+            if (strtolower($name) === strtolower((string)$spell['name'])) {
                 return new Spell($spell['id']);
             }
         }
 
-        throw new RuntimeException(\sprintf(
-            'Spell "%s" was not found',
-            $name
-        ));
+        throw new RuntimeException(sprintf('Spell "%s" was not found', $name));
     }
 
     /**
