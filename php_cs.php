@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use PhpCsFixer\Finder;
+use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
 
 $rules = [
     'array_syntax' => ['syntax' => 'short'],
@@ -185,6 +186,7 @@ $finder = Finder::create()
     ->ignoreVCS(true);
 
 return (new PhpCsFixer\Config())
+    ->setParallelConfig(ParallelConfigFactory::detect())
     ->setFinder($finder)
     ->setRules($rules)
     ->setRiskyAllowed(true);
