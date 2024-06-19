@@ -44,7 +44,8 @@
         <div class="col-4"></div>
     </div>
 
-    <form action="" id="form" method="POST">
+    <form action="{{ route('subversion.create-impulse') }}" id="form"
+        method="POST">
     @csrf
 
     <div class="my-4 row">

@@ -9,10 +9,13 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 /**
  * Representation of a character in character generation.
  * @property-read int $fortune
+ * @property-read int $relation_fortune
+ * @property-read array<int, Relation> $relations
  */
 class PartialCharacter extends Character
 {
     public const STARTING_FORTUNE = 320;
+    public const STARTING_RELATION_FORTUNE = 30;
     public const CORRUPTED_VALUE_FORTUNE = 5;
 
     protected $connection = 'mongodb';
@@ -40,6 +43,7 @@ class PartialCharacter extends Character
         'name',
         'origin',
         'owner',
+        'relations',
         'skills',
         'system',
         'values',
@@ -76,7 +80,58 @@ class PartialCharacter extends Character
                 if (true === $this->corrupted_value) {
                     $fortune += self::CORRUPTED_VALUE_FORTUNE;
                 }
+                $relationFortune = $this->relation_fortune;
+                if (0 > $relationFortune) {
+                    $fortune += $relationFortune;
+                }
                 return $fortune;
+            },
+        );
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function relationFortune(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                $fortune = self::STARTING_RELATION_FORTUNE;
+                foreach ($this->attributes['relations'] ?? [] as $relation) {
+                    $cost = (new RelationLevel($relation['level']))->cost;
+                    $cost += ($relation['increase_power'] ?? 0) * 5;
+                    $cost += ($relation['increase_regard'] ?? 0) * 2;
+                    $fortune -= $cost;
+                }
+                return $fortune;
+            },
+        );
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function relations(): Attribute
+    {
+        return Attribute::make(
+            /**
+             * @return array<int, Relation>
+             */
+            get: function (): array {
+                $relations = [];
+                foreach ($this->attributes['relations'] ?? [] as $relation) {
+                    $relations[] = Relation::fromArray($relation);
+                }
+                return $relations;
+            },
+            set: function (array $relations): array {
+                if (0 < count($relations) && $relations[0] instanceof Relation) {
+                    foreach ($relations as $key => $relation) {
+                        $relations[$key] = $relation->toArray();
+                    }
+                }
+                $this->attributes['relations'] = $relations;
+                return ['relations' => $relations];
             },
         );
     }

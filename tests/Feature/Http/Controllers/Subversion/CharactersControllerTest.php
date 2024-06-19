@@ -220,6 +220,53 @@ final class CharactersControllerTest extends TestCase
         $character->delete();
     }
 
+    public function testCreateHooks(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+        ]);
+        session(['subversion-partial' => $character->id]);
+
+        self::actingAs($user)
+            ->get(route('subversion.create', 'hooks'))
+            ->assertOk()
+            ->assertSee('motivations and situations particular to them');
+        $character->delete();
+    }
+
+    public function testStoreHooks(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+        ]);
+        session(['subversion-partial' => $character->id]);
+
+        self::actingAs($user)
+            ->postJson(
+                route('subversion.create-hooks'),
+                [
+                    // @phpstan-ignore-next-line
+                    'hook1' => $this->faker->catchPhrase(),
+                    // @phpstan-ignore-next-line
+                    'hook2' => $this->faker->catchPhrase(),
+                ]
+            )
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(route('subversion.create', 'relations'));
+
+        $character->refresh();
+        self::assertCount(2, $character->hooks);
+        $character->delete();
+    }
+
     public function testCreateIdeology(): void
     {
         /** @var User */
@@ -280,6 +327,30 @@ final class CharactersControllerTest extends TestCase
             ->get(route('subversion.create', 'impulse'))
             ->assertOk()
             ->assertSee('If Values are a character\'s motivations driven by their beliefs', false);
+        $character->delete();
+    }
+
+    public function testStoreImpulse(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+        ]);
+        session(['subversion-partial' => $character->id]);
+
+        self::actingAs($user)
+            ->postJson(
+                route('subversion.create-impulse'),
+                ['impulse' => 'indulgence']
+            )
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(route('subversion.create', 'hooks'));
+
+        $character->refresh();
+        self::assertSame('indulgence', $character->impulse?->id);
         $character->delete();
     }
 
@@ -452,6 +523,25 @@ final class CharactersControllerTest extends TestCase
         $character->delete();
     }
 
+    public function testCreateRelations(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+        ]);
+        session(['subversion-partial' => $character->id]);
+
+        self::actingAs($user)
+            ->get(route('subversion.create', 'relations'))
+            ->assertOk()
+            ->assertSee('determine their connections to other NPCs');
+
+        $character->delete();
+    }
+
     public function testCreateValues(): void
     {
         /** @var User */
@@ -505,6 +595,24 @@ final class CharactersControllerTest extends TestCase
         self::assertCount(3, $character->values);
         self::assertSame($corrupted, $character->corrupted_value);
         $character->delete();
+    }
+
+    public function testSaveForLater(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+        session(['subversion-partial' => $character->id]);
+
+        self::actingAs($user)
+            ->get(route('subversion.create', 'later'))
+            ->assertSee('Choose character');
+        self::assertNull(session('subversion-partial'));
     }
 
     public function testIndex(): void

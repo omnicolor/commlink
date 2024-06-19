@@ -6,6 +6,7 @@ namespace App\Models\Subversion;
 
 use RuntimeException;
 
+use function config;
 use function sprintf;
 
 class Impulse

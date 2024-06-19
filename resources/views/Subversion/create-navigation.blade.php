@@ -47,7 +47,7 @@
                 Dramatic hooks
             </a></li>
             <li><a class="dropdown-item @if ('relations' === $creating) active @endif"
-                href="#">
+                href="{{ route('subversion.create', 'relations') }}">
                 Relations
             </a></li>
             <li><a class="dropdown-item @if ('debt' === $creating) active @endif"
@@ -79,7 +79,10 @@
                 href="#">
                 Review
             </a></li>
-            <li><a class="dropdown-item" href="#">Save for later</a></li>
+            <li><a class="dropdown-item"
+                href="{{ route('subversion.create', 'later') }}">
+                Save for later
+            </a></li>
         </ul>
     </li>
 </x-slot>

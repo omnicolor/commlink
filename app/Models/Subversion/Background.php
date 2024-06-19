@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Models\Subversion;
 
 use RuntimeException;
+use Stringable;
 
 use function sprintf;
 
-class Background
+class Background implements Stringable
 {
     public string $description;
     public string $name;

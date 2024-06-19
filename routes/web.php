@@ -187,9 +187,17 @@ Route::middleware('auth')->group(function (): void {
                     [SubversionController::class, 'storeCaste']
                 )->name('create-caste');
                 Route::post(
+                    'create/hooks',
+                    [SubversionController::class, 'storeHooks']
+                )->name('create-hooks');
+                Route::post(
                     'create/ideology',
                     [SubversionController::class, 'storeIdeology']
                 )->name('create-ideology');
+                Route::post(
+                    'create/impulse',
+                    [SubversionController::class, 'storeImpulse']
+                )->name('create-impulse');
                 Route::post(
                     'create/lineage',
                     [SubversionController::class, 'storeLineage']

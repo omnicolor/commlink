@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read int $grit_starting
  * @property-read int $guard_defense
  * @property-read int $health_maximum
+ * @property array<int, string> $hooks
  * @property-read ?Ideology $ideology
  * @property-write Ideology|string $ideology
  * @property-read ?Impulse $impulse
@@ -85,6 +86,7 @@ class Character extends BaseCharacter
         'charisma',
         'dulled',
         'gear',
+        'hooks',
         'ideology',
         'impulse',
         'languages',

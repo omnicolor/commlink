@@ -7,7 +7,9 @@ namespace App\Http\Controllers\Subversion;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Subversion\CreateBackgroundRequest;
 use App\Http\Requests\Subversion\CreateCasteRequest;
+use App\Http\Requests\Subversion\CreateHooksRequest;
 use App\Http\Requests\Subversion\CreateIdeologyRequest;
+use App\Http\Requests\Subversion\CreateImpulseRequest;
 use App\Http\Requests\Subversion\CreateLineageRequest;
 use App\Http\Requests\Subversion\CreateOriginRequest;
 use App\Http\Requests\Subversion\CreateValuesRequest;
@@ -19,6 +21,9 @@ use App\Models\Subversion\Impulse;
 use App\Models\Subversion\Lineage;
 use App\Models\Subversion\Origin;
 use App\Models\Subversion\PartialCharacter;
+use App\Models\Subversion\RelationArchetype;
+use App\Models\Subversion\RelationLevel;
+use App\Models\Subversion\Skill;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -50,6 +55,18 @@ class CharactersController extends Controller
                     'lineageId' => $character->lineage?->id,
                     'lineageOptionId' => $character->lineage?->option?->id,
                     'lineages' => Lineage::all(),
+                    'user' => $user,
+                ],
+            );
+        }
+
+        if ('later' === $step) {
+            $request->session()->forget('subversion-partial');
+            $characters = PartialCharacter::where('owner', $user->email)->get();
+            return view(
+                'Subversion.choose-character',
+                [
+                    'characters' => $characters,
                     'user' => $user,
                 ],
             );
@@ -107,6 +124,16 @@ class CharactersController extends Controller
                         'user' => $user,
                     ],
                 );
+            case 'hooks':
+                return view(
+                    'Subversion.create-hooks',
+                    [
+                        'hooks' => $character->hooks ?? [],
+                        'character' => $character,
+                        'creating' => 'hooks',
+                        'user' => $user,
+                    ],
+                );
             case 'ideology':
                 return view(
                     'Subversion.create-ideology',
@@ -149,6 +176,21 @@ class CharactersController extends Controller
                         'creating' => 'origin',
                         'originId' => $character->origin?->id,
                         'origins' => Origin::all(),
+                        'user' => $user,
+                    ],
+                );
+            case 'relations':
+                $levels = RelationLevel::all();
+                usort($levels, [RelationLevel::class, 'sort']);
+
+                return view(
+                    'Subversion.create-relations',
+                    [
+                        'archetypes' => RelationArchetype::all(),
+                        'character' => $character,
+                        'creating' => 'relations',
+                        'levels' => $levels,
+                        'skills' => Skill::all(),
                         'user' => $user,
                     ],
                 );
@@ -234,6 +276,26 @@ class CharactersController extends Controller
         return new RedirectResponse(route('subversion.create', 'ideology'));
     }
 
+    public function storeHooks(CreateHooksRequest $request): RedirectResponse
+    {
+        /** @var User */
+        $user = $request->user();
+        /** @var string */
+        $characterId = $request->session()->get('subversion-partial');
+
+        /** @var PartialCharacter */
+        $character = PartialCharacter::where('_id', $characterId)
+            ->where('owner', $user->email)
+            ->firstOrFail();
+        $character->hooks = [
+            $request->hook1,
+            $request->hook2,
+        ];
+        $character->update();
+
+        return new RedirectResponse(route('subversion.create', 'relations'));
+    }
+
     public function storeIdeology(CreateIdeologyRequest $request): RedirectResponse
     {
         /** @var User */
@@ -249,6 +311,23 @@ class CharactersController extends Controller
         $character->update();
 
         return new RedirectResponse(route('subversion.create', 'values'));
+    }
+
+    public function storeImpulse(CreateImpulseRequest $request): RedirectResponse
+    {
+        /** @var User */
+        $user = $request->user();
+        /** @var string */
+        $characterId = $request->session()->get('subversion-partial');
+
+        /** @var PartialCharacter */
+        $character = PartialCharacter::where('_id', $characterId)
+            ->where('owner', $user->email)
+            ->firstOrFail();
+        $character->impulse = $request->impulse;
+        $character->update();
+
+        return new RedirectResponse(route('subversion.create', 'hooks'));
     }
 
     public function storeLineage(CreateLineageRequest $request): RedirectResponse
