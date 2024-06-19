@@ -13,11 +13,6 @@ use function sprintf;
 use function strtolower;
 use function urlencode;
 
-use function array_key_exists;
-use function sprintf;
-use function strtolower;
-use function urlencode;
-
 /**
  * Base class for Shadowrun lifestyles.
  * @psalm-suppress PossiblyUnusedProperty
