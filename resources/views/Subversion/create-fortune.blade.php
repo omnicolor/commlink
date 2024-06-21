@@ -45,7 +45,13 @@
 
         <div class="row">
             <div class="col">Corrupted value</div>
-            <div class="col-3 text-end" id="fortune-corrupted">+0</div>
+            <div class="col-3 text-end" id="fortune-corrupted">
+                @if ($character->corrupted_value ?? false)
+                    +5
+                @else
+                    +0
+                @endif
+            </div>
         </div>
 
         <div class="row">
