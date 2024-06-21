@@ -10,6 +10,7 @@ use App\Models\Subversion\RelationAspect;
 use App\Models\Subversion\RelationLevel;
 use App\Models\Subversion\Skill;
 use ErrorException;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 final class RelationTest extends TestCase
@@ -43,6 +44,8 @@ final class RelationTest extends TestCase
             'increase_power' => 1,
             'increase_regard' => 1,
             'skills' => ['arts'],
+            'faction' => false,
+            'id' => (string)Str::uuid(),
         ]);
 
         self::assertSame('Care', $relation->archetypes[0]->name);
@@ -53,10 +56,12 @@ final class RelationTest extends TestCase
         self::assertSame(2, $relation->regard);
         self::assertSame('These are notes.', $relation->notes);
         self::assertSame('Arts', $relation->skills[0]->name);
+        self::assertFalse($relation->faction);
     }
 
     public function testToArray(): void
     {
+        $uuid = (string)Str::uuid();
         $relation = new Relation(
             'Test Relation',
             [new Skill('influence'), new Skill('sciences')],
@@ -66,6 +71,8 @@ final class RelationTest extends TestCase
             12,
             'Notez',
             new RelationLevel('friend'),
+            false,
+            $uuid,
         );
 
         self::assertSame(
@@ -78,6 +85,8 @@ final class RelationTest extends TestCase
                 'increase_power' => 2,
                 'increase_regard' => 2,
                 'notes' => 'Notez',
+                'faction' => false,
+                'id' => $uuid,
             ],
             $relation->toArray(),
         );

@@ -71,7 +71,7 @@
                         <div class="accordion-body">
                             <p>{{ $origin->more }}</p>
                             @can('view data')
-                            <p>{{ $origin->description }}</p>
+                            <p>{!! str_replace('||', '</p><p>', $origin->description) !!}</p>
                             @endcan
 
                             <button class="btn btn-primary" name="origin"

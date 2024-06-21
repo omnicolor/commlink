@@ -22,6 +22,7 @@ use App\Models\Subversion\Lineage;
 use App\Models\Subversion\Origin;
 use App\Models\Subversion\PartialCharacter;
 use App\Models\Subversion\RelationArchetype;
+use App\Models\Subversion\RelationAspect;
 use App\Models\Subversion\RelationLevel;
 use App\Models\Subversion\Skill;
 use App\Models\User;
@@ -30,6 +31,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+
+use function abort;
+use function count;
+use function route;
+use function usort;
+use function view;
 
 class CharactersController extends Controller
 {
@@ -187,6 +194,7 @@ class CharactersController extends Controller
                     'Subversion.create-relations',
                     [
                         'archetypes' => RelationArchetype::all(),
+                        'aspects' => RelationAspect::all(),
                         'character' => $character,
                         'creating' => 'relations',
                         'levels' => $levels,

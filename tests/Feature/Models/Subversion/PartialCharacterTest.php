@@ -10,6 +10,7 @@ use App\Models\Subversion\Relation;
 use App\Models\Subversion\RelationArchetype;
 use App\Models\Subversion\RelationLevel;
 use App\Models\Subversion\Skill;
+use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
@@ -81,6 +82,8 @@ final class PartialCharacterTest extends TestCase
                     'increase_power' => 1,
                     'increase_regard' => 2,
                     'notes' => 'Notes about the relation',
+                    'faction' => false,
+                    'id' => (string)Str::uuid(),
                 ],
             ],
         ]);

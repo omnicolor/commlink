@@ -15,6 +15,7 @@ use function sprintf;
 class RelationAspect
 {
     public string $description;
+    public bool $factionOnly;
     public string $name;
     public int $page;
     public string $ruleset;
@@ -37,6 +38,7 @@ class RelationAspect
 
         $aspect = self::$aspects[$id];
         $this->description = $aspect['description'];
+        $this->factionOnly = $aspect['faction-only'];
         $this->name = $aspect['name'];
         $this->page = $aspect['page'];
         $this->ruleset = $aspect['ruleset'];

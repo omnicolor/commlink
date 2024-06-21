@@ -3,6 +3,14 @@ use Illuminate\Support\Js;
 @endphp
 <x-app>
     <x-slot name="title">Create character: Relations</x-slot>
+    <x-slot name="head">
+        <style>
+            .tooltip-inner {
+                text-align: left;
+            }
+        </style>
+    </x-slot>
+
     @include('Subversion.create-navigation')
 
     @if ($errors->any())
@@ -50,7 +58,7 @@ use Illuminate\Support\Js;
                     <tr>
                         <th scope="col">Name</th>
                         <th scope="col">Skill</th>
-                        <th scope="col">Archetype/Aspect</th>
+                        <th scope="col">Archetypes/Aspects</th>
                         <th scope="col">Power</th>
                         <th scope="col">Regard</th>
                         <th scope="col">Notes</th>
@@ -71,10 +79,11 @@ use Illuminate\Support\Js;
                         <td>{{ $relation->notes }}</td>
                         <td class="text-end">
                             <button class="btn btn-primary btn-sm modify mr-1"
-                                type="button">
+                                data-id="{{ $relation->id }}" type="button">
                                 <span aria-hidden="true" class="bi bi-wrench"></span>
                             </button>
-                            <button class="btn btn-danger btn-sm" type="button">
+                            <button class="btn btn-danger btn-sm"
+                                data-id="{{ $relation->id }}" type="button">
                                 <span aria-hidden="true" class="bi bi-dash"></span>
                             </button>
                         </td>
@@ -106,14 +115,14 @@ use Illuminate\Support\Js;
         class="modal fade" id="relation-modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="modal-form">
+                <form class="needs-validation" id="modal-form" novalidate>
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="relation-modal-label">Add relation</h1>
                     <button aria-label="Close" class="btn-close"
                         data-bs-dismiss="modal" type="button"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="my-1 row">
+                    <div class="my-2 row">
                         <div class="col-2">
                             <label class="form-label" for="level">Level</label>
                         </div>
@@ -133,59 +142,156 @@ use Illuminate\Support\Js;
                                 </option>
                                 @endforeach
                             </select>
+                            <div class="invalid-feedback">
+                                Please choose a level for the relation.
+                            </div>
                         </div>
                     </div>
-                    <div class="my-1 row">
+                    <div class="my-2 row">
                         <div class="col-2">
                             <label class="form-label" for="name">Name</label>
                         </div>
                         <div class="col">
                             <input autocomplete="off" class="form-control"
                                 id="name" required type="text">
+                            <div class="invalid-feedback">
+                                Relations require a name.
+                            </div>
                         </div>
                     </div>
-                    <div class="my-1 row">
+                    <div class="mb-0 mt-2 row">
                         <div class="col-2">
                             <label class="form-label" for="skill">Skill</label>
                         </div>
                         <div class="col">
-                            <select class="form-control" id="skill" required>
-                                <option value="">Choose skill</option>
-                                @foreach ($skills as $skill)
-                                <option title="{{ $skill->description }}"
-                                    value="{{ $skill->id }}">{{ $skill }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="my-1 row">
-                        <div class="col-2">
-                            <label class="form-label" for="archetype">Archetype</label>
+                            @foreach ($skills as $skill)
+                            @continue($loop->even)
+                            <div class="form-check">
+                                <input aria-describedby="#skills-feedback"
+                                    class="form-check-input"
+                                    id="skill-{{ $skill->id }}"
+                                    name="skills[]" required type="radio"
+                                    value="{{ $skill->id }}">
+                                <label class="form-check-label"
+                                    @can('view data')
+                                        data-bs-html="true"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-title="<p>{{ str_replace('||', '</p><p>', $skill->description) }}</p>"
+                                    @endcan
+                                    for="skill-{{ $skill->id }}">
+                                    {{ $skill }}
+                                </label>
+                            </div>
+                            @endforeach
                         </div>
                         <div class="col">
-                            <select class="form-control" id="archetype" required>
-                                <option value="">Choose archetype</option>
-                                @foreach ($archetypes as $archetype)
-                                <option data-additional="{{ (int)$archetype->has_additional }}"
+                            @foreach ($skills as $skill)
+                            @continue($loop->odd)
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                    id="skill-{{ $skill->id }}"
+                                    name="skills[]" required type="radio"
+                                    value="{{ $skill->id }}">
+                                <label class="form-check-label"
+                                    @can('view data')
+                                        data-bs-html="true"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-title="<p>{{ str_replace('||', '</p><p>', $skill->description) }}</p>"
+                                    @endcan
+                                    for="skill-{{ $skill->id }}">
+                                    {{ $skill }}
+                                </label>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="my-0 row">
+                        <div class="col-2"></div>
+                        <div class="col">
+                            <div class="invalid-feedback" id="skills-feedback">
+                                Relations require at least one skill.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-0 mt-2 row">
+                        <div class="col-2">
+                            <div class="form-label">Archetype</div>
+                        </div>
+                        <div class="col">
+                            @foreach ($archetypes as $archetype)
+                            @continue($loop->even)
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                    data-additional="{{ (int)$archetype->has_additional }}"
                                     data-faction="{{ (int)$archetype->faction_only }}"
-                                    title="{{ $archetype->description }}"
+                                    id="archetype-{{ $archetype->id }}"
+                                    name="archetypes[]" required type="radio"
                                     value="{{ $archetype->id }}">
+                                <label class="form-check-label"
+                                    @can('view data')
+                                        data-bs-html="true"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-title="<p>{{ str_replace('||', '</p><p>', $archetype->description) }}</p>"
+                                    @endcan
+                                    for="archetype-{{ $archetype->id }}">
                                     {{ $archetype }}
                                     @if ($archetype->faction_only)
                                         (Faction only)
                                     @endif
-                                </option>
-                                @endforeach
-                            </select>
+                                </label>
+                            </div>
+                            @endforeach
+                        </div>
+                        <div class="col">
+                            @foreach ($archetypes as $archetype)
+                            @continue($loop->odd)
                             <div class="form-check">
-                                <input class="form-check-input" id="faction" type="checkbox" value="1">
-                                <label class="form-check-label" for="faction" title="Is the relation a faction?">
-                                    Faction
+                                <input class="form-check-input"
+                                    data-additional="{{ (int)$archetype->has_additional }}"
+                                    data-faction="{{ (int)$archetype->faction_only }}"
+                                    id="archetype-{{ $archetype->id }}"
+                                    name="archetypes[]" required type="radio"
+                                    value="{{ $archetype->id }}">
+                                <label class="form-check-label"
+                                    @can('view data')
+                                        data-bs-html="true"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-title="<p>{{ str_replace('||', '</p><p>', $archetype->description) }}</p>"
+                                    @endcan
+                                    for="archetype-{{ $archetype->id }}">
+                                    {{ $archetype }}
+                                    @if ($archetype->faction_only)
+                                        (Faction only)
+                                    @endif
+                                </label>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="my-0 row">
+                        <div class="col-2"></div>
+                        <div class="col">
+                            <div class="invalid-feedback" id="archetypes-feedback">
+                                Relations require at least one archetype.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="my-2 row">
+                        <div class="col-2">
+                            <div class="form-label">
+                                Faction
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" id="faction" type="checkbox" value="1">
+                                    Relation is a faction
                                 </label>
                             </div>
                         </div>
                     </div>
-                    <div class="d-none my-1 row" id="category-row">
+                    <div class="d-none my-2 row" id="category-row">
                         <div class="col-2">
                             <label class="form-label" for="category">
                                 Category
@@ -195,7 +301,53 @@ use Illuminate\Support\Js;
                             <input class="form-control" id="category" type="text">
                         </div>
                     </div>
-                    <div class="my-1 row">
+                    <div class="my-2 row">
+                        <div class="col-2"><div class="form-label">Aspects</div></div>
+                        <div class="col">
+                            @foreach ($aspects as $aspect)
+                            @continue($loop->even)
+                            <div class="form-check">
+                                <label class="form-label"
+                                    @can('view data')
+                                    data-bs-toggle="tooltip"
+                                    data-bs-html="true"
+                                    data-bs-title="<p>{{ str_replace('||', '</p><p>', $aspect->description) }}</p>"
+                                    @endcan
+                                    >
+                                    <input class="form-check-input"
+                                        data-faction="{{ (int)$aspect->factionOnly }}"
+                                        id="aspect-{{ $aspect->id }}"
+                                        name="aspects[]" type="checkbox"
+                                        value="{{ $aspect->id }}">
+                                    {{ $aspect }}
+                                </label>
+                            </div>
+                            @endforeach
+                        </div>
+                        <div class="col">
+                            @foreach ($aspects as $aspect)
+                            @continue($loop->odd)
+                            <div class="form-check">
+                                <label class="form-label"
+                                    @can('view data')
+                                    data-bs-toggle="tooltip"
+                                    data-bs-html="true"
+                                    data-bs-title="<p>{{ str_replace('||', '</p><p>', $aspect->description) }}</p>"
+                                    @endcan
+                                    >
+                                    <input class="form-check-input"
+                                        data-faction="{{ (int)$aspect->factionOnly }}"
+                                        @if ($aspect->factionOnly) disabled @endif
+                                        id="aspect-{{ $aspect->id }}"
+                                        name="aspects[]" type="checkbox"
+                                        value="{{ $aspect->id }}">
+                                    {{ $aspect }}
+                                </label>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="my-2 row">
                         <div class="col-2">
                             <label class="form-label" for="notes">Notes</label>
                         </div>
@@ -219,6 +371,7 @@ use Illuminate\Support\Js;
     <template id="relation-template">
         <tr>
             <input name="relation_archetype[]" type="hidden">
+            <input name="relation_aspects[]" type="hidden">
             <input name="relation_category[]" type="hidden">
             <input name="relation_faction[]" type="hidden">
             <input name="relation_level[]" type="hidden">
@@ -245,102 +398,18 @@ use Illuminate\Support\Js;
     @include('Subversion.create-fortune')
 
     <x-slot name="javascript">
+        <script src="/js/Subversion/Relation.js"></script>
+        <script src="/js/Subversion/create-relation.js"></script>
         <script>
             'use strict';
 
             let character = @json($character);
             let fortune = {{ $character->fortune }};
-            let relationFortune = 30;
+            let relationFortune = {{ $character->relation_fortune }};
             const archetypes = {{ Js::from($archetypes); }};
+            const aspects = {{ Js::from($aspects); }};
             const levels = {{ Js::from($levels); }};
             const skills = {{ Js::from($skills); }};
-
-            function addRelation(e) {
-                e.preventDefault();
-
-                let relation = {
-                    archetype: $('#archetype').val(),
-                    faction: $('#faction').prop('checked'),
-                    level: $('#level').val(),
-                    name: $('#name').val(),
-                    notes: $('#notes').val(),
-                    skill: $('#skill').val()
-                };
-
-                let archetype;
-                $.each(archetypes, function (unused, value) {
-                    if (value.id === relation.archetype) {
-                        archetype = value;
-                    }
-                });
-                let level;
-                $.each(levels, function (unused, value) {
-                    if (value.id === relation.level) {
-                        level = value;
-                    }
-                });
-                let skill;
-                $.each(skills, function (unused, value) {
-                    if (value.id === relation.skill) {
-                        skill = value;
-                    }
-                });
-
-                const row = $($('#relation-template')[0].content.cloneNode(true));
-                row.find('input[name="relation_archetype[]"]')
-                    .val(relation.archetype);
-
-                if (1 === $('#archetype option:selected').data('additional')) {
-                    relation.category = $('#category').val();
-                    row.find('input[name="relation_category[]"]')
-                        .val(relation.category);
-                    row.find('.relation-archetype').html(
-                        archetype.name + ' (' + relation.category + ')'
-                    );
-                } else {
-                    row.find('.relation-archetype').html(archetype.name);
-                }
-                row.find('input[name="relation_level[]"]').val(relation.level);
-                row.find('input[name="relation_name[]"]').val(relation.name);
-                if (relation.faction) {
-                    row.find('.relation-name')
-                        .html(relation.name + ' (Faction)');
-                    row.find('input[name="relation_faction[]"]').val(true);
-                } else {
-                    row.find('.relation-name').html(relation.name);
-                }
-                row.find('.relation-power').html(level.power);
-                row.find('.relation-regard').html(level.regard);
-                row.find('input[name="relation_notes[]"]').val(relation.notes);
-                row.find('.relation-notes').html(relation.notes);
-                row.find('input[name="relation_skill[]"]').val(relation.skill);
-                row.find('.relation-skill').html(skill.name);
-
-                const noRelationsRow = $('#no-relations');
-                row.insertBefore(noRelationsRow);
-                $('#modal-form')[0].reset();
-                $('#category-row').addClass('d-none');
-                noRelationsRow.addClass('d-none');
-            }
-
-            $(function () {
-                $('#modal-form').on('submit', addRelation);
-                $('#archetype').on('change', function (e) {
-                    if (1 === $('#archetype option:selected').data('faction')) {
-                        $('#faction').prop('checked', true)
-                            .prop('readonly', true);
-                    } else {
-                        $('#faction').prop('checked', false)
-                            .prop('readonly', false);
-                    }
-                    if (1 !== $('#archetype option:selected').data('additional')) {
-                        $('#category').val('');
-                        $('#category-row').addClass('d-none');
-                    } else {
-                        $('#category-row').removeClass('d-none');
-                    }
-                });
-            });
         </script>
     </x-slot>
 </x-app>

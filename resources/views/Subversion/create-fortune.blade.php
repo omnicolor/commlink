@@ -60,17 +60,29 @@
         </div>
 
         <div class="row">
-            <div class="col">Relations-only</div>
-            <div class="col-3 text-end">30</div>
+            <div class="col">
+                Relations
+                <span class="badge rounded-pill text-bg-info" style="background-color: #0dcaf0 !important"
+                    data-bs-toggle="tooltip"
+                    data-bs-title="You get 30 fortune that can only be spent on relations, but may spend additional fortune.">30 free</span>
+            </div>
+            <div class="col-3 text-end" id="relation-fortune">+0</div>
         </div>
 
         <div class="row">
             <div class="col">Background paradigm</div>
-            <div class="col-3 text-end">10</div>
+            <div class="col-3 text-end">+10</div>
         </div>
 
         <div class="row">
-            <div class="col"><h6>Default allocation</h6></div>
+            <div class="col">Remaining fortune</div>
+            <div class="col-3 text-end" id="fortune-remaining">
+                {{ $character->fortune }}
+            </div>
+        </div>
+
+        <div class="mt-4 row">
+            <div class="col"><h5>Suggested allocation</h5></div>
         </div>
 
         <div class="row">
@@ -88,11 +100,5 @@
             <div class="col-3 text-end">60 (+10)</div>
         </div>
 
-        <div class="row">
-            <div class="col">Remaining fortune</div>
-            <div class="col-3 text-end" id="fortune-remaining">
-                {{ $character->fortune }}
-            </div>
-        </div>
     </div>
 </div>

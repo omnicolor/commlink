@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Subversion;
 
+use Illuminate\Support\Str;
 use Stringable;
 
 use function ceil;
@@ -34,7 +35,12 @@ class Relation implements Stringable
         public int $regard,
         public string $notes,
         public RelationLevel $level,
+        public bool $faction = false,
+        public ?string $id = null,
     ) {
+        if (null === $id) {
+            $this->id = (string)Str::uuid();
+        }
     }
 
     /**
@@ -74,7 +80,9 @@ class Relation implements Stringable
      *   level: string,
      *   increase_power: int,
      *   increase_regard: int,
-     *   notes: ?string
+     *   notes: ?string,
+     *   faction: bool,
+     *   id: string
      * } $relation
      */
     public static function fromArray(array $relation): self
@@ -100,14 +108,16 @@ class Relation implements Stringable
         }
 
         return new Relation(
-            $relation['name'],
-            $skills,
-            $archetypes,
-            $aspects,
-            $level->power + ($relation['increase_power'] ?? 0),
-            $level->regard + ($relation['increase_regard'] ?? 0),
-            (string)$relation['notes'],
-            $level,
+            name: $relation['name'],
+            skills: $skills,
+            archetypes: $archetypes,
+            aspects: $aspects,
+            power: $level->power + ($relation['increase_power'] ?? 0),
+            regard: $level->regard + ($relation['increase_regard'] ?? 0),
+            notes: (string)$relation['notes'],
+            level: $level,
+            faction: $relation['faction'],
+            id: $relation['id'] ?? null,
         );
     }
 
@@ -120,7 +130,9 @@ class Relation implements Stringable
      *   level: string,
      *   increase_power: int,
      *   increase_regard: int,
-     *   notes: ?string
+     *   notes: ?string,
+     *   faction: bool,
+     *   id: ?string
      * }
      */
     public function toArray(): array
@@ -152,6 +164,8 @@ class Relation implements Stringable
             'increase_power' => $this->power - $this->level->power,
             'increase_regard' => $this->regard - $this->level->regard,
             'notes' => $this->notes,
+            'faction' => $this->faction,
+            'id' => $this->id,
         ];
     }
 
