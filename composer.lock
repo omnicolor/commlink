@@ -2614,16 +2614,16 @@
         },
         {
             "name": "mongodb/laravel-mongodb",
-            "version": "4.4.1",
+            "version": "4.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mongodb/laravel-mongodb.git",
-                "reference": "42f5a49013e894b8b45cf8a7ef02220c4bf11434"
+                "reference": "d82ab46a371ece0b151086948e6b8e18427964e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mongodb/laravel-mongodb/zipball/42f5a49013e894b8b45cf8a7ef02220c4bf11434",
-                "reference": "42f5a49013e894b8b45cf8a7ef02220c4bf11434",
+                "url": "https://api.github.com/repos/mongodb/laravel-mongodb/zipball/d82ab46a371ece0b151086948e6b8e18427964e4",
+                "reference": "d82ab46a371ece0b151086948e6b8e18427964e4",
                 "shasum": ""
             },
             "require": {
@@ -2645,6 +2645,8 @@
             },
             "require-dev": {
                 "doctrine/coding-standard": "12.0.x-dev",
+                "league/flysystem-gridfs": "^3.28",
+                "league/flysystem-read-only": "^3.0",
                 "mockery/mockery": "^1.4.4",
                 "mongodb/builder": "^0.2",
                 "orchestra/testbench": "^8.0|^9.0",
@@ -2653,6 +2655,7 @@
                 "spatie/laravel-query-builder": "^5.6"
             },
             "suggest": {
+                "league/flysystem-gridfs": "Filesystem storage in MongoDB with GridFS",
                 "mongodb/builder": "Provides a fluent aggregation builder for MongoDB pipelines"
             },
             "type": "library",
@@ -2709,9 +2712,9 @@
             "support": {
                 "issues": "https://www.mongodb.com/support",
                 "security": "https://www.mongodb.com/security",
-                "source": "https://github.com/mongodb/laravel-mongodb/tree/4.4.1"
+                "source": "https://github.com/mongodb/laravel-mongodb/tree/4.5.0"
             },
-            "time": "2024-06-13T15:45:58+00:00"
+            "time": "2024-06-20T13:52:34+00:00"
         },
         {
             "name": "mongodb/mongodb",
