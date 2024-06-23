@@ -6,6 +6,7 @@ namespace App\Models\Cyberpunkred;
 
 use App\Models\Character as BaseCharacter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
@@ -20,22 +21,30 @@ use function ksort;
 
 /**
  * Representation of a Cyberpunk Red character sheet.
- * @property array<string, string> $armor
+ * @property-read array<string, ?Armor> $armor
+ * @property-write array<string, null|string|Armor> $armor
  * @property int $body
  * @property ?int $campaign_id
  * @property int $cool
+ * @property-read int $death_save
  * @property int $dexterity
  * @property int $empathy
+ * @property int $empathy_current
  * @property string $handle
- * @property int $hitPointsCurrent
- * @property-read int $hitPointsMax
+ * @property int $hit_points_current
+ * @property-read int $hit_points_max
  * @property-read int $humanity
+ * @property int $humanity_current
  * @property-read string $id
+ * @property int $improvement_points
+ * @property int $improvement_points_current
  * @property int $intelligence
  * @property array<string, array<string, int>> $lifepath
  * @property int $luck
+ * @property int $luck_current
  * @property int $movement
  * @property int $reflexes
+ * @property int $reputation
  * @property array<int, array<string, int|string>> $roles
  * @property array<string, int> $skills
  * @property array<int, array<string, int|string>> $skills_custom
@@ -79,14 +88,19 @@ class Character extends BaseCharacter implements Stringable
         'cool',
         'dexterity',
         'empathy',
+        'empathy_current',
         'handle',
-        'hitPointsCurrent',
+        'hit_points_current',
+        'improvement_points',
+        'improvement_points_current',
         'intelligence',
         'lifepath',
         'luck',
+        'luck_current',
         'movement',
         'owner',
         'reflexes',
+        'reputation',
         'roles',
         'skills',
         'skills_custom',
@@ -121,21 +135,60 @@ class Character extends BaseCharacter implements Stringable
     }
 
     /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function armor(): Attribute
+    {
+        return Attribute::make(
+            get: function (?array $armor): array {
+                $head = $body = $shield = null;
+                $unworn = [];
+                if (isset($armor['head'])) {
+                    $head = new Armor($armor['head']);
+                }
+                if (isset($armor['body'])) {
+                    $body = new Armor($armor['body']);
+                }
+                if (isset($armor['shield'])) {
+                    $shield = new Armor($armor['shield']);
+                }
+                foreach ($armor['unworn'] ?? [] as $item) {
+                    $unworn[] = new Armor($item);
+                }
+                return [
+                    'head' => $head,
+                    'body' => $body,
+                    'shield' => $shield,
+                    'unworn' => $unworn,
+                ];
+            },
+        );
+    }
+
+    /**
      * Return the character's death save attribute.
      * @psalm-suppress PossiblyUnusedMethod
      */
-    public function getDeathSaveAttribute(): int
+    public function deathSave(): Attribute
     {
-        return (int)$this->attributes['body'];
+        return Attribute::make(
+            get: function (): int {
+                return (int)$this->attributes['body'];
+            },
+        );
     }
 
     /**
      * Return the character's calculated empathy.
      * @psalm-suppress PossiblyUnusedMethod
      */
-    public function getEmpathyAttribute(): int
+    public function empathy(): Attribute
     {
-        return (int)floor($this->humanity / 10);
+        return Attribute::make(
+            get: function (): int {
+                return (int)floor($this->humanity / 10);
+            },
+        );
     }
 
     /**
@@ -147,6 +200,9 @@ class Character extends BaseCharacter implements Stringable
         return (int)($this->attributes['empathy'] ?? 0);
     }
 
+    /**
+     * Return the character's maximum hit points.
+     */
     public function getHitPointsMaxAttribute(): int
     {
         return 10 + 5 * (int)ceil(
@@ -167,6 +223,7 @@ class Character extends BaseCharacter implements Stringable
     }
 
     /**
+     * Get the character's roles.
      * @psalm-suppress PossiblyUnusedMethod
      */
     public function getRoles(): RoleArray
@@ -190,6 +247,7 @@ class Character extends BaseCharacter implements Stringable
     }
 
     /**
+     * Get the character's seriously wounded threshold.
      * @psalm-suppress PossiblyUnusedMethod
      */
     public function getSeriouslyWoundedThresholdAttribute(): int
@@ -241,6 +299,7 @@ class Character extends BaseCharacter implements Stringable
     }
 
     /**
+     * Get skills grouped by category.
      * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, SkillArray>
      */
@@ -259,6 +318,7 @@ class Character extends BaseCharacter implements Stringable
     }
 
     /**
+     * Return the character's weapons.
      * @psalm-suppress PossiblyUnusedMethod
      */
     public function getWeapons(?string $type = null): WeaponArray

@@ -47,4 +47,29 @@ final class ArmorTest extends TestCase
 
         self::assertSame(100, $armor->getCost());
     }
+
+    public function testLoadArmorWithTextCostCategory(): void
+    {
+        $armor = new Armor('kevlar');
+        self::assertSame(CostCategory::Costly, $armor->cost_category);
+    }
+
+    public function testGetCost(): void
+    {
+        $armor = new Armor('bodyweight-suit');
+        self::assertSame(1000, $armor->getCost());
+    }
+
+    public function testFindByNameNotFound(): void
+    {
+        self::expectException(RuntimeException::class);
+        self::expectExceptionMessage('Armor "Not Found" was not found');
+        Armor::findByName('Not Found');
+    }
+
+    public function testFindByName(): void
+    {
+        $armor = Armor::findByName('Light Armorjack');
+        self::assertSame('Light armorjack', $armor->type);
+    }
 }
