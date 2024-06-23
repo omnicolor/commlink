@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Featre\Services\WorldAnvil;
+namespace Tests\Feature\Services\WorldAnvil;
 
 use App\Models\Expanse\Origin\Martian;
 use App\Services\WorldAnvil\ExpanseConverter;
