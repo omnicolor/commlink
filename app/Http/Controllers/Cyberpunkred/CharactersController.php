@@ -64,8 +64,7 @@ class CharactersController extends Controller
             // Return the character they're working on.
             /** @var PartialCharacter */
             return PartialCharacter::where('owner', $user->email)
-                ->findOrFail($characterId)
-                ->first();
+                ->findOrFail($characterId);
         }
         if (null !== $step) {
             // Maybe they're chosing to continue a character right now.
@@ -92,9 +91,7 @@ class CharactersController extends Controller
         $user = Auth::user();
         if ('new' === $step) {
             /** @var PartialCharacter */
-            $character = PartialCharacter::create([
-                'owner' => $user->email,
-            ]);
+            $character = PartialCharacter::create(['owner' => $user->email]);
             $request->session()->put('cyberpunkredpartial', $character->id);
             return view(
                 'Cyberpunkred.create-handle',

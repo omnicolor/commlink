@@ -15,6 +15,7 @@ use Stringable;
  * Representation of an Expanse character.
  * @property int $accuracy
  * @property ?int $age
+ * @property string $appearance
  * @property Background $background
  * @property ?string $campaign
  * @property int $communication
@@ -22,8 +23,10 @@ use Stringable;
  * @property int $dexterity
  * @property string $downfall
  * @property string $drive
+ * @property int $experience
  * @property int $fighting
  * @property array $focuses
+ * @property string $gender
  * @property string $id
  * @property int $intelligence
  * @property int $level
@@ -58,6 +61,7 @@ class Character extends BaseCharacter implements Stringable
     protected $fillable = [
         'accuracy',
         'age',
+        'appearance',
         'background',
         'campaign',
         'communication',
@@ -65,8 +69,10 @@ class Character extends BaseCharacter implements Stringable
         'dexterity',
         'downfall',
         'drive',
+        'experience',
         'fighting',
         'focuses',
+        'gender',
         'intelligence',
         'level',
         'name',

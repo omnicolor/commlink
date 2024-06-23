@@ -24,6 +24,12 @@ class PartialCharacter extends Character implements Stringable
      */
     protected $table = 'characters-partial';
 
+    /**
+     * @psalm-suppress PossiblyUnusedProperty
+     * @var array<int, string>
+     */
+    public array $errors = [];
+
     public function newFromBuilder(
         $attributes = [],
         $connection = null,
