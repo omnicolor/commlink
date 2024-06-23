@@ -266,7 +266,7 @@ final class CharacterControllerTest extends TestCase
             'owner' => $user->email,
             'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        session(['cyberpunkredpartial' => $character->id]);
+        session(['cyberpunkred-partial' => $character->id]);
 
         $characters = PartialCharacter::where('owner', $user->email)->get();
         self::assertCount(1, $characters);
@@ -296,13 +296,13 @@ final class CharacterControllerTest extends TestCase
             'owner' => $user->email,
             'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        session(['cyberpunkredpartial' => $character->id]);
+        session(['cyberpunkred-partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/cyberpunkred/create/save')
             ->assertOk()
             ->assertSee('Create a new Cyberpunk Red character')
-            ->assertSessionMissing('cyberpunkredpartial');
+            ->assertSessionMissing('cyberpunkred-partial');
 
         $character->delete();
     }
@@ -319,7 +319,7 @@ final class CharacterControllerTest extends TestCase
             'owner' => $user->email,
             'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        session(['cyberpunkredpartial' => $character->id]);
+        session(['cyberpunkred-partial' => $character->id]);
 
         $name = $this->faker->name;
         self::actingAs($user)
@@ -350,7 +350,7 @@ final class CharacterControllerTest extends TestCase
             'owner' => $user->email,
             'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        session(['cyberpunkredpartial' => $character->id]);
+        session(['cyberpunkred-partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/cyberpunkred/create/role')
@@ -379,7 +379,7 @@ final class CharacterControllerTest extends TestCase
             ],
             'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        session(['cyberpunkredpartial' => $character->id]);
+        session(['cyberpunkred-partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/cyberpunkred/create/role')
@@ -408,7 +408,7 @@ final class CharacterControllerTest extends TestCase
             ],
             'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        session(['cyberpunkredpartial' => $character->id]);
+        session(['cyberpunkred-partial' => $character->id]);
 
         self::actingAs($user)
             ->post(
@@ -439,7 +439,7 @@ final class CharacterControllerTest extends TestCase
             'owner' => $user->email,
             'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        session(['cyberpunkredpartial' => $character->id]);
+        session(['cyberpunkred-partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/cyberpunkred/create/lifepath')
@@ -461,7 +461,7 @@ final class CharacterControllerTest extends TestCase
             'owner' => $user->email,
             'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        session(['cyberpunkredpartial' => $character->id]);
+        session(['cyberpunkred-partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/cyberpunkred/create/role-based-lifepath')
@@ -488,7 +488,7 @@ final class CharacterControllerTest extends TestCase
             ],
             'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        session(['cyberpunkredpartial' => $character->id]);
+        session(['cyberpunkred-partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/cyberpunkred/create/role-based-lifepath')
@@ -567,7 +567,7 @@ final class CharacterControllerTest extends TestCase
             ],
             'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        session(['cyberpunkredpartial' => $character->id]);
+        session(['cyberpunkred-partial' => $character->id]);
 
         self::actingAs($user)
             ->post(
@@ -612,7 +612,7 @@ final class CharacterControllerTest extends TestCase
             'owner' => $user->email,
             'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        session(['cyberpunkredpartial' => $character->id]);
+        session(['cyberpunkred-partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/cyberpunkred/create/stats')
@@ -642,7 +642,7 @@ final class CharacterControllerTest extends TestCase
             ],
             'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        session(['cyberpunkredpartial' => $character->id]);
+        session(['cyberpunkred-partial' => $character->id]);
 
         self::assertNull($character->body);
         self::actingAs($user)
@@ -752,7 +752,7 @@ final class CharacterControllerTest extends TestCase
             ],
             'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        session(['cyberpunkredpartial' => $character->id]);
+        session(['cyberpunkred-partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/cyberpunkred/create')
@@ -830,7 +830,7 @@ final class CharacterControllerTest extends TestCase
             ],
             'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        session(['cyberpunkredpartial' => $character->id]);
+        session(['cyberpunkred-partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/cyberpunkred/create/review')
@@ -908,7 +908,7 @@ final class CharacterControllerTest extends TestCase
             ],
             'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        session(['cyberpunkredpartial' => $character->id]);
+        session(['cyberpunkred-partial' => $character->id]);
 
         self::actingAs($user)
             ->get('/characters/cyberpunkred/create/augmentations')
