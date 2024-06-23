@@ -39,7 +39,7 @@ class WorldAnvilController extends Controller
         CyberpunkRedConverter::TEMPLATE_ID => [
             'converter' => CyberpunkRedConverter::class,
             'redirect' => '/characters/cyberpunkred/create/handle',
-            'session' => 'cyberpunkredpartial',
+            'session' => 'cyberpunkred-partial',
         ],
     ];
 
