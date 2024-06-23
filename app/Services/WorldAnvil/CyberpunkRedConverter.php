@@ -22,6 +22,8 @@ use const JSON_THROW_ON_ERROR;
 
 class CyberpunkRedConverter implements ConverterInterface
 {
+    public const string TEMPLATE_ID = '6836';
+
     /**
      * @var array<int, string>
      */
@@ -52,7 +54,7 @@ class CyberpunkRedConverter implements ConverterInterface
 
         if (
             !isset($this->rawCharacter->templateId)
-            || '6836' !== $this->rawCharacter->templateId
+            || self::TEMPLATE_ID !== $this->rawCharacter->templateId
         ) {
             throw new RuntimeException(
                 'Character is not a Cyberpunk Red character'

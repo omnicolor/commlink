@@ -18,7 +18,6 @@
         </style>
     </x-slot>
 
-    @includeWhen($creating, 'Cyberpunkred.create-navigation')
     <x-slot name="navbar">
         <li class="nav-item">
             <a class="nav-link" href="/dashboard">Home</a>
@@ -27,6 +26,7 @@
             <span class="nav-link active">{{ $character }}</span>
         </li>
     </x-slot>
+    @includeWhen($creating, 'Cyberpunkred.create-navigation')
 
     <div class="row">
         <div class="col-2">

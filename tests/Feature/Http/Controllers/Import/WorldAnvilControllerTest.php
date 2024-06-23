@@ -11,7 +11,10 @@ use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function dirname;
+use function explode;
 use function file_get_contents;
+use function implode;
+use function route;
 
 use const DIRECTORY_SEPARATOR;
 
@@ -66,10 +69,7 @@ final class WorldAnvilControllerTest extends TestCase
 
     public function testValidCyberpunkUpload(): void
     {
-        $path = explode(
-            DIRECTORY_SEPARATOR,
-            dirname(dirname(dirname(dirname(__DIR__)))),
-        );
+        $path = explode(DIRECTORY_SEPARATOR, dirname(__DIR__, 4));
         $path[] = 'Data';
         $path[] = 'WorldAnvil';
         $path[] = 'CyberpunkRed';
@@ -85,13 +85,34 @@ final class WorldAnvilControllerTest extends TestCase
         $user = User::factory()->create();
 
         self::actingAs($user)
-            ->withHeaders([
-                'Referer' => route('import.world-anvil.view'),
-            ])
+            ->withHeaders(['Referer' => route('import.world-anvil.view')])
+            ->post(route('import.world-anvil.upload'), ['character' => $file])
+            ->assertRedirect('/characters/cyberpunkred/create/handle');
+    }
+
+    public function testValidExpanseUpload(): void
+    {
+        $path = explode(DIRECTORY_SEPARATOR, dirname(__DIR__, 4));
+        $path[] = 'Data';
+        $path[] = 'WorldAnvil';
+        $path[] = 'Expanse';
+        $path[] = 'AricHessel.json';
+        $filename = implode(DIRECTORY_SEPARATOR, $path);
+
+        $file = UploadedFile::fake()->createWithContent(
+            'AricHessel.json',
+            (string)file_get_contents($filename)
+        );
+
+        /** @var User */
+        $user = User::factory()->create();
+
+        self::actingAs($user)
+            ->withHeaders(['Referer' => route('import.world-anvil.view')])
             ->post(route('import.world-anvil.upload'), ['character' => $file])
             ->assertOk()
             ->assertSessionHasNoErrors()
-            ->assertSee('Caleb');
+            ->assertSee('Aric');
     }
 
     public function testMissingUpload(): void

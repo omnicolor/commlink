@@ -5,13 +5,21 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Import;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Services\ConverterInterface;
 use App\Services\WorldAnvil\CyberpunkRedConverter;
+use App\Services\WorldAnvil\ExpanseConverter;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
 use Illuminate\View\View;
 use JsonException;
+
+use function array_key_exists;
+use function back;
+use function file_get_contents;
+use function json_decode;
+use function view;
 
 use const JSON_THROW_ON_ERROR;
 
@@ -24,15 +32,20 @@ class WorldAnvilController extends Controller
      * @var array<string, array<string, string>>
      */
     protected array $templateMap = [
-        //'3892' => 'ExpanseRPG',
-        '6836' => [
+        ExpanseConverter::TEMPLATE_ID => [
+            'converter' => ExpanseConverter::class,
+            'view' => 'Expanse.character',
+        ],
+        CyberpunkRedConverter::TEMPLATE_ID => [
             'converter' => CyberpunkRedConverter::class,
-            'view' => 'Cyberpunkred.character',
+            'redirect' => '/characters/cyberpunkred/create/handle',
+            'session' => 'cyberpunkredpartial',
         ],
     ];
 
     public function upload(Request $request): RedirectResponse | View
     {
+        /** @var User */
         $user = $request->user();
         if (null === $request->character) {
             return back()->withInput()->withErrors('Character is required');
@@ -48,21 +61,28 @@ class WorldAnvilController extends Controller
             return back()->withInput()->withErrors($ex->getMessage());
         }
         if (!isset($this->templateMap[$rawCharacter->templateId])) {
-            return back()->withInput()->withErrors('Template ID not supported');
+            return back()->withInput()
+                ->withErrors('System is not (yet) supported.');
         }
         $templateMap = $this->templateMap[$rawCharacter->templateId];
         /** @var ConverterInterface */
-        $converter = new $templateMap['converter'](
-            $request->character->path()
-        );
+        $converter = new $templateMap['converter']($request->character->path());
         $character = $converter->convert();
         // @phpstan-ignore-next-line
         $character->errors = $converter->getErrors();
+        $character->owner = $user->email;
+        $character->save();
+        $character->refresh();
+        if (array_key_exists('redirect', $templateMap)) {
+            session([$templateMap['session'] => $character->id]);
+            return new RedirectResponse($templateMap['redirect']);
+        }
         return view(
             $templateMap['view'],
             [
                 'character' => $character,
                 'creating' => true,
+                // @phpstan-ignore-next-line
                 'errors' => new MessageBag($character->errors),
                 'user' => $user,
             ],
