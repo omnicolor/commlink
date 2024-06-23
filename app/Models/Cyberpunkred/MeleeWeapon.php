@@ -25,9 +25,9 @@ class MeleeWeapon extends Weapon implements Stringable
      */
     protected function __construct(array $options)
     {
-        $id = strtolower((string)$options['id']);
+        $this->id = strtolower((string)$options['id']);
         // @phpstan-ignore-next-line
-        $weapon = self::$meleeWeapons[$id];
+        $weapon = self::$meleeWeapons[$this->id];
         $this->concealable = $weapon['concealable'];
         $this->cost = $weapon['cost'];
         $this->damage = $weapon['damage'];
@@ -41,7 +41,7 @@ class MeleeWeapon extends Weapon implements Stringable
             if (!in_array($options['quality'], self::QUALITIES, true)) {
                 throw new RuntimeException(sprintf(
                     'Weapon ID "%s" has invalid quality "%s"',
-                    $id,
+                    $this->id,
                     $options['quality']
                 ));
             }
