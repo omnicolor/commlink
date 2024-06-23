@@ -36,6 +36,16 @@
         </li>
     </x-slot>
 
+    @if ($errors->any())
+        <div class="alert alert-danger mt-4">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{!! $error !!}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <div class="row">
         <div class="col">
             <div class="card">
@@ -188,6 +198,22 @@
         <div class="col">
             <div class="card">
                 <div class="card-header">Foci</div>
+                <ul class="list-group list-group-flush">
+                    @forelse ($character->getFocuses() as $focus)
+                        <li class="list-group-item">
+                            @can('view data')
+                            <span data-bs-toggle="tooltip"
+                                data-bs-title="{{ $focus->description}}">
+                            {{ $focus }}
+                            </span>
+                            @else
+                                {{ $focus }}
+                            @endcan
+                        </li>
+                    @empty
+                        <li class="list-group-item">Character has no focuses!</li>
+                    @endforelse
+                </ul>
             </div>
         </div>
     </div>
@@ -201,7 +227,7 @@
                         <li class="list-group-item">
                             @can('view data')
                             <span data-bs-toggle="tooltip"
-                                title="{{ $talent->description}}">
+                                data-bs-title="{{ $talent->description}}">
                                 {{ $talent }}
                             </span>
                             @else

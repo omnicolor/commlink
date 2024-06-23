@@ -2,6 +2,7 @@
 use App\Features\ChummerImport;
 use App\Features\HeroLabImport;
 use App\Features\CyberpunkCharacterGeneration;
+use App\Features\WorldAnvilImport;
 use App\Features\Shadowrun5eCharacterGeneration;
 use App\Features\Stillfleet;
 @endphp
@@ -97,6 +98,12 @@ use App\Features\Stillfleet;
                     <a class="dropdown-item" href="/characters/stillfleet/create">
                         Stillfleet
                         <span class="badge bg-danger">Not complete</span>
+                    </a>
+                    @endfeature
+                    @feature(WorldAnvilImport::class)
+                    <a class="dropdown-item" href="{{ route('import.world-anvil.view') }}">
+                        Import a World Anvil character
+                        <span class="badge bg-warning">Beta</span>
                     </a>
                     @endfeature
                 </li>
