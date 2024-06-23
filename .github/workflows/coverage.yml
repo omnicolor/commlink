@@ -71,4 +71,4 @@ jobs:
         uses: danhunsaker/clover-reporter-action@v0.2.17-clover
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          clover-file: ./coverage/clover.xml
+          clover-file: public/coverage/clover.xml
