@@ -2,14 +2,19 @@
 
 declare(strict_types=1);
 
+use App\Models\Cyberpunkred\CostCategory;
+
 /**
  * Armor for Cyberpunk Red.
+ *
+ * Cost category can either be a value from the CostCategory enum (preferred) or
+ * as a string.
  */
 return [
     /*
     '' => [
         'cost' => ,
-        'cost-category' => '',
+        'cost-category' => CostCategory::,
         'description' => '',
         'page' => 97,
         'penalty' => ,
@@ -19,7 +24,7 @@ return [
     ],
     */
     'leathers' => [
-        'cost-category' => 'Everyday',
+        'cost-category' => CostCategory::Everyday,
         'description' => 'Favored by Nomads and other ‘punks who ride bikes.',
         'page' => 97,
         'penalty' => 0,
@@ -34,10 +39,10 @@ return [
         'penalty' => 0,
         'ruleset' => 'core',
         'stopping-power' => 7,
-        'type' => 'Kevlar®',
+        'type' => 'Kevlar',
     ],
     'light-armorjack' => [
-        'cost-category' => 'Premium',
+        'cost-category' => CostCategory::Premium,
         'description' => 'A combination of Kevlar® and plastic meshes inserted into the weave of the fabric.',
         'page' => 97,
         'penalty' => 0,
@@ -46,7 +51,7 @@ return [
         'type' => 'Light armorjack',
     ],
     'bodyweight-suit' => [
-        'cost-category' => 'VeryExpensive',
+        'cost-category' => CostCategory::VeryExpensive,
         'description' => 'Skinsuit with impact absorbing, sintered armorgel layered in key body areas. Also has a place to store your Cyberdeck and supports your Interface Plugs. For more information see page 350.',
         'page' => 97,
         'penalty' => 0,
@@ -55,7 +60,7 @@ return [
         'type' => 'Bodyweight suit',
     ],
     'medium-armorjack' => [
-        'cost-category' => 'Premium',
+        'cost-category' => CostCategory::Premium,
         'description' => 'Heavier Armorjack, with solid plastic plating, reinforced with thicker Kevlar® mesh.',
         'page' => 97,
         'penalty' => -2,
@@ -64,7 +69,7 @@ return [
         'type' => 'Medium armorjack',
     ],
     'heavy-armorjack' => [
-        'cost-category' => 'Expensive',
+        'cost-category' => CostCategory::Expensive,
         'description' => 'The thickest Armorjack, combining denser Kevlar® and a layered mix of plastic and mesh weaves.',
         'page' => 97,
         'penalty' => -2,
@@ -73,7 +78,7 @@ return [
         'type' => 'Heavy armorjack',
     ],
     'flak' => [
-        'cost-category' => 'Expensive',
+        'cost-category' => CostCategory::Expensive,
         'description' => 'This is the 21st century version of the time honored flak vest and pants.',
         'page' => 97,
         'penalty' => -4,
@@ -82,16 +87,16 @@ return [
         'type' => 'Flak',
     ],
     'metalgear' => [
-        'cost-category' => 'Luxury',
+        'cost-category' => CostCategory::Luxury,
         'description' => 'Metalgear® will stop almost anything, but you\'re going to be easier to hit than a one-legged bantha in a potho race.',
         'page' => 97,
         'penalty' => -4,
         'ruleset' => 'core',
         'stopping-power' => 18,
-        'type' => 'Metalgear®',
+        'type' => 'Metalgear',
     ],
     'bulletproof-shield' => [
-        'cost-category' => 'Premium',
+        'cost-category' => CostCategory::Premium,
         'description' => 'A transparent polycarbonate shield that can protect you in a firefight. See page 183.',
         'page' => 97,
         'penalty' => 0,
