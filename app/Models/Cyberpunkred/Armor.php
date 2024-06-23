@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace App\Models\Cyberpunkred;
 
+use Illuminate\Support\Str;
 use RuntimeException;
 use Stringable;
 
 use function config;
 use function sprintf;
 use function strtolower;
+use function ucfirst;
 
 /**
+ * @psalm-suppress PossiblyUnusedProperty
  * @psalm-suppress UnusedClass
  */
 class Armor implements Stringable
@@ -43,7 +46,13 @@ class Armor implements Stringable
         }
 
         $armor = self::$armor[$id];
-        $this->cost_category = CostCategory::from($armor['cost-category']);
+        if ($armor['cost-category'] instanceof CostCategory) {
+            $this->cost_category = $armor['cost-category'];
+        } else {
+            $this->cost_category = CostCategory::from(
+                ucfirst($armor['cost-category'])
+            );
+        }
         $this->description = $armor['description'];
         $this->page = $armor['page'];
         $this->penalty = $armor['penalty'];
@@ -57,6 +66,27 @@ class Armor implements Stringable
         return $this->type;
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public static function findByName(string $name): self
+    {
+        $filename = config('app.data_path.cyberpunkred') . 'armor.php';
+        self::$armor ??= require $filename;
+
+        $lowerName = Str::lower($name);
+        foreach (self::$armor as $id => $armor) {
+            if (Str::lower($armor['type']) !== $lowerName) {
+                continue;
+            }
+            return new self($id);
+        }
+        throw new RuntimeException(sprintf('Armor "%s" was not found', $name));
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function getCost(): int
     {
         return $this->cost_category->marketPrice();

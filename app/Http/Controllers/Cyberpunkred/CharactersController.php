@@ -58,14 +58,13 @@ class CharactersController extends Controller
         $user = Auth::user();
 
         // See if the user has already chosen to continue a character.
-        $characterId = $request->session()->get('cyberpunkredpartial');
+        $characterId = $request->session()->get('cyberpunkred-partial');
 
         if (null !== $characterId) {
             // Return the character they're working on.
             /** @var PartialCharacter */
             return PartialCharacter::where('owner', $user->email)
-                ->findOrFail($characterId)
-                ->first();
+                ->findOrFail($characterId);
         }
         if (null !== $step) {
             // Maybe they're chosing to continue a character right now.
@@ -73,7 +72,7 @@ class CharactersController extends Controller
             $character = PartialCharacter::where('owner', $user->email)
                 ->find($step);
             if (null !== $character) {
-                $request->session()->put('cyberpunkredpartial', $character->id);
+                $request->session()->put('cyberpunkred-partial', $character->id);
                 return $character;
             }
         }
@@ -92,10 +91,8 @@ class CharactersController extends Controller
         $user = Auth::user();
         if ('new' === $step) {
             /** @var PartialCharacter */
-            $character = PartialCharacter::create([
-                'owner' => $user->email,
-            ]);
-            $request->session()->put('cyberpunkredpartial', $character->id);
+            $character = PartialCharacter::create(['owner' => $user->email]);
+            $request->session()->put('cyberpunkred-partial', $character->id);
             return view(
                 'Cyberpunkred.create-handle',
                 [
@@ -105,7 +102,7 @@ class CharactersController extends Controller
             );
         }
         if ('save' === $step) {
-            $request->session()->forget('cyberpunkredpartial');
+            $request->session()->forget('cyberpunkred-partial');
             $characters = PartialCharacter::where('owner', $user->email)
                 ->where('system', 'cyberpunkred')
                 ->get();
@@ -139,7 +136,7 @@ class CharactersController extends Controller
             $character = PartialCharacter::create([
                 'owner' => $user->email,
             ]);
-            $request->session()->put('cyberpunkredpartial', $character->id);
+            $request->session()->put('cyberpunkred-partial', $character->id);
         }
 
         if (null === $step || $character->id === $step) {
@@ -243,7 +240,7 @@ class CharactersController extends Controller
      */
     public function storeHandle(HandleRequest $request): RedirectResponse
     {
-        $characterId = $request->session()->get('cyberpunkredpartial');
+        $characterId = $request->session()->get('cyberpunkred-partial');
         /** @var User */
         $user = Auth::user();
         /** @var PartialCharacter */
@@ -263,7 +260,7 @@ class CharactersController extends Controller
      */
     public function storeLifepath(LifepathRequest $request): RedirectResponse
     {
-        $characterId = $request->session()->get('cyberpunkredpartial');
+        $characterId = $request->session()->get('cyberpunkred-partial');
         /** @var User */
         $user = Auth::user();
         /** @var PartialCharacter */
@@ -289,7 +286,7 @@ class CharactersController extends Controller
      */
     public function storeRole(RoleRequest $request): RedirectResponse
     {
-        $characterId = $request->session()->get('cyberpunkredpartial');
+        $characterId = $request->session()->get('cyberpunkred-partial');
         /** @var User */
         $user = Auth::user();
         /** @var PartialCharacter */
@@ -314,7 +311,7 @@ class CharactersController extends Controller
      */
     public function storeStats(StatsRequest $request): RedirectResponse
     {
-        $characterId = $request->session()->get('cyberpunkredpartial');
+        $characterId = $request->session()->get('cyberpunkred-partial');
         /** @var User */
         $user = Auth::user();
         /** @var PartialCharacter */
