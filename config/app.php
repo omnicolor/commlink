@@ -195,7 +195,7 @@ return [
         'shadowrun6e' => env('SHADOWRUN6E_DATA_PATH', 'data/Shadowrun6e/'),
         'star-trek-adventures' => env(
             'STAR_TREK_ADVENTURES_DATA_PATH',
-            'data/StarTrekAdventures/'
+            'data/Startrekadventures/'
         ),
         'subversion' => env('SUBVERSION_DATA_PATH', 'data/Subversion/'),
         'transformers' => env('TRANSFORMERS_DATA_PATH', 'data/Transformers/'),
