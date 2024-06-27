@@ -8,6 +8,10 @@ use App\Models\Traits\GameSystem;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use MongoDB\Laravel\Eloquent\Model;
+use Nwidart\Modules\Facades\Module;
+use Stringable;
+
+use function ucfirst;
 
 /**
  * Generic model representing a role playing character.
@@ -22,7 +26,7 @@ use MongoDB\Laravel\Eloquent\Model;
  * @property string $system
  * @property string $updated_at
  */
-class Character extends Model
+class Character extends Model implements Stringable
 {
     use GameSystem;
     use HasFactory;
@@ -86,19 +90,31 @@ class Character extends Model
         $attributes = [],
         $connection = null,
     ): Character {
-        $character = match ($attributes['system'] ?? null) {
-            'avatar' => new Avatar\Character($attributes),
-            'capers' => new Capers\Character($attributes),
-            'cyberpunkred' => new Cyberpunkred\Character($attributes),
-            'dnd5e' => new Dnd5e\Character($attributes),
-            'expanse' => new Expanse\Character($attributes),
-            'shadowrun5e' => new Shadowrun5e\Character($attributes),
-            'star-trek-adventures' => new StarTrekAdventures\Character($attributes),
-            default => new Character($attributes),
-        };
+        if (
+            null !== Module::find($attributes['system'])
+            && Module::isEnabled($attributes['system'])
+        ) {
+            $character = 'Modules\\' . ucfirst($attributes['system']) . '\\Models\\Character';
+            $character = new $character($attributes);
+        } else {
+            $character = match ($attributes['system'] ?? null) {
+                'avatar' => new Avatar\Character($attributes),
+                'capers' => new Capers\Character($attributes),
+                'cyberpunkred' => new Cyberpunkred\Character($attributes),
+                'dnd5e' => new Dnd5e\Character($attributes),
+                'expanse' => new Expanse\Character($attributes),
+                'shadowrun5e' => new Shadowrun5e\Character($attributes),
+                'star-trek-adventures' => new StarTrekAdventures\Character($attributes),
+                default => new Character($attributes),
+            };
+        }
+        // @phpstan-ignore-next-line
         $character->exists = true;
+        // @phpstan-ignore-next-line
         $character->setRawAttributes($attributes, true);
+        // @phpstan-ignore-next-line
         $character->setConnection($this->connection);
+        // @phpstan-ignore-next-line
         $character->fireModelEvent('retrieved', false);
         // @phpstan-ignore-next-line
         return $character;
