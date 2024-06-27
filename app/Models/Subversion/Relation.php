@@ -33,7 +33,7 @@ class Relation implements Stringable
         public array $aspects,
         public int $power,
         public int $regard,
-        public string $notes,
+        public ?string $notes,
         public RelationLevel $level,
         public bool $faction = false,
         public ?string $id = null,
@@ -141,7 +141,7 @@ class Relation implements Stringable
         foreach ($this->archetypes ?? [] as $archetype) {
             $archetypes[] = [
                 'id' => $archetype->id,
-                'additional' => $archetype->additional,
+                'additional' => '' !== $archetype->additional ? $archetype->additional : null,
             ];
         }
 

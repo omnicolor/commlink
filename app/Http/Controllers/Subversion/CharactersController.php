@@ -12,6 +12,7 @@ use App\Http\Requests\Subversion\CreateIdeologyRequest;
 use App\Http\Requests\Subversion\CreateImpulseRequest;
 use App\Http\Requests\Subversion\CreateLineageRequest;
 use App\Http\Requests\Subversion\CreateOriginRequest;
+use App\Http\Requests\Subversion\CreateRelationsRequest;
 use App\Http\Requests\Subversion\CreateValuesRequest;
 use App\Models\Subversion\Background;
 use App\Models\Subversion\Caste;
@@ -21,6 +22,7 @@ use App\Models\Subversion\Impulse;
 use App\Models\Subversion\Lineage;
 use App\Models\Subversion\Origin;
 use App\Models\Subversion\PartialCharacter;
+use App\Models\Subversion\Relation;
 use App\Models\Subversion\RelationArchetype;
 use App\Models\Subversion\RelationAspect;
 use App\Models\Subversion\RelationLevel;
@@ -372,6 +374,63 @@ class CharactersController extends Controller
         $character->update();
 
         return new RedirectResponse(route('subversion.create', 'background'));
+    }
+
+    public function storeRelations(CreateRelationsRequest $request): RedirectResponse
+    {
+        $relations = [];
+        foreach ($request->relation_name as $key => $name) {
+            $additional = $request->relation_category[$key];
+            if (null !== $additional) {
+                $additional = explode(',', $additional);
+            } else {
+                $additional = [];
+            }
+            $archetypes = [];
+            foreach (explode(',', $request->relation_archetype[$key]) as $index => $archetype) {
+                $category = null;
+                if (array_key_exists($index, $additional)) {
+                    $category = $additional[$index];
+                }
+                $archetypes[] = new RelationArchetype($archetype, $category);
+            }
+            $aspects = [];
+            if (null !== $request->relation_aspects[$key]) {
+                foreach (explode(',', $request->relation_aspects[$key]) as $aspect) {
+                    $aspects[] = new RelationAspect($aspect);
+                }
+            }
+            $skills = [];
+            foreach (explode(',', $request->relation_skill[$key]) as $skill) {
+                $skills[] = new Skill($skill);
+            }
+            $level = new RelationLevel($request->relation_level[$key]);
+            $faction = 'true' === $request->relation_faction[$key];
+            $relations[] = (new Relation(
+                archetypes: $archetypes,
+                aspects: $aspects,
+                faction: $faction,
+                level: $level,
+                name: $name,
+                notes: $request->relation_notes[$key],
+                power: $level->power,
+                regard: $level->regard,
+                skills: $skills,
+            ))->toArray();
+        }
+
+        /** @var User */
+        $user = $request->user();
+        /** @var string */
+        $characterId = $request->session()->get('subversion-partial');
+        /** @var PartialCharacter */
+        $character = PartialCharacter::where('_id', $characterId)
+            ->where('owner', $user->email)
+            ->firstOrFail();
+        $character->relations = $relations;
+        $character->update();
+
+        return new RedirectResponse(route('subversion.create', 'debts'));
     }
 
     public function storeValues(CreateValuesRequest $request): RedirectResponse

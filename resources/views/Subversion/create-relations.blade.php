@@ -47,7 +47,7 @@ use Illuminate\Support\Js;
         <div class="col-4"></div>
     </div>
 
-    <form action="" id="form" method="POST">
+    <form action="{{ route('subversion.create-relations') }}" id="form" method="POST">
     @csrf
 
     <div class="my-4 row">
@@ -67,13 +67,38 @@ use Illuminate\Support\Js;
                 </thead>
                 <tbody>
                     @foreach ($character->relations ?? [] as $relation)
+                    @php
+                    $archetypesValue = collect($relation->archetypes)->pluck('id')->implode(',');
+                    $additional = collect($relation->archetypes)->pluck('additional')->implode(',');
+                    @endphp
+                    <input name="relation_archetype[]" type="hidden"
+                        value="{{ $archetypesValue }}">
+                    <input name="relation_aspects[]" type="hidden"
+                        value="{{ implode(',', $relation->aspects) }}">
+                    <input name="relation_category[]" type="hidden"
+                        value="{{ $additional }}">
+                    <input name="relation_faction[]" type="hidden"
+                        value="{{ $relation->faction }}">
+                    <input name="relation_level[]" type="hidden"
+                        value="{{ $relation->level }}">
+                    <input name="relation_name[]" type="hidden"
+                        value="{{ $relation->name }}">
+                    <input name="relation_notes[]" type="hidden"
+                        value="{{ $relation->notes }}">
+                    <input name="relation_ids[]" type="hidden"
+                        value="{{ $relation->id }}">
                     <tr>
                         <td>
                             {{ $relation }}
                             @if ($relation->faction) (Faction) @endif
                         </td>
-                        <td>{{ $relation->skill }}</td>
-                        <td>{{ $relation->archetype }}</td>
+                        <td>{{ implode(', ', $relation->skills) }}</td>
+                        <td>
+                            {{ implode(', ', $relation->archetypes) }}
+                            @if (0 !== count($relation->aspects))
+                                / {{ implode(', ', $relation->aspects) }}
+                            @endif
+                        </td>
                         <td>{{ $relation->power }}</td>
                         <td>{{ $relation->regard }}</td>
                         <td>{{ $relation->notes }}</td>
@@ -106,6 +131,16 @@ use Illuminate\Support\Js;
                     </tr>
                 </tfoot>
             </table>
+        </div>
+        <div class="col-4"></div>
+    </div>
+
+    <div class="my-1 row">
+        <div class="col-1"></div>
+        <div class="col text-end">
+            <button class="btn btn-primary" type="submit">
+                Next: Debt
+            </button>
         </div>
         <div class="col-4"></div>
     </div>

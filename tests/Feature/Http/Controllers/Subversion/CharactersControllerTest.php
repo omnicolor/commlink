@@ -542,6 +542,40 @@ final class CharactersControllerTest extends TestCase
         $character->delete();
     }
 
+    public function testStoreRelations(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+
+        /** @var PartialCharacter */
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
+        ]);
+        session(['subversion-partial' => $character->id]);
+
+        self::actingAs($user)
+            ->postJson(
+                route('subversion.create-relations'),
+                [
+                    'relation_archetype' => ['care', 'clout'],
+                    'relation_aspects' => ['dues', null],
+                    'relation_category' => ['additional', null],
+                    'relation_faction' => [null, 'true'],
+                    'relation_level' => ['big-shot', 'friend'],
+                    'relation_name' => ['Bob King', 'Neo-anarchists'],
+                    'relation_notes' => [null, 'Notes'],
+                    'relation_skill' => ['arts', 'deception'],
+                ],
+            )
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(route('subversion.create', 'debts'));
+
+        $character->refresh();
+        self::assertCount(2, $character->relations);
+        $character->delete();
+    }
+
     public function testCreateValues(): void
     {
         /** @var User */

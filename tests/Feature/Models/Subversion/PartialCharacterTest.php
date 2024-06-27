@@ -8,6 +8,7 @@ use App\Models\Subversion\Caste;
 use App\Models\Subversion\PartialCharacter;
 use App\Models\Subversion\Relation;
 use App\Models\Subversion\RelationArchetype;
+use App\Models\Subversion\RelationAspect;
 use App\Models\Subversion\RelationLevel;
 use App\Models\Subversion\Skill;
 use Illuminate\Support\Str;
@@ -107,14 +108,15 @@ final class PartialCharacterTest extends TestCase
 
         $character->relations = [
             new Relation(
-                'Bob King',
-                [new Skill('influence')],
-                [new RelationArchetype('care')],
-                [],
-                7,
-                6,
-                'notes',
-                new RelationLevel('sponsor'),
+                name: 'Bob King',
+                skills: [new Skill('influence')],
+                archetypes: [new RelationArchetype('care', 'a category')],
+                aspects: [new RelationAspect('adversarial')],
+                power: 7,
+                regard: 6,
+                notes: 'notes',
+                level: new RelationLevel('sponsor'),
+                faction: false,
             ),
         ];
 

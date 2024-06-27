@@ -11,6 +11,9 @@ function replaceWithObject(values, id) {
     return retVal;
 }
 
+/**
+ * TODO: Handle choosing two archetypes that need additional information.
+ */
 function addRelation() {
     let archetypesIds = [];
     let archetypeNames = [];
@@ -35,7 +38,7 @@ function addRelation() {
                 archetypes,
                 $(archetype).val()
             );
-            if (archetypeObj.id === 'dealer') {
+            if ('' !== $('#category').val()) {
                 relation.category = $('#category').val();
                 archetypeNames.push(archetypeObj.name + ' ('
                     + relation.category + ')');
@@ -84,6 +87,7 @@ function addRelation() {
         row.find('input[name="relation_faction[]"]').val(true);
     } else {
         row.find('.relation-name').html(relation.name);
+        row.find('input[name="relation_faction[]"]').val(false);
     }
     row.find('.relation-power').html(relation.level.power);
     row.find('.relation-regard').html(relation.level.regard);
@@ -100,7 +104,6 @@ function addRelation() {
     noRelationsRow.addClass('d-none');
 
     relationFortune = relationFortune - relation.cost();
-    window.console.log(relationFortune);
     if (0 > relationFortune) {
         fortune = fortune + relationFortune;
         $('#relation-fortune').html(relationFortune);

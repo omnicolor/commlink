@@ -208,6 +208,10 @@ Route::middleware('auth')->group(function (): void {
                     [SubversionController::class, 'storeOrigin']
                 )->name('create-origin');
                 Route::post(
+                    'create/relations',
+                    [SubversionController::class, 'storeRelations']
+                )->name('create-relations');
+                Route::post(
                     'create/values',
                     [SubversionController::class, 'storeValues']
                 )->name('create-values');

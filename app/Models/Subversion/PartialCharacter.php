@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
  * @property-read int $fortune
  * @property-read int $relation_fortune
  * @property-read array<int, Relation> $relations
+ * @property-write array<int, array<string, mixed>|Relation> $relations
  */
 class PartialCharacter extends Character
 {
