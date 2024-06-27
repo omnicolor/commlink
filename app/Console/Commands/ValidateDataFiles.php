@@ -30,6 +30,7 @@ class ValidateDataFiles extends Command
         'shadowrun6e' => 'data/Shadowrun6e/',
         'star-trek-adventures' => 'data/StarTrekAdventures/',
         'subversion' => 'data/Subversion/',
+        'transformers' => 'data/Transformers/',
     ];
 
     /**

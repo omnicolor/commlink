@@ -4,6 +4,7 @@ use App\Features\HeroLabImport;
 use App\Features\CyberpunkCharacterGeneration;
 use App\Features\WorldAnvilImport;
 use App\Features\Shadowrun5eCharacterGeneration;
+use App\Features\TransformersCharacterGeneration;
 use Nwidart\Modules\Facades\Module;
 @endphp
 <ul class="list-group">
@@ -62,6 +63,12 @@ use Nwidart\Modules\Facades\Module;
                     <a class="dropdown-item" href="{{ route('import.herolab.view') }}">
                         Import a Hero Lab portfolio
                         <span class="badge bg-warning">Beta</span>
+                    </a>
+                    @endfeature
+                    @feature(TransformersCharacterGeneration::class)
+                    <a class="dropdown-item" href="/characters/transformers/create">
+                        Transformers RPG
+                        <span class="badge bg-danger">Not complete</span>
                     </a>
                     @endfeature
                     @feature(WorldAnvilImport::class)

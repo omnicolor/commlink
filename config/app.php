@@ -198,6 +198,7 @@ return [
             'data/StarTrekAdventures/'
         ),
         'subversion' => env('SUBVERSION_DATA_PATH', 'data/Subversion/'),
+        'transformers' => env('TRANSFORMERS_DATA_PATH', 'data/Transformers/'),
     ],
 
     /*
@@ -214,5 +215,6 @@ return [
         'shadowrun6e' => 'Shadowrun 6th Edition',
         'star-trek-adventures' => 'Star Trek Adventures',
         'subversion' => 'Subversion',
+        'transformers' => 'Transformers RPG',
     ],
 ];

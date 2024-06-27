@@ -13,11 +13,6 @@
         <directory name="database/factories" />
         <directory name="database/seeders" />
         <ignoreFiles>
-            <file name="app/Models/Avatar/Background.php" />
-            <file name="app/Models/Avatar/Era.php" />
-            <file name="app/Models/Cyberpunkred/CostCategory.php" />
-            <file name="app/Models/Expanse/CrewCompetence.php" />
-            <file name="app/Models/Expanse/ShipSize.php" />
             <directory name="tests" />
             <directory name="vendor" />
         </ignoreFiles>
@@ -41,6 +36,13 @@
                 <file name="app/Models/Dnd5e/CoinType.php" />
                 <file name="app/Models/Dnd5e/DamageType.php" />
                 <file name="app/Models/StarTrekAdventures/Character.php" />
+
+                <!-- Psalm has issues with Enums -->
+                <file name="app/Models/Expanse/CrewCompetence.php" />
+                <file name="app/Models/Expanse/ShipSize.php" />
+                <file name="app/Models/Transformers/Action.php" />
+                <file name="app/Models/Transformers/Programming.php" />
+                <file name="app/Models/Transformers/Size.php" />
                 <directory name="app/Http/Requests" />
             </errorLevel>
         </PossiblyUnusedMethod>

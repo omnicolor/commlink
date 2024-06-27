@@ -396,6 +396,7 @@ class Shadowrun5eConverter implements ConverterInterface
         $qualitiesArray = $this->character->qualities ?? [];
         foreach ($qualities->children() ?? [] as $rawQuality) {
             $name = (string)$rawQuality['name'];
+
             $rating = null;
             if (str_contains($name, '(')) {
                 [$name, $rating] = explode(' (', $name);
@@ -444,6 +445,7 @@ class Shadowrun5eConverter implements ConverterInterface
                 }
             }
             $this->errors[] = sprintf('Quality "%s" was not found.', $name);
+            continue;
         }
         $this->character->qualities = $qualitiesArray;
         return $this;
