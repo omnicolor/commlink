@@ -21,13 +21,8 @@ return [
             'routes/web' => 'routes/web.php',
             'routes/api' => 'routes/api.php',
             'views/index' => 'resources/views/index.blade.php',
-            'views/master' => 'resources/views/layouts/master.blade.php',
             'scaffold/config' => 'config/config.php',
             'composer' => 'composer.json',
-            'assets/js/app' => 'resources/assets/js/app.js',
-            'assets/sass/app' => 'resources/assets/sass/app.scss',
-            'vite' => 'vite.config.js',
-            'package' => 'package.json',
         ],
         'replacements' => [
             'routes/web' => [
@@ -50,7 +45,6 @@ return [
                 'PROVIDER_NAMESPACE',
             ],
             'views/index' => ['LOWER_NAME'],
-            'views/master' => ['LOWER_NAME', 'STUDLY_NAME'],
             'scaffold/config' => ['STUDLY_NAME'],
             'composer' => [
                 'LOWER_NAME',
@@ -63,7 +57,6 @@ return [
                 'APP_FOLDER_NAME',
             ],
         ],
-        'gitkeep' => true,
     ],
     'paths' => [
         /*

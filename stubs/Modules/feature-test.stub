@@ -6,8 +6,12 @@ namespace $NAMESPACE$;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
+#[Group('')]
+#[Small]
 class $CLASS$ extends TestCase
 {
     /**
