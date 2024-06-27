@@ -14,6 +14,9 @@
         <testsuite name="Feature">
             <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
+        <testsuite name="Modules">
+            <directory suffix="Test.php">./Modules/*/tests</directory>
+        </testsuite>
     </testsuites>
     <coverage/>
     <php>
@@ -35,9 +38,13 @@
     <source>
         <include>
             <directory suffix=".php">./app</directory>
+            <directory suffix=".php">./Modules</directory>
         </include>
         <exclude>
             <directory suffix=".php">./app/Features</directory>
+            <directory suffix=".php">./Modules/*/database</directory>
+            <directory suffix=".php">./Modules/*/resources</directory>
+            <directory suffix=".php">./Modules/*/tests</directory>
         </exclude>
     </source>
 </phpunit>
