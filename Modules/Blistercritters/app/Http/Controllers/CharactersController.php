@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Blistercritters\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,9 @@ use function view;
 
 class CharactersController extends Controller
 {
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function index(): JsonResource
     {
         return CharacterResource::collection(
@@ -24,6 +28,9 @@ class CharactersController extends Controller
         );
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function show(string $id): JsonResource
     {
         $character = Character::findOrFail($id);

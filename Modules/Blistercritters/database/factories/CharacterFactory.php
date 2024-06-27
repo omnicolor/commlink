@@ -2,19 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Database\Factories\Avatar;
+namespace Modules\Blistercritters\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Blistercritters\Models\Character;
 
 /**
  * @extends Factory<Character>
+ * @psalm-suppress UnusedClass
  */
 class CharacterFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
-     * @var string
+     * @var mixed
      */
     protected $model = Character::class;
 

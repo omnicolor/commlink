@@ -11,14 +11,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Stringable;
 
 /**
+ * @property int $instinct
+ * @property string $name
+ * @property int $noggin
+ * @property int $scrap
+ * @property int $scurry
  * @property-read int $starting_health
+ * @property int $vibe
  */
 class Character extends BaseCharacter implements Stringable
 {
     use HasFactory;
 
     /**
-     * @var array<string, mixed>
+     * @var array<array-key, mixed>
      */
     protected $attributes = [
         'system' => 'blistercritters',
@@ -37,7 +43,7 @@ class Character extends BaseCharacter implements Stringable
     ];
 
     /**
-     * @var array<int, string>
+     * @var array<array-key, string>
      */
     protected $hidden = [
         '_id',
@@ -61,6 +67,9 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function startingHealth(): Attribute
     {
         return Attribute::make(

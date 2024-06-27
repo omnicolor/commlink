@@ -16,6 +16,10 @@ use function module_path;
 use function resource_path;
 use function str_replace;
 
+/**
+ * @codeCoverageIgnore
+ * @psalm-suppress UnusedClass
+ */
 class BlistercrittersServiceProvider extends ServiceProvider
 {
     protected string $moduleName = 'Blistercritters';
