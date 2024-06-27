@@ -6,14 +6,13 @@ namespace Tests\Feature\Models\Transformers;
 
 use App\Models\Transformers\Classification;
 use App\Models\Transformers\Subgroup;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * @group models
- * @group transformers
- * @small
- */
+#[Group('transformers')]
+#[Small]
 final class SubgroupTest extends TestCase
 {
     public function testNotFound(): void

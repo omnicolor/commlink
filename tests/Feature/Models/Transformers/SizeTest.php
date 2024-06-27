@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Transformers;
 
 use App\Models\Transformers\Size;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * Unit tests for transformer's sizes.
- * @group models
- * @group transformers
- * @small
- */
+#[Group('transformers')]
+#[Small]
 final class SizeTest extends TestCase
 {
     /**
@@ -33,9 +32,7 @@ final class SizeTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider actionProvider
-     */
+    #[DataProvider('actionProvider')]
     public function testActions(int $sizeValue, ?string $effect): void
     {
         $size = Size::from($sizeValue);
@@ -60,9 +57,7 @@ final class SizeTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider energonProvider
-     */
+    #[DataProvider('energonProvider')]
     public function testEnergon(int $sizeValue, int $energonModifier): void
     {
         $size = Size::from($sizeValue);
@@ -87,9 +82,7 @@ final class SizeTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider hpProvider
-     */
+    #[DataProvider('hpProvider')]
     public function testHp(int $sizeValue, int $hpModifier): void
     {
         $size = Size::from($sizeValue);

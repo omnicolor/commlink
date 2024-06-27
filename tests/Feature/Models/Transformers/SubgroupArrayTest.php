@@ -6,14 +6,13 @@ namespace Tests\Feature\Models\Transformers;
 
 use App\Models\Transformers\Subgroup;
 use App\Models\Transformers\SubgroupArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 
-/**
- * @group models
- * @group transformers
- * @small
- */
+#[Group('transformers')]
+#[Small]
 final class SubgroupArrayTest extends TestCase
 {
     public function testStoreInvalidType(): void

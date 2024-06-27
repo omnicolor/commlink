@@ -5,18 +5,14 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Transformers;
 
 use App\Models\Transformers\PartialCharacter;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @group models
- * @group transformers
- * @small
- */
+#[Group('transformers')]
+#[Small]
 final class PartialCharacterTest extends TestCase
 {
-    /**
-     * @test
-     */
     public function testNewFromBuilder(): void
     {
         $character = new PartialCharacter([

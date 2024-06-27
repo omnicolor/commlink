@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Transformers;
 
 use App\Models\Transformers\Action;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @group models
- * @group transformers
- * @small
- */
+#[Group('transformers')]
+#[Small]
 final class ActionTest extends TestCase
 {
     /**
@@ -44,9 +44,7 @@ final class ActionTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider firstWordProvider
-     */
+    #[DataProvider('firstWordProvider')]
     public function testDescription(Action $action, string $firstWord): void
     {
         // @phpstan-ignore-next-line
@@ -83,9 +81,7 @@ final class ActionTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider programmingCountProvider
-     */
+    #[DataProvider('programmingCountProvider')]
     public function testProgrammingCount(Action $action, int $count): void
     {
         self::assertCount($count, $action->programming());
@@ -121,9 +117,7 @@ final class ActionTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider actionStatisticProvider
-     */
+    #[DataProvider('actionStatisticProvider')]
     public function testStatistic(Action $action, string $stat): void
     {
         self::assertSame($stat, $action->statistic());

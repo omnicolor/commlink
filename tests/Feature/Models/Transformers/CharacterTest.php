@@ -12,15 +12,13 @@ use App\Models\Transformers\Subgroup;
 use App\Models\Transformers\SubgroupArray;
 use App\Models\Transformers\Weapon;
 use App\Models\Transformers\WeaponArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use ValueError;
 
-/**
- * Unit tests for Transformers characters.
- * @group models
- * @group transformers
- * @small
- */
+#[Group('transformers')]
+#[Small]
 final class CharacterTest extends TestCase
 {
     public function testToString(): void

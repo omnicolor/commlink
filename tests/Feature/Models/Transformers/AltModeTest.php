@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Transformers;
 
 use App\Models\Transformers\AltMode;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @group models
- * @group transformers
- * @small
- */
+#[Group('transformers')]
+#[Small]
 final class AltModeTest extends TestCase
 {
     /**
@@ -67,9 +67,7 @@ final class AltModeTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider altModeStatisticProvider
-     */
+    #[DataProvider('altModeStatisticProvider')]
     public function testStatisticModifier(
         string $mode,
         ?int $strength,

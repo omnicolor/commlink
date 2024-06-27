@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Transformers;
 
 use App\Models\Transformers\Weapon;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * @group models
- * @group transformers
- * @small
- */
+#[Group('transformers')]
+#[Small]
 final class WeaponTest extends TestCase
 {
     public function testInvalid(): void

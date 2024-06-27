@@ -6,13 +6,13 @@ namespace Tests\Feature\Models\Transformers;
 
 use App\Models\Transformers\Action;
 use App\Models\Transformers\Programming;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @group models
- * @group transformers
- * @small
- */
+#[Group('transformers')]
+#[Small]
 final class ProgrammingTest extends TestCase
 {
     /**
@@ -28,9 +28,7 @@ final class ProgrammingTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider programmingProvider
-     */
+    #[DataProvider('programmingProvider')]
     public function testActionForStrength(string $programming): void
     {
         $programming = Programming::from($programming);
@@ -40,9 +38,7 @@ final class ProgrammingTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider programmingProvider
-     */
+    #[DataProvider('programmingProvider')]
     public function testActionForCourage(string $programming, Action $action): void
     {
         $programming = Programming::from($programming);
@@ -62,9 +58,7 @@ final class ProgrammingTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider descriptionProvider
-     */
+    #[DataProvider('descriptionProvider')]
     public function testDescription(Programming $programming, string $percent): void
     {
         self::assertStringContainsString($percent, $programming->description());

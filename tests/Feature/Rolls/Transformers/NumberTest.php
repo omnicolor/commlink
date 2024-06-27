@@ -8,14 +8,14 @@ use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Transformers\Number;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * @group discord
- * @group transformers
- * @group slack
- * @medium
- */
+#[Group('discord')]
+#[Group('slack')]
+#[Group('transformers')]
+#[Medium]
 final class NumberTest extends TestCase
 {
     public function testRollSlackFailure(): void

@@ -6,14 +6,13 @@ namespace Tests\Feature\Models\Transformers;
 
 use App\Models\Transformers\Weapon;
 use App\Models\Transformers\WeaponArray;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 use TypeError;
 
-/**
- * @group models
- * @group transformers
- * @small
- */
+#[Group('transformers')]
+#[Small]
 final class WeaponArrayTest extends TestCase
 {
     public function testStoreInvalidType(): void

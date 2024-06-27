@@ -7,14 +7,14 @@ namespace Tests\Feature\Http\Controllers\Transformers;
 use App\Models\Transformers\Character;
 use App\Models\Transformers\PartialCharacter;
 use App\Models\User;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function sprintf;
 
-/**
- * @group transformers
- * @medium
- */
+#[Group('transformers')]
+#[Medium]
 final class CharactersControllerTest extends TestCase
 {
     public function testCreateNewCharacter(): void
