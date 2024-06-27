@@ -9,6 +9,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+use function view;
+
 class $CLASS$ extends Controller
 {
     /**
@@ -32,7 +34,6 @@ class $CLASS$ extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        //
     }
 
     /**
@@ -56,7 +57,6 @@ class $CLASS$ extends Controller
      */
     public function update(Request $request, $id): RedirectResponse
     {
-        //
     }
 
     /**
@@ -64,6 +64,5 @@ class $CLASS$ extends Controller
      */
     public function destroy($id)
     {
-        //
     }
 }

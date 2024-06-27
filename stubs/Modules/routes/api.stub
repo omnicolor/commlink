@@ -16,6 +16,6 @@ use $MODULE_NAMESPACE$\$STUDLY_NAME$\$CONTROLLER_NAMESPACE$\$STUDLY_NAME$Control
  *
 */
 
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
+Route::middleware(['auth:sanctum'])->prefix('v1')->group(function (): void {
     Route::apiResource('$LOWER_NAME$', $STUDLY_NAME$Controller::class)->names('$LOWER_NAME$');
 });
