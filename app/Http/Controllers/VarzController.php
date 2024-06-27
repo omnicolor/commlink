@@ -35,9 +35,9 @@ class VarzController extends Controller
         'expanse' => 'data/Expanse/',
         'shadowrun5e' => 'data/Shadowrun5e/',
         'shadowrun6e' => 'data/Shadowrun6e/',
-        'star-trek-adventures' => 'data/StarTrekAdventures/',
+        'star-trek-adventures' => 'data/Startrekadventures/',
         'subversion' => 'data/Subversion/',
-        'transformers' => 'data/Transformers/',
+        'transformers' => 'Modules/Transformers/data/',
     ];
 
     public function index(): Response

@@ -12,9 +12,11 @@
         <directory name="data" />
         <directory name="database/factories" />
         <directory name="database/seeders" />
+        <directory name="Modules" />
         <ignoreFiles>
             <directory name="tests" />
             <directory name="vendor" />
+            <directory name="Modules/**/tests" />
         </ignoreFiles>
         <directory name="resources/views" />
     </projectFiles>
@@ -40,9 +42,6 @@
                 <!-- Psalm has issues with Enums -->
                 <file name="app/Models/Expanse/CrewCompetence.php" />
                 <file name="app/Models/Expanse/ShipSize.php" />
-                <file name="app/Models/Transformers/Action.php" />
-                <file name="app/Models/Transformers/Programming.php" />
-                <file name="app/Models/Transformers/Size.php" />
                 <directory name="app/Http/Requests" />
             </errorLevel>
         </PossiblyUnusedMethod>
