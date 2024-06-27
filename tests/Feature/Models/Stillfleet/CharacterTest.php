@@ -7,13 +7,13 @@ namespace Tests\Feature\Models\Stillfleet;
 use App\Models\Stillfleet\Character;
 use App\Models\Stillfleet\Role;
 use LogicException;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * @group stillfleet
- * @small
- */
+#[Group('stillfleet')]
+#[Small]
 final class CharacterTest extends TestCase
 {
     public function testConvertNotEnoughHealth(): void

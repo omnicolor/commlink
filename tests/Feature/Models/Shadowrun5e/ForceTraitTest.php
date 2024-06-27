@@ -76,7 +76,6 @@ final class ForceTraitTest extends TestCase
 
     /**
      * Test that it handles left to right order of operations correctly.
-     * @test
      */
     public function testSimpleButLong(): void
     {

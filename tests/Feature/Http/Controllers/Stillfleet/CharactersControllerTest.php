@@ -9,13 +9,12 @@ use App\Models\Stillfleet\Character;
 use App\Models\Stillfleet\PartialCharacter;
 use App\Models\User;
 use Laravel\Pennant\Feature;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-/**
- * @group controllers
- * @group stillfleet
- * @medium
- */
+#[Group('stillfleet')]
+#[Medium]
 final class CharactersControllerTest extends TestCase
 {
     protected User $user;

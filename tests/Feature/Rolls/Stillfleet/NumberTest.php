@@ -8,17 +8,16 @@ use App\Exceptions\SlackException;
 use App\Models\Channel;
 use App\Rolls\Stillfleet\Number;
 use Facades\App\Services\DiceService;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function json_decode;
 
 use const PHP_EOL;
 
-/**
- * Tests for rolling dice in Stillfleet.
- * @group stillfleet
- * @medium
- */
+#[Group('stillfleet')]
+#[Medium]
 final class NumberTest extends TestCase
 {
     protected Channel $channel;
@@ -30,9 +29,7 @@ final class NumberTest extends TestCase
         $this->channel = Channel::factory()->make(['system' => 'stillfleet']);
     }
 
-    /**
-     * @group slack
-     */
+    #[Group('slack')]
     public function testRollInvalidDieSlack(): void
     {
         self::expectException(SlackException::class);
@@ -40,27 +37,21 @@ final class NumberTest extends TestCase
         (new Number('5', 'user', $this->channel))->forSlack();
     }
 
-    /**
-     * @group discord
-     */
+    #[Group('discord')]
     public function testRollInvalidDieDiscord(): void
     {
         $response = (new Number('99', 'user', $this->channel))->forDiscord();
         self::assertSame('99 is not a valid die size in Stillfleet', $response);
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testRollInvalidDieIrc(): void
     {
         $response = (new Number('99', 'user', $this->channel))->forIrc();
         self::assertSame('99 is not a valid die size in Stillfleet', $response);
     }
 
-    /**
-     * @group slack
-     */
+    #[Group('slack')]
     public function testRollSimpleSlack(): void
     {
         DiceService::shouldReceive('rollOne')
@@ -75,9 +66,7 @@ final class NumberTest extends TestCase
         self::assertSame('3', $response->attachments[0]->text);
     }
 
-    /**
-     * @group slack
-     */
+    #[Group('slack')]
     public function testRollWithBoostSlack(): void
     {
         DiceService::shouldReceive('rollOne')
@@ -92,9 +81,7 @@ final class NumberTest extends TestCase
         self::assertSame('3 + 2', $response->attachments[0]->text);
     }
 
-    /**
-     * @group slack
-     */
+    #[Group('slack')]
     public function testRollWithPenaltySlack(): void
     {
         DiceService::shouldReceive('rollOne')
@@ -109,9 +96,7 @@ final class NumberTest extends TestCase
         self::assertSame('8 - 2', $response->attachments[0]->text);
     }
 
-    /**
-     * @group discord
-     */
+    #[Group('discord')]
     public function testRollSimpleDiscord(): void
     {
         DiceService::shouldReceive('rollOne')
@@ -124,9 +109,7 @@ final class NumberTest extends TestCase
         self::assertSame('**user rolled a 4**' . PHP_EOL . '4', $response);
     }
 
-    /**
-     * @group discord
-     */
+    #[Group('discord')]
     public function testRollWithBoostDiscord(): void
     {
         DiceService::shouldReceive('rollOne')
@@ -139,9 +122,7 @@ final class NumberTest extends TestCase
         self::assertSame('**user rolled a 5**' . PHP_EOL . '4 + 1', $response);
     }
 
-    /**
-     * @group discord
-     */
+    #[Group('discord')]
     public function testRollWithPenaltyDiscord(): void
     {
         DiceService::shouldReceive('rollOne')
@@ -154,9 +135,7 @@ final class NumberTest extends TestCase
         self::assertSame('**user rolled a 5**' . PHP_EOL . '9 - 4', $response);
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testRollWithBoostIrc(): void
     {
         DiceService::shouldReceive('rollOne')
@@ -169,9 +148,7 @@ final class NumberTest extends TestCase
         self::assertSame('user rolled a 5' . PHP_EOL . '4 + 1', $response);
     }
 
-    /**
-     * @group irc
-     */
+    #[Group('irc')]
     public function testRollWithPenaltyIrc(): void
     {
         DiceService::shouldReceive('rollOne')

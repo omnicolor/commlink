@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Stillfleet;
 
 use App\Models\Stillfleet\PartialCharacter;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @group stillfleet
- * @small
- */
+#[Group('stillfleet')]
+#[Small]
 final class PartialCharacterTest extends TestCase
 {
     public function testToCharacter(): void

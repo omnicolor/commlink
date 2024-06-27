@@ -5,15 +5,13 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Stillfleet;
 
 use App\Models\Stillfleet\Role;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-/**
- * Unit tests for the role class.
- * @group models
- * @group stillfleet
- * @small
- */
+#[Group('stillfleet')]
+#[Small]
 final class RoleTest extends TestCase
 {
     public function testLoadInvalid(): void

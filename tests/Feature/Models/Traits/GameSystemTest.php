@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Traits;
 
 use App\Models\Character;
+use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-/**
- * @covers App\Models\Traits\GameSystem
- * @group models
- * @small
- */
+#[Small]
 final class GameSystemTest extends TestCase
 {
     public function testSystemNotSet(): void
