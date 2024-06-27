@@ -20,13 +20,19 @@
             "infection/extension-installer": false,
             "php-http/discovery": true,
             "captainhook/captainhook-phar": true,
-            "captainhook/hook-installer": true
+            "captainhook/hook-installer": true,
+            "wikimedia/composer-merge-plugin": true
         }
     },
     "description": "Commlink is a manager for characters and campaigns for various table top role playing games.",
     "extra": {
         "laravel": {
             "dont-discover": []
+        },
+        "merge-plugin": {
+            "include": [
+                "Modules/*/composer.json"
+            ]
         }
     },
     "license": "MIT",
@@ -55,6 +61,7 @@
         "laravel/socialite": "^5.6",
         "markrogoyski/math-php": "^2.8",
         "mongodb/laravel-mongodb": "^4.3",
+        "nwidart/laravel-modules": "^11.0",
         "php-jsonpatch/php-jsonpatch": "^4.1",
         "pusher/pusher-php-server": "^7.0",
         "socialiteproviders/discord": "^4.1",
