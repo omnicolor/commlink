@@ -2,22 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Rolls\Transformers;
+namespace Modules\Transformers\Tests\Feature\Rolls;
 
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
-use App\Rolls\Transformers\Number;
 use Facades\App\Services\DiceService;
+use Modules\Transformers\Rolls\Number;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-#[Group('discord')]
-#[Group('slack')]
+use const PHP_EOL;
+
 #[Group('transformers')]
 #[Medium]
 final class NumberTest extends TestCase
 {
+    #[Group('slack')]
     public function testRollSlackFailure(): void
     {
         DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(5);
@@ -40,6 +41,7 @@ final class NumberTest extends TestCase
         self::assertSame($expected, $response->original);
     }
 
+    #[Group('slack')]
     public function testRollSlackSuccessWithDescription(): void
     {
         DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(5);
@@ -62,6 +64,7 @@ final class NumberTest extends TestCase
         self::assertSame($expected, $response->original);
     }
 
+    #[Group('discord')]
     public function testRollDiscord(): void
     {
         DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(5);
@@ -71,8 +74,23 @@ final class NumberTest extends TestCase
         $channel->username = 'user';
 
         self::assertSame(
-            '**user rolled a success**' . \PHP_EOL . '5 < 10',
+            '**user rolled a success**' . PHP_EOL . '5 < 10',
             (new Number('10', 'user', $channel))->forDiscord()
+        );
+    }
+
+    #[Group('discord')]
+    public function testRollIrc(): void
+    {
+        DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(5);
+
+        /** @var Channel */
+        $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
+        $channel->username = 'user';
+
+        self::assertSame(
+            'user rolled a success' . PHP_EOL . '5 < 10',
+            (new Number('10', 'user', $channel))->forIrc()
         );
     }
 }

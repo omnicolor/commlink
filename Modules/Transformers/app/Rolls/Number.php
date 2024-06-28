@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Rolls\Transformers;
+namespace Modules\Transformers\Rolls;
 
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
@@ -17,6 +17,9 @@ use function sprintf;
 
 use const PHP_EOL;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class Number extends Roll
 {
     protected int $roll;

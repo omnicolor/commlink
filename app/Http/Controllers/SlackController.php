@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\AbstractUser as SocialiteUser;
 use Laravel\Socialite\Facades\Socialite;
+use Nwidart\Modules\Facades\Module;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
 use function explode;
@@ -73,7 +74,27 @@ class SlackController extends Controller
             $channel->username = $request->user_name ?? '';
         }
 
-        // First, try to load system-specific rolls for numeric data.
+        // First, try to load a system-specific roll for a module.
+        if (
+            isset($channel->system)
+            && null !== Module::find($channel->system)
+            && is_numeric($this->args[0])
+        ) {
+            $class = sprintf(
+                '\\Modules\\%s\\Rolls\\Number',
+                ucfirst($channel->system),
+            );
+            try {
+                /** @var Roll */
+                $roll = new $class($this->text, $channel->username, $channel);
+                RollEvent::dispatch($roll, $channel);
+                return $roll->forSlack();
+            } catch (Error) {
+                // Ignore errors here, they might want a generic command.
+            }
+        }
+
+        // Next, try to load system-specific rolls for numeric data.
         if (is_numeric($this->args[0]) && isset($channel->system)) {
             try {
                 $class = sprintf(
