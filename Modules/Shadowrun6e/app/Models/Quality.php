@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Shadowrun6e;
+namespace Modules\Shadowrun6e\Models;
 
 use RuntimeException;
 use Stringable;
@@ -36,11 +36,12 @@ class Quality implements Stringable
 
     /**
      * @psalm-suppress UnusedVariable
+     * @psalm-suppress UnresolvableInclude
      * @throws RuntimeException
      */
     public function __construct(public string $id)
     {
-        $filename = config('app.data_path.shadowrun6e') . 'qualities.php';
+        $filename = config('shadowrun6e.data_path') . 'qualities.php';
         self::$qualities ??= require $filename;
 
         $id = strtolower($id);
@@ -69,12 +70,13 @@ class Quality implements Stringable
     /**
      * Try to find a quality by its name.
      * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-suppress UnresolvableInclude
      * @return array<int, Quality>
      * @throws RuntimeException
      */
     public static function findByName(string $name): array
     {
-        $filename = config('app.data_path.shadowrun6e') . 'qualities.php';
+        $filename = config('shadowrun6e.data_path') . 'qualities.php';
         self::$qualities ??= require $filename;
 
         $qualities = [];

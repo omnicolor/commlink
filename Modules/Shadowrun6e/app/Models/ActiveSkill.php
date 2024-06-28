@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Shadowrun6e;
+namespace Modules\Shadowrun6e\Models;
 
 use RuntimeException;
 use Stringable;
@@ -35,6 +35,7 @@ class ActiveSkill implements Stringable
     public static array $skills;
 
     /**
+     * @psalm-suppress UnresolvableInclude
      * @throws RuntimeException
      */
     public function __construct(
@@ -42,7 +43,7 @@ class ActiveSkill implements Stringable
         public int $level = 1,
         public ?string $specialization = null
     ) {
-        $filename = config('app.data_path.shadowrun6e') . 'skills.php';
+        $filename = config('shadowrun6e.data_path') . 'skills.php';
         self::$skills ??= require $filename;
 
         $id = strtolower($id);

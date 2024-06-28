@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Models\Shadowrun6e;
+namespace Modules\Shadowrun6e\Tests\Feature\Models;
 
-use App\Models\Shadowrun6e\Character;
 use Illuminate\Foundation\Testing\WithFaker;
+use Modules\Shadowrun6e\Models\Character;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
@@ -40,10 +40,8 @@ final class CharacterTest extends TestCase
      */
     public function testToString(): void
     {
-        $character = new Character([
-            'handle' => 'The Smiling Bandit',
-            'name' => 'Ha! Ha! Ha!',
-        ]);
+        $character = Character::factory()
+            ->create(['handle' => 'The Smiling Bandit']);
         self::assertSame('The Smiling Bandit', (string)$character);
     }
 

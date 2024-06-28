@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Models\Shadowrun6e;
+namespace Modules\Shadowrun6e\Tests\Feature\Models;
 
-use App\Models\Shadowrun6e\Quality;
+use Modules\Shadowrun6e\Models\Quality;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;

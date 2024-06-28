@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Shadowrun6e;
+namespace Modules\Shadowrun6e\Models;
 
 use App\Models\Character as BaseCharacter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
+use Modules\Shadowrun6e\Database\Factories\CharacterFactory;
 use RuntimeException;
 use Stringable;
 
@@ -51,7 +53,7 @@ class Character extends BaseCharacter implements Stringable
     use HasFactory;
 
     /**
-     * @var array<string, mixed>
+     * @var array<array-key, mixed>
      */
     protected $attributes = [
         'system' => 'shadowrun6e',
@@ -59,7 +61,7 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Attributes that need to be cast to a type.
-     * @var array<string, string>
+     * @var array<array-key, mixed>
      */
     protected $casts = [
         'agility' => 'integer',
@@ -111,7 +113,7 @@ class Character extends BaseCharacter implements Stringable
     ];
 
     /**
-     * @var array<int, string>
+     * @var array<array-key, string>
      */
     protected $hidden = [
         '_id',
@@ -124,6 +126,7 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Force this model to only load for Shadowrun 6E characters.
+     * @codeCoverageIgnore
      */
     protected static function booted(): void
     {
@@ -182,5 +185,10 @@ class Character extends BaseCharacter implements Stringable
                 return 1;
             },
         );
+    }
+
+    protected static function newFactory(): Factory
+    {
+        return CharacterFactory::new();
     }
 }
