@@ -1,5 +1,5 @@
 {
-    "name": "$VENDOR$/$LOWER_NAME$",
+    "name": "$VENDOR$/$LOWER_NAME$-module",
     "description": "",
     "authors": [
         {
@@ -10,9 +10,7 @@
     "extra": {
         "laravel": {
             "providers": [],
-            "aliases": {
-
-            }
+            "aliases": {}
         }
     },
     "autoload": {

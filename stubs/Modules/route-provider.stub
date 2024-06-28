@@ -48,7 +48,6 @@ class $CLASS$ extends ServiceProvider
     {
         Route::middleware('api')
             ->prefix('api')
-            ->name('api.')
             ->group(module_path('$MODULE$', '$API_ROUTES_PATH$'));
     }
 }
