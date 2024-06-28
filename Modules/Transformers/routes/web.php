@@ -28,7 +28,6 @@ Route::middleware('auth')->group(function (): void {
 });
 
 Route::group([], function (): void {
-
     Route::get(
         '/characters/transformers/{character}',
         [CharactersController::class, 'view']

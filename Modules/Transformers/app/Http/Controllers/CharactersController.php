@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Modules\Transformers\Http\Requests\BaseRequest;
@@ -25,7 +26,7 @@ class CharactersController extends Controller
     public function create(
         Request $request,
         ?string $step = null,
-    ): RedirectResponse | View | string {
+    ): RedirectResponse | View {
         /** @var User */
         $user = Auth::user();
 
@@ -68,7 +69,7 @@ class CharactersController extends Controller
         switch ($step) {
             case 'alt-mode':
                 if (null === $character->endurance_robot) {
-                    return redirect('/characters/transformers/create/statistics')
+                    return redirect(route('transformers.create', 'statistics'))
                         ->withErrors('You must roll statistics before choosing your alt mode');
                 }
                 return view(
@@ -133,7 +134,11 @@ class CharactersController extends Controller
             case 'save-for-later':
                 return $this->saveForLater($request);
             default:
-                return 'hello...';
+                /** @psalm-suppress NoValue */
+                return abort(
+                    Response::HTTP_NOT_FOUND,
+                    'That step of character creation was not found.',
+                );
         }
     }
 
@@ -153,7 +158,7 @@ class CharactersController extends Controller
         $character->updated_at = (string)now();
         $character->save();
 
-        return new RedirectResponse('/characters/transformers/create/statistics');
+        return new RedirectResponse(route('transformers.create', 'statistics'));
     }
 
     public function createProgramming(ProgrammingRequest $request): RedirectResponse
@@ -172,7 +177,7 @@ class CharactersController extends Controller
         $character->updated_at = (string)now();
         $character->save();
 
-        return new RedirectResponse('/characters/transformers/create/alt-mode');
+        return new RedirectResponse(route('transformers.create', 'alt-mode'));
     }
 
     public function createStatistics(StatisticsRequest $request): RedirectResponse
@@ -191,7 +196,7 @@ class CharactersController extends Controller
         $character->updated_at = (string)now();
         $character->save();
 
-        return new RedirectResponse(route('transformers.create') . '/function');
+        return new RedirectResponse(route('transformers.create', 'function'));
     }
 
     protected function saveForLater(Request $request): RedirectResponse

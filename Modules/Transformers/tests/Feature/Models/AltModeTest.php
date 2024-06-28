@@ -89,4 +89,10 @@ final class AltModeTest extends TestCase
         self::assertSame($firepower, $mode->statisticModifier('firepower'));
         self::assertSame($skill, $mode->statisticModifier('skill'));
     }
+
+    public function testToString(): void
+    {
+        $mode = new AltMode(AltMode::TYPE_VEHICLE);
+        self::assertSame('Vehicle', (string)$mode);
+    }
 }
