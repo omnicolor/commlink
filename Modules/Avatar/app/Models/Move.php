@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Avatar\Moves;
+namespace Modules\Avatar\Models;
 
 /**
  * @psalm-suppress UnusedClass
