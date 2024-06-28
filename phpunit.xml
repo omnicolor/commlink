@@ -42,6 +42,7 @@
         </include>
         <exclude>
             <directory suffix=".php">./app/Features</directory>
+            <directory suffix=".php">./Modules/*/data</directory>
             <directory suffix=".php">./Modules/*/database</directory>
             <directory suffix=".php">./Modules/*/resources</directory>
             <directory suffix=".php">./Modules/*/tests</directory>
