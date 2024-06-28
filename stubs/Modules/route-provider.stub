@@ -21,6 +21,7 @@ class $CLASS$ extends ServiceProvider
 
     /**
      * Define the routes for the application.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function map(): void
     {
@@ -36,7 +37,7 @@ class $CLASS$ extends ServiceProvider
     protected function mapWebRoutes(): void
     {
         Route::middleware('web')
-        ->group(module_path('$MODULE$', '$WEB_ROUTES_PATH$'));
+            ->group(module_path('$MODULE$', '$WEB_ROUTES_PATH$'));
     }
 
     /**
