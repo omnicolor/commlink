@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Database\Factories\Avatar;
+namespace Modules\Avatar\Database\Factories;
 
-use App\Models\Avatar\Character;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Avatar\Models\Character;
 
 /**
  * @extends Factory<Character>
@@ -14,7 +14,6 @@ class CharacterFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
-     * @var string
      */
     protected $model = Character::class;
 

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Avatar;
+namespace Modules\Avatar\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Avatar\Character;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Modules\Avatar\Models\Character;
 
 use function view;
 
@@ -20,7 +20,7 @@ class CharactersController extends Controller
     {
         $user = Auth::user();
         return view(
-            'Avatar.character',
+            'avatar::character',
             ['character' => $character, 'user' => $user]
         );
     }

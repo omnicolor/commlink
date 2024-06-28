@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Models\Avatar\Status;
+use Modules\Avatar\Models\Status;
 
 /**
  * Statuses from the Avatar RPG.

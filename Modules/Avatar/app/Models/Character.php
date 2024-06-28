@@ -2,23 +2,26 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Avatar;
+namespace Modules\Avatar\Models;
 
 use App\Models\Character as BaseCharacter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Avatar\Database\Factories\CharacterFactory;
+use Stringable;
 
 /**
  * @property Background $background
  * @property Era $era
  * @psalm-suppress UndefinedClass
  */
-class Character extends BaseCharacter
+class Character extends BaseCharacter implements Stringable
 {
     use HasFactory;
 
     /**
-     * @var array<string, mixed>
+     * @var array<array-key, mixed>
      */
     protected $attributes = [
         'system' => 'avatar',
@@ -46,7 +49,7 @@ class Character extends BaseCharacter
     ];
 
     /**
-     * @var array<int, string>
+     * @var array<array-key, string>
      */
     protected $hidden = [
         '_id',
@@ -68,6 +71,11 @@ class Character extends BaseCharacter
                 $builder->where('system', 'avatar');
             }
         );
+    }
+
+    protected static function newFactory(): Factory
+    {
+        return CharacterFactory::new();
     }
 
     /**

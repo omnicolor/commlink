@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use App\Models\Avatar\Era;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Modules\Avatar\Models\Era;
+
+use function array_keys;
+use function config;
 
 class CampaignCreateRequest extends FormRequest
 {
@@ -75,7 +78,7 @@ class CampaignCreateRequest extends FormRequest
             'system' => [
                 'max:30',
                 'required',
-                Rule::in(\array_keys(config('app.systems'))),
+                Rule::in(array_keys(config('app.systems'))),
             ],
         ];
     }

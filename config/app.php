@@ -186,7 +186,6 @@ return [
      * Paths to the different data files for each system.
      */
     'data_path' => [
-        'avatar' => env('AVATAR_DATA_PATH', 'data/Avatar/'),
         'capers' => env('CAPERS_DATA_PATH', 'data/Capers/'),
         'cyberpunkred' => env('CYBERPUNK_DATA_PATH', 'data/Cyberpunkred/'),
         'dnd5e' => env('DND5E_DATA_PATH', 'data/Dnd5e/'),
@@ -198,7 +197,6 @@ return [
             'data/Startrekadventures/'
         ),
         'subversion' => env('SUBVERSION_DATA_PATH', 'data/Subversion/'),
-        'transformers' => env('TRANSFORMERS_DATA_PATH', 'data/Transformers/'),
     ],
 
     /*

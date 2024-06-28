@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Models\Avatar;
+namespace Modules\Avatar\Tests\Feature\Models;
 
-use App\Models\Avatar\Era;
+use Modules\Avatar\Models\Era;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;

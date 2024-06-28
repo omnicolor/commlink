@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Avatar;
+namespace Modules\Avatar\Models;
 
 /**
  * @psalm-suppress all

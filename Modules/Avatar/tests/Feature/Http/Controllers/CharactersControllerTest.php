@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Controllers\Avatar;
+namespace Modules\Avatar\Tests\Feature\Http\Controllers;
 
-use App\Models\Avatar\Character;
 use App\Models\User;
+use Modules\Avatar\Models\Character;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -23,10 +23,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
 
         /** @var Character */
-        $character = Character::factory()->create([
-            'owner' => $user->email,
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create(['owner' => $user->email]);
 
         $this->actingAs($user)
             ->get(

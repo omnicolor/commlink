@@ -19,11 +19,15 @@ class CharacterList extends Component
     {
         $systems = [
             'avatar',
+            'blistercritters',
             'capers',
             'cyberpunkred',
             'expanse',
             'shadowrun5e',
             'star-trek-adventures',
+            //'stillfleet',
+            //'subversion',
+            'transformers',
         ];
         $this->attributes = $this->newAttributeBag();
         $this->componentName = 'CharacterList';
