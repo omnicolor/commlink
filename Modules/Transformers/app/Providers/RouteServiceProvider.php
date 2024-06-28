@@ -49,7 +49,6 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middleware('api')
             ->prefix('api')
-            ->name('api.')
             ->group(module_path('Transformers', '/routes/api.php'));
     }
 }

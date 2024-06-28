@@ -7,7 +7,9 @@ namespace Modules\Blistercritters\Models;
 use App\Models\Character as BaseCharacter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Blistercritters\Database\Factories\CharacterFactory;
 use Stringable;
 
 /**
@@ -65,6 +67,11 @@ class Character extends BaseCharacter implements Stringable
                 $builder->where('system', 'blistercritters');
             }
         );
+    }
+
+    protected static function newFactory(): Factory
+    {
+        return CharacterFactory::new();
     }
 
     /**
