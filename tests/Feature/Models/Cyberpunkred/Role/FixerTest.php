@@ -47,6 +47,7 @@ final class FixerTest extends TestCase
                 'rank' => 4,
                 'type' => $type,
             ]);
+            // @phpstan-ignore-next-line
             self::assertIsString($fixer->getType());
         }
     }

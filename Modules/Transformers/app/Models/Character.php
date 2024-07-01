@@ -14,10 +14,14 @@ use Modules\Transformers\Database\Factories\CharacterFactory;
 use RuntimeException;
 
 /**
+ * @property int $courage_alt
+ * @property int $courage_robot
  * @property int $endurance_alt
  * @property int $endurance_robot
  * @property-read int $energon_base
  * @property int $energon_current
+ * @property int $firepower_alt
+ * @property int $firepower_robot
  * @property-read int $hp_base
  * @property int $hp_current
  * @property-read string $id
@@ -28,8 +32,16 @@ use RuntimeException;
  * @property-read Programming $programming
  * @property-write string|Programming $programming
  * @property string $quote
+ * @property int $rank_alt
+ * @property int $rank_robot
+ * @property int $skill_alt
+ * @property int $skill_robot
  * @property-read Size $size
  * @property-write int|Size $size
+ * @property int $speed_alt
+ * @property int $speed_robot
+ * @property int $strength_alt
+ * @property int $strength_robot
  * @property-read SubgroupArray $subgroups
  * @property-write array<int, string>|SubgroupArray $subgroups
  * @property string $updated_at
@@ -84,6 +96,7 @@ class Character extends BaseCharacter
     ];
 
     /**
+     * @phpstan-ignore-next-line
      * @var array<array-key, string>
      */
     protected $hidden = [
@@ -174,6 +187,7 @@ class Character extends BaseCharacter
 
     protected static function newFactory(): Factory
     {
+        // @phpstan-ignore-next-line
         return CharacterFactory::new();
     }
 

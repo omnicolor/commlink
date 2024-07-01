@@ -18,7 +18,7 @@ class CharacterFactory extends Factory
     protected $model = Character::class;
 
     /**
-     * @return array<string, array|int|string>
+     * @return array<string, array<int, mixed>|int|string>
      */
     public function definition(): array
     {

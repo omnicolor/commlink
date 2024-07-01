@@ -12,6 +12,7 @@ class CharacterResource extends JsonResource
 {
     /**
      * @mixin Character
+     * @return array<string, array<string, int|string>|int|string>
      */
     public function toArray(Request $request): array
     {

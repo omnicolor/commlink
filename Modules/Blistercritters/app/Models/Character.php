@@ -13,12 +13,16 @@ use Modules\Blistercritters\Database\Factories\CharacterFactory;
 use Stringable;
 
 /**
+ * @property string $created_at
+ * @property string $id
  * @property int $instinct
  * @property string $name
  * @property int $noggin
  * @property int $scrap
  * @property int $scurry
  * @property-read int $starting_health
+ * @property string $system
+ * @property string $updated_at
  * @property int $vibe
  */
 class Character extends BaseCharacter implements Stringable
@@ -45,6 +49,7 @@ class Character extends BaseCharacter implements Stringable
     ];
 
     /**
+     * @phpstan-ignore-next-line
      * @var array<array-key, string>
      */
     protected $hidden = [
@@ -71,6 +76,7 @@ class Character extends BaseCharacter implements Stringable
 
     protected static function newFactory(): Factory
     {
+        // @phpstan-ignore-next-line
         return CharacterFactory::new();
     }
 

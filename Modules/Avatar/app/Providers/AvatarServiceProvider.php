@@ -23,7 +23,6 @@ use function str_replace;
 class AvatarServiceProvider extends ServiceProvider
 {
     protected string $moduleName = 'Avatar';
-
     protected string $moduleNameLower = 'avatar';
 
     /**

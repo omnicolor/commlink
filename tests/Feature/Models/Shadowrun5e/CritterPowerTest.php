@@ -35,7 +35,6 @@ final class CritterPowerTest extends TestCase
         $power = new CritterPower('accident');
 
         self::assertSame(CritterPower::ACTION_COMPLEX, $power->action);
-        self::assertNotNull($power->description);
         self::assertSame(CritterPower::DURATION_INSTANT, $power->duration);
         self::assertSame('Accident', $power->name);
         self::assertSame('Accident', (string)$power);

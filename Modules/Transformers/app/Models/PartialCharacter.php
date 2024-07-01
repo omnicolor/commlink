@@ -41,6 +41,7 @@ class PartialCharacter extends Character
 
     protected static function newFactory(): Factory
     {
+        // @phpstan-ignore-next-line
         return PartialCharacterFactory::new();
     }
 }

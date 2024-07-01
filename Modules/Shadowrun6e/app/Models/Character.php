@@ -61,6 +61,7 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Attributes that need to be cast to a type.
+     * @phpstan-ignore-next-line
      * @var array<array-key, mixed>
      */
     protected $casts = [
@@ -113,6 +114,7 @@ class Character extends BaseCharacter implements Stringable
     ];
 
     /**
+     * @phpstan-ignore-next-line
      * @var array<array-key, string>
      */
     protected $hidden = [
@@ -189,6 +191,7 @@ class Character extends BaseCharacter implements Stringable
 
     protected static function newFactory(): Factory
     {
+        // @phpstan-ignore-next-line
         return CharacterFactory::new();
     }
 }

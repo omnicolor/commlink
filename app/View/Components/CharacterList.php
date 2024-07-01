@@ -9,6 +9,10 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 use Nwidart\Modules\Facades\Module;
+use Spatie\LaravelIgnition\Exceptions\ViewException;
+
+use function route;
+use function view;
 
 class CharacterList extends Component
 {
@@ -18,8 +22,6 @@ class CharacterList extends Component
     public function __construct(public Collection $characters)
     {
         $systems = [
-            'avatar',
-            'blistercritters',
             'capers',
             'cyberpunkred',
             'expanse',
@@ -27,7 +29,6 @@ class CharacterList extends Component
             'star-trek-adventures',
             //'stillfleet',
             //'subversion',
-            'transformers',
         ];
         $this->attributes = $this->newAttributeBag();
         $this->componentName = 'CharacterList';
@@ -35,7 +36,11 @@ class CharacterList extends Component
             $system = $character->system;
             if (null !== Module::find($system) && Module::isEnabled($system)) {
                 // @phpstan-ignore-next-line
-                $character->link = route($system . '.character', $character);
+                try {
+                    $character->link = route($system . '.character', $character);
+                } catch (ViewException) {
+                    // Ignore a system not being ready.
+                }
                 continue;
             }
             if (in_array($system, $systems, true)) {

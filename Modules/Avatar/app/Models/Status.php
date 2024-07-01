@@ -75,7 +75,7 @@ class Status implements Stringable
 
         $statuses = [];
         foreach (array_keys(self::$statuses ?? []) as $status) {
-            $statuses[] = new self($status);
+            $statuses[] = new self((string)$status);
         }
         return $statuses;
     }
