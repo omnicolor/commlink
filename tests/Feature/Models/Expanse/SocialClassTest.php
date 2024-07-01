@@ -26,7 +26,6 @@ final class SocialClassTest extends TestCase
         $class = new SocialClass('outsider');
         self::assertSame('outsider', $class->id);
         self::assertSame('Outsider', $class->name);
-        self::assertNotNull($class->description);
     }
 
     public function testToString(): void

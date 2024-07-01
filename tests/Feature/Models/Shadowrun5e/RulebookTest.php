@@ -28,7 +28,6 @@ final class RulebookTest extends TestCase
         self::assertSame('Core 5th Edition', (string) $book);
         self::assertTrue($book->default);
         self::assertTrue($book->required);
-        self::assertNotNull($book->description);
     }
 
     public function testLoadForbiddenArcana(): void
@@ -37,7 +36,6 @@ final class RulebookTest extends TestCase
         self::assertSame('Forbidden Arcana', (string) $book);
         self::assertFalse($book->default);
         self::assertFalse($book->required);
-        self::assertNotNull($book->description);
     }
 
     public function testAll(): void

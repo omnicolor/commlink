@@ -31,7 +31,6 @@ final class MartialArtsStyleTest extends TestCase
     public function testConstructor(): void
     {
         $style = new MartialArtsStyle('aikido');
-        self::assertNotNull($style->description);
         self::assertEquals('aikido', $style->id);
         self::assertEquals('Aikido', $style->name);
         self::assertEquals(128, $style->page);

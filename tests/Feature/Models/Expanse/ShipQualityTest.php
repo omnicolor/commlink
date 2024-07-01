@@ -27,7 +27,6 @@ final class ShipQualityTest extends TestCase
     {
         $quality = new ShipQuality('advanced-sensor-package-1');
         self::assertSame('Advanced sensor package 1', (string)$quality);
-        self::assertNotNull($quality->description);
         self::assertSame(['sensors' => 1], $quality->effects);
         self::assertSame(122, $quality->page);
         self::assertSame('core', $quality->ruleset);

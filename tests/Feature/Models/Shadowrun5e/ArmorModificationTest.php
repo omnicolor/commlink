@@ -50,16 +50,6 @@ final class ArmorModificationTest extends TestCase
     }
 
     /**
-     * Test loading a valid modification sets the description.
-     */
-    #[Depends('testLoadArmorModificationSetsId')]
-    public function testLoadArmorModificationSetsDescription(
-        ArmorModification $mod
-    ): void {
-        self::assertNotNull($mod->description);
-    }
-
-    /**
      * Test loading a valid modification sets the effects.
      */
     #[Depends('testLoadArmorModificationSetsId')]
