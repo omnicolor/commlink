@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
-#[Group('star-trek-adventures')]
+#[Group('startrekadventures')]
 #[Small]
 final class TalentTest extends TestCase
 {
