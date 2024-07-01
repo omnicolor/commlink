@@ -255,7 +255,7 @@ final class DiscordControllerTest extends TestCase
             ]);
         self::get('discord/callback')->assertRedirect('/discord');
 
-        /** @user */
+        /** @var User */
         $user = User::where('email', $email)->first();
         self::assertNotNull($user);
         self::assertSame($name, $user->name);
