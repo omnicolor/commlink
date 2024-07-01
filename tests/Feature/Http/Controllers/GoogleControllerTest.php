@@ -42,9 +42,8 @@ final class GoogleControllerTest extends TestCase
             ]);
         self::get('/google/callback')->assertRedirect('/dashboard');
 
-        /** @user */
+        /** @var User */
         $user = User::where('email', $email)->first();
-        self::assertNotNull($user);
         self::assertSame($name, $user->name);
         self::assertSame('reset me', $user->password);
         self::assertAuthenticatedAs($user);

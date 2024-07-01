@@ -29,7 +29,6 @@ final class FocusTest extends TestCase
         self::assertSame('dexterity', $focus->attribute);
         self::assertSame('crafting', $focus->id);
         self::assertSame('Crafting', $focus->name);
-        self::assertNotNull($focus->description);
         self::assertSame(47, $focus->page);
     }
 

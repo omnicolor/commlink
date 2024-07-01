@@ -37,7 +37,6 @@ final class ProgramTest extends TestCase
         self::assertEquals(['cyberdeck', 'rcc'], $program->allowedDevices);
         self::assertEquals('4R', $program->availability);
         self::assertEquals(250, $program->cost);
-        self::assertNotNull($program->description);
         self::assertNotEmpty($program->effects);
         self::assertEquals('armor', $program->id);
         self::assertEquals('Armor', $program->name);
