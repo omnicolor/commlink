@@ -47,7 +47,7 @@
     @includeWhen($creating ?? false, 'Capers.create-navigation')
     <x-slot name="navbar">
         <li class="nav-item">
-            <a class="nav-link" href="/dashboard">Home</a>
+            <a class="nav-link" href="{{ route('dashboard') }}">Home</a>
         </li>
         <li class="nav-item">
             <span class="nav-link active">{{ $character }}</span>
