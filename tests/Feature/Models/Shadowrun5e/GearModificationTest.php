@@ -35,7 +35,6 @@ final class GearModificationTest extends TestCase
         self::assertEquals(1, $mod->capacityCost);
         self::assertEquals('commlink|cyberdeck|rcc', $mod->containerType);
         self::assertEquals(300, $mod->cost);
-        self::assertNotNull($mod->description);
         self::assertEmpty($mod->effects);
         self::assertEquals('biomonitor', $mod->id);
         self::assertEquals('Biomonitor', $mod->name);

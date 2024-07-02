@@ -51,7 +51,6 @@ final class CritterTest extends TestCase
         self::assertSame(12, $critter->condition_physical);
         self::assertSame(10, $critter->condition_stun);
         self::assertSame(3, $critter->armor);
-        self::assertNotNull($critter->description);
         self::assertNotNull($critter->habitat);
 
         self::assertCount(3, $critter->skills);

@@ -257,6 +257,7 @@ final class ArmorTest extends TestCase
      */
     public function testFindByName(): void
     {
-        self::assertInstanceOf(Armor::class, Armor::findByName('Armor Jacket'));
+        $item = Armor::findByName('Armor Jacket');
+        self::assertSame('armor-jacket', $item->id);
     }
 }

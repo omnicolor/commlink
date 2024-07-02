@@ -39,7 +39,6 @@ final class VehicleTest extends TestCase
         self::assertSame(4, $vehicle->body);
         self::assertSame('bike', $vehicle->category);
         self::assertSame(3000, $vehicle->cost);
-        self::assertNotNull($vehicle->description);
         self::assertEmpty($vehicle->equipment);
         self::assertSame(4, $vehicle->handling);
         self::assertSame('dodge-scoot', $vehicle->id);

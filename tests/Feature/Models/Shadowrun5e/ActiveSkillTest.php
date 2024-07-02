@@ -58,15 +58,6 @@ final class ActiveSkillTest extends TestCase
     }
 
     /**
-     * Test that loading a skill sets the description.
-     */
-    #[Depends('testLoadSkillSetsId')]
-    public function testLoadSkillSetsDescription(ActiveSkill $skill): void
-    {
-        self::assertNotNull($skill->description);
-    }
-
-    /**
      * Test that loading a skills sets the group.
      */
     #[Depends('testLoadSkillSetsId')]

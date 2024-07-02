@@ -15,7 +15,7 @@ use function json_decode;
 
 use const PHP_EOL;
 
-#[Group('star-trek-adventures')]
+#[Group('startrekadventures')]
 #[Medium]
 final class ChallengeTest extends TestCase
 {

@@ -16,7 +16,7 @@ use function implode;
 
 use const DIRECTORY_SEPARATOR;
 
-#[Group('cyberpunk-red')]
+#[Group('cyberpunkred')]
 #[Group('world-anvil')]
 #[Medium]
 final class CyberpunkRedConverterTest extends TestCase

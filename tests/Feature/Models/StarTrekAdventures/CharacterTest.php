@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-#[Group('star-trek-adventures')]
+#[Group('startrekadventures')]
 #[Small]
 final class CharacterTest extends TestCase
 {

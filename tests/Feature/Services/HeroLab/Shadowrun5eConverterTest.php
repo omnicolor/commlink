@@ -15,7 +15,6 @@ use function dirname;
 use function explode;
 use function implode;
 
-// __DIR__ and __FILE__ are not considered constants with respect to importing.
 use const DIRECTORY_SEPARATOR;
 
 #[Group('herolab')]
@@ -164,7 +163,6 @@ final class Shadowrun5eConverterTest extends TestCase
         ];
 
         $character = $hl->convert();
-        self::assertInstanceOf(Character::class, $character);
         self::assertSame('Brian', $character->handle);
         self::assertSame('Human', $character->metatype);
         self::assertSame(3, $character->karma);

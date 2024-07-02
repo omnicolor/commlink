@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Commlink;
-use App\Models\Shadowrun5e\Gear;
 use App\Models\Shadowrun5e\GearFactory;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
@@ -43,7 +42,7 @@ final class GearFactoryTest extends TestCase
     public function testGetValidString(): void
     {
         $item = GearFactory::get('credstick-gold');
-        self::assertInstanceOf(Gear::class, $item);
+        self::assertSame('Certified Credstick', $item->name);
     }
 
     /**
@@ -61,7 +60,7 @@ final class GearFactoryTest extends TestCase
     public function testGetValidArrayId(): void
     {
         $item = GearFactory::get(['id' => 'credstick-gold']);
-        self::assertInstanceOf(Gear::class, $item);
+        self::assertSame('Certified Credstick', $item->name);
     }
 
     /**

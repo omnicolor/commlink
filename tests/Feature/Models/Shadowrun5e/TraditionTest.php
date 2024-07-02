@@ -31,7 +31,6 @@ final class TraditionTest extends TestCase
     public function testConstructor(): void
     {
         $tradition = new Tradition('norse');
-        self::assertNotNull($tradition->description);
         self::assertEquals('Willpower + Logic', $tradition->drain);
         self::assertEquals(
             [

@@ -33,7 +33,6 @@ final class CritterWeaknessTest extends TestCase
     public function testLoadNoSubname(): void
     {
         $weakness = new CritterWeakness('uneducated');
-        self::assertNotNull($weakness->description);
         self::assertSame('Uneducated', $weakness->name);
         self::assertSame('Uneducated', (string)$weakness);
         self::assertSame(401, $weakness->page);

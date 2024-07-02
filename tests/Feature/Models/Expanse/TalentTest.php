@@ -32,7 +32,6 @@ final class TalentTest extends TestCase
         $talent = new Talent('fringer');
         self::assertSame('fringer', $talent->id);
         self::assertSame('Fringer', $talent->name);
-        self::assertNotNull($talent->description);
     }
 
     /**

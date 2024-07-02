@@ -37,7 +37,6 @@ final class VehicleModificationTest extends TestCase
         $mod = new VehicleModification('manual-control-override');
         self::assertSame('6', $mod->availability);
         self::assertSame(500, $mod->cost);
-        self::assertNotNull($mod->description);
         self::assertSame('manual-control-override', $mod->id);
         self::assertSame('Manual Control Override', $mod->name);
         self::assertSame(154, $mod->page);

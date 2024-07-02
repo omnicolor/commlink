@@ -6,9 +6,7 @@ namespace Tests\Feature\Models\Expanse;
 
 use App\Models\Expanse\Background;
 use App\Models\Expanse\Focus;
-use App\Models\Expanse\FocusArray;
 use App\Models\Expanse\Talent;
-use App\Models\Expanse\TalentArray;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -30,7 +28,6 @@ final class BackgroundTest extends TestCase
         $background = new Background('trade');
         self::assertSame('dexterity', $background->ability);
         self::assertCount(11, $background->benefits);
-        self::assertNotNull($background->description);
         self::assertCount(2, $background->focuses);
         self::assertSame('trade', $background->id);
         self::assertSame('Trade', $background->name);
@@ -47,7 +44,6 @@ final class BackgroundTest extends TestCase
     public function testGetFocuses(): void
     {
         $focuses = (new Background('trade'))->getFocuses();
-        self::assertInstanceOf(FocusArray::class, $focuses);
         /** @var Focus */
         $focus = $focuses[0];
         self::assertSame('Crafting', $focus->name);
@@ -56,7 +52,6 @@ final class BackgroundTest extends TestCase
     public function testGetTalents(): void
     {
         $talents = (new Background('trade'))->getTalents();
-        self::assertInstanceOf(TalentArray::class, $talents);
         /** @var Talent */
         $talent = $talents[0];
         self::assertSame('Maker', $talent->name);

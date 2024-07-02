@@ -511,9 +511,8 @@ final class SlackControllerTest extends TestCase
             ]);
         self::get('/slack/callback')->assertRedirect('/dashboard');
 
-        /** @user */
+        /** @var User */
         $user = User::where('email', $email)->first();
-        self::assertNotNull($user);
         self::assertSame($slackUserName, $user->name);
         self::assertSame('reset me', $user->password);
         self::assertAuthenticatedAs($user);

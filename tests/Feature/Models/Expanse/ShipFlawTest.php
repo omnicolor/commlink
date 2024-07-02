@@ -27,7 +27,6 @@ final class ShipFlawTest extends TestCase
     {
         $flaw = new ShipFlaw('bad-juice');
         self::assertSame('Bad juice', (string)$flaw);
-        self::assertNotNull($flaw->description);
         self::assertEmpty($flaw->effects);
         self::assertSame(123, $flaw->page);
         self::assertSame('core', $flaw->ruleset);

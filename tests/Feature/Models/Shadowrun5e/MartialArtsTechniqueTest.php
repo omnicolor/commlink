@@ -33,7 +33,6 @@ final class MartialArtsTechniqueTest extends TestCase
     public function testConstructor(): void
     {
         $technique = new MartialArtsTechnique('constrictors-crush');
-        self::assertNotNull($technique->description);
         self::assertEquals('constrictors-crush', $technique->id);
         self::assertEquals('Constrictor\'s Crush', $technique->name);
         self::assertEquals(137, $technique->page);

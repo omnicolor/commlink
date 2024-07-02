@@ -52,7 +52,6 @@ final class PreparationTest extends TestCase
             ->setTrigger('time');
         self::assertEquals('2019-06-28', $this->preparation->date);
         self::assertEquals(6, $this->preparation->potency);
-        self::assertInstanceOf(Spell::class, $this->preparation->spell);
         self::assertEquals(
             'Control Emotions',
             (string)$this->preparation->spell
@@ -66,7 +65,6 @@ final class PreparationTest extends TestCase
     public function testSetSpellId(): void
     {
         $this->preparation->setSpellId('control-emotions');
-        self::assertInstanceOf(Spell::class, $this->preparation->spell);
         self::assertEquals('Control Emotions', (string)$this->preparation->spell);
     }
 }

@@ -32,7 +32,6 @@ final class MentorSpiritTest extends TestCase
     public function testConstructor(): void
     {
         $mentor = new MentorSpirit('goddess');
-        self::assertNotNull($mentor->description);
         self::assertEmpty($mentor->effects);
         self::assertSame('goddess', $mentor->id);
         self::assertSame('Goddess', $mentor->name);

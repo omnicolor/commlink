@@ -70,7 +70,7 @@ final class Shadowrun5eConverterTest extends TestCase
         $path[] = 'Test.txt';
         $filename = implode(DIRECTORY_SEPARATOR, $path);
         $character = (new Shadowrun5eConverter($filename))->convert();
-        self::assertInstanceOf(PartialCharacter::class, $character);
+        self::assertSame('Fastjack', $character->handle);
         return $character;
     }
 
@@ -80,7 +80,6 @@ final class Shadowrun5eConverterTest extends TestCase
     #[Depends('testLoadOmae')]
     public function testMetadata(PartialCharacter $character): void
     {
-        self::assertSame('Fastjack', $character->handle);
         self::assertSame('Jack Smith', $character->realName);
         self::assertSame('shadowrun5e', $character->system);
     }

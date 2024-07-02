@@ -44,7 +44,6 @@ class DiscordRunCommand extends Command
      * Key: Message ID, Value: Message footer, containing the response type
      * (such as RSVP), a colon character (:), and optionally any arguments
      * needed (such as an event ID for an RSVP).
-     * @deprecated Will be moved to Redis
      * @var array<string, string>
      */
     protected array $messages = [];

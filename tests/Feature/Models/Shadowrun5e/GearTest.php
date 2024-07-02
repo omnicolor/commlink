@@ -62,14 +62,6 @@ final class GearTest extends TestCase
     }
 
     /**
-     * Test that loading an item sets the item's description.
-     */
-    public function testLoadingSetsDescription(): void
-    {
-        self::assertNotNull($this->item->description);
-    }
-
-    /**
      * Test that loading an item sets the ID.
      */
     public function testLoadingSetsId(): void
@@ -230,7 +222,8 @@ final class GearTest extends TestCase
      */
     public function testFindByName(): void
     {
-        self::assertInstanceOf(Gear::class, Gear::findByName('Goggles'));
+        $item = Gear::findByName('Goggles');
+        self::assertSame('Goggles description.', $item->description);
     }
 
     /**
@@ -238,7 +231,8 @@ final class GearTest extends TestCase
      */
     public function testFindByNameSubname(): void
     {
-        self::assertInstanceOf(Gear::class, Gear::findByName('Evo Sublime'));
+        $item = Gear::findByName('Evo Sublime');
+        self::assertSame('cyberdeck-evo-sublime', $item->id);
     }
 
     /**

@@ -12,7 +12,7 @@ use Tests\TestCase;
 use TypeError;
 use stdClass;
 
-#[Group('star-trek-adventures')]
+#[Group('startrekadventures')]
 #[Small]
 final class TalentArrayTest extends TestCase
 {

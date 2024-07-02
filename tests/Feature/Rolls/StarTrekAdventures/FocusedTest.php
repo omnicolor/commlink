@@ -13,7 +13,7 @@ use Tests\TestCase;
 
 use const PHP_EOL;
 
-#[Group('star-trek-adventures')]
+#[Group('startrekadventures')]
 #[Medium]
 final class FocusedTest extends TestCase
 {

@@ -11,7 +11,6 @@ use App\Models\Expanse\Origin\Belter;
 use App\Models\Expanse\Origin\Earther;
 use App\Models\Expanse\SocialClass;
 use App\Models\Expanse\Talent;
-use App\Models\Expanse\TalentArray;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -162,7 +161,6 @@ final class CharacterTest extends TestCase
     public function testGetTalentsNone(): void
     {
         $character = new Character();
-        self::assertInstanceOf(TalentArray::class, $character->getTalents());
         self::assertEmpty($character->getTalents());
     }
 

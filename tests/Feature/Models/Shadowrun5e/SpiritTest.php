@@ -107,7 +107,7 @@ final class SpiritTest extends TestCase
     public function testSetForce(): void
     {
         $spirit = new Spirit('air', 6);
-        self::assertInstanceOf(Spirit::class, $spirit->setForce(3));
+        $spirit->setForce(3);
         self::assertEquals(3, $spirit->force);
     }
 

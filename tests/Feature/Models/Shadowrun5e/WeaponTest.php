@@ -63,14 +63,6 @@ final class WeaponTest extends TestCase
     }
 
     /**
-     * Test that loading a weapon sets its description.
-     */
-    public function testWeaponHasDescription(): void
-    {
-        self::assertNotNull($this->weapon->description);
-    }
-
-    /**
      * Test that loading a weapon sets its damage.
      */
     public function testWeaponHasDamage(): void
@@ -343,7 +335,7 @@ final class WeaponTest extends TestCase
      */
     public function testFindByName(): void
     {
-        self::assertInstanceOf(Weapon::class, Weapon::findByName('AK-98'));
+        self::assertSame('ak-98', Weapon::findByName('AK-98')->id);
     }
 
     /**
