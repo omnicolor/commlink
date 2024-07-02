@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Rolls\Avatar;
+namespace Modules\Avatar\Rolls;
 
 use App\Exceptions\SlackException;
 use App\Http\Responses\Slack\SlackResponse;
@@ -15,12 +15,13 @@ use function array_shift;
 use function array_sum;
 use function explode;
 use function implode;
+use function is_numeric;
 use function sprintf;
 
 use const PHP_EOL;
 
 /**
- * Handle a character making a Plead action.
+ * @psalm-suppress UnusedClass
  */
 class Plead extends Roll
 {

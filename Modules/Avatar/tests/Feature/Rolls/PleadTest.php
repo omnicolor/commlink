@@ -6,9 +6,9 @@ namespace Modules\Avatar\Tests\Feature\Rolls;
 
 use App\Exceptions\SlackException;
 use App\Models\Channel;
-use App\Rolls\Avatar\Plead;
 use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\WithFaker;
+use Modules\Avatar\Rolls\Plead;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;

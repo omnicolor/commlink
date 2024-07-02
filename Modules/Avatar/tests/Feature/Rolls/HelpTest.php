@@ -10,9 +10,9 @@ use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
-use App\Rolls\Avatar\Help;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
+use Modules\Avatar\Rolls\Help;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -191,7 +191,7 @@ final class HelpTest extends TestCase
             'type' => Channel::TYPE_IRC,
         ]);
         $channel->username = $this->faker->name;
-        $channel->user = 'U' . \Str::random(10);
+        $channel->user = 'U' . Str::random(10);
 
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([

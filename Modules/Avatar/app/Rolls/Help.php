@@ -2,13 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Rolls\Avatar;
+namespace Modules\Avatar\Rolls;
 
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 
+use function sprintf;
+
+use const PHP_EOL;
+
+/**
+ * @psalm-suppress UnusedClass
+ */
 class Help extends Roll
 {
     /**
@@ -26,9 +33,9 @@ class Help extends Roll
         $this->data[] = [
             'title' => 'Commlink - Avatar RPG',
             'text' => 'Commlink is a Slack/Discord ot that lets you roll dice '
-                . 'for the Avatar RPG.' . \PHP_EOL
+                . 'for the Avatar RPG.' . PHP_EOL
                 . '· `2d6 [1]` - Roll two dice, optionally adding a modifier '
-                . '(+1 in this case)' . \PHP_EOL,
+                . '(+1 in this case)' . PHP_EOL,
             'color' => TextAttachment::COLOR_INFO,
         ];
 
@@ -44,17 +51,17 @@ class Help extends Roll
                 'text' => 'Since you have linked a character to this channel, '
                     . 'you can use commands that will automatically add '
                     . $this->character . '\'s appropriate statistic to the '
-                    . 'roll.' . \PHP_EOL
+                    . 'roll.' . PHP_EOL
                     . '· `plead [+1]` - Roll two dice, adding your '
                     . 'character\'s harmony and optionally a modifier.'
-                    . \PHP_EOL,
+                    . PHP_EOL,
                 'color' => TextAttachment::COLOR_INFO,
             ];
         } else {
             $this->data[] = [
                 'title' => 'Player commands',
                 'text' => '· `link <characterId>` - Link your Commlink '
-                    . 'character to the channel.' . \PHP_EOL,
+                    . 'character to the channel.' . PHP_EOL,
                 'color' => TextAttachment::COLOR_INFO,
             ];
         }
@@ -64,8 +71,8 @@ class Help extends Roll
     {
         $value = '';
         foreach ($this->data as $element) {
-            $value .= \sprintf('**%s**', $element['title']) . \PHP_EOL
-                . $element['text'] . \PHP_EOL;
+            $value .= sprintf('**%s**', $element['title']) . PHP_EOL
+                . $element['text'] . PHP_EOL;
         }
         return $value;
     }
@@ -74,8 +81,8 @@ class Help extends Roll
     {
         $value = '';
         foreach ($this->data as $element) {
-            $value .= $element['title'] . \PHP_EOL
-                . $element['text'] . \PHP_EOL;
+            $value .= $element['title'] . PHP_EOL
+                . $element['text'] . PHP_EOL;
         }
         return $value;
     }
