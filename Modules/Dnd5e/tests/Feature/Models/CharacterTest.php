@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Models\Dnd5e;
+namespace Modules\Dnd5e\Tests\Feature\Models;
 
 use App\Models\Character as BaseCharacter;
-use App\Models\Dnd5e\Character;
+use Modules\Dnd5e\Models\Character;
 use OutOfRangeException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;

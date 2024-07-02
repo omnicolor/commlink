@@ -100,7 +100,6 @@ class Character extends Model implements Stringable
             $character = match ($attributes['system'] ?? null) {
                 'capers' => new Capers\Character($attributes),
                 'cyberpunkred' => new Cyberpunkred\Character($attributes),
-                'dnd5e' => new Dnd5e\Character($attributes),
                 'expanse' => new Expanse\Character($attributes),
                 'shadowrun5e' => new Shadowrun5e\Character($attributes),
                 default => new Character($attributes),

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Http\Controllers\Dnd5e;
+namespace Modules\Dnd5e\Tests\Feature\Http\Controllers;
 
-use App\Models\Dnd5e\Character;
 use App\Models\User;
+use Modules\Dnd5e\Models\Character;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -84,10 +84,11 @@ final class CharactersControllerTest extends TestCase
             ->assertJsonFragment([
                 'id' => $character2->_id,
                 'name' => $character2->name,
-                'owner' => $user->email,
+                'owner' => [
+                    'id' => $user->id,
+                    'email' => $user->email,
+                ],
                 'system' => 'dnd5e',
-                'updated_at' => $character2->updated_at,
-                'created_at' => $character2->created_at,
             ]);
 
         $character1->delete();
@@ -113,10 +114,11 @@ final class CharactersControllerTest extends TestCase
             ->assertJsonFragment([
                 'id' => $character->_id,
                 'name' => $character->name,
-                'owner' => $user->email,
+                'owner' => [
+                    'id' => $user->id,
+                    'email' => $user->email,
+                ],
                 'system' => 'dnd5e',
-                'updated_at' => $character->updated_at,
-                'created_at' => $character->created_at,
             ]);
 
         $character->delete();

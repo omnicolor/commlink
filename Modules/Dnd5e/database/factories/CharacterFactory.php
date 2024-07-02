@@ -2,20 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Database\Factories\Dnd5e;
+namespace Modules\Dnd5e\Database\Factories;
 
-use App\Models\Dnd5e\Character;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Dnd5e\Models\Character;
 
 /**
  * @extends Factory<Character>
+ * @psalm-suppress UnusedClass
  */
 class CharacterFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     * @var string
-     */
     protected $model = Character::class;
 
     /**

@@ -2,11 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Dnd5e;
+namespace Modules\Dnd5e\Models;
 
-/**
- * @psalm-suppress all
- */
 enum CoinType: string
 {
     case Copper = 'cp';

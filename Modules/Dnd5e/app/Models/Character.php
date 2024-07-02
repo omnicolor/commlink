@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Models\Dnd5e;
+namespace Modules\Dnd5e\Models;
 
 use App\Models\Character as BaseCharacter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Dnd5e\Database\Factories\CharacterFactory;
 use OutOfRangeException;
 use RuntimeException;
 use Stringable;
@@ -32,7 +34,7 @@ class Character extends BaseCharacter implements Stringable
     public const int ATTRIBUTE_MAX = 30;
 
     /**
-     * @var array<string, mixed>
+     * @var array<array-key, mixed>
      */
     protected $attributes = [
         'system' => 'dnd5e',
@@ -63,7 +65,8 @@ class Character extends BaseCharacter implements Stringable
     ];
 
     /**
-     * @var array<int, string>
+     * @phpstan-ignore-next-line
+     * @var array<array-key, string>
      */
     protected $hidden = [
         '_id',
@@ -115,5 +118,12 @@ class Character extends BaseCharacter implements Stringable
     public function getArmorClass(): int
     {
         return 10 + $this->getAbilityModifier('dexterity');
+    }
+
+    protected static function newFactory(): Factory
+    {
+        // @psalm-suppress UndefinedClass
+        // @phpstan-ignore-next-line
+        return CharacterFactory::new();
     }
 }

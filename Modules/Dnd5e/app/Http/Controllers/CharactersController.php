@@ -2,22 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Dnd5e;
+namespace Modules\Dnd5e\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Dnd5e\CharacterResource;
-use App\Models\Dnd5e\Character;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
+use Modules\Dnd5e\Http\Resources\CharacterResource;
+use Modules\Dnd5e\Models\Character;
 
-/**
- * Controller for interacting with D&D 5E characters.
- */
+use function view;
+
 class CharactersController extends Controller
 {
     /**
-     * Return a collection of characters for the logged in user.
-     * @return JsonResource
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): JsonResource
     {
@@ -28,9 +27,7 @@ class CharactersController extends Controller
     }
 
     /**
-     * Return a single D&D 5E character.
-     * @param string $identifier
-     * @return JsonResource
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $identifier): JsonResource
     {
@@ -40,6 +37,15 @@ class CharactersController extends Controller
             Character::where('_id', $identifier)
                 ->where('owner', $email)
                 ->firstOrFail()
+        );
+    }
+
+    public function view(Character $character): View
+    {
+        $user = Auth::user();
+        return view(
+            'dnd5e::character',
+            ['character' => $character, 'user' => $user]
         );
     }
 }

@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Models\Dnd5e;
+namespace Modules\Dnd5e\Tests\Feature\Models;
 
-use App\Models\Dnd5e\CoinType;
+use Modules\Dnd5e\Models\CoinType;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;
 
+#[Group('dnd5e')]
 #[Small]
 final class CoinTypeTest extends TestCase
 {
