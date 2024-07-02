@@ -17,7 +17,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-#[Group('star-trek-adventures')]
+#[Group('startrekadventures')]
 #[Medium]
 final class HelpTest extends TestCase
 {
