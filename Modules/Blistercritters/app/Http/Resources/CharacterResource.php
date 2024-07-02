@@ -8,10 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Blistercritters\Models\Character;
 
+/**
+ * @mixin Character
+ */
 class CharacterResource extends JsonResource
 {
     /**
-     * @mixin Character
      * @return array<string, array<string, int|string>|int|string>
      */
     public function toArray(Request $request): array
@@ -25,7 +27,9 @@ class CharacterResource extends JsonResource
             'scurry' => $this->scurry,
             'vibe' => $this->vibe,
             'owner' => [
+                // @phpstan-ignore-next-line
                 'id' => $this->user()->id,
+                // @phpstan-ignore-next-line
                 'name' => $this->user()->name,
             ],
             'system' => $this->system,
