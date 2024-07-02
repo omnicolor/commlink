@@ -22,7 +22,6 @@ class CharacterList extends Component
     public function __construct(public Collection $characters)
     {
         $systems = [
-            'capers',
             'cyberpunkred',
             'expanse',
             'shadowrun5e',
