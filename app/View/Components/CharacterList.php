@@ -26,30 +26,27 @@ class CharacterList extends Component
             'cyberpunkred',
             'expanse',
             'shadowrun5e',
-            'star-trek-adventures',
             //'stillfleet',
             //'subversion',
         ];
         $this->attributes = $this->newAttributeBag();
         $this->componentName = 'CharacterList';
         foreach ($this->characters as $character) {
+            // @phpstan-ignore-next-line
+            $character->link = false;
             $system = $character->system;
             if (null !== Module::find($system) && Module::isEnabled($system)) {
-                // @phpstan-ignore-next-line
                 try {
                     $character->link = route($system . '.character', $character);
-                } catch (ViewException) {
-                    // Ignore a system not being ready.
+                } catch (ViewException) { // @codeCoverageIgnore
+                    // Ignore a system not being ready or disabled.
                 }
                 continue;
             }
             if (in_array($system, $systems, true)) {
-                // @phpstan-ignore-next-line
                 $character->link = route($system . '.character', $character);
                 continue;
             }
-            // @phpstan-ignore-next-line
-            $character->link = false;
         }
     }
 

@@ -23,13 +23,14 @@ class ValidateDataFiles extends Command
      */
     protected const SYSTEM_MAP = [
         'avatar' => 'Modules/Avatar/data/',
+        'blistercritters' => 'Modules/Blistercritters/data/',
         'capers' => 'data/Capers/',
         'cyberpunkred' => 'data/Cyberpunkred/',
         'dnd5e' => 'data/Dnd5e/',
         'expanse' => 'data/Expanse/',
         'shadowrun5e' => 'data/Shadowrun5e/',
-        'shadowrun6e' => 'data/Shadowrun6e/',
-        'star-trek-adventures' => 'data/Startrekadventures/',
+        'shadowrun6e' => 'Modules/Shadowrun6e/data/',
+        'startrekadventures' => 'Modules/Startrekadventures/data/',
         'subversion' => 'data/Subversion/',
         'transformers' => 'Modules/Transformers/data/',
     ];

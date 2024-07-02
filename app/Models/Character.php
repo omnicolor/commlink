@@ -103,7 +103,6 @@ class Character extends Model implements Stringable
                 'dnd5e' => new Dnd5e\Character($attributes),
                 'expanse' => new Expanse\Character($attributes),
                 'shadowrun5e' => new Shadowrun5e\Character($attributes),
-                'star-trek-adventures' => new StarTrekAdventures\Character($attributes),
                 default => new Character($attributes),
             };
         }

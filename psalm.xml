@@ -37,7 +37,6 @@
             <errorLevel type="suppress">
                 <file name="app/Models/Dnd5e/CoinType.php" />
                 <file name="app/Models/Dnd5e/DamageType.php" />
-                <file name="app/Models/StarTrekAdventures/Character.php" />
 
                 <!-- Psalm has issues with Enums -->
                 <file name="app/Models/Expanse/CrewCompetence.php" />
@@ -73,10 +72,5 @@
                 <directory name="tests" />
             </errorLevel>
         </UnusedClass>
-        <UndefinedMethod>
-            <errorLevel type="suppress">
-                <file name="app/Models/StarTrekAdventures/Character.php" />
-            </errorLevel>
-        </UndefinedMethod>
     </issueHandlers>
 </psalm>
