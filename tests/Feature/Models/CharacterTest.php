@@ -42,7 +42,7 @@ final class CharacterTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
         $character = new Character(['owner' => $user->email]);
-        self::assertInstanceOf(User::class, $character->user());
+        self::assertSame($user->email, $character->user()->email);
     }
 
     /**

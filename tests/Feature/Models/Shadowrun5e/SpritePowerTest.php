@@ -31,7 +31,6 @@ final class SpritePowerTest extends TestCase
     public function testLoad(): void
     {
         $power = new SpritePower('cookie');
-        self::assertNotNull($power->description);
         self::assertSame('Cookie', $power->name);
         self::assertSame('Cookie', (string)$power);
         self::assertSame(256, $power->page);

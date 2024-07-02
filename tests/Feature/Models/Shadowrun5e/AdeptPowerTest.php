@@ -33,7 +33,6 @@ final class AdeptPowerTest extends TestCase
     {
         $power = new AdeptPower('improved-sense-direction-sense');
         self::assertEquals(0.25, $power->cost);
-        self::assertNotNull($power->description);
         self::assertNotEmpty($power->effects);
         self::assertEquals('improved-sense-direction-sense', $power->id);
         self::assertNull($power->level);

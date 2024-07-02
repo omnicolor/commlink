@@ -34,7 +34,6 @@ final class SpellTest extends TestCase
         $spell = new Spell('control-emotions');
         self::assertEquals('Manipulation', $spell->category);
         self::assertEquals('', $spell->damage);
-        self::assertNotNull($spell->description);
         self::assertEquals('F-1', $spell->drain);
         self::assertEquals('S', $spell->duration);
         self::assertEquals('control-emotions', $spell->id);

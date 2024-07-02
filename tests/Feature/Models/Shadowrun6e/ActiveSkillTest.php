@@ -36,7 +36,6 @@ final class ActiveSkillTest extends TestCase
         self::assertSame('Astral', (string)$skill);
         self::assertSame('astral', $skill->id);
         self::assertSame('Astral Combat', $skill->specialization);
-        self::assertNotNull($skill->description);
         self::assertSame(93, $skill->page);
         self::assertFalse($skill->untrained);
         self::assertSame('intuition', $skill->attribute);

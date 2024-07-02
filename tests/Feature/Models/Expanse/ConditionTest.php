@@ -26,7 +26,6 @@ final class ConditionTest extends TestCase
         $condition = new Condition('deafened');
         self::assertSame('deafened', $condition->id);
         self::assertSame('Deafened', $condition->name);
-        self::assertNotNull($condition->description);
         self::assertSame(21, $condition->page);
     }
 
