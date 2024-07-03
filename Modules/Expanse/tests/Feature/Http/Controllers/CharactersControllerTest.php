@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Modules\Expanse\Tests\Feature\Http\Controllers;
 
 use App\Models\Campaign;
-use App\Models\Cyberpunkred\Character as CprCharacter;
 use App\Models\User;
+use Modules\Cyberpunkred\Models\Character as CprCharacter;
 use Modules\Expanse\Models\Character;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;

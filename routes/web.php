@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\CampaignsController;
-use App\Http\Controllers\Cyberpunkred\CharactersController as CyberpunkredController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscordController;
 use App\Http\Controllers\GoogleController;
@@ -45,29 +44,6 @@ Route::middleware('auth')->group(function (): void {
     )->name('campaign.respond');
 
     Route::prefix('characters')->group(function (): void {
-        Route::prefix('cyberpunkred')->name('cyberpunkred.')->group(function (): void {
-            Route::get(
-                'create/{step?}',
-                [CyberpunkredController::class, 'createForm'],
-            );
-            Route::post(
-                'create/role',
-                [CyberpunkredController::class, 'storeRole'],
-            )->name('create-role');
-            Route::post(
-                'create/handle',
-                [CyberpunkredController::class, 'storeHandle'],
-            )->name('create-handle');
-            Route::post(
-                'create/lifepath',
-                [CyberpunkredController::class, 'storeLifepath'],
-            )->name('create-lifepath');
-            Route::post(
-                'create/stats',
-                [CyberpunkredController::class, 'storeStats'],
-            )->name('create-stats');
-        });
-
         Route::prefix('expanse')->name('expanse.')->group(function (): void {
             Route::get('/', [ExpanseController::class, 'list']);
         });
@@ -180,10 +156,6 @@ Route::get(
 )->name('campaign.invitation-change');
 
 // Allow character sheets to be viewed without being logged in.
-Route::get(
-    '/characters/cyberpunkred/{character}',
-    [CyberpunkredController::class, 'view']
-)->name('cyberpunkred.character');
 Route::get(
     '/characters/expanse/{character}',
     [ExpanseController::class, 'view']

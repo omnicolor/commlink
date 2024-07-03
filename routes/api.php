@@ -69,5 +69,4 @@ Route::post('/roll', [SlackController::class, 'post'])->name('roll');
 Route::get('/healthz', HealthzController::class)->name('healthz');
 Route::get('/varz', [VarzController::class, 'index'])->name('varz');
 
-require __DIR__ . '/cyberpunkred.php';
 require __DIR__ . '/shadowrun5e.php';

@@ -75,26 +75,41 @@ class SlackController extends Controller
         }
 
         // First, try to load a system-specific roll for a module.
-        if (
-            isset($channel->system)
-            && null !== Module::find($channel->system)
-            && is_numeric($this->args[0])
-        ) {
+        if (isset($channel->system) && null !== Module::find($channel->system)) {
+            if (is_numeric($this->args[0])) {
+                $class = sprintf(
+                    '\\Modules\\%s\\Rolls\\Number',
+                    ucfirst($channel->system),
+                );
+                try {
+                    /** @var Roll */
+                    $roll = new $class($this->text, $channel->username, $channel);
+                    RollEvent::dispatch($roll, $channel);
+                    return $roll->forSlack();
+                } catch (Error) { // @codeCoverageIgnore
+                    // Ignore errors here, they might want a generic command.
+                }
+            }
+            // Next, module rolls that aren't numeric.
             $class = sprintf(
-                '\\Modules\\%s\\Rolls\\Number',
+                '\\Modules\\%s\\Rolls\\%s',
                 ucfirst($channel->system),
+                ucfirst($this->args[0]),
             );
             try {
                 /** @var Roll */
                 $roll = new $class($this->text, $channel->username, $channel);
-                RollEvent::dispatch($roll, $channel);
+                if ('help' !== $this->args[0]) {
+                    RollEvent::dispatch($roll, $channel);
+                }
                 return $roll->forSlack();
-            } catch (Error) { // @codeCoverageIgnore
-                // Ignore errors here, they might want a generic command.
+            } catch (Error) {
+                // Again, ignore errors, they might want a generic command.
             }
         }
 
         // Next, try to load system-specific rolls for numeric data.
+        // TODO: Remove this once all systems are Modularized (#1368)
         if (is_numeric($this->args[0]) && isset($channel->system)) {
             try {
                 $class = sprintf(
@@ -111,6 +126,7 @@ class SlackController extends Controller
         }
 
         // Next, try system-specific rolls that aren't numeric.
+        // TODO: Remove this once all systems are Modularized (#1368)
         if (null !== $channel->system) {
             try {
                 $class = sprintf(

@@ -31,7 +31,7 @@ class VarzController extends Controller
         'avatar' => 'Modules/Avatar/data/',
         'blistercritters' => 'Modules/Blistercritters/data/',
         'capers' => 'Modules/Capers/data/',
-        'cyberpunkred' => 'data/Cyberpunkred/',
+        'cyberpunkred' => 'Modules/Cyberpunkred/data/',
         'dnd5e' => 'Modules/Dnd5e/data/',
         'expanse' => 'Modules/Expanse/data/',
         'shadowrun5e' => 'data/Shadowrun5e/',
