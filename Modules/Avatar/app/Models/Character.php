@@ -6,15 +6,25 @@ namespace Modules\Avatar\Models;
 
 use App\Models\Character as BaseCharacter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Avatar\Database\Factories\CharacterFactory;
 use Stringable;
 
 /**
- * @property Background $background
- * @property Era $era
- * @psalm-suppress UndefinedClass
+ * @property string $appearance
+ * @property-read Background $background
+ * @property-write Background|string $background
+ * @property string $creativity
+ * @property-read Era $era
+ * @property-write Era|string $era
+ * @property string $fatigue
+ * @property string $focus
+ * @property string $harmony
+ * @property string $history
+ * @property string $name
+ * @property string $passion
  */
 class Character extends BaseCharacter implements Stringable
 {
@@ -83,16 +93,36 @@ class Character extends BaseCharacter implements Stringable
     /**
      * @psalm-suppress PossiblyUnusedMethod
      */
-    public function setBackgroundAttribute(Background $background): void
+    public function background(): Attribute
     {
-        $this->attributes['background'] = $background->name;
+        return Attribute::make(
+            get: function (): Background {
+                return Background::from($this->attributes['background']);
+            },
+            set: function (string | Background $background): string {
+                if ($background instanceof Background) {
+                    return $background->value;
+                }
+                return Background::from($background)->value;
+            },
+        );
     }
 
     /**
      * @psalm-suppress PossiblyUnusedMethod
      */
-    public function setEraAttribute(Era $era): void
+    public function era(): Attribute
     {
-        $this->attributes['era'] = $era->name;
+        return Attribute::make(
+            get: function (): Era {
+                return Era::from($this->attributes['era']);
+            },
+            set: function (string | Era $era): string {
+                if ($era instanceof Era) {
+                    return $era->value;
+                }
+                return Era::from($era)->value;
+            },
+        );
     }
 }

@@ -14,6 +14,10 @@ use Modules\Transformers\Database\Factories\CharacterFactory;
 use RuntimeException;
 
 /**
+ * @property string $allegiance
+ * @property string $alt_mode // TODO: Change to AltMode object
+ * @property string $color_primary
+ * @property string $color_secondary
  * @property int $courage_alt
  * @property int $courage_robot
  * @property int $endurance_alt
@@ -57,6 +61,27 @@ class Character extends BaseCharacter
      */
     protected $attributes = [
         'system' => 'transformers',
+    ];
+
+    protected $casts = [
+        'courage_alt' => 'int',
+        'courage_robot' => 'int',
+        'endurance_alt' => 'int',
+        'endurance_robot' => 'int',
+        'energon_current' => 'int',
+        'firepower_alt' => 'int',
+        'firepower_robot' => 'int',
+        'hp_current' => 'int',
+        'intelligence_alt' => 'int',
+        'intelligence_robot' => 'int',
+        'rank_alt' => 'int',
+        'rank_robot' => 'int',
+        'skill_alt' => 'int',
+        'skill_robot' => 'int',
+        'speed_alt' => 'int',
+        'speed_robot' => 'int',
+        'strength_alt' => 'int',
+        'strength_robot' => 'int',
     ];
 
     /**

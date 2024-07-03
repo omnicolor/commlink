@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Dnd5e\Tests\Feature\Http\Controllers;
 
+use App\Models\Campaign;
 use App\Models\User;
 use Modules\Dnd5e\Models\Character;
 use PHPUnit\Framework\Attributes\Group;
@@ -31,7 +32,7 @@ final class CharactersControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('dnd5e.characters.index'))
             ->assertOk()
             ->assertJson(['data' => []]);
@@ -48,9 +49,8 @@ final class CharactersControllerTest extends TestCase
         $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'cyberpunkred',
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('dnd5e.characters.index'))
             ->assertOk()
             ->assertJson(['data' => []]);
@@ -70,15 +70,13 @@ final class CharactersControllerTest extends TestCase
         $character1 = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun6e',
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         /** @var Character */
         $character2 = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'dnd5e',
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('dnd5e.characters.index'))
             ->assertOk()
             ->assertJsonFragment([
@@ -86,7 +84,7 @@ final class CharactersControllerTest extends TestCase
                 'name' => $character2->name,
                 'owner' => [
                     'id' => $user->id,
-                    'email' => $user->email,
+                    'name' => $user->name,
                 ],
                 'system' => 'dnd5e',
             ]);
@@ -95,28 +93,28 @@ final class CharactersControllerTest extends TestCase
         $character2->delete();
     }
 
-    /**
-     * Test showing an individual character.
-     */
     public function testShowCharacter(): void
     {
         /** @var User */
         $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['system' => 'dnd5e']);
         /** @var Character */
         $character = Character::factory()->create([
+            'campaign_id' => $campaign->id,
             'owner' => $user->email,
             'system' => 'dnd5e',
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('dnd5e.characters.show', $character->id))
             ->assertOk()
             ->assertJsonFragment([
-                'id' => $character->_id,
+                'campaign_id' => $campaign->id,
+                'id' => $character->id,
                 'name' => $character->name,
                 'owner' => [
                     'id' => $user->id,
-                    'email' => $user->email,
+                    'name' => $user->name,
                 ],
                 'system' => 'dnd5e',
             ]);
@@ -135,12 +133,25 @@ final class CharactersControllerTest extends TestCase
         $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun6e',
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('dnd5e.characters.show', $character->id))
             ->assertNotFound();
 
+        $character->delete();
+    }
+
+    public function testViewCharacter(): void
+    {
+        $user = User::factory()->create();
+
+        /** @var Character */
+        $character = Character::factory()->create(['owner' => $user->email]);
+
+        self::actingAs($user)
+            ->get(route('dnd5e.character', $character))
+            ->assertSee($user->email)
+            ->assertSee(e($character->name), false);
         $character->delete();
     }
 }

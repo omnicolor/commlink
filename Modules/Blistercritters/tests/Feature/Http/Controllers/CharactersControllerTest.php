@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Blistercritters\Tests\Feature\Http\Controllers;
 
+use App\Models\Campaign;
 use App\Models\User;
 use Modules\Blistercritters\Models\Character;
 use PHPUnit\Framework\Attributes\Group;
@@ -39,15 +40,22 @@ final class CharactersControllerTest extends TestCase
 
     public function testShowCharacter(): void
     {
+        /** @var User */
         $user = User::factory()->create();
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create([
+            'system' => 'blistercritters',
+        ]);
         $character = Character::factory()->create([
+            'campaign_id' => $campaign->id,
             'name' => 'Roa Dent',
             'owner' => $user->email,
         ]);
         self::actingAs($user)
             ->getJson(route('blistercritters.characters.show', $character))
             ->assertOk()
-            ->assertJsonPath('data.name', 'Roa Dent');
+            ->assertJsonPath('data.name', 'Roa Dent')
+            ->assertJsonPath('data.campaign_id', $campaign->id);
 
         $character->delete();
     }

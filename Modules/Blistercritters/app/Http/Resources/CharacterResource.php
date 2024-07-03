@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Blistercritters\Models\Character;
 
+use function route;
+
 /**
  * @mixin Character
  */
@@ -19,13 +21,14 @@ class CharacterResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
             'name' => $this->name,
             'instinct' => $this->instinct,
             'noggin' => $this->noggin,
             'scrap' => $this->scrap,
             'scurry' => $this->scurry,
             'vibe' => $this->vibe,
+            'id' => $this->id,
+            'campaign_id' => $this->campaign_id,
             'owner' => [
                 // @phpstan-ignore-next-line
                 'id' => $this->user()->id,
@@ -33,10 +36,14 @@ class CharacterResource extends JsonResource
                 'name' => $this->user()->name,
             ],
             'system' => $this->system,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             'links' => [
-                'self' => sprintf('/api/blistercritters/characters/%s', $this->id),
+                'self' => route('blistercritters.characters.show', $this->id),
+                'campaign' => $this->when(
+                    null !== $this->campaign_id,
+                    null !== $this->campaign_id
+                        ? route('campaigns.show', $this->campaign_id)
+                        : null,
+                ),
             ],
         ];
     }

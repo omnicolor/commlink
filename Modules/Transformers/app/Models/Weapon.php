@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Transformers\Models;
 
 use RuntimeException;
+use Stringable;
 
 use function strtolower;
 
@@ -13,7 +14,7 @@ use function strtolower;
  * @psalm-suppress UnresolvableInclude
  * @property-read int $cost
  */
-class Weapon
+class Weapon implements Stringable
 {
     public Classification $class;
     public ?string $damage;

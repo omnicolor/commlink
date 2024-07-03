@@ -17,6 +17,7 @@ use function resource_path;
 use function str_replace;
 
 /**
+ * @codeCoverageIgnore
  * @psalm-suppress UnusedClass
  */
 class CapersServiceProvider extends ServiceProvider

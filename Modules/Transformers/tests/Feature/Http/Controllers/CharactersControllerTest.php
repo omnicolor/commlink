@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Modules\Transformers\Tests\Feature\Http\Controllers;
 
+use App\Models\Campaign;
 use App\Models\User;
 use Modules\Transformers\Models\Character;
 use Modules\Transformers\Models\PartialCharacter;
 use Modules\Transformers\Models\Programming;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 #[Group('transformers')]
@@ -41,7 +44,7 @@ final class CharactersControllerTest extends TestCase
             PartialCharacter::where('owner', $user->email)->get(),
         );
         self::actingAs($user)
-            ->get('/characters/transformers/create/new')
+            ->get(route('transformers.create', 'new'))
             ->assertRedirect(route('transformers.create', 'base'));
         self::assertNotSame('old-character-id', session('transformers-partial'));
         self::assertCount(
@@ -272,6 +275,50 @@ final class CharactersControllerTest extends TestCase
         $character->delete();
     }
 
+    public function testIndex(): void
+    {
+        $user = User::factory()->create();
+
+        /** @var Character */
+        $character1 = Character::factory()->create(['owner' => $user->email]);
+        /** @var Character */
+        $character2 = Character::factory()->create(['owner' => $user->email]);
+
+        self::actingAs($user)
+            ->getJson(route('transformers.characters.index'))
+            ->assertOk()
+            ->assertJsonCount(2, 'data');
+
+        $character1->delete();
+        $character2->delete();
+    }
+
+    public function testShowCharacter(): void
+    {
+        $trusted = Role::create(['name' => 'trusted']);
+        $trusted->givePermissionTo(Permission::create(['name' => 'view data']));
+        $user = User::factory()->create();
+        $user->assignRole($trusted);
+
+        /** @var Campaign */
+        $campaign = Campaign::factory()->create(['system' => 'transformers']);
+        /** @var Character */
+        $character = Character::factory()->create([
+            'campaign_id' => $campaign,
+            'owner' => $user->email,
+            'subgroups' => ['actionmaster'],
+        ]);
+
+        self::actingAs($user)
+            ->getJson(route('transformers.characters.show', $character))
+            ->assertOk()
+            ->assertJsonPath('data.name', $character->name)
+            ->assertJsonPath('data.campaign_id', $campaign->id)
+            ->assertJsonCount(1, 'data.subgroups');
+
+        $character->delete();
+    }
+
     public function testViewCharacter(): void
     {
         $user = User::factory()->create();
@@ -280,10 +327,7 @@ final class CharactersControllerTest extends TestCase
         $character = Character::factory()->create(['owner' => $user->email]);
 
         self::actingAs($user)
-            ->get(
-                route('transformers.character', $character),
-                ['character' => $character]
-            )
+            ->get(route('transformers.character', $character))
             ->assertSee($user->email)
             ->assertSee(e($character->name), false);
 

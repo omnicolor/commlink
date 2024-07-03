@@ -17,6 +17,7 @@ use function resource_path;
 use function str_replace;
 
 /**
+ * @codeCoverageIgnore
  * @psalm-suppress UnusedClass
  */
 class StartrekadventuresServiceProvider extends ServiceProvider
@@ -123,7 +124,6 @@ class StartrekadventuresServiceProvider extends ServiceProvider
 
     /**
      * Get the services provided by the provider.
-     *
      * @return array<string>
      */
     public function provides(): array

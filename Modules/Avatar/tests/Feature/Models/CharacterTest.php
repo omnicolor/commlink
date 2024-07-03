@@ -27,17 +27,29 @@ final class CharacterTest extends TestCase
         self::assertSame('Aang', (string)$character);
     }
 
-    public function testBackground(): void
+    public function testSetBackgroundEnum(): void
     {
         $character = new Character();
         $character->background = Background::Urban;
-        self::assertSame('Urban', $character->background);
+        self::assertSame('urban', $character->background->value);
     }
 
-    public function testEra(): void
+    public function testSetBackgroundString(): void
+    {
+        $character = new Character(['background' => 'outlaw']);
+        self::assertSame(Background::Outlaw, $character->background);
+    }
+
+    public function testSetEraEnum(): void
     {
         $character = new Character();
         $character->era = Era::Roku;
-        self::assertSame('Roku', $character->era);
+        self::assertSame('roku', $character->era->value);
+    }
+
+    public function testSetEraString(): void
+    {
+        $character = new Character(['era' => 'roku']);
+        self::assertSame(Era::Roku, $character->era);
     }
 }

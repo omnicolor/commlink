@@ -14,13 +14,19 @@ use Modules\Startrekadventures\Database\Factories\CharacterFactory;
 use RuntimeException;
 
 /**
- * @property-read string $id
+ * @property string $assignment
  * @property-read Disciplines $disciplines
+ * @property string $environment
  * @property array<int, string> $focuses
+ * @property-read string $id
+ * @property string $rank
  * @property-read Species $species
  * @property-read Attributes $stats
  * @property-read int $stress
  * @property-read TalentArray $talents
+ * @property-read Traits $trait
+ * @property string $upbringing
+ * @property array<int, string> $values
  */
 class Character extends BaseCharacter
 {
@@ -201,6 +207,18 @@ class Character extends BaseCharacter
                     }
                 }
                 return $talents;
+            },
+        );
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function trait(): Attribute
+    {
+        return Attribute::make(
+            get: function (): Traits {
+                return new Traits($this->attributes['traits']);
             },
         );
     }

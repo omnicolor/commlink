@@ -7,12 +7,12 @@ namespace Modules\Avatar\Models;
 /**
  * @psalm-suppress all
  */
-enum Background
+enum Background: string
 {
-    case Military;
-    case Monastic;
-    case Outlaw;
-    case Privileged;
-    case Urban;
-    case Wilderness;
+    case Military = 'military';
+    case Monastic = 'monastic';
+    case Outlaw = 'outlaw';
+    case Privileged = 'privileged';
+    case Urban = 'urban';
+    case Wilderness = 'wilderness';
 }

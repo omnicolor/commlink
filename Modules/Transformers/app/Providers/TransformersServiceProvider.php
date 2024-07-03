@@ -52,7 +52,6 @@ class TransformersServiceProvider extends ServiceProvider
      */
     protected function registerCommands(): void
     {
-        // $this->commands([]);
     }
 
     /**
@@ -60,10 +59,6 @@ class TransformersServiceProvider extends ServiceProvider
      */
     protected function registerCommandSchedules(): void
     {
-        // $this->app->booted(function () {
-        //     $schedule = $this->app->make(Schedule::class);
-        //     $schedule->command('inspire')->hourly();
-        // });
     }
 
     /**
@@ -129,7 +124,6 @@ class TransformersServiceProvider extends ServiceProvider
 
     /**
      * Get the services provided by the provider.
-     *
      * @return array<string>
      */
     public function provides(): array

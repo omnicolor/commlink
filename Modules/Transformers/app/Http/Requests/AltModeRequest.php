@@ -7,6 +7,8 @@ namespace Modules\Transformers\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
+ * Not yet used.
+ * @codeCoverageIgnore
  * @psalm-suppress UnusedClass
  */
 class AltModeRequest extends FormRequest

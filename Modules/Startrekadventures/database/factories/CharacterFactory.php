@@ -45,6 +45,7 @@ class CharacterFactory extends Factory
             'owner' => $this->faker->email,
             'species' => 'Human',
             'system' => 'startrekadventures',
+            'traits' => 'human',
         ];
     }
 }
