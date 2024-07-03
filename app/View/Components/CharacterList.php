@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 use Nwidart\Modules\Facades\Module;
 use Spatie\LaravelIgnition\Exceptions\ViewException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
+use function in_array;
 use function route;
 use function view;
 
@@ -23,7 +25,6 @@ class CharacterList extends Component
     {
         $systems = [
             'cyberpunkred',
-            'expanse',
             'shadowrun5e',
             //'stillfleet',
             //'subversion',
@@ -37,10 +38,10 @@ class CharacterList extends Component
             if (null !== Module::find($system) && Module::isEnabled($system)) {
                 try {
                     $character->link = route($system . '.character', $character);
-                } catch (ViewException) { // @codeCoverageIgnore
+                    continue;
+                } catch (RouteNotFoundException | ViewException) { // @codeCoverageIgnore
                     // Ignore a system not being ready or disabled.
                 }
-                continue;
             }
             if (in_array($system, $systems, true)) {
                 $character->link = route($system . '.character', $character);

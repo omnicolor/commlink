@@ -6,7 +6,6 @@ use App\Http\Controllers\CampaignsController;
 use App\Http\Controllers\Cyberpunkred\CharactersController as CyberpunkredController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscordController;
-use App\Http\Controllers\Expanse\CharactersController as ExpanseController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\Import\Chummer5Controller;
 use App\Http\Controllers\Import\HeroLabController;
@@ -16,6 +15,7 @@ use App\Http\Controllers\Shadowrun5e\CharactersController as ShadowrunController
 use App\Http\Controllers\SlackController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
+use Modules\Expanse\Http\Controllers\CharactersController as ExpanseController;
 
 Route::get('discord/auth', [DiscordController::class, 'redirectToDiscord']);
 Route::get('discord/callback', [DiscordController::class, 'handleCallback']);

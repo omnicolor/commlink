@@ -8,6 +8,9 @@ enum DamageType: string
 {
     case Bludgeoning = 'bludgeoning';
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function description(): string
     {
         return match ($this) {

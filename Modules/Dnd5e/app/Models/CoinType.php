@@ -12,6 +12,9 @@ enum CoinType: string
     case Platinum = 'pp';
     case Silver = 'sp';
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public static function convert(int $amount, self $from, self $to): float
     {
         return match ($from) {

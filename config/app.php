@@ -186,10 +186,8 @@ return [
      * Paths to the different data files for each system.
      */
     'data_path' => [
-        'capers' => env('CAPERS_DATA_PATH', 'data/Capers/'),
         'cyberpunkred' => env('CYBERPUNK_DATA_PATH', 'data/Cyberpunkred/'),
         'dnd5e' => env('DND5E_DATA_PATH', 'data/Dnd5e/'),
-        'expanse' => env('EXPANSE_DATA_PATH', 'data/Expanse/'),
         'shadowrun5e' => env('SHADOWRUN5E_DATA_PATH', 'data/Shadowrun5e/'),
         'subversion' => env('SUBVERSION_DATA_PATH', 'data/Subversion/'),
     ],
@@ -200,6 +198,7 @@ return [
      */
     'systems' => [
         'avatar' => 'Avatar',
+        'blistercritters' => 'Blister Critters',
         'capers' => 'Capers',
         'cyberpunkred' => 'Cyberpunk Red',
         'dnd5e' => 'Dungeons & Dragons 5th Edition',
@@ -207,7 +206,8 @@ return [
         'shadowrun5e' => 'Shadowrun 5th Edition',
         'shadowrun6e' => 'Shadowrun 6th Edition',
         'startrekadventures' => 'Star Trek Adventures',
+        'stillfleet' => 'Stillfleet',
         'subversion' => 'Subversion',
-        'transformers' => 'Transformers RPG',
+        'transformers' => 'Transformers',
     ],
 ];

@@ -35,11 +35,6 @@
         </NonInvariantDocblockPropertyType>
         <PossiblyUnusedMethod>
             <errorLevel type="suppress">
-                <!-- Psalm has issues with Enums -->
-                <file name="Modules/Dnd5e/app/Models/CoinType.php" />
-                <file name="Modules/Dnd5e/app/Models/DamageType.php" />
-                <file name="app/Models/Expanse/CrewCompetence.php" />
-                <file name="app/Models/Expanse/ShipSize.php" />
                 <directory name="app/Http/Requests" />
             </errorLevel>
         </PossiblyUnusedMethod>

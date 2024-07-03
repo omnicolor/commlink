@@ -34,7 +34,7 @@ class WorldAnvilController extends Controller
     protected array $templateMap = [
         ExpanseConverter::TEMPLATE_ID => [
             'converter' => ExpanseConverter::class,
-            'view' => 'Expanse.character',
+            'view' => 'expanse::character',
         ],
         CyberpunkRedConverter::TEMPLATE_ID => [
             'converter' => CyberpunkRedConverter::class,
