@@ -8,8 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Modules\Capers\Http\Requests\AnchorsRequest;
 use Modules\Capers\Http\Requests\BasicsRequest;
@@ -18,6 +18,7 @@ use Modules\Capers\Http\Requests\GearRequest;
 use Modules\Capers\Http\Requests\PowersRequest;
 use Modules\Capers\Http\Requests\SkillsRequest;
 use Modules\Capers\Http\Requests\TraitsRequest;
+use Modules\Capers\Http\Resources\CharacterResource;
 use Modules\Capers\Models\Character;
 use Modules\Capers\Models\Gear;
 use Modules\Capers\Models\PartialCharacter;
@@ -38,7 +39,7 @@ class CharactersController extends Controller
         ?string $step = null
     ): RedirectResponse | View {
         /** @var User */
-        $user = Auth::user();
+        $user = $request->user();
 
         if ('new' === $step) {
             /** @var PartialCharacter */
@@ -246,7 +247,7 @@ class CharactersController extends Controller
         ?string $step
     ): ?PartialCharacter {
         /** @var User */
-        $user = Auth::user();
+        $user = $request->user();
 
         // See if the user has already chosen to continue a character.
         $characterId = $request->session()->get('capers-partial');
@@ -275,7 +276,7 @@ class CharactersController extends Controller
     public function saveCharacter(Request $request): RedirectResponse
     {
         /** @var User */
-        $user = Auth::user();
+        $user = $request->user();
         /** @var string */
         $characterId = $request->session()->pull('capers-partial');
         /** @var PartialCharacter */
@@ -292,7 +293,7 @@ class CharactersController extends Controller
     public function storeAnchors(AnchorsRequest $request): RedirectResponse
     {
         /** @var User */
-        $user = Auth::user();
+        $user = $request->user();
         /** @var string */
         $characterId = $request->session()->get('capers-partial');
         /** @var PartialCharacter */
@@ -312,7 +313,7 @@ class CharactersController extends Controller
     {
         $characterId = $request->session()->get('capers-partial');
         /** @var User */
-        $user = Auth::user();
+        $user = $request->user();
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
@@ -334,7 +335,7 @@ class CharactersController extends Controller
     public function storeBoosts(BoostsRequest $request): RedirectResponse
     {
         /** @var User */
-        $user = Auth::user();
+        $user = $request->user();
 
         $characterId = $request->session()->get('capers-partial');
         /** @var PartialCharacter */
@@ -375,7 +376,7 @@ class CharactersController extends Controller
     {
         $characterId = $request->session()->get('capers-partial');
         /** @var User */
-        $user = Auth::user();
+        $user = $request->user();
 
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
@@ -409,7 +410,7 @@ class CharactersController extends Controller
     {
         $characterId = $request->session()->get('capers-partial');
         /** @var User */
-        $user = Auth::user();
+        $user = $request->user();
 
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
@@ -449,7 +450,7 @@ class CharactersController extends Controller
     {
         $characterId = $request->session()->get('capers-partial');
         /** @var User */
-        $user = Auth::user();
+        $user = $request->user();
 
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
@@ -468,7 +469,7 @@ class CharactersController extends Controller
     {
         $characterId = $request->session()->get('capers-partial');
         /** @var User */
-        $user = Auth::user();
+        $user = $request->user();
 
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
@@ -491,9 +492,36 @@ class CharactersController extends Controller
         ));
     }
 
-    public function view(Character $character): View
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function index(Request $request): JsonResource
     {
-        $user = Auth::user();
+        return CharacterResource::collection(
+            // @phpstan-ignore-next-line
+            Character::where('owner', $request->user()->email)->get()
+        );
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function show(Request $request, Character $character): JsonResource
+    {
+        /** @var User */
+        $user = $request->user();
+        $campaign = $character->campaign();
+        abort_if(
+            $user->email !== $character->owner
+            && (null === $campaign || $user->isNot($campaign->gamemaster)),
+            Response::HTTP_NOT_FOUND
+        );
+        return new CharacterResource($character);
+    }
+
+    public function view(Request $request, Character $character): View
+    {
+        $user = $request->user();
         return view(
             'capers::character',
             ['character' => $character, 'user' => $user]

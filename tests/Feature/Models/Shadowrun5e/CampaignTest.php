@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models\Shadowrun5e;
 
+use App\Models\Character as BaseCharacter;
 use App\Models\Shadowrun5e\Campaign;
 use App\Models\Shadowrun5e\Character;
 use App\Models\Shadowrun5e\Contact;
@@ -28,7 +29,7 @@ final class CampaignTest extends TestCase
         /** @var Campaign */
         $campaign = Campaign::factory()->create();
         // @phpstan-ignore-next-line
-        $campaign->characters()->each(function (Character $character, $key): void {
+        $campaign->characters()->each(function (BaseCharacter $character, $key): void {
             $character->delete();
         });
         return $campaign;

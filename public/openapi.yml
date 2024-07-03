@@ -19,10 +19,14 @@ servers:
   - url: https://commlink.digitaldarkness.com/api
   - url: https://commlink-dev.digitaldarkness.com/api
 tags:
+  - name: avatar
+    description: Avatar RPG
   - name: blistercritters
     description: Blister Critters RPG
   - name: campaign
     description: Information for gamemasters
+  - name: capers
+    description: Capers RPG
   - name: character
     description: Everything about characters, in whatever system
   - name: cyberpunkred
@@ -49,6 +53,29 @@ tags:
     description: Operations about users
 
 paths:
+  /avatar/characters:
+    get:
+      summary: Avatar RPG characters
+      operationId: avatar-characters-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/AvatarCharacter'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of the user's Avatar characters.
+      tags:
+        - avatar
   /blistercritters/characters:
     get:
       summary: Blister Critters RPG characters
@@ -72,6 +99,149 @@ paths:
           description: Collection of the user's Blister Critters characters.
       tags:
         - blistercritters
+  /capers/characters:
+    get:
+      summary: Capers RPG characters
+      operationId: capers-characters-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CapersCharacter'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of the user's Capers characters.
+      tags:
+        - capers
+  /capers/gear:
+    get:
+      summary: Capers RPG gear
+      operationId: capers-gear-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CapersGear'
+                    type: array
+                required:
+                  - data
+                type: object
+          description: Collection of gear that characters can buy.
+      tags:
+        - capers
+  /capers/identities:
+    get:
+      summary: Capers RPG identity
+      operationId: capers-identity-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CapersCardChoice'
+                    type: array
+                required:
+                  - data
+                type: object
+          description: Collection of identities that characters can have.
+      tags:
+        - capers
+  /capers/powers:
+    get:
+      summary: Capers RPG powers
+      operationId: capers-powers-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CapersPower'
+                    type: array
+                required:
+                  - data
+                type: object
+          description: Collection of powers that characters can have.
+      tags:
+        - capers
+  /capers/skills:
+    get:
+      summary: Capers RPG skills
+      operationId: capers-skills-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CapersSkill'
+                    type: array
+                required:
+                  - data
+                type: object
+          description: Collection of skills that characters can have.
+      tags:
+        - capers
+  /capers/vices:
+    get:
+      summary: Capers RPG vices
+      operationId: capers-vices-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CapersCardChoice'
+                    type: array
+                required:
+                  - data
+                type: object
+          description: Collection of vices that characters can have.
+      tags:
+        - capers
+  /capers/virtues:
+    get:
+      summary: Capers RPG virtues
+      operationId: capers-virtues-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CapersCardChoice'
+                    type: array
+                required:
+                  - data
+                type: object
+          description: Collection of virtues that characters can have.
+      tags:
+        - capers
   /campaigns:
     get:
       summary: Return all campaigns for the user
@@ -2794,6 +2964,63 @@ components:
                 type: object
             type: object
   schemas:
+    AvatarCharacter:
+      example:
+        name: 'Aang'
+        appearance: 'Blue arrow tattoo on his bald head.'
+        background: 'Wilderness'
+        creativity: null
+        fatigue: null
+        focus: null
+        harmony: null
+        history: null
+        passion: null
+        id: '667ee7f8246ccb219839df35'
+        owner:
+          id: 3
+          name: 'Omni A'
+        system: 'avatar'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/avatar/characters/667ee7f8246ccb219839df35'
+      allOf:
+        - $ref: '#/components/schemas/Character'
+        - properties:
+            appearance:
+              type: string
+            background:
+              type: string
+            creativity:
+              nullable: true
+              type: string
+            fatigue:
+              nullable: true
+              type: string
+            focus:
+              nullable: true
+              type: string
+            harmony:
+              nullable: true
+              type: string
+            history:
+              nullable: true
+              type: string
+            name:
+              type: string
+            passion:
+              nullable: true
+              type: string
+          required:
+            - appearance
+            - background
+            - creativity
+            - fatigue
+            - focus
+            - harmony
+            - history
+            - id
+            - passion
+            - name
+          type: object
     BlistercrittersCharacter:
       example:
         id: '667cda3b3dc4b0ecfa014d62'
@@ -2807,7 +3034,6 @@ components:
         system: 'blistercritters'
         links:
           self: 'https://commlink-dev.digitaldarkness.com/api/blistercritters/characters/667cda3b3dc4b0ecfa014d62'
-
       allOf:
         - $ref: '#/components/schemas/Character'
         - properties:
@@ -2899,6 +3125,301 @@ components:
         - id
         - invited_by
         - invitee
+      type: object
+    CapersBoost:
+      example:
+        name: 'Body boost'
+        description: 'Increase your Body by 1 until the beginning of your next turn.'
+        id: 'body-boost'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - name
+      type: object
+    CapersCardChoice:
+      description: |
+        Several Capers character traits can be chosen or a card can be picked.
+        Either way, the trait is tied to a card. Examples are Identities, Vices,
+        and Virtues.
+      properties:
+        card:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - card
+        - id
+        - name
+      type: object
+    CapersCharacter:
+      example:
+        name: 'The Weevil'
+        background: null
+        description: 'Kind of an oaf.'
+        gear:
+          - name: 'Beer (glass)'
+            cost: 0.1
+            id: 'beer'
+            quantity: 1
+            type: 'food'
+        mannerisms: null
+        powers:
+          - name: 'Body armor'
+            activation: 'NA'
+            available_boosts:
+              - name: 'Body boost'
+                description: |
+                  Increase your Body by 1 until the beginning of your next turn.
+                id: 'body-boost'
+            boosts:
+              - name: 'Body boost'
+                description: |
+                  Increase your Body by 1 until the beginning of your next turn.
+                id: 'body-boost'
+            description: 'Your skin is tough or sheathed in a hard material.'
+            duration: 'Continuous'
+            effect: |
+              At rank 1, your Body increases by 1. At rank 2, your Body instead
+              increases by 2.
+            id: 'body-armor'
+            max_rank: 2
+            range: 'NA'
+            target: 'Self'
+            type: 'Minor'
+            rank: 1
+        identity:
+          name: 'Glory hound'
+          card: 'R9'
+          description: |
+            You look for affirmation in all things. Gain Moxie when others
+            praise you for a significant deed.
+          id: 'glory-hound'
+        skills:
+          - name: 'Willpower'
+            description: |
+              Willpower involves staying focused while under duress, in pain, or
+              lacking sleep.
+            id: 'willpower'
+        stats:
+          agility: 2
+          charisma: 2
+          expertise: 1
+          perception: 2
+          resilience: 3
+          strength: 2
+        type: 'caper'
+        vice:
+          name: 'Drugs'
+          card: '5'
+          description: |
+            You are addicted to heroin, opium, or another strong narcotic.
+          id: 'drugs'
+        virtue:
+          name: 'Honest'
+          card: '8'
+          description: 'You do not lie... ever.'
+          id: 'honest'
+        id: '6684584c4a56300f150627a3'
+        system: 'capers'
+        owner:
+          id: 3
+          name: 'Omni A'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/capers/characters/6684584c4a56300f150627a3'
+      allOf:
+        - $ref: '#/components/schemas/Character'
+        - properties:
+            background:
+              nullable: true
+              type: string
+            description:
+              type: string
+            gear:
+              items:
+                $ref: '#/components/schemas/CapersGear'
+              type: array
+            identity:
+              $ref: '#/components/schemas/CapersCardChoice'
+            mannerisms:
+              nullable: true
+              type: string
+            name:
+              type: string
+            powers:
+              items:
+                $ref: '#/components/schemas/CapersPower'
+              type: array
+            skills:
+              items:
+                $ref: '#/components/schemas/CapersSkill'
+              type: array
+            stats:
+              properties:
+                charisma:
+                  type: integer
+                agility:
+                  type: integer
+                perception:
+                  type: integer
+                expertise:
+                  type: integer
+                resilience:
+                  type: integer
+                strength:
+                  type: integer
+              required:
+                - charisma
+                - agility
+                - perception
+                - expertise
+                - resilience
+                - strength
+              type: object
+            type:
+              enum:
+                - caper
+                - exceptional
+                - regular
+              type: string
+            vice:
+              $ref: '#/components/schemas/CapersCardChoice'
+            virtue:
+              $ref: '#/components/schemas/CapersCardChoice'
+          required:
+            - background
+            - description
+            - gear
+            - identity
+            - mannerisms
+            - name
+            - powers
+            - skills
+            - stats
+            - type
+            - vice
+            - virtue
+          type: object
+    CapersGear:
+      example:
+        name: 'Beer (glass)'
+        cost: 0.1
+        id: 'beer'
+        quantity: 1
+        type: 'food'
+      properties:
+        cost:
+          type: number
+        id:
+          type: string
+        name:
+          type: string
+        quantity:
+          type: integer
+        type:
+          type: string
+      required:
+        - cost
+        - id
+        - name
+        - quantity
+        - type
+      type: object
+    CapersPower:
+      example:
+        name: 'Body armor'
+        activation: 'NA'
+        available_boosts:
+          - name: 'Body boost'
+            description: |
+              Increase your Body by 1 until the beginning of your next turn.
+            id: 'body-boost'
+        boosts:
+          - name: 'Body boost'
+            description: |
+              Increase your Body by 1 until the beginning of your next turn.
+            id: 'body-boost'
+        description: 'Your skin is tough or sheathed in a hard material.'
+        duration: 'Continuous'
+        effect: |
+          At rank 1, your Body increases by 1. At rank 2, your Body instead
+          increases by 2.
+        id: 'body-armor'
+        max_rank: 2
+        range: 'NA'
+        target: 'Self'
+        type: 'Minor'
+        rank: 1
+      properties:
+        activation:
+          type: string
+        available_boosts:
+          description: Boosts that *can* be chosen with this power.
+          items:
+            $ref: '#/components/schemas/CapersBoost'
+          type: array
+        boosts:
+          description: Boosts that *have* been chosen with this power.
+          items:
+            $ref: '#/components/schemas/CapersBoost'
+          type: array
+        description:
+          type: string
+        duration:
+          type: string
+        effect:
+          type: string
+        id:
+          type: string
+        max_rank:
+          type: integer
+        range:
+          type: string
+        target:
+          type: string
+        type:
+          type: string
+        rank:
+          type: integer
+      required:
+        - activation
+        - available_boosts
+        - boosts
+        - duration
+        - id
+        - max_rank
+        - name
+        - range
+        - target
+        - type
+        - rank
+      type: object
+    CapersSkill:
+      example:
+        name: 'Willpower'
+        description: |
+          Willpower involves staying focused while under duress, in pain, or
+          lacking sleep.
+        id: 'willpower'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - name
       type: object
     Character:
       properties:
