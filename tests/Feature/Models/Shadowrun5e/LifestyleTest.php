@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Models\Shadowrun5e;
 
 use App\Models\Shadowrun5e\Lifestyle;
-use App\Models\Shadowrun5e\LifestyleAttributes;
 use App\Models\Shadowrun5e\LifestyleOption;
 use App\Models\Shadowrun5e\LifestyleZone;
 use PHPUnit\Framework\Attributes\Group;
@@ -37,12 +36,10 @@ final class LifestyleTest extends TestCase
         self::assertSame('Low', $lifestyle->name);
         self::assertSame('low', $lifestyle->id);
         self::assertSame(2000, $lifestyle->cost);
-        self::assertNotNull($lifestyle->description);
         self::assertSame(373, $lifestyle->page);
         self::assertSame(3, $lifestyle->points);
         self::assertSame('core', $lifestyle->ruleset);
         $attributes = $lifestyle->attributes;
-        self::assertInstanceOf(LifestyleAttributes::class, $attributes);
         self::assertSame(2, $attributes->comforts);
         self::assertSame(3, $attributes->comfortsMax);
         self::assertSame(2, $attributes->neighborhood);
@@ -50,7 +47,6 @@ final class LifestyleTest extends TestCase
         self::assertSame(2, $attributes->security);
         self::assertSame(3, $attributes->securityMax);
         $zone = $lifestyle->getZone();
-        self::assertInstanceOf(LifestyleZone::class, $zone);
         self::assertSame('D', $zone->name);
     }
 
@@ -72,12 +68,10 @@ final class LifestyleTest extends TestCase
         self::assertSame('Luxury', $lifestyle->name);
         self::assertSame('luxury', $lifestyle->id);
         self::assertSame(100000, $lifestyle->cost);
-        self::assertNotNull($lifestyle->description);
         self::assertSame(373, $lifestyle->page);
         self::assertSame(12, $lifestyle->points);
         self::assertSame('core', $lifestyle->ruleset);
         $attributes = $lifestyle->attributes;
-        self::assertInstanceOf(LifestyleAttributes::class, $attributes);
         self::assertSame(5, $attributes->comforts);
         self::assertSame(7, $attributes->comfortsMax);
         self::assertSame(5, $attributes->neighborhood);
@@ -85,7 +79,6 @@ final class LifestyleTest extends TestCase
         self::assertSame(5, $attributes->security);
         self::assertSame(8, $attributes->securityMax);
         $zone = $lifestyle->getZone();
-        self::assertInstanceOf(LifestyleZone::class, $zone);
         self::assertSame('A', $zone->name);
     }
 

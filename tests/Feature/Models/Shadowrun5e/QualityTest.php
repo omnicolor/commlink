@@ -16,9 +16,6 @@ use Tests\TestCase;
 #[Small]
 final class QualityTest extends TestCase
 {
-    /**
-     * Test that loading an invalid quality throws an exception.
-     */
     public function testLoadingInvalidQualityThrowsException(): void
     {
         Quality::$qualities = null;
@@ -27,10 +24,6 @@ final class QualityTest extends TestCase
         new Quality('not-found-id');
     }
 
-    /**
-     * Test that loading a quality sets the ID.
-     * @return Quality
-     */
     public function testLoadingLuckyId(): Quality
     {
         $quality = new Quality('lucky');
@@ -38,18 +31,6 @@ final class QualityTest extends TestCase
         return $quality;
     }
 
-    /**
-     * Test that loading a quality sets the description.
-     */
-    #[Depends('testLoadingLuckyId')]
-    public function testLoadingLuckyDescription(Quality $quality): void
-    {
-        self::assertNotNull($quality->description);
-    }
-
-    /**
-     * Test that loading a quality with effects sets the effects property.
-     */
     #[Depends('testLoadingLuckyId')]
     public function testLoadingLuckySetsEffects(Quality $quality): void
     {
@@ -57,9 +38,6 @@ final class QualityTest extends TestCase
         self::assertEquals($expected, $quality->effects);
     }
 
-    /**
-     * Test that loading a quality with incompatibilities sets the property.
-     */
     #[Depends('testLoadingLuckyId')]
     public function testLoadingLuckySetsIncompatibilities(
         Quality $quality
@@ -162,7 +140,7 @@ final class QualityTest extends TestCase
      */
     public function testFindByName(): void
     {
-        self::assertInstanceOf(Quality::class, Quality::findByName('Lucky'));
+        self::assertSame('lucky', Quality::findByName('Lucky')->id);
     }
 
     /**

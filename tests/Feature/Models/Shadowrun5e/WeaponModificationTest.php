@@ -76,14 +76,6 @@ final class WeaponModificationTest extends TestCase
     }
 
     /**
-     * Test that loading sets the description.
-     */
-    public function testConstructorSetsDescription(): void
-    {
-        self::assertNotNull($this->modification->description);
-    }
-
-    /**
      * Test that loading doesn't change effects if there are none.
      */
     public function testConstructorDoesntChangeEffects(): void
