@@ -7,6 +7,7 @@ namespace App\Http\Controllers\StarTrekAdventures;
 use App\Http\Controllers\Controller;
 use App\Models\StarTrekAdventures\Character;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 /**
@@ -14,14 +15,10 @@ use Illuminate\View\View;
  */
 class CharactersController extends Controller
 {
-    /**
-     * View all of the logged in user's characters for this system.
-     * @return View
-     */
-    public function list(): View
+    public function list(Request $request): View
     {
         /** @var User */
-        $user = auth()->user();
+        $user = $request->user();
 
         return view(
             'StarTrekAdventures.characters',
@@ -31,14 +28,9 @@ class CharactersController extends Controller
         );
     }
 
-    /**
-     * View a character's sheet.
-     * @param Character $character
-     * @return View
-     */
-    public function view(Character $character): View
+    public function view(Request $request, Character $character): View
     {
-        $user = auth()->user();
+        $user = $request->user();
         return view(
             'StarTrekAdventures.character',
             ['character' => $character, 'user' => $user]
