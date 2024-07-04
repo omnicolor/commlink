@@ -9,6 +9,7 @@ use App\Models\Campaign;
 /**
  * @extends Factory<Campaign>
  * @method mixed hasInitiatives(int $count)
+ * @psalm-suppress UnusedClass
  */
 class CampaignFactory extends Factory
 {

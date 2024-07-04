@@ -27,17 +27,6 @@
                 <directory name="app/View/Components" />
             </errorLevel>
         </InvalidReturnType>
-        <NonInvariantDocblockPropertyType>
-            <errorLevel type="suppress">
-                <directory name="app/Models" />
-                <directory name="database/factories" />
-            </errorLevel>
-        </NonInvariantDocblockPropertyType>
-        <PossiblyUnusedMethod>
-            <errorLevel type="suppress">
-                <directory name="app/Http/Requests" />
-            </errorLevel>
-        </PossiblyUnusedMethod>
         <TooManyTemplateParams>
             <errorLevel type="suppress">
                 <directory name="app/Http/Responses/Discord" />
@@ -48,23 +37,7 @@
                 <file name="app/Console/Commands/ValidateDataFiles.php" />
                 <file name="app/Console/Kernel.php" />
                 <file name="app/Providers/BroadcastServiceProvider.php" />
-                <file name="app/View/Components/Shadowrun5e/CampaignOptions.php" />
-                <directory name="app/Models" />
-                <directory name="app/Http/Controllers" />
-                <directory name="database/factories" />
             </errorLevel>
         </UnresolvableInclude>
-        <UnusedClass>
-            <errorLevel type="suppress">
-                <directory name="app/Console/Commands" />
-                <directory name="app/Features" />
-                <directory name="app/Http/Controllers" />
-                <directory name="app/Providers" />
-                <directory name="app/Rolls" />
-                <directory name="app/View/Components" />
-                <directory name="database" />
-                <directory name="tests" />
-            </errorLevel>
-        </UnusedClass>
     </issueHandlers>
 </psalm>

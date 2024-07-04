@@ -14,6 +14,7 @@ use ParseError;
 /**
  * Test all data files for correctness.
  * @codeCoverageIgnore
+ * @psalm-suppress UnusedClass
  */
 class ValidateDataFiles extends Command
 {
@@ -28,7 +29,7 @@ class ValidateDataFiles extends Command
         'cyberpunkred' => 'Modules/Cyberpunkred/data/',
         'dnd5e' => 'Modules/Dnd5e/data/',
         'expanse' => 'Modules/Expanse/data/',
-        'shadowrun5e' => 'data/Shadowrun5e/',
+        'shadowrun5e' => 'Modules/Shadowrun5e/data/',
         'shadowrun6e' => 'Modules/Shadowrun6e/data/',
         'startrekadventures' => 'Modules/Startrekadventures/data/',
         'subversion' => 'data/Subversion/',

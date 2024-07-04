@@ -16,6 +16,9 @@ use function in_array;
 use function route;
 use function view;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class CharacterList extends Component
 {
     /**

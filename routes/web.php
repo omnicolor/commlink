@@ -10,7 +10,6 @@ use App\Http\Controllers\Import\Chummer5Controller;
 use App\Http\Controllers\Import\HeroLabController;
 use App\Http\Controllers\Import\WorldAnvilController;
 use App\Http\Controllers\SettingsController;
-use App\Http\Controllers\Shadowrun5e\CharactersController as ShadowrunController;
 use App\Http\Controllers\SlackController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
@@ -46,50 +45,6 @@ Route::middleware('auth')->group(function (): void {
     Route::prefix('characters')->group(function (): void {
         Route::prefix('expanse')->name('expanse.')->group(function (): void {
             Route::get('/', [ExpanseController::class, 'list']);
-        });
-
-        Route::prefix('shadowrun5e')->name('shadowrun5e.')->group(function (): void {
-            Route::get('/', [ShadowrunController::class, 'list']);
-            Route::get(
-                'create/{step?}',
-                [ShadowrunController::class, 'create'],
-            );
-            Route::post(
-                'create/attributes',
-                [ShadowrunController::class, 'storeAttributes'],
-            )->name('create-attributes');
-            Route::post(
-                'create/background',
-                [ShadowrunController::class, 'storeBackground'],
-            )->name('create-background');
-            Route::post(
-                'create/knowledge',
-                [ShadowrunController::class, 'storeKnowledgeSkills'],
-            )->name('create-knowledge-skills');
-            Route::post(
-                'create/martial-arts',
-                [ShadowrunController::class, 'storeMartialArts'],
-            )->name('create-martial-arts');
-            Route::post(
-                'create/qualities',
-                [ShadowrunController::class, 'storeQualities'],
-            )->name('create-qualities');
-            Route::post(
-                'create/rules',
-                [ShadowrunController::class, 'storeRules'],
-            )->name('create-rules');
-            Route::post(
-                'create/skills',
-                [ShadowrunController::class, 'storeSkills'],
-            )->name('create-skills');
-            Route::post(
-                'create/standard',
-                [ShadowrunController::class, 'storeStandard'],
-            )->name('create-standard');
-            Route::post(
-                'create/vitals',
-                [ShadowrunController::class, 'storeVitals'],
-            )->name('create-vitals');
         });
     });
 
@@ -160,9 +115,5 @@ Route::get(
     '/characters/expanse/{character}',
     [ExpanseController::class, 'view']
 )->name('expanse.character');
-Route::get(
-    '/characters/shadowrun5e/{character}',
-    [ShadowrunController::class, 'view']
-)->name('shadowrun5e.character');
 
 require __DIR__ . '/auth.php';

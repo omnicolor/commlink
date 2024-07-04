@@ -34,7 +34,7 @@ class VarzController extends Controller
         'cyberpunkred' => 'Modules/Cyberpunkred/data/',
         'dnd5e' => 'Modules/Dnd5e/data/',
         'expanse' => 'Modules/Expanse/data/',
-        'shadowrun5e' => 'data/Shadowrun5e/',
+        'shadowrun5e' => 'Modules/Shadowrun5e/data/',
         'shadowrun6e' => 'Modules/Shadowrun6e/data/',
         'startrekadventures' => 'Modules/Startrekadventures/data/',
         'subversion' => 'data/Subversion/',
@@ -73,7 +73,7 @@ class VarzController extends Controller
     protected function getSystemMetrics(string $system): array
     {
         $characterClass = sprintf(
-            '\\App\\Models\\%s\\Character',
+            '\\Modules\\%s\\Models\\Character',
             str_replace(' ', '', ucwords(str_replace('-', ' ', $system)))
         );
         try {
@@ -118,6 +118,7 @@ class VarzController extends Controller
                 continue; // @codeCoverageIgnore
             }
             try {
+                /** @psalm-suppress UnresolvableInclude */
                 $data = require $paths[$system] . $file;
             } catch (ParseError) { // @codeCoverageIgnore
                 continue; // @codeCoverageIgnore

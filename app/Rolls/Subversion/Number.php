@@ -22,6 +22,9 @@ use function trim;
 
 use const PHP_EOL;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class Number extends Roll
 {
     protected int $dice = 0;

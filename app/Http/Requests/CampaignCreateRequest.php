@@ -26,6 +26,7 @@ class CampaignCreateRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, array<int, mixed>>
      */
     public function rules(): array

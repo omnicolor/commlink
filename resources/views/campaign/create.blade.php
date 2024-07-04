@@ -91,7 +91,7 @@
         </div>
 
         <div class="campaign-system" id="shadowrun5e-options" style="display:none;">
-            <x-shadowrun5e.campaign-options />
+            <x-shadowrun5e::campaign-options />
         </div>
 
         <div class="mt-3 mb-4">

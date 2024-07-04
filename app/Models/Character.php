@@ -97,10 +97,7 @@ class Character extends Model implements Stringable
             $character = 'Modules\\' . ucfirst($attributes['system']) . '\\Models\\Character';
             $character = new $character($attributes);
         } else {
-            $character = match ($attributes['system'] ?? null) {
-                'shadowrun5e' => new Shadowrun5e\Character($attributes),
-                default => new Character($attributes),
-            };
+            $character = new Character($attributes);
         }
         // @phpstan-ignore-next-line
         $character->exists = true;

@@ -23,6 +23,9 @@ use function view;
 
 use const JSON_THROW_ON_ERROR;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class WorldAnvilController extends Controller
 {
     /**

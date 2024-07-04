@@ -5,7 +5,9 @@
     "Cyberpunkred": true,
     "Dnd5e": true,
     "Expanse": true,
+    "Shadowrun5e": true,
     "Shadowrun6e": true,
     "Startrekadventures": true,
-    "Transformers": true
+    "Transformers": true,
+    "Test": true
 }
