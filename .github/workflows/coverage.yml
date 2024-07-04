@@ -54,7 +54,7 @@ jobs:
         run: touch ${{ github.workspace }}/commlink-test
 
       - name: Execute unit tests with code coverage
-        run: ./artisan test --parallel --recreate-databases --coverage-clover public/coverage/clover.xml
+        run: ./artisan test --coverage-clover public/coverage/clover.xml
         env:
           DB_DATABASE: "${{ github.workspace }}/commlink-test"
 
