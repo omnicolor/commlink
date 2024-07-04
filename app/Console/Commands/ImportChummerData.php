@@ -103,7 +103,7 @@ class ImportChummerData extends Command implements Isolatable
     public function __construct()
     {
         parent::__construct();
-        $filename = config('app.data_path.shadowrun5e') . 'chummer-sources.php';
+        $filename = config('shadowrun5e.data_path') . 'chummer-sources.php';
         /** @psalm-suppress UnresolvableInclude */
         $this->source_map = require $filename;
     }
