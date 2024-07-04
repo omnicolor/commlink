@@ -6,6 +6,6 @@ return [
     'name' => '$STUDLY_NAME$',
     'data_path' => env(
         strtoupper('$STUDLY_NAME$_DATA_PATH'),
-        'Modules/$STUDLY_NAME$/data',
+        'Modules/$STUDLY_NAME$/data/',
     ),
 ];
