@@ -36,10 +36,10 @@ Route::middleware('auth:sanctum')
             return IdentityResource::collection(array_values((array)Identity::all()))
                 ->additional([
                     'links' => [
-                        'self' => route('capers.identity.index'),
+                        'self' => route('capers.identities.index'),
                     ],
                 ]);
-        })->name('identity.index');
+        })->name('identities.index');
         Route::get('powers', function () {
             return PowerResource::collection(array_values((array)Power::all()))
                 ->additional([
