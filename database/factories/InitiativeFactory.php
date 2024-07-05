@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends Factory<Initiative>
+ * @psalm-suppress UnusedClass
  */
 class InitiativeFactory extends Factory
 {

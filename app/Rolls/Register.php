@@ -18,6 +18,9 @@ use function implode;
 use function sprintf;
 use function str_replace;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class Register extends Roll
 {
     protected const EXPECTED_ARGUMENTS = 2;

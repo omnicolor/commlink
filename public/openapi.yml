@@ -9,7 +9,7 @@ info:
   license:
     name: MIT License
     url: https://mit-license.org/
-  version: 1.7.0
+  version: 1.8.0
 externalDocs:
   description: Find out more about Commlink
   url: https://commlink.digitaldarkness.com/about
@@ -19,8 +19,14 @@ servers:
   - url: https://commlink.digitaldarkness.com/api
   - url: https://commlink-dev.digitaldarkness.com/api
 tags:
+  - name: avatar
+    description: Avatar RPG
+  - name: blistercritters
+    description: Blister Critters RPG
   - name: campaign
     description: Information for gamemasters
+  - name: capers
+    description: Capers RPG
   - name: character
     description: Everything about characters, in whatever system
   - name: cyberpunkred
@@ -38,11 +44,204 @@ tags:
   - name: meta
     description: Information about the service itself
   - name: shadowrun
-    description: Shadowrun RPG
+    description: Shadowrun RP
+  - name: startrekadventures
+    description: Star Trek Adventures RPG
+  - name: transformers
+    description: Old Transformers RPG
   - name: user
     description: Operations about users
 
 paths:
+  /avatar/characters:
+    get:
+      summary: Avatar RPG characters
+      operationId: avatar-characters-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/AvatarCharacter'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of the user's Avatar characters.
+      tags:
+        - avatar
+  /blistercritters/characters:
+    get:
+      summary: Blister Critters RPG characters
+      operationId: blistercritters-characters-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/BlistercrittersCharacter'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of the user's Blister Critters characters.
+      tags:
+        - blistercritters
+  /capers/characters:
+    get:
+      summary: Capers RPG characters
+      operationId: capers-characters-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CapersCharacter'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of the user's Capers characters.
+      tags:
+        - capers
+  /capers/gear:
+    get:
+      summary: Capers RPG gear
+      operationId: capers-gear-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CapersGear'
+                    type: array
+                required:
+                  - data
+                type: object
+          description: Collection of gear that characters can buy.
+      tags:
+        - capers
+  /capers/identities:
+    get:
+      summary: Capers RPG identity
+      operationId: capers-identity-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CapersCardChoice'
+                    type: array
+                required:
+                  - data
+                type: object
+          description: Collection of identities that characters can have.
+      tags:
+        - capers
+  /capers/powers:
+    get:
+      summary: Capers RPG powers
+      operationId: capers-powers-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CapersPower'
+                    type: array
+                required:
+                  - data
+                type: object
+          description: Collection of powers that characters can have.
+      tags:
+        - capers
+  /capers/skills:
+    get:
+      summary: Capers RPG skills
+      operationId: capers-skills-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CapersSkill'
+                    type: array
+                required:
+                  - data
+                type: object
+          description: Collection of skills that characters can have.
+      tags:
+        - capers
+  /capers/vices:
+    get:
+      summary: Capers RPG vices
+      operationId: capers-vices-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CapersCardChoice'
+                    type: array
+                required:
+                  - data
+                type: object
+          description: Collection of vices that characters can have.
+      tags:
+        - capers
+  /capers/virtues:
+    get:
+      summary: Capers RPG virtues
+      operationId: capers-virtues-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CapersCardChoice'
+                    type: array
+                required:
+                  - data
+                type: object
+          description: Collection of virtues that characters can have.
+      tags:
+        - capers
   /campaigns:
     get:
       summary: Return all campaigns for the user
@@ -2417,6 +2616,52 @@ paths:
           description: Collection of Shadowrun 5E weapons.
       tags:
         - shadowrun
+  /startrekadventures/characters:
+    get:
+      summary: Star Trek Adventures RPG characters
+      operationId: startrekadventures-characters-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/StartrekadventuresCharacter'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of the user's Star Trek Adventures characters.
+      tags:
+        - startrekadventures
+  /transformers/characters:
+    get:
+      summary: Transformers RPG characters
+      operationId: transformers-characters-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/TransformersCharacter'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of the user's Transformer characters.
+      tags:
+        - transformers
   /users:
     get:
       summary: All users
@@ -2719,6 +2964,99 @@ components:
                 type: object
             type: object
   schemas:
+    AvatarCharacter:
+      example:
+        name: 'Aang'
+        appearance: 'Blue arrow tattoo on his bald head.'
+        background: 'Wilderness'
+        creativity: null
+        fatigue: null
+        focus: null
+        harmony: null
+        history: null
+        passion: null
+        id: '667ee7f8246ccb219839df35'
+        owner:
+          id: 3
+          name: 'Omni A'
+        system: 'avatar'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/avatar/characters/667ee7f8246ccb219839df35'
+      allOf:
+        - $ref: '#/components/schemas/Character'
+        - properties:
+            appearance:
+              type: string
+            background:
+              type: string
+            creativity:
+              nullable: true
+              type: string
+            fatigue:
+              nullable: true
+              type: string
+            focus:
+              nullable: true
+              type: string
+            harmony:
+              nullable: true
+              type: string
+            history:
+              nullable: true
+              type: string
+            name:
+              type: string
+            passion:
+              nullable: true
+              type: string
+          required:
+            - appearance
+            - background
+            - creativity
+            - fatigue
+            - focus
+            - harmony
+            - history
+            - id
+            - passion
+            - name
+          type: object
+    BlistercrittersCharacter:
+      example:
+        id: '667cda3b3dc4b0ecfa014d62'
+        name: 'Philz McDillz'
+        instinct: 10
+        noggin: 8
+        scrap: 8
+        scurry: 6
+        vibe: 6
+        owner: 'omni@digitaldarkness.com'
+        system: 'blistercritters'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/blistercritters/characters/667cda3b3dc4b0ecfa014d62'
+      allOf:
+        - $ref: '#/components/schemas/Character'
+        - properties:
+            instinct:
+              type: integer
+            name:
+              type: string
+            noggin:
+              type: integer
+            scrap:
+              type: integer
+            scurry:
+              type: integer
+            vibe:
+              type: integer
+          required:
+            - instinct
+            - name
+            - noggin
+            - scrap
+            - scurry
+            - vibe
+          type: object
     Campaign:
       properties:
         id:
@@ -2788,6 +3126,301 @@ components:
         - invited_by
         - invitee
       type: object
+    CapersBoost:
+      example:
+        name: 'Body boost'
+        description: 'Increase your Body by 1 until the beginning of your next turn.'
+        id: 'body-boost'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - name
+      type: object
+    CapersCardChoice:
+      description: |
+        Several Capers character traits can be chosen or a card can be picked.
+        Either way, the trait is tied to a card. Examples are Identities, Vices,
+        and Virtues.
+      properties:
+        card:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - card
+        - id
+        - name
+      type: object
+    CapersCharacter:
+      example:
+        name: 'The Weevil'
+        background: null
+        description: 'Kind of an oaf.'
+        gear:
+          - name: 'Beer (glass)'
+            cost: 0.1
+            id: 'beer'
+            quantity: 1
+            type: 'food'
+        mannerisms: null
+        powers:
+          - name: 'Body armor'
+            activation: 'NA'
+            available_boosts:
+              - name: 'Body boost'
+                description: |
+                  Increase your Body by 1 until the beginning of your next turn.
+                id: 'body-boost'
+            boosts:
+              - name: 'Body boost'
+                description: |
+                  Increase your Body by 1 until the beginning of your next turn.
+                id: 'body-boost'
+            description: 'Your skin is tough or sheathed in a hard material.'
+            duration: 'Continuous'
+            effect: |
+              At rank 1, your Body increases by 1. At rank 2, your Body instead
+              increases by 2.
+            id: 'body-armor'
+            max_rank: 2
+            range: 'NA'
+            target: 'Self'
+            type: 'Minor'
+            rank: 1
+        identity:
+          name: 'Glory hound'
+          card: 'R9'
+          description: |
+            You look for affirmation in all things. Gain Moxie when others
+            praise you for a significant deed.
+          id: 'glory-hound'
+        skills:
+          - name: 'Willpower'
+            description: |
+              Willpower involves staying focused while under duress, in pain, or
+              lacking sleep.
+            id: 'willpower'
+        stats:
+          agility: 2
+          charisma: 2
+          expertise: 1
+          perception: 2
+          resilience: 3
+          strength: 2
+        type: 'caper'
+        vice:
+          name: 'Drugs'
+          card: '5'
+          description: |
+            You are addicted to heroin, opium, or another strong narcotic.
+          id: 'drugs'
+        virtue:
+          name: 'Honest'
+          card: '8'
+          description: 'You do not lie... ever.'
+          id: 'honest'
+        id: '6684584c4a56300f150627a3'
+        system: 'capers'
+        owner:
+          id: 3
+          name: 'Omni A'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/capers/characters/6684584c4a56300f150627a3'
+      allOf:
+        - $ref: '#/components/schemas/Character'
+        - properties:
+            background:
+              nullable: true
+              type: string
+            description:
+              type: string
+            gear:
+              items:
+                $ref: '#/components/schemas/CapersGear'
+              type: array
+            identity:
+              $ref: '#/components/schemas/CapersCardChoice'
+            mannerisms:
+              nullable: true
+              type: string
+            name:
+              type: string
+            powers:
+              items:
+                $ref: '#/components/schemas/CapersPower'
+              type: array
+            skills:
+              items:
+                $ref: '#/components/schemas/CapersSkill'
+              type: array
+            stats:
+              properties:
+                charisma:
+                  type: integer
+                agility:
+                  type: integer
+                perception:
+                  type: integer
+                expertise:
+                  type: integer
+                resilience:
+                  type: integer
+                strength:
+                  type: integer
+              required:
+                - charisma
+                - agility
+                - perception
+                - expertise
+                - resilience
+                - strength
+              type: object
+            type:
+              enum:
+                - caper
+                - exceptional
+                - regular
+              type: string
+            vice:
+              $ref: '#/components/schemas/CapersCardChoice'
+            virtue:
+              $ref: '#/components/schemas/CapersCardChoice'
+          required:
+            - background
+            - description
+            - gear
+            - identity
+            - mannerisms
+            - name
+            - powers
+            - skills
+            - stats
+            - type
+            - vice
+            - virtue
+          type: object
+    CapersGear:
+      example:
+        name: 'Beer (glass)'
+        cost: 0.1
+        id: 'beer'
+        quantity: 1
+        type: 'food'
+      properties:
+        cost:
+          type: number
+        id:
+          type: string
+        name:
+          type: string
+        quantity:
+          type: integer
+        type:
+          type: string
+      required:
+        - cost
+        - id
+        - name
+        - quantity
+        - type
+      type: object
+    CapersPower:
+      example:
+        name: 'Body armor'
+        activation: 'NA'
+        available_boosts:
+          - name: 'Body boost'
+            description: |
+              Increase your Body by 1 until the beginning of your next turn.
+            id: 'body-boost'
+        boosts:
+          - name: 'Body boost'
+            description: |
+              Increase your Body by 1 until the beginning of your next turn.
+            id: 'body-boost'
+        description: 'Your skin is tough or sheathed in a hard material.'
+        duration: 'Continuous'
+        effect: |
+          At rank 1, your Body increases by 1. At rank 2, your Body instead
+          increases by 2.
+        id: 'body-armor'
+        max_rank: 2
+        range: 'NA'
+        target: 'Self'
+        type: 'Minor'
+        rank: 1
+      properties:
+        activation:
+          type: string
+        available_boosts:
+          description: Boosts that *can* be chosen with this power.
+          items:
+            $ref: '#/components/schemas/CapersBoost'
+          type: array
+        boosts:
+          description: Boosts that *have* been chosen with this power.
+          items:
+            $ref: '#/components/schemas/CapersBoost'
+          type: array
+        description:
+          type: string
+        duration:
+          type: string
+        effect:
+          type: string
+        id:
+          type: string
+        max_rank:
+          type: integer
+        range:
+          type: string
+        target:
+          type: string
+        type:
+          type: string
+        rank:
+          type: integer
+      required:
+        - activation
+        - available_boosts
+        - boosts
+        - duration
+        - id
+        - max_rank
+        - name
+        - range
+        - target
+        - type
+        - rank
+      type: object
+    CapersSkill:
+      example:
+        name: 'Willpower'
+        description: |
+          Willpower involves staying focused while under duress, in pain, or
+          lacking sleep.
+        id: 'willpower'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - name
+      type: object
     Character:
       properties:
         campaign_id:
@@ -2797,8 +3430,10 @@ components:
         links:
           $ref: '#/components/schemas/Links'
         owner:
-          format: email
-          type: string
+          oneOf:
+            - format: email
+              type: string
+            - $ref: '#/components/schemas/UserMinimal'
         system:
           type: string
       required:
@@ -6027,6 +6662,421 @@ components:
           type: string
         wireless_effects:
           type: object
+      type: object
+    StartrekadventuresCharacter:
+      example:
+        name: 'Billy Bob Petrov'
+        assignment: 'Chief Medical Officer'
+        disciplines:
+          command: 2
+          conn: 2
+          engineering: 3
+          medicine: 5
+          science: 3
+          security: 1
+        environment: 'Busy Colony'
+        focuses:
+          - 'Infectious Disease'
+          - 'Virology'
+          - 'Xenobiology'
+          - 'Botany'
+          - 'Quantum Mechanics'
+          - 'Medical Sensors'
+        rank: 'Commander'
+        species:
+          name: 'Human'
+          description: |
+            Originating on the planet Earth in the Sol system, Humans are a
+            resilient, diverse, and adaptable species, who developed from
+            fractious, warring nations on the brink of mutual annihilation to a
+            united, peaceful society in less than a century, and managed to
+            forge alliances between former enemies within a century of achieving
+            interstellar space flight. Earth is a founder and pivotal member of
+            the United Federation of Planets, and many of the Federation’s
+            institutions can be found on Earth. Humans often exhibit a dichotomy
+            in their nature — being both driven to strong emotion and careful
+            reason — and while they have largely grown beyond their warlike and
+            divisive past, their drive and capacity for aggression are as much a
+            part of their success as their curiosity and analytical minds.
+        stats:
+          control: 9
+          daring: 7
+          fitness: 7
+          insight: 10
+          presence: 9
+          reason: 12
+        talents:
+          - name: 'Computer expertise'
+            description: |
+              Whenever you attempt a Task that involves the programming or study
+              of a computer system, you may add a bonus d20 to your pool.
+            id: 'computer-expertise'
+            page: 137
+            requirements:
+              science: 2
+            ruleset: 'core'
+        trait:
+          description: |
+            Humans are adaptable and resilient, and their resolve and ambition
+            often allow them to resist great hardship and triumph despite great
+            adversity. However, Humans can also be reckless and stubborn,
+            irrational, and unpredictable.
+          name: 'Human'
+          page: 107
+          ruleset: 'core'
+          id: 'Human'
+        upbringing: 'Agriculture or Rural'
+        values:
+          - 'Insatiable Curiosity'
+          - 'Exploring to Test New Theories'
+          - 'Threw Out The Handbook and Wrote My Own'
+          - 'Body and Mind Alike Must Be Healthy'
+        id: '5ecab94af4d90c95236cd77b'
+        owner: 'omni@digitaldarkness.com'
+        system: 'startrekadventures'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/startrekadventures/characters/5ecab94af4d90c95236cd77b'
+      allOf:
+        - $ref: '#/components/schemas/Character'
+        - properties:
+            assignment:
+              type: string
+            disciplines:
+              properties:
+                command:
+                  type: integer
+                conn:
+                  type: integer
+                engineering:
+                  type: integer
+                medicine:
+                  type: integer
+                science:
+                  type: integer
+                security:
+                  type: integer
+              required:
+                - command
+                - conn
+                - engineering
+                - medicine
+                - science
+                - security
+              type: object
+            environment:
+              type: string
+            focuses:
+              items:
+                type: string
+              type: array
+            name:
+              type: string
+            rank:
+              type: string
+            species:
+              $ref: '#/components/schemas/StartrekadventuresSpecies'
+            stats:
+              properties:
+                control:
+                  type: integer
+                daring:
+                  type: integer
+                fitness:
+                  type: integer
+                insight:
+                  type: integer
+                presence:
+                  type: integer
+                reason:
+                  type: integer
+              required:
+                - control
+                - daring
+                - fitness
+                - insight
+                - presence
+                - reason
+              type: object
+            talents:
+              items:
+                $ref: '#/components/schemas/StartrekadventuresTalent'
+              type: array
+            traits:
+              items:
+                $ref: '#/components/schemas/StartrekadventuresTrait'
+              type: array
+            upbringing:
+              type: string
+            values:
+              items:
+                type: string
+              type: array
+          type: object
+    StartrekadventuresSpecies:
+      example:
+        name: 'Human'
+        description: |
+          Originating on the planet Earth in the Sol system, Humans are a
+          resilient, diverse, and adaptable species, who developed from
+          fractious, warring nations on the brink of mutual annihilation to a
+          united, peaceful society in less than a century, and managed to forge
+          alliances between former enemies within a century of achieving
+          interstellar space flight. Earth is a founder and pivotal member of
+          the United Federation of Planets, and many of the Federation’s
+          institutions can be found on Earth. Humans often exhibit a dichotomy
+          in their nature — being both driven to strong emotion and careful
+          reason — and while they have largely grown beyond their warlike and
+          divisive past, their drive and capacity for aggression are as much a
+          part of their success as their curiosity and analytical minds.
+      properties:
+        description:
+          type: string
+        name:
+          type: string
+      required:
+        - name
+      type: object
+    StartrekadventuresTalent:
+      example:
+        name: 'Computer expertise'
+        description: |
+          Whenever you attempt a Task that involves the programming or study of
+          a computer system, you may add a bonus d20 to your pool.
+        id: 'computer-expertise'
+        page: 137
+        requirements:
+          science: 2
+        ruleset: 'core'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        requirements:
+          type: object
+        ruleset:
+          type: string
+      required:
+        - id
+        - name
+        - page
+        - ruleset
+      type: object
+    StartrekadventuresTrait:
+      example:
+        description: |
+          Humans are adaptable and resilient, and their resolve and ambition
+          often allow them to resist great hardship and triumph despite great
+          adversity. However, Humans can also be reckless and stubborn,
+          irrational, and unpredictable.
+        name: 'Human'
+        page: 107
+        ruleset: 'core'
+        id: 'Human'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+      required:
+        - id
+        - name
+        - page
+        - ruleset
+      type: object
+    TransformersCharacter:
+      example:
+        name: 'Bumblebee'
+        allegiance: 'Autobots'
+        alt_mode: null
+        color_primary: 'Yellow'
+        color_secondary: 'Black'
+        courage_alt: null
+        courage_robot: 5
+        endurance_alt: null
+        endurance_robot: 3
+        energon_base: 20
+        energon_current: 20
+        firepower_alt: null
+        firepower_robot: 7
+        hp_base: 13
+        hp_current: 13
+        intelligence_alt: null
+        intelligence_robot: 10
+        mode: 'robot'
+        programming: 'engineer'
+        quote: 'Bzzt'
+        rank_alt: null
+        rank_robot: 3
+        size: 3
+        skill_alt: null
+        skill_robot: 7
+        speed_alt: null
+        speed_robot: 8
+        strength_alt: null
+        strength_robot: 4
+        subgroups:
+          - name: 'Actionmaster'
+            class: 'standard'
+            cost: 2
+            description: |
+              Nuclean fuel pumps through the Transformer’s veins, preventing
+              Transformation, but granting Damage Reduction of 1d6 / 2 rounded
+              up. See Partner Units for more options with Actionmaster.
+        weapons:
+          - name: 'Buzzsaw'
+            class: 'minor'
+            cost: 1
+            damage: '1d6 vs. HP + 2x Map + Radius'
+            explanation: 'Melee range. Hand-replacement. Can also be Chainsaw.'
+            id: 'buzzsaw'
+        id: '668462afeeb2453f6f07eccc'
+        owner:
+          id: 3
+          name: 'Omni Adams'
+        system: 'transformers'
+      allOf:
+        - $ref: '#/components/schemas/Character'
+        - properties:
+            allegiance:
+              enum:
+                - Autobots
+                - Decepticons
+              type: string
+            alt_mode:
+              nullable: true
+              type: string
+            color_primary:
+              type: string
+            color_secondary:
+              type: string
+            courage_alt:
+              nullable: true
+              type: integer
+            courage_robot:
+              type: integer
+            endurance_alt:
+              nullable: true
+              type: integer
+            endurance_robot:
+              type: integer
+            energon_base:
+              type: integer
+            energon_current:
+              type: integer
+            firepower_alt:
+              nullable: true
+              type: integer
+            firepower_robot:
+              type: integer
+            hp_base:
+              type: integer
+            hp_current:
+              type: integer
+            intelligence_alt:
+              nullable: true
+              type: integer
+            intelligence_robot:
+              type: integer
+            mode:
+              type: string
+            name:
+              type: string
+            programming:
+              type: string
+            quote:
+              type: string
+            rank_alt:
+              nullable: true
+              type: integer
+            rank_robot:
+              type: integer
+            size:
+              type: integer
+            skill_alt:
+              nullable: true
+              type: integer
+            skill_robot:
+              type: integer
+            speed_alt:
+              nullable: true
+              type: integer
+            speed_robot:
+              type: integer
+            strength_alt:
+              nullable: true
+              type: integer
+            strength_robot:
+              type: integer
+            subgroups:
+              items:
+                $ref: '#/components/schemas/TransformersSubgroup'
+              type: array
+            weapons:
+              items:
+                $ref: '#/components/schemas/TransformersWeapon'
+              type: array
+          type: object
+    TransformersSubgroup:
+      example:
+        name: 'Actionmaster'
+        class: 'standard'
+        cost: 2
+        description: |
+          Nuclean fuel pumps through the Transformer’s veins, preventing
+          Transformation, but granting Damage Reduction of 1d6 / 2 rounded up.
+          See Partner Units for more options with Actionmaster.
+      properties:
+        class:
+          type: string
+        cost:
+          type: integer
+        description:
+          type: string
+        name:
+          type: string
+      required:
+        - class
+        - cost
+        - name
+      type: object
+    TransformersWeapon:
+      example:
+        name: 'Buzzsaw'
+        class: 'minor'
+        cost: 1
+        damage: '1d6 vs. HP + 2x Map + Radius'
+        explanation: 'Melee range. Hand-replacement. Can also be Chainsaw.'
+        id: 'buzzsaw'
+      properties:
+        class:
+          type: string
+        cost:
+          type: integer
+        damage:
+          type: string
+        explanation:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - class
+        - cost
+        - damage
+        - id
+        - name
       type: object
     User:
       properties:

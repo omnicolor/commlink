@@ -166,6 +166,33 @@ final class SlackControllerTest extends TestCase
             ->assertSee('Bob rolled 5 dice');
     }
 
+    public function testRollModuleRoll(): void
+    {
+        DiceService::shouldReceive('rollOne')
+            ->with(10)
+            ->andReturn(4);
+
+        /** @var Channel */
+        $channel = Channel::factory()->create([
+            'system' => 'transformers',
+            'type' => Channel::TYPE_SLACK,
+        ]);
+        self::post(
+            route('roll'),
+            [
+                'channel_id' => $channel->channel_id,
+                'team_id' => $channel->server_id,
+                'text' => '5',
+                'user_id' => 'E567',
+                'user_name' => 'Bob',
+            ]
+        )
+            ->assertOk()
+            ->assertJsonFragment(['response_type' => 'in_channel'])
+            ->assertSee('4 < 5', false)
+            ->assertSee('Bob rolled a success');
+    }
+
     /**
      * Test trying a generic number command in a channel for a system that
      * doesn't have it.

@@ -6,8 +6,8 @@ namespace Tests\Feature\Events;
 
 use App\Events\InitiativeAdded;
 use App\Models\Campaign;
-use App\Models\Cyberpunkred\Character;
 use App\Models\Initiative;
+use Modules\Cyberpunkred\Models\Character;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;

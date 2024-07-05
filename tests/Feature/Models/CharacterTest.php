@@ -75,7 +75,7 @@ final class CharacterTest extends TestCase
             ->firstOrFail();
         self::assertSame('shadowrun5e', $character->system);
         self::assertInstanceOf(
-            \App\Models\Shadowrun5e\Character::class,
+            \Modules\Shadowrun5e\Models\Character::class,
             $character
         );
 

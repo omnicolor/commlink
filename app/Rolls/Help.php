@@ -8,6 +8,9 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class Help extends Roll
 {
     /**

@@ -14,8 +14,6 @@ use App\Http\Resources\CampaignResource;
 use App\Models\Campaign;
 use App\Models\CampaignInvitation;
 use App\Models\Initiative;
-use App\Models\Shadowrun5e\Character;
-use App\Models\Shadowrun5e\Grunt;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\JsonResponse;
@@ -27,6 +25,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
+use Modules\Shadowrun5e\Models\Character;
+use Modules\Shadowrun5e\Models\Grunt;
 use Rs\Json\Patch;
 use Rs\Json\Patch\InvalidOperationException;
 use Rs\Json\Pointer\InvalidPointerException;
@@ -35,6 +35,9 @@ use TypeError;
 use function max;
 use function sprintf;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class CampaignsController extends Controller
 {
     public function createForm(): View
@@ -138,7 +141,7 @@ class CampaignsController extends Controller
                 }
 
                 return view(
-                    'Shadowrun5e.gm-screen',
+                    'shadowrun5e::gm-screen',
                     [
                         'campaign' => $campaign,
                         'characters' => $characters,
