@@ -12,6 +12,7 @@ use Illuminate\Validation\Rules\In;
 class CreateBackgroundRequest extends FormRequest
 {
     /**
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array{
      *   background: array<int, In|string>,
      * }

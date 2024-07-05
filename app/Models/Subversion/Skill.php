@@ -34,6 +34,7 @@ class Skill
     public function __construct(public string $id, public ?int $rank = null)
     {
         $filename = config('app.data_path.subversion') . 'skills.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$skills ??= require $filename;
 
         if (!isset(self::$skills[$id])) {
@@ -60,6 +61,7 @@ class Skill
     public static function all(): array
     {
         $filename = config('app.data_path.subversion') . 'skills.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$skills ??= require $filename;
 
         $skills = [];

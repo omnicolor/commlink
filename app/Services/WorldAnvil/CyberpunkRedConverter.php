@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Services\WorldAnvil;
 
-use App\Models\Cyberpunkred\Armor;
-use App\Models\Cyberpunkred\PartialCharacter;
-use App\Models\Cyberpunkred\Weapon;
 use App\Services\ConverterInterface;
 use Error;
 use Illuminate\Support\Str;
 use JsonException;
+use Modules\Cyberpunkred\Models\Armor;
+use Modules\Cyberpunkred\Models\PartialCharacter;
+use Modules\Cyberpunkred\Models\Weapon;
 use RuntimeException;
 use stdClass;
 
@@ -126,7 +126,7 @@ class CyberpunkRedConverter implements ConverterInterface
     protected function parseRoles(): self
     {
         $role = $this->rawCharacter->role;
-        $class = sprintf('App\\Models\\Cyberpunkred\\Role\\%s', $role);
+        $class = sprintf('Modules\\Cyberpunkred\\Models\\Role\\%s', $role);
         try {
             $role = new $class();
         } catch (Error) {
@@ -146,9 +146,9 @@ class CyberpunkRedConverter implements ConverterInterface
      */
     protected function parseSkills(): self
     {
-        $filename = config('app.data_path.cyberpunkred') . 'world-anvil.skills.php';
+        $filename = config('cyberpunkred.data_path') . 'world-anvil.skills.php';
         $anvilSkillMap = require $filename;
-        $filename = config('app.data_path.cyberpunkred') . 'skills.php';
+        $filename = config('cyberpunkred.data_path') . 'skills.php';
         $rawSkills = require $filename;
 
         $skills = [];

@@ -1,0 +1,11 @@
+{
+    "name": "Expanse",
+    "alias": "expanse",
+    "description": "The Expanse RPG for Commlink",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Expanse\\Providers\\ExpanseServiceProvider"
+    ],
+    "files": []
+}

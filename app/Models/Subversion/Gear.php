@@ -37,6 +37,7 @@ class Gear
     public function __construct(public string $id, ?array $rawItem = null)
     {
         $filename = config('app.data_path.subversion') . 'gear.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$gear ??= require $filename;
 
         if (!isset(self::$gear[$id])) {
@@ -66,6 +67,7 @@ class Gear
     public static function all(): array
     {
         $filename = config('app.data_path.subversion') . 'gear.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$gear ??= require $filename;
 
         $gear = [];

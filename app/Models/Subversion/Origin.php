@@ -25,6 +25,7 @@ class Origin
     public function __construct(public string $id)
     {
         $filename = config('app.data_path.subversion') . 'origins.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$origins ??= require $filename;
 
         if (!isset(self::$origins[$id])) {
@@ -51,6 +52,7 @@ class Origin
     public static function all(): array
     {
         $filename = config('app.data_path.subversion') . 'origins.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$origins ??= require $filename;
 
         $origins = [];

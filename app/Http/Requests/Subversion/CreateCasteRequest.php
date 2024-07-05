@@ -12,6 +12,7 @@ use Illuminate\Validation\Rules\In;
 class CreateCasteRequest extends FormRequest
 {
     /**
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array{
      *   caste: array<int, In|string>,
      * }

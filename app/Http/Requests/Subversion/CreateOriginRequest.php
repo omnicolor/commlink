@@ -12,6 +12,7 @@ use Illuminate\Validation\Rules\In;
 class CreateOriginRequest extends FormRequest
 {
     /**
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array{
      *   origin: array<int, In|string>,
      * }

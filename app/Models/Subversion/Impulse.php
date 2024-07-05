@@ -36,6 +36,7 @@ class Impulse
     public function __construct(public string $id)
     {
         $filename = config('app.data_path.subversion') . 'impulses.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$impulses ??= require $filename;
 
         if (!isset(self::$impulses[$id])) {
@@ -76,6 +77,7 @@ class Impulse
     public static function all(): array
     {
         $filename = config('app.data_path.subversion') . 'impulses.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$impulses ??= require $filename;
 
         $impulses = [];

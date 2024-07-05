@@ -8,6 +8,9 @@ use Countable;
 
 class StandardDeck extends Deck implements Countable
 {
+    /**
+     * @var array<string, string>
+     */
     public array $suits = [
         'club' => '♣',
         'diamond' => '♦',
@@ -15,6 +18,9 @@ class StandardDeck extends Deck implements Countable
         'spade' => '♠',
     ];
 
+    /**
+     * @var array<int, string>
+     */
     public array $values = [
         2 => '2',
         '3',

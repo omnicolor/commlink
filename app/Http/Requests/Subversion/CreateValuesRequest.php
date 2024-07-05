@@ -9,6 +9,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class CreateValuesRequest extends FormRequest
 {
     /**
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array{
      *   corrupted: array<int, string>,
      *   value1: array<int, string>,

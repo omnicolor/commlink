@@ -29,6 +29,7 @@ class Language
     public function __construct(public string $id)
     {
         $filename = config('app.data_path.subversion') . 'languages.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$languages ??= require $filename;
 
         if (!isset(self::$languages[$id])) {
@@ -54,6 +55,7 @@ class Language
     public static function all(): array
     {
         $filename = config('app.data_path.subversion') . 'languages.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$languages ??= require $filename;
 
         $languages = [];

@@ -39,6 +39,7 @@ class RelationLevel implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('app.data_path.subversion') . 'relation-levels.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$levels ??= require $filename;
 
         if (!isset(self::$levels[$id])) {
@@ -69,6 +70,7 @@ class RelationLevel implements Stringable
     public static function all(): array
     {
         $filename = config('app.data_path.subversion') . 'relation-levels.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$levels ??= require $filename;
 
         $levels = [];

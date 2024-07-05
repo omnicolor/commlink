@@ -6,10 +6,10 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Campaign;
 use App\Models\CampaignInvitation;
-use App\Models\Shadowrun5e\Character;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
+use Modules\Shadowrun5e\Models\Character;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;

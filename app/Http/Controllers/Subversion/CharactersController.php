@@ -40,6 +40,9 @@ use function route;
 use function usort;
 use function view;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class CharactersController extends Controller
 {
     /**

@@ -5,38 +5,23 @@ use App\Features\CyberpunkCharacterGeneration;
 use App\Features\WorldAnvilImport;
 use App\Features\Shadowrun5eCharacterGeneration;
 use App\Features\SubversionCharacterGeneration;
+use App\Features\TransformersCharacterGeneration;
+use Nwidart\Modules\Facades\Module;
 @endphp
 <ul class="list-group">
     @forelse ($characters as $character)
         <li class="list-group-item">
-        @switch ($character->system)
-            @case ('avatar')
-            @case ('capers')
-            @case ('cyberpunkred')
-            @case ('expanse')
-            @case ('shadowrun5e')
-            @case ('shadowrun6e')
-            @case ('star-trek-adventures')
-            @case ('subversion')
-                <a href="/characters/{{ $character->system }}/{{ $character->id }}">
-                    {{ $character }}</a>
-                    @if ($character->campaign())
-                        ({{ $character->campaign() }} &mdash;
-                        {{ $character->getSystem() }})
-                    @else
-                        ({{ $character->getSystem() }})
-                    @endif
-                @break
-            @default
-                {{ $character->handle ?? $character->name }}
-                @if ($character->campaign())
-                    ({{ $character->campaign() }} &mdash;
-                    {{ $character->getSystem() }})
-                @else
-                    ({{ $character->getSystem() }})
-                @endif
-            @break
-        @endswitch
+        @if ($character->link)
+            <a href="{{ $character->link }}">{{ $character }}</a>
+        @else
+            {{ $character }}
+        @endif
+        @if ($character->campaign())
+            ({{ $character->campaign() }} &mdash;
+            {{ $character->getSystem() }})
+        @else
+            ({{ $character->getSystem() }})
+        @endif
         </li>
     @empty
         <li class="list-group-item">
@@ -85,6 +70,12 @@ use App\Features\SubversionCharacterGeneration;
                     <a class="dropdown-item" href="{{ route('import.herolab.view') }}">
                         Import a Hero Lab portfolio
                         <span class="badge bg-warning">Beta</span>
+                    </a>
+                    @endfeature
+                    @feature(TransformersCharacterGeneration::class)
+                    <a class="dropdown-item" href="/characters/transformers/create">
+                        Transformers RPG
+                        <span class="badge bg-danger">Not complete</span>
                     </a>
                     @endfeature
                     @feature(WorldAnvilImport::class)

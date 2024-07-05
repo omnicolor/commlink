@@ -13,6 +13,9 @@ use Illuminate\Support\MessageBag;
 use Illuminate\View\View;
 use RuntimeException;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class Chummer5Controller extends Controller
 {
     public function upload(Request $request): RedirectResponse | View
@@ -23,7 +26,7 @@ class Chummer5Controller extends Controller
             $character = $chummer->convert();
             $character->errors = $chummer->getErrors();
             return view(
-                'Shadowrun5e.character',
+                'shadowrun5e::character',
                 [
                     'character' => $character,
                     'currentStep' => 'review',

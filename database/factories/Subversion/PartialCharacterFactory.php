@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends Factory<PartialCharacter>
+ * @psalm-suppress UnusedClass
  */
 class PartialCharacterFactory extends Factory
 {

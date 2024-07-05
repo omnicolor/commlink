@@ -32,6 +32,7 @@ class Lineage
     public function __construct(public string $id, ?string $option = null)
     {
         $filename = config('app.data_path.subversion') . 'lineages.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$lineages ??= require $filename;
 
         if (!isset(self::$lineages[$id])) {
@@ -68,6 +69,7 @@ class Lineage
     public static function all(): array
     {
         $filename = config('app.data_path.subversion') . 'lineages.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$lineages ??= require $filename;
 
         $lineages = [];

@@ -11,7 +11,7 @@ use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\Deck;
 use App\Models\Initiative;
-use App\Models\Shadowrun5e\Character as Runner;
+use Modules\Shadowrun5e\Models\Character as Runner;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
@@ -50,7 +50,7 @@ final class VarzControllerTest extends TestCase
             ];
         }
 
-        self::get('/api/varz')
+        self::getJson(route('varz'))
             ->assertOk()
             ->assertJson([
                 'campaigns-total' => 0,
@@ -95,7 +95,7 @@ final class VarzControllerTest extends TestCase
             'player-characters' => 1,
         ];
 
-        self::get('/api/varz')
+        self::getJson(route('varz'))
             ->assertOk()
             ->assertJson([
                 'campaigns-total' => 1,

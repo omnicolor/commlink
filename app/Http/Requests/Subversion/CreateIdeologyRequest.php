@@ -12,6 +12,7 @@ use Illuminate\Validation\Rules\In;
 class CreateIdeologyRequest extends FormRequest
 {
     /**
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array{
      *   ideology: array<int, In|string>,
      * }

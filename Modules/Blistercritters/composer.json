@@ -1,0 +1,28 @@
+{
+    "name": "omnicolor/blistercritters-module",
+    "description": "Blister Critters RPG module for Commlink",
+    "authors": [
+        {
+            "name": "Omni Adams",
+            "email": "omni@digitaldarkness.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Blistercritters\\": "app/",
+            "Modules\\Blistercritters\\Database\\Factories\\": "database/factories/",
+            "Modules\\Blistercritters\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Blistercritters\\Tests\\": "tests/"
+        }
+    }
+}

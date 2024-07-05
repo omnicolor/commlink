@@ -16,6 +16,7 @@ use function collect;
 class CreateLineageRequest extends FormRequest
 {
     /**
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array{
      *   lineage: array<int, In|string>,
      *   name: array<int, string>,

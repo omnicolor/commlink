@@ -28,6 +28,7 @@ class RelationAspect
     public function __construct(public string $id)
     {
         $filename = config('app.data_path.subversion') . 'relation-aspects.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$aspects ??= require $filename;
 
         if (!isset(self::$aspects[$id])) {
@@ -56,6 +57,7 @@ class RelationAspect
     public static function all(): array
     {
         $filename = config('app.data_path.subversion') . 'relation-aspects.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$aspects ??= require $filename;
 
         $aspects = [];

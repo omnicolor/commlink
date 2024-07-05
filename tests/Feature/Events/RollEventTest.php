@@ -6,8 +6,8 @@ namespace Tests\Feature\Events;
 
 use App\Events\RollEvent;
 use App\Models\Channel;
-use App\Rolls\Shadowrun5e\Number;
 use Facades\App\Services\DiceService;
+use Modules\Shadowrun5e\Rolls\Number;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;

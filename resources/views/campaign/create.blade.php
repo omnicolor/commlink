@@ -2,7 +2,7 @@
     <x-slot name="title">Create campaign</x-slot>
     <x-slot name="navbar">
         <li class="nav-item">
-            <a class="nav-link" href="/dashboard">Home</a>
+            <a class="nav-link" href="{{ route('dashboard') }}">Home</a>
         </li>
         <li class="nav-item">
             <span class="active nav-link">Create campaign</span>
@@ -91,7 +91,7 @@
         </div>
 
         <div class="campaign-system" id="shadowrun5e-options" style="display:none;">
-            <x-shadowrun5e.campaign-options />
+            <x-shadowrun5e::campaign-options />
         </div>
 
         <div class="campaign-system" id="subversion-options" style="display:none;">

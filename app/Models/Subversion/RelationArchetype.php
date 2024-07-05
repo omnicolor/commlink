@@ -40,6 +40,7 @@ class RelationArchetype implements Stringable
     ) {
         $filename = config('app.data_path.subversion')
             . 'relation-archetypes.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$archetypes ??= require $filename;
 
         if (!isset(self::$archetypes[$id])) {
@@ -70,6 +71,7 @@ class RelationArchetype implements Stringable
     {
         $filename = config('app.data_path.subversion')
             . 'relation-archetypes.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$archetypes ??= require $filename;
 
         $archetypes = [];
