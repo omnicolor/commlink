@@ -1,7 +1,5 @@
 # Commlink
 
-![Code Coverage Badge](./coverage_badge.svg)
-
 Commlink is a manager for characters and campaigns for various table top role
 playing games. Originally written as a character builder for Shadowrun 5E, it
 later expanded to a GM tool allowing the game master to keep details about the
@@ -9,7 +7,7 @@ campaign together in one place.
 
 Commlink can operate either as a standalone web site for building and
 maintaining characters, or it can integrate with chat services to operate as
-a dice roller. It can be used in either Slack or Discord. If a campaign is
+a dice roller. It can be used in Slack, Discord, and/or IRC. If a campaign is
 registered to multiple chat channels, rolls can be broadcast to other channels.
 For example, if your Shadowrun campaign is using both Slack and Discord, users
 can roll dice in Slack and have the results appear in Discord, and vice versa.
@@ -20,6 +18,7 @@ Commlink is very much a work in progress, and each of the systems has varying
 levels of completeness.
 
 * [Avatar Legends](https://magpiegames.com/pages/avatar-legends)
+* [Blister Critters](https://stillfleet.com/games/blister_critters/)
 * [Capers](https://www.nerdburgergames.com/capers)
 * [Cyberpunk Red](https://rtalsoriangames.com/cyberpunk/)
 * [Dungeons & Dragons 5th Edition](https://dnd.wizards.com/)
@@ -27,12 +26,12 @@ levels of completeness.
 * [Shadowrun 5th Edition](https://www.catalystgamelabs.com/brands/shadowrun)
 * [Shadowrun 6th Edition](https://www.catalystgamelabs.com/brands/shadowrun)
 * [Star Trek Adventures](https://www.modiphius.net/collections/star-trek-adventures/star-trek_core)
-* [Subversion](https://www.fraggingunicorns.com/subversion)
+* [The Transformers RPG 2nd Edition](https://rpggeek.com/image/3884438/the-transformers-rpg-2nd-edition)
 
 ## Building Commlink
 
-Commlink requires [Composer](https://getcomposer.org) and is built on Laravel.
-Assuming you have Composer in your path:
+Commlink requires [Composer](https://getcomposer.org) and is built on
+[Laravel](https://laravel.com). Assuming you have Composer in your path:
 
 ```shell
 $ composer install
@@ -65,6 +64,12 @@ Assuming you've registered the bot with Discord and configured its token:
 $ ./artisan commlink:discord-run
 ```
 
+## Running the IRC bot
+
+```shell
+$ ./artisan commlink:irc-run [server]
+```
+
 ## Running tests and static analysis
 
 All of the automated tests can be run through composer:
@@ -82,7 +87,8 @@ If you'd like to run an individual check:
 * `lint` - Run
     [PHP-Parallel-Lint](https://github.com/php-parallel-lint/PHP-Parallel-Lint)
     across the entire codebase.
-* `lint-openapi` - Run [Redocly](https://redocly.com/docs/cli/) to lint the OpenAPI specification.
+* `lint-openapi` - Run [Redocly](https://redocly.com/docs/cli/) to lint the
+    OpenAPI specification.
 * `phpcs` - Run [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer)
     on the entire codebase.
 * `php-cs-fixer` - Run
