@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Shadowrun5e\Models\Campaign as Shadowrun5eCampaign;
 
 /**
  * Class representing a gaming campaign or one-shot.
@@ -121,7 +122,7 @@ class Campaign extends Model
     ): static {
         // @phpstan-ignore-next-line
         $campaign = match ($attributes->system ?? null) {
-            'shadowrun5e' => new Shadowrun5e\Campaign((array)$attributes),
+            'shadowrun5e' => new Shadowrun5eCampaign((array)$attributes),
             default => new Campaign((array)$attributes),
         };
 

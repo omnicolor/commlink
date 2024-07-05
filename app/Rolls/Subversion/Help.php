@@ -13,6 +13,9 @@ use function sprintf;
 
 use const PHP_EOL;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class Help extends Roll
 {
     /**

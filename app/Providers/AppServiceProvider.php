@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Pennant\Feature;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class AppServiceProvider extends ServiceProvider
 {
     /**

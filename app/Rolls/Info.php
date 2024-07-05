@@ -16,6 +16,9 @@ use App\Models\Slack\FieldsAttachment;
 
 use const PHP_EOL;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class Info extends Roll
 {
     protected string $campaign_name = 'No campaign';

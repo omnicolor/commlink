@@ -28,15 +28,17 @@ class VarzController extends Controller
      * files.
      */
     protected const SYSTEM_MAP = [
-        'avatar' => 'data/Avatar/',
-        'capers' => 'data/Capers/',
-        'cyberpunkred' => 'data/Cyberpunkred/',
-        'dnd5e' => 'data/Dnd5e/',
-        'expanse' => 'data/Expanse/',
-        'shadowrun5e' => 'data/Shadowrun5e/',
-        'shadowrun6e' => 'data/Shadowrun6e/',
-        'star-trek-adventures' => 'data/Startrekadventures/',
+        'avatar' => 'Modules/Avatar/data/',
+        'blistercritters' => 'Modules/Blistercritters/data/',
+        'capers' => 'Modules/Capers/data/',
+        'cyberpunkred' => 'Modules/Cyberpunkred/data/',
+        'dnd5e' => 'Modules/Dnd5e/data/',
+        'expanse' => 'Modules/Expanse/data/',
+        'shadowrun5e' => 'Modules/Shadowrun5e/data/',
+        'shadowrun6e' => 'Modules/Shadowrun6e/data/',
+        'startrekadventures' => 'Modules/Startrekadventures/data/',
         'subversion' => 'data/Subversion/',
+        'transformers' => 'Modules/Transformers/data/',
     ];
 
     public function index(): Response
@@ -71,7 +73,7 @@ class VarzController extends Controller
     protected function getSystemMetrics(string $system): array
     {
         $characterClass = sprintf(
-            '\\App\\Models\\%s\\Character',
+            '\\Modules\\%s\\Models\\Character',
             str_replace(' ', '', ucwords(str_replace('-', ' ', $system)))
         );
         try {
@@ -116,6 +118,7 @@ class VarzController extends Controller
                 continue; // @codeCoverageIgnore
             }
             try {
+                /** @psalm-suppress UnresolvableInclude */
                 $data = require $paths[$system] . $file;
             } catch (ParseError) { // @codeCoverageIgnore
                 continue; // @codeCoverageIgnore

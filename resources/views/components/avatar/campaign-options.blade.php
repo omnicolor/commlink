@@ -1,5 +1,5 @@
 @php
-use App\Models\Avatar\Era;
+use Modules\Avatar\Models\Era;
 @endphp
 <div class="mt-3 row">
     <div class="col-2 col-form-label">

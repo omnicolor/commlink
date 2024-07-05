@@ -1,0 +1,28 @@
+{
+    "name": "omnicolor/dnd5e-module",
+    "description": "Dungeons and Dragons 5E module for Commlink",
+    "authors": [
+        {
+            "name": "Omni Adams",
+            "email": "omni@digitaldarkness.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Dnd5e\\": "app/",
+            "Modules\\Dnd5e\\Database\\Factories\\": "database/factories/",
+            "Modules\\Dnd5e\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Dnd5e\\Tests\\": "tests/"
+        }
+    }
+}

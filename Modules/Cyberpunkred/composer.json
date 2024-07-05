@@ -1,0 +1,28 @@
+{
+    "name": "omnicolor/cyberpunkred-module",
+    "description": "Cyberpunk Red RPG module for Commlink.",
+    "authors": [
+        {
+            "name": "Omni Adams",
+            "email": "omni@digitaldarkness.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Cyberpunkred\\": "app/",
+            "Modules\\Cyberpunkred\\Database\\Factories\\": "database/factories/",
+            "Modules\\Cyberpunkred\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Cyberpunkred\\Tests\\": "tests/"
+        }
+    }
+}

@@ -23,6 +23,7 @@ use const PHP_EOL;
 
 /**
  * @codeCoverageIgnore
+ * @psalm-suppress UnusedClass
  */
 class HealthzController extends Controller
 {

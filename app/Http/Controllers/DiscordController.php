@@ -27,6 +27,9 @@ use function session;
 use function sprintf;
 use function view;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class DiscordController extends Controller
 {
     use InteractsWithDiscord;

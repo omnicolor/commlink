@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Services\Omae;
 
-use App\Models\Shadowrun5e\ActiveSkill;
-use App\Models\Shadowrun5e\Armor;
-use App\Models\Shadowrun5e\ArmorModification;
-use App\Models\Shadowrun5e\Augmentation;
-use App\Models\Shadowrun5e\PartialCharacter;
-use App\Models\Shadowrun5e\Quality;
-use App\Models\Shadowrun5e\Weapon;
-use App\Models\Shadowrun5e\WeaponModification;
 use App\Services\ConverterInterface;
 use Illuminate\Support\Str;
+use Modules\Shadowrun5e\Models\ActiveSkill;
+use Modules\Shadowrun5e\Models\Armor;
+use Modules\Shadowrun5e\Models\ArmorModification;
+use Modules\Shadowrun5e\Models\Augmentation;
+use Modules\Shadowrun5e\Models\PartialCharacter;
+use Modules\Shadowrun5e\Models\Quality;
+use Modules\Shadowrun5e\Models\Weapon;
+use Modules\Shadowrun5e\Models\WeaponModification;
 use RuntimeException;
 
 /**

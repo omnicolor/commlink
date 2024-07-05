@@ -35,7 +35,7 @@
                     {!! $navbar !!}
                 @else
                 <li class="nav-item active">
-                    <a class="nav-link" href="/dashboard">Home</a>
+                    <a class="nav-link" href="{{ route('dashboard') }}">Home</a>
                 </li>
                 @endif
             </ul>

@@ -1,0 +1,47 @@
+<?php
+
+declare(strict_types=1);
+
+namespace $CLASS_NAMESPACE$;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
+
+use function view;
+
+class $CLASS$ extends Controller
+{
+    public function index(): View
+    {
+        return view('$LOWER_NAME$::index');
+    }
+
+    public function create(): View
+    {
+        return view('$LOWER_NAME$::create');
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+    }
+
+    public function show($id): View
+    {
+        return view('$LOWER_NAME$::show');
+    }
+
+    public function edit($id): View
+    {
+        return view('$LOWER_NAME$::edit');
+    }
+
+    public function update(Request $request, $id): RedirectResponse
+    {
+    }
+
+    public function destroy($id): void
+    {
+    }
+}

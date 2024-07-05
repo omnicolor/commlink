@@ -13,7 +13,6 @@ use App\Events\EventCreated;
 use App\Events\InitiativeAdded;
 use App\Events\IrcMessageReceived;
 use App\Events\RollEvent;
-use App\Events\Shadowrun5e\DamageEvent as Shadowrun5eDamage;
 use App\Events\UserLinked;
 use App\Listeners\HandleDiscordMessage;
 use App\Listeners\HandleEventCreated;
@@ -21,7 +20,6 @@ use App\Listeners\HandleInitiativeEvent;
 use App\Listeners\HandleIrcMessage;
 use App\Listeners\HandleRollEvent;
 use App\Listeners\SendEmailOnCampaignInvitationCreated;
-use App\Listeners\Shadowrun5e\HandleDamageEvent;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -29,6 +27,9 @@ use SocialiteProviders\Discord\DiscordExtendSocialite;
 use SocialiteProviders\Google\GoogleExtendSocialite;
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -59,9 +60,6 @@ class EventServiceProvider extends ServiceProvider
         ],
         RollEvent::class => [
             HandleRollEvent::class,
-        ],
-        Shadowrun5eDamage::class => [
-            HandleDamageEvent::class,
         ],
         SocialiteWasCalled::class => [
             DiscordExtendSocialite::class . '@handle',

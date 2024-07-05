@@ -1,0 +1,11 @@
+{
+    "name": "Cyberpunkred",
+    "alias": "cyberpunkred",
+    "description": "Cyberpunk Red RPG module for Commlink.",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Cyberpunkred\\Providers\\CyberpunkredServiceProvider"
+    ],
+    "files": []
+}

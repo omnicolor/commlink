@@ -17,6 +17,9 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class AuthenticatedSessionController extends Controller
 {
     /**

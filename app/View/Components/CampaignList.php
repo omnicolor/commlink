@@ -10,6 +10,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class CampaignList extends Component
 {
     /**

@@ -10,6 +10,9 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class RsvpPutRequest extends FormRequest
 {
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function authorize(): bool
     {
         /** @phpstan-ignore-next-line */
@@ -29,6 +32,7 @@ class RsvpPutRequest extends FormRequest
     }
 
     /**
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, array<int, string>>
      */
     public function rules(): array

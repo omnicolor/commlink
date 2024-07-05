@@ -1,3 +1,6 @@
+@php
+use Modules\Cyberpunkred\Models\Lifepath;
+@endphp
 <x-app>
     <x-slot name="title">Choose lifepath</x-slot>
     @include('Cyberpunkred.create-navigation')
@@ -63,7 +66,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (\App\Models\Cyberpunkred\Lifepath::$origins as $key => $value)
+                            @foreach (Lifepath::$origins as $key => $value)
                             <tr>
                                 <td><div class="form-check">
                                     <input class="form-check-input"
@@ -114,7 +117,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (\App\Models\Cyberpunkred\Lifepath::$personalities as $key => $value)
+                            @foreach (Lifepath::$personalities as $key => $value)
                             <tr>
                                 <td><div class="form-check">
                                     <input class="form-check-input"
@@ -177,7 +180,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (\App\Models\Cyberpunkred\Lifepath::$clothes as $key => $value)
+                            @foreach (Lifepath::$clothes as $key => $value)
                             <tr>
                                 <td><div class="form-check">
                                     <input class="form-check-input"
@@ -222,7 +225,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (\App\Models\Cyberpunkred\Lifepath::$hairStyles as $key => $value)
+                            @foreach (Lifepath::$hairStyles as $key => $value)
                             <tr>
                                 <td><div class="form-check">
                                     <input class="form-check-input"
@@ -262,7 +265,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (\App\Models\Cyberpunkred\Lifepath::$affectations as $key => $value)
+                            @foreach (Lifepath::$affectations as $key => $value)
                             <tr>
                                 <td><div class="form-check">
                                     <input class="form-check-input"
@@ -302,7 +305,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (\App\Models\Cyberpunkred\Lifepath::$values as $key => $value)
+                            @foreach (Lifepath::$values as $key => $value)
                             <tr>
                                 <td><div class="form-check">
                                     <input class="form-check-input"
@@ -342,7 +345,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (\App\Models\Cyberpunkred\Lifepath::$feelings as $key => $value)
+                            @foreach (Lifepath::$feelings as $key => $value)
                             <tr>
                                 <td><div class="form-check">
                                     <input class="form-check-input"
@@ -382,7 +385,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (\App\Models\Cyberpunkred\Lifepath::$persons as $key => $value)
+                            @foreach (Lifepath::$persons as $key => $value)
                             <tr>
                                 <td><div class="form-check">
                                     <input class="form-check-input"
@@ -422,7 +425,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (\App\Models\Cyberpunkred\Lifepath::$possessions as $key => $value)
+                            @foreach (Lifepath::$possessions as $key => $value)
                             <tr>
                                 <td><div class="form-check">
                                     <input class="form-check-input"
@@ -469,7 +472,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (\App\Models\Cyberpunkred\Lifepath::$backgrounds as $key => $value)
+                            @foreach (Lifepath::$backgrounds as $key => $value)
                             <tr>
                                 <td><div class="form-check">
                                     <input class="form-check-input"
@@ -519,7 +522,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (\App\Models\Cyberpunkred\Lifepath::$environments as $key => $value)
+                            @foreach (Lifepath::$environments as $key => $value)
                             <tr>
                                 <td><div class="form-check">
                                     <input class="form-check-input"
@@ -566,7 +569,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (\App\Models\Cyberpunkred\Lifepath::$familyCrisises as $key => $value)
+                            @foreach (Lifepath::$familyCrisises as $key => $value)
                             <tr>
                                 <td><div class="form-check">
                                     <input class="form-check-input"

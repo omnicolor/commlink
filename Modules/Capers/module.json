@@ -1,0 +1,11 @@
+{
+    "name": "Capers",
+    "alias": "capers",
+    "description": "Capers RPG module for Commlink",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Capers\\Providers\\CapersServiceProvider"
+    ],
+    "files": []
+}

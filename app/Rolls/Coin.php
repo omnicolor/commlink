@@ -15,6 +15,7 @@ use const PHP_EOL;
 
 /**
  * Class representing a coin flip.
+ * @psalm-suppress UnusedClass
  */
 class Coin extends Roll
 {

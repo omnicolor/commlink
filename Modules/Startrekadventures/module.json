@@ -1,0 +1,11 @@
+{
+    "name": "Startrekadventures",
+    "alias": "startrekadventures",
+    "description": "Star Trek Adventures RPG module for Commlink",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Startrekadventures\\Providers\\StartrekadventuresServiceProvider"
+    ],
+    "files": []
+}

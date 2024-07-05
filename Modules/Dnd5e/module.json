@@ -1,0 +1,11 @@
+{
+    "name": "Dnd5e",
+    "alias": "dnd5e",
+    "description": "Dungeons and Dragons 5E module for Commlink",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Dnd5e\\Providers\\Dnd5eServiceProvider"
+    ],
+    "files": []
+}

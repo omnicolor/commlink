@@ -13,6 +13,7 @@ use function array_keys;
  * @extends Factory<Channel>
  * @method mixed hasChannels(int $count, array $parameters)
  * @method mixed hasInitiatives(int $count)
+ * @psalm-suppress UnusedClass
  */
 class ChannelFactory extends Factory
 {

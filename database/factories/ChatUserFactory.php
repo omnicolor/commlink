@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 
 /**
  * @extends Factory<ChatUser>
+ * @psalm-suppress UnusedClass
  */
 class ChatUserFactory extends Factory
 {

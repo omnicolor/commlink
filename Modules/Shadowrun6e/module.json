@@ -1,0 +1,11 @@
+{
+    "name": "Shadowrun6e",
+    "alias": "shadowrun6e",
+    "description": "Shadowrun 6th Edition module for Commlink",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Shadowrun6e\\Providers\\Shadowrun6eServiceProvider"
+    ],
+    "files": []
+}

@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace App\Services\HeroLab;
 
-use App\Models\Shadowrun5e\ActiveSkill;
-use App\Models\Shadowrun5e\AdeptPower;
-use App\Models\Shadowrun5e\Armor;
-use App\Models\Shadowrun5e\Augmentation;
-use App\Models\Shadowrun5e\Gear;
-use App\Models\Shadowrun5e\GearFactory;
-use App\Models\Shadowrun5e\Metamagic;
-use App\Models\Shadowrun5e\PartialCharacter;
-use App\Models\Shadowrun5e\Quality;
-use App\Models\Shadowrun5e\SkillGroup;
-use App\Models\Shadowrun5e\Spell;
-use App\Models\Shadowrun5e\Vehicle;
-use App\Models\Shadowrun5e\VehicleModification;
-use App\Models\Shadowrun5e\Weapon;
-use App\Models\Shadowrun5e\WeaponModification;
 use App\Services\ConverterInterface;
 use ErrorException;
+use Modules\Shadowrun5e\Models\ActiveSkill;
+use Modules\Shadowrun5e\Models\AdeptPower;
+use Modules\Shadowrun5e\Models\Armor;
+use Modules\Shadowrun5e\Models\Augmentation;
+use Modules\Shadowrun5e\Models\Gear;
+use Modules\Shadowrun5e\Models\GearFactory;
+use Modules\Shadowrun5e\Models\Metamagic;
+use Modules\Shadowrun5e\Models\PartialCharacter;
+use Modules\Shadowrun5e\Models\Quality;
+use Modules\Shadowrun5e\Models\SkillGroup;
+use Modules\Shadowrun5e\Models\Spell;
+use Modules\Shadowrun5e\Models\Vehicle;
+use Modules\Shadowrun5e\Models\VehicleModification;
+use Modules\Shadowrun5e\Models\Weapon;
+use Modules\Shadowrun5e\Models\WeaponModification;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RuntimeException;
@@ -396,6 +396,7 @@ class Shadowrun5eConverter implements ConverterInterface
         $qualitiesArray = $this->character->qualities ?? [];
         foreach ($qualities->children() ?? [] as $rawQuality) {
             $name = (string)$rawQuality['name'];
+
             $rating = null;
             if (str_contains($name, '(')) {
                 [$name, $rating] = explode(' (', $name);
@@ -444,6 +445,7 @@ class Shadowrun5eConverter implements ConverterInterface
                 }
             }
             $this->errors[] = sprintf('Quality "%s" was not found.', $name);
+            continue;
         }
         $this->character->qualities = $qualitiesArray;
         return $this;

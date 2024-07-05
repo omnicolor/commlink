@@ -1,0 +1,28 @@
+{
+    "name": "omnicolor/startrekadventures-module",
+    "description": "Star Trek Adventures RPG module for Commlink",
+    "authors": [
+        {
+            "name": "Omni Adams",
+            "email": "omni@digitaldarkness.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Startrekadventures\\": "app/",
+            "Modules\\Startrekadventures\\Database\\Factories\\": "database/factories/",
+            "Modules\\Startrekadventures\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Startrekadventures\\Tests\\": "tests/"
+        }
+    }
+}

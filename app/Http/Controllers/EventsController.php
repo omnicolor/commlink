@@ -25,6 +25,9 @@ use Rs\Json\Patch\InvalidOperationException;
 use Rs\Json\Pointer\InvalidPointerException;
 use TypeError;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class EventsController extends Controller
 {
     public function index(): EventCollection

@@ -1,0 +1,28 @@
+{
+    "name": "omnicolor/transformers-module",
+    "description": "Transformers RPG module for Commlink",
+    "authors": [
+        {
+            "name": "Omni Adams",
+            "email": "omni@digitaldarkness.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Transformers\\": "app/",
+            "Modules\\Transformers\\Database\\Factories\\": "./database/factories/",
+            "Modules\\Transformers\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Transformers\\Tests\\": "tests/"
+        }
+    }
+}

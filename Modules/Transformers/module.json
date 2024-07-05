@@ -1,0 +1,11 @@
+{
+    "name": "Transformers",
+    "alias": "transformers",
+    "description": "Transformers RPG module for commlink",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Transformers\\Providers\\TransformersServiceProvider"
+    ],
+    "files": []
+}

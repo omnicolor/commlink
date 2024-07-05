@@ -1,0 +1,11 @@
+{
+    "name": "Blistercritters",
+    "alias": "blistercritters",
+    "description": "Blister Critters RPG module for Commlink",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Blistercritters\\Providers\\BlistercrittersServiceProvider"
+    ],
+    "files": []
+}

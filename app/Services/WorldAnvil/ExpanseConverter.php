@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services\WorldAnvil;
 
-use App\Models\Expanse\Focus;
-use App\Models\Expanse\PartialCharacter;
-use App\Models\Expanse\Talent;
 use App\Services\ConverterInterface;
 use Illuminate\Support\Str;
 use JsonException;
+use Modules\Expanse\Models\Focus;
+use Modules\Expanse\Models\PartialCharacter;
+use Modules\Expanse\Models\Talent;
 use RuntimeException;
 use stdClass;
 

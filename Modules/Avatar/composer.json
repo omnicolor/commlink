@@ -1,0 +1,28 @@
+{
+    "name": "omnicolor/avatar-module",
+    "description": "Avatar RPG module for Commlink",
+    "authors": [
+        {
+            "name": "Omni Adams",
+            "email": "omni@digitaldarkness.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Avatar\\": "app/",
+            "Modules\\Avatar\\Database\\Factories\\": "database/factories/",
+            "Modules\\Avatar\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Avatar\\Tests\\": "tests/"
+        }
+    }
+}

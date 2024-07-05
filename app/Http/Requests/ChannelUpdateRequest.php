@@ -15,7 +15,7 @@ class ChannelUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     * @return bool
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function authorize(): bool
     {
@@ -25,6 +25,7 @@ class ChannelUpdateRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, array<int, string|callable>>
      */
     public function rules(): array

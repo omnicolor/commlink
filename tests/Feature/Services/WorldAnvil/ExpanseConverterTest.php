@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Services\WorldAnvil;
 
-use App\Models\Expanse\Origin\Martian;
 use App\Services\WorldAnvil\ExpanseConverter;
+use Modules\Expanse\Models\Origin\Martian;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use RuntimeException;

@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Log;
 
 use function sprintf;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class Rsvp extends Roll
 {
     public function forDiscord(): string

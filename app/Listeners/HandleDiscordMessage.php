@@ -10,6 +10,7 @@ use App\Models\Channel;
 use App\Rolls\Roll;
 use Error;
 use Illuminate\Support\Facades\Log;
+use Nwidart\Modules\Facades\Module;
 
 use function explode;
 use function is_numeric;
@@ -52,8 +53,56 @@ class HandleDiscordMessage
             return true;
         }
 
+        if (isset($channel->system) && null !== Module::find($channel->system)) {
+            if (is_numeric($args[0])) {
+                $class = sprintf(
+                    '\\Modules\\%s\\Rolls\\Number',
+                    ucfirst($channel->system),
+                );
+                try {
+                    /** @var Roll */
+                    $roll = new $class(
+                        $event->content,
+                        optional($event->user)->username,
+                        $channel,
+                        $event,
+                    );
+
+                    /** @psalm-suppress TooManyTemplateParams */
+                    $event->message->reply($roll->forDiscord());
+                    RollEvent::dispatch($roll, $channel);
+                    return true;
+                } catch (Error) { // @codeCoverageIgnore
+                    // Ignore errors here, they might want a generic command.
+                }
+            }
+            $class = sprintf(
+                '\\Modules\\%s\\Rolls\\%s',
+                ucfirst($channel->system ?? 'Unknown'),
+                ucfirst($args[0])
+            );
+            try {
+                /** @var Roll */
+                $roll = new $class(
+                    $event->content,
+                    optional($event->user)->username,
+                    $channel
+                );
+                // @phpstan-ignore-next-line
+                $event->channel->sendMessage($roll->forDiscord());
+
+                if ('help' !== $args[0]) {
+                    RollEvent::dispatch($roll, $channel);
+                }
+                return true;
+            } catch (Error) { // @codeCoverageIgnore
+                // Ignore errors here, they might want a generic command.
+            }
+        }
+
         // See if the roll is just a number, and if there's a number-only
         // handler for the registered system.
+        // TODO: Remove this when all systems are modularized.
         if (is_numeric($args[0]) && null !== $channel->system) {
             try {
                 $class = sprintf(
@@ -80,6 +129,7 @@ class HandleDiscordMessage
         }
 
         // Try system-specific rolls that aren't numeric.
+        // TODO: Remove this when all systems are modularized.
         try {
             $class = sprintf(
                 '\\App\\Rolls\\%s\\%s',

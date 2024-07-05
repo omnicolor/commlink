@@ -1,0 +1,11 @@
+{
+    "name": "Avatar",
+    "alias": "avatar",
+    "description": "Avatar RPG module for Commlink",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Avatar\\Providers\\AvatarServiceProvider"
+    ],
+    "files": []
+}

@@ -10,6 +10,9 @@ use App\Policies\CampaignPolicy;
 use App\Policies\EventPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class AuthServiceProvider extends ServiceProvider
 {
     /**

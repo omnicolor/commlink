@@ -1,0 +1,28 @@
+{
+    "name": "omnicolor/shadowrun6e-module",
+    "description": "Shadowrun 6th Edition RPG module for commlink",
+    "authors": [
+        {
+            "name": "Omni Adams",
+            "email": "omni@digitaldarkness.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Shadowrun6e\\": "app/",
+            "Modules\\Shadowrun6e\\Database\\Factories\\": "database/factories/",
+            "Modules\\Shadowrun6e\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Shadowrun6e\\Tests\\": "tests/"
+        }
+    }
+}
