@@ -12,7 +12,7 @@ jobs:
         mongodb-version:
           - "6.0.8"
     services:
-			mysql:
+      mysql:
         image: mysql:8.0
         env:
           MYSQL_DATABASE: commlink_test
