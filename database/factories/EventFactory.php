@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends Factory<Event>
+ * @psalm-suppress UnusedClass
  */
 class EventFactory extends Factory
 {

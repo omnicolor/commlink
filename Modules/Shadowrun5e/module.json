@@ -1,0 +1,11 @@
+{
+    "name": "Shadowrun5e",
+    "alias": "shadowrun5e",
+    "description": "Shadowrun 5E RPG module for Commlink.",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Shadowrun5e\\Providers\\Shadowrun5eServiceProvider"
+    ],
+    "files": []
+}

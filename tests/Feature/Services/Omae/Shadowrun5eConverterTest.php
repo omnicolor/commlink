@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Services\Omae;
 
-use App\Models\Shadowrun5e\PartialCharacter;
 use App\Services\Omae\Shadowrun5eConverter;
+use Modules\Shadowrun5e\Models\PartialCharacter;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;

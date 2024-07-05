@@ -28,8 +28,8 @@ final class DashboardControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
-            ->get('/dashboard')
+        self::actingAs($user)
+            ->get(route('dashboard'))
             ->assertSee($user->email)
             ->assertSee('You don\'t have any characters!', false)
             ->assertSee('You don\'t have any campaigns!', false);
@@ -43,17 +43,14 @@ final class DashboardControllerTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
         /** @var Character */
-        $character1 = Character::factory()->create([
-            'owner' => $user->email,
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character1 = Character::factory()->create(['owner' => $user->email]);
         /** @var Character */
         $character2 = Character::factory()->create([
             'owner' => $user->email,
-            'created_by' => self::class . '::' . __FUNCTION__,
+            'system' => 'shadowrun6e',
         ]);
-        $this->actingAs($user)
-            ->get('/dashboard')
+        self::actingAs($user)
+            ->get(route('dashboard'))
             ->assertSee($user->email)
             ->assertSee((string)$character1->handle)
             ->assertSee(config('app.systems')[$character1->system])
@@ -75,8 +72,8 @@ final class DashboardControllerTest extends TestCase
             'registered_by' => $user,
             'gm' => null,
         ]);
-        $this->actingAs($user)
-            ->get('/dashboard')
+        self::actingAs($user)
+            ->get(route('dashboard'))
             ->assertSee($campaign->name)
             ->assertSee('Registered')
             ->assertDontSee('Gamemaster');
@@ -91,8 +88,8 @@ final class DashboardControllerTest extends TestCase
         $user = User::factory()->create();
         /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $user]);
-        $this->actingAs($user)
-            ->get('/dashboard')
+        self::actingAs($user)
+            ->get(route('dashboard'))
             ->assertSee($campaign->name)
             ->assertDontSee('Registered')
             ->assertSee('Gamemaster');

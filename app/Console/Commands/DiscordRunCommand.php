@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Log;
 /**
  * Start a Discord bot.
  * @codeCoverageIgnore
+ * @psalm-suppress UnusedClass
  */
 class DiscordRunCommand extends Command
 {
