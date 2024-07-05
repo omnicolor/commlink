@@ -53,27 +53,7 @@ jobs:
       - name: Configure SQLite database
         run: touch ${{ github.workspace }}/commlink-test
 
-      #- name: Execute unit tests with code coverage
-      #  run: ./artisan test --parallel -v --coverage-clover public/coverage/clover.xml
-      #  env:
-      #    DB_DATABASE: "${{ github.workspace }}/commlink-test"
-      - uses: php-actions/phpunit@v3
-        with:
-          coverage_clover: public/coverage/clover.xml
-          memory_limit: "256M"
-
-      - if: github.event_name == 'push' && ! contains(github.event.push.user.login, 'dependabot[bot]')
-        name: Monitor coverage
-        uses: slavcodev/coverage-monitor-action@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          coverage_path: public/coverage/clover.xml
-          threshold_alert: 80
-          threshold_warning: 95
-
-      - name: Generate coverage badge
-        uses: timkrase/phpunit-coverage-badge@v1.2.1
-        with:
-          push_badge: true
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          report: public/coverage/clover.xml
+      - name: Execute unit tests
+        run: ./vendor/bin/phpunit
+        env:
+          DB_DATABASE: "${{ github.workspace }}/commlink-test"
