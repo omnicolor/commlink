@@ -13,7 +13,6 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SlackController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
-use Modules\Expanse\Http\Controllers\CharactersController as ExpanseController;
 
 Route::get('discord/auth', [DiscordController::class, 'redirectToDiscord']);
 Route::get('discord/callback', [DiscordController::class, 'handleCallback']);
@@ -41,12 +40,6 @@ Route::middleware('auth')->group(function (): void {
         '/campaigns/{campaign}/respond',
         [CampaignsController::class, 'respond'],
     )->name('campaign.respond');
-
-    Route::prefix('characters')->group(function (): void {
-        Route::prefix('expanse')->name('expanse.')->group(function (): void {
-            Route::get('/', [ExpanseController::class, 'list']);
-        });
-    });
 
     Route::get('/dashboard', [DashboardController::class, 'show'])
         ->name('dashboard');
@@ -109,11 +102,5 @@ Route::get(
     '/campaigns/{campaign}/change/{invitation}/{token}',
     [CampaignsController::class, 'respondChangeEmail'],
 )->name('campaign.invitation-change');
-
-// Allow character sheets to be viewed without being logged in.
-Route::get(
-    '/characters/expanse/{character}',
-    [ExpanseController::class, 'view']
-)->name('expanse.character');
 
 require __DIR__ . '/auth.php';
