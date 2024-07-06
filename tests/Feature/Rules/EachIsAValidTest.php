@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Rules;
 
-use App\Models\Subversion\RelationAspect;
 use App\Rules\EachIsAValid;
+use Modules\Subversion\Models\RelationAspect;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;

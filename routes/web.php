@@ -11,7 +11,6 @@ use App\Http\Controllers\Import\HeroLabController;
 use App\Http\Controllers\Import\WorldAnvilController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SlackController;
-use App\Http\Controllers\Subversion\CharactersController as SubversionController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,53 +40,6 @@ Route::middleware('auth')->group(function (): void {
         '/campaigns/{campaign}/respond',
         [CampaignsController::class, 'respond'],
     )->name('campaign.respond');
-
-    Route::prefix('characters')->group(function (): void {
-        Route::prefix('subversion')
-            ->name('subversion.')
-            ->group(function (): void {
-                Route::get(
-                    'create/{step?}',
-                    [SubversionController::class, 'create'],
-                )->name('create');
-                Route::post(
-                    'create/background',
-                    [SubversionController::class, 'storeBackground']
-                )->name('create-background');
-                Route::post(
-                    'create/caste',
-                    [SubversionController::class, 'storeCaste']
-                )->name('create-caste');
-                Route::post(
-                    'create/hooks',
-                    [SubversionController::class, 'storeHooks']
-                )->name('create-hooks');
-                Route::post(
-                    'create/ideology',
-                    [SubversionController::class, 'storeIdeology']
-                )->name('create-ideology');
-                Route::post(
-                    'create/impulse',
-                    [SubversionController::class, 'storeImpulse']
-                )->name('create-impulse');
-                Route::post(
-                    'create/lineage',
-                    [SubversionController::class, 'storeLineage']
-                )->name('create-lineage');
-                Route::post(
-                    'create/origin',
-                    [SubversionController::class, 'storeOrigin']
-                )->name('create-origin');
-                Route::post(
-                    'create/relations',
-                    [SubversionController::class, 'storeRelations']
-                )->name('create-relations');
-                Route::post(
-                    'create/values',
-                    [SubversionController::class, 'storeValues']
-                )->name('create-values');
-            });
-    });
 
     Route::get('/dashboard', [DashboardController::class, 'show'])
         ->name('dashboard');
@@ -150,11 +102,5 @@ Route::get(
     '/campaigns/{campaign}/change/{invitation}/{token}',
     [CampaignsController::class, 'respondChangeEmail'],
 )->name('campaign.invitation-change');
-
-// Allow character sheets to be viewed without being logged in.
-Route::get(
-    '/characters/subversion/{character}',
-    [SubversionController::class, 'view']
-)->name('subversion.character');
 
 require __DIR__ . '/auth.php';

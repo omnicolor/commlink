@@ -96,8 +96,6 @@ class Character extends Model implements Stringable
         ) {
             $character = 'Modules\\' . ucfirst($attributes['system']) . '\\Models\\Character';
             $character = new $character($attributes);
-        } elseif ('subversion' === $attributes['system']) {
-            $character = new Subversion\Character($attributes);
         } else {
             $character = new Character($attributes);
         }

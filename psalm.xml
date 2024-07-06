@@ -9,7 +9,6 @@
 >
     <projectFiles>
         <directory name="app" />
-        <directory name="data" />
         <directory name="database/factories" />
         <directory name="database/seeders" />
         <directory name="Modules" />
