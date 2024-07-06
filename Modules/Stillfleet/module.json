@@ -1,0 +1,11 @@
+{
+    "name": "Stillfleet",
+    "alias": "stillfleet",
+    "description": "Stillfleet RPG module for Commlink.",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Stillfleet\\Providers\\StillfleetServiceProvider"
+    ],
+    "files": []
+}

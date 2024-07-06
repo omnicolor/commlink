@@ -183,16 +183,6 @@ return [
     ],
 
     /*
-     * Paths to the different data files for each system.
-     */
-    'data_path' => [
-        'cyberpunkred' => env('CYBERPUNK_DATA_PATH', 'data/Cyberpunkred/'),
-        'dnd5e' => env('DND5E_DATA_PATH', 'data/Dnd5e/'),
-        'shadowrun5e' => env('SHADOWRUN5E_DATA_PATH', 'data/Shadowrun5e/'),
-        'subversion' => env('SUBVERSION_DATA_PATH', 'data/Subversion/'),
-    ],
-
-    /*
      * Systems the server supports.
      * short name = full name
      */

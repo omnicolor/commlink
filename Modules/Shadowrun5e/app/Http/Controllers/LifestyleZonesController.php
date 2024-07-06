@@ -30,7 +30,7 @@ class LifestyleZonesController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->filename = config('app.data_path.shadowrun5e')
+        $this->filename = config('shadowrun5e.data_path')
             . 'lifestyle-zones.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/lifestyle-zones';
