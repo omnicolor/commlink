@@ -9,7 +9,8 @@ Route::middleware('auth')->prefix('characters')->group(function (): void {
     Route::prefix('shadowrun5e')
         ->name('shadowrun5e.')
         ->group(function (): void {
-            Route::get('/', [CharactersController::class, 'list']);
+            Route::get('/', [CharactersController::class, 'list'])
+                ->name('characters');
             Route::get(
                 'create/save-for-later',
                 [CharactersController::class, 'saveForLater'],
