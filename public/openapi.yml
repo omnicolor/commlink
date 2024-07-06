@@ -400,9 +400,9 @@ paths:
                 $ref: '#/components/schemas/JsonPatchOperation'
               type: array
             example:
-              - op: "replace"
-                path: "/options/currentDate"
-                value: "2080-04-04"
+              - op: 'replace'
+                path: '/options/currentDate'
+                value: '2080-04-04'
       responses:
         '202':
           description: The campaign has been updated.
@@ -7555,7 +7555,7 @@ components:
         description:
           type: string
         id:
-          type: string
+            type: string
         name:
           type: string
         page:

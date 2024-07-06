@@ -23,11 +23,13 @@ use Modules\Shadowrun5e\Http\Requests\MartialArtsRequest;
 use Modules\Shadowrun5e\Http\Requests\QualitiesRequest;
 use Modules\Shadowrun5e\Http\Requests\RulesRequest;
 use Modules\Shadowrun5e\Http\Requests\SkillsRequest;
+use Modules\Shadowrun5e\Http\Requests\SocialRequest;
 use Modules\Shadowrun5e\Http\Requests\StandardPriorityRequest;
 use Modules\Shadowrun5e\Http\Requests\VitalsRequest;
 use Modules\Shadowrun5e\Http\Resources\CharacterResource;
 use Modules\Shadowrun5e\Models\ActiveSkill;
 use Modules\Shadowrun5e\Models\Character;
+use Modules\Shadowrun5e\Models\Contact;
 use Modules\Shadowrun5e\Models\PartialCharacter;
 use Modules\Shadowrun5e\Models\Quality;
 use Modules\Shadowrun5e\Models\Rulebook;
@@ -859,12 +861,21 @@ class CharactersController extends Controller
                     ]
                 );
             case 'social':
+                $friendsInHighPlaces = false;
+                foreach ($character->qualities ?? [] as $quality) {
+                    if ('friends-in-high-places' === $quality['id']) {
+                        $friendsInHighPlaces = true;
+                        break;
+                    }
+                }
                 return view(
                     'shadowrun5e::create-social',
                     [
+                        'archetypes' => Contact::archetypes(),
                         'books' => $books,
                         'character' => $character,
                         'currentStep' => 'social',
+                        'friendsInHighPlaces' => $friendsInHighPlaces,
                         'nextStep' => $this->nextStep('social', $character),
                         'previousStep' => $this->previousStep('social', $character),
                     ]
@@ -920,6 +931,17 @@ class CharactersController extends Controller
                     'That step of character creation was not found.',
                 );
         }
+    }
+
+    /**
+     * User wants to shelve the current partial character to finish later.
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function saveForLater(Request $request): RedirectResponse
+    {
+        $request->session()->forget('shadowrun5e-partial');
+
+        return new RedirectResponse(route('dashboard'));
     }
 
     public function storeAttributes(
@@ -1201,6 +1223,43 @@ class CharactersController extends Controller
         $character->update();
 
         return $this->redirect($request->input('nav'), 'skills', $character);
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function storeSocial(SocialRequest $request): RedirectResponse
+    {
+        /** @var User */
+        $user = $request->user();
+
+        $characterId = $request->session()->get('shadowrun5e-partial');
+        /** @var PartialCharacter */
+        $character = PartialCharacter::where('_id', $characterId)
+            ->where('owner', $user->email)
+            ->firstOrFail();
+
+        $contactNames = $request->input('contact-names', []);
+        $contactArchetypes = $request->input('contact-archetypes');
+        $contactConnections = $request->input('contact-connections');
+        $contactLoyalties = $request->input('contact-loyalties');
+        $contactNotes = $request->input('contact-notes');
+
+        $contacts = [];
+        foreach ($contactNames as $key => $name) {
+            $contacts[] = [
+                'name' => $name,
+                'archetype' => $contactArchetypes[$key],
+                'connection' => (int)$contactConnections[$key],
+                'loyalty' => (int)$contactLoyalties[$key],
+                'notes' => $contactNotes[$key] ?? null,
+            ];
+        }
+        $character->contacts = $contacts;
+
+        $character->update();
+
+        return $this->redirect($request->input('nav'), 'social', $character);
     }
 
     public function storeStandard(

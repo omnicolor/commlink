@@ -1,3 +1,8 @@
+@php
+if (!isset($currentStep)) {
+    $currentStep = null;
+}
+@endphp
 <x-slot name="navbar">
     <li class="nav-item">
         <a class="nav-link" href="{{ route('dashboard') }}">Home</a>
@@ -96,6 +101,11 @@
 
             <li><hr class="dropdown-divider"></li>
 
+            <li>
+                <a class="dropdown-item" href="/characters/shadowrun5e/create/save-for-later">
+                    Save for later
+                </a>
+            </li>
             <li><a class="dropdown-item @if ('review' === $currentStep) active @endif"
                 href="/characters/shadowrun5e/create/review">
                 Review

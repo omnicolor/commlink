@@ -156,4 +156,9 @@ final class LifestyleTest extends TestCase
         $lifestyle->options[] = new LifestyleOption('increase-neighborhood');
         self::assertSame(3, $lifestyle->getNeighborhood());
     }
+
+    public function testAll(): void
+    {
+        self::assertGreaterThan(1, Lifestyle::all());
+    }
 }

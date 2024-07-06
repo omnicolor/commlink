@@ -28,10 +28,13 @@ class {{ class }} extends Mailable
         );
     }
 
+    /**
+     * Get the message content definition.
+     */
     public function content(): Content
     {
         return new Content(
-            html: 'mail.{{ class }}',
+            view: 'view.name',
         );
     }
 

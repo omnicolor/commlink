@@ -38,7 +38,7 @@ class VarzController extends Controller
         'shadowrun6e' => 'Modules/Shadowrun6e/data/',
         'startrekadventures' => 'Modules/Startrekadventures/data/',
         'stillfleet' => 'Modules/Stillfleet/data/',
-        'subversion' => 'data/Subversion/',
+        'subversion' => 'Modules/Subversion/data/',
         'transformers' => 'Modules/Transformers/data/',
     ];
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Stillfleet\Tests\Feature\Http\Controller;
+namespace Modules\Stillfleet\Tests\Feature\Http\Controllers;
 
 use App\Features\Stillfleet as StillfleetFeature;
 use App\Models\User;

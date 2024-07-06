@@ -48,6 +48,9 @@ $(function () {
         $('#pounds').html(pounds);
     };
 
+    let points = new Points(character);
+    updatePointsToSpendDisplay(points);
+
     $('#height').on('keyup', calculateHeight);
     $('#weight').on('keyup', calculateWeight);
     $('#birthdate').on('change', calculateAge);

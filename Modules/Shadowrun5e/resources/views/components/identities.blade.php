@@ -6,7 +6,13 @@
         <li class="list-group-item">
             {{ $identity->name }}
             <ul class="card-body list-group list-group-flush">
-                @if (null !== $identity->sin)
+                @if (null === $identity->sin && null === $identity->sinner)
+                <li class="list-group-item">
+                    <span class="badge rounded-pill bg-danger ms-2">!</span>
+                    Identity has no SIN.
+                    <a href="/characters/shadowrun5e/create/social">Purchase a fake</a>.
+                </li>
+                @elseif (null !== $identity->sin)
                 <li class="list-group-item">Fake SIN ({{ $identity->sin }})</li>
                 @else
                 <li class="list-group-item">SIN ({{ $identity->sinner }})</li>
