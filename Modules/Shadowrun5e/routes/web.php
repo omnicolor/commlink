@@ -3,57 +3,65 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
-use Modules\Shadowrun5e\Http\Controllers\CharactersController as ShadowrunController;
+use Modules\Shadowrun5e\Http\Controllers\CharactersController;
 
 Route::middleware('auth')->prefix('characters')->group(function (): void {
     Route::prefix('shadowrun5e')
         ->name('shadowrun5e.')
         ->group(function (): void {
-            Route::get('/', [ShadowrunController::class, 'list']);
+            Route::get('/', [CharactersController::class, 'list']);
+            Route::get(
+                'create/save-for-later',
+                [CharactersController::class, 'saveForLater'],
+            )->name('save-for-later');
             Route::get(
                 'create/{step?}',
-                [ShadowrunController::class, 'create'],
-            );
+                [CharactersController::class, 'create'],
+            )->name('create');
             Route::post(
                 'create/attributes',
-                [ShadowrunController::class, 'storeAttributes'],
+                [CharactersController::class, 'storeAttributes'],
             )->name('create-attributes');
             Route::post(
                 'create/background',
-                [ShadowrunController::class, 'storeBackground'],
+                [CharactersController::class, 'storeBackground'],
             )->name('create-background');
             Route::post(
                 'create/knowledge',
-                [ShadowrunController::class, 'storeKnowledgeSkills'],
+                [CharactersController::class, 'storeKnowledgeSkills'],
             )->name('create-knowledge-skills');
             Route::post(
                 'create/martial-arts',
-                [ShadowrunController::class, 'storeMartialArts'],
+                [CharactersController::class, 'storeMartialArts'],
             )->name('create-martial-arts');
             Route::post(
                 'create/qualities',
-                [ShadowrunController::class, 'storeQualities'],
+                [CharactersController::class, 'storeQualities'],
             )->name('create-qualities');
             Route::post(
                 'create/rules',
-                [ShadowrunController::class, 'storeRules'],
+                [CharactersController::class, 'storeRules'],
             )->name('create-rules');
             Route::post(
                 'create/skills',
-                [ShadowrunController::class, 'storeSkills'],
+                [CharactersController::class, 'storeSkills'],
             )->name('create-skills');
             Route::post(
+                'create/social',
+                [CharactersController::class, 'storeSocial'],
+            )->name('create-social');
+            Route::post(
                 'create/standard',
-                [ShadowrunController::class, 'storeStandard'],
+                [CharactersController::class, 'storeStandard'],
             )->name('create-standard');
             Route::post(
                 'create/vitals',
-                [ShadowrunController::class, 'storeVitals'],
+                [CharactersController::class, 'storeVitals'],
             )->name('create-vitals');
         });
 });
 
 Route::get(
     '/characters/shadowrun5e/{character}',
-    [ShadowrunController::class, 'view']
+    [CharactersController::class, 'view']
 )->name('shadowrun5e.character');

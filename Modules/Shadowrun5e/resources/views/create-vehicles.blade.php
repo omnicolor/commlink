@@ -65,6 +65,10 @@
         <script>
             let character = @json($character);
             let rulebooks = @json($books);
+            $(function () {
+                let points = new Points(character);
+                updatePointsToSpendDisplay(points);
+            });
         </script>
         <script src="/js/Shadowrun5e/create-common.js"></script>
         <script src="/js/Shadowrun5e/Points.js"></script>

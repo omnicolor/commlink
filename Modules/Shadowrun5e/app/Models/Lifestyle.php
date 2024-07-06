@@ -108,6 +108,24 @@ class Lifestyle implements Stringable
     }
 
     /**
+     * @psalm-suppress PossiblyUnusedMethod
+     * @return array<int, Lifestyle>
+     */
+    public static function all(): array
+    {
+        $filename = config('app.data_path.shadowrun5e') . 'lifestyles.php';
+        /** @psalm-suppress UnresolvableInclude */
+        self::$lifestyles ??= require $filename;
+
+        $lifestyles = [];
+        /** @var string $id */
+        foreach (array_keys(self::$lifestyles) as $id) {
+            $lifestyles[] = new self($id);
+        }
+        return $lifestyles;
+    }
+
+    /**
      * Return the monthly cost of the lifestyle.
      */
     public function getCost(): int

@@ -87,7 +87,6 @@ function setPointsDisplay(points, el, formatter) {
  * @return {Object} Map of message and karmaSpent
  */
 function calculateKarmaForTooManySkills(skills, specializations, skillCost, deficit) {
-    window.console.log(skills);
     let karmaSpent = 0;
     let message = [];
     let skill;
@@ -247,6 +246,7 @@ function updatePointsToSpendDisplay(pointsToSpend) {
     } else {
         setPointsDisplay(pointsToSpend.contacts, $('#contacts'));
     }
+
     if (pointsToSpend.magics < 0) {
         var magic = sr.loadMagic(sr.store);
         if (magic.spells && magic.spells.length) {
@@ -263,6 +263,7 @@ function updatePointsToSpendDisplay(pointsToSpend) {
         setPointsDisplay(pointsToSpend.magics, $('#magics'));
     }
     setPointsDisplay(pointsToSpend.magicSkills, $('#magic-skills'));
+
     if (pointsToSpend.forms < 0) {
         pointsToSpend.karma += pointsToSpend.forms * 4;
         setPointsDisplay(
@@ -275,6 +276,7 @@ function updatePointsToSpendDisplay(pointsToSpend) {
     } else {
         setPointsDisplay(pointsToSpend.forms, $('#forms'));
     }
+
     setPointsDisplay(pointsToSpend.resonanceSkills, $('#resonance-skills'));
     setPointsDisplay(pointsToSpend.karma, $('#karma'), karma.format);
 }
@@ -305,7 +307,4 @@ $(function () {
         event.preventDefault();
         $('#points').show();
     });
-
-    let points = new Points(character);
-    updatePointsToSpendDisplay(points);
 });

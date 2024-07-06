@@ -60,7 +60,15 @@ $(function () {
         });
 
         const row = $($('#skill-row')[0].content.cloneNode(true));
-        row.find('.name').html(skill.name);
+        if (trusted) {
+            row.find('.name').html(
+                '<span data-bs-html="true" data-bs-toggle="tooltip" ' +
+                'title="<p>' + cleanDescription(skill.description) + '</p>">' +
+                skill.name + '</span>'
+            );
+        } else {
+            row.find('.name').html(skill.name);
+        }
         row.find('li').attr('data-id', skill.id);
         row.find('input[name="skill-levels[]"]')
             .prop('id', skill.id)
@@ -78,9 +86,10 @@ $(function () {
      */
     function addSkillGroup(e) {
         const id = $(e.target).parents('tr').data('id');
+        const group = {id: id, level: 1};
 
-        character.skillGroups[id] = 1;
-        addSkillGroupRow({id: id, level: 1});
+        character.skillGroups.push(group);
+        addSkillGroupRow(group);
         filterGroupList();
 
         points = new Points(character);
@@ -255,38 +264,25 @@ $(function () {
      * @return {!boolean}
      */
     function isSkillGroupValid(group) {
-        let valid = true;
-
-        $.each(character.skillGroups, function (unused, chosenGroup) {
-            // If we've already determined the group is not valid, bail.
-            if (!valid) {
-                return false;
-            }
-
-            // Make sure the group hasn't already been chosen.
-            if (group.id === chosenGroup.id) {
-                valid = false;
-                return false;
-            }
-        });
-
-        if (!valid) {
+        if (undefined !== character.skillGroups[group.id]) {
+            // Character already has the skill group.
             return false;
         }
+
+        let valid = true;
 
         // Check all of the skills in the group for validity. If the skills
         // require magic or resonance and the character doesn't have that, the
         // group can't be used. If the character has any skills in the group
         // already, they can't add the group.
         $.each(group.skills, function (unused, potentialSkill) {
-            // One of the skills is already invalid, bail.
-            if (!valid) {
-                return false;
-            }
             // Ignore the text properties of the group.
             if ('object' !== typeof potentialSkill) {
                 return;
             }
+
+            // Either the character can't use a skill (not awakened for magic or
+            // resonance skills) or they've already chosen a skill in the group.
             if (!isActiveSkillValid(potentialSkill)) {
                 valid = false;
                 return false;
@@ -423,7 +419,15 @@ $(function () {
         const row = $(e.target).parents('li');
         const groupId = row.data('id');
 
-        delete character.skillGroups[groupId];
+        let groups = [];
+        $.each(character.skillGroups, function (index, group) {
+            if (groupId === group.id) {
+                delete character.skillGroups[index];
+                return;
+            }
+            groups.push(group);
+        });
+        character.skillGroups = groups;
 
         if (isEmpty(character.skillGroups)) {
             $('#no-skill-groups').show();
@@ -498,7 +502,16 @@ $(function () {
      */
     function updateSkillGroupRating(e) {
         const id = $(e.target).parents('li').data('id');
-        character.skillGroups[id] = parseInt(e.target.value, 10);
+        $.each(character.skillGroups, function (index, group) {
+            if (group.id !== id) {
+                return;
+            }
+
+            character.skillGroups[index] = {
+                id: id,
+                level: parseInt(e.target.value, 10)
+            };
+        });
 
         points = new Points(character);
         updatePointsToSpendDisplay(points);
@@ -540,6 +553,7 @@ $(function () {
         character.skillGroups = [];
     }
     let points = new Points(character);
+    updatePointsToSpendDisplay(points);
 
     $('[data-bs-toggle="tooltip"]').tooltip();
 
@@ -561,7 +575,7 @@ $(function () {
     $('#specialize-modal .btn-secondary').on('click', function () {
         $('#specialize-modal').modal('hide');
     });
-    $('#specialization-entry').on('keyup', function () {
+    $('#specialization-entry').on('change', function () {
         $('#specialize-modal .btn-primary').prop(
             'disabled',
             '' == $('#specialization-entry').val()

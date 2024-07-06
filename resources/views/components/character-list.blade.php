@@ -4,6 +4,7 @@ use App\Features\HeroLabImport;
 use App\Features\CyberpunkCharacterGeneration;
 use App\Features\WorldAnvilImport;
 use App\Features\Shadowrun5eCharacterGeneration;
+use App\Features\SubversionCharacterGeneration;
 use App\Features\TransformersCharacterGeneration;
 use Nwidart\Modules\Facades\Module;
 @endphp
@@ -50,6 +51,12 @@ use Nwidart\Modules\Facades\Module;
                     @feature(Shadowrun5eCharacterGeneration::class)
                     <a class="dropdown-item" href="/characters/shadowrun5e/create">
                         Shadowrun 5th Edition
+                        <span class="badge bg-danger">Not complete</span>
+                    </a>
+                    @endfeature
+                    @feature(SubversionCharacterGeneration::class)
+                    <a class="dropdown-item" href="/characters/subversion/create">
+                        Subversion
                         <span class="badge bg-danger">Not complete</span>
                     </a>
                     @endfeature

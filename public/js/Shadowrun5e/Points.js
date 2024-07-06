@@ -427,30 +427,38 @@ function Points(character) {
     };
 
     this.updateActiveSkills = function () {
-        let parent = this;
-        $.each(this.character.skills, function (unused, skill) {
-            parent.activeSkills -= skill.level;
+        const skills = character.skills;
+        let skillPoints = this.activeSkills;
+        $.each(skills, function (unused, skill) {
+            skillPoints -= skill.level;
             if (skill.specialization) {
-                parent.activeSkills -= 1;
+                skillPoints -= 1;
             }
         });
+        this.activeSkills = skillPoints;
     };
 
     this.updateSkillGroups = function () {
-        let parent = this;
-        $.each(this.character.skillGroups, function (group, level) {
-            parent.skillGroups -= level;
+        const groups = this.character.skillGroups;
+        let groupPoints = this.skillGroups;
+        $.each(groups, function (group, level) {
+            groupPoints -= level;
         });
 
-        if (this.skillGroups < 0) {
+        if (groupPoints < 0) {
             for (let i = this.skillGroups; i; i++) {
-                parent.karma += i * 5;
+                this.karma -= i * 5;
             }
         }
+        this.skillGroups = groupPoints;
     };
 
     this.updateKnowledgeSkills = function () {
         const skills = this.character.knowledgeSkills;
+        if (!this.character.intuition || !this.character.logic) {
+            this.knowledgeSkills = 0;
+            return;
+        }
         let points = (this.character.intuition + this.character.logic) * 2;
         let halveAcademic = false;
         let halveStreet = false;
@@ -480,19 +488,24 @@ function Points(character) {
         });
 
         $.each(skills, function (unused, skill) {
+            let level = skill.level;
             if ('N' === skill.level) {
-                return;
+                // Native languages are "free". Validation elsewhere will check
+                // to see if the character has too many.
+                level = 0;
             }
+
             if (
                 (halveAcademic && 'academic' === skill.category) ||
                 (halveStreet && 'street' === skill.category) ||
                 (halveProfessional && 'professional' === skill.category) ||
                 (halveLanguage && 'language' === skill.category)
             ) {
-                points -= Math.ceil(skill.level / 2);
-                return;
+                points -= Math.ceil(level / 2);
+            } else {
+                points -= level;
             }
-            points -= skill.level;
+
             if (skill.specialization) {
                 points -= 1;
             }
@@ -522,6 +535,48 @@ function Points(character) {
                 });
             }
         });
+    };
+
+    function calculateIdentityCost(identity) {
+        let cost = 0;
+        const lifestyles = {
+            street: 0,
+            squatter: 500,
+            low: 2000,
+            middle: 5000,
+            high: 10000,
+            luxury: 100000
+        };
+
+        // Everything that costs is attached to a SIN, so without one they can't
+        // own any lifestyles or subscriptions.
+        if (!identity.sin) {
+            return 0;
+        }
+
+        // Real SINs are free, chummer. But if it has a rating, you must pay.
+        if ('number' == typeof(identity.sin)) {
+            cost += identity.sin * 2500;
+        }
+
+        $.each(identity.lifestyles, function (unused, lifestyle) {
+            let name = lifestyle.name;
+            name = name.substring(0, 1).toLowerCase() + name.substring(1);
+            cost += lifestyles[name] * lifestyle.quantity;
+        });
+
+        $.each(identity.subscriptions, function (unused, subscription) {
+            let months = subscription.quantity;
+            const years = parseInt(months / 12, 10);
+            months = months % 12;
+            cost += months * subscription.month + years * subscription.year;
+        });
+
+        $.each(identity.licenses, function (unused, license) {
+            cost += license.rating * 200;
+        });
+
+        return cost;
     };
 
     this.updateNuyen = function () {
@@ -590,16 +645,16 @@ function Points(character) {
             if (!armorItem) {
                 return;
             }
-            this.ointsToSpend.resources -= armorItem.cost;
+            this.pointsToSpend.resources -= armorItem.cost;
             if (armorItem.modifications) {
                 $.each(armorItem.modifications, function (unused, mod) {
                     if (!mod) {
                         return;
                     }
                     if (mod.cost) {
-                        this.ointsToSpend.resources -= mod.cost;
+                        this.pointsToSpend.resources -= mod.cost;
                     } else {
-                        this.ointsToSpend.resources -=
+                        this.pointsToSpend.resources -=
                             armorItem.cost * (mod['cost-multiplier'] - 1);
                     }
                 });
@@ -640,37 +695,47 @@ function Points(character) {
             });
         });
         $.each(this.character.identities, function (unused, identity) {
-            this.resources -= sr.calculateIdentityCost(identity);
+            if (!identity) {
+                return;
+            }
+            this.resources = this.resources - calculateIdentityCost(identity);
         });
 
         if (this.resources < 0) {
-            this.karma += Math.floor(this.resources / 2000);
+            this.karma -= Math.floor(this.resources / 2000);
         }
     };
 
     this.updateContactPoints = function () {
-        const attributes = character.attributes;
-        if (!attributes) {
-            return;
-        }
+        let contactPoints = character.charisma * 3;
+        let friendsInHighPlaces = 0;
+        $.each(this.character.qualities, function (unused, quality) {
+            if ('friends-in-high-places' === quality.id) {
+                friendsInHighPlaces = character.charisma * 4;
+            }
+        });
 
-        let contactPoints = attributes.charisma * 3;
         $.each(this.character.contacts, function (unused, contact) {
             if (!contact) {
+                return;
+            }
+            if (8 <= contact.connection && 0 !== friendsInHighPlaces) {
+                // Contact is eligible for the friends in high places karma.
+                friendsInHighPlaces -= (contact.loyalty + contact.connection);
+                if (0 >= friendsInHighPlaces) {
+                    // Spent it all, roll any overflow into normal contact
+                    // points.
+                    contactPoints -= friendsInHighPlaces;
+                    friendsInHighPlaces = 0;
+                }
                 return;
             }
             contactPoints -= contact.loyalty + contact.connection;
         });
 
-        $.each(this.character.qualities, function (unused, quality) {
-            if ('friends-in-high-places' === quality.id) {
-                contactPoints += attributes.charisma * 4;
-            }
-        });
-
-        this.contacts = contactPoints;
+        this.contacts = contactPoints + friendsInHighPlaces;
         if (contactPoints < 0) {
-            this.karma += contactPoints;
+            this.karma -= contactPoints;
         }
     };
 
