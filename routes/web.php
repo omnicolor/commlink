@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Features\Stillfleet as StillfleetFeature;
 use App\Http\Controllers\CampaignsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscordController;
@@ -12,10 +11,8 @@ use App\Http\Controllers\Import\HeroLabController;
 use App\Http\Controllers\Import\WorldAnvilController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SlackController;
-use App\Http\Controllers\Stillfleet\CharactersController as StillfleetController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 Route::get('discord/auth', [DiscordController::class, 'redirectToDiscord']);
 Route::get('discord/callback', [DiscordController::class, 'handleCallback']);
@@ -43,24 +40,6 @@ Route::middleware('auth')->group(function (): void {
         '/campaigns/{campaign}/respond',
         [CampaignsController::class, 'respond'],
     )->name('campaign.respond');
-
-    Route::prefix('characters')->group(function (): void {
-        Route::prefix('stillfleet')
-            ->name('stillfleet.')
-            ->middleware(EnsureFeaturesAreActive::using(StillfleetFeature::class))
-            ->group(function (): void {
-                Route::get('', [StillfleetController::class, 'list'])
-                    ->name('list');
-                Route::get(
-                    'create/{step?}',
-                    [StillfleetController::class, 'create'],
-                )->name('create');
-                Route::post(
-                    'create/class',
-                    [StillfleetController::class, 'saveClass'],
-                )->name('create-class');
-            });
-    });
 
     Route::get('/dashboard', [DashboardController::class, 'show'])
         ->name('dashboard');
@@ -123,13 +102,5 @@ Route::get(
     '/campaigns/{campaign}/change/{invitation}/{token}',
     [CampaignsController::class, 'respondChangeEmail'],
 )->name('campaign.invitation-change');
-
-// Allow character sheets to be viewed without being logged in.
-Route::get(
-    '/characters/stillfleet/{character}',
-    [StillfleetController::class, 'view']
-)
-    ->name('stillfleet.character')
-    ->middleware(EnsureFeaturesAreActive::using(StillfleetFeature::class));
 
 require __DIR__ . '/auth.php';

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Models\Stillfleet\Character as StillfleetCharacter;
 use App\Models\Traits\GameSystem;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -91,9 +90,7 @@ class Character extends Model implements Stringable
         $attributes = [],
         $connection = null,
     ): Character {
-        if ('stillfleet' === $attributes['system']) {
-            $character = new StillfleetCharacter($attributes);
-        } elseif (
+        if (
             null !== Module::find($attributes['system'])
             && Module::isEnabled($attributes['system'])
         ) {

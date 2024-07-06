@@ -183,13 +183,6 @@ return [
     ],
 
     /*
-     * Paths to the different data files for each system.
-     */
-    'data_path' => [
-        'stillfleet' => env('STILLFLEET_DATA_PATH', 'data/Stillfleet/'),
-    ],
-
-    /*
      * Systems the server supports.
      * short name = full name
      */
