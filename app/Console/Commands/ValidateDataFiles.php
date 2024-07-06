@@ -8,11 +8,13 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use League\Flysystem\UnableToCreateDirectory;
+use Nwidart\Modules\Facades\Module;
 use ParseError;
 
 /**
  * Test all data files for correctness.
  * @codeCoverageIgnore
+ * @psalm-suppress UnusedClass
  */
 class ValidateDataFiles extends Command
 {
@@ -21,16 +23,18 @@ class ValidateDataFiles extends Command
      * files.
      */
     protected const SYSTEM_MAP = [
-        'avatar' => 'data/Avatar/',
-        'capers' => 'data/Capers/',
-        'cyberpunkred' => 'data/Cyberpunkred/',
-        'dnd5e' => 'data/Dnd5e/',
-        'expanse' => 'data/Expanse/',
-        'shadowrun5e' => 'data/Shadowrun5e/',
-        'shadowrun6e' => 'data/Shadowrun6e/',
-        'star-trek-adventures' => 'data/StarTrekAdventures/',
+        'avatar' => 'Modules/Avatar/data/',
+        'blistercritters' => 'Modules/Blistercritters/data/',
+        'capers' => 'Modules/Capers/data/',
+        'cyberpunkred' => 'Modules/Cyberpunkred/data/',
+        'dnd5e' => 'Modules/Dnd5e/data/',
+        'expanse' => 'Modules/Expanse/data/',
+        'shadowrun5e' => 'Modules/Shadowrun5e/data/',
+        'shadowrun6e' => 'Modules/Shadowrun6e/data/',
+        'startrekadventures' => 'Modules/Startrekadventures/data/',
         'stillfleet' => 'data/Stillfleet',
-        'subversion' => 'data/Subversion/',
+        'subversion' => 'Modules/Subversion/data/',
+        'transformers' => 'Modules/Transformers/data/',
     ];
 
     /**
@@ -64,6 +68,10 @@ class ValidateDataFiles extends Command
         }
 
         $this->paths = config('app.data_path');
+        foreach (Module::all() as $system) {
+            $this->paths[(string)$system->getLowerName()] =
+                (string)config($system->getLowerName() . '.data_path');
+        }
         foreach ($systems as $system => $full) {
             $this->line($full);
 

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Services\Chummer;
 
-use App\Models\Shadowrun5e\Identity;
-use App\Models\Shadowrun5e\Tradition;
 use App\Services\Chummer5\Shadowrun5eConverter;
+use Modules\Shadowrun5e\Models\Identity;
+use Modules\Shadowrun5e\Models\Tradition;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;

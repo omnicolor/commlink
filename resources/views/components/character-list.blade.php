@@ -5,51 +5,23 @@ use App\Features\CyberpunkCharacterGeneration;
 use App\Features\WorldAnvilImport;
 use App\Features\Shadowrun5eCharacterGeneration;
 use App\Features\Stillfleet;
+use App\Features\TransformersCharacterGeneration;
+use Nwidart\Modules\Facades\Module;
 @endphp
 <ul class="list-group">
     @forelse ($characters as $character)
         <li class="list-group-item">
-        @switch ($character->system)
-            @case ('avatar')
-            @case ('capers')
-            @case ('cyberpunkred')
-            @case ('expanse')
-            @case ('shadowrun5e')
-            @case ('shadowrun6e')
-            @case ('star-trek-adventures')
-                <a href="/characters/{{ $character->system }}/{{ $character->id }}">
-                    {{ $character }}</a>
-                @if ($character->campaign())
-                    ({{ $character->campaign() }} &mdash;
-                    {{ $character->getSystem() }})
-                @else
-                    ({{ $character->getSystem() }})
-                @endif
-                @break
-            @case ('stillfleet')
-                @feature(Stillfleet::class)
-                    <a href="/characters/{{ $character->system }}/{{ $character->id }}">
-                        {{ $character }}</a>
-                    @if ($character->campaign())
-                        ({{ $character->campaign() }} &mdash;
-                        Stillfleet) }})
-                    @else
-                        (Stillfleet)
-                    @endif
-                @else
-                    {{ $character }} (Stillfleet)
-                @endfeature
-                @break
-            @default
-                {{ $character->handle ?? $character->name }}
-                @if ($character->campaign())
-                    ({{ $character->campaign() }} &mdash;
-                    {{ $character->getSystem() }})
-                @else
-                    ({{ $character->getSystem() }})
-                @endif
-                @break
-        @endswitch
+        @if ($character->link)
+            <a href="{{ $character->link }}">{{ $character }}</a>
+        @else
+            {{ $character }}
+        @endif
+        @if ($character->campaign())
+            ({{ $character->campaign() }} &mdash;
+            {{ $character->getSystem() }})
+        @else
+            ({{ $character->getSystem() }})
+        @endif
         </li>
     @empty
         <li class="list-group-item">
@@ -82,6 +54,17 @@ use App\Features\Stillfleet;
                         <span class="badge bg-danger">Not complete</span>
                     </a>
                     @endfeature
+                    @feature(Stillfleet::class)
+                    <a class="dropdown-item" href="/characters/stillfleet/create">
+                        Stillfleet
+                        <span class="badge bg-danger">Not complete</span>
+                    </a>
+                    @endfeature
+                    @feature(TransformersCharacterGeneration::class)
+                    <a class="dropdown-item" href="/characters/transformers/create">
+                        Transformers RPG
+                        <span class="badge bg-danger">Not complete</span>
+                    </a>
                     @feature(ChummerImport::class)
                     <a class="dropdown-item" href="{{ route('import.chummer5.view') }}">
                         Import a Chummer 5 character
@@ -94,11 +77,6 @@ use App\Features\Stillfleet;
                         <span class="badge bg-warning">Beta</span>
                     </a>
                     @endfeature
-                    @feature(Stillfleet::class)
-                    <a class="dropdown-item" href="/characters/stillfleet/create">
-                        Stillfleet
-                        <span class="badge bg-danger">Not complete</span>
-                    </a>
                     @endfeature
                     @feature(WorldAnvilImport::class)
                     <a class="dropdown-item" href="{{ route('import.world-anvil.view') }}">

@@ -11,6 +11,7 @@ use Ramsey\Uuid\Uuid;
 
 /**
  * @extends Factory<User>
+ * @psalm-suppress UnusedClass
  */
 class UserFactory extends Factory
 {

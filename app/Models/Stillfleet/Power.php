@@ -41,6 +41,7 @@ class Power
     public function __construct(string $id)
     {
         $filename = config('app.data_path.stillfleet') . 'powers.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$powers ??= require $filename;
 
         $this->id = strtolower($id);
@@ -72,6 +73,7 @@ class Power
     public static function all(): array
     {
         $filename = config('app.data_path.stillfleet') . 'powers.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$powers ??= require $filename;
 
         $powers = [];

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Models\Shadowrun5e\ForceTrait;
-use App\Models\Shadowrun5e\VehicleModificationSlotType;
-use App\Models\Shadowrun5e\VehicleModificationType;
 use GitElephant\Repository;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\Isolatable;
 use Illuminate\Support\Str;
+use Modules\Shadowrun5e\Models\ForceTrait;
+use Modules\Shadowrun5e\Models\VehicleModificationSlotType;
+use Modules\Shadowrun5e\Models\VehicleModificationType;
 use RuntimeException;
 use SimpleXMLElement;
 use Throwable;
@@ -103,7 +103,7 @@ class ImportChummerData extends Command implements Isolatable
     public function __construct()
     {
         parent::__construct();
-        $filename = config('app.data_path.shadowrun5e') . 'chummer-sources.php';
+        $filename = config('shadowrun5e.data_path') . 'chummer-sources.php';
         /** @psalm-suppress UnresolvableInclude */
         $this->source_map = require $filename;
     }

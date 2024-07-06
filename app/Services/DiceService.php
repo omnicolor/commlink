@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\Shadowrun5e\ForceTrait;
+use Modules\Shadowrun5e\Models\ForceTrait;
 use RuntimeException;
 
 use function explode;

@@ -6,6 +6,9 @@ namespace App\Features;
 
 use Stringable;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class Stillfleet implements Stringable
 {
     /**

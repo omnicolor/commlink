@@ -16,6 +16,9 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\View\View;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class CharactersController extends Controller
 {
     /**

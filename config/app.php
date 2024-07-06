@@ -186,19 +186,7 @@ return [
      * Paths to the different data files for each system.
      */
     'data_path' => [
-        'avatar' => env('AVATAR_DATA_PATH', 'data/Avatar/'),
-        'capers' => env('CAPERS_DATA_PATH', 'data/Capers/'),
-        'cyberpunkred' => env('CYBERPUNK_DATA_PATH', 'data/Cyberpunkred/'),
-        'dnd5e' => env('DND5E_DATA_PATH', 'data/Dnd5e/'),
-        'expanse' => env('EXPANSE_DATA_PATH', 'data/Expanse/'),
-        'shadowrun5e' => env('SHADOWRUN5E_DATA_PATH', 'data/Shadowrun5e/'),
-        'shadowrun6e' => env('SHADOWRUN6E_DATA_PATH', 'data/Shadowrun6e/'),
-        'star-trek-adventures' => env(
-            'STAR_TREK_ADVENTURES_DATA_PATH',
-            'data/Startrekadventures/'
-        ),
         'stillfleet' => env('STILLFLEET_DATA_PATH', 'data/Stillfleet/'),
-        'subversion' => env('SUBVERSION_DATA_PATH', 'data/Subversion/'),
     ],
 
     /*
@@ -207,14 +195,16 @@ return [
      */
     'systems' => [
         'avatar' => 'Avatar',
+        'blistercritters' => 'Blister Critters',
         'capers' => 'Capers',
         'cyberpunkred' => 'Cyberpunk Red',
         'dnd5e' => 'Dungeons & Dragons 5th Edition',
         'expanse' => 'The Expanse',
         'shadowrun5e' => 'Shadowrun 5th Edition',
         'shadowrun6e' => 'Shadowrun 6th Edition',
-        'star-trek-adventures' => 'Star Trek Adventures',
+        'startrekadventures' => 'Star Trek Adventures',
         'stillfleet' => 'Stillfleet',
         'subversion' => 'Subversion',
+        'transformers' => 'Transformers',
     ],
 ];

@@ -6,7 +6,6 @@ namespace Tests\Feature\Models;
 
 use App\Models\Campaign;
 use App\Models\Character;
-use App\Models\Shadowrun5e\Character as ShadowrunCharacter;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -76,7 +75,10 @@ final class CharacterTest extends TestCase
         $character = Character::where('_id', $character->id)
             ->firstOrFail();
         self::assertSame('shadowrun5e', $character->system);
-        self::assertInstanceOf(ShadowrunCharacter::class, $character);
+        self::assertInstanceOf(
+            \Modules\Shadowrun5e\Models\Character::class,
+            $character
+        );
 
         // PHPStan reports that this is always true. testBuildDefault() asserts
         // that it's not.

@@ -49,6 +49,7 @@ class Role
         ?array $powers = [],
     ) {
         $filename = config('app.data_path.stillfleet') . 'roles.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$roles ??= require $filename;
 
         if (!isset(self::$roles[$id])) {
@@ -142,6 +143,7 @@ class Role
     public static function all(): array
     {
         $filename = config('app.data_path.stillfleet') . 'roles.php';
+        /** @psalm-suppress UnresolvableInclude */
         self::$roles ??= require $filename;
 
         $roles = [];

@@ -9,7 +9,7 @@ info:
   license:
     name: MIT License
     url: https://mit-license.org/
-  version: 1.7.0-stillfleet
+  version: 1.8.0
 externalDocs:
   description: Find out more about Commlink
   url: https://commlink.digitaldarkness.com/about
@@ -19,8 +19,14 @@ servers:
   - url: https://commlink.digitaldarkness.com/api
   - url: https://commlink-dev.digitaldarkness.com/api
 tags:
+  - name: avatar
+    description: Avatar RPG
+  - name: blistercritters
+    description: Blister Critters RPG
   - name: campaign
     description: Information for gamemasters
+  - name: capers
+    description: Capers RPG
   - name: character
     description: Everything about characters, in whatever system
   - name: cyberpunkred
@@ -39,12 +45,207 @@ tags:
     description: Information about the service itself
   - name: shadowrun
     description: Shadowrun RPG
+  - name: startrekadventures
+    description: Star Trek Adventures RPG
   - name: stillfleet
     description: Stillfleet RPG
+  - name: subversion
+    description: Subversion RPG
+  - name: transformers
+    description: Old Transformers RPG
   - name: user
     description: Operations about users
 
 paths:
+  /avatar/characters:
+    get:
+      summary: Avatar RPG characters
+      operationId: avatar-characters-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/AvatarCharacter'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of the user's Avatar characters.
+      tags:
+        - avatar
+  /blistercritters/characters:
+    get:
+      summary: Blister Critters RPG characters
+      operationId: blistercritters-characters-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/BlistercrittersCharacter'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of the user's Blister Critters characters.
+      tags:
+        - blistercritters
+  /capers/characters:
+    get:
+      summary: Capers RPG characters
+      operationId: capers-characters-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CapersCharacter'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of the user's Capers characters.
+      tags:
+        - capers
+  /capers/gear:
+    get:
+      summary: Capers RPG gear
+      operationId: capers-gear-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CapersGear'
+                    type: array
+                required:
+                  - data
+                type: object
+          description: Collection of gear that characters can buy.
+      tags:
+        - capers
+  /capers/identities:
+    get:
+      summary: Capers RPG identity
+      operationId: capers-identity-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CapersCardChoice'
+                    type: array
+                required:
+                  - data
+                type: object
+          description: Collection of identities that characters can have.
+      tags:
+        - capers
+  /capers/powers:
+    get:
+      summary: Capers RPG powers
+      operationId: capers-powers-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CapersPower'
+                    type: array
+                required:
+                  - data
+                type: object
+          description: Collection of powers that characters can have.
+      tags:
+        - capers
+  /capers/skills:
+    get:
+      summary: Capers RPG skills
+      operationId: capers-skills-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CapersSkill'
+                    type: array
+                required:
+                  - data
+                type: object
+          description: Collection of skills that characters can have.
+      tags:
+        - capers
+  /capers/vices:
+    get:
+      summary: Capers RPG vices
+      operationId: capers-vices-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CapersCardChoice'
+                    type: array
+                required:
+                  - data
+                type: object
+          description: Collection of vices that characters can have.
+      tags:
+        - capers
+  /capers/virtues:
+    get:
+      summary: Capers RPG virtues
+      operationId: capers-virtues-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CapersCardChoice'
+                    type: array
+                required:
+                  - data
+                type: object
+          description: Collection of virtues that characters can have.
+      tags:
+        - capers
   /campaigns:
     get:
       summary: Return all campaigns for the user
@@ -2419,6 +2620,29 @@ paths:
           description: Collection of Shadowrun 5E weapons.
       tags:
         - shadowrun
+  /startrekadventures/characters:
+    get:
+      summary: Star Trek Adventures RPG characters
+      operationId: startrekadventures-characters-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/StartrekadventuresCharacter'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of the user's Star Trek Adventures characters.
+      tags:
+        - startrekadventures
   /stillfleet/powers:
     get:
       summary: Collection of Stillfleet powers
@@ -2469,6 +2693,259 @@ paths:
           $ref: '#/components/responses/ErrorUnauthenticated'
       tags:
         - stillfleet
+  /subversion/backgrounds:
+    get:
+      summary: Subversion backgrounds
+      operationId: subversion-backgrounds-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionBackground'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion backgrounds.
+      tags:
+        - subversion
+  /subversion/castes:
+    get:
+      summary: Subversion castes
+      operationId: subversion-castes-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionCaste'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion castes.
+      tags:
+        - subversion
+  /subversion/characters:
+    get:
+      summary: Subversion characters
+      operationId: subversion-characters-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionCharacter'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion characters.
+      tags:
+        - subversion
+  /subversion/gear:
+    get:
+      summary: Subversion gear
+      operationId: subversion-gear-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionGear'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion gear.
+      tags:
+        - subversion
+  /subversion/ideologies:
+    get:
+      summary: Subversion ideologies
+      operationId: subversion-ideologies-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionIdeology'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion ideologies.
+      tags:
+        - subversion
+  /subversion/impulses:
+    get:
+      summary: Subversion impulses
+      operationId: subversion-impulses-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionImpulse'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion impulses.
+      tags:
+        - subversion
+  /subversion/languages:
+    get:
+      summary: Subversion languages
+      operationId: subversion-languages-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionLanguage'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion languages.
+      tags:
+        - subversion
+  /subversion/lineages:
+    get:
+      summary: Subversion lineages
+      operationId: subversion-lineages-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionLineage'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion lineages.
+      tags:
+        - subversion
+  /subversion/origins:
+    get:
+      summary: Subversion origins
+      operationId: subversion-origins-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionOrigin'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion origins.
+      tags:
+        - subversion
+  /subversion/skills:
+    get:
+      summary: Subversion skills
+      operationId: subversion-skills-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionSkill'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion skills.
+      tags:
+        - subversion
+  /transformers/characters:
+    get:
+      summary: Transformers RPG characters
+      operationId: transformers-characters-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/TransformersCharacter'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of the user's Transformer characters.
+      tags:
+        - transformers
   /users:
     get:
       summary: All users
@@ -2771,6 +3248,99 @@ components:
                 type: object
             type: object
   schemas:
+    AvatarCharacter:
+      example:
+        name: 'Aang'
+        appearance: 'Blue arrow tattoo on his bald head.'
+        background: 'Wilderness'
+        creativity: null
+        fatigue: null
+        focus: null
+        harmony: null
+        history: null
+        passion: null
+        id: '667ee7f8246ccb219839df35'
+        owner:
+          id: 3
+          name: 'Omni A'
+        system: 'avatar'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/avatar/characters/667ee7f8246ccb219839df35'
+      allOf:
+        - $ref: '#/components/schemas/Character'
+        - properties:
+            appearance:
+              type: string
+            background:
+              type: string
+            creativity:
+              nullable: true
+              type: string
+            fatigue:
+              nullable: true
+              type: string
+            focus:
+              nullable: true
+              type: string
+            harmony:
+              nullable: true
+              type: string
+            history:
+              nullable: true
+              type: string
+            name:
+              type: string
+            passion:
+              nullable: true
+              type: string
+          required:
+            - appearance
+            - background
+            - creativity
+            - fatigue
+            - focus
+            - harmony
+            - history
+            - id
+            - passion
+            - name
+          type: object
+    BlistercrittersCharacter:
+      example:
+        id: '667cda3b3dc4b0ecfa014d62'
+        name: 'Philz McDillz'
+        instinct: 10
+        noggin: 8
+        scrap: 8
+        scurry: 6
+        vibe: 6
+        owner: 'omni@digitaldarkness.com'
+        system: 'blistercritters'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/blistercritters/characters/667cda3b3dc4b0ecfa014d62'
+      allOf:
+        - $ref: '#/components/schemas/Character'
+        - properties:
+            instinct:
+              type: integer
+            name:
+              type: string
+            noggin:
+              type: integer
+            scrap:
+              type: integer
+            scurry:
+              type: integer
+            vibe:
+              type: integer
+          required:
+            - instinct
+            - name
+            - noggin
+            - scrap
+            - scurry
+            - vibe
+          type: object
     Campaign:
       properties:
         id:
@@ -2840,6 +3410,301 @@ components:
         - invited_by
         - invitee
       type: object
+    CapersBoost:
+      example:
+        name: 'Body boost'
+        description: 'Increase your Body by 1 until the beginning of your next turn.'
+        id: 'body-boost'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - name
+      type: object
+    CapersCardChoice:
+      description: |
+        Several Capers character traits can be chosen or a card can be picked.
+        Either way, the trait is tied to a card. Examples are Identities, Vices,
+        and Virtues.
+      properties:
+        card:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - card
+        - id
+        - name
+      type: object
+    CapersCharacter:
+      example:
+        name: 'The Weevil'
+        background: null
+        description: 'Kind of an oaf.'
+        gear:
+          - name: 'Beer (glass)'
+            cost: 0.1
+            id: 'beer'
+            quantity: 1
+            type: 'food'
+        mannerisms: null
+        powers:
+          - name: 'Body armor'
+            activation: 'NA'
+            available_boosts:
+              - name: 'Body boost'
+                description: |
+                  Increase your Body by 1 until the beginning of your next turn.
+                id: 'body-boost'
+            boosts:
+              - name: 'Body boost'
+                description: |
+                  Increase your Body by 1 until the beginning of your next turn.
+                id: 'body-boost'
+            description: 'Your skin is tough or sheathed in a hard material.'
+            duration: 'Continuous'
+            effect: |
+              At rank 1, your Body increases by 1. At rank 2, your Body instead
+              increases by 2.
+            id: 'body-armor'
+            max_rank: 2
+            range: 'NA'
+            target: 'Self'
+            type: 'Minor'
+            rank: 1
+        identity:
+          name: 'Glory hound'
+          card: 'R9'
+          description: |
+            You look for affirmation in all things. Gain Moxie when others
+            praise you for a significant deed.
+          id: 'glory-hound'
+        skills:
+          - name: 'Willpower'
+            description: |
+              Willpower involves staying focused while under duress, in pain, or
+              lacking sleep.
+            id: 'willpower'
+        stats:
+          agility: 2
+          charisma: 2
+          expertise: 1
+          perception: 2
+          resilience: 3
+          strength: 2
+        type: 'caper'
+        vice:
+          name: 'Drugs'
+          card: '5'
+          description: |
+            You are addicted to heroin, opium, or another strong narcotic.
+          id: 'drugs'
+        virtue:
+          name: 'Honest'
+          card: '8'
+          description: 'You do not lie... ever.'
+          id: 'honest'
+        id: '6684584c4a56300f150627a3'
+        system: 'capers'
+        owner:
+          id: 3
+          name: 'Omni A'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/capers/characters/6684584c4a56300f150627a3'
+      allOf:
+        - $ref: '#/components/schemas/Character'
+        - properties:
+            background:
+              nullable: true
+              type: string
+            description:
+              type: string
+            gear:
+              items:
+                $ref: '#/components/schemas/CapersGear'
+              type: array
+            identity:
+              $ref: '#/components/schemas/CapersCardChoice'
+            mannerisms:
+              nullable: true
+              type: string
+            name:
+              type: string
+            powers:
+              items:
+                $ref: '#/components/schemas/CapersPower'
+              type: array
+            skills:
+              items:
+                $ref: '#/components/schemas/CapersSkill'
+              type: array
+            stats:
+              properties:
+                charisma:
+                  type: integer
+                agility:
+                  type: integer
+                perception:
+                  type: integer
+                expertise:
+                  type: integer
+                resilience:
+                  type: integer
+                strength:
+                  type: integer
+              required:
+                - charisma
+                - agility
+                - perception
+                - expertise
+                - resilience
+                - strength
+              type: object
+            type:
+              enum:
+                - caper
+                - exceptional
+                - regular
+              type: string
+            vice:
+              $ref: '#/components/schemas/CapersCardChoice'
+            virtue:
+              $ref: '#/components/schemas/CapersCardChoice'
+          required:
+            - background
+            - description
+            - gear
+            - identity
+            - mannerisms
+            - name
+            - powers
+            - skills
+            - stats
+            - type
+            - vice
+            - virtue
+          type: object
+    CapersGear:
+      example:
+        name: 'Beer (glass)'
+        cost: 0.1
+        id: 'beer'
+        quantity: 1
+        type: 'food'
+      properties:
+        cost:
+          type: number
+        id:
+          type: string
+        name:
+          type: string
+        quantity:
+          type: integer
+        type:
+          type: string
+      required:
+        - cost
+        - id
+        - name
+        - quantity
+        - type
+      type: object
+    CapersPower:
+      example:
+        name: 'Body armor'
+        activation: 'NA'
+        available_boosts:
+          - name: 'Body boost'
+            description: |
+              Increase your Body by 1 until the beginning of your next turn.
+            id: 'body-boost'
+        boosts:
+          - name: 'Body boost'
+            description: |
+              Increase your Body by 1 until the beginning of your next turn.
+            id: 'body-boost'
+        description: 'Your skin is tough or sheathed in a hard material.'
+        duration: 'Continuous'
+        effect: |
+          At rank 1, your Body increases by 1. At rank 2, your Body instead
+          increases by 2.
+        id: 'body-armor'
+        max_rank: 2
+        range: 'NA'
+        target: 'Self'
+        type: 'Minor'
+        rank: 1
+      properties:
+        activation:
+          type: string
+        available_boosts:
+          description: Boosts that *can* be chosen with this power.
+          items:
+            $ref: '#/components/schemas/CapersBoost'
+          type: array
+        boosts:
+          description: Boosts that *have* been chosen with this power.
+          items:
+            $ref: '#/components/schemas/CapersBoost'
+          type: array
+        description:
+          type: string
+        duration:
+          type: string
+        effect:
+          type: string
+        id:
+          type: string
+        max_rank:
+          type: integer
+        range:
+          type: string
+        target:
+          type: string
+        type:
+          type: string
+        rank:
+          type: integer
+      required:
+        - activation
+        - available_boosts
+        - boosts
+        - duration
+        - id
+        - max_rank
+        - name
+        - range
+        - target
+        - type
+        - rank
+      type: object
+    CapersSkill:
+      example:
+        name: 'Willpower'
+        description: |
+          Willpower involves staying focused while under duress, in pain, or
+          lacking sleep.
+        id: 'willpower'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - name
+      type: object
     Character:
       properties:
         campaign_id:
@@ -2849,8 +3714,10 @@ components:
         links:
           $ref: '#/components/schemas/Links'
         owner:
-          format: email
-          type: string
+          oneOf:
+            - format: email
+              type: string
+            - $ref: '#/components/schemas/UserMinimal'
         system:
           type: string
       required:
@@ -6080,6 +6947,237 @@ components:
         wireless_effects:
           type: object
       type: object
+    StartrekadventuresCharacter:
+      example:
+        name: 'Billy Bob Petrov'
+        assignment: 'Chief Medical Officer'
+        disciplines:
+          command: 2
+          conn: 2
+          engineering: 3
+          medicine: 5
+          science: 3
+          security: 1
+        environment: 'Busy Colony'
+        focuses:
+          - 'Infectious Disease'
+          - 'Virology'
+          - 'Xenobiology'
+          - 'Botany'
+          - 'Quantum Mechanics'
+          - 'Medical Sensors'
+        rank: 'Commander'
+        species:
+          name: 'Human'
+          description: |
+            Originating on the planet Earth in the Sol system, Humans are a
+            resilient, diverse, and adaptable species, who developed from
+            fractious, warring nations on the brink of mutual annihilation to a
+            united, peaceful society in less than a century, and managed to
+            forge alliances between former enemies within a century of achieving
+            interstellar space flight. Earth is a founder and pivotal member of
+            the United Federation of Planets, and many of the Federation’s
+            institutions can be found on Earth. Humans often exhibit a dichotomy
+            in their nature — being both driven to strong emotion and careful
+            reason — and while they have largely grown beyond their warlike and
+            divisive past, their drive and capacity for aggression are as much a
+            part of their success as their curiosity and analytical minds.
+        stats:
+          control: 9
+          daring: 7
+          fitness: 7
+          insight: 10
+          presence: 9
+          reason: 12
+        talents:
+          - name: 'Computer expertise'
+            description: |
+              Whenever you attempt a Task that involves the programming or study
+              of a computer system, you may add a bonus d20 to your pool.
+            id: 'computer-expertise'
+            page: 137
+            requirements:
+              science: 2
+            ruleset: 'core'
+        trait:
+          description: |
+            Humans are adaptable and resilient, and their resolve and ambition
+            often allow them to resist great hardship and triumph despite great
+            adversity. However, Humans can also be reckless and stubborn,
+            irrational, and unpredictable.
+          name: 'Human'
+          page: 107
+          ruleset: 'core'
+          id: 'Human'
+        upbringing: 'Agriculture or Rural'
+        values:
+          - 'Insatiable Curiosity'
+          - 'Exploring to Test New Theories'
+          - 'Threw Out The Handbook and Wrote My Own'
+          - 'Body and Mind Alike Must Be Healthy'
+        id: '5ecab94af4d90c95236cd77b'
+        owner: 'omni@digitaldarkness.com'
+        system: 'startrekadventures'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/startrekadventures/characters/5ecab94af4d90c95236cd77b'
+      allOf:
+        - $ref: '#/components/schemas/Character'
+        - properties:
+            assignment:
+              type: string
+            disciplines:
+              properties:
+                command:
+                  type: integer
+                conn:
+                  type: integer
+                engineering:
+                  type: integer
+                medicine:
+                  type: integer
+                science:
+                  type: integer
+                security:
+                  type: integer
+              required:
+                - command
+                - conn
+                - engineering
+                - medicine
+                - science
+                - security
+              type: object
+            environment:
+              type: string
+            focuses:
+              items:
+                type: string
+              type: array
+            name:
+              type: string
+            rank:
+              type: string
+            species:
+              $ref: '#/components/schemas/StartrekadventuresSpecies'
+            stats:
+              properties:
+                control:
+                  type: integer
+                daring:
+                  type: integer
+                fitness:
+                  type: integer
+                insight:
+                  type: integer
+                presence:
+                  type: integer
+                reason:
+                  type: integer
+              required:
+                - control
+                - daring
+                - fitness
+                - insight
+                - presence
+                - reason
+              type: object
+            talents:
+              items:
+                $ref: '#/components/schemas/StartrekadventuresTalent'
+              type: array
+            traits:
+              items:
+                $ref: '#/components/schemas/StartrekadventuresTrait'
+              type: array
+            upbringing:
+              type: string
+            values:
+              items:
+                type: string
+              type: array
+          type: object
+    StartrekadventuresSpecies:
+      example:
+        name: 'Human'
+        description: |
+          Originating on the planet Earth in the Sol system, Humans are a
+          resilient, diverse, and adaptable species, who developed from
+          fractious, warring nations on the brink of mutual annihilation to a
+          united, peaceful society in less than a century, and managed to forge
+          alliances between former enemies within a century of achieving
+          interstellar space flight. Earth is a founder and pivotal member of
+          the United Federation of Planets, and many of the Federation’s
+          institutions can be found on Earth. Humans often exhibit a dichotomy
+          in their nature — being both driven to strong emotion and careful
+          reason — and while they have largely grown beyond their warlike and
+          divisive past, their drive and capacity for aggression are as much a
+          part of their success as their curiosity and analytical minds.
+      properties:
+        description:
+          type: string
+        name:
+          type: string
+      required:
+        - name
+      type: object
+    StartrekadventuresTalent:
+      example:
+        name: 'Computer expertise'
+        description: |
+          Whenever you attempt a Task that involves the programming or study of
+          a computer system, you may add a bonus d20 to your pool.
+        id: 'computer-expertise'
+        page: 137
+        requirements:
+          science: 2
+        ruleset: 'core'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        requirements:
+          type: object
+        ruleset:
+          type: string
+      required:
+        - id
+        - name
+        - page
+        - ruleset
+      type: object
+    StartrekadventuresTrait:
+      example:
+        description: |
+          Humans are adaptable and resilient, and their resolve and ambition
+          often allow them to resist great hardship and triumph despite great
+          adversity. However, Humans can also be reckless and stubborn,
+          irrational, and unpredictable.
+        name: 'Human'
+        page: 107
+        ruleset: 'core'
+        id: 'Human'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+      required:
+        - id
+        - name
+        - page
+        - ruleset
+      type: object
     StillfleetPower:
       description:  A power granted to a character by their class or species, or achieved through leveling up.
       example:
@@ -6204,6 +7302,701 @@ components:
           type: string
         links:
           $ref: '#/components/schemas/Links'
+      type: object
+    SubversionAttribute:
+      enum:
+        - agility
+        - awareness
+        - brawn
+        - charisma
+        - will
+        - wit
+      type: string
+    SubversionBackground:
+      example:
+        description: You are, or have been, in touch with nature or the earth is some way. You may have been a farmer, or lived off the land, or have been part of a group that worships, protects, or venerates the earth or growing things. Are you still farming? Have you lost the farm? Has some place you loved been despoiled? Are you trying to stop it? Environmentalist? Just have a green thumb?
+        id: agriculturist
+        name: Agriculturist
+        page: 86
+        ruleset: core
+        links:
+          self: https://commlink-dev.digitaldarkness.com/api/subversion/backgrounds/agriculturist
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - id
+        - links
+        - name
+        - page
+        - ruleset
+      type: object
+    SubversionCaste:
+      example:
+        description: "You have enough income to cover the necessities and the occasional splurge, but little else. You wouldn't call your housing spacious, but at least it's yours. Your food tends towards the economical, but is broadly acceptable. You probably own a small electric commuter bike, and can afford a multiuser taxi service when you need it. Lawjacks are ambivalent to you as long as you don't cause trouble.||Lower-middle caste characters start with the normal amount of Fortune."
+        fortune: 0
+        id: 'lower-middle'
+        name: 'Lower-middle caste'
+        page: 76
+        ruleset: core
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/castes/lower-middle'
+      properties:
+        description:
+          type: string
+        fortune:
+          type: integer
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+    SubversionCharacter:
+      example:
+        name: Test character
+        agility: 3
+        arts: 1
+        awareness: 2
+        background:
+          description: 'You are, or have been, in touch with nature or the earth is some way. You may have been a farmer, or lived off the land, or have been part of a group that worships, protects, or venerates the earth or growing things. Are you still farming? Have you lost the farm? Has some place you loved been despoiled? Are you trying to stop it? Environmentalist? Just have a green thumb?'
+          id: 'agriculturist'
+          name: 'Agriculturist'
+          page: 86
+          ruleset: 'core'
+          links:
+            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/backgrounds/agriculturist'
+        brawn: 3
+        caste:
+          description: "You have enough income to cover the necessities and the occasional splurge, but little else. You wouldn't call your housing spacious, but at least it's yours. Your food tends towards the economical, but is broadly acceptable. You probably own a small electric commuter bike, and can afford a multiuser taxi service when you need it. Lawjacks are ambivalent to you as long as you don't cause trouble.||Lower-middle caste characters start with the normal amount of Fortune."
+          fortune: 0
+          id: 'lower-middle'
+          name: 'Lower-middle caste'
+          page: 76
+          ruleset: 'core'
+          links:
+            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/castes/lower-middle'
+        charisma: 2
+        grit_starting: 9
+        id: '65fde97e178d3cca2e0224f3'
+        ideology:
+          description: 'No one should be coerced into following or providing aid to any person or organization against their will, and society should be constructed based on voluntary contributions. Often called nomastics because of their “no masters” rallying cry.'
+          id: 'neo-anarchist'
+          name: 'Neo-anarchist'
+          page: 88
+          ruleset: 'core'
+          value: 'I will strive to give everyone the ability to choose their own life absent of any external edicts or expectations.'
+          links:
+            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/ideologies/neo-anarchist'
+        lineage:
+          description: 'Dwarves tend to be shorter and sturdier than most other lineages. While Dwarves are the most common lineage in Acape Anya, they are a common sight throughout the world.'
+          id: 'dwarven'
+          name: 'Dwarven'
+          options:
+            - description: 'Gain +4 to defenses when resisting Toxins or Metabolic Damage.'
+              id: 'toxin-resistant'
+              name: 'Toxin resistant'
+            - description: 'Increase Brawn to 2.'
+              id: 'lessons-from-the-ground'
+              name: 'Lessons from the ground'
+            - description: 'You and/or your family are smaller and less stocky than most dwarves. Gain +2 on physicality rolls related to hiding or navigating tight spaces.'
+              id: 'small'
+              name: 'Small'
+            - description: 'You grow moss or grass in place of hair. Your Unarmed attacks do 2d6 damage (+Brawn) and have AP 1.'
+              id: 'monstrous-heritage'
+              name: 'Monstrous heritage'
+          option:
+            id: 'small'
+            name: 'Small'
+            description: 'You and/or your family are smaller and less stocky than most dwarves. Gain +2 on physicality rolls related to hiding or navigating tight spaces.'
+          page: 82
+          ruleset: 'core'
+          links:
+            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/lineages/dwarven'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/characters/65fde97e178d3cca2e0224f3'
+          owner: 'https://commlink-dev.digitaldarkness.com/users/3'
+        origin:
+          description: 'The physically largest of the lineages, Yettin have historically congregated in their own communities in Altaiphera, and for much of history, integrated less with the surrounding cultures (and each other). This tradition has led to wide variance among different strains of Altaipheran culture, though most place an emphasis on the importance of tight-knit community and are influenced by rural life.||The UYC may have rebelled against the more warlike Altaipheran Yettin, but they share a common culture.'
+          id: 'altaipheran'
+          name: 'Altaipheran'
+          page: 85
+          ruleset: 'core'
+          links:
+            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/origins/altaipheran'
+        owner: 'omni@digitaldarkness.com'
+        skills:
+          - attributes:
+            - 'awareness'
+            - 'wit'
+            description: 'Observation is the skill of learning things about the world, whether it be determining if someone is telling the truth, finding evidence, looking for food or shelter, judging what is safe or not, spotting traps, or deeply seeing the world around you. Searching and finding use Awareness while memory, pattern recognition, deduction, and analysis use Wit.'
+            id: 'observation'
+            name: 'Observation'
+            page: 16
+            rank: 2
+            ruleset: 'core'
+            links:
+              self: 'https://commlink-dev.digitaldarkness.com/api/subversion/skills/observation'
+        system: 'subversion'
+        will: 3
+        wit: 5
+      properties:
+        agility:
+          type: integer
+        arts:
+          type: integer
+        awareness:
+          type: integer
+        background:
+          $ref: '#/components/schemas/SubversionBackground'
+        brawn:
+          type: integer
+        caste:
+          $ref: '#/components/schemas/SubversionCaste'
+        charisma:
+          type: integer
+        grit_starting:
+          type: integer
+        id:
+          type: string
+        ideology:
+          $ref: '#/components/schemas/SubversionIdeology'
+        lineage:
+          $ref: '#/components/schemas/SubversionLineage'
+        name:
+          type: string
+        origin:
+          $ref: '#/components/schemas/SubversionOrigin'
+        owner:
+          format: email
+          type: string
+        skills:
+          items:
+            $ref: '#/components/schemas/SubversionSkill'
+          type: array
+        system:
+          type: string
+        will:
+          type: integer
+        wit:
+          type: integer
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+    SubversionGear:
+      example:
+        category: Electronics and software
+        description: Low end halos, colloquially known as “paylos” for their dirt cheap prices, can be bought at every store or C-link. Interacting with them relies on low-resolution touch-screens, speakers, and microphones. Sold at a loss, they make it up by steering the user towards buying certain products and selling their information. Notoriously cheap and insecure, they’re nonetheless the mainstay of those who can’t afford better.
+        firewall: 0
+        fortune: 1
+        id: paylo
+        name: Paylo
+        page: 99
+        ruleset: core
+        security_rating: 8
+        links:
+          self: https://commlink-dev.digitaldarkness.com/api/subversion/gear/paylo
+      properties:
+        category:
+          type: string
+        description:
+          type: string
+        firewall:
+          type: integer
+        fortune:
+          type: integer
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        security_rating:
+          type: integer
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - category
+        - fortune
+        - id
+        - name
+        - page
+        - ruleset
+        - links
+      type: object
+    SubversionIdeology:
+      example:
+        description: 'No one should be coerced into following or providing aid to any person or organization against their will, and society should be constructed based on voluntary contributions. Often called nomastics because of their “no masters” rallying cry.'
+        id: 'neo-anarchist'
+        name: 'Neo-anarchist'
+        page: 88
+        ruleset: 'core'
+        value: 'I will strive to give everyone the ability to choose their own life absent of any external edicts or expectations.'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/ideologies/neo-anarchist'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        value:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - id
+        - links
+        - name
+        - page
+        - ruleset
+      type: object
+    SubversionImpulse:
+      example:
+        description: 'You have a hedonistic pleasure that you turn to when you want to have fun, when you need a pick me up, or sometimes, just because it’s there. On a good day you just tell yourself you’re enjoying the finer things in life, on a bad day it’s just easier than dealing with the important things in life. Sample Indulgences: Alcohol, Drugs, Gambling, Clubbing, Sex, Videogames, etc.'
+        downtime:
+          description: 'You spent a large chunk of the time partaking of your indulgence to excess. Spend 1 fortune, recover 3 Grit, and the GM gains 5 Grit.'
+          effects:
+            fortune: -1
+            grit: 3
+            grit-gm: 5
+          name: 'Indulge'
+        id: 'indulgence'
+        name: 'Indulgence'
+        page: 27
+        responses:
+          - description: 'You partake of a drug or other activity that numbs your abilities or connection to the world. If you are addicted to a substance with specific rules (see "Drugs", core ruleset pg 100), you take a dose of the drug, following those rules. For other substances or activities, you partake to the point of impairment. Gain a temporary Consequence until the next time you get a full nights sleep.'
+            effects:
+              consequence: 1
+            id: 'intoxication'
+            name: 'Intoxication'
+        ruleset: 'core'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/impulses/indulgence'
+      properties:
+        description:
+          type: string
+        downtime:
+          $ref: '#/components/schemas/SubversionImpulseDowntime'
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        responses:
+          items:
+            $ref: '#/components/schemas/SubversionImpulseResponse'
+          type: array
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - downtime
+        - id
+        - name
+        - page
+        - responses
+        - ruleset
+        - links
+      type: object
+    SubversionImpulseDowntime:
+      example:
+        description: 'You spent a large chunk of the time partaking of your indulgence to excess. Spend 1 fortune, recover 3 Grit, and the GM gains 5 Grit.'
+        effects:
+          fortune: -1
+          grit: 3
+          grit-gm: 5
+        name: 'Indulge'
+      properties:
+        description:
+          type: string
+        effects:
+          type: object
+        name:
+          type: string
+      type: object
+    SubversionImpulseResponse:
+      example:
+        description: 'You partake of a drug or other activity that numbs your abilities or connection to the world. If you are addicted to a substance with specific rules (see "Drugs", core ruleset pg 100), you take a dose of the drug, following those rules. For other substances or activities, you partake to the point of impairment. Gain a temporary Consequence until the next time you get a full nights sleep.'
+        effects:
+          consequence: 1
+        id: 'intoxication'
+        name: 'Intoxication'
+      properties:
+        description:
+          type: string
+        effects:
+          type: object
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - effects
+        - id
+        - name
+      type: object
+    SubversionLanguage:
+      example:
+        description: 'The language of Altaiphera and the UYC, Altaipheran is difficult for non-yettin to pronounce properly.'
+        id: 'altaipheran'
+        name: 'Altaipheran'
+        page: 97
+        ruleset: 'core'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/languages/altaipheran'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - id
+        - name
+        - page
+        - ruleset
+        - links
+      type: object
+    SubversionLineage:
+      example:
+        description: 'Dwarves tend to be shorter and sturdier than most other lineages. While Dwarves are the most common lineage in Acape Anya, they are a common sight throughout the world.'
+        id: 'dwarven'
+        name: 'Dwarven'
+        options:
+          - description: 'Gain +4 to defenses when resisting Toxins or Metabolic Damage.'
+            id: 'toxin-resistant'
+            name: 'Toxin resistant'
+        page: 82
+        ruleset: 'core'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/lineages/dwarven'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        options:
+          items:
+            $ref: '#/components/schemas/SubversionLineageOption'
+          type: array
+        page:
+          type: integer
+        ruleset:
+          type: string
+      required:
+        - id
+        - name
+        - options
+        - page
+        - ruleset
+        - links
+      type: object
+    SubversionLineageOption:
+      example:
+        description: 'Gain +4 to defenses when resisting Toxins or Metabolic Damage.'
+        id: 'toxin-resistant'
+        name: 'Toxin resistant'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - name
+      type: object
+    SubversionOrigin:
+      example:
+        description: 'The physically largest of the lineages, Yettin have historically congregated in their own communities in Altaiphera, and for much of history, integrated less with the surrounding cultures (and each other). This tradition has led to wide variance among different strains of Altaipheran culture, though most place an emphasis on the importance of tight-knit community and are influenced by rural life.||The UYC may have rebelled against the more warlike Altaipheran Yettin, but they share a common culture.'
+        id: 'altaipheran'
+        name: 'Altaipheran'
+        page: 85
+        ruleset: 'core'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/origins/altaipheran'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - id
+        - links
+        - name
+        - page
+        - ruleset
+      type: object
+    SubversionSkill:
+      example:
+        attributes:
+          - 'awareness'
+          - 'wit'
+        description: 'Observation is the skill of learning things about the world, whether it be determining if someone is telling the truth, finding evidence, looking for food or shelter, judging what is safe or not, spotting traps, or deeply seeing the world around you. Searching and finding use Awareness while memory, pattern recognition, deduction, and analysis use Wit.'
+        id: 'observation'
+        name: 'Observation'
+        page: 16
+        rank: null
+        ruleset: 'core'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/skills/observation'
+      properties:
+        attributes:
+          items:
+            $ref: '#/components/schemas/SubversionAttribute'
+          type: array
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        rank:
+          nullable: true
+          type: integer
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - attributes
+        - id
+        - name
+        - page
+        - rank
+        - ruleset
+        - links
+      type: object
+    TransformersCharacter:
+      example:
+        name: 'Bumblebee'
+        allegiance: 'Autobots'
+        alt_mode: null
+        color_primary: 'Yellow'
+        color_secondary: 'Black'
+        courage_alt: null
+        courage_robot: 5
+        endurance_alt: null
+        endurance_robot: 3
+        energon_base: 20
+        energon_current: 20
+        firepower_alt: null
+        firepower_robot: 7
+        hp_base: 13
+        hp_current: 13
+        intelligence_alt: null
+        intelligence_robot: 10
+        mode: 'robot'
+        programming: 'engineer'
+        quote: 'Bzzt'
+        rank_alt: null
+        rank_robot: 3
+        size: 3
+        skill_alt: null
+        skill_robot: 7
+        speed_alt: null
+        speed_robot: 8
+        strength_alt: null
+        strength_robot: 4
+        subgroups:
+          - name: 'Actionmaster'
+            class: 'standard'
+            cost: 2
+            description: |
+              Nuclean fuel pumps through the Transformer’s veins, preventing
+              Transformation, but granting Damage Reduction of 1d6 / 2 rounded
+              up. See Partner Units for more options with Actionmaster.
+        weapons:
+          - name: 'Buzzsaw'
+            class: 'minor'
+            cost: 1
+            damage: '1d6 vs. HP + 2x Map + Radius'
+            explanation: 'Melee range. Hand-replacement. Can also be Chainsaw.'
+            id: 'buzzsaw'
+        id: '668462afeeb2453f6f07eccc'
+        owner:
+          id: 3
+          name: 'Omni Adams'
+        system: 'transformers'
+      allOf:
+        - $ref: '#/components/schemas/Character'
+        - properties:
+            allegiance:
+              enum:
+                - Autobots
+                - Decepticons
+              type: string
+            alt_mode:
+              nullable: true
+              type: string
+            color_primary:
+              type: string
+            color_secondary:
+              type: string
+            courage_alt:
+              nullable: true
+              type: integer
+            courage_robot:
+              type: integer
+            endurance_alt:
+              nullable: true
+              type: integer
+            endurance_robot:
+              type: integer
+            energon_base:
+              type: integer
+            energon_current:
+              type: integer
+            firepower_alt:
+              nullable: true
+              type: integer
+            firepower_robot:
+              type: integer
+            hp_base:
+              type: integer
+            hp_current:
+              type: integer
+            intelligence_alt:
+              nullable: true
+              type: integer
+            intelligence_robot:
+              type: integer
+            mode:
+              type: string
+            name:
+              type: string
+            programming:
+              type: string
+            quote:
+              type: string
+            rank_alt:
+              nullable: true
+              type: integer
+            rank_robot:
+              type: integer
+            size:
+              type: integer
+            skill_alt:
+              nullable: true
+              type: integer
+            skill_robot:
+              type: integer
+            speed_alt:
+              nullable: true
+              type: integer
+            speed_robot:
+              type: integer
+            strength_alt:
+              nullable: true
+              type: integer
+            strength_robot:
+              type: integer
+            subgroups:
+              items:
+                $ref: '#/components/schemas/TransformersSubgroup'
+              type: array
+            weapons:
+              items:
+                $ref: '#/components/schemas/TransformersWeapon'
+              type: array
+          type: object
+    TransformersSubgroup:
+      example:
+        name: 'Actionmaster'
+        class: 'standard'
+        cost: 2
+        description: |
+          Nuclean fuel pumps through the Transformer’s veins, preventing
+          Transformation, but granting Damage Reduction of 1d6 / 2 rounded up.
+          See Partner Units for more options with Actionmaster.
+      properties:
+        class:
+          type: string
+        cost:
+          type: integer
+        description:
+          type: string
+        name:
+          type: string
+      required:
+        - class
+        - cost
+        - name
+      type: object
+    TransformersWeapon:
+      example:
+        name: 'Buzzsaw'
+        class: 'minor'
+        cost: 1
+        damage: '1d6 vs. HP + 2x Map + Radius'
+        explanation: 'Melee range. Hand-replacement. Can also be Chainsaw.'
+        id: 'buzzsaw'
+      properties:
+        class:
+          type: string
+        cost:
+          type: integer
+        damage:
+          type: string
+        explanation:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - class
+        - cost
+        - damage
+        - id
+        - name
       type: object
     User:
       properties:
