@@ -34,11 +34,10 @@ class Init extends Roll
     protected const MAX_DICE = 5;
     protected const REQUIRED_PIPS = 6;
 
-    /**
-     * @var array<int, int>
-     */
+    /** @var array<int, int> */
     protected array $dice = [];
     protected ?string $error = null;
+    /** @pvar non-negative-int */
     protected int $initiativeScore = 0;
     protected int $initiativeDice = 1;
 

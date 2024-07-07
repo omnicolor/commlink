@@ -40,7 +40,7 @@ final class CampaignsControllerTest extends TestCase
     /**
      * Test creating a new campaign.
      */
-    public function testCreateNewCampaign(): void
+    public function testCreateNewDnd5eCampaign(): void
     {
         if (
             1 === count(config('app.systems'))
@@ -219,6 +219,50 @@ final class CampaignsControllerTest extends TestCase
                 'options' => $expectedOptions,
                 'registered_by' => $user->id,
                 'system' => 'cyberpunkred',
+            ]
+        );
+    }
+
+    public function testCreateNewSubversionCampaign(): void
+    {
+        if (!in_array('subversion', array_keys(config('app.systems')), true)) {
+            self::markTestSkipped('Subversion not enabled');
+        }
+        // @phpstan-ignore-next-line
+        $name = $this->faker->catchPhrase();
+
+        // @phpstan-ignore-next-line
+        $description = $this->faker->bs();
+
+        // @phpstan-ignore-next-line
+        $communityDescription = $this->faker->bs();
+        $user = User::factory()->create();
+        $this->actingAs($user)
+            ->postJson(
+                route('campaign.createForm'),
+                [
+                    'description' => $description,
+                    'name' => $name,
+                    'subversion-community-description' => $communityDescription,
+                    'subversion-community-type' => 'neighborhood',
+                    'system' => 'subversion',
+                ]
+            )
+            ->assertRedirect('/dashboard');
+
+        $expectedOptions = json_encode([
+            'community-description' => $communityDescription,
+            'community-type' => 'neighborhood',
+        ]);
+        $this->assertDatabaseHas(
+            'campaigns',
+            [
+                'description' => $description,
+                'gm' => null,
+                'name' => $name,
+                'options' => $expectedOptions,
+                'registered_by' => $user->id,
+                'system' => 'subversion',
             ]
         );
     }

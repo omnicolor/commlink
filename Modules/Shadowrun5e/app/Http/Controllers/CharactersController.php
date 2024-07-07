@@ -936,6 +936,7 @@ class CharactersController extends Controller
     /**
      * User wants to shelve the current partial character to finish later.
      * @psalm-suppress PossiblyUnusedReturnValue
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function saveForLater(Request $request): RedirectResponse
     {
@@ -1225,6 +1226,9 @@ class CharactersController extends Controller
         return $this->redirect($request->input('nav'), 'skills', $character);
     }
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function storeSocial(SocialRequest $request): RedirectResponse
     {
         /** @var User */

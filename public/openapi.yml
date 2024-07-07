@@ -44,9 +44,13 @@ tags:
   - name: meta
     description: Information about the service itself
   - name: shadowrun
-    description: Shadowrun RP
+    description: Shadowrun RPG
   - name: startrekadventures
     description: Star Trek Adventures RPG
+  - name: stillfleet
+    description: Stillfleet RPG
+  - name: subversion
+    description: Subversion RPG
   - name: transformers
     description: Old Transformers RPG
   - name: user
@@ -396,9 +400,9 @@ paths:
                 $ref: '#/components/schemas/JsonPatchOperation'
               type: array
             example:
-              - op: "replace"
-                path: "/options/currentDate"
-                value: "2080-04-04"
+              - op: 'replace'
+                path: '/options/currentDate'
+                value: '2080-04-04'
       responses:
         '202':
           description: The campaign has been updated.
@@ -2639,6 +2643,286 @@ paths:
           description: Collection of the user's Star Trek Adventures characters.
       tags:
         - startrekadventures
+  /stillfleet/powers:
+    get:
+      summary: Collection of Stillfleet powers
+      operationId: stillfleet-powers-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/StillfleetPower'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: All powers a Stillfleet character may possess.
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+      tags:
+        - stillfleet
+  /stillfleet/roles:
+    get:
+      summary: Collection of Stillfleet roles
+      operationId: stillfleet-roles-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/StillfleetRole'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: All roles a Stillfleet character may fulfill.
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+      tags:
+        - stillfleet
+  /subversion/backgrounds:
+    get:
+      summary: Subversion backgrounds
+      operationId: subversion-backgrounds-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionBackground'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion backgrounds.
+      tags:
+        - subversion
+  /subversion/castes:
+    get:
+      summary: Subversion castes
+      operationId: subversion-castes-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionCaste'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion castes.
+      tags:
+        - subversion
+  /subversion/characters:
+    get:
+      summary: Subversion characters
+      operationId: subversion-characters-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionCharacter'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion characters.
+      tags:
+        - subversion
+  /subversion/gear:
+    get:
+      summary: Subversion gear
+      operationId: subversion-gear-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionGear'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion gear.
+      tags:
+        - subversion
+  /subversion/ideologies:
+    get:
+      summary: Subversion ideologies
+      operationId: subversion-ideologies-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionIdeology'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion ideologies.
+      tags:
+        - subversion
+  /subversion/impulses:
+    get:
+      summary: Subversion impulses
+      operationId: subversion-impulses-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionImpulse'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion impulses.
+      tags:
+        - subversion
+  /subversion/languages:
+    get:
+      summary: Subversion languages
+      operationId: subversion-languages-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionLanguage'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion languages.
+      tags:
+        - subversion
+  /subversion/lineages:
+    get:
+      summary: Subversion lineages
+      operationId: subversion-lineages-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionLineage'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion lineages.
+      tags:
+        - subversion
+  /subversion/origins:
+    get:
+      summary: Subversion origins
+      operationId: subversion-origins-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionOrigin'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion origins.
+      tags:
+        - subversion
+  /subversion/skills:
+    get:
+      summary: Subversion skills
+      operationId: subversion-skills-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SubversionSkill'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of Subversion skills.
+      tags:
+        - subversion
   /transformers/characters:
     get:
       summary: Transformers RPG characters
@@ -5283,7 +5567,7 @@ components:
         links:
           properties:
             self:
-              example: /api/shadowrun5e/gear/activesoft-forgery-1
+              example: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/gear/activesoft-forgery-1'
               format: url
               type: string
           type: object
@@ -6894,6 +7178,642 @@ components:
         - page
         - ruleset
       type: object
+    StillfleetPower:
+      description:  A power granted to a character by their class or species, or achieved through leveling up.
+      example:
+        advanced_list: 'communications'
+        description: 'You can convert code-based intelligences to your cause. Burn 4 GRT and roll a REA and a CHA check. The difficulty of the REA check is 1 + the complexity level of the code-based intelligence (generally at least a 3). The CHA check is a standard difficulty of 6. If both checks are successful, you convince the code-based intelligence to ally with you and accomplish some goal. This is a permanent alliance, unless you double-cross the AI. If one check succeeds, the AI is not angry, simply unconvinced—perhaps curious about the terms of the alliance. If both checks fail, you have angered the AI and should probably flee…'
+        id: 'ally'
+        name: 'Ally'
+        page: 97
+        ruleset: 'core'
+        type: 'advanced'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/stillfleet/powers/ally'
+      properties:
+        advanced_list:
+          description: What advanced list of powers the power can be added from.
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        type:
+          enum:
+            - advanced
+            - class
+            - hell-science
+            - marquee
+            - species
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - id
+        - name
+        - page
+        - ruleset
+        - type
+        - links
+      type: object
+    StillfleetRole:
+      description: Role a voidminer can have with the company.
+      example:
+        description: 'You are an engineer—and very likely a daredevil—trained by the Archivists to understand the beyond-human science of stiffworks.'
+        grit:
+          - 'movement'
+          - 'reason'
+        id: 'banshee'
+        name: 'Banshee'
+        page: 43
+        advanced_power_lists:
+          - 'communications'
+        marquee_power:
+          description: 'Open, close, or change the destination of a stiffworks. Costs and mechanics vary by the works. Open stiffworks remain open for 10 minutes per tack… usually. Some stiffworks may be retacked (i.e., their destinations changed), although this varies by type.'
+          id: 'tack'
+          name: 'Tack'
+          page: 43
+          ruleset: 'core'
+          type: 'marquee'
+          links:
+            self: 'https://commlink-dev.digitaldarkness.com/api/stillfleet/powers/tack'
+        optional_powers:
+          - description: 'You can, with effort, actually pilot spacefaring vessels. Cost to command a vessel is based purely on its class (a combined 1–6 rating based on its size, complexity, and condition), with each point of vessel class costing 6 GRT. Burning this GRT grants you the ability to pilot or otherwise command the ship, within reason. (If the hyperdrive’s broke, it ain’t jumpin; mining vessels may not sport armament, etc.) While piloting, you are essentially stuck and unable to otherwise venture. You must pay the astrogation cost each time you chart a course into or out of a system, or each time the ship is damaged or upgraded. Doing anything with the ship other than moving from point A to B (firing weapons, scanning a mysterious craft, remotely salvaging damaged life support systems, etc.) requires relevant checks, typically REA or, in a dogfight, COM and MOV.'
+            id: 'astrogate'
+            name: 'Astrogate'
+            page: 45
+            ruleset: 'core'
+            type: 'class'
+            links:
+              self: 'https://commlink-dev.digitaldarkness.com/api/stillfleet/powers/astrogate'
+        other_powers:
+          - description: 'The ship is on fire—you have to get your party through the stuck bulkhead before the O2 combusts! (Or whatever!) This is your big getaway power. Burn 6 GRT and make a MOV check: if you succeed, you and some or all of your party make it out safely. You can bring 1 +your level humanoid-sized beings along with you to safety, or burn an additional 6 GRT to bring one additional being beyond your limit. Small sapient beings (0.5-M tall/long) count for half a slot; large sapes (3-M tall/long) count double; small pets (cat/beagle-sized) are free. If you fail your MOV check, you alone get away but injure yourself for 2d6 HEA damage.'
+            id: 'dive'
+            name: 'Dive'
+            page: 45
+            ruleset: 'core'
+            type: 'class'
+            links:
+              self: 'https://commlink-dev.digitaldarkness.com/api/stillfleet/powers/dive'
+        responsibilities:
+          - 'opening stiffworks (quantum gates connecting disparate points in timespaces)'
+          - 'appraising and, as needed, repairing technologies discovered during the venture'
+          - 'assisting the venture’s pir in the collection of technoscientific samples for the Archive'
+        ruleset: 'core'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/stillfleet/roles/banshee'
+      properties:
+        description:
+          type: string
+        grit:
+          description: Attributes to use to determine the voidminer's maximum grit. Uses the die size for the given attributes. If the attribute starts with a minus (-) subtracts that attribute.
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        advanced_power_lists:
+          items:
+            description: List(s) that the voidminer can pick from when gaining advanced powers.
+            type: string
+          type: array
+        marquee_power:
+          $ref: '#/components/schemas/StillfleetPower'
+        optional_powers:
+          items:
+            $ref: '#/components/schemas/StillfleetPower'
+          type: array
+        other_powers:
+          items:
+            $ref: '#/components/schemas/StillfleetPower'
+          type: array
+        responsibilities:
+          items:
+            type: string
+          type: array
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+    SubversionAttribute:
+      enum:
+        - agility
+        - awareness
+        - brawn
+        - charisma
+        - will
+        - wit
+      type: string
+    SubversionBackground:
+      example:
+        description: You are, or have been, in touch with nature or the earth is some way. You may have been a farmer, or lived off the land, or have been part of a group that worships, protects, or venerates the earth or growing things. Are you still farming? Have you lost the farm? Has some place you loved been despoiled? Are you trying to stop it? Environmentalist? Just have a green thumb?
+        id: agriculturist
+        name: Agriculturist
+        page: 86
+        ruleset: core
+        links:
+          self: https://commlink-dev.digitaldarkness.com/api/subversion/backgrounds/agriculturist
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - id
+        - links
+        - name
+        - page
+        - ruleset
+      type: object
+    SubversionCaste:
+      example:
+        description: "You have enough income to cover the necessities and the occasional splurge, but little else. You wouldn't call your housing spacious, but at least it's yours. Your food tends towards the economical, but is broadly acceptable. You probably own a small electric commuter bike, and can afford a multiuser taxi service when you need it. Lawjacks are ambivalent to you as long as you don't cause trouble.||Lower-middle caste characters start with the normal amount of Fortune."
+        fortune: 0
+        id: 'lower-middle'
+        name: 'Lower-middle caste'
+        page: 76
+        ruleset: core
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/castes/lower-middle'
+      properties:
+        description:
+          type: string
+        fortune:
+          type: integer
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+    SubversionCharacter:
+      example:
+        name: Test character
+        agility: 3
+        arts: 1
+        awareness: 2
+        background:
+          description: 'You are, or have been, in touch with nature or the earth is some way. You may have been a farmer, or lived off the land, or have been part of a group that worships, protects, or venerates the earth or growing things. Are you still farming? Have you lost the farm? Has some place you loved been despoiled? Are you trying to stop it? Environmentalist? Just have a green thumb?'
+          id: 'agriculturist'
+          name: 'Agriculturist'
+          page: 86
+          ruleset: 'core'
+          links:
+            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/backgrounds/agriculturist'
+        brawn: 3
+        caste:
+          description: "You have enough income to cover the necessities and the occasional splurge, but little else. You wouldn't call your housing spacious, but at least it's yours. Your food tends towards the economical, but is broadly acceptable. You probably own a small electric commuter bike, and can afford a multiuser taxi service when you need it. Lawjacks are ambivalent to you as long as you don't cause trouble.||Lower-middle caste characters start with the normal amount of Fortune."
+          fortune: 0
+          id: 'lower-middle'
+          name: 'Lower-middle caste'
+          page: 76
+          ruleset: 'core'
+          links:
+            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/castes/lower-middle'
+        charisma: 2
+        grit_starting: 9
+        id: '65fde97e178d3cca2e0224f3'
+        ideology:
+          description: 'No one should be coerced into following or providing aid to any person or organization against their will, and society should be constructed based on voluntary contributions. Often called nomastics because of their “no masters” rallying cry.'
+          id: 'neo-anarchist'
+          name: 'Neo-anarchist'
+          page: 88
+          ruleset: 'core'
+          value: 'I will strive to give everyone the ability to choose their own life absent of any external edicts or expectations.'
+          links:
+            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/ideologies/neo-anarchist'
+        lineage:
+          description: 'Dwarves tend to be shorter and sturdier than most other lineages. While Dwarves are the most common lineage in Acape Anya, they are a common sight throughout the world.'
+          id: 'dwarven'
+          name: 'Dwarven'
+          options:
+            - description: 'Gain +4 to defenses when resisting Toxins or Metabolic Damage.'
+              id: 'toxin-resistant'
+              name: 'Toxin resistant'
+            - description: 'Increase Brawn to 2.'
+              id: 'lessons-from-the-ground'
+              name: 'Lessons from the ground'
+            - description: 'You and/or your family are smaller and less stocky than most dwarves. Gain +2 on physicality rolls related to hiding or navigating tight spaces.'
+              id: 'small'
+              name: 'Small'
+            - description: 'You grow moss or grass in place of hair. Your Unarmed attacks do 2d6 damage (+Brawn) and have AP 1.'
+              id: 'monstrous-heritage'
+              name: 'Monstrous heritage'
+          option:
+            id: 'small'
+            name: 'Small'
+            description: 'You and/or your family are smaller and less stocky than most dwarves. Gain +2 on physicality rolls related to hiding or navigating tight spaces.'
+          page: 82
+          ruleset: 'core'
+          links:
+            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/lineages/dwarven'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/characters/65fde97e178d3cca2e0224f3'
+          owner: 'https://commlink-dev.digitaldarkness.com/users/3'
+        origin:
+          description: 'The physically largest of the lineages, Yettin have historically congregated in their own communities in Altaiphera, and for much of history, integrated less with the surrounding cultures (and each other). This tradition has led to wide variance among different strains of Altaipheran culture, though most place an emphasis on the importance of tight-knit community and are influenced by rural life.||The UYC may have rebelled against the more warlike Altaipheran Yettin, but they share a common culture.'
+          id: 'altaipheran'
+          name: 'Altaipheran'
+          page: 85
+          ruleset: 'core'
+          links:
+            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/origins/altaipheran'
+        owner: 'omni@digitaldarkness.com'
+        skills:
+          - attributes:
+            - 'awareness'
+            - 'wit'
+            description: 'Observation is the skill of learning things about the world, whether it be determining if someone is telling the truth, finding evidence, looking for food or shelter, judging what is safe or not, spotting traps, or deeply seeing the world around you. Searching and finding use Awareness while memory, pattern recognition, deduction, and analysis use Wit.'
+            id: 'observation'
+            name: 'Observation'
+            page: 16
+            rank: 2
+            ruleset: 'core'
+            links:
+              self: 'https://commlink-dev.digitaldarkness.com/api/subversion/skills/observation'
+        system: 'subversion'
+        will: 3
+        wit: 5
+      properties:
+        agility:
+          type: integer
+        arts:
+          type: integer
+        awareness:
+          type: integer
+        background:
+          $ref: '#/components/schemas/SubversionBackground'
+        brawn:
+          type: integer
+        caste:
+          $ref: '#/components/schemas/SubversionCaste'
+        charisma:
+          type: integer
+        grit_starting:
+          type: integer
+        id:
+          type: string
+        ideology:
+          $ref: '#/components/schemas/SubversionIdeology'
+        lineage:
+          $ref: '#/components/schemas/SubversionLineage'
+        name:
+          type: string
+        origin:
+          $ref: '#/components/schemas/SubversionOrigin'
+        owner:
+          format: email
+          type: string
+        skills:
+          items:
+            $ref: '#/components/schemas/SubversionSkill'
+          type: array
+        system:
+          type: string
+        will:
+          type: integer
+        wit:
+          type: integer
+        links:
+          $ref: '#/components/schemas/Links'
+      type: object
+    SubversionGear:
+      example:
+        category: Electronics and software
+        description: Low end halos, colloquially known as “paylos” for their dirt cheap prices, can be bought at every store or C-link. Interacting with them relies on low-resolution touch-screens, speakers, and microphones. Sold at a loss, they make it up by steering the user towards buying certain products and selling their information. Notoriously cheap and insecure, they’re nonetheless the mainstay of those who can’t afford better.
+        firewall: 0
+        fortune: 1
+        id: paylo
+        name: Paylo
+        page: 99
+        ruleset: core
+        security_rating: 8
+        links:
+          self: https://commlink-dev.digitaldarkness.com/api/subversion/gear/paylo
+      properties:
+        category:
+          type: string
+        description:
+          type: string
+        firewall:
+          type: integer
+        fortune:
+          type: integer
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        security_rating:
+          type: integer
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - category
+        - fortune
+        - id
+        - name
+        - page
+        - ruleset
+        - links
+      type: object
+    SubversionIdeology:
+      example:
+        description: 'No one should be coerced into following or providing aid to any person or organization against their will, and society should be constructed based on voluntary contributions. Often called nomastics because of their “no masters” rallying cry.'
+        id: 'neo-anarchist'
+        name: 'Neo-anarchist'
+        page: 88
+        ruleset: 'core'
+        value: 'I will strive to give everyone the ability to choose their own life absent of any external edicts or expectations.'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/ideologies/neo-anarchist'
+      properties:
+        description:
+          type: string
+        id:
+            type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        value:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - id
+        - links
+        - name
+        - page
+        - ruleset
+      type: object
+    SubversionImpulse:
+      example:
+        description: 'You have a hedonistic pleasure that you turn to when you want to have fun, when you need a pick me up, or sometimes, just because it’s there. On a good day you just tell yourself you’re enjoying the finer things in life, on a bad day it’s just easier than dealing with the important things in life. Sample Indulgences: Alcohol, Drugs, Gambling, Clubbing, Sex, Videogames, etc.'
+        downtime:
+          description: 'You spent a large chunk of the time partaking of your indulgence to excess. Spend 1 fortune, recover 3 Grit, and the GM gains 5 Grit.'
+          effects:
+            fortune: -1
+            grit: 3
+            grit-gm: 5
+          name: 'Indulge'
+        id: 'indulgence'
+        name: 'Indulgence'
+        page: 27
+        responses:
+          - description: 'You partake of a drug or other activity that numbs your abilities or connection to the world. If you are addicted to a substance with specific rules (see "Drugs", core ruleset pg 100), you take a dose of the drug, following those rules. For other substances or activities, you partake to the point of impairment. Gain a temporary Consequence until the next time you get a full nights sleep.'
+            effects:
+              consequence: 1
+            id: 'intoxication'
+            name: 'Intoxication'
+        ruleset: 'core'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/impulses/indulgence'
+      properties:
+        description:
+          type: string
+        downtime:
+          $ref: '#/components/schemas/SubversionImpulseDowntime'
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        responses:
+          items:
+            $ref: '#/components/schemas/SubversionImpulseResponse'
+          type: array
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - downtime
+        - id
+        - name
+        - page
+        - responses
+        - ruleset
+        - links
+      type: object
+    SubversionImpulseDowntime:
+      example:
+        description: 'You spent a large chunk of the time partaking of your indulgence to excess. Spend 1 fortune, recover 3 Grit, and the GM gains 5 Grit.'
+        effects:
+          fortune: -1
+          grit: 3
+          grit-gm: 5
+        name: 'Indulge'
+      properties:
+        description:
+          type: string
+        effects:
+          type: object
+        name:
+          type: string
+      type: object
+    SubversionImpulseResponse:
+      example:
+        description: 'You partake of a drug or other activity that numbs your abilities or connection to the world. If you are addicted to a substance with specific rules (see "Drugs", core ruleset pg 100), you take a dose of the drug, following those rules. For other substances or activities, you partake to the point of impairment. Gain a temporary Consequence until the next time you get a full nights sleep.'
+        effects:
+          consequence: 1
+        id: 'intoxication'
+        name: 'Intoxication'
+      properties:
+        description:
+          type: string
+        effects:
+          type: object
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - effects
+        - id
+        - name
+      type: object
+    SubversionLanguage:
+      example:
+        description: 'The language of Altaiphera and the UYC, Altaipheran is difficult for non-yettin to pronounce properly.'
+        id: 'altaipheran'
+        name: 'Altaipheran'
+        page: 97
+        ruleset: 'core'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/languages/altaipheran'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - id
+        - name
+        - page
+        - ruleset
+        - links
+      type: object
+    SubversionLineage:
+      example:
+        description: 'Dwarves tend to be shorter and sturdier than most other lineages. While Dwarves are the most common lineage in Acape Anya, they are a common sight throughout the world.'
+        id: 'dwarven'
+        name: 'Dwarven'
+        options:
+          - description: 'Gain +4 to defenses when resisting Toxins or Metabolic Damage.'
+            id: 'toxin-resistant'
+            name: 'Toxin resistant'
+        page: 82
+        ruleset: 'core'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/lineages/dwarven'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        name:
+          type: string
+        options:
+          items:
+            $ref: '#/components/schemas/SubversionLineageOption'
+          type: array
+        page:
+          type: integer
+        ruleset:
+          type: string
+      required:
+        - id
+        - name
+        - options
+        - page
+        - ruleset
+        - links
+      type: object
+    SubversionLineageOption:
+      example:
+        description: 'Gain +4 to defenses when resisting Toxins or Metabolic Damage.'
+        id: 'toxin-resistant'
+        name: 'Toxin resistant'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - name
+      type: object
+    SubversionOrigin:
+      example:
+        description: 'The physically largest of the lineages, Yettin have historically congregated in their own communities in Altaiphera, and for much of history, integrated less with the surrounding cultures (and each other). This tradition has led to wide variance among different strains of Altaipheran culture, though most place an emphasis on the importance of tight-knit community and are influenced by rural life.||The UYC may have rebelled against the more warlike Altaipheran Yettin, but they share a common culture.'
+        id: 'altaipheran'
+        name: 'Altaipheran'
+        page: 85
+        ruleset: 'core'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/origins/altaipheran'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - id
+        - links
+        - name
+        - page
+        - ruleset
+      type: object
+    SubversionSkill:
+      example:
+        attributes:
+          - 'awareness'
+          - 'wit'
+        description: 'Observation is the skill of learning things about the world, whether it be determining if someone is telling the truth, finding evidence, looking for food or shelter, judging what is safe or not, spotting traps, or deeply seeing the world around you. Searching and finding use Awareness while memory, pattern recognition, deduction, and analysis use Wit.'
+        id: 'observation'
+        name: 'Observation'
+        page: 16
+        rank: null
+        ruleset: 'core'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/skills/observation'
+      properties:
+        attributes:
+          items:
+            $ref: '#/components/schemas/SubversionAttribute'
+          type: array
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        rank:
+          nullable: true
+          type: integer
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - attributes
+        - id
+        - name
+        - page
+        - rank
+        - ruleset
+        - links
+      type: object
     TransformersCharacter:
       example:
         name: 'Bumblebee'
@@ -7143,6 +8063,7 @@ components:
       properties:
         webhook:
           format: url
+          maxLength: 255
           type: string
       required:
         - webhook

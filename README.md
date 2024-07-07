@@ -26,6 +26,8 @@ levels of completeness.
 * [Shadowrun 5th Edition](https://www.catalystgamelabs.com/brands/shadowrun)
 * [Shadowrun 6th Edition](https://www.catalystgamelabs.com/brands/shadowrun)
 * [Star Trek Adventures](https://www.modiphius.net/collections/star-trek-adventures/star-trek_core)
+* [Stillfleet](https://stillfleet.com/games/stillfleet/)
+* [Subversion](https://www.fraggingunicorns.com/subversion)
 * [The Transformers RPG 2nd Edition](https://rpggeek.com/image/3884438/the-transformers-rpg-2nd-edition)
 
 ## Building Commlink
@@ -65,6 +67,13 @@ $ ./artisan commlink:discord-run
 ```
 
 ## Running the IRC bot
+
+By default, the IRC bot will try to name itself whatever `APP_NAME` is set to
+in your .env file. You can pass a new nickname with the `--nickname` parameter.
+Similarly, by default it will connect to the standard IRC port 6667, but you
+can change it with the `--port` parameter. The server's name is required, and
+might be something like chat.freenode.net for Freenode. Finally, you can have
+it auto-join channels by passing one or more `--channel` arguments.
 
 ```shell
 $ ./artisan commlink:irc-run [server]

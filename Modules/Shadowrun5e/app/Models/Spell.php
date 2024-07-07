@@ -150,7 +150,7 @@ class Spell implements Stringable
         if (!isset($this->force)) {
             throw new RuntimeException('Force has not been set');
         }
-        return $this->convertFormula($this->drain, 'F', $this->force);
+        return self::convertFormula($this->drain, 'F', $this->force);
     }
 
     /**

@@ -178,17 +178,13 @@ abstract class Weapon implements Stringable
 
     public static function findByName(string $name): Weapon
     {
-        if (null === self::$rangedWeapons) {
-            $filename = config('cyberpunkred.data_path') . 'ranged-weapons.php';
-            /** @psalm-suppress UnresolvableInclude */
-            self::$rangedWeapons = require $filename;
-        }
+        $filename = config('cyberpunkred.data_path') . 'ranged-weapons.php';
+        /** @psalm-suppress UnresolvableInclude */
+        self::$rangedWeapons = require $filename;
 
-        if (null === self::$meleeWeapons) {
-            $filename = config('cyberpunkred.data_path') . 'melee-weapons.php';
-            /** @psalm-suppress UnresolvableInclude */
-            self::$meleeWeapons = require $filename;
-        }
+        $filename = config('cyberpunkred.data_path') . 'melee-weapons.php';
+        /** @psalm-suppress UnresolvableInclude */
+        self::$meleeWeapons = require $filename;
 
         $lowerName = strtolower($name);
         foreach (self::$rangedWeapons as $id => $weapon) {

@@ -31,9 +31,9 @@ trait ForceTrait
      * @param string $formula Formula involving force or level
      * @param string $letter Letter to replace (L or F)
      * @param int $rating Force or level to use in formula
-     * @return int
+     * @psalm-suppress UnnecessaryVarAnnotation
      */
-    public function convertFormula(
+    public static function convertFormula(
         string $formula,
         string $letter,
         int $rating,
@@ -56,46 +56,43 @@ trait ForceTrait
             return 0;
         }
         // @codeCoverageIgnoreEnd
-        while (false !== ($index = array_search('*', $components, true))) {
-            array_splice(
-                $components,
-                $index - 1,
-                3,
-                (string)(
-                    (int)$components[$index - 1] * (int)$components[$index + 1]
-                )
-            );
+
+        // Process multiplication and division left to right.
+        $multiplyIndex = array_search('*', $components, true);
+        $divideIndex = array_search('/', $components, true);
+        while (false !== $multiplyIndex || false !== $divideIndex) {
+            if (false !== $multiplyIndex && (false === $divideIndex || $multiplyIndex < $divideIndex)) {
+                /** @var int $index */
+                $index = $multiplyIndex;
+                $result = (int)$components[$index - 1] * (int)$components[$index + 1];
+            } else {
+                /** @var int $index */
+                $index = $divideIndex;
+                $result = (int)$components[$index - 1] / (int)$components[$index + 1];
+            }
+            array_splice($components, $index - 1, 3, (string)$result);
+            $multiplyIndex = array_search('*', $components, true);
+            $divideIndex = array_search('/', $components, true);
         }
-        while (false !== ($index = array_search('/', $components, true))) {
-            array_splice(
-                $components,
-                $index - 1,
-                3,
-                (string)(
-                    (int)$components[$index - 1] / (int)$components[$index + 1]
-                )
-            );
+
+        // Process addition and subtraction left to right.
+        $plusIndex = array_search('+', $components, true);
+        $minusIndex = array_search('-', $components, true);
+        while (false !== $plusIndex || false !== $minusIndex) {
+            if (false !== $plusIndex && (false === $minusIndex || $plusIndex < $minusIndex)) {
+                /** @var int $index */
+                $index = $plusIndex;
+                $result = (int)$components[$index - 1] + (int)$components[$index + 1];
+            } else {
+                /** @var int $index */
+                $index = $minusIndex;
+                $result = (int)$components[$index - 1] - (int)$components[$index + 1];
+            }
+            array_splice($components, $index - 1, 3, (string)$result);
+            $plusIndex = array_search('+', $components, true);
+            $minusIndex = array_search('-', $components, true);
         }
-        while (false !== ($index = array_search('+', $components, true))) {
-            array_splice(
-                $components,
-                $index - 1,
-                3,
-                (string)(
-                    (int)$components[$index - 1] + (int)$components[$index + 1]
-                )
-            );
-        }
-        while (false !== ($index = array_search('-', $components, true))) {
-            array_splice(
-                $components,
-                $index - 1,
-                3,
-                (string)(
-                    (int)$components[$index - 1] - (int)$components[$index + 1]
-                )
-            );
-        }
+
         return (int)current($components);
     }
 }

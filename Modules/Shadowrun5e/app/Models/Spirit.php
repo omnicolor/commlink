@@ -237,7 +237,7 @@ class Spirit implements Stringable
         if (null === $this->force) {
             throw new RuntimeException('Force has not been set');
         }
-        return $this->convertFormula(
+        return self::convertFormula(
             // @phpstan-ignore-next-line
             $this->$attribute,
             'F',
@@ -269,7 +269,7 @@ class Spirit implements Stringable
     public function getAstralInitiative(): array
     {
         [$init, $dice] = $this->convertInitiative($this->initiativeAstral);
-        $init = $this->convertFormula((string)$init, 'F', (int)$this->force);
+        $init = self::convertFormula((string)$init, 'F', (int)$this->force);
         return [$init, (int)$dice];
     }
 
@@ -281,7 +281,7 @@ class Spirit implements Stringable
     public function getInitiative(): array
     {
         [$init, $dice] = $this->convertInitiative($this->initiative);
-        $init = $this->convertFormula((string)$init, 'F', (int)$this->force);
+        $init = self::convertFormula((string)$init, 'F', (int)$this->force);
         return [$init, (int)$dice];
     }
 

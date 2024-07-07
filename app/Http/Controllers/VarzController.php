@@ -37,13 +37,15 @@ class VarzController extends Controller
         'shadowrun5e' => 'Modules/Shadowrun5e/data/',
         'shadowrun6e' => 'Modules/Shadowrun6e/data/',
         'startrekadventures' => 'Modules/Startrekadventures/data/',
-        'subversion' => 'data/Subversion/',
+        'stillfleet' => 'Modules/Stillfleet/data/',
+        'subversion' => 'Modules/Subversion/data/',
         'transformers' => 'Modules/Transformers/data/',
     ];
 
     public function index(): Response
     {
         $systems = config('app.systems');
+
         $data = [
             'campaigns-total' => Campaign::count(),
             'channels' => [
@@ -89,11 +91,14 @@ class VarzController extends Controller
             ];
         } // @codeCoverageIgnoreEnd
 
-        $paths = config('app.data_path');
+        $path = config($system . '.data_path');
+        if (null === $path) {
+            return $metrics; // @codeCoverageIgnore
+        }
         try {
             $dataFiles = Storage::build([
                 'driver' => 'local',
-                'root' => $paths[$system],
+                'root' => $path,
             ])->files();
         } catch (UnableToCreateDirectory | ErrorException) { // @codeCoverageIgnore
             return $metrics; // @codeCoverageIgnore
@@ -119,7 +124,7 @@ class VarzController extends Controller
             }
             try {
                 /** @psalm-suppress UnresolvableInclude */
-                $data = require $paths[$system] . $file;
+                $data = require $path . $file;
             } catch (ParseError) { // @codeCoverageIgnore
                 continue; // @codeCoverageIgnore
             }

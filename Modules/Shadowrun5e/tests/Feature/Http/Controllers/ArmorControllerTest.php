@@ -22,7 +22,7 @@ final class ArmorControllerTest extends TestCase
      */
     public function testIndexBrokenConfig(): void
     {
-        Config::set('app.data_path.shadowrun5e', '/tmp/unused/');
+        Config::set('shadowrun5e.data_path', '/tmp/unused/');
         $user = User::factory()->create();
         self::actingAs($user)
             ->getJson(route('shadowrun5e.armor.index'))

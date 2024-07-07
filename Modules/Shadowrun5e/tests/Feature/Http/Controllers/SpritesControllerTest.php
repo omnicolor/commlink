@@ -21,7 +21,7 @@ final class SpritesControllerTest extends TestCase
      */
     public function testIndexBrokenConfig(): void
     {
-        Config::set('app.data_path.shadowrun5e', '/tmp/unused/');
+        Config::set('shadowrun5e.data_path', '/tmp/unused/');
         /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
