@@ -121,7 +121,11 @@ use Modules\Stillfleet\Models\Role;
                             </ul>
 
                             <button class="btn btn-primary" name="role" type="submit" value="{{ $role->id }}">
+                                @if ($chosenRole?->id !== $role->id)
                                 Become a {{ $role }}
+                                @else
+                                Remain a {{ $role }}
+                                @endif
                             </button>
                         </div>
                     </div>

@@ -16,6 +16,11 @@ use Modules\Stillfleet\Models\Character;
 use Modules\Stillfleet\Models\PartialCharacter;
 use Modules\Stillfleet\Models\Role;
 
+use function abort;
+use function count;
+use function route;
+use function view;
+
 /**
  * @psalm-suppress UnusedClass
  */
@@ -40,12 +45,12 @@ class CharactersController extends Controller
             /** @var PartialCharacter */
             $character = PartialCharacter::create(['owner' => $user->email]);
             $request->session()->put('stillfleet-partial', $character->id);
-            return new RedirectResponse('/characters/stillfleet/create/class');
+            return new RedirectResponse(route('stillfleet.create', 'class'));
         }
 
         $character = $this->findPartialCharacter($request, $user, $step);
         if (null !== $character && $step === $character->id) {
-            return new RedirectResponse('/characters/stillfleet/create/class');
+            return new RedirectResponse(route('stillfleet.create', 'class'));
         }
         if (null === $character) {
             // No current character, see if they already have a character they
@@ -89,9 +94,7 @@ class CharactersController extends Controller
                     ],
                 );
             case 'class-powers':
-                return view(
-                    'stillfleet::create-class-powers',
-                );
+                return view('stillfleet::create-class-powers');
             default:
                 abort(
                     Response::HTTP_NOT_FOUND,
@@ -121,13 +124,13 @@ class CharactersController extends Controller
                 ],
             ];
             $character->save();
-            return new RedirectResponse('/characters/stillfleet/create/class-powers');
+            return new RedirectResponse(route('stillfleet.create', 'class-powers'));
         }
         $chosenRole = $character->roles[0];
 
         if ($chosenRole->id === $request->role) {
             // Updating to the same class.
-            return new RedirectResponse('/characters/stillfleet/create/class-powers');
+            return new RedirectResponse(route('stillfleet.create', 'class-powers'));
         }
 
         // Chosing a new class, remove their powers.
@@ -139,7 +142,7 @@ class CharactersController extends Controller
             ],
         ];
         $character->save();
-        return new RedirectResponse('/characters/stillfleet/create/class-powers');
+        return new RedirectResponse(route('stillfleet.create', 'class-powers'));
     }
 
     protected function findPartialCharacter(
@@ -178,7 +181,7 @@ class CharactersController extends Controller
 
         return view(
             'stillfleet::character',
-            ['character' => $character, 'user' => $user]
+            ['character' => $character, 'user' => $user],
         );
     }
 }

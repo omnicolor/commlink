@@ -93,7 +93,7 @@ class VarzController extends Controller
 
         $path = config($system . '.data_path');
         if (null === $path) {
-            return $metrics;
+            return $metrics; // @codeCoverageIgnore
         }
         try {
             $dataFiles = Storage::build([
