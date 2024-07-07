@@ -17,11 +17,9 @@ final class PartialCharacterTest extends TestCase
 {
     public function testNewFromBuilder(): void
     {
-        $character = new PartialCharacter([
+        $character = PartialCharacter::create([
             'handle' => 'Test SR5E character',
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        $character->save();
 
         $loaded = PartialCharacter::find($character->id);
         // @phpstan-ignore-next-line
@@ -405,26 +403,171 @@ final class PartialCharacterTest extends TestCase
     }
 
     /**
-     * Test validating a character with unspent attribute points.
+     * @return array<string, array<int, array<string, string>|int>>
      */
-    public function testValidateAttributesUnspent(): void
+    public static function sumToTenAttributePriorityProvider(): array
     {
-        $character = new PartialCharacter([
-            'priorities' => [
-                'metatypePriority' => 'A',
-                'magicPriority' => 'B',
-                'attributePriority' => 'C',
-                'skillPriority' => 'D',
-                'resourcePriority' => 'E',
-                'metatype' => 'elf',
+        return [
+            'priority-A' => [
+                [
+                    'metatypePriority' => 'C',
+                    'magicPriority' => 'B',
+                    'attributePriority' => 'A',
+                    'skillPriority' => 'D',
+                    'resourcePriority' => 'E',
+                    'metatype' => 'elf',
+                ],
+                24,
             ],
+            'priority-B' => [
+                [
+                    'metatypePriority' => 'A',
+                    'magicPriority' => 'C',
+                    'attributePriority' => 'B',
+                    'skillPriority' => 'D',
+                    'resourcePriority' => 'E',
+                    'metatype' => 'elf',
+                ],
+                20,
+            ],
+            'priority-C' => [
+                [
+                    'metatypePriority' => 'C',
+                    'magicPriority' => 'C',
+                    'attributePriority' => 'C',
+                    'skillPriority' => 'C',
+                    'resourcePriority' => 'C',
+                    'metatype' => 'elf',
+                ],
+                16,
+            ],
+            'priority-D' => [
+                [
+                    'metatypePriority' => 'A',
+                    'magicPriority' => 'B',
+                    'attributePriority' => 'D',
+                    'skillPriority' => 'C',
+                    'resourcePriority' => 'E',
+                    'metatype' => 'elf',
+                ],
+                14,
+            ],
+            'priority-E' => [
+                [
+                    'metatypePriority' => 'A',
+                    'magicPriority' => 'B',
+                    'attributePriority' => 'E',
+                    'skillPriority' => 'C',
+                    'resourcePriority' => 'D',
+                    'metatype' => 'elf',
+                ],
+                12,
+            ],
+        ];
+    }
+
+    /**
+     * @param array<string, array<int, array<string, string>|int>> $priorities
+     */
+    #[DataProvider('sumToTenAttributePriorityProvider')]
+    public function testValidateAttributesUnspentSumToTen(
+        array $priorities,
+        int $expected,
+    ): void {
+        $character = new PartialCharacter([
+            'priorities' => $priorities,
             'knowledgeSkills' => [
                 ['name' => 'English', 'category' => 'language', 'level' => 'N'],
             ],
         ]);
         $character->validate();
         self::assertSame(
-            ['You have 16 unspent attribute points'],
+            [sprintf('You have %d unspent attribute points', $expected)],
+            $character->errors,
+        );
+    }
+
+    /**
+     * @return array<string, array<int, array<string, string>|int>>
+     */
+    public static function standardAttributePriorityProvider(): array
+    {
+        return [
+            'priority-A' => [
+                [
+                    'a' => 'attributes',
+                    'b' => 'magic',
+                    'c' => 'resources',
+                    'd' => 'skill',
+                    'e' => 'metatype',
+                    'metatype' => 'human',
+                ],
+                24,
+            ],
+            'priority-B' => [
+                [
+                    'b' => 'attributes',
+                    'a' => 'magic',
+                    'c' => 'resources',
+                    'd' => 'skill',
+                    'e' => 'metatype',
+                    'metatype' => 'human',
+                ],
+                20,
+            ],
+            'priority-C' => [
+                [
+                    'c' => 'attributes',
+                    'b' => 'magic',
+                    'a' => 'resources',
+                    'd' => 'skill',
+                    'e' => 'metatype',
+                    'metatype' => 'human',
+                ],
+                16,
+            ],
+            'priority-D' => [
+                [
+                    'd' => 'attributes',
+                    'b' => 'magic',
+                    'c' => 'resources',
+                    'a' => 'skill',
+                    'e' => 'metatype',
+                    'metatype' => 'human',
+                ],
+                14,
+            ],
+            'priority-E' => [
+                [
+                    'e' => 'attributes',
+                    'b' => 'magic',
+                    'c' => 'resources',
+                    'd' => 'skill',
+                    'a' => 'metatype',
+                    'metatype' => 'human',
+                ],
+                12,
+            ],
+        ];
+    }
+
+    /**
+     * @param array<string, array<int, array<string, string>|int>> $priorities
+     */
+    #[DataProvider('standardAttributePriorityProvider')]
+    public function testValidateAttributesSumToTenUnspent(
+        array $priorities,
+        int $expected,
+    ): void {
+        $character = new PartialCharacter([
+            'priorities' => $priorities,
+            'knowledgeSkills' => [
+                ['name' => 'English', 'category' => 'language', 'level' => 'N'],
+            ],
+        ]);
+        $character->validate();
+        self::assertSame(
+            [sprintf('You have %d unspent attribute points', $expected)],
             $character->errors,
         );
     }

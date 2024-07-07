@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Shadowrun5e\Database\Factories\PartialCharacterFactory;
 use Stringable;
 
+use function array_merge;
+use function array_search;
+use function is_array;
+
 /**
  * Representation of a character currently being built.
  * @property array<int, string> $errors
