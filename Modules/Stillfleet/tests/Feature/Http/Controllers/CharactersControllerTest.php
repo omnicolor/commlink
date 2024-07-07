@@ -13,6 +13,10 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function e;
+use function route;
+use function session;
+
 #[Group('stillfleet')]
 #[Medium]
 final class CharactersControllerTest extends TestCase
@@ -33,7 +37,6 @@ final class CharactersControllerTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'owner' => $this->user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($this->user)
@@ -53,7 +56,6 @@ final class CharactersControllerTest extends TestCase
         $character = Character::factory()->create([
             'owner' => $this->user->email,
             'system' => 'shadowrun6e',
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         self::actingAs($this->user)
             ->getJson(route('stillfleet.character', $character))
@@ -66,11 +68,10 @@ final class CharactersControllerTest extends TestCase
         /** @var Character */
         $character = Character::factory()->create([
             'owner' => $this->user->email,
-            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($this->user)
-            ->get('/characters/stillfleet')
+            ->get(route('stillfleet.list'))
             ->assertSee($this->user->email)
             ->assertSee(e($character->name), false);
 
@@ -81,17 +82,16 @@ final class CharactersControllerTest extends TestCase
     {
         session()->put('stillfleet-partial', 'existing');
         self::actingAs($this->user)
-            ->get('/characters/stillfleet/create/new')
-            ->assertRedirect('/characters/stillfleet/create/class');
+            ->get(route('stillfleet.create', 'new'))
+            ->assertRedirect(route('stillfleet.create', 'class'));
         self::assertNotSame('existing', session()->get('stillfleet-partial'));
     }
 
     public function testCreateNew(): void
     {
-        PartialCharacter::where('owner', $this->user->email)
-            ->delete();
+        PartialCharacter::where('owner', $this->user->email)->delete();
         self::actingAs($this->user)
-            ->get('/characters/stillfleet/create')
+            ->get(route('stillfleet.create'))
             ->assertOk();
         self::assertNotNull(session()->get('stillfleet-partial'));
     }
@@ -100,10 +100,11 @@ final class CharactersControllerTest extends TestCase
     {
         $character = PartialCharacter::create(['owner' => $this->user->email]);
         self::actingAs($this->user)
-            ->get('/characters/stillfleet/create')
+            ->get(route('stillfleet.create'))
             ->assertOk()
             ->assertSee('Choose character');
         self::assertNull(session()->get('stillfleet-partial'));
+        $character->delete();
     }
 
     public function testResumeSpecific(): void
@@ -112,9 +113,10 @@ final class CharactersControllerTest extends TestCase
         /** @var PartialCharacter */
         $character = PartialCharacter::create(['owner' => $this->user->email]);
         self::actingAs($this->user)
-            ->get(sprintf('/characters/stillfleet/create/%s', $character->_id))
-            ->assertRedirect('/characters/stillfleet/create/class');
+            ->get(route('stillfleet.create', $character->id))
+            ->assertRedirect(route('stillfleet.create', 'class'));
         self::assertSame($character->_id, session()->get('stillfleet-partial'));
+        $character->delete();
     }
 
     public function testResumeLast(): void
@@ -123,14 +125,132 @@ final class CharactersControllerTest extends TestCase
         $character = PartialCharacter::create(['owner' => $this->user->email]);
         session()->put('stillfleet-partial', $character->_id);
         self::actingAs($this->user)
-            ->get('/characters/stillfleet/create')
+            ->get(route('stillfleet.create'))
             ->assertOk();
     }
 
     public function testInvalidCreationStep(): void
     {
         self::actingAs($this->user)
-            ->get('/characters/stillfleet/create/unknown')
+            ->get(route('stillfleet.create', 'unknown'))
             ->assertNotFound();
+    }
+
+    public function testNewClass(): void
+    {
+        $character = PartialCharacter::create(['owner' => $this->user->email]);
+        session(['stillfleet-partial' => $character->id]);
+        self::actingAs($this->user)
+            ->get(route('stillfleet.create', 'class'))
+            ->assertSee('Become a Banshee');
+        $character->delete();
+    }
+
+    public function testKeepClass(): void
+    {
+        $character = PartialCharacter::create([
+            'owner' => $this->user->email,
+            'roles' => [
+                [
+                    'id' => 'banshee',
+                    'level' => 1,
+                    'powers' => [],
+                ],
+            ],
+        ]);
+        session(['stillfleet-partial' => $character->id]);
+        self::actingAs($this->user)
+            ->get(route('stillfleet.create', 'class'))
+            ->assertSee('Remain a Banshee');
+        $character->delete();
+    }
+
+    public function testSaveClass(): void
+    {
+        $character = PartialCharacter::create(['owner' => $this->user->email]);
+        session(['stillfleet-partial' => $character->id]);
+        self::actingAs($this->user)
+            ->postJson(
+                route('stillfleet.create-class'),
+                ['role' => 'tremulant'],
+            )
+            ->assertRedirect(route('stillfleet.create', 'class-powers'));
+        $character->refresh();
+        self::assertSame('Tremulant', $character->roles[0]->name);
+        $character->delete();
+    }
+
+    public function testUpdateClass(): void
+    {
+        $character = PartialCharacter::create([
+            'owner' => $this->user->email,
+            'roles' => [
+                [
+                    'id' => 'banshee',
+                    'level' => 1,
+                    'powers' => [
+                        'astrogate',
+                    ],
+                ],
+            ],
+        ]);
+        session(['stillfleet-partial' => $character->id]);
+        self::actingAs($this->user)
+            ->postJson(
+                route('stillfleet.create-class'),
+                ['role' => 'tremulant'],
+            )
+            ->assertRedirect(route('stillfleet.create', 'class-powers'));
+        $character->refresh();
+        self::assertSame('Tremulant', $character->roles[0]->name);
+        self::assertCount(0, $character->roles[0]->powers_additional);
+        $character->delete();
+    }
+
+    public function testUpdateClassToSame(): void
+    {
+        $character = PartialCharacter::create([
+            'owner' => $this->user->email,
+            'roles' => [
+                [
+                    'id' => 'banshee',
+                    'level' => 1,
+                    'powers' => [
+                        'astrogate',
+                    ],
+                ],
+            ],
+        ]);
+        session(['stillfleet-partial' => $character->id]);
+        self::actingAs($this->user)
+            ->postJson(
+                route('stillfleet.create-class'),
+                ['role' => 'banshee'],
+            )
+            ->assertRedirect(route('stillfleet.create', 'class-powers'));
+        $character->refresh();
+        self::assertSame('Banshee', $character->roles[0]->name);
+        self::assertCount(1, $character->roles[0]->powers_additional);
+        $character->delete();
+    }
+
+    public function testCreatePowers(): void
+    {
+        /** @var PartialCharacter */
+        $character = PartialCharacter::create([
+            'owner' => $this->user->email,
+            'roles' => [
+                [
+                    'id' => 'banshee',
+                    'level' => 1,
+                    'powers' => [],
+                ],
+            ],
+        ]);
+        session(['stillfleet-partial' => $character->id]);
+        self::actingAs($this->user)
+            ->get(route('stillfleet.create', 'class-powers'))
+            ->assertSee('Powers');
+        $character->delete();
     }
 }

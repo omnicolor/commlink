@@ -25,9 +25,7 @@ class HandleIrcMessage
 
     /**
      * Handle the event.
-     * @param IrcMessageReceived $event
      * @psalm-suppress PossiblyUnusedMethod
-     * @return bool
      */
     public function handle(IrcMessageReceived $event): bool
     {
@@ -86,51 +84,6 @@ class HandleIrcMessage
             } catch (Error) {
                 // Again, ignore errors, they might want a generic command.
             }
-        }
-
-        // See if the roll is just a number, and if there's a number-only
-        // handler for the registered system.
-        // TODO: Remove this when all systems are modularized.
-        if (is_numeric($args[0]) && null !== $channel->system) {
-            try {
-                $class = sprintf(
-                    '\\App\Rolls\\%s\\Number',
-                    ucfirst($channel->system),
-                );
-                /** @var Roll */
-                $roll = new $class(
-                    $event->content,
-                    $channel->user,
-                    $channel,
-                    $event,
-                );
-
-                $event->client->say($this->irc_channel, $roll->forIrc());
-                RollEvent::dispatch($roll, $channel);
-                return true;
-            } catch (Error) { // @codeCoverageIgnore
-                // Ignore errors here, they might want a generic command.
-            }
-        }
-
-        // Try system-specific rolls that aren't numeric.
-        // TODO: Remove this when all systems are modularized.
-        try {
-            $class = sprintf(
-                '\\App\\Rolls\\%s\\%s',
-                ucfirst($channel->system ?? 'Unknown'),
-                ucfirst($args[0])
-            );
-            /** @var Roll */
-            $roll = new $class($event->content, $channel->user, $channel);
-            $event->client->say($this->irc_channel, $roll->forIrc());
-
-            if ('help' !== $args[0]) {
-                RollEvent::dispatch($roll, $channel);
-            }
-            return true;
-        } catch (Error) {
-            // Again, ignore errors, they might want a generic command.
         }
 
         // Try generic rolls.
