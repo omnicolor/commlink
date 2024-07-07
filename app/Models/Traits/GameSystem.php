@@ -11,9 +11,14 @@ trait GameSystem
 {
     public function getSystem(): string
     {
+        if (!array_key_exists('system', $this->attributes)) {
+            return 'Unknown';
+        }
+
         if (array_key_exists($this->attributes['system'], config('app.systems'))) {
             return config('app.systems')[$this->attributes['system']];
         }
+
         return $this->attributes['system'];
     }
 }

@@ -25,10 +25,8 @@
                     <div class="alert alert-danger alert-dismissible"
                         role="alert">
                         {{ $error }}
-                        <button aria-label="close" class="close"
-                            data-dismiss="alert" type="button">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button aria-label="Close" class="btn-close"
+                            data-bs-dismiss="modal" type="button"></button>
                     </div>
                 </div></div>
                 @endforeach

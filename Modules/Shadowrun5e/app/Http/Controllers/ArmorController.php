@@ -60,7 +60,7 @@ class ArmorController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->filename = config('app.data_path.shadowrun5e') . 'armor.php';
+        $this->filename = config('shadowrun5e.data_path') . 'armor.php';
         $stat = stat($this->filename);
         // @phpstan-ignore-next-line
         $this->headers['Last-Modified'] = date('r', $stat['mtime']);

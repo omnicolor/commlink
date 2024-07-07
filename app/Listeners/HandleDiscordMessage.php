@@ -9,6 +9,7 @@ use App\Events\RollEvent;
 use App\Models\Channel;
 use App\Rolls\Roll;
 use Error;
+use ErrorException;
 use Illuminate\Support\Facades\Log;
 use Nwidart\Modules\Facades\Module;
 
@@ -100,59 +101,6 @@ class HandleDiscordMessage
             }
         }
 
-        // See if the roll is just a number, and if there's a number-only
-        // handler for the registered system.
-        // TODO: Remove this when all systems are modularized.
-        if (is_numeric($args[0]) && null !== $channel->system) {
-            try {
-                $class = sprintf(
-                    '\\App\Rolls\\%s\\Number',
-                    ucfirst($channel->system),
-                );
-                /** @var Roll */
-                $roll = new $class(
-                    $event->content,
-                    optional($event->user)->username,
-                    $channel,
-                    $event
-                );
-
-                /**
-                 * @psalm-suppress TooManyTemplateParams
-                 */
-                $event->message->reply($roll->forDiscord());
-                RollEvent::dispatch($roll, $channel);
-                return true;
-            } catch (Error) {
-                // Ignore errors here, they might want a generic command.
-            }
-        }
-
-        // Try system-specific rolls that aren't numeric.
-        // TODO: Remove this when all systems are modularized.
-        try {
-            $class = sprintf(
-                '\\App\\Rolls\\%s\\%s',
-                ucfirst($channel->system ?? 'Unknown'),
-                ucfirst($args[0])
-            );
-            /** @var Roll */
-            $roll = new $class(
-                $event->content,
-                optional($event->user)->username,
-                $channel
-            );
-            // @phpstan-ignore-next-line
-            $event->channel->sendMessage($roll->forDiscord());
-
-            if ('help' !== $args[0]) {
-                RollEvent::dispatch($roll, $channel);
-            }
-            return true;
-        } catch (Error $ex) {
-            // Again, ignore errors, they might want a generic command.
-        }
-
         // Try generic rolls.
         try {
             $class = sprintf('\\App\\Rolls\\%s', ucfirst($args[0]));
@@ -166,7 +114,7 @@ class HandleDiscordMessage
             // @phpstan-ignore-next-line
             $event->channel->sendMessage($roll->forDiscord());
             return true;
-        } catch (Error) {
+        } catch (Error | ErrorException) {
             // Again, ignore errors, they might want an old-school response.
         }
 

@@ -32,7 +32,8 @@ class ValidateDataFiles extends Command
         'shadowrun5e' => 'Modules/Shadowrun5e/data/',
         'shadowrun6e' => 'Modules/Shadowrun6e/data/',
         'startrekadventures' => 'Modules/Startrekadventures/data/',
-        'subversion' => 'data/Subversion/',
+        'stillfleet' => 'Modules/Stillfleet/data/',
+        'subversion' => 'Modules/Subversion/data/',
         'transformers' => 'Modules/Transformers/data/',
     ];
 

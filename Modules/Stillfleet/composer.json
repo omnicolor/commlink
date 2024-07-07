@@ -1,0 +1,28 @@
+{
+    "name": "omnicolor/stillfleet-module",
+    "description": "Stillfleet RPG module for Commlink.",
+    "authors": [
+        {
+            "name": "Omni Adams",
+            "email": "omni@digitaldarkness.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Stillfleet\\": "app/",
+            "Modules\\Stillfleet\\Database\\Factories\\": "database/factories/",
+            "Modules\\Stillfleet\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Stillfleet\\Tests\\": "tests/"
+        }
+    }
+}

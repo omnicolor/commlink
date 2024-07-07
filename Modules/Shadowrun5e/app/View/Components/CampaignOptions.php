@@ -24,7 +24,7 @@ class CampaignOptions extends Component
     public function __construct()
     {
         $this->attributes = $this->newAttributeBag();
-        $filename = config('app.data_path.shadowrun5e') . 'rulebooks.php';
+        $filename = config('shadowrun5e.data_path') . 'rulebooks.php';
         /** @psalm-suppress UnresolvableInclude */
         $this->books = require $filename;
         $this->componentName = 'Shadowrun5e\CampaignOptions';

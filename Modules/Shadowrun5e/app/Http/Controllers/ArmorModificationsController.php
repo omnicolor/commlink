@@ -39,7 +39,7 @@ class ArmorModificationsController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->filename = config('app.data_path.shadowrun5e')
+        $this->filename = config('shadowrun5e.data_path')
             . 'armor-modifications.php';
         $this->links['collection'] = '/api/shadowrun5e/armor-modifications';
         $stat = stat($this->filename);

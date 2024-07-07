@@ -48,13 +48,13 @@ class Identity implements Stringable
     /**
      * If the Identity is for a SINner quality, denotes what level of SINner.
      */
-    public ?string $sinner;
+    public ?string $sinner = null;
 
     /**
      * If the identity has a fake SIN (not from a SINner quality) what level
      * the fake is.
      */
-    public ?int $sin;
+    public ?int $sin = null;
 
     /**
      * Collection of the identity's subscriptions.

@@ -42,10 +42,14 @@
             <ul class="list-group" id="martial-arts-styles">
                 @if (0 !== count($styles))
                 <li class="list-group-item style">
+                    @can('view data')
                     <span data-bs-toggle="tooltip" data-bs-html="true"
                         title="<p>{{ str_replace('||', '</p><p>', $styles[0]->description) }}</p>">
                         {{ $styles[0] }}
                     </span>
+                    @else
+                        {{ $styles[0] }}
+                    @endcan
                     <div class="float-end">
                         <button class="btn btn-danger btn-sm" role="button">
                             <span aria-hidden="true" class="bi bi-dash"></span>
@@ -91,12 +95,16 @@
             <h1>Martial arts techniques</h1>
             <ul class="list-group" id="martial-arts-techniques">
                 @foreach ($techniques as $technique)
-                <li class="list-group-item">
+                <li class="list-group-item technique">
+                    @can('view data')
                     <span class="tooltip-anchor" data-bs-html="true"
                         data-bs-toggle="tooltip"
                         title="<p>{{ str_replace('||', '</p><p>', $technique->description) }}</p>">
                         {{ $technique }}
                     </span>
+                    @else
+                        {{ $technique }}
+                    @endcan
                     <div class="float-end">
                         <button class="btn btn-danger btn-sm"
                             data-id="{{ $technique->id }}" type="button">
@@ -135,10 +143,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Choose style</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button aria-label="Close" class="btn-close"
+                        data-bs-dismiss="modal" type="button"></button>
                 </div>
                 <div class="modal-body row">
                     <div class="col">
@@ -170,7 +176,9 @@
                         </div>
                         <div id="styles-info-panel" style="display: none;">
                             <h3 id="style-name">.</h3>
+                            @can('view data')
                             <p id="style-description"></p>
+                            @endcan
                             <p>Ruleset: <span id="style-ruleset"></span></p>
                             <h5>Available techniques:</h5>
                             <ul id="style-techniques"></ul>
@@ -194,10 +202,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Choose technique</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button aria-label="Close" class="btn-close"
+                        data-bs-dismiss="modal" type="button"></button>
                 </div>
                 <div class="modal-body row">
                     <div class="col">
@@ -230,7 +236,9 @@
                         </div>
                         <div id="techniques-info-panel" style="display: none;">
                             <h3 id="technique-name">.</h3>
+                            @can('view data')
                             <p id="technique-description"></p>
+                            @endcan
                             <p>Ruleset: <span id="technique-ruleset"></span></p>
                             <button class="btn btn-success" type="button">
                                 <span aria-hidden="true" class="oi oi-plus"></span>
@@ -259,6 +267,7 @@
                 };
             }
             let rulebooks = @json($books);
+            const trusted = !!{{ (int)\Auth::user()->hasPermissionTo('view data') }};
         </script>
         <script src="/js/Shadowrun5e/create-common.js"></script>
         <script src="/js/Shadowrun5e/Points.js"></script>

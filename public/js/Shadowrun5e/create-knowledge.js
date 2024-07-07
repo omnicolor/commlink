@@ -60,7 +60,7 @@ $(function () {
         row.find('input[name="skill-names[]"]').val(skill.name);
         if ('N' === skill.level) {
             row.find('input[name="skill-levels[]"]')
-                .prop('id', skill.id)
+                .prop('id', skill.id + '-language')
                 .prop('type', 'text')
                 .prop('readonly', true)
                 .val('N');
@@ -79,14 +79,13 @@ $(function () {
      * @param {!Object} skill Skill to add
      */
     function addSkillRow(skill) {
-        window.console.log(skill);
         const row = $($('#skill-row')[0].content.cloneNode(true));
         row.find('label').attr('for', skill.id);
         row.find('li').attr('data-id', skill.id);
         row.find('.name').html(skill.name);
         row.find('input[name="skill-names[]"]').val(skill.name);
         row.find('input[name="skill-levels[]"]')
-            .prop('id', skill.id)
+            .prop('id', skill.id + '-' + skill.category)
             .val(skill.level);
         row.find('input[name="skill-categories[]"]').val(skill.category);
 
@@ -153,9 +152,16 @@ $(function () {
      */
     function updateKnowledgeLevel(e) {
         const el = $(e.target);
-        const id = el.parents('li').data('id');
+        const parent = $(e.target).parents('li');
+        const name = parent.find('.name').text().split(' (+2 ')[0].trim();
+        const isLanguage = parent.hasClass('language');
         for (let i = 0, c = character.knowledgeSkills.length; i < c; i++) {
-            if (character.knowledgeSkills[i].id !== id) {
+            let skill = character.knowledgeSkills[i];
+            if (
+                'language' !== skill.category && isLanguage
+                || 'language' === skill.category && !isLanguage
+                || name !== skill.name
+            ) {
                 continue;
             }
             character.knowledgeSkills[i].level = parseInt(el.val(), 10);
@@ -167,54 +173,80 @@ $(function () {
     }
 
     /**
-     * User wants to specialize their knowledge skill.
+     * User wants to specialize a knowledge skill.
      */
-    var populateKnowledgeSpecializationModal = function (e) {
-        var el = $(e.relatedTarget).parents('li');
-        var skillId = el.data('id');;
-        var skillName = el.find('.name').html();
-        $('#knowledge-specialization-skill-name').html(skillName);
+    function populateKnowledgeSpecializationModal(e) {
+        const el = $(e.relatedTarget).parents('li');
+        const id = el.data('id');
+        const name = el.find('.name').html().trim();
+        const isLanguage = el.hasClass('language');
+        if (isLanguage) {
+            $('#knowledge-specialization-entry').data('language', true);
+            $('#knowledge-specialization-entry')[0]
+                .setAttribute('list', 'language-specializations')
+        } else {
+            $('#knowledge-specialization-entry').data('language', false);
+            $('#knowledge-specialization-entry')[0]
+                .setAttribute('list', null)
+        }
+        $('#knowledge-specialization-skill-name').html(name + '.');
         $('#knowledge-specialization-entry')
-            .data('id', skillId)
+            .data('id', id)
+            .data('name', name)
             .val('')
             .focus();
-        $('#specialize-knowledge-modal .btn-primary').prop('disabled', true);
-    };
+        $('#specialize-modal .btn-primary').prop('disabled', true);
+    }
 
     /**
      * User has chosen a specialization for a knowledge skill.
      */
-    var addKnowledgeSpecialization = function () {
-        var input = $('#knowledge-specialization-entry');
-        var skillId = input.data('id');
-        var foundSkill;
-        $.each(chosenKnowledgeSkills, function (unused, skill) {
+    function addKnowledgeSpecialization() {
+        const input = $('#knowledge-specialization-entry');
+        const name = input.data('name');
+        const isLanguage = input.data('language');
+        let foundSkill;
+        $.each(character.knowledgeSkills, function (unused, skill) {
             if (foundSkill) {
                 return;
             }
-            if (skill.id == skillId) {
+            if (
+                isLanguage && 'language' !== skill.category
+                || !isLanguage && 'language' === skill.category
+            ) {
+                return;
+            }
+            if (skill.name === name) {
                 foundSkill = skill;
             }
         });
         if (!foundSkill) {
             return;
         }
-        var specialization = input.val();
+
+        const specialization = input.val().trim();
+        const id = input.data('id');
         foundSkill.specialization = specialization;
-        var li = $('li[data-id="' + skillId + '"]');
-        var nameEl = li.find('.name');
+        const row = $('li[data-id="' + id + '"]');
+        const nameEl = row.find('.name');
         nameEl.html(
-            nameEl.html() + ' (+2 ' + sr.htmlEncode(specialization) + ')'
+            nameEl.html() + ' (+2 ' + htmlEncode(specialization) + ')'
         );
-        var button = li.find('.btn-success');
-        button.replaceWith('<button class="btn btn-danger btn-sm specialize" ' +
-            'type="button">' +
-            '<span aria-hidden="true" class="oi oi-minus"></span> ' +
-            'Specialization' +
-            '</button>');
-        button.find('span').removeClass('oi-plus').addClass('oi-minus');
-        $('#specialize-knowledge-modal').modal('hide')
-    };
+        row.find('.btn-success')
+            .replaceWith(
+                '<button class="btn btn-danger btn-sm specialize" ' +
+                'type="button">' +
+                '<span aria-hidden="true" class="bi bi-dash"></span> ' +
+                'Specialization' +
+                '</button>'
+            );
+        row.find('input[name="skill-specializations[]"]').val(specialization);
+
+        $('#specialize-modal').modal('hide')
+
+        points = new Points(character);
+        updatePointsToSpendDisplay(points);
+    }
 
     /**
      * User has changed something language related.
@@ -223,44 +255,98 @@ $(function () {
     function updateLanguageLevel(e) {
         const el = $(e.target);
         const id = el.parents('li').data('id');
-        for (var i = 0, c = character.knowledgeSkills.length; i < c; i++) {
+        for (let i = 0, c = character.knowledgeSkills.length; i < c; i++) {
             if (character.knowledgeSkills[i].id !== id) {
                 continue;
             }
-            //window.conosl.log(character.knowledgeSkills[i].level);
 
             character.knowledgeSkills[i].level = parent.find('.language-level').val();
         }
+
+        points = new Points(character);
+        updatePointsToSpendDisplay(points);
     }
 
     /**
      * Remove a skill from the character.
      * @param {!Event} e Event that fired this handler
      */
-    var removeSkill = function (e) {
-        var parent = $(e.target).parents('li');
-        var id = parent.data('id');
+    function removeSkill(e) {
+        const parent = $(e.target).parents('li');
+        const name = parent.find('.name').text().split(' (+2 ')[0].trim();
+        parent.find('input[name="skill-specializations[]"]').val('');
         if (parent.hasClass('language')) {
-            for (var i = 0, c = chosenLanguages.length; i < c; i++) {
-                if (id != chosenLanguages[i].id) {
+            for (let i = 0, c = character.knowledgeSkills.length; i < c; i++) {
+                let skill = character.knowledgeSkills[i];
+                if ('language' !== skill.category || name !== skill.name) {
                     continue;
                 }
-                chosenLanguages.splice(i, 1);
+                character.knowledgeSkills.splice(i, 1);
                 break;
             }
         } else {
-            for (var i = 0, c = chosenKnowledgeSkills.length; i < c; i++) {
-                if (id != chosenKnowledgeSkills[i].id) {
+            for (let i = 0, c = character.knowledgeSkills.length; i < c; i++) {
+                let skill = character.knowledgeSkills[i];
+                if ('language' === skill.category || name !== skill.name) {
                     continue;
                 }
-                chosenKnowledgeSkills.splice(i, 1);
+                character.knowledgeSkills.splice(i, 1);
                 break;
             }
         }
+
+        let noKnowledge = true;
+        let noLanguage = true;
+        for (let i = 0, c = character.knowledgeSkills.length; i < c; i++) {
+            if (character.knowledgeSkills[i].category === 'language') {
+                noLanguage = false;
+                continue;
+            }
+            noKnowledge = false;
+        }
+        $('#no-knowledge').toggle(noKnowledge);
+        $('#no-languages').toggle(noLanguage);
+
+        points = new Points(character);
+        updatePointsToSpendDisplay(points);
+
         parent.remove();
-    };
+    }
+
+    function removeSpecialization(e) {
+        const parent = $(e.target).parents('li');
+        const nameEl = parent.find('.name');
+        const name = nameEl.text().split(' (+2 ')[0].trim();
+        parent.find('input[name="skill-specializations[]"]').val('');
+        const isLanguage = parent.hasClass('language');
+        for (let i = 0, c = character.knowledgeSkills.length; i < c; i++) {
+            let skill = character.knowledgeSkills[i];
+            if (
+                'language' !== skill.category && isLanguage
+                || 'language' === skill.category && !isLanguage
+                || name !== skill.name
+            ) {
+                continue;
+            }
+            delete skill.specialization;
+            break;
+        }
+        nameEl.text(name);
+        parent.find('.btn-danger.specialize')
+            .replaceWith(
+                '<button class="btn btn-success btn-sm specialize" ' +
+                'data-bs-target="#specialize-modal" data-bs-toggle="modal" ' +
+                'type="button">' +
+                '<span aria-hidden="true" class="bi bi-plus"></span>' +
+                'Specialization</button>'
+            );
+
+        points = new Points(character);
+        updatePointsToSpendDisplay(points);
+    }
 
     let points = new Points(character);
+    updatePointsToSpendDisplay(points);
 
     $('#knowledge-modal').on('shown.bs.modal', clearKnowledgeModal);
     $('#choose-knowledge')
@@ -272,23 +358,19 @@ $(function () {
     $('#knowledge-type').on('change', enableAddKnowledgeButton);
     $('#knowledge-modal .btn-primary').on('click', addKnowledge);
 
-    // Update knowledge points when both knowledge and language levels are
-    // changed.
+    // Update knowledge points when knowledge or language levels are changed.
     $('#skills')
         .on('change', 'input[name="skill-levels[]"]', updateKnowledgeLevel);
 
-    /*
-    $('#specialize-knowledge-modal')
+    $('#specialize-modal')
         .on('shown.bs.modal', populateKnowledgeSpecializationModal);
     $('#knowledge-specialization-entry').on('keyup', function () {
-        $('#specialize-knowledge-modal .btn-primary').prop(
+        $('#specialize-modal .btn-primary').prop(
             'disabled',
             '' == $('#knowledge-specialization-entry').val()
         );
     });
-    $('#specialize-knowledge-modal .btn-primary')
-        .on('click', addKnowledgeSpecialization);
-    */
+    $('#specialize-modal .btn-primary').on('click', addKnowledgeSpecialization);
 
     $('#native').on('change', enableLanguageButtons);
     $('#language-level').on('keyup', enableLanguageButtons)
@@ -296,8 +378,6 @@ $(function () {
     $('#language-modal .btn-primary').on('click', addLanguage);
     $('#language-modal').on('shown.bs.modal', clearLanguageModal);
     $('#skills .language-level').on('change', updateLanguageLevel);
-
-    /*
-    $('#skills .btn-danger.skill').on('click', removeSkill);
-    */
+    $('#skills').on('click', '.btn-danger.skill', removeSkill);
+    $('#skills').on('click', '.btn-danger.specialize', removeSpecialization);
 });

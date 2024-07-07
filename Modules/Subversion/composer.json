@@ -1,0 +1,28 @@
+{
+    "name": "omnicolor/subversion-module",
+    "description": "Subversion RPG module for Commlink.",
+    "authors": [
+        {
+            "name": "Omni Adams",
+            "email": "omni@digitaldarkness.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Subversion\\": "app/",
+            "Modules\\Subversion\\Database\\Factories\\": "database/factories/",
+            "Modules\\Subversion\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Subversion\\Tests\\": "tests/"
+        }
+    }
+}

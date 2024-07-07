@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\CampaignsController;
 use App\Http\Controllers\ChannelsController;
 use App\Http\Controllers\EventsController;
+use App\Http\Controllers\Fakes\NamesController as FakeNamesController;
 use App\Http\Controllers\HealthzController;
 use App\Http\Controllers\InitiativesController;
 use App\Http\Controllers\SlackController;
@@ -42,7 +43,7 @@ Route::middleware('auth:sanctum')->group(function (): void {
 
     Route::resource('events', EventsController::class)
         ->withTrashed(['destroy'])
-        ->except(['store', 'update']);
+        ->except(['edit', 'store', 'update']);
     Route::patch('events/{event}', [EventsController::class, 'patch'])
         ->name('events.patch');
     Route::put('events/{event}', [EventsController::class, 'put'])
@@ -54,7 +55,12 @@ Route::middleware('auth:sanctum')->group(function (): void {
     Route::put('events/{event}/rsvp', [EventsController::class, 'updateRsvp'])
         ->name('events.update-rsvp');
 
-    Route::resource('users', UsersController::class);
+    Route::prefix('fakes')->name('fakes.')->group(function (): void {
+        Route::get('names', FakeNamesController::class)->name('names');
+    });
+
+    Route::resource('users', UsersController::class)
+        ->only(['index', 'show', 'update']);
     Route::post('users/{user}/token', [UsersController::class, 'createToken'])
         ->name('create-token');
     Route::delete(

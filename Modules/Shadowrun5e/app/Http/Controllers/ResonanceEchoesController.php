@@ -32,7 +32,7 @@ class ResonanceEchoesController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->filename = config('app.data_path.shadowrun5e')
+        $this->filename = config('shadowrun5e.data_path')
             . 'resonance-echoes.php';
 
         $stat = stat($this->filename);

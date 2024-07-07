@@ -31,7 +31,7 @@ class GearController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->filename = config('app.data_path.shadowrun5e') . 'gear.php';
+        $this->filename = config('shadowrun5e.data_path') . 'gear.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/gear';
         $stat = \stat($this->filename);

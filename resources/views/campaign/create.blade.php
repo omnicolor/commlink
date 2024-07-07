@@ -94,6 +94,10 @@
             <x-shadowrun5e::campaign-options />
         </div>
 
+        <div class="campaign-system" id="subversion-options" style="display:none;">
+            <x-subversion.campaign-options />
+        </div>
+
         <div class="mt-3 mb-4">
             <button class="btn btn-primary" type="submit">
                 Create campaign
@@ -158,6 +162,9 @@
                             }
                         });
                         $('#shadowrun5e-options').show();
+                        break;
+                    case 'subversion':
+                        $('#subversion-options').show();
                         break;
                     default:
                         break;

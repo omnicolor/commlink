@@ -12,7 +12,6 @@ use Nwidart\Modules\Facades\Module;
 use Spatie\LaravelIgnition\Exceptions\ViewException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
-use function in_array;
 use function route;
 use function view;
 
@@ -26,12 +25,6 @@ class CharacterList extends Component
      */
     public function __construct(public Collection $characters)
     {
-        $systems = [
-            'cyberpunkred',
-            'shadowrun5e',
-            //'stillfleet',
-            //'subversion',
-        ];
         $this->attributes = $this->newAttributeBag();
         $this->componentName = 'CharacterList';
         foreach ($this->characters as $character) {
@@ -45,10 +38,6 @@ class CharacterList extends Component
                 } catch (RouteNotFoundException | ViewException) { // @codeCoverageIgnore
                     // Ignore a system not being ready or disabled.
                 }
-            }
-            if (in_array($system, $systems, true)) {
-                $character->link = route($system . '.character', $character);
-                continue;
             }
         }
     }

@@ -29,6 +29,7 @@ class Chummer5Controller extends Controller
                 'shadowrun5e::character',
                 [
                     'character' => $character,
+                    'currentStep' => 'review',
                     'errors' => new MessageBag($character->errors),
                     'user' => $user,
                 ]

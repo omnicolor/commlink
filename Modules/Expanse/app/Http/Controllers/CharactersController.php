@@ -29,6 +29,7 @@ class CharactersController extends Controller
 
     /**
      * @psalm-suppress PossiblyUnusedMethod
+     * @psalm-suppress PossiblyUnusedReturnValue
      */
     public function list(): View
     {

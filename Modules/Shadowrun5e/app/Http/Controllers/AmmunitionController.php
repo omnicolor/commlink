@@ -38,7 +38,7 @@ class AmmunitionController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->filename = config('app.data_path.shadowrun5e')
+        $this->filename = config('shadowrun5e.data_path')
             . 'ammunition.php';
         $stat = stat($this->filename);
         // @phpstan-ignore-next-line

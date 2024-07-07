@@ -30,7 +30,7 @@ class VehiclesController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->filename = config('app.data_path.shadowrun5e') . 'vehicles.php';
+        $this->filename = config('shadowrun5e.data_path') . 'vehicles.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/vehicles';
         $stat = \stat($this->filename);

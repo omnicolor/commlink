@@ -998,7 +998,7 @@ class ImportChummerData extends Command implements Isolatable
         $formula = Str::replace('{', '', $formula);
         /** @var string */
         $formula = Str::replace('}', '', $formula);
-        return $this->convertFormula($formula, 'Q', $rating);
+        return self::convertFormula($formula, 'Q', $rating);
     }
 
     /**
@@ -1051,7 +1051,7 @@ class ImportChummerData extends Command implements Isolatable
         /** @var string */
         $formula = Str::replace('}', '', $formula);
         if (Str::contains($formula, '(')) {
-            $temp = (string)$this->convertFormula(
+            $temp = (string)self::convertFormula(
                 Str::between($formula, '(', ')'),
                 'Q',
                 $rating
@@ -1063,7 +1063,7 @@ class ImportChummerData extends Command implements Isolatable
                 $formula
             );
         }
-        return $this->convertFormula($formula, 'Q', $rating);
+        return self::convertFormula($formula, 'Q', $rating);
     }
 
     /**
@@ -1079,7 +1079,7 @@ class ImportChummerData extends Command implements Isolatable
         $cost = (float)Str::after($formula, '*') * 100;
         /** @var string */
         $formula = Str::replace(Str::after($formula, '*'), (string)$cost, $formula);
-        $cost = $this->convertFormula($formula, 'R', $rating) / 100;
+        $cost = self::convertFormula($formula, 'R', $rating) / 100;
         return $cost;
     }
 

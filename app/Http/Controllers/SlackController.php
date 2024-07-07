@@ -28,9 +28,7 @@ use function explode;
 use function is_numeric;
 use function preg_match;
 use function sprintf;
-use function str_replace;
 use function ucfirst;
-use function ucwords;
 
 use const PHP_EOL;
 
@@ -97,43 +95,6 @@ class SlackController extends Controller
                 ucfirst($this->args[0]),
             );
             try {
-                /** @var Roll */
-                $roll = new $class($this->text, $channel->username, $channel);
-                if ('help' !== $this->args[0]) {
-                    RollEvent::dispatch($roll, $channel);
-                }
-                return $roll->forSlack();
-            } catch (Error) {
-                // Again, ignore errors, they might want a generic command.
-            }
-        }
-
-        // Next, try to load system-specific rolls for numeric data.
-        // TODO: Remove this once all systems are Modularized (#1368)
-        if (is_numeric($this->args[0]) && isset($channel->system)) {
-            try {
-                $class = sprintf(
-                    '\\App\\Rolls\\%s\\Number',
-                    ucfirst($channel->system)
-                );
-                /** @var Roll */
-                $roll = new $class($this->text, $channel->username, $channel);
-                RollEvent::dispatch($roll, $channel);
-                return $roll->forSlack();
-            } catch (Error) {
-                // Ignore errors here, they might want a generic command.
-            }
-        }
-
-        // Next, try system-specific rolls that aren't numeric.
-        // TODO: Remove this once all systems are Modularized (#1368)
-        if (null !== $channel->system) {
-            try {
-                $class = sprintf(
-                    '\\App\\Rolls\\%s\\%s',
-                    str_replace(' ', '', ucwords(str_replace('-', ' ', $channel->system ?? 'Unknown'))),
-                    ucfirst($this->args[0])
-                );
                 /** @var Roll */
                 $roll = new $class($this->text, $channel->username, $channel);
                 if ('help' !== $this->args[0]) {

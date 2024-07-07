@@ -94,7 +94,13 @@ use Modules\Shadowrun5e\Models\SkillGroup;
                 <li class="list-group-item" data-id="{{ $skill->id }}">
                     <div class="row">
                         <label class="col col-form-label text-nowrap name">
+                            @can('view data')
+                            <span data-bs-html="true" data-bs-toggle="tooltip"
+                        title="<p>{{ str_replace('||', '<\/p><p>', $skill->description) }}</p>">
+                                {{ $skill }}
+                            @else
                             {{ $skill }}
+                            @endcan
                             @if (null !== $skill->specialization)
                             (+2 {{ $skill->specialization }})
                             @endif
@@ -156,10 +162,8 @@ use Modules\Shadowrun5e\Models\SkillGroup;
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Choose skill group</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button aria-label="Close" class="btn-close"
+                        data-bs-dismiss="modal" type="button"></button>
                 </div>
                 <div class="modal-body row">
                     <div class="col">
@@ -187,10 +191,8 @@ use Modules\Shadowrun5e\Models\SkillGroup;
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Choose active skills</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button aria-label="Close" class="btn-close"
+                        data-bs-dismiss="modal" type="button"></button>
                 </div>
                 <div class="modal-body row">
                     <div class="col">
@@ -219,9 +221,11 @@ use Modules\Shadowrun5e\Models\SkillGroup;
                         </div>
                         <div id="skill-info-panel" style="display: none;">
                             <h3 id="skill-name">.</h3>
+                            @can('view data')
                             <div class="row mt-2">
                                 <p class="col" id="skill-description"></p>
                             </div>
+                            @endcan
                             <div class="row mt-2">
                                 <div class="col-3">Attribute</div>
                                 <div class="col" id="skill-attribute"></div>
@@ -264,10 +268,8 @@ use Modules\Shadowrun5e\Models\SkillGroup;
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Choose specialization</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button aria-label="Close" class="btn-close"
+                        data-bs-dismiss="modal" type="button"></button>
                 </div>
                 <div class="modal-body">
                     <p>Choose your specialization for <span
@@ -344,6 +346,7 @@ use Modules\Shadowrun5e\Models\SkillGroup;
     <x-slot name="javascript">
         <script>
             let character = @json($character);
+            const trusted = !!{{ (int)\Auth::user()->hasPermissionTo('view data') }};
         </script>
         <script src="/js/datatables.min.js"></script>
         <script src="/js/Shadowrun5e/create-common.js"></script>

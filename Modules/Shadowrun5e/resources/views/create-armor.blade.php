@@ -79,6 +79,10 @@
     <x-slot name="javascript">
         <script>
             let character = @json($character);
+            $(function () {
+                let points = new Points(character);
+                updatePointsToSpendDisplay(points);
+            });
         </script>
         <script src="/js/Shadowrun5e/create-common.js"></script>
         <script src="/js/Shadowrun5e/Points.js"></script>

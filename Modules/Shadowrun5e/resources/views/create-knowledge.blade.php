@@ -260,17 +260,24 @@
         <option value="Zoology">
     </datalist>
 
+    <datalist id="language-specializations">
+        <option value="'l33tspseak">
+        <option value="Corp">
+        <option value="Milspec">
+        <option value="Orbital">
+        <option value="Read/Write">
+        <option value="Speak">
+        <option value="Street">
+    </datalist>
+
     <form action="" method="POST">
     @csrf
 
     <div class="row mt-3">
         <div class="col-1"></div>
         <div class="col">
-            <div class="alert alert-danger" role="alert">
-                This page is currently under development.
-            </div>
-
             <h1>Knowledge skills</h1>
+
             <p>
                 Characters receive free Knowledge and Language skills points
                 equal to (Intuition rating + Logic rating) x 2. In addition to
@@ -288,11 +295,14 @@
                 @php $skills = false; @endphp
                 @foreach ($character->getKnowledgeSkills(onlyKnowledges: true) as $skill)
                     @php $skills = true; @endphp
-                    <li class="list-group-item" data-id="{{ $skill->id }}">
+                    <li class="list-group-item" data-id="{{ $skill->id }}-{{ $skill->category }}">
                         <div class="row">
                             <label class="col col-form-label text-nowrap name"
                                 for="{{ $skill->id }}">
                                 {{ $skill }}
+                                @if ($skill->specialization)
+                                    (+2 {{ $skill->specialization }})
+                                @endif
                             </label>
                             <div class="col">
                                 <input name="skill-names[]" type="hidden"
@@ -308,12 +318,20 @@
                                     value="{{ $skill->specialization }}">
                             </div>
                             <div class="col text-right text-nowrap">
+                                @if ($skill->specialization)
+                                <button class="btn btn-danger btn-sm specialize"
+                                    type="button">
+                                    <span aria-hidden="true" class="bi bi-dash"></span>
+                                    Specialization
+                                </button>
+                                @else
                                 <button class="btn btn-success btn-sm specialize"
                                     data-bs-target="#specialize-modal"
                                     data-bs-toggle="modal" type="button">
                                     <span aria-hidden="true" class="bi bi-plus"></span>
                                     Specialization
                                 </button>
+                                @endif
                                 <button class="btn btn-danger btn-sm skill"
                                     type="button">
                                     <span aria-hidden="true" class="bi bi-dash"></span>
@@ -333,11 +351,14 @@
                 @php $skills = false; @endphp
                 @foreach ($character->getKnowledgeSkills(onlyLanguages: true) as $skill)
                     @php $skills = true; @endphp
-                    <li class="list-group-item language" data-id="{{ $skill->id }}">
+                    <li class="list-group-item language" data-id="{{ $skill->id }}-language">
                         <div class="row">
                             <label class="col col-form-label text-nowrap name"
                                 for="{{ $skill->id }}">
                                 {{ $skill }}
+                                @if ($skill->specialization)
+                                    (+2 {{ $skill->specialization }})
+                                @endif
                             </label>
                             <div class="col text-center">
                                 <input name="skill-names[]" type="hidden"
@@ -358,12 +379,20 @@
                                     value="{{ $skill->specialization }}">
                             </div>
                             <div class="col text-right text-nowrap">
+                                @if ($skill->specialization)
+                                <button class="btn btn-danger btn-sm specialize"
+                                    type="button">
+                                    <span aria-hidden="true" class="bi bi-dash"></span>
+                                    Specialization
+                                </button>
+                                @else
                                 <button class="btn btn-success btn-sm specialize"
                                     data-bs-target="#specialize-modal"
                                     data-bs-toggle="modal" type="button">
                                     <span aria-hidden="true" class="bi bi-plus"></span>
                                     Specialization
                                 </button>
+                                @endif
                                 <button class="btn btn-danger btn-sm skill"
                                     type="button">
                                     <span aria-hidden="true" class="bi bi-dash"></span>
@@ -405,10 +434,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Choose knowledge skill</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button aria-label="Close" class="btn-close"
+                        data-bs-dismiss="modal" type="button"></button>
                 </div>
                 <div class="modal-body">
                     <p>
@@ -471,15 +498,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Choose specialization</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button aria-label="Close" class="btn-close"
+                        data-bs-dismiss="modal" type="button"></button>
                 </div>
                 <div class="modal-body">
                     <p>
-                        Choose your specialization for
-                        <span id="knowledge-specialization-skill-name"></span>.
+                        Enter a specialization for
+                        <span id="knowledge-specialization-skill-name"></span>
                     </p>
                     <p>
                         <input class="form-control"
@@ -504,10 +529,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Choose language</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button aria-label="Close" class="btn-close"
+                        data-bs-dismiss="modal" type="button"></button>
                 </div>
                 <div class="modal-body">
                     <p>

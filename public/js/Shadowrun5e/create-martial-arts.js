@@ -23,9 +23,14 @@ $(function () {
         const id = el.data('id');
         character.martialArts.styles.push(id);
         const style = styles[id];
-        const html = '<li class="list-group-item style">' +
-            '<span data-bs-placement="right" data-bs-toggle="tooltip" title="' +
-            style.description.replace(/\|\|/g, '\n\n') + '">' + style.name +
+        let html = '<li class="list-group-item style">';
+        if (trusted) {
+            html += '<span data-bs-placement="right" data-bs-toggle="tooltip" '
+                + 'title="' + style.description.replace(/\|\|/g, '\n\n') + '">';
+        } else {
+            html += '<span>';
+        }
+        html += style.name +
             '</span><div class="float-end">' +
             '<button class="btn btn-danger btn-sm" role="button">' +
             '<span aria-hidden="true" class="bi bi-dash"></span> ' +
@@ -53,11 +58,15 @@ $(function () {
         }
         const technique = techniques[id];
         character.martialArts.techniques.push(id);
-        let html = '<li class="technique list-group-item">' +
-            '<span class="tooltip-anchor" data-html="true" ' +
-            'data-placement="right" data-toggle="tooltip" ' +
-            'title="' + technique.description.replace(/\|\|/g, '\n\n') + '">' +
-            technique.name;
+        let html = '<li class="technique list-group-item">';
+        if (trusted) {
+            html += '<span class="tooltip-anchor" data-html="true" ' +
+                'data-placement="right" data-toggle="tooltip" ' +
+                'title="' + technique.description.replace(/\|\|/g, '\n\n') + '">';
+        } else {
+            html += '<span>';
+        }
+        html += technique.name;
         if (technique.subname) {
             html += ' (' + technique.subname + ')';
         }

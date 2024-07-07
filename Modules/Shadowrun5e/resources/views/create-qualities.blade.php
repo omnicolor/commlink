@@ -90,10 +90,14 @@ use Modules\Shadowrun5e\Models\Quality;
                         $quality = new Quality($rawQuality['id'], $rawQuality);
                     @endphp
                 <li class="list-group-item">
+                    @can('view data')
                     <span data-bs-html="true" data-bs-toggle="tooltip"
                         title="<p>{{ str_replace('||', '<\/p><p>', $quality->description) }}</p>">
                         {{ $quality }}
                     </span>
+                    @else
+                        {{ $quality }}
+                    @endcan
                     <input name="quality[]" type="hidden" value="{{ $quality->id}}">
                     <div class="float-end">
                         <button class="btn btn-danger btn-sm"
@@ -177,9 +181,11 @@ use Modules\Shadowrun5e\Models\Quality;
                         <div id="info-panel" style="display: none;">
                             <h3 id="quality-name">.</h3>
                             <small class="text-muted" id="quality-type"></small>
+                            @can('view data')
                             <div class="row mt-2">
                                 <p class="col" id="quality-description"></p>
                             </div>
+                            @endcan
                             <div class="row mt-2">
                                 <div class="col-2">Karma</div>
                                 <div class="col" id="quality-karma"></div>
@@ -206,6 +212,7 @@ use Modules\Shadowrun5e\Models\Quality;
         <script>
             let character = @json($character);
             let rulebooks = @json($books);
+            const trusted = !!{{ (int)\Auth::user()->hasPermissionTo('view data') }};
         </script>
         <script src="/js/Shadowrun5e/create-common.js"></script>
         <script src="/js/Shadowrun5e/Points.js"></script>

@@ -13,7 +13,6 @@ parameters:
     level: 8
     paths:
         - %currentWorkingDirectory%/app
-        - %currentWorkingDirectory%/data
         - %currentWorkingDirectory%/Modules
         - %currentWorkingDirectory%/tests
     polluteScopeWithAlwaysIterableForeach: false

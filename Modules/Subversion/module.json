@@ -1,0 +1,11 @@
+{
+    "name": "Subversion",
+    "alias": "subversion",
+    "description": "Subversion RPG module for Commlink.",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Subversion\\Providers\\SubversionServiceProvider"
+    ],
+    "files": []
+}

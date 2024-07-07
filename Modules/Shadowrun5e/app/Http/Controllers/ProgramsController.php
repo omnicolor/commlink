@@ -30,7 +30,7 @@ class ProgramsController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->filename = config('app.data_path.shadowrun5e') . 'programs.php';
+        $this->filename = config('shadowrun5e.data_path') . 'programs.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/programs';
         $stat = \stat($this->filename);

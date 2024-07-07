@@ -76,6 +76,12 @@ class CampaignCreateRequest extends FormRequest
                 'max:10',
                 'nullable',
             ],
+            'subversion-community-description' => [
+                'string',
+            ],
+            'subversion-community-type' => [
+                'string',
+            ],
             'system' => [
                 'max:30',
                 'required',

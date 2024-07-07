@@ -261,6 +261,7 @@ $(function () {
     };
 
     let points = new Points(character);
+    updatePointsToSpendDisplay(points);
 
     $('[data-bs-toggle="tooltip"]').tooltip();
     $priorityElements.on('change', changePriority);

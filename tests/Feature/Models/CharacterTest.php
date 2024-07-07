@@ -7,10 +7,13 @@ namespace Tests\Feature\Models;
 use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\WithFaker;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
+
+use function is_subclass_of;
 
 #[Group('character')]
 #[Small]
@@ -26,9 +29,7 @@ final class CharacterTest extends TestCase
         $character = new Character([
             'owner' => $this->faker->unique()->safeEmail,
         ]);
-        self::expectException(
-            \Illuminate\Database\Eloquent\ModelNotFoundException::class
-        );
+        self::expectException(ModelNotFoundException::class);
         $character->user();
     }
 
@@ -44,7 +45,7 @@ final class CharacterTest extends TestCase
     }
 
     /**
-     * Test finding a character with no system returns an \App\Model\Character.
+     * Test finding a character with no system returns a Character.
      */
     public function testBuildDefault(): void
     {
@@ -55,13 +56,13 @@ final class CharacterTest extends TestCase
         /** @var Character */
         $character = Character::where('_id', $character->id)->firstOrFail();
         self::assertSame('unknown', $character->system);
-        self::assertFalse(\is_subclass_of($character, Character::class));
+        self::assertFalse(is_subclass_of($character, Character::class));
         $character->delete();
     }
 
     /**
      * Test finding a character that has a system returns a subclass of
-     * \App\Model\Character.
+     * Character.
      */
     public function testBuildSubclass(): void
     {
@@ -82,7 +83,7 @@ final class CharacterTest extends TestCase
         // PHPStan reports that this is always true. testBuildDefault() asserts
         // that it's not.
         // @phpstan-ignore-next-line
-        self::assertTrue(\is_subclass_of($character, Character::class));
+        self::assertTrue(is_subclass_of($character, Character::class));
 
         $character->delete();
     }
@@ -106,8 +107,9 @@ final class CharacterTest extends TestCase
     {
         /** @var Character */
         $character = Character::factory()->make([
-            'campaign_id' => 0,
+            'campaign_id' => 'not-found',
             'system' => 'shadowrun5e',
+            'created_by' => __CLASS__ . '::' . __FUNCTION__,
         ]);
         self::assertNull($character->campaign());
     }

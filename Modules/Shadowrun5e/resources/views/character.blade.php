@@ -64,9 +64,7 @@
         <link href="/css/Shadowrun5e/character-generation.css" rel="stylesheet">
         @endif
     </x-slot>
-    @includeWhen($currentStep ?? false, 'shadowrun5e::create-navigation')
 
-    @unless ($currentStep ?? false)
     <x-slot name="navbar">
         <li class="nav-item">
             <a class="nav-link" href="{{ route('dashboard') }}">Home</a>
@@ -75,7 +73,7 @@
             <span class="nav-link active">{{ $character }}</span>
         </li>
     </x-slot>
-    @endunless
+    @includeWhen($currentStep ?? false, 'shadowrun5e::create-navigation')
 
     @if ($errors->any())
         <div class="alert alert-danger mt-4">

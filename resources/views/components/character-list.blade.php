@@ -4,6 +4,8 @@ use App\Features\HeroLabImport;
 use App\Features\CyberpunkCharacterGeneration;
 use App\Features\WorldAnvilImport;
 use App\Features\Shadowrun5eCharacterGeneration;
+use App\Features\Stillfleet;
+use App\Features\SubversionCharacterGeneration;
 use App\Features\TransformersCharacterGeneration;
 use Nwidart\Modules\Facades\Module;
 @endphp
@@ -53,6 +55,24 @@ use Nwidart\Modules\Facades\Module;
                         <span class="badge bg-danger">Not complete</span>
                     </a>
                     @endfeature
+                    @feature(Stillfleet::class)
+                    <a class="dropdown-item" href="/characters/stillfleet/create">
+                        Stillfleet
+                        <span class="badge bg-danger">Not complete</span>
+                    </a>
+                    @endfeature
+                    @feature(SubversionCharacterGeneration::class)
+                    <a class="dropdown-item" href="/characters/subversion/create">
+                        Subversion
+                        <span class="badge bg-danger">Not complete</span>
+                    </a>
+                    @endfeature
+                    @feature(TransformersCharacterGeneration::class)
+                    <a class="dropdown-item" href="/characters/transformers/create">
+                        Transformers RPG
+                        <span class="badge bg-danger">Not complete</span>
+                    </a>
+                    @endfeature
                     @feature(ChummerImport::class)
                     <a class="dropdown-item" href="{{ route('import.chummer5.view') }}">
                         Import a Chummer 5 character
@@ -63,12 +83,6 @@ use Nwidart\Modules\Facades\Module;
                     <a class="dropdown-item" href="{{ route('import.herolab.view') }}">
                         Import a Hero Lab portfolio
                         <span class="badge bg-warning">Beta</span>
-                    </a>
-                    @endfeature
-                    @feature(TransformersCharacterGeneration::class)
-                    <a class="dropdown-item" href="/characters/transformers/create">
-                        Transformers RPG
-                        <span class="badge bg-danger">Not complete</span>
                     </a>
                     @endfeature
                     @feature(WorldAnvilImport::class)
