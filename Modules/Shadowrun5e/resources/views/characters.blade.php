@@ -7,7 +7,7 @@
         <div class="col">
             <h1>Shadowrun Fifth Edition Characters</h1>
             <x-character-list
-                :characters="\Auth::user()->characters('shadowrun5e')->get()" />
+                :characters="$characters" />
         </div>
     </div>
 </x-app>
