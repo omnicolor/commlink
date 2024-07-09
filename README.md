@@ -17,6 +17,7 @@ can roll dice in Slack and have the results appear in Discord, and vice versa.
 Commlink is very much a work in progress, and each of the systems has varying
 levels of completeness.
 
+* [Alien](https://freeleaguepublishing.com/games/alien/)
 * [Avatar Legends](https://magpiegames.com/pages/avatar-legends)
 * [Blister Critters](https://stillfleet.com/games/blister_critters/)
 * [Capers](https://www.nerdburgergames.com/capers)
