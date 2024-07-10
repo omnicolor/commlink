@@ -30,9 +30,6 @@ class Injury implements Stringable
     /** @var array<string, array<string, array<string, int>|bool|int|null|string>> */
     public static array $injuries;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct(public string $id)
     {
         $filename = config('alien.data_path') . 'injuries.php';
@@ -80,9 +77,6 @@ class Injury implements Stringable
         return $injuries;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public static function findByRoll(int $roll): ?Injury
     {
         return collect(self::all())->keyBy('roll')->get($roll);

@@ -37,9 +37,6 @@ class Number extends Roll
     protected int $stress = 0;
     protected int $panics = 0;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct(
         string $content,
         string $username,

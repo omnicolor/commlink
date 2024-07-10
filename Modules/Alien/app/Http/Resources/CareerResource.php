@@ -17,8 +17,6 @@ use Modules\Alien\Models\Career;
 class CareerResource extends JsonResource
 {
     /**
-     * @psalm-suppress InvalidReturnStatement
-     * @psalm-suppress InvalidReturnType
      * @return array<string, array<string, MissingValue|array<string, string>|int|mixed|string>>
      */
     public function toArray(Request $request): array

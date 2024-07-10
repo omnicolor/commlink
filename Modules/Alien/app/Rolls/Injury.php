@@ -29,9 +29,6 @@ class Injury extends Roll
     /** @var array<int, int> */
     protected array $rolls = [];
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct(
         string $content,
         string $username,

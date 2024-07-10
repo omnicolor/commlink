@@ -8,37 +8,50 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\MissingValue;
-use Modules\Alien\Models\Skill;
+use Modules\Alien\Models\Armor;
 
 /**
- * @mixin Skill
- * @psalm-suppress UnusedClass
+ * @mixin Armor
  */
-class SkillResource extends JsonResource
+class ArmorResource extends JsonResource
 {
     /**
-     * @return array<string, array<string, MissingValue|array<string, string>|int|mixed|string>>
+     * @return array{
+     *   air_supply: int,
+     *   cost: int,
+     *   description: MissingValue|string,
+     *   id: string,
+     *   modifiers: array<int, string>,
+     *   name: string,
+     *   page: int,
+     *   rating: int,
+     *   ruleset: string,
+     *   weight: ?float,
+     *   links: array{
+     *     self: string
+     *   },
+     * }
      */
     public function toArray(Request $request): array
     {
         /** @var User */
         $user = $request->user();
         return [
-            'attribute' => $this->attribute,
+            'air_supply' => $this->air_supply,
+            'cost' => $this->cost,
             'description' => $this->when(
                 $user->hasPermissionTo('view data'),
                 $this->description,
             ),
             'id' => $this->id,
+            'modifiers' => $this->modifiers,
             'name' => $this->name,
             'page' => $this->page,
+            'rating' => $this->rating,
             'ruleset' => $this->ruleset,
-            'stunts' => $this->when(
-                0 !== count($this->stunts),
-                $this->stunts,
-            ),
+            'weight' => $this->weight,
             'links' => [
-                'self' => route('alien.skills.show', $this->id),
+                'self' => route('alien.armor.show', $this->id),
             ],
         ];
     }
