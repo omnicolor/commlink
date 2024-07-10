@@ -96,4 +96,29 @@ final class NumberTest extends TestCase
         self::assertSame('1 1 1 1 1 1', $attachment->footer);
         self::assertSame('user failed with 6 dice', $attachment->title);
     }
+
+    #[Group('discord')]
+    public function testPanicWithFailure(): void
+    {
+        DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(1);
+        $response = (new Number('5 1 shooting', 'user', new Channel()))
+            ->forDiscord();
+        $expected = '**user failed with 6 dice and panics for "shooting"**'
+            . PHP_EOL . 'Rolled 0 successes' . PHP_EOL . 'Rolls: 1 1 1 1 1 1';
+        self::assertSame($expected, $response);
+    }
+
+    #[Group('discord')]
+    public function testPanicWithSuccess(): void
+    {
+        DiceService::shouldReceive('rollOne')
+            ->times(6)
+            ->with(6)
+            ->andReturn(6, 1, 3, 3, 6, 1);
+        $response = (new Number('4 2', 'user', new Channel()))
+            ->forDiscord();
+        $expected = '**user succeeded, but panics with 6 dice**'
+            . PHP_EOL . 'Rolled 2 successes' . PHP_EOL . 'Rolls: 6 1 3 3 6 1';
+        self::assertSame($expected, $response);
+    }
 }

@@ -14,12 +14,11 @@ use Facades\App\Services\DiceService;
 
 use function array_shift;
 use function explode;
-use function rsort;
+use function is_numeric;
 use function sprintf;
 use function trim;
 
 use const PHP_EOL;
-use const SORT_NUMERIC;
 
 /**
  * @psalm-suppress UnusedClass
@@ -28,12 +27,15 @@ class Number extends Roll
 {
     protected const MAX_DICE = 20;
     protected const SUCCESS = 6;
+    protected const PANIC = 1;
 
     protected int $dice = 0;
     protected ?string $error = null;
     /** @var array<int, int> */
     protected array $rolls = [];
     protected int $successes = 0;
+    protected int $stress = 0;
+    protected int $panics = 0;
 
     /**
      * @psalm-suppress PossiblyUnusedMethod
@@ -55,25 +57,55 @@ class Number extends Roll
             );
             return;
         }
+        if (isset($args[0]) && is_numeric($args[0])) {
+            $this->stress = (int)array_shift($args);
+        }
+        $this->description = trim(implode(' ', $args));
+        if ('' !== $this->description) {
+            $this->description = ' for "' . $this->description . '"';
+        }
 
         $this->roll();
     }
 
     protected function formatTitle(): string
     {
-        if (0 === $this->successes) {
+        if (0 === $this->successes && 0 !== $this->panics) {
             return sprintf(
-                '%s failed with %d %s',
+                '%s failed with %d %s and panics%s',
                 $this->username,
-                $this->dice,
+                $this->dice + $this->stress,
                 1 === $this->dice ? 'die' : 'dice',
+                $this->description,
             );
         }
+
+        if (0 === $this->successes) {
+            return sprintf(
+                '%s failed with %d %s%s',
+                $this->username,
+                $this->dice + $this->stress,
+                1 === $this->dice ? 'die' : 'dice',
+                $this->description,
+            );
+        }
+
+        if (0 !== $this->panics) {
+            return sprintf(
+                '%s succeeded, but panics with %d %s%s',
+                $this->username,
+                $this->dice + $this->stress,
+                1 === $this->dice ? 'die' : 'dice',
+                $this->description,
+            );
+        }
+
         return sprintf(
-            '%s succeeded with %d %s',
+            '%s succeeded with %d %s%s',
             $this->username,
-            $this->dice,
+            $this->dice + $this->stress,
             1 === $this->dice ? 'die' : 'dice',
+            $this->description,
         );
     }
 
@@ -135,6 +167,14 @@ class Number extends Roll
                 $this->successes++;
             }
         }
-        rsort($this->rolls, SORT_NUMERIC);
+        for ($i = 0; $i < $this->stress; $i++) {
+            /** @psalm-suppress UndefinedClass */
+            $this->rolls[] = $roll = DiceService::rollOne(6);
+            if (self::SUCCESS === $roll) {
+                $this->successes++;
+            } elseif (self::PANIC === $roll) {
+                $this->panics++;
+            }
+        }
     }
 }
