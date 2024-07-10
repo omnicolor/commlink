@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
 use Modules\Alien\Http\Resources\CareerResource;
+use Modules\Alien\Http\Resources\InjuryResource;
 use Modules\Alien\Http\Resources\SkillResource;
 use Modules\Alien\Http\Resources\TalentResource;
 use Modules\Alien\Models\Career;
+use Modules\Alien\Models\Injury;
 use Modules\Alien\Models\Skill;
 use Modules\Alien\Models\Talent;
 
@@ -21,6 +23,14 @@ Route::middleware('auth:sanctum')
         Route::get('careers/{career}', function (string $career) {
             return new CareerResource(new Career($career));
         })->name('careers.show');
+
+        Route::get('injuries', function () {
+            return InjuryResource::collection(Injury::all())
+                ->additional(['self' => route('alien.injuries.index')]);
+        })->name('injuries.index');
+        Route::get('injuries/{injury}', function (string $injury) {
+            return new InjuryResource(new Injury($injury));
+        })->name('injuries.show');
 
         Route::get('skills', function () {
             return SkillResource::collection(Skill::all())
