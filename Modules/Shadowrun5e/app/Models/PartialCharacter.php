@@ -98,7 +98,6 @@ class PartialCharacter extends Character implements Stringable
 
     protected static function newFactory(): Factory
     {
-        // @phpstan-ignore-next-line
         return PartialCharacterFactory::new();
     }
 
