@@ -67,9 +67,6 @@ class Armor implements Stringable
         return $this->type;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public static function findByName(string $name): self
     {
         $filename = config('cyberpunkred.data_path') . 'armor.php';

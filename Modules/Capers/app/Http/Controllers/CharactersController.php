@@ -369,9 +369,6 @@ class CharactersController extends Controller
         ));
     }
 
-    /**
-     * @psalm-suppress InvalidPropertyAssignmentValue
-     */
     public function storeGear(GearRequest $request): RedirectResponse
     {
         $characterId = $request->session()->get('capers-partial');

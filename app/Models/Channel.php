@@ -58,10 +58,7 @@ class Channel extends Model
         'webhook',
     ];
 
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $user = '';
-
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $username = 'Unknown';
 
     /**

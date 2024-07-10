@@ -22,9 +22,6 @@ class CampaignOptions extends Component
         $this->componentName = 'CampaignOptions';
     }
 
-    /**
-     * @psalm-suppress InvalidReturnStatement
-     */
     public function render(): View
     {
         $systemView = sprintf(

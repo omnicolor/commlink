@@ -62,8 +62,6 @@ class User extends Authenticatable
 
     /**
      * Get the campaigns for the user.
-     * @psalm-suppress PossiblyUnusedMethod
-     * @return BelongsToMany
      */
     public function campaigns(): BelongsToMany
     {
@@ -74,7 +72,6 @@ class User extends Authenticatable
     /**
      * Get the campaigns the user has registered.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return HasMany
      */
     public function campaignsRegistered(): HasMany
     {

@@ -49,7 +49,6 @@ class CampaignPolicy
 
     /**
      * Determine whether the user can invite another user to the game.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function invite(User $user, Campaign $campaign): bool
     {
@@ -69,7 +68,6 @@ class CampaignPolicy
 
     /**
      * Determine whether the user can GM a campaign.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function gm(User $user, Campaign $campaign): bool
     {
