@@ -12,7 +12,7 @@ use Tests\TestCase;
 
 #[Group('alien')]
 #[Small]
-final class SkillsTest extends TestCase
+final class SkillTest extends TestCase
 {
     public function testLoadNotFound(): void
     {
