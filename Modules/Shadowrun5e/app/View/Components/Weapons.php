@@ -32,11 +32,6 @@ class Weapons extends Component
         $this->weapons = $character->getWeapons();
     }
 
-    /**
-     * Get the view / contents that represent the component.
-     * @psalm-suppress InvalidReturnStatement
-     * @psalm-suppress InvalidReturnType
-     */
     public function render(): View
     {
         return view('shadowrun5e::components.weapons');

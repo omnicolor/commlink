@@ -22,11 +22,6 @@ class Metadata extends Component
         $this->componentName = 'Shadowrun5e\Metadata';
     }
 
-    /**
-     * Get the view / contents that represent the component.
-     * @psalm-suppress InvalidReturnStatement
-     * @psalm-suppress InvalidReturnType
-     */
     public function render(): View
     {
         return view('shadowrun5e::components.metadata');

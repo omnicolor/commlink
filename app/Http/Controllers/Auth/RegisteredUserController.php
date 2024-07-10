@@ -37,8 +37,6 @@ class RegisteredUserController extends Controller
 
     /**
      * Handle an incoming registration request.
-     * @psalm-suppress InvalidReturnStatement
-     * @psalm-suppress InvalidReturnType
      */
     public function store(Request $request): RedirectResponse
     {

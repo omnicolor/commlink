@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Modules\Subversion\Models;
 
 use RuntimeException;
+use Stringable;
 
 use function sprintf;
 
 /**
  * @psalm-suppress PossiblyUnusedProperty
  */
-class Skill
+class Skill implements Stringable
 {
     public string $description;
     public string $name;
@@ -28,9 +29,6 @@ class Skill
      */
     public static ?array $skills;
 
-    /**
-     * @psalm-suppress PossiblyUnusedProperty
-     */
     public function __construct(public string $id, public ?int $rank = null)
     {
         $filename = config('subversion.data_path') . 'skills.php';
@@ -55,7 +53,6 @@ class Skill
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, Skill>
      */
     public static function all(): array

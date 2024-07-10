@@ -20,7 +20,6 @@ use function array_values;
 class CharacterResource extends JsonResource
 {
     /**
-     * @psalm-suppress InvalidArgument
      * @return array{
      *   name: string,
      *   agility: int,

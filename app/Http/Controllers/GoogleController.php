@@ -20,8 +20,6 @@ class GoogleController extends Controller
 {
     /**
      * Handle a successful login from Google.
-     * @psalm-suppress InvalidReturnStatement
-     * @psalm-suppress InvalidReturnType
      */
     public function handleCallback(): RedirectResponse
     {

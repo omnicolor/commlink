@@ -45,9 +45,6 @@ use function view;
  */
 class CharactersController extends Controller
 {
-    /**
-     * @psalm-suppress PossiblyUnusedParam
-     */
     public function create(
         Request $request,
         ?string $step = null,

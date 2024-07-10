@@ -51,7 +51,6 @@ class RelationAspect
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, RelationAspect>
      */
     public static function all(): array
