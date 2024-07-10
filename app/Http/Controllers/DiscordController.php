@@ -88,8 +88,6 @@ class DiscordController extends Controller
 
     /**
      * Handle a successful login from Discord.
-     * @psalm-suppress InvalidReturnStatement
-     * @psalm-suppress InvalidReturnType
      */
     public function handleCallback(): RedirectResponse
     {

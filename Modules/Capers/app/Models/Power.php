@@ -138,7 +138,6 @@ class Power implements Stringable
         return $this->name;
     }
 
-    /** @psalm-suppress PossiblyUnusedMethod */
     public static function all(): PowerArray
     {
         $filename = config('capers.data_path') . 'powers.php';

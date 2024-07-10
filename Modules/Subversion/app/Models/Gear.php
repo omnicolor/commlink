@@ -32,7 +32,6 @@ class Gear
      * @param ?array<string, int|string> $rawItem
      * @phpstan-ignore-next-line
      * @psalm-suppress PossiblyUnusedParam
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public function __construct(public string $id, ?array $rawItem = null)
     {
@@ -61,7 +60,6 @@ class Gear
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, Gear>
      */
     public static function all(): array

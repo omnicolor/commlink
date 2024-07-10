@@ -23,9 +23,6 @@ class Language
      */
     public static ?array $languages;
 
-    /**
-     * @psalm-suppress PossiblyUnusedProperty
-     */
     public function __construct(public string $id)
     {
         $filename = config('subversion.data_path') . 'languages.php';
@@ -49,7 +46,6 @@ class Language
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, Language>
      */
     public static function all(): array

@@ -15,7 +15,6 @@ class AppLayout extends Component
     /**
      * Get the view / contents that represents the component.
      * @codeCoverageIgnore
-     * @psalm-suppress InvalidReturnStatement
      */
     public function render(): View
     {

@@ -44,7 +44,6 @@ class Background implements Stringable
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, Background>
      */
     public static function all(): array

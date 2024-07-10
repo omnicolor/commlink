@@ -46,7 +46,6 @@ class Origin
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, Origin>
      */
     public static function all(): array

@@ -31,9 +31,6 @@ class RelationArchetype implements Stringable
      */
     public static ?array $archetypes;
 
-    /**
-     * @psalm-suppress PossiblyUnusedProperty
-     */
     public function __construct(
         public string $id,
         public ?string $additional = null,

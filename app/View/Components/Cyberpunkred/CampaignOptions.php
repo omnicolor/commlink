@@ -12,9 +12,6 @@ use Illuminate\View\Component;
  */
 class CampaignOptions extends Component
 {
-    /**
-     * @psalm-suppress InvalidReturnStatement
-     */
     public function render(): View
     {
         return view('components.cyberpunkred.campaign-options');

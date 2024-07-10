@@ -45,7 +45,6 @@ class Ideology
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, Ideology>
      */
     public static function all(): array

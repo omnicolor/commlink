@@ -32,11 +32,6 @@ class Augmentations extends Component
         $this->augmentations = $character->getAugmentations();
     }
 
-    /**
-     * Get the view that represents the component.
-     * @psalm-suppress InvalidReturnStatement
-     * @psalm-suppress InvalidReturnType
-     */
     public function render(): View
     {
         return view('shadowrun5e::components.augmentations');

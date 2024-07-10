@@ -45,7 +45,6 @@ class Caste
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, Caste>
      */
     public static function all(): array
