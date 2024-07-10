@@ -218,7 +218,6 @@ class Character extends BaseCharacter implements Stringable
 
     protected static function newFactory(): Factory
     {
-        // @phpstan-ignore-next-line
         return CharacterFactory::new();
     }
 }

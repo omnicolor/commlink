@@ -26,6 +26,12 @@
                 <directory name="app/View/Components" />
             </errorLevel>
         </InvalidReturnType>
+        <MissingTemplateParam>
+            <errorLevel type="suppress">
+                <directory name="app/Models" />
+                <directory name="Modules/**/app/Models" />
+            </errorLevel>
+        </MissingTemplateParam>
         <TooManyTemplateParams>
             <errorLevel type="suppress">
                 <directory name="app/Http/Responses/Discord" />
