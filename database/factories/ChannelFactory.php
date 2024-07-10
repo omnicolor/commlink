@@ -18,7 +18,7 @@ use function array_keys;
 class ChannelFactory extends Factory
 {
     /**
-     * @var class-string
+     * @var mixed
      */
     protected $model = Channel::class;
 

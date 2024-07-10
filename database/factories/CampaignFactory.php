@@ -14,7 +14,7 @@ use App\Models\Campaign;
 class CampaignFactory extends Factory
 {
     /**
-     * @var class-string
+     * @var mixed
      */
     protected $model = Campaign::class;
 

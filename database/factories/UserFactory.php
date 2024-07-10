@@ -16,7 +16,7 @@ use Ramsey\Uuid\Uuid;
 class UserFactory extends Factory
 {
     /**
-     * @var class-string
+     * @var mixed
      */
     protected $model = User::class;
 

@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 class ChatUserFactory extends Factory
 {
     /**
-     * @var class-string
+     * @var mixed
      */
     protected $model = ChatUser::class;
 

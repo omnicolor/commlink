@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class ChatCharacterFactory extends Factory
 {
     /**
-     * @var class-string
+     * @var mixed
      */
     protected $model = ChatCharacter::class;
 
