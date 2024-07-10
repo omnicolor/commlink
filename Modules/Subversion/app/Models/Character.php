@@ -375,7 +375,6 @@ class Character extends BaseCharacter
 
     protected static function newFactory(): Factory
     {
-        // @phpstan-ignore-next-line
         return CharacterFactory::new();
     }
 
