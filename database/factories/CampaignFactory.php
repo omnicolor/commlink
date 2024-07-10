@@ -14,8 +14,7 @@ use App\Models\Campaign;
 class CampaignFactory extends Factory
 {
     /**
-     * The name of the factory's corresponding model.
-     * @var string
+     * @var class-string
      */
     protected $model = Campaign::class;
 
