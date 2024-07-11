@@ -105,7 +105,6 @@ abstract class Deck implements Countable
     /**
      * Find a deck in the database.
      * @psalm-suppress PossiblyUnusedMethod
-     * @psalm-suppress UndefinedPropertyFetch
      * @throws RuntimeException
      */
     public static function find(int $id): Deck
