@@ -12,6 +12,9 @@ use function config;
 use function sprintf;
 use function strtolower;
 
+/**
+ * @psalm-suppress PossiblyUnusedProperty
+ */
 class Skill implements Stringable
 {
     public string $attribute;
@@ -27,7 +30,7 @@ class Skill implements Stringable
      */
     public static ?array $skills = null;
 
-    public function __construct(public string $id)
+    public function __construct(public string $id, public int $rank = 0)
     {
         $filename = config('alien.data_path') . 'skills.php';
         /** @psalm-suppress UnresolvableInclude */
