@@ -19,10 +19,10 @@ return [
         'page' => 74,
         'ruleset' => 'core',
     ],
-    'bodybuard' => [
+    'bodyguard' => [
         'career' => null,
         'description' => 'If someone within SHORT range of you is hit by an attack, you can dive in to take the hit. Roll for MOBILITY. It doesn’t count as an action in combat. If you roll one or more success you take the hit instead. You can push the roll.',
-        'name' => 'Bodybuard',
+        'name' => 'Bodyguard',
         'page' => 78,
         'ruleset' => 'core',
     ],
