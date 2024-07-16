@@ -3,14 +3,17 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
+use Modules\Alien\Http\Controllers\CharactersController;
 use Modules\Alien\Http\Resources\ArmorResource;
 use Modules\Alien\Http\Resources\CareerResource;
+use Modules\Alien\Http\Resources\GearResource;
 use Modules\Alien\Http\Resources\InjuryResource;
 use Modules\Alien\Http\Resources\SkillResource;
 use Modules\Alien\Http\Resources\TalentResource;
 use Modules\Alien\Http\Resources\WeaponResource;
 use Modules\Alien\Models\Armor;
 use Modules\Alien\Models\Career;
+use Modules\Alien\Models\Gear;
 use Modules\Alien\Models\Injury;
 use Modules\Alien\Models\Skill;
 use Modules\Alien\Models\Talent;
@@ -35,6 +38,17 @@ Route::middleware('auth:sanctum')
         Route::get('careers/{career}', function (string $career) {
             return new CareerResource(new Career($career));
         })->name('careers.show');
+
+        Route::resource('characters', CharactersController::class)
+            ->only(['index', 'show']);
+
+        Route::get('gear', function () {
+            return GearResource::collection(Gear::all())
+                ->additional(['self' => route('alien.gear.index')]);
+        })->name('gear.index');
+        Route::get('gear/{gear}', function (string $gear) {
+            return new GearResource(new Gear($gear));
+        })->name('gear.show');
 
         Route::get('injuries', function () {
             return InjuryResource::collection(Injury::all())

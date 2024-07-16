@@ -29,6 +29,6 @@ final class ArmorTest extends TestCase
 
     public function testAll(): void
     {
-        self::assertCount(2, Armor::all());
+        self::assertCount(3, Armor::all());
     }
 }

@@ -29,6 +29,6 @@ final class WeaponTest extends TestCase
 
     public function testAll(): void
     {
-        self::assertCount(2, Weapon::all());
+        self::assertCount(6, Weapon::all());
     }
 }

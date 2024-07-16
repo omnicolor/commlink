@@ -18,6 +18,8 @@ class Career implements Stringable
     public string $keyAttribute;
     /** @var array<int, Skill> */
     public array $keySkills = [];
+    /** @var array<int, array<string, int|string>> */
+    public array $gear = [];
     public string $name;
     public int $page;
     public string $ruleset;
@@ -49,6 +51,7 @@ class Career implements Stringable
         foreach ($career['key-skills'] as $skill) {
             $this->keySkills[] = new Skill($skill);
         }
+        $this->gear = $career['gear'];
         $this->name = $career['name'];
         $this->page = $career['page'];
         $this->ruleset = $career['ruleset'];

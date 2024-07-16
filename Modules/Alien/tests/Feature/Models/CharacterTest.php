@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Modules\Alien\Tests\Feature\Models;
 
 use Modules\Alien\Models\Armor;
+use Modules\Alien\Models\Career;
 use Modules\Alien\Models\Character;
+use Modules\Alien\Models\Gear;
 use Modules\Alien\Models\Injury;
 use Modules\Alien\Models\Skill;
 use Modules\Alien\Models\Talent;
@@ -246,5 +248,55 @@ final class CharacterTest extends TestCase
         self::assertSame(3, $character->skills['close-combat']->rank);
         // A sprined ankle has a big effect on mobility though.
         self::assertSame(1, $character->skills['mobility']->rank);
+    }
+
+    public function testCareerEmpty(): void
+    {
+        $character = new Character();
+        self::assertNull($character->career);
+    }
+
+    public function testCareerConstructor(): void
+    {
+        $character = new Character(['career' => 'colonial-marine']);
+        self::assertSame('Colonial marine', $character->career->name);
+    }
+
+    public function testSetCareer(): void
+    {
+        $character = new Character();
+        $career = new Career('colonial-marshal');
+        $character->career = $career;
+        self::assertSame('Colonial marshal', $character->career->name);
+    }
+
+    public function testGearEmpty(): void
+    {
+        $character = new Character();
+        self::assertCount(0, $character->gear);
+    }
+
+    public function testGearConstructor(): void
+    {
+        $character = new Character([
+            'gear' => [
+                ['id' => 'm314-motion-tracker'],
+                ['id' => 'optical-scope', 'quantity' => 2],
+            ],
+        ]);
+        self::assertCount(2, $character->gear);
+        self::assertSame(1, $character->gear[0]->quantity);
+        self::assertSame(2, $character->gear[1]->quantity);
+    }
+
+    public function testSetGear(): void
+    {
+        $gear = [
+            new Gear('m314-motion-tracker'),
+            new Gear('optical-scope', 2),
+        ];
+        $character = new Character();
+        $character->gear = $gear;
+        self::assertCount(2, $character->gear);
     }
 }

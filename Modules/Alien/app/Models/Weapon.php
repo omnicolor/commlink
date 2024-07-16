@@ -27,6 +27,7 @@ class Weapon implements Stringable
     public const string MODIFIER_GRENADE_LAUNCHER = 'grenade-launcher';
     public const string MODIFIER_POWER_SUPPLY_5 = 'power-supply-5';
     public const string MODIFIER_SINGLE_SHOT = 'single-shot';
+    public const string MODIFIER_STUN_EFFECT = 'stun-effect';
     public const string MODIFIER_STUN_EFFECT_2 = 'stun-effect-2';
 
     public int $bonus;

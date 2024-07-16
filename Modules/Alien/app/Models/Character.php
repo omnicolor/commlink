@@ -18,15 +18,21 @@ use Stringable;
  * @property ?string $appearance
  * @property ?Armor $armor
  * @property string $buddy
- * @property string $career
+ * @property-read Career $career
+ * @property-write Career|string $career
  * @property int $cash
  * @property int $empathy
  * @property-read int $encumbrance
  * @property-read int $encumbrance_maximum
  * @property int $experience
+ * @property-read array<int, Gear> $gear
+ * @property-write array<int, Gear|array<string, int|string>> $gear
+ * @property int $health
+ * @property int $health_current
  * @property-read int $health_maximum
  * @property-read array<int, Injury> $injuries
  * @property-write array<int, Injury|string> $injuries
+ * @property string $owner
  * @property string $name
  * @property int $radiation
  * @property string $rival
@@ -64,10 +70,12 @@ class Character extends BaseCharacter implements Stringable
         'cash',
         'empathy',
         'experience',
+        'gear',
         'health_current',
         'injuries',
         'items',
         'name',
+        'owner',
         'radiation',
         'rival',
         'skills',
@@ -97,13 +105,28 @@ class Character extends BaseCharacter implements Stringable
     public function agility(): Attribute
     {
         return Attribute::make(
-            get: function (int $agility): int {
+            get: function (?int $agility): ?int {
+                if (null === $agility) {
+                    return null;
+                }
                 foreach ($this->armor?->modifiers ?? [] as $modifier) {
                     if (Armor::MODIFIER_AGILITY_DECREASE === $modifier) {
                         $agility -= 1;
                     }
                 }
                 return $agility;
+            },
+        );
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function agilityUnmodified(): Attribute
+    {
+        return Attribute::make(
+            get: function (): ?int {
+                return $this->attributes['agility'] ?? null;
             },
         );
     }
@@ -121,7 +144,7 @@ class Character extends BaseCharacter implements Stringable
 
                 return new Armor($armor);
             },
-            set: function (Armor|string $armor): string {
+            set: function (Armor|null|string $armor): ?string {
                 if ($armor instanceof Armor) {
                     return $armor->id;
                 }
@@ -137,6 +160,28 @@ class Character extends BaseCharacter implements Stringable
             function (Builder $builder): void {
                 $builder->where('system', 'alien');
             }
+        );
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function career(): Attribute
+    {
+        return Attribute::make(
+            get: function (?string $career): ?Career {
+                if (null === $career) {
+                    return null;
+                }
+
+                return new Career($career);
+            },
+            set: function (Career|string $career): string {
+                if ($career instanceof Career) {
+                    return $career->id;
+                }
+                return $career;
+            },
         );
     }
 
@@ -169,6 +214,37 @@ class Character extends BaseCharacter implements Stringable
         return Attribute::make(
             get: function (): int {
                 return (int)$this->attributes['strength'] * 2;
+            },
+        );
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function gear(): Attribute
+    {
+        return Attribute::make(
+            get: function (?array $gear): array {
+                return array_map(
+                    function (array $item): Gear {
+                        return new Gear($item['id'], $item['quantity'] ?? null);
+                    },
+                    $gear ?? [],
+                );
+            },
+            set: function (array $gear): array {
+                if (current($gear) instanceof Gear) {
+                    return ['gear' => array_map(
+                        function (Gear $item): array {
+                            return [
+                                'id' => $item->id,
+                                'quantity' => $item->quantity,
+                            ];
+                        },
+                        $gear,
+                    )];
+                }
+                return ['gear' => $gear];
             },
         );
     }
