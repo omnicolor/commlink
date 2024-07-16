@@ -190,6 +190,15 @@ class CharactersController extends Controller
                         'user' => $user,
                     ]
                 );
+            case 'review':
+                return view(
+                    'alien::character',
+                    [
+                        'character' => $character,
+                        'creating' => 'review',
+                        'user' => $request->user(),
+                    ]
+                );
             case 'skills':
                 return view(
                     'alien::create-skills',
@@ -449,5 +458,16 @@ class CharactersController extends Controller
             Response::HTTP_NOT_FOUND
         );
         return new CharacterResource($character);
+    }
+
+    public function view(Request $request, Character $character): View
+    {
+        return view(
+            'alien::character',
+            [
+                'character' => $character,
+                'user' => $request->user(),
+            ]
+        );
     }
 }

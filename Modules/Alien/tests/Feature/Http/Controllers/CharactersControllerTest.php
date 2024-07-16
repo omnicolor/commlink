@@ -513,4 +513,16 @@ final class CharactersControllerTest extends TestCase
 
         $character->delete();
     }
+
+    public function testViewCharacter(): void
+    {
+        $user = User::factory()->create();
+        $character = Character::factory()->create(['owner' => $user->email]);
+
+        $this->actingAs($user)
+            ->get(route('alien.character', $character))
+            ->assertSee($user->email)
+            ->assertSee(e($character->name), false);
+        $character->delete();
+    }
 }

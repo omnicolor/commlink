@@ -44,3 +44,8 @@ Route::middleware('auth')
             [CharactersController::class, 'saveTalent'],
         )->name('save-talent');
     });
+
+Route::get(
+    '/characters/alien/{character}',
+    [CharactersController::class, 'view'],
+)->name('alien.character');
