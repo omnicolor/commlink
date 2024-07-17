@@ -469,6 +469,121 @@ final class CharactersControllerTest extends TestCase
         $character->delete();
     }
 
+    public function testReviewIncomplete(): void
+    {
+        $user = User::factory()->create();
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+        ]);
+        self::actingAs($user)
+            ->withSession([CharactersController::SESSION_KEY => $character->id])
+            ->get(route('alien.create', 'review'))
+            ->assertSee('You have not set your attributes')
+            ->assertDontSee('Character looks good!');
+        $character->delete();
+    }
+
+    public function testReviewComplete(): void
+    {
+        $user = User::factory()->create();
+        $character = PartialCharacter::factory()->create([
+            'agility' => 3,
+            'armor' => 'm3-personnel-armor',
+            'career' => 'colonial-marine',
+            'empathy' => 3,
+            'gear' => [
+                ['id' =>  'm314-motion-tracker'],
+            ],
+            'name' => 'Bob King',
+            'owner' => $user->email,
+            'skills' => [
+                'close-combat' => 3,
+                'command' => 1,
+                'comtech' => 0,
+                'heavy-machinery' => 0,
+                'manipulation' => 0,
+                'medical-aid' => 0,
+                'mobility' => 0,
+                'observation' => 0,
+                'piloting' => 0,
+                'ranged-combat' => 3,
+                'stamina' => 3,
+                'survival' => 0,
+            ],
+            'strength' => 5,
+            'talents' => [
+                'banter',
+            ],
+            'wits' => 3,
+        ]);
+        self::actingAs($user)
+            ->withSession([CharactersController::SESSION_KEY => $character->id])
+            ->get(route('alien.create', 'review'))
+            ->assertDontSee('You have not set your attributes')
+            ->assertSee('Character looks good!');
+        $character->delete();
+    }
+
+    public function testSaveCharacterIncomplete(): void
+    {
+        $user = User::factory()->create();
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+        ]);
+        self::actingAs($user)
+            ->withSession([CharactersController::SESSION_KEY => $character->id])
+            ->post(route('alien.save-character'))
+            ->assertRedirect(route('alien.create', 'review'));
+        $character->delete();
+    }
+
+    public function testSaveCharacter(): void
+    {
+        $user = User::factory()->create();
+        $partialCharacter = PartialCharacter::factory()->create([
+            'agility' => 3,
+            'armor' => 'm3-personnel-armor',
+            'career' => 'colonial-marine',
+            'empathy' => 3,
+            'gear' => [
+                ['id' =>  'm314-motion-tracker'],
+            ],
+            'name' => 'Save Test',
+            'owner' => $user->email,
+            'skills' => [
+                'close-combat' => 3,
+                'command' => 1,
+                'comtech' => 0,
+                'heavy-machinery' => 0,
+                'manipulation' => 0,
+                'medical-aid' => 0,
+                'mobility' => 0,
+                'observation' => 0,
+                'piloting' => 0,
+                'ranged-combat' => 3,
+                'stamina' => 3,
+                'survival' => 0,
+            ],
+            'strength' => 5,
+            'talents' => [
+                'banter',
+            ],
+            'wits' => 3,
+        ]);
+        $response = self::actingAs($user)
+            ->withSession([
+                CharactersController::SESSION_KEY => $partialCharacter->id,
+            ])
+            ->post(route('alien.save-character'));
+        self::assertModelMissing($partialCharacter);
+        $character = Character::where('name', 'Save Test')
+            ->where('owner', $user->email)
+            ->firstOrFail();
+        self::assertSame('Save Test', $character->name);
+        $response->assertRedirect(route('alien.character', $character->id));
+        $character->delete();
+    }
+
     public function testIndex(): void
     {
         $trusted = Role::create(['name' => 'trusted']);

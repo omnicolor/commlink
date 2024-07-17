@@ -143,6 +143,22 @@
     </x-slot>
     @includeWhen($creating ?? '' === 'review', 'alien::create-navigation')
 
+    @if (($creating ?? '' === 'review') && 0 !== count($validationErrors))
+        <div class="my-4 row">
+            <div class="col-1"></div>
+            <div class="col">
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($validationErrors as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+            <div class="col-1"></div>
+        </div>
+    @endif
+
     <table width="100%">
         <tr>
             <td width="15%"></td>
@@ -497,8 +513,12 @@
         </tr>
     </table>
 
-    <x-slot name="javascript">
-        <script>
-        </script>
-    </x-slot>
+    @if (($creating ?? '' === 'review') && 0 === count($validationErrors))
+        <form action="{{ route('alien.save-character') }}" method="POST">
+            @csrf
+            <button class="btn btn-primary" id="submit" type="submit">
+                Character looks good!
+            </button>
+        </form>
+    @endif
 </x-app>

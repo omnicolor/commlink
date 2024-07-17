@@ -35,6 +35,11 @@ Route::middleware('auth')
         )->name('save-gear');
 
         Route::post(
+            'create/save',
+            [CharactersController::class, 'saveCharacter'],
+        )->name('save-character');
+
+        Route::post(
             'create/skills',
             [CharactersController::class, 'saveSkills'],
         )->name('save-skills');

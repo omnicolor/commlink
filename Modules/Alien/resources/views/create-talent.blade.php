@@ -66,12 +66,4 @@
         </div>
         <div class="col-1"></div>
     </div>
-
-    <x-slot name="javascript">
-        <script>
-            (function () {
-                'use strict';
-            })();
-        </script>
-    </x-slot>
 </x-app>

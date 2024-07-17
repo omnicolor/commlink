@@ -256,7 +256,7 @@ class Character extends BaseCharacter implements Stringable
     {
         return Attribute::make(
             get: function (): int {
-                return (int)$this->attributes['strength'];
+                return (int)($this->attributes['strength'] ?? 0);
             },
         );
     }

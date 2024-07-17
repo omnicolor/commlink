@@ -197,6 +197,7 @@ class CharactersController extends Controller
                         'character' => $character,
                         'creating' => 'review',
                         'user' => $request->user(),
+                        'validationErrors' => $character->validate(),
                     ]
                 );
             case 'skills':
@@ -304,6 +305,26 @@ class CharactersController extends Controller
         $character->save();
 
         return new RedirectResponse(route('alien.create', 'skills'));
+    }
+
+    public function saveCharacter(Request $request): RedirectResponse
+    {
+        /** @var User */
+        $user = $request->user();
+        $characterId = $request->session()->get(self::SESSION_KEY);
+        $partialCharacter = PartialCharacter::where('_id', $characterId)
+            ->where('owner', $user->email)
+            ->firstOrFail();
+
+        if (0 !== count($partialCharacter->validate())) {
+            return new RedirectResponse(route('alien.create', 'review'));
+        }
+
+        $character = $partialCharacter->toCharacter();
+        $character->save();
+        $partialCharacter->delete();
+
+        return new RedirectResponse(route('alien.character', $character));
     }
 
     public function saveFinish(CreateFinishRequest $request): RedirectResponse
