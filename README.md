@@ -44,8 +44,8 @@ $ ./artisan migrate
 Much of data powering the API is proprietary and requires a licensing
 relationship with the various owners of the intellectual property, so it is not
 included with the project. Creating your own data files to return data from the
-API involves filling out the various PHP arrays in the `data` directory. We've
-included example data only for supported systems.
+API involves filling out the various PHP arrays in the `data` directory of the
+RPG's module. We've included example data only for supported systems.
 
 Commlink requires both MySQL (for general application data) and MongoDB (for
 characters).
