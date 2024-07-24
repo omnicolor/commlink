@@ -17,6 +17,7 @@ can roll dice in Slack and have the results appear in Discord, and vice versa.
 Commlink is very much a work in progress, and each of the systems has varying
 levels of completeness.
 
+* [Alien](https://freeleaguepublishing.com/games/alien/)
 * [Avatar Legends](https://magpiegames.com/pages/avatar-legends)
 * [Blister Critters](https://stillfleet.com/games/blister_critters/)
 * [Capers](https://www.nerdburgergames.com/capers)
@@ -43,8 +44,8 @@ $ ./artisan migrate
 Much of data powering the API is proprietary and requires a licensing
 relationship with the various owners of the intellectual property, so it is not
 included with the project. Creating your own data files to return data from the
-API involves filling out the various PHP arrays in the `data` directory. We've
-included example data only for supported systems.
+API involves filling out the various PHP arrays in the `data` directory of the
+RPG's module. We've included example data only for supported systems.
 
 Commlink requires both MySQL (for general application data) and MongoDB (for
 characters).

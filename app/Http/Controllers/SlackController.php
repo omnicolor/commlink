@@ -101,7 +101,7 @@ class SlackController extends Controller
                     RollEvent::dispatch($roll, $channel);
                 }
                 return $roll->forSlack();
-            } catch (Error) {
+            } catch (Error $ex) {
                 // Again, ignore errors, they might want a generic command.
             }
         }
@@ -206,8 +206,6 @@ class SlackController extends Controller
 
     /**
      * Handle a successful login from Slack.
-     * @psalm-suppress InvalidReturnStatement
-     * @psalm-suppress InvalidReturnType
      */
     public function handleCallback(): RedirectResponse
     {

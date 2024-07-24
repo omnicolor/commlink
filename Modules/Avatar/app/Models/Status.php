@@ -64,7 +64,6 @@ class Status implements Stringable
     /**
      * @psalm-suppress NoValue
      * @psalm-suppress PossiblyUnusedMethod
-     * @psalm-suppress UnusedForeachValue
      * @psalm-suppress UnresolvableInclude
      * @return array<int, Status>
      */

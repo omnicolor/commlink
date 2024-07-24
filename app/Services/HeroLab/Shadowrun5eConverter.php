@@ -1062,7 +1062,7 @@ class Shadowrun5eConverter implements ConverterInterface
         $vehicle = null;
 
         while ($line = current($stats)) {
-            $line = (string)$line;
+            $line = $line;
             if (str_starts_with($line, 'CHASSIS: ')) {
                 $id = explode(': ', $line)[1];
                 if (isset($this->mapVehicles[$id])) {

@@ -59,7 +59,6 @@ class Character extends Model implements Stringable
      *
      * Note: This is effectively a BelongsTo relationship, but that doesn't seem
      * to work between MySQL and MongoDB.
-     * @psalm-suppress InvalidReturnStatement
      */
     public function campaign(): ?Campaign
     {
@@ -72,7 +71,6 @@ class Character extends Model implements Stringable
 
     /**
      * Return the user that owns the character.
-     * @psalm-suppress PossiblyUnusedMethod
      * @throws ModelNotFoundException
      */
     public function user(): User

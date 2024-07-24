@@ -20,9 +20,6 @@ class ContactArrayRule implements DataAwareRule, ValidationRule
      */
     protected $data = [];
 
-    /**
-     * @psalm-suppress UnusedProperty
-     */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $data = $this->data;

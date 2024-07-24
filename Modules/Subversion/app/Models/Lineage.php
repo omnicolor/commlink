@@ -63,7 +63,6 @@ class Lineage
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, Lineage>
      */
     public static function all(): array

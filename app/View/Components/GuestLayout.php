@@ -12,9 +12,6 @@ use Illuminate\View\Component;
  */
 class GuestLayout extends Component
 {
-    /**
-     * @psalm-suppress InvalidReturnStatement
-     */
     public function render(): View
     {
         return view('layouts.guest');

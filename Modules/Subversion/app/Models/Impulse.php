@@ -71,7 +71,6 @@ class Impulse
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, Impulse>
      */
     public static function all(): array

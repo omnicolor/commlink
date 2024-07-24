@@ -187,6 +187,7 @@ return [
      * short name = full name
      */
     'systems' => [
+        'alien' => 'Alien',
         'avatar' => 'Avatar',
         'blistercritters' => 'Blister Critters',
         'capers' => 'Capers',

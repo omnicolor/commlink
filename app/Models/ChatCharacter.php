@@ -42,7 +42,6 @@ class ChatCharacter extends Model
 
     /**
      * Return the character.
-     * @psalm-suppress InvalidReturnStatement
      * @psalm-suppress InvalidStaticInvocation
      * @psalm-suppress PossiblyUnusedMethod
      */

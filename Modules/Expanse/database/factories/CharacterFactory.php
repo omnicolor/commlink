@@ -23,7 +23,6 @@ class CharacterFactory extends Factory
 
     /**
      * The name of the factory's corresponding model.
-     * @psalm-suppress NonInvariantDocblockPropertyType
      * @var class-string<Character>
      */
     protected $model = Character::class;

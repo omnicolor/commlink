@@ -16,9 +16,10 @@ use Ramsey\Uuid\Uuid;
 class UserFactory extends Factory
 {
     /**
-     * Define the model's default state.
-     * @return array<string, string>
+     * @var mixed
      */
+    protected $model = User::class;
+
     public function definition(): array
     {
         return [

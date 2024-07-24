@@ -39,6 +39,10 @@ use Nwidart\Modules\Facades\Module;
 
             <ul aria-labelledby="create-character" class="dropdown-menu">
                 <li>
+                    <a class="dropdown-item" href="{{ route('alien.create') }}">
+                        Alien
+                        <span class="badge bg-success">New!</span>
+                    </a>
                     <a class="dropdown-item" href="/characters/capers/create">
                         Capers
                         <span class="badge bg-success">New!</span>

@@ -145,7 +145,6 @@ class Campaign extends Model
 
     /**
      * Get a collection of users playing in the game (or at least invited).
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function users(): BelongsToMany
     {

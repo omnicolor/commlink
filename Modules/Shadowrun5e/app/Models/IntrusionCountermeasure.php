@@ -36,7 +36,6 @@ class IntrusionCountermeasure implements Stringable
     public static ?array $ice = null;
 
     /**
-     * @psalm-suppress UnusedVariable
      * @throws RuntimeException
      */
     public function __construct(
