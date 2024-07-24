@@ -35,6 +35,7 @@ rules:
   path-segment-plural:
     severity: error
     exceptions:
+      - alien
       - armor
       - avatar
       - cyberpunkred

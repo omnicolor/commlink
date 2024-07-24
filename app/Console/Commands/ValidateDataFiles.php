@@ -23,6 +23,7 @@ class ValidateDataFiles extends Command
      * files.
      */
     protected const SYSTEM_MAP = [
+        'alien' => 'Modules/Alien/data/',
         'avatar' => 'Modules/Avatar/data/',
         'blistercritters' => 'Modules/Blistercritters/data/',
         'capers' => 'Modules/Capers/data/',
@@ -67,7 +68,7 @@ class ValidateDataFiles extends Command
             $this->line('  * ' . $system);
         }
 
-        $this->paths = config('app.data_path');
+        $this->paths = [];
         foreach (Module::all() as $system) {
             $this->paths[(string)$system->getLowerName()] =
                 (string)config($system->getLowerName() . '.data_path');

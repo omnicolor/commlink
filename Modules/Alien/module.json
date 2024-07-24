@@ -1,0 +1,11 @@
+{
+    "name": "Alien",
+    "alias": "alien",
+    "description": "Alien RPG module for Commlink.",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Alien\\Providers\\AlienServiceProvider"
+    ],
+    "files": []
+}

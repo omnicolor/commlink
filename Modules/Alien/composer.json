@@ -1,0 +1,28 @@
+{
+    "name": "omnicolor/alien-module",
+    "description": "Alien RPG module for Commlink.",
+    "authors": [
+        {
+            "name": "Omni Adams",
+            "email": "omni@digitaldarkness.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Alien\\": "app/",
+            "Modules\\Alien\\Database\\Factories\\": "database/factories/",
+            "Modules\\Alien\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Alien\\Tests\\": "tests/"
+        }
+    }
+}
