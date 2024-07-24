@@ -48,6 +48,26 @@ class Help extends Roll
                 . 'is for "text"' . PHP_EOL,
             'color' => TextAttachment::COLOR_INFO,
         ];
+        if ($this->isGm()) {
+            // TODO
+        } elseif (null !== $this->character) {
+            $this->data[] = [
+                'title' => 'Player',
+                'text' => 'You\'re playing ' . (string)$this->character
+                    . ' in this channel' . PHP_EOL
+                    . '· `skill [id]` - Make a skill roll for a skill with any '
+                    . 'required stress dice' . PHP_EOL,
+                'color' => TextAttachment::COLOR_INFO,
+            ];
+        } else {
+            $this->data[] = [
+                'title' => 'Player',
+                'text' => 'No character linked' . PHP_EOL
+                    . '· `link <characterId>` - Link a character to this '
+                    . 'channel' . PHP_EOL,
+                'color' => TextAttachment::COLOR_INFO,
+            ];
+        }
     }
 
     public function forSlack(): SlackResponse
@@ -68,7 +88,7 @@ class Help extends Roll
         $value = '';
         foreach ($this->data as $element) {
             $value .= sprintf('**%s**', $element['title']) . PHP_EOL
-            . $element['text'] . PHP_EOL;
+                . $element['text'] . PHP_EOL;
         }
         return $value;
     }
@@ -77,8 +97,7 @@ class Help extends Roll
     {
         $value = '';
         foreach ($this->data as $element) {
-            $value .= $element['title'] . PHP_EOL
-            . $element['text'] . PHP_EOL;
+            $value .= $element['title'] . PHP_EOL . $element['text'] . PHP_EOL;
         }
         return $value;
     }

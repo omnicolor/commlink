@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Modules\Alien\Tests\Feature\Rolls;
 
 use App\Models\Channel;
+use App\Models\ChatCharacter;
+use App\Models\ChatUser;
+use Modules\Alien\Models\Character;
 use Modules\Alien\Rolls\Help;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
@@ -12,6 +15,7 @@ use Tests\TestCase;
 
 use function config;
 use function json_decode;
+use function sprintf;
 
 #[Group('alien')]
 #[Medium]
@@ -37,20 +41,31 @@ final class HelpTest extends TestCase
     }
 
     #[Group('discord')]
-    public function testHelpDiscord(): void
+    public function testHelpWithCharacter(): void
     {
-        $channel = new Channel([
-            'system' => 'alien',
+        /** @var Channel */
+        $channel = Channel::factory()->create([
             'type' => Channel::TYPE_DISCORD,
+            'system' => 'alien',
+        ]);
+        /** @var ChatUser */
+        $chatUser = ChatUser::factory()->create([
+            'remote_user_id' => $channel->user,
+            'server_id' => $channel->server_id,
+            'server_type' => ChatUser::TYPE_DISCORD,
+            'verified' => true,
+        ]);
+        /** @var Character */
+        $character = Character::factory()->create();
+        ChatCharacter::factory()->create([
+            'channel_id' => $channel->id,
+            'character_id' => $character->id,
+            'chat_user_id' => $chatUser->id,
         ]);
         $response = (new Help('', 'username', $channel))->forDiscord();
-        self::assertStringStartsWith(
-            '**' . config('app.name') . ' - Alien RPG**',
-            $response,
-        );
         self::assertStringContainsString(
-            '`injury` - Roll 2 dice',
-            $response
+            sprintf('You\'re playing %s in this channel', (string)$character),
+            $response,
         );
     }
 

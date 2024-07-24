@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Alien\Rolls;
 
-use App\Events\MessageReceived;
 use App\Exceptions\SlackException;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
@@ -37,11 +36,13 @@ class Number extends Roll
     protected int $stress = 0;
     protected int $panics = 0;
 
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function __construct(
         string $content,
         string $username,
         Channel $channel,
-        public ?MessageReceived $event = null,
     ) {
         parent::__construct($content, $username, $channel);
 
