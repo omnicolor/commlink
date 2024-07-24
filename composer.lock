@@ -1018,16 +1018,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.9.1",
+            "version": "7.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "a629e5b69db96eb4939c1b34114130077dd4c6fc"
+                "reference": "d281ed313b989f213357e3be1a179f02196ac99b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/a629e5b69db96eb4939c1b34114130077dd4c6fc",
-                "reference": "a629e5b69db96eb4939c1b34114130077dd4c6fc",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/d281ed313b989f213357e3be1a179f02196ac99b",
+                "reference": "d281ed313b989f213357e3be1a179f02196ac99b",
                 "shasum": ""
             },
             "require": {
@@ -1124,7 +1124,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.9.1"
+                "source": "https://github.com/guzzle/guzzle/tree/7.9.2"
             },
             "funding": [
                 {
@@ -1140,7 +1140,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-07-19T16:19:57+00:00"
+            "time": "2024-07-24T11:22:20+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -1714,16 +1714,16 @@
         },
         {
             "name": "laravel/pennant",
-            "version": "v1.9.0",
+            "version": "v1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pennant.git",
-                "reference": "e031b6fb057f63c9f2f9202abe0aa408bccd82e7"
+                "reference": "8e0e3465969b9e64c311106cd24e901f09afbfd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pennant/zipball/e031b6fb057f63c9f2f9202abe0aa408bccd82e7",
-                "reference": "e031b6fb057f63c9f2f9202abe0aa408bccd82e7",
+                "url": "https://api.github.com/repos/laravel/pennant/zipball/8e0e3465969b9e64c311106cd24e901f09afbfd1",
+                "reference": "8e0e3465969b9e64c311106cd24e901f09afbfd1",
                 "shasum": ""
             },
             "require": {
@@ -1787,7 +1787,7 @@
                 "issues": "https://github.com/laravel/pennant/issues",
                 "source": "https://github.com/laravel/pennant"
             },
-            "time": "2024-07-08T15:43:55+00:00"
+            "time": "2024-07-18T15:47:35+00:00"
         },
         {
             "name": "laravel/pint",
@@ -2111,16 +2111,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "2.5.0",
+            "version": "2.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "0026475f5c9a104410ae824cb5a4d63fa3bdb1df"
+                "reference": "ac815920de0eff6de947eac0a6a94e5ed0fb147c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/0026475f5c9a104410ae824cb5a4d63fa3bdb1df",
-                "reference": "0026475f5c9a104410ae824cb5a4d63fa3bdb1df",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/ac815920de0eff6de947eac0a6a94e5ed0fb147c",
+                "reference": "ac815920de0eff6de947eac0a6a94e5ed0fb147c",
                 "shasum": ""
             },
             "require": {
@@ -2213,7 +2213,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-07-22T18:18:14+00:00"
+            "time": "2024-07-24T12:52:09+00:00"
         },
         {
             "name": "league/config",
