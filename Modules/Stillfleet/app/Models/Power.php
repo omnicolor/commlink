@@ -67,7 +67,6 @@ class Power
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, Power>
      */
     public static function all(): array

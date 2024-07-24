@@ -36,7 +36,6 @@ class Campaign extends BaseCampaign
 
     protected static function newFactory(): Factory
     {
-        // @phpstan-ignore-next-line
         return CampaignFactory::new();
     }
 }

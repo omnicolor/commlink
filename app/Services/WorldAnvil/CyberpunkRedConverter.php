@@ -60,11 +60,11 @@ class CyberpunkRedConverter implements ConverterInterface
                 'Character is not a Cyberpunk Red character'
             );
         }
+        $this->character = new PartialCharacter();
     }
 
     public function convert(): PartialCharacter
     {
-        $this->character = new PartialCharacter();
         $this->character->handle = $this->rawCharacter->handle;
         $this->character->name = $this->rawCharacter->name;
         if ('' === $this->character->handle) {

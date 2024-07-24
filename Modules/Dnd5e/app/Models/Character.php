@@ -123,7 +123,6 @@ class Character extends BaseCharacter implements Stringable
     protected static function newFactory(): Factory
     {
         // @psalm-suppress UndefinedClass
-        // @phpstan-ignore-next-line
         return CharacterFactory::new();
     }
 }

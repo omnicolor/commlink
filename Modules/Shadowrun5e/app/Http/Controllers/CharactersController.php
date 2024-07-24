@@ -204,7 +204,6 @@ class CharactersController extends Controller
      * is explicitly chosen.
      * @psalm-suppress InvalidArgument
      * @psalm-suppress NoValue
-     * @psalm-suppress PossiblyUnusedReturnValue
      */
     public function create(
         Request $request,
@@ -936,7 +935,6 @@ class CharactersController extends Controller
 
     /**
      * User wants to shelve the current partial character to finish later.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function saveForLater(Request $request): RedirectResponse
     {
@@ -1264,9 +1262,6 @@ class CharactersController extends Controller
         return $this->redirect($request->input('nav'), 'skills', $character);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function storeSocial(SocialRequest $request): RedirectResponse
     {
         /** @var User */
@@ -1440,7 +1435,6 @@ class CharactersController extends Controller
 
     /**
      * View all of the logged in user's characters.
-     * @psalm-suppress PossiblyUnusedReturnValue
      */
     public function list(Request $request): View
     {

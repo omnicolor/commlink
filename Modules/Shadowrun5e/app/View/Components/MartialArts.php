@@ -35,11 +35,6 @@ class MartialArts extends Component
         $this->techniques = $character->getMartialArtsTechniques();
     }
 
-    /**
-     * Get the view that represents the component.
-     * @psalm-suppress InvalidReturnStatement
-     * @psalm-suppress InvalidReturnType
-     */
     public function render(): View
     {
         return view('shadowrun5e::components.martial-arts');

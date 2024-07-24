@@ -107,7 +107,7 @@
             "@lint-openapi"
         ],
         "coverage": [
-            "XDEBUG_MODE=coverage ./artisan test --parallel --coverage-html=public/coverage --coverage-xml=public/coverage/coverage-xml --log-junit=public/coverage/junit.xml"
+            "XDEBUG_MODE=coverage ./artisan test --parallel --coverage-html=public/coverage"
         ],
         "infection": "infection --coverage=public/coverage",
         "lint": "parallel-lint --colors app config database routes tests Modules",

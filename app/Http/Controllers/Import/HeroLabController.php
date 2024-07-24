@@ -23,10 +23,6 @@ use function view;
  */
 class HeroLabController extends Controller
 {
-    /**
-     * @psalm-suppress InvalidReturnStatement
-     * @psalm-suppress InvalidReturnType
-     */
     public function upload(Request $request): RedirectResponse
     {
         /** @var User */

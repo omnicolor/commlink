@@ -41,11 +41,6 @@ class Skills extends Component
         $this->skills = $character->getSkills();
     }
 
-    /**
-     * Get the view that represents the component.
-     * @psalm-suppress InvalidReturnStatement
-     * @psalm-suppress InvalidReturnType
-     */
     public function render(): View
     {
         return view('shadowrun5e::components.skills');

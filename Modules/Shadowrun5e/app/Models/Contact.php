@@ -69,7 +69,6 @@ class Contact implements Stringable
 
     /**
      * Return a collection of sample archetypes.
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, string>
      */
     public static function archetypes(): array

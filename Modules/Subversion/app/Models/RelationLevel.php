@@ -33,9 +33,6 @@ class RelationLevel implements Stringable
      */
     public static ?array $levels;
 
-    /**
-     * @psalm-suppress PossiblyUnusedProperty
-     */
     public function __construct(public string $id)
     {
         $filename = config('subversion.data_path') . 'relation-levels.php';
