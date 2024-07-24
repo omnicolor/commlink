@@ -26,6 +26,7 @@
                 <directory name="app/View/Components" />
             </errorLevel>
         </InvalidReturnType>
+        <InvalidTemplateParam  errorLevel="suppress" />
         <MissingTemplateParam>
             <errorLevel type="suppress">
                 <directory name="app/Models" />
