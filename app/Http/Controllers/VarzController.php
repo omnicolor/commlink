@@ -28,6 +28,7 @@ class VarzController extends Controller
      * files.
      */
     protected const SYSTEM_MAP = [
+        'alien' => 'Modules/Alien/data/',
         'avatar' => 'Modules/Avatar/data/',
         'blistercritters' => 'Modules/Blistercritters/data/',
         'capers' => 'Modules/Capers/data/',
