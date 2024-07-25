@@ -807,7 +807,7 @@ class CharactersController extends Controller
                 $books = collect(Rulebook::all())->values();
                 // @phpstan-ignore-next-line
                 $books = $books->mapToGroups(function (Rulebook $book, string $key): array {
-                    if (0 === $key % 2) {
+                    if (0 === (int)$key % 2) {
                         return ['even' => $book];
                     }
                     return ['odd' => $book];
