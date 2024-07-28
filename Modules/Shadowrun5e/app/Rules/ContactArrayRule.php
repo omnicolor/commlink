@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Rules\Shadowrun5e;
+namespace Modules\Shadowrun5e\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\DataAwareRule;

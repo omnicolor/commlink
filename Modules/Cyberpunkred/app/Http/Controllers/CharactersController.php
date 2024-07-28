@@ -94,7 +94,7 @@ class CharactersController extends Controller
             $character = PartialCharacter::create(['owner' => $user->email]);
             $request->session()->put('cyberpunkred-partial', $character->id);
             return view(
-                'Cyberpunkred.create-handle',
+                'cyberpunkred::create-handle',
                 [
                     'character' => $character,
                     'creating' => 'handle',
@@ -107,7 +107,7 @@ class CharactersController extends Controller
                 ->where('system', 'cyberpunkred')
                 ->get();
             return view(
-                'Cyberpunkred.choose-character',
+                'cyberpunkred::choose-character',
                 ['characters' => $characters],
             );
         }
@@ -123,7 +123,7 @@ class CharactersController extends Controller
 
             if (0 !== count($characters)) {
                 return view(
-                    'Cyberpunkred.choose-character',
+                    'cyberpunkred::choose-character',
                     [
                         'characters' => $characters,
                         'user' => $user,
@@ -146,7 +146,7 @@ class CharactersController extends Controller
         switch ($step) {
             case 'handle':
                 return view(
-                    'Cyberpunkred.create-handle',
+                    'cyberpunkred::create-handle',
                     [
                         'creating' => 'handle',
                         'character' => $character,
@@ -155,7 +155,7 @@ class CharactersController extends Controller
             case 'lifepath':
                 $character->initializeLifepath();
                 return view(
-                    'Cyberpunkred.create-lifepath',
+                    'cyberpunkred::create-lifepath',
                     [
                         'affectation' => $character->lifepath['affectation']['chosen'],
                         'background' => $character->lifepath['background']['chosen'],
@@ -174,7 +174,7 @@ class CharactersController extends Controller
                 );
             case 'review':
                 return view(
-                    'Cyberpunkred.character',
+                    'cyberpunkred::character',
                     [
                         'character' => $character,
                         'creating' => 'review',
@@ -189,7 +189,7 @@ class CharactersController extends Controller
                     $role = $character->roles[0]['role'];
                 }
                 return view(
-                    'Cyberpunkred.create-role',
+                    'cyberpunkred::create-role',
                     [
                         'character' => $character,
                         'chosenRole' => $role,
@@ -211,7 +211,7 @@ class CharactersController extends Controller
                 $role = $character->roles[0]['role'];
                 return view(
                     sprintf(
-                        'Cyberpunkred.create-lifepath-%s',
+                        'cyberpunkred::create-lifepath-%s',
                         strtolower((string)$role),
                     ),
                     [
@@ -221,7 +221,7 @@ class CharactersController extends Controller
                 );
             case 'stats':
                 return view(
-                    'Cyberpunkred.create-stats',
+                    'cyberpunkred::create-stats',
                     [
                         'character' => $character,
                         'creating' => 'stats',
@@ -371,7 +371,7 @@ class CharactersController extends Controller
     {
         $user = Auth::user();
         return view(
-            'Cyberpunkred.character',
+            'cyberpunkred::character',
             [
                 'character' => $character,
                 'creating' => false,

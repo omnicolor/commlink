@@ -83,11 +83,11 @@
         </div>
 
         <div class="campaign-system" id="avatar-options" style="display:none;">
-            <x-avatar.campaign-options />
+            <x-avatar::campaign-options />
         </div>
 
         <div class="campaign-system" id="cyberpunkred-options" style="display:none;">
-            <x-cyberpunkred.campaign-options />
+            <x-cyberpunkred::campaign-options />
         </div>
 
         <div class="campaign-system" id="shadowrun5e-options" style="display:none;">
@@ -95,7 +95,7 @@
         </div>
 
         <div class="campaign-system" id="subversion-options" style="display:none;">
-            <x-subversion.campaign-options />
+            <x-subversion::campaign-options />
         </div>
 
         <div class="mt-3 mb-4">

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\AlienTests\Feature\Rolls;
+namespace Modules\Alien\Tests\Feature\Rolls;
 
 use App\Exceptions\SlackException;
 use App\Models\Channel;
