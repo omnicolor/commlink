@@ -1,6 +1,6 @@
 <x-app>
     <x-slot name="title">Create character</x-slot>
-    @include('Cyberpunkred.create-navigation')
+    @include('cyberpunkred::create-navigation')
 
     <div class="row">
         <div class="col">

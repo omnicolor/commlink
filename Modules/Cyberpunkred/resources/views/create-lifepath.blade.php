@@ -3,7 +3,7 @@ use Modules\Cyberpunkred\Models\Lifepath;
 @endphp
 <x-app>
     <x-slot name="title">Choose lifepath</x-slot>
-    @include('Cyberpunkred.create-navigation')
+    @include('cyberpunkred::create-navigation')
 
     <h1>Lifepath</h1>
 
