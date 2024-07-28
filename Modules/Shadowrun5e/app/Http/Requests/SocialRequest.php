@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Http\Requests;
 
-use App\Rules\Shadowrun5e\ContactArrayRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\Shadowrun5e\Rules\ContactArrayRule;
 
 class SocialRequest extends FormRequest
 {

@@ -37,6 +37,7 @@ class CampaignCreateRequest extends FormRequest
                 'required_if:system,avatar',
             ],
             'avatar-focus' => [
+                'required_if:system,avatar',
                 Rule::in(['defeat', 'protect', 'change', 'deliver', 'rescue', 'learn']),
             ],
             'avatar-focus-defeat-object' => [
@@ -77,9 +78,13 @@ class CampaignCreateRequest extends FormRequest
                 'nullable',
             ],
             'subversion-community-description' => [
+                'nullable',
+                'required_if:system,subversion',
                 'string',
             ],
             'subversion-community-type' => [
+                'nullable',
+                'required_if:system,subversion',
                 'string',
             ],
             'system' => [

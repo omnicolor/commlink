@@ -6,7 +6,7 @@ namespace Modules\Cyberpunkred\Tests\Feature\View\Components;
 
 use App\Models\Campaign;
 use App\Models\User;
-use App\View\Components\Cyberpunkred\CampaignOptions;
+use Modules\Cyberpunkred\View\Components\CampaignOptions;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
