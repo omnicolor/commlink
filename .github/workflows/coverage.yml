@@ -54,6 +54,11 @@ jobs:
         run: touch ${{ github.workspace }}/commlink-test
 
       - name: Execute unit tests
-        run: ./vendor/bin/phpunit
+        run: ./vendor/bin/phpunit --coverage-text --coverage-clover coverage.xml
         env:
           DB_DATABASE: "${{ github.workspace }}/commlink-test"
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
