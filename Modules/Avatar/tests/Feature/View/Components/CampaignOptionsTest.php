@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\View\Components\Avatar;
+namespace Modules\Avatar\Tests\Feature\View\Components;
 
 use App\Models\Campaign;
 use App\Models\User;
-use App\View\Components\Avatar\CampaignOptions;
+use Modules\Avatar\View\Components\CampaignOptions;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
