@@ -54,7 +54,7 @@ jobs:
         run: touch ${{ github.workspace }}/commlink-test
 
       - name: Execute unit tests
-        run: ./vendor/bin/phpunit --coverage-text --coverage-clover coverage.xml
+        run: ./vendor/bin/phpunit --verbose --colors=always --coverage-clover coverage.xml
         env:
           DB_DATABASE: "${{ github.workspace }}/commlink-test"
 
