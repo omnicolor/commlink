@@ -25,6 +25,7 @@ return [
         'redirect' => env('APP_URL') . '/google/callback',
     ],
     'slack' => [
+        'bot_token' => env('SLACK_TOKEN'),
         'client_id' => env('SLACK_CLIENT_ID'),
         'client_secret' => env('SLACK_CLIENT_SECRET'),
         'redirect' => env('APP_URL') . '/slack/callback',

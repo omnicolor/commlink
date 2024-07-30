@@ -14,6 +14,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
+use function config;
 use function sprintf;
 
 use const PHP_EOL;
@@ -121,7 +122,7 @@ class HandleEventCreated
         ];
 
         Http::withHeaders([
-            'Authorization' => sprintf('Bearer %s', config('app.slack_token')),
+            'Authorization' => sprintf('Bearer %s', config('services.slack.bot_token')),
             'Content-Type' => 'application/json;charset=UTF-8',
         ])->post('https://slack.com/api/chat.postMessage', $data);
     }
