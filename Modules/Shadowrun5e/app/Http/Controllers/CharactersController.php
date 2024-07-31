@@ -1487,8 +1487,6 @@ class CharactersController extends Controller
 
     /**
      * View a character's sheet.
-     * @param string $identifier
-     * @return View
      */
     public function view(string $identifier): View
     {

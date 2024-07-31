@@ -58,8 +58,6 @@ class HandleRollEvent
 
     /**
      * Send the roll to a linked Slack channel.
-     * @param Roll $roll
-     * @param Channel $channel
      */
     protected function sendToSlack(Roll $roll, Channel $channel): void
     {
@@ -82,8 +80,6 @@ class HandleRollEvent
 
     /**
      * Send the roll to a linked Discord channel.
-     * @param Roll $roll
-     * @param Channel $channel
      */
     protected function sendToDiscord(Roll $roll, Channel $channel): void
     {

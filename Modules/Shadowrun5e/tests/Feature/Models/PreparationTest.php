@@ -18,7 +18,6 @@ final class PreparationTest extends TestCase
 {
     /**
      * Subject under test.
-     * @var Preparation
      */
     protected Preparation $preparation;
 

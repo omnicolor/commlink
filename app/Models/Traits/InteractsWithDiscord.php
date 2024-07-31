@@ -24,7 +24,6 @@ trait InteractsWithDiscord
 {
     /**
      * Create and return the webhook for a Discord channel.
-     * @param string $snowflake
      * @return ?string
      */
     public function createDiscordWebhook(string $snowflake): ?string
@@ -70,7 +69,6 @@ trait InteractsWithDiscord
 
     /**
      * Given a Discord Channel ID (snowflake), return the channel's name.
-     * @param string $snowflake
      * @return ?string
      */
     public function getDiscordChannelName(string $snowflake): ?string
@@ -89,7 +87,6 @@ trait InteractsWithDiscord
 
     /**
      * Given a Discord User ID (snowflake), return the user's discriminator.
-     * @param string $snowflake
      * @return ?string
      */
     public function getDiscordUserName(string $snowflake): ?string
@@ -108,7 +105,6 @@ trait InteractsWithDiscord
 
     /**
      * Given a Discord server ID, return the server (guild) name.
-     * @param string $serverId
      * @return ?string
      */
     public function getDiscordServerName(string $serverId): ?string
@@ -127,8 +123,6 @@ trait InteractsWithDiscord
 
     /**
      * Gets an access token from Discord's Oauth2 service.
-     * @param string $code
-     * @return string
      * @throws RuntimeException
      */
     public function getDiscordAccessToken(string $code): string
@@ -155,7 +149,6 @@ trait InteractsWithDiscord
 
     /**
      * Gets a user's information from the Discord API from the Oauth2 token.
-     * @param string $token
      * @return array<string, ?string>
      * @throws RuntimeException
      */
@@ -189,7 +182,6 @@ trait InteractsWithDiscord
 
     /**
      * Get a user's guilds from the Discord API.
-     * @param string $token
      * @return array<int, array<string, ?string>>
      * @throws RuntimeException
      */
@@ -226,7 +218,6 @@ trait InteractsWithDiscord
 
     /**
      * Return the Oauth2 URL for linking Discord.
-     * @return string
      */
     public function getDiscordOauthURL(): string
     {

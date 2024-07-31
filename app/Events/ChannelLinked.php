@@ -21,7 +21,6 @@ class ChannelLinked implements ShouldBroadcast
     /**
      * Create a new event, dispatched when a Channel (like Slack or Discord) are
      * linked to Commlink.
-     * @param Channel $channel
      */
     public function __construct(public Channel $channel)
     {
@@ -29,7 +28,6 @@ class ChannelLinked implements ShouldBroadcast
 
     /**
      * Get the channel the event should broadcast on.
-     * @return PrivateChannel
      */
     public function broadcastOn(): PrivateChannel
     {
