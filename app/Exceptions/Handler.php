@@ -35,7 +35,6 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        /** @psalm-suppress UnusedClosureParam */
         $this->reportable(function (Throwable $e): void {
             Integration::captureUnhandledException($e);
         });

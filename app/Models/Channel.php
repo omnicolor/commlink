@@ -8,6 +8,7 @@ use App\Models\Traits\GameSystem;
 use App\Models\Traits\InteractsWithDiscord;
 use App\Models\Traits\InteractsWithSlack;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,9 +20,10 @@ use function in_array;
 use function sprintf;
 
 /**
+ * Representation of a Slack, Discord, or IRC channel.
  * @property-read int $id
  * @property string $server_id
- * @property string $server_name
+ * @property ?string $server_name
  * @property string $type
  * @property ?string $system
  */
@@ -123,32 +125,36 @@ class Channel extends Model
      * Return the server's name.
      * @psalm-suppress PossiblyUnusedMethod
      */
-    public function getServerNameAttribute(): ?string
+    public function serverName(): Attribute
     {
-        // If we've already retrieved it, just return what we've got.
-        if (null !== ($this->attributes['server_name'] ?? null)) {
-            return $this->attributes['server_name'];
-        }
+        return Attribute::make(
+            get: function (): ?string {
+                // If we've already retrieved it, just return what we've got.
+                if (null !== ($this->attributes['server_name'] ?? null)) {
+                    return $this->attributes['server_name'];
+                }
 
-        switch ($this->attributes['type'] ?? null) {
-            case self::TYPE_DISCORD:
-                $this->attributes['server_name'] = self::getDiscordServerName(
-                    $this->attributes['server_id']
-                );
-                if (isset($this->id)) {
-                    $this->save();
+                switch ($this->attributes['type'] ?? null) {
+                    case self::TYPE_DISCORD:
+                        $this->attributes['server_name'] = self::getDiscordServerName(
+                            $this->attributes['server_id']
+                        );
+                        if (isset($this->id)) {
+                            $this->save();
+                        }
+                        return $this->attributes['server_name'];
+                    case self::TYPE_SLACK:
+                        $this->attributes['server_name']
+                            = (string)self::getSlackTeamName($this->attributes['server_id']);
+                        if (isset($this->id)) {
+                            $this->save();
+                        }
+                        return $this->attributes['server_name'];
+                    default:
+                        return null;
                 }
-                return $this->attributes['server_name'];
-            case self::TYPE_SLACK:
-                $this->attributes['server_name']
-                    = (string)self::getSlackTeamName($this->attributes['server_id']);
-                if (isset($this->id)) {
-                    $this->save();
-                }
-                return $this->attributes['server_name'];
-            default:
-                return null;
-        }
+            },
+        );
     }
 
     /**
@@ -192,31 +198,47 @@ class Channel extends Model
     /**
      * Set the system for the channel.
      * @psalm-suppress PossiblyUnusedMethod
-     * @throws RuntimeException
      */
-    public function setSystemAttribute(string $system): void
+    public function system(): Attribute
     {
-        if (!array_key_exists($system, config('app.systems'))) {
-            throw new RuntimeException('Invalid system');
-        }
-        $this->attributes['system'] = $system;
+        return Attribute::make(
+            get: function (): ?string {
+                return $this->attributes['system'] ?? null;
+            },
+            set: function (string $system): string {
+                if (!array_key_exists($system, config('app.systems'))) {
+                    throw new RuntimeException('Invalid system');
+                }
+                $this->attributes['system'] = $system;
+                return $system;
+            },
+        );
     }
 
     /**
      * Set the type of server for the channel.
      * @psalm-suppress PossiblyUnusedMethod
-     * @throws RuntimeException
      */
-    public function setTypeAttribute(string $type): void
+    public function type(): Attribute
     {
-        if (!in_array($type, self::VALID_TYPES, true)) {
-            throw new RuntimeException('Invalid channel type');
-        }
-        $this->attributes['type'] = $type;
+        return Attribute::make(
+            get: function (): ?string {
+                return $this->attributes['type'] ?? null;
+            },
+            set: function (string $type): string {
+                if (!in_array($type, self::VALID_TYPES, true)) {
+                    throw new RuntimeException('Invalid channel type');
+                }
+                $this->attributes['type'] = $type;
+                return $type;
+            },
+        );
     }
 
-    public static function findForWebhook(string $guild_id, string $webhook_id): ?self
-    {
+    public static function findForWebhook(
+        string $guild_id,
+        string $webhook_id,
+    ): ?self {
         return Channel::discord()
             ->where('server_id', $guild_id)
             ->where(
