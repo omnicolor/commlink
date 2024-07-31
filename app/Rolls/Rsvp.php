@@ -12,6 +12,7 @@ use App\Policies\EventPolicy;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
+use function config;
 use function sprintf;
 
 /**
@@ -100,7 +101,7 @@ class Rsvp extends Roll
                 ],
             ];
             Http::withHeaders([
-                'Authorization' => sprintf('Bearer %s', config('app.slack_token')),
+                'Authorization' => sprintf('Bearer %s', config('services.slack.bot_token')),
                 'Content-Type' => 'application/json;charset=UTF-8',
             ])->post('https://slack.com/api/chat.postEphemeral', $data);
             return;
@@ -124,7 +125,7 @@ class Rsvp extends Roll
                 ],
             ];
             $response = Http::withHeaders([
-                'Authorization' => sprintf('Bearer %s', config('app.slack_token')),
+                'Authorization' => sprintf('Bearer %s', config('services.slack.bot_token')),
                 'Content-Type' => 'application/json;charset=UTF-8',
             ])->post('https://slack.com/api/chat.postEphemeral', $data);
             Log::debug(

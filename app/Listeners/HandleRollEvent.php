@@ -72,9 +72,12 @@ class HandleRollEvent
         $data->channel = $channel->channel_id;
 
         // TODO: Add error handling.
-        Http::withHeaders([
-            'Authorization' => sprintf('Bearer %s', config('app.slack_token')),
-        ])->post('https://slack.com/api/chat.postMessage', (array)$data);
+        Http::withHeaders(
+            [
+                'Authorization' => sprintf('Bearer %s', config('services.slack.bot_token')),
+                'Content-Type' => 'application/json;charset=UTF-8',
+            ],
+        )->post('https://slack.com/api/chat.postMessage', (array)$data);
     }
 
     /**

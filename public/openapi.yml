@@ -9,7 +9,7 @@ info:
   license:
     name: MIT License
     url: https://mit-license.org/
-  version: 1.5.0
+  version: 1.6.0
 externalDocs:
   description: Find out more about Commlink
   url: https://commlink.digitaldarkness.com/about
@@ -174,6 +174,148 @@ paths:
           description: Collection of injuries from the Alien RPG.
       tags:
         - alien
+  /alien/rolls:
+    post:
+      summary: Roll dice for an Alien character.
+      operationId: alien-rolls-store
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlienRollRequest'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                example:
+                  data:
+                    panic: false
+                    pushable: false
+                    rolls: [2, 5, 2, 4, 6, 4]
+                    success: true
+                    text: "Rolled 1 success"
+                    title: "Ripley succeeded with 6 dice for Heavy machinery (0+5+1)"
+                  links:
+                    character: "https://commlink-dev.digitaldarkness.com/api/alien/characters/6697e43d245ac6b4f2032432"
+                    campaign: "https://commlink-dev.digitaldarkness.com/api/campaigns/9"
+                    self: "https://commlink-dev.digitaldarkness.com/api/alien/roll/b3e151db-6434-4170-a9d6-9f181f6a4755"
+                    pushes:
+                      - "https://commlink-dev.digitaldarkness.com/api/alien/roll/a3ca4dac-911f-419e-a6b9-85a498261c9a"
+                properties:
+                  data:
+                    $ref: '#/components/schemas/AlienRollResult'
+                  links:
+                    properties:
+                      character:
+                        description: Link to the character making the roll.
+                        format: url
+                        type: string
+                      campaign:
+                        description: Link to the campaign the character belongs to.
+                        format: url
+                        type: string
+                      parent:
+                        description: Link to the roll that this roll pushes.
+                        format: url
+                        type: string
+                      pushes:
+                        items:
+                          description: Link to a push for this roll.
+                          format: url
+                          type: string
+                        type: array
+                      self:
+                        description: Link to this roll, which can be interacted with to push.
+                        format: url
+                        type: string
+                    required:
+                      - character
+                      - campaign
+                      - self
+                    type: object
+                required:
+                  - data
+                  - links
+          description: Result of the character's roll.
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+        '404':
+          $ref: '#/components/responses/ErrorNotFound'
+        '422':
+          $ref: '#/components/responses/ErrorUnprocessableContent'
+      tags:
+        - alien
+        - interactivity
+  /alien/rolls/{roll_id}:
+    parameters:
+      - name: roll_id
+        in: path
+        required: true
+        schema:
+          format: uuid
+          type: string
+    get:
+      summary: Return a roll from the Alien RPG
+      operationId: alien-rolls-show
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/AlienRollResult'
+                  links:
+                    properties:
+                      character:
+                        description: Link to the character making the roll.
+                        format: url
+                        type: string
+                      campaign:
+                        description: Link to the campaign the character belongs to.
+                        format: url
+                        type: string
+                      parent:
+                        description: Link to the roll that this roll pushes.
+                        format: url
+                        type: string
+                      pushes:
+                        items:
+                          description: Link to a push for this roll.
+                          format: url
+                          type: string
+                        type: array
+                      self:
+                        description: Link to this roll, which can be interacted with to push.
+                        format: url
+                        type: string
+                    required:
+                      - character
+                      - campaign
+                      - self
+                    type: object
+                required:
+                  - data
+                  - links
+          description: Representation of an Alien roll.
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+        '404':
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+          description: |
+            The given roll was not found, which could be for a few different reasons:
+            The ID has never existed.
+            The ID used to exist, but has been evicted from the cache.
+            The ID exists, but is for a character owned by someone else.
+      tags:
+        - alien
+        - interactivity
   /alien/skills:
     get:
       summary: Alien RPG skills
@@ -3754,6 +3896,73 @@ components:
         - roll
         - time_limit
         - links
+      type: object
+    AlienRollRequest:
+      example:
+        character: "6697e43d245ac6b4f2032432"
+        skill: "close-combat"
+        type: "skill"
+      properties:
+        character:
+          description: Character ID.
+          type: string
+        type:
+          description: Type of roll to make.
+          enum:
+            - skill
+          type: string
+        skill:
+          description: If "type" is "skill", the ID of the skill to roll.
+          enum:
+            - close-combat
+            - command
+            - comtech
+            - heavy-machinery
+            - manipulation
+            - medical-aid
+            - mobility
+            - observation
+            - piloting
+            - ranged-combat
+            - stamina
+            - survival
+          type: string
+      required:
+        - character
+        - type
+      type: object
+    AlienRollResult:
+      example:
+        panic: false
+        pushable: true
+        rolls: [2, 4, 1, 2, 1, 5]
+        success: false
+        text: "Rolled 0 successes"
+        title: "Ripley failed with 6 dice for Heavy machinery (0+5+1)"
+      properties:
+        panic:
+          type: boolean
+        pushable:
+          description: |
+            Whether the roll can be pushed. Some talents allow you to push a roll a second time.
+          type: boolean
+        rolls:
+          items:
+            type: integer
+          type: array
+        success:
+          type: boolean
+        text:
+          type: string
+        title:
+          type: string
+      required:
+        - panic
+        - pushable
+        - rolls
+        - success
+        - text
+        - title
       type: object
     AlienSkill:
       example:

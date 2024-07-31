@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
 use Modules\Alien\Http\Controllers\CharactersController;
+use Modules\Alien\Http\Controllers\RollController;
 use Modules\Alien\Http\Resources\ArmorResource;
 use Modules\Alien\Http\Resources\CareerResource;
 use Modules\Alien\Http\Resources\GearResource;
@@ -57,6 +58,8 @@ Route::middleware('auth:sanctum')
         Route::get('injuries/{injury}', function (string $injury) {
             return new InjuryResource(new Injury($injury));
         })->name('injuries.show');
+
+        Route::resource('rolls', RollController::class);
 
         Route::get('skills', function () {
             return SkillResource::collection(Skill::all())
