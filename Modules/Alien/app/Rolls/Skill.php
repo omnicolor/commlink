@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Alien\Rolls;
 
-use App\Events\MessageReceived;
 use App\Models\Channel;
 use App\Rolls\Roll;
 
@@ -32,7 +31,6 @@ class Skill extends Number
         string $content,
         string $username,
         Channel $channel,
-        public ?MessageReceived $event = null,
     ) {
         Roll::__construct($content, $username, $channel);
 
@@ -66,5 +64,26 @@ class Skill extends Number
         );
 
         $this->roll();
+    }
+
+    /**
+     * @return array{
+     *   panic: bool,
+     *   rolls: array<int, int>,
+     *   success: bool,
+     *   text: string,
+     *   title: string,
+     * }|array{error: string}
+     */
+    public function forWeb(): array
+    {
+        return [
+            'panic' => 0 !== $this->panics,
+            'pushable' => true,
+            'rolls' => $this->rolls,
+            'success' => 0 !== $this->successes,
+            'text' => $this->formatText(),
+            'title' => $this->formatTitle(),
+        ];
     }
 }

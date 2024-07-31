@@ -8,6 +8,7 @@ use App\Exceptions\SlackException;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
+use App\Models\WebChannel;
 use Facades\App\Services\DiceService;
 use Modules\Alien\Models\Character;
 use Modules\Alien\Rolls\Skill;
@@ -102,6 +103,38 @@ final class SkillTest extends TestCase
                 . 'Rolls: 6 1 3 3 6 1',
             (string)$character,
         );
+        self::assertSame($expected, $response);
+    }
+
+    public function testForWeb(): void
+    {
+        DiceService::shouldReceive('rollOne')
+            ->times(6)
+            ->with(6)
+            ->andReturn(6, 1, 3, 3, 6, 1);
+
+        /** @var Character */
+        $character = Character::factory()->make([
+            'skills' => [
+                'close-combat' => 4,
+            ],
+            'strength' => 2,
+        ]);
+        $channel = new WebChannel();
+        $channel->setCharacter($character);
+        $response = (new Skill('skill close-combat', 'user', $channel))
+            ->forWeb();
+        $expected = [
+            'panic' => false,
+            'pushable' => true,
+            'rolls' => [6, 1, 3, 3, 6, 1],
+            'success' => true,
+            'text' => 'Rolled 2 successes',
+            'title' => sprintf(
+                '%s succeeded with 6 dice for Close combat (4+2+0)',
+                (string)$character,
+            ),
+        ];
         self::assertSame($expected, $response);
     }
 }
