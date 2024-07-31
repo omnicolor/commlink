@@ -13,6 +13,8 @@ use Modules\Blistercritters\Database\Factories\CharacterFactory;
 use Stringable;
 
 /**
+ * A critter's attributes (scrap, scurry, noggin, instinct, and vibe) are stored
+ * as an integer which represents the die type to use for those rolls.
  * @property string $created_at
  * @property string $id
  * @property int $instinct
