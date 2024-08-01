@@ -16,11 +16,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install PHP with extensions
-        uses: shivammathur/setup-php@master
+        uses: shivammathur/setup-php@v2
         with:
           tools: composer:v2
           php-version: ${{ matrix.php-version }}
-          extensions: "json, mbstring, mongodb, pdo, xdebug"
+          extensions: "json, mbstring, mongodb, pdo"
+          coverage: xdebug
 
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.11.0
@@ -54,7 +55,7 @@ jobs:
         run: touch ${{ github.workspace }}/commlink-test
 
       - name: Execute unit tests
-        run: ./vendor/bin/phpunit --colors=always --coverage-clover coverage.xml
+        run: XDEBUG_MODE=coverage ./vendor/bin/phpunit --colors=always --coverage-clover coverage.xml
         env:
           DB_DATABASE: "${{ github.workspace }}/commlink-test"
 
