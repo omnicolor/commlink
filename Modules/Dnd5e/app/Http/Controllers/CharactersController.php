@@ -5,34 +5,31 @@ declare(strict_types=1);
 namespace Modules\Dnd5e\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Modules\Dnd5e\Http\Resources\CharacterResource;
 use Modules\Dnd5e\Models\Character;
 
 use function view;
 
+/**
+ * @psalm-api
+ */
 class CharactersController extends Controller
 {
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
-    public function index(): JsonResource
+    public function index(Request $request): JsonResource
     {
         return CharacterResource::collection(
             // @phpstan-ignore-next-line
-            Character::where('owner', Auth::user()->email)->get()
+            Character::where('owner', $request->user()->email)->get()
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
-    public function show(string $identifier): JsonResource
+    public function show(Request $request, string $identifier): JsonResource
     {
         // @phpstan-ignore-next-line
-        $email = Auth::user()->email;
+        $email = $request->user()->email;
         return new CharacterResource(
             Character::where('_id', $identifier)
                 ->where('owner', $email)
@@ -40,12 +37,14 @@ class CharactersController extends Controller
         );
     }
 
-    public function view(Character $character): View
+    public function view(Request $request, Character $character): View
     {
-        $user = Auth::user();
         return view(
             'dnd5e::character',
-            ['character' => $character, 'user' => $user]
+            [
+                'character' => $character,
+                'user' => $request->user(),
+            ]
         );
     }
 }

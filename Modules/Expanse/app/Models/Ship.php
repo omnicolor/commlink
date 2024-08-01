@@ -63,9 +63,9 @@ class Ship implements Stringable
 
     /**
      * Collection of all ships.
-     * @var array<string, array<string, array<string, mixed>|int|string>>
+     * @var ?array<string, array<string, array<string, mixed>|int|string>>
      */
-    public static array $ships;
+    public static ?array $ships;
 
     public function __construct(public string $id)
     {

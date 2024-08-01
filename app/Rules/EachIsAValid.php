@@ -18,7 +18,6 @@ class EachIsAValid implements ValidationRule
 
     /**
      * Determine if the validation rule passes.
-     * @param mixed $value
      */
     public function validate($attribute, $value, Closure $fail): void
     {

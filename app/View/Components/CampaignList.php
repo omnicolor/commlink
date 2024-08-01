@@ -20,7 +20,6 @@ class CampaignList extends Component
      * @param Collection<int|string, Campaign> $gmed
      * @param Collection<int|string, Campaign> $registered
      * @param Collection<int|string, Campaign> $playing
-     * @param User $user
      */
     public function __construct(
         public Collection $gmed,

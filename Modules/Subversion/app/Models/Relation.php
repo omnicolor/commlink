@@ -138,7 +138,7 @@ class Relation implements Stringable
     public function toArray(): array
     {
         $archetypes = [];
-        foreach ($this->archetypes ?? [] as $archetype) {
+        foreach ($this->archetypes as $archetype) {
             $archetypes[] = [
                 'id' => $archetype->id,
                 'additional' => '' !== $archetype->additional ? $archetype->additional : null,
@@ -146,12 +146,12 @@ class Relation implements Stringable
         }
 
         $aspects = [];
-        foreach ($this->aspects ?? [] as $aspect) {
+        foreach ($this->aspects as $aspect) {
             $aspects[] = $aspect->id;
         }
 
         $skills = [];
-        foreach ($this->skills ?? [] as $skill) {
+        foreach ($this->skills as $skill) {
             $skills[] = $skill->id;
         }
 

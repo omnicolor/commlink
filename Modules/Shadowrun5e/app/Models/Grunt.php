@@ -192,7 +192,7 @@ class Grunt implements Stringable
     public function getArmorValue(): int
     {
         $rating = 0;
-        foreach ($this->armor ?? [] as $armor) {
+        foreach ($this->armor as $armor) {
             $rating += $armor->getModifiedRating();
         }
 

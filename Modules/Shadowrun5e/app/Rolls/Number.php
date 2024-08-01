@@ -34,7 +34,8 @@ use const SORT_NUMERIC;
 
 /**
  * Roll a Shadowrun number, representing a set of six-sided dice.
- * @psalm-suppress UnusedClass
+ * @psalm-api
+ * @property Character $character
  */
 class Number extends Roll
 {
@@ -50,9 +51,6 @@ class Number extends Roll
     protected array $rolls = [];
     protected int $successes = 0;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct(
         string $content,
         string $username,
@@ -184,7 +182,6 @@ class Number extends Roll
 
     /**
      * Return whether the roll was a critical glitch.
-     * @return bool
      */
     protected function isCriticalGlitch(): bool
     {
@@ -213,7 +210,6 @@ class Number extends Roll
             return $content;
         }
 
-        // @phpstan-ignore-next-line
         if (null === $this->character->edgeCurrent) {
             $this->character->edgeCurrent = $this->character->edge ?? 0;
         }
@@ -314,10 +310,8 @@ class Number extends Roll
         }
 
         // Charge the character some edge.
-        /** @var Character */
-        $character = $this->character;
-        $character->edgeCurrent--;
-        $character->save();
+        $this->character->edgeCurrent--;
+        $this->character->save();
 
         $this->formatRoll();
         $footer = 'Rolls: ' . implode(' ', $this->rolls);
@@ -328,7 +322,7 @@ class Number extends Roll
             . $this->text . PHP_EOL
             . sprintf('Rerolled %d failures', $rerolled) . PHP_EOL
             . $footer . PHP_EOL
-            . sprintf('Remaining edge: %d', $character->edgeCurrent);
+            . sprintf('Remaining edge: %d', $this->character->edgeCurrent);
 
         $button = Button::new(Button::STYLE_SECONDARY)
             ->setLabel('2nd chance')

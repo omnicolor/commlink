@@ -11,7 +11,7 @@ use Illuminate\Support\Collection;
 class EventCollection extends ResourceCollection
 {
     /**
-     * @return array<string, array<string, string>|Collection>>
+     * @return array<string, array<string, string>|Collection>
      */
     public function toArray(Request $request): array
     {

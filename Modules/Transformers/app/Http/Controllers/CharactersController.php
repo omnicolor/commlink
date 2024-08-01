@@ -10,7 +10,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Modules\Transformers\Http\Requests\BaseRequest;
 use Modules\Transformers\Http\Requests\ProgrammingRequest;
@@ -32,10 +31,9 @@ class CharactersController extends Controller
         ?string $step = null,
     ): RedirectResponse | View {
         /** @var User */
-        $user = Auth::user();
+        $user = $request->user();
 
         if ('new' === $step) {
-            /** @var PartialCharacter */
             $character = PartialCharacter::create(['owner' => $user->email]);
             $request->session()->put(self::SESSION_KEY, $character->id);
             return new RedirectResponse('/characters/transformers/create/base');
@@ -60,8 +58,11 @@ class CharactersController extends Controller
                 );
             }
 
-            // No in-progress characters, create a new one.
-            /** @var PartialCharacter */
+            /**
+             * No in-progress characters, create a new one.
+             * @psalm-suppress UnnecessaryVarAnnotation
+             * @var PartialCharacter
+             */
             $character = PartialCharacter::create(['owner' => $user->email]);
             $request->session()->put(self::SESSION_KEY, $character->id);
         }
@@ -151,7 +152,7 @@ class CharactersController extends Controller
         $character_id = $request->session()->get(self::SESSION_KEY);
 
         /** @var User */
-        $user = Auth::user();
+        $user = $request->user();
 
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $character_id)
@@ -170,7 +171,7 @@ class CharactersController extends Controller
         $character_id = $request->session()->get(self::SESSION_KEY);
 
         /** @var User */
-        $user = Auth::user();
+        $user = $request->user();
 
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $character_id)
@@ -189,7 +190,7 @@ class CharactersController extends Controller
         $character_id = $request->session()->get(self::SESSION_KEY);
 
         /** @var User */
-        $user = Auth::user();
+        $user = $request->user();
 
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $character_id)
@@ -214,7 +215,7 @@ class CharactersController extends Controller
         ?string $step
     ): ?PartialCharacter {
         /** @var User */
-        $user = Auth::user();
+        $user = $request->user();
 
         // See if the user has already chosen to continue a character.
         $character_id = $request->session()->get(self::SESSION_KEY);
@@ -243,21 +244,21 @@ class CharactersController extends Controller
     /**
      * @psalm-suppress PossiblyUnusedMethod
      */
-    public function index(): JsonResource
+    public function index(Request $request): JsonResource
     {
         return CharacterResource::collection(
             // @phpstan-ignore-next-line
-            Character::where('owner', Auth::user()->email)->get()
+            Character::where('owner', $request->user()->email)->get()
         );
     }
 
     /**
      * @psalm-suppress PossiblyUnusedMethod
      */
-    public function show(string $identifier): JsonResource
+    public function show(Request $request, string $identifier): JsonResource
     {
         // @phpstan-ignore-next-line
-        $email = Auth::user()->email;
+        $email = $request->user()->email;
         return new CharacterResource(
             Character::where('_id', $identifier)
                 ->where('owner', $email)
@@ -265,9 +266,9 @@ class CharactersController extends Controller
         );
     }
 
-    public function view(Character $character): View
+    public function view(Request $request, Character $character): View
     {
-        $user = Auth::user();
+        $user = $request->user();
         return view(
             'transformers::character',
             ['character' => $character, 'user' => $user]

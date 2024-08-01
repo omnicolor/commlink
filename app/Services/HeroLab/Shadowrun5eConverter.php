@@ -480,6 +480,7 @@ class Shadowrun5eConverter implements ConverterInterface
      */
     protected function parseSpecializations(SimpleXMLElement $skill): array
     {
+        /** @psalm-suppress TypeDoesNotContainType */
         if (!isset($skill->specialization)) {
             return [];
         }
@@ -541,6 +542,11 @@ class Shadowrun5eConverter implements ConverterInterface
                 $specializations[]
                     = str_replace(' +2', '', (string)$spec['bonustext']);
             }
+            /**
+             * Psalm thinks the array can never be empty, but not every skill
+             * has a specialization.
+             * @psalm-suppress RedundantCondition
+             */
             if (0 !== count($specializations)) {
                 $specializations = implode(',', $specializations);
             } else {

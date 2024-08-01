@@ -16,7 +16,6 @@ final class RockerboyTest extends TestCase
 {
     /**
      * Subject under test.
-     * @var Rockerboy
      */
     protected Rockerboy $role;
 

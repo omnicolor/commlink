@@ -14,7 +14,7 @@ use function sprintf;
 
 /**
  * Roll a Shadowrun 5E memory test.
- * @psalm-suppress UnusedClass
+ * @psalm-api
  */
 class Memory extends Number
 {
@@ -33,7 +33,6 @@ class Memory extends Number
                 . 'tests';
             return;
         }
-        // @phpstan-ignore-next-line
         $this->dice = $this->character->memory;
         $this->roll();
         if ($this->isCriticalGlitch()) {

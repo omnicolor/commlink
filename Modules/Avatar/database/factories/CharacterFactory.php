@@ -27,8 +27,7 @@ class CharacterFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            // @phpstan-ignore-next-line
-            'appearance' => $this->faker->catchPhrase(),
+            'appearance' => $this->faker->sentence(),
             'background' => Background::Military->value,
             'era' => Era::Aang->value,
             'owner' => $this->faker->email,

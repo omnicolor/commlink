@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory as BaseFactory;
 /**
  * @psalm-suppress MissingTemplateParam
  * @template T
- * @extends Factory<T>
+ * @extends BaseFactory<T>
  */
 abstract class Factory extends BaseFactory
 {

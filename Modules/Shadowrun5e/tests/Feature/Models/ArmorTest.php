@@ -30,7 +30,6 @@ final class ArmorTest extends TestCase
 
     /**
      * Test loading an armor with a valid ID.
-     * @return Armor
      */
     public function testLoadingArmorJacketId(): Armor
     {

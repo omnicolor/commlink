@@ -14,7 +14,7 @@ use function sprintf;
 
 /**
  * Roll a Shadowrun 5E judge intentions test.
- * @psalm-suppress UnusedClass
+ * @psalm-api
  */
 class Judge extends Number
 {
@@ -33,7 +33,6 @@ class Judge extends Number
                 . 'intentions tests';
             return;
         }
-        // @phpstan-ignore-next-line
         $this->dice = $this->character->judge_intentions;
         $this->roll();
         if ($this->isCriticalGlitch()) {

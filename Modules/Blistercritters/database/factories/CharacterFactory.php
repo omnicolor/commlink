@@ -13,15 +13,9 @@ use Modules\Blistercritters\Models\Character;
  */
 class CharacterFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     * @phpstan-ignore-next-line
-     * @var mixed
-     */
     protected $model = Character::class;
 
     /**
-     * Define the model's default state.
      * @return array<string, string>
      */
     public function definition(): array

@@ -21,7 +21,6 @@ class SettingsController extends Controller
 
     /**
      * Show the settings page.
-     * @return View
      */
     public function show(): View
     {
@@ -37,8 +36,6 @@ class SettingsController extends Controller
     /**
      * Handle a request to link a Discord guild/user to the current Commlink
      * user.
-     * @param LinkUserRequest $request
-     * @return RedirectResponse
      */
     public function linkDiscord(LinkUserRequest $request): RedirectResponse
     {
@@ -46,7 +43,7 @@ class SettingsController extends Controller
         $remoteUserId = $request->input('user-id');
 
         // @phpstan-ignore-next-line
-        $userId = Auth::user()->id;
+        $userId = $request->user()->id;
 
         $chatUser = ChatUser::where('server_id', $serverId)
             ->where('remote_user_id', $remoteUserId)
@@ -67,7 +64,8 @@ class SettingsController extends Controller
             'verified' => false,
         ]);
         $chatUser->server_name = $chatUser->getDiscordServerName($serverId);
-        $chatUser->remote_user_name = $chatUser->getDiscordUserName($remoteUserId);
+        $chatUser->remote_user_name
+            = $chatUser->getDiscordUserName($remoteUserId);
         $chatUser->save();
 
         return redirect('settings')
@@ -142,15 +140,13 @@ class SettingsController extends Controller
 
     /**
      * Handle a request to link a Slack team/user to the current Commlink user.
-     * @param LinkUserRequest $request
-     * @return RedirectResponse
      */
     protected function linkSlack(LinkUserRequest $request): RedirectResponse
     {
         $serverId = $request->input('server-id');
         $remoteUserId = $request->input('user-id');
         // @phpstan-ignore-next-line
-        $userId = Auth::user()->id;
+        $userId = $request->user()->id;
 
         $chatUser = ChatUser::where('server_id', $serverId)
             ->where('remote_user_id', $remoteUserId)
@@ -195,8 +191,6 @@ class SettingsController extends Controller
 
     /**
      * Handle a request to link a chat server to the current Commlink user.
-     * @param LinkUserRequest $request
-     * @return RedirectResponse
      */
     public function linkUser(LinkUserRequest $request): RedirectResponse
     {

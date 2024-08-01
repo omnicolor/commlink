@@ -20,9 +20,9 @@ class Perk implements Stringable
     public ?string $skillId = null;
 
     /**
-     * @var array<string, array<string, string>>
+     * @var ?array<string, array<string, string>>
      */
-    public static array $perks;
+    public static ?array $perks;
 
     /**
      * @param array<string, string> $rawPerk

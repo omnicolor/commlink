@@ -53,7 +53,10 @@ class CharactersController extends Controller
         $user = $request->user();
 
         if ('new' === $step) {
-            /** @var PartialCharacter */
+            /**
+             * @psalm-suppress UnnecessaryVarAnnotation
+             * @var PartialCharacter
+             */
             $character = PartialCharacter::create(['owner' => $user->email]);
             $request->session()->put('subversion-partial', $character->id);
             return view(
@@ -100,8 +103,11 @@ class CharactersController extends Controller
                 );
             }
 
-            // No in-progress characters, create a new one.
-            /** @var PartialCharacter */
+            /**
+             * No in-progress characters, create a new one.
+             * @psalm-suppress UnnecessaryVarAnnotation
+             * @var PartialCharacter
+             */
             $character = PartialCharacter::create(['owner' => $user->email]);
             $request->session()->put('subversion-partial', $character->id);
         }

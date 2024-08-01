@@ -30,8 +30,8 @@ class Armor implements Stringable
     public string $ruleset;
     public ?float $weight;
 
-    /** @var array<string, array<int, string>|int|null|string> */
-    public static array $armor;
+    /** @var ?array<string, array<int, string>|int|null|string> */
+    public static ?array $armor;
 
     public function __construct(public string $id)
     {

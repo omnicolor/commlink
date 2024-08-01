@@ -576,6 +576,7 @@ final class CharactersControllerTest extends TestCase
             ])
             ->post(route('alien.save-character'));
         self::assertModelMissing($partialCharacter);
+        /** @var Character */
         $character = Character::where('name', 'Save Test')
             ->where('owner', $user->email)
             ->firstOrFail();

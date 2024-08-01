@@ -10,6 +10,7 @@ use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
+use Modules\Shadowrun5e\Models\Character;
 
 use function array_shift;
 use function explode;
@@ -34,7 +35,8 @@ use const SORT_NUMERIC;
  * decide to use this function after your initial roll, only your Edge dice use
  * the Rule of Six. This use of Edge also allows you to ignore any limit on your
  * test.
- * @psalm-suppress UnusedClass
+ * @psalm-api
+ * @property Character $character
  */
 class Push extends Number
 {
@@ -101,6 +103,7 @@ class Push extends Number
             $this->error = 'You must have a character linked to push the limit';
             return;
         }
+        $character = $this->character;
         $args = explode(' ', trim($content));
 
         // Remove the name of the command.
@@ -118,16 +121,15 @@ class Push extends Number
             return;
         }
 
-        // @phpstan-ignore-next-line
-        if (null === $this->character->edgeCurrent) {
-            $this->character->edgeCurrent = $this->character->edge ?? 0;
+        if (null === $character->edgeCurrent) {
+            /** @psalm-suppress UndefinedMagicPropertyAssignment */
+            $character->edgeCurrent = $character->edge ?? 0;
         }
-        if (0 === $this->character->edgeCurrent) {
+        if (0 === $character->edgeCurrent) {
             $this->error = 'It looks like you\'re out of edge!';
             return;
         }
-        // @phpstan-ignore-next-line
-        $this->edge = $this->character->edge;
+        $this->edge = $character->edge;
         if (isset($args[0]) && is_numeric($args[0])) {
             $this->limit = (int)array_shift($args);
         }
@@ -141,10 +143,9 @@ class Push extends Number
             $this->formatRoll();
         }
 
-        // @phpstan-ignore-next-line
-        $this->character->edgeCurrent--;
-        // @phpstan-ignore-next-line
-        $this->character->save();
+        /** @psalm-suppress UndefinedMagicPropertyAssignment */
+        $character->edgeCurrent--;
+        $character->save();
     }
 
     /**
@@ -209,7 +210,6 @@ class Push extends Number
      */
     protected function roll(): void
     {
-        // @phpstan-ignore-next-line
         for ($i = 0; $i < $this->dice + $this->character->edge; $i++) {
             $this->rolls[] = $roll = DiceService::rollOne(6);
             if (self::EXPLODING_SIX === $roll) {

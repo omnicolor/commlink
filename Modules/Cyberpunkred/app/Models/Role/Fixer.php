@@ -23,7 +23,6 @@ class Fixer extends Role implements Stringable
 
     /**
      * Fixer's type.
-     * @var int
      */
     public int $type;
 

@@ -25,7 +25,6 @@ final class NumberTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        // @phpstan-ignore-next-line
         $this->channel = Channel::factory()->make(['system' => 'stillfleet']);
     }
 

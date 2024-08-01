@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
 use Illuminate\View\View;
 use JsonException;
+use Modules\Cyberpunkred\Models\PartialCharacter as CyberpunkredCharacter;
+use Modules\Expanse\Models\PartialCharacter as ExpanseCharacter;
 
 use function array_key_exists;
 use function back;
@@ -70,8 +72,11 @@ class WorldAnvilController extends Controller
         $templateMap = $this->templateMap[$rawCharacter->templateId];
         /** @var ConverterInterface */
         $converter = new $templateMap['converter']($request->character->path());
+        /** @var CyberpunkredCharacter|ExpanseCharacter */
         $character = $converter->convert();
-        // @phpstan-ignore-next-line
+        /**
+         * @psalm-suppress
+         */
         $character->errors = $converter->getErrors();
         $character->owner = $user->email;
         $character->save();
@@ -85,7 +90,6 @@ class WorldAnvilController extends Controller
             [
                 'character' => $character,
                 'creating' => true,
-                // @phpstan-ignore-next-line
                 'errors' => new MessageBag($character->errors),
                 'user' => $user,
             ],

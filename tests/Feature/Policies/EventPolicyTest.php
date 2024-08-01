@@ -44,7 +44,6 @@ final class EventPolicyTest extends TestCase
     {
         $user = User::factory()->create();
         $event = Event::create([
-            // @phpstan-ignore-next-line
             'campaign_id' => Campaign::factory()->create()->id,
             'created_by' => User::factory()->create()->id,
             'name' => 'EventPolicyTest::testViewEventNotAllowed',
@@ -125,7 +124,6 @@ final class EventPolicyTest extends TestCase
     {
         $user = User::factory()->create();
         $event = Event::create([
-            // @phpstan-ignore-next-line
             'campaign_id' => Campaign::factory()->create()->id,
             'created_by' => User::factory()->create()->id,
             'name' => 'EventPolicyTest::testUpdateEventAsNobody',
@@ -138,7 +136,6 @@ final class EventPolicyTest extends TestCase
     {
         $user = User::factory()->create();
         $event = Event::create([
-            // @phpstan-ignore-next-line
             'campaign_id' => Campaign::factory()->create()->id,
             'created_by' => $user->id,
             'name' => 'EventPolicyTest::testUpdateEventAsCreator',
@@ -152,7 +149,6 @@ final class EventPolicyTest extends TestCase
         $user = User::factory()->create();
         $campaign = Campaign::factory()->create(['gm' => $user->id]);
         $event = Event::create([
-            // @phpstan-ignore-next-line
             'campaign_id' => $campaign->id,
             'created_by' => User::factory()->create()->id,
             'name' => 'EventPolicyTest::testUpdateEventAsCreator',
@@ -165,7 +161,6 @@ final class EventPolicyTest extends TestCase
     {
         $user = User::factory()->create();
         $event = Event::create([
-            // @phpstan-ignore-next-line
             'campaign_id' => Campaign::factory()->create()->id,
             'created_by' => User::factory()->create()->id,
             'name' => 'EventPolicyTest::testDeleteEventAsNobody',
@@ -178,7 +173,6 @@ final class EventPolicyTest extends TestCase
     {
         $user = User::factory()->create();
         $event = Event::create([
-            // @phpstan-ignore-next-line
             'campaign_id' => Campaign::factory()->create()->id,
             'created_by' => $user->id,
             'name' => 'EventPolicyTest::testDeleteEventAsCreator',
@@ -192,7 +186,6 @@ final class EventPolicyTest extends TestCase
         $user = User::factory()->create();
         $campaign = Campaign::factory()->create(['gm' => $user->id]);
         $event = Event::create([
-            // @phpstan-ignore-next-line
             'campaign_id' => $campaign->id,
             'created_by' => User::factory()->create()->id,
             'name' => 'EventPolicyTest::testDeleteEventAsCreator',
@@ -205,7 +198,6 @@ final class EventPolicyTest extends TestCase
     {
         $user = User::factory()->create();
         $event = Event::create([
-            // @phpstan-ignore-next-line
             'campaign_id' => Campaign::factory()->create()->id,
             'created_by' => User::factory()->create()->id,
             'name' => 'EventPolicyTest::testRestoreAsNobody',
@@ -218,7 +210,6 @@ final class EventPolicyTest extends TestCase
     {
         $user = User::factory()->create();
         $event = Event::create([
-            // @phpstan-ignore-next-line
             'campaign_id' => Campaign::factory()->create()->id,
             'created_by' => $user->id,
             'name' => 'EventPolicyTest::testRestoreEventAsCreator',
@@ -232,7 +223,6 @@ final class EventPolicyTest extends TestCase
         $user = User::factory()->create();
         $campaign = Campaign::factory()->create(['gm' => $user->id]);
         $event = Event::create([
-            // @phpstan-ignore-next-line
             'campaign_id' => $campaign->id,
             'created_by' => User::factory()->create()->id,
             'name' => 'EventPolicyTest::testRestoreEventAsCreator',
@@ -245,7 +235,6 @@ final class EventPolicyTest extends TestCase
     {
         $user = User::factory()->create();
         $event = Event::create([
-            // @phpstan-ignore-next-line
             'campaign_id' => Campaign::factory()->create()->id,
             'created_by' => User::factory()->create()->id,
             'name' => 'EventPolicyTest::testViewEventNotAllowed',

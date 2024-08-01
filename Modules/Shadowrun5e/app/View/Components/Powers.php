@@ -25,7 +25,6 @@ class Powers extends Component
 
     /**
      * Type of adept: adept, mystic adept, or an empty string.
-     * @var string
      */
     public string $type;
 

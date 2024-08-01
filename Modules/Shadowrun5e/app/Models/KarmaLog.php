@@ -577,8 +577,6 @@ class KarmaLog extends ArrayObject
     /**
      * Reduce the level for relevant magical skills, assuming the character is
      * awakened and gets some free skills.
-     * @param SkillArray $skills
-     * @return SkillArray
      */
     protected function processMagicalSkills(SkillArray $skills): SkillArray
     {

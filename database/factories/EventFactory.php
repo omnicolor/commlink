@@ -15,9 +15,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class EventFactory extends Factory
 {
-    /**
-     * @var mixed
-     */
     protected $model = Event::class;
 
     /**

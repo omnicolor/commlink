@@ -15,6 +15,10 @@ use function count;
 use function shuffle;
 use function unserialize;
 
+/**
+ * @property ?int $campaign_id
+ * @property ?int $id
+ */
 abstract class Deck implements Countable
 {
     /**

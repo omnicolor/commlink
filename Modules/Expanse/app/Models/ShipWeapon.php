@@ -30,9 +30,9 @@ class ShipWeapon implements Stringable
 
     /**
      * Collection of all weapons.
-     * @var array<string, array<string, int|string>>
+     * @var ?array<string, array<string, int|string>>
      */
-    public static array $weapons;
+    public static ?array $weapons;
 
     /**
      * @throws RuntimeException

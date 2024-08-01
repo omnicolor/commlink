@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Stillfleet\Models;
 
+/**
+ * @method static self create(array<mixed, mixed> $attributes)
+ */
 class PartialCharacter extends Character
 {
     /**
-     * Table to pull from.
      * @var string
      */
     protected $table = 'characters-partial';

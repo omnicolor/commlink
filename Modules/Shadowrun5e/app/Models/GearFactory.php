@@ -18,7 +18,6 @@ class GearFactory
     /**
      * Return a Gear object.
      * @param string|array<string, mixed> $gear
-     * @return Gear
      * @throws RuntimeException
      */
     public static function get($gear): Gear
@@ -57,8 +56,6 @@ class GearFactory
 
     /**
      * Return a gear item given its ID.
-     * @param string $id
-     * @return Gear
      * @throws RuntimeException
      */
     protected static function getGearFromId(string $id): Gear

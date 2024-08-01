@@ -12,11 +12,6 @@ use Modules\Startrekadventures\Models\Character;
  */
 class CharacterFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     * @phpstan-ignore-next-line
-     * @var mixed
-     */
     protected $model = Character::class;
 
     /**

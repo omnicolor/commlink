@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Modules\Transformers\Models;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Transformers\Database\Factories\PartialCharacterFactory;
 
 /**
  * Representation of a character currently being built.
+ * @method static self create(array<mixed, mixed> $attributes)
  * @property array<int, string> $errors
  */
 class PartialCharacter extends Character
