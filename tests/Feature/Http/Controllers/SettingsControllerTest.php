@@ -13,6 +13,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function sprintf;
+
 #[Group('settings')]
 #[Group('settings')]
 #[Medium]
@@ -28,7 +30,8 @@ final class SettingsControllerTest extends TestCase
      */
     public function testUnauthenticated(): void
     {
-        $this->get(route('settings'))->assertRedirect('/login');
+        self::get(route('settings'))
+            ->assertRedirect(route('login'));
     }
 
     /**
@@ -38,7 +41,7 @@ final class SettingsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->get(route('settings'))
             ->assertOk()
             ->assertSee('You don\'t have any linked chat users!', false);
@@ -60,7 +63,7 @@ final class SettingsControllerTest extends TestCase
             'user_id' => $user->id,
             'verified' => false,
         ]);
-        $this->actingAs($user)
+        self::actingAs($user)
             ->get(route('settings'))
             ->assertDontSee('You don\'t have any linked chat users!', false)
             ->assertSee($serverId)
@@ -75,7 +78,7 @@ final class SettingsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->post(route('settings-link-user'), [])
             ->assertStatus(Response::HTTP_FOUND)
             ->assertSessionHasErrors();
@@ -104,12 +107,12 @@ final class SettingsControllerTest extends TestCase
                 'ok' => false,
                 'error' => 'not_authed',
             ]),
-            \sprintf('%s?user=%s', self::API_SLACK_USERS, $userId) => Http::response([
+            sprintf('%s?user=%s', self::API_SLACK_USERS, $userId) => Http::response([
                 'ok' => false,
                 'error' => 'not_authed',
             ]),
         ]);
-        $this->actingAs($user)
+        self::actingAs($user)
             ->post(
                 route('settings-link-user'),
                 [
@@ -119,7 +122,7 @@ final class SettingsControllerTest extends TestCase
             )
             ->assertStatus(Response::HTTP_FOUND)
             ->assertSessionHasNoErrors();
-        $this->assertDatabaseHas(
+        self::assertDatabaseHas(
             'chat_users',
             [
                 'server_id' => $serverId,
@@ -148,7 +151,7 @@ final class SettingsControllerTest extends TestCase
             'remote_user_id' => $userId,
             'user_id' => $user->id,
         ]);
-        $this->actingAs($user)
+        self::actingAs($user)
             ->followingRedirects()
             ->post(
                 route('settings-link-user'),
@@ -174,7 +177,7 @@ final class SettingsControllerTest extends TestCase
             self::API_DISCORD_GUILDS . $serverId => Http::response([], Response::HTTP_BAD_REQUEST),
             self::API_DISCORD_USERS . $userId => Http::response([], Response::HTTP_NOT_FOUND),
         ]);
-        $this->actingAs($user)
+        self::actingAs($user)
             ->followingRedirects()
             ->post(
                 route('settings-link-user'),
@@ -185,7 +188,7 @@ final class SettingsControllerTest extends TestCase
             )
             ->assertOk()
             ->assertSessionHasNoErrors();
-        $this->assertDatabaseHas(
+        self::assertDatabaseHas(
             'chat_users',
             [
                 'server_id' => $serverId,
@@ -221,7 +224,7 @@ final class SettingsControllerTest extends TestCase
                 Response::HTTP_OK
             ),
         ]);
-        $this->actingAs($user)
+        self::actingAs($user)
             ->followingRedirects()
             ->post(
                 route('settings-link-user'),
@@ -232,7 +235,7 @@ final class SettingsControllerTest extends TestCase
             )
             ->assertOk()
             ->assertSessionHasNoErrors();
-        $this->assertDatabaseHas(
+        self::assertDatabaseHas(
             'chat_users',
             [
                 'server_id' => $serverId,
@@ -261,7 +264,7 @@ final class SettingsControllerTest extends TestCase
             'remote_user_id' => $userId,
             'user_id' => $user->id,
         ]);
-        $this->actingAs($user)
+        self::actingAs($user)
             ->followingRedirects()
             ->post(
                 route('settings-link-user'),
@@ -289,7 +292,7 @@ final class SettingsControllerTest extends TestCase
             'remote_user_id' => $userId,
             'user_id' => $user->id,
         ]);
-        $this->actingAs($user)
+        self::actingAs($user)
             ->followingRedirects()
             ->post(
                 route('settings-link-user'),
@@ -311,7 +314,7 @@ final class SettingsControllerTest extends TestCase
         $user = User::factory()->create();
         $serverId = 'chat.freenode.net:6667';
         $userId = Str::random(10);
-        $this->actingAs($user)
+        self::actingAs($user)
             ->followingRedirects()
             ->post(
                 route('settings-link-user'),
@@ -323,7 +326,7 @@ final class SettingsControllerTest extends TestCase
             )
             ->assertOk()
             ->assertSessionHasNoErrors();
-        $this->assertDatabaseHas(
+        self::assertDatabaseHas(
             'chat_users',
             [
                 'server_id' => $serverId,

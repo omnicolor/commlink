@@ -72,12 +72,10 @@ final class HelpTest extends TestCase
 
         /** @var Campaign */
         $campaignRegistered = Campaign::factory()->create([
-            // @phpstan-ignore-next-line
             'registered_by' => $chatUser->user->id,
         ]);
         /** @var Campaign */
         $campaignGmed = Campaign::factory()->create([
-            // @phpstan-ignore-next-line
             'gm' => $chatUser->user->id,
         ]);
 

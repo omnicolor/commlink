@@ -39,8 +39,8 @@ class Gear implements Stringable
     public string $ruleset;
     public ?float $weight;
 
-    /** @var array<string, array<int, string>|int|null|string> */
-    public static array $gear;
+    /** @var ?array<string, array<int, string>|int|null|string> */
+    public static ?array $gear;
 
     public function __construct(public string $id, ?int $quantity = 1)
     {

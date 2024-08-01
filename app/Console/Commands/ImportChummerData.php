@@ -390,6 +390,7 @@ class ImportChummerData extends Command implements Isolatable
             'type' => $type,
         ];
 
+        /** @psalm-suppress RedundantCondition */
         if (null !== $aug->capacity) {
             $cap = (string)$aug->capacity;
             if (Str::contains($cap, '[')) {
@@ -398,6 +399,7 @@ class ImportChummerData extends Command implements Isolatable
             }
         }
 
+        /** @psalm-suppress TypeDoesNotContainNull */
         if (null === $aug->rating) {
             $augmentation['availability'] = $this->cleanAvailability($aug);
             $augmentation['cost'] = (int)$aug->cost;

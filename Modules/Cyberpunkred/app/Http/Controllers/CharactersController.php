@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Modules\Cyberpunkred\Http\Requests\HandleRequest;
 use Modules\Cyberpunkred\Http\Requests\LifepathRequest;
@@ -90,7 +89,6 @@ class CharactersController extends Controller
         /** @var User */
         $user = $request->user();
         if ('new' === $step) {
-            /** @var PartialCharacter */
             $character = PartialCharacter::create(['owner' => $user->email]);
             $request->session()->put('cyberpunkred-partial', $character->id);
             return view(
@@ -131,8 +129,11 @@ class CharactersController extends Controller
                 );
             }
 
-            // No in-progress characters, create a new one.
-            /** @var PartialCharacter */
+            /**
+             * No in-progress characters, create a new one.
+             * @psalm-suppress UnnecessaryVarAnnotation PHPStan needs it
+             * @var PartialCharacter
+             */
             $character = PartialCharacter::create([
                 'owner' => $user->email,
             ]);
@@ -242,7 +243,7 @@ class CharactersController extends Controller
     {
         $characterId = $request->session()->get('cyberpunkred-partial');
         /** @var User */
-        $user = Auth::user();
+        $user = $request->user();
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
@@ -262,7 +263,7 @@ class CharactersController extends Controller
     {
         $characterId = $request->session()->get('cyberpunkred-partial');
         /** @var User */
-        $user = Auth::user();
+        $user = $request->user();
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
@@ -288,7 +289,7 @@ class CharactersController extends Controller
     {
         $characterId = $request->session()->get('cyberpunkred-partial');
         /** @var User */
-        $user = Auth::user();
+        $user = $request->user();
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
@@ -313,7 +314,7 @@ class CharactersController extends Controller
     {
         $characterId = $request->session()->get('cyberpunkred-partial');
         /** @var User */
-        $user = Auth::user();
+        $user = $request->user();
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
@@ -341,11 +342,11 @@ class CharactersController extends Controller
      * Return a collection of characters for the logged in user.
      * @psalm-suppress PossiblyUnusedMethod
      */
-    public function index(): AnonymousResourceCollection
+    public function index(Request $request): AnonymousResourceCollection
     {
         return CharacterResource::collection(
             // @phpstan-ignore-next-line
-            Character::where('owner', Auth::user()->email)->get()
+            Character::where('owner', $request->user()->email)->get()
         );
     }
 
@@ -353,10 +354,10 @@ class CharactersController extends Controller
      * Return a single Cyberpunk Red character.
      * @psalm-suppress PossiblyUnusedMethod
      */
-    public function show(string $identifier): JsonResource
+    public function show(Request $request, string $identifier): JsonResource
     {
         // @phpstan-ignore-next-line
-        $email = Auth::user()->email;
+        $email = $request->user()->email;
         return new CharacterResource(
             Character::where('_id', $identifier)
                 ->where('owner', $email)
@@ -367,9 +368,9 @@ class CharactersController extends Controller
     /**
      * View a character's sheet.
      */
-    public function view(Character $character): View
+    public function view(Request $request, Character $character): View
     {
-        $user = Auth::user();
+        $user = $request->user();
         return view(
             'cyberpunkred::character',
             [

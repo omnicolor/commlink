@@ -17,7 +17,17 @@ use function sha1;
 use function substr;
 
 /**
+ * @property-read ?ChatCharacter $chat_character
+ * @property int $id
+ * @property string $remote_user_id
+ * @property ?string $remote_user_name
+ * @property string $server_id
+ * @property ?string $server_name
+ * @property string $server_type
+ * @property-read User $user
+ * @property int $user_id
  * @property-read string $verification
+ * @property bool $verified
  */
 class ChatUser extends Model
 {
@@ -40,11 +50,11 @@ class ChatUser extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'remote_user_id',
+        'remote_user_name',
         'server_id',
         'server_name',
         'server_type',
-        'remote_user_id',
-        'remote_user_name',
         'user_id',
         'verified',
     ];

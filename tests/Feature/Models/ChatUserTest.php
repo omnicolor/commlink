@@ -206,7 +206,6 @@ final class ChatUserTest extends TestCase
         $user = User::factory()->create();
         /** @var ChatUser */
         $chatUser = ChatUser::factory()->make(['user_id' => $user->id]);
-        // @phpstan-ignore-next-line
         self::assertSame($user->email, $chatUser->user->email);
     }
 }

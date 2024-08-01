@@ -30,9 +30,9 @@ class ActiveSkill implements Stringable
     public array $specialization_examples;
 
     /**
-     * @var array<string, array<string, array<int, string>|bool|int|string>>
+     * @var ?array<string, array<string, array<int, string>|bool|int|string>>
      */
-    public static array $skills;
+    public static ?array $skills;
 
     /**
      * @psalm-suppress UnresolvableInclude

@@ -8,10 +8,10 @@ use App\Models\Character;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Spatie\Permission\Models\Role;
 
 /**
  * @mixin User
+ * @psalm-type Role = object{id: int, name: string}
  */
 class UserResource extends JsonResource
 {

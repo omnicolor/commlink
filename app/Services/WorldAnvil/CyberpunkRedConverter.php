@@ -260,7 +260,6 @@ class CyberpunkRedConverter implements ConverterInterface
         $this->character->technique = (int)$this->rawCharacter->tech;
         $this->character->willpower = (int)$this->rawCharacter->will;
         $this->character->hit_points_current = (int)$this->rawCharacter->hitpoints_curr;
-        $this->character->humanity = (int)$this->rawCharacter->humanity_max;
         $this->character->humanity_current = (int)$this->rawCharacter->humanity_curr;
         $this->character->improvement_points_current = (int)$this->rawCharacter->improvement_points_curr;
         $this->character->improvement_points = (int)$this->rawCharacter->improvement_points_max;
