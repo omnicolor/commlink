@@ -21,11 +21,17 @@ use function sprintf;
 
 /**
  * Representation of a Slack, Discord, or IRC channel.
+ * @property-read ?Campaign $campaign
+ * @property ?int $campaign_id
+ * @property string $channel_id
+ * @property string $channel_name
  * @property-read int $id
+ * @property int $registered_by
  * @property string $server_id
  * @property ?string $server_name
- * @property string $type
  * @property ?string $system
+ * @property string $type
+ * @property ?string $webhook
  */
 class Channel extends Model
 {

@@ -210,6 +210,7 @@ class CampaignsController extends Controller
 
         // User already has a Commlink account. Have they already been invited
         // to this campaign?
+        /** @var ?User */
         $player = $campaign->users->find($user->id);
         abort_if(
             'invited' === $player?->pivot?->status,
@@ -218,7 +219,7 @@ class CampaignsController extends Controller
         );
         // or are they already playing?
         abort_if(
-            'accepted' === $player?->pivot?->status,
+            'accepted' === $player?->pivot->status,
             Response::HTTP_CONFLICT,
             'That user has already joined the campaign',
         );

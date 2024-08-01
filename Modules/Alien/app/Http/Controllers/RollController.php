@@ -36,6 +36,7 @@ class RollController extends Controller
         );
         /** @var User */
         $user = $request->user();
+        /** @var Character */
         $character = Character::where('_id', $roll['character'])
             ->where('owner', $user->email)
             ->first();
@@ -51,6 +52,7 @@ class RollController extends Controller
     {
         /** @var User */
         $user = $request->user();
+        /** @var Character */
         $character = Character::where('_id', $request->character)
             ->where('owner', $user->email)
             ->firstOrFail();

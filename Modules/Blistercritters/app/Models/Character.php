@@ -13,6 +13,7 @@ use Modules\Blistercritters\Database\Factories\CharacterFactory;
 use Stringable;
 
 /**
+ * @method static ?self findOrFail(string $id)
  * @property string $created_at
  * @property string $id
  * @property int $instinct

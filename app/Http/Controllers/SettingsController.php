@@ -46,7 +46,7 @@ class SettingsController extends Controller
         $remoteUserId = $request->input('user-id');
 
         // @phpstan-ignore-next-line
-        $userId = Auth::user()->id;
+        $userId = $request->user()->id;
 
         $chatUser = ChatUser::where('server_id', $serverId)
             ->where('remote_user_id', $remoteUserId)
@@ -67,7 +67,8 @@ class SettingsController extends Controller
             'verified' => false,
         ]);
         $chatUser->server_name = $chatUser->getDiscordServerName($serverId);
-        $chatUser->remote_user_name = $chatUser->getDiscordUserName($remoteUserId);
+        $chatUser->remote_user_name
+            = $chatUser->getDiscordUserName($remoteUserId);
         $chatUser->save();
 
         return redirect('settings')
@@ -150,7 +151,7 @@ class SettingsController extends Controller
         $serverId = $request->input('server-id');
         $remoteUserId = $request->input('user-id');
         // @phpstan-ignore-next-line
-        $userId = Auth::user()->id;
+        $userId = $request->user()->id;
 
         $chatUser = ChatUser::where('server_id', $serverId)
             ->where('remote_user_id', $remoteUserId)

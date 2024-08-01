@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Traits\GameSystem;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,13 +17,20 @@ use Modules\Shadowrun5e\Models\Campaign as Shadowrun5eCampaign;
 
 /**
  * Class representing a gaming campaign or one-shot.
+ * @method static int count()
+ * @method static ?Campaign find(int $id)
+ * @method static Builder where(string $field, mixed $value)
+ * @mixin Model
  * @property string $description
+ * @property-read ?User $gamemaster
  * @property ?int $gm
  * @property int $id
  * @property string $name
  * @property array<string, mixed> $options
  * @property int $registered_by
+ * @property-read ?User $registrant
  * @property string $system
+ * @property-read Collection<User> $users
  */
 class Campaign extends Model
 {

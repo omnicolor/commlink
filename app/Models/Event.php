@@ -17,6 +17,8 @@ use Illuminate\Support\Collection;
 
 /**
  * Class representing a real life event, like a game session.
+ * @method static ?self Find(string $id)
+ * @method self firstOrFail()
  * @property Campaign $campaign
  * @property int $campaign_id
  * @property int $created_by
@@ -24,6 +26,7 @@ use Illuminate\Support\Collection;
  * @property ?string $description
  * @property null|string|Carbon $game_end
  * @property null|string|Carbon $game_start
+ * @property-read int $id
  * @property string $name
  * @property null|string|Carbon $real_end
  * @property string|Carbon $real_start

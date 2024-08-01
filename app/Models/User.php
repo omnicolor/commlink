@@ -21,8 +21,9 @@ use stdClass;
 
 /**
  * @property string $email
- * @property int $id
  * @property Collection $events
+ * @property int $id
+ * @property string $name
  * @property stdClass $pivot
  */
 class User extends Authenticatable

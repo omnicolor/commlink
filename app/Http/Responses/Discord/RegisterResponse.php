@@ -64,7 +64,6 @@ class RegisterResponse implements Stringable
         $channel->fill([
             'channel_name' => $channel->getDiscordChannelName($channel->channel_id),
             'server_name' => $channel->getDiscordServerName($channel->server_id),
-            // @phpstan-ignore-next-line
             'registered_by' => $chatUser->user->id,
             'webhook' => $channel->createDiscordWebhook($channel->channel_id),
         ]);

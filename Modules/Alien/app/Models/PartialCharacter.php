@@ -6,6 +6,7 @@ namespace Modules\Alien\Models;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Alien\Database\Factories\PartialCharacterFactory;
 use Stringable;
 
@@ -13,6 +14,8 @@ use function array_key_exists;
 use function sprintf;
 
 /**
+ * @method static self create(array<mixed, mixed> $attributes)
+ * @mixin Model
  * @property-read ?Career $career
  * @property-write Career|string $career
  */

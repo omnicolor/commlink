@@ -11,6 +11,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
+ * @property ?int $campaign_id
+ * @property ?int $channel_id
+ * @property ?string $character_id
+ * @property ?string $character_name
+ * @property ?int $grunt_id
+ * @property int $initiative
  * @property-read string $name
  */
 class Initiative extends Model

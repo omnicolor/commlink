@@ -27,7 +27,6 @@ class CampaignInvitationCreated implements ShouldBroadcast
     public function broadcastOn(): PrivateChannel
     {
         return new PrivateChannel(
-            // @phpstan-ignore-next-line
             'campaigns.' . $this->invitation->campaign->id,
         );
     }

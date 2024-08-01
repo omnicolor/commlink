@@ -37,6 +37,7 @@ class CreateGearRequest extends FormRequest
         /** @var User */
         $user = $this->user();
         $characterId = $this->session()->get(CharactersController::SESSION_KEY);
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('owner', $user->email)
             ->where('_id', $characterId)
             ->firstOrFail();
