@@ -15,6 +15,7 @@ use Stringable;
 /**
  * A critter's attributes (scrap, scurry, noggin, instinct, and vibe) are stored
  * as an integer which represents the die type to use for those rolls.
+ * @method static ?self findOrFail(string $id)
  * @property string $created_at
  * @property string $id
  * @property int $instinct

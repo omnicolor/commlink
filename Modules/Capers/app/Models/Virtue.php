@@ -32,9 +32,9 @@ class Virtue implements Stringable
     public string $name;
 
     /**
-     * @var array<string, array<string, string>>
+     * @var ?array<string, array<string, string>>
      */
-    public static array $virtues;
+    public static ?array $virtues;
 
     public function __construct(public string $id)
     {

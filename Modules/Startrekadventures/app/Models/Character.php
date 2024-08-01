@@ -146,6 +146,7 @@ class Character extends BaseCharacter
     {
         return Attribute::make(
             get: function (): Attributes {
+                /** @psalm-suppress RedundantPropertyInitializationCheck */
                 if (!isset($this->attributesObject)) {
                     $this->attributesObject = new Attributes(
                         $this->attributes['attributes']
@@ -163,11 +164,13 @@ class Character extends BaseCharacter
     {
         return Attribute::make(
             get: function (): int {
+                /** @psalm-suppress RedundantPropertyInitializationCheck */
                 if (!isset($this->attributesObject)) {
                     $this->attributesObject = new Attributes(
                         $this->attributes['attributes']
                     );
                 }
+                /** @psalm-suppress RedundantPropertyInitializationCheck */
                 if (!isset($this->disciplinesObject)) {
                     $this->disciplinesObject = new Disciplines(
                         $this->attributes['disciplines']

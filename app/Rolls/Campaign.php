@@ -49,6 +49,7 @@ class Campaign extends Roll
         $args = explode(' ', $content);
         if (self::MIN_NUM_ARGUMENTS === count($args)) {
             $this->campaignId = (int)$args[1];
+            // @phpstan-ignore assign.propertyType
             $this->campaign = CampaignModel::find($this->campaignId);
         }
         $this->chatUser = $this->channel->getChatUser();
@@ -165,7 +166,7 @@ class Campaign extends Roll
                 $this->channel->server_name = $this->channel->getSlackTeamName(
                     $this->channel->server_id
                 );
-                $this->channel->channel_name = $this->channel->getSlackChannelName(
+                $this->channel->channel_name = (string)$this->channel->getSlackChannelName(
                     $this->channel->channel_id
                 );
             }

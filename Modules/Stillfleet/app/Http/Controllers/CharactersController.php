@@ -42,7 +42,6 @@ class CharactersController extends Controller
         $user = $request->user();
 
         if ('new' === $step) {
-            /** @var PartialCharacter */
             $character = PartialCharacter::create(['owner' => $user->email]);
             $request->session()->put('stillfleet-partial', $character->id);
             return new RedirectResponse(route('stillfleet.create', 'class'));
@@ -68,7 +67,6 @@ class CharactersController extends Controller
             }
 
             // No in-progress characters, create a new one.
-            /** @var PartialCharacter */
             $character = PartialCharacter::create(['owner' => $user->email]);
             $request->session()->put('stillfleet-partial', $character->id);
         }

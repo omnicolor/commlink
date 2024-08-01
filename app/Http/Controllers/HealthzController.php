@@ -64,6 +64,9 @@ class HealthzController extends Controller
         }
     }
 
+    /**
+     * @psalm-suppress UndefinedMagicMethod
+     */
     protected function checkRedis(): bool
     {
         $now = now()->toDateTimeString();
@@ -91,6 +94,7 @@ class HealthzController extends Controller
             'ps ax | grep %s | grep -v "ps ax" | grep -v grep',
             escapeshellarg($name),
         );
+        /** @psalm-suppress ForbiddenCode */
         $output = (string)shell_exec($command);
         if ('' === $output) {
             return [];

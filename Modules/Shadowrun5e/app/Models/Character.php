@@ -76,6 +76,7 @@ use function ucwords;
  * @property ?int $resonance
  * @property ?array<int, array<string, mixed>> $skills
  * @property ?array<string, ?int> $skillGroups
+ * @property-read int $soak
  * @property-read int $social_limit
  * @property int $strength
  * @property-read int $stun_monitor

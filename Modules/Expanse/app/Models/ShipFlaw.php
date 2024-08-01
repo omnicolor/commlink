@@ -31,9 +31,9 @@ class ShipFlaw implements Stringable
 
     /**
      * Collection of all ship flaws.
-     * @var array<string, array<string, array<string, int>|int|string>>
+     * @var ?array<string, array<string, array<string, int>|int|string>>
      */
-    public static array $flaws;
+    public static ?array $flaws;
 
     /**
      * @throws RuntimeException
