@@ -46,9 +46,6 @@ class PartialCharacter extends Character implements Stringable
         return $character;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function toCharacter(): Character
     {
         $character = $this->toArray();
@@ -58,7 +55,7 @@ class PartialCharacter extends Character implements Stringable
         foreach (collect($this->gear) as $item) {
             $character['gear'][] = [
                 'id' => $item->id,
-                'quantity' => $item->quantity ?? 1,
+                'quantity' => $item->quantity,
             ];
         }
         $character['weapons'] = [];

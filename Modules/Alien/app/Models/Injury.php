@@ -27,8 +27,8 @@ class Injury implements Stringable
     public int $roll;
     public ?string $time_limit;
 
-    /** @var array<string, array<string, array<string, int>|bool|int|null|string>> */
-    public static array $injuries;
+    /** @var ?array<string, array<string, array<string, int>|bool|int|null|string>> */
+    public static ?array $injuries;
 
     public function __construct(public string $id)
     {

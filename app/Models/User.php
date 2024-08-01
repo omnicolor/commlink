@@ -20,6 +20,8 @@ use Spatie\Permission\Traits\HasRoles;
 use stdClass;
 
 /**
+ * @property iterable<array-key, Campaign> $campaignsGmed
+ * @property iterable<array-key, Campaign> $campaignsRegistered
  * @property string $email
  * @property Collection $events
  * @property int $id

@@ -21,7 +21,8 @@ use const PHP_EOL;
  * Blitz Shadowrun 5E initiative using five initiative dice.
  *
  * Roll the maximum of five initiative dice for a single turn.
- * @psalm-suppress UnusedClass
+ * @property Character $character
+ * @psalm-api
  */
 class Blitz extends Init
 {
@@ -53,25 +54,23 @@ class Blitz extends Init
             return;
         }
 
-        // @phpstan-ignore-next-line
-        if (null === $this->character->edgeCurrent) {
-            $this->character->edgeCurrent = $this->character->edge ?? 0;
+        $character = $this->character;
+        if (null === $character->edgeCurrent) {
+            /** @psalm-suppress UndefinedMagicPropertyAssignment */
+            $character->edgeCurrent = $character->edge ?? 0;
         }
-        if (0 === $this->character->edgeCurrent) {
+        if (0 === $character->edgeCurrent) {
             $this->error = 'It looks like you\'re out of edge!';
             return;
         }
 
-        /** @var Character */
-        $character = $this->character;
         $this->initiativeScore = $character->initiative_score;
 
         $this->roll();
 
-        // @phpstan-ignore-next-line
-        $this->character->edgeCurrent--;
-        // @phpstan-ignore-next-line
-        $this->character->save();
+        /** @psalm-suppress UndefinedMagicPropertyAssignment */
+        $character->edgeCurrent--;
+        $character->save();
 
         $initiative = Initiative::updateOrCreate(
             [

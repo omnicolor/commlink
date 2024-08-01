@@ -199,7 +199,7 @@ class Lifepath
     ];
 
     /**
-     * @var array<int, array<string, string|array<int, string>>>>
+     * @var array<int, array<string, string|array<int, string>>>
      */
     public static array $origins = [
         1 => [
@@ -396,7 +396,7 @@ class Lifepath
     }
 
     /**
-     * @return array<string, string|array<int, string>>>
+     * @return array<string, string|array<int, string>>
      */
     public function getOrigin(): array
     {

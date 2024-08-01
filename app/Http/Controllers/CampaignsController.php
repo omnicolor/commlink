@@ -53,7 +53,7 @@ class CampaignsController extends Controller
             'system',
         ]));
         // @phpstan-ignore-next-line
-        $campaign->registered_by = Auth::user()->id;
+        $campaign->registered_by = $request->user()->id;
 
         switch ($request->input('system')) {
             case 'avatar':

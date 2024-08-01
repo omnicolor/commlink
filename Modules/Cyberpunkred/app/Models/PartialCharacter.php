@@ -11,6 +11,7 @@ use Stringable;
 
 /**
  * Representation of a character currently being built.
+ * @method static self create(array<mixed, mixed> $attributes)
  */
 class PartialCharacter extends Character implements Stringable
 {
@@ -27,7 +28,6 @@ class PartialCharacter extends Character implements Stringable
     protected $table = 'characters-partial';
 
     /**
-     * @psalm-suppress PossiblyUnusedProperty
      * @var array<int, string>
      */
     public array $errors = [];

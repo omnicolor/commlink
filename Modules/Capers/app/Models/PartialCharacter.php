@@ -13,6 +13,7 @@ use function optional;
 
 /**
  * Representation of a character currently being built.
+ * @method static self create(array<mixed, mixed> $attributes)
  * @property array<int, object> $gear
  * @property array<string, string> $meta
  * @property-read PowerArray $powers

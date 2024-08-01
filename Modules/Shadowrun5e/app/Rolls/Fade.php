@@ -9,10 +9,9 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Rolls\Roll;
 use Discord\Builders\MessageBuilder;
-use Modules\Shadowrun5e\Models\Character;
 
 /**
- * @psalm-suppress UnusedClass
+ * @psalm-api
  */
 class Fade extends Number
 {
@@ -32,7 +31,6 @@ class Fade extends Number
             return;
         }
 
-        /** @var Character */
         $character = $this->character;
 
         if (null === $character->resonance) {
