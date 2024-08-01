@@ -53,6 +53,10 @@ class CharactersController extends Controller
             return new RedirectResponse(route('dashboard'));
         }
         if ('new' === $step) {
+            /**
+             * @psalm-suppress UnnecessaryVarAnnotation
+             * @var PartialCharacter
+             */
             $character = PartialCharacter::create(['owner' => $user->email]);
             $request->session()->put(self::SESSION_KEY, $character->id);
             return new RedirectResponse(route('alien.create', 'career'));
@@ -78,7 +82,11 @@ class CharactersController extends Controller
                 );
             }
 
-            // No in-progress characters, create a new one.
+            /**
+             * No in-progress characters, create a new one.
+             * @psalm-suppress UnnecessaryVarAnnotation
+             * @var PartialCharacter
+             */
             $character = PartialCharacter::create(['owner' => $user->email]);
             $request->session()->put(self::SESSION_KEY, $character->id);
         }
@@ -277,6 +285,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = $request->user();
         $characterId = $request->session()->get(self::SESSION_KEY);
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -294,6 +303,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = $request->user();
         $characterId = $request->session()->get(self::SESSION_KEY);
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -312,6 +322,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = $request->user();
         $characterId = $request->session()->get(self::SESSION_KEY);
+        /** @var PartialCharacter */
         $partialCharacter = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -332,6 +343,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = $request->user();
         $characterId = $request->session()->get(self::SESSION_KEY);
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -350,6 +362,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = $request->user();
         $characterId = $request->session()->get(self::SESSION_KEY);
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -424,6 +437,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = $request->user();
         $characterId = $request->session()->get(self::SESSION_KEY);
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -444,6 +458,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = $request->user();
         $characterId = $request->session()->get(self::SESSION_KEY);
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();

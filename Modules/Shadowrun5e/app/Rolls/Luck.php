@@ -9,13 +9,12 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Rolls\Roll;
 use Discord\Builders\MessageBuilder;
-use Modules\Shadowrun5e\Models\Character;
 
 use function sprintf;
 
 /**
  * Roll a Shadowrun 5E luck test.
- * @psalm-suppress UnusedClass
+ * @psalm-api
  */
 class Luck extends Number
 {
@@ -35,7 +34,6 @@ class Luck extends Number
             return;
         }
 
-        /** @var Character */
         $character = $this->character;
         $this->dice = $character->edge;
 

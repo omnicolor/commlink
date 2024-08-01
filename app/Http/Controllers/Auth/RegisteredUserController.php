@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Campaign;
 use App\Models\CampaignInvitation;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -69,7 +68,6 @@ class RegisteredUserController extends Controller
         ]));
 
         if (null !== $invitation) {
-            /** @var Campaign */
             $campaign = $invitation->campaign;
             $campaign->users()->attach(
                 $user->id,

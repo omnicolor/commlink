@@ -167,6 +167,7 @@ final class CharactersControllerTest extends TestCase
 
     public function testSaveClass(): void
     {
+        /** @var PartialCharacter */
         $character = PartialCharacter::create(['owner' => $this->user->email]);
         session(['stillfleet-partial' => $character->id]);
         self::actingAs($this->user)
@@ -182,6 +183,7 @@ final class CharactersControllerTest extends TestCase
 
     public function testUpdateClass(): void
     {
+        /** @var PartialCharacter */
         $character = PartialCharacter::create([
             'owner' => $this->user->email,
             'roles' => [
@@ -209,6 +211,7 @@ final class CharactersControllerTest extends TestCase
 
     public function testUpdateClassToSame(): void
     {
+        /** @var PartialCharacter */
         $character = PartialCharacter::create([
             'owner' => $this->user->email,
             'roles' => [

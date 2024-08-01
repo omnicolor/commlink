@@ -89,8 +89,6 @@ class CritterPower implements Stringable
 
     /**
      * Constructor.
-     * @param string $id
-     * @param ?string $subname
      * @throws RuntimeException if the power is not found
      */
     public function __construct(string $id, public ?string $subname = null)

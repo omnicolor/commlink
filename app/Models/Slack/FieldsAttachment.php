@@ -17,7 +17,6 @@ class FieldsAttachment extends Attachment
 
     /**
      * Constructor.
-     * @param string $title
      */
     public function __construct(protected string $title)
     {
@@ -25,8 +24,6 @@ class FieldsAttachment extends Attachment
 
     /**
      * Add a field to the attachment.
-     * @param Field $field
-     * @return FieldsAttachment
      */
     public function addField(Field $field): FieldsAttachment
     {

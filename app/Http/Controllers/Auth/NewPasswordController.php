@@ -20,8 +20,6 @@ class NewPasswordController extends Controller
 {
     /**
      * Display the password reset view.
-     * @param Request $request
-     * @return View
      */
     public function create(Request $request): View
     {

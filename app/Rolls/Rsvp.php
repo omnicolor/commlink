@@ -137,7 +137,7 @@ class Rsvp extends Roll
 
         $response = $action->selected_option->value;
         EventRsvp::updateOrCreate(
-            ['event_id' => $event->id, 'user_id' => $this->chatUser->user?->id],
+            ['event_id' => $event->id, 'user_id' => $this->chatUser->user->id],
             ['response' => $response],
         );
 

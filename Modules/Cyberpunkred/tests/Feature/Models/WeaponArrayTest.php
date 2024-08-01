@@ -18,7 +18,6 @@ final class WeaponArrayTest extends TestCase
 {
     /**
      * Subject under test.
-     * @var WeaponArray
      */
     protected WeaponArray $weapons;
 

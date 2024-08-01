@@ -30,9 +30,9 @@ class Quality implements Stringable
 
     /**
      * Collection of all qualities.
-     * @var array<string, array<string, array<string, mixed>|int|string>>
+     * @var ?array<string, array<string, array<string, mixed>|int|string>>
      */
-    public static array $qualities;
+    public static ?array $qualities;
 
     /**
      * @psalm-suppress UnusedVariable

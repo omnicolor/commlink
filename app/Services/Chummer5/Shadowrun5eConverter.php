@@ -29,7 +29,6 @@ class Shadowrun5eConverter implements ConverterInterface
 {
     /**
      * Character after conversion.
-     * @var Character
      */
     protected Character $character;
 
@@ -67,13 +66,11 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * XML from the uploaded file.
-     * @var SimpleXMLElement
      */
     protected SimpleXMLElement $xml;
 
     /**
      * Constructor.
-     * @param string $filename
      * @throws RuntimeException
      */
     public function __construct(string $filename)
@@ -107,8 +104,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Convert a name to something that might be a valid Commlink ID.
-     * @param string $name
-     * @return string
      */
     public function createIDFromName(string $name): string
     {
@@ -541,7 +536,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Convert a Chummer 5 file to a Commlink character and return it.
-     * @return Character
      */
     public function convert(): Character
     {

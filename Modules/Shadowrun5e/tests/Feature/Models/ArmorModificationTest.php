@@ -29,7 +29,6 @@ final class ArmorModificationTest extends TestCase
 
     /**
      * Test loading a valid modification sets the ID.
-     * @return ArmorModification
      */
     public function testLoadArmorModificationSetsId(): ArmorModification
     {

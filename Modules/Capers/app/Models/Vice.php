@@ -29,9 +29,9 @@ class Vice implements Stringable
     public string $name;
 
     /**
-     * @var array<string, array<string, string>>
+     * @var ?array<string, array<string, string>>
      */
-    public static array $vices;
+    public static ?array $vices;
 
     public function __construct(public string $id)
     {

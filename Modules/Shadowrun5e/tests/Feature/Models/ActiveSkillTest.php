@@ -29,7 +29,6 @@ final class ActiveSkillTest extends TestCase
 
     /**
      * Test loading a skill.
-     * @return ActiveSkill
      */
     public function testLoadSkillSetsId(): ActiveSkill
     {

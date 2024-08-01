@@ -10,6 +10,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property Campaign $campaign
+ * @property int $campaign_id
+ * @property string $email
+ * @property int $id
+ * @property int $invited_by
+ * @property-read User $invitor
+ * @property string $name
+ * @property string $responded_at
+ * @property string $status
+ * @property string $updated_at
+ */
 class CampaignInvitation extends Model
 {
     use HasFactory;

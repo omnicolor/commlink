@@ -17,17 +17,22 @@ use Illuminate\Support\Collection;
 
 /**
  * Class representing a real life event, like a game session.
+ * @method static ?self Find(string $id)
+ * @method self firstOrFail()
  * @property Campaign $campaign
  * @property int $campaign_id
+ * @property Carbon|string $created_at
  * @property int $created_by
  * @property User $creator
  * @property ?string $description
- * @property null|string|Carbon $game_end
- * @property null|string|Carbon $game_start
+ * @property Carbon|null|string $game_end
+ * @property Carbon|null|string $game_start
+ * @property-read int $id
  * @property string $name
- * @property null|string|Carbon $real_end
- * @property string|Carbon $real_start
+ * @property Carbon|null|string $real_end
+ * @property Carbon|string $real_start
  * @property Collection $responses
+ * @property Carbon|string $updated_at
  */
 class Event extends Model
 {

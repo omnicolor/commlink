@@ -8,6 +8,12 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
+use Modules\Cyberpunkred\Models\Character;
+
+use function config;
+use function sprintf;
+
+use const PHP_EOL;
 
 /**
  * @psalm-suppress UnusedClass
@@ -28,7 +34,7 @@ class Help extends Roll
         $this->data = [
             [
                 'title' => sprintf('About %s', config('app.name')),
-                'text' => \sprintf(
+                'text' => sprintf(
                     '%s is a Slack/Discord bot that lets you roll dice '
                     . 'appropriate for various RPG systems. This channel is '
                     . 'playing Cyberpunk Red, so most of your rolls will be '
@@ -46,26 +52,27 @@ class Help extends Roll
             ],
         ];
         if (null !== $this->character) {
+            /** @var Character */
+            $character = $this->character;
             $this->data[] = [
                 'title' => sprintf(
                     'Cyberpunk Red commands (as %s):',
-                    (string)$this->character
+                    (string)$character
                 ),
                 'text' => sprintf(
                     '· `9 [text]` - Roll 1d10 adding 9 to the result, with '
                         . 'optional text (human perception, bargaining, etc)'
-                        . \PHP_EOL
+                        . PHP_EOL
                         . '· `6 5 -2 [text]` - Roll 1d10, adding 6 '
                         . '(attribute), 5 (skill), and -2 (modifier) to the '
-                        . 'result' . \PHP_EOL
+                        . 'result' . PHP_EOL
                         . '· `init [-2]` - Roll initiative as %s (reflexes %d) '
-                        . 'with an optional modifier of -2' . \PHP_EOL
+                        . 'with an optional modifier of -2' . PHP_EOL
                         . '· `XdY[+C] [text]` - Roll X dice with Y sides, '
                         . 'optionally adding C to the result, optionally '
-                        . 'describing that the roll is for "text"' . \PHP_EOL,
-                    (string)$this->character,
-                    // @phpstan-ignore-next-line
-                    $this->character->reflexes,
+                        . 'describing that the roll is for "text"' . PHP_EOL,
+                    (string)$character,
+                    $character->reflexes,
                 ),
                 'color' => TextAttachment::COLOR_INFO,
             ];
@@ -74,7 +81,7 @@ class Help extends Roll
         if (null === $this->chatUser) {
             $this->data[] = [
                 'color' => TextAttachment::COLOR_DANGER,
-                'discordText' => \sprintf(
+                'discordText' => sprintf(
                     'Your Discord user has not been linked with a %s user. Go '
                         . 'to the settings page (<%s/settings>) and copy the '
                         . 'command listed there for this server. If the server '
@@ -86,7 +93,7 @@ class Help extends Roll
                     $this->channel->server_id,
                     $this->channel->user,
                 ),
-                'ircText' => \sprintf(
+                'ircText' => sprintf(
                     'Your IRC user has not been linked with a %s user. Go '
                         . 'to the settings page (<%s/settings>) and copy the '
                         . 'command listed there for this server. If the server '
@@ -98,7 +105,7 @@ class Help extends Roll
                     $this->channel->server_id,
                     $this->channel->user,
                 ),
-                'slackText' => \sprintf(
+                'slackText' => sprintf(
                     'Your Slack user has not been linked with a %s user. '
                     . 'Go to the <%s/settings|settings page> and copy the '
                     . 'command listed there for this server. If the server '
@@ -116,14 +123,14 @@ class Help extends Roll
         $this->data[] = [
             'title' => 'Cyberpunk Red commands (no character linked):',
             'text' => '· `9 [text]` - Roll 1d10 adding 9 to the result, with '
-                . 'optional text (human perception, bargaining, etc)' . \PHP_EOL
+                . 'optional text (human perception, bargaining, etc)' . PHP_EOL
                 . '· `6 5 -2 [text]` - Roll 1d10, adding 6 (attribute), 5 '
-                . '(skill), and -2 (modifier) to the result' . \PHP_EOL
+                . '(skill), and -2 (modifier) to the result' . PHP_EOL
                 . '· `init 8 [-2]` - Roll initiative for a character with '
-                . 'reflexes of 8, optionally with a modifier of -2' . \PHP_EOL
+                . 'reflexes of 8, optionally with a modifier of -2' . PHP_EOL
                 . '· `XdY[+C] [text]` - Roll X dice with Y sides, optionally '
                 . 'adding C to the result, optionally describing that the roll '
-                . 'is for "text"' . \PHP_EOL,
+                . 'is for "text"' . PHP_EOL,
             'color' => TextAttachment::COLOR_INFO,
         ];
     }
@@ -132,9 +139,9 @@ class Help extends Roll
     {
         $value = '';
         foreach ($this->data as $element) {
-            $value .= \sprintf('**%s**', $element['title']) . \PHP_EOL
+            $value .= sprintf('**%s**', $element['title']) . PHP_EOL
                 . ($element['discordText'] ?? $element['text'])
-                . \PHP_EOL . \PHP_EOL;
+                . PHP_EOL . PHP_EOL;
         }
         return $value;
     }
@@ -143,9 +150,9 @@ class Help extends Roll
     {
         $value = '';
         foreach ($this->data as $element) {
-            $value .= $element['title'] . \PHP_EOL
+            $value .= $element['title'] . PHP_EOL
                 . ($element['ircText'] ?? $element['text'])
-                . \PHP_EOL . \PHP_EOL;
+                . PHP_EOL . PHP_EOL;
         }
         return $value;
     }

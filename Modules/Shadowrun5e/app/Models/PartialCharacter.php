@@ -10,6 +10,7 @@ use Stringable;
 
 /**
  * Representation of a character currently being built.
+ * @method static self create(array<mixed, mixed> $attributes)
  * @property array<int, string> $errors
  */
 class PartialCharacter extends Character implements Stringable

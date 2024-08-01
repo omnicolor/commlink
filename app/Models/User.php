@@ -20,9 +20,12 @@ use Spatie\Permission\Traits\HasRoles;
 use stdClass;
 
 /**
+ * @property iterable<array-key, Campaign> $campaignsGmed
+ * @property iterable<array-key, Campaign> $campaignsRegistered
  * @property string $email
- * @property int $id
  * @property Collection $events
+ * @property int $id
+ * @property string $name
  * @property stdClass $pivot
  */
 class User extends Authenticatable
@@ -81,7 +84,6 @@ class User extends Authenticatable
     /**
      * Get the campaigns the user is gamemastering.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return HasMany
      */
     public function campaignsGmed(): HasMany
     {
@@ -91,7 +93,6 @@ class User extends Authenticatable
     /**
      * Get the user's channels.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return HasMany
      */
     public function channels(): HasMany
     {
@@ -100,8 +101,6 @@ class User extends Authenticatable
 
     /**
      * Get the characters for the User.
-     * @param ?string $system
-     * @return Builder
      */
     public function characters(?string $system = null): Builder
     {
@@ -115,7 +114,6 @@ class User extends Authenticatable
     /**
      * Get the user's chat server links.
      * @psalm-suppress PossiblyUnusedMethod
-     * @return HasMany
      */
     public function chatUsers(): HasMany
     {

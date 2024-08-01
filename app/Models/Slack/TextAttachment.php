@@ -11,10 +11,6 @@ class TextAttachment extends Attachment
 {
     /**
      * Constructor.
-     * @param string $title
-     * @param string $text
-     * @param string $color
-     * @param ?string $footer
      */
     public function __construct(
         protected string $title,
@@ -26,8 +22,6 @@ class TextAttachment extends Attachment
 
     /**
      * Add a footer to the attachment.
-     * @param string $footer
-     * @return TextAttachment
      */
     public function addFooter(string $footer): TextAttachment
     {
