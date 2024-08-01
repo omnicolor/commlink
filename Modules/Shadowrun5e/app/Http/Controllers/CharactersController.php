@@ -872,7 +872,7 @@ class CharactersController extends Controller
                         return $a->cost - $b->cost;
                     }
                     if ('core' === $a->ruleset) {
-                        return -1;
+                        return -1; // @codeCoverageIgnore
                     }
                     return 1;
                 });
