@@ -1,0 +1,11 @@
+{
+    "name": "Shadowrunanarchy",
+    "alias": "shadowrunanarchy",
+    "description": "Shadowrun Anarchy module for Commlink.",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Shadowrunanarchy\\Providers\\ShadowrunanarchyServiceProvider"
+    ],
+    "files": []
+}
