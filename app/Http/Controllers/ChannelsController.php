@@ -14,9 +14,6 @@ class ChannelsController extends Controller
 {
     /**
      * Update a channel.
-     * @param ChannelUpdateRequest $request
-     * @param Channel $channel
-     * @return Channel
      */
     public function update(ChannelUpdateRequest $request, Channel $channel): Channel
     {

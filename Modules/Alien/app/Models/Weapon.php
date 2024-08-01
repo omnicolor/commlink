@@ -43,8 +43,8 @@ class Weapon implements Stringable
     public string $ruleset;
     public ?float $weight;
 
-    /** @var array<string, array<int, string>|int|null|string> */
-    public static array $weapons;
+    /** @var ?array<string, array<int, string>|int|null|string> */
+    public static ?array $weapons;
 
     public function __construct(public string $id)
     {

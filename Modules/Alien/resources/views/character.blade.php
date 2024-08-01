@@ -1,3 +1,7 @@
+@php
+    $creating = 'review' === ($creating ?? '');
+    $player = !$creating && null !== $user && $user->email === $character->owner;
+@endphp
 <x-app>
     <x-slot name="title">{{ $character }}</x-slot>
     <x-slot name="head">
@@ -141,9 +145,9 @@
             <span class="nav-link active">{{ $character }}</span>
         </li>
     </x-slot>
-    @includeWhen($creating ?? '' === 'review', 'alien::create-navigation')
+    @includeWhen($creating, 'alien::create-navigation')
 
-    @if (($creating ?? '' === 'review') && 0 !== count($validationErrors))
+    @if (($creating) && 0 !== count($validationErrors))
         <div class="my-4 row">
             <div class="col-1"></div>
             <div class="col">
@@ -251,7 +255,14 @@
             <td></td>
             <td class="close-combat text-center" style="position:relative">
                 <div class="skill-rank"><div>{{ $character->skills['close-combat']->rank }}</div></div>
-                <div class="skill-name">Close combat</div>
+                <div class="skill-name">
+                    @if ($player)
+                        <button class="btn btn-link m-0 p-0"
+                            data-skill="close-combat">Close combat</button>
+                    @else
+                        Close combat
+                    @endif
+                </div>
             </td>
             <td></td>
             <td colspan=2>
@@ -288,14 +299,28 @@
             </td>
             <td class="text-end" colspan=3>
                 <div class="skill-rank d-inline-block"><div>{{ $character->skills['heavy-machinery']->rank }}</div></div>
-                <div class="skill-name d-inline-block" style="margin-left:-1rem;">Heavy machinery</div>
+                <div class="skill-name d-inline-block" style="margin-left:-1rem;">
+                    @if ($player)
+                        <button class="btn btn-link m-0 p-0"
+                            data-skill="heavy-machinery">Heavy machinery</button>
+                    @else
+                        Heavy machinery
+                    @endif
+                </div>
             </td>
             <td class="align-top text-center text-white" rowspan=3>
                 Strength
                 <div class="attribute-rank">{{ $character->strength }}</div>
             </td>
             <td colspan=2>
-                <div class="skill-name d-inline-block">Stamina</div>
+                <div class="skill-name d-inline-block">
+                    @if ($player)
+                        <button class="btn btn-link m-0 p-0"
+                            data-skill="stamina">Stamina</button>
+                    @else
+                        Stamina
+                    @endif
+                </div>
                 <div class="skill-rank d-inline-block" style="margin-left:-1rem;"><div>{{ $character->skills['stamina']->rank }}</div></div>
             </td>
             <td>
@@ -333,10 +358,24 @@
             <td></td>
             <td colspan=3 class="text-end pe-4">
                 <div class="skill-rank d-inline-block"><div>{{ $character->skills['ranged-combat']->rank }}</div></div>
-                <div class="skill-name d-inline-block" style="margin-left:-1rem">Ranged combat</div>
+                <div class="skill-name d-inline-block" style="margin-left:-1rem">
+                    @if ($player)
+                        <button class="btn btn-link m-0 p-0"
+                            data-skill="ranged-combat">Ranged combat</button>
+                    @else
+                        Ranged combat
+                    @endif
+                </div>
             </td>
             <td class="text-start ps-4" colspan=2>
-                <div class="skill-name d-inline-block">Observation</div>
+                <div class="skill-name d-inline-block">
+                    @if ($player)
+                        <button class="btn btn-link m-0 p-0"
+                            data-skill="observation">Observation</button>
+                    @else
+                        Observation
+                    @endif
+                </div>
                 <div class="skill-rank d-inline-block" style="margin-left:-1rem"><div>{{ $character->skills['observation']->rank }}</div></div>
             </td>
             <td rowspan=2 style="height:inherit">
@@ -349,7 +388,14 @@
             <td></td>
             <td class="text-end" colspan=2>
                 <div class="skill-rank d-inline-block"><div>{{ $character->skills['mobility']->rank }}</div></div>
-                <div class="skill-name d-inline-block">Mobility</div>
+                <div class="skill-name d-inline-block">
+                    @if ($player)
+                        <button class="btn btn-link m-0 p-0"
+                            data-skill="mobility">Mobility</button>
+                    @else
+                        Mobility
+                    @endif
+                </div>
             </td>
             <td class="text-end text-nowrap text-white">
                 Agility&nbsp;<div class="attribute-rank d-inline-block">{{ $character->agility }}</div>
@@ -360,7 +406,14 @@
                 Wits
             </td>
             <td>
-                <div class="skill-name d-inline-block">Survival</div>
+                <div class="skill-name d-inline-block">
+                    @if ($player)
+                        <button class="btn btn-link m-0 p-0"
+                            data-skill="survival">Survival</button>
+                    @else
+                        Survival
+                    @endif
+                </div>
                 <div class="skill-rank d-inline-block" style="margin-left:-1rem;"><div>{{ $character->skills['survival']->rank }}</div></div>
             </td>
         </tr>
@@ -385,11 +438,25 @@
             <td></td>
             <td class="text-end pe-4" colspan=2>
                 <div class="skill-rank d-inline-block"><div>{{ $character->skills['piloting']->rank }}</div></div>
-                <div class="skill-name d-inline-block" style="margin-left:-1rem;">Piloting</div>
+                <div class="skill-name d-inline-block" style="margin-left:-1rem;">
+                    @if ($player)
+                        <button class="btn btn-link m-0 p-0"
+                            data-skill="piloting">Piloting</button>
+                    @else
+                        Piloting
+                    @endif
+                </div>
             </td>
             <td></td>
             <td class="ps-4" colspan=2>
-                <div class="skill-name d-inline-block">Comtech</div>
+                <div class="skill-name d-inline-block">
+                    @if ($player)
+                        <button class="btn btn-link m-0 p-0"
+                            data-skill="comtech">Comtech</button>
+                    @else
+                        Comtech
+                    @endif
+                </div>
                 <div class="skill-rank d-inline-block" style="margin-left:-1rem;"><div>{{ $character->skills['comtech']->rank }}</div></div>
             </td>
             <td style="height:inherit">
@@ -432,10 +499,24 @@
             <td></td>
             <td class="text-end" colspan=2>
                 <div class="skill-rank d-inline-block"><div>{{ $character->skills['command']->rank }}</div></div>
-                <div class="skill-name d-inline-block" style="margin-left:-1rem;">Command</div>
+                <div class="skill-name d-inline-block" style="margin-left:-1rem;">
+                    @if ($player)
+                        <button class="btn btn-link m-0 p-0"
+                            data-skill="command">Command</button>
+                    @else
+                        Command
+                    @endif
+                </div>
             </td>
             <td class="text-start" colspan=2>
-                <div class="skill-name d-inline-block">Medical Aid</div>
+                <div class="skill-name d-inline-block">
+                    @if ($player)
+                        <button class="btn btn-link m-0 p-0"
+                            data-skill="medical-aid">Medical Aid</button>
+                    @else
+                        Medical Aid
+                    @endif
+                </div>
                 <div class="skill-rank d-inline-block" style="margin-left:-1rem;"><div>{{ $character->skills['medical-aid']->rank }}</div></div>
             </td>
         </tr>
@@ -444,7 +525,14 @@
             <td></td>
             <td></td>
             <td class="text-center pt-3" rowspan=2>
-                <div class="skill-name pb-3 pt-0">Manipulation</div>
+                <div class="skill-name pb-3 pt-0">
+                    @if ($player)
+                        <button class="btn btn-link m-0 p-0"
+                            data-skill="manipulation">Manipulation</button>
+                    @else
+                        Manipulation
+                    @endif
+                </div>
                 <div class="skill-rank" style="margin-top:-.3em;"><div>{{ $character->skills['manipulation']->rank }}</div></div>
             </td>
             <td></td>
@@ -508,17 +596,81 @@
                     </div>
                     @endfor
                 </div>
-        </tr>
-        <tr>
+            </td>
         </tr>
     </table>
 
-    @if (($creating ?? '' === 'review') && 0 === count($validationErrors))
+    @if (($creating) && 0 === count($validationErrors))
         <form action="{{ route('alien.save-character') }}" method="POST">
             @csrf
             <button class="btn btn-primary" id="submit" type="submit">
                 Character looks good!
             </button>
         </form>
+    @endif
+
+    @if ($player)
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div aria-atomic="true" aria-live="assertive" class="toast"
+            data-bs-autohide="false" id="roll-result" role="alert">
+            <div class="toast-header">
+                <strong class="me-auto">Rolled dice</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                <div class="body"></div>
+                <div class="toast-footer text-muted small"></div>
+            </div>
+        </div>
+    </div>
+
+    <x-slot name="javascript">
+        <script>
+            const character = '{{ $character->id }}';
+            const csrfToken = '{{ csrf_token() }}';
+            const toastContainer = $('#roll-result');
+
+            (function () {
+                'use strict';
+
+                $('.skill-name button').on('click', async function (e) {
+                    const skill = $(e.target).data('skill');
+                    const body = JSON.stringify({
+                        character: character,
+                        type: 'skill',
+                        skill: skill
+                    });
+                    const response = await fetch(
+                        '/api/alien/rolls',
+                        {
+                            method: 'POST',
+                            body: body,
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': csrfToken
+                            }
+                        }
+                    );
+                    const json = await response.json();
+                    window.console.log(json);
+                    $('#roll-result .toast-header strong').text(json.data.title);
+                    $('#roll-result .body').text(json.data.text);
+                    $('#roll-result .toast-footer').text(json.data.rolls.join(' '));
+                    if (json.data.success) {
+                        $('#roll-result .toast-header')
+                            .addClass('text-bg-success')
+                            .removeClass('text-bg-danger');
+                    } else {
+                        $('#roll-result .toast-header')
+                            .removeClass('text-bg-success')
+                            .addClass('text-bg-danger');
+                    }
+                    const toast = new bootstrap.Toast(toastContainer);
+                    toast.show();
+                });
+            })();
+        </script>
+    </x-slot>
     @endif
 </x-app>

@@ -10,6 +10,7 @@ use Modules\Subversion\Database\Factories\PartialCharacterFactory;
 
 /**
  * Representation of a character in character generation.
+ * @method static self create(array<mixed, mixed> $attributes)
  * @property-read int $fortune
  * @property-read int $relation_fortune
  * @property-read array<int, Relation> $relations

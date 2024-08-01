@@ -19,7 +19,6 @@ final class WeaponModificationArrayTest extends TestCase
 {
     /**
      * Subject under test.
-     * @var WeaponModificationArray
      */
     protected WeaponModificationArray $mods;
 

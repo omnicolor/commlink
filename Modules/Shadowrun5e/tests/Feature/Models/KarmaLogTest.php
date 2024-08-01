@@ -29,7 +29,6 @@ final class KarmaLogTest extends TestCase
 {
     /**
      * Subject under test.
-     * @var KarmaLog
      */
     protected KarmaLog $log;
 
@@ -44,7 +43,6 @@ final class KarmaLogTest extends TestCase
 
     /**
      * Return a boring base character.
-     * @return Character
      */
     protected function createCharacter(): Character
     {

@@ -12,7 +12,7 @@ use Discord\Builders\MessageBuilder;
 
 /**
  * Roll a Shadowrun 5E composure test.
- * @psalm-suppress UnusedClass
+ * @psalm-api
  */
 class Composure extends Number
 {
@@ -31,7 +31,6 @@ class Composure extends Number
                 . 'tests';
             return;
         }
-        // @phpstan-ignore-next-line
         $this->dice = $this->character->composure;
         $this->roll();
         if ($this->isCriticalGlitch()) {

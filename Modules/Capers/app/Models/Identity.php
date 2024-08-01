@@ -40,9 +40,9 @@ class Identity implements Stringable
     public string $name;
 
     /**
-     * @var array<string, array<string, string>>
+     * @var ?array<string, array<string, string>>
      */
-    public static array $identities;
+    public static ?array $identities;
 
     public function __construct(public string $id)
     {

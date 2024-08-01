@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Models\Campaign;
 use App\Models\CampaignInvitation;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -41,7 +40,6 @@ class AuthenticatedSessionController extends Controller
             $user = $request->user();
             /** @var CampaignInvitation */
             $invitation = CampaignInvitation::findOrFail($request->invitation);
-            /** @var Campaign */
             $campaign = $invitation->campaign;
 
             abort_if(

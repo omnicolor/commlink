@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Traits\GameSystem;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use MongoDB\Laravel\Eloquent\Model;
@@ -16,11 +17,15 @@ use function ucfirst;
 /**
  * Generic model representing a role playing character.
  * @method ?Campaign campaign()
- * @method ?Character find()
+ * @method static int count()
+ * @method ?Character find(string $id)
  * @method string getSystem()
+ * @method static Builder where(string $field, mixed $search)
+ * @mixin Model
  * @property ?int $campaign_id
  * @property string $created_at
  * @property ?string $handle
+ * @property string $id
  * @property ?string $name
  * @property string $owner
  * @property string $system
@@ -66,6 +71,7 @@ class Character extends Model implements Stringable
             return null;
         }
 
+        // @phpstan-ignore return.type
         return Campaign::find($this->campaign_id);
     }
 

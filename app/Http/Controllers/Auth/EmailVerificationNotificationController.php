@@ -18,8 +18,6 @@ class EmailVerificationNotificationController extends Controller
     /**
      * Send a new email verification notification.
      * @codeCoverageIgnore
-     * @param Request $request
-     * @return Response|RedirectResponse
      */
     public function store(Request $request): Response | RedirectResponse
     {

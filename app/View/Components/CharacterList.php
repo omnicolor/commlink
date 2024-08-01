@@ -28,11 +28,15 @@ class CharacterList extends Component
         $this->attributes = $this->newAttributeBag();
         $this->componentName = 'CharacterList';
         foreach ($this->characters as $character) {
-            // @phpstan-ignore-next-line
+            /**
+             * @psalm-suppress UndefinedMagicPropertyAssignment
+             * @phpstan-ignore-next-line
+             */
             $character->link = false;
             $system = $character->system;
             if (null !== Module::find($system) && Module::isEnabled($system)) {
                 try {
+                    /** @psalm-suppress UndefinedMagicPropertyAssignment */
                     $character->link = route($system . '.character', $character);
                     continue;
                 } catch (RouteNotFoundException | ViewException) { // @codeCoverageIgnore

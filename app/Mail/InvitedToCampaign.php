@@ -25,7 +25,6 @@ class InvitedToCampaign extends Mailable
 
     public function __construct(public CampaignInvitation $invitation)
     {
-        /** @var Campaign */
         $campaign = $invitation->campaign;
         $this->campaign = $campaign;
         $this->system = $this->campaign->system;

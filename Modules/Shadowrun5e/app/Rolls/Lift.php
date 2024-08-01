@@ -14,7 +14,7 @@ use function sprintf;
 
 /**
  * Roll a Shadowrun 5E lift/carry test.
- * @psalm-suppress UnusedClass
+ * @psalm-api
  */
 class Lift extends Number
 {
@@ -33,7 +33,6 @@ class Lift extends Number
                 . 'lift/carry tests';
             return;
         }
-        // @phpstan-ignore-next-line
         $this->dice = $this->character->lift_carry;
         $this->roll();
         if ($this->isCriticalGlitch()) {

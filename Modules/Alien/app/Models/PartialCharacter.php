@@ -6,6 +6,7 @@ namespace Modules\Alien\Models;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Alien\Database\Factories\PartialCharacterFactory;
 use Stringable;
 
@@ -13,6 +14,8 @@ use function array_key_exists;
 use function sprintf;
 
 /**
+ * @method static self create(array<mixed, mixed> $attributes)
+ * @mixin Model
  * @property-read ?Career $career
  * @property-write Career|string $career
  */
@@ -43,9 +46,6 @@ class PartialCharacter extends Character implements Stringable
         return $character;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function toCharacter(): Character
     {
         $character = $this->toArray();
@@ -55,7 +55,7 @@ class PartialCharacter extends Character implements Stringable
         foreach (collect($this->gear) as $item) {
             $character['gear'][] = [
                 'id' => $item->id,
-                'quantity' => $item->quantity ?? 1,
+                'quantity' => $item->quantity,
             ];
         }
         $character['weapons'] = [];

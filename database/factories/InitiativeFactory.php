@@ -13,9 +13,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class InitiativeFactory extends Factory
 {
-    /**
-     * @var mixed
-     */
     protected $model = Initiative::class;
 
     /**

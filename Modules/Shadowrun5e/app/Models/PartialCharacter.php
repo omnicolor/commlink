@@ -14,6 +14,7 @@ use function is_array;
 
 /**
  * Representation of a character currently being built.
+ * @method static self create(array<mixed, mixed> $attributes)
  * @property array<int, string> $errors
  */
 class PartialCharacter extends Character implements Stringable
@@ -142,7 +143,6 @@ class PartialCharacter extends Character implements Stringable
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, string>
      */
     protected function validateAttributes(): array

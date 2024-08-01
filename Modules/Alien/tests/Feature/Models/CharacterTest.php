@@ -75,6 +75,7 @@ final class CharacterTest extends TestCase
 
     public function testSetSkills(): void
     {
+        /** @var Character */
         $character = Character::create();
         $skill = new Skill('mobility', 2);
         $character->skills = [$skill];

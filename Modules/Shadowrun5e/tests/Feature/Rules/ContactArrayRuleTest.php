@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Rules\Shadowrun5e;
+namespace Modules\Shadowrun5e\Tests\Feature\Rules;
 
-use App\Rules\Shadowrun5e\ContactArrayRule;
+use Modules\Shadowrun5e\Rules\ContactArrayRule;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;

@@ -26,7 +26,7 @@
             <span class="nav-link active">{{ $character }}</span>
         </li>
     </x-slot>
-    @includeWhen($creating, 'Cyberpunkred.create-navigation')
+    @includeWhen($creating, 'cyberpunkred::create-navigation')
 
     <div class="row">
         <div class="col-2">

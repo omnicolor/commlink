@@ -10,7 +10,7 @@ class PartialCharacter extends Character implements Stringable
 {
     /**
      * The database connection that should be used by the model.
-     * @var ?string
+     * @var string
      */
     protected $connection = 'mongodb';
 
@@ -21,7 +21,6 @@ class PartialCharacter extends Character implements Stringable
     protected $table = 'characters-partial';
 
     /**
-     * @psalm-suppress PossiblyUnusedProperty
      * @var array<int, string>
      */
     public array $errors = [];

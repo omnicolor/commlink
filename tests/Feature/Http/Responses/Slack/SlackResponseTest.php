@@ -16,7 +16,6 @@ final class SlackResponseTest extends TestCase
 {
     /**
      * Subject under test.
-     * @var SlackResponse
      */
     protected SlackResponse $response;
 

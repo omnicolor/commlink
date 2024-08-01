@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property-read Channel $channel
+ * @property int $channel_id
+ * @property string $character_id
+ * @property-read ChatUser $chat_user
+ * @property int $chat_user_id
+ */
 class ChatCharacter extends Model
 {
     use HasFactory;
@@ -47,6 +54,7 @@ class ChatCharacter extends Model
      */
     public function getCharacter(): ?Character
     {
+        // @phpstan-ignore return.type
         return Character::find($this->character_id);
     }
 }

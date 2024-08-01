@@ -78,11 +78,12 @@ class Info extends Roll
             . 'User Tag: ' . optional($event->user)->displayname . PHP_EOL
             . 'User ID: ' . optional($event->user)->id . PHP_EOL
             . 'Commlink User: ' . $this->commlink_user . PHP_EOL
-            // @phpstan-ignore-next-line
-            . 'Server Name: ' . $event->server->server_name . PHP_EOL
-            // @phpstan-ignore-next-line
-            . 'Server ID: ' . $event->server->server_id . PHP_EOL
-            // @phpstan-ignore-next-line
+            /**
+             * @psalm-suppress UndefinedMagicPropertyFetch
+             */
+            . 'Server Name: ' . $event->server->name . PHP_EOL
+            . 'Server ID: ' . $event->server->id . PHP_EOL
+            // @phpstan-ignore property.notFound
             . 'Channel Name: ' . $event->channel->name . PHP_EOL
             . 'Channel ID: ' . $event->channel->id . PHP_EOL
             . 'System: ' . $system . PHP_EOL
@@ -117,7 +118,7 @@ class Info extends Roll
         $attachment = (new FieldsAttachment('Debugging Info'))
             ->addField(new Field('Team ID', $this->channel->server_id))
             ->addField(new Field('Channel ID', $this->channel->channel_id))
-            ->addField(new Field('User ID', $this->channel->user ?? ''))
+            ->addField(new Field('User ID', $this->channel->user))
             ->addField(new Field('Commlink User', $this->commlink_user))
             ->addField(new Field(
                 'System',

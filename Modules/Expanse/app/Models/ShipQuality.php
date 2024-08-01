@@ -31,9 +31,9 @@ class ShipQuality implements Stringable
 
     /**
      * Collection of all ship qualities.
-     * @var array<string, array<string, array<string, int>|int|string>>
+     * @var ?array<string, array<string, array<string, int>|int|string>>
      */
-    public static array $qualities;
+    public static ?array $qualities;
 
     /**
      * @psalm-suppress UnusedVariable

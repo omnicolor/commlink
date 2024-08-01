@@ -45,11 +45,6 @@ class Spell implements Stringable
     public string $duration;
 
     /**
-     * Force of the spell.
-     */
-    public int $force;
-
-    /**
      * Name of the spell.
      */
     public string $name;
@@ -89,7 +84,7 @@ class Spell implements Stringable
     /**
      * @throws RuntimeException if the ID is invalid
      */
-    public function __construct(public string $id)
+    public function __construct(public string $id, public ?int $force = null)
     {
         $filename = config('shadowrun5e.data_path') . 'spells.php';
         /** @psalm-suppress UnresolvableInclude */

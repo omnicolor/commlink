@@ -51,7 +51,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Constructor.
-     * @param string $filename
      */
     public function __construct(string $filename)
     {

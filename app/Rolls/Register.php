@@ -76,7 +76,6 @@ class Register extends Roll
         }
 
         $this->channel->system = $system;
-        // @phpstan-ignore-next-line
         $this->channel->registered_by = $chatUser->user->id;
         $this->channel->save();
 

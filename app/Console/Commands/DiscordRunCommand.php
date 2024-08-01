@@ -171,7 +171,7 @@ class DiscordRunCommand extends Command
             '🤷' => 'tentative',
         };
         EventRsvp::updateOrCreate(
-            ['event_id' => $event->id, 'user_id' => $chatUser->user?->id],
+            ['event_id' => $event->id, 'user_id' => $chatUser->user->id],
             ['response' => $response],
         );
 

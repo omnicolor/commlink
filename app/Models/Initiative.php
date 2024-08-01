@@ -9,9 +9,18 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
+ * @property ?int $campaign_id
+ * @property ?int $channel_id
+ * @property ?string $character_id
+ * @property ?string $character_name
+ * @property Carbon|string $created_at
+ * @property ?int $grunt_id
+ * @property int $initiative
  * @property-read string $name
+ * @property Carbon|string $updated_at
  */
 class Initiative extends Model
 {

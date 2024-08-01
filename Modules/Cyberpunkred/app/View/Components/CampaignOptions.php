@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\View\Components\Avatar;
+namespace Modules\Cyberpunkred\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -14,6 +14,6 @@ class CampaignOptions extends Component
 {
     public function render(): View
     {
-        return view('components.avatar.campaign-options');
+        return view('cyberpunkred::components.campaign-options');
     }
 }

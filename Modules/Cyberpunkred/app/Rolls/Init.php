@@ -21,7 +21,7 @@ use function optional;
 use const PHP_EOL;
 
 /**
- * @psalm-suppress UnusedClass
+ * @psalm-api
  */
 class Init extends Roll
 {
@@ -84,13 +84,14 @@ class Init extends Roll
     {
         // Rolls with a character attached shouldn't need to enter reflexes.
         if (isset($this->character)) {
-            $this->username = (string)$this->character;
+            /** @var \Modules\Cyberpunkred\Models\Character */
+            $character = $this->character;
+            $this->username = (string)$character;
             if (2 === count($this->args)) {
                 // Get rid of the character's reflexes.
                 array_shift($this->args);
             }
-            // @phpstan-ignore-next-line
-            $this->reflexes = $this->character->reflexes;
+            $this->reflexes = $character->reflexes;
             if (1 === count($this->args)) {
                 $this->modifier = (int)array_shift($this->args);
             }

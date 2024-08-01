@@ -33,7 +33,7 @@ Route::middleware('auth:sanctum')
                 ]);
         })->name('gear.index');
         Route::get('identities', function () {
-            return IdentityResource::collection(array_values((array)Identity::all()))
+            return IdentityResource::collection(array_values(Identity::all()))
                 ->additional([
                     'links' => [
                         'self' => route('capers.identities.index'),
@@ -71,7 +71,7 @@ Route::middleware('auth:sanctum')
                 ]);
         })->name('skills.index');
         Route::get('vices', function () {
-            return ViceResource::collection(array_values((array)Vice::all()))
+            return ViceResource::collection(array_values(Vice::all()))
                 ->additional([
                     'links' => [
                         'self' => route('capers.vices.index'),
@@ -79,7 +79,7 @@ Route::middleware('auth:sanctum')
                 ]);
         })->name('vices.index');
         Route::get('virtues', function () {
-            return VirtueResource::collection(array_values((array)Virtue::all()))
+            return VirtueResource::collection(array_values(Virtue::all()))
                 ->additional([
                     'links' => [
                         'self' => route('capers.virtues.index'),

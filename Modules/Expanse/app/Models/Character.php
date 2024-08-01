@@ -134,6 +134,7 @@ class Character extends BaseCharacter implements Stringable
 
     public function getFocuses(): FocusArray
     {
+        /** @psalm-suppress RedundantPropertyInitializationCheck */
         if (!isset($this->focusArray)) {
             $this->focusArray = new FocusArray();
             foreach ($this->focuses ?? [] as $focus) {

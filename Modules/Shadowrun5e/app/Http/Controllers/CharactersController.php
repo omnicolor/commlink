@@ -43,7 +43,7 @@ use function sprintf;
 
 /**
  * Controller for interacting with Shadowrun 5E characters.
- * @psalm-suppress UnusedClass
+ * @psalm-api
  */
 class CharactersController extends Controller
 {
@@ -213,7 +213,10 @@ class CharactersController extends Controller
         $user = $request->user();
 
         if ('new' === $step) {
-            /** @var PartialCharacter */
+            /**
+             * @psalm-suppress UnnecessaryVarAnnotation PHPStan needs it
+             * @var PartialCharacter
+             */
             $character = PartialCharacter::create(['owner' => $user->email]);
             $request->session()->put('shadowrun5e-partial', $character->id);
             $step = 'rules';
@@ -237,8 +240,11 @@ class CharactersController extends Controller
                     );
                 }
 
-                // No in-progress characters, create a new one.
-                /** @var PartialCharacter */
+                /**
+                 * No in-progress characters, create a new one.
+                 * @psalm-suppress UnnecessaryVarAnnotation PHPStan needs it
+                 * @var PartialCharacter
+                 */
                 $character = PartialCharacter::create(['owner' => $user->email]);
                 $request->session()->put('shadowrun5e-partial', $character->id);
             }
@@ -807,7 +813,7 @@ class CharactersController extends Controller
                 $books = collect(Rulebook::all())->values();
                 // @phpstan-ignore-next-line
                 $books = $books->mapToGroups(function (Rulebook $book, string $key): array {
-                    if (0 === $key % 2) {
+                    if (0 === (int)$key % 2) {
                         return ['even' => $book];
                     }
                     return ['odd' => $book];
@@ -948,6 +954,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = $request->user();
         $characterId = $request->session()->get('shadowrun5e-partial');
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -1066,6 +1073,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = $request->user();
         $characterId = $request->session()->get('shadowrun5e-partial');
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -1334,6 +1342,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = $request->user();
         $characterId = $request->session()->get('shadowrun5e-partial');
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -1379,6 +1388,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = $request->user();
         $characterId = $request->session()->get('shadowrun5e-partial');
+        /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
             ->firstOrFail();
@@ -1421,10 +1431,6 @@ class CharactersController extends Controller
         return $character;
     }
 
-    /**
-     * Return a collection of characters for the logged in user.
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function index(Request $request): JsonResource
     {
         return CharacterResource::collection(
@@ -1433,9 +1439,6 @@ class CharactersController extends Controller
         );
     }
 
-    /**
-     * View all of the logged in user's characters.
-     */
     public function list(Request $request): View
     {
         /** @var User */
@@ -1450,10 +1453,6 @@ class CharactersController extends Controller
         );
     }
 
-    /**
-     * Return a single Shadowrun 5E character.
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function show(Request $request, Character $character): JsonResource
     {
         /** @var User */
@@ -1468,9 +1467,6 @@ class CharactersController extends Controller
         return new CharacterResource($character);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function update(Request $request, Character $character): JsonResource
     {
         /** @var User */

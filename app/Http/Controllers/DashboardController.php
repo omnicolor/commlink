@@ -14,7 +14,6 @@ class DashboardController extends Controller
 {
     /**
      * Show dashboard.
-     * @return View
      */
     public function show(): View
     {

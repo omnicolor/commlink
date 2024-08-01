@@ -21,20 +21,15 @@ class CampaignInvitationResource extends JsonResource
         return [
             'data' => [
                 'campaign' => [
-                    // @phpstan-ignore-next-line
                     'id' => $this->campaign->id,
-                    // @phpstan-ignore-next-line
                     'name' => $this->campaign->name,
-                    // @phpstan-ignore-next-line
                     'system' => $this->campaign->system,
                     'links' => [
                         'self' => route('campaign.view', $this->campaign),
                     ],
                 ],
                 'invited_by' => [
-                    // @phpstan-ignore-next-line
                     'id' => $this->invitor->id,
-                    // @phpstan-ignore-next-line
                     'name' => $this->invitor->name,
                 ],
                 'invitee' => [
