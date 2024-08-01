@@ -10,7 +10,6 @@ interface ConverterInterface
 {
     /**
      * Convert a file to a character.
-     * @return Character
      */
     public function convert(): Character;
 

@@ -24,19 +24,16 @@ class Campaign extends Roll
 
     /**
      * Campaign the user wants to link the channel to.
-     * @var ?CampaignModel
      */
     protected ?CampaignModel $campaign = null;
 
     /**
      * Campaign ID to link the channel to.
-     * @var ?int
      */
     protected ?int $campaignId = null;
 
     /**
      * Campaign already linked to the channel.
-     * @var ?CampaignModel
      */
     protected ?CampaignModel $existingCampaign = null;
 

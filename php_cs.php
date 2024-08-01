@@ -97,6 +97,7 @@ $rules = [
     'no_spaces_after_function_name' => true,
     'no_spaces_around_offset' => true,
     'no_superfluous_elseif' => true,
+    'no_superfluous_phpdoc_tags' => true,
     'no_trailing_comma_in_singleline' => true,
     'no_trailing_whitespace' => true,
     'no_trailing_whitespace_in_comment' => true,

@@ -70,7 +70,6 @@ class IrcRunCommand extends SignalAwareCommand
 
     /**
      * Execute the console command.
-     * @return int
      */
     public function handle(): int
     {

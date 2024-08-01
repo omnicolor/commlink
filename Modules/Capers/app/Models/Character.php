@@ -361,8 +361,6 @@ class Character extends BaseCharacter
     /**
      * Return the necessary card to overcome the character's raw ability in the
      * given trait.
-     * @param string $trait
-     * @return string
      */
     public function getTraitDefense(string $trait): string
     {

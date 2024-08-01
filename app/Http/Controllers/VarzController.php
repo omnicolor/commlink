@@ -70,7 +70,6 @@ class VarzController extends Controller
 
     /**
      * Return metrics about individual systems.
-     * @param string $system
      * @return array<string, int>
      */
     protected function getSystemMetrics(string $system): array

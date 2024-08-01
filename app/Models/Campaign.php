@@ -114,7 +114,6 @@ class Campaign extends Model
      * @param array<mixed, mixed> $attributes
      * @param ?string $connection
      * @psalm-suppress InvalidPropertyFetch
-     * @return static
      */
     public function newFromBuilder(
         $attributes = [],

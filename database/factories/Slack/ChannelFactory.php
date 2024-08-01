@@ -14,9 +14,6 @@ use Illuminate\Support\Str;
  */
 class ChannelFactory extends Factory
 {
-    /**
-     * @var mixed
-     */
     protected $model = Channel::class;
 
     /**
