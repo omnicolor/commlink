@@ -184,7 +184,6 @@ class Number extends Roll
 
     /**
      * Return whether the roll was a critical glitch.
-     * @return bool
      */
     protected function isCriticalGlitch(): bool
     {

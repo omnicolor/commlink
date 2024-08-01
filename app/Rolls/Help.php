@@ -20,9 +20,6 @@ class Help extends Roll
 
     /**
      * Constructor.
-     * @param string $content
-     * @param string $character
-     * @param Channel $channel
      */
     public function __construct(
         string $content,
@@ -194,7 +191,6 @@ class Help extends Roll
 
     /**
      * Get additional help for a channel that has no campaign.
-     * @return string
      */
     protected function getCampaignsHelp(): string
     {

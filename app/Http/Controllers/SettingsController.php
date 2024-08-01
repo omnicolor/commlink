@@ -21,7 +21,6 @@ class SettingsController extends Controller
 
     /**
      * Show the settings page.
-     * @return View
      */
     public function show(): View
     {
@@ -37,8 +36,6 @@ class SettingsController extends Controller
     /**
      * Handle a request to link a Discord guild/user to the current Commlink
      * user.
-     * @param LinkUserRequest $request
-     * @return RedirectResponse
      */
     public function linkDiscord(LinkUserRequest $request): RedirectResponse
     {
@@ -143,8 +140,6 @@ class SettingsController extends Controller
 
     /**
      * Handle a request to link a Slack team/user to the current Commlink user.
-     * @param LinkUserRequest $request
-     * @return RedirectResponse
      */
     protected function linkSlack(LinkUserRequest $request): RedirectResponse
     {
@@ -196,8 +191,6 @@ class SettingsController extends Controller
 
     /**
      * Handle a request to link a chat server to the current Commlink user.
-     * @param LinkUserRequest $request
-     * @return RedirectResponse
      */
     public function linkUser(LinkUserRequest $request): RedirectResponse
     {

@@ -15,9 +15,6 @@ use Ramsey\Uuid\Uuid;
  */
 class UserFactory extends Factory
 {
-    /**
-     * @var mixed
-     */
     protected $model = User::class;
 
     public function definition(): array

@@ -8,9 +8,6 @@ class Field
 {
     /**
      * Constructor.
-     * @param string $title
-     * @param string $value
-     * @param bool $short
      */
     public function __construct(
         protected string $title,
