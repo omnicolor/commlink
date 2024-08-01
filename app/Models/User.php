@@ -98,7 +98,6 @@ class User extends Authenticatable
 
     /**
      * Get the characters for the User.
-     * @param ?string $system
      */
     public function characters(?string $system = null): Builder
     {

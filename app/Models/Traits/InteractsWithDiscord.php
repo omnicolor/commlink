@@ -24,7 +24,6 @@ trait InteractsWithDiscord
 {
     /**
      * Create and return the webhook for a Discord channel.
-     * @return ?string
      */
     public function createDiscordWebhook(string $snowflake): ?string
     {
@@ -69,7 +68,6 @@ trait InteractsWithDiscord
 
     /**
      * Given a Discord Channel ID (snowflake), return the channel's name.
-     * @return ?string
      */
     public function getDiscordChannelName(string $snowflake): ?string
     {
@@ -87,7 +85,6 @@ trait InteractsWithDiscord
 
     /**
      * Given a Discord User ID (snowflake), return the user's discriminator.
-     * @return ?string
      */
     public function getDiscordUserName(string $snowflake): ?string
     {
@@ -105,7 +102,6 @@ trait InteractsWithDiscord
 
     /**
      * Given a Discord server ID, return the server (guild) name.
-     * @return ?string
      */
     public function getDiscordServerName(string $serverId): ?string
     {
