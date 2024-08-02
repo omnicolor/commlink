@@ -1,0 +1,11 @@
+{
+    "name": "Legendofthefiverings4e",
+    "alias": "legendofthefiverings4e",
+    "description": "Legend of the Five Rings 4E module for Commlink.",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Legendofthefiverings4e\\Providers\\Legendofthefiverings4eServiceProvider"
+    ],
+    "files": []
+}
