@@ -1,0 +1,28 @@
+{
+    "name": "omnicolor/legendofthefiverings4e-module",
+    "description": "Legend of the Five Rings 4E module for Commlink.",
+    "authors": [
+        {
+            "name": "Omni Adams",
+            "email": "omni@digitaldarkness.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Legendofthefiverings4e\\": "app/",
+            "Modules\\Legendofthefiverings4e\\Database\\Factories\\": "database/factories/",
+            "Modules\\Legendofthefiverings4e\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Legendofthefiverings4e\\Tests\\": "tests/"
+        }
+    }
+}
