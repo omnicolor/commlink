@@ -35,7 +35,8 @@ class Help extends Roll
             'text' => 'Commlink is a Slack/Discord ot that lets you roll dice '
                 . 'for the Avatar RPG.' . PHP_EOL
                 . '· `2d6 [1]` - Roll two dice, optionally adding a modifier '
-                . '(+1 in this case)' . PHP_EOL,
+                . '(+1 in this case)' . PHP_EOL
+                . '· `-2` - Alternate form for rolling two dice with a modifier',
             'color' => TextAttachment::COLOR_INFO,
         ];
 
@@ -53,7 +54,7 @@ class Help extends Roll
                     . $this->character . '\'s appropriate statistic to the '
                     . 'roll.' . PHP_EOL
                     . '· `plead [+1]` - Roll two dice, adding your '
-                    . 'character\'s harmony and optionally a modifier.'
+                    . 'character\'s harmony and optionally a modifier'
                     . PHP_EOL,
                 'color' => TextAttachment::COLOR_INFO,
             ];
@@ -61,7 +62,7 @@ class Help extends Roll
             $this->data[] = [
                 'title' => 'Player commands',
                 'text' => '· `link <characterId>` - Link your Commlink '
-                    . 'character to the channel.' . PHP_EOL,
+                    . 'character to the channel' . PHP_EOL,
                 'color' => TextAttachment::COLOR_INFO,
             ];
         }
