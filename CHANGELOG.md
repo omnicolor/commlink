@@ -6,8 +6,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.6.0] - 2024-08-02
 
+### Added
+
+- Readded Sentry monitoring. (#1514)
+- Initial support for rolling dice from a web interface. Skills on the Alien
+    character sheet are now clickable, causing a roll event to happen. (#1521)
+- Add dice rollers for some RPG systems:
+    - Blister Critters (#1522)
+    - Shadowrun Anarchy (#1527)
+    - Avatar Legends (#1532)
+    - Legend of the Five Rings (#1531)
+
+### Fixed
+
+- Fixed Slack configuration. (#1517)
+- Fixed rendering of partial Avatar campaigns, giving default
+    experience. (#1520)
+- Fix trying to create a character for an RPG that hasn't (yet) defined
+    a character class. This basically only happens in factories generating
+    a random character, but was causing tests to fail. (#1530)
+
+### Changed
+
+- Lots of dependencies updated.
+- Finished modularizing. All of the remaining resources, rules, etc are now in
+    their module's namespace instead of the root namespace. (#1512) (#1368)
+- Added php-cs-fixer rule to bar PHPdoc tags that are redundant according to
+    type hints. (#1525)
+- Improved Psalm support to level 4. (#1526)
 
 ## [1.5.0] - 2024-07-24
 
