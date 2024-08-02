@@ -12,6 +12,7 @@ use MongoDB\Laravel\Eloquent\Model;
 use Nwidart\Modules\Facades\Module;
 use Stringable;
 
+use function class_exists;
 use function ucfirst;
 
 /**
@@ -94,24 +95,23 @@ class Character extends Model implements Stringable
         $attributes = [],
         $connection = null,
     ): Character {
+        $class = 'Modules\\' . ucfirst($attributes['system'])
+            . '\\Models\\Character';
         if (
             null !== Module::find($attributes['system'])
             && Module::isEnabled($attributes['system'])
+            && class_exists($class)
         ) {
-            $character = 'Modules\\' . ucfirst($attributes['system']) . '\\Models\\Character';
-            $character = new $character($attributes);
+            /** @var Character */
+            $character = new $class($attributes);
         } else {
             $character = new Character($attributes);
         }
-        // @phpstan-ignore-next-line
         $character->exists = true;
-        // @phpstan-ignore-next-line
         $character->setRawAttributes($attributes, true);
-        // @phpstan-ignore-next-line
         $character->setConnection($this->connection);
-        // @phpstan-ignore-next-line
         $character->fireModelEvent('retrieved', false);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore return.type
         return $character;
     }
 }
