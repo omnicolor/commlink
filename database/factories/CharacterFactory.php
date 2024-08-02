@@ -9,6 +9,10 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 
+use function array_keys;
+use function config;
+use function in_array;
+
 /**
  * @extends Factory<Character>
  * @psalm-suppress UnusedClass
@@ -22,9 +26,11 @@ class CharacterFactory extends Factory
      * character.
      * @var array<int, string>
      */
-    protected array $usesHandle = [
+    protected array $uses_handle = [
         'cyberpunkred',
+        'shadowrunanarchy',
         'shadowrun5e',
+        'shadowrun6e',
     ];
 
     /**
@@ -39,7 +45,7 @@ class CharacterFactory extends Factory
             'name' => $name,
             'owner' => (string)(User::factory()->create())->email,
             'system' => (string)$this->faker->randomElement(
-                \array_keys((array)config('app.systems'))
+                array_keys((array)config('app.systems'))
             ),
         ];
     }
@@ -51,7 +57,7 @@ class CharacterFactory extends Factory
     public function configure(): CharacterFactory
     {
         $updateName = function (Model $character): void {
-            if (in_array($character->system, $this->usesHandle, true)) {
+            if (in_array($character->system, $this->uses_handle, true)) {
                 $character->name = null;
                 return;
             }
