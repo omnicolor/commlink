@@ -187,14 +187,14 @@ class CharactersController extends Controller
         PartialCharacter $character
     ): RedirectResponse {
         if ('prev' === $direction) {
-            return new RedirectResponse(sprintf(
-                '/characters/shadowrun5e/create/%s',
+            return new RedirectResponse(route(
+                'shadowrun5e.create',
                 $this->previousStep($step, $character),
             ));
         }
 
-        return new RedirectResponse(sprintf(
-            '/characters/shadowrun5e/create/%s',
+        return new RedirectResponse(route(
+            'shadowrun5e.create',
             $this->nextStep($step, $character),
         ));
     }
@@ -321,6 +321,7 @@ class CharactersController extends Controller
                         'currentStep' => 'augmentations',
                         'nextStep' => $this->nextStep('augmentations', $character),
                         'previousStep' => $this->previousStep('augmentations', $character),
+                        'user' => $user,
                     ]
                 );
             case 'background':
@@ -829,6 +830,7 @@ class CharactersController extends Controller
                     ]
                 );
             case 'review':
+                $character->validate();
                 return view(
                     'shadowrun5e::character',
                     [
@@ -947,6 +949,19 @@ class CharactersController extends Controller
         return new RedirectResponse(route('dashboard'));
     }
 
+    public function storeArmor(Request $request): RedirectResponse
+    {
+        /** @var User */
+        $user = $request->user();
+        $characterId = $request->session()->get('shadowrun5e-partial');
+        /** @var PartialCharacter */
+        $character = PartialCharacter::where('_id', $characterId)
+            ->where('owner', $user->email)
+            ->firstOrFail();
+
+        return $this->redirect($request->input('nav'), 'armor', $character);
+    }
+
     public function storeAttributes(
         AttributesRequest $request
     ): RedirectResponse {
@@ -993,6 +1008,20 @@ class CharactersController extends Controller
         return $this->redirect($request->input('nav'), 'attributes', $character);
     }
 
+    public function storeAugmentations(Request $request): RedirectResponse
+    {
+        /** @var User */
+        $user = $request->user();
+
+        $characterId = $request->session()->get('shadowrun5e-partial');
+        /** @var PartialCharacter */
+        $character = PartialCharacter::where('_id', $characterId)
+            ->where('owner', $user->email)
+            ->firstOrFail();
+
+        return $this->redirect($request->input('nav'), 'augmentations', $character);
+    }
+
     public function storeBackground(BackgroundRequest $request): RedirectResponse
     {
         /** @var User */
@@ -1037,6 +1066,19 @@ class CharactersController extends Controller
             'background',
             $character,
         );
+    }
+
+    public function storeGear(Request $request): RedirectResponse
+    {
+        /** @var User */
+        $user = $request->user();
+        $characterId = $request->session()->get('shadowrun5e-partial');
+        /** @var PartialCharacter */
+        $character = PartialCharacter::where('_id', $characterId)
+            ->where('owner', $user->email)
+            ->firstOrFail();
+
+        return $this->redirect($request->input('nav'), 'gear', $character);
     }
 
     public function storeKnowledgeSkills(
@@ -1295,6 +1337,19 @@ class CharactersController extends Controller
         return $this->redirect($request->input('nav'), 'priorities', $character);
     }
 
+    public function storeVehicles(Request $request): RedirectResponse
+    {
+        /** @var User */
+        $user = $request->user();
+        $characterId = $request->session()->get('shadowrun5e-partial');
+        /** @var PartialCharacter */
+        $character = PartialCharacter::where('_id', $characterId)
+            ->where('owner', $user->email)
+            ->firstOrFail();
+
+        return $this->redirect($request->input('nav'), 'vehicles', $character);
+    }
+
     public function storeVitals(VitalsRequest $request): RedirectResponse
     {
         /** @var User */
@@ -1326,6 +1381,19 @@ class CharactersController extends Controller
         $character->update();
 
         return $this->redirect($request->input('nav'), 'vitals', $character);
+    }
+
+    public function storeWeapons(Request $request): RedirectResponse
+    {
+        /** @var User */
+        $user = $request->user();
+        $characterId = $request->session()->get('shadowrun5e-partial');
+        /** @var PartialCharacter */
+        $character = PartialCharacter::where('_id', $characterId)
+            ->where('owner', $user->email)
+            ->firstOrFail();
+
+        return $this->redirect($request->input('nav'), 'weapons', $character);
     }
 
     /**
@@ -1373,7 +1441,16 @@ class CharactersController extends Controller
 
     public function list(Request $request): View
     {
-        return view('shadowrun5e::characters', ['user' => $request->user()]);
+        /** @var User */
+        $user = $request->user();
+        $characters = Character::where('owner', $user->email)->get();
+        return view(
+            'shadowrun5e::characters',
+            [
+                'characters' => $characters,
+                'user' => $user,
+            ],
+        );
     }
 
     public function show(Request $request, Character $character): JsonResource
