@@ -16,15 +16,20 @@ use Stringable;
  * @property string $appearance
  * @property-read Background $background
  * @property-write Background|string $background
- * @property string $creativity
+ * @property-read array<int, Condition> $conditions
+ * @property-write array<int, Condition|string> $conditions
+ * @property int<-1, 4> $creativity
  * @property-read Era $era
  * @property-write Era|string $era
- * @property string $fatigue
- * @property string $focus
- * @property string $harmony
+ * @property int<0, 5> $fatigue
+ * @property int<-1, 4> $focus
+ * @property int<-1, 4> $harmony
  * @property string $history
  * @property string $name
- * @property string $passion
+ * @property int<-1, 4> $passion
+ * @property-read Playbook $playbook
+ * @property-write Playbook|string $playbook
+ * @psalm-api
  */
 class Character extends BaseCharacter implements Stringable
 {
@@ -44,7 +49,7 @@ class Character extends BaseCharacter implements Stringable
         'appearance',
         'background',
         //'balance',
-        //'conditions',
+        'conditions',
         'creativity',
         'era',
         'fatigue',
@@ -53,14 +58,13 @@ class Character extends BaseCharacter implements Stringable
         'history',
         'name',
         'passion',
-        //'playbook',
+        'playbook',
         //'statuses',
         //'techniques',
     ];
 
     /**
-     * @phpstan-ignore-next-line
-     * @var array<array-key, string>
+     * @var array<int, string>
      */
     protected $hidden = [
         '_id',
@@ -89,9 +93,6 @@ class Character extends BaseCharacter implements Stringable
         return CharacterFactory::new();
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function background(): Attribute
     {
         return Attribute::make(
@@ -107,9 +108,42 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
+    public function conditions(): Attribute
+    {
+        return Attribute::make(
+            get: function (?array $conditions): array {
+                return array_map(
+                    function (string $condition): Condition {
+                        return Condition::from($condition);
+                    },
+                    $conditions ?? [],
+                );
+            },
+            set: function (array $conditions): array {
+                foreach ($conditions as $key => $condition) {
+                    if ($conditions[$key] instanceof Condition) {
+                        $conditions[$key] = $condition->value;
+                    }
+                }
+                return ['conditions' => $conditions];
+            },
+        );
+    }
+
+    public function creativity(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return $this->playbook->creativity
+                    + ($this->attributes['creativity'] ?? 0);
+            },
+            set: function (int $creativity): int {
+                $this->attributes['creativity'] = $creativity;
+                return $creativity;
+            },
+        );
+    }
+
     public function era(): Attribute
     {
         return Attribute::make(
@@ -121,6 +155,72 @@ class Character extends BaseCharacter implements Stringable
                     return $era->value;
                 }
                 return Era::from($era)->value;
+            },
+        );
+    }
+
+    public function fatigue(): Attribute
+    {
+        return Attribute::make(
+            get: function (?int $fatigue): int {
+                return $fatigue ?? 0;
+            },
+        );
+    }
+
+    public function focus(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return $this->playbook->focus
+                    + ($this->attributes['focus'] ?? 0);
+            },
+            set: function (int $focus): int {
+                $this->attributes['focus'] = $focus;
+                return $focus;
+            },
+        );
+    }
+
+    public function harmony(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return $this->playbook->harmony
+                    + ($this->attributes['harmony'] ?? 0);
+            },
+            set: function (int $harmony): int {
+                $this->attributes['harmony'] = $harmony;
+                return $harmony;
+            },
+        );
+    }
+
+    public function passion(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return $this->playbook->passion
+                    + ($this->attributes['passion'] ?? 0);
+            },
+            set: function (int $passion): int {
+                $this->attributes['passion'] = $passion;
+                return $passion;
+            },
+        );
+    }
+
+    public function playbook(): Attribute
+    {
+        return Attribute::make(
+            get: function (): Playbook {
+                return new Playbook($this->attributes['playbook']);
+            },
+            set: function (string | Playbook $playbook): string {
+                if ($playbook instanceof Playbook) {
+                    return $playbook->id;
+                }
+                return $playbook;
             },
         );
     }
