@@ -13,12 +13,18 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Commlink</a>
+        <span class="navbar-brand">Commlink</span>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">
-                        What is Commlink?
+                    <a class="nav-link" href="{{ route('dashboard') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <span class="nav-link active">About</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('about.systems') }}">
+                        RPG systems
                     </a>
                 </li>
             </ul>
@@ -30,13 +36,23 @@
     <div class="col-3">
         <nav id="about-commlink" class="h-100 flex-column align-items-stretch border-end pe-4">
             <nav class="nav nav-pills flex-column">
-                <a class="nav-link" href="#dice-roller">Dice roller</a>
+                <a class="nav-link" href="#chat-bot">Chat bot</a>
                 <nav class="mt-1 nav nav-pills flex-column">
-                    <a class="ms-3 nav-link" href="#dice-roller-slack">Slack installation</a>
-                    <a class="ms-3 nav-link" href="#dice-roller-discord">Discord installation</a>
+                    <a class="ms-3 nav-link" href="#chat-bot-slack">Slack installation</a>
+                    <a class="ms-3 nav-link" href="#chat-bot-discord">Discord installation</a>
+                    <span class="ms-3 nav-link">IRC installation</span>
                 </nav>
-                <a class="nav-link" href="#character-manager">Character manager</a>
-                <a class="nav-link" href="#campaign-manager">Campaign manager</a>
+                <a class="nav-link" href="#characters">Characters</a>
+                <nav class="mt-1 nav nav-pills flex-column">
+                    <a class="ms-3 nav-link" href="#sheets">Character sheets</a>
+                    <a class="ms-3 nav-link" href="#generation">Char gen</a>
+                    <a class="ms-3 nav-link" href="#import">Import</a>
+                </nav>
+                <a class="nav-link" href="#campaigns">Campaigns</a>
+                <nav class="mt-1 nav nav-pills flex-column">
+                    <a class="ms-3 nav-link" href="#campaign-manager">Campaign manager</a>
+                    <a class="ms-3 nav-link" href="#gm-screen">GM screen</a>
+                </nav>
             </nav>
         </nav>
     </div>
@@ -47,44 +63,45 @@
     <div class="col-6">
         <div style="height:60px"></div>
         <div data-bs-spy="scroll" data-bs-target="#about-commlink" data-bs-smooth-scroll="true" tabindex="0">
-            <h1>What is Commlink?</h1>
+            <h1>About {{ config('app.name') }}</h1>
 
             <p>
-                Commlink is a tool for playing role playing games online, and
-                managing all of the complexity of modern RPGs and the campaigns
-                that bring them to life.
+                {{ config('app.name') }} is a tool for playing role playing
+                games online, and managing all of the complexity of modern RPGs
+                and the campaigns that bring them to life.
             </p>
 
             <hr>
 
-            <div id="dice-roller">
-                <h2>Dice roller</h2>
+            <div id="chat-bot">
+                <h2>Chat bot</h2>
 
                 <p>
-                    With integrations for both Slack and Discord, Commlink
-                    allows you to roll dice in system-specific ways. For
-                    example, if you register a channel for Shadowrun 5th
-                    Edition, typing <code>/roll 5</code> will roll five
-                    six-sided dice and calculate how many successes you got. It
-                    will automatically show glitches and critical glitches as
-                    well.
+                    With integrations for Slack, IRC, and Discord,
+                    {{ config('app.name') }} allows you to roll dice in
+                    system-specific ways. For example, if you register
+                    a channel for Shadowrun 5th Edition, typing <code>/roll
+                    5</code> will roll five six-sided dice and calculate how
+                    many successes you got. It will automatically show glitches
+                    and critical glitches as well.
                 </p>
 
                 <p>
                     <img alt="Rolling dice in a Slack channel registered as Shadowrun"
-                         src="/images/about-slack.png">
+                        src="/images/about-slack.png">
                 </p>
 
                 <p>
-                    In addition, if more than one channel are both registered to the
-                    same campaign, rolls made in one channel will appear in the
-                    other channels. The above roll was made in a Slack channel and
-                    automatically shows up in the linked Discord channel.
+                    In addition, if more than one channel are both registered
+                    to the same campaign, rolls made in one channel will appear
+                    in the other channels. The above roll was made in a Slack
+                    channel and automatically shows up in the linked Discord
+                    channel.
                 </p>
 
                 <p>
                     <img alt="Bot proxying a roll from Slack to Discord"
-                         src="/images/about-discord.png">
+                        src="/images/about-discord.png">
                 </p>
 
                 <p>
@@ -95,35 +112,37 @@
 
                 <p>
                     <img alt="Bot showing help information for an unlinked Slack channel"
-                         src="/images/about-roller-unregistered.png">
+                        src="/images/about-roller-unregistered.png">
                 </p>
 
                 <p>
-                    If a channel is registered for a particular system, the dice
-                    roller will change to better target that system. For example,
-                    registering a channel for Shadowrun 5th Edition allows just
-                    using a number to mean &ldquo;roll this many six-sided dice&rdquo;:
+                    If a channel is registered for a particular system, the
+                    dice roller will change to better target that system. For
+                    example, registering a channel for Shadowrun 5th Edition
+                    allows just using a number to mean &ldquo;roll this many
+                    six-sided dice&rdquo;:
                 </p>
 
                 <p>
                     <img alt="Bot showing help information for a channel playing Shadowrun 5th edition"
-                         src="/images/about-roller-registered-not-linked.png">
+                        src="/images/about-roller-registered-not-linked.png">
                 </p>
 
                 <p>
-                    Creating a character in Commlink and linking it to a channel
-                    unlocks character-specific short rolls. For example, linking a
-                    Shadowrun 5E character to a channel unlocks some short commands
-                    that use the character's attributes.
+                    Creating a character in Commlink and linking it to
+                    a channel unlocks character-specific short rolls. For
+                    example, linking a Shadowrun 5E character to a channel
+                    unlocks some short commands that use the character's
+                    attributes.
                 </p>
 
                 <p>
                     <img alt="Bot showing help information for a linked Shadowrun 5E character"
-                         src="/images/about-roller-linked.png">
+                        src="/images/about-roller-linked.png">
                 </p>
 
-                <div id="dice-roller-slack">
-                    <h3 class="mt-4">Slack installation</h3>
+                <div id="chat-bot-slack">
+                    <h4 class="mt-4">Slack installation</h4>
 
                     <p>
                         Slack has made it relatively painless to install
@@ -135,22 +154,25 @@
 
                     <p>
                         <a href="https://slack.com/oauth/v2/authorize?client_id=2186724946.10037967527&scope=commands,incoming-webhook,channels:read,groups:read&user_scope=channels:history,channels:read,channels:write,groups:read,groups:write,im:write,team:read,users:read">
-                            <img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcSet="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" />
+                            <img alt="Add to Slack" height="40" width="139"
+                                src="https://platform.slack-edge.com/img/add_to_slack.png"
+                                srcSet="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x">
                         </a>
                     </p>
 
                     <p>
-                        If you're logged in to multiple workspaces, you may have to
-                        choose where you want to install it in the dropdown in the
-                        upper right of the page.
+                        If you're logged in to multiple workspaces, you may
+                        have to choose where you want to install it in the
+                        dropdown in the upper right of the page.
                     </p>
 
                     <p>
                         If you get a message stating that &ldquo;You are not
                         authorized to install Commlink on
-                        &lt;workspace-url&gt;&rdquo; you may need to ask whoever is
-                        in charge of your workspace to install it for you. You could
-                        send them this URL to point them in the right direction:
+                        &lt;workspace-url&gt;&rdquo; you may need to ask
+                        whoever is in charge of your workspace to install it
+                        for you. You could send them this URL to point them in
+                        the right direction:
                     </p>
 
                     <div class="input-group input-group-sm">
@@ -163,12 +185,10 @@
                     </div>
                 </div>
 
-                <div id="dice-roller-discord">
-                    <h3 class="mt-4">Discord installation</h3>
+                <div id="chat-bot-discord">
+                    <h4 class="mt-4">Discord installation</h4>
 
-                    <p>
-                        Discord installation is a bit more involved:
-                    </p>
+                    <p>Discord installation is a bit more involved:</p>
 
                     <ol>
                         <li>
@@ -185,35 +205,41 @@
 
             <hr>
 
-            <div class="mt-4" id="character-manager">
-                <h2 class="mt-4">Character manager</h2>
+            <div class="mt-4" id="characters">
+                <h2 class="mt-4">Characters</h2>
+
+                <h4 id="sheets">Character sheets</h4>
 
                 <p>
                     Keep all of your characters in one place, with one common
-                    interface, along with the previously mentioned integrations with
-                    the dice roller bot.
+                    interface, along with the previously mentioned integrations
+                    with the dice roller bot.
                 </p>
 
                 <div id="character-sheets" class="carousel carousel-dark slide"
-                                           data-bs-ride="carousel" style="height: 780px">
+                    data-bs-ride="carousel" style="height: 780px">
                     <div class="carousel-indicators">
                         <button type="button" data-bs-target="#character-sheets"
-                                              data-bs-slide-to="0" class="active" aria-current="true"
-                                                                                  aria-label="Capers character sheet"></button>
+                            data-bs-slide-to="0" class="active" aria-current="true"
+                            aria-label="Capers character sheet"></button>
                         <button type="button" data-bs-target="#character-sheets"
-                                              data-bs-slide-to="1"
-                                              aria-label="Cyberpunk Red character sheet"></button>
+                            data-bs-slide-to="1"
+                            aria-label="Cyberpunk Red character sheet"></button>
                         <button type="button" data-bs-target="#character-sheets"
-                                              data-bs-slide-to="2"
-                                              aria-label="Shadowrun 5E character sheet"></button>
+                            data-bs-slide-to="2"
+                            aria-label="Shadowrun 5E character sheet"></button>
                         <button type="button" data-bs-target="#character-sheets"
-                                              data-bs-slide-to="3"
-                                              aria-label="The Expanse character sheet"></button>
+                            data-bs-slide-to="3"
+                            aria-label="The Expanse character sheet"></button>
                         <button type="button" data-bs-target="#character-sheets"
-                                              data-bs-slide-to="4"
-                                              aria-label="Star Trek Adventures"></button>
+                            data-bs-slide-to="4"
+                            aria-label="Star Trek Adventures"></button>
                         <button type="button" data-bs-target="#character-sheets"
-                                              data-bs-slide-to="5" aria-label="Avatar RPG"></button>
+                            data-bs-slide-to="5"
+                            aria-label="Subversion"></button>
+                        <button type="button" data-bs-target="#character-sheets"
+                            data-bs-slide-to="6"
+                            aria-label="Alien"></button>
                     </div>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
@@ -247,83 +273,112 @@
                         <div class="carousel-item">
                             <h5>Star Trek Adventures</h5>
                             <img alt="Shadowrun 5th edition character sheet"
-                                 class="d-block w-100"
-                                 src="/images/about-star-trek-adventures.png"
-                                 width="900">
+                                class="d-block w-100"
+                                src="/images/about-star-trek-adventures.png"
+                                width="900">
                         </div>
                         <div class="carousel-item">
-                            <h5>Avatar</h5>
-                            <p>Coming soon!</p>
+                            <h5>Subversion</h5>
+                            <img alt="Subversion character sheet"
+                                class="d-block w-100"
+                                src="/images/about-subversion.png"
+                                width="900">
+                        </div>
+                        <div class="carousel-item">
+                            <h5>Alien</h5>
+                            <img alt="Alien character sheet"
+                                class="d-block w-100"
+                                src="/images/about-alien.png"
+                                width="900">
                         </div>
                     </div>
                     <button class="carousel-control-prev" type="button"
-                                                          data-bs-target="#character-sheets" data-bs-slide="prev">
+                        data-bs-target="#character-sheets" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon"
-                              aria-hidden="true"></span>
+                            aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
                     </button>
                     <button class="carousel-control-next" type="button"
-                                                          data-bs-target="#character-sheets" data-bs-slide="next">
+                            data-bs-target="#character-sheets" data-bs-slide="next">
                         <span class="carousel-control-next-icon"
                               aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
+
+                <h4 id="generation">Character generation</h4>
+
+                <p>
+                    The rules for character generation differ wildly between
+                    systems. Some are so complicated it's almost impossible to
+                    do correctly with just a pencil, some paper, and the
+                    rulebook. The character generator in
+                    {{ config('app.name') }} provides a step-by-step wizard to
+                    creating a character and helps to validate that you haven't
+                    broken any rules.
+                </p>
+
+                <h4 id="import">Character import</h4>
+
+                <p>
+                    Have you built a character in another tool?
+                    {{ config('app.name') }} supports a few external systems
+                    that you can import from:
+                </p>
+
+                <ul>
+                    <li>Chummer 5 (Shadowrun 5th Edition)</li>
+                    <li>Hero Lab (Shadowrun 5th Edition)</li>
+                    <li>World Anvil (Cyberpunk Red and The Expanse)</li>
+                </ul>
             </div>
 
-            <div id="campaign-manager">
-                <h2 class="mt-4">Campaign manager</h2>
+            <hr>
+
+            <div id="campaigns">
+                <h2 class="mt-4">Campaigns</h2>
+
+                <h4>Campaign overview</h4>
 
                 <p>
                     Keeping tracking of players, characters, and NPCs can be
-                    overwhelming. Commlink allows game masters to track characters
-                    in their campaign, see character sheets, and provide rewards
-                    . GM screens built for each
-                    system allow tracking initiative for combat and status monitors
-                    for character's health.
+                    overwhelming. Commlink allows game masters to track
+                    characters in their campaign, see character sheets, and
+                    provide rewards.
                 </p>
 
-                <div id="campaign-info" class="carousel carousel-dark slide"
-                                        data-bs-ride="carousel" style="height: 620px">
-                    <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#campaign-info"
-                                              data-bs-slide-to="0" class="active" aria-current="true"
-                                                                                  aria-label="Campaign information - Shadowrun 5E"></button>
-                        <button type="button" data-bs-target="#campaign-info"
-                                              data-bs-slide-to="1"
-                                              aria-label="Shadowrun 5E GM screen"></button>
-                    </div>
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <h5>Campaign information</h5>
-                            <img alt="Campaign information"
-                                 class="d-block w-100"
-                                 src="/images/about-campaign.png" width="900">
-                        </div>
-                        <div class="carousel-item">
-                            <h5>Shadowrun 5E GM screen</h5>
-                            <img alt="Shadowrun 5th edition GM screen"
-                                 class="d-block w-100"
-                                 src="/images/about-gm-screen-sr5e.png" width="900">
-                        </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button"
-                                                          data-bs-target="#campaign-info" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon"
-                              aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button"
-                                                          data-bs-target="#campaign-info" data-bs-slide="next">
-                        <span class="carousel-control-next-icon"
-                              aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
+                <p>
+                    <img alt="Campaign information showing an example Shadowrn 5th Edition campaign called Burning Edge"
+                        src="/images/about-campaign.png" width="600">
+                </p>
+
+                <p>
+                    Scheduling games can be a challenge.
+                    {{ config('app.name') }} includes an event scheduler,
+                    allowing GMs to schedule sessions for their table. Players
+                    can RSVP in the web app or by reacting to chat bot messages
+                    in linked channels.
+                </p>
+
+                <p>
+                    GMs can also manage players allowed at the table, inviting
+                    players to join or removing characters from the campaign.
+                </p>
+
+                <h4>GM screen</h4>
+
+                <p>
+                    GM screens built for each system allow tracking initiative
+                    for combat and status monitors for character's health.
+                </p>
+
+                <p>
+                    <img alt="Shadowrun 5th edition GM screen, showing an initiative tracker, health monitors, and lists of skills"
+                        src="/images/about-gm-screen-sr5e.png" width="600">
+                </p>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 <script src="/js/jquery.min.js"></script>
