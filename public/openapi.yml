@@ -9,7 +9,7 @@ info:
   license:
     name: MIT License
     url: https://mit-license.org/
-  version: 1.6.0
+  version: 1.7.0
 externalDocs:
   description: Find out more about Commlink
   url: https://commlink.digitaldarkness.com/about
@@ -316,6 +316,111 @@ paths:
       tags:
         - alien
         - interactivity
+    post:
+      summary: Try to push your roll
+      operationId: alien-rolls-update
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                example:
+                  data:
+                    panic: false
+                    pushable: false
+                    rolls: [2, 5, 2, 4, 6, 4]
+                    success: true
+                    text: "Rolled 1 success"
+                    title: "Ripley succeeded with 6 dice for Heavy machinery (0+5+1)"
+                  links:
+                    character: "https://commlink-dev.digitaldarkness.com/api/alien/characters/6697e43d245ac6b4f2032432"
+                    campaign: "https://commlink-dev.digitaldarkness.com/api/campaigns/9"
+                    self: "https://commlink-dev.digitaldarkness.com/api/alien/roll/b3e151db-6434-4170-a9d6-9f181f6a4755"
+                    parent: "https://commlink-dev.digitaldarkness.com/api/alien/roll/a3ca4dac-911f-419e-a6b9-85a498261c9a"
+                properties:
+                  data:
+                    $ref: '#/components/schemas/AlienRollResult'
+                  links:
+                    properties:
+                      character:
+                        description: Link to the character making the roll.
+                        format: url
+                        type: string
+                      campaign:
+                        description: Link to the campaign the character belongs to.
+                        format: url
+                        type: string
+                      parent:
+                        description: Link to the roll that this roll pushes.
+                        format: url
+                        type: string
+                      pushes:
+                        items:
+                          description: Link to a push for this roll.
+                          format: url
+                          type: string
+                        type: array
+                      self:
+                        description: Link to this roll, which can be interacted with to push.
+                        format: url
+                        type: string
+                    required:
+                      - character
+                      - campaign
+                      - self
+                    type: object
+                required:
+                  - data
+                  - links
+          description: Result of the character's roll.
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+        '403':
+          content:
+            application/json:
+              schema:
+                example:
+                  message: "The roll has already been pushed."
+                  errors:
+                    roll:
+                      - "The roll has already been pushed."
+                  links:
+                    self: "https://commlink-dev.digitaldarkness.com/api/alien/roll/b3e151db-6434-4170-a9d6-9f181f6a4755"
+                    pushes:
+                      - "https://commlink-dev.digitaldarkness.com/api/alien/roll/a3ca4dac-911f-419e-a6b9-85a498261c9a"
+                properties:
+                  message:
+                    type: string
+                  errors:
+                    properties:
+                      roll:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  links:
+                    properties:
+                      parent:
+                        description: Link to the roll that this roll pushes.
+                        format: url
+                        type: string
+                      pushes:
+                        items:
+                          description: Link to a push for this roll.
+                          format: url
+                          type: string
+                        type: array
+                      self:
+                        description: Link to this roll, which may be interacted with to push.
+                        format: url
+                        type: string
+                    type: object
+          description: The roll can not be pushed.
+        '404':
+          $ref: '#/components/responses/ErrorNotFound'
+      tags:
+        - alien
+        - interactivity
   /alien/skills:
     get:
       summary: Alien RPG skills
@@ -406,6 +511,75 @@ paths:
                   - links
                 type: object
           description: Collection of the user's Avatar characters.
+      tags:
+        - avatar
+  /avatar/moves:
+    get:
+      summary: Avatar Legends moves
+      operationId: avatar-moves-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/AvatarMove'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of moves from Avatar Legends.
+      tags:
+        - avatar
+  /avatar/playbooks:
+    get:
+      summary: Avatar Legends playbooks
+      operationId: avatar-playbooks-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/AvatarPlaybook'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of playbooks from Avatar Legends.
+      tags:
+        - avatar
+  /avatar/statuses:
+    get:
+      summary: Avatar Legends statuses
+      operationId: avatar-statuses-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/AvatarStatus'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of statuses from Avatar Legends.
       tags:
         - avatar
   /blistercritters/characters:
@@ -4141,23 +4315,93 @@ components:
         - weight
         - links
       type: object
+    AvatarBackground:
+      enum:
+        - military
+        - monastic
+        - outlaw
+        - privileged
+        - urban
+        - wilderness
+      type: string
     AvatarCharacter:
       example:
         name: 'Aang'
         appearance: 'Blue arrow tattoo on his bald head.'
-        background: 'Wilderness'
-        creativity: null
-        fatigue: null
-        focus: null
-        harmony: null
+        background: 'wilderness'
+        balance: 0
+        conditions:
+          - afraid
+          - guilty
+        creativity: 1
+        demeanor: 'Affable and Impetuous'
+        fatigue: 0
+        focus: 1
+        harmony: -1
         history: null
-        passion: null
+        passion: 3
+        playbook:
+          advanced_technique: 'pinpoint-aim'
+          balance_left: 'restraint'
+          balance_right: 'results'
+          base_stats:
+            creativity: 0
+            focus: 1
+            harmony: -1
+            passion: 1
+          demeanor_options:
+            - 'above-it-all'
+            - 'perfectionist'
+            - 'chilly'
+            - 'rebellious'
+            - 'flippant'
+            - 'standoffish'
+          description: |
+            A zealous advocate with a heart of gold and a diamond-hard will,
+            ready to do what it takes to fix the world. Their balance
+            principles are Restraint vs Results.
+          history:
+            - |
+              What experience of being deceived or manipulated convinced you
+              to steel yourself against being swayed by other people?
+          id: 'the-adamant'
+          moment_of_balance: |
+            You’ve held true to a core of conviction even while getting your
+            hands dirty to do what you deemed necessary. But balance means
+            appreciating that other people are just as complex as you are, not
+            merely obstacles or pawns. Tell the GM how you solve an intractable
+            problem or calm a terrible conflict by relating to dangerous people
+            on a human level.
+          moves:
+            - id: 'this-was-a-victory'
+              name: 'This Was a Victory'
+              page: 168
+              playbook: 'The Adamant'
+              ruleset: core
+              links:
+                self: 'https://commlink-dev.digitaldarkness.com/api/avatar/moves/this-was-a-victory'
+                playbook: 'https://commlink-dev.digitaldarkness.com/api/avatar/playbooks/the-adamant'
+              description: |
+                When you reveal that you have sabotaged a building, device, or
+                vehicle right as it becomes relevant, mark fatigue and roll with
+                Passion. On a hit, your work pays off, creating an opportunity
+                for you and your allies at just the right time. On a 7–9, the
+                opportunity is fleeting—act fast to stay ahead of the
+                consequences. On a miss, your action was ill-judged and
+                something or someone you care about is hurt as collateral
+                damage.
+          name: 'The Adamant'
+          page: 166
+          ruleset: 'core'
+          links:
+            self: 'https://commlink-dev.digitaldarkness.com/api/avatar/playbooks/the-adamant'
         id: '667ee7f8246ccb219839df35'
         owner:
           id: 3
           name: 'Omni A'
         system: 'avatar'
         links:
+          playbook: 'https://commlink-dev.digitaldarkness.com/api/avatar/playbooks/the-adamant'
           self: 'https://commlink-dev.digitaldarkness.com/api/avatar/characters/667ee7f8246ccb219839df35'
       allOf:
         - $ref: '#/components/schemas/Character'
@@ -4165,27 +4409,52 @@ components:
             appearance:
               type: string
             background:
-              type: string
+              $ref: '#/components/schemas/AvatarBackground'
+            balance:
+              maximum: 3
+              minimum: -3
+              type: integer
+            conditions:
+              items:
+                enum:
+                  - afraid
+                  - angry
+                  - guilty
+                  - insecure
+                  - troubled
+                type: string
+              type: array
             creativity:
-              nullable: true
+              maximum: 4
+              minimum: -1
+              type: integer
+            demeanor:
+              type: string
+            era:
               type: string
             fatigue:
-              nullable: true
-              type: string
+              maximum: 5
+              minimum: 0
+              type: integer
             focus:
-              nullable: true
-              type: string
+              maximum: 4
+              minimum: -1
+              type: integer
             harmony:
-              nullable: true
-              type: string
+              maximum: 4
+              minimum: -1
+              type: integer
             history:
               nullable: true
               type: string
             name:
               type: string
             passion:
-              nullable: true
-              type: string
+              maximum: 4
+              minimum: -1
+              type: integer
+            playbook:
+              $ref: '#/components/schemas/AvatarPlaybook'
           required:
             - appearance
             - background
@@ -4196,8 +4465,231 @@ components:
             - history
             - id
             - passion
+            - playbook
             - name
           type: object
+    AvatarMove:
+      example:
+        description: |
+          When you reveal that you have sabotaged a building, device, or vehicle
+          right as it becomes relevant, mark fatigue and roll with Passion. On a
+          hit, your work pays off, creating an opportunity for you and your
+          allies at just the right time. On a 7–9, the opportunity is
+          fleeting—act fast to stay ahead of the consequences. On a miss, your
+          action was ill-judged and something or someone you care about is hurt
+          as collateral damage.
+        id: 'this-was-a-victory'
+        name: 'This Was a Victory'
+        page: 168
+        playbook: 'the-adamant'
+        ruleset: core
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/avatar/moves/this-was-a-victory'
+          playbook: 'https://commlink-dev.digitaldarkness.com/api/avatar/playbooks/the-adamant'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        playbook:
+          type: string
+        ruleset:
+          type: string
+        links:
+          properties:
+            playbook:
+              format: url
+              type: string
+            self:
+              format: url
+              type: string
+          required:
+            - playbook
+            - self
+          type: object
+      required:
+        - id
+        - name
+        - page
+        - playbook
+        - ruleset
+        - links
+      type: object
+    AvatarPlaybook:
+      example:
+        advanced_technique: 'pinpoint-aim'
+        balance_left: 'restraint'
+        balance_right: 'results'
+        base_stats:
+          creativity: 0
+          focus: 1
+          harmony: -1
+          passion: 1
+        demeanor_options:
+          - 'above-it-all'
+          - 'perfectionist'
+          - 'chilly'
+          - 'rebellious'
+          - 'flippant'
+          - 'standoffish'
+        description: |
+          A zealous advocate with a heart of gold and a diamond-hard will,
+          ready to do what it takes to fix the world. Their balance
+          principles are Restraint vs Results.
+        history:
+          - |
+            What experience of being deceived or manipulated convinced you
+            to steel yourself against being swayed by other people?
+        id: 'the-adamant'
+        moment_of_balance: |
+          You’ve held true to a core of conviction even while getting your hands
+          dirty to do what you deemed necessary. But balance means appreciating
+          that other people are just as complex as you are, not merely obstacles
+          or pawns. Tell the GM how you solve an intractable problem or calm a
+          terrible conflict by relating to dangerous people on a human level.
+        moves:
+          - id: 'this-was-a-victory'
+            name: 'This Was a Victory'
+            page: 168
+            playbook: 'The Adamant'
+            ruleset: core
+            links:
+              self: 'https://commlink-dev.digitaldarkness.com/api/avatar/moves/this-was-a-victory'
+              playbook: 'https://commlink-dev.digitaldarkness.com/api/avatar/playbooks/the-adamant'
+            description: |
+              When you reveal that you have sabotaged a building, device, or
+              vehicle right as it becomes relevant, mark fatigue and roll with
+              Passion. On a hit, your work pays off, creating an opportunity for
+              you and your allies at just the right time. On a 7–9, the
+              opportunity is fleeting—act fast to stay ahead of the consequences.
+              On a miss, your action was ill-judged and something or someone you
+              care about is hurt as collateral damage.
+        name: 'The Adamant'
+        page: 166
+        ruleset: 'core'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/avatar/playbooks/the-adamant'
+      properties:
+        advanced_technique:
+          type: string
+        balance_left:
+          type: string
+        balance_right:
+          type: string
+        base_stats:
+          properties:
+            creativity:
+              type: integer
+            focus:
+              type: integer
+            harmony:
+              type: integer
+            passion:
+              type: integer
+          required:
+            - creativity
+            - focus
+            - harmony
+            - passion
+          type: object
+        demeanor_options:
+          items:
+            type: string
+          type: array
+        description:
+          type: string
+        history:
+          items:
+            type: string
+          type: array
+        id:
+          type: string
+        moment_of_balance:
+          type: string
+        moves:
+          items:
+            $ref: '#/components/schemas/AvatarMove'
+          type: array
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - advanced_technique
+        - balance_left
+        - balance_right
+        - base_stats
+        - demeanor_options
+        - history
+        - id
+        - moment_of_balance
+        - moves
+        - name
+        - page
+        - ruleset
+        - links
+      type: object
+    AvatarStatus:
+      example:
+        description: |
+          Doomed is the status for when you’re drowning, or when you’re on fire,
+          or when the stone around you isn’t simply immobilizing you—it’s
+          crushing you. It represents a constant, ongoing pressure upon you,
+          causing you to mark fatigue at a steady rate until you are free. The
+          GM decides exactly how often you mark fatigue during play, unless
+          you’re in exchanges—then, you should mark 1-fatigue at the beginning
+          of each exchange. Remember that if you can’t mark more fatigue, you
+          mark conditions instead.
+
+          Much of the time, you can’t be Doomed unless you’re first Impaired, or
+          Impaired and Trapped. You won’t be drowning unless something holds you
+          in the water; you won’t be slowly crushed by rock without first being
+          trapped in rock. But sometimes it’s appropriate—your entire outfit,
+          head to toe, can be set on fire by an angry firebending master without
+          warning!
+        effect: 'negative'
+        id: 'doomed'
+        name: 'Doomed'
+        page: 151
+        ruleset: 'core'
+        short_description: 'You’re in grave danger—mark 1-fatigue every few seconds (or each exchange) until you free yourself.'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/avatar/statuses/doomed'
+      properties:
+        description:
+          type: string
+        effect:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        short_description:
+          type: string
+        links:
+          properties:
+            self:
+              format: uri
+              type: string
+          type: object
+      required:
+        - effect
+        - id
+        - name
+        - page
+        - ruleset
+        - links
+      type: object
     BlistercrittersCharacter:
       example:
         id: '667cda3b3dc4b0ecfa014d62'

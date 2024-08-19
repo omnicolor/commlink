@@ -7,7 +7,6 @@ namespace Modules\Avatar\Tests\Feature\Models;
 use Modules\Avatar\Models\Background;
 use Modules\Avatar\Models\Character;
 use Modules\Avatar\Models\Condition;
-use Modules\Avatar\Models\Era;
 use Modules\Avatar\Models\Playbook;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
@@ -67,19 +66,6 @@ final class CharacterTest extends TestCase
             Condition::Guilty,
         ];
         self::assertCount(2, $character->conditions);
-    }
-
-    public function testSetEraEnum(): void
-    {
-        $character = new Character();
-        $character->era = Era::Roku;
-        self::assertSame('roku', $character->era->value);
-    }
-
-    public function testSetEraString(): void
-    {
-        $character = new Character(['era' => 'roku']);
-        self::assertSame(Era::Roku, $character->era);
     }
 
     public function testNoFatigue(): void

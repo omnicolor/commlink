@@ -16,12 +16,13 @@ use Stringable;
  * @property string $appearance
  * @property-read Background $background
  * @property-write Background|string $background
+ * @property int<-3, 3> $balance
  * @property-read array<int, Condition> $conditions
  * @property-write array<int, Condition|string> $conditions
  * @property int<-1, 4> $creativity
- * @property-read Era $era
- * @property-write Era|string $era
+ * @property ?string $demeanor
  * @property int<0, 5> $fatigue
+ * @property string $fighting_style
  * @property int<-1, 4> $focus
  * @property int<-1, 4> $harmony
  * @property string $history
@@ -48,11 +49,12 @@ class Character extends BaseCharacter implements Stringable
     protected $fillable = [
         'appearance',
         'background',
-        //'balance',
+        'balance',
         'conditions',
         'creativity',
-        'era',
+        'demeanor',
         'fatigue',
+        'fighting_style',
         'focus',
         'harmony',
         'history',
@@ -61,6 +63,7 @@ class Character extends BaseCharacter implements Stringable
         'playbook',
         //'statuses',
         //'techniques',
+        'training',
     ];
 
     /**
@@ -140,21 +143,6 @@ class Character extends BaseCharacter implements Stringable
             set: function (int $creativity): int {
                 $this->attributes['creativity'] = $creativity;
                 return $creativity;
-            },
-        );
-    }
-
-    public function era(): Attribute
-    {
-        return Attribute::make(
-            get: function (): Era {
-                return Era::from($this->attributes['era']);
-            },
-            set: function (string | Era $era): string {
-                if ($era instanceof Era) {
-                    return $era->value;
-                }
-                return Era::from($era)->value;
             },
         );
     }

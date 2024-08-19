@@ -43,9 +43,12 @@
 
     <div class="row my-4">
         <div class="col">
-            <h1>{{ $character }}</h1>
+            <h2>{{ $character->playbook }}</h2>
+            <strong>Background</strong> {{ ucfirst($character->background) }}<br>
+            <strong>Demeanor</strong> {{ $character->demeanor ?? '' }}
         </div>
         <div class="col">
+            <h1>{{ $character }}</h1>
         </div>
         <div class="col text-center">
             <img src="/images/Avatar/avatar.png"><br>
