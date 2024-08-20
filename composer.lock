@@ -10535,16 +10535,16 @@
         },
         {
             "name": "laravel/breeze",
-            "version": "v2.1.3",
+            "version": "v2.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/breeze.git",
-                "reference": "1446994ea5042e0b340e39f1e4629656de843058"
+                "reference": "ef237081cc9b87c858e9de8e35b523f93ac74fd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/breeze/zipball/1446994ea5042e0b340e39f1e4629656de843058",
-                "reference": "1446994ea5042e0b340e39f1e4629656de843058",
+                "url": "https://api.github.com/repos/laravel/breeze/zipball/ef237081cc9b87c858e9de8e35b523f93ac74fd3",
+                "reference": "ef237081cc9b87c858e9de8e35b523f93ac74fd3",
                 "shasum": ""
             },
             "require": {
@@ -10591,7 +10591,7 @@
                 "issues": "https://github.com/laravel/breeze/issues",
                 "source": "https://github.com/laravel/breeze"
             },
-            "time": "2024-07-17T13:05:17+00:00"
+            "time": "2024-08-12T22:06:50+00:00"
         },
         {
             "name": "laravel/tinker",
