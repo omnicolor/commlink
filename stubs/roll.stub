@@ -9,6 +9,11 @@ use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
+use Facades\App\Services\DiceService;
+
+use function sprintf;
+
+use const PHP_EOL;
 
 class {{ class }} extends Roll
 {
@@ -23,25 +28,32 @@ class {{ class }} extends Roll
         parent::__construct($content, $character, $channel);
     }
 
-    public function forSlack(): SlackResponse
-    {
-        $attachment = new TextAttachment(
-            'Title',
-            'Text',
-            TextAttachment::COLOR_SUCCESS
-        );
-        $response = new SlackResponse('', SlackResponse::HTTP_OK, [], $channel);
-        return $response->addAttachment($attachment)->sendToChannel();
-    }
-
     public function forDiscord(): string
     {
         if (null !== $this->error) {
             return $this->error;
         }
 
-        $value = \sprintf('**%s**', 'Title') . \PHP_EOL
-            . 'Text' . \PHP_EOL;
-        return $value;
+        return sprintf('**%s**', $this->title) . PHP_EOL . $this->text;
+    }
+
+    public function forIrc(): string
+    {
+        if (null !== $this->error) {
+            return $this->error;
+        }
+
+        return $this->title . PHP_EOL . $this->text;
+    }
+
+    public function forSlack(): SlackResponse
+    {
+        $attachment = new TextAttachment(
+            $this->title,
+            $this->text,
+            TextAttachment::COLOR_SUCCESS
+        );
+        $response = new SlackResponse('', SlackResponse::HTTP_OK, [], $channel);
+        return $response->addAttachment($attachment)->sendToChannel();
     }
 }
