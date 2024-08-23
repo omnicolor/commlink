@@ -1,0 +1,59 @@
+services:
+  mailhog:
+    image: mailhog/mailhog
+    logging:
+      driver: "none"
+    ports:
+      - 8338:8025
+  mongo:
+    image: mongo:latest
+    ports:
+      - 8339:27017
+    volumes:
+      - mongo-data:/data/db
+  mysql:
+    image: mysql:8.4.2
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+    ports:
+      - 8336:3306
+  php:
+    build:
+      context: ./
+      dockerfile: docker/php.dockerfile
+    depends_on:
+      - "mongo"
+      - "mysql"
+      - "redis"
+    environment:
+      DB_HOST: mysql
+      MONGO_HOST: mongo
+      MONGO_DATABASE: commlink
+      MONGO_USERNAME: ""
+      MONGO_PASSWORD: ""
+      MONGO_AUTHENTICATION_DATABASE: admin
+    volumes:
+      - ./:/var/www/html
+    working_dir: /var/www/html
+  redis:
+    image: redis:latest
+  web:
+    build:
+      context: ./
+      dockerfile: docker/web.dockerfile
+    working_dir: /var/www/html
+    depends_on:
+      - "php"
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - 8337:80
+
+volumes:
+  mongo-data:
+  mysql-data:

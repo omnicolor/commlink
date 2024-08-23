@@ -31,7 +31,26 @@ levels of completeness.
 * [Subversion](https://www.fraggingunicorns.com/subversion)
 * [The Transformers RPG 2nd Edition](https://rpggeek.com/image/3884438/the-transformers-rpg-2nd-edition)
 
-## Building Commlink
+## Running Commlink locally
+
+Commlink was originally built and run directly on a bare-metal Linux machine,
+and there may still be some corner cases where something doesn't work when run
+locally (like the various chat bots). However, most of the web frontend works
+when run via [Docker Desktop](https://www.docker.com/).
+
+```shell
+$ docker compose up -d
+```
+
+### Containers
+* php - Application server. Most likely what you'll be interacting with.
+* web - Nginx web server. Passes traffic from [http://localhost:8337](http://localhost:8337) to the PHP server for processing.
+* mongo - Mongo document server. Stores character objects. Available locally on port 8339.
+* mysql - MySQL database server. Stores all non-character data. Available locally on port 8336.
+* redis - Stores ephemeral state, such as initiatives.
+* mailhog - [Mailhog instance](https://github.com/mailhog/MailHog) captures local email. Available at [http://localhost:8338](http://localhost:8338).
+
+## Setting up Commlink
 
 Commlink requires [Composer](https://getcomposer.org) and is built on
 [Laravel](https://laravel.com). Assuming you have Composer in your path:
@@ -39,6 +58,14 @@ Commlink requires [Composer](https://getcomposer.org) and is built on
 ```shell
 $ composer install
 $ ./artisan migrate
+$ ./artisan db:seed
+```
+
+or for Docker:
+```shell
+$ docker compose exec php composer install
+$ docker compose exec php php artisan migrate
+$ docker compose exec php php artisan db:seed
 ```
 
 Much of data powering the API is proprietary and requires a licensing
@@ -49,6 +76,14 @@ RPG's module. We've included example data only for supported systems.
 
 Commlink requires both MySQL (for general application data) and MongoDB (for
 characters).
+
+## Creating a user
+
+Creating an admin user can be done with a command line script:
+
+```shell
+$ ./artisan commlink:create-user
+```
 
 ## Starting the queue
 
