@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Pennant\Feature;
@@ -33,6 +35,9 @@ class AppServiceProvider extends ServiceProvider
             touch(env('DB_DATABASE'));
             $sqlite = env('DB_DATABASE') . $token;
             touch($sqlite);
+        });
+        Gate::define('viewPulse', function (User $user): bool {
+            return $user->hasRole('admin');
         });
     }
 }
