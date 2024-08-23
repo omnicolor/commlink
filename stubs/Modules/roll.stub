@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace {{ namespace }};
+namespace $NAMESPACE$;
 
 use App\Events\DiscordMessageReceived;
 use App\Http\Responses\Slack\SlackResponse;
@@ -15,7 +15,7 @@ use function sprintf;
 
 use const PHP_EOL;
 
-class {{ class }} extends Roll
+class $CLASS$ extends Roll
 {
     protected ?string $error = null;
 
@@ -53,7 +53,7 @@ class {{ class }} extends Roll
             $this->text,
             TextAttachment::COLOR_SUCCESS
         );
-        $response = new SlackResponse('', SlackResponse::HTTP_OK, [], $channel);
+        $response = new SlackResponse(channel: $this->channel);
         return $response->addAttachment($attachment)->sendToChannel();
     }
 }

@@ -68,6 +68,71 @@ class ImportChummerData extends Command implements Isolatable
     ];
 
     /**
+     * This is a map of what Chummer calls an item's 'source' to what we call
+     * its ruleset and confusingly call rulebooks elsewhere. If you add
+     * something to this list Modules/Shadowrun5e/data/rulebooks.php as well.
+     */
+    protected const array SOURCE_MAP = [
+        '2050' => 'core',
+        'AET' => 'aetherology',
+        'AP' => 'assassins-primer',
+        'AR' => null, // Unknown
+        'BB' => 'bullets-and-bandages',
+        'BLB' => 'bloody-business',
+        'BOTL' => 'book-of-the-lost',
+        'BTB' => 'better-than-bad',
+        'CA' => 'cutting-aces',
+        'CF' => 'chrome-flesh',
+        'DT' => 'data-trails',
+        'DTR' => 'dark-terrors',
+        'DTD' => 'data-trails', // Data Trails Dissonant Echoes: https://github.com/chummer5a/chummer5a/issues/750
+        'DPVG' => null, // Datapuls Verschlusssache (German)
+        'FA' => 'forbidden-arcana',
+        'GE' => null, // Grimmes Erwachen (German)
+        'GH3' => 'gun-heaven-3',
+        'HAMG' => null, // Hamburg (German)
+        'HKS' => null, // Hong Kong Sourcebook from Harebrained Schemes kickstarter
+        'HS' => 'howling-shadows',
+        'HT' => 'hard-targets',
+        'KC' => 'kill-code',
+        'KK' => 'krime-katalog', // Krime Katalog
+        'LCD' => 'lockdown',
+        'NF' => 'no-future',
+        'NP' => 'nothing-personal', // Nothing Personal enhanced fiction.
+        'QSR' => null, // Shadowrun Quick-Start Rules
+        'R5' => 'rigger-5',
+        'RC' => null, // Unknown code for critter powers (and maybe others)
+        'RF' => 'run-faster',
+        'RG' => 'run-and-gun',
+        'SAG' => null, // State of the Art ADL (German)
+        'SASS' => null, // Sail Away Sweet Sister
+        'SGB' => 'shadows-in-focus-butte',
+        'SFCC' => 'shadows-in-focus-cheyenne',
+        'SFM' => 'shadows-in-focus-san-francisco-metroplex',
+        'SFME' => null, // 'shadows-in-focus-metropole',
+        'SG' => 'street-grimoire',
+        'SGE' => null, // Street Grimoire errata
+        'SHB' => null, // Schattenhandbuch (German)
+        'SHB2' => null, // Schattenhandbuch 2 (German)
+        'SHB3' => null, // Schattenhandbuch 3 (German)
+        'SL' => 'street-lethal',
+        'SOTG' => null, // Datapuls SOTA 2080 (German)
+        'SR4' => null, // Unknown code for critter powers (and maybe others)
+        'SR5' => 'core',
+        'SRM0803' => null, // Shadowrun Missions 0803: 10 Block Tango
+        'SRM0804' => null, // Shadowrun Missions 0804: Dirty Laundry
+        'SPS' => 'splintered-state',
+        'SS' => 'stolen-souls',
+        'SSP' => 'shadow-spells',
+        'SW' => 'sprawl-wilds',
+        'TCT' => 'complete-trog',
+        'TSG' => null, // The Seattle Gambit
+        'TVG' => 'vladivostok-guantlet',
+        'UN' => null, // Unknown code for critter powers (and maybe others)
+        'WAR' => null, // Unknown code for critter powers (and maybe others)
+    ];
+
+    /**
      * Mapping of Chummer source codes to Commlink ruleset names.
      * @var array<string, null|string>
      */
@@ -99,14 +164,6 @@ class ImportChummerData extends Command implements Isolatable
         {--chummer-path= : Set the path Chummer 5\'s local git repository}
         {--output-dir=storage/app/shadowrun5e-data : Set the output directory}
         {--list-types : List the types of data you can import, then exit}';
-
-    public function __construct()
-    {
-        parent::__construct();
-        $filename = config('shadowrun5e.data_path') . 'chummer-sources.php';
-        /** @psalm-suppress UnresolvableInclude */
-        $this->source_map = require $filename;
-    }
 
     /**
      * Execute the console command.
@@ -293,7 +350,7 @@ class ImportChummerData extends Command implements Isolatable
         $bar->start();
 
         foreach ($data->armors->armor as $armor) {
-            if (null === $this->source_map[(string)$armor->source]) {
+            if (null === self::SOURCE_MAP[(string)$armor->source]) {
                 continue;
             }
 
@@ -308,7 +365,7 @@ class ImportChummerData extends Command implements Isolatable
                 'name' => (string)$armor->name,
                 'page' => (int)$armor->page,
                 'rating' => (int)$armor->armor,
-                'ruleset' => $this->source_map[(string)$armor->source],
+                'ruleset' => self::SOURCE_MAP[(string)$armor->source],
             ];
             if (isset($armor->bonus, $armor->bonus->limitmodifier)) {
                 $effect = strtolower(
@@ -375,7 +432,7 @@ class ImportChummerData extends Command implements Isolatable
         string $type,
         array &$augmentations
     ): void {
-        if (null === $this->source_map[(string)$aug->source]) {
+        if (null === self::SOURCE_MAP[(string)$aug->source]) {
             return;
         }
 
@@ -386,7 +443,7 @@ class ImportChummerData extends Command implements Isolatable
             'id' => $id,
             'name' => (string)$aug->name,
             'page' => (int)$aug->page,
-            'ruleset' => $this->source_map[(string)$aug->source],
+            'ruleset' => self::SOURCE_MAP[(string)$aug->source],
             'type' => $type,
         ];
 
@@ -436,7 +493,7 @@ class ImportChummerData extends Command implements Isolatable
         $bar->start();
         $forms = [];
         foreach ($data->complexforms->complexform as $rawForm) {
-            if (null === $this->source_map[(string)$rawForm->source]) {
+            if (null === self::SOURCE_MAP[(string)$rawForm->source]) {
                 $bar->advance();
                 continue;
             }
@@ -451,7 +508,7 @@ class ImportChummerData extends Command implements Isolatable
                 'id' => $id,
                 'name' => $name,
                 'page' => (int)$rawForm->page,
-                'ruleset' => $this->source_map[(string)$rawForm->source],
+                'ruleset' => self::SOURCE_MAP[(string)$rawForm->source],
                 'target' => (string)$rawForm->target,
             ];
 
@@ -503,7 +560,7 @@ class ImportChummerData extends Command implements Isolatable
         $bar->start();
         $powers = [];
         foreach ($data->powers->power as $rawPower) {
-            if (null === $this->source_map[(string)$rawPower->source]) {
+            if (null === self::SOURCE_MAP[(string)$rawPower->source]) {
                 continue;
             }
 
@@ -521,7 +578,7 @@ class ImportChummerData extends Command implements Isolatable
                 'name' => (string)$rawPower->name,
                 'page' => (int)$rawPower->page,
                 'range' => (string)$rawPower->range,
-                'ruleset' => $this->source_map[(string)$rawPower->source],
+                'ruleset' => self::SOURCE_MAP[(string)$rawPower->source],
                 'type' => (string)$rawPower->type,
             ];
         }
@@ -579,7 +636,7 @@ class ImportChummerData extends Command implements Isolatable
             $name = (string)$rawGear->name;
             $subname = null;
             if (
-                null === $this->source_map[(string)$rawGear->source]
+                null === self::SOURCE_MAP[(string)$rawGear->source]
                 || in_array($category, $skippedCategories, true)
                 || in_array($chummerId, $skippedItems, true)
                 || ('Foci' === $category && Str::contains($name, 'Individualized'))
@@ -616,7 +673,7 @@ class ImportChummerData extends Command implements Isolatable
                 'id' => $id,
                 'name' => $name,
                 'page' => (int)$rawGear->page,
-                'ruleset' => $this->source_map[(string)$rawGear->source],
+                'ruleset' => self::SOURCE_MAP[(string)$rawGear->source],
             ];
             if (null !== $subname) {
                 $gear['subname'] = $subname;
@@ -715,7 +772,7 @@ class ImportChummerData extends Command implements Isolatable
                 'limit' => (int)($rawEcho->limit ?? 1),
                 'name' => $rawEcho->name,
                 'page' => (int)$rawEcho->page,
-                'ruleset' => $this->source_map[(string)$rawEcho->source],
+                'ruleset' => self::SOURCE_MAP[(string)$rawEcho->source],
             ];
             $bar->advance();
         }
@@ -739,7 +796,7 @@ class ImportChummerData extends Command implements Isolatable
         $bar->setFormat('  Weapons          %current%/%max% [%bar%] %percent%');
         $bar->start();
         foreach ($data->weapons->weapon as $rawWeapon) {
-            if (null === $this->source_map[(string)$rawWeapon->source]) {
+            if (null === self::SOURCE_MAP[(string)$rawWeapon->source]) {
                 continue;
             }
 
@@ -754,7 +811,7 @@ class ImportChummerData extends Command implements Isolatable
                 'id' => $id,
                 'name' => (string)$rawWeapon->name,
                 'page' => (int)$rawWeapon->page,
-                'ruleset' => $this->source_map[(string)$rawWeapon->source],
+                'ruleset' => self::SOURCE_MAP[(string)$rawWeapon->source],
             ];
 
             if (!isset($rawWeapon->maxrating)) {
@@ -796,7 +853,7 @@ class ImportChummerData extends Command implements Isolatable
         $bar->setFormat('  Vehicles         %current%/%max% [%bar%] %percent%');
         $bar->start();
         foreach ($data->vehicles->vehicle as $rawVehicle) {
-            if (null === $this->source_map[(string)$rawVehicle->source]) {
+            if (null === self::SOURCE_MAP[(string)$rawVehicle->source]) {
                 continue;
             }
 
@@ -815,7 +872,7 @@ class ImportChummerData extends Command implements Isolatable
                 'name' => (string)$rawVehicle->name,
                 'page' => (int)$rawVehicle->page,
                 'pilot' => (int)$rawVehicle->pilot,
-                'ruleset' => $this->source_map[(string)$rawVehicle->source],
+                'ruleset' => self::SOURCE_MAP[(string)$rawVehicle->source],
                 'seats' => (int)$rawVehicle->seats,
                 'sensor' => (int)$rawVehicle->sensor,
                 'speed' => (int)$rawVehicle->speed,
@@ -843,7 +900,7 @@ class ImportChummerData extends Command implements Isolatable
         $bar->setFormat('  Vehicle Mods     %current%/%max% [%bar%] %percent%');
         $bar->start();
         foreach ($data->mods->mod as $rawMod) {
-            if (null === $this->source_map[(string)$rawMod->source]) {
+            if (null === self::SOURCE_MAP[(string)$rawMod->source]) {
                 continue;
             }
             if (isset($rawMod->hide)) {
@@ -873,7 +930,7 @@ class ImportChummerData extends Command implements Isolatable
                 'id' => $id,
                 'name' => $name,
                 'page' => (int)$rawMod->page,
-                'ruleset' => $this->source_map[(string)$rawMod->source],
+                'ruleset' => self::SOURCE_MAP[(string)$rawMod->source],
                 'slot-type' => $slotType,
                 'type' => VehicleModificationType::VehicleModification,
             ];
