@@ -1,3 +1,4 @@
+@use(Illuminate\Support\Str)
 <x-app>
     <x-slot name="title">{{ $character }}</x-slot>
     <x-slot name="head">
@@ -44,11 +45,49 @@
     <div class="row my-4">
         <div class="col">
             <h2>{{ $character->playbook }}</h2>
-            <strong>Background</strong> {{ ucfirst($character->background) }}<br>
-            <strong>Demeanor</strong> {{ $character->demeanor ?? '' }}
+            <strong>Background</strong> {{ $character->background }}<br>
+            <strong>Demeanor</strong>
+            <div class="row">
+            @php
+                $demeanors = collect($character->demeanors ?? []);
+                $options = collect($character->playbook->demeanor_options);
+                $extra_demeanors = $demeanors->diff($options);
+            @endphp
+            @foreach ($options as $demeanor)
+                <div class="col">
+                    <div class="form-check">
+                        <input
+                        @if ($demeanors->contains($demeanor))
+                            checked
+                        @endif
+                        class="form-check-input" disabled type="checkbox">
+                    {{ Str::headline($demeanor) }}
+                    </div>
+                </div>
+                @if ($loop->even)
+                </div>
+                <div class="row">
+                @endif
+            @endforeach
+            </div>
+            @foreach ($extra_demeanors as $demeanor)
+                <div class="col">
+                    <div class="form-check">
+                        <input checked
+                        class="form-check-input" disabled type="checkbox">
+                    {{ Str::headline($demeanor) }}
+                    </div>
+                </div>
+                @if ($loop->even)
+                </div>
+                <div class="row">
+                @endif
+            @endforeach
         </div>
         <div class="col">
             <h1>{{ $character }}</h1>
+            <h2>{{ $character->training }}</h2>
+            <p class="small">{{ $character->training?->description() }}</p>
         </div>
         <div class="col text-center">
             <img src="/images/Avatar/avatar.png"><br>

@@ -20,7 +20,7 @@ use Stringable;
  * @property-read array<int, Condition> $conditions
  * @property-write array<int, Condition|string> $conditions
  * @property int<-1, 4> $creativity
- * @property ?string $demeanor
+ * @property array<int, string> $demeanors
  * @property int<0, 5> $fatigue
  * @property string $fighting_style
  * @property int<-1, 4> $focus
@@ -52,7 +52,7 @@ class Character extends BaseCharacter implements Stringable
         'balance',
         'conditions',
         'creativity',
-        'demeanor',
+        'demeanors',
         'fatigue',
         'fighting_style',
         'focus',
@@ -209,6 +209,24 @@ class Character extends BaseCharacter implements Stringable
                     return $playbook->id;
                 }
                 return $playbook;
+            },
+        );
+    }
+
+    public function training(): Attribute
+    {
+        return Attribute::make(
+            get: function (): ?Training {
+                if (!isset($this->attributes['training'])) {
+                    return null;
+                }
+                return Training::from($this->attributes['training']);
+            },
+            set: function (string | Training $training): string {
+                if ($training instanceof Training) {
+                    return $training->value;
+                }
+                return $training;
             },
         );
     }
