@@ -110,9 +110,10 @@ class PartialCharacter extends Character implements Stringable
         ) {
             $errors['attributes'] = 'You have not set your attributes';
         } else {
-            $attributes = $this->attributes['agility']
-                + $this->attributes['empathy'] + $this->attributes['strength']
-                + $this->attributes['wits'];
+            $attributes = (int)$this->attributes['agility']
+                + (int)$this->attributes['empathy']
+                + (int)$this->attributes['strength']
+                + (int)$this->attributes['wits'];
             if (14 < $attributes) {
                 $errors['attributes']
                     = 'You haven spent too many attribute points';
