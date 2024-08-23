@@ -9,10 +9,13 @@ use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
+use function Laravel\Prompts\multiselect;
 use function Laravel\Prompts\password;
 use function Laravel\Prompts\text;
 use function event;
+use function filter_var;
 
 use const FILTER_VALIDATE_EMAIL;
 
@@ -54,6 +57,11 @@ class CreateUser extends Command
             label: 'Enter the user\'s password',
             required: true,
         );
+        $roles = multiselect(
+            hint: 'Selecting none creates a normal user',
+            label: 'What role(s) should the user have?',
+            options: Role::all()->pluck('name'),
+        );
 
         try {
             $user = User::create([
@@ -65,6 +73,7 @@ class CreateUser extends Command
             $this->error($ex->getMessage());
             return self::FAILURE;
         }
+        $user->syncRoles($roles);
         event(new Registered($user));
         return self::SUCCESS;
     }
