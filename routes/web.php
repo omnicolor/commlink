@@ -83,7 +83,9 @@ Route::get('/', function () {
 })->name('welcome');
 Route::get('/about', function () {
     return view('about');
-});
+})->name('about');
+Route::get('/about/systems', function () { return view('systems'); })
+    ->name('about.systems');
 
 // Routes for new-to-Commlink users to respond to an invitation.
 Route::get(

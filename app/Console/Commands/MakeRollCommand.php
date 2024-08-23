@@ -23,7 +23,7 @@ class MakeRollCommand extends GeneratorCommand
      * The console command description.
      * @var ?string
      */
-    protected $description = 'Create a new server-agnostic Roll';
+    protected $description = 'Create a new server- and system-agnostic Roll';
 
     /**
      * Type of the object to be created.
