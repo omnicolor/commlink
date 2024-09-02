@@ -33,10 +33,10 @@ final class UsersControllerTest extends TestCase
 {
     protected function createAdmin(): User
     {
-        $user = User::factory()->create();
-        $admin = Role::create(['name' => 'admin']);
-        $admin->givePermissionTo(Permission::create(['name' => 'admin users']));
-        $user->assignRole($admin);
+        $user = User::factory()->admin()->create();
+        $admin = Role::findByName('admin');
+        $permission = Permission::findOrCreate('admin users');
+        $admin->givePermissionTo($permission);
         return $user;
     }
 
