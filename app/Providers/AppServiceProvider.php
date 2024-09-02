@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Pennant\Feature;
+use Laravel\Telescope\TelescopeServiceProvider as Telescope;
 
 /**
+ * @codeCoverageIgnore
  * @psalm-suppress UnusedClass
  */
 class AppServiceProvider extends ServiceProvider
@@ -20,6 +22,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        if (true === $this->app->environment('local')) {
+            $this->app->register(Telescope::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     /**
