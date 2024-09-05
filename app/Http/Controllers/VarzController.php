@@ -50,9 +50,7 @@ class VarzController extends Controller
         $data = [
             'campaigns-total' => Campaign::count(),
             'channels' => [
-                // @phpstan-ignore-next-line
                 'discord' => Channel::discord()->count(),
-                // @phpstan-ignore-next-line
                 'slack' => Channel::slack()->count(),
             ],
             'characters-total' => Character::count(),
@@ -80,7 +78,6 @@ class VarzController extends Controller
         );
         try {
             $metrics = [
-                // @phpstan-ignore-next-line
                 'campaigns' => Campaign::where('system', $system)->count(),
                 'player-characters' => $characterClass::count(),
             ];
