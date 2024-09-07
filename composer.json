@@ -57,6 +57,7 @@
         "captainhook/hook-installer": "^1.0",
         "fakerphp/faker": "^1.23",
         "guzzlehttp/guzzle": "^7.3",
+        "hirethunk/verbs": "^0.6.0",
         "jerodev/php-irc-client": "dev-main",
         "laravel/framework": "^11.0",
         "laravel/pennant": "^1.1",
