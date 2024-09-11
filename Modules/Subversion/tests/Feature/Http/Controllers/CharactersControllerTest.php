@@ -253,9 +253,7 @@ final class CharactersControllerTest extends TestCase
             ->postJson(
                 route('subversion.create-hooks'),
                 [
-                    // @phpstan-ignore-next-line
                     'hook1' => $this->faker->catchPhrase(),
-                    // @phpstan-ignore-next-line
                     'hook2' => $this->faker->catchPhrase(),
                 ]
             )
@@ -614,11 +612,8 @@ final class CharactersControllerTest extends TestCase
                 route('subversion.create-values'),
                 [
                     'corrupted' => $corrupted,
-                    // @phpstan-ignore-next-line
                     'value1' => $this->faker->catchPhrase(),
-                    // @phpstan-ignore-next-line
                     'value2' => $this->faker->catchPhrase(),
-                    // @phpstan-ignore-next-line
                     'value3' => $this->faker->catchPhrase(),
                 ],
             )

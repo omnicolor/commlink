@@ -48,9 +48,7 @@ final class CampaignsControllerTest extends TestCase
         ) {
             self::markTestSkipped('Shadowrun 5E is the only available system');
         }
-        // @phpstan-ignore-next-line
         $name = $this->faker->catchPhrase();
-
         $user = User::factory()->create();
         $this->actingAs($user)
             ->postJson(
@@ -82,10 +80,8 @@ final class CampaignsControllerTest extends TestCase
         if (!in_array('avatar', array_keys(config('app.systems')), true)) {
             self::markTestSkipped('Avatar Legends system not enabled');
         }
-        // @phpstan-ignore-next-line
         $name = $this->faker->catchPhrase();
 
-        // @phpstan-ignore-next-line
         $description = $this->faker->bs();
 
         $user = User::factory()->create();
@@ -133,10 +129,8 @@ final class CampaignsControllerTest extends TestCase
         if (!in_array('shadowrun5e', array_keys(config('app.systems')), true)) {
             self::markTestSkipped('Shadowrun 5E not enabled');
         }
-        // @phpstan-ignore-next-line
         $name = $this->faker->catchPhrase();
 
-        // @phpstan-ignore-next-line
         $description = $this->faker->bs();
 
         $user = User::factory()->create();
@@ -188,10 +182,8 @@ final class CampaignsControllerTest extends TestCase
         if (!in_array('cyberpunkred', array_keys(config('app.systems')), true)) {
             self::markTestSkipped('Cyberpunk Red not enabled');
         }
-        // @phpstan-ignore-next-line
         $name = $this->faker->catchPhrase();
 
-        // @phpstan-ignore-next-line
         $description = $this->faker->bs();
 
         $user = User::factory()->create();
@@ -228,13 +220,8 @@ final class CampaignsControllerTest extends TestCase
         if (!in_array('subversion', array_keys(config('app.systems')), true)) {
             self::markTestSkipped('Subversion not enabled');
         }
-        // @phpstan-ignore-next-line
         $name = $this->faker->catchPhrase();
-
-        // @phpstan-ignore-next-line
         $description = $this->faker->bs();
-
-        // @phpstan-ignore-next-line
         $communityDescription = $this->faker->bs();
         $user = User::factory()->create();
         $this->actingAs($user)
