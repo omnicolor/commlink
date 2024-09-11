@@ -39,7 +39,7 @@ class HandleDiscordMessage
                 'type' => Channel::TYPE_DISCORD,
             ]);
         }
-        $channel->user = (string)$event->user->id;
+        $channel->user = (string)$event->user?->id;
         $channel->username = optional($event->user)->displayname;
 
         // See if the requested roll is XdY or something similar.
@@ -54,6 +54,7 @@ class HandleDiscordMessage
             return true;
         }
 
+        /** @psalm-suppress RedundantConditionGivenDocblockType */
         if (isset($channel->system) && null !== Module::find($channel->system)) {
             if (is_numeric($args[0])) {
                 $class = sprintf(
