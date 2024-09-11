@@ -97,7 +97,7 @@ class RegisterResponse implements Stringable
             'type' => Channel::TYPE_DISCORD,
         ]);
 
-        $channel->user = (string)$this->event->user->id;
+        $channel->user = (string)$this->event->user?->id;
         $channel->username = optional($this->event->user)->displayname;
         return $channel;
     }

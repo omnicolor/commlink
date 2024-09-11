@@ -38,13 +38,11 @@ final class RegisteredUserControllerTest extends TestCase
     #[Group('campaigns')]
     public function testNewUserWithBadCampaignInvitationHash(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
             'email' => $this->faker->safeEmail,
-            // @phpstan-ignore-next-line
-            'invited_by' => $campaign->gamemaster->id,
+            'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
         ]);
 
@@ -63,13 +61,11 @@ final class RegisteredUserControllerTest extends TestCase
     #[Group('campaigns')]
     public function testNewUserWithInvitationAlreadyRespondedTo(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
             'email' => $this->faker->safeEmail,
-            // @phpstan-ignore-next-line
-            'invited_by' => $campaign->gamemaster->id,
+            'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
             'status' => CampaignInvitation::RESPONDED,
         ]);
@@ -89,13 +85,11 @@ final class RegisteredUserControllerTest extends TestCase
     #[Group('campaigns')]
     public function testNewUserAcceptingInvitation(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
             'email' => $this->faker->safeEmail,
-            // @phpstan-ignore-next-line
-            'invited_by' => $campaign->gamemaster->id,
+            'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
         ]);
 

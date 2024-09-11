@@ -24,7 +24,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\View\View;
+use Illuminate\Contracts\View\View;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\Grunt;
 use Rs\Json\Patch;
@@ -115,6 +115,7 @@ class CampaignsController extends Controller
                     'cyberpunkred::gm-screen',
                     [
                         'campaign' => $campaign,
+                        // @phpstan-ignore staticMethod.dynamicCall
                         'initiative' => Initiative::forCampaign($campaign)
                             ->orderByDesc('initiative')
                             ->get(),
@@ -142,6 +143,7 @@ class CampaignsController extends Controller
                         'campaign' => $campaign,
                         'characters' => $characters,
                         'grunts' => Grunt::all(),
+                        // @phpstan-ignore staticMethod.dynamicCall
                         'initiative' => Initiative::forCampaign($campaign)
                             ->orderByDesc('initiative')
                             ->get(),
@@ -176,6 +178,7 @@ class CampaignsController extends Controller
         CampaignInvitationCreateRequest $request,
     ): JsonResource | JsonResponse {
         abort_if(
+            // @phpstan-ignore staticMethod.dynamicCall
             CampaignInvitation::where('campaign_id', $campaign->id)
                 ->where('email', $request->email)
                 ->where('invited_by', $request->user()?->id)
@@ -254,7 +257,7 @@ class CampaignsController extends Controller
             default => new JsonResponse(
                 sprintf(
                     'Unacceptable Content-Type: %s',
-                    $request->headers->get('Content-Type'),
+                    (string)$request->headers->get('Content-Type', 'Unknown'),
                 ),
                 JsonResponse::HTTP_UNSUPPORTED_MEDIA_TYPE,
             ),
@@ -279,7 +282,7 @@ class CampaignsController extends Controller
             $validator->errors()->first('current_date'),
         );
 
-        $options = $campaign->options ?? [];
+        $options = $campaign->options;
         $options['currentDate'] = $request->currentDate;
         $campaign->options = $options;
         $campaign->save();

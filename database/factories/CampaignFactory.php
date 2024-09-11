@@ -8,6 +8,7 @@ use App\Models\Campaign;
 
 /**
  * @extends Factory<Campaign>
+ * @method mixed hasChannels(int $count, array<string, ?string> $channel)
  * @method mixed hasInitiatives(int $count)
  * @psalm-suppress UnusedClass
  */
