@@ -18,7 +18,6 @@ final class EachIsAValidTest extends TestCase
     public function testFailureWrongType(): void
     {
         $rule = new EachIsAValid(RelationAspect::class);
-        // @phpstan-ignore argument.type
         $rule->validate('unused', 'unknown', function (string $message): void {
             self::assertSame('Value contains one or more invalid items.', $message);
         });
