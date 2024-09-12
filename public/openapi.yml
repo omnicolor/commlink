@@ -1,3 +1,4 @@
+---
 openapi: 3.0.3
 info:
   title: Commlink
@@ -226,7 +227,9 @@ paths:
                           type: string
                         type: array
                       self:
-                        description: Link to this roll, which can be interacted with to push.
+                        description: |
+                          Link to this roll, which can be interacted with to
+                          push.
                         format: url
                         type: string
                     required:
@@ -273,7 +276,8 @@ paths:
                         format: url
                         type: string
                       campaign:
-                        description: Link to the campaign the character belongs to.
+                        description: |
+                          Link to the campaign the character belongs to.
                         format: url
                         type: string
                       parent:
@@ -287,7 +291,9 @@ paths:
                           type: string
                         type: array
                       self:
-                        description: Link to this roll, which can be interacted with to push.
+                        description: |
+                          Link to this roll, which can be interacted with to
+                          push.
                         format: url
                         type: string
                     required:
