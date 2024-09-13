@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "98fbcc95046145fea2c115b6c0add95e",
+    "content-hash": "04fe794afd75c2f3051cb3198e23cab6",
     "packages": [
         {
             "name": "brick/math",
@@ -1622,16 +1622,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v11.23.4",
+            "version": "v11.23.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "08b46ae7be52f71688196f98556d21cb2ec799b6"
+                "reference": "16b31ab0e1dad5cb2ed6dcc1818c02f02fc48453"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/08b46ae7be52f71688196f98556d21cb2ec799b6",
-                "reference": "08b46ae7be52f71688196f98556d21cb2ec799b6",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/16b31ab0e1dad5cb2ed6dcc1818c02f02fc48453",
+                "reference": "16b31ab0e1dad5cb2ed6dcc1818c02f02fc48453",
                 "shasum": ""
             },
             "require": {
@@ -1826,7 +1826,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-09-12T14:57:48+00:00"
+            "time": "2024-09-13T13:36:30+00:00"
         },
         {
             "name": "laravel/pennant",
@@ -2966,16 +2966,16 @@
         },
         {
             "name": "mongodb/laravel-mongodb",
-            "version": "4.8.0",
+            "version": "5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mongodb/laravel-mongodb.git",
-                "reference": "6a8a2e3b8b897e3854f1fa28c6c29b3a6f0e0069"
+                "reference": "3ac795581aadb9152efb0a3923984e2e5d19435c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mongodb/laravel-mongodb/zipball/6a8a2e3b8b897e3854f1fa28c6c29b3a6f0e0069",
-                "reference": "6a8a2e3b8b897e3854f1fa28c6c29b3a6f0e0069",
+                "url": "https://api.github.com/repos/mongodb/laravel-mongodb/zipball/3ac795581aadb9152efb0a3923984e2e5d19435c",
+                "reference": "3ac795581aadb9152efb0a3923984e2e5d19435c",
                 "shasum": ""
             },
             "require": {
@@ -2986,7 +2986,7 @@
                 "illuminate/database": "^10.30|^11",
                 "illuminate/events": "^10.0|^11",
                 "illuminate/support": "^10.0|^11",
-                "mongodb/mongodb": "^1.15",
+                "mongodb/mongodb": "^1.18",
                 "php": "^8.1"
             },
             "conflict": {
@@ -3004,6 +3004,7 @@
                 "orchestra/testbench": "^8.0|^9.0",
                 "phpstan/phpstan": "^1.10",
                 "phpunit/phpunit": "^10.3",
+                "rector/rector": "^1.2",
                 "spatie/laravel-query-builder": "^5.6"
             },
             "suggest": {
@@ -3015,7 +3016,6 @@
                 "laravel": {
                     "providers": [
                         "MongoDB\\Laravel\\MongoDBServiceProvider",
-                        "MongoDB\\Laravel\\MongoDBQueueServiceProvider",
                         "MongoDB\\Laravel\\MongoDBBusServiceProvider"
                     ]
                 }
@@ -3064,9 +3064,9 @@
             "support": {
                 "issues": "https://www.mongodb.com/support",
                 "security": "https://www.mongodb.com/security",
-                "source": "https://github.com/mongodb/laravel-mongodb/tree/4.8.0"
+                "source": "https://github.com/mongodb/laravel-mongodb/tree/5.0.1"
             },
-            "time": "2024-08-27T16:45:13+00:00"
+            "time": "2024-09-13T06:47:54+00:00"
         },
         {
             "name": "mongodb/mongodb",
