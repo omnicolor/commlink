@@ -78,8 +78,7 @@ final class Shadowrun5eConverterTest extends TestCase
         self::assertSame(0, $character->karmaCurrent);
         self::assertSame(1, $character->logic);
         self::assertSame(6, $character->magic);
-        // @phpstan-ignore-next-line
-        self::assertCount(1, $character->magics['spells']);
+        self::assertCount(1, $character->magics['spells'] ?? null);
         self::assertSame(5020, $character->nuyen);
         self::assertNotEmpty($character->magics);
         self::assertCount(1, (array)$character->qualities);

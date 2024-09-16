@@ -6,6 +6,9 @@ namespace Modules\Alien\States;
 
 use Thunk\Verbs\State;
 
+/**
+ * @psalm-suppress PossiblyUnusedProperty
+ */
 class CharacterState extends State
 {
     public int $damage = 0;

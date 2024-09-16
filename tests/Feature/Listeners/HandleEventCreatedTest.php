@@ -37,7 +37,6 @@ final class HandleEventCreatedTest extends TestCase
 
         $creator = User::factory()->create();
         /** @var Channel */
-        // @phpstan-ignore-next-line
         $campaign = Campaign::factory()
             ->hasChannels(1, ['type' => Channel::TYPE_SLACK])
             ->create();
@@ -63,7 +62,6 @@ final class HandleEventCreatedTest extends TestCase
 
         $creator = User::factory()->create();
         /** @var Channel */
-        // @phpstan-ignore-next-line
         $campaign = Campaign::factory()
             ->hasChannels(1, ['type' => Channel::TYPE_DISCORD])
             ->create();
@@ -84,7 +82,6 @@ final class HandleEventCreatedTest extends TestCase
 
         $creator = User::factory()->create();
         /** @var Channel */
-        // @phpstan-ignore-next-line
         $campaign = Campaign::factory()
             ->hasChannels(
                 1,

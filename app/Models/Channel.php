@@ -26,7 +26,7 @@ use function sprintf;
  * @property string $channel_id
  * @property string $channel_name
  * @property-read int $id
- * @property int $registered_by
+ * @property ?int $registered_by
  * @property string $server_id
  * @property ?string $server_name
  * @property ?string $system

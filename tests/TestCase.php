@@ -11,6 +11,7 @@ use Discord\Parts\User\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\MockObject\MockObject;
 
 use function random_int;
 
@@ -19,9 +20,10 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
     use RefreshDatabase;
 
-    protected function createDiscordMessageMock(string $content): Message
+    protected function createDiscordMessageMock(string $content): Message&MockObject
     {
         $serverNameAndId = Str::random(10);
+        /** @var Guild&MockObject */
         $serverMock = self::createMock(Guild::class);
         $serverMock->method('__get')->willReturn($serverNameAndId);
 
@@ -31,6 +33,7 @@ abstract class TestCase extends BaseTestCase
             ['displayname', $userTag],
             ['id', $userId],
         ];
+        /** @var User&MockObject */
         $userMock = $this->createMock(User::class);
         $userMock->method('__get')->willReturnMap($userMap);
 
@@ -41,6 +44,7 @@ abstract class TestCase extends BaseTestCase
             ['id', $channelId],
             ['name', $channelName],
         ];
+        /** @var Channel&MockObject */
         $channelMock = $this->createMock(Channel::class);
         $channelMock->method('__get')->willReturnMap($channelMap);
 

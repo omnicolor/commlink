@@ -17,4 +17,6 @@ parameters:
         - %currentWorkingDirectory%/tests
     polluteScopeWithAlwaysIterableForeach: false
     reportMaybesInPropertyPhpDocTypes: false
+    stubFiles:
+        - stubs/PHPStan/Generator.stub
     treatPhpDocTypesAsCertain: false

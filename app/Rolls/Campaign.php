@@ -38,7 +38,7 @@ class Campaign extends Roll
     protected ?CampaignModel $existingCampaign = null;
 
     protected ?string $error = null;
-    protected string $message;
+    protected string $message = '';
 
     public function __construct(
         string $content,
@@ -49,7 +49,6 @@ class Campaign extends Roll
         $args = explode(' ', $content);
         if (self::MIN_NUM_ARGUMENTS === count($args)) {
             $this->campaignId = (int)$args[1];
-            // @phpstan-ignore assign.propertyType
             $this->campaign = CampaignModel::find($this->campaignId);
         }
         $this->chatUser = $this->channel->getChatUser();
@@ -170,14 +169,11 @@ class Campaign extends Roll
                     $this->channel->channel_id
                 );
             }
-            // @phpstan-ignore-next-line
-            $this->channel->registered_by = $this->chatUser->user->id;
+            $this->channel->registered_by = $this->chatUser?->user?->id;
             $new = true;
         }
-        // @phpstan-ignore-next-line
-        $this->channel->campaign_id = $this->campaign->id;
-        // @phpstan-ignore-next-line
-        $this->channel->system = $this->campaign->system;
+        $this->channel->campaign_id = $this->campaign?->id;
+        $this->channel->system = $this->campaign?->system;
         $this->channel->save();
 
         if ($new) {

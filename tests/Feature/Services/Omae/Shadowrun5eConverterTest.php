@@ -91,8 +91,7 @@ final class Shadowrun5eConverterTest extends TestCase
     public function testPriorities(PartialCharacter $character): void
     {
         $priorities = $character->priorities;
-        // @phpstan-ignore-next-line
-        self::assertSame('D', $priorities['metatypePriority']);
+        self::assertSame('D', $priorities['metatypePriority'] ?? null);
         self::assertSame('A', $priorities['attributePriority']);
         self::assertSame('E', $priorities['magicPriority']);
         self::assertSame('B', $priorities['skillPriority']);

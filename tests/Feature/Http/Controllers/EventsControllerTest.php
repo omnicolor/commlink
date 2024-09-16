@@ -52,7 +52,6 @@ final class EventsControllerTest extends TestCase
     public function testIndexForCampaign(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $user->id]);
         Event::factory()->create(['campaign_id' => $campaign->id]);
         self::actingAs($user)
@@ -82,7 +81,6 @@ final class EventsControllerTest extends TestCase
     public function testViewForGmedEvent(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $user->id]);
         $event = Event::factory()->create([
             'campaign_id' => $campaign->id,
@@ -97,7 +95,6 @@ final class EventsControllerTest extends TestCase
     public function testViewForEventInvitedTo(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->hasAttached($user, ['status' => 'accepted'])
             ->create();
@@ -118,7 +115,6 @@ final class EventsControllerTest extends TestCase
     public function testUpdateWithPut(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $event = Event::factory()->create([
             'campaign_id' => $campaign->id,
@@ -143,7 +139,6 @@ final class EventsControllerTest extends TestCase
         $event->refresh();
         self::assertSame('New put name', $event->name);
         self::assertNull($event->description);
-        // @phpstan-ignore-next-line
         self::assertSame($newStart, $event->real_start->toDateString());
         self::assertNull($event->game_end);
         self::assertNull($event->game_start);
@@ -166,7 +161,6 @@ final class EventsControllerTest extends TestCase
     public function testUpdateWithJsonPatchInvalidOperationException(): void
     {
         $user = User::factory()->create();
-        /** @var Event */
         $event = Event::factory()->create(['created_by' => $user->id]);
         self::actingAs($user)
             ->call(
@@ -181,7 +175,6 @@ final class EventsControllerTest extends TestCase
     public function testUpdateWithJsonPatchTypeError(): void
     {
         $user = User::factory()->create();
-        /** @var Event */
         $event = Event::factory()->create(['created_by' => $user->id]);
         self::actingAs($user)
             ->call(
@@ -196,7 +189,6 @@ final class EventsControllerTest extends TestCase
     public function testUpdateWithJsonPatchInvalidPointer(): void
     {
         $user = User::factory()->create();
-        /** @var Event */
         $event = Event::factory()->create(['created_by' => $user->id]);
         self::actingAs($user)
             ->call(
@@ -214,7 +206,6 @@ final class EventsControllerTest extends TestCase
     public function testUpdateWithJsonPatchInvalidStartDateFormat(): void
     {
         $user = User::factory()->create();
-        /** @var Event */
         $event = Event::factory()->create(['created_by' => $user->id]);
         self::actingAs($user)
             ->call(
@@ -236,7 +227,6 @@ final class EventsControllerTest extends TestCase
     public function testUpdateWithJsonPatchInvalidEndDateFormat(): void
     {
         $user = User::factory()->create();
-        /** @var Event */
         $event = Event::factory()->create(['created_by' => $user->id]);
         self::actingAs($user)
             ->call(
@@ -254,7 +244,6 @@ final class EventsControllerTest extends TestCase
     public function testUpdateWithJsonPatchStartAfterEnd(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $event = Event::factory()->create([
             'created_by' => $user->id,
@@ -280,7 +269,6 @@ final class EventsControllerTest extends TestCase
     public function testUpdateWithJsonPatch(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $event = Event::factory()->create([
             'campaign_id' => $campaign->id,
@@ -314,7 +302,6 @@ final class EventsControllerTest extends TestCase
         self::assertNull($event->description);
         self::assertSame(
             '2023-04-01T20:00:00.000000Z',
-            // @phpstan-ignore-next-line
             $event->real_start->toJSON(),
         );
         self::assertNull($event->real_end);
@@ -325,7 +312,6 @@ final class EventsControllerTest extends TestCase
     public function testUpdateWithDataPatch(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $event = Event::factory()->create([
             'campaign_id' => $campaign->id,
@@ -349,20 +335,16 @@ final class EventsControllerTest extends TestCase
         $event->refresh();
         self::assertSame('New patched name', $event->name);
         self::assertSame('New patched description', $event->description);
-        // @phpstan-ignore-next-line
         self::assertSame('2023-01-01T00:00:00.000000Z', $event->real_start->toJSON());
         self::assertSame('2080-04-01', $event->game_end);
         self::assertSame('2080-03-31', $event->game_start);
-        // @phpstan-ignore-next-line
-        self::assertSame('2023-02-02T00:00:00.000000Z', $event->real_end->toJSON());
-        // @phpstan-ignore-next-line
+        self::assertSame('2023-02-02T00:00:00.000000Z', $event->real_end?->toJSON());
         self::assertSame('2023-01-01T00:00:00.000000Z', $event->real_start->toJSON());
     }
 
     public function testStoreOthersCampaign(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         self::actingAs($user)
             ->postJson(
@@ -375,7 +357,6 @@ final class EventsControllerTest extends TestCase
     public function testStoreCampaign(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $user->id,
         ]);
@@ -454,7 +435,6 @@ final class EventsControllerTest extends TestCase
     public function testGetNewRsvp(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->hasAttached($user, ['status' => 'accepted'])
             ->create();
@@ -483,7 +463,6 @@ final class EventsControllerTest extends TestCase
     public function testGetExistingRsvp(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->hasAttached($user, ['status' => 'accepted'])
             ->create();
@@ -511,7 +490,6 @@ final class EventsControllerTest extends TestCase
     public function testDeleteUnrespondedRsvp(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->hasAttached($user, ['status' => 'accepted'])
             ->create();
@@ -531,7 +509,6 @@ final class EventsControllerTest extends TestCase
     public function testDeleteRsvp(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->hasAttached($user, ['status' => 'accepted'])
             ->create();
@@ -568,7 +545,6 @@ final class EventsControllerTest extends TestCase
     public function testUpdateNewRsvp(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->hasAttached($user, ['status' => 'accepted'])
             ->create();
@@ -600,7 +576,6 @@ final class EventsControllerTest extends TestCase
     public function testUpdateExistingRsvp(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->hasAttached($user, ['status' => 'accepted'])
             ->create();
@@ -630,7 +605,6 @@ final class EventsControllerTest extends TestCase
     public function testUpdateNewRsvpInvalidResponse(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->hasAttached($user, ['status' => 'accepted'])
             ->create();

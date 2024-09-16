@@ -8,6 +8,9 @@ use Modules\Alien\States\CharacterState;
 use Thunk\Verbs\Attributes\Autodiscovery\AppliesToState;
 use Thunk\Verbs\Event;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 #[AppliesToState(CharacterState::class)]
 class EarnedExperience extends Event
 {
@@ -23,7 +26,7 @@ class EarnedExperience extends Event
         $state->experience += $this->amount;
     }
 
-    public function validate(CharacterState $state): void
+    public function validate(): void
     {
         $this->assert(
             0 < $this->amount,
