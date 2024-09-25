@@ -9,6 +9,8 @@ use Stringable;
 
 use function array_key_exists;
 use function array_keys;
+use function collect;
+use function config;
 use function sprintf;
 use function strtolower;
 
@@ -79,6 +81,7 @@ class Injury implements Stringable
 
     public static function findByRoll(int $roll): ?Injury
     {
+        // @phpstan-ignore argument.templateType
         return collect(self::all())->keyBy('roll')->get($roll);
     }
 }
