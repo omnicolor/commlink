@@ -1622,16 +1622,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v11.24.0",
+            "version": "v11.24.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "557da2b02e298acbd12b3fb7d04d16ea253c5f20"
+                "reference": "e063fa80ac5818099f45a3a57dd803476c8f3a2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/557da2b02e298acbd12b3fb7d04d16ea253c5f20",
-                "reference": "557da2b02e298acbd12b3fb7d04d16ea253c5f20",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/e063fa80ac5818099f45a3a57dd803476c8f3a2a",
+                "reference": "e063fa80ac5818099f45a3a57dd803476c8f3a2a",
                 "shasum": ""
             },
             "require": {
@@ -1827,7 +1827,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-09-24T14:46:11+00:00"
+            "time": "2024-09-25T07:21:24+00:00"
         },
         {
             "name": "laravel/pennant",
@@ -2702,16 +2702,16 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v3.5.6",
+            "version": "v3.5.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "597a2808d8d3001cc3ed5ce89a6ebab00f83b80f"
+                "reference": "ce1ce71b39a3492b98f7d2f2a4583f1b163fe6ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/597a2808d8d3001cc3ed5ce89a6ebab00f83b80f",
-                "reference": "597a2808d8d3001cc3ed5ce89a6ebab00f83b80f",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/ce1ce71b39a3492b98f7d2f2a4583f1b163fe6ae",
+                "reference": "ce1ce71b39a3492b98f7d2f2a4583f1b163fe6ae",
                 "shasum": ""
             },
             "require": {
@@ -2766,7 +2766,7 @@
             "description": "A front-end framework for Laravel.",
             "support": {
                 "issues": "https://github.com/livewire/livewire/issues",
-                "source": "https://github.com/livewire/livewire/tree/v3.5.6"
+                "source": "https://github.com/livewire/livewire/tree/v3.5.8"
             },
             "funding": [
                 {
@@ -2774,7 +2774,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-08-19T11:52:18+00:00"
+            "time": "2024-09-20T19:41:19+00:00"
         },
         {
             "name": "markrogoyski/math-php",
