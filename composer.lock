@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "98fbcc95046145fea2c115b6c0add95e",
+    "content-hash": "04fe794afd75c2f3051cb3198e23cab6",
     "packages": [
         {
             "name": "brick/math",
@@ -2901,16 +2901,16 @@
         },
         {
             "name": "mongodb/laravel-mongodb",
-            "version": "4.8.0",
+            "version": "5.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mongodb/laravel-mongodb.git",
-                "reference": "6a8a2e3b8b897e3854f1fa28c6c29b3a6f0e0069"
+                "reference": "b51aeff76c065839da25c56652428421d1b54cad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mongodb/laravel-mongodb/zipball/6a8a2e3b8b897e3854f1fa28c6c29b3a6f0e0069",
-                "reference": "6a8a2e3b8b897e3854f1fa28c6c29b3a6f0e0069",
+                "url": "https://api.github.com/repos/mongodb/laravel-mongodb/zipball/b51aeff76c065839da25c56652428421d1b54cad",
+                "reference": "b51aeff76c065839da25c56652428421d1b54cad",
                 "shasum": ""
             },
             "require": {
@@ -2921,7 +2921,7 @@
                 "illuminate/database": "^10.30|^11",
                 "illuminate/events": "^10.0|^11",
                 "illuminate/support": "^10.0|^11",
-                "mongodb/mongodb": "^1.15",
+                "mongodb/mongodb": "^1.18",
                 "php": "^8.1"
             },
             "conflict": {
@@ -2939,6 +2939,7 @@
                 "orchestra/testbench": "^8.0|^9.0",
                 "phpstan/phpstan": "^1.10",
                 "phpunit/phpunit": "^10.3",
+                "rector/rector": "^1.2",
                 "spatie/laravel-query-builder": "^5.6"
             },
             "suggest": {
@@ -2950,7 +2951,6 @@
                 "laravel": {
                     "providers": [
                         "MongoDB\\Laravel\\MongoDBServiceProvider",
-                        "MongoDB\\Laravel\\MongoDBQueueServiceProvider",
                         "MongoDB\\Laravel\\MongoDBBusServiceProvider"
                     ]
                 }
@@ -2999,9 +2999,9 @@
             "support": {
                 "issues": "https://www.mongodb.com/support",
                 "security": "https://www.mongodb.com/security",
-                "source": "https://github.com/mongodb/laravel-mongodb/tree/4.8.0"
+                "source": "https://github.com/mongodb/laravel-mongodb/tree/5.0.2"
             },
-            "time": "2024-08-27T16:45:13+00:00"
+            "time": "2024-09-17T11:05:10+00:00"
         },
         {
             "name": "mongodb/mongodb",
