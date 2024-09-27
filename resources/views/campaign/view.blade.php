@@ -21,7 +21,7 @@ $campaignUsers = $campaignUsers->merge($campaign->users);
 
     <h1>
         {{ $campaign }}
-        @if ($user->is($campaign->gamemaster) && View::exists(sprintf('%s.gm-screen', ucfirst($campaign->system))))
+        @if ($user->is($campaign->gamemaster) && View::exists(sprintf('%s::gm-screen', $campaign->system)))
             <a class="btn btn-primary" href="{{ route('campaign.gm-screen', $campaign) }}">
                 Launch GM screen
             </a>

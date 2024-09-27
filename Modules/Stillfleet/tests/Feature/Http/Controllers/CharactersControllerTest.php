@@ -30,11 +30,11 @@ final class CharactersControllerTest extends TestCase
             $this->user = User::factory()->create();
             Feature::for($this->user)->activate(StillfleetFeature::class);
         }
+        session(['stillfleet-partial' => null]);
     }
 
     public function testViewCharacter(): void
     {
-        /** @var Character */
         $character = Character::factory()->create([
             'owner' => $this->user->email,
         ]);
@@ -52,7 +52,6 @@ final class CharactersControllerTest extends TestCase
 
     public function testShowCharacterOtherSystem(): void
     {
-        /** @var Character */
         $character = Character::factory()->create([
             'owner' => $this->user->email,
             'system' => 'shadowrun6e',
@@ -65,7 +64,6 @@ final class CharactersControllerTest extends TestCase
 
     public function testCharacterList(): void
     {
-        /** @var Character */
         $character = Character::factory()->create([
             'owner' => $this->user->email,
         ]);
@@ -80,11 +78,11 @@ final class CharactersControllerTest extends TestCase
 
     public function testCreateExplicitNew(): void
     {
-        session()->put('stillfleet-partial', 'existing');
+        session(['stillfleet-partial' => 'existing']);
         self::actingAs($this->user)
             ->get(route('stillfleet.create', 'new'))
             ->assertRedirect(route('stillfleet.create', 'class'));
-        self::assertNotSame('existing', session()->get('stillfleet-partial'));
+        self::assertNotSame('existing', session('stillfleet-partial'));
     }
 
     public function testCreateNew(): void
@@ -93,7 +91,7 @@ final class CharactersControllerTest extends TestCase
         self::actingAs($this->user)
             ->get(route('stillfleet.create'))
             ->assertOk();
-        self::assertNotNull(session()->get('stillfleet-partial'));
+        self::assertNotNull(session('stillfleet-partial'));
     }
 
     public function testCreateChoose(): void
@@ -103,27 +101,24 @@ final class CharactersControllerTest extends TestCase
             ->get(route('stillfleet.create'))
             ->assertOk()
             ->assertSee('Choose character');
-        self::assertNull(session()->get('stillfleet-partial'));
+        self::assertNull(session('stillfleet-partial'));
         $character->delete();
     }
 
     public function testResumeSpecific(): void
     {
-        session()->flush();
-        /** @var PartialCharacter */
         $character = PartialCharacter::create(['owner' => $this->user->email]);
         self::actingAs($this->user)
             ->get(route('stillfleet.create', $character->id))
             ->assertRedirect(route('stillfleet.create', 'class'));
-        self::assertSame($character->_id, session()->get('stillfleet-partial'));
+        self::assertSame($character->_id, session('stillfleet-partial'));
         $character->delete();
     }
 
     public function testResumeLast(): void
     {
-        /** @var PartialCharacter */
         $character = PartialCharacter::create(['owner' => $this->user->email]);
-        session()->put('stillfleet-partial', $character->_id);
+        session(['stillfleet-partial' => $character->_id]);
         self::actingAs($this->user)
             ->get(route('stillfleet.create'))
             ->assertOk();
@@ -167,7 +162,6 @@ final class CharactersControllerTest extends TestCase
 
     public function testSaveClass(): void
     {
-        /** @var PartialCharacter */
         $character = PartialCharacter::create(['owner' => $this->user->email]);
         session(['stillfleet-partial' => $character->id]);
         self::actingAs($this->user)
@@ -183,7 +177,6 @@ final class CharactersControllerTest extends TestCase
 
     public function testUpdateClass(): void
     {
-        /** @var PartialCharacter */
         $character = PartialCharacter::create([
             'owner' => $this->user->email,
             'roles' => [
@@ -211,7 +204,6 @@ final class CharactersControllerTest extends TestCase
 
     public function testUpdateClassToSame(): void
     {
-        /** @var PartialCharacter */
         $character = PartialCharacter::create([
             'owner' => $this->user->email,
             'roles' => [
@@ -239,7 +231,6 @@ final class CharactersControllerTest extends TestCase
 
     public function testCreatePowers(): void
     {
-        /** @var PartialCharacter */
         $character = PartialCharacter::create([
             'owner' => $this->user->email,
             'roles' => [

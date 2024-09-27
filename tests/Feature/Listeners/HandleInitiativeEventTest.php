@@ -79,7 +79,6 @@ final class HandleInitiativeEventTest extends TestCase
             'initiative' => 9,
         ]);
 
-        // @phpstan-ignore-next-line
         $campaign = Campaign::factory()
             ->hasChannels(
                 1,
@@ -107,7 +106,6 @@ final class HandleInitiativeEventTest extends TestCase
             'initiative' => 9,
         ]);
 
-        // @phpstan-ignore-next-line
         $campaign = Campaign::factory()
             ->hasChannels(
                 1,
@@ -136,7 +134,6 @@ final class HandleInitiativeEventTest extends TestCase
             'initiative' => 9,
         ]);
 
-        // @phpstan-ignore-next-line
         $campaign = Campaign::factory()
             ->hasChannels(
                 1,

@@ -97,7 +97,6 @@ final class ChannelTest extends TestCase
      */
     public function testGetServerNameSlackInstance(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $channel = new Channel([
             'channel_id' => 'C' . Str::random(10),
@@ -180,7 +179,6 @@ final class ChannelTest extends TestCase
      */
     public function testGetServerNameDiscordInstance(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $channel = new Channel([
             'channel_id' => '2' . Str::random(10),
@@ -335,7 +333,6 @@ final class ChannelTest extends TestCase
      */
     public function testCharacterNone(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make();
         self::assertNull($channel->character());
     }
@@ -345,7 +342,6 @@ final class ChannelTest extends TestCase
      */
     public function testCampaignNone(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make();
         self::assertEmpty($channel->campaign);
     }
@@ -355,33 +351,23 @@ final class ChannelTest extends TestCase
      */
     public function testCampaign(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
-        /** @var Channel */
-        $channel = Channel::factory()->make([
-            'campaign_id' => $campaign,
-        ]);
-        // @phpstan-ignore-next-line
-        self::assertSame($campaign->id, $channel->campaign->id);
+        $channel = Channel::factory()->make(['campaign_id' => $campaign]);
+        self::assertSame($campaign->id, $channel->campaign?->id);
     }
 
     public function testCharactersWithoutAny(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make();
         self::assertEmpty($channel->characters());
     }
 
     public function testCharacters(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->create();
 
         // Add a character to the channel.
-        /** @var Character */
-        $character = Character::factory()->create([
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create();
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,
             'character_id' => $character->_id,

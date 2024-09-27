@@ -8,7 +8,9 @@ use Discord\Discord;
 use Discord\Parts\Channel\Channel;
 use Discord\Parts\Channel\Message;
 use Discord\Parts\Guild\Guild;
+use Discord\Parts\Thread\Thread;
 use Discord\Parts\User\User;
+use RuntimeException;
 
 use function str_replace;
 
@@ -35,22 +37,22 @@ class DiscordMessageReceived extends MessageReceived
     /**
      * User that sent the message we're reacting to.
      */
-    public User $user;
+    public User|null $user;
 
     /**
      * @psalm-suppress PossiblyUnusedMethod
      */
     public function __construct(public Message $message, public Discord $discord)
     {
-        // @phpstan-ignore-next-line
+        if (null === $message->channel || null === $message->channel->guild) {
+            throw new RuntimeException('Cannot handle null channels or servers');
+        }
+        if ($message->channel instanceof Thread) {
+            throw new RuntimeException('Cannot handle threads');
+        }
         $this->channel = $message->channel;
-
         $this->content = str_replace('/roll ', '', $message->content);
-
-        // @phpstan-ignore-next-line
         $this->user = $message->author;
-
-        // @phpstan-ignore-next-line
         $this->server = $message->channel->guild;
     }
 }

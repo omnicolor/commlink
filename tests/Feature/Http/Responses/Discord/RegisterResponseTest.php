@@ -34,7 +34,6 @@ final class RegisterResponseTest extends TestCase
             . 'system is a system code: '
             . implode(', ', array_keys(config('app.systems')));
         $messageMock = $this->createDiscordMessageMock('/roll register');
-        // @phpstan-ignore-next-line
         $messageMock->expects(self::once())
             ->method('reply')
             ->with($expected);
@@ -62,7 +61,6 @@ final class RegisterResponseTest extends TestCase
             \implode(', ', \array_keys(config('app.systems'))),
         );
         $messageMock = $this->createDiscordMessageMock('/roll register invalid');
-        // @phpstan-ignore-next-line
         $messageMock->expects(self::once())
             ->method('reply')
             ->with($expected);
@@ -87,7 +85,6 @@ final class RegisterResponseTest extends TestCase
 
         $expected = 'This channel is already registered for "dnd5e"';
         $messageMock = $this->createDiscordMessageMock('/roll register shadowrun5e');
-        // @phpstan-ignore-next-line
         $messageMock->expects(self::once())
             ->method('reply')
             ->with($expected);
@@ -126,7 +123,6 @@ final class RegisterResponseTest extends TestCase
             config('app.url') . '/settings',
         );
         $messageMock = $this->createDiscordMessageMock('/roll register shadowrun5e');
-        // @phpstan-ignore-next-line
         $messageMock->expects(self::once())
             ->method('reply')
             ->with($expected);
@@ -154,7 +150,7 @@ final class RegisterResponseTest extends TestCase
             $messageMock,
             self::createStub(Discord::class)
         );
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore method.notFound
         $event->channel->expects(self::once())->method('sendMessage');
         ChatUser::factory()->create([
             'remote_user_id' => optional($event->user)->id,
@@ -164,7 +160,7 @@ final class RegisterResponseTest extends TestCase
         ]);
         $expected = \sprintf(
             '%s has registered this channel for the "Shadowrun 5th Edition" system.',
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore property.notFound
             $event->channel->username,
         );
 
@@ -206,7 +202,7 @@ final class RegisterResponseTest extends TestCase
             $messageMock,
             self::createStub(Discord::class)
         );
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore method.notFound
         $event->channel->expects(self::once())->method('sendMessage');
         ChatUser::factory()->create([
             'remote_user_id' => optional($event->user)->id,
@@ -216,7 +212,7 @@ final class RegisterResponseTest extends TestCase
         ]);
         $expected = \sprintf(
             '%s has registered this channel for the "Shadowrun 5th Edition" system.',
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore property.notFound
             $event->channel->username,
         );
 
