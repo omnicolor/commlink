@@ -127,7 +127,6 @@ final class HandleRollEventTest extends TestCase
             ->with(1, 6)
             ->andReturn([1]);
 
-        // @phpstan-ignore-next-line
         $campaign = Campaign::factory()
             ->has(Channel::factory())
             ->hasChannels(
@@ -138,6 +137,7 @@ final class HandleRollEventTest extends TestCase
                 ]
             )
             ->create();
+        /** @var Channel */
         $source = $campaign->channels->first();
         $roll = new Generic('1d6', 'unnamed', $source);
         $rollEvent = new RollEvent($roll, $source);
@@ -161,7 +161,6 @@ final class HandleRollEventTest extends TestCase
             ->andReturn([6]);
 
         $roll = new Generic('1d6', 'unnamed', new Channel());
-        // @phpstan-ignore-next-line
         $campaign = Campaign::factory()
             ->has(Channel::factory())
             ->hasChannels(
@@ -191,7 +190,6 @@ final class HandleRollEventTest extends TestCase
 
         $roll = new Number('101', 'unnamed', new Channel());
 
-        // @phpstan-ignore-next-line
         $campaign = Campaign::factory()
             ->has(Channel::factory())
             ->hasChannels(

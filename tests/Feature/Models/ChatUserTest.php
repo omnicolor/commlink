@@ -191,8 +191,7 @@ final class ChatUserTest extends TestCase
 
         self::assertSame(
             $character->id,
-            // @phpstan-ignore-next-line
-            $chatUser->chatCharacter->getCharacter()->id,
+            $chatUser->chatCharacter?->getCharacter()?->id,
         );
         $character->delete();
     }

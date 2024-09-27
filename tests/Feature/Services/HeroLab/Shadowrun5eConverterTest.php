@@ -185,8 +185,7 @@ final class Shadowrun5eConverterTest extends TestCase
         self::assertCount(1, (array)$character->skillGroups);
         self::assertCount(9, (array)$character->skills);
         self::assertCount(7, (array)$character->knowledgeSkills);
-        // @phpstan-ignore-next-line
-        self::assertCount(6, $character->magics['powers']);
+        self::assertCount(6, $character->magics['powers'] ?? null);
         self::assertCount(3, (array)$character->augmentations);
         self::assertCount(2, (array)$character->weapons);
         self::assertCount(3, (array)$character->armor);
@@ -230,11 +229,9 @@ final class Shadowrun5eConverterTest extends TestCase
 
         self::assertStringNotContainsString(
             'run-faster',
-            // @phpstan-ignore-next-line
-            $character->priorities['rulebooks']
+            (string)($character->priorities['rulebooks'] ?? ''),
         );
-        // @phpstan-ignore-next-line
-        self::assertSame('street', $character->priorities['gameplay']);
+        self::assertSame('street', $character->priorities['gameplay'] ?? null);
         self::assertSame('Troll', $character->priorities['metatype']);
         self::assertSame(7, $character->body);
         self::assertSame(4, $character->agility);
@@ -247,8 +244,7 @@ final class Shadowrun5eConverterTest extends TestCase
         self::assertSame(6, $character->resonance);
         self::assertNull($character->magic);
         self::assertSame(3, $character->edge);
-        // @phpstan-ignore-next-line
-        self::assertCount(2, $character->gear);
+        self::assertCount(2, $character->gear ?? []);
         self::assertCount(10, $hl->getErrors());
         // TODO: Implement martial arts
         self::assertEmpty($character->martialArts);
@@ -265,10 +261,8 @@ final class Shadowrun5eConverterTest extends TestCase
         $hl = new Shadowrun5eConverter(self::$dataDirectory . 'prime.por');
         $character = $hl->convert();
 
-        // @phpstan-ignore-next-line
-        self::assertCount(4, $character->magics['spells']);
-        // @phpstan-ignore-next-line
-        self::assertCount(1, $character->magics['metamagics']);
+        self::assertCount(4, $character->magics['spells'] ?? null);
+        self::assertCount(1, $character->magics['metamagics'] ?? null);
     }
 
     /**
@@ -281,11 +275,12 @@ final class Shadowrun5eConverterTest extends TestCase
 
         self::assertStringContainsString(
             'run-faster',
-            // @phpstan-ignore-next-line
-            $character->priorities['rulebooks'],
+            (string)($character->priorities['rulebooks'] ?? ''),
         );
-        // @phpstan-ignore-next-line
-        self::assertSame('life-module', $character->priorities['system']);
+        self::assertSame(
+            'life-module',
+            $character->priorities['system'] ?? null,
+        );
     }
 
     /**
@@ -298,11 +293,9 @@ final class Shadowrun5eConverterTest extends TestCase
 
         self::assertStringContainsString(
             'run-faster',
-            // @phpstan-ignore-next-line
-            (string)$character->priorities['rulebooks'],
+            (string)($character->priorities['rulebooks'] ?? ''),
         );
-        // @phpstan-ignore-next-line
-        self::assertSame('point-buy', $character->priorities['system']);
+        self::assertSame('point-buy', $character->priorities['system'] ?? null);
     }
 
     /**
@@ -316,8 +309,7 @@ final class Shadowrun5eConverterTest extends TestCase
 
         self::assertSame(
             ['astral-bluff', 'channeling'],
-            // @phpstan-ignore-next-line
-            $character->magics['metamagics']
+            $character->magics['metamagics'] ?? null
         );
     }
 
@@ -326,11 +318,9 @@ final class Shadowrun5eConverterTest extends TestCase
         $hl = new Shadowrun5eConverter(self::$dataDirectory . 'vehicles.por');
         $character = $hl->convert();
 
-        // @phpstan-ignore-next-line
-        self::assertCount(3, $character->vehicles);
-        // @phpstan-ignore-next-line
-        $hound = $character->vehicles[2];
-        self::assertSame('Da G-Ride', $hound['subname']);
+        self::assertCount(3, $character->vehicles ?? []);
+        $hound = $character->vehicles[2] ?? null;
+        self::assertSame('Da G-Ride', $hound['subname'] ?? null);
         self::assertSame('ak-98', $hound['weapons'][0]['id']);
         self::assertSame(
             'acceleration-enhancement-1',
