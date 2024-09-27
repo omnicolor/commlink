@@ -16,7 +16,7 @@
         </div>
     @endif
 
-    <form action="" method="POST">
+    <form action="{{ route('shadowrun5e.create-augmentations') }}" method="POST">
     @csrf
 
     <div class="row mt-3">
@@ -47,9 +47,9 @@
                     @endif>No augmentations</li>
                 <!--
                 <li class="list-group-item">
-                    <button class="btn btn-success" data-target="#augmentations-modal"
-                                                    data-toggle="modal" type="button">
-                        <span aria-hidden="true" class="oi oi-plus"></span>
+                    <button class="btn btn-success" data-bs-target="#augmentations-modal"
+                        data-bs-toggle="modal" type="button">
+                        <span aria-hidden="true" class="bi bi-plus"></span>
                         Add augmentation
                     </button>
                 </li>
@@ -62,12 +62,61 @@
     @include('shadowrun5e::create-next')
     </form>
 
+    <div class="modal" id="augmentations-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Choose augmentation</h5>
+                    <button aria-label="Close" class="btn-close"
+                        data-bs-dismiss="modal" type="button"></button>
+                </div>
+                <div class="modal-body row">
+                    <div class="col">
+                        <div class="row">
+                            <table class="table" id="weapons-list" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Essence</th>
+                                        <th scope="col">Avail.</th>
+                                        <th scope="col">Cost</th>
+                                        <th scope="col">Ruleset</th>
+                                        <th scope="col">Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div id="click-panel">
+                            Click an augmentation for more information about it.
+                        </div>
+                        <div id="info-panel" class="d-none">
+                            <h3 id="augmentation-name">.</h3>
+                            <small class="text-muted" id="augmentation-type"></small>
+                            @can('view data')
+                            <p id="augmentation-description"></p>
+                            @endcan
+
+                            <div class="row">
+                                <div class="col-2"><strong>Cost:</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @include('shadowrun5e::create-points')
 
     <x-slot name="javascript">
         <script>
             let character = @json($character);
             let rulebooks = @json($books);
+            const trusted = !!{{ (int)$user->hasPermissionTo('view data') }};
             $(function () {
                 let points = new Points(character);
                 updatePointsToSpendDisplay(points);
