@@ -9,6 +9,8 @@ use Stringable;
 
 use function array_key_exists;
 use function array_keys;
+use function collect;
+use function config;
 use function sprintf;
 use function strtolower;
 

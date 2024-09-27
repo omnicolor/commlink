@@ -110,7 +110,6 @@ final class LinkResponseTest extends TestCase
             (string)$alreadyLinkedCharacter
         );
         $messageMock = $this->createDiscordMessageMock('/roll link 123');
-        // @phpstan-ignore-next-line
         $messageMock->expects(self::once())
             ->method('reply')
             ->with($expected);
@@ -149,7 +148,6 @@ final class LinkResponseTest extends TestCase
     {
         $expected = 'Unable to find one of your characters with that ID.';
         $messageMock = $this->createDiscordMessageMock('/roll link 123');
-        // @phpstan-ignore-next-line
         $messageMock->expects(self::once())
             ->method('reply')
             ->with($expected);
@@ -189,7 +187,6 @@ final class LinkResponseTest extends TestCase
             '/roll link %s',
             $character->id
         ));
-        // @phpstan-ignore-next-line
         $messageMock->expects(self::once())
             ->method('reply')
             ->with($expected);
@@ -239,7 +236,6 @@ final class LinkResponseTest extends TestCase
             '/roll link %s',
             $character->id
         ));
-        // @phpstan-ignore-next-line
         $messageMock->expects(self::once())
             ->method('reply')
             ->with($expected);
@@ -289,7 +285,6 @@ final class LinkResponseTest extends TestCase
             '/roll link %s',
             $character->id
         ));
-        // @phpstan-ignore-next-line
         $messageMock->expects(self::once())
             ->method('reply')
             ->with($expected);

@@ -50,9 +50,9 @@ class VarzController extends Controller
         $data = [
             'campaigns-total' => Campaign::count(),
             'channels' => [
-                // @phpstan-ignore-next-line
+                // @phpstan-ignore staticMethod.dynamicCall
                 'discord' => Channel::discord()->count(),
-                // @phpstan-ignore-next-line
+                // @phpstan-ignore staticMethod.dynamicCall
                 'slack' => Channel::slack()->count(),
             ],
             'characters-total' => Character::count(),
@@ -71,6 +71,7 @@ class VarzController extends Controller
     /**
      * Return metrics about individual systems.
      * @return array<string, int>
+     * @psalm-suppress InvalidStringClass
      */
     protected function getSystemMetrics(string $system): array
     {
@@ -80,7 +81,7 @@ class VarzController extends Controller
         );
         try {
             $metrics = [
-                // @phpstan-ignore-next-line
+                // @phpstan-ignore staticMethod.dynamicCall
                 'campaigns' => Campaign::where('system', $system)->count(),
                 'player-characters' => $characterClass::count(),
             ];
@@ -131,6 +132,7 @@ class VarzController extends Controller
             if (!is_array($data)) {
                 continue; // @codeCoverageIgnore
             }
+            /** @psalm-suppress PossiblyInvalidCast */
             $file = (string)str_replace('.php', '', $file);
             $metrics[$file] = count($data);
         }

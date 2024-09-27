@@ -25,12 +25,12 @@ use Illuminate\Support\Collection;
  * @property int $created_by
  * @property User $creator
  * @property ?string $description
- * @property Carbon|null|string $game_end
- * @property Carbon|null|string $game_start
+ * @property Carbon|null $game_end
+ * @property Carbon|null $game_start
  * @property-read int $id
  * @property string $name
- * @property Carbon|null|string $real_end
- * @property Carbon|string $real_start
+ * @property Carbon|null $real_end
+ * @property Carbon $real_start
  * @property Collection $responses
  * @property Carbon|string $updated_at
  */
