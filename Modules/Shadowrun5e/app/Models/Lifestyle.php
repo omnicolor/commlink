@@ -113,7 +113,7 @@ class Lifestyle implements Stringable
      */
     public static function all(): array
     {
-        $filename = config('app.data_path.shadowrun5e') . 'lifestyles.php';
+        $filename = config('shadowrun5e.data_path') . 'lifestyles.php';
         /** @psalm-suppress UnresolvableInclude */
         self::$lifestyles ??= require $filename;
 
