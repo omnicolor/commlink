@@ -99,7 +99,7 @@ class Armor implements Stringable
         }
 
         $armor = self::$armor[$id];
-        $this->availability = $armor['availability'];
+        $this->availability = (string)$armor['availability'];
         $this->cost = $armor['cost'];
         $this->description = $armor['description'];
         if (isset($armor['effects'])) {

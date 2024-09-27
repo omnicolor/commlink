@@ -73,7 +73,6 @@ $rules = [
         'tokens' => [
             'extra',
             'throw',
-            'use',
         ],
     ],
     'no_blank_lines_after_class_opening' => true,
@@ -83,7 +82,6 @@ $rules = [
     'no_empty_comment' => true,
     'no_empty_phpdoc' => true,
     'no_empty_statement' => true,
-    'no_extra_blank_lines' => true,
     'no_leading_import_slash' => true,
     'no_leading_namespace_whitespace' => true,
     'no_mixed_echo_print' => [
@@ -181,6 +179,7 @@ $finder = Finder::create()
     ->name('*.php')
     ->notName('*.blade.php')
     ->exclude('bootstrap')
+    ->exclude('node_modules')
     ->exclude('storage')
     ->exclude('vendor')
     ->ignoreDotFiles(true)

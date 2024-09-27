@@ -48,9 +48,7 @@ final class CampaignsControllerTest extends TestCase
         ) {
             self::markTestSkipped('Shadowrun 5E is the only available system');
         }
-        // @phpstan-ignore-next-line
         $name = $this->faker->catchPhrase();
-
         $user = User::factory()->create();
         $this->actingAs($user)
             ->postJson(
@@ -82,10 +80,8 @@ final class CampaignsControllerTest extends TestCase
         if (!in_array('avatar', array_keys(config('app.systems')), true)) {
             self::markTestSkipped('Avatar Legends system not enabled');
         }
-        // @phpstan-ignore-next-line
         $name = $this->faker->catchPhrase();
 
-        // @phpstan-ignore-next-line
         $description = $this->faker->bs();
 
         $user = User::factory()->create();
@@ -133,10 +129,8 @@ final class CampaignsControllerTest extends TestCase
         if (!in_array('shadowrun5e', array_keys(config('app.systems')), true)) {
             self::markTestSkipped('Shadowrun 5E not enabled');
         }
-        // @phpstan-ignore-next-line
         $name = $this->faker->catchPhrase();
 
-        // @phpstan-ignore-next-line
         $description = $this->faker->bs();
 
         $user = User::factory()->create();
@@ -188,10 +182,8 @@ final class CampaignsControllerTest extends TestCase
         if (!in_array('cyberpunkred', array_keys(config('app.systems')), true)) {
             self::markTestSkipped('Cyberpunk Red not enabled');
         }
-        // @phpstan-ignore-next-line
         $name = $this->faker->catchPhrase();
 
-        // @phpstan-ignore-next-line
         $description = $this->faker->bs();
 
         $user = User::factory()->create();
@@ -228,13 +220,8 @@ final class CampaignsControllerTest extends TestCase
         if (!in_array('subversion', array_keys(config('app.systems')), true)) {
             self::markTestSkipped('Subversion not enabled');
         }
-        // @phpstan-ignore-next-line
         $name = $this->faker->catchPhrase();
-
-        // @phpstan-ignore-next-line
         $description = $this->faker->bs();
-
-        // @phpstan-ignore-next-line
         $communityDescription = $this->faker->bs();
         $user = User::factory()->create();
         $this->actingAs($user)
@@ -397,7 +384,6 @@ final class CampaignsControllerTest extends TestCase
     public function testShowCampaignAsPlayerWithCharacter(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->hasAttached($user, ['status' => 'accepted'])
             ->create(['system' => 'expanse']);
@@ -484,7 +470,6 @@ final class CampaignsControllerTest extends TestCase
     public function testRespondAccepted(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->hasAttached($user, ['status' => 'invited'])
             ->create();
@@ -503,7 +488,6 @@ final class CampaignsControllerTest extends TestCase
     public function testRespondDeclined(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->hasAttached($user, ['status' => 'invited'])
             ->create();
@@ -523,7 +507,6 @@ final class CampaignsControllerTest extends TestCase
     {
         $gm = User::factory()->create();
         $inviteeEmail = $this->faker->safeEmail;
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $gm->id]);
         CampaignInvitation::create([
             'campaign_id' => $campaign->id,
@@ -547,7 +530,6 @@ final class CampaignsControllerTest extends TestCase
     public function testInviteNewUser(): void
     {
         $gm = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $gm->id]);
         $inviteeEmail = $this->faker->unique()->safeEmail;
         $name = $this->faker->name;
@@ -589,7 +571,6 @@ final class CampaignsControllerTest extends TestCase
         $gm = User::factory()->create();
         $invitee = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->hasAttached($invitee, ['status' => 'invited'])
             ->create(['gm' => $gm->id]);
@@ -611,7 +592,6 @@ final class CampaignsControllerTest extends TestCase
         $gm = User::factory()->create();
         $invitee = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->hasAttached($invitee, ['status' => 'accepted'])
             ->create(['gm' => $gm->id]);
@@ -632,7 +612,6 @@ final class CampaignsControllerTest extends TestCase
     {
         $gm = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $gm->id]);
 
         self::actingAs($gm)
@@ -652,7 +631,6 @@ final class CampaignsControllerTest extends TestCase
         $gm = User::factory()->create();
         $invitee = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $gm->id]);
 
         self::actingAs($gm)
@@ -695,13 +673,11 @@ final class CampaignsControllerTest extends TestCase
 
     public function testUserAcceptingWithInvalidToken(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
             'email' => $this->faker->safeEmail,
-            // @phpstan-ignore-next-line
-            'invited_by' => $campaign->gamemaster->id,
+            'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
         ]);
 
@@ -719,13 +695,11 @@ final class CampaignsControllerTest extends TestCase
 
     public function testUserAcceptingWithAlreadyResponded(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
             'email' => $this->faker->safeEmail,
-            // @phpstan-ignore-next-line
-            'invited_by' => $campaign->gamemaster->id,
+            'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
             'status' => CampaignInvitation::RESPONDED,
         ]);
@@ -744,13 +718,11 @@ final class CampaignsControllerTest extends TestCase
 
     public function testUserAccepting(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
             'email' => $this->faker->safeEmail,
-            // @phpstan-ignore-next-line
-            'invited_by' => $campaign->gamemaster->id,
+            'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
         ]);
 
@@ -768,13 +740,11 @@ final class CampaignsControllerTest extends TestCase
 
     public function testUserChangingEmailWithInvalidToken(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
             'email' => $this->faker->safeEmail,
-            // @phpstan-ignore-next-line
-            'invited_by' => $campaign->gamemaster->id,
+            'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
         ]);
 
@@ -792,13 +762,11 @@ final class CampaignsControllerTest extends TestCase
 
     public function testUserChangingEmailWithAlreadyResponded(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
             'email' => $this->faker->safeEmail,
-            // @phpstan-ignore-next-line
-            'invited_by' => $campaign->gamemaster->id,
+            'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
             'status' => CampaignInvitation::RESPONDED,
         ]);
@@ -817,13 +785,11 @@ final class CampaignsControllerTest extends TestCase
 
     public function testUserChangingEmail(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
             'email' => $this->faker->safeEmail,
-            // @phpstan-ignore-next-line
-            'invited_by' => $campaign->gamemaster->id,
+            'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
         ]);
 
@@ -841,13 +807,11 @@ final class CampaignsControllerTest extends TestCase
 
     public function testDeclineInvitationBadHash(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
             'email' => $this->faker->safeEmail,
-            // @phpstan-ignore-next-line
-            'invited_by' => $campaign->gamemaster->id,
+            'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
         ]);
 
@@ -865,13 +829,11 @@ final class CampaignsControllerTest extends TestCase
 
     public function testDeclineInvitationAlreadyResponded(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
             'email' => $this->faker->safeEmail,
-            // @phpstan-ignore-next-line
-            'invited_by' => $campaign->gamemaster->id,
+            'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
             'status' => CampaignInvitation::RESPONDED,
         ]);
@@ -890,13 +852,11 @@ final class CampaignsControllerTest extends TestCase
 
     public function testDeclineInvitation(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
             'email' => $this->faker->safeEmail,
-            // @phpstan-ignore-next-line
-            'invited_by' => $campaign->gamemaster->id,
+            'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
         ]);
 
@@ -918,13 +878,11 @@ final class CampaignsControllerTest extends TestCase
 
     public function testSpamInvitationBadHash(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
             'email' => $this->faker->safeEmail,
-            // @phpstan-ignore-next-line
-            'invited_by' => $campaign->gamemaster->id,
+            'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
         ]);
 
@@ -942,13 +900,11 @@ final class CampaignsControllerTest extends TestCase
 
     public function testSpamInvitationAlreadyResponded(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
             'email' => $this->faker->safeEmail,
-            // @phpstan-ignore-next-line
-            'invited_by' => $campaign->gamemaster->id,
+            'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
             'status' => CampaignInvitation::RESPONDED,
         ]);
@@ -967,13 +923,11 @@ final class CampaignsControllerTest extends TestCase
 
     public function testSpamInvitation(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
             'email' => $this->faker->safeEmail,
-            // @phpstan-ignore-next-line
-            'invited_by' => $campaign->gamemaster->id,
+            'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
         ]);
 
@@ -995,7 +949,6 @@ final class CampaignsControllerTest extends TestCase
 
     public function testPatchNotGm(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'options' => ['currentDate' => '2024-02-27'],
         ]);
@@ -1023,7 +976,6 @@ final class CampaignsControllerTest extends TestCase
     public function testDataPatchInvalid(): void
     {
         $gm = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $gm->id,
             'options' => ['currentDate' => '2024-02-27'],
@@ -1041,7 +993,6 @@ final class CampaignsControllerTest extends TestCase
     public function testDataPatchRemoveDate(): void
     {
         $gm = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $gm->id,
             'options' => ['currentDate' => '2024-02-27'],
@@ -1062,7 +1013,6 @@ final class CampaignsControllerTest extends TestCase
     public function testDataPatchUpdateDate(): void
     {
         $gm = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $gm->id,
             'options' => ['currentDate' => '2024-02-27'],
@@ -1083,7 +1033,6 @@ final class CampaignsControllerTest extends TestCase
     public function testJsonPatchInvalidOperationException(): void
     {
         $gm = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $gm->id,
             'options' => ['currentDate' => '2024-02-27'],
@@ -1140,7 +1089,6 @@ final class CampaignsControllerTest extends TestCase
     public function testJsonPatchUpdateWithDate(): void
     {
         $gm = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $gm->id,
             'options' => ['currentDate' => '2024-02-27'],
@@ -1169,7 +1117,6 @@ final class CampaignsControllerTest extends TestCase
     public function testJsonPatchUpdateWithoutDate(): void
     {
         $gm = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $gm->id,
             'options' => ['currentDate' => '2024-02-27'],

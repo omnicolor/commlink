@@ -33,7 +33,6 @@ final class RoleTest extends TestCase
     public function testAll(): void
     {
         self::assertNotEmpty(Role::all());
-        self::assertInstanceOf(Role::class, Role::all()[0]);
     }
 
     public function testPowersEmpty(): void

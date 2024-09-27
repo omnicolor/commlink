@@ -59,8 +59,7 @@ final class AuthenticatedSessionControllerTest extends TestCase
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
             'email' => $this->faker->safeEmail,
-            // @phpstan-ignore-next-line
-            'invited_by' => $campaign->gamemaster->id,
+            'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
         ]);
 
@@ -84,8 +83,7 @@ final class AuthenticatedSessionControllerTest extends TestCase
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
             'email' => $this->faker->safeEmail,
-            // @phpstan-ignore-next-line
-            'invited_by' => $campaign->gamemaster->id,
+            'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
             'status' => CampaignInvitation::RESPONDED,
         ]);
@@ -134,8 +132,7 @@ final class AuthenticatedSessionControllerTest extends TestCase
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
             'email' => $this->faker->safeEmail,
-            // @phpstan-ignore-next-line
-            'invited_by' => $campaign->gamemaster->id,
+            'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
         ]);
 

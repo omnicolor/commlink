@@ -25,7 +25,7 @@ final class ContactArrayRuleTest extends TestCase
 
         $rule = new ContactArrayRule();
         $rule->setData($data);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore argument.type
         $rule->validate('unused', 'unused', function (string $message): void {
             self::assertSame(
                 'One or more contacts are missing some data',

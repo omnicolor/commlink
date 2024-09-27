@@ -73,7 +73,7 @@ final class UserTest extends TestCase
             'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore staticMethod.dynamicCall
         self::assertSame(2, $user->characters()->count());
 
         $character1->delete();
@@ -97,7 +97,7 @@ final class UserTest extends TestCase
             'system' => 'cyberpunk2077',
             'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore staticMethod.dynamicCall
         self::assertSame(1, $user->characters('shadowrun5e')->count());
 
         $character1->delete();

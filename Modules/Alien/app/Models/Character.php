@@ -12,6 +12,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Alien\Database\Factories\CharacterFactory;
 use Stringable;
 
+use function array_map;
+use function collect;
+use function current;
+
 /**
  * @property ?string $agenda
  * @property int $agility

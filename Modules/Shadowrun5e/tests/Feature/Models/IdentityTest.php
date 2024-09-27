@@ -93,7 +93,6 @@ final class IdentityTest extends TestCase
         ];
         $identity = Identity::fromArray($example);
         self::assertNotEmpty($identity->lifestyles);
-        self::assertInstanceOf(Lifestyle::class, $identity->lifestyles[0]);
         self::assertNotEmpty($identity->lifestyles[0]->options);
         self::assertInstanceOf(
             LifestyleOption::class,

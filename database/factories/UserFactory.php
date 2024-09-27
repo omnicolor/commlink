@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
+use Spatie\Permission\Models\Role;
 
 /**
  * @extends Factory<User>
@@ -41,5 +42,16 @@ class UserFactory extends Factory
         return $this->state(fn () => [
             'email_verified_at' => null,
         ]);
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function admin(): Factory
+    {
+        return $this->afterCreating(function (User $user): void {
+            $admin = Role::findOrCreate('admin');
+            $user->assignRole($admin);
+        });
     }
 }

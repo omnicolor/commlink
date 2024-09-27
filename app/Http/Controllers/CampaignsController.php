@@ -16,6 +16,7 @@ use App\Models\CampaignInvitation;
 use App\Models\Initiative;
 use App\Models\User;
 use Carbon\CarbonImmutable;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -24,7 +25,6 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\View\View;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\Grunt;
 use Rs\Json\Patch;
@@ -52,8 +52,7 @@ class CampaignsController extends Controller
             'name',
             'system',
         ]));
-        // @phpstan-ignore-next-line
-        $campaign->registered_by = $request->user()->id;
+        $campaign->registered_by = (int)$request->user()?->id;
 
         switch ($request->input('system')) {
             case 'avatar':
@@ -116,7 +115,7 @@ class CampaignsController extends Controller
                     'cyberpunkred::gm-screen',
                     [
                         'campaign' => $campaign,
-                        // @phpstan-ignore-next-line
+                        // @phpstan-ignore staticMethod.dynamicCall
                         'initiative' => Initiative::forCampaign($campaign)
                             ->orderByDesc('initiative')
                             ->get(),
@@ -144,7 +143,7 @@ class CampaignsController extends Controller
                         'campaign' => $campaign,
                         'characters' => $characters,
                         'grunts' => Grunt::all(),
-                        // @phpstan-ignore-next-line
+                        // @phpstan-ignore staticMethod.dynamicCall
                         'initiative' => Initiative::forCampaign($campaign)
                             ->orderByDesc('initiative')
                             ->get(),
@@ -179,13 +178,10 @@ class CampaignsController extends Controller
         CampaignInvitationCreateRequest $request,
     ): JsonResource | JsonResponse {
         abort_if(
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore staticMethod.dynamicCall
             CampaignInvitation::where('campaign_id', $campaign->id)
                 ->where('email', $request->email)
-                // CampaignInviationCreateRequest verified that the requesting
-                // user is logged in.
-                // @phpstan-ignore-next-line
-                ->where('invited_by', $request->user()->id)
+                ->where('invited_by', $request->user()?->id)
                 ->exists(),
             Response::HTTP_CONFLICT,
             'You have already invited that user',
@@ -197,10 +193,7 @@ class CampaignsController extends Controller
             $invitation = CampaignInvitation::create([
                 'campaign_id' => $campaign->id,
                 'email' => $request->email,
-                // CampaignInviationCreateRequest verified that the requesting
-                // user is logged in.
-                // @phpstan-ignore-next-line
-                'invited_by' => $request->user()->id,
+                'invited_by' => $request->user()?->id,
                 'name' => $request->name,
                 'updated_at' => null,
             ]);
@@ -237,8 +230,7 @@ class CampaignsController extends Controller
         $invitation = new CampaignInvitation([
             'campaign_id' => $campaign->id,
             'email' => $request->email,
-            // @phpstan-ignore-next-line
-            'invited_by' => $request->user()->id,
+            'invited_by' => $request->user()?->id,
             'name' => $user->name,
         ]);
 
@@ -265,7 +257,7 @@ class CampaignsController extends Controller
             default => new JsonResponse(
                 sprintf(
                     'Unacceptable Content-Type: %s',
-                    $request->headers->get('Content-Type'),
+                    (string)$request->headers->get('Content-Type', 'Unknown'),
                 ),
                 JsonResponse::HTTP_UNSUPPORTED_MEDIA_TYPE,
             ),
@@ -290,7 +282,7 @@ class CampaignsController extends Controller
             $validator->errors()->first('current_date'),
         );
 
-        $options = $campaign->options ?? [];
+        $options = $campaign->options;
         $options['currentDate'] = $request->currentDate;
         $campaign->options = $options;
         $campaign->save();
@@ -319,13 +311,13 @@ class CampaignsController extends Controller
             $updatedCampaign = json_decode(
                 (string)(new Patch($document, $patch))->apply()
             );
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore catch.neverThrown
         } catch (TypeError $ex) {
             abort(JsonResponse::HTTP_BAD_REQUEST, $ex->getMessage());
         } catch (InvalidOperationException $ex) {
             // Will be thrown when using invalid JSON in a patch document.
             abort(JsonResponse::HTTP_BAD_REQUEST, $ex->getMessage());
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore catch.neverThrown
         } catch (InvalidPointerException $ex) {
             abort(
                 JsonResponse::HTTP_BAD_REQUEST,

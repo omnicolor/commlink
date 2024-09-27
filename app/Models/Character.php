@@ -31,6 +31,7 @@ use function ucfirst;
  * @property string $owner
  * @property string $system
  * @property string $updated_at
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 class Character extends Model implements Stringable
 {
@@ -72,7 +73,6 @@ class Character extends Model implements Stringable
             return null;
         }
 
-        // @phpstan-ignore return.type
         return Campaign::find($this->campaign_id);
     }
 
