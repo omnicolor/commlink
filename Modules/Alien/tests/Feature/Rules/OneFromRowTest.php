@@ -26,6 +26,7 @@ final class OneFromRowTest extends TestCase
             ],
         ]);
 
+        // @phpstan-ignore argument.type
         $rule->validate('unused', 'unused', function (string $message): void {
             self::assertSame(
                 'You cannot choose two items from the same row.',
