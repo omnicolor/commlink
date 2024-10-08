@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "98fbcc95046145fea2c115b6c0add95e",
+    "content-hash": "334fafbcc36a07a2fd0ccefc21beb5be",
     "packages": [
         {
             "name": "brick/math",
@@ -1619,6 +1619,43 @@
                 "source": "https://github.com/omnicolor/php-irc-client/tree/main"
             },
             "time": "2024-07-28T14:03:16+00:00"
+        },
+        {
+            "name": "joetannenbaum/chewie",
+            "version": "0.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joetannenbaum/chewie.git",
+                "reference": "ff4dc71d9f340b95e548b176a2b52af610278c96"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joetannenbaum/chewie/zipball/ff4dc71d9f340b95e548b176a2b52af610278c96",
+                "reference": "ff4dc71d9f340b95e548b176a2b52af610278c96",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/prompts": "^0.1.15"
+            },
+            "require-dev": {
+                "pestphp/pest": "^2.33",
+                "tightenco/duster": "^2.7"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Chewie\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "support": {
+                "issues": "https://github.com/joetannenbaum/chewie/issues",
+                "source": "https://github.com/joetannenbaum/chewie/tree/0.1.5"
+            },
+            "time": "2024-09-20T00:09:04+00:00"
         },
         {
             "name": "laravel/framework",
