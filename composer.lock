@@ -10620,16 +10620,16 @@
         },
         {
             "name": "laravel/breeze",
-            "version": "v2.2.1",
+            "version": "v2.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/breeze.git",
-                "reference": "296d88c52b040b44b1003655af1689ea7dc2c7f1"
+                "reference": "1dd612eb9e1c2632a39e6aa6df4e69cd45129dca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/breeze/zipball/296d88c52b040b44b1003655af1689ea7dc2c7f1",
-                "reference": "296d88c52b040b44b1003655af1689ea7dc2c7f1",
+                "url": "https://api.github.com/repos/laravel/breeze/zipball/1dd612eb9e1c2632a39e6aa6df4e69cd45129dca",
+                "reference": "1dd612eb9e1c2632a39e6aa6df4e69cd45129dca",
                 "shasum": ""
             },
             "require": {
@@ -10676,7 +10676,7 @@
                 "issues": "https://github.com/laravel/breeze/issues",
                 "source": "https://github.com/laravel/breeze"
             },
-            "time": "2024-09-22T15:02:57+00:00"
+            "time": "2024-10-06T21:13:27+00:00"
         },
         {
             "name": "laravel/telescope",
