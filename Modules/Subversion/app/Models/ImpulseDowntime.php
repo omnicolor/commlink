@@ -8,6 +8,7 @@ namespace Modules\Subversion\Models;
  * @psalm-suppress PossiblyUnusedProperty
  * @property array<string, int> $effects
  */
+
 readonly class ImpulseDowntime
 {
     /**
