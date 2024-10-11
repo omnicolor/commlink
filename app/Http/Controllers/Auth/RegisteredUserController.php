@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
+use App\Providers\AppServiceProvider;
 use App\Http\Controllers\Controller;
 use App\Models\CampaignInvitation;
 use App\Models\User;
@@ -83,6 +84,6 @@ class RegisteredUserController extends Controller
         }
         event(new Registered($user));
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect(AppServiceProvider::HOME);
     }
 }

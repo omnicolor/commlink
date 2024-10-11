@@ -74,7 +74,7 @@ Route::middleware('auth')->group(function (): void {
         ->name('settings-link-user');
 });
 
-Route::group(['middleware' => ['auth', 'permission:admin users']], function (): void {
+Route::middleware('auth', 'permission:admin users')->group(function (): void {
     Route::get('users', [UsersController::class, 'view'])->name('users.view');
 });
 

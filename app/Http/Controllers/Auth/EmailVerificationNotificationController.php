@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
+use App\Providers\AppServiceProvider;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
@@ -23,7 +24,7 @@ class EmailVerificationNotificationController extends Controller
     {
         // @phpstan-ignore-next-line
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(RouteServiceProvider::HOME);
+            return redirect()->intended(AppServiceProvider::HOME);
         }
 
         // @phpstan-ignore-next-line
