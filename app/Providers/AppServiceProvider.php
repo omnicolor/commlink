@@ -5,10 +5,16 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Models\User;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\ParallelTesting;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Pennant\Feature;
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 use Laravel\Telescope\TelescopeServiceProvider as Telescope;
 
 /**
@@ -17,6 +23,15 @@ use Laravel\Telescope\TelescopeServiceProvider as Telescope;
  */
 class AppServiceProvider extends ServiceProvider
 {
+    /**
+     * The path to the "home" route for your application.
+     *
+     * This is used by Laravel authentication to redirect users after login.
+     *
+     * @var string
+     */
+    public const HOME = '/dashboard';
+
     /**
      * Register any application services.
      */
@@ -45,5 +60,21 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('viewPulse', function (User $user): bool {
             return $user->hasRole('admin');
         });
+
+        $this->bootRoute();
+    }
+
+    public function bootRoute(): void
+    {
+        RateLimiter::for('api', function (Request $request): Limit {
+            return Limit::perMinute(60)->by(optional($request->user())->id ?? $request->ip());
+        });
+
+
+        EnsureFeaturesAreActive::whenInactive(
+            function (): void {
+                abort(Response::HTTP_NOT_FOUND);
+            }
+        );
     }
 }

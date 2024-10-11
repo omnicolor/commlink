@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers\Auth;
 
+use App\Providers\AppServiceProvider;
 use App\Models\Campaign;
 use App\Models\CampaignInvitation;
 use App\Models\User;
@@ -32,7 +33,7 @@ final class AuthenticatedSessionControllerTest extends TestCase
             'email' => $user->email,
             'password' => 'password',
         ])
-            ->assertRedirect(RouteServiceProvider::HOME);
+            ->assertRedirect(AppServiceProvider::HOME);
 
         self::assertAuthenticated();
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
+use App\Providers\AppServiceProvider;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\CampaignInvitation;
@@ -71,7 +72,7 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('campaign.view', $campaign);
         }
         $request->session()->regenerate();
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return redirect()->intended(AppServiceProvider::HOME);
     }
 
     /**
