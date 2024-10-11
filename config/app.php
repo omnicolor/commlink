@@ -6,25 +6,6 @@ use Illuminate\Support\ServiceProvider;
 
 return [
 
-    'providers' => ServiceProvider::defaultProviders()->merge([
-        /*
-         * Laravel Framework Service Providers...
-         */
-
-        /*
-         * Package Service Providers...
-         */
-        SocialiteProviders\Manager\ServiceProvider::class,
-
-        /*
-         * Application Service Providers...
-         */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-    ])->toArray(),
 
     'systems' => [
         'alien' => 'Alien',
