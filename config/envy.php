@@ -81,7 +81,7 @@ return [
         'DYNAMODB_ENDPOINT',
 
         // config/database.php
-        'DATABASE_URL',
+        'DB_URL',
         'DB_SOCKET',
         'REDIS_CLIENT',
         'REDIS_CLUSTER',
