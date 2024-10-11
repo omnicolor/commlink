@@ -15,8 +15,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ChatCharacterFactory extends Factory
 {
-    protected $model = ChatCharacter::class;
-
     /**
      * Define the model's default state.
      * @return array<string, int>

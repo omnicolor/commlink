@@ -16,8 +16,9 @@ use Spatie\Permission\Models\Role;
  */
 class UserFactory extends Factory
 {
-    protected $model = User::class;
-
+    /**
+     * @return array<string, string>
+     */
     public function definition(): array
     {
         return [

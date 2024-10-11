@@ -13,10 +13,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class InitiativeFactory extends Factory
 {
-    protected $model = Initiative::class;
-
     /**
-     * Define the model's default state.
      * @return array<string, int|null|string>
      */
     public function definition(): array

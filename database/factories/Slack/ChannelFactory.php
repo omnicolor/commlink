@@ -14,10 +14,7 @@ use Illuminate\Support\Str;
  */
 class ChannelFactory extends Factory
 {
-    protected $model = Channel::class;
-
     /**
-     * Define the model's default state.
      * @return array<string, string>
      */
     public function definition(): array
