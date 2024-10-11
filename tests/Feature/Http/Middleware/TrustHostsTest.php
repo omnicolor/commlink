@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Middleware;
 
-use App\Http\Middleware\TrustHosts;
+use Illuminate\Http\Middleware\TrustHosts;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
