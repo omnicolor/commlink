@@ -2707,16 +2707,16 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v3.5.10",
+            "version": "v3.5.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "774092003edb2670615ef09f3a9fbdd335d6d0d7"
+                "reference": "f4909e68884b52f13920d108a80854ebcce8200f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/774092003edb2670615ef09f3a9fbdd335d6d0d7",
-                "reference": "774092003edb2670615ef09f3a9fbdd335d6d0d7",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/f4909e68884b52f13920d108a80854ebcce8200f",
+                "reference": "f4909e68884b52f13920d108a80854ebcce8200f",
                 "shasum": ""
             },
             "require": {
@@ -2771,7 +2771,7 @@
             "description": "A front-end framework for Laravel.",
             "support": {
                 "issues": "https://github.com/livewire/livewire/issues",
-                "source": "https://github.com/livewire/livewire/tree/v3.5.10"
+                "source": "https://github.com/livewire/livewire/tree/v3.5.11"
             },
             "funding": [
                 {
@@ -2779,7 +2779,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-10T20:03:38+00:00"
+            "time": "2024-10-15T14:29:19+00:00"
         },
         {
             "name": "markrogoyski/math-php",
