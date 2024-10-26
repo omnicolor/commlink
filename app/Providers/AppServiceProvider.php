@@ -38,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
             $mongo = env('MONGO_DATABASE') . $token;
             config(['database.connections.mongodb.database' => $mongo]);
 
-            touch(env('DB_DATABASE'));
+            touch((string)env('DB_DATABASE'));
             $sqlite = env('DB_DATABASE') . $token;
             touch($sqlite);
         });
