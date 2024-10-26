@@ -6,8 +6,7 @@
     <div class="row mt-4">
         <div class="col">
             <h1>Shadowrun Fifth Edition Characters</h1>
-            <x-character-list
-                :characters="$user->characters('shadowrun5e')->get()" />
+            <x-character-list :characters="$characters" />
         </div>
     </div>
 </x-app>
