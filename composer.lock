@@ -6389,16 +6389,16 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v7.1.1",
+            "version": "v7.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
-                "reference": "1c7cee86c6f812896af54434f8ce29c8d94f9ff4"
+                "reference": "4aa4f6b3d6749c14d3aa815eef8226632e7bbc66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/css-selector/zipball/1c7cee86c6f812896af54434f8ce29c8d94f9ff4",
-                "reference": "1c7cee86c6f812896af54434f8ce29c8d94f9ff4",
+                "url": "https://api.github.com/repos/symfony/css-selector/zipball/4aa4f6b3d6749c14d3aa815eef8226632e7bbc66",
+                "reference": "4aa4f6b3d6749c14d3aa815eef8226632e7bbc66",
                 "shasum": ""
             },
             "require": {
@@ -6434,7 +6434,7 @@
             "description": "Converts CSS selectors to XPath expressions",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/css-selector/tree/v7.1.1"
+                "source": "https://github.com/symfony/css-selector/tree/v7.1.6"
             },
             "funding": [
                 {
@@ -6450,7 +6450,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-05-31T14:57:53+00:00"
+            "time": "2024-09-25T14:20:29+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -7950,16 +7950,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v7.1.5",
+            "version": "v7.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "5c03ee6369281177f07f7c68252a280beccba847"
+                "reference": "6aaa189ddb4ff6b5de8fa3210f2fb42c87b4d12e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/5c03ee6369281177f07f7c68252a280beccba847",
-                "reference": "5c03ee6369281177f07f7c68252a280beccba847",
+                "url": "https://api.github.com/repos/symfony/process/zipball/6aaa189ddb4ff6b5de8fa3210f2fb42c87b4d12e",
+                "reference": "6aaa189ddb4ff6b5de8fa3210f2fb42c87b4d12e",
                 "shasum": ""
             },
             "require": {
@@ -7991,7 +7991,7 @@
             "description": "Executes commands in sub-processes",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/process/tree/v7.1.5"
+                "source": "https://github.com/symfony/process/tree/v7.1.6"
             },
             "funding": [
                 {
@@ -8007,7 +8007,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-19T21:48:23+00:00"
+            "time": "2024-09-25T14:20:29+00:00"
         },
         {
             "name": "symfony/psr-http-message-bridge",
@@ -8094,16 +8094,16 @@
         },
         {
             "name": "symfony/routing",
-            "version": "v7.1.4",
+            "version": "v7.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
-                "reference": "1500aee0094a3ce1c92626ed8cf3c2037e86f5a7"
+                "reference": "66a2c469f6c22d08603235c46a20007c0701ea0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/1500aee0094a3ce1c92626ed8cf3c2037e86f5a7",
-                "reference": "1500aee0094a3ce1c92626ed8cf3c2037e86f5a7",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/66a2c469f6c22d08603235c46a20007c0701ea0a",
+                "reference": "66a2c469f6c22d08603235c46a20007c0701ea0a",
                 "shasum": ""
             },
             "require": {
@@ -8155,7 +8155,7 @@
                 "url"
             ],
             "support": {
-                "source": "https://github.com/symfony/routing/tree/v7.1.4"
+                "source": "https://github.com/symfony/routing/tree/v7.1.6"
             },
             "funding": [
                 {
@@ -8171,7 +8171,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-08-29T08:16:25+00:00"
+            "time": "2024-10-01T08:31:23+00:00"
         },
         {
             "name": "symfony/service-contracts",
