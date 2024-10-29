@@ -6,6 +6,37 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0] - 2024-10-29
+
+Completely inconsequential update from the user's perspective, with only
+upstream dependencies changed. From an admin or developer of the Commlink
+system, the addition of [Laravel Pulse](https://laravel.com/docs/11.x/pulse)
+and [Laravel Telescope](https://laravel.com/docs/11.x/telescope) should give
+more insights into how the system is running. Adding Docker support is a pretty
+big win for running Commlink on my non-production hardware.
+
+### Added
+
+- Added Docker setup for Commlink so developers can run things on
+    laptops. (#1565, #1724))
+- Added option to add a role to a user created via the CreateUser
+    script. (#1566)
+- Added command to create a roll for a specific module via
+    module:make-roll. (#1567)
+- Added Laravel Pulse dashboard. (#1571)
+- Added Laravel Telescope. (#1592)
+
+### Fixed
+
+- Updated the stub file for creating rolls through make:roll. (#1567)
+- Restore the GM screen. (#1572, #1515)
+- Fixed editorconfig to have correct indentation for YAML files. (#1608)
+
+### Changed
+
+- Updated so many dependencies.
+- Move data file for Chummer5 paths into the import command. (#1561)
+
 ## [1.6.0] - 2024-08-02
 
 ### Added
