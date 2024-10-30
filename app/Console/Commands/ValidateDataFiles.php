@@ -98,11 +98,6 @@ class ValidateDataFiles extends Command
                 continue;
             }
 
-            if (!isset(self::SYSTEM_MAP[$system])) {
-                $this->warn('  * Not included in ValidateDataFiles system map');
-                continue;
-            }
-
             if ($this->paths[$system] === self::SYSTEM_MAP[$system]) {
                 $this->warn('  * Using default data files');
             } else {
