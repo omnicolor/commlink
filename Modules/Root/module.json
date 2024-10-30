@@ -1,0 +1,11 @@
+{
+    "name": "Root",
+    "alias": "root",
+    "description": "Root RPG module for Commlink.",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Root\\Providers\\RootServiceProvider"
+    ],
+    "files": []
+}
