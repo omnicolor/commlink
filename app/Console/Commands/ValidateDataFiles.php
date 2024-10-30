@@ -62,7 +62,7 @@ class ValidateDataFiles extends Command
      */
     public function handle(): int
     {
-        $systems = config('app.systems');
+        $systems = config('commlink.systems');
         $this->line('Enabled systems to be validated:');
         foreach ($systems as $system) {
             $this->line('  * ' . $system);
@@ -82,6 +82,11 @@ class ValidateDataFiles extends Command
                 continue;
             }
 
+            if (!isset(self::SYSTEM_MAP[$system])) {
+                $this->error('  * System not set in ValidateDateFiles command');
+                $this->return = Command::FAILURE;
+                continue;
+            }
             if (
                 $this->paths[$system] === self::SYSTEM_MAP[$system]
                 && !file_exists(base_path($this->paths[$system]))

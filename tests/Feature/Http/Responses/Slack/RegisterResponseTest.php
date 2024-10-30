@@ -14,6 +14,12 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function array_keys;
+use function config;
+use function implode;
+use function key;
+use function sprintf;
+
 #[Group('slack')]
 #[Medium]
 final class RegisterResponseTest extends TestCase
@@ -41,7 +47,7 @@ final class RegisterResponseTest extends TestCase
         $channel->user = 'U' . Str::random(8);
         $channel->username = 'Testing';
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(\sprintf(
+        self::expectExceptionMessage(sprintf(
             'You must have already created an account on <%s|%s> and linked it '
                 . 'to this server before you can register a channel to a '
                 . 'specific system.',
@@ -49,7 +55,7 @@ final class RegisterResponseTest extends TestCase
             config('app.name')
         ));
         $response = new RegisterResponse(
-            content: \sprintf('register %s', \key(config('app.systems'))),
+            content: sprintf('register %s', key(config('commlink.systems'))),
             channel: $channel,
         );
     }
@@ -74,10 +80,10 @@ final class RegisterResponseTest extends TestCase
     public function testRegisterWithoutSystem(): void
     {
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(\sprintf(
+        self::expectExceptionMessage(sprintf(
             'To register a channel, use `register [system]`, where system '
                 . 'is a system code: %s',
-            \implode(', ', \array_keys(config('app.systems')))
+            implode(', ', array_keys(config('commlink.systems')))
         ));
         $user = User::factory()->create();
         $channel = new Channel([
@@ -104,11 +110,11 @@ final class RegisterResponseTest extends TestCase
     public function testRegisterInvalidSystem(): void
     {
         self::expectException(SlackException::class);
-        self::expectExceptionMessage(\sprintf(
+        self::expectExceptionMessage(sprintf(
             '"%s" is not a valid system code. Use `register [system]`, '
                 . 'where system is: %s',
             'invalid',
-            \implode(', ', \array_keys(config('app.systems')))
+            implode(', ', array_keys(config('commlink.systems')))
         ));
         $user = User::factory()->create();
         $channel = new Channel([
@@ -149,9 +155,9 @@ final class RegisterResponseTest extends TestCase
             'verified' => true,
         ])->create();
         $response = new RegisterResponse(
-            content: \sprintf('register %s', \key(config('app.systems'))),
+            content: sprintf('register %s', key(config('commlink.systems'))),
             channel: $channel,
         );
-        self::assertSame(\key(config('app.systems')), $channel->system);
+        self::assertSame(key(config('commlink.systems')), $channel->system);
     }
 }

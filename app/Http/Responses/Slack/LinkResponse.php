@@ -66,7 +66,7 @@ class LinkResponse extends SlackResponse
 
         // @phpstan-ignore-next-line
         if ($channel->system !== $character->system) {
-            $systems = config('app.systems');
+            $systems = config('commlink.systems');
             throw new SlackException(sprintf(
                 '%s is a %s character. This channel is playing %s.',
                 $character->handle ?? $character->name,

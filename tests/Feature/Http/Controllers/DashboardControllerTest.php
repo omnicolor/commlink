@@ -53,9 +53,9 @@ final class DashboardControllerTest extends TestCase
             ->get(route('dashboard'))
             ->assertSee($user->email)
             ->assertSee((string)$character1->handle)
-            ->assertSee(config('app.systems')[$character1->system])
+            ->assertSee(config('commlink.systems')[$character1->system])
             ->assertSee((string)$character2->handle)
-            ->assertSee(config('app.systems')[$character2->system]);
+            ->assertSee(config('commlink.systems')[$character2->system]);
         $character1->delete();
         $character2->delete();
     }

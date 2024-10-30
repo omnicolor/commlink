@@ -177,7 +177,7 @@ class Help extends Roll
     protected function addHelpForUnlinkedChannel(): void
     {
         $systems = [];
-        foreach (config('app.systems') as $code => $name) {
+        foreach (config('commlink.systems') as $code => $name) {
             $systems[] = sprintf('   · %s - %s', $code, $name);
         }
         $this->data[] = [

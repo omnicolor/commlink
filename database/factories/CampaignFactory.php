@@ -28,7 +28,7 @@ class CampaignFactory extends Factory
             'registered_by' => $this->createUser(),
             'gm' => $this->createUser(),
             'system' => $this->faker->randomElement(
-                \array_keys(config('app.systems'))
+                \array_keys(config('commlink.systems'))
             ),
             'options' => [
                 'gameplay' => 'established',

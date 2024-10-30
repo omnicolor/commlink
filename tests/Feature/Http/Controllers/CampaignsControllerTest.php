@@ -43,8 +43,8 @@ final class CampaignsControllerTest extends TestCase
     public function testCreateNewDnd5eCampaign(): void
     {
         if (
-            1 === count(config('app.systems'))
-            && isset(config('app.systems')['shadowrun5e'])
+            1 === count(config('commlink.systems'))
+            && isset(config('commlink.systems')['shadowrun5e'])
         ) {
             self::markTestSkipped('Shadowrun 5E is the only available system');
         }
@@ -77,7 +77,7 @@ final class CampaignsControllerTest extends TestCase
      */
     public function testCreateNewAvatarCampaign(): void
     {
-        if (!in_array('avatar', array_keys(config('app.systems')), true)) {
+        if (!in_array('avatar', array_keys(config('commlink.systems')), true)) {
             self::markTestSkipped('Avatar Legends system not enabled');
         }
         $name = $this->faker->catchPhrase();
@@ -126,7 +126,7 @@ final class CampaignsControllerTest extends TestCase
      */
     public function testCreateNewSr5eCampaign(): void
     {
-        if (!in_array('shadowrun5e', array_keys(config('app.systems')), true)) {
+        if (!in_array('shadowrun5e', array_keys(config('commlink.systems')), true)) {
             self::markTestSkipped('Shadowrun 5E not enabled');
         }
         $name = $this->faker->catchPhrase();
@@ -179,7 +179,7 @@ final class CampaignsControllerTest extends TestCase
      */
     public function testCreateNewCyberpunkredCampaign(): void
     {
-        if (!in_array('cyberpunkred', array_keys(config('app.systems')), true)) {
+        if (!in_array('cyberpunkred', array_keys(config('commlink.systems')), true)) {
             self::markTestSkipped('Cyberpunk Red not enabled');
         }
         $name = $this->faker->catchPhrase();
@@ -217,7 +217,7 @@ final class CampaignsControllerTest extends TestCase
 
     public function testCreateNewSubversionCampaign(): void
     {
-        if (!in_array('subversion', array_keys(config('app.systems')), true)) {
+        if (!in_array('subversion', array_keys(config('commlink.systems')), true)) {
             self::markTestSkipped('Subversion not enabled');
         }
         $name = $this->faker->catchPhrase();

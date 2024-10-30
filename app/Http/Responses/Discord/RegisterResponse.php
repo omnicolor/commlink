@@ -31,7 +31,7 @@ class RegisterResponse implements Stringable
     public function __construct(protected DiscordMessageReceived $event)
     {
         $arguments = explode(' ', trim($this->event->content));
-        $systems = config('app.systems');
+        $systems = config('commlink.systems');
         if (self::MIN_NUM_ARGUMENTS !== count($arguments)) {
             $this->sendMissingArgumentError($systems);
             return;

@@ -316,7 +316,7 @@ final class InfoTest extends TestCase
             ],
             (object)[
                 'title' => 'System',
-                'value' => config('app.systems')[$channel->system],
+                'value' => config('commlink.systems')[$channel->system],
                 'short' => true,
             ],
             (object)[

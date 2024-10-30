@@ -57,7 +57,7 @@ class RegisterResponse extends SlackResponse
             ));
         }
 
-        $systems = config('app.systems');
+        $systems = config('commlink.systems');
         $args = explode(' ', $content);
         if (self::MIN_NUM_ARGUMENTS !== count($args)) {
             throw new SlackException(sprintf(
