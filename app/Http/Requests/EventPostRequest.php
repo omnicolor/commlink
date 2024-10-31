@@ -13,6 +13,18 @@ class EventPostRequest extends FormRequest
 {
     /**
      * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function authorize(): bool
+    {
+        $user = $this->user();
+        if (null === $this->campaign?->gamemaster) {
+            return false;
+        }
+        return $this->campaign->gamemaster->is($user);
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, array<int, string>>
      */
     public function rules(): array

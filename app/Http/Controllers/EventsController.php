@@ -52,6 +52,7 @@ class EventsController extends Controller
 
     public function patch(Request $request, Event $event): JsonResponse
     {
+        $this->authorize('update', $event);
         return match ($request->headers->get('Content-Type')) {
             'application/json' => $this->dataPatch($request, $event),
             'application/json-patch+json' => $this->jsonPatch($request, $event),
@@ -67,7 +68,6 @@ class EventsController extends Controller
 
     protected function dataPatch(Request $request, Event $event): JsonResponse
     {
-        $this->authorize('update', $event);
         // @phpstan-ignore-next-line
         $validated = $request->validate((new EventPatchRequest())->rules());
         $event->fill($validated);
@@ -157,16 +157,12 @@ class EventsController extends Controller
         EventPostRequest $request,
         Campaign $campaign,
     ): JsonResponse {
+        /** @var User */
         $user = $request->user();
-        abort_if(null === $user, JsonResponse::HTTP_UNAUTHORIZED);
-        abort_if(
-            null === $campaign->gamemaster || !$campaign->gamemaster->is($user),
-            JsonResponse::HTTP_FORBIDDEN,
-            'Only the gamemaster can create events for a campaign',
-        );
         $event = new Event($request->validated());
         if (null === $request->name) {
-            $event->name = (new Carbon($request->real_start))->toDayDateTimeString();
+            $event->name = (new Carbon($request->real_start))
+                ->toDayDateTimeString();
         }
         $event->campaign_id = $campaign->id;
         $event->created_by = $user->id;
@@ -179,7 +175,6 @@ class EventsController extends Controller
 
     public function put(EventPutRequest $request, Event $event): JsonResponse
     {
-        $this->authorize('update', $event);
         $event->fill([
             'description' => $request->description,
             'game_end' => $request->game_end,

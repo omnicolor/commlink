@@ -8,9 +8,13 @@ use App\Http\Requests\LinkUserRequest;
 use App\Models\ChatUser;
 use App\Models\Traits\InteractsWithDiscord;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+
+use function redirect;
+use function sprintf;
+use function view;
 
 /**
  * @psalm-suppress UnusedClass
@@ -19,16 +23,13 @@ class SettingsController extends Controller
 {
     use InteractsWithDiscord;
 
-    /**
-     * Show the settings page.
-     */
-    public function show(): View
+    public function show(Request $request): View
     {
         return view(
             'settings',
             [
                 'discordOauthURL' => $this->getDiscordOauthURL(),
-                'user' => Auth::user(),
+                'user' => $request->user(),
             ]
         );
     }
@@ -41,9 +42,7 @@ class SettingsController extends Controller
     {
         $serverId = $request->input('server-id');
         $remoteUserId = $request->input('user-id');
-
-        // @phpstan-ignore-next-line
-        $userId = $request->user()->id;
+        $userId = $request->user()?->id;
 
         $chatUser = ChatUser::where('server_id', $serverId)
             ->where('remote_user_id', $remoteUserId)
@@ -95,9 +94,7 @@ class SettingsController extends Controller
             'IRC servers should have both a hostname and a port, like chat.freenode.net:6667',
         );
         $remoteUserId = $request->input('user-id');
-
-        // @phpstan-ignore-next-line
-        $userId = $request->user()->id;
+        $userId = $request->user()?->id;
 
         $chatUser = ChatUser::irc()
             ->where('server_id', $serverId)
@@ -145,8 +142,7 @@ class SettingsController extends Controller
     {
         $serverId = $request->input('server-id');
         $remoteUserId = $request->input('user-id');
-        // @phpstan-ignore-next-line
-        $userId = $request->user()->id;
+        $userId = $request->user()?->id;
 
         $chatUser = ChatUser::where('server_id', $serverId)
             ->where('remote_user_id', $remoteUserId)

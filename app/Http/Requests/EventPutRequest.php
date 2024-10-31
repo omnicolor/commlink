@@ -10,6 +10,14 @@ class EventPutRequest extends FormRequest
 {
     /**
      * @psalm-suppress PossiblyUnusedMethod
+     */
+    public function authorize(): bool
+    {
+        return true === $this->user()?->can('update', $this->event);
+    }
+
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, array<int, string>>
      */
     public function rules(): array

@@ -22,7 +22,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Modules\Shadowrun5e\Models\Character;
@@ -106,7 +105,7 @@ class CampaignsController extends Controller
      * Launch the GM screen.
      * @psalm-suppress NoValue
      */
-    public function gmScreen(Campaign $campaign): View
+    public function gmScreen(Request $request, Campaign $campaign): View
     {
         Gate::authorize('gm', $campaign);
         switch ($campaign->system) {
@@ -119,7 +118,7 @@ class CampaignsController extends Controller
                         'initiative' => Initiative::forCampaign($campaign)
                             ->orderByDesc('initiative')
                             ->get(),
-                        'user' => Auth::user(),
+                        'user' => $request->user(),
                     ]
                 );
             case 'shadowrun5e':
@@ -148,7 +147,7 @@ class CampaignsController extends Controller
                             ->orderByDesc('initiative')
                             ->get(),
                         'max_monitor' => $maxMonitor,
-                        'user' => Auth::user(),
+                        'user' => $request->user(),
                     ]
                 );
             default:
@@ -527,14 +526,14 @@ class CampaignsController extends Controller
         return new CampaignResource($campaign);
     }
 
-    public function view(Campaign $campaign): View
+    public function view(Request $request, Campaign $campaign): View
     {
         Gate::authorize('view', $campaign);
         return view(
             'campaign.view',
             [
                 'campaign' => $campaign,
-                'user' => Auth::user(),
+                'user' => $request->user(),
             ]
         );
     }

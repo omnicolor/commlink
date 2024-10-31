@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse
 
 use function collect;
 use function count;
+use function is_array;
 use function redirect;
 use function session;
 use function sprintf;
@@ -44,7 +45,7 @@ class DiscordController extends Controller
     public function save(Request $request): RedirectResponse
     {
         /** @var User */
-        $commlinkUser = Auth::user();
+        $commlinkUser = $request->user();
 
         // @phpstan-ignore-next-line
         $potentialGuilds = collect($request->session()->pull('guilds'))
@@ -167,7 +168,7 @@ class DiscordController extends Controller
                 return redirect()
                     ->route('settings')
                     ->withErrors([
-                        'error' => \sprintf(
+                        'error' => sprintf(
                             'Request to Discord failed. Please <a href="%s">try again</a>.',
                             $this->getDiscordOauthURL(),
                         ),
@@ -186,7 +187,7 @@ class DiscordController extends Controller
             return redirect()
                 ->route('settings')
                 ->withErrors([
-                    'error' => \sprintf(
+                    'error' => sprintf(
                         'Request to Discord failed. Please <a href="%s">try again</a>.',
                         $this->getDiscordOauthURL(),
                     ),
@@ -194,7 +195,7 @@ class DiscordController extends Controller
         }
 
         /** @var User */
-        $commlinkUser = Auth::user();
+        $commlinkUser = $request->user();
         $registeredGuilds = ChatUser::discord()
             ->where('user_id', $commlinkUser->id)
             ->where('remote_user_id', $discordUser['snowflake'])
