@@ -37,7 +37,7 @@ return [
      */
     'middleware' => [
         'authenticate_session' => AuthenticateSession::class,
-        'encrypt_cookies' => Illuminate\Cookie\Middleware\EncryptCookies::class,
+        'encrypt_cookies' => EncryptCookies::class,
         'validate_csrf_token' => ValidateCsrfToken::class,
     ],
 ];

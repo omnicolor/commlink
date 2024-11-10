@@ -7,7 +7,6 @@ namespace Modules\Subversion\Models;
 /**
  * @psalm-suppress PossiblyUnusedProperty
  */
-
 readonly class LineageOption
 {
     public function __construct(

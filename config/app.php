@@ -2,10 +2,7 @@
 
 declare(strict_types=1);
 
-use Illuminate\Support\ServiceProvider;
-
 return [
-
 
     'systems' => [
         'alien' => 'Alien',

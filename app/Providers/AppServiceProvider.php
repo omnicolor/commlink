@@ -17,6 +17,12 @@ use Laravel\Pennant\Feature;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 use Laravel\Telescope\TelescopeServiceProvider as Telescope;
 
+use function abort;
+use function config;
+use function env;
+use function optional;
+use function touch;
+
 /**
  * @codeCoverageIgnore
  * @psalm-suppress UnusedClass
@@ -70,7 +76,6 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request): Limit {
             return Limit::perMinute(60)->by(optional($request->user())->id ?? $request->ip());
         });
-
 
         EnsureFeaturesAreActive::whenInactive(
             function (): void {
