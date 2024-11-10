@@ -6,6 +6,9 @@ namespace App\Http\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance as Middleware;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 class PreventRequestsDuringMaintenance extends Middleware
 {
     /**

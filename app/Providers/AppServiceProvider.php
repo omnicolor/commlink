@@ -45,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
+     * @psalm-suppress PossiblyUnusedMethod
      */
     public function boot(): void
     {
