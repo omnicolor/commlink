@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
+use function back;
+use function redirect;
+use function view;
+
 /**
  * @psalm-suppress UnusedClass
  */

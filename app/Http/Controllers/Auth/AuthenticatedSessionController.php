@@ -16,6 +16,10 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
+use function abort_if;
+use function redirect;
+use function view;
+
 /**
  * @psalm-suppress UnusedClass
  */

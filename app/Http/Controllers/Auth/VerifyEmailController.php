@@ -11,6 +11,9 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
 
+use function event;
+use function redirect;
+
 /**
  * @psalm-suppress UnusedClass
  */

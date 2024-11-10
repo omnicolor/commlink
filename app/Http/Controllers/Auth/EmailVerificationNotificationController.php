@@ -10,6 +10,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+use function back;
+use function redirect;
+
 /**
  * @psalm-suppress UnusedClass
  */

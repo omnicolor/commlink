@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
+use function redirect;
+use function view;
+
 /**
  * @psalm-suppress UnusedClass
  */
