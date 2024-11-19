@@ -1,0 +1,151 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Discord\Parts\Channel;
+
+use Carbon\Carbon;
+use Discord\Builders\MessageBuilder;
+use Discord\Parts\Embed\Embed;
+use Discord\Parts\Guild\Guild;
+use Discord\Parts\Guild\Role;
+use Discord\Parts\Part;
+use Discord\Parts\User\User;
+use Discord\Repository\Channel\MessageRepository;
+use Discord\Repository\Channel\OverwriteRepository;
+use Discord\Repository\Channel\VoiceMemberRepository as MemberRepository;
+use Discord\Repository\Channel\WebhookRepository;
+use Discord\Repository\Channel\InviteRepository;
+use Discord\Repository\Channel\ThreadRepository;
+use React\Promise\ExtendedPromiseInterface;
+
+/**
+ * @property string $id
+ * @property int $type
+ * @property string|null $guild_id
+ * @property Guild|null $guild
+ * @property int|null $position
+ * @property OverwriteRepository $overwrites
+ * @property string|null $name
+ * @property string|null $topic
+ * @property bool|null $nsfw
+ * @property string|null $last_message_id
+ * @property int|null $bitrate
+ * @property int|null $user_limit
+ * @property int|null $rate_limit_per_user
+ * @property Collection|User[] $recipients
+ * @property User|null $recipient
+ * @property string|null $recipient_id
+ * @property string|null $icon
+ * @property string|null $owner_id
+ * @property string|null $application_id
+ * @property string|null $parent_id
+ * @property Carbon|null $last_pin_timestamp
+ * @property string|null $rtc_region
+ * @property int|null $video_quality_mode
+ * @property int|null $default_auto_archive_duration
+ * @property int|null $flags
+ * @property string|null $permissions
+ * @property bool $is_private
+ * @property MemberRepository $members
+ * @property MessageRepository  $messages
+ * @property WebhookRepository  $webhooks
+ * @property ThreadRepository $threads
+ * @property InviteRepository $invites
+ */
+class Channel extends Part
+{
+    public const TYPE_TEXT = 0;
+    public const TYPE_DM = 1;
+    public const TYPE_VOICE = 2;
+    public const TYPE_GROUP = 3;
+    public const TYPE_CATEGORY = 4;
+    public const TYPE_ANNOUNCEMENT = 5;
+    public const TYPE_ANNOUNCEMENT_THREAD = 10;
+    public const TYPE_PUBLIC_THREAD = 11;
+    public const TYPE_PRIVATE_THREAD = 12;
+    public const TYPE_STAGE_CHANNEL = 13;
+    public const TYPE_DIRECTORY = 14;
+    public const TYPE_FORUM = 15;
+
+    public const VIDEO_QUALITY_AUTO = 1;
+    public const VIDEO_QUALITY_FULL = 2;
+
+    public const FLAG_PINNED = (1 << 1);
+
+    /**
+     * @param Embed|array<string, mixed>|null $embed
+     * @param array<string, mixed>|null $allowed_mentions
+     */
+    public function sendMessage(
+        MessageBuilder|string $message,
+        bool|null $tts = false,
+        Embed|array|null $embed = null,
+        array|null $allowed_mentions = null,
+        Message|null $replyTo = null,
+    ): ExtendedPromiseInterface {}
+
+    public function broadcastTyping(): ExtendedPromiseInterface {}
+
+    /**
+     * @param array{
+     *     limit: false|int,
+     *     time: false|int
+     * } $options
+     */
+    public function createMessageCollector(
+        callable $filter,
+        array $options = [],
+    ): ExtendedPromiseInterface {}
+
+    public function allowText(): bool {}
+
+    public function allowVoice(): bool {}
+
+    public function allowInvite(): bool {}
+
+    /**
+     * @return array{
+     *     bitrate: int,
+     *     default_auto_archive_duration: int,
+     *     name: string,
+     *     nsfw: bool,
+     *     parent_id: string,
+     *     permission_overwrites: mixed,
+     *     position: mixed,
+     *     rate_limit_per_user: int,
+     *     rtc_region: mixed,
+     *     topic: string,
+     *     type: string,
+     *     user_limit: int,
+     *     video_quality_mode: mixed
+     * }
+     */
+    public function getCreatableAttributes(): array {}
+
+    /**
+     * @return array{
+     *      bitrate: int,
+     *      default_auto_archive_duration: int,
+     *      name: string,
+     *      nsfw: bool,
+     *      parent_id: string,
+     *      permission_overwrites: mixed,
+     *      position: int,
+     *      rate_limit_per_user: int,
+     *      rtc_region: mixed,
+     *      topic: string,
+     *      type: string,
+     *      user_limit: int,
+     *      video_quality_mode: mixed
+     * }
+     */
+    public function getUpdatableAttributes(): array {}
+
+    /**
+     * @return array{channel_id: string, guild_id: string}
+     */
+    public function getRepositoryAttributes(): array {}
+
+    public function __toString(): string {}
+}

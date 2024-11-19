@@ -48,7 +48,7 @@ use function ksort;
  * @property int $reflexes
  * @property int $reputation
  * @property array<int, array<string, int|string>> $roles
- * @property array<string, int> $skills
+ * @property array<string, int<1, max>> $skills
  * @property array<int, array<string, int|string>> $skills_custom
  * @property int $technique
  * @property array<int, array<string, int|string>> $weapons

@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Rs\Json;
+
+class Patch
+{
+    const MEDIA_TYPE = 'application/json-patch+json';
+
+    /**
+     * @throws Rs\Json\Patch\FailedTestException
+     * @throws Rs\Json\Patch\InvalidPatchDocumentJsonException;
+     * @throws Rs\Json\Patch\InvalidTargetDocumentJsonException;
+     * @throws Rs\Json\Pointer\InvalidPointerException;
+     */
+    public function apply(): mixed
+    {
+    }
+}

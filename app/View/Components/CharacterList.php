@@ -30,7 +30,7 @@ class CharacterList extends Component
         foreach ($this->characters as $character) {
             /**
              * @psalm-suppress UndefinedMagicPropertyAssignment
-             * @phpstan-ignore-next-line
+             * @phpstan-ignore property.notFound
              */
             $character->link = false;
             $system = $character->system;

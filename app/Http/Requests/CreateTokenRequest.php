@@ -14,8 +14,7 @@ class CreateTokenRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        // @phpstan-ignore-next-line
-        return $this->user()->is($this->user);
+        return null !== $this->user() && $this->user()->is($this->user);
     }
 
     /**

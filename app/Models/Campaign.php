@@ -77,6 +77,7 @@ class Campaign extends Model
 
     /**
      * Return characters playing in the campaign.
+     * @return Collection<int, Character>
      */
     public function characters(): Collection
     {
@@ -127,7 +128,7 @@ class Campaign extends Model
         $attributes = [],
         $connection = null,
     ): static {
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore property.nonObject
         $campaign = match ($attributes->system ?? null) {
             'shadowrun5e' => new Shadowrun5eCampaign((array)$attributes),
             default => new Campaign((array)$attributes),
@@ -137,7 +138,7 @@ class Campaign extends Model
         $campaign->setRawAttributes((array)$attributes, true);
         $campaign->setConnection($this->connection);
         $campaign->fireModelEvent('retrieved', false);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore return.type
         return $campaign;
     }
 

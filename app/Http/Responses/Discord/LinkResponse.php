@@ -158,8 +158,7 @@ class LinkResponse implements Stringable
             '%s is a %s character. This channel is playing %s.',
             (string)$character,
             $systems[$character->system] ?? 'Unknown',
-            // @phpstan-ignore-next-line
-            $systems[$this->channel->system] ?? 'Unknown',
+            $systems[$this->channel?->system] ?? 'Unknown',
         ));
     }
 }

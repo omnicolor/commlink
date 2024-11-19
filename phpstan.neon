@@ -10,6 +10,7 @@ parameters:
             tooWideThrowType: true
     ignoreErrors:
         - identifier: missingType.generics
+        - identifier: staticMethod.dynamicCall
     level: 8
     paths:
         - %currentWorkingDirectory%/app
@@ -18,5 +19,14 @@ parameters:
     polluteScopeWithAlwaysIterableForeach: false
     reportMaybesInPropertyPhpDocTypes: false
     stubFiles:
+        - stubs/PHPStan/DiscordChannel.stub
+        - stubs/PHPStan/DiscordEmbed.stub
+        - stubs/PHPStan/DiscordEmoji.stub
+        - stubs/PHPStan/DiscordMessage.stub
+        - stubs/PHPStan/DiscordMessageBuilder.stub
+        - stubs/PHPStan/DiscordPart.stub
+        - stubs/PHPStan/ExtendedPromiseInterface.stub
         - stubs/PHPStan/Generator.stub
+        - stubs/PHPStan/JsonPatch.stub
+        - stubs/PHPStan/PromiseInterface.stub
     treatPhpDocTypesAsCertain: false
