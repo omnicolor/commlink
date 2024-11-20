@@ -4,15 +4,22 @@ declare(strict_types=1);
 
 namespace Rs\Json;
 
+use Rs\Json\Patch\FailedTestException;
+use Rs\Json\Patch\InvalidPatchDocumentJsonException;
+use Rs\Json\Patch\InvalidTargetDocumentJsonException;
+use Rs\Json\Pointer\InvalidPointerException;
+use TypeError;
+
 class Patch
 {
     const MEDIA_TYPE = 'application/json-patch+json';
 
     /**
-     * @throws Rs\Json\Patch\FailedTestException
-     * @throws Rs\Json\Patch\InvalidPatchDocumentJsonException;
-     * @throws Rs\Json\Patch\InvalidTargetDocumentJsonException;
-     * @throws Rs\Json\Pointer\InvalidPointerException;
+     * @throws FailedTestException
+     * @throws InvalidPatchDocumentJsonException;
+     * @throws InvalidTargetDocumentJsonException;
+     * @throws InvalidPointerException;
+     * @throws TypeError;
      */
     public function apply(): mixed
     {

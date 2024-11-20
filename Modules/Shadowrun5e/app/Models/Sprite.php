@@ -10,7 +10,6 @@ use RuntimeException;
 use Stringable;
 
 use function config;
-use function in_array;
 use function lcfirst;
 use function sprintf;
 use function str_replace;
@@ -156,28 +155,25 @@ class Sprite implements Stringable
     public function __call(string $name, array $_arguments): int
     {
         $attribute = lcfirst(str_replace('get', '', $name));
-        $attributes = [
-            'attack',
-            'dataProcessing',
-            'firewall',
-            'initiative',
-            'resonance',
-            'sleaze',
-        ];
-        if (!in_array($attribute, $attributes, true)) {
-            throw new BadMethodCallException(sprintf(
+        $attribute = match ($attribute) {
+            'attack' => $this->attack,
+            'dataProcessing' => $this->dataProcessing,
+            'firewall' => $this->firewall,
+            'initiative' => $this->initiative,
+            'resonance' => $this->resonance,
+            'sleaze' => $this->sleaze,
+            default => throw new BadMethodCallException(sprintf(
                 '%s is not an attribute of sprites',
                 ucfirst($attribute)
-            ));
-        }
+            )),
+        };
         if (null === $this->level) {
             throw new RuntimeException('Level has not been set');
         }
         $formula = str_replace(
             ['L', '(', ')'],
             [(string)$this->level, '', ''],
-            // @phpstan-ignore-next-line
-            (string)$this->$attribute
+            $attribute
         );
         return self::convertFormula($formula, 'L', $this->level);
     }

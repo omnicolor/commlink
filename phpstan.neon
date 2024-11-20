@@ -28,5 +28,7 @@ parameters:
         - stubs/PHPStan/ExtendedPromiseInterface.stub
         - stubs/PHPStan/Generator.stub
         - stubs/PHPStan/JsonPatch.stub
+        - stubs/PHPStan/JsonPatchExceptions.stub
+        - stubs/PHPStan/JsonPointerExceptions.stub
         - stubs/PHPStan/PromiseInterface.stub
     treatPhpDocTypesAsCertain: false

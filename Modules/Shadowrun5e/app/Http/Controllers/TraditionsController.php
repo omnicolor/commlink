@@ -30,15 +30,16 @@ class TraditionsController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->filename = config('shadowrun5e.data_path')
-            . 'traditions.php';
+        $this->filename = config('shadowrun5e.data_path') . 'traditions.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/traditions';
-        $stat = \stat($this->filename);
-        // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+
         /** @psalm-suppress UnresolvableInclude */
         $this->traditions = require $this->filename;
+
+        $stat = \stat($this->filename);
+        assert(false !== $stat); // require() would have failed.
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
     }
 
     /**

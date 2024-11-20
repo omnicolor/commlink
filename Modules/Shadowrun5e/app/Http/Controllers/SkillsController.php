@@ -33,11 +33,13 @@ class SkillsController extends Controller
         $this->filename = config('shadowrun5e.data_path') . 'skills.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/skills';
-        $stat = \stat($this->filename);
-        // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+
         /** @psalm-suppress UnresolvableInclude */
         $this->skills = require $this->filename;
+
+        $stat = \stat($this->filename);
+        assert(false !== $stat); // require() would have failed.
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
     }
 
     /**

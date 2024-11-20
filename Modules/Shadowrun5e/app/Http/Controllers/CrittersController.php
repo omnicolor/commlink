@@ -40,14 +40,14 @@ class CrittersController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->filename = config('shadowrun5e.data_path')
-            . 'critters.php';
+        $this->filename = config('shadowrun5e.data_path') . 'critters.php';
 
-        $stat = stat($this->filename);
-        // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
         /** @psalm-suppress UnresolvableInclude */
         $this->critters = require $this->filename;
+
+        $stat = stat($this->filename);
+        assert(false !== $stat); // require() would have failed.
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
     }
 
     /**

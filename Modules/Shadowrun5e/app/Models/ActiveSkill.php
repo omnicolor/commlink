@@ -14,6 +14,7 @@ use function strtolower;
 
 /**
  * Skill a character can use.
+ * @param int $level
  */
 class ActiveSkill extends Skill implements Stringable
 {
