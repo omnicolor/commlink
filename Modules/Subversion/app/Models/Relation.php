@@ -51,14 +51,13 @@ class Relation implements Stringable
         if ('cost' === $name) {
             return $this->cost();
         }
+        /** @var array<int, array{file: string, line: int}> */
         $trace = debug_backtrace();
         trigger_error(
             sprintf(
                 'Undefined property via __get(): %s in %s on line %d',
                 $name,
-                // @phpstan-ignore-next-line
                 $trace[0]['file'],
-                // @phpstan-ignore-next-line
                 $trace[0]['line'],
             ),
             E_USER_NOTICE
