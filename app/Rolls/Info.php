@@ -83,7 +83,6 @@ class Info extends Roll
              */
             . 'Server Name: ' . $event->server->name . PHP_EOL
             . 'Server ID: ' . $event->server->id . PHP_EOL
-            // @phpstan-ignore property.notFound
             . 'Channel Name: ' . $event->channel->name . PHP_EOL
             . 'Channel ID: ' . $event->channel->id . PHP_EOL
             . 'System: ' . $system . PHP_EOL
