@@ -17,7 +17,7 @@ class Fade extends Number
 {
     protected ?string $error = null;
 
-    // @phpstan-ignore-next-line
+    // @phpstan-ignore constructor.missingParentCall (Calls grandparent)
     public function __construct(
         string $content,
         string $character,

@@ -17,9 +17,11 @@ use Throwable;
 use ValueError;
 
 use function addslashes;
+use function array_combine;
 use function array_diff;
 use function array_merge;
 use function array_reverse;
+use function array_walk;
 use function count;
 use function explode;
 use function file_exists;
@@ -30,6 +32,7 @@ use function ksort;
 use function min;
 use function mkdir;
 use function number_format;
+use function range;
 use function simplexml_load_file;
 use function sprintf;
 use function str_replace;
@@ -194,7 +197,7 @@ class ImportChummerData extends Command implements Isolatable
 
         foreach ($types as $type) {
             $function = 'process' . ucfirst(str_replace('-', '', (string)$type));
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore method.dynamicName
             $this->$function();
         }
 
@@ -715,15 +718,31 @@ class ImportChummerData extends Command implements Isolatable
     }
 
     /**
-     * @psalm-suppress InvalidReturnStatement
-     * @psalm-suppress InvalidReturnType
-     * @return array<string, array<int, int|string>|int|string>
+     * @return array{
+     *     attributes: array<int, int>|array{
+     *         attack: int,
+     *         'data-processing': int,
+     *         firewall: int,
+     *         sleaze: int
+     *     },
+     *     rating?: int,
+     *     programs?: int,
+     *     'container-type': array<int, 'commlink'|'cyberdeck'|'rcc'>
+     * }
      */
     protected function addMatrixAttributes(SimpleXMLElement $gear): array
     {
         $matrix = [];
         if ('' !== (string)$gear->attributearray) {
-            $matrix['attributes'] = explode(',', (string)$gear->attributearray);
+            $attributes = explode(',', (string)$gear->attributearray);
+            array_walk(
+                $attributes,
+                function (string &$value): void {
+                    $value = (int)$value;
+                },
+            );
+            /** @var array<int, int> $attributes */
+            $matrix['attributes'] = $attributes;
         } else {
             $matrix['attributes'] = [
                 'attack' => (int)$gear->attack,
@@ -741,14 +760,13 @@ class ImportChummerData extends Command implements Isolatable
             $matrix['programs'] = (int)$gear->programs;
         }
 
-        // @phpstan-ignore-next-line
         $matrix['container-type'] = [match ((string)$gear->category) {
             'Commlinks' => 'commlink',
             'Cyberdecks' => 'cyberdeck',
             'Cyberterminals' => 'commlink',
             'Rigger Command Consoles' => 'rcc',
+            default => 'commlink',
         }];
-        // @phpstan-ignore-next-line
         return $matrix;
     }
 
@@ -1031,15 +1049,13 @@ class ImportChummerData extends Command implements Isolatable
      * array starting with key 1 for the values. Values are returned as strings
      * since many data points are formulas that need further processing, though
      * some are simple integers.
-     * @return array<int, string>
+     * @return array<int<1, max>, string>
      */
-    protected function fixedValuesToArray(string $values): array
+    public function fixedValuesToArray(string $values): array
     {
         $values = Str::between($values, '(', ')');
-        $values = array_merge([0 => null], explode(',', $values));
-        unset($values[0]);
-        // @phpstan-ignore-next-line
-        return $values;
+        $values = explode(',', $values);
+        return array_combine(range(1, count($values)), $values);
     }
 
     /**
@@ -1048,10 +1064,8 @@ class ImportChummerData extends Command implements Isolatable
      * replaces the word "Rating" with the numerical rating and calculates the
      * formula's result.
      */
-    protected function calculateValueFromFormula(
-        string $formula,
-        int $rating
-    ): int {
+    public function calculateValueFromFormula(string $formula, int $rating): int
+    {
         $formula = Str::replace('Rating', 'Q', $formula);
         $formula = Str::replace(' ', '', $formula);
         $formula = Str::replace('{', '', $formula);

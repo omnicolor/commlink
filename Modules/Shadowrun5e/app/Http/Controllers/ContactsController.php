@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Modules\Shadowrun5e\Http\Requests\ContactCreateRequest;
 use Modules\Shadowrun5e\Models\Character;
+
+use function abort_if;
+use function collect;
+use function response;
 
 /**
  * @psalm-suppress UnusedClass
@@ -18,26 +22,24 @@ use Modules\Shadowrun5e\Models\Character;
 class ContactsController extends Controller
 {
     /**
-     * @psalm-suppress InvalidArgument
      * @psalm-suppress PossiblyUnusedMethod
      */
-    public function index(Character $character): JsonResponse
+    public function index(Request $request, Character $character): JsonResponse
     {
-        /** @var \App\Models\User */
-        $user = Auth::user();
+        /** @var User */
+        $user = $request->user();
 
         $campaign = $character->campaign();
         abort_if(
             $user->email !== $character->owner
             && (null === $campaign || $user->isNot($campaign->gamemaster)),
-            JsonResponse::HTTP_NOT_FOUND
+            JsonResponse::HTTP_NOT_FOUND,
         );
 
         $contacts = collect($character->contacts);
         if (null === $campaign || $user->isNot($campaign->gamemaster)) {
-            // @phpstan-ignore-next-line
-            $contacts->transform(function (array $item): Collection {
-                return collect($item)->except(['gmNotes']);
+            $contacts->transform(function (array $item): array {
+                return collect($item)->except(['gmNotes'])->toArray();
             });
         }
         return response()->json($contacts);

@@ -65,8 +65,7 @@ class ShuffleAll extends Roll
      */
     protected function findAllDecks(): void
     {
-        // @phpstan-ignore-next-line
-        $rows = DB::table('decks')->where('campaign_id', $this->campaign->id)
+        $rows = DB::table('decks')->where('campaign_id', $this->campaign?->id)
             ->where('type', StandardDeck::class)
             ->get();
         foreach ($rows as $row) {

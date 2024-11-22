@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
+use function abort_if;
+use function is_numeric;
+use function redirect;
+use function sprintf;
+use function str_starts_with;
+use function view;
+
 /**
  * @psalm-suppress UnusedClass
  */
@@ -39,34 +46,34 @@ class SettingsController extends Controller
      */
     public function linkDiscord(LinkUserRequest $request): RedirectResponse
     {
-        $serverId = $request->input('server-id');
-        $remoteUserId = $request->input('user-id');
+        $server_id = $request->input('server-id');
+        $remote_user_id = $request->input('user-id');
 
-        // @phpstan-ignore-next-line
-        $userId = $request->user()->id;
+        /** @var int User must be logged in to make the request */
+        $user_id = $request->user()?->id;
 
-        $chatUser = ChatUser::where('server_id', $serverId)
-            ->where('remote_user_id', $remoteUserId)
-            ->where('user_id', $userId)
+        $chat_user = ChatUser::where('server_id', $server_id)
+            ->where('remote_user_id', $remote_user_id)
+            ->where('user_id', $user_id)
             ->where('server_type', ChatUser::TYPE_DISCORD)
             ->first();
-        if (null !== $chatUser) {
+        if (null !== $chat_user) {
             return redirect('settings')
                 ->with('error', 'Discord user already registered.')
                 ->withInput();
         }
 
-        $chatUser = new ChatUser([
-            'server_id' => $serverId,
+        $chat_user = new ChatUser([
+            'server_id' => $server_id,
             'server_type' => ChatUser::TYPE_DISCORD,
-            'remote_user_id' => $remoteUserId,
-            'user_id' => $userId,
+            'remote_user_id' => $remote_user_id,
+            'user_id' => $user_id,
             'verified' => false,
         ]);
-        $chatUser->server_name = $chatUser->getDiscordServerName($serverId);
-        $chatUser->remote_user_name
-            = $chatUser->getDiscordUserName($remoteUserId);
-        $chatUser->save();
+        $chat_user->server_name = $chat_user->getDiscordServerName($server_id);
+        $chat_user->remote_user_name
+            = $chat_user->getDiscordUserName($remote_user_id);
+        $chat_user->save();
 
         return redirect('settings')
             ->with(
@@ -74,13 +81,13 @@ class SettingsController extends Controller
                 [
                     'id' => sprintf(
                         'success-discord-%s-%s',
-                        $serverId,
-                        $remoteUserId,
+                        $server_id,
+                        $remote_user_id,
                     ),
                     'message' => sprintf(
                         'Discord account (%s - %s) linked.',
-                        $chatUser->server_name,
-                        $chatUser->remote_user_name,
+                        $chat_user->server_name,
+                        $chat_user->remote_user_name,
                     ),
                 ],
             );
@@ -88,37 +95,37 @@ class SettingsController extends Controller
 
     public function linkIrc(LinkUserRequest $request): RedirectResponse
     {
-        $serverId = $request->input('server-id');
+        $server_id = $request->input('server-id');
         abort_if(
-            !Str::contains($serverId, ':'),
+            !Str::contains($server_id, ':'),
             RedirectResponse::HTTP_BAD_REQUEST,
             'IRC servers should have both a hostname and a port, like chat.freenode.net:6667',
         );
-        $remoteUserId = $request->input('user-id');
+        $remote_user_id = $request->input('user-id');
 
-        // @phpstan-ignore-next-line
-        $userId = $request->user()->id;
+        /** @var int User must be logged in to make the request */
+        $user_id = $request->user()?->id;
 
-        $chatUser = ChatUser::irc()
-            ->where('server_id', $serverId)
-            ->where('remote_user_id', $remoteUserId)
-            ->where('user_id', $userId)
+        $chat_user = ChatUser::irc()
+            ->where('server_id', $server_id)
+            ->where('remote_user_id', $remote_user_id)
+            ->where('user_id', $user_id)
             ->first();
-        if (null !== $chatUser) {
+        if (null !== $chat_user) {
             return redirect('settings')
                 ->with('error', 'IRC user already registered.')
                 ->withInput();
         }
-        $chatUser = new ChatUser([
-            'server_id' => $serverId,
-            'server_name' => Str::limit(Str::before($serverId, ':'), 50),
+        $chat_user = new ChatUser([
+            'server_id' => $server_id,
+            'server_name' => Str::limit(Str::before($server_id, ':'), 50),
             'server_type' => ChatUser::TYPE_IRC,
-            'remote_user_id' => $remoteUserId,
-            'remote_user_name' => $remoteUserId,
-            'user_id' => $userId,
+            'remote_user_id' => $remote_user_id,
+            'remote_user_name' => $remote_user_id,
+            'user_id' => $user_id,
             'verified' => false,
         ]);
-        $chatUser->save();
+        $chat_user->save();
 
         return redirect('settings')
             ->with(
@@ -126,13 +133,13 @@ class SettingsController extends Controller
                 [
                     'id' => sprintf(
                         'success-irc-%s-%s',
-                        $serverId,
-                        $remoteUserId,
+                        $server_id,
+                        $remote_user_id,
                     ),
                     'message' => sprintf(
                         'IRC account (%s - %s) linked.',
-                        $chatUser->server_name,
-                        $chatUser->remote_user_name,
+                        $chat_user->server_name,
+                        $chat_user->remote_user_name,
                     ),
                 ],
             );
@@ -143,33 +150,33 @@ class SettingsController extends Controller
      */
     protected function linkSlack(LinkUserRequest $request): RedirectResponse
     {
-        $serverId = $request->input('server-id');
-        $remoteUserId = $request->input('user-id');
-        // @phpstan-ignore-next-line
-        $userId = $request->user()->id;
+        $server_id = $request->input('server-id');
+        $remote_user_id = $request->input('user-id');
+        /** @var int User must be logged in to make the request */
+        $user_id = $request->user()?->id;
 
-        $chatUser = ChatUser::where('server_id', $serverId)
-            ->where('remote_user_id', $remoteUserId)
-            ->where('user_id', $userId)
+        $chat_user = ChatUser::where('server_id', $server_id)
+            ->where('remote_user_id', $remote_user_id)
+            ->where('user_id', $user_id)
             ->where('server_type', ChatUser::TYPE_SLACK)
             ->first();
-        if (null !== $chatUser) {
+        if (null !== $chat_user) {
             return redirect('settings')
                 ->with('error', 'Slack user already registered.')
                 ->withInput();
         }
 
-        $chatUser = new ChatUser([
-            'server_id' => $serverId,
+        $chat_user = new ChatUser([
+            'server_id' => $server_id,
             'server_type' => ChatUser::TYPE_SLACK,
-            'remote_user_id' => $remoteUserId,
-            'user_id' => $userId,
+            'remote_user_id' => $remote_user_id,
+            'user_id' => $user_id,
             'verified' => false,
         ]);
-        $chatUser->server_name = $chatUser->getSlackTeamName($serverId);
-        $chatUser->remote_user_name
-            = $chatUser->getSlackUserName($remoteUserId);
-        $chatUser->save();
+        $chat_user->server_name = $chat_user->getSlackTeamName($server_id);
+        $chat_user->remote_user_name
+            = $chat_user->getSlackUserName($remote_user_id);
+        $chat_user->save();
 
         return redirect('settings')
             ->with(
@@ -177,13 +184,13 @@ class SettingsController extends Controller
                 [
                     'id' => sprintf(
                         'success-slack-%s-%s',
-                        $serverId,
-                        $remoteUserId,
+                        $server_id,
+                        $remote_user_id,
                     ),
                     'message' => sprintf(
                         'Slack account (%s - %s) linked.',
-                        $chatUser->server_name,
-                        $chatUser->remote_user_name,
+                        $chat_user->server_name,
+                        $chat_user->remote_user_name,
                     ),
                 ],
             );

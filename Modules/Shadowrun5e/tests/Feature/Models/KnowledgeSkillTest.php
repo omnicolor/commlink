@@ -156,7 +156,7 @@ final class KnowledgeSkillTest extends TestCase
     public function testGetUnknownProperty(): void
     {
         $skill = new KnowledgeSkill('Alcohol', 'interests', 5);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore property.notFound
         self::assertNull($skill->unknown);
     }
 }

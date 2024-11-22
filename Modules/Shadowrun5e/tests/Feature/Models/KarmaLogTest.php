@@ -78,7 +78,7 @@ final class KarmaLogTest extends TestCase
         self::expectExceptionMessage(
             'KarmaLog only accepts KarmaLogEntry objects'
         );
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore offsetAssign.valueType
         $this->log[] = new stdClass();
     }
 
@@ -89,7 +89,7 @@ final class KarmaLogTest extends TestCase
     public function testWrongObjectTypeDoesntAdd(): void
     {
         try {
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore argument.type
             $this->log->offsetSet(entry: new stdClass());
         } catch (TypeError) {
             // Ignore

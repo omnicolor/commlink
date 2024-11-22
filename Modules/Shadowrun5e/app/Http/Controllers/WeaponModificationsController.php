@@ -34,11 +34,13 @@ class WeaponModificationsController extends Controller
             . 'weapon-modifications.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/weapon-modifications';
-        $stat = \stat($this->filename);
-        // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+
         /** @psalm-suppress UnresolvableInclude */
         $this->mods = require $this->filename;
+
+        $stat = \stat($this->filename);
+        assert(false !== $stat); // require() would have failed.
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
     }
 
     /**

@@ -72,7 +72,6 @@ class Tarot extends Roll
         }
 
         try {
-            // @phpstan-ignore-next-line
             $this->card = $this->deck->drawOne();
         } catch (Exception $ex) {
             $this->error = $ex->getMessage();
@@ -87,7 +86,9 @@ class Tarot extends Roll
      */
     protected function findOrCreateDeck(): void
     {
-        // @phpstan-ignore-next-line
+        // Constructor verifies the campaign has been set.
+        assert(null !== $this->campaign);
+
         $decks = TarotDeck::findForCampaign($this->campaign);
         foreach ($decks as $deck) {
             if ($deck instanceof TarotDeck) {
@@ -98,7 +99,6 @@ class Tarot extends Roll
 
         // No deck was found, make a new one.
         $this->deck = new TarotDeck();
-        // @phpstan-ignore-next-line
         $this->deck->campaign_id = $this->campaign->id;
         $this->deck->shuffle();
     }

@@ -34,11 +34,13 @@ class LifestyleZonesController extends Controller
             . 'lifestyle-zones.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/lifestyle-zones';
-        $stat = \stat($this->filename);
-        // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+
         /** @psalm-suppress UnresolvableInclude */
         $this->zones = require $this->filename;
+
+        $stat = \stat($this->filename);
+        assert(false !== $stat); // require() would have failed.
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
     }
 
     /**

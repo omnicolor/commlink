@@ -88,13 +88,13 @@ class KnowledgeSkill extends Skill
 
     public function shortCategory(): string
     {
-        // @phpstan-ignore-next-line
         return match ($this->category) {
             'academic' => 'acad',
             'interests' => 'int',
             'language' => 'lang',
             'professional' => 'prof',
             'street' => 'str',
+            default => 'str',
         };
     }
 }

@@ -60,7 +60,7 @@ final class RoleArrayTest extends TestCase
     {
         self::expectException(TypeError::class);
         self::expectExceptionMessage('RoleArray only accepts Role objects');
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore offsetAssign.valueType
         $this->roles[] = new stdClass();
     }
 
@@ -70,7 +70,7 @@ final class RoleArrayTest extends TestCase
     public function testAddWrongTypeDoesntAdd(): void
     {
         try {
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore argument.type
             $this->roles->offsetSet(role: new stdClass());
         } catch (TypeError) {
             // Ignored

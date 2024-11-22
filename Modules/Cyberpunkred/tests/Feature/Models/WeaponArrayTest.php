@@ -54,7 +54,7 @@ final class WeaponArrayTest extends TestCase
     public function testAddWrongTypeThrowsException(): void
     {
         self::expectException(TypeError::class);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore offsetAssign.valueType
         $this->weapons[] = new stdClass();
     }
 
@@ -65,7 +65,7 @@ final class WeaponArrayTest extends TestCase
     public function testAddWrongTypeDoesntAdd(): void
     {
         try {
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore argument.type
             $this->weapons->offsetSet(weapon: new stdClass());
         } catch (TypeError) {
             // Ignored
