@@ -6,6 +6,8 @@ namespace Database\Factories;
 
 use App\Models\Campaign;
 
+use function array_keys;
+
 /**
  * @extends Factory<Campaign>
  * @method mixed hasChannels(int $count, array<string, ?string> $channel)
@@ -28,7 +30,7 @@ class CampaignFactory extends Factory
             'registered_by' => $this->createUser(),
             'gm' => $this->createUser(),
             'system' => $this->faker->randomElement(
-                \array_keys(config('app.systems'))
+                array_keys(config('app.systems'))
             ),
             'options' => [
                 'gameplay' => 'established',

@@ -48,6 +48,7 @@ $rules = [
     'global_namespace_import' => [
         'import_classes' => true,
         'import_constants' => true,
+        'import_functions' => true,
     ],
     'heredoc_to_nowdoc' => true,
     'implode_call' => true,

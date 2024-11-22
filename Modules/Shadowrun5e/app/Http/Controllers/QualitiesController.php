@@ -8,14 +8,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 use function array_key_exists;
+use function array_values;
 use function config;
 use function date;
 use function json_encode;
 use function response;
 use function sha1;
+use function sha1_file;
 use function sprintf;
 use function stat;
 use function strtolower;
+use function urlencode;
 
 /**
  * Controller for qualities.
@@ -59,18 +62,18 @@ class QualitiesController extends Controller
     public function index(): Response
     {
         foreach (array_keys($this->qualities) as $key) {
-            $this->qualities[$key]['links']['self'] = \sprintf(
+            $this->qualities[$key]['links']['self'] = sprintf(
                 '/api/shadowrun5e/qualities/%s',
-                \urlencode($key)
+                urlencode($key)
             );
             $this->qualities[$key]['ruleset'] ??= 'core';
         }
 
-        $this->headers['Etag'] = \sha1_file($this->filename);
+        $this->headers['Etag'] = sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => \array_values($this->qualities),
+            'data' => array_values($this->qualities),
         ];
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }

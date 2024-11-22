@@ -171,7 +171,7 @@ class DiscordController extends Controller
                 return redirect()
                     ->route('settings')
                     ->withErrors([
-                        'error' => \sprintf(
+                        'error' => sprintf(
                             'Request to Discord failed. Please <a href="%s">try again</a>.',
                             $this->getDiscordOauthURL(),
                         ),
@@ -190,7 +190,7 @@ class DiscordController extends Controller
             return redirect()
                 ->route('settings')
                 ->withErrors([
-                    'error' => \sprintf(
+                    'error' => sprintf(
                         'Request to Discord failed. Please <a href="%s">try again</a>.',
                         $this->getDiscordOauthURL(),
                     ),

@@ -11,6 +11,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function json_decode;
+
 use const PHP_EOL;
 
 #[Group('discord')]
@@ -31,7 +33,7 @@ final class GenericTest extends TestCase
         /** @var Channel */
         $channel = Channel::factory()->make();
         $response = new Generic('3d6', 'username', $channel);
-        $response = \json_decode((string)$response->forSlack());
+        $response = json_decode((string)$response->forSlack());
         self::assertSame('Rolls: 2, 2, 2', $response->attachments[0]->footer);
         self::assertSame(
             'Rolling: 3d6 = [2+2+2] = 6',
@@ -52,7 +54,7 @@ final class GenericTest extends TestCase
         /** @var Channel */
         $channel = Channel::factory()->make();
         $roll = new Generic('4d6 testing', 'user', $channel);
-        $response = \json_decode((string)$roll->forSlack());
+        $response = json_decode((string)$roll->forSlack());
         self::assertSame(
             'Rolls: 3, 3, 3, 3',
             $response->attachments[0]->footer
@@ -86,7 +88,7 @@ final class GenericTest extends TestCase
         /** @var Channel */
         $channel = Channel::factory()->make();
         $roll = new Generic('4+2d10-1*10 foo', 'Bob', $channel);
-        $response = \json_decode((string)$roll->forSlack());
+        $response = json_decode((string)$roll->forSlack());
         self::assertSame('Rolls: 10, 10', $response->attachments[0]->footer);
         self::assertSame(
             'Rolling: 4+2d10-1*10 = 4+[10+10]-1*10 = 14',

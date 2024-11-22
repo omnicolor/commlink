@@ -16,6 +16,9 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function json_decode;
+use function sprintf;
+
 use const PHP_EOL;
 
 #[Group('discord')]
@@ -36,7 +39,7 @@ final class HelpTest extends TestCase
             'type' => Channel::TYPE_SLACK,
         ]);
         $response = (new Help('', 'username', $channel))->forSlack();
-        $response = \json_decode((string)$response);
+        $response = json_decode((string)$response);
         self::assertSame(
             'Commlink - Shadowrun 5th Edition',
             $response->attachments[0]->title
@@ -87,7 +90,7 @@ final class HelpTest extends TestCase
             'type' => Channel::TYPE_SLACK,
         ]);
         $response = (new Help('', 'username', $channel))->forSlack();
-        $response = \json_decode((string)$response);
+        $response = json_decode((string)$response);
         self::assertSame(
             'No character linked' . PHP_EOL
                 . '· `link <characterId>` - Link a character to this channel'
@@ -122,7 +125,7 @@ final class HelpTest extends TestCase
             'verified' => true,
         ]);
         $response = (new Help('', 'username', $channel))->forSlack();
-        $response = \json_decode((string)$response);
+        $response = json_decode((string)$response);
         self::assertSame(
             'No character linked' . PHP_EOL
                 . '· `link <characterId>` - Link a character to this channel'
@@ -180,9 +183,9 @@ final class HelpTest extends TestCase
         ]);
 
         $response = (new Help('', 'username', $channel))->forSlack();
-        $response = \json_decode((string)$response);
+        $response = json_decode((string)$response);
         self::assertSame(
-            \sprintf(
+            sprintf(
                 'You\'re playing %s in this channel' . PHP_EOL
                     . '· `composure` - Make a composure roll (8)' . PHP_EOL
                     . '· `judge` - Make a judge intentions check (5)' . PHP_EOL
@@ -249,9 +252,9 @@ final class HelpTest extends TestCase
         ]);
 
         $response = (new Help('', 'username', $channel))->forSlack();
-        $response = \json_decode((string)$response);
+        $response = json_decode((string)$response);
         self::assertSame(
-            \sprintf(
+            sprintf(
                 'You\'re playing %s in this channel' . PHP_EOL
                     . '· `composure` - Make a composure roll (8)' . PHP_EOL
                     . '· `judge` - Make a judge intentions check (5)' . PHP_EOL
@@ -305,7 +308,7 @@ final class HelpTest extends TestCase
             'verified' => true,
         ]);
         $response = (new Help('', 'username', $channel))->forSlack();
-        $response = \json_decode((string)$response);
+        $response = json_decode((string)$response);
         self::assertSame(
             'Gamemaster commands',
             $response->attachments[1]->title

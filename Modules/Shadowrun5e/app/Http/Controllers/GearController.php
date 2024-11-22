@@ -8,6 +8,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
+use function array_key_exists;
+use function array_values;
+use function date;
+use function json_encode;
+use function sha1;
+use function sha1_file;
+use function sprintf;
+use function stat;
+use function strtolower;
+use function urlencode;
+
 /**
  * Controller for Shadowrun 5E gear.
  * @psalm-suppress UnusedClass
@@ -38,9 +49,9 @@ class GearController extends Controller
         /** @psalm-suppress UnresolvableInclude */
         $this->gear = require $this->filename;
 
-        $stat = \stat($this->filename);
+        $stat = stat($this->filename);
         assert(false !== $stat); // require() would have failed.
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
     }
 
     /**
@@ -55,7 +66,7 @@ class GearController extends Controller
 
         foreach (array_keys($this->gear) as $key) {
             $this->gear[$key]['links'] = [
-                'self' => \sprintf('/api/shadowrun5e/gear/%s', \urlencode($key)),
+                'self' => sprintf('/api/shadowrun5e/gear/%s', urlencode($key)),
             ];
             $this->gear[$key]['ruleset'] ??= 'core';
             if (!$trusted) {
@@ -65,10 +76,10 @@ class GearController extends Controller
 
         $data = [
             'links' => $this->links,
-            'data' => \array_values($this->gear),
+            'data' => array_values($this->gear),
         ];
 
-        $this->headers['Etag'] = \sha1_file($this->filename);
+        $this->headers['Etag'] = sha1_file($this->filename);
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
 
@@ -81,8 +92,8 @@ class GearController extends Controller
         /** @var \App\Models\User */
         $user = Auth::user();
 
-        $id = \strtolower($id);
-        if (!\array_key_exists($id, $this->gear)) {
+        $id = strtolower($id);
+        if (!array_key_exists($id, $this->gear)) {
             // We couldn't find it!
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
@@ -95,7 +106,7 @@ class GearController extends Controller
         $item = $this->gear[$id];
         $item['ruleset'] ??= 'core';
         $item['links']['self'] = $this->links['self'] =
-            \sprintf('/api/shadowrun5e/gear/%s', \urlencode($id));
+            sprintf('/api/shadowrun5e/gear/%s', urlencode($id));
 
         if (!$user->hasPermissionTo('view data')) {
             unset($item['description']);
@@ -106,7 +117,7 @@ class GearController extends Controller
             'data' => $item,
         ];
 
-        $this->headers['Etag'] = \sha1((string)\json_encode($item));
+        $this->headers['Etag'] = sha1((string)json_encode($item));
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
 }

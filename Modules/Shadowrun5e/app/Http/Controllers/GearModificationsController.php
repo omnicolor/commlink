@@ -7,6 +7,17 @@ namespace Modules\Shadowrun5e\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function array_key_exists;
+use function array_values;
+use function date;
+use function json_encode;
+use function sha1;
+use function sha1_file;
+use function sprintf;
+use function stat;
+use function strtolower;
+use function urlencode;
+
 /**
  * Controller for gear modifications.
  * @psalm-suppress UnusedClass
@@ -38,9 +49,9 @@ class GearModificationsController extends Controller
         /** @psalm-suppress UnresolvableInclude */
         $this->mods = require $this->filename;
 
-        $stat = \stat($this->filename);
+        $stat = stat($this->filename);
         assert(false !== $stat); // require() would have failed.
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
     }
 
     /**
@@ -50,20 +61,20 @@ class GearModificationsController extends Controller
     public function index(): Response
     {
         foreach ($this->mods as $key => $value) {
-            $this->mods[$key]['links']['self'] = \sprintf(
+            $this->mods[$key]['links']['self'] = sprintf(
                 '/api/shadowrun5e/gear-modifications/%s',
-                \urlencode($key)
+                urlencode($key)
             );
-            if (!\array_key_exists('ruleset', $value)) {
+            if (!array_key_exists('ruleset', $value)) {
                 $this->mods[$key]['ruleset'] = 'core';
             }
         }
 
-        $this->headers['Etag'] = \sha1_file($this->filename);
+        $this->headers['Etag'] = sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => \array_values($this->mods),
+            'data' => array_values($this->mods),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -75,8 +86,8 @@ class GearModificationsController extends Controller
      */
     public function show(string $id): Response
     {
-        $id = \strtolower($id);
-        if (!\array_key_exists($id, $this->mods)) {
+        $id = strtolower($id);
+        if (!array_key_exists($id, $this->mods)) {
             // We couldn't find it!
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
@@ -88,10 +99,10 @@ class GearModificationsController extends Controller
 
         $mod = $this->mods[$id];
         $mod['links']['self'] = $this->links['self'] =
-            \sprintf('/api/shadowrun5e/gear-modifications/%s', $id);
+            sprintf('/api/shadowrun5e/gear-modifications/%s', $id);
         $mod['ruleset'] ??= 'core';
 
-        $this->headers['Etag'] = \sha1((string)\json_encode($mod));
+        $this->headers['Etag'] = sha1((string)json_encode($mod));
 
         $data = [
             'links' => $this->links,

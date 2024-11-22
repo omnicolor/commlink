@@ -13,6 +13,8 @@ use Exception;
 use Modules\Cyberpunkred\Models\TarotCard;
 use Modules\Cyberpunkred\Models\TarotDeck;
 
+use function explode;
+
 use const PHP_EOL;
 
 /**
@@ -65,7 +67,7 @@ class Tarot extends Roll
         }
         $this->findOrCreateDeck();
 
-        $args = \explode(' ', $content);
+        $args = explode(' ', $content);
         if (1 !== count($args) && 'shuffle' === $args[1]) {
             $this->shuffle = true;
             $this->deck->shuffle();
