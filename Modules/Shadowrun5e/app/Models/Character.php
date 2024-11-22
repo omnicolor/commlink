@@ -847,7 +847,7 @@ class Character extends BaseCharacter implements Stringable
             get: function (): int {
                 return (int)ceil(
                     (
-                        \ceil($this->getEssenceAttribute())
+                        ceil($this->getEssenceAttribute())
                         + $this->getModifiedAttribute('willpower')
                         + ($this->getModifiedAttribute('charisma') * 2)
                     ) / 3

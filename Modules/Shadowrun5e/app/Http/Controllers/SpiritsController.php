@@ -7,6 +7,17 @@ namespace Modules\Shadowrun5e\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function array_key_exists;
+use function array_values;
+use function date;
+use function json_encode;
+use function sha1;
+use function sha1_file;
+use function sprintf;
+use function stat;
+use function strtolower;
+use function urlencode;
+
 /**
  * Spirits API route.
  * @psalm-suppress UnusedClass
@@ -37,9 +48,9 @@ class SpiritsController extends Controller
         /** @psalm-suppress UnresolvableInclude */
         $this->spirits = require $this->filename;
 
-        $stat = \stat($this->filename);
+        $stat = stat($this->filename);
         assert(false !== $stat); // require() would have failed.
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
     }
 
     /**
@@ -48,18 +59,18 @@ class SpiritsController extends Controller
     public function index(): Response
     {
         foreach (array_keys($this->spirits) as $key) {
-            $this->spirits[$key]['links']['self'] = \sprintf(
+            $this->spirits[$key]['links']['self'] = sprintf(
                 '/api/shadowrun5e/spirits/%s',
-                \urlencode($key)
+                urlencode($key)
             );
             $this->spirits[$key]['ruleset'] ??= 'core';
         }
 
-        $this->headers['Etag'] = \sha1_file($this->filename);
+        $this->headers['Etag'] = sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => \array_values($this->spirits),
+            'data' => array_values($this->spirits),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -70,8 +81,8 @@ class SpiritsController extends Controller
      */
     public function show(string $id): Response
     {
-        $id = \strtolower($id);
-        if (!\array_key_exists($id, $this->spirits)) {
+        $id = strtolower($id);
+        if (!array_key_exists($id, $this->spirits)) {
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
                 'detail' => $id . ' not found',
@@ -81,12 +92,12 @@ class SpiritsController extends Controller
         }
 
         $spell = $this->spirits[$id];
-        $spell['links']['self'] = $this->links['self'] = \sprintf(
+        $spell['links']['self'] = $this->links['self'] = sprintf(
             '/api/shadowrun5e/spirits/%s',
-            \urlencode($id)
+            urlencode($id)
         );
 
-        $this->headers['Etag'] = \sha1((string)\json_encode($spell));
+        $this->headers['Etag'] = sha1((string)json_encode($spell));
 
         $data = [
             'links' => $this->links,

@@ -57,7 +57,7 @@ class ActiveSkill extends Skill implements Stringable
 
         $id = strtolower($id);
         if (!isset(self::$skills[$id])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Skill ID "%s" is invalid',
                 $id
             ));

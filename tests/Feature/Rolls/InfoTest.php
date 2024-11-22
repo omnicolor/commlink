@@ -25,6 +25,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function json_decode;
+
 use const PHP_EOL;
 
 #[Medium]
@@ -330,7 +332,7 @@ final class InfoTest extends TestCase
 
         $info = (new Info('info', $this->faker->userName(), $channel, null))
             ->forSlack();
-        $response = \json_decode((string)$info)->attachments[0];
+        $response = json_decode((string)$info)->attachments[0];
         self::assertSame('Debugging Info', $response->title);
         self::assertEquals($expectedFields, $response->fields);
     }

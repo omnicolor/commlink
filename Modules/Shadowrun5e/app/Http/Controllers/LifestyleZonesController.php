@@ -7,6 +7,17 @@ namespace Modules\Shadowrun5e\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function array_key_exists;
+use function array_values;
+use function date;
+use function json_encode;
+use function sha1;
+use function sha1_file;
+use function sprintf;
+use function stat;
+use function strtolower;
+use function urlencode;
+
 /**
  * Controller for Shadowrun 5th Edition lifestyle zones.
  * @psalm-suppress UnusedClass
@@ -38,9 +49,9 @@ class LifestyleZonesController extends Controller
         /** @psalm-suppress UnresolvableInclude */
         $this->zones = require $this->filename;
 
-        $stat = \stat($this->filename);
+        $stat = stat($this->filename);
         assert(false !== $stat); // require() would have failed.
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
     }
 
     /**
@@ -51,18 +62,18 @@ class LifestyleZonesController extends Controller
     {
         foreach (array_keys($this->zones) as $key) {
             $this->zones[$key]['links'] = [
-                'self' => \sprintf(
+                'self' => sprintf(
                     '/api/shadowrun5e/lifestyle-zones/%s',
-                    \urlencode($key)
+                    urlencode($key)
                 ),
             ];
         }
 
-        $this->headers['Etag'] = \sha1_file($this->filename);
+        $this->headers['Etag'] = sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => \array_values($this->zones),
+            'data' => array_values($this->zones),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -74,8 +85,8 @@ class LifestyleZonesController extends Controller
      */
     public function show(string $id): Response
     {
-        $id = \strtolower($id);
-        if (!\array_key_exists($id, $this->zones)) {
+        $id = strtolower($id);
+        if (!array_key_exists($id, $this->zones)) {
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
                 'detail' => $id . ' not found',
@@ -86,8 +97,8 @@ class LifestyleZonesController extends Controller
 
         $zone = $this->zones[$id];
         $this->links['self'] = $zone['links']['self']
-            = \sprintf('/api/shadowrun5e/lifestyle-zones/%s', \urlencode($id));
-        $this->headers['Etag'] = \sha1((string)\json_encode($zone));
+            = sprintf('/api/shadowrun5e/lifestyle-zones/%s', urlencode($id));
+        $this->headers['Etag'] = sha1((string)json_encode($zone));
 
         $data = [
             'links' => $this->links,

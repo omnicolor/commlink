@@ -7,6 +7,17 @@ namespace Modules\Shadowrun5e\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function array_key_exists;
+use function array_values;
+use function date;
+use function json_encode;
+use function sha1;
+use function sha1_file;
+use function sprintf;
+use function stat;
+use function strtolower;
+use function urlencode;
+
 /**
  * Controller for Shadowrun 5th Edition lifestyle options.
  * @psalm-suppress UnusedClass
@@ -38,9 +49,9 @@ class LifestyleOptionsController extends Controller
         /** @psalm-suppress UnresolvableInclude */
         $this->options = require $this->filename;
 
-        $stat = \stat($this->filename);
+        $stat = stat($this->filename);
         assert(false !== $stat); // require() would have failed.
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
     }
 
     /**
@@ -51,18 +62,18 @@ class LifestyleOptionsController extends Controller
     {
         foreach (array_keys($this->options) as $key) {
             $this->options[$key]['links'] = [
-                'self' => \sprintf(
+                'self' => sprintf(
                     '/api/shadowrun5e/lifestyle-options/%s',
-                    \urlencode($key)
+                    urlencode($key)
                 ),
             ];
         }
 
-        $this->headers['Etag'] = \sha1_file($this->filename);
+        $this->headers['Etag'] = sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => \array_values($this->options),
+            'data' => array_values($this->options),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -74,8 +85,8 @@ class LifestyleOptionsController extends Controller
      */
     public function show(string $id): Response
     {
-        $id = \strtolower($id);
-        if (!\array_key_exists($id, $this->options)) {
+        $id = strtolower($id);
+        if (!array_key_exists($id, $this->options)) {
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
                 'detail' => $id . ' not found',
@@ -86,8 +97,8 @@ class LifestyleOptionsController extends Controller
 
         $option = $this->options[$id];
         $this->links['self'] = $option['links']['self']
-            = \sprintf('/api/shadowrun5e/lifestyle-options/%s', \urlencode($id));
-        $this->headers['Etag'] = \sha1((string)\json_encode($option));
+            = sprintf('/api/shadowrun5e/lifestyle-options/%s', urlencode($id));
+        $this->headers['Etag'] = sha1((string)json_encode($option));
 
         $data = [
             'links' => $this->links,

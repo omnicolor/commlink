@@ -10,6 +10,11 @@ use App\Models\Channel;
 use App\Rolls\Roll;
 use Discord\Builders\MessageBuilder;
 
+use function implode;
+use function sprintf;
+
+use const PHP_EOL;
+
 /**
  * Roll a Shadowrun 5E composure test.
  * @psalm-api
@@ -42,7 +47,7 @@ class Composure extends Number
 
     protected function formatTitle(): string
     {
-        return \sprintf(
+        return sprintf(
             '%s rolled %d %s for a composure test',
             $this->username,
             $this->dice,
@@ -52,11 +57,11 @@ class Composure extends Number
 
     protected function formatCriticalGlitch(): void
     {
-        $this->title = \sprintf(
+        $this->title = sprintf(
             '%s critically glitched on a composure roll!',
             $this->username
         );
-        $this->text = \sprintf(
+        $this->text = sprintf(
             'Rolled %d ones with no successes!',
             $this->fails
         );
@@ -73,7 +78,7 @@ class Composure extends Number
     public function forDiscord(): string | MessageBuilder
     {
         if (null !== $this->error) {
-            return \sprintf(
+            return sprintf(
                 '%s, %s',
                 $this->username,
                 $this->error
@@ -85,11 +90,11 @@ class Composure extends Number
     public function forIrc(): string
     {
         if (null !== $this->error) {
-            return \sprintf('%s, %s', $this->username, $this->error);
+            return sprintf('%s, %s', $this->username, $this->error);
         }
 
-        return $this->title . \PHP_EOL
-            . $this->text . \PHP_EOL
-            . 'Rolls: ' . \implode(' ', $this->rolls);
+        return $this->title . PHP_EOL
+            . $this->text . PHP_EOL
+            . 'Rolls: ' . implode(' ', $this->rolls);
     }
 }

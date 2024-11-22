@@ -7,6 +7,7 @@ namespace Modules\Transformers\Models;
 use RuntimeException;
 use Stringable;
 
+use function sprintf;
 use function strtolower;
 
 /**
@@ -34,7 +35,7 @@ class Weapon implements Stringable
 
         $this->id = strtolower($id);
         if (!isset(self::$weapons[$this->id])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Weapon ID "%s" is invalid',
                 $id
             ));
