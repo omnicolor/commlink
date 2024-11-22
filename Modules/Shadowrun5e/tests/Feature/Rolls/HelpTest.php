@@ -16,6 +16,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use const PHP_EOL;
+
 #[Group('discord')]
 #[Group('slack')]
 #[Group('shadowrun')]
@@ -40,10 +42,10 @@ final class HelpTest extends TestCase
             $response->attachments[0]->title
         );
         self::assertSame(
-            'No character linked' . \PHP_EOL
+            'No character linked' . PHP_EOL
                 . '· `link <characterId>` - Link a character to this channel'
-                . \PHP_EOL
-                . '· `init 12+3d6` - Roll your initiative' . \PHP_EOL,
+                . PHP_EOL
+                . '· `init 12+3d6` - Roll your initiative' . PHP_EOL,
             $response->attachments[1]->text
         );
     }
@@ -87,10 +89,10 @@ final class HelpTest extends TestCase
         $response = (new Help('', 'username', $channel))->forSlack();
         $response = \json_decode((string)$response);
         self::assertSame(
-            'No character linked' . \PHP_EOL
+            'No character linked' . PHP_EOL
                 . '· `link <characterId>` - Link a character to this channel'
-                . \PHP_EOL
-                . '· `init 12+3d6` - Roll your initiative' . \PHP_EOL,
+                . PHP_EOL
+                . '· `init 12+3d6` - Roll your initiative' . PHP_EOL,
             $response->attachments[1]->text
         );
     }
@@ -122,10 +124,10 @@ final class HelpTest extends TestCase
         $response = (new Help('', 'username', $channel))->forSlack();
         $response = \json_decode((string)$response);
         self::assertSame(
-            'No character linked' . \PHP_EOL
+            'No character linked' . PHP_EOL
                 . '· `link <characterId>` - Link a character to this channel'
-                . \PHP_EOL
-                . '· `init 12+3d6` - Roll your initiative' . \PHP_EOL,
+                . PHP_EOL
+                . '· `init 12+3d6` - Roll your initiative' . PHP_EOL,
             $response->attachments[1]->text
         );
     }
@@ -181,16 +183,16 @@ final class HelpTest extends TestCase
         $response = \json_decode((string)$response);
         self::assertSame(
             \sprintf(
-                'You\'re playing %s in this channel' . \PHP_EOL
-                    . '· `composure` - Make a composure roll (8)' . \PHP_EOL
-                    . '· `judge` - Make a judge intentions check (5)' . \PHP_EOL
-                    . '· `lift` - Make a lift/carry roll (6)' . \PHP_EOL
-                    . '· `memory` - Make a memory test (6)' . \PHP_EOL
-                    . '· `soak` - Make a soak test (1)' . \PHP_EOL
-                    . '· `luck` - Make a luck (edge) test (6)' . \PHP_EOL
-                    . '· `init` - Roll your initiative (1d6+7)' . \PHP_EOL
-                    . '· `push 6 [limit] [text]` - Push the limit with 6 + your edge (6)' . \PHP_EOL
-                    . '· `blitz` - Blitz initiative (5d6+7)' . \PHP_EOL,
+                'You\'re playing %s in this channel' . PHP_EOL
+                    . '· `composure` - Make a composure roll (8)' . PHP_EOL
+                    . '· `judge` - Make a judge intentions check (5)' . PHP_EOL
+                    . '· `lift` - Make a lift/carry roll (6)' . PHP_EOL
+                    . '· `memory` - Make a memory test (6)' . PHP_EOL
+                    . '· `soak` - Make a soak test (1)' . PHP_EOL
+                    . '· `luck` - Make a luck (edge) test (6)' . PHP_EOL
+                    . '· `init` - Roll your initiative (1d6+7)' . PHP_EOL
+                    . '· `push 6 [limit] [text]` - Push the limit with 6 + your edge (6)' . PHP_EOL
+                    . '· `blitz` - Blitz initiative (5d6+7)' . PHP_EOL,
                 (string)$character,
             ),
             $response->attachments[1]->text
@@ -250,23 +252,23 @@ final class HelpTest extends TestCase
         $response = \json_decode((string)$response);
         self::assertSame(
             \sprintf(
-                'You\'re playing %s in this channel' . \PHP_EOL
-                    . '· `composure` - Make a composure roll (8)' . \PHP_EOL
-                    . '· `judge` - Make a judge intentions check (5)' . \PHP_EOL
-                    . '· `lift` - Make a lift/carry roll (6)' . \PHP_EOL
-                    . '· `memory` - Make a memory test (6)' . \PHP_EOL
-                    . '· `soak` - Make a soak test (1)' . \PHP_EOL
-                    . '· `luck` - Make a luck (edge) test (6)' . \PHP_EOL
-                    . '· `init` - Roll your initiative (1d6+7)' . \PHP_EOL
-                    . '· `push 6 [limit] [text]` - Push the limit with 6 + your edge (6)' . \PHP_EOL
-                    . '· `blitz` - Blitz initiative (5d6+7)' . \PHP_EOL,
+                'You\'re playing %s in this channel' . PHP_EOL
+                    . '· `composure` - Make a composure roll (8)' . PHP_EOL
+                    . '· `judge` - Make a judge intentions check (5)' . PHP_EOL
+                    . '· `lift` - Make a lift/carry roll (6)' . PHP_EOL
+                    . '· `memory` - Make a memory test (6)' . PHP_EOL
+                    . '· `soak` - Make a soak test (1)' . PHP_EOL
+                    . '· `luck` - Make a luck (edge) test (6)' . PHP_EOL
+                    . '· `init` - Roll your initiative (1d6+7)' . PHP_EOL
+                    . '· `push 6 [limit] [text]` - Push the limit with 6 + your edge (6)' . PHP_EOL
+                    . '· `blitz` - Blitz initiative (5d6+7)' . PHP_EOL,
                 (string)$character,
             ),
             $response->attachments[1]->text
         );
         self::assertSame('Technomancer', $response->attachments[2]->title);
         self::assertSame(
-            '· `fade` - Make a test to resist fading (11)' . \PHP_EOL,
+            '· `fade` - Make a test to resist fading (11)' . PHP_EOL,
             $response->attachments[2]->text
         );
         $character->delete();

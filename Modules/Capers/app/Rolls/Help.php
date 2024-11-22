@@ -9,6 +9,8 @@ use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 
+use const PHP_EOL;
+
 /**
  * @psalm-suppress UnusedClass
  */
@@ -29,10 +31,10 @@ class Help extends Roll
         $this->data[] = [
             'title' => \sprintf('%s - Capers', config('app.name')),
             'text' => 'Commlink is a Slack/Discord bot that lets you track '
-                . 'virtual card decks for the Capers RPG system.' . \PHP_EOL
+                . 'virtual card decks for the Capers RPG system.' . PHP_EOL
                 . '· `draw [text]` - Draw a card, with optional text '
-                . '(automatics, perception, etc)' . \PHP_EOL
-                . '· `shuffle` - Shuffle your deck' . \PHP_EOL,
+                . '(automatics, perception, etc)' . PHP_EOL
+                . '· `shuffle` - Shuffle your deck' . PHP_EOL,
             'color' => TextAttachment::COLOR_INFO,
         ];
 
@@ -61,8 +63,8 @@ class Help extends Roll
     {
         $value = '';
         foreach ($this->data as $element) {
-            $value .= \sprintf('**%s**', $element['title']) . \PHP_EOL
-                . $element['text'] . \PHP_EOL;
+            $value .= \sprintf('**%s**', $element['title']) . PHP_EOL
+                . $element['text'] . PHP_EOL;
         }
         return $value;
     }
@@ -71,8 +73,8 @@ class Help extends Roll
     {
         $value = '';
         foreach ($this->data as $element) {
-            $value .= $element['title'] . \PHP_EOL
-                . $element['text'] . \PHP_EOL;
+            $value .= $element['title'] . PHP_EOL
+                . $element['text'] . PHP_EOL;
         }
         return $value;
     }

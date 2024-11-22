@@ -12,8 +12,9 @@ $rules = [
         'operators' => ['=>' => null],
     ],
     'blank_line_after_namespace' => true,
-    'blank_lines_before_namespace' => true,
     'blank_line_after_opening_tag' => true,
+    'blank_lines_before_namespace' => true,
+    'blank_line_between_import_groups' => true,
     'braces_position' => true,
     'cast_spaces' => false,
     'class_attributes_separation' => [
@@ -44,7 +45,10 @@ $rules = [
     'function_declaration' => true,
     'function_to_constant' => true,
     'general_phpdoc_tag_rename' => true,
-    'global_namespace_import' => true,
+    'global_namespace_import' => [
+        'import_classes' => true,
+        'import_constants' => true,
+    ],
     'heredoc_to_nowdoc' => true,
     'implode_call' => true,
     'include' => true,

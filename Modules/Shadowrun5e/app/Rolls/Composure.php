@@ -10,6 +10,8 @@ use App\Models\Channel;
 use App\Rolls\Roll;
 use Discord\Builders\MessageBuilder;
 
+use const PHP_EOL;
+
 /**
  * Roll a Shadowrun 5E composure test.
  * @psalm-api
@@ -88,8 +90,8 @@ class Composure extends Number
             return \sprintf('%s, %s', $this->username, $this->error);
         }
 
-        return $this->title . \PHP_EOL
-            . $this->text . \PHP_EOL
+        return $this->title . PHP_EOL
+            . $this->text . PHP_EOL
             . 'Rolls: ' . \implode(' ', $this->rolls);
     }
 }

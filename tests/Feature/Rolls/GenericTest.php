@@ -11,6 +11,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use const PHP_EOL;
+
 #[Group('discord')]
 #[Group('slack')]
 #[Medium]
@@ -64,8 +66,8 @@ final class GenericTest extends TestCase
             $response->attachments[0]->title
         );
 
-        $expected = '**user rolled 12 for "testing"**' . \PHP_EOL
-            . 'Rolling: 4d6 = [3+3+3+3] = 12' . \PHP_EOL
+        $expected = '**user rolled 12 for "testing"**' . PHP_EOL
+            . 'Rolling: 4d6 = [3+3+3+3] = 12' . PHP_EOL
             . '_Rolls: 3, 3, 3, 3_';
         $discord = $roll->forDiscord();
         self::assertSame($expected, $discord);
@@ -91,8 +93,8 @@ final class GenericTest extends TestCase
             $response->attachments[0]->text
         );
 
-        $expected = '**Bob rolled 14 for "foo"**' . \PHP_EOL
-            . 'Rolling: 4+2d10-1*10 = 4+[10+10]-1*10 = 14' . \PHP_EOL
+        $expected = '**Bob rolled 14 for "foo"**' . PHP_EOL
+            . 'Rolling: 4+2d10-1*10 = 4+[10+10]-1*10 = 14' . PHP_EOL
             . '_Rolls: 10, 10_';
         $discord = $roll->forDiscord();
         self::assertSame($expected, $discord);

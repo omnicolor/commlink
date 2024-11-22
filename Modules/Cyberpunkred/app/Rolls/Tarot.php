@@ -13,6 +13,8 @@ use Exception;
 use Modules\Cyberpunkred\Models\TarotCard;
 use Modules\Cyberpunkred\Models\TarotDeck;
 
+use const PHP_EOL;
+
 /**
  * @psalm-suppress UnusedClass
  */
@@ -130,9 +132,9 @@ class Tarot extends Roll
 
         $attachment = new TextAttachment(
             $this->username . ' drew ' . (string)$this->card,
-            $this->card->getDescription() . \PHP_EOL . \PHP_EOL
+            $this->card->getDescription() . PHP_EOL . PHP_EOL
                 . '*Effect:* '
-                . str_replace('||', \PHP_EOL, $this->card->getEffect()),
+                . str_replace('||', PHP_EOL, $this->card->getEffect()),
             TextAttachment::COLOR_INFO,
         );
         $attachment->addFooter(count($this->deck) . ' cards remain');
@@ -159,9 +161,9 @@ class Tarot extends Roll
         }
 
         return $this->username . ' drew **' . (string)$this->card . '**'
-            . \PHP_EOL . \PHP_EOL . $this->card->getDescription() . \PHP_EOL
-            . \PHP_EOL . '**Effect:** '
-            . str_replace('||', \PHP_EOL, $this->card->getEffect());
+            . PHP_EOL . PHP_EOL . $this->card->getDescription() . PHP_EOL
+            . PHP_EOL . '**Effect:** '
+            . str_replace('||', PHP_EOL, $this->card->getEffect());
     }
 
     /**
@@ -177,9 +179,9 @@ class Tarot extends Roll
             return sprintf('%s shuffled the tarot deck', $this->username);
         }
 
-        return $this->username . ' drew ' . (string)$this->card . \PHP_EOL
-            . \PHP_EOL . $this->card->getDescription() . \PHP_EOL
-            . \PHP_EOL . 'Effect: '
-            . str_replace('||', \PHP_EOL, $this->card->getEffect());
+        return $this->username . ' drew ' . (string)$this->card . PHP_EOL
+            . PHP_EOL . $this->card->getDescription() . PHP_EOL
+            . PHP_EOL . 'Effect: '
+            . str_replace('||', PHP_EOL, $this->card->getEffect());
     }
 }

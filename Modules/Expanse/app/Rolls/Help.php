@@ -9,6 +9,8 @@ use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 
+use const PHP_EOL;
+
 /**
  * Handle a user asking for help.
  * @psalm-suppress UnusedClass
@@ -30,9 +32,9 @@ class Help extends Roll
         $this->data[] = [
             'title' => 'Commlink - The Expanse',
             'text' => 'Commlink is a Slack/Discord bot that lets you roll '
-                . 'dice for The Expanse.' . \PHP_EOL
+                . 'dice for The Expanse.' . PHP_EOL
                 . '· `4 [text]` - Roll 3d6 dice adding 4 to the result with '
-                . 'optional text (automatics, perception, etc)' . \PHP_EOL,
+                . 'optional text (automatics, perception, etc)' . PHP_EOL,
             'color' => TextAttachment::COLOR_INFO,
         ];
     }
@@ -59,8 +61,8 @@ class Help extends Roll
     {
         $value = '';
         foreach ($this->data as $element) {
-            $value .= \sprintf('**%s**', $element['title']) . \PHP_EOL
-            . $element['text'] . \PHP_EOL;
+            $value .= \sprintf('**%s**', $element['title']) . PHP_EOL
+            . $element['text'] . PHP_EOL;
         }
         return $value;
     }
@@ -69,8 +71,8 @@ class Help extends Roll
     {
         $value = '';
         foreach ($this->data as $element) {
-            $value .= $element['title'] . \PHP_EOL
-                . $element['text'] . \PHP_EOL;
+            $value .= $element['title'] . PHP_EOL
+                . $element['text'] . PHP_EOL;
         }
         return $value;
     }
