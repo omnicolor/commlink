@@ -13,6 +13,11 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+/**
+ * If tests in this file fail with `LogicException: An email must have a "From"
+ * or a "Sender" header.` add a value for MAIL_FROM_ADDRESS in your
+ * .env.testing file.
+ */
 #[Group('user')]
 #[Medium]
 final class AuthenticatedSessionControllerTest extends TestCase
