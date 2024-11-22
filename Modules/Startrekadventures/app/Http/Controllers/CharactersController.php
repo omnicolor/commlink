@@ -40,8 +40,7 @@ class CharactersController extends Controller
     {
         $user = $request->user();
         return CharacterResource::collection(
-            // @phpstan-ignore-next-line
-            Character::where('owner', $user->email)->get()
+            Character::where('owner', $user?->email)->get()
         );
     }
 

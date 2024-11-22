@@ -24,6 +24,23 @@ use Modules\Capers\Models\Gear;
 use Modules\Capers\Models\PartialCharacter;
 use Modules\Capers\Models\Power;
 
+use function abort;
+use function abort_if;
+use function array_column;
+use function array_keys;
+use function array_unique;
+use function array_walk;
+use function count;
+use function explode;
+use function optional;
+use function redirect;
+use function route;
+use function sort;
+use function sprintf;
+use function str_replace;
+use function ucfirst;
+use function view;
+
 /**
  * Controller for interacting with Capers characters.
  * @psalm-suppress UnusedClass
@@ -279,8 +296,7 @@ class CharactersController extends Controller
     {
         /** @var User */
         $user = $request->user();
-        /** @var string */
-        $characterId = $request->session()->pull('capers-partial');
+        $characterId = (string)$request->session()->pull('capers-partial');
         /** @var PartialCharacter */
         $partialCharacter = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
@@ -296,8 +312,7 @@ class CharactersController extends Controller
     {
         /** @var User */
         $user = $request->user();
-        /** @var string */
-        $characterId = $request->session()->get('capers-partial');
+        $characterId = (string)$request->session()->get('capers-partial');
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
             ->where('owner', $user->email)
@@ -331,9 +346,6 @@ class CharactersController extends Controller
         return new RedirectResponse(route('capers.create', $request->input('nav')));
     }
 
-    /**
-     * @psalm-suppress InvalidPropertyAssignmentValue
-     */
     public function storeBoosts(BoostsRequest $request): RedirectResponse
     {
         /** @var User */
@@ -361,7 +373,6 @@ class CharactersController extends Controller
             [$powerId, $boostId] = explode('+', (string) $boost);
             $powers[$powerId]['boosts'][] = $boostId;
         }
-        // @phpstan-ignore-next-line
         $character->powers = $powers;
         $character->update();
 
@@ -394,7 +405,7 @@ class CharactersController extends Controller
                 'quantity' => (int)$gearQuantities[$key],
             ];
         }
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore assign.propertyType
         $character->gear = $gear;
 
         $character->update();
@@ -497,8 +508,7 @@ class CharactersController extends Controller
     public function index(Request $request): JsonResource
     {
         return CharacterResource::collection(
-            // @phpstan-ignore-next-line
-            Character::where('owner', $request->user()->email)->get()
+            Character::where('owner', $request->user()?->email)->get()
         );
     }
 

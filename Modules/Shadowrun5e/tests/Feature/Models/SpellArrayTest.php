@@ -55,7 +55,7 @@ final class SpellArrayTest extends TestCase
     public function testAddWrongTypeException(): void
     {
         self::expectException(TypeError::class);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore offsetAssign.valueType
         $this->spells[] = new stdClass();
     }
 
@@ -65,7 +65,7 @@ final class SpellArrayTest extends TestCase
     public function testAddWrongTypeDoesntAdd(): void
     {
         try {
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore argument.type
             $this->spells->offsetSet(spell: new stdClass());
         } catch (TypeError) {
             // Ignored

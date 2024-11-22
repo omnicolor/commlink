@@ -34,11 +34,13 @@ class ComplexFormsController extends Controller
             . 'complex-forms.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/complex-forms';
-        $stat = \stat($this->filename);
-        // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+
         /** @psalm-suppress UnresolvableInclude */
         $this->forms = require $this->filename;
+
+        $stat = \stat($this->filename);
+        assert(false !== $stat); // require() would have failed.
+        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
     }
 
     /**

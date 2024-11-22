@@ -99,8 +99,7 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Attributes that need to be cast to a type.
-     * @phpstan-ignore-next-line
-     * @var array<array-key, mixed>
+     * @var array<string, string>
      */
     protected $casts = [
         'agility' => 'integer',
@@ -172,8 +171,7 @@ class Character extends BaseCharacter implements Stringable
     ];
 
     /**
-     * @phpstan-ignore-next-line
-     * @var array<array-key, string>
+     * @var array<int, string>
      */
     protected $hidden = [
         '_id',
@@ -498,13 +496,15 @@ class Character extends BaseCharacter implements Stringable
             }
 
             try {
+                $specialization = $skill['specialization'] ?? null;
+                if (null !== $specialization) {
+                    $specialization = (string)$specialization;
+                }
                 $skills[] = new KnowledgeSkill(
                     (string)$skill['name'],
                     (string)$skill['category'],
-                    // @phpstan-ignore-next-line
-                    $skill['level'],
-                    // @phpstan-ignore-next-line
-                    $skill['specialization'] ?? null
+                    $skill['level'] ?? 'N',
+                    $specialization,
                 );
             } catch (RuntimeException) {
                 Log::warning(

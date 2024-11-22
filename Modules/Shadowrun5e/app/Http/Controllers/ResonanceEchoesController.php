@@ -8,9 +8,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 use function array_key_exists;
+use function array_values;
+use function config;
+use function date;
 use function json_encode;
+use function response;
+use function route;
 use function sha1;
 use function sha1_file;
+use function stat;
+use function strtolower;
 
 /**
  * Controller for resonance echoes.
@@ -35,11 +42,12 @@ class ResonanceEchoesController extends Controller
         $this->filename = config('shadowrun5e.data_path')
             . 'resonance-echoes.php';
 
-        $stat = stat($this->filename);
-        // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
         /** @psalm-suppress UnresolvableInclude */
         $this->echoes = require $this->filename;
+
+        $stat = stat($this->filename);
+        assert(false !== $stat); // require() would have failed.
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
     }
 
     /**

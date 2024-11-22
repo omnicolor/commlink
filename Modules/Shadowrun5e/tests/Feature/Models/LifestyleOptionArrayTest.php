@@ -68,7 +68,7 @@ final class LifestyleOptionArrayTest extends TestCase
         self::expectExceptionMessage(
             'LifestyleOptionArray only accepts LifestyleOption objects'
         );
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore offsetAssign.valueType
         $this->options[] = new stdClass();
     }
 }

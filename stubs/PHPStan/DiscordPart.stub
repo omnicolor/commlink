@@ -1,0 +1,90 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Discord\Parts;
+
+use ArrayAccess;
+use JsonSerializable;
+use React\Promise\ExtendedPromiseInterface;
+
+/**
+ * @implements ArrayAccess<string, mixed>
+ */
+abstract class Part implements ArrayAccess, JsonSerializable
+{
+    public mixed $scriptData;
+    public bool $created = false;
+
+    public function isPartial(): bool {}
+
+    public function fetch(): ExtendedPromiseInterface {}
+
+    /**
+     * @param array<string, mixed> $attributes
+     */
+    public function fill(array $attributes): void {}
+
+    public function offsetGet(mixed $key): mixed {}
+
+    public function offsetExists(mixed $key): bool {}
+
+    public function offsetSet(mixed $key, mixed $value): void {}
+
+    public function offsetUnset(mixed $key): void {}
+
+    public function serialize(): string {}
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function __serialize(): array {}
+
+    public function unserialize(string $data): void {}
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    public function __unserialize(array $data): void {}
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array {}
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getPublicAttributes(): array {}
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getRawAttributes(): array {}
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getRepositoryAttributes(): array {}
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getCreatableAttributes(): array {}
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getUpdatableAttributes(): array {}
+
+    public function __toString(): string {}
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function __debugInfo(): array {}
+
+    public function __get(string $key): mixed {}
+
+    public function __set(string $key, mixed $value): void {}
+}

@@ -58,7 +58,7 @@ final class IdentityArrayTest extends TestCase
         self::expectExceptionMessage(
             'IdentityArray only accepts Identity objects'
         );
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore offsetAssign.valueType
         $this->identities[] = new stdClass();
     }
 
@@ -68,7 +68,7 @@ final class IdentityArrayTest extends TestCase
     public function testAddWrongTypeDoesntAdd(): void
     {
         try {
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore argument.type
             $this->identities->offsetSet(identity: new stdClass());
         } catch (TypeError) {
             // Ignored
