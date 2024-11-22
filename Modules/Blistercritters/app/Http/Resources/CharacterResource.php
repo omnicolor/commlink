@@ -30,9 +30,7 @@ class CharacterResource extends JsonResource
             'id' => $this->id,
             'campaign_id' => $this->campaign_id,
             'owner' => [
-                // @phpstan-ignore-next-line
                 'id' => $this->user()->id,
-                // @phpstan-ignore-next-line
                 'name' => $this->user()->name,
             ],
             'system' => $this->system,

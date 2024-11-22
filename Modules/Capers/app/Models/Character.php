@@ -25,6 +25,8 @@ use function array_search;
  * @property int $charisma
  * @property string $description
  * @property int $expertise
+ * @property-read GearArray $gear
+ * @property-write array<int, array<string, mixed>> $gear
  * @property ?Identity $identity
  * @property string $id
  * @property int $level
@@ -35,7 +37,7 @@ use function array_search;
  * @property int $perception
  * @property array<int, array<string, string>> $perks
  * @property-read PowerArray $powers
- * @property-write array<int, mixed>|PowerArray $powers
+ * @property-write array<int|string, mixed>|PowerArray $powers
  * @property int $resilience
  * @property SkillArray $skills
  * @property-read int $speed
@@ -64,8 +66,7 @@ class Character extends BaseCharacter
     ];
 
     /**
-     * @var array<array-key, mixed>
-     * @phpstan-ignore-next-line
+     * @var array<string, string>
      */
     protected $casts = [
         'advancement_points' => 'integer',
@@ -118,8 +119,7 @@ class Character extends BaseCharacter
     ];
 
     /**
-     * @var array<array-key, string>
-     * @phpstan-ignore-next-line
+     * @var array<int, string>
      */
     protected $hidden = [
         '_id',
