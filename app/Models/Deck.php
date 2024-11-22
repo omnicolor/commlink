@@ -113,6 +113,7 @@ abstract class Deck implements Countable
      */
     public static function find(int $id): Deck
     {
+        /** @var object{type: string, campaign_id: int, cards: string} */
         $row = DB::table('decks')->find($id);
         if (null === $row) {
             throw new RuntimeException('Deck not found');

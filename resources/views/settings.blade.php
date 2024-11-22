@@ -318,7 +318,7 @@ use Laravel\Pennant\Feature;
                         <div class="accordion-body" id="api-keys-table">
                             <p>
                                 An API token is used to interact directly with
-                                <a href="https://app.swaggerhub.com/apis/omnicolor/Commlink">Commlink's API</a>.
+                                <a href="/openapi/index.html">{{ config('app.name') }}'s API</a>.
                                 If you're not a software developer or don't know
                                 what an API is, this probably isn't something
                                 that you need to use. In fact, unless you are
