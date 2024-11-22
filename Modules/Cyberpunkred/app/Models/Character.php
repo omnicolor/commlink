@@ -23,12 +23,17 @@ use function ksort;
 
 /**
  * Representation of a Cyberpunk Red character sheet.
- * @property-read array<string, ?Armor> $armor
+ * @property-read array{
+ *     head: ?Armor,
+ *     body: ?Armor,
+ *     shield: ?Armor,
+ *     unworn: array<int, Armor>
+ * } $armor
  * @property-write array<string, null|string|Armor> $armor
  * @property int $body
  * @property ?int $campaign_id
  * @property int $cool
- * @property-read int $death_save
+ * @property int $death_save
  * @property int $dexterity
  * @property int $empathy
  * @property int $empathy_current
@@ -66,8 +71,7 @@ class Character extends BaseCharacter implements Stringable
     ];
 
     /**
-     * @phpstan-ignore-next-line
-     * @var array<array-key, mixed>
+     * @var array<string, string>
      */
     protected $casts = [
         'body' => 'integer',
@@ -113,8 +117,7 @@ class Character extends BaseCharacter implements Stringable
     ];
 
     /**
-     * @phpstan-ignore-next-line
-     * @var array<array-key, string>
+     * @var array<int, string>
      */
     protected $hidden = [
         '_id',
