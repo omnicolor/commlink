@@ -45,15 +45,15 @@ final class ConditionArrayTest extends TestCase
     public function testAddWrongTypeException(): void
     {
         self::expectException(TypeError::class);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore offsetAssign.valueType
         $this->array[] = new stdClass();
     }
 
     public function testAddWrongTypeDoesntAdd(): void
     {
         try {
-            // @phpstan-ignore-next-line
-            $this->array->offsetSet(condition: new stdClass());
+            // @phpstan-ignore argument.type
+            $this->array->offsetSet(index: 1, condition: new stdClass());
         } catch (TypeError) {
             // Ignored
         }

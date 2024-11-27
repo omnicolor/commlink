@@ -10,6 +10,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
+use function redirect;
+use function view;
+
 /**
  * @psalm-suppress UnusedClass
  */
@@ -21,8 +24,7 @@ class EmailVerificationPromptController extends Controller
      */
     public function __invoke(Request $request): RedirectResponse | View
     {
-        // @phpstan-ignore-next-line
-        if ($request->user()->hasVerifiedEmail()) {
+        if (null !== $request->user() && $request->user()->hasVerifiedEmail()) {
             return redirect()->intended(RouteServiceProvider::HOME);
         }
         return view('auth.verify-email');

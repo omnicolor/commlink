@@ -55,7 +55,7 @@ final class MartialArtsStyleArrayTest extends TestCase
     public function testAddWrongTypeException(): void
     {
         self::expectException(TypeError::class);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore offsetAssign.valueType
         $this->styles[] = new stdClass();
     }
 
@@ -65,7 +65,7 @@ final class MartialArtsStyleArrayTest extends TestCase
     public function testAddWrongTypeDoesntAdd(): void
     {
         try {
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore argument.type
             $this->styles->offsetSet(style: new stdClass());
         } catch (TypeError) {
             // Ignored

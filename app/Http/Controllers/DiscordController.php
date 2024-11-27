@@ -10,16 +10,18 @@ use App\Models\User;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
-use Laravel\Socialite\AbstractUser as SocialiteUser;
 use Laravel\Socialite\Facades\Socialite;
+use Laravel\Socialite\One\User as SocialiteUser;
 use Laravel\Socialite\Two\InvalidStateException;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
+use function assert;
 use function collect;
 use function count;
 use function redirect;
@@ -29,6 +31,7 @@ use function view;
 
 /**
  * @psalm-suppress UnusedClass
+ * @phpstan-type Guild array{icon: ?string, name: string, snowflake: string}
  */
 class DiscordController extends Controller
 {
@@ -46,9 +49,10 @@ class DiscordController extends Controller
         /** @var User */
         $commlinkUser = Auth::user();
 
-        // @phpstan-ignore-next-line
-        $potentialGuilds = collect($request->session()->pull('guilds'))
-            ->keyBy('snowflake');
+        /** @var array<int, Guild> */
+        $potentialGuilds = $request->session()->pull('guilds');
+        /** @var Collection<string, Guild> */
+        $potentialGuilds = collect($potentialGuilds)->keyBy('snowflake');
         $guilds = $request->input('guilds');
         if (null === $guilds || !is_array($guilds)) {
             return redirect()->route('settings')
@@ -62,6 +66,7 @@ class DiscordController extends Controller
                     ->route('settings')
                     ->withErrors(['error' => 'An invalid Guild ID was found.']);
             }
+            assert(null !== $potentialGuilds[$guild]);
 
             ChatUser::create([
                 'server_id' => $guild,
@@ -116,7 +121,6 @@ class DiscordController extends Controller
 
         Auth::login($user);
         session(['discordUser' => [
-            // @phpstan-ignore-next-line
             'token' => $socialUser->token,
             'avatar' => $socialUser->avatar,
             'snowflake' => $socialUser->id,
@@ -167,7 +171,7 @@ class DiscordController extends Controller
                 return redirect()
                     ->route('settings')
                     ->withErrors([
-                        'error' => \sprintf(
+                        'error' => sprintf(
                             'Request to Discord failed. Please <a href="%s">try again</a>.',
                             $this->getDiscordOauthURL(),
                         ),
@@ -186,7 +190,7 @@ class DiscordController extends Controller
             return redirect()
                 ->route('settings')
                 ->withErrors([
-                    'error' => \sprintf(
+                    'error' => sprintf(
                         'Request to Discord failed. Please <a href="%s">try again</a>.',
                         $this->getDiscordOauthURL(),
                     ),
@@ -205,8 +209,7 @@ class DiscordController extends Controller
             $allGuildsRegistered = true;
             // Check to see if all guilds have already been registered.
             foreach ($guilds as $guild) {
-                // @phpstan-ignore-next-line
-                if (!$registeredGuilds->has($guild['snowflake'])) {
+                if (!$registeredGuilds->has((string)$guild['snowflake'])) {
                     $allGuildsRegistered = false;
                     break;
                 }

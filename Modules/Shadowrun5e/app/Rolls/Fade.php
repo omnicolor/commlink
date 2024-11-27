@@ -10,6 +10,10 @@ use App\Models\Channel;
 use App\Rolls\Roll;
 use Discord\Builders\MessageBuilder;
 
+use function sprintf;
+
+use const PHP_EOL;
+
 /**
  * @psalm-api
  */
@@ -17,7 +21,7 @@ class Fade extends Number
 {
     protected ?string $error = null;
 
-    // @phpstan-ignore-next-line
+    // @phpstan-ignore constructor.missingParentCall (Calls grandparent)
     public function __construct(
         string $content,
         string $character,
@@ -46,7 +50,7 @@ class Fade extends Number
 
     protected function formatTitle(): string
     {
-        return \sprintf(
+        return sprintf(
             '%s rolled %d %s for a fading test',
             $this->username,
             $this->dice,
@@ -65,7 +69,7 @@ class Fade extends Number
     public function forDiscord(): string | MessageBuilder
     {
         if (null !== $this->error) {
-            return \sprintf(
+            return sprintf(
                 '%s, %s',
                 $this->username,
                 $this->error
@@ -77,10 +81,10 @@ class Fade extends Number
     public function forIrc(): string
     {
         if (null !== $this->error) {
-            return \sprintf('%s, %s', $this->username, $this->error);
+            return sprintf('%s, %s', $this->username, $this->error);
         }
-        return $this->title . \PHP_EOL
-            . $this->text . \PHP_EOL
+        return $this->title . PHP_EOL
+            . $this->text . PHP_EOL
             . 'Rolls: ' . implode(' ', $this->rolls);
     }
 }

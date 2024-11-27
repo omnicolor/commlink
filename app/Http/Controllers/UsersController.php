@@ -44,14 +44,18 @@ class UsersController extends Controller
         );
     }
 
-    public function deleteToken(User $user, int $tokenId, Request $request): JsonResponse
-    {
-        $token = Token::findOrFail($tokenId);
+    public function deleteToken(
+        User $user,
+        int $token_id,
+        Request $request,
+    ): JsonResponse {
+        $token = Token::findOrFail($token_id);
+        /** @var User Only authenticated requests can make it here. */
+        $request_user = $request->user();
         abort_if(
             User::class !== $token->tokenable_type
                 || $token->tokenable_id !== $user->id
-                // @phpstan-ignore-next-line
-                || !$request->user()->is($user),
+                || !$request_user->is($user),
             JsonResponse::HTTP_FORBIDDEN,
             'Forbidden',
         );

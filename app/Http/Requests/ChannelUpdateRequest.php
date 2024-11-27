@@ -19,8 +19,8 @@ class ChannelUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        // @phpstan-ignore-next-line
-        return (int)$this->channel->registered_by === $this->user()->id;
+        return null !== $this->user()
+            && (int)$this->channel->registered_by === $this->user()->id;
     }
 
     /**

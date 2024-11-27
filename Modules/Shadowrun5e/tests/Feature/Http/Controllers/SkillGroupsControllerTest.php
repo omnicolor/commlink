@@ -11,77 +11,56 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function count;
+
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
 #[Medium]
 final class SkillGroupsControllerTest extends TestCase
 {
-    /**
-     * Test loading the collection if the config is broken.
-     */
     public function testIndexBrokenConfig(): void
     {
         Config::set('shadowrun5e.data_path', '/tmp/unused/');
-        /** @var User */
-        $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs(User::factory()->create())
             ->getJson(route('shadowrun5e.skill-groups.index'))
             ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
-    /**
-     * Test loading the collection without authentication.
-     */
     public function testNoAuthIndex(): void
     {
-        $this->getJson(route('shadowrun5e.skill-groups.index'))
+        self::getJson(route('shadowrun5e.skill-groups.index'))
             ->assertUnauthorized();
     }
 
-    /**
-     * Test loading the collection as an authenticated user.
-     */
     public function testAuthIndex(): void
     {
-        /** @var User */
-        $user = User::factory()->create();
-        $response = $this->actingAs($user)
+        $response = self::actingAs(User::factory()->create())
             ->getJson(route('shadowrun5e.skill-groups.index'))
             ->assertOk()
             ->assertJsonFragment([
                 'links' => [
-                    'self' => '/api/shadowrun5e/skill-groups/firearms',
+                    'collection' => route('shadowrun5e.skill-groups.index'),
+                    'system' => '/api/shadowrun5e',
                 ],
             ]);
-        self::assertGreaterThanOrEqual(1, \count($response['data']));
+        self::assertGreaterThanOrEqual(1, count($response['data']));
     }
 
-    /**
-     * Test loading an individual group without authentication.
-     */
     public function testNoAuthShow(): void
     {
-        $this->getJson(route('shadowrun5e.skill-groups.show', 'firearms'))
+        self::getJson(route('shadowrun5e.skill-groups.show', 'firearms'))
             ->assertUnauthorized();
     }
 
-    /**
-     * Test loading an invalid group without authentication.
-     */
     public function testNoAuthShowNotFound(): void
     {
-        $this->getJson(route('shadowrun5e.skill-groups.show', 'not-found'))
+        self::getJson(route('shadowrun5e.skill-groups.show', 'not-found'))
             ->assertUnauthorized();
     }
 
-    /**
-     * Test loading an individual group with authentication.
-     */
     public function testAuthShow(): void
     {
-        /** @var User */
-        $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs(User::factory()->create())
             ->getJson(route('shadowrun5e.skill-groups.show', 'firearms'))
             ->assertOk()
             ->assertJson([
@@ -89,20 +68,15 @@ final class SkillGroupsControllerTest extends TestCase
                     'skills' => [],
                     'id' => 'firearms',
                     'links' => [
-                        'self' => '/api/shadowrun5e/skill-groups/firearms',
+                        'self' => route('shadowrun5e.skill-groups.show', 'firearms'),
                     ],
                 ],
             ]);
     }
 
-    /**
-     * Test loading an invalid group with authentication.
-     */
     public function testAuthShowNotFound(): void
     {
-        /** @var User */
-        $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs(User::factory()->create())
             ->getJson(route('shadowrun5e.skill-groups.show', 'not-found'))
             ->assertNotFound();
     }

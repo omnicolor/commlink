@@ -11,6 +11,9 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
 
+use function event;
+use function redirect;
+
 /**
  * @psalm-suppress UnusedClass
  */
@@ -23,8 +26,7 @@ class VerifyEmailController extends Controller
     public function __invoke(
         EmailVerificationRequest $request
     ): RedirectResponse {
-        // @phpstan-ignore-next-line
-        if ($request->user()->hasVerifiedEmail()) {
+        if (null !== $request->user() && $request->user()->hasVerifiedEmail()) {
             return redirect()
                 ->intended(RouteServiceProvider::HOME . '?verified=1');
         }

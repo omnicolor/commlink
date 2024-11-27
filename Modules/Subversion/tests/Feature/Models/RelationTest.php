@@ -105,7 +105,7 @@ final class RelationTest extends TestCase
             new RelationLevel('sponsor'),
         );
         self::expectException(ErrorException::class);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore expr.resultUnused,property.notFound
         $relation->unknown;
     }
 

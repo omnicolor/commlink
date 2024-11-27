@@ -47,8 +47,9 @@ final class CharactersControllerTest extends TestCase
         $characters = PartialCharacter::where('owner', $user->email)->get();
         self::assertCount(1, $characters);
 
-        // @phpstan-ignore-next-line
-        $characters[0]->delete();
+        $character = $characters[0];
+        assert($character instanceof Character);
+        $character->delete();
     }
 
     public function testImplicitlyCreateNew(): void

@@ -12,6 +12,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
+use const PHP_EOL;
+
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
 #[Small]
@@ -140,7 +142,7 @@ final class IdentityTest extends TestCase
                 ],
             ],
         ];
-        $expected = 'Test' . \PHP_EOL
+        $expected = 'Test' . PHP_EOL
             . 'Option "Not Found" was not found for lifestyle "Street"';
         $identity = Identity::fromArray($example);
         self::assertEmpty($identity->lifestyles[0]->options);

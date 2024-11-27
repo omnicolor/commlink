@@ -11,6 +11,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function count;
+
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
 #[Medium]
@@ -53,7 +55,7 @@ final class SpritesControllerTest extends TestCase
                     'self' => '/api/shadowrun5e/sprites/courier',
                 ],
             ]);
-        self::assertGreaterThanOrEqual(1, \count($response['data']));
+        self::assertGreaterThanOrEqual(1, count($response['data']));
     }
 
     /**

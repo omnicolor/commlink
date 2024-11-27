@@ -38,11 +38,7 @@ class Spells extends Component
             $this->charGen = true;
             return;
         }
-        /**
-         * @phpstan-ignore-next-line
-         * @psalm-suppress DocblockTypeContradiction
-         */
-        if (!isset($character->priorities['magic']) || null === $character->priorities['magic']) {
+        if (!isset($character->priorities['magic'])) {
             return;
         }
         if ('technomancer' === $character->priorities['magic']) {

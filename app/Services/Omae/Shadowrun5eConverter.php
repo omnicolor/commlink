@@ -16,6 +16,9 @@ use Modules\Shadowrun5e\Models\Weapon;
 use Modules\Shadowrun5e\Models\WeaponModification;
 use RuntimeException;
 
+use const FILE_IGNORE_NEW_LINES;
+use const FILE_SKIP_EMPTY_LINES;
+
 /**
  * Importer class for Omae Shadowrun 5E profiles.
  * @psalm-suppress UnusedClass
@@ -62,7 +65,7 @@ class Shadowrun5eConverter implements ConverterInterface
         }
         $file = file(
             $filename,
-            \FILE_IGNORE_NEW_LINES | \FILE_SKIP_EMPTY_LINES
+            FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES
         );
         if (false === $file) {
             // @codeCoverageIgnoreStart

@@ -86,9 +86,7 @@ class CharacterResource extends JsonResource
             ),
             'system' => $this->system,
             'owner' => [
-                // @phpstan-ignore-next-line
                 'id' => $this->user()->id,
-                // @phpstan-ignore-next-line
                 'name' => $this->user()->name,
             ],
             'links' => [

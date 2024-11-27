@@ -55,7 +55,7 @@ final class ProgramArrayTest extends TestCase
     public function testAddWrongTypeException(): void
     {
         self::expectException(TypeError::class);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore offsetAssign.valueType
         $this->programs[] = new stdClass();
     }
 
@@ -65,7 +65,7 @@ final class ProgramArrayTest extends TestCase
     public function testAddWrongTypeDoesntAdd(): void
     {
         try {
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore argument.type
             $this->programs->offsetSet(program: new stdClass());
         } catch (TypeError) {
             // Ignored

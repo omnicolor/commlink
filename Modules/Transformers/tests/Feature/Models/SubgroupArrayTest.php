@@ -19,7 +19,7 @@ final class SubgroupArrayTest extends TestCase
     {
         $groups = new SubgroupArray();
         self::expectException(TypeError::class);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore offsetAssign.valueType
         $groups[] = 'test';
     }
 

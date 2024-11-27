@@ -63,9 +63,8 @@ class Skill implements Stringable
 
         $skills = [];
         foreach (self::$skills as $skill) {
-            $skills[$skill['id']] = new Skill($skill['id']);
+            $skills[(string)$skill['id']] = new Skill($skill['id']);
         }
-        // @phpstan-ignore-next-line
         return $skills;
     }
 }
