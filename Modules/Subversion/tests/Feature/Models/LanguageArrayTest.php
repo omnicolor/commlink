@@ -54,7 +54,7 @@ final class LanguageArrayTest extends TestCase
     public function testAddWrongTypeException(): void
     {
         self::expectException(TypeError::class);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore offsetAssign.valueType
         $this->languages[] = new stdClass();
     }
 
@@ -64,8 +64,8 @@ final class LanguageArrayTest extends TestCase
     public function testAddWrongTypeDoesntAdd(): void
     {
         try {
-            // @phpstan-ignore-next-line
-            $this->languages->offsetSet(language: new stdClass());
+            // @phpstan-ignore argument.type
+            $this->languages->offsetSet(index: 0, language: new stdClass());
         } catch (TypeError) {
             // Ignored
         }

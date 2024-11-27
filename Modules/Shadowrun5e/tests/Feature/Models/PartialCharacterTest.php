@@ -22,7 +22,7 @@ final class PartialCharacterTest extends TestCase
         ]);
 
         $loaded = PartialCharacter::find($character->id);
-        // @phpstan-ignore-next-line
+        self::assertInstanceOf(PartialCharacter::class, $loaded);
         self::assertSame('Test SR5E character', $loaded->handle);
         $character->delete();
     }

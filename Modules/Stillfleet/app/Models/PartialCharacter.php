@@ -23,7 +23,7 @@ class PartialCharacter extends Character
         $character->setRawAttributes($attributes, true);
         $character->setConnection($this->connection);
         $character->fireModelEvent('retrieved', false);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore return.type
         return $character;
     }
 

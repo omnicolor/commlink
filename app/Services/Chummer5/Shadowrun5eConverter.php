@@ -83,8 +83,13 @@ class Shadowrun5eConverter implements ConverterInterface
         }
 
         try {
-            // @phpstan-ignore-next-line
-            $this->xml = simplexml_load_file($filename);
+            $xml = simplexml_load_file($filename);
+            if (false === $xml) {
+                // @codeCoverageIgnoreStart
+                throw new RuntimeException('Could not parse XML in Chummer file');
+                // @codeCoverageIgnoreEnd
+            }
+            $this->xml = $xml;
         } catch (ErrorException) {
             throw new RuntimeException('Could not parse XML in Chummer file');
         }
@@ -178,7 +183,7 @@ class Shadowrun5eConverter implements ConverterInterface
                 continue;
             }
 
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore property.dynamicName
             $this->character->$attributeName =
                 (int)$attribute->metatypemin + (int)$attribute->base
                 + (int)$attribute->karma;

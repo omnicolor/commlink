@@ -12,6 +12,8 @@ use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
+use function sprintf;
+
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
 #[Small]
@@ -122,7 +124,7 @@ final class SpiritTest extends TestCase
                 self::assertArrayHasKey(
                     $field,
                     $spirit,
-                    \sprintf('Spirit %s is missing field %s', $key, $field)
+                    sprintf('Spirit %s is missing field %s', $key, $field)
                 );
             }
         }
@@ -137,7 +139,7 @@ final class SpiritTest extends TestCase
             self::assertEquals(
                 $key,
                 $spirit['id'],
-                \sprintf(
+                sprintf(
                     'Spirit %s has mismatched key: %s',
                     $spirit['id'],
                     $key

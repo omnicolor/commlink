@@ -7,6 +7,7 @@ namespace Modules\Cyberpunkred\Models;
 use RuntimeException;
 use Stringable;
 
+use function assert;
 use function in_array;
 use function sprintf;
 use function strtolower;
@@ -36,7 +37,7 @@ class RangedWeapon extends Weapon implements Stringable
     protected function __construct(array $options)
     {
         $this->id = strtolower((string)$options['id']);
-        // @phpstan-ignore-next-line
+        assert(null !== self::$rangedWeapons);
         $weapon = self::$rangedWeapons[$this->id];
         $this->concealable = $weapon['concealable'];
         $this->cost = $weapon['cost'];

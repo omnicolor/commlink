@@ -314,13 +314,11 @@ class CampaignsController extends Controller
             $updatedCampaign = json_decode(
                 (string)(new Patch($document, $patch))->apply()
             );
-            // @phpstan-ignore catch.neverThrown
         } catch (TypeError $ex) {
             abort(JsonResponse::HTTP_BAD_REQUEST, $ex->getMessage());
         } catch (InvalidOperationException $ex) {
             // Will be thrown when using invalid JSON in a patch document.
             abort(JsonResponse::HTTP_BAD_REQUEST, $ex->getMessage());
-            // @phpstan-ignore catch.neverThrown
         } catch (InvalidPointerException $ex) {
             abort(
                 JsonResponse::HTTP_BAD_REQUEST,

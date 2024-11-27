@@ -19,7 +19,7 @@ final class WeaponArrayTest extends TestCase
     {
         $weapons = new WeaponArray();
         self::expectException(TypeError::class);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore offsetAssign.valueType
         $weapons[] = 'test';
     }
 

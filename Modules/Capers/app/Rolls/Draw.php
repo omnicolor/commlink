@@ -13,6 +13,14 @@ use App\Rolls\Roll;
 use Exception;
 use Modules\Capers\Models\StandardDeck;
 
+use function array_slice;
+use function assert;
+use function count;
+use function explode;
+use function implode;
+
+use const PHP_EOL;
+
 /**
  * Handle a user asking for a card.
  * @psalm-suppress UnusedClass
@@ -66,7 +74,7 @@ class Draw extends Roll
             return;
         }
 
-        $args = \explode(' ', $content);
+        $args = explode(' ', $content);
         if (1 !== count($args)) {
             $this->extra = 'for ' . implode(' ', array_slice($args, 1));
         }
@@ -80,11 +88,12 @@ class Draw extends Roll
      */
     protected function findOrCreateDeck(): void
     {
+        // Constructor makes sure $this->campaign is set.
+        assert(null !== $this->campaign);
         try {
             $this->deck = StandardDeck::findForCampaignAndPlayer(
-                // @phpstan-ignore-next-line
                 $this->campaign,
-                $this->username
+                $this->username,
             );
             return;
         } catch (Exception) {
@@ -92,7 +101,6 @@ class Draw extends Roll
         }
 
         $this->deck = new StandardDeck();
-        // @phpstan-ignore-next-line
         $this->deck->campaign_id = $this->campaign->id;
         $this->deck->character_id = $this->username;
         $this->deck->shuffle();
@@ -105,7 +113,7 @@ class Draw extends Roll
         }
 
         return $this->username . ' drew the **' . (string)$this->card . '**'
-            . \PHP_EOL . $this->extra;
+            . PHP_EOL . $this->extra;
     }
 
     public function forIrc(): string
@@ -114,7 +122,7 @@ class Draw extends Roll
             return $this->error;
         }
 
-        return $this->username . ' drew the ' . (string)$this->card . \PHP_EOL
+        return $this->username . ' drew the ' . (string)$this->card . PHP_EOL
             . $this->extra;
     }
 

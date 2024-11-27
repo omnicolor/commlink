@@ -252,13 +252,21 @@ class Vehicle implements Stringable
      */
     public function __get(string $name): ?int
     {
-        $property = 'stock' . ucfirst($name);
-        if (!property_exists($this, $property)) {
+        $attribute = match ($name) {
+            'acceleration' => $this->stockAcceleration,
+            'armor' => $this->stockArmor,
+            'body' => $this->stockBody,
+            'handling' => $this->stockHandling,
+            'handlingOffRoad' => $this->stockHandlingOffRoad,
+            'pilot' => $this->stockPilot,
+            'sensor' => $this->stockSensor,
+            'speed' => $this->stockSpeed,
+            default => null,
+        };
+        if (null === $attribute) {
             return null;
         }
 
-        // @phpstan-ignore-next-line
-        $attribute = $this->$property;
         foreach ($this->modifications as $mod) {
             if (0 === count($mod->effects)) {
                 continue;

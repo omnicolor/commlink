@@ -37,20 +37,6 @@ class CharacterFactory extends Factory
      */
     protected static ?array $socialClasses;
 
-    /**
-     * @psalm-suppress MissingParamType
-     * @psalm-suppress PossiblyUnusedMethod
-     * @phpstan-ignore-next-line
-     */
-    public function __construct(...$args)
-    {
-        parent::__construct(...$args);
-        if (!isset(self::$socialClasses)) {
-            $this->loadBackgrounds();
-            $this->loadSocialClasses();
-        }
-    }
-
     protected function loadBackgrounds(): void
     {
         $filename = (string)config('expanse.data_path') . 'backgrounds.php';
@@ -79,6 +65,10 @@ class CharacterFactory extends Factory
      */
     public function definition(): array
     {
+        if (!isset(self::$socialClasses)) {
+            $this->loadBackgrounds();
+            $this->loadSocialClasses();
+        }
         return [
             'background' => (string)$this->faker->randomElement(self::$backgrounds),
             'focuses' => [

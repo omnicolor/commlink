@@ -8,6 +8,8 @@ use App\Models\Campaign as BaseCampaign;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Shadowrun5e\Database\Factories\CampaignFactory;
 
+use function assert;
+
 class Campaign extends BaseCampaign
 {
     /**
@@ -22,7 +24,7 @@ class Campaign extends BaseCampaign
                 if (!isset($contacts[(string)$contact])) {
                     $contacts[(string)$contact] = $contact;
                 }
-                // @phpstan-ignore-next-line
+                assert(null !== $contacts[(string)$contact]);
                 $contacts[(string)$contact]->characters[] = [
                     'character' => (string)$character,
                     'loyalty' => $contact->loyalty,

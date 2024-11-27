@@ -55,7 +55,7 @@ final class AugmentationArrayTest extends TestCase
     public function testAddWrongTypeException(): void
     {
         $this->expectException(TypeError::class);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore offsetAssign.valueType
         $this->augmentations[] = new stdClass();
     }
 
@@ -65,7 +65,7 @@ final class AugmentationArrayTest extends TestCase
     public function testAddWrongTypeDoesntAdd(): void
     {
         try {
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore argument.type
             $this->augmentations->offsetSet(augmentation: new stdClass());
         } catch (TypeError) {
             // Ignored

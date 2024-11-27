@@ -12,6 +12,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function sprintf;
+
 #[Group('expanse')]
 #[Medium]
 final class CharactersControllerTest extends TestCase
@@ -183,7 +185,7 @@ final class CharactersControllerTest extends TestCase
 
         self::actingAs($user)
             ->get(
-                \sprintf('/characters/expanse/%s', $character->id),
+                sprintf('/characters/expanse/%s', $character->id),
                 ['character' => $character, 'user' => $user]
             )
             ->assertSee($user->email)

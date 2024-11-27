@@ -61,8 +61,7 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Attributes that need to be cast to a type.
-     * @phpstan-ignore-next-line
-     * @var array<array-key, mixed>
+     * @var array<string, string>
      */
     protected $casts = [
         'agility' => 'integer',
@@ -114,8 +113,7 @@ class Character extends BaseCharacter implements Stringable
     ];
 
     /**
-     * @phpstan-ignore-next-line
-     * @var array<array-key, string>
+     * @var array<int, string>
      */
     protected $hidden = [
         '_id',

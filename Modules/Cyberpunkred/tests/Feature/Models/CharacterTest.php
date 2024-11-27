@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Cyberpunkred\Tests\Feature\Models;
 
+use Modules\Cyberpunkred\Models\Armor;
 use Modules\Cyberpunkred\Models\Character;
 use Modules\Cyberpunkred\Models\Role\Fixer;
+use Modules\Cyberpunkred\Models\Skill;
 use Modules\Cyberpunkred\Models\Weapon;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -84,22 +86,20 @@ final class CharacterTest extends TestCase
                 'unworn' => ['light-armorjack'],
             ],
         ]);
-        // @phpstan-ignore-next-line
-        self::assertSame('Light armorjack', $character->armor['head']->type);
-        // @phpstan-ignore-next-line
-        self::assertSame('Metalgear', $character->armor['body']->type);
-        // @phpstan-ignore-next-line
-        self::assertSame('Bulletproof shield', $character->armor['shield']->type);
-        // @phpstan-ignore-next-line
-        self::assertSame('Light armorjack', $character->armor['unworn'][0]->type);
+        self::assertSame('Light armorjack', $character->armor['head']?->type);
+        self::assertSame('Metalgear', $character->armor['body']?->type);
+        self::assertSame('Bulletproof shield', $character->armor['shield']?->type);
+        self::assertArrayHasKey(0, $character->armor['unworn']);
+        $unworn_armor = $character->armor['unworn'][0];
+        self::assertInstanceOf(Armor::class, $unworn_armor);
+        self::assertSame('Light armorjack', $unworn_armor->type);
     }
 
     public function testSetArmor(): void
     {
         $character = new Character();
         $character->armor = ['head' => 'light-armorjack'];
-        // @phpstan-ignore-next-line
-        self::assertSame('Light armorjack', $character->armor['head']->type);
+        self::assertSame('Light armorjack', $character->armor['head']?->type);
     }
 
     /**
@@ -115,7 +115,6 @@ final class CharacterTest extends TestCase
     public function testSetDeathSave(): void
     {
         $character = new Character(['body' => 5]);
-        // @phpstan-ignore-next-line
         $character->death_save = 10;
         self::assertSame(5, $character->death_save);
     }
@@ -256,8 +255,9 @@ final class CharacterTest extends TestCase
     {
         $character = new Character(['skills' => ['business' => 1]]);
         self::assertNotEmpty($character->getSkills());
-        // @phpstan-ignore-next-line
-        self::assertSame(1, $character->getSkills()[0]->level);
+        $skill = $character->getSkills()[0];
+        self::assertInstanceOf(Skill::class, $skill);
+        self::assertSame(1, $skill->level);
     }
 
     /**
@@ -300,11 +300,13 @@ final class CharacterTest extends TestCase
         $character = new Character();
         $skills = $character->getSkillsByCategory();
         self::assertArrayHasKey('Awareness', $skills);
+        $skill = $skills['Awareness'][0];
+        self::assertInstanceOf(Skill::class, $skill);
+        self::assertSame(0, $skill->level);
         self::assertArrayHasKey('Education', $skills);
-        // @phpstan-ignore-next-line
-        self::assertSame(0, $skills['Awareness'][0]->level);
-        // @phpstan-ignore-next-line
-        self::assertSame(0, $skills['Education'][0]->level);
+        $skill = $skills['Education'][0];
+        self::assertInstanceOf(Skill::class, $skill);
+        self::assertSame(0, $skill->level);
     }
 
     /**

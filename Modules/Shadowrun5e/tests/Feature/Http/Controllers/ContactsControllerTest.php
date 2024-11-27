@@ -11,6 +11,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function sprintf;
+
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
 #[Medium]
@@ -30,7 +32,7 @@ final class ContactsControllerTest extends TestCase
         ]);
 
         self::actingAs($user)
-            ->get(\sprintf('/api/shadowrun5e/characters/%s/contacts', $character->id))
+            ->get(sprintf('/api/shadowrun5e/characters/%s/contacts', $character->id))
             ->assertNotFound();
         $character->delete();
     }
@@ -59,7 +61,7 @@ final class ContactsControllerTest extends TestCase
         ]);
 
         self::actingAs($user)
-            ->get(\sprintf('/api/shadowrun5e/characters/%s/contacts', $character->id))
+            ->get(sprintf('/api/shadowrun5e/characters/%s/contacts', $character->id))
             ->assertOk()
             ->assertJsonFragment(['name' => 'Dodger'])
             ->assertJsonMissing(['gmNotes' => 'Legendary']);
@@ -94,7 +96,7 @@ final class ContactsControllerTest extends TestCase
         ]);
 
         self::actingAs($user)
-            ->get(\sprintf('/api/shadowrun5e/characters/%s/contacts', $character->id))
+            ->get(sprintf('/api/shadowrun5e/characters/%s/contacts', $character->id))
             ->assertNotFound();
         $character->delete();
     }
@@ -130,7 +132,7 @@ final class ContactsControllerTest extends TestCase
         ]);
 
         self::actingAs($user)
-            ->get(\sprintf('/api/shadowrun5e/characters/%s/contacts', $character->id))
+            ->get(sprintf('/api/shadowrun5e/characters/%s/contacts', $character->id))
             ->assertOk()
             ->assertJsonFragment(['name' => 'Dodger'])
             ->assertJsonFragment(['gmNotes' => 'Legendary']);
@@ -155,7 +157,7 @@ final class ContactsControllerTest extends TestCase
 
         self::actingAs($user)
             ->postJson(
-                \sprintf('/api/shadowrun5e/characters/%s/contacts', $character->id),
+                sprintf('/api/shadowrun5e/characters/%s/contacts', $character->id),
                 []
             )
             ->assertForbidden();
@@ -192,7 +194,7 @@ final class ContactsControllerTest extends TestCase
 
         self::actingAs($user)
             ->postJson(
-                \sprintf('/api/shadowrun5e/characters/%s/contacts', $character->id),
+                sprintf('/api/shadowrun5e/characters/%s/contacts', $character->id),
                 []
             )
             ->assertForbidden();
@@ -230,7 +232,7 @@ final class ContactsControllerTest extends TestCase
 
         self::actingAs($user)
             ->postJson(
-                \sprintf('/api/shadowrun5e/characters/%s/contacts', $character->id),
+                sprintf('/api/shadowrun5e/characters/%s/contacts', $character->id),
                 [
                     'archetype' => 'Fixer',
                     'name' => 'Bob Loblaw',

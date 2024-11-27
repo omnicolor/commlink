@@ -58,7 +58,7 @@ final class QualityArrayTest extends TestCase
         self::expectExceptionMessage(
             'QualityArray only accepts Quality objects'
         );
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore offsetAssign.valueType
         $this->qualities[] = new stdClass();
     }
 
@@ -68,7 +68,7 @@ final class QualityArrayTest extends TestCase
     public function testAddWrongTypeDoesntAdd(): void
     {
         try {
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore argument.type
             $this->qualities->offsetSet(quality: new stdClass());
         } catch (TypeError) {
             // Ignored

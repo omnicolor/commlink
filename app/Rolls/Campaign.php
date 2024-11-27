@@ -111,10 +111,8 @@ class Campaign extends Roll
         $this->message = sprintf(
             '%s has registered this channel for the "%s" campaign, playing %s.',
             $this->channel->username,
-            // @phpstan-ignore-next-line
-            $this->campaign->name,
-            // @phpstan-ignore-next-line
-            $this->campaign->getSystem()
+            $this->campaign?->name ?? 'Unknown',
+            $this->campaign?->getSystem() ?? 'Unknown',
         );
     }
 

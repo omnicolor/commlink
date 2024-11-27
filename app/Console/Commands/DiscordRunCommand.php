@@ -69,8 +69,7 @@ class DiscordRunCommand extends Command
         $discord->on(
             Event::MESSAGE_CREATE,
             function (Message $message, Discord $discord): void {
-                // @phpstan-ignore-next-line
-                if ($message->author->bot) {
+                if (true === $message->author?->bot) {
                     $this->handleBotMessages($message);
                     return;
                 }

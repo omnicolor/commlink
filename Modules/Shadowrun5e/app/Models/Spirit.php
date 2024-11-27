@@ -12,7 +12,6 @@ use Stringable;
 use function array_merge;
 use function array_shift;
 use function config;
-use function in_array;
 use function preg_match;
 use function sprintf;
 use function str_replace;
@@ -215,34 +214,27 @@ class Spirit implements Stringable
     public function __call(string $name, array $arguments): int
     {
         $attribute = strtolower(str_replace('get', '', $name));
-        $attributes = [
-            'agility',
-            'body',
-            'charisma',
-            'edge',
-            'essence',
-            'intuition',
-            'logic',
-            'magic',
-            'reaction',
-            'strength',
-            'willpower',
-        ];
-        if (!in_array($attribute, $attributes, true)) {
-            throw new BadMethodCallException(sprintf(
+        $attribute = match ($attribute) {
+            'agility' => $this->agility,
+            'body' => $this->body,
+            'charisma' => $this->charisma,
+            'edge' => $this->edge,
+            'essence' => $this->essence,
+            'intuition' => $this->intuition,
+            'logic' => $this->logic,
+            'magic' => $this->magic,
+            'reaction' => $this->reaction,
+            'strength' => $this->strength,
+            'willpower' => $this->willpower,
+            default => throw new BadMethodCallException(sprintf(
                 '%s is not an attribute of spirits',
                 ucfirst($attribute)
-            ));
-        }
+            )),
+        };
         if (null === $this->force) {
             throw new RuntimeException('Force has not been set');
         }
-        return self::convertFormula(
-            // @phpstan-ignore-next-line
-            $this->$attribute,
-            'F',
-            $this->force
-        );
+        return self::convertFormula($attribute, 'F', $this->force);
     }
 
     public function __toString(): string

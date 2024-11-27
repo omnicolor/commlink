@@ -44,20 +44,6 @@ class PartialCharacter extends Character implements Stringable
         return PartialCharacterFactory::new();
     }
 
-    public function newFromBuilder(
-        $attributes = [],
-        $connection = null,
-    ): PartialCharacter {
-        $character = new self($attributes);
-        $character->exists = true;
-        $character->setRawAttributes($attributes, true);
-        $character->setConnection($this->connection);
-        $character->fireModelEvent('retrieved', false);
-        $character->fillable[] = 'errors';
-        // @phpstan-ignore-next-line
-        return $character;
-    }
-
     /**
      * Return the starting maximum for a character based on their metatype and
      * qualities.
@@ -110,8 +96,6 @@ class PartialCharacter extends Character implements Stringable
     public function isMagicallyActive(): bool
     {
         return isset($this->priorities, $this->priorities['magic'])
-            // @phpstan-ignore-next-line
-            && null !== $this->priorities['magic']
             && 'technomancer' !== $this->priorities['magic'];
     }
 
@@ -121,8 +105,6 @@ class PartialCharacter extends Character implements Stringable
     public function isTechnomancer(): bool
     {
         return isset($this->priorities, $this->priorities['magic'])
-            // @phpstan-ignore-next-line
-            && null !== $this->priorities['magic']
             && 'technomancer' === $this->priorities['magic'];
     }
 
@@ -310,5 +292,19 @@ class PartialCharacter extends Character implements Stringable
             }
         }
         return $errors;
+    }
+
+    public function newFromBuilder(
+        $attributes = [],
+        $connection = null,
+    ): PartialCharacter {
+        $character = new self($attributes);
+        $character->exists = true;
+        $character->setRawAttributes($attributes, true);
+        $character->setConnection($this->connection);
+        $character->fireModelEvent('retrieved', false);
+        $character->fillable[] = 'errors';
+        // @phpstan-ignore return.type
+        return $character;
     }
 }

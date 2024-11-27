@@ -1,0 +1,130 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Discord\Parts\Channel;
+
+use Carbon\Carbon;
+use Discord\Builders\MessageBuilder;
+use Discord\Helpers\Collection;
+use Discord\Parts\Embed\Embed;
+use Discord\Parts\Guild\Emoji;
+use Discord\Parts\Part;
+use Discord\Parts\User\Member;
+use Discord\Parts\User\User;
+use Discord\Parts\Guild\Guild;
+use Discord\Parts\WebSockets\MessageInteraction;
+use React\Promise\ExtendedPromiseInterface;
+
+/**
+ * @property string $id
+ * @property string $channel_id
+ * @property Channel|null $channel
+ * @property string|null $guild_id
+ * @property Guild|null $guild
+ * @property User|null $author
+ * @property string|null $user_id
+ * @property Member|null $member
+ * @property string $content
+ * @property Carbon $timestamp
+ * @property Carbon|null $edited_timestamp
+ * @property bool $tts
+ * @property bool $mention_everyone
+ * @property Collection|User[] $mentions
+ * @property Collection|Channel[] $mention_channels
+ * @property Collection|Attachment[] $attachments
+ * @property Collection|Embed[] $embeds
+ * @property string|null $nonce
+ * @property bool $pinned
+ * @property string|null $webhook_id
+ * @property int $type
+ * @property object|null $activity
+ * @property object|null $application
+ * @property string|null $application_id
+ * @property object|null $message_reference
+ * @property int|null $flags
+ * @property Message|null $referenced_message
+ * @property MessageInteraction|null $interaction
+ * @property bool $crossposted
+ * @property bool $is_crosspost
+ * @property bool $suppress_embeds
+ * @property bool $source_message_deleted
+ * @property bool $urgent
+ * @property bool $has_thread
+ * @property bool $ephemeral
+ * @property bool $loading
+ * @property bool $failed_to_mention_some_roles_in_thread
+ * @property string|null $link
+ */
+class Message extends Part
+{
+    public const TYPE_NORMAL = 0;
+    public const TYPE_USER_ADDED = 1;
+    public const TYPE_USER_REMOVED = 2;
+    public const TYPE_CALL = 3;
+    public const TYPE_CHANNEL_NAME_CHANGE = 4;
+    public const TYPE_CHANNEL_ICON_CHANGE = 5;
+    public const CHANNEL_PINNED_MESSAGE = 6;
+    public const TYPE_USER_JOIN = 7;
+    public const TYPE_GUILD_BOOST = 8;
+    public const TYPE_GUILD_BOOST_TIER_1 = 9;
+    public const TYPE_GUILD_BOOST_TIER_2 = 10;
+    public const TYPE_GUILD_BOOST_TIER_3 = 11;
+    public const CHANNEL_FOLLOW_ADD = 12;
+    public const GUILD_DISCOVERY_DISQUALIFIED = 14;
+    public const GUILD_DISCOVERY_REQUALIFIED = 15;
+    public const GUILD_DISCOVERY_GRACE_PERIOD_INITIAL_WARNING = 16;
+    public const GUILD_DISCOVERY_GRACE_PERIOD_FINAL_WARNING = 17;
+    public const TYPE_THREAD_CREATED = 18;
+    public const TYPE_REPLY = 19;
+    public const TYPE_APPLICATION_COMMAND = 20;
+    public const TYPE_THREAD_STARTER_MESSAGE = 21;
+    public const TYPE_GUILD_INVITE_REMINDER = 22;
+    public const TYPE_CONTEXT_MENU_COMMAND = 23;
+    public const TYPE_AUTO_MODERATION_ACTION = 24;
+
+    /** @deprecated 7.1.0 Use `Message::TYPE_USER_JOIN` */
+    public const GUILD_MEMBER_JOIN = 7;
+    /** @deprecated 7.1.0 Use `Message::TYPE_GUILD_BOOST` */
+    public const USER_PREMIUM_GUILD_SUBSCRIPTION = 8;
+    /** @deprecated 7.1.0 Use `Message::TYPE_GUILD_BOOST_TIER_1` */
+    public const USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_1 = 9;
+    /** @deprecated 7.1.0 Use `Message::TYPE_GUILD_BOOST_TIER_2` */
+    public const USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_2 = 10;
+    /** @deprecated 7.1.0 Use `Message::TYPE_GUILD_BOOST_TIER_3` */
+    public const USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_3 = 11;
+
+    public const ACTIVITY_JOIN = 1;
+    public const ACTIVITY_SPECTATE = 2;
+    public const ACTIVITY_LISTEN = 3;
+    public const ACTIVITY_JOIN_REQUEST = 5;
+
+    public const REACT_DELETE_ALL = 0;
+    public const REACT_DELETE_ME = 1;
+    public const REACT_DELETE_ID = 2;
+    public const REACT_DELETE_EMOJI = 3;
+
+    public const FLAG_CROSSPOSTED = (1 << 0);
+    public const FLAG_IS_CROSSPOST = (1 << 1);
+    public const FLAG_SUPPRESS_EMBED = (1 << 2);
+    public const FLAG_SOURCE_MESSAGE_DELETED = (1 << 3);
+    public const FLAG_URGENT = (1 << 4);
+    public const FLAG_HAS_THREAD = (1 << 5);
+    public const FLAG_EPHEMERAL = (1 << 6);
+    public const FLAG_LOADING = (1 << 7);
+    public const FLAG_FAILED_TO_MENTION_SOME_ROLES_IN_THREAD = (1 << 8);
+
+    public function getLinkAttribute(): null|string {}
+    public function reply(MessageBuilder|string $message): ExtendedPromiseInterface {}
+    public function crosspost(): ExtendedPromiseInterface {}
+    public function react(Emoji|string $emoticon): ExtendedPromiseInterface {}
+    public function deleteReaction(int $type, Emoji|string|null $emoticon = null, null|string $id = null): ExtendedPromiseInterface {}
+    public function edit(MessageBuilder $message): ExtendedPromiseInterface {}
+    public function delete(): ExtendedPromiseInterface {}
+
+    /**
+     * @param array{limit: false|int, time: false|int} $options
+     */
+    public function createReactionCollector(callable $filter, array $options = []): ExtendedPromiseInterface {}
+    public function addEmbed(Embed $embed): ExtendedPromiseInterface {}
+}

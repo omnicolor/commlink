@@ -61,7 +61,7 @@ final class ContactArrayTest extends TestCase
     public function testAddWrongTypeException(): void
     {
         self::expectException(TypeError::class);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore offsetAssign.valueType
         $this->contacts[] = new stdClass();
         self::assertEmpty($this->contacts);
     }
@@ -72,7 +72,7 @@ final class ContactArrayTest extends TestCase
     public function testAddWrongTypeDoesntAdd(): void
     {
         try {
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore argument.type
             $this->contacts->offsetSet(contact: new stdClass());
         } catch (TypeError) {
             // Ignored

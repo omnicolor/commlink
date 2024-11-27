@@ -12,6 +12,7 @@ use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function explode;
+use function json_decode;
 
 use const PHP_EOL;
 
@@ -32,7 +33,7 @@ final class NumberTest extends TestCase
 
         /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'expanse']);
-        $response = \json_decode(
+        $response = json_decode(
             (string)(new Number('5', 'user', $channel))->forSlack()
         );
         self::assertCount(1, $response->attachments);

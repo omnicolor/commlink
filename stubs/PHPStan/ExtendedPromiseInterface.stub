@@ -1,0 +1,18 @@
+<?php
+
+declare(strict_types=1);
+
+namespace React\Promise;
+
+interface ExtendedPromiseInterface extends PromiseInterface
+{
+    public function done(
+        callable|null $onFulfilled = null,
+        callable|null $onRejected = null,
+        callable|null $onProgress = null
+    ): void;
+
+    public function otherwise(callable $onRejected): self;
+
+    public function always(callable $onFulfilledOrRejected): self;
+}

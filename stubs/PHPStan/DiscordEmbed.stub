@@ -1,0 +1,43 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Discord\Parts\Embed;
+
+use Carbon\Carbon;
+use Discord\Helpers\Collection;
+use Discord\Parts\Part;
+
+/**
+ * @property string|null $title
+ * @property string|null $type
+ * @property string|null $description
+ * @property string|null $url
+ * @property Carbon|null $timestamp
+ * @property int|null $color
+ * @property Footer|null $footer
+ * @property Image|null $image
+ * @property Image|null $thumbnail
+ * @property Video|null $video
+ * @property object|null $provider
+ * @property Author|null $author
+ * @property Collection|Field[] $fields
+ */
+class Embed extends Part
+{
+    public const TYPE_RICH = 'rich';
+    public const TYPE_IMAGE = 'image';
+    public const TYPE_VIDEO = 'video';
+    public const TYPE_GIFV = 'gifv';
+    public const TYPE_ARTICLE = 'article';
+    public const TYPE_LINK = 'link';
+
+    public function setTitle(string $title): self {}
+    public function setType(string $type): self {}
+    public function setDescription(string $description): self {}
+    public function setColor(int|null $color): self {}
+    public function setAuthor(string $name, null|string $iconurl = null, null|string $url = null): self {}
+    public function setFooter(string $text, null|string $iconurl = null): self {}
+    public function setTimestamp(int|null $timestamp = null): self {}
+    public function setURL(string $url): self {}
+}

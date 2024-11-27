@@ -6,6 +6,7 @@ namespace Modules\Transformers\Models;
 
 use RuntimeException;
 
+use function sprintf;
 use function strtolower;
 
 /**
@@ -43,7 +44,7 @@ class Subgroup
 
         $this->id = strtolower($id);
         if (!isset(self::$subgroups[$this->id])) {
-            throw new RuntimeException(\sprintf(
+            throw new RuntimeException(sprintf(
                 'Subgroup ID "%s" is invalid',
                 $id
             ));

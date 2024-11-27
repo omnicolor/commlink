@@ -9,6 +9,7 @@ use Stringable;
 
 use function array_key_exists;
 use function array_merge;
+use function assert;
 use function config;
 use function sprintf;
 use function str_contains;
@@ -238,8 +239,7 @@ class Weapon implements Stringable
     {
         $cost = (int)$this->cost;
         foreach ($this->modifications as $mod) {
-            // Modifications are guaranteed to not be null.
-            // @phpstan-ignore-next-line
+            assert(null !== $mod);
             $cost += $mod->getCost($this);
         }
         foreach ($this->accessories as $mod) {

@@ -54,7 +54,7 @@ final class SkillArrayTest extends TestCase
     public function testAddWrongTypeException(): void
     {
         self::expectException(TypeError::class);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore offsetAssign.valueType
         $this->skills[] = new stdClass();
     }
 
@@ -64,7 +64,7 @@ final class SkillArrayTest extends TestCase
     public function testAddWrongTypeDoesntAdd(): void
     {
         try {
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore argument.type
             $this->skills->offsetSet(skill: new stdClass());
         } catch (TypeError) {
             // Ignored

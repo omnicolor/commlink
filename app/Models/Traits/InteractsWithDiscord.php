@@ -178,7 +178,11 @@ trait InteractsWithDiscord
 
     /**
      * Get a user's guilds from the Discord API.
-     * @return array<int, array<string, ?string>>
+     * @return array<int, array{
+     *     icon: ?string,
+     *     name: string,
+     *     snowflake: string
+     * }>
      * @throws RuntimeException
      */
     public function getDiscordGuilds(string $token): array

@@ -251,7 +251,7 @@ final class VehicleTest extends TestCase
     public function testGettingUnknownProperty(): void
     {
         $vehicle = new Vehicle(['id' => 'dodge-scoot']);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore property.notFound
         self::assertNull($vehicle->unknown);
     }
 
@@ -293,7 +293,7 @@ final class VehicleTest extends TestCase
         $mod = $modifications[0];
         self::assertSame('Weapon mount, standard', $mod->name);
         self::assertCount(1, $mod->modifications);
-        // @phpstan-ignore-next-line
+        self::assertNotNull($mod->weapon);
         self::assertSame('Ares Predator V', $mod->weapon->name);
     }
 
@@ -316,12 +316,12 @@ final class VehicleTest extends TestCase
         /** @var VehicleModification */
         $mount1 = $vehicle->modifications[0];
         self::assertSame('Weapon mount, standard', $mount1->name);
-        // @phpstan-ignore-next-line
+        self::assertNotNull($mount1->weapon);
         self::assertSame('Ares Predator V', $mount1->weapon->name);
 
         /** @var VehicleModification */
         $mount2 = $vehicle->modifications[1];
-        // @phpstan-ignore-next-line
+        self::assertNotNull($mount2->weapon);
         self::assertSame('AK-98', $mount2->weapon->name);
 
         self::assertEmpty($vehicle->weapons);

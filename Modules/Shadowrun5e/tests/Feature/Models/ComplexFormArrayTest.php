@@ -55,7 +55,7 @@ final class ComplexFormArrayTest extends TestCase
     public function testAddWrongTypeException(): void
     {
         self::expectException(TypeError::class);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore offsetAssign.valueType
         $this->forms[] = new stdClass();
     }
 
@@ -65,7 +65,7 @@ final class ComplexFormArrayTest extends TestCase
     public function testAddWrongTypeDoesntAdd(): void
     {
         try {
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore argument.type
             $this->forms->offsetSet(form: new stdClass());
         } catch (TypeError) {
             // Ignored

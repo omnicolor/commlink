@@ -21,6 +21,7 @@ use Modules\Shadowrun5e\Models\Character;
 
 use function array_shift;
 use function array_walk;
+use function assert;
 use function explode;
 use function floor;
 use function implode;
@@ -161,8 +162,11 @@ class Number extends Roll
             } elseif (self::FAILURE == $value) {
                 $value = sprintf('~%d~', $value);
             }
+            $value = (string)$value;
         });
-        // @phpstan-ignore-next-line
+        // PHPStan does not recognize that the above array_walk changes all of
+        // the ints to strings.
+        // @phpstan-ignore return.type
         return $rolls;
     }
 
@@ -286,8 +290,10 @@ class Number extends Roll
      */
     public function secondChance(Interaction $interaction): void
     {
+        assert(null !== $interaction->user);
+        assert(null !== $interaction->message?->referenced_message?->author);
+
         // Only the user that originally rolled can second chance.
-        // @phpstan-ignore-next-line
         if ($interaction->message->referenced_message->author->id !== $interaction->user->id) {
             return;
         }
@@ -331,7 +337,6 @@ class Number extends Roll
         $message = MessageBuilder::new()->setContent($content)
             ->addComponent($row);
         /** @psalm-suppress TooManyTemplateParams */
-        // @phpstan-ignore-next-line
         $interaction->message->edit($message);
     }
 

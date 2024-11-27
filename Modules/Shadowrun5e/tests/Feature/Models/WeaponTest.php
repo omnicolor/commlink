@@ -153,10 +153,13 @@ final class WeaponTest extends TestCase
      */
     public function testLoadingWeaponWithInvalidModification(): void
     {
+        self::assertNotNull(Weapon::$weapons);
+        self::assertArrayHasKey('ares-predator-v', Weapon::$weapons);
+
         // Break the data file
-        // @phpstan-ignore-next-line
         $originalMods = Weapon::$weapons['ares-predator-v']['modifications'];
         Weapon::$weapons['ares-predator-v']['modifications'] = ['invalid'];
+
         $weapon = new Weapon('ares-predator-v');
         self::assertEmpty($weapon->modifications);
         Weapon::$weapons['ares-predator-v']['modifications'] = $originalMods;
@@ -290,12 +293,12 @@ final class WeaponTest extends TestCase
             ],
         ];
         $weapon = Weapon::buildWeapon($array);
+        self::assertNotNull($weapon->modifications[0]);
         self::assertEquals(
             'Internal Smartlink',
-            // @phpstan-ignore-next-line
             $weapon->modifications[0]->name
         );
-        // @phpstan-ignore-next-line
+        self::assertNotNull($weapon->accessories['barrel']);
         self::assertEquals('Bayonet', $weapon->accessories['barrel']->name);
     }
 

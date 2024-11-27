@@ -25,6 +25,14 @@ use Rs\Json\Patch\InvalidOperationException;
 use Rs\Json\Pointer\InvalidPointerException;
 use TypeError;
 
+use function abort;
+use function abort_if;
+use function abort_unless;
+use function json_decode;
+use function json_encode;
+use function property_exists;
+use function sprintf;
+
 /**
  * @psalm-suppress UnusedClass
  */
@@ -68,7 +76,6 @@ class EventsController extends Controller
     protected function dataPatch(Request $request, Event $event): JsonResponse
     {
         $this->authorize('update', $event);
-        // @phpstan-ignore-next-line
         $validated = $request->validate((new EventPatchRequest())->rules());
         $event->fill($validated);
         $event->updated_at = now();
@@ -87,13 +94,11 @@ class EventsController extends Controller
             $updatedEvent = json_decode(
                 (string)(new Patch($document, $patch))->apply()
             );
-            // @phpstan-ignore-next-line
         } catch (TypeError $ex) {
             abort(JsonResponse::HTTP_BAD_REQUEST, $ex->getMessage());
         } catch (InvalidOperationException $ex) {
             // Will be thrown when using invalid JSON in a patch document.
             abort(JsonResponse::HTTP_BAD_REQUEST, $ex->getMessage());
-            // @phpstan-ignore-next-line
         } catch (InvalidPointerException $ex) {
             abort(
                 JsonResponse::HTTP_BAD_REQUEST,

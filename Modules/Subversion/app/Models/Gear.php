@@ -6,6 +6,7 @@ namespace Modules\Subversion\Models;
 
 use RuntimeException;
 
+use function config;
 use function sprintf;
 
 /**
@@ -28,12 +29,7 @@ class Gear
      */
     public static ?array $gear;
 
-    /**
-     * @param ?array<string, int|string> $rawItem
-     * @phpstan-ignore-next-line
-     * @psalm-suppress PossiblyUnusedParam
-     */
-    public function __construct(public string $id, ?array $rawItem = null)
+    public function __construct(public string $id)
     {
         $filename = config('subversion.data_path') . 'gear.php';
         /** @psalm-suppress UnresolvableInclude */
