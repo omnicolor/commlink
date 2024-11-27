@@ -81,6 +81,7 @@ class Campaign extends Model
 
     /**
      * Return characters playing in the campaign.
+     * @return Collection<int, Character>
      */
     public function characters(): Collection
     {

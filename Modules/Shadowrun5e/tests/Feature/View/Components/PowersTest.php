@@ -21,7 +21,7 @@ final class PowersTest extends TestCase
      */
     public function testNoPowersExistingCharacter(): void
     {
-        $this->component(
+        self::component(
             Powers::class,
             [
                 'character' => new Character([
@@ -35,12 +35,26 @@ final class PowersTest extends TestCase
             ->assertDontSee('Your adept has not picked up any powers.');
     }
 
+    public function testNoPriorities(): void
+    {
+        self::component(
+            Powers::class,
+            [
+                'character' => new PartialCharacter([
+                    'priorities' => null,
+                ]),
+            ]
+        )
+            ->assertDontSee('powers')
+            ->assertDontSee('has not picked up any powers.');
+    }
+
     /**
      * Test rendering a lack of powers for a mundane new character.
      */
     public function testNoPowersNewMundaneCharacter(): void
     {
-        $this->component(
+        self::component(
             Powers::class,
             [
                 'character' => new PartialCharacter([
@@ -59,7 +73,7 @@ final class PowersTest extends TestCase
      */
     public function testNoPowersNewAdept(): void
     {
-        $this->component(
+        self::component(
             Powers::class,
             [
                 'character' => new PartialCharacter([
@@ -80,7 +94,7 @@ final class PowersTest extends TestCase
      */
     public function testNoPowersNewMysticAdept(): void
     {
-        $this->component(
+        self::component(
             Powers::class,
             [
                 'character' => new PartialCharacter([
@@ -101,7 +115,7 @@ final class PowersTest extends TestCase
      */
     public function testPowers(): void
     {
-        $this->component(
+        self::component(
             Powers::class,
             [
                 'character' => new Character([

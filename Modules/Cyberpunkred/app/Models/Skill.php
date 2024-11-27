@@ -96,8 +96,19 @@ class Skill implements Stringable
      */
     public function getBase(Character $character): int
     {
-        // @phpstan-ignore-next-line
-        return (int)($this->level + $character->{$this->attribute});
+        return (int)($this->level + match ($this->attribute) {
+            'body' => $character->body, // @codeCoverageIgnore
+            'cool' => $character->cool, // @codeCoverageIgnore
+            'dexterity' => $character->dexterity, // @codeCoverageIgnore
+            'empathy' => $character->empathy, // @codeCoverageIgnore
+            'intelligence' => $character->intelligence,
+            'luck' => $character->luck, // @codeCoverageIgnore
+            'movement' => $character->movement, // @codeCoverageIgnore
+            'reflexes' => $character->reflexes, // @codeCoverageIgnore
+            'technique' => $character->technique, // @codeCoverageIgnore
+            'willpower' => $character->willpower,
+            default => throw new RuntimeException('Invalid attribute for skill'),
+        });
     }
 
     /**

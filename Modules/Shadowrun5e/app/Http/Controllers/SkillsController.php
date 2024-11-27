@@ -7,6 +7,16 @@ namespace Modules\Shadowrun5e\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function array_key_exists;
+use function array_values;
+use function date;
+use function json_encode;
+use function sha1;
+use function sha1_file;
+use function sprintf;
+use function stat;
+use function urlencode;
+
 /**
  * Controller for the various Shadowrun skill requests.
  * @psalm-suppress UnusedClass
@@ -33,11 +43,13 @@ class SkillsController extends Controller
         $this->filename = config('shadowrun5e.data_path') . 'skills.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/skills';
-        $stat = \stat($this->filename);
-        // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+
         /** @psalm-suppress UnresolvableInclude */
         $this->skills = require $this->filename;
+
+        $stat = stat($this->filename);
+        assert(false !== $stat); // require() would have failed.
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
     }
 
     /**
@@ -48,17 +60,17 @@ class SkillsController extends Controller
     {
         foreach (array_keys($this->skills) as $key) {
             $this->skills[$key]['links'] = [
-                'self' => \sprintf(
+                'self' => sprintf(
                     '/api/shadowrun5e/skills/%s',
-                    \urlencode($key)
+                    urlencode($key)
                 ),
             ];
         }
 
-        $this->headers['Etag'] = \sha1_file($this->filename);
+        $this->headers['Etag'] = sha1_file($this->filename);
         $data = [
             'links' => $this->links,
-            'data' => \array_values($this->skills),
+            'data' => array_values($this->skills),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -70,7 +82,7 @@ class SkillsController extends Controller
      */
     public function show(string $id): Response
     {
-        if (!\array_key_exists($id, $this->skills)) {
+        if (!array_key_exists($id, $this->skills)) {
             // We couldn't find the requested skill!
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
@@ -80,12 +92,12 @@ class SkillsController extends Controller
             return $this->error($error);
         }
         $skill = $this->skills[$id];
-        $skill['links']['self'] = $this->links['self'] = \sprintf(
+        $skill['links']['self'] = $this->links['self'] = sprintf(
             '/api/shadowrun5e/skills/%s',
             $id
         );
 
-        $this->headers['Etag'] = \sha1((string)\json_encode($skill));
+        $this->headers['Etag'] = sha1((string)json_encode($skill));
         $data = [
             'links' => $this->links,
             'data' => $skill,

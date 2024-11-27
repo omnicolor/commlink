@@ -20,7 +20,6 @@ class CharacterResource extends JsonResource
     public function toArray(Request $request): array
     {
         $focuses = [];
-        // @phpstan-ignore-next-line
         foreach ($this->getFocuses() as $focus) {
             $focuses[] = [
                 'attribute' => $focus->attribute,
@@ -48,12 +47,10 @@ class CharacterResource extends JsonResource
         if (null !== $this->campaign_id) {
             $campaign = [
                 'id' => $this->campaign_id,
-                // @phpstan-ignore-next-line
                 'name' => $this->campaign()?->name,
                 'links' => [
                     'self' => route(
                         'campaigns.show',
-                        // @phpstan-ignore-next-line
                         ['campaign' => $this->campaign()]
                     ),
                 ],

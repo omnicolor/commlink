@@ -17,6 +17,10 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function sprintf;
+
+use const PHP_EOL;
+
 #[Group('capers')]
 #[Medium]
 final class HelpTest extends TestCase
@@ -42,7 +46,7 @@ final class HelpTest extends TestCase
         $response = (new Help('help', $channel->username, $channel))
             ->forSlack();
         self::assertSame(
-            \sprintf('%s - Capers', config('app.name')),
+            sprintf('%s - Capers', config('app.name')),
             json_decode((string)$response)->attachments[0]->title
         );
         self::assertSame(
@@ -168,7 +172,7 @@ final class HelpTest extends TestCase
         $response = (new Help('help', $channel->username, $channel))
             ->forIrc();
         self::assertStringContainsString(
-            'Player' . \PHP_EOL . $character->name,
+            'Player' . PHP_EOL . $character->name,
             $response
         );
 

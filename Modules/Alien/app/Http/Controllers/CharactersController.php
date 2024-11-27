@@ -475,8 +475,7 @@ class CharactersController extends Controller
     public function index(Request $request): JsonResource
     {
         return CharacterResource::collection(
-            // @phpstan-ignore-next-line
-            Character::where('owner', $request->user()->email)->get()
+            Character::where('owner', $request->user()?->email)->get()
         );
     }
 

@@ -57,7 +57,6 @@ class CharacterResource extends JsonResource
             'brawn' => $this->brawn,
             'campaign' => $this->when(
                 null !== $this->campaign_id,
-                // @phpstan-ignore-next-line
                 new CampaignResource($this->campaign()),
             ),
             'caste' => new CasteResource($this->caste),
@@ -68,7 +67,6 @@ class CharacterResource extends JsonResource
             'lineage' => new LineageResource($this->lineage),
             'links' => [
                 'self' => route('subversion.characters.show', $this),
-                // @phpstan-ignore-next-line
                 'owner' => route('users.show', $this->user()),
             ],
             'origin' => new OriginResource($this->origin),

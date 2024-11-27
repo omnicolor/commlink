@@ -68,7 +68,7 @@ final class ArmorModificationArrayTest extends TestCase
         self::expectExceptionMessage(
             'ArmorModificationArray only accepts Armor- or GearModification objects'
         );
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore offsetAssign.valueType
         $this->mods[] = new stdClass();
     }
 
@@ -78,7 +78,7 @@ final class ArmorModificationArrayTest extends TestCase
     public function testAddWrongTypeDoesntAdd(): void
     {
         try {
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore argument.type
             $this->mods->offsetSet(mod: new stdClass());
         } catch (TypeError) {
             // Ignored
