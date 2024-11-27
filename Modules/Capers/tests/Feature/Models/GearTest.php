@@ -54,8 +54,6 @@ final class GearTest extends TestCase
     {
         $item = Gear::get('club');
         self::assertInstanceOf(Weapon::class, $item);
-        // @phpstan-ignore-next-line
-        self::assertNotInstanceOf(Explosive::class, $item);
     }
 
     /**

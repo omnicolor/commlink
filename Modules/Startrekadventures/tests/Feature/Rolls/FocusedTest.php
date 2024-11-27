@@ -11,6 +11,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function json_decode;
+
 use const PHP_EOL;
 
 #[Group('startrekadventures')]
@@ -25,7 +27,7 @@ final class FocusedTest extends TestCase
         /** @var Channel */
         $channel = Channel::factory()->make();
         $response = new Focused('focused 1 2 3', 'username', $channel);
-        $response = \json_decode((string)$response->forSlack());
+        $response = json_decode((string)$response->forSlack());
         $response = $response->attachments[0];
 
         self::assertSame('Rolls: 3 3', $response->footer);
@@ -95,7 +97,7 @@ final class FocusedTest extends TestCase
             'username',
             $channel
         );
-        $response = \json_decode((string)$response->forSlack());
+        $response = json_decode((string)$response->forSlack());
         $response = $response->attachments[0];
 
         self::assertSame('Rolls: 3 3', $response->footer);

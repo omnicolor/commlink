@@ -11,6 +11,9 @@ use App\Models\User;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function sha1;
+use function substr;
+
 /**
  * Tests for the ChatUser test.
  */
@@ -29,7 +32,7 @@ final class ChatUserTest extends TestCase
             'user_id' => 13,
         ]);
         self::assertSame(
-            \substr(\sha1(config('app.key') . 'server-idUd3adb33f13'), 0, 20),
+            substr(sha1(config('app.key') . 'server-idUd3adb33f13'), 0, 20),
             $user->verification
         );
     }

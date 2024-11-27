@@ -7,6 +7,17 @@ namespace Modules\Shadowrun5e\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function array_key_exists;
+use function array_values;
+use function date;
+use function json_encode;
+use function sha1;
+use function sha1_file;
+use function sprintf;
+use function stat;
+use function strtolower;
+use function urlencode;
+
 /**
  * Vehicle modifications for Shadowrun 5E controller.
  * @psalm-suppress UnusedClass
@@ -34,11 +45,13 @@ class VehicleModificationsController extends Controller
             . 'vehicle-modifications.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/vehicle-modifications';
-        $stat = \stat($this->filename);
-        // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+
         /** @psalm-suppress UnresolvableInclude */
         $this->mods = require $this->filename;
+
+        $stat = stat($this->filename);
+        assert(false !== $stat); // require() would have failed.
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
     }
 
     /**
@@ -49,17 +62,17 @@ class VehicleModificationsController extends Controller
     {
         foreach (array_keys($this->mods) as $key) {
             $this->mods[$key]['links'] = [
-                'self' => \sprintf(
+                'self' => sprintf(
                     '/api/shadowrun5e/vehicle-modifications/%s',
-                    \urlencode($key)
+                    urlencode($key)
                 ),
             ];
         }
 
-        $this->headers['Etag'] = \sha1_file($this->filename);
+        $this->headers['Etag'] = sha1_file($this->filename);
         $data = [
             'links' => $this->links,
-            'data' => \array_values($this->mods),
+            'data' => array_values($this->mods),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -71,8 +84,8 @@ class VehicleModificationsController extends Controller
      */
     public function show(string $id): Response
     {
-        $id = \strtolower($id);
-        if (!\array_key_exists($id, $this->mods)) {
+        $id = strtolower($id);
+        if (!array_key_exists($id, $this->mods)) {
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
                 'detail' => $id . ' not found',
@@ -82,11 +95,11 @@ class VehicleModificationsController extends Controller
         }
 
         $mod = $this->mods[$id];
-        $this->links['self'] = $mod['links']['self'] = \sprintf(
+        $this->links['self'] = $mod['links']['self'] = sprintf(
             '/api/shadowrun5e/vehicle-modifications/%s',
-            \urlencode($id)
+            urlencode($id)
         );
-        $this->headers['Etag'] = \sha1((string)\json_encode($mod));
+        $this->headers['Etag'] = sha1((string)json_encode($mod));
         $data = [
             'links' => $this->links,
             'data' => $mod,

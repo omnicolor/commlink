@@ -6,6 +6,9 @@ namespace Modules\Shadowrun5e\Models;
 
 use RuntimeException;
 
+use function in_array;
+use function sprintf;
+
 /**
  * Knowledge skill a character possesses.
  * @property string $id
@@ -36,8 +39,8 @@ class KnowledgeSkill extends Skill
             'street',
         ];
         $this->name = $name;
-        if (!\in_array($category, $categories, true)) {
-            throw new RuntimeException(\sprintf(
+        if (!in_array($category, $categories, true)) {
+            throw new RuntimeException(sprintf(
                 'Knowledge skill category "%s" is invalid',
                 $category
             ));
@@ -88,13 +91,13 @@ class KnowledgeSkill extends Skill
 
     public function shortCategory(): string
     {
-        // @phpstan-ignore-next-line
         return match ($this->category) {
             'academic' => 'acad',
             'interests' => 'int',
             'language' => 'lang',
             'professional' => 'prof',
             'street' => 'str',
+            default => 'str',
         };
     }
 }

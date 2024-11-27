@@ -41,11 +41,13 @@ class TalentsController extends Controller
     {
         parent::__construct();
         $this->filename = config('expanse.data_path') . 'talents.php';
-        $stat = stat($this->filename);
-        // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+
         /** @psalm-suppress UnresolvableInclude */
         $this->talents = require $this->filename;
+
+        $stat = stat($this->filename);
+        assert(false !== $stat);
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
     }
 
     /**

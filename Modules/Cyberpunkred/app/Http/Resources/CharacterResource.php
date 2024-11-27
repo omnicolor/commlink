@@ -32,8 +32,7 @@ class CharacterResource extends JsonResource
             'reflexes' => $this->reflexes,
             'technique' => $this->technique,
             'willpower' => $this->willpower,
-            // @phpstan-ignore-next-line TODO Fix hit points
-            'hit_points' => $this->hit_points,
+            'hit_points' => $this->hit_points_max,
             'hit_points_current' => $this->hit_points_current,
             'roles' => $this->roles,
             'skills' => [],

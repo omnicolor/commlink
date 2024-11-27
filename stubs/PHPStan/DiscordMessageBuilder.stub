@@ -1,0 +1,34 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Discord\Builders;
+
+use Discord\Parts\Channel\Message;
+use JsonSerializable;
+
+class MessageBuilder implements JsonSerializable
+{
+    public static function new(): self {}
+    public function setContent(string $content): self {}
+    public function setNonce(string $nonce = null): self {}
+    public function setUsername(string $username): self {}
+    public function setAvatarUrl(string $avatar_url): self {}
+    public function setTts(bool $tts = false): self {}
+    public function getTts(): bool {}
+
+    /**
+     * @param array<string, mixed> $allowed_mentions
+     */
+    public function setAllowedMentions(array $allowed_mentions): self {}
+
+    /**
+     * @param Message|null $message
+     */
+    public function setReplyTo(Message|null $message = null): self {}
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array {}
+}

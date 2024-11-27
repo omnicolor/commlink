@@ -1,0 +1,11 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Rs\Json\Patch;
+
+use Exception;
+
+class FailedTestException extends Exception {}
+class InvalidPatchDocumentJsonException extends Exception {}
+class InvalidTargetDocumentJsonException extends Exception {}

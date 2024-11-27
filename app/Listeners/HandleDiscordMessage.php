@@ -12,6 +12,7 @@ use Error;
 use ErrorException;
 use Illuminate\Support\Facades\Log;
 use Nwidart\Modules\Facades\Module;
+use Stringable;
 
 use function explode;
 use function is_numeric;
@@ -90,7 +91,6 @@ class HandleDiscordMessage
                     optional($event->user)->username,
                     $channel
                 );
-                // @phpstan-ignore-next-line
                 $event->channel->sendMessage($roll->forDiscord());
 
                 if ('help' !== $args[0]) {
@@ -112,7 +112,6 @@ class HandleDiscordMessage
                 $channel,
                 $event
             );
-            // @phpstan-ignore-next-line
             $event->channel->sendMessage($roll->forDiscord());
             return true;
         } catch (Error | ErrorException) {
@@ -125,9 +124,9 @@ class HandleDiscordMessage
                 '\\App\\Http\\Responses\\Discord\\%sResponse',
                 ucfirst($args[0])
             );
-            /** @psalm-suppress InvalidCast */
-            // @phpstan-ignore-next-line
-            $response = (string)(new $class($event));
+            /** @var Stringable */
+            $class = new $class($event);
+            $response = (string)$class;
             if ('' !== $response) {
                 $event->channel->sendMessage($response);
             }
