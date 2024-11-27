@@ -285,18 +285,19 @@ class Shadowrun5eConverter implements ConverterInterface
         $index = implode(DIRECTORY_SEPARATOR, [$this->directory, 'index.xml']);
         try {
             $index = simplexml_load_file($index);
+            if (false === $index) {
+                throw new ErrorException();
+            }
         } catch (ErrorException) {
             $this->cleanup();
             throw new RuntimeException('Portfolio metadata is invalid');
         }
-        // @phpstan-ignore-next-line
         if ('Shadowrun (5th)' !== (string)$index->game['name']) {
             $this->cleanup();
             throw new RuntimeException(
                 'The portfolio isn\'t a Shadowrun 5th edition character'
             );
         }
-        // @phpstan-ignore-next-line
         $character = $index->characters[0]->character;
         foreach ($character->statblocks->children() as $statblock) {
             if ('xml' !== (string)$statblock['format']) {
@@ -381,7 +382,7 @@ class Shadowrun5eConverter implements ConverterInterface
             if (!in_array($attribute, $validAttributes, true)) {
                 continue;
             }
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore property.dynamicName
             $this->character->$attribute = (int)$rawAttribute['base'];
         }
         return $this;
@@ -891,13 +892,13 @@ class Shadowrun5eConverter implements ConverterInterface
      */
     protected function priorityLetter(int $priority): string
     {
-        // @phpstan-ignore-next-line
         return match ($priority) {
             1 => 'A',
             2 => 'B', // @codeCoverageIgnore
             3 => 'C',
             4 => 'D',
             5 => 'E',
+            default => throw new RuntimeException('Invalid SumToTen priority'),
         };
     }
 
@@ -1068,7 +1069,6 @@ class Shadowrun5eConverter implements ConverterInterface
         $vehicle = null;
 
         while ($line = current($stats)) {
-            $line = $line;
             if (str_starts_with($line, 'CHASSIS: ')) {
                 $id = explode(': ', $line)[1];
                 if (isset($this->mapVehicles[$id])) {
@@ -1089,13 +1089,11 @@ class Shadowrun5eConverter implements ConverterInterface
                 continue;
             }
             if (str_starts_with($line, 'Vehicle Mods:')) {
-                $line = (string)next($stats);
-                // @phpstan-ignore-next-line
-                while (str_starts_with($line, ' ')) {
-                    // @phpstan-ignore-next-line
-                    $line = trim($line);
+                $line = next($stats);
+                while (str_starts_with((string)$line, ' ')) {
+                    $line = trim((string)$line);
                     if (isset($this->mapVehicleModifications[$line])) {
-                        // @phpstan-ignore-next-line
+                        // @phpstan-ignore identical.alwaysFalse
                         if (null === $this->mapVehicleModifications[$line]) {
                             $line = next($stats);
                             continue;
@@ -1139,11 +1137,9 @@ class Shadowrun5eConverter implements ConverterInterface
                 continue;
             }
             if (str_starts_with($line, 'Gear:')) {
-                $line = (string)next($stats);
-                // @phpstan-ignore-next-line
-                while (str_starts_with($line, ' ')) {
-                    // @phpstan-ignore-next-line
-                    $line = trim($line);
+                $line = next($stats);
+                while (str_starts_with((string)$line, ' ')) {
+                    $line = trim((string)$line);
                     if (array_key_exists($line, $this->mapGear)) {
                         if (null === $this->mapGear[$line]) {
                             // Item is explicitly not supported by Commlink.
@@ -1183,13 +1179,10 @@ class Shadowrun5eConverter implements ConverterInterface
                     continue;
                 }
             }
-            // @phpstan-ignore-next-line
-            if (str_starts_with($line, 'Weapons:')) {
-                $line = (string)next($stats);
-                // @phpstan-ignore-next-line
-                while (str_starts_with($line, ' ')) {
-                    // @phpstan-ignore-next-line
-                    $line = trim($line);
+            if (str_starts_with((string)$line, 'Weapons:')) {
+                $line = next($stats);
+                while (str_starts_with((string)$line, ' ')) {
+                    $line = trim((string)$line);
                     $weaponMods = [];
                     $ammo = [];
                     [$weapon, $mods] = explode(' [', $line);

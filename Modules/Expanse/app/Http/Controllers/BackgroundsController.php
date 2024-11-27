@@ -39,11 +39,13 @@ class BackgroundsController extends Controller
     {
         parent::__construct();
         $this->filename = config('expanse.data_path') . 'backgrounds.php';
-        $stat = stat($this->filename);
-        // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+
         /** @psalm-suppress UnresolvableInclude */
         $this->backgrounds = require $this->filename;
+
+        $stat = stat($this->filename);
+        assert(false !== $stat);
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
     }
 
     /**

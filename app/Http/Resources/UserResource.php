@@ -23,7 +23,6 @@ class UserResource extends JsonResource
     {
         $characters = [];
         /** @var Character $character */
-        // @phpstan-ignore-next-line
         foreach ($this->characters()->get() as $character) {
             $characters[] = [
                 'id' => $character->id,
@@ -82,7 +81,6 @@ class UserResource extends JsonResource
         return [
             'characters' => $characters,
             'email' => $this->email,
-            // @phpstan-ignore-next-line
             'features' => $this->getFeatures(),
             'gmOf' => $gmedCampaigns,
             'id' => $this->id,

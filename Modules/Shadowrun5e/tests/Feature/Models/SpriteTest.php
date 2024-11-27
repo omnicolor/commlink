@@ -66,7 +66,7 @@ final class SpriteTest extends TestCase
         self::expectException(BadMethodCallException::class);
         self::expectExceptionMessage('Foo is not an attribute of sprites');
         $sprite = new Sprite('courier');
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore method.notFound
         $sprite->getFoo();
     }
 

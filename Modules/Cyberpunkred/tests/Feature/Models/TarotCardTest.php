@@ -34,7 +34,7 @@ final class TarotCardTest extends TestCase
     public function testAllCardsHaveDescriptions(string $cardName): void
     {
         $card = new TarotCard($cardName, '');
-        self::assertNotEquals('', $card->getDescription());
+        self::assertNotSame('', $card->getDescription());
     }
 
     /**
@@ -54,7 +54,7 @@ final class TarotCardTest extends TestCase
     public function testAllCardsHaveEffects(string $cardName): void
     {
         $card = new TarotCard($cardName, '');
-        self::assertNotEquals('', $card->getEffect());
+        self::assertNotSame('', $card->getEffect());
     }
 
     /**

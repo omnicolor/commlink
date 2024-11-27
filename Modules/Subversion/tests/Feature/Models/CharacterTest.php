@@ -248,9 +248,9 @@ final class CharacterTest extends TestCase
             'lineage_option' => 'small',
         ]);
 
-        self::assertSame('Dwarven', $character->lineage?->name);
-        // @phpstan-ignore-next-line
-        self::assertSame('Small', $character->lineage?->option?->name);
+        self::assertNotNull($character->lineage);
+        self::assertSame('Dwarven', $character->lineage->name);
+        self::assertSame('Small', $character->lineage->option?->name);
     }
 
     public function testSetLineageObject(): void
@@ -259,8 +259,7 @@ final class CharacterTest extends TestCase
         $character->lineage = new Lineage('dwarven', 'toxin-resistant');
 
         self::assertSame('Dwarven', $character->lineage?->name);
-        // @phpstan-ignore-next-line
-        self::assertSame('Toxin resistant', $character->lineage->option->name);
+        self::assertSame('Toxin resistant', $character->lineage->option?->name);
     }
 
     public function testSetLineageString(): void

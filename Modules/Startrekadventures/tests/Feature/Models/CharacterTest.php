@@ -23,7 +23,7 @@ final class CharacterTest extends TestCase
         $character->save();
 
         $loaded = Character::find($character->id);
-        // @phpstan-ignore-next-line
+        self::assertInstanceOf(Character::class, $loaded);
         self::assertSame('Test STA character', $loaded->name);
         $character->delete();
     }

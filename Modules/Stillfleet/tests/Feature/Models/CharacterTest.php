@@ -117,7 +117,7 @@ final class CharacterTest extends TestCase
         ]);
         self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Role ID "invalid" is invalid');
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore expr.resultUnused
         $character->roles;
     }
 

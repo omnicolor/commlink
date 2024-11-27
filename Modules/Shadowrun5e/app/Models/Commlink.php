@@ -7,6 +7,8 @@ namespace Modules\Shadowrun5e\Models;
 use RuntimeException;
 use Stringable;
 
+use function array_key_exists;
+use function assert;
 use function ceil;
 
 /**
@@ -83,7 +85,9 @@ class Commlink extends Gear implements Stringable
     public function __construct(public string $id, int $quantity = 1)
     {
         parent::__construct($id, $quantity);
-        /** @phpstan-ignore-next-line */
+        // Parent would have thrown an exception if $id is not found.
+        assert(null !== self::$gear);
+        assert(array_key_exists($id, self::$gear));
         $item = self::$gear[$id];
         $this->programs = new ProgramArray();
         $this->programsInstalled = new ProgramArray();

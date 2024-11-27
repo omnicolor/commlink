@@ -25,7 +25,6 @@ class WeaponResource extends JsonResource
         return [
             'name' => $this->name,
             'class' => $this->class,
-            // @phpstan-ignore-next-line
             'cost' => $this->cost(),
             'damage' => $this->damage,
             'explanation' => $this->when(

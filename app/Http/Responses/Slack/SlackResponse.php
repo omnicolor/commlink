@@ -10,6 +10,9 @@ use App\Models\ChatUser;
 use App\Models\Slack\Attachment;
 use Illuminate\Http\JsonResponse;
 
+use function count;
+use function sprintf;
+
 /**
  * Slack response class.
  */
@@ -94,7 +97,7 @@ class SlackResponse extends JsonResponse
         if (null !== $chatUser) {
             return;
         }
-        throw new SlackException(\sprintf(
+        throw new SlackException(sprintf(
             'You must have already created an account on <%s|%s> and '
                 . 'linked it to this server before you can register a '
                 . 'channel to a specific system.',
@@ -158,7 +161,7 @@ class SlackResponse extends JsonResponse
             $data['response_type'] = 'ephemeral';
         }
 
-        if (0 !== \count($this->attachments)) {
+        if (0 !== count($this->attachments)) {
             $data['attachments'] = $this->attachments;
         }
         if (null !== $this->text) {

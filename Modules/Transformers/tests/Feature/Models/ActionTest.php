@@ -15,7 +15,7 @@ use Tests\TestCase;
 final class ActionTest extends TestCase
 {
     /**
-     * @return array<int, array<int, string|Action>>
+     * @return array<int, array{0: Action, 1: non-empty-string}>
      */
     public static function firstWordProvider(): array
     {
@@ -44,10 +44,12 @@ final class ActionTest extends TestCase
         ];
     }
 
+    /**
+     * @param non-empty-string $firstWord
+     */
     #[DataProvider('firstWordProvider')]
     public function testDescription(Action $action, string $firstWord): void
     {
-        // @phpstan-ignore-next-line
         self::assertStringStartsWith($firstWord, $action->description());
     }
 

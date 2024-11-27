@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Resources;
 
 use App\Models\Campaign;
-use App\Models\Character;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -43,10 +42,6 @@ class CampaignResource extends JsonResource
         }
 
         $characters = [];
-        /**
-         * @var Character
-         * @phpstan-ignore-next-line
-         */
         foreach ($this->characters() as $character) {
             $characters[] = [
                 'id' => $character->id,

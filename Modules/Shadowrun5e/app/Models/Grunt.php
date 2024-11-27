@@ -96,7 +96,7 @@ class Grunt implements Stringable
             $this->adept_powers = new AdeptPowerArray();
             foreach ($grunt['adept_powers'] as $power) {
                 try {
-                    // @phpstan-ignore-next-line
+                    // @phpstan-ignore assign.propertyType
                     $this->adept_powers[] = new AdeptPower($power);
                 } catch (RuntimeException) {
                     // Ignore.
@@ -118,7 +118,7 @@ class Grunt implements Stringable
             $this->complex_forms = new ComplexFormArray();
             foreach ($grunt['complex-forms'] ?? [] as $form) {
                 try {
-                    // @phpstan-ignore-next-line
+                    // @phpstan-ignore assign.propertyType
                     $this->complex_forms[] = new ComplexForm($form);
                 } catch (RuntimeException) {
                     // Ignore.

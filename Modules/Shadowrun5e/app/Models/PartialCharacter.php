@@ -81,8 +81,6 @@ class PartialCharacter extends Character implements Stringable
     public function isMagicallyActive(): bool
     {
         return isset($this->priorities, $this->priorities['magic'])
-            // @phpstan-ignore-next-line
-            && null !== $this->priorities['magic']
             && 'technomancer' !== $this->priorities['magic'];
     }
 
@@ -92,8 +90,6 @@ class PartialCharacter extends Character implements Stringable
     public function isTechnomancer(): bool
     {
         return isset($this->priorities, $this->priorities['magic'])
-            // @phpstan-ignore-next-line
-            && null !== $this->priorities['magic']
             && 'technomancer' === $this->priorities['magic'];
     }
 
@@ -112,7 +108,7 @@ class PartialCharacter extends Character implements Stringable
         $character->setConnection($this->connection);
         $character->fireModelEvent('retrieved', false);
         $character->fillable[] = 'errors';
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore return.type
         return $character;
     }
 }

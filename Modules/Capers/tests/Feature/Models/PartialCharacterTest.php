@@ -19,7 +19,7 @@ final class PartialCharacterTest extends TestCase
         $character->save();
 
         $loaded = PartialCharacter::find($character->id);
-        // @phpstan-ignore-next-line
+        self::assertInstanceOf(PartialCharacter::class, $loaded);
         self::assertSame('Test Capers character', $loaded->name);
         $character->delete();
     }

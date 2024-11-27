@@ -16,6 +16,7 @@ use function array_search;
 use function array_shift;
 use function array_sum;
 use function asort;
+use function assert;
 use function ceil;
 use function count;
 use function current;
@@ -252,9 +253,8 @@ class KarmaLog extends ArrayObject
             = $priorityMap[$priorities['skillPriority']]['activeSkills'];
         $this->skillGroupPoints
             = $priorityMap[$priorities['skillPriority']]['skillGroups'];
-        // @phpstan-ignore-next-line
         $this->specialPoints
-            = $priorityMap[$priorities['metatypePriority']][$priorities['metatype']];
+            = (int)$priorityMap[$priorities['metatypePriority']][$priorities['metatype']];
         $this->resources
             = $priorityMap[$priorities['resourcePriority']]['resources'][$priorities['gameplay']];
         $spells = $priorityMap[$priorities['magicPriority']]['magic'];
@@ -603,7 +603,7 @@ class KarmaLog extends ArrayObject
                     continue;
                 }
                 // The user can get free points in this skill.
-                // @phpstan-ignore-next-line
+                assert(is_int($skill->level));
                 $skill->level -= $this->magicSkills['rating'];
                 $skills[$key] = $skill;
             }

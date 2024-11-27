@@ -7,6 +7,17 @@ namespace Modules\Shadowrun5e\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function array_key_exists;
+use function array_values;
+use function date;
+use function json_encode;
+use function sha1;
+use function sha1_file;
+use function sprintf;
+use function stat;
+use function strtolower;
+use function urlencode;
+
 /**
  * Controller for Shadowrun augmentations.
  * @psalm-suppress UnusedClass
@@ -33,11 +44,13 @@ class CyberwareController extends Controller
         $this->filename = config('shadowrun5e.data_path') . 'cyberware.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/cyberware';
-        $stat = \stat($this->filename);
-        // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+
         /** @psalm-suppress UnresolvableInclude */
         $this->augmentations = require $this->filename;
+
+        $stat = stat($this->filename);
+        assert(false !== $stat); // require() would have failed.
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
     }
 
     /**
@@ -48,19 +61,19 @@ class CyberwareController extends Controller
     {
         foreach (array_keys($this->augmentations) as $key) {
             $this->augmentations[$key]['links'] = [
-                'self' => \sprintf(
+                'self' => sprintf(
                     '/api/shadowrun5e/cyberware/%s',
-                    \urlencode($key)
+                    urlencode($key)
                 ),
             ];
             $this->augmentations['ruleset'] ??= 'core';
         }
 
-        $this->headers['Etag'] = \sha1_file($this->filename);
+        $this->headers['Etag'] = sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => \array_values($this->augmentations),
+            'data' => array_values($this->augmentations),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
@@ -72,8 +85,8 @@ class CyberwareController extends Controller
      */
     public function show(string $id): Response
     {
-        $id = \strtolower($id);
-        if (!\array_key_exists($id, $this->augmentations)) {
+        $id = strtolower($id);
+        if (!array_key_exists($id, $this->augmentations)) {
             // We couldn't find it!
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
@@ -86,9 +99,9 @@ class CyberwareController extends Controller
         $cyberware = $this->augmentations[$id];
         $cyberware['ruleset'] ??= 'core';
         $cyberware['links']['self'] = $this->links['self'] =
-            \sprintf('/api/shadowrun5e/cyberware/%s', $id);
+            sprintf('/api/shadowrun5e/cyberware/%s', $id);
 
-        $this->headers['Etag'] = \sha1((string)\json_encode($cyberware));
+        $this->headers['Etag'] = sha1((string)json_encode($cyberware));
 
         // Return the single item.
         $data = [

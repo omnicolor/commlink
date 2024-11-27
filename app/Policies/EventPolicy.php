@@ -56,8 +56,9 @@ class EventPolicy
             return false;
         }
 
-        // @phpstan-ignore-next-line
-        $status = $campaignUsers->find($user->id)->pivot->status;
+        /** @var User */
+        $player = $campaignUsers->find($user->id);
+        $status = $player->pivot->status;
         if ('invited' === $status || 'accepted' === $status) {
             // User is a player (in good standing) in the campaign.
             return true;

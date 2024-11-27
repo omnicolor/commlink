@@ -201,7 +201,7 @@ class Character extends BaseCharacter
             get: function (): GearArray {
                 $gear = new GearArray();
                 foreach ($this->attributes['gear'] ?? [] as $item) {
-                    $gear[] = new Gear($item['id'], $item);
+                    $gear[] = new Gear($item['id']);
                 }
                 return $gear;
             },

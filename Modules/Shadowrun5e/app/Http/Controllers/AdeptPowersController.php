@@ -43,11 +43,12 @@ class AdeptPowersController extends Controller
         $this->filename = config('shadowrun5e.data_path')
             . 'adept-powers.php';
 
-        $stat = stat($this->filename);
-        // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
         /** @psalm-suppress UnresolvableInclude */
         $this->powers = require $this->filename;
+
+        $stat = stat($this->filename);
+        assert(false !== $stat); // require() would have failed.
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
     }
 
     /**

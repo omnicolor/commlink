@@ -11,6 +11,10 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function json_decode;
+
+use const PHP_EOL;
+
 #[Group('discord')]
 #[Group('slack')]
 #[Medium]
@@ -29,7 +33,7 @@ final class GenericTest extends TestCase
         /** @var Channel */
         $channel = Channel::factory()->make();
         $response = new Generic('3d6', 'username', $channel);
-        $response = \json_decode((string)$response->forSlack());
+        $response = json_decode((string)$response->forSlack());
         self::assertSame('Rolls: 2, 2, 2', $response->attachments[0]->footer);
         self::assertSame(
             'Rolling: 3d6 = [2+2+2] = 6',
@@ -50,7 +54,7 @@ final class GenericTest extends TestCase
         /** @var Channel */
         $channel = Channel::factory()->make();
         $roll = new Generic('4d6 testing', 'user', $channel);
-        $response = \json_decode((string)$roll->forSlack());
+        $response = json_decode((string)$roll->forSlack());
         self::assertSame(
             'Rolls: 3, 3, 3, 3',
             $response->attachments[0]->footer
@@ -64,8 +68,8 @@ final class GenericTest extends TestCase
             $response->attachments[0]->title
         );
 
-        $expected = '**user rolled 12 for "testing"**' . \PHP_EOL
-            . 'Rolling: 4d6 = [3+3+3+3] = 12' . \PHP_EOL
+        $expected = '**user rolled 12 for "testing"**' . PHP_EOL
+            . 'Rolling: 4d6 = [3+3+3+3] = 12' . PHP_EOL
             . '_Rolls: 3, 3, 3, 3_';
         $discord = $roll->forDiscord();
         self::assertSame($expected, $discord);
@@ -84,15 +88,15 @@ final class GenericTest extends TestCase
         /** @var Channel */
         $channel = Channel::factory()->make();
         $roll = new Generic('4+2d10-1*10 foo', 'Bob', $channel);
-        $response = \json_decode((string)$roll->forSlack());
+        $response = json_decode((string)$roll->forSlack());
         self::assertSame('Rolls: 10, 10', $response->attachments[0]->footer);
         self::assertSame(
             'Rolling: 4+2d10-1*10 = 4+[10+10]-1*10 = 14',
             $response->attachments[0]->text
         );
 
-        $expected = '**Bob rolled 14 for "foo"**' . \PHP_EOL
-            . 'Rolling: 4+2d10-1*10 = 4+[10+10]-1*10 = 14' . \PHP_EOL
+        $expected = '**Bob rolled 14 for "foo"**' . PHP_EOL
+            . 'Rolling: 4+2d10-1*10 = 4+[10+10]-1*10 = 14' . PHP_EOL
             . '_Rolls: 10, 10_';
         $discord = $roll->forDiscord();
         self::assertSame($expected, $discord);
