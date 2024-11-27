@@ -8,6 +8,10 @@ use Closure;
 use Illuminate\Contracts\Validation\DataAwareRule;
 use Illuminate\Contracts\Validation\ValidationRule;
 
+use function assert;
+use function count;
+use function is_string;
+
 /**
  * A Shadowrun contact is added in pieces, with the front-end sending five
  * arrays, four of which are required. This makes sure that the four required
@@ -35,13 +39,14 @@ class ContactArrayRule implements DataAwareRule, ValidationRule
 
     /**
      * Set the data under validation.
-     * @phpstan-ignore-next-line
-     * @psalm-suppress MoreSpecificImplementedParamType
-     * @param array<string, mixed> $data
+     * @param array<mixed, mixed> $data
      */
     public function setData(array $data): static
     {
-        $this->data = $data;
+        foreach ($data as $key => $value) {
+            assert(is_string($key));
+            $this->data[$key] = $value;
+        }
         return $this;
     }
 }

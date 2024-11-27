@@ -12,6 +12,8 @@ use App\Rolls\Roll;
 use Exception;
 use Modules\Capers\Models\StandardDeck;
 
+use function assert;
+
 /**
  * Handle a user asking to shuffle their deck.
  * @psalm-suppress UnusedClass
@@ -31,7 +33,7 @@ class Shuffle extends Roll
     public function __construct(
         string $content,
         string $username,
-        Channel $channel
+        Channel $channel,
     ) {
         parent::__construct($content, $username, $channel);
         if (!isset($this->campaign)) {
@@ -56,9 +58,10 @@ class Shuffle extends Roll
      */
     protected function findOrCreateDeck(): void
     {
+        // Constructor sets an error if $this->campaign is not set.
+        assert(null !== $this->campaign);
         try {
             $this->deck = StandardDeck::findForCampaignAndPlayer(
-                // @phpstan-ignore-next-line
                 $this->campaign,
                 $this->username
             );
@@ -68,7 +71,6 @@ class Shuffle extends Roll
         }
 
         $this->deck = new StandardDeck();
-        // @phpstan-ignore-next-line
         $this->deck->campaign_id = $this->campaign->id;
         $this->deck->character_id = $this->username;
     }

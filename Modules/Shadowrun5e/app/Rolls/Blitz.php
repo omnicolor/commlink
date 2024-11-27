@@ -34,9 +34,7 @@ class Blitz extends Init
     protected int $initiativeDice = 5;
     protected int $initiativeScore = 0;
 
-    /**
-     * @phpstan-ignore-next-line
-     */
+    // @phpstan-ignore constructor.missingParentCall (Calls grandparent)
     public function __construct(
         string $content,
         string $username,

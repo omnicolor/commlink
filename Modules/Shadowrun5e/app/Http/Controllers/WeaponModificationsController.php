@@ -7,6 +7,17 @@ namespace Modules\Shadowrun5e\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function array_key_exists;
+use function array_values;
+use function date;
+use function json_encode;
+use function sha1;
+use function sha1_file;
+use function sprintf;
+use function stat;
+use function strtolower;
+use function urlencode;
+
 /**
  * Controller for weapon modifications.
  * @psalm-suppress UnusedClass
@@ -34,11 +45,13 @@ class WeaponModificationsController extends Controller
             . 'weapon-modifications.php';
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/weapon-modifications';
-        $stat = \stat($this->filename);
-        // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+
         /** @psalm-suppress UnresolvableInclude */
         $this->mods = require $this->filename;
+
+        $stat = stat($this->filename);
+        assert(false !== $stat); // require() would have failed.
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
     }
 
     /**
@@ -48,18 +61,18 @@ class WeaponModificationsController extends Controller
     {
         foreach (array_keys($this->mods) as $key) {
             $this->mods[$key]['links'] = [
-                'self' => \sprintf(
+                'self' => sprintf(
                     '/api/shadowrun5e/weapon-modifications/%s',
-                    \urlencode($key)
+                    urlencode($key)
                 ),
             ];
         }
 
-        $this->headers['Etag'] = \sha1_file($this->filename);
+        $this->headers['Etag'] = sha1_file($this->filename);
 
         $data = [
             'links' => $this->links,
-            'data' => \array_values($this->mods),
+            'data' => array_values($this->mods),
         ];
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
@@ -69,8 +82,8 @@ class WeaponModificationsController extends Controller
      */
     public function show(string $id): Response
     {
-        $id = \strtolower($id);
-        if (!\array_key_exists($id, $this->mods)) {
+        $id = strtolower($id);
+        if (!array_key_exists($id, $this->mods)) {
             $error = [
                 'status' => Response::HTTP_NOT_FOUND,
                 'detail' => $id . ' not found',
@@ -82,9 +95,9 @@ class WeaponModificationsController extends Controller
         $mod = $this->mods[$id];
         $mod['ruleset'] ??= 'core';
         $mod['links']['self'] = $this->links['self']
-            = \sprintf('/weapon-modifications/%s', \urlencode($id));
+            = sprintf('/weapon-modifications/%s', urlencode($id));
 
-        $this->headers['Etag'] = \sha1((string)\json_encode($mod));
+        $this->headers['Etag'] = sha1((string)json_encode($mod));
 
         $data = [
             'links' => $this->links,

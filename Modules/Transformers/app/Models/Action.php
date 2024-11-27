@@ -30,6 +30,7 @@ enum Action
 
     /**
      * @psalm-suppress PossiblyUnusedMethod
+     * @return non-empty-string
      */
     public function description(): string
     {

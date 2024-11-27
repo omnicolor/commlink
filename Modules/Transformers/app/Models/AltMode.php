@@ -4,22 +4,32 @@ declare(strict_types=1);
 
 namespace Modules\Transformers\Models;
 
+use RuntimeException;
 use Stringable;
 
 use function ucfirst;
 
-class AltMode implements Stringable
+readonly class AltMode implements Stringable
 {
-    public const TYPE_MACHINE = 'machine';
-    public const TYPE_PRIMITIVE = 'primitive';
-    public const TYPE_VEHICLE = 'vehicle';
-    public const TYPE_WEAPON = 'weapon';
+    public const string TYPE_MACHINE = 'machine';
+    public const string TYPE_PRIMITIVE = 'primitive';
+    public const string TYPE_VEHICLE = 'vehicle';
+    public const string TYPE_WEAPON = 'weapon';
 
     /**
      * @psalm-suppress PossiblyUnusedMethod
      */
     public function __construct(public string $mode)
     {
+        $valid_types = [
+            self::TYPE_MACHINE,
+            self::TYPE_PRIMITIVE,
+            self::TYPE_VEHICLE,
+            self::TYPE_WEAPON,
+        ];
+        if (!in_array($mode, $valid_types, true)) {
+            throw new RuntimeException('Invalid alt mode type');
+        }
     }
 
     public function __toString(): string
@@ -32,7 +42,7 @@ class AltMode implements Stringable
      */
     public function statisticModifier(string $statistic): ?int
     {
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore match.unhandled
         $mode = match ($this->mode) {
             self::TYPE_MACHINE => [
                 'courage' => 0,

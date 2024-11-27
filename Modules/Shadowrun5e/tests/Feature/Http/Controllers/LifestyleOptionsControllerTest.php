@@ -11,6 +11,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function count;
+
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
 #[Medium]
@@ -53,7 +55,7 @@ final class LifestyleOptionsControllerTest extends TestCase
                     'self' => '/api/shadowrun5e/lifestyle-options/swimming-pool',
                 ],
             ]);
-        self::assertGreaterThanOrEqual(1, \count($response['data']));
+        self::assertGreaterThanOrEqual(1, count($response['data']));
     }
 
     /**

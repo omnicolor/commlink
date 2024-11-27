@@ -14,6 +14,10 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function assert;
+use function route;
+use function session;
+
 #[Group('cyberpunkred')]
 #[Medium]
 final class CharacterControllerTest extends TestCase
@@ -193,8 +197,9 @@ final class CharacterControllerTest extends TestCase
         $characters = PartialCharacter::where('owner', $user->email)->get();
         self::assertCount(1, $characters);
 
-        // @phpstan-ignore-next-line
-        $characters[0]->delete();
+        $character = $characters[0];
+        self::assertNotNull($character);
+        $character->delete();
     }
 
     /**
@@ -262,10 +267,13 @@ final class CharacterControllerTest extends TestCase
         $characters = PartialCharacter::where('owner', $user->email)->get();
         self::assertCount(2, $characters);
 
-        // @phpstan-ignore-next-line
-        $characters[0]->delete();
-        // @phpstan-ignore-next-line
-        $characters[1]->delete();
+        $character = $characters[0];
+        assert($character instanceof PartialCharacter);
+        $character->delete();
+
+        $character = $characters[1];
+        assert($character instanceof PartialCharacter);
+        $character->delete();
     }
 
     /**

@@ -13,6 +13,7 @@ use Modules\Alien\Database\Factories\CharacterFactory;
 use Stringable;
 
 use function array_map;
+use function assert;
 use function collect;
 use function current;
 
@@ -91,8 +92,7 @@ class Character extends BaseCharacter implements Stringable
     ];
 
     /**
-     * @phpstan-ignore-next-line
-     * @var array<array-key, string>
+     * @var array<int, string>
      */
     protected $hidden = [
         '_id',
@@ -307,21 +307,21 @@ class Character extends BaseCharacter implements Stringable
             get: function (?array $skills): array {
                 $returnedSkills = collect(Skill::all())->keyBy('id');
                 foreach ($skills ?? [] as $skill => $rank) {
-                    // @phpstan-ignore property.nonObject
+                    assert($returnedSkills[$skill] instanceof Skill);
                     $returnedSkills[$skill]->rank = $rank;
                 }
                 foreach ($this->armor?->modifiers ?? [] as $modifier) {
                     switch ($modifier) {
                         case Armor::MODIFIER_CLOSE_COMBAT_INCREASE: // @codeCoverageIgnore
-                            // @phpstan-ignore property.nonObject
+                            assert($returnedSkills['close-combat'] instanceof Skill);
                             $returnedSkills['close-combat']->rank += 3;
                             break;
                         case Armor::MODIFIER_HEAVY_MACHINERY_INCREASE: // @codeCoverageIgnore
-                            // @phpstan-ignore property.nonObject
+                            assert($returnedSkills['heavy-machinery'] instanceof Skill);
                             $returnedSkills['heavy-machinery']->rank += 3;
                             break;
                         case Armor::MODIFIER_SURVIVAL_INCREASE: // @codeCoverageIgnore
-                            // @phpstan-ignore property.nonObject
+                            assert($returnedSkills['survival'] instanceof Skill);
                             $returnedSkills['survival']->rank += 3;
                             break;
                     }

@@ -6,6 +6,10 @@ namespace Modules\Capers\Models;
 
 use Stringable;
 
+use function array_key_exists;
+use function assert;
+use function is_array;
+
 class Explosive extends Gear implements Stringable
 {
     /** @psalm-suppress PossiblyUnusedProperty */
@@ -18,11 +22,11 @@ class Explosive extends Gear implements Stringable
     {
         parent::__construct($id, $quantity);
 
-        // @phpstan-ignore-next-line
+        // Invalid item handled by parent.
+        assert(is_array(self::$gear));
+        assert(array_key_exists($id, self::$gear));
         $gear = self::$gear[$id];
-        // @phpstan-ignore-next-line
-        $this->blast = $gear['blast'];
-        // @phpstan-ignore-next-line
-        $this->damage = $gear['damage'];
+        $this->blast = (string)$gear['blast'];
+        $this->damage = (string)$gear['damage'];
     }
 }

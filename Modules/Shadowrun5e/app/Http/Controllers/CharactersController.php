@@ -213,10 +213,6 @@ class CharactersController extends Controller
         $user = $request->user();
 
         if ('new' === $step) {
-            /**
-             * @psalm-suppress UnnecessaryVarAnnotation PHPStan needs it
-             * @var PartialCharacter
-             */
             $character = PartialCharacter::create(['owner' => $user->email]);
             $request->session()->put('shadowrun5e-partial', $character->id);
             $step = 'rules';
@@ -242,8 +238,6 @@ class CharactersController extends Controller
 
                 /**
                  * No in-progress characters, create a new one.
-                 * @psalm-suppress UnnecessaryVarAnnotation PHPStan needs it
-                 * @var PartialCharacter
                  */
                 $character = PartialCharacter::create(['owner' => $user->email]);
                 $request->session()->put('shadowrun5e-partial', $character->id);
@@ -810,9 +804,8 @@ class CharactersController extends Controller
                 );
             case 'rules':
                 $books = collect(Rulebook::all())->values();
-                // @phpstan-ignore-next-line
-                $books = $books->mapToGroups(function (Rulebook $book, string $key): array {
-                    if (0 === (int)$key % 2) {
+                $books = $books->mapToGroups(function (Rulebook $book, int $key): array {
+                    if (0 === $key % 2) {
                         return ['even' => $book];
                     }
                     return ['odd' => $book];
@@ -1128,7 +1121,10 @@ class CharactersController extends Controller
 
             // The validator already validated that this is a valid quality ID.
             $quality = new Quality($id);
-            // @phpstan-ignore-next-line
+
+            // Use the raw name from data instead of from the object since the
+            // constructor munges some of them.
+            assert(null !== Quality::$qualities);
             if ('Addiction' === Quality::$qualities[$id]['name']) {
                 $qualities[] = [
                     'id' => $id,
@@ -1365,9 +1361,11 @@ class CharactersController extends Controller
 
     public function index(Request $request): JsonResource
     {
+        $user = $request->user();
+        // Routing requires login for this resource.
+        assert(null !== $user);
         return CharacterResource::collection(
-            // @phpstan-ignore-next-line
-            Character::where('owner', $request->user()->email)->get()
+            Character::where('owner', $user->email)->get()
         );
     }
 

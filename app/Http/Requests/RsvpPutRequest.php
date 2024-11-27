@@ -15,8 +15,8 @@ class RsvpPutRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        /** @phpstan-ignore-next-line */
-        $event = Event::find($this->route('event'))->firstOrFail();
+        /** @var Event */
+        $event = Event::find($this->route('event'))?->firstOrFail();
         $user = $this->user();
         return (new EventPolicy())->view($user, $event);
     }

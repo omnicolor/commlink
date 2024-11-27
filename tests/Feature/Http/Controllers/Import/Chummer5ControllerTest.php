@@ -10,6 +10,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use const DIRECTORY_SEPARATOR;
+
 #[Group('chummer5')]
 #[Group('shadowrun5e')]
 #[Medium]
@@ -34,13 +36,13 @@ final class Chummer5ControllerTest extends TestCase
     public function testValidUpload(): void
     {
         $path = explode(
-            \DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR,
             dirname(__DIR__, 4)
         );
         $path[] = 'Data';
         $path[] = 'Chummer5';
         $path[] = 'birdman.chum5';
-        $filename = implode(\DIRECTORY_SEPARATOR, $path);
+        $filename = implode(DIRECTORY_SEPARATOR, $path);
 
         $file = UploadedFile::fake()->createWithContent(
             'birdman.chum5',

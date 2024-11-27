@@ -72,7 +72,7 @@ final class GearArrayTest extends TestCase
     public function testAddWrongTypeException(): void
     {
         self::expectException(TypeError::class);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore offsetAssign.valueType
         $this->gear[] = new stdClass();
     }
 
@@ -82,7 +82,7 @@ final class GearArrayTest extends TestCase
     public function testAddWrongTypeDoesntAdd(): void
     {
         try {
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore argument.type
             $this->gear->offsetSet(gear: new stdClass());
         } catch (TypeError) {
             // Ignored

@@ -12,6 +12,9 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
+use function count;
+use function redirect;
+
 class RedirectIfAuthenticated
 {
     /**
@@ -22,10 +25,9 @@ class RedirectIfAuthenticated
     public function handle(
         Request $request,
         Closure $next,
-        string ...$guards
+        string ...$guards,
     ): RedirectResponse | Redirector | Response {
-        // @phpstan-ignore-next-line
-        $guards = empty($guards) ? [null] : $guards;
+        $guards = 0 === count($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {

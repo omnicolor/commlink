@@ -101,9 +101,10 @@ class CharactersController extends Controller
                     ]
                 );
             case 'function':
-                // @phpstan-ignore-next-line
-                $programming = Programming::tryFrom((string)$request->old('programming', '') ?? '')
-                    ?? $character->programming;
+                /** @var string */
+                $programming = $request->old('programming') ?? '';
+                $programming = Programming::tryFrom($programming);
+                $programming ??= $character->programming;
                 return view(
                     'transformers::create-function',
                     [
@@ -247,8 +248,7 @@ class CharactersController extends Controller
     public function index(Request $request): JsonResource
     {
         return CharacterResource::collection(
-            // @phpstan-ignore-next-line
-            Character::where('owner', $request->user()->email)->get()
+            Character::where('owner', $request->user()?->email)->get()
         );
     }
 
@@ -257,8 +257,7 @@ class CharactersController extends Controller
      */
     public function show(Request $request, string $identifier): JsonResource
     {
-        // @phpstan-ignore-next-line
-        $email = $request->user()->email;
+        $email = $request->user()?->email;
         return new CharacterResource(
             Character::where('_id', $identifier)
                 ->where('owner', $email)

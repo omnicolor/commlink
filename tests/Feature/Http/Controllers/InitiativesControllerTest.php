@@ -12,6 +12,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function sprintf;
+
 #[Group('initiatives')]
 #[Medium]
 final class InitiativesControllerTest extends TestCase
@@ -33,7 +35,7 @@ final class InitiativesControllerTest extends TestCase
         ]);
 
         self::actingAs($gm)
-            ->delete(\sprintf(
+            ->delete(sprintf(
                 '/api/campaigns/%d/initiatives/%d',
                 $campaign->id,
                 $initiative->id,
@@ -54,7 +56,7 @@ final class InitiativesControllerTest extends TestCase
         $campaign = Campaign::factory()->create(['gm' => $gm]);
 
         self::actingAs($gm)
-            ->delete(\sprintf('/api/campaigns/%d/initiatives/0', $campaign->id))
+            ->delete(sprintf('/api/campaigns/%d/initiatives/0', $campaign->id))
             ->assertNotFound();
     }
 
@@ -75,7 +77,7 @@ final class InitiativesControllerTest extends TestCase
         ]);
 
         self::actingAs($gm)
-            ->delete(\sprintf(
+            ->delete(sprintf(
                 '/api/campaigns/%d/initiatives/%d',
                 $campaign->id,
                 $initiative->id,
@@ -101,7 +103,7 @@ final class InitiativesControllerTest extends TestCase
         ]);
 
         self::actingAs($gm)
-            ->get(\sprintf('/api/campaigns/%d/initiatives', $campaign->id))
+            ->get(sprintf('/api/campaigns/%d/initiatives', $campaign->id))
             ->assertForbidden();
     }
 
@@ -117,7 +119,7 @@ final class InitiativesControllerTest extends TestCase
         $campaign = Campaign::factory()->create(['gm' => $gm]);
 
         self::actingAs($gm)
-            ->getJson(\sprintf('/api/campaigns/%d/initiatives', $campaign->id))
+            ->getJson(sprintf('/api/campaigns/%d/initiatives', $campaign->id))
             ->assertOk()
             ->assertJsonFragment(['initiatives' => []]);
     }
@@ -139,7 +141,7 @@ final class InitiativesControllerTest extends TestCase
         ]);
 
         $response = self::actingAs($gm)
-            ->getJson(\sprintf('/api/campaigns/%d/initiatives', $campaign->id))
+            ->getJson(sprintf('/api/campaigns/%d/initiatives', $campaign->id))
             ->assertOk();
         self::assertNotEmpty($response['initiatives']);
     }
@@ -162,7 +164,7 @@ final class InitiativesControllerTest extends TestCase
 
         self::actingAs($gm)
             ->patchJson(
-                \sprintf(
+                sprintf(
                     '/api/campaigns/%d/initiatives/%d',
                     $campaign->id,
                     $initiative->id,
@@ -193,7 +195,7 @@ final class InitiativesControllerTest extends TestCase
 
         self::actingAs($gm)
             ->patchJson(
-                \sprintf(
+                sprintf(
                     '/api/campaigns/%d/initiatives/%d',
                     $campaign->id,
                     $initiative->id,
@@ -230,7 +232,7 @@ final class InitiativesControllerTest extends TestCase
         ]);
 
         self::actingAs($gm)
-            ->getJson(\sprintf(
+            ->getJson(sprintf(
                 '/api/campaigns/%d/initiatives/%d',
                 $campaign->id,
                 $initiative->id,
@@ -255,7 +257,7 @@ final class InitiativesControllerTest extends TestCase
         ]);
 
         $response = self::actingAs($gm)
-            ->getJson(\sprintf(
+            ->getJson(sprintf(
                 '/api/campaigns/%d/initiatives/%d',
                 $campaign->id,
                 $initiative->id,
@@ -285,7 +287,7 @@ final class InitiativesControllerTest extends TestCase
 
         self::actingAs($user)
             ->postJson(
-                \sprintf(
+                sprintf(
                     '/api/campaigns/%d/initiatives',
                     $campaign->id,
                 ),
@@ -310,7 +312,7 @@ final class InitiativesControllerTest extends TestCase
 
         self::actingAs($gm)
             ->postJson(
-                \sprintf(
+                sprintf(
                     '/api/campaigns/%d/initiatives',
                     $campaign->id,
                 ),
@@ -349,7 +351,7 @@ final class InitiativesControllerTest extends TestCase
 
         self::actingAs($gm)
             ->postJson(
-                \sprintf(
+                sprintf(
                     '/api/campaigns/%d/initiatives',
                     $campaign->id,
                 ),
@@ -388,7 +390,7 @@ final class InitiativesControllerTest extends TestCase
         ]);
 
         self::actingAs($user)
-            ->deleteJson(\sprintf(
+            ->deleteJson(sprintf(
                 '/api/campaigns/%d/initiatives',
                 $campaign->id,
             ))
@@ -413,7 +415,7 @@ final class InitiativesControllerTest extends TestCase
         ]);
 
         self::actingAs($gm)
-            ->deleteJson(\sprintf(
+            ->deleteJson(sprintf(
                 '/api/campaigns/%d/initiatives',
                 $campaign->id,
             ))

@@ -146,9 +146,9 @@ final class GearTest extends TestCase
         ]);
         self::assertSame('Goggles', $gear->name);
         self::assertCount(1, $gear->modifications);
+        self::assertNotNull($gear->modifications[0]);
         self::assertSame(
             'Flare compensation',
-            // @phpstan-ignore-next-line
             $gear->modifications[0]->name
         );
     }
@@ -198,9 +198,9 @@ final class GearTest extends TestCase
         self::assertFalse($gear->active);
         self::assertCount(3, $gear->programs);
         self::assertInstanceOf(Program::class, $gear->programs[0]);
-        // @phpstan-ignore-next-line
+        self::assertNotNull($gear->programs[2]);
         self::assertInstanceOf(Vehicle::class, $gear->programs[2]->vehicle);
-        // @phpstan-ignore-next-line
+        self::assertNotNull($gear->programs[1]);
         self::assertInstanceOf(Weapon::class, $gear->programs[1]->weapon);
         self::assertSame(['foo'], $gear->slavedDevices);
         self::assertSame('Commlink - Da Deck!', (string)$gear);

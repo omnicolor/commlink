@@ -25,6 +25,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function json_decode;
+
 use const PHP_EOL;
 
 #[Medium]
@@ -47,7 +49,6 @@ final class InfoTest extends TestCase
         $username = Str::random(5);
         $channel = new Channel([
             'id' => $event->channel->id,
-            // @phpstan-ignore property.notFound
             'name' => $event->channel->name,
             'server_id' => $event->server->id,
             'type' => Channel::TYPE_DISCORD,
@@ -60,7 +61,6 @@ final class InfoTest extends TestCase
             . 'Commlink User: Not linked' . PHP_EOL
             . 'Server Name: ' . $event->server->name . PHP_EOL
             . 'Server ID: ' . $event->server->id . PHP_EOL
-            // @phpstan-ignore property.notFound
             . 'Channel Name: ' . $event->channel->name . PHP_EOL
             . 'Channel ID: ' . $event->channel->id . PHP_EOL
             . 'System: Unregistered' . PHP_EOL
@@ -86,7 +86,6 @@ final class InfoTest extends TestCase
         /** @var Channel */
         $channel = Channel::factory()->create([
             'channel_id' => $discordChannel->id,
-            // @phpstan-ignore property.notFound
             'channel_name' => $discordChannel->name,
             'server_id' => optional($discordChannel->guild)->id,
             'server_name' => optional($discordChannel->guild)->name,
@@ -333,7 +332,7 @@ final class InfoTest extends TestCase
 
         $info = (new Info('info', $this->faker->userName(), $channel, null))
             ->forSlack();
-        $response = \json_decode((string)$info)->attachments[0];
+        $response = json_decode((string)$info)->attachments[0];
         self::assertSame('Debugging Info', $response->title);
         self::assertEquals($expectedFields, $response->fields);
     }

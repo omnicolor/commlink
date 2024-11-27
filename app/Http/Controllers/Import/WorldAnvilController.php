@@ -32,9 +32,9 @@ class WorldAnvilController extends Controller
 {
     /**
      * Map of template IDs from World Anvil to Commlink character types.
-     * @phpstan-ignore-next-line
      * @psalm-suppress InvalidPropertyAssignmentValue
      * @var array<string, array<string, string>>
+     * @phpstan-ignore property.defaultValue
      */
     protected array $templateMap = [
         ExpanseConverter::TEMPLATE_ID => [

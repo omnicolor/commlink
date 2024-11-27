@@ -14,9 +14,6 @@ use RuntimeException;
 
 use function str_replace;
 
-/**
- * @property Message $message
- */
 class DiscordMessageReceived extends MessageReceived
 {
     /**

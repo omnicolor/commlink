@@ -1,0 +1,9 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Rs\Json\Pointer;
+
+use Exception;
+
+class InvalidPointerException extends Exception {};

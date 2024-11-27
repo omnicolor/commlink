@@ -54,7 +54,7 @@ final class PerkArrayTest extends TestCase
     public function testAddWrongTypeException(): void
     {
         self::expectException(TypeError::class);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore offsetAssign.valueType
         $this->perks[] = new stdClass();
     }
 
@@ -64,7 +64,7 @@ final class PerkArrayTest extends TestCase
     public function testAddWrongTypeDoesntAdd(): void
     {
         try {
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore argument.type
             $this->perks->offsetSet(perk: new stdClass());
         } catch (TypeError) {
             // Ignored

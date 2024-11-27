@@ -41,7 +41,7 @@ class PartialCharacter extends Character implements Stringable
         $character->setRawAttributes($attributes, true);
         $character->setConnection($this->connection);
         $character->fireModelEvent('retrieved', false);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore return.type
         return $character;
     }
 

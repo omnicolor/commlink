@@ -12,6 +12,8 @@ use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
+use function random_int;
+
 #[Group('cyberpunkred')]
 #[Small]
 final class SkillTest extends TestCase
@@ -62,6 +64,15 @@ final class SkillTest extends TestCase
         $character = new Character(['intelligence' => $intelligence]);
         $skill = new Skill('business', $level);
         self::assertSame($intelligence + $level, $skill->getBase($character));
+    }
+
+    public function testGetBaseInvalidAttribte(): void
+    {
+        $character = new Character();
+        $skill = new Skill('business', 1);
+        $skill->attribute = 'invalid';
+        self::expectException(RuntimeException::class);
+        $skill->getBase($character);
     }
 
     /**

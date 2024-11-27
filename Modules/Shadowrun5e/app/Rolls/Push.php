@@ -91,7 +91,7 @@ class Push extends Number
      */
     protected int $successes = 0;
 
-    // @phpstan-ignore-next-line
+    // @phpstan-ignore constructor.missingParentCall (Calls grandparent instead)
     public function __construct(
         string $content,
         string $username,

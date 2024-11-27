@@ -11,6 +11,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function count;
+
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
 #[Medium]
@@ -54,7 +56,7 @@ final class GearControllerTest extends TestCase
                     'self' => '/api/shadowrun5e/gear/credstick-gold',
                 ],
             ]);
-        self::assertGreaterThanOrEqual(1, \count($response['data']));
+        self::assertGreaterThanOrEqual(1, count($response['data']));
     }
 
     /**

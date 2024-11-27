@@ -30,7 +30,7 @@ final class LifestyleAttributesTest extends TestCase
      */
     public function testGarbageAttributes(): void
     {
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore argument.type
         $attributes = new LifestyleAttributes([
             'comforts' => 'a',
             'comfortsMax' => 'b',
