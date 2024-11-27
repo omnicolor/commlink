@@ -8,6 +8,7 @@ use Modules\Transformers\Models\AltMode;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
+use RuntimeException;
 use Tests\TestCase;
 
 #[Group('transformers')]
@@ -94,5 +95,11 @@ final class AltModeTest extends TestCase
     {
         $mode = new AltMode(AltMode::TYPE_VEHICLE);
         self::assertSame('Vehicle', (string)$mode);
+    }
+
+    public function testInvalidAltModeType(): void
+    {
+        self::expectException(RuntimeException::class);
+        new AltMode('invalid');
     }
 }

@@ -7,6 +7,20 @@ namespace Modules\Shadowrun5e\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function abort_if;
+use function array_key_exists;
+use function array_values;
+use function assert;
+use function config;
+use function date;
+use function json_encode;
+use function response;
+use function route;
+use function sha1;
+use function sha1_file;
+use function stat;
+use function strtolower;
+
 /**
  * Controller for Shadowrun 5E skill groups.
  * @psalm-suppress UnusedClass
@@ -32,32 +46,28 @@ class SkillGroupsController extends Controller
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path') . 'skills.php';
         $this->links['system'] = '/api/shadowrun5e';
-        $this->links['collection'] = '/api/shadowrun5e/skill-groups';
-        $stat = \stat($this->filename);
-        // @phpstan-ignore-next-line
-        $this->headers['Last-Modified'] = \date('r', $stat['mtime']);
+        $this->links['collection'] = route('shadowrun5e.skill-groups.index');
 
         /** @psalm-suppress UnresolvableInclude */
         $skills = require $this->filename;
-        foreach ($skills as $key => $value) {
-            if (!\array_key_exists('group', $value)) {
+
+        $stat = stat($this->filename);
+        assert(false !== $stat); // require() would have failed.
+        $this->headers['Last-Modified'] = date('r', $stat['mtime']);
+
+        foreach ($skills as $skill_id => $skill) {
+            if (!array_key_exists('group', $skill)) {
                 // Some skills are not in any groups.
                 continue;
             }
-            $value['links']['self'] = \sprintf(
-                '/api/shadowrun5e/skills/%s',
-                \urlencode((string)$key)
-            );
-            // @phpstan-ignore-next-line
-            $this->groups[$value['group']]['skills'][] = $value;
-            // @phpstan-ignore-next-line
-            $this->groups[$value['group']]['id'] = $value['group'];
-            // @phpstan-ignore-next-line
-            $this->groups[$value['group']]['links'] = [
-                'self' => \sprintf(
-                    '/api/shadowrun5e/skill-groups/%s',
-                    $value['group']
-                ),
+            /** @var string */
+            $group = $skill['group'];
+
+            $skill['links']['self'] = route('shadowrun5e.skills.show', $skill_id);
+            $this->groups[$group]['skills'][] = $skill;
+            $this->groups[$group]['id'] = $skill['group'];
+            $this->groups[$group]['links'] = [
+                'self' => route('shadowrun5e.skill-groups.show', $group),
             ];
         }
     }
@@ -68,10 +78,10 @@ class SkillGroupsController extends Controller
      */
     public function index(): Response
     {
-        $this->headers['Etag'] = \sha1_file($this->filename);
+        $this->headers['Etag'] = sha1_file($this->filename);
         $data = [
             'links' => $this->links,
-            'data' => \array_values($this->groups),
+            'data' => array_values($this->groups),
         ];
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
@@ -82,23 +92,16 @@ class SkillGroupsController extends Controller
      */
     public function show(string $identifier): Response
     {
-        $identifier = \strtolower($identifier);
-        if (!\array_key_exists($identifier, $this->groups)) {
-            // We couldn't find the requested skill group!
-            $error = [
-                'status' => Response::HTTP_NOT_FOUND,
-                'detail' => $identifier . ' not found',
-                'title' => 'Not Found',
-            ];
-            return $this->error($error);
-        }
+        $identifier = strtolower($identifier);
+        abort_if(
+            !array_key_exists($identifier, $this->groups),
+            Response::HTTP_NOT_FOUND,
+            $identifier . ' not found',
+        );
 
         $group = $this->groups[$identifier];
-        $this->headers['Etag'] = \sha1((string)\json_encode($group));
-        $this->links['self'] = \sprintf(
-            '/api/shadowrun5e/skill-groups/%s',
-            $identifier
-        );
+        $this->headers['Etag'] = sha1((string)json_encode($group));
+        $this->links['self'] = route('shadowrun5e.skill-groups.show', $identifier);
         $data = [
             'links' => $this->links,
             'data' => $group,

@@ -32,7 +32,6 @@ class NewPasswordController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // @phpstan-ignore-next-line
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',

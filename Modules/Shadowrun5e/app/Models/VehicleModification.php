@@ -7,10 +7,10 @@ namespace Modules\Shadowrun5e\Models;
 use RuntimeException;
 use Stringable;
 
+use function assert;
 use function config;
 use function sprintf;
 use function strtolower;
-use function ucfirst;
 
 /**
  * Something to add to a vehicle.
@@ -36,7 +36,7 @@ class VehicleModification implements Stringable
     /**
      * Cost multiplier to use based on the vehicle's cost.
      */
-    public ?float $costMultiplier;
+    public ?float $costMultiplier = null;
 
     /**
      * Description of the modification.
@@ -134,7 +134,7 @@ class VehicleModification implements Stringable
             $this->costAttribute = $mod['cost-attribute'];
         }
         if (isset($mod['cost-multiplier'])) {
-            $this->costMultiplier = $mod['cost-multiplier'];
+            $this->costMultiplier = (float)$mod['cost-multiplier'];
         }
         $this->description = $mod['description'];
         $this->effects = $mod['effects'] ?? [];
@@ -150,12 +150,12 @@ class VehicleModification implements Stringable
         // Vehicle modifications can be modified by other modifications.
         $this->modifications = new VehicleModificationArray();
         if (VehicleModificationType::VehicleModification == $this->type) {
-            // @phpstan-ignore-next-line
+            assert(null === $options['modifications'] || is_array($options['modifications']));
             foreach ($options['modifications'] ?? [] as $modMod) {
                 $this->modifications[] = new VehicleModification($modMod);
             }
             if (isset($options['weapon'])) {
-                // @phpstan-ignore-next-line
+                assert(is_array($options['weapon']));
                 $this->weapon = Weapon::buildWeapon($options['weapon']);
             }
         }
@@ -186,18 +186,25 @@ class VehicleModification implements Stringable
      */
     public function getCost(Vehicle $vehicle): int
     {
-        if (!isset($this->costAttribute) && !isset($this->costMultiplier)) {
-            return (int)$this->cost;
-        }
-
         if (isset($this->costAttribute)) {
-            $attribute = 'stock' . ucfirst($this->costAttribute);
-            /** @phpstan-ignore-next-line */
-            return $vehicle->$attribute * $this->cost;
+            return (int)$this->cost * (int)match ($this->costAttribute) {
+                'acceleration' => $vehicle->stockAcceleration,
+                'armor' => $vehicle->stockArmor, // @codeCoverageIgnore
+                'body' => $vehicle->stockBody, // @codeCoverageIgnore
+                'handling' => $vehicle->stockHandling, // @codeCoverageIgnore
+                'handlingOffRoad' => $vehicle->stockHandlingOffRoad, // @codeCoverageIgnore
+                'pilot' => $vehicle->stockPilot, // @codeCoverageIgnore
+                'sensor' => $vehicle->stockSensor, // @codeCoverageIgnore
+                'speed' => $vehicle->stockSpeed, // @codeCoverageIgnore
+                default => 1,
+            };
         }
 
-        // @phpstan-ignore-next-line
-        return (int)($vehicle->cost * $this->costMultiplier);
+        if (null !== $this->costMultiplier) {
+            return (int)($vehicle->cost * $this->costMultiplier);
+        }
+
+        return (int)$this->cost;
     }
 
     /**

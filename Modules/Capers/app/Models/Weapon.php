@@ -6,27 +6,36 @@ namespace Modules\Capers\Models;
 
 use Stringable;
 
+use function array_key_exists;
+use function assert;
+use function is_array;
+
 class Weapon extends Gear implements Stringable
 {
     /** @psalm-suppress PossiblyUnusedProperty */
-    public ?string $damage;
+    public ?string $damage = null;
     /** @psalm-suppress PossiblyUnusedProperty */
-    public ?string $range;
+    public ?string $range = null;
     /** @psalm-suppress PossiblyUnusedProperty */
-    public ?string $rounds;
+    public ?string $rounds = null;
     public string $type = 'weapon';
 
     public function __construct(public string $id, int $quantity)
     {
         parent::__construct($id, $quantity);
 
-        // @phpstan-ignore-next-line
+        // Invalid item handled by parent.
+        assert(is_array(self::$gear));
+        assert(array_key_exists($id, self::$gear));
         $gear = self::$gear[$id];
-        // @phpstan-ignore-next-line
-        $this->damage = $gear['damage'] ?? null;
-        // @phpstan-ignore-next-line
-        $this->range = $gear['range'] ?? null;
-        // @phpstan-ignore-next-line
-        $this->rounds = $gear['rounds'] ?? null;
+        if (isset($gear['damage'])) {
+            $this->damage = (string)$gear['damage'];
+        }
+        if (isset($gear['range'])) {
+            $this->range = (string)$gear['range'];
+        }
+        if (isset($gear['rounds'])) {
+            $this->rounds = (string)$gear['rounds'];
+        }
     }
 }

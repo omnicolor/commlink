@@ -97,7 +97,7 @@ final class GruntTest extends TestCase
         self::assertNull($grunt->adept_powers);
         self::assertCount(1, $grunt->armor);
         self::assertCount(0, $grunt->augmentations);
-        // @phpstan-ignore-next-line
+        self::assertNotNull($grunt->complex_forms);
         self::assertCount(1, $grunt->complex_forms);
         self::assertCount(0, $grunt->gear);
         self::assertCount(0, $grunt->knowledge);
@@ -137,7 +137,7 @@ final class GruntTest extends TestCase
         self::assertSame(384, $grunt->page);
         self::assertSame('core', $grunt->ruleset);
 
-        // @phpstan-ignore-next-line
+        self::assertNotNull($grunt->adept_powers);
         self::assertCount(1, $grunt->adept_powers);
         self::assertCount(2, $grunt->armor);
         self::assertCount(0, $grunt->augmentations);

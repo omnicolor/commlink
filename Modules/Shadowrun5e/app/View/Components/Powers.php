@@ -10,6 +10,8 @@ use Modules\Shadowrun5e\Models\AdeptPowerArray;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\PartialCharacter;
 
+use function assert;
+
 /**
  * @psalm-suppress UnusedClass
  */
@@ -49,10 +51,7 @@ class Powers extends Component
         if (!$this->isAdept()) {
             return '';
         }
-        /**
-         * @psalm-suppress PossiblyNullArrayAccess
-         * @phpstan-ignore-next-line
-         */
+        assert(null !== $this->character->priorities);
         if ('mystic' === $this->character->priorities['magic']) {
             return 'mystic adept';
         }

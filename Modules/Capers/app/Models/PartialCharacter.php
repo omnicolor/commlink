@@ -14,10 +14,8 @@ use function optional;
 /**
  * Representation of a character currently being built.
  * @method static self create(array<mixed, mixed> $attributes)
- * @property array<int, object> $gear
+ * @property-write array<int, array<string, mixed>> $gear
  * @property array<string, string> $meta
- * @property-read PowerArray $powers
- * @property-write array<int, mixed>|PowerArray $powers
  */
 class PartialCharacter extends Character implements Stringable
 {
@@ -78,7 +76,7 @@ class PartialCharacter extends Character implements Stringable
         $character->setRawAttributes($attributes, true);
         $character->setConnection($this->connection);
         $character->fireModelEvent('retrieved', false);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore return.type
         return $character;
     }
 

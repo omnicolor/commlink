@@ -26,9 +26,7 @@ final class CampaignTest extends TestCase
      */
     protected function createCleanCampaign(): Campaign
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
-        // @phpstan-ignore-next-line
         $campaign->characters()->each(function (BaseCharacter $character, $key): void {
             $character->delete();
         });

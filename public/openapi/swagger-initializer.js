@@ -1,6 +1,6 @@
 window.onload = function() {
   window.ui = SwaggerUIBundle({
-    url: "https://commlink.digitaldarkness.com/openapi.yml",
+    url: "/openapi.yml",
     dom_id: '#swagger-ui',
     deepLinking: true,
     presets: [
