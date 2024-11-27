@@ -8,7 +8,6 @@ use App\Models\Character as BaseCharacter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Modules\Root\Casts\AttributeCast;
 use Modules\Root\Database\Factories\CharacterFactory;
 use Modules\Root\ValueObjects\Attribute;
@@ -62,8 +61,7 @@ class Character extends BaseCharacter implements Stringable
     ];
 
     /**
-     * @phpstan-ignore-next-line
-     * @var array<array-key, string>
+     * @var array<int, string>
      */
     protected $hidden = [
         '_id',

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Root\ValueObjects;
 
 use DomainException;
-use Stringable;
 
 readonly class Attribute
 {

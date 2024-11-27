@@ -9,7 +9,7 @@ use Modules\Root\Models\Character;
 
 /**
  * @extends Factory<Character>
-*/
+ */
 class CharacterFactory extends Factory
 {
     protected $model = Character::class;
