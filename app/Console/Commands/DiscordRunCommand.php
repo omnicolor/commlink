@@ -160,7 +160,7 @@ class DiscordRunCommand extends Command
             return;
         }
 
-        $response = $reaction->emoji->name;
+        $response = $reaction->emoji?->name;
         if (!in_array($response, ['👍', '👎', '🤷'], true)) {
             return;
         }
