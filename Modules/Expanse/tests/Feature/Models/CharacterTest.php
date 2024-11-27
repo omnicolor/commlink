@@ -93,8 +93,7 @@ final class CharacterTest extends TestCase
         self::assertCount(1, $character->getFocuses());
         $focus = $character->getFocuses()[0];
         self::assertSame('Crafting', (string)$focus);
-        // @phpstan-ignore-next-line
-        self::assertSame(1, $focus->level);
+        self::assertSame(1, $focus?->level);
     }
 
     /**
@@ -110,8 +109,7 @@ final class CharacterTest extends TestCase
         self::assertCount(1, $character->getFocuses());
         $focus = $character->getFocuses()[0];
         self::assertSame('Crafting', (string)$focus);
-        // @phpstan-ignore-next-line
-        self::assertSame(2, $focus->level);
+        self::assertSame(2, $focus?->level);
     }
 
     /**

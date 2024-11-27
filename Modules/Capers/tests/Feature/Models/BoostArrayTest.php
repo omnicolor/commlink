@@ -54,7 +54,7 @@ final class BoostArrayTest extends TestCase
     public function testAddWrongTypeException(): void
     {
         self::expectException(TypeError::class);
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore offsetAssign.valueType
         $this->boosts[] = new stdClass();
     }
 
@@ -64,7 +64,7 @@ final class BoostArrayTest extends TestCase
     public function testAddWrongTypeDoesntAdd(): void
     {
         try {
-            // @phpstan-ignore-next-line
+            // @phpstan-ignore argument.type
             $this->boosts->offsetSet(boost: new stdClass());
         } catch (TypeError) {
             // Ignored

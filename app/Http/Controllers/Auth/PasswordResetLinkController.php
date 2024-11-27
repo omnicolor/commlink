@@ -29,7 +29,6 @@ class PasswordResetLinkController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // @phpstan-ignore-next-line
         $request->validate(['email' => 'required|email']);
 
         // We will send the password reset link to this user. Once we have

@@ -10,6 +10,10 @@ use Illuminate\Validation\Rules\In;
 use Modules\Capers\Models\Power;
 use Modules\Capers\Models\PowerArray;
 
+use function array_merge;
+use function assert;
+use function count;
+
 class PowersRequest extends BaseRequest
 {
     /**
@@ -48,7 +52,7 @@ class PowersRequest extends BaseRequest
                                     $fail('You can only choose a *single* power.');
                                     return;
                                 }
-                                // @phpstan-ignore-next-line
+                                assert($powers[0] instanceof Power);
                                 if (Power::TYPE_MAJOR !== $powers[0]->type) {
                                     $fail('You must choose one *major* power.');
                                     return;
@@ -59,7 +63,7 @@ class PowersRequest extends BaseRequest
                                     $fail('You can only choose a *single* power.');
                                     return;
                                 }
-                                // @phpstan-ignore-next-line
+                                assert($powers[0] instanceof Power);
                                 if (Power::TYPE_MINOR !== $powers[0]->type) {
                                     $fail('You must choose one *minor* power.');
                                     return;
@@ -70,10 +74,10 @@ class PowersRequest extends BaseRequest
                                     $fail('You must choose *two* minor powers.');
                                     return;
                                 }
+                                assert($powers[0] instanceof Power);
+                                assert($powers[1] instanceof Power);
                                 if (
-                                    // @phpstan-ignore-next-line
                                     Power::TYPE_MINOR !== $powers[0]->type
-                                    // @phpstan-ignore-next-line
                                     || Power::TYPE_MINOR !== $powers[1]->type
                                 ) {
                                     $fail('You can only choose two *minor* powers.');

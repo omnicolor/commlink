@@ -736,9 +736,9 @@ final class CharacterTest extends TestCase
         $log = $log[0];
         self::assertSame('Test entry', $log->description);
         self::assertSame(42, $log->karma);
-        // @phpstan-ignore-next-line
+        self::assertNotNull($log->realDate);
         self::assertSame('2020-03-24', $log->realDate->format('Y-m-d'));
-        // @phpstan-ignore-next-line
+        self::assertNotNull($log->gameDate);
         self::assertSame('2080-04-01', $log->gameDate->format('Y-m-d'));
     }
 
@@ -1213,9 +1213,10 @@ final class CharacterTest extends TestCase
      */
     public function testGetModifiedAttributeBrokenEffect(): void
     {
-        // Create a quality with a broken effect.
+        // Create a quality with a broken effect to test effects without an
+        // integer effect.
         $quality = new Quality('lucky');
-        // @phpstan-ignore-next-line
+        // @phpstan-ignore assign.propertyType
         $quality->effects = ['distinctive-style'];
 
         $qualities = new QualityArray();

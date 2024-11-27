@@ -157,12 +157,12 @@ class CyberpunkRedConverter implements ConverterInterface
             $id = Str::padLeft((string)$i, 2, '0');
             $anvilId = 'skill_value_' . $id;
             $level = (int)$this->rawCharacter->$anvilId;
-            if (0 === $level) {
+            if (0 >= $level) {
                 // Character doesn't have ranks in the skill, leave it out.
                 continue;
             }
 
-            $commlinkId = $anvilSkillMap[$anvilId];
+            $commlinkId = (string)$anvilSkillMap[$anvilId];
             if (!isset($rawSkills[$commlinkId])) {
                 // Custom skill?
                 $name = 'skill_name_' . $id;
@@ -187,7 +187,6 @@ class CyberpunkRedConverter implements ConverterInterface
             $skills[$commlinkId] = $level;
         }
 
-        // @phpstan-ignore-next-line
         $this->character->skills = $skills;
         if (0 !== count($customSkills)) {
             $this->character->skills_custom = $customSkills;
