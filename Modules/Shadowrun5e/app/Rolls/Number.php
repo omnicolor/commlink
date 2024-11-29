@@ -336,7 +336,6 @@ class Number extends Roll
         $row = ActionRow::new()->addComponent($button);
         $message = MessageBuilder::new()->setContent($content)
             ->addComponent($row);
-        /** @psalm-suppress TooManyTemplateParams */
         $interaction->message->edit($message);
     }
 
