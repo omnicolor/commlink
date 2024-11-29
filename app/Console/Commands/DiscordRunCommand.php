@@ -13,9 +13,18 @@ use Discord\Discord;
 use Discord\Parts\Channel\Message;
 use Discord\Parts\WebSockets\MessageReaction;
 use Discord\WebSockets\Event;
+use Discord\WebSockets\Intents;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+
+use function array_key_exists;
+use function config;
+use function explode;
+use function in_array;
+use function sprintf;
+use function str_contains;
+use function str_starts_with;
 
 /**
  * Start a Discord bot.
@@ -52,8 +61,10 @@ class DiscordRunCommand extends Command
     public function handle(): int
     {
         $this->token = config('services.discord.token');
+        $log = Log::getLogger();
         $discord = new Discord([
-            'logger' => Log::getLogger(),
+            'intents' => Intents::getDefaultIntents() | Intents::MESSAGE_CONTENT,
+            'logger' => $log,
             'storeMessages' => true,
             'token' => $this->token,
         ]);
@@ -68,7 +79,7 @@ class DiscordRunCommand extends Command
         });
         $discord->on(
             Event::MESSAGE_CREATE,
-            function (Message $message, Discord $discord): void {
+            function (Message $message, Discord $discord) use ($log): void {
                 if (true === $message->author?->bot) {
                     $this->handleBotMessages($message);
                     return;
@@ -77,6 +88,7 @@ class DiscordRunCommand extends Command
                     // Ignore non-command chatter.
                     return;
                 }
+                $log->debug('Discord command received', ['message' => $message]);
                 DiscordMessageReceived::dispatch($message, $discord);
             }
         );
