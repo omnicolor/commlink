@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Modules\Root\ValueObjects;
 
 use DomainException;
+use Stringable;
 
-readonly class Attribute
+readonly class Attribute implements Stringable
 {
     public function __construct(public int $value)
     {
