@@ -54,6 +54,7 @@
         "ext-random": "*",
         "ext-redis": "*",
         "ext-zip": "*",
+        "calebporzio/sushi": "^2.5",
         "captainhook/hook-installer": "^1.0",
         "fakerphp/faker": "^1.23",
         "guzzlehttp/guzzle": "^7.3",

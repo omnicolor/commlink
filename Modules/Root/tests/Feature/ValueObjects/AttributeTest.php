@@ -39,4 +39,17 @@ final class AttributeTest extends TestCase
         $attribute = new Attribute(1);
         self::assertSame('1', (string)$attribute);
     }
+
+    public function testHighAttributeWithMove(): void
+    {
+        $attribute = new Attribute(value: 3, improved_by_move: true);
+        self::assertSame(3, $attribute->value);
+    }
+
+    public function testTooHighAttributeEvenWithMove(): void
+    {
+        self::expectException(DomainException::class);
+        self::expectExceptionMessage('Attributes can not be greater than 3 including a move');
+        new Attribute(4, true);
+    }
 }

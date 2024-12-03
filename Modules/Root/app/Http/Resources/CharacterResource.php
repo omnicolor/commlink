@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Modules\Root\Http\Resources;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\MissingValue;
 use Modules\Root\Models\Character;
+use Modules\Root\Models\Move;
 
 /**
  * @mixin Character
@@ -15,6 +17,7 @@ use Modules\Root\Models\Character;
 class CharacterResource extends JsonResource
 {
     /**
+     * @psalm-suppress TooManyTemplateParams
      * @return array{
      *   name: string,
      *   meta: array{
@@ -24,9 +27,20 @@ class CharacterResource extends JsonResource
      *   stats: array{
      *     charm: int,
      *     cunning: int,
-     *     finese: int,
+     *     finesse: int,
      *     luck: int,
      *     might: int
+     *   },
+     *   moves: AnonymousResourceCollection<Move>,
+     *   nature: NatureResource,
+     *   playbook: PlaybookResource,
+     *   tracks: array{
+     *     decay: int<0, 5>,
+     *     decay_max: int<0, 5>,
+     *     exhaustion: int<0, 5>,
+     *     exhaustion_max: int<0, 5>,
+     *     injury: int<0, 5>,
+     *     injury_max: int<0, 5>,
      *   },
      *   id: string,
      *   campaign_id: MissingValue|integer,
@@ -52,9 +66,20 @@ class CharacterResource extends JsonResource
             'stats' => [
                 'charm' => $this->charm->value,
                 'cunning' => $this->cunning->value,
-                'finese' => $this->finese->value,
+                'finesse' => $this->finesse->value,
                 'luck' => $this->luck->value,
                 'might' => $this->might->value,
+            ],
+            'moves' => MoveResource::collection($this->moves),
+            'nature' => new NatureResource($this->nature),
+            'playbook' => new PlaybookResource($this->playbook),
+            'tracks' => [
+                'decay' => $this->decay,
+                'decay_max' => $this->decay_max,
+                'exhaustion' => $this->exhaustion,
+                'exhaustion_max' => $this->exhaustion_max,
+                'injury' => $this->injury,
+                'injury_max' => $this->injury_max,
             ],
             'id' => $this->id,
             'campaign_id' => $this->when(

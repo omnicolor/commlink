@@ -24,9 +24,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $user->assignRole($trusted);
 
-        /** @var Character */
         $character1 = Character::factory()->create(['owner' => $user->email]);
-        /** @var Character */
         $character2 = Character::factory()->create(['owner' => $user->email]);
 
         self::actingAs($user)
@@ -45,9 +43,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $user->assignRole($trusted);
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'alien']);
-        /** @var Character */
         $character = Character::factory()->create([
             'campaign_id' => $campaign,
             'owner' => $user->email,
@@ -59,6 +55,28 @@ final class CharactersControllerTest extends TestCase
             ->assertJsonPath('data.name', $character->name)
             ->assertJsonPath('data.campaign_id', $campaign->id);
 
+        $character->delete();
+    }
+
+    public function testViewCharacter(): void
+    {
+        $trusted = Role::create(['name' => 'trusted']);
+        $trusted->givePermissionTo(Permission::create(['name' => 'view data']));
+        $user = User::factory()->create();
+        $user->assignRole($trusted);
+
+        $character = Character::factory()->create([
+            'moves' => ['brute', 'cleave'],
+            'name' => 'Trash Panda',
+            'nature' => 'punisher',
+            'owner' => $user->email,
+            'playbook' => 'arbiter',
+        ]);
+
+        self::actingAs($user)
+            ->get(route('root.character', $character))
+            ->assertOk()
+            ->assertSee('Trash Panda, The Arbiter');
         $character->delete();
     }
 }

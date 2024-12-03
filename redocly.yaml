@@ -46,6 +46,7 @@ rules:
       - healthz
       - invite
       - roll
+      - root
       - rsvp
       - shadowrun5e
       - stillfleet
