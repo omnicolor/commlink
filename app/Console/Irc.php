@@ -32,16 +32,16 @@ class Irc extends Prompt
             [' ', '.', ',']
         );
         KeyPressListener::for($this)
-            ->on($valid, function (string $key) {
+            ->on($valid, function (string $key): void {
                 $this->message .= $key;
             })
-            ->on(Key::ENTER, function () {
+            ->on(Key::ENTER, function (): void {
                 $this->message = '';
             })
-            ->on(Key::BACKSPACE, function () {
+            ->on(Key::BACKSPACE, function (): void {
                 $this->message = substr($this->message, 0, -1);
             })
-            ->on(Key::CTRL_C, function () {
+            ->on(Key::CTRL_C, function (): void {
                 $this->terminal()->exit();
             })
             ->listen();
