@@ -5442,7 +5442,7 @@ components:
         effects:
           items:
             type: object
-          type: array
+          type: object
         incompatible_with:
           items:
             type: string
@@ -5461,7 +5461,6 @@ components:
         - cost
         - description
         - id
-        - incompatible_with
         - name
         - links
       type: object
