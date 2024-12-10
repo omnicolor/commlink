@@ -37,15 +37,16 @@ class MakeModuleRollCommand extends GeneratorCommand
 
     public function handle(): int
     {
-        if (E_ERROR === parent::handle()) {
-            return E_ERROR;
-        }
-
         /**
          * @psalm-suppress UndefinedInterfaceMethod
          * @phpstan-ignore offsetAccess.nonOffsetAccessible
          */
         $this->modules = $this->laravel['modules'];
+
+        if (E_ERROR === parent::handle()) {
+            return E_ERROR;
+        }
+
         return self::SUCCESS;
     }
 
