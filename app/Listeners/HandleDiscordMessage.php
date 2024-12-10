@@ -71,7 +71,6 @@ class HandleDiscordMessage
                         $event,
                     );
 
-                    /** @psalm-suppress TooManyTemplateParams */
                     $event->message->reply($roll->forDiscord());
                     RollEvent::dispatch($roll, $channel);
                     return true;

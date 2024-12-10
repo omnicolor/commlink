@@ -9,6 +9,7 @@ use App\Exceptions\SlackException;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
+use Discord\Builders\Components\ActionRow;
 use Discord\Builders\MessageBuilder;
 use Discord\Discord;
 use Discord\Parts\Channel\Channel as DiscordChannel;
@@ -37,7 +38,6 @@ final class NumberTest extends TestCase
     #[TestDox('Test trying to roll without a limit or description')]
     public function testRollNoLimitNoDescription(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         $response = new Number('5', 'user', $channel);
         $response = (string)$response->forSlack();
@@ -49,7 +49,6 @@ final class NumberTest extends TestCase
     #[TestDox('Test trying to roll with a limit')]
     public function testRollWithLimit(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         $response = new Number('15 5', 'username', $channel);
         $response = (string)$response->forSlack();
@@ -61,7 +60,6 @@ final class NumberTest extends TestCase
     #[TestDox('Test trying to roll with a description')]
     public function testRollWithDescription(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         $response = new Number('5 description', 'username', $channel);
         $response = (string)$response->forSlack();
@@ -73,7 +71,6 @@ final class NumberTest extends TestCase
     #[TestDox('Test trying to roll with both a description and a limit')]
     public function testRollBoth(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         $response = new Number('20 10 description', 'username', $channel);
         $response = (string)$response->forSlack();
@@ -87,7 +84,6 @@ final class NumberTest extends TestCase
     {
         self::expectException(SlackException::class);
         self::expectExceptionMessage('You can\'t roll more than 100 dice!');
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         (new Number('101', 'username', $channel))->forSlack();
     }
@@ -218,13 +214,11 @@ final class NumberTest extends TestCase
     {
         DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(1);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_DISCORD,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -232,11 +226,7 @@ final class NumberTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
-        $character = Character::factory()->create([
-            'edge' => 2,
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create(['edge' => 2]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,
@@ -279,13 +269,11 @@ final class NumberTest extends TestCase
     {
         DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(3);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_DISCORD,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -293,11 +281,7 @@ final class NumberTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
-        $character = Character::factory()->create([
-            'edge' => 2,
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create(['edge' => 2]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,
@@ -327,6 +311,7 @@ final class NumberTest extends TestCase
         /** @var MessageBuilder */
         $response = (new Number('6 3', (string)$character, $channel, $event))
             ->forDiscord();
+        /** @var array{content: string, components: array<int, ActionRow>} */
         $response = $response->jsonSerialize();
 
         self::assertSame($expected, $response['content']);
@@ -339,13 +324,11 @@ final class NumberTest extends TestCase
     {
         DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(3);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_DISCORD,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -353,11 +336,7 @@ final class NumberTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
-        $character = Character::factory()->create([
-            'edge' => 2,
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create(['edge' => 2]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,
@@ -407,13 +386,11 @@ final class NumberTest extends TestCase
             ->with(6)
             ->andReturn(6, 3, 3, 3, 3, 3, 1, 5, 5, 5, 6);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_DISCORD,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -421,11 +398,7 @@ final class NumberTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
-        $character = Character::factory()->create([
-            'edge' => 2,
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create(['edge' => 2]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,
