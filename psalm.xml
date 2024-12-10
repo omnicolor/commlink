@@ -33,11 +33,6 @@
                 <directory name="Modules/**/app/Models" />
             </errorLevel>
         </MissingTemplateParam>
-        <TooManyTemplateParams>
-            <errorLevel type="suppress">
-                <directory name="app/Http/Responses/Discord" />
-            </errorLevel>
-        </TooManyTemplateParams>
         <UnresolvableInclude>
             <errorLevel type="suppress">
                 <file name="app/Console/Commands/ValidateDataFiles.php" />
