@@ -73,7 +73,7 @@
         "socialiteproviders/google": "^4.1",
         "spatie/laravel-permission": "^6.0",
         "spatie/laravel-signal-aware-command": "^2.0",
-        "team-reflex/discord-php": "^7.0"
+        "team-reflex/discord-php": "^10.1"
     },
     "require-dev": {
         "ext-sqlite3": "*",
