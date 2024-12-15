@@ -17,7 +17,6 @@ use stdClass;
  * @property string $id
  * @property string $name
  * @property bool $weapon_move
- * @psalm-api
  */
 class Move extends Model implements Stringable
 {
@@ -65,7 +64,6 @@ class Move extends Model implements Stringable
     public function getRows(): array
     {
         $filename = config('root.data_path') . 'moves.php';
-        /** @psalm-suppress UnresolvableInclude */
         return require $filename;
     }
 

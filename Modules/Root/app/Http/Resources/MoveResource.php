@@ -12,7 +12,6 @@ use Modules\Root\Models\Move;
 
 /**
  * @mixin Move
- * @psalm-suppress UnusedClass
  */
 class MoveResource extends JsonResource
 {

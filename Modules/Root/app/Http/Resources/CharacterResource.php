@@ -17,7 +17,6 @@ use Modules\Root\Models\Move;
 class CharacterResource extends JsonResource
 {
     /**
-     * @psalm-suppress TooManyTemplateParams
      * @return array{
      *   name: string,
      *   meta: array{

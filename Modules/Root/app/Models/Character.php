@@ -19,7 +19,6 @@ use function collect;
 use function json_decode;
 
 /**
- * @psalm-api
  * @property Attribute $charm
  * @property Attribute $cunning
  * @property int<0, 5> $decay

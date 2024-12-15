@@ -15,12 +15,10 @@ use Modules\Root\Models\Playbook;
 
 /**
  * @mixin Playbook
- * @psalm-suppress UnusedClass
  */
 class PlaybookResource extends JsonResource
 {
     /**
-     * @psalm-suppress TooManyTemplateParams
      * @return array{
      *     id: string,
      *     name: string,

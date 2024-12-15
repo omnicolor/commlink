@@ -29,7 +29,6 @@ use function json_decode;
  * @property string $name
  * @property array<string, Nature> $natures
  * @property Collection<string, Move> $starting_weapon_moves
- * @psalm-api
  */
 class Playbook extends Model implements Stringable
 {
@@ -90,7 +89,6 @@ class Playbook extends Model implements Stringable
     public function getRows(): array
     {
         $filename = config('root.data_path') . 'playbooks.php';
-        /** @psalm-suppress UnresolvableInclude */
         return require $filename;
     }
 

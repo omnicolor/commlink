@@ -49,7 +49,6 @@ class Nature extends Model implements Stringable
     public function getRows(): array
     {
         $filename = config('root.data_path') . 'natures.php';
-        /** @psalm-suppress UnresolvableInclude */
         return require $filename;
     }
 

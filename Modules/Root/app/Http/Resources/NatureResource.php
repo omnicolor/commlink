@@ -12,7 +12,6 @@ use Modules\Root\Models\Nature;
 
 /**
  * @mixin Nature
- * @psalm-suppress UnusedClass
  */
 class NatureResource extends JsonResource
 {

@@ -21,9 +21,6 @@ use function trim;
 
 use const PHP_EOL;
 
-/**
- * @psalm-api
- */
 class Number extends Roll
 {
     protected const int SUCCESS = 10;
@@ -75,9 +72,7 @@ class Number extends Roll
 
     protected function roll(): void
     {
-        /** @psalm-suppress UndefinedClass */
         $this->rolls[] = DiceService::rollOne(6);
-        /** @psalm-suppress UndefinedClass */
         $this->rolls[] = DiceService::rollOne(6);
 
         $this->result = array_sum($this->rolls) + $this->modifier;
