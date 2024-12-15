@@ -36,7 +36,6 @@ class Armor implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('alien.data_path') . 'armor.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$armor ??= require $filename;
 
         $id = strtolower($id);
@@ -70,7 +69,6 @@ class Armor implements Stringable
     public static function all(): array
     {
         $filename = config('alien.data_path') . 'armor.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$armor ??= require $filename;
 
         $armor = [];

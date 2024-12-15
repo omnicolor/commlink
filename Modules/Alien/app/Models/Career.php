@@ -34,7 +34,6 @@ class Career implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('alien.data_path') . 'careers.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$careers ??= require $filename;
 
         $id = strtolower($id);
@@ -75,7 +74,6 @@ class Career implements Stringable
     public static function all(): array
     {
         $filename = config('alien.data_path') . 'careers.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$careers ??= require $filename;
 
         $careers = [];

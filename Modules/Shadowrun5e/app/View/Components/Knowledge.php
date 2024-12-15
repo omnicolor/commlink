@@ -10,9 +10,6 @@ use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\PartialCharacter;
 use Modules\Shadowrun5e\Models\SkillArray;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Knowledge extends Component
 {
     /**

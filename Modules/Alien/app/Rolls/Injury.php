@@ -18,9 +18,6 @@ use function sprintf;
 
 use const PHP_EOL;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Injury extends Roll
 {
     protected ?string $error = null;
@@ -37,9 +34,7 @@ class Injury extends Roll
     ) {
         parent::__construct($content, $username, $channel);
 
-        /** @psalm-suppress UndefinedClass */
         $this->rolls[] = DiceService::rollOne(6);
-        /** @psalm-suppress UndefinedClass */
         $this->rolls[] = DiceService::rollOne(6);
 
         $roll = (int)implode('', $this->rolls);

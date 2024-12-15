@@ -25,9 +25,7 @@ use function strtolower;
  */
 class Virtue implements Stringable
 {
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $card;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
     public string $name;
 
@@ -39,7 +37,6 @@ class Virtue implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('capers.data_path') . 'virtues.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$virtues ??= require $filename;
 
         $id = strtolower($id);
@@ -67,7 +64,6 @@ class Virtue implements Stringable
     public static function all(): array
     {
         $filename = config('capers.data_path') . 'virtues.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$virtues ??= require $filename;
 
         $virtues = [];
@@ -78,11 +74,9 @@ class Virtue implements Stringable
         return $virtues;
     }
 
-    /** @psalm-suppress PossiblyUnusedMethod */
     public static function findForCard(Card $card): Virtue
     {
         $filename = config('capers.data_path') . 'virtues.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$virtues ??= require $filename;
 
         foreach (self::$virtues as $id => $virtue) {

@@ -123,7 +123,6 @@ class Character extends BaseCharacter implements Stringable
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @throws RuntimeException
      */
     public function getBackgroundAttribute(): Background
@@ -133,7 +132,6 @@ class Character extends BaseCharacter implements Stringable
 
     public function getFocuses(): FocusArray
     {
-        /** @psalm-suppress RedundantPropertyInitializationCheck */
         if (!isset($this->focusArray)) {
             $this->focusArray = new FocusArray();
             foreach ($this->focuses ?? [] as $focus) {
@@ -158,16 +156,12 @@ class Character extends BaseCharacter implements Stringable
         return $this->focusArray;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function getOriginAttribute(): Origin
     {
         return Origin::factory($this->attributes['origin']);
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @throws RuntimeException
      */
     public function getSocialClassAttribute(): SocialClass
@@ -175,9 +169,6 @@ class Character extends BaseCharacter implements Stringable
         return new SocialClass($this->attributes['socialClass']);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function getTalents(): TalentArray
     {
         $talents = new TalentArray();
@@ -203,7 +194,6 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Return whether the character has a given focus.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function hasFocus(Focus $focus): bool
     {

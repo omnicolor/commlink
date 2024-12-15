@@ -16,9 +16,6 @@ use function sha1_file;
 use function stat;
 use function strtolower;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class BackgroundsController extends Controller
 {
     /**
@@ -32,15 +29,11 @@ class BackgroundsController extends Controller
      */
     protected array $backgrounds;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
         $this->filename = config('expanse.data_path') . 'backgrounds.php';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->backgrounds = require $this->filename;
 
         $stat = stat($this->filename);
@@ -48,9 +41,6 @@ class BackgroundsController extends Controller
         $this->headers['Last-Modified'] = date('r', $stat['mtime']);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function index(): Response
     {
         foreach (array_keys($this->backgrounds) as $key) {
@@ -70,9 +60,6 @@ class BackgroundsController extends Controller
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function show(string $id): Response
     {
         $id = strtolower($id);

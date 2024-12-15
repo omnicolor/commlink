@@ -14,7 +14,6 @@ use function sprintf;
 
 /**
  * Roll a Shadowrun 5E memory test.
- * @psalm-api
  */
 class Memory extends Number
 {

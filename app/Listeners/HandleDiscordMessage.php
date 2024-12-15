@@ -22,7 +22,6 @@ use function ucfirst;
 
 class HandleDiscordMessage
 {
-    /** @psalm-suppress PossiblyUnusedMethod */
     public function handle(DiscordMessageReceived $event): bool
     {
         $args = explode(' ', $event->content);
@@ -55,7 +54,6 @@ class HandleDiscordMessage
             return true;
         }
 
-        /** @psalm-suppress RedundantConditionGivenDocblockType */
         if (isset($channel->system) && null !== Module::find($channel->system)) {
             if (is_numeric($args[0])) {
                 $class = sprintf(

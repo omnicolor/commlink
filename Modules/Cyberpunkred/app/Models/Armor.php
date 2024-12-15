@@ -13,10 +13,6 @@ use function sprintf;
 use function strtolower;
 use function ucfirst;
 
-/**
- * @psalm-suppress PossiblyUnusedProperty
- * @psalm-suppress UnusedClass
- */
 class Armor implements Stringable
 {
     public CostCategory $cost_category;
@@ -35,7 +31,6 @@ class Armor implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('cyberpunkred.data_path') . 'armor.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$armor ??= require $filename;
 
         $id = strtolower($id);
@@ -70,7 +65,6 @@ class Armor implements Stringable
     public static function findByName(string $name): self
     {
         $filename = config('cyberpunkred.data_path') . 'armor.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$armor ??= require $filename;
 
         $lowerName = Str::lower($name);
@@ -83,9 +77,6 @@ class Armor implements Stringable
         throw new RuntimeException(sprintf('Armor "%s" was not found', $name));
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function getCost(): int
     {
         return $this->cost_category->marketPrice();

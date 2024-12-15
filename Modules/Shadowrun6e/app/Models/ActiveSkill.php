@@ -13,7 +13,6 @@ use function strtolower;
 
 /**
  * Representation of a Shadowrun sixth edition skill.
- * @psalm-suppress UnusedClass
  */
 class ActiveSkill implements Stringable
 {
@@ -35,7 +34,6 @@ class ActiveSkill implements Stringable
     public static ?array $skills;
 
     /**
-     * @psalm-suppress UnresolvableInclude
      * @throws RuntimeException
      */
     public function __construct(

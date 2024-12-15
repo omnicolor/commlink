@@ -11,9 +11,6 @@ use Modules\Shadowrun5e\Models\PartialCharacter;
 use Modules\Shadowrun5e\Models\SkillArray;
 use Modules\Shadowrun5e\Models\SkillGroup;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Skills extends Component
 {
     /**

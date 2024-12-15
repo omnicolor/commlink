@@ -12,7 +12,6 @@ use Modules\Subversion\Models\Background;
 class CreateBackgroundRequest extends FormRequest
 {
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array{
      *   background: array<int, In|string>,
      * }

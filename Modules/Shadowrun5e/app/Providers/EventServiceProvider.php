@@ -8,9 +8,6 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Modules\Shadowrun5e\Events\DamageEvent;
 use Modules\Shadowrun5e\Listeners\HandleDamageEvent;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class EventServiceProvider extends ServiceProvider
 {
     /**

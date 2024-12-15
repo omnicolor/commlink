@@ -16,7 +16,6 @@ class SpellArray extends ArrayObject
     /**
      * Add a item to the array.
      * @param Spell $spell
-     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet(mixed $index = null, $spell = null): void

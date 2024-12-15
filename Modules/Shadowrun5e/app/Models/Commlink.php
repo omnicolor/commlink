@@ -13,7 +13,6 @@ use function ceil;
 
 /**
  * Commlink class.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Commlink extends Gear implements Stringable
 {
@@ -113,7 +112,6 @@ class Commlink extends Gear implements Stringable
 
     /**
      * Return the number of boxen in the item's matrix condition monitor.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getConditionMonitor(): int
     {

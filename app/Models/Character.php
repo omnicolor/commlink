@@ -31,7 +31,6 @@ use function ucfirst;
  * @property string $owner
  * @property string $system
  * @property string $updated_at
- * @psalm-suppress PropertyNotSetInConstructor
  */
 class Character extends Model implements Stringable
 {
@@ -89,7 +88,6 @@ class Character extends Model implements Stringable
      * Create a new Character, subclassed if available.
      * @param array<int|string, mixed> $attributes
      * @param ?string $connection
-     * @psalm-suppress LessSpecificImplementedReturnType
      */
     public function newFromBuilder(
         $attributes = [],

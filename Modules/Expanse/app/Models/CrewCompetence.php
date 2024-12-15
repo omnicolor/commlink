@@ -13,9 +13,6 @@ enum CrewCompetence: string
     case Skilled = 'Skilled';
     case Elite = 'Elite';
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function bonus(): int
     {
         return match ($this) {

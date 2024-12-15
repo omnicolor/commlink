@@ -32,9 +32,6 @@ class ExpanseConverter implements ConverterInterface
     protected PartialCharacter $character;
     protected stdClass $rawCharacter;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct(string $filename)
     {
         if (!file_exists($filename)) {

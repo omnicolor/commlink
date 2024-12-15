@@ -11,9 +11,6 @@ use Modules\Shadowrun5e\Models\MartialArtsStyleArray;
 use Modules\Shadowrun5e\Models\MartialArtsTechniqueArray;
 use Modules\Shadowrun5e\Models\PartialCharacter;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class MartialArts extends Component
 {
     /**

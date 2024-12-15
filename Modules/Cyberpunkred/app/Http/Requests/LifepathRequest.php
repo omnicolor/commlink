@@ -10,7 +10,6 @@ use Illuminate\Validation\Rules\In;
 class LifepathRequest extends FormRequest
 {
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, array<int, In|string>>
      */
     public function rules(): array

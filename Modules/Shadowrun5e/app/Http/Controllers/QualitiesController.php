@@ -22,7 +22,6 @@ use function urlencode;
 
 /**
  * Controller for qualities.
- * @psalm-suppress UnusedClass
  */
 class QualitiesController extends Controller
 {
@@ -37,9 +36,6 @@ class QualitiesController extends Controller
      */
     protected array $qualities;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
@@ -47,7 +43,6 @@ class QualitiesController extends Controller
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/qualities';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->qualities = require $this->filename;
 
         $stat = stat($this->filename);
@@ -57,7 +52,6 @@ class QualitiesController extends Controller
 
     /**
      * Return a collection of qualities.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -80,7 +74,6 @@ class QualitiesController extends Controller
 
     /**
      * Show a single Quality.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $qualityId): Response
     {

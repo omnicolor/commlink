@@ -16,7 +16,6 @@ class MartialArtsStyleArray extends ArrayObject
     /**
      * Add a style to the array.
      * @param MartialArtsStyle $style
-     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet(mixed $index = null, $style = null): void

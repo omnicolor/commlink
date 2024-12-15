@@ -16,14 +16,8 @@ use function abort_if;
 use function collect;
 use function response;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class ContactsController extends Controller
 {
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function index(Request $request, Character $character): JsonResponse
     {
         /** @var User */
@@ -45,9 +39,6 @@ class ContactsController extends Controller
         return response()->json($contacts);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function store(
         Character $character,
         ContactCreateRequest $request

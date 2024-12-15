@@ -12,7 +12,6 @@ use Modules\Transformers\Models\Programming;
 class ProgrammingRequest extends FormRequest
 {
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, array<int, string|In>>
      */
     public function rules(): array

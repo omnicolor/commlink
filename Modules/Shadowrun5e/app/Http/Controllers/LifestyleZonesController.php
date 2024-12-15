@@ -20,7 +20,6 @@ use function urlencode;
 
 /**
  * Controller for Shadowrun 5th Edition lifestyle zones.
- * @psalm-suppress UnusedClass
  */
 class LifestyleZonesController extends Controller
 {
@@ -35,9 +34,6 @@ class LifestyleZonesController extends Controller
      */
     protected array $zones;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
@@ -46,7 +42,6 @@ class LifestyleZonesController extends Controller
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/lifestyle-zones';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->zones = require $this->filename;
 
         $stat = stat($this->filename);
@@ -56,7 +51,6 @@ class LifestyleZonesController extends Controller
 
     /**
      * Return collection of all lifestyle zones.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -81,7 +75,6 @@ class LifestyleZonesController extends Controller
 
     /**
      * Return a single lifestyle zones.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $id): Response
     {

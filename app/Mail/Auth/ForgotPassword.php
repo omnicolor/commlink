@@ -24,7 +24,6 @@ class ForgotPassword extends Mailable
 
     /**
      * Get the message envelope.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function envelope(): Envelope
     {
@@ -35,7 +34,6 @@ class ForgotPassword extends Mailable
 
     /**
      * Get the message content definition.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function content(): Content
     {

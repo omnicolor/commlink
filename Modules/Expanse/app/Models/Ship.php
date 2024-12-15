@@ -13,40 +13,26 @@ use function config;
 use function sprintf;
 use function strtolower;
 
-/**
- * @psalm-suppress UndefinedClass
- */
 class Ship implements Stringable
 {
-    /** @psalm-suppress PossiblyUnusedProperty */
     public ?CrewCompetence $competence = null;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public ?int $crew_minimum;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public ?int $crew_standard;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public ?string $favored_range;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public bool $has_epstein;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $length;
     public string $name;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public int $page;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $ruleset;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public int $sensors;
     public ShipSize $size;
 
     /**
-     * @psalm-suppress PossiblyUnusedProperty
      * @var array<int, string>
      */
     public array $favored_stunts;
 
     /**
-     * @psalm-suppress PossiblyUnusedProperty
      * @var array<int, string>
      */
     public array $flaws;
@@ -70,7 +56,6 @@ class Ship implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('expanse.data_path') . 'ships.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$ships ??= require $filename;
 
         $id = strtolower($id);
@@ -139,13 +124,11 @@ class Ship implements Stringable
 
     /**
      * Return all ships.
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, Ship>
      */
     public static function all(): array
     {
         $filename = config('expanse.data_path') . 'ships.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$ships ??= require $filename;
 
         $ships = [];

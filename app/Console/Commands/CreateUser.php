@@ -21,7 +21,6 @@ use const FILTER_VALIDATE_EMAIL;
 
 /**
  * @codeCoverageIgnore
- * @psalm-suppress UnusedClass
  */
 class CreateUser extends Command
 {

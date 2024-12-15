@@ -19,7 +19,6 @@ use function urlencode;
 
 /**
  * Controller for programs.
- * @psalm-suppress UnusedClass
  */
 class ProgramsController extends Controller
 {
@@ -34,9 +33,6 @@ class ProgramsController extends Controller
      */
     protected array $programs;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
@@ -44,7 +40,6 @@ class ProgramsController extends Controller
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/programs';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->programs = require $this->filename;
 
         $stat = stat($this->filename);
@@ -54,7 +49,6 @@ class ProgramsController extends Controller
 
     /**
      * Get the entire collection of Shadowrun programs.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -79,7 +73,6 @@ class ProgramsController extends Controller
 
     /**
      * Show a single program.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $programId): Response
     {

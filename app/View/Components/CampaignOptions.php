@@ -11,9 +11,6 @@ use Illuminate\View\Component;
 use function sprintf;
 use function view;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class CampaignOptions extends Component
 {
     public function __construct(public Campaign $campaign)

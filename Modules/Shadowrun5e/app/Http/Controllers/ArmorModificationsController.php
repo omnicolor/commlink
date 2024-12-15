@@ -18,7 +18,6 @@ use function strtolower;
 
 /**
  * Controller for armor modifications.
- * @psalm-suppress UnusedClass
  */
 class ArmorModificationsController extends Controller
 {
@@ -33,9 +32,6 @@ class ArmorModificationsController extends Controller
      */
     protected array $mods;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
@@ -43,7 +39,6 @@ class ArmorModificationsController extends Controller
             . 'armor-modifications.php';
         $this->links['collection'] = '/api/shadowrun5e/armor-modifications';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->mods = require $this->filename;
 
         $stat = stat($this->filename);
@@ -75,7 +70,6 @@ class ArmorModificationsController extends Controller
 
     /**
      * Return the entire collection of armor modifications.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -96,7 +90,6 @@ class ArmorModificationsController extends Controller
 
     /**
      * Return a single armor modification.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $id): Response
     {

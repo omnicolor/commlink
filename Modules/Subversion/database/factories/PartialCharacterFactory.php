@@ -9,7 +9,6 @@ use Modules\Subversion\Models\PartialCharacter;
 
 /**
  * @extends Factory<PartialCharacter>
- * @psalm-suppress UnusedClass
  */
 class PartialCharacterFactory extends Factory
 {

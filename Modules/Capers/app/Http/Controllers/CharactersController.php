@@ -43,7 +43,6 @@ use function view;
 
 /**
  * Controller for interacting with Capers characters.
- * @psalm-suppress UnusedClass
  */
 class CharactersController extends Controller
 {
@@ -99,7 +98,6 @@ class CharactersController extends Controller
 
             /**
              * No in-progress characters, create a new one.
-             * @psalm-suppress UnnecessaryVarAnnotation
              * @var PartialCharacter
              */
             $character = PartialCharacter::create(['owner' => $user->email]);
@@ -215,7 +213,6 @@ class CharactersController extends Controller
                     return redirect(route('capers.create', 'basics'))
                         ->withErrors(['type' => 'Only Exceptionals can choose perks.']);
                 }
-                /** @psalm-suppress NoValue */
                 return abort(
                     Response::HTTP_NOT_IMPLEMENTED,
                     'That step of character creation was not found.',
@@ -502,9 +499,6 @@ class CharactersController extends Controller
         ));
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function index(Request $request): JsonResource
     {
         return CharacterResource::collection(
@@ -512,9 +506,6 @@ class CharactersController extends Controller
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function show(Request $request, Character $character): JsonResource
     {
         /** @var User */

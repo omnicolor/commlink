@@ -20,7 +20,6 @@ use function urlencode;
 
 /**
  * Controller for weapon modifications.
- * @psalm-suppress UnusedClass
  */
 class WeaponModificationsController extends Controller
 {
@@ -35,9 +34,6 @@ class WeaponModificationsController extends Controller
      */
     protected array $mods;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
@@ -46,7 +42,6 @@ class WeaponModificationsController extends Controller
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/weapon-modifications';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->mods = require $this->filename;
 
         $stat = stat($this->filename);
@@ -54,9 +49,6 @@ class WeaponModificationsController extends Controller
         $this->headers['Last-Modified'] = date('r', $stat['mtime']);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function index(): Response
     {
         foreach (array_keys($this->mods) as $key) {
@@ -77,9 +69,6 @@ class WeaponModificationsController extends Controller
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function show(string $id): Response
     {
         $id = strtolower($id);

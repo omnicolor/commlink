@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends Factory<ChatCharacter>
- * @psalm-suppress UnusedClass
  */
 class ChatCharacterFactory extends Factory
 {

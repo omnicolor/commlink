@@ -88,9 +88,6 @@ class Character extends BaseCharacter implements Stringable
         return CharacterFactory::new();
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function background(): Attribute
     {
         return Attribute::make(
@@ -106,9 +103,6 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function era(): Attribute
     {
         return Attribute::make(

@@ -12,7 +12,6 @@ use Modules\Subversion\Models\Caste;
 
 /**
  * @mixin Caste
- * @psalm-suppress UnusedClass
  */
 class CasteResource extends JsonResource
 {

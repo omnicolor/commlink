@@ -20,7 +20,6 @@ class RedirectIfAuthenticated
     /**
      * Handle an incoming request.
      * @codeCoverageIgnore
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function handle(
         Request $request,

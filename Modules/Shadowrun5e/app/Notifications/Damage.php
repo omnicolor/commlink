@@ -10,16 +10,12 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 
-/**
- * @psalm-suppress PossiblyUnusedMethod
- */
 class Damage extends Notification implements ShouldBroadcast, ShouldQueue
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function __construct(
         public int $stun,
@@ -30,7 +26,6 @@ class Damage extends Notification implements ShouldBroadcast, ShouldQueue
 
     /**
      * Get the notification's delivery channels.
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, string>
      */
     public function via(): array
@@ -38,9 +33,6 @@ class Damage extends Notification implements ShouldBroadcast, ShouldQueue
         return ['broadcast'];
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function toBroadcast(): BroadcastMessage
     {
         return new BroadcastMessage([
@@ -52,7 +44,6 @@ class Damage extends Notification implements ShouldBroadcast, ShouldQueue
 
     /**
      * Get the array representation of the notification.
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, int>
      */
     public function toArray(): array

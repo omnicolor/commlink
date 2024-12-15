@@ -9,17 +9,12 @@ use App\Models\Event;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class EventPolicy
 {
     use HandlesAuthorization;
 
     /**
      * Determine whether the user can view *any* events.
-     * @psalm-suppress PossiblyUnusedMethod
-     * @psalm-suppress PossiblyUnusedParam
      */
     public function viewAny(User $user): bool
     {
@@ -74,8 +69,6 @@ class EventPolicy
      *
      * Because this policy requires access to an additional model it can't be
      * done in a policy, and is left to the create function to abort if needed.
-     * @psalm-suppress PossiblyUnusedMethod
-     * @psalm-suppress PossiblyUnusedParam
      */
     public function create(User $user): bool
     {
@@ -86,7 +79,6 @@ class EventPolicy
      * A user can create an event if:
      * - They're the GM of the campaign the event is going to be attached to
      * - They've been given permission to create events for a campaign (TODO)
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function createForCampaign(User $user, Campaign $campaign): bool
     {
@@ -103,7 +95,6 @@ class EventPolicy
      * - They're the creator of the event
      * - They're the GM of the campaign the event is attached to
      * - They've been given permission to create events for a campaign (TODO)
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function update(User $user, Event $event): bool
     {
@@ -124,7 +115,6 @@ class EventPolicy
      * - They're the creator of the event
      * - They're the GM of the campaign the event is attached to
      * - They've been given permission to create events for a campaign (TODO)
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function delete(User $user, Event $event): bool
     {
@@ -145,7 +135,6 @@ class EventPolicy
      * - They're the creator of the event
      * - They're the GM of the campaign the event is attached to
      * - They've been given permission to create events for a campaign (TODO)
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function restore(User $user, Event $event): bool
     {
@@ -163,8 +152,6 @@ class EventPolicy
 
     /**
      * Determine whether the user can permanently delete the model.
-     * @psalm-suppress PossiblyUnusedMethod
-     * @psalm-suppress PossiblyUnusedParam
      */
     public function forceDelete(User $user, Event $event): bool
     {

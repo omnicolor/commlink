@@ -14,13 +14,11 @@ use function strtolower;
 
 /**
  * Expanse character's social class.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class SocialClass implements Stringable
 {
     /**
      * Description of the social class.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
@@ -41,7 +39,6 @@ class SocialClass implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('expanse.data_path') . 'social-classes.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$classes ??= require $filename;
 
         $id = strtolower($id);

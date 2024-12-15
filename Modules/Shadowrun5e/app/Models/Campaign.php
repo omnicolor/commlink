@@ -12,9 +12,6 @@ use function assert;
 
 class Campaign extends BaseCampaign
 {
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function contacts(): ContactArray
     {
         $contacts = new ContactArray();

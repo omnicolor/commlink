@@ -30,13 +30,11 @@ class Augmentation implements Stringable
 
     /**
      * Whether the augmentation is currently active.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public bool $active = true;
 
     /**
      * Availability code for the augmentation.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $availability;
 
@@ -47,7 +45,6 @@ class Augmentation implements Stringable
 
     /**
      * Description of the augmentation.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
@@ -69,7 +66,6 @@ class Augmentation implements Stringable
 
     /**
      * List of augmentations this one is incompatible with.
-     * @psalm-suppress PossiblyUnusedProperty
      * @var array<int, string>
      */
     public array $incompatibilities = [];
@@ -86,20 +82,17 @@ class Augmentation implements Stringable
 
     /**
      * Rating of the augmentation.
-     * @psalm-suppress PossiblyUnusedProperty
      * @var int|string|null
      */
     public $rating;
 
     /**
      * Type of augmentation, which should be either cyberware or bioware.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $type;
 
     /**
      * Loaded know- or skill- softs for Skilljacks.
-     * @psalm-suppress PossiblyUnusedProperty
      * @var ?array<mixed>
      */
     public ?array $softs;
@@ -116,7 +109,6 @@ class Augmentation implements Stringable
     public function __construct(public string $id, ?string $grade = null)
     {
         $filename = config('shadowrun5e.data_path') . 'cyberware.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$augmentations ??= require $filename;
 
         $id = strtolower($id);
@@ -202,7 +194,6 @@ class Augmentation implements Stringable
         int|null|string $rating = null,
     ): Augmentation {
         $filename = config('shadowrun5e.data_path') . 'cyberware.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$augmentations ??= require $filename;
 
         foreach (self::$augmentations as $aug) {
@@ -231,7 +222,6 @@ class Augmentation implements Stringable
 
     /**
      * Return the cost of the augmentation, including modifications and grade.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getCost(): int
     {

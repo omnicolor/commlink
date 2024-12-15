@@ -9,10 +9,6 @@ use RuntimeException;
 use function config;
 use function sprintf;
 
-/**
- * @psalm-suppress UnusedClass
- * @psalm-suppress PossiblyUnusedProperty
- */
 class Gear
 {
     public string $category;
@@ -32,7 +28,6 @@ class Gear
     public function __construct(public string $id)
     {
         $filename = config('subversion.data_path') . 'gear.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$gear ??= require $filename;
 
         if (!isset(self::$gear[$id])) {
@@ -61,7 +56,6 @@ class Gear
     public static function all(): array
     {
         $filename = config('subversion.data_path') . 'gear.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$gear ??= require $filename;
 
         $gear = [];

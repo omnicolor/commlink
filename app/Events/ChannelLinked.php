@@ -36,7 +36,6 @@ class ChannelLinked implements ShouldBroadcast
 
     /**
      * Get the data to broadcast.
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, mixed>
      */
     public function broadcastWith(): array

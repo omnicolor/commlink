@@ -9,7 +9,6 @@ use Illuminate\Foundation\Http\FormRequest;
 class CreateHooksRequest extends FormRequest
 {
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array{
      *   hook1: array<int, string>,
      *   hook2: array<int, string>,

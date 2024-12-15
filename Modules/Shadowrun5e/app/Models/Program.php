@@ -14,7 +14,6 @@ use function strtolower;
 
 /**
  * Program class, for a program installed on a commlink, 'deck, rcc, etc.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Program implements Stringable
 {
@@ -93,7 +92,6 @@ class Program implements Stringable
     {
         // Lazy load the programs.
         $filename = config('shadowrun5e.data_path') . 'programs.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$programs ??= require $filename;
 
         $id = strtolower($id);

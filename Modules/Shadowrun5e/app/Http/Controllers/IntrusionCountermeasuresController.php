@@ -19,7 +19,6 @@ use function strtolower;
 
 /**
  * Controller for intrusion countermeasures (ICE).
- * @psalm-suppress UnusedClass
  */
 class IntrusionCountermeasuresController extends Controller
 {
@@ -34,16 +33,12 @@ class IntrusionCountermeasuresController extends Controller
      */
     protected array $ice;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path')
             . 'intrusion-countermeasures.php';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->ice = require $this->filename;
 
         $stat = stat($this->filename);
@@ -53,7 +48,6 @@ class IntrusionCountermeasuresController extends Controller
 
     /**
      * Get the entire collection of fifth edition ice.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -76,7 +70,6 @@ class IntrusionCountermeasuresController extends Controller
 
     /**
      * Get a single fifth edition ice.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $id): Response
     {

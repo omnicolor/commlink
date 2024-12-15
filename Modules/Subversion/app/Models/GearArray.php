@@ -10,7 +10,6 @@ use TypeError;
 /**
  * Collection of gear.
  * @extends ArrayObject<int, Gear>
- * @psalm-suppress UnusedClass
  */
 class GearArray extends ArrayObject
 {
@@ -18,7 +17,6 @@ class GearArray extends ArrayObject
      * Add an gear to the array.
      * @param ?int $index
      * @param Gear $gear
-     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet($index = null, $gear = null): void

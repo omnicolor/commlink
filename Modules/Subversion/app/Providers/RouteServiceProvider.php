@@ -7,9 +7,6 @@ namespace Modules\Subversion\Providers;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class RouteServiceProvider extends ServiceProvider
 {
     /**
@@ -23,7 +20,6 @@ class RouteServiceProvider extends ServiceProvider
 
     /**
      * Define the routes for the application.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function map(): void
     {

@@ -13,7 +13,6 @@ abstract class Skill implements Stringable
 {
     /**
      * Attribute linked to this skill.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $attribute;
 

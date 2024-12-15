@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Subversion\Models;
 
-/**
- * @psalm-suppress PossiblyUnusedProperty
- */
 readonly class LineageOption
 {
     public function __construct(

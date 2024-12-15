@@ -22,9 +22,6 @@ use function trim;
 
 use const PHP_EOL;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Number extends Roll
 {
     protected int $dice = 0;
@@ -115,9 +112,6 @@ class Number extends Roll
         return $response->addAttachment($attachment)->sendToChannel();
     }
 
-    /**
-     * @psalm-suppress UndefinedClass
-     */
     protected function roll(): void
     {
         $this->rolls = DiceService::rollMany($this->dice, 6);

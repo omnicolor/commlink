@@ -21,7 +21,6 @@ class RouteServiceProvider extends ServiceProvider
 
     /**
      * Define the routes for the application.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function map(): void
     {

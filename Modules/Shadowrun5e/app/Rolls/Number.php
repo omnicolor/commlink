@@ -35,7 +35,6 @@ use const SORT_NUMERIC;
 
 /**
  * Roll a Shadowrun number, representing a set of six-sided dice.
- * @psalm-api
  * @property Character $character
  */
 class Number extends Roll
@@ -133,7 +132,6 @@ class Number extends Roll
 
     /**
      * Roll the requested number of dice, checking for successes and failures.
-     * @psalm-suppress UndefinedClass
      */
     protected function roll(): void
     {
@@ -285,9 +283,6 @@ class Number extends Roll
         return $response->addAttachment($attachment)->sendToChannel();
     }
 
-    /**
-     * @psalm-suppress UndefinedClass
-     */
     public function secondChance(Interaction $interaction): void
     {
         assert(null !== $interaction->user);

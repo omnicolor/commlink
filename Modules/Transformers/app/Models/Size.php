@@ -18,7 +18,6 @@ enum Size: int
 
     /**
      * Return what additional effects the transformer gets.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function action(): ?string
     {

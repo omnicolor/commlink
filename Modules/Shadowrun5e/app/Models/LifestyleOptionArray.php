@@ -16,7 +16,6 @@ class LifestyleOptionArray extends ArrayObject
     /**
      * Add an option to the array.
      * @param LifestyleOption $option
-     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet(mixed $index = null, $option = null): void

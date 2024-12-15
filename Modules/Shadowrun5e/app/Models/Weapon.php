@@ -18,7 +18,6 @@ use function strtolower;
 
 /**
  * Weapon to take out the opposition.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Weapon implements Stringable
 {
@@ -156,7 +155,6 @@ class Weapon implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'weapons.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$weapons ??= require $filename;
 
         $this->accessories = new WeaponModificationArray();
@@ -255,7 +253,6 @@ class Weapon implements Stringable
 
     /**
      * Return the weapon's damage.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getDamage(int $strength): string
     {
@@ -273,7 +270,6 @@ class Weapon implements Stringable
 
     /**
      * Get the range listing for a firearm.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getRange(): string
     {
@@ -321,7 +317,6 @@ class Weapon implements Stringable
 
         if (isset($weapon['ammo'])) {
             $filename = config('shadowrun5e.data_path') . 'ammunition.php';
-            /** @psalm-suppress UnresolvableInclude */
             $ammoTypes = require $filename;
             foreach ($ammoTypes as $ammo) {
                 $ammoTypes[$ammo['id']] = $ammo;
@@ -343,7 +338,6 @@ class Weapon implements Stringable
     public static function findByName(string $name): Weapon
     {
         $filename = config('shadowrun5e.data_path') . 'weapons.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$weapons ??= require $filename;
 
         foreach (self::$weapons as $weapon) {

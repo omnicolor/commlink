@@ -33,9 +33,6 @@ use function json_encode;
 use function property_exists;
 use function sprintf;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class EventsController extends Controller
 {
     public function index(): EventCollection

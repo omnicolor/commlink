@@ -9,7 +9,6 @@ use Modules\Dnd5e\Models\Character;
 
 /**
  * @extends Factory<Character>
- * @psalm-suppress UnusedClass
  */
 class CharacterFactory extends Factory
 {

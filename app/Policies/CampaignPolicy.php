@@ -14,8 +14,6 @@ class CampaignPolicy
 
     /**
      * Determine whether the user can view any models.
-     * @psalm-suppress PossiblyUnusedMethod
-     * @psalm-suppress PossiblyUnusedParam
      */
     public function viewAny(User $user): bool
     {
@@ -24,7 +22,6 @@ class CampaignPolicy
 
     /**
      * Determine whether the user can view the model.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function view(User $user, Campaign $campaign): bool
     {
@@ -58,8 +55,6 @@ class CampaignPolicy
 
     /**
      * Determine whether the user can create campaigns.
-     * @psalm-suppress PossiblyUnusedMethod
-     * @psalm-suppress PossiblyUnusedParam
      */
     public function create(User $user): bool
     {
@@ -76,7 +71,6 @@ class CampaignPolicy
 
     /**
      * Determine whether the user can update the model.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function update(User $user, Campaign $campaign): bool
     {
@@ -85,7 +79,6 @@ class CampaignPolicy
 
     /**
      * Determine whether the user can delete the model.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function delete(User $user, Campaign $campaign): bool
     {
@@ -95,8 +88,6 @@ class CampaignPolicy
 
     /**
      * Determine whether the user can restore the model.
-     * @psalm-suppress PossiblyUnusedMethod
-     * @psalm-suppress PossiblyUnusedParam
      */
     public function restore(User $user, Campaign $campaign): bool
     {
@@ -105,8 +96,6 @@ class CampaignPolicy
 
     /**
      * Determine whether the user can permanently delete the model.
-     * @psalm-suppress PossiblyUnusedMethod
-     * @psalm-suppress PossiblyUnusedParam
      */
     public function forceDelete(User $user, Campaign $campaign): bool
     {

@@ -10,7 +10,6 @@ use Modules\Startrekadventures\Models\Traits;
 
 /**
  * Human species.
- * @psalm-suppress UnusedClass
  */
 class Human extends Species
 {

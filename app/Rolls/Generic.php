@@ -23,7 +23,6 @@ use const PHP_EOL;
 
 /**
  * Class representing a generic XdY+C roll.
- * @psalm-suppress UnusedClass
  */
 class Generic extends Roll
 {
@@ -109,8 +108,6 @@ class Generic extends Roll
 
     /**
      * Roll a certain number of dice with a certain number of pips.
-     * @psalm-suppress PossiblyUnusedParam
-     * @psalm-suppress UndefinedClass
      * @return array<int, int>
      */
     protected function rollDice(int $dice, int $pips): array

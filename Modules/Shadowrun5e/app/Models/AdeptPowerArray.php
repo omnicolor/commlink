@@ -16,7 +16,6 @@ class AdeptPowerArray extends ArrayObject
     /**
      * Add a power to the array.
      * @param AdeptPower $power
-     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet(mixed $index = null, $power = null): void

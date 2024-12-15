@@ -9,9 +9,6 @@ use Stringable;
 
 use function sprintf;
 
-/**
- * @psalm-suppress PossiblyUnusedProperty
- */
 class RelationArchetype implements Stringable
 {
     /**
@@ -37,7 +34,6 @@ class RelationArchetype implements Stringable
     ) {
         $filename = config('subversion.data_path')
             . 'relation-archetypes.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$archetypes ??= require $filename;
 
         if (!isset(self::$archetypes[$id])) {
@@ -68,7 +64,6 @@ class RelationArchetype implements Stringable
     {
         $filename = config('subversion.data_path')
             . 'relation-archetypes.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$archetypes ??= require $filename;
 
         $archetypes = [];

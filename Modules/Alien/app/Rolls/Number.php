@@ -19,9 +19,6 @@ use function trim;
 
 use const PHP_EOL;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Number extends Roll
 {
     protected const MAX_DICE = 20;
@@ -36,9 +33,6 @@ class Number extends Roll
     protected int $stress = 0;
     protected int $panics = 0;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct(
         string $content,
         string $username,
@@ -159,14 +153,12 @@ class Number extends Roll
     protected function roll(): void
     {
         for ($i = 0; $i < $this->dice; $i++) {
-            /** @psalm-suppress UndefinedClass */
             $this->rolls[] = $roll = DiceService::rollOne(6);
             if (self::SUCCESS === $roll) {
                 $this->successes++;
             }
         }
         for ($i = 0; $i < $this->stress; $i++) {
-            /** @psalm-suppress UndefinedClass */
             $this->rolls[] = $roll = DiceService::rollOne(6);
             if (self::SUCCESS === $roll) {
                 $this->successes++;

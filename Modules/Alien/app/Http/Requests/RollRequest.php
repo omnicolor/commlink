@@ -12,7 +12,6 @@ use Modules\Alien\Models\Skill;
 class RollRequest extends FormRequest
 {
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array{
      *   character: array<int, string>,
      *   skill: array<int, In|string>,

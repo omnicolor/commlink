@@ -13,7 +13,6 @@ use function strtolower;
 
 /**
  * A power that sprites can use.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class SpritePower implements Stringable
 {
@@ -34,7 +33,6 @@ class SpritePower implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'sprite-powers.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$powers = require $filename;
 
         $id = strtolower($id);

@@ -25,7 +25,6 @@ class HandleIrcMessage
 
     /**
      * Handle the event.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function handle(IrcMessageReceived $event): bool
     {

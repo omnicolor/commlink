@@ -12,7 +12,6 @@ enum Programming: string
     case Warrior = 'warrior';
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, Action>
      */
     public function actions(): array
@@ -62,7 +61,6 @@ enum Programming: string
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, Programming>
      */
     public static function all(): array
@@ -74,9 +72,6 @@ enum Programming: string
         return $programmings;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function description(): string
     {
         return match ($this) {

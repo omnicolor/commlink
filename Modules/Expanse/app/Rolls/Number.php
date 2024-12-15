@@ -20,9 +20,6 @@ use function sprintf;
 
 use const PHP_EOL;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Number extends Roll
 {
     /**
@@ -85,7 +82,6 @@ class Number extends Roll
 
     /**
      * Roll the dice and calculate the result and stunt points.
-     * @psalm-suppress UndefinedClass
      */
     protected function roll(): void
     {

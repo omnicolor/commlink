@@ -12,7 +12,6 @@ class ContactCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function authorize(): bool
     {
@@ -38,7 +37,6 @@ class ContactCreateRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, array<int, string>>
      */
     public function rules(): array

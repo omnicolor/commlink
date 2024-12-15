@@ -9,9 +9,6 @@ use RuntimeException;
 use function array_keys;
 use function sprintf;
 
-/**
- * @psalm-suppress PossiblyUnusedProperty
- */
 class RelationAspect
 {
     public string $description;
@@ -28,7 +25,6 @@ class RelationAspect
     public function __construct(public string $id)
     {
         $filename = config('subversion.data_path') . 'relation-aspects.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$aspects ??= require $filename;
 
         if (!isset(self::$aspects[$id])) {
@@ -56,7 +52,6 @@ class RelationAspect
     public static function all(): array
     {
         $filename = config('subversion.data_path') . 'relation-aspects.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$aspects ??= require $filename;
 
         $aspects = [];

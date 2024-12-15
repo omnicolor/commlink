@@ -35,7 +35,6 @@ use const SORT_NUMERIC;
  * decide to use this function after your initial roll, only your Edge dice use
  * the Rule of Six. This use of Edge also allows you to ignore any limit on your
  * test.
- * @psalm-api
  * @property Character $character
  */
 class Push extends Number
@@ -122,7 +121,6 @@ class Push extends Number
         }
 
         if (null === $character->edgeCurrent) {
-            /** @psalm-suppress UndefinedMagicPropertyAssignment */
             $character->edgeCurrent = $character->edge ?? 0;
         }
         if (0 === $character->edgeCurrent) {
@@ -143,7 +141,6 @@ class Push extends Number
             $this->formatRoll();
         }
 
-        /** @psalm-suppress UndefinedMagicPropertyAssignment */
         $character->edgeCurrent--;
         $character->save();
     }
@@ -206,7 +203,6 @@ class Push extends Number
 
     /**
      * Roll the requested number of dice, checking for successes and failures.
-     * @psalm-suppress UndefinedClass
      */
     protected function roll(): void
     {

@@ -12,9 +12,6 @@ use Modules\Shadowrun5e\Models\PartialCharacter;
 
 use function assert;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Powers extends Component
 {
     /**

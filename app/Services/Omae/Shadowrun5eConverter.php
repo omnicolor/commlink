@@ -21,7 +21,6 @@ use const FILE_SKIP_EMPTY_LINES;
 
 /**
  * Importer class for Omae Shadowrun 5E profiles.
- * @psalm-suppress UnusedClass
  */
 class Shadowrun5eConverter implements ConverterInterface
 {

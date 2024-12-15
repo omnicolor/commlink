@@ -16,7 +16,6 @@ class ProgramArray extends ArrayObject
     /**
      * Add a item to the array.
      * @param Program $program
-     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet(mixed $index = null, $program = null): void

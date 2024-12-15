@@ -283,7 +283,6 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Return the character's astral limit if they have one.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function astralLimit(): Attribute
     {
@@ -351,7 +350,6 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Get the character's composure derived stat.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function composure(): Attribute
     {
@@ -421,7 +419,6 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Return the character's real-world initiative.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function initiativeScore(): Attribute
     {
@@ -434,9 +431,6 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function initiativeDice(): Attribute
     {
         return Attribute::make(
@@ -448,7 +442,6 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Get the character's judge intentions derived stat.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function judgeIntentions(): Attribute
     {
@@ -462,7 +455,6 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Return the character's karma log (record of changes in karma).
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getKarmaLog(): KarmaLog
     {
@@ -522,7 +514,6 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Return the character's lift/carry derived stat.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function liftCarry(): Attribute
     {
@@ -582,7 +573,6 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Get the character's memory derived stat.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getMemoryAttribute(): int
     {
@@ -590,9 +580,6 @@ class Character extends BaseCharacter implements Stringable
             $this->getModifiedAttribute('willpower');
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function mentalLimit(): Attribute
     {
         return Attribute::make(
@@ -634,9 +621,6 @@ class Character extends BaseCharacter implements Stringable
         return null;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function getMetatypeAttribute(): string
     {
         if (isset($this->priorities['metatype'])) {
@@ -723,9 +707,6 @@ class Character extends BaseCharacter implements Stringable
         return $qualities;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function getSkillLimit(Skill $skill): string
     {
         $limitModifier = $this->getSkillLimitModifierFromQualities($skill);
@@ -819,7 +800,6 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Return the character's soak dice pool.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getSoakAttribute(): int
     {
@@ -838,9 +818,6 @@ class Character extends BaseCharacter implements Stringable
             + $this->getArmorValue();
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function socialLimit(): Attribute
     {
         return Attribute::make(
@@ -879,9 +856,6 @@ class Character extends BaseCharacter implements Stringable
         return $spells;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function getSpirits(): SpiritArray
     {
         $spirits = new SpiritArray();
@@ -908,9 +882,6 @@ class Character extends BaseCharacter implements Stringable
         return $spirits;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function getSprites(): SpriteArray
     {
         $sprites = new SpriteArray();
@@ -936,7 +907,6 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Return the character's magical tradition, if they're magical.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getTradition(): ?Tradition
     {
@@ -999,9 +969,6 @@ class Character extends BaseCharacter implements Stringable
         return $weapons;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function meleeDefense(): Attribute
     {
         return Attribute::make(
@@ -1018,9 +985,6 @@ class Character extends BaseCharacter implements Stringable
         return CharacterFactory::new();
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function physicalLimit(): Attribute
     {
         return Attribute::make(
@@ -1036,9 +1000,6 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function overflowMonitor(): Attribute
     {
         return Attribute::make(
@@ -1049,9 +1010,6 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function physicalMonitor(): Attribute
     {
         return Attribute::make(
@@ -1061,9 +1019,6 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function rangedDefense(): Attribute
     {
         return Attribute::make(
@@ -1075,9 +1030,6 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function stunMonitor(): Attribute
     {
         return Attribute::make(

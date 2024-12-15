@@ -12,13 +12,10 @@ use Modules\Alien\Models\Talent;
 
 /**
  * @mixin Talent
- * @psalm-suppress UnusedClass
  */
 class TalentResource extends JsonResource
 {
     /**
-     * @psalm-suppress InvalidReturnStatement
-     * @psalm-suppress InvalidReturnType
      * @return array<string, array<string, MissingValue|array<string, string>|int|mixed|string>>
      */
     public function toArray(Request $request): array

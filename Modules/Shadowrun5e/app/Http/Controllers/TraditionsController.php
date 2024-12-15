@@ -20,7 +20,6 @@ use function urlencode;
 
 /**
  * Traditions route.
- * @psalm-suppress UnusedClass
  */
 class TraditionsController extends Controller
 {
@@ -35,9 +34,6 @@ class TraditionsController extends Controller
      */
     protected array $traditions;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
@@ -45,7 +41,6 @@ class TraditionsController extends Controller
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/traditions';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->traditions = require $this->filename;
 
         $stat = stat($this->filename);
@@ -55,7 +50,6 @@ class TraditionsController extends Controller
 
     /**
      * Get the entire collection.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -80,7 +74,6 @@ class TraditionsController extends Controller
 
     /**
      * Get a single tradition.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $identifier): Response
     {

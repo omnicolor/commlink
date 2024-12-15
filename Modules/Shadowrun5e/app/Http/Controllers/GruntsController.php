@@ -19,7 +19,6 @@ use function strtolower;
 
 /**
  * Controller for grunts.
- * @psalm-suppress UnusedClass
  */
 class GruntsController extends Controller
 {
@@ -34,16 +33,12 @@ class GruntsController extends Controller
      */
     protected array $grunts;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path')
             . 'grunts.php';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->grunts = require $this->filename;
 
         $stat = stat($this->filename);
@@ -53,7 +48,6 @@ class GruntsController extends Controller
 
     /**
      * Get the entire collection of fifth edition grunts.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -76,7 +70,6 @@ class GruntsController extends Controller
 
     /**
      * Get a single fifth edition grunt.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $id): Response
     {

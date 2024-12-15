@@ -12,7 +12,6 @@ use Modules\Subversion\Models\Ideology;
 
 /**
  * @mixin Ideology
- * @psalm-suppress UnusedClass
  */
 class IdeologyResource extends JsonResource
 {

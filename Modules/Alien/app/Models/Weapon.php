@@ -49,7 +49,6 @@ class Weapon implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('alien.data_path') . 'weapons.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$weapons ??= require $filename;
 
         $id = strtolower($id);
@@ -85,7 +84,6 @@ class Weapon implements Stringable
     public static function all(): array
     {
         $filename = config('alien.data_path') . 'weapons.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$weapons ??= require $filename;
 
         $weapons = [];

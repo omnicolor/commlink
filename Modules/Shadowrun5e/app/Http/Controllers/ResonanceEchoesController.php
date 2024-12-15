@@ -21,7 +21,6 @@ use function strtolower;
 
 /**
  * Controller for resonance echoes.
- * @psalm-suppress UnusedClass
  */
 class ResonanceEchoesController extends Controller
 {
@@ -33,16 +32,12 @@ class ResonanceEchoesController extends Controller
 
     protected string $filename;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path')
             . 'resonance-echoes.php';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->echoes = require $this->filename;
 
         $stat = stat($this->filename);
@@ -63,9 +58,6 @@ class ResonanceEchoesController extends Controller
         return $echo;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function index(): Response
     {
         foreach ($this->echoes as $key => $echo) {
@@ -82,9 +74,6 @@ class ResonanceEchoesController extends Controller
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function show(string $id): Response
     {
         $id = strtolower($id);

@@ -10,9 +10,6 @@ use Modules\Shadowrun5e\Models\AugmentationArray;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\PartialCharacter;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Augmentations extends Component
 {
     /**

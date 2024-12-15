@@ -82,41 +82,26 @@ class Event extends Model
         return (new CarbonImmutable($this->real_start))->toDayDateTimeString();
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function campaign(): BelongsTo
     {
         return $this->belongsTo(Campaign::class);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function responses(): HasMany
     {
         return $this->hasMany(EventRsvp::class);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function scopeForCampaign(Builder $query, Campaign $campaign): void
     {
         $query->where('campaign_id', $campaign->id);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function scopeFuture(Builder $query): void
     {
         $query->where('real_start', '>=', now());

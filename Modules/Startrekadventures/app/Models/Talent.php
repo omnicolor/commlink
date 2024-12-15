@@ -11,7 +11,6 @@ use function sprintf;
 
 /**
  * Class representing a Talent.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Talent implements Stringable
 {
@@ -56,7 +55,6 @@ class Talent implements Stringable
     public function __construct(public string $id, public ?string $extra = null)
     {
         $filename = config('startrekadventures.data_path') . 'talents.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$talents ??= require $filename;
 
         if (!isset(self::$talents[$id])) {

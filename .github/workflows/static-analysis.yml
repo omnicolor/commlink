@@ -72,26 +72,3 @@ jobs:
 
       - name: Run PHPStan analysis
         run: vendor/bin/phpstan analyze
-
-  Psalm:
-    runs-on: "ubuntu-latest"
-    strategy:
-      matrix:
-        php-version:
-          - "8.3"
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Install PHP with extensions
-        uses: shivammathur/setup-php@master
-        with:
-          php-version: ${{ matrix.php-version }}
-          coverage: none
-          extensions: "json, mbstring, mongodb, pdo"
-
-      - name: Install Composer dependencies
-        run: composer install --no-progress --no-interaction
-
-      - name: Psalm
-        run: vendor/bin/psalm

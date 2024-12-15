@@ -33,7 +33,6 @@ class Rockerboy extends Role implements Stringable
 
     /**
      * Where does the rockerboy perform?
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public int $perform;
 
@@ -98,7 +97,6 @@ class Rockerboy extends Role implements Stringable
 
     /**
      * Return the type of act the rockerboy performs in.
-     * @psalm-suppress PossiblyUnusedMethod
      * @throws OutOfBoundsException
      */
     public function getAct(): string
@@ -112,7 +110,6 @@ class Rockerboy extends Role implements Stringable
 
     /**
      * Return a description of who's gunning for you.
-     * @psalm-suppress PossiblyUnusedMethod
      * @throws OutOfBoundsException
      */
     public function getWhosGunning(): string
@@ -125,7 +122,6 @@ class Rockerboy extends Role implements Stringable
 
     /**
      * Return the type of rockerboy.
-     * @psalm-suppress PossiblyUnusedMethod
      * @throws OutOfBoundsException
      */
     public function getType(): string

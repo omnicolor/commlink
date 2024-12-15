@@ -13,7 +13,6 @@ use const PHP_EOL;
 
 /**
  * Class representing a Shadowrun identity.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Identity implements Stringable
 {
@@ -117,7 +116,6 @@ class Identity implements Stringable
 
     /**
      * Return the cost of the identity including licenses, lifestyles, and SINs.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getCost(): int
     {

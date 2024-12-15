@@ -21,7 +21,6 @@ class InitiativeAdded implements ShouldBroadcast
 
     /**
      * Name of the combatant.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $name;
 

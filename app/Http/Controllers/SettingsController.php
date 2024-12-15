@@ -19,9 +19,6 @@ use function sprintf;
 use function str_starts_with;
 use function view;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class SettingsController extends Controller
 {
     use InteractsWithDiscord;

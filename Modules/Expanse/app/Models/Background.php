@@ -13,13 +13,11 @@ use function strtolower;
 
 /**
  * Class for Expanse backgrounds.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Background implements Stringable
 {
     /**
      * Ability change the background gives.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $ability;
 
@@ -31,14 +29,12 @@ class Background implements Stringable
 
     /**
      * Map of benefits that can be rolled for.
-     * @psalm-suppress PossiblyUnusedProperty
      * @var array<int, array<string, string|int>>
      */
     public array $benefits;
 
     /**
      * Description of the background.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
@@ -55,7 +51,6 @@ class Background implements Stringable
 
     /**
      * Page the background was shown on.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public int $page;
 
@@ -71,7 +66,6 @@ class Background implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('expanse.data_path') . 'backgrounds.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$backgrounds ??= require $filename;
 
         $id = strtolower($id);
@@ -99,7 +93,6 @@ class Background implements Stringable
 
     /**
      * Return an array of focuses the background may give the character.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getFocuses(): FocusArray
     {
@@ -116,7 +109,6 @@ class Background implements Stringable
 
     /**
      * Return an array of talents the background may give the character.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getTalents(): TalentArray
     {

@@ -25,7 +25,6 @@ use function strtolower;
  * @property-read int $pilot
  * @property-read int $sensor
  * @property-read int $speed
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Vehicle implements Stringable
 {
@@ -171,7 +170,6 @@ class Vehicle implements Stringable
     public function __construct(array $data)
     {
         $filename = config('shadowrun5e.data_path') . 'vehicles.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$vehicles ??= require $filename;
 
         $this->id = strtolower((string)$data['id']);
@@ -247,9 +245,6 @@ class Vehicle implements Stringable
         }
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedReturnValue
-     */
     public function __get(string $name): ?int
     {
         $attribute = match ($name) {
@@ -286,13 +281,9 @@ class Vehicle implements Stringable
         return $this->name;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public static function findByName(string $name): Vehicle
     {
         $filename = config('shadowrun5e.data_path') . 'vehicles.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$vehicles ??= require $filename;
         foreach (self::$vehicles as $vehicle) {
             if (strtolower((string)$vehicle['name']) === strtolower($name)) {
@@ -307,7 +298,6 @@ class Vehicle implements Stringable
 
     /**
      * Return the cost of the vehicle, including non-stock modifications.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getCost(): int
     {
@@ -326,7 +316,6 @@ class Vehicle implements Stringable
 
     /**
      * Return the number of boxen in the vehicle's matrix condition monitor.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getMatrixConditionMonitor(): int
     {
@@ -338,7 +327,6 @@ class Vehicle implements Stringable
 
     /**
      * Return the number of boxen in the vehicle's physical condition monitor.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getPhysicalConditionMonitor(): int
     {
