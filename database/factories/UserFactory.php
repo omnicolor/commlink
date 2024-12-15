@@ -12,7 +12,6 @@ use Spatie\Permission\Models\Role;
 
 /**
  * @extends Factory<User>
- * @psalm-suppress UnusedClass
  */
 class UserFactory extends Factory
 {
@@ -35,7 +34,6 @@ class UserFactory extends Factory
 
     /**
      * Indicate that the model's email address should be unverified.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function unverified(): static
     {
@@ -44,9 +42,6 @@ class UserFactory extends Factory
         ]);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function admin(): Factory
     {
         return $this->afterCreating(function (User $user): void {

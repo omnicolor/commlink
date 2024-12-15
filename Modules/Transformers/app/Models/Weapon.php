@@ -11,8 +11,6 @@ use function sprintf;
 use function strtolower;
 
 /**
- * @psalm-suppress PossiblyUnusedProperty
- * @psalm-suppress UnresolvableInclude
  * @property-read int $cost
  */
 class Weapon implements Stringable
@@ -48,9 +46,6 @@ class Weapon implements Stringable
         $this->name = $weapon['name'];
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __get(string $name): mixed
     {
         if ('cost' === $name) {

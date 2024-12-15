@@ -15,7 +15,6 @@ use const PHP_EOL;
 
 /**
  * Handle a user asking for help.
- * @psalm-suppress UnusedClass
  */
 class Help extends Roll
 {

@@ -14,7 +14,6 @@ use function sprintf;
 
 /**
  * Roll a Shadowrun 5E lift/carry test.
- * @psalm-api
  */
 class Lift extends Number
 {

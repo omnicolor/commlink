@@ -16,7 +16,6 @@ class SpriteArray extends ArrayObject
     /**
      * Add a item to the array.
      * @param Sprite $sprite
-     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet(mixed $index = null, $sprite = null): void

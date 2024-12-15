@@ -22,9 +22,6 @@ use function trim;
 
 use const PHP_EOL;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Number extends Roll
 {
     protected const string TYPE_ADVANTAGE = 'advantage';
@@ -149,9 +146,6 @@ class Number extends Roll
         );
     }
 
-    /**
-     * @psalm-suppress UndefinedClass
-     */
     protected function roll(): void
     {
         if (self::TYPE_ADVANTAGE === $this->type) {

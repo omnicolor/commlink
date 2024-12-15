@@ -19,7 +19,6 @@ class HandleDamageEvent
 {
     use SerializesModels;
 
-    /** @psalm-suppress PossiblyUnusedMethod */
     public function handle(DamageEvent $event): void
     {
         foreach ($event->campaign->channels ?? [] as $channel) {

@@ -75,9 +75,6 @@ class PartialCharacter extends Character
         return $character;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function fortune(): Attribute
     {
         return Attribute::make(
@@ -98,9 +95,6 @@ class PartialCharacter extends Character
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function relationFortune(): Attribute
     {
         return Attribute::make(
@@ -117,9 +111,6 @@ class PartialCharacter extends Character
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function relations(): Attribute
     {
         return Attribute::make(

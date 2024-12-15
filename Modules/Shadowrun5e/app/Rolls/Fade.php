@@ -14,9 +14,6 @@ use function sprintf;
 
 use const PHP_EOL;
 
-/**
- * @psalm-api
- */
 class Fade extends Number
 {
     protected ?string $error = null;

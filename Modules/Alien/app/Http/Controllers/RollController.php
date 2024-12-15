@@ -19,9 +19,6 @@ use Modules\Alien\Rolls\Skill;
 
 use function sprintf;
 
-/**
- * @psalm-api
- */
 class RollController extends Controller
 {
     public function show(

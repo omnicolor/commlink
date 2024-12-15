@@ -16,7 +16,6 @@ class IdentityArray extends ArrayObject
     /**
      * Add an identity to the array.
      * @param Identity $identity
-     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet(mixed $index = null, $identity = null): void

@@ -15,7 +15,6 @@ use function strtolower;
 
 /**
  * Representation of something added to a lifestyle.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class LifestyleOption implements Stringable
 {
@@ -77,7 +76,6 @@ class LifestyleOption implements Stringable
     {
         $filename = config('shadowrun5e.data_path')
             . 'lifestyle-options.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$options ??= require $filename;
 
         $id = strtolower($id);

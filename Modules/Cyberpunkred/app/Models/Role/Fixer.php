@@ -77,7 +77,6 @@ class Fixer extends Role implements Stringable
 
     /**
      * Return the type of fixer.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getType(): string
     {

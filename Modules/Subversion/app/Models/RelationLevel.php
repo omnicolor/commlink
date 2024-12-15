@@ -10,9 +10,6 @@ use Stringable;
 use function array_keys;
 use function sprintf;
 
-/**
- * @psalm-suppress PossiblyUnusedProperty
- */
 class RelationLevel implements Stringable
 {
     public const string MINOR = 'minor';
@@ -36,7 +33,6 @@ class RelationLevel implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('subversion.data_path') . 'relation-levels.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$levels ??= require $filename;
 
         if (!isset(self::$levels[$id])) {
@@ -67,7 +63,6 @@ class RelationLevel implements Stringable
     public static function all(): array
     {
         $filename = config('subversion.data_path') . 'relation-levels.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$levels ??= require $filename;
 
         $levels = [];
@@ -78,9 +73,6 @@ class RelationLevel implements Stringable
         return $levels;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedReturnValue
-     */
     public static function sort(self $a, self $b): int
     {
         if ($a->level === $b->level) {

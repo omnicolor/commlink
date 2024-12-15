@@ -11,14 +11,8 @@ use Illuminate\View\View;
 use Modules\Expanse\Http\Resources\CharacterResource;
 use Modules\Expanse\Models\Character;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class CharactersController extends Controller
 {
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function index(Request $request): JsonResource
     {
         return CharacterResource::collection(
@@ -26,17 +20,11 @@ class CharactersController extends Controller
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedReturnValue
-     */
     public function list(): View
     {
         return view('expanse::characters');
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function show(Request $request, string $identifier): CharacterResource
     {
         $email = $request->user()?->email;

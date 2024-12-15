@@ -14,7 +14,6 @@ use function collect;
 class CreateImpulseRequest extends FormRequest
 {
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array{
      *   impulse: array<int, In|string>
      * }

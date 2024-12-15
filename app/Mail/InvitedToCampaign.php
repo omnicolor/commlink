@@ -33,9 +33,6 @@ class InvitedToCampaign extends Mailable
         }
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function envelope(): Envelope
     {
         return new Envelope(
@@ -47,9 +44,6 @@ class InvitedToCampaign extends Mailable
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function content(): Content
     {
         $hash = $this->invitation->hash();

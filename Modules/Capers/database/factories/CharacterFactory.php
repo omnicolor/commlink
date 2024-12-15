@@ -34,22 +34,18 @@ class CharacterFactory extends Factory
         $maxHits = 4 + (2 * $resilience) + (2 * $charisma);
 
         /**
-         * @psalm-suppress UnresolvableInclude
          * @var array<string, array<string, string>>
          */
         $identities = require config('capers.data_path') . 'identities.php';
         /**
-         * @psalm-suppress UnresolvableInclude
          * @var array<string, array<string, string>>
          */
         $skills = require config('capers.data_path') . 'skills.php';
         /**
-         * @psalm-suppress UnresolvableInclude
          * @var array<string, array<string, string>>
          */
         $vices = require config('capers.data_path') . 'vices.php';
         /**
-         * @psalm-suppress UnresolvableInclude
          * @var array<string, array<string, string>>
          */
         $virtues = require config('capers.data_path') . 'virtues.php';
@@ -58,7 +54,6 @@ class CharacterFactory extends Factory
         $typeSpecific = [];
         if (Character::TYPE_CAPER === $type) {
             /**
-             * @psalm-suppress UnresolvableInclude
              * @var array<string, array<string, string>>
              */
             $powers = require config('capers.data_path') . 'powers.php';
@@ -68,7 +63,6 @@ class CharacterFactory extends Factory
             ];
         } elseif (Character::TYPE_EXCEPTIONAL === $type) {
             /**
-             * @psalm-suppress UnresolvableInclude
              * @var array<string, array<string, string>>
              */
             $perks = require config('capers.data_path') . 'perks.php';

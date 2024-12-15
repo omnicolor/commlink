@@ -42,7 +42,6 @@ class CharacterFactory extends Factory
         $filename = (string)config('expanse.data_path') . 'backgrounds.php';
         /**
          * @var array<string, array<string, string>>
-         * @psalm-suppress UnresolvableInclude
          */
         $backgrounds = require $filename;
         self::$backgrounds = array_keys($backgrounds);
@@ -52,7 +51,6 @@ class CharacterFactory extends Factory
     {
         $filename = (string)config('expanse.data_path') . 'social-classes.php';
         /**
-         * @psalm-suppress UnresolvableInclude
          * @var array<string, array<string, string>>
          */
         $classes = require $filename;

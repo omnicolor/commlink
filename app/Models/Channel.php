@@ -71,7 +71,6 @@ class Channel extends Model
 
     /**
      * Return the campaign attached to the channel.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function campaign(): BelongsTo
     {
@@ -110,7 +109,6 @@ class Channel extends Model
 
     /**
      * Get the characters registered to this channel.
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, Character>
      */
     public function characters(): array
@@ -129,7 +127,6 @@ class Channel extends Model
 
     /**
      * Return the server's name.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function serverName(): Attribute
     {
@@ -165,7 +162,6 @@ class Channel extends Model
 
     /**
      * Return the initiatives rolled for the channel.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function initiatives(): HasMany
     {
@@ -174,7 +170,6 @@ class Channel extends Model
 
     /**
      * Scope the query to only include Discord accounts.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function scopeDiscord(Builder $query): Builder
     {
@@ -183,7 +178,6 @@ class Channel extends Model
 
     /**
      * Scope the query to only include IRC accounts.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function scopeIrc(Builder $query): Builder
     {
@@ -192,7 +186,6 @@ class Channel extends Model
 
     /**
      * Scope the query to only include Slack accounts.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function scopeSlack(Builder $query): Builder
     {
@@ -201,7 +194,6 @@ class Channel extends Model
 
     /**
      * Set the system for the channel.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function system(): Attribute
     {
@@ -221,7 +213,6 @@ class Channel extends Model
 
     /**
      * Set the type of server for the channel.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function type(): Attribute
     {

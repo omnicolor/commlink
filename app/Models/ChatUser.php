@@ -61,7 +61,6 @@ class ChatUser extends Model
 
     /**
      * Return the chat character linked to this user.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function chatCharacter(): HasOne
     {
@@ -70,7 +69,6 @@ class ChatUser extends Model
 
     /**
      * Return the verification hash for the user.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function verification(): Attribute
     {
@@ -88,14 +86,12 @@ class ChatUser extends Model
 
     /**
      * Scope the query to only include Discord accounts.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function scopeDiscord(Builder $query): Builder
     {
         return $query->where('server_type', self::TYPE_DISCORD);
     }
 
-    /** @psalm-suppress PossiblyUnusedMethod */
     public function scopeIrc(Builder $query): Builder
     {
         return $query->where('server_type', self::TYPE_IRC);
@@ -103,7 +99,6 @@ class ChatUser extends Model
 
     /**
      * Scope the query to only include Slack accounts.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function scopeSlack(Builder $query): Builder
     {
@@ -112,7 +107,6 @@ class ChatUser extends Model
 
     /**
      * Scope the query to only include unverified users.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function scopeUnverified(Builder $query): Builder
     {
@@ -121,7 +115,6 @@ class ChatUser extends Model
 
     /**
      * Scope the query to only include verified users.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function scopeVerified(Builder $query): Builder
     {
@@ -130,7 +123,6 @@ class ChatUser extends Model
 
     /**
      * Get the user attached to this Chat User.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function user(): BelongsTo
     {

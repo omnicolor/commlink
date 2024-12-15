@@ -13,7 +13,6 @@ use function strtolower;
 
 /**
  * Base class for talents in The Expanse.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Talent implements Stringable
 {
@@ -29,20 +28,17 @@ class Talent implements Stringable
 
     /**
      * Array of descriptions of the benefits added at that level of the Talent.
-     * @psalm-suppress PossiblyUnusedProperty
      * @var array<int, string>
      */
     public array $benefits;
 
     /**
      * Description of the Talent.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
     /**
      * Level the character has attained in the Talent.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public int $level;
 
@@ -53,13 +49,11 @@ class Talent implements Stringable
 
     /**
      * Page of the rulebook for the talent.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public int $page;
 
     /**
      * Collection of requirements needed to gain the Talent after chargen.
-     * @psalm-suppress PossiblyUnusedProperty
      * @var ?array<mixed>
      */
     public ?array $requirements;
@@ -76,7 +70,6 @@ class Talent implements Stringable
     public function __construct(public string $id, int $level = self::NOVICE)
     {
         $filename = config('expanse.data_path') . 'talents.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$talents ??= require $filename;
 
         $id = strtolower($id);

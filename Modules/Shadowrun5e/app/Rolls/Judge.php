@@ -14,7 +14,6 @@ use function sprintf;
 
 /**
  * Roll a Shadowrun 5E judge intentions test.
- * @psalm-api
  */
 class Judge extends Number
 {

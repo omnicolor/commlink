@@ -20,7 +20,6 @@ use const PHP_EOL;
 /**
  * Start an IRC bot.
  * @codeCoverageIgnore
- * @psalm-suppress UnusedClass
  */
 class IrcRunCommand extends SignalAwareCommand
 {
@@ -124,7 +123,6 @@ class IrcRunCommand extends SignalAwareCommand
 
     /**
      * @param array<int, string> $names
-     * @psalm-suppress PossiblyUnusedParam
      */
     public function handleNames(IrcChannel $channel, array $names): void
     {

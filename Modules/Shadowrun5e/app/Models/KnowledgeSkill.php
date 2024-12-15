@@ -68,9 +68,6 @@ class KnowledgeSkill extends Skill
         $this->specialization = $specializations;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __get(string $name): mixed
     {
         return match ($name) {

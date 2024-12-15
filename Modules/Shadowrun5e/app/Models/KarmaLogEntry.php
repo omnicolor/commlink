@@ -9,7 +9,6 @@ use DateTimeInterface;
 /**
  * Karma log stores all karma gain and spent, including during character
  * generation.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class KarmaLogEntry
 {

@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Transformers\Models;
 
-/**
- * @psalm-suppress UnusedClass
- */
 enum Era: string
 {
     case WarWithEra = 'WW';

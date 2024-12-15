@@ -15,7 +15,6 @@ use Modules\Capers\Models\StandardDeck;
 
 /**
  * Handle a user asking everyone to shuffle their decks.
- * @psalm-suppress UnusedClass
  */
 class ShuffleAll extends Roll
 {

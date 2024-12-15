@@ -19,7 +19,6 @@ use function strtolower;
 
 /**
  * Controller for critter weaknesses.
- * @psalm-suppress UnusedClass
  */
 class CritterWeaknessesController extends Controller
 {
@@ -34,16 +33,12 @@ class CritterWeaknessesController extends Controller
      */
     protected array $weaknesses;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path')
             . 'critter-weaknesses.php';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->weaknesses = require $this->filename;
 
         $stat = stat($this->filename);
@@ -53,7 +48,6 @@ class CritterWeaknessesController extends Controller
 
     /**
      * Get the entire collection of fifth edition critter weaknesses.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -76,7 +70,6 @@ class CritterWeaknessesController extends Controller
 
     /**
      * Get a single fifth edition critter weaknesses.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $id): Response
     {

@@ -13,9 +13,6 @@ use Illuminate\View\View;
 use function redirect;
 use function view;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class EmailVerificationPromptController extends Controller
 {
     /**

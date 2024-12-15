@@ -35,9 +35,6 @@ use TypeError;
 use function max;
 use function sprintf;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class CampaignsController extends Controller
 {
     public function createForm(): View
@@ -104,7 +101,6 @@ class CampaignsController extends Controller
 
     /**
      * Launch the GM screen.
-     * @psalm-suppress NoValue
      */
     public function gmScreen(Campaign $campaign): View
     {
@@ -204,7 +200,6 @@ class CampaignsController extends Controller
         // User already has a Commlink account. Have they already been invited
         // to this campaign?
         /**
-         * @psalm-suppress MissingTemplateParam
          * @var ?User
          */
         $player = $campaign->users->find($user->id);

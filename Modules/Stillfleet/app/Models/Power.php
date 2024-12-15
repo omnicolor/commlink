@@ -22,17 +22,12 @@ class Power
     public const TYPE_MARQUEE = 'marquee';
     public const TYPE_SPECIES = 'species';
 
-    /** @psalm-suppress PossiblyUnusedProperty */
     public ?string $advanced_list;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
     public string $id;
     public string $name;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public int $page;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $ruleset;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $type;
 
     /** @var ?array<string, array<string, int|string>> */
@@ -41,7 +36,6 @@ class Power
     public function __construct(string $id)
     {
         $filename = config('stillfleet.data_path') . 'powers.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$powers ??= require $filename;
 
         $this->id = strtolower($id);
@@ -72,7 +66,6 @@ class Power
     public static function all(): array
     {
         $filename = config('stillfleet.data_path') . 'powers.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$powers ??= require $filename;
 
         $powers = [];

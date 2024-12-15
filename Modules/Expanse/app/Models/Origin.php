@@ -17,7 +17,6 @@ abstract class Origin implements Stringable
 {
     /**
      * Description of the origin.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 

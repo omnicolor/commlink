@@ -13,7 +13,6 @@ use function strtolower;
 
 /**
  * Conditions that can affect characters.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Condition implements Stringable
 {
@@ -25,7 +24,6 @@ class Condition implements Stringable
 
     /**
      * Short description of the condition's effects.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
@@ -36,19 +34,16 @@ class Condition implements Stringable
 
     /**
      * Page the condition is described on.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public int $page;
 
     /**
      * Constructor.
-     * @psalm-suppress PossiblyUnusedMethod
      * @throws RuntimeException
      */
     public function __construct(public string $id)
     {
         $filename = config('expanse.data_path') . 'conditions.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$conditions ??= require $filename;
 
         $id = strtolower($id);

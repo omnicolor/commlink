@@ -6,7 +6,6 @@ namespace Modules\Startrekadventures\Models;
 
 /**
  * Character attributes.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Attributes
 {

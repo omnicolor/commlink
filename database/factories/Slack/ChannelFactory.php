@@ -10,7 +10,6 @@ use Illuminate\Support\Str;
 
 /**
  * @extends Factory<Channel>
- * @psalm-suppress UnusedClass
  */
 class ChannelFactory extends Factory
 {

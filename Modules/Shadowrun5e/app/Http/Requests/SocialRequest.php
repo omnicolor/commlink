@@ -10,7 +10,6 @@ use Modules\Shadowrun5e\Rules\ContactArrayRule;
 class SocialRequest extends FormRequest
 {
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, array<int, ContactArrayRule|string>>
      */
     public function rules(): array

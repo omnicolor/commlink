@@ -18,7 +18,6 @@ use function ucfirst;
 
 /**
  * Quality (positive or negative) a character possesses.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Quality implements Stringable
 {
@@ -73,7 +72,6 @@ class Quality implements Stringable
     public function __construct(public string $id, array $raw = [])
     {
         $filename = config('shadowrun5e.data_path') . 'qualities.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$qualities ??= require $filename;
         $id = strtolower($id);
         if (!isset(self::$qualities[$id])) {
@@ -142,7 +140,6 @@ class Quality implements Stringable
     public static function findByName(string $name): Quality
     {
         $filename = config('shadowrun5e.data_path') . 'qualities.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$qualities ??= require $filename;
         foreach (self::$qualities as $quality) {
             if (strtolower((string)$quality['name']) === strtolower($name)) {

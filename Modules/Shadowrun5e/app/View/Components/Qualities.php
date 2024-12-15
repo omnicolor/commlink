@@ -10,9 +10,6 @@ use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\PartialCharacter;
 use Modules\Shadowrun5e\Models\QualityArray;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Qualities extends Component
 {
     public bool $charGen;

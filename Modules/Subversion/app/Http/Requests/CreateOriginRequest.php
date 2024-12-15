@@ -12,7 +12,6 @@ use Modules\Subversion\Models\Origin;
 class CreateOriginRequest extends FormRequest
 {
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array{
      *   origin: array<int, In|string>,
      * }

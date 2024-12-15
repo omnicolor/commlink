@@ -8,9 +8,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 use Modules\Shadowrun5e\Models\VehicleModification as Modification;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class VehicleModification extends Component
 {
     /**

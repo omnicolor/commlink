@@ -43,9 +43,6 @@ class Relation implements Stringable
         }
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __get(string $name): mixed
     {
         if ('cost' === $name) {

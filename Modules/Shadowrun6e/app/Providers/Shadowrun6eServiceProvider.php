@@ -18,7 +18,6 @@ use function str_replace;
 
 /**
  * @codeCoverageIgnore
- * @psalm-suppress UnusedClass
  */
 class Shadowrun6eServiceProvider extends ServiceProvider
 {

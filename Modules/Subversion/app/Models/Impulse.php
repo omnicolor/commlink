@@ -11,16 +11,11 @@ use function sprintf;
 
 class Impulse
 {
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public ImpulseDowntime $downtime;
     public string $name;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public int $page;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $ruleset;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $triggers;
 
     /**
@@ -36,7 +31,6 @@ class Impulse
     public function __construct(public string $id)
     {
         $filename = config('subversion.data_path') . 'impulses.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$impulses ??= require $filename;
 
         if (!isset(self::$impulses[$id])) {
@@ -76,7 +70,6 @@ class Impulse
     public static function all(): array
     {
         $filename = config('subversion.data_path') . 'impulses.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$impulses ??= require $filename;
 
         $impulses = [];

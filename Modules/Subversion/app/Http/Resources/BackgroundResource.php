@@ -12,7 +12,6 @@ use Modules\Subversion\Models\Background;
 
 /**
  * @mixin Background
- * @psalm-suppress UnusedClass
  */
 class BackgroundResource extends JsonResource
 {

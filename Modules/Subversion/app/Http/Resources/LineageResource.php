@@ -14,7 +14,6 @@ use Modules\Subversion\Models\LineageOption;
 
 /**
  * @mixin Lineage
- * @psalm-suppress UnusedClass
  */
 class LineageResource extends JsonResource
 {

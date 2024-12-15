@@ -15,7 +15,6 @@ use function urlencode;
 
 /**
  * Base class for Shadowrun lifestyles.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Lifestyle implements Stringable
 {
@@ -82,7 +81,6 @@ class Lifestyle implements Stringable
     {
         $this->options = new LifestyleOptionArray();
         $filename = config('shadowrun5e.data_path') . 'lifestyles.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$lifestyles ??= require $filename;
 
         $id = strtolower($id);
@@ -108,13 +106,11 @@ class Lifestyle implements Stringable
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, Lifestyle>
      */
     public static function all(): array
     {
         $filename = config('app.data_path.shadowrun5e') . 'lifestyles.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$lifestyles ??= require $filename;
 
         $lifestyles = [];
@@ -154,7 +150,6 @@ class Lifestyle implements Stringable
 
     /**
      * Return the lifestyle's zone.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getZone(): LifestyleZone
     {

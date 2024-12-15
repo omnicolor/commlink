@@ -15,7 +15,6 @@ use function trim;
 
 /**
  * Class representing a magical tradition in Shadowrun.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Tradition implements Stringable
 {
@@ -62,7 +61,6 @@ class Tradition implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'traditions.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$traditions ??= require $filename;
 
         $id = strtolower($id);
@@ -85,7 +83,6 @@ class Tradition implements Stringable
     /**
      * Return an array with the two attributes the tradition uses to resist
      * drain.
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, string> Two drain attributes
      */
     public function getDrainAttributes(): array

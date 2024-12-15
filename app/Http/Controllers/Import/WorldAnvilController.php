@@ -25,14 +25,10 @@ use function view;
 
 use const JSON_THROW_ON_ERROR;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class WorldAnvilController extends Controller
 {
     /**
      * Map of template IDs from World Anvil to Commlink character types.
-     * @psalm-suppress InvalidPropertyAssignmentValue
      * @var array<string, array<string, string>>
      * @phpstan-ignore property.defaultValue
      */
@@ -74,9 +70,6 @@ class WorldAnvilController extends Controller
         $converter = new $templateMap['converter']($request->character->path());
         /** @var CyberpunkredCharacter|ExpanseCharacter */
         $character = $converter->convert();
-        /**
-         * @psalm-suppress
-         */
         $character->errors = $converter->getErrors();
         $character->owner = $user->email;
         $character->save();

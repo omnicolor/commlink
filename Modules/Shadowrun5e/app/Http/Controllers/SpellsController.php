@@ -20,7 +20,6 @@ use function urlencode;
 
 /**
  * Spells API route.
- * @psalm-suppress UnusedClass
  */
 class SpellsController extends Controller
 {
@@ -35,9 +34,6 @@ class SpellsController extends Controller
      */
     protected array $spells;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
@@ -45,7 +41,6 @@ class SpellsController extends Controller
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/spells';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->spells = require $this->filename;
 
         $stat = stat($this->filename);
@@ -53,9 +48,6 @@ class SpellsController extends Controller
         $this->headers['Last-Modified'] = date('r', $stat['mtime']);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function index(): Response
     {
         foreach (array_keys($this->spells) as $key) {
@@ -76,9 +68,6 @@ class SpellsController extends Controller
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function show(string $id): Response
     {
         $id = strtolower($id);

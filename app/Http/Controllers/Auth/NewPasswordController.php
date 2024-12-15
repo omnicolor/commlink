@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class NewPasswordController extends Controller
 {
     /**

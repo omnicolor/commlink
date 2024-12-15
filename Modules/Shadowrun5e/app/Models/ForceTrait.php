@@ -31,7 +31,6 @@ trait ForceTrait
      * @param string $formula Formula involving force or level
      * @param string $letter Letter to replace (L or F)
      * @param int $rating Force or level to use in formula
-     * @psalm-suppress UnnecessaryVarAnnotation
      */
     public static function convertFormula(
         string $formula,

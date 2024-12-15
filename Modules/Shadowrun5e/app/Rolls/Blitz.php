@@ -22,7 +22,6 @@ use const PHP_EOL;
  *
  * Roll the maximum of five initiative dice for a single turn.
  * @property Character $character
- * @psalm-api
  */
 class Blitz extends Init
 {
@@ -54,7 +53,6 @@ class Blitz extends Init
 
         $character = $this->character;
         if (null === $character->edgeCurrent) {
-            /** @psalm-suppress UndefinedMagicPropertyAssignment */
             $character->edgeCurrent = $character->edge ?? 0;
         }
         if (0 === $character->edgeCurrent) {
@@ -66,7 +64,6 @@ class Blitz extends Init
 
         $this->roll();
 
-        /** @psalm-suppress UndefinedMagicPropertyAssignment */
         $character->edgeCurrent--;
         $character->save();
 

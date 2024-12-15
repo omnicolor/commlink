@@ -75,7 +75,6 @@ class KarmaLog extends ArrayObject
 
     /**
      * Number of special points from priorities for edge, magic, etc.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     protected int $specialPoints = 0;
 
@@ -87,7 +86,6 @@ class KarmaLog extends ArrayObject
     /**
      * Add an entry to the array.
      * @param KarmaLogEntry $entry
-     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet(mixed $index = null, $entry = null): void
@@ -101,7 +99,6 @@ class KarmaLog extends ArrayObject
 
     /**
      * Return the current amount of karma contained in the Karma Log.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getKarma(): int
     {
@@ -139,7 +136,6 @@ class KarmaLog extends ArrayObject
 
     /**
      * Compare two skills for organizing in reverse level order.
-     * @psalm-suppress PossiblyUnusedReturnValue
      */
     public function compareSkills(Skill $a, Skill $b): int
     {

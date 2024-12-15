@@ -16,9 +16,6 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class AuthenticatedSessionController extends Controller
 {
     /**
@@ -77,7 +74,6 @@ class AuthenticatedSessionController extends Controller
     /**
      * Destroy an authenticated session.
      * @codeCoverageIgnore
-     * @psalm-suppress UndefinedInterfaceMethod
      */
     public function destroy(Request $request): RedirectResponse | Redirector
     {

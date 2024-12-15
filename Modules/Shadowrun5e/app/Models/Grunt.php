@@ -15,7 +15,6 @@ use function strtolower;
 
 /**
  * Representation of a Shadowrun 5E grunt.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Grunt implements Stringable
 {
@@ -59,7 +58,6 @@ class Grunt implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'grunts.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$grunts ??= require $filename;
 
         $id = strtolower($id);
@@ -186,9 +184,6 @@ class Grunt implements Stringable
         return $this->name;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function getArmorValue(): int
     {
         $rating = 0;
@@ -205,7 +200,6 @@ class Grunt implements Stringable
     public static function all(): array
     {
         $filename = config('shadowrun5e.data_path') . 'grunts.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$grunts ??= require $filename;
 
         $grunts = [];

@@ -8,7 +8,6 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory as BaseFactory;
 
 /**
- * @psalm-suppress MissingTemplateParam
  * @template T
  * @extends BaseFactory<T>
  */

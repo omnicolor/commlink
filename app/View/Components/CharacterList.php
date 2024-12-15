@@ -15,9 +15,6 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use function route;
 use function view;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class CharacterList extends Component
 {
     /**
@@ -29,14 +26,12 @@ class CharacterList extends Component
         $this->componentName = 'CharacterList';
         foreach ($this->characters as $character) {
             /**
-             * @psalm-suppress UndefinedMagicPropertyAssignment
              * @phpstan-ignore property.notFound
              */
             $character->link = false;
             $system = $character->system;
             if (null !== Module::find($system) && Module::isEnabled($system)) {
                 try {
-                    /** @psalm-suppress UndefinedMagicPropertyAssignment */
                     $character->link = route($system . '.character', $character);
                     continue;
                 } catch (RouteNotFoundException | ViewException) { // @codeCoverageIgnore

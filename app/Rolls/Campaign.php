@@ -15,9 +15,6 @@ use function count;
 use function explode;
 use function sprintf;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Campaign extends Roll
 {
     protected const MIN_NUM_ARGUMENTS = 2;

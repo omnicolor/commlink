@@ -33,9 +33,7 @@ use function strtolower;
  */
 class Identity implements Stringable
 {
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $card;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
     public string $name;
 
@@ -47,7 +45,6 @@ class Identity implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('capers.data_path') . 'identities.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$identities ??= require $filename;
 
         $id = strtolower($id);
@@ -75,7 +72,6 @@ class Identity implements Stringable
     public static function all(): array
     {
         $filename = config('capers.data_path') . 'identities.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$identities ??= require $filename;
 
         $identities = [];
@@ -86,11 +82,9 @@ class Identity implements Stringable
         return $identities;
     }
 
-    /** @psalm-suppress PossiblyUnusedMethod */
     public static function findForCard(Card $card): Identity
     {
         $filename = config('capers.data_path') . 'identities.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$identities ??= require $filename;
 
         $coloredCard = match ($card->suit) {

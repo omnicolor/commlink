@@ -100,9 +100,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function convert(): void
     {
         if ($this->health_current < 3) {
@@ -112,9 +109,6 @@ class Character extends BaseCharacter
         $this->grit_current = $this->grit_current + 1;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function health(): Attribute
     {
         return Attribute::make(
@@ -125,9 +119,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function healthCurrent(): Attribute
     {
         return Attribute::make(
@@ -140,9 +131,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function grit(): Attribute
     {
         return Attribute::make(
@@ -164,9 +152,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function gritCurrent(): Attribute
     {
         return Attribute::make(
@@ -184,9 +169,6 @@ class Character extends BaseCharacter
         return CharacterFactory::new();
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function roles(): Attribute
     {
         return Attribute::make(

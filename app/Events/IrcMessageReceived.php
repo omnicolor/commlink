@@ -12,7 +12,6 @@ use function str_replace;
 
 /**
  * @property IrcClient $client
- * @psalm-suppress PossiblyUnusedProperty
  */
 class IrcMessageReceived extends MessageReceived
 {
@@ -23,9 +22,6 @@ class IrcMessageReceived extends MessageReceived
 
     public string $server;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct(
         string $message,
         public User $user,

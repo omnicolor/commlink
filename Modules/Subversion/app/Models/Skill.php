@@ -9,9 +9,6 @@ use Stringable;
 
 use function sprintf;
 
-/**
- * @psalm-suppress PossiblyUnusedProperty
- */
 class Skill implements Stringable
 {
     public string $description;
@@ -32,7 +29,6 @@ class Skill implements Stringable
     public function __construct(public string $id, public ?int $rank = null)
     {
         $filename = config('subversion.data_path') . 'skills.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$skills ??= require $filename;
 
         if (!isset(self::$skills[$id])) {
@@ -58,7 +54,6 @@ class Skill implements Stringable
     public static function all(): array
     {
         $filename = config('subversion.data_path') . 'skills.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$skills ??= require $filename;
 
         $skills = [];

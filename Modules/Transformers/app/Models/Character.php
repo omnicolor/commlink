@@ -145,7 +145,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /** @psalm-suppress PossiblyUnusedMethod */
     public function energonBase(): Attribute
     {
         return Attribute::make(
@@ -156,7 +155,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /** @psalm-suppress PossiblyUnusedMethod */
     public function energonCurrent(): Attribute
     {
         return Attribute::make(
@@ -170,7 +168,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /** @psalm-suppress PossiblyUnusedMethod */
     public function hpBase(): Attribute
     {
         return Attribute::make(
@@ -180,7 +177,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /** @psalm-suppress PossiblyUnusedMethod */
     public function hpCurrent(): Attribute
     {
         return Attribute::make(
@@ -193,7 +189,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /** @psalm-suppress PossiblyUnusedMethod */
     public function mode(): Attribute
     {
         return Attribute::make(
@@ -217,7 +212,6 @@ class Character extends BaseCharacter
     /**
      * The character's "function" has been renamed to "programming" since
      * "function" is a reserved word.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function programming(): Attribute
     {
@@ -234,7 +228,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /** @psalm-suppress PossiblyUnusedMethod */
     public function size(): Attribute
     {
         return Attribute::make(
@@ -250,7 +243,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /** @psalm-suppress PossiblyUnusedMethod */
     public function subgroups(): Attribute
     {
         return Attribute::make(
@@ -287,7 +279,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /** @psalm-suppress PossiblyUnusedMethod */
     public function weapons(): Attribute
     {
         return Attribute::make(

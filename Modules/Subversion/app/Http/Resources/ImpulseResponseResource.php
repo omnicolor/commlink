@@ -12,7 +12,6 @@ use Modules\Subversion\Models\ImpulseResponse;
 
 /**
  * @mixin ImpulseResponse
- * @psalm-suppress UnusedClass
  */
 class ImpulseResponseResource extends JsonResource
 {

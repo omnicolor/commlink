@@ -24,7 +24,6 @@ class Background implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('subversion.data_path') . 'backgrounds.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$backgrounds ??= require $filename;
 
         if (!isset(self::$backgrounds[$id])) {
@@ -49,7 +48,6 @@ class Background implements Stringable
     public static function all(): array
     {
         $filename = config('subversion.data_path') . 'backgrounds.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$backgrounds ??= require $filename;
 
         $backgrounds = [];

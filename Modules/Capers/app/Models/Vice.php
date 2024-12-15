@@ -22,9 +22,7 @@ use function strtolower;
  */
 class Vice implements Stringable
 {
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $card;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
     public string $name;
 
@@ -36,7 +34,6 @@ class Vice implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('capers.data_path') . 'vices.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$vices ??= require $filename;
 
         $id = strtolower($id);
@@ -62,7 +59,6 @@ class Vice implements Stringable
     public static function all(): array
     {
         $filename = config('capers.data_path') . 'vices.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$vices ??= require $filename;
 
         $vices = [];
@@ -73,11 +69,9 @@ class Vice implements Stringable
         return $vices;
     }
 
-    /** @psalm-suppress PossiblyUnusedMethod */
     public static function findForCard(Card $card): Vice
     {
         $filename = config('capers.data_path') . 'vices.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$vices ??= require $filename;
 
         foreach (self::$vices as $id => $vice) {

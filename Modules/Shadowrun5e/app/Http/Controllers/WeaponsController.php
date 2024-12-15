@@ -20,7 +20,6 @@ use function strtolower;
 
 /**
  * Controller for weapons.
- * @psalm-suppress UnusedClass
  */
 class WeaponsController extends Controller
 {
@@ -37,7 +36,6 @@ class WeaponsController extends Controller
 
     /**
      * Constructor.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function __construct()
     {
@@ -45,7 +43,6 @@ class WeaponsController extends Controller
         $this->filename = config('shadowrun5e.data_path') . 'weapons.php';
         $this->links['collection'] = route('shadowrun5e.weapons.index');
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->weapons = require $this->filename;
 
         $stat = stat($this->filename);
@@ -55,7 +52,6 @@ class WeaponsController extends Controller
 
     /**
      * Return collection of all weapons.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -77,7 +73,6 @@ class WeaponsController extends Controller
 
     /**
      * Return a single weapon.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $id): Response
     {

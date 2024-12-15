@@ -18,9 +18,6 @@ use function redirect;
 use function sprintf;
 use function view;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class HeroLabController extends Controller
 {
     public function upload(Request $request): RedirectResponse

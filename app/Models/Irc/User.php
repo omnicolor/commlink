@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models\Irc;
 
-/**
- * @psalm-suppress PossiblyUnusedProperty
- */
 class User
 {
     public function __construct(

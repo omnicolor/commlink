@@ -23,7 +23,6 @@ use function urlencode;
 
 /**
  * Controller for vehicles.
- * @psalm-suppress UnusedClass
  */
 class VehiclesController extends Controller
 {
@@ -38,9 +37,6 @@ class VehiclesController extends Controller
      */
     protected array $vehicles;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
@@ -48,7 +44,6 @@ class VehiclesController extends Controller
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/vehicles';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->vehicles = require $this->filename;
 
         $stat = stat($this->filename);
@@ -58,7 +53,6 @@ class VehiclesController extends Controller
 
     /**
      * Return collection of all vehicles.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -84,7 +78,6 @@ class VehiclesController extends Controller
 
     /**
      * Return a single vehicle.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $id): Response
     {
