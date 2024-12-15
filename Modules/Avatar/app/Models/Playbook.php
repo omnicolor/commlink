@@ -17,7 +17,6 @@ use const E_USER_NOTICE;
 
 /**
  * @property-read non-empty-list<Move> $moves
- * @psalm-api
  */
 class Playbook implements Stringable
 {
@@ -52,7 +51,6 @@ class Playbook implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('avatar.data_path') . 'playbooks.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$playbooks ??= require $filename;
 
         $id = strtolower($id);
@@ -112,7 +110,6 @@ class Playbook implements Stringable
     public static function all(): array
     {
         $filename = config('avatar.data_path') . 'playbooks.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$playbooks ??= require $filename;
 
         $playbooks = [];

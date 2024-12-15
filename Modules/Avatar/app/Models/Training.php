@@ -16,9 +16,6 @@ enum Training: string
     case Waterbending = 'Waterbending';
     case Weapons = 'Weapons';
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function description(): string
     {
         return match ($this) {

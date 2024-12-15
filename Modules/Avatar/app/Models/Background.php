@@ -16,9 +16,6 @@ enum Background: string
     case Urban = 'urban';
     case Wilderness = 'wilderness';
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function description(): string
     {
         return match ($this) {

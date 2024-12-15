@@ -6,7 +6,6 @@ namespace Modules\Startrekadventures\Models;
 
 /**
  * Disciplines for a Star Trek Adventures character.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Disciplines
 {

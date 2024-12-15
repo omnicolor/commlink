@@ -18,9 +18,6 @@ use function sprintf;
 use function stat;
 use function strtolower;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class TalentsController extends Controller
 {
     /**
@@ -34,15 +31,11 @@ class TalentsController extends Controller
      */
     protected array $talents;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
         $this->filename = config('expanse.data_path') . 'talents.php';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->talents = require $this->filename;
 
         $stat = stat($this->filename);
@@ -50,9 +43,6 @@ class TalentsController extends Controller
         $this->headers['Last-Modified'] = date('r', $stat['mtime']);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function index(): Response
     {
         foreach (array_keys($this->talents) as $key) {
@@ -72,9 +62,6 @@ class TalentsController extends Controller
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function show(string $id): Response
     {
         $id = strtolower($id);

@@ -16,9 +16,6 @@ use App\Models\Slack\FieldsAttachment;
 
 use const PHP_EOL;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Info extends Roll
 {
     protected string $campaign_name = 'No campaign';
@@ -78,7 +75,6 @@ class Info extends Roll
             . 'User Tag: ' . optional($event->user)->displayname . PHP_EOL
             . 'User ID: ' . optional($event->user)->id . PHP_EOL
             . 'Commlink User: ' . $this->commlink_user . PHP_EOL
-            /** @psalm-suppress UndefinedMagicPropertyFetch */
             . 'Server Name: ' . $event->server->name . PHP_EOL
             . 'Server ID: ' . $event->server->id . PHP_EOL
             . 'Channel Name: ' . $event->channel->name . PHP_EOL

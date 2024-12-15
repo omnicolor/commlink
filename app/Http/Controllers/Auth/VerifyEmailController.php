@@ -14,9 +14,6 @@ use Illuminate\Http\RedirectResponse;
 use function event;
 use function redirect;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class VerifyEmailController extends Controller
 {
     /**

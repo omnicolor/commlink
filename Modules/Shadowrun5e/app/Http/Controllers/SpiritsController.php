@@ -20,7 +20,6 @@ use function urlencode;
 
 /**
  * Spirits API route.
- * @psalm-suppress UnusedClass
  */
 class SpiritsController extends Controller
 {
@@ -35,9 +34,6 @@ class SpiritsController extends Controller
      */
     protected array $spirits;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
@@ -45,7 +41,6 @@ class SpiritsController extends Controller
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/spirits';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->spirits = require $this->filename;
 
         $stat = stat($this->filename);
@@ -53,9 +48,6 @@ class SpiritsController extends Controller
         $this->headers['Last-Modified'] = date('r', $stat['mtime']);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function index(): Response
     {
         foreach (array_keys($this->spirits) as $key) {
@@ -76,9 +68,6 @@ class SpiritsController extends Controller
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function show(string $id): Response
     {
         $id = strtolower($id);

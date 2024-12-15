@@ -21,9 +21,6 @@ use function event;
 use function redirect;
 use function view;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class RegisteredUserController extends Controller
 {
     /**

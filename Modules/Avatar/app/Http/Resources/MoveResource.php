@@ -12,7 +12,6 @@ use Modules\Avatar\Models\Move;
 
 /**
  * @mixin Move
- * @psalm-suppress UnusedClass
  */
 class MoveResource extends JsonResource
 {

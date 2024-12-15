@@ -12,9 +12,7 @@ use function is_array;
 
 class Explosive extends Gear implements Stringable
 {
-    /** @psalm-suppress PossiblyUnusedProperty */
     public ?string $blast;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public ?string $damage;
     public string $type = 'explosive';
 

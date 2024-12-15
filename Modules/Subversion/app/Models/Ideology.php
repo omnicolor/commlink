@@ -24,7 +24,6 @@ class Ideology
     public function __construct(public string $id)
     {
         $filename = config('subversion.data_path') . 'ideologies.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$ideologies ??= require $filename;
 
         if (!isset(self::$ideologies[$id])) {
@@ -50,7 +49,6 @@ class Ideology
     public static function all(): array
     {
         $filename = config('subversion.data_path') . 'ideologies.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$ideologies ??= require $filename;
 
         $ideologies = [];

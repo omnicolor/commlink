@@ -16,7 +16,6 @@ use function assert;
 
 /**
  * Handle a user asking to shuffle their deck.
- * @psalm-suppress UnusedClass
  */
 class Shuffle extends Roll
 {

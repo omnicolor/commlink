@@ -15,9 +15,6 @@ enum Era: string
     case Kyoshi = 'kyoshi';
     case Roku = 'roku';
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function description(): string
     {
         return match ($this) {
@@ -48,9 +45,6 @@ enum Era: string
         };
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function name(): string
     {
         return match ($this) {

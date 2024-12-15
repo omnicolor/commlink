@@ -109,9 +109,6 @@ class Character extends BaseCharacter
         return $this->attributes['name'] ?? 'Unnamed character';
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function aegis(): Attribute
     {
         return Attribute::make(
@@ -121,9 +118,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function animityMaximum(): Attribute
     {
         return Attribute::make(
@@ -133,9 +127,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function background(): Attribute
     {
         return Attribute::make(
@@ -169,9 +160,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function caste(): Attribute
     {
         return Attribute::make(
@@ -192,9 +180,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function gear(): Attribute
     {
         return Attribute::make(
@@ -221,9 +206,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function gritStarting(): Attribute
     {
         return Attribute::make(
@@ -236,7 +218,6 @@ class Character extends BaseCharacter
     /**
      * Named guard_defense instead of just guard to avoid conflicting with
      * eloquent's guard() method.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function guardDefense(): Attribute
     {
@@ -247,9 +228,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function healthMaximum(): Attribute
     {
         return Attribute::make(
@@ -259,9 +237,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function ideology(): Attribute
     {
         return Attribute::make(
@@ -282,9 +257,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function impulse(): Attribute
     {
         return Attribute::make(
@@ -305,9 +277,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function initiative(): Attribute
     {
         return Attribute::make(
@@ -317,9 +286,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function languages(): Attribute
     {
         return Attribute::make(
@@ -346,9 +312,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function lineage(): Attribute
     {
         return Attribute::make(
@@ -378,9 +341,6 @@ class Character extends BaseCharacter
         return CharacterFactory::new();
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function origin(): Attribute
     {
         return Attribute::make(
@@ -401,9 +361,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function skills(): Attribute
     {
         return Attribute::make(
@@ -437,9 +394,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function vigilance(): Attribute
     {
         return Attribute::make(

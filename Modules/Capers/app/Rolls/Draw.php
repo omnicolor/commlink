@@ -23,7 +23,6 @@ use const PHP_EOL;
 
 /**
  * Handle a user asking for a card.
- * @psalm-suppress UnusedClass
  */
 class Draw extends Roll
 {

@@ -15,9 +15,6 @@ enum Condition: string
     case Insecure = 'insecure';
     case Troubled = 'troubled';
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function description(): string
     {
         return match ($this) {

@@ -13,7 +13,6 @@ use Modules\Avatar\Models\Playbook;
 
 /**
  * @mixin Playbook
- * @psalm-suppress UnusedClass
  */
 class PlaybookResource extends JsonResource
 {

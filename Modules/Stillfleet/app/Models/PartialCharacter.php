@@ -27,9 +27,6 @@ class PartialCharacter extends Character
         return $character;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function toCharacter(): Character
     {
         $rawCharacter = $this->toArray();

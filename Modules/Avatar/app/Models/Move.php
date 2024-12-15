@@ -10,10 +10,6 @@ use Stringable;
 use function array_keys;
 use function sprintf;
 
-/**
- * @psalm-suppress PossiblyUnusedProperty
- * @psalm-suppress UnusedClass
- */
 class Move implements Stringable
 {
     public string $description;
@@ -28,7 +24,6 @@ class Move implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('avatar.data_path') . 'moves.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$moves ??= require $filename;
 
         $id = strtolower($id);
@@ -60,7 +55,6 @@ class Move implements Stringable
     public static function all(): array
     {
         $filename = config('avatar.data_path') . 'moves.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$moves ??= require $filename;
 
         $moves = [];

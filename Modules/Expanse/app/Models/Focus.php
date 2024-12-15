@@ -14,7 +14,6 @@ use function strtolower;
 
 /**
  * Class representing an Expanse Focus.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Focus implements Stringable
 {
@@ -51,7 +50,6 @@ class Focus implements Stringable
     public function __construct(public string $id, public int $level = 1)
     {
         $filename = config('expanse.data_path') . 'focuses.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$focuses ??= require $filename;
 
         $id = strtolower($id);
@@ -79,7 +77,6 @@ class Focus implements Stringable
     public static function all(): array
     {
         $filename = config('expanse.data_path') . 'focuses.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$focuses ??= require $filename;
 
         $focuses = [];

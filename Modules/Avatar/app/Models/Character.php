@@ -30,7 +30,6 @@ use Stringable;
  * @property int<-1, 4> $passion
  * @property-read Playbook $playbook
  * @property-write Playbook|string $playbook
- * @psalm-api
  */
 class Character extends BaseCharacter implements Stringable
 {

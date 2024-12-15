@@ -6,9 +6,6 @@ namespace App\Features;
 
 use Stringable;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class CyberpunkCharacterGeneration implements Stringable
 {
     /**

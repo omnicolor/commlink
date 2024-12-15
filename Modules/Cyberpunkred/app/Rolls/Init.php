@@ -20,9 +20,6 @@ use function optional;
 
 use const PHP_EOL;
 
-/**
- * @psalm-api
- */
 class Init extends Roll
 {
     /**
@@ -78,7 +75,6 @@ class Init extends Roll
 
     /**
      * Roll a d10 for initiative, notifying listeners of the results.
-     * @psalm-suppress UndefinedClass
      */
     protected function roll(): void
     {

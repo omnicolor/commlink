@@ -16,9 +16,6 @@ readonly class AltMode implements Stringable
     public const string TYPE_VEHICLE = 'vehicle';
     public const string TYPE_WEAPON = 'weapon';
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct(public string $mode)
     {
         $valid_types = [
@@ -37,9 +34,6 @@ readonly class AltMode implements Stringable
         return ucfirst($this->mode);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function statisticModifier(string $statistic): ?int
     {
         // @phpstan-ignore match.unhandled

@@ -14,9 +14,6 @@ use function str_replace;
 
 use const PHP_EOL;
 
-/**
- * @psalm-api
- */
 class Help extends Roll
 {
     /**

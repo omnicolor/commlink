@@ -29,9 +29,6 @@ enum ShipSize: string
         };
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function hull(): string
     {
         return match ($this) {

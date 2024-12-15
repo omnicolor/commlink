@@ -9,9 +9,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Avatar\Database\Factories\CampaignFactory;
 
-/**
- * @psalm-api
- */
 class Campaign extends BaseCampaign
 {
     use HasFactory;

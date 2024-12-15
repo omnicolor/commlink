@@ -14,9 +14,6 @@ use function str_replace;
 use function strtolower;
 use function ucfirst;
 
-/**
- * @psalm-suppress PossiblyUnusedProperty
- */
 class Gear implements Stringable
 {
     public float $cost;
@@ -31,7 +28,6 @@ class Gear implements Stringable
     protected function __construct(public string $id, public int $quantity)
     {
         $filename = config('capers.data_path') . 'gear.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$gear ??= require $filename;
 
         $gear = self::$gear[$id];
@@ -45,9 +41,6 @@ class Gear implements Stringable
         return $this->name;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function getType(): string
     {
         return ucfirst(str_replace('-', ' ', $this->type));
@@ -56,7 +49,6 @@ class Gear implements Stringable
     public static function get(string $id, int $quantity = 1): Gear
     {
         $filename = config('capers.data_path') . 'gear.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$gear ??= require $filename;
 
         $id = strtolower($id);
@@ -79,7 +71,6 @@ class Gear implements Stringable
     public static function all(): GearArray
     {
         $filename = config('capers.data_path') . 'gear.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$gear ??= require $filename;
 
         $gear = new GearArray();
@@ -90,11 +81,9 @@ class Gear implements Stringable
         return $gear;
     }
 
-    /** @psalm-suppress PossiblyUnusedMethod */
     public static function explosives(): GearArray
     {
         $filename = config('capers.data_path') . 'gear.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$gear ??= require $filename;
 
         $explosives = new GearArray();
@@ -107,11 +96,9 @@ class Gear implements Stringable
         return $explosives;
     }
 
-    /** @psalm-suppress PossiblyUnusedMethod */
     public static function normalGear(): GearArray
     {
         $filename = config('capers.data_path') . 'gear.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$gear ??= require $filename;
 
         $gear = new GearArray();
@@ -124,11 +111,9 @@ class Gear implements Stringable
         return $gear;
     }
 
-    /** @psalm-suppress PossiblyUnusedMethod */
     public static function weapons(): GearArray
     {
         $filename = config('capers.data_path') . 'gear.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$gear ??= require $filename;
 
         $weapons = new GearArray();

@@ -12,7 +12,6 @@ use Modules\Avatar\Models\Status;
 
 /**
  * @mixin Status
- * @psalm-suppress UnusedClass
  */
 class StatusResource extends JsonResource
 {

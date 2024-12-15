@@ -20,7 +20,6 @@ use function urlencode;
 
 /**
  * Controller for metamagics.
- * @psalm-suppress UnusedClass
  */
 class MetamagicsController extends Controller
 {
@@ -35,9 +34,6 @@ class MetamagicsController extends Controller
      */
     protected array $magics;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
@@ -46,7 +42,6 @@ class MetamagicsController extends Controller
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/metamagics';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->magics = require $this->filename;
 
         $stat = stat($this->filename);
@@ -56,7 +51,6 @@ class MetamagicsController extends Controller
 
     /**
      * Return the entire collection of metamagics.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -81,7 +75,6 @@ class MetamagicsController extends Controller
 
     /**
      * Return a single metamagic.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $identifier): Response
     {

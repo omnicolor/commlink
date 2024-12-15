@@ -13,7 +13,6 @@ use function strtolower;
 
 /**
  * Class representing a metamagic in Shadowrun.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Metamagic implements Stringable
 {
@@ -51,7 +50,6 @@ class Metamagic implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'metamagics.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$metamagics ??= require $filename;
 
         $id = strtolower($id);
@@ -81,7 +79,6 @@ class Metamagic implements Stringable
     public static function findByName(string $name): Metamagic
     {
         $filename = config('shadowrun5e.data_path') . 'metamagics.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$metamagics ??= require $filename;
 
         $name = strtolower($name);

@@ -14,9 +14,7 @@ use function strtolower;
 
 class MeleeWeapon extends Weapon implements Stringable
 {
-    /** @psalm-suppress PossiblyUnusedProperty */
     public ?int $ammoRemaining = null;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public ?int $magazine = null;
 
     /**

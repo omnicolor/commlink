@@ -13,9 +13,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse
 
 use function redirect;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class GoogleController extends Controller
 {
     /**
