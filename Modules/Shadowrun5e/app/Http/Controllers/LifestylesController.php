@@ -21,7 +21,6 @@ use function urlencode;
 
 /**
  * Controller for Shadowrun 5th Edition lifestyles.
- * @psalm-suppress UnusedClass
  */
 class LifestylesController extends Controller
 {
@@ -36,9 +35,6 @@ class LifestylesController extends Controller
      */
     protected array $lifestyles;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
@@ -47,7 +43,6 @@ class LifestylesController extends Controller
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/lifestyles';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->lifestyles = require $this->filename;
 
         $stat = stat($this->filename);
@@ -57,7 +52,6 @@ class LifestylesController extends Controller
 
     /**
      * Return collection of all lifestyles.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -82,7 +76,6 @@ class LifestylesController extends Controller
 
     /**
      * Return a single lifestyle.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $id): Response
     {

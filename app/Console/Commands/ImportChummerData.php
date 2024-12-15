@@ -43,8 +43,6 @@ use const PHP_EOL;
 
 /**
  * @codeCoverageIgnore
- * @psalm-suppress InvalidArgument
- * @psalm-suppress UnusedClass
  */
 class ImportChummerData extends Command implements Isolatable
 {
@@ -384,7 +382,6 @@ class ImportChummerData extends Command implements Isolatable
         $bar->setFormat('  Armor            %current%/%max% [%bar%] -- ' . count($armors) . ' armor');
         $bar->finish();
         $this->newLine();
-        // @psalm-suppress InvalidArgument
         $this->writeFile('armor.php', $armors);
     }
 
@@ -423,7 +420,6 @@ class ImportChummerData extends Command implements Isolatable
         );
         $bar->finish();
         $this->newLine();
-        // @psalm-suppress InvalidArgument
         $this->writeFile('cyberware.php', $augmentations);
     }
 
@@ -450,7 +446,6 @@ class ImportChummerData extends Command implements Isolatable
             'type' => $type,
         ];
 
-        /** @psalm-suppress RedundantCondition */
         if (null !== $aug->capacity) {
             $cap = (string)$aug->capacity;
             if (Str::contains($cap, '[')) {
@@ -459,7 +454,6 @@ class ImportChummerData extends Command implements Isolatable
             }
         }
 
-        /** @psalm-suppress TypeDoesNotContainNull */
         if (null === $aug->rating) {
             $augmentation['availability'] = $this->cleanAvailability($aug);
             $augmentation['cost'] = (int)$aug->cost;
@@ -548,7 +542,6 @@ class ImportChummerData extends Command implements Isolatable
         );
         $bar->finish();
         $this->newLine();
-        // @psalm-suppress InvalidArgument
         $this->writeFile('complex-forms.php', $forms);
     }
 
@@ -591,7 +584,6 @@ class ImportChummerData extends Command implements Isolatable
         );
         $bar->finish();
         $this->newLine();
-        // @psalm-suppress InvalidArgument
         $this->writeFile('critter-powers.php', $powers);
     }
 

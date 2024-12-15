@@ -20,19 +20,16 @@ class ActiveSkill extends Skill implements Stringable
 {
     /**
      * Whether the character can default this skill.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public bool $default = false;
 
     /**
      * Description of the skill.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
     /**
      * Skill group the skill belongs to.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public ?string $group = null;
 
@@ -52,7 +49,6 @@ class ActiveSkill extends Skill implements Stringable
         ?string $specialization = null
     ) {
         $filename = config('shadowrun5e.data_path') . 'skills.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$skills ??= require $filename;
 
         $id = strtolower($id);
@@ -81,7 +77,6 @@ class ActiveSkill extends Skill implements Stringable
     public static function findIdByName(string $name): string
     {
         $filename = config('shadowrun5e.data_path') . 'skills.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$skills ??= require $filename;
         foreach (self::$skills as $skill) {
             if ($skill['name'] === $name) {
@@ -96,12 +91,10 @@ class ActiveSkill extends Skill implements Stringable
 
     /**
      * Return all available active skills.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public static function all(): SkillArray
     {
         $filename = config('shadowrun5e.data_path') . 'skills.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$skills ??= require $filename;
 
         $skills = new SkillArray();

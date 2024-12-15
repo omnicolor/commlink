@@ -20,8 +20,6 @@ use function sprintf;
 
 /**
  * Handle a user requesting to link a character to this Discord channel.
- * @psalm-suppress InvalidStaticInvocation
- * @psalm-suppress UnusedClass
  */
 class LinkResponse implements Stringable
 {
@@ -68,7 +66,6 @@ class LinkResponse implements Stringable
 
         $characterId = $arguments[1];
         /**
-         * @psalm-suppress InvalidStaticInvocation
          * @var Character
          */
         $character = Character::find($characterId);

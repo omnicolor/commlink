@@ -20,7 +20,6 @@ use function urlencode;
 
 /**
  * Controller for complex forms.
- * @psalm-suppress UnusedClass
  */
 class ComplexFormsController extends Controller
 {
@@ -35,9 +34,6 @@ class ComplexFormsController extends Controller
      */
     protected array $forms;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
@@ -46,7 +42,6 @@ class ComplexFormsController extends Controller
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/complex-forms';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->forms = require $this->filename;
 
         $stat = stat($this->filename);
@@ -56,7 +51,6 @@ class ComplexFormsController extends Controller
 
     /**
      * Return the entire collection of complex forms.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -81,7 +75,6 @@ class ComplexFormsController extends Controller
 
     /**
      * Return a single complex form.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $identifier): Response
     {

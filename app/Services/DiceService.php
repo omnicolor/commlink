@@ -27,7 +27,6 @@ use function sprintf;
  *
  * All sixes:
  * `DiceService::shouldReceive('rollMany')->times(3)->with(6)->andReturn([6, 6, 6]);`
- * @psalm-suppress UnusedClass
  */
 class DiceService
 {
@@ -111,7 +110,6 @@ class DiceService
     /**
      * Given a string of dice notation and math, roll dice and return
      * everything about the roll.
-     * @psalm-suppress PossiblyUnusedMethod
      * @return object{total: int, rolls: array<int, int>, work: string}
      */
     public static function rollDice(string $string): object

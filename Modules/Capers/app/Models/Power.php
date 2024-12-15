@@ -19,7 +19,6 @@ class Power implements Stringable
 
     /**
      * How the power gets activated.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $activation;
 
@@ -35,25 +34,21 @@ class Power implements Stringable
 
     /**
      * Short description of the power.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
     /**
      * How long the power lasts.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $duration;
 
     /**
      * Description of the power's effects.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $effect;
 
     /**
      * Maximum number of ranks a character can have for the power.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public int $maxRank;
 
@@ -64,13 +59,11 @@ class Power implements Stringable
 
     /**
      * Description of the power's range (if it has one).
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $range;
 
     /**
      * What the power affects.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $target;
 
@@ -94,7 +87,6 @@ class Power implements Stringable
         array $boosts = []
     ) {
         $filename = config('capers.data_path') . 'powers.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$powers ??= require $filename;
 
         $id = strtolower($id);
@@ -141,7 +133,6 @@ class Power implements Stringable
     public static function all(): PowerArray
     {
         $filename = config('capers.data_path') . 'powers.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$powers ??= require $filename;
 
         $powers = new PowerArray();
@@ -155,7 +146,6 @@ class Power implements Stringable
     public static function major(): PowerArray
     {
         $filename = config('capers.data_path') . 'powers.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$powers ??= require $filename;
 
         $powers = new PowerArray();
@@ -171,7 +161,6 @@ class Power implements Stringable
     public static function minor(): PowerArray
     {
         $filename = config('capers.data_path') . 'powers.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$powers ??= require $filename;
 
         $powers = new PowerArray();

@@ -16,7 +16,6 @@ class VehicleArray extends ArrayObject
     /**
      * Add a vehicle to the array.
      * @param Vehicle $vehicle
-     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet(mixed $index = null, $vehicle = null): void

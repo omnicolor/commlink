@@ -18,9 +18,6 @@ use Throwable;
 
 use function ucwords;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class VarzController extends Controller
 {
     /**
@@ -71,7 +68,6 @@ class VarzController extends Controller
     /**
      * Return metrics about individual systems.
      * @return array<string, int>
-     * @psalm-suppress InvalidStringClass
      */
     protected function getSystemMetrics(string $system): array
     {
@@ -124,7 +120,6 @@ class VarzController extends Controller
                 continue; // @codeCoverageIgnore
             }
             try {
-                /** @psalm-suppress UnresolvableInclude */
                 $data = require $path . $file;
             } catch (ParseError) { // @codeCoverageIgnore
                 continue; // @codeCoverageIgnore
@@ -132,7 +127,6 @@ class VarzController extends Controller
             if (!is_array($data)) {
                 continue; // @codeCoverageIgnore
             }
-            /** @psalm-suppress PossiblyInvalidCast */
             $file = (string)str_replace('.php', '', $file);
             $metrics[$file] = count($data);
         }

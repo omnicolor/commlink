@@ -14,7 +14,6 @@ use function sprintf;
 
 /**
  * Roll a Shadowrun 5E soak test.
- * @psalm-api
  */
 class Soak extends Number
 {

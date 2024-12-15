@@ -12,7 +12,6 @@ use Modules\Subversion\Models\Language;
 
 /**
  * @mixin Language
- * @psalm-suppress UnusedClass
  */
 class LanguageResource extends JsonResource
 {

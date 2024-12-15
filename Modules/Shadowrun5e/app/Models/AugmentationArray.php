@@ -16,7 +16,6 @@ class AugmentationArray extends ArrayObject
     /**
      * Add an augmentation to the array.
      * @param Augmentation $augmentation
-     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet(mixed $index = null, $augmentation = null): void

@@ -56,7 +56,6 @@ class Initiative extends Model
 
     /**
      * Return the campaign attached to the initiative.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function campaign(): BelongsTo
     {
@@ -68,8 +67,6 @@ class Initiative extends Model
      *
      * If the initiative belongs to a character, returns their name/handle. If
      * it's a mook, returns the name assigned to them when setting initiative.
-     * @psalm-suppress InvalidStaticInvocation
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function name(): Attribute
     {
@@ -86,7 +83,6 @@ class Initiative extends Model
 
     /**
      * Just return initiative rows for a given campaign.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function scopeForCampaign(Builder $query, Campaign $campaign): Builder
     {
@@ -95,7 +91,6 @@ class Initiative extends Model
 
     /**
      * Return initiative rows for a given channel.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function scopeForChannel(Builder $query, Channel $channel): Builder
     {

@@ -7,9 +7,6 @@ namespace Modules\Shadowrun5e\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class CampaignOptions extends Component
 {
     /**
@@ -25,7 +22,6 @@ class CampaignOptions extends Component
     {
         $this->attributes = $this->newAttributeBag();
         $filename = config('shadowrun5e.data_path') . 'rulebooks.php';
-        /** @psalm-suppress UnresolvableInclude */
         $this->books = require $filename;
         $this->componentName = 'Shadowrun5e\CampaignOptions';
     }

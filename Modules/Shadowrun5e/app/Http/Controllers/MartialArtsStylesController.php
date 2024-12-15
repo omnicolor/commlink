@@ -20,7 +20,6 @@ use function urlencode;
 
 /**
  * Controller for Shadowrun 5th Edition martial arts styles.
- * @psalm-suppress UnusedClass
  */
 class MartialArtsStylesController extends Controller
 {
@@ -35,9 +34,6 @@ class MartialArtsStylesController extends Controller
      */
     protected array $styles;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
@@ -46,7 +42,6 @@ class MartialArtsStylesController extends Controller
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/martial-arts-styles';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->styles = require $this->filename;
 
         $stat = stat($this->filename);
@@ -56,7 +51,6 @@ class MartialArtsStylesController extends Controller
 
     /**
      * Get the entire collection of styles.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -81,7 +75,6 @@ class MartialArtsStylesController extends Controller
 
     /**
      * Return information about a single style.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $id): Response
     {

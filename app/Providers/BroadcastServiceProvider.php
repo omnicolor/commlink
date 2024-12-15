@@ -7,9 +7,6 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\ServiceProvider;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class BroadcastServiceProvider extends ServiceProvider
 {
     /**

@@ -14,17 +14,13 @@ use function strtolower;
 
 class ShipFlaw implements Stringable
 {
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
     public string $name;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public int $page;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $ruleset;
 
     /**
      * Collection of effects the flaw adds to the ship.
-     * @psalm-suppress PossiblyUnusedProperty
      * @var array<string, mixed>
      */
     public array $effects = [];
@@ -41,7 +37,6 @@ class ShipFlaw implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('expanse.data_path') . 'ship-flaws.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$flaws ??= require $filename;
 
         $this->id = strtolower($id);
@@ -67,13 +62,11 @@ class ShipFlaw implements Stringable
 
     /**
      * Return a collection of all flaws.
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, ShipFlaw>
      */
     public static function all(): array
     {
         $filename = config('expanse.data_path') . 'ship-flaws.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$flaws ??= require $filename;
 
         $flaws = [];

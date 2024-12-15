@@ -13,9 +13,6 @@ use Illuminate\Support\MessageBag;
 use Illuminate\View\View;
 use RuntimeException;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Chummer5Controller extends Controller
 {
     public function upload(Request $request): RedirectResponse | View

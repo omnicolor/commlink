@@ -19,7 +19,6 @@ use function urlencode;
 
 /**
  * Controller for the various Shadowrun skill requests.
- * @psalm-suppress UnusedClass
  */
 class SkillsController extends Controller
 {
@@ -34,9 +33,6 @@ class SkillsController extends Controller
      */
     protected array $skills;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
@@ -44,7 +40,6 @@ class SkillsController extends Controller
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/skills';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->skills = require $this->filename;
 
         $stat = stat($this->filename);
@@ -54,7 +49,6 @@ class SkillsController extends Controller
 
     /**
      * Return all skills.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -78,7 +72,6 @@ class SkillsController extends Controller
 
     /**
      * Return a single skill.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $id): Response
     {

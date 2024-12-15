@@ -12,9 +12,6 @@ use function explode;
 use function sprintf;
 use function trim;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Skill extends Number
 {
     protected int $dice;

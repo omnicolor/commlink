@@ -131,7 +131,6 @@ class CharactersController extends Controller
 
             /**
              * No in-progress characters, create a new one.
-             * @psalm-suppress UnnecessaryVarAnnotation PHPStan needs it
              * @var PartialCharacter
              */
             $character = PartialCharacter::create([
@@ -340,7 +339,6 @@ class CharactersController extends Controller
 
     /**
      * Return a collection of characters for the logged in user.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(Request $request): AnonymousResourceCollection
     {
@@ -351,7 +349,6 @@ class CharactersController extends Controller
 
     /**
      * Return a single Cyberpunk Red character.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(Request $request, string $identifier): JsonResource
     {

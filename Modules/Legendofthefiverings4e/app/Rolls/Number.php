@@ -25,9 +25,6 @@ use function trim;
 use const PHP_EOL;
 use const SORT_NUMERIC;
 
-/**
- * @psalm-api
- */
 class Number extends Roll
 {
     protected int $dice;
@@ -109,7 +106,6 @@ class Number extends Roll
         for ($i = 0; $i < $this->dice; $i++) {
             $result = 0;
             do {
-                /** @psalm-suppress UndefinedClass */
                 $roll = DiceService::rollOne(10);
                 $result += $roll;
             } while (10 === $roll);

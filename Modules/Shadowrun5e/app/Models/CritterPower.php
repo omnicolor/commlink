@@ -13,7 +13,6 @@ use function strtolower;
 
 /**
  * Critter/Spirit power.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class CritterPower implements Stringable
 {
@@ -94,7 +93,6 @@ class CritterPower implements Stringable
     public function __construct(string $id, public ?string $subname = null)
     {
         $filename = config('shadowrun5e.data_path') . 'critter-powers.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$powers ??= require $filename;
 
         $this->id = strtolower($id);

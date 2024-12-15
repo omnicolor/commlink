@@ -12,7 +12,6 @@ class RoleAndPermissionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function run(): void
     {

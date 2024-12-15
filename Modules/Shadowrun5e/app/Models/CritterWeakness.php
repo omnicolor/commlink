@@ -13,7 +13,6 @@ use function strtolower;
 
 /**
  * Representation of a critter's weakness.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class CritterWeakness implements Stringable
 {
@@ -57,7 +56,6 @@ class CritterWeakness implements Stringable
     {
         $filename = config('shadowrun5e.data_path')
             . 'critter-weaknesses.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$weaknesses ??= require $filename;
 
         $this->id = strtolower($id);

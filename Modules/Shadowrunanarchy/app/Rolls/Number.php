@@ -19,9 +19,6 @@ use function trim;
 
 use const PHP_EOL;
 
-/**
- * @psalm-api
- */
 class Number extends Roll
 {
     protected const int MAX_DICE = 100;
@@ -107,14 +104,12 @@ class Number extends Roll
     protected function roll(): void
     {
         for ($i = 0; $i < $this->dice; $i++) {
-            /** @psalm-suppress UndefinedClass */
             $this->rolls[] = $roll = DiceService::rollOne(6);
             if (self::MIN_SUCCESS <= $roll) {
                 $this->successes++;
             }
         }
         if ($this->glitch) {
-            /** @psalm-suppress UndefinedClass */
             $this->rolls[] = $roll = DiceService::rollOne(6);
             $glitchResult = '';
             if (1 === $roll) {

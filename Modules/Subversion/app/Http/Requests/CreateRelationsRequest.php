@@ -16,7 +16,6 @@ use Modules\Subversion\Models\Skill;
 class CreateRelationsRequest extends FormRequest
 {
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, array<int, string|EachIsAValid|In>>
      */
     public function rules(): array
