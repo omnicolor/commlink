@@ -12,11 +12,8 @@ use function is_array;
 
 class Weapon extends Gear implements Stringable
 {
-    /** @psalm-suppress PossiblyUnusedProperty */
     public ?string $damage = null;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public ?string $range = null;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public ?string $rounds = null;
     public string $type = 'weapon';
 

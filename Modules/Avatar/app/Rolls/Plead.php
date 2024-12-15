@@ -20,9 +20,6 @@ use function sprintf;
 
 use const PHP_EOL;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Plead extends Roll
 {
     // Rolling 10 or higher is a success.
@@ -78,9 +75,6 @@ class Plead extends Roll
         $this->roll();
     }
 
-    /**
-     * @psalm-suppress UndefinedClass
-     */
     protected function roll(): void
     {
         $this->dice = DiceService::rollMany(2, 6);

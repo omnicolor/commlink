@@ -9,7 +9,6 @@ use Illuminate\Console\GeneratorCommand;
 /**
  * Create a stub for a new Roll object.
  * @codeCoverageIgnore
- * @psalm-suppress UnusedClass
  */
 class MakeRollCommand extends GeneratorCommand
 {

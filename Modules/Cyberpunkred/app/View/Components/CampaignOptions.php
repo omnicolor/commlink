@@ -7,9 +7,6 @@ namespace Modules\Cyberpunkred\View\Components;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class CampaignOptions extends Component
 {
     public function render(): View

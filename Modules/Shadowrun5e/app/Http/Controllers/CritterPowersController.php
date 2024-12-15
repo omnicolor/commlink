@@ -19,7 +19,6 @@ use function strtolower;
 
 /**
  * Controller for critter powers.
- * @psalm-suppress UnusedClass
  */
 class CritterPowersController extends Controller
 {
@@ -34,16 +33,12 @@ class CritterPowersController extends Controller
      */
     protected array $powers;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path')
             . 'critter-powers.php';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->powers = require $this->filename;
 
         $stat = stat($this->filename);
@@ -53,7 +48,6 @@ class CritterPowersController extends Controller
 
     /**
      * Get the entire collection of fifth edition critter powers.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -76,7 +70,6 @@ class CritterPowersController extends Controller
 
     /**
      * Get a single fifth edition critter power.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $id): Response
     {

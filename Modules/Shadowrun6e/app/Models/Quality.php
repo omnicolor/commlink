@@ -11,9 +11,6 @@ use function config;
 use function sprintf;
 use function strtolower;
 
-/**
- * @psalm-suppress PossiblyUnusedProperty
- */
 class Quality implements Stringable
 {
     public string $description;
@@ -35,8 +32,6 @@ class Quality implements Stringable
     public static ?array $qualities;
 
     /**
-     * @psalm-suppress UnusedVariable
-     * @psalm-suppress UnresolvableInclude
      * @throws RuntimeException
      */
     public function __construct(public string $id)
@@ -69,8 +64,6 @@ class Quality implements Stringable
 
     /**
      * Try to find a quality by its name.
-     * @psalm-suppress PossiblyUnusedMethod
-     * @psalm-suppress UnresolvableInclude
      * @return array<int, Quality>
      * @throws RuntimeException
      */

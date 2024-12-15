@@ -27,9 +27,6 @@ use SocialiteProviders\Discord\DiscordExtendSocialite;
 use SocialiteProviders\Google\GoogleExtendSocialite;
 use SocialiteProviders\Manager\SocialiteWasCalled;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class EventServiceProvider extends ServiceProvider
 {
     /**

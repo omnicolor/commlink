@@ -10,7 +10,6 @@ use Modules\Dnd5e\Models\Character;
 
 /**
  * @mixin Character
- * @psalm-suppress UnusedClass
  */
 class CharacterResource extends JsonResource
 {

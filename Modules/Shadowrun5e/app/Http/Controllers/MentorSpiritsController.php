@@ -20,7 +20,6 @@ use function urlencode;
 
 /**
  * Mentor Spirit API route.
- * @psalm-suppress UnusedClass
  */
 class MentorSpiritsController extends Controller
 {
@@ -35,9 +34,6 @@ class MentorSpiritsController extends Controller
      */
     protected array $spirits;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
@@ -46,7 +42,6 @@ class MentorSpiritsController extends Controller
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/mentor-spirits';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->spirits = require $this->filename;
 
         $stat = stat($this->filename);
@@ -56,7 +51,6 @@ class MentorSpiritsController extends Controller
 
     /**
      * Get the entire collection of Shadowrun 5E mentor spirits.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -82,7 +76,6 @@ class MentorSpiritsController extends Controller
 
     /**
      * Return a single mentor spirit.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $id): Response
     {

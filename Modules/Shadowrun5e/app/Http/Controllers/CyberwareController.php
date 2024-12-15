@@ -20,7 +20,6 @@ use function urlencode;
 
 /**
  * Controller for Shadowrun augmentations.
- * @psalm-suppress UnusedClass
  */
 class CyberwareController extends Controller
 {
@@ -35,9 +34,6 @@ class CyberwareController extends Controller
      */
     protected array $augmentations;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
@@ -45,7 +41,6 @@ class CyberwareController extends Controller
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/cyberware';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->augmentations = require $this->filename;
 
         $stat = stat($this->filename);
@@ -55,7 +50,6 @@ class CyberwareController extends Controller
 
     /**
      * Get the entire collection of Shadowrun 5E augmentations.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -81,7 +75,6 @@ class CyberwareController extends Controller
 
     /**
      * Return a single Shadowrun 5E augmentation.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $id): Response
     {

@@ -13,10 +13,8 @@ use function strtolower;
 
 class Perk implements Stringable
 {
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
     public string $name;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public ?string $skillId = null;
 
     /**
@@ -30,7 +28,6 @@ class Perk implements Stringable
     public function __construct(public string $id, array $rawPerk)
     {
         $filename = config('capers.data_path') . 'perks.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$perks ??= require $filename;
 
         $id = strtolower($id);

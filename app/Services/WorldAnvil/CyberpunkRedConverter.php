@@ -31,9 +31,6 @@ class CyberpunkRedConverter implements ConverterInterface
     protected PartialCharacter $character;
     protected stdClass $rawCharacter;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct(string $filename)
     {
         if (!file_exists($filename)) {
@@ -141,9 +138,6 @@ class CyberpunkRedConverter implements ConverterInterface
         return $this;
     }
 
-    /**
-     * @psalm-suppress UnresolvableInclude
-     */
     protected function parseSkills(): self
     {
         $filename = config('cyberpunkred.data_path') . 'world-anvil.skills.php';

@@ -10,14 +10,12 @@ use TypeError;
 /**
  * Collection of Perks.
  * @extends ArrayObject<int, Perk>
- * @psalm-suppress UnusedClass
  */
 class PerkArray extends ArrayObject
 {
     /**
      * Add a perk to the array.
      * @param Perk $perk
-     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet(mixed $index = null, $perk = null): void

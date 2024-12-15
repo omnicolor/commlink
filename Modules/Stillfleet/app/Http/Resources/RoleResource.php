@@ -13,7 +13,6 @@ use function array_values;
 
 /**
  * @mixin Role
- * @psalm-suppress UnusedClass
  */
 class RoleResource extends JsonResource
 {

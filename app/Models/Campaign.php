@@ -68,7 +68,6 @@ class Campaign extends Model
 
     /**
      * Get a collection of channels attached to the campaign.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function channels(): HasMany
     {
@@ -84,9 +83,6 @@ class Campaign extends Model
         return Character::where('campaign_id', $this->id)->get();
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function events(): HasMany
     {
         return $this->hasMany(Event::class);
@@ -94,7 +90,6 @@ class Campaign extends Model
 
     /**
      * Get the user that is GMing the campaign.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function gamemaster(): BelongsTo
     {
@@ -103,16 +98,12 @@ class Campaign extends Model
 
     /**
      * Return the initiatives rolled for the campaign.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function initiatives(): HasMany
     {
         return $this->hasMany(Initiative::class);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function invitations(): HasMany
     {
         return $this->hasMany(CampaignInvitation::class);
@@ -122,7 +113,6 @@ class Campaign extends Model
      * Create a new Campaign, subclassed if available.
      * @param array<mixed, mixed> $attributes
      * @param ?string $connection
-     * @psalm-suppress InvalidPropertyFetch
      */
     public function newFromBuilder(
         $attributes = [],
@@ -144,7 +134,6 @@ class Campaign extends Model
 
     /**
      * Get the user that registered the campaign.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function registrant(): BelongsTo
     {

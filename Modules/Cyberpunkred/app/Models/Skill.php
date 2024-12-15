@@ -15,7 +15,6 @@ use function strtolower;
 /**
  * Class representing a Cyberpunk Red skill.
  * @property string $id
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Skill implements Stringable
 {
@@ -26,19 +25,16 @@ class Skill implements Stringable
 
     /**
      * Category for the skill.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $category;
 
     /**
      * Description of the skill.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
     /**
      * Longer example of the skill.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $examples;
 
@@ -49,7 +45,6 @@ class Skill implements Stringable
 
     /**
      * Page the skill was introduced in.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public int $page;
 
@@ -65,7 +60,6 @@ class Skill implements Stringable
     public function __construct(public string $id, public int $level = 0)
     {
         $filename = config('cyberpunkred.data_path') . 'skills.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$skills ??= require $filename;
 
         $id = strtolower($id);
@@ -92,7 +86,6 @@ class Skill implements Stringable
 
     /**
      * Return the number of dice the character rolls for the skill.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getBase(Character $character): int
     {
@@ -113,7 +106,6 @@ class Skill implements Stringable
 
     /**
      * Return the shortened version of a skill's attribute.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getShortAttribute(): string
     {

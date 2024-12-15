@@ -33,7 +33,6 @@ class SlackResponse extends JsonResponse
 
     /**
      * Link between Slack and Commlink.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     protected ?ChatUser $chatUser;
 
@@ -108,7 +107,6 @@ class SlackResponse extends JsonResponse
 
     /**
      * Add text to the Slack response, displayed above the attachments, if any.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function setText(string $text): SlackResponse
     {
@@ -129,7 +127,6 @@ class SlackResponse extends JsonResponse
 
     /**
      * This response should replace the original response.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function replaceOriginal(): SlackResponse
     {
@@ -140,7 +137,6 @@ class SlackResponse extends JsonResponse
 
     /**
      * This response should delete the original response.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function deleteOriginal(): SlackResponse
     {

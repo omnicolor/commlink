@@ -19,7 +19,6 @@ use function sprintf;
 
 /**
  * Slack response for registering a channel for a particular system.
- * @psalm-suppress UnusedClass
  */
 class RegisterResponse extends SlackResponse
 {

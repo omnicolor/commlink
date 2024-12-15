@@ -32,7 +32,6 @@ use function ucfirst;
  * @method int getStrength()
  * @method int getWillpower()
  * @method int getResonance()
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Spirit implements Stringable
 {
@@ -169,7 +168,6 @@ class Spirit implements Stringable
         public array $powersChosen = [],
     ) {
         $filename = config('shadowrun5e.data_path') . 'spirits.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$spirits ??= require $filename;
 
         $id = strtolower($id);
@@ -206,8 +204,6 @@ class Spirit implements Stringable
      * Return an attribute with the force taken into account.
      * @param string $name Name of the method: getAgility, getBody, etc
      * @param array<mixed> $arguments Unused
-     * @psalm-suppress PossiblyUnusedMethod
-     * @psalm-suppress PossiblyUnusedParam
      * @throws BadMethodCallException
      * @throws RuntimeException
      */
@@ -255,7 +251,6 @@ class Spirit implements Stringable
 
     /**
      * Get the spirit's astral initiative.
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, int> [base initiative, initiative dice]
      */
     public function getAstralInitiative(): array
@@ -267,7 +262,6 @@ class Spirit implements Stringable
 
     /**
      * Get the spirit's normal initiative.
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, int> [base initiative, initiative dice]
      */
     public function getInitiative(): array
@@ -279,7 +273,6 @@ class Spirit implements Stringable
 
     /**
      * Return all of the spirit's powers.
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, CritterPower>
      */
     public function getPowers(): array
@@ -305,7 +298,6 @@ class Spirit implements Stringable
 
     /**
      * Set the force of the spirit.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function setForce(int $force): Spirit
     {

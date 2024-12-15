@@ -21,7 +21,6 @@ class Armor implements Stringable
 
     /**
      * Availability code.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $availability;
 
@@ -32,7 +31,6 @@ class Armor implements Stringable
 
     /**
      * Description of the item.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
@@ -54,7 +52,6 @@ class Armor implements Stringable
 
     /**
      * Page the armor was introduced on.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public ?int $page;
 
@@ -65,13 +62,11 @@ class Armor implements Stringable
 
     /**
      * Armor rating for stacking.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public ?int $stackRating;
 
     /**
      * Rulebook for the item.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $ruleset;
 
@@ -88,7 +83,6 @@ class Armor implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'armor.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$armor ??= require $filename;
 
         $id = strtolower($id);
@@ -155,7 +149,6 @@ class Armor implements Stringable
     public static function findByName(string $name): Armor
     {
         $filename = config('shadowrun5e.data_path') . 'armor.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$armor ??= require $filename;
         foreach (self::$armor as $armor) {
             if (strtolower((string) $armor['name']) === strtolower($name)) {
@@ -170,7 +163,6 @@ class Armor implements Stringable
 
     /**
      * Return the cost of the armor, including modifications.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getCost(): int
     {

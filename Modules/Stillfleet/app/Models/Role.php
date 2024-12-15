@@ -11,8 +11,6 @@ use function sprintf;
 
 /**
  * The character's class (job, vocation, role).
- * @psalm-suppress PossiblyUnusedProperty
- * @psalm-suppress UnusedClass
  */
 class Role
 {
@@ -49,7 +47,6 @@ class Role
         ?array $powers = [],
     ) {
         $filename = config('stillfleet.data_path') . 'roles.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$roles ??= require $filename;
 
         if (!isset(self::$roles[$id])) {
@@ -143,7 +140,6 @@ class Role
     public static function all(): array
     {
         $filename = config('stillfleet.data_path') . 'roles.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$roles ??= require $filename;
 
         $roles = [];
@@ -155,7 +151,6 @@ class Role
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, Power>
      */
     public function powers(): array

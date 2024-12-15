@@ -11,9 +11,6 @@ use function config;
 use function sprintf;
 use function strtolower;
 
-/**
- * @psalm-suppress PossiblyUnusedProperty
- */
 class Gear implements Stringable
 {
     public const string CATEGORY_COMMUNICATIONS = 'communications';
@@ -45,7 +42,6 @@ class Gear implements Stringable
     public function __construct(public string $id, ?int $quantity = 1)
     {
         $filename = config('alien.data_path') . 'gear.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$gear ??= require $filename;
 
         $id = strtolower($id);
@@ -82,7 +78,6 @@ class Gear implements Stringable
     public static function all(): array
     {
         $filename = config('alien.data_path') . 'gear.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$gear ??= require $filename;
 
         $gear = [];

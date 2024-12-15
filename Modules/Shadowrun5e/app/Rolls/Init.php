@@ -24,9 +24,6 @@ use function sprintf;
 
 use const PHP_EOL;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Init extends Roll
 {
     use ForceTrait;
@@ -41,9 +38,6 @@ class Init extends Roll
     protected int $initiativeScore = 0;
     protected int $initiativeDice = 1;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct(
         string $content,
         string $username,
@@ -230,9 +224,6 @@ class Init extends Roll
         $this->initiativeScore = (int)$args[0];
     }
 
-    /**
-     * @psalm-suppress UndefinedClass
-     */
     protected function roll(): void
     {
         if (self::MAX_DICE < $this->initiativeDice) {

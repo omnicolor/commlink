@@ -17,9 +17,6 @@ use function sha1_file;
 use function stat;
 use function strtolower;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class ConditionsController extends Controller
 {
     /**
@@ -33,15 +30,11 @@ class ConditionsController extends Controller
      */
     protected array $conditions;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
         $this->filename = config('expanse.data_path') . 'conditions.php';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->conditions = require $this->filename;
 
         $stat = stat($this->filename);
@@ -49,9 +42,6 @@ class ConditionsController extends Controller
         $this->headers['Last-Modified'] = date('r', $stat['mtime']);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function index(): Response
     {
         foreach (array_keys($this->conditions) as $key) {
@@ -72,9 +62,6 @@ class ConditionsController extends Controller
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function show(string $id): Response
     {
         $id = strtolower($id);

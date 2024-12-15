@@ -17,9 +17,6 @@ use function sprintf;
 
 use const PHP_EOL;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Number extends Roll
 {
     protected int $roll;
@@ -28,9 +25,6 @@ class Number extends Roll
     protected string $title;
     protected string $text;
 
-    /**
-     * @psalm-suppress UndefinedClass
-     */
     public function __construct(
         string $content,
         string $character,

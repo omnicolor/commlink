@@ -12,7 +12,6 @@ use Modules\Subversion\Models\ImpulseDowntime;
 
 /**
  * @mixin ImpulseDowntime
- * @psalm-suppress UnusedClass
  */
 class ImpulseDowntimeResource extends JsonResource
 {

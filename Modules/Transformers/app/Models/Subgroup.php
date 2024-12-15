@@ -9,25 +9,18 @@ use RuntimeException;
 use function sprintf;
 use function strtolower;
 
-/**
- * @psalm-suppress UnresolvableInclude
- */
 class Subgroup
 {
-    /** @psalm-suppress PossiblyUnusedProperty */
     public Classification $class;
 
-    /** @psalm-suppress PossiblyUnusedProperty */
     public int $cost;
 
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
 
     public string $id;
     public string $name;
 
     /**
-     * @psalm-suppress PossiblyUnusedProperty
      * @var array<string, mixed>
      */
     public array $requirements;

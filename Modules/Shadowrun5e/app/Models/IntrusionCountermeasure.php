@@ -17,7 +17,6 @@ use function trim;
 
 /**
  * Class representing automated matrix defense: ICE.
- * @psalm-suppress UnusedClass
  */
 class IntrusionCountermeasure implements Stringable
 {
@@ -48,7 +47,6 @@ class IntrusionCountermeasure implements Stringable
         // Lazy load the intrusion countermeasures.
         $filename = config('shadowrun5e.data_path')
             . 'intrusion-countermeasures.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$ice ??= require $filename;
 
         $id = strtolower($id);

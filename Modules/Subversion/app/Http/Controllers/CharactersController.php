@@ -40,9 +40,6 @@ use function route;
 use function usort;
 use function view;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class CharactersController extends Controller
 {
     public function create(
@@ -54,7 +51,6 @@ class CharactersController extends Controller
 
         if ('new' === $step) {
             /**
-             * @psalm-suppress UnnecessaryVarAnnotation
              * @var PartialCharacter
              */
             $character = PartialCharacter::create(['owner' => $user->email]);
@@ -105,7 +101,6 @@ class CharactersController extends Controller
 
             /**
              * No in-progress characters, create a new one.
-             * @psalm-suppress UnnecessaryVarAnnotation
              * @var PartialCharacter
              */
             $character = PartialCharacter::create(['owner' => $user->email]);

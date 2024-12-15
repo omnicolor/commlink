@@ -9,9 +9,6 @@ use App\Http\Requests\Fakes\NamesRequest;
 use Faker\Factory as Faker;
 use Illuminate\Http\JsonResponse;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class NamesController extends Controller
 {
     public function __invoke(NamesRequest $request): JsonResponse

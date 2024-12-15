@@ -8,7 +8,6 @@ use RuntimeException;
 
 /**
  * Lifestyle attributes.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class LifestyleAttributes
 {
