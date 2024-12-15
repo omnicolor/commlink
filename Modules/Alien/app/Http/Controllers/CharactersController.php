@@ -54,7 +54,6 @@ class CharactersController extends Controller
         }
         if ('new' === $step) {
             /**
-             * @psalm-suppress UnnecessaryVarAnnotation
              * @var PartialCharacter
              */
             $character = PartialCharacter::create(['owner' => $user->email]);
@@ -84,7 +83,6 @@ class CharactersController extends Controller
 
             /**
              * No in-progress characters, create a new one.
-             * @psalm-suppress UnnecessaryVarAnnotation
              * @var PartialCharacter
              */
             $character = PartialCharacter::create(['owner' => $user->email]);
@@ -156,20 +154,17 @@ class CharactersController extends Controller
                         } catch (RuntimeException) {
                         }
                         try {
-                            /** @psalm-suppress UndefinedMethod */
                             $item = new Weapon($item['id']);
                             continue;
                         } catch (RuntimeException) {
                         }
                         try {
-                            /** @psalm-suppress UndefinedMethod */
                             $item = new Armor($item['id']);
                         } catch (RuntimeException) { // @codeCoverageIgnoreStart
                             Log::warning(
                                 'Alien character has invalid item',
                                 [
                                     'partial-character' => $character->id,
-                                    /** @psalm-suppress UndefinedMethod */
                                     'item' => $item,
                                 ],
                             );
@@ -418,7 +413,6 @@ class CharactersController extends Controller
                 // @codeCoverageIgnoreEnd
             }
             // Item has a variable number or is invalid...
-            /** @psalm-suppress UndefinedClass */
             $gear[] = [
                 'id' => $item,
                 'quantity' => DiceService::rollOne(6),
@@ -469,9 +463,6 @@ class CharactersController extends Controller
         return new RedirectResponse(route('alien.create', 'gear'));
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function index(Request $request): JsonResource
     {
         return CharacterResource::collection(
@@ -479,9 +470,6 @@ class CharactersController extends Controller
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function show(Request $request, Character $character): JsonResource
     {
         /** @var User */

@@ -20,9 +20,6 @@ use function view;
  */
 class CharactersController extends Controller
 {
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function index(Request $request): JsonResource
     {
         return CharacterResource::collection(
@@ -30,9 +27,6 @@ class CharactersController extends Controller
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function show(Request $request, Character $character): JsonResource
     {
         /** @var User */

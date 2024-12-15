@@ -22,9 +22,6 @@ use function trim;
 
 use const PHP_EOL;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Number extends Roll
 {
     protected const VALID_DICE = [
@@ -130,9 +127,6 @@ class Number extends Roll
         return $response->addAttachment($attachment)->sendToChannel();
     }
 
-    /**
-     * @psalm-suppress UndefinedClass
-     */
     protected function roll(): void
     {
         $this->roll = DiceService::rollOne($this->die);

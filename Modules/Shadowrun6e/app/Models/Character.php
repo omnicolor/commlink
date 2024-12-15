@@ -140,7 +140,6 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Return a collection of the character's qualities.
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, Quality>
      */
     public function getQualities(): array
@@ -163,9 +162,6 @@ class Character extends BaseCharacter implements Stringable
         return $qualities;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function initiativeBase(): Attribute
     {
         return Attribute::make(
@@ -175,9 +171,6 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function initiativeDice(): Attribute
     {
         return Attribute::make(

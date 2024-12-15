@@ -25,7 +25,6 @@ class HandleInitiativeEvent
     use InteractsWithSockets;
     use SerializesModels;
 
-    /** @psalm-suppress PossiblyUnusedMethod */
     public function handle(InitiativeAdded $event): void
     {
         foreach ($event->campaign->channels ?? [] as $channel) {

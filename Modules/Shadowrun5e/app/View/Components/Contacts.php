@@ -10,9 +10,6 @@ use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\ContactArray;
 use Modules\Shadowrun5e\Models\PartialCharacter;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Contacts extends Component
 {
     /**

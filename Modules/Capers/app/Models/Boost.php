@@ -6,9 +6,6 @@ namespace Modules\Capers\Models;
 
 use Stringable;
 
-/**
- * @psalm-suppress PossiblyUnusedProperty
- */
 class Boost implements Stringable
 {
     public function __construct(

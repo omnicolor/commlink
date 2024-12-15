@@ -14,7 +14,6 @@ use function strtolower;
 
 /**
  * Representation of a neighborhood's lifestyle zone.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class LifestyleZone implements Stringable
 {
@@ -45,7 +44,6 @@ class LifestyleZone implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'lifestyle-zones.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$zones ??= require $filename;
 
         $id = strtolower($id);

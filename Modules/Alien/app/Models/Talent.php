@@ -28,7 +28,6 @@ class Talent implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('alien.data_path') . 'talents.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$talents ??= require $filename;
 
         $id = strtolower($id);
@@ -58,7 +57,6 @@ class Talent implements Stringable
     public static function all(): array
     {
         $filename = config('alien.data_path') . 'talents.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$talents ??= require $filename;
 
         $talents = [];

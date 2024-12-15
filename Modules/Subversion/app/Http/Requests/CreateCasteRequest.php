@@ -12,7 +12,6 @@ use Modules\Subversion\Models\Caste;
 class CreateCasteRequest extends FormRequest
 {
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array{
      *   caste: array<int, In|string>,
      * }

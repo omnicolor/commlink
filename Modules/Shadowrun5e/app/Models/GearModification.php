@@ -13,7 +13,6 @@ use function strtolower;
 
 /**
  * Something to add to an item.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class GearModification implements Stringable
 {
@@ -88,7 +87,6 @@ class GearModification implements Stringable
     {
         $filename = config('shadowrun5e.data_path')
             . 'gear-modifications.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$modifications ??= require $filename;
 
         $id = strtolower($id);

@@ -17,7 +17,6 @@ use const PHP_EOL;
 
 /**
  * Roll a Shadowrun 5E composure test.
- * @psalm-api
  */
 class Composure extends Number
 {

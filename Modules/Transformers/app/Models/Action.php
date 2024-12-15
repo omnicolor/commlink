@@ -29,7 +29,6 @@ enum Action
     case Trooper;
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return non-empty-string
      */
     public function description(): string
@@ -109,7 +108,6 @@ enum Action
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, Programming>
      */
     public function programming(): array
@@ -160,9 +158,6 @@ enum Action
         };
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function statistic(): string
     {
         return match ($this) {

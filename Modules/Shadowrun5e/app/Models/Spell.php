@@ -13,7 +13,6 @@ use function strtolower;
 
 /**
  * Class representing a spell in Shadowrun 5E.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Spell implements Stringable
 {
@@ -87,7 +86,6 @@ class Spell implements Stringable
     public function __construct(public string $id, public ?int $force = null)
     {
         $filename = config('shadowrun5e.data_path') . 'spells.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$spells ??= require $filename;
 
         $id = strtolower($id);
@@ -123,7 +121,6 @@ class Spell implements Stringable
     public static function findByName(string $name): Spell
     {
         $filename = config('shadowrun5e.data_path') . 'spells.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$spells ??= require $filename;
 
         foreach (self::$spells as $spell) {
@@ -137,7 +134,6 @@ class Spell implements Stringable
 
     /**
      * Return the drain value for the spell, based on its force.
-     * @psalm-suppress PossiblyUnusedMethod
      * @throws RuntimeException if the force isn't set
      */
     public function getDrain(): int
@@ -150,7 +146,6 @@ class Spell implements Stringable
 
     /**
      * Set the force of the spell.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function setForce(int $force): Spell
     {

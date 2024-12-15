@@ -6,13 +6,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class EventPostRequest extends FormRequest
 {
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, array<int, string>>
      */
     public function rules(): array

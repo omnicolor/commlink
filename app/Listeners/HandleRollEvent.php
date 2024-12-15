@@ -23,7 +23,6 @@ class HandleRollEvent
 
     /**
      * Handle the event.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function handle(RollEvent $event): void
     {

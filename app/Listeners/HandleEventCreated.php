@@ -25,9 +25,6 @@ class HandleEventCreated
     use InteractsWithSockets;
     use SerializesModels;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function handle(EventCreated $event): bool
     {
         foreach ($event->event->campaign->channels ?? [] as $channel) {

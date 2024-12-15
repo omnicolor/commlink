@@ -12,7 +12,6 @@ use Modules\Alien\Models\Career;
 
 /**
  * @mixin Career
- * @psalm-suppress UnusedClass
  */
 class CareerResource extends JsonResource
 {

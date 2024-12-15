@@ -12,13 +12,10 @@ use Modules\Stillfleet\Models\Power;
 
 /**
  * @mixin Power
- * @psalm-suppress UnusedClass
  */
 class PowerResource extends JsonResource
 {
     /**
-     * @psalm-suppress InvalidReturnStatement
-     * @psalm-suppress InvalidReturnType
      * @return array<string, array<string, MissingValue|array<string, string>|int|mixed|string>>
      */
     public function toArray(Request $request): array

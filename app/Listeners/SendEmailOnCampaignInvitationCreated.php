@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Mail;
 
 class SendEmailOnCampaignInvitationCreated
 {
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function handle(CampaignInvitationCreated $event): void
     {
         Mail::to($event->invitation->email)

@@ -14,7 +14,6 @@ use function strtolower;
 
 /**
  * Gear, representing something a character can use.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Gear implements Stringable
 {
@@ -81,7 +80,6 @@ class Gear implements Stringable
     public function __construct(public string $id, public int $quantity = 1)
     {
         $filename = config('shadowrun5e.data_path') . 'gear.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$gear ??= require $filename;
 
         $id = strtolower($id);
@@ -158,7 +156,6 @@ class Gear implements Stringable
     public static function findByName(string $name): Gear
     {
         $filename = config('shadowrun5e.data_path') . 'gear.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$gear ??= require $filename;
         foreach (self::$gear as $gear) {
             if (strtolower((string)$gear['name']) === strtolower($name)) {
