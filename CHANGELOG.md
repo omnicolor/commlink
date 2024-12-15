@@ -97,6 +97,7 @@ big win for running Commlink on my non-production hardware.
 ### Removed
 
 - Building unused artifacts for code coverage in CI pipeline. (#1469)
+- Killed a bunch of unused @psalm-suppress annotations. (#1468, #1467)
 
 
 ## [1.4.0] - 2024-06-21
@@ -161,6 +162,7 @@ big win for running Commlink on my non-production hardware.
 
 ### Removed
 
+- Unneeded @psalm-suppression annotations. (1057)
 - Invalid PHPUnit @group annotations. (#1056)
 
 
