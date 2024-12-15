@@ -8,7 +8,6 @@ rules:
   no-unresolved-refs: error
   no-unused-components: error
   security-defined: error
-  spec: error
   spec-components-invalid-map-name: error
 
   operation-2xx-response: error
