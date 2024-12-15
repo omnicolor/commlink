@@ -10,7 +10,6 @@ use function in_array;
 
 /**
  * Class representing an alchemical preparation.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Preparation
 {
@@ -36,7 +35,6 @@ class Preparation
 
     /**
      * Set the date the preparation was created.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function setDate(string $date): Preparation
     {
@@ -46,7 +44,6 @@ class Preparation
 
     /**
      * Set the preparation's potency.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function setPotency(int $potency): Preparation
     {
@@ -56,7 +53,6 @@ class Preparation
 
     /**
      * Set the spell the preparation is based on.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function setSpell(Spell $spell): Preparation
     {
@@ -66,7 +62,6 @@ class Preparation
 
     /**
      * Set the spell the preparation is based on by its ID.
-     * @psalm-suppress PossiblyUnusedMethod
      * @throws RuntimeException if the ID is invalid
      */
     public function setSpellId(string $spell): Preparation
@@ -77,7 +72,6 @@ class Preparation
 
     /**
      * Set the trigger for the preparation.
-     * @psalm-suppress PossiblyUnusedMethod
      * @throws RuntimeException If the trigger is invalid
      */
     public function setTrigger(string $trigger): Preparation

@@ -23,7 +23,6 @@ use function strtolower;
 
 /**
  * Controller for Shadowrun 5E skill groups.
- * @psalm-suppress UnusedClass
  */
 class SkillGroupsController extends Controller
 {
@@ -38,9 +37,6 @@ class SkillGroupsController extends Controller
      */
     protected array $groups = [];
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
@@ -48,7 +44,6 @@ class SkillGroupsController extends Controller
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = route('shadowrun5e.skill-groups.index');
 
-        /** @psalm-suppress UnresolvableInclude */
         $skills = require $this->filename;
 
         $stat = stat($this->filename);
@@ -74,7 +69,6 @@ class SkillGroupsController extends Controller
 
     /**
      * Return all skill groups.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -88,7 +82,6 @@ class SkillGroupsController extends Controller
 
     /**
      * Return a single skill group.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $identifier): Response
     {

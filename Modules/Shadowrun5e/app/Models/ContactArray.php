@@ -16,7 +16,6 @@ class ContactArray extends ArrayObject
     /**
      * Add a contact to the array.
      * @param Contact $contact
-     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet(mixed $index = null, $contact = null): void

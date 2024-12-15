@@ -14,9 +14,6 @@ use function config;
 use function sprintf;
 use function strtolower;
 
-/**
- * @psalm-suppress PossiblyUnusedProperty
- */
 class Injury implements Stringable
 {
     public ?int $death_roll_modifier;
@@ -35,7 +32,6 @@ class Injury implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('alien.data_path') . 'injuries.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$injuries ??= require $filename;
 
         $id = strtolower($id);
@@ -68,7 +64,6 @@ class Injury implements Stringable
     public static function all(): array
     {
         $filename = config('alien.data_path') . 'injuries.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$injuries ??= require $filename;
 
         $injuries = [];

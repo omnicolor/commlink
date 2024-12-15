@@ -74,7 +74,6 @@ class User extends Authenticatable
 
     /**
      * Get the campaigns the user has registered.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function campaignsRegistered(): HasMany
     {
@@ -83,7 +82,6 @@ class User extends Authenticatable
 
     /**
      * Get the campaigns the user is gamemastering.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function campaignsGmed(): HasMany
     {
@@ -92,7 +90,6 @@ class User extends Authenticatable
 
     /**
      * Get the user's channels.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function channels(): HasMany
     {
@@ -113,16 +110,12 @@ class User extends Authenticatable
 
     /**
      * Get the user's chat server links.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function chatUsers(): HasMany
     {
         return $this->hasMany(ChatUser::class);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function events(): HasMany
     {
         return $this->hasMany(Event::class, 'created_by');

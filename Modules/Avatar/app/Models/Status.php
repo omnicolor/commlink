@@ -12,9 +12,6 @@ use function config;
 use function sprintf;
 use function strtolower;
 
-/**
- * @psalm-suppress UnusedProperty
- */
 class Status implements Stringable
 {
     public const TYPE_NEGATIVE = 'negative';
@@ -37,7 +34,6 @@ class Status implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('avatar.data_path') . 'statuses.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$statuses ??= require $filename;
 
         $id = strtolower($id);
@@ -62,9 +58,6 @@ class Status implements Stringable
     }
 
     /**
-     * @psalm-suppress NoValue
-     * @psalm-suppress PossiblyUnusedMethod
-     * @psalm-suppress UnresolvableInclude
      * @return array<int, Status>
      */
     public static function all(): array

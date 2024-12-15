@@ -12,7 +12,6 @@ use Modules\Cyberpunkred\Models\Role;
 class RoleRequest extends FormRequest
 {
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, array<int, In|string>>
      */
     public function rules(): array

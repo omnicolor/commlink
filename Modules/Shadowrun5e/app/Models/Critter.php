@@ -14,7 +14,6 @@ use function strtolower;
 
 /**
  * Representation of a Shadowrun 5E critter.
- * @psalm-suppress UnusedClass
  */
 class Critter implements Stringable
 {
@@ -68,7 +67,6 @@ class Critter implements Stringable
     public function __construct(string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'critters.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$critters ??= require $filename;
 
         $this->id = strtolower($id);

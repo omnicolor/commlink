@@ -16,7 +16,6 @@ class FocusArray extends ArrayObject
     /**
      * Add a focus to the array.
      * @param Focus $focus
-     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet(mixed $index, $focus): void

@@ -144,8 +144,7 @@ If you'd like to run an individual check:
 * `phpstan` - Run [PHPstan](https://phpstan.org/)'s highest level across the
     entire codebase.
 * `prism` - Start a Stoplight Prism proxy for contract testing.
-* `psalm` - Run [Psalm](https://psalm.dev/) across the entire codebase.
-* `static` - Run lint, PHPStan, and Psalm targets.
+* `static` - Run lint and PHPStan targets.
 * `style` - Run both phpcs and php-cs-fixer.
 * `test` - Run PHPUnit tests without generating a code coverage report.
 

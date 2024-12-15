@@ -24,7 +24,6 @@ class Caste
     public function __construct(public string $id)
     {
         $filename = config('subversion.data_path') . 'castes.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$castes ??= require $filename;
 
         if (!isset(self::$castes[$id])) {
@@ -50,7 +49,6 @@ class Caste
     public static function all(): array
     {
         $filename = config('subversion.data_path') . 'castes.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$castes ??= require $filename;
 
         $castes = [];

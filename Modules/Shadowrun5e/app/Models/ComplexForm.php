@@ -13,7 +13,6 @@ use function strtolower;
 
 /**
  * Technomancer complex form.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class ComplexForm implements Stringable
 {
@@ -81,7 +80,6 @@ class ComplexForm implements Stringable
         public ?int $level = null,
     ) {
         $filename = config('shadowrun5e.data_path') . 'complex-forms.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$forms ??= require $filename;
 
         $identifier = strtolower($identifier);
@@ -111,7 +109,6 @@ class ComplexForm implements Stringable
 
     /**
      * Set the complex form's level.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function setLevel(int $level): ComplexForm
     {
@@ -121,7 +118,6 @@ class ComplexForm implements Stringable
 
     /**
      * Return the fade value for the spell, based on its level.
-     * @psalm-suppress PossiblyUnusedMethod
      * @throws RuntimeException If the level isn't set.
      */
     public function getFade(): int

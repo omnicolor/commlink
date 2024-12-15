@@ -12,9 +12,6 @@ use function config;
 use function sprintf;
 use function strtolower;
 
-/**
- * @psalm-suppress PossiblyUnusedProperty
- */
 class ShipWeapon implements Stringable
 {
     public const RANGE_LONG = 'long';
@@ -43,7 +40,6 @@ class ShipWeapon implements Stringable
         public ?int $quality = 1,
     ) {
         $filename = config('expanse.data_path') . 'ship-weapons.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$weapons ??= require $filename;
 
         $id = strtolower($id);
@@ -70,13 +66,11 @@ class ShipWeapon implements Stringable
 
     /**
      * Return a collection of all weapons.
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, ShipWeapon>
      */
     public static function all(): array
     {
         $filename = config('expanse.data_path') . 'ship-weapons.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$weapons ??= require $filename;
 
         $weapons = [];

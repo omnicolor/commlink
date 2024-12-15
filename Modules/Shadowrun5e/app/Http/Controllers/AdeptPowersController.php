@@ -19,7 +19,6 @@ use function strtolower;
 
 /**
  * Controller for adept powers.
- * @psalm-suppress UnusedClass
  */
 class AdeptPowersController extends Controller
 {
@@ -34,16 +33,12 @@ class AdeptPowersController extends Controller
      */
     protected array $powers;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path')
             . 'adept-powers.php';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->powers = require $this->filename;
 
         $stat = stat($this->filename);
@@ -80,7 +75,6 @@ class AdeptPowersController extends Controller
 
     /**
      * Get the entire collection of fifth edition adept powers.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -100,7 +94,6 @@ class AdeptPowersController extends Controller
 
     /**
      * Get a single fifth edition adept power.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $id): Response
     {

@@ -17,7 +17,6 @@ use function stat;
 
 /**
  * Controller for Shadowrun 5E ammunition.
- * @psalm-suppress UnusedClass
  */
 class AmmunitionController extends Controller
 {
@@ -32,16 +31,12 @@ class AmmunitionController extends Controller
      */
     protected array $ammo;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path')
             . 'ammunition.php';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->ammo = require $this->filename;
 
         $stat = stat($this->filename);
@@ -71,7 +66,6 @@ class AmmunitionController extends Controller
 
     /**
      * Return a collection of ammunition resources.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -91,7 +85,6 @@ class AmmunitionController extends Controller
 
     /**
      * Return a single ammunition resource.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $id): Response
     {

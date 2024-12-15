@@ -14,17 +14,13 @@ use function strtolower;
 
 class ShipQuality implements Stringable
 {
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $description;
     public string $name;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public int $page;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $ruleset;
 
     /**
      * Collection of effects the quality adds to the ship.
-     * @psalm-suppress PossiblyUnusedProperty
      * @var array<string, mixed>
      */
     public array $effects = [];
@@ -36,13 +32,11 @@ class ShipQuality implements Stringable
     public static ?array $qualities;
 
     /**
-     * @psalm-suppress UnusedVariable
      * @throws RuntimeException
      */
     public function __construct(public string $id)
     {
         $filename = config('expanse.data_path') . 'ship-qualities.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$qualities ??= require $filename;
 
         $id = strtolower($id);
@@ -68,13 +62,11 @@ class ShipQuality implements Stringable
 
     /**
      * Return a collection of all qualities.
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, ShipQuality>
      */
     public static function all(): array
     {
         $filename = config('expanse.data_path') . 'ship-qualities.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$qualities ??= require $filename;
 
         $qualities = [];

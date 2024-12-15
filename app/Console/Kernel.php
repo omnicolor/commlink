@@ -9,9 +9,6 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 use function base_path;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Kernel extends ConsoleKernel
 {
     /**

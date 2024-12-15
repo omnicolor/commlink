@@ -29,7 +29,6 @@ use function str_starts_with;
 /**
  * Start a Discord bot.
  * @codeCoverageIgnore
- * @psalm-suppress UnusedClass
  */
 class DiscordRunCommand extends Command
 {

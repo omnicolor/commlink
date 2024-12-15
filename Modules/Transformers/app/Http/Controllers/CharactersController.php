@@ -19,9 +19,6 @@ use Modules\Transformers\Models\Character;
 use Modules\Transformers\Models\PartialCharacter;
 use Modules\Transformers\Models\Programming;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class CharactersController extends Controller
 {
     protected const SESSION_KEY = 'transformers-partial';
@@ -60,7 +57,6 @@ class CharactersController extends Controller
 
             /**
              * No in-progress characters, create a new one.
-             * @psalm-suppress UnnecessaryVarAnnotation
              * @var PartialCharacter
              */
             $character = PartialCharacter::create(['owner' => $user->email]);
@@ -140,7 +136,6 @@ class CharactersController extends Controller
             case 'save-for-later':
                 return $this->saveForLater($request);
             default:
-                /** @psalm-suppress NoValue */
                 return abort(
                     Response::HTTP_NOT_FOUND,
                     'That step of character creation was not found.',
@@ -242,9 +237,6 @@ class CharactersController extends Controller
         return $character;
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function index(Request $request): JsonResource
     {
         return CharacterResource::collection(
@@ -252,9 +244,6 @@ class CharactersController extends Controller
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function show(Request $request, string $identifier): JsonResource
     {
         $email = $request->user()?->email;

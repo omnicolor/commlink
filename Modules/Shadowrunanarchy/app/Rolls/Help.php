@@ -13,9 +13,6 @@ use function sprintf;
 
 use const PHP_EOL;
 
-/**
- * @psalm-api
- */
 class Help extends Roll
 {
     /**

@@ -12,9 +12,6 @@ use Modules\Shadowrun5e\Models\Commlink;
 use Modules\Shadowrun5e\Models\Gear as GearModel;
 use Modules\Shadowrun5e\Models\PartialCharacter;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Gear extends Component
 {
     /**

@@ -21,9 +21,6 @@ use function count;
 use function route;
 use function view;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class CharactersController extends Controller
 {
     /**

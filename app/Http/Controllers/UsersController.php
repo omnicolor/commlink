@@ -19,9 +19,6 @@ use Laravel\Sanctum\PersonalAccessToken as Token;
 use Spatie\Permission\Models\Role;
 use Stringable;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class UsersController extends Controller
 {
     public function createToken(
@@ -101,7 +98,6 @@ class UsersController extends Controller
                 case 'features':
                     try {
                         $feature = 'App\\Features\\' . $path[2];
-                        // @psalm-suppress TaintedCallable
                         $feature = new $feature();
                     } catch (Error) {
                         return new JsonResponse(

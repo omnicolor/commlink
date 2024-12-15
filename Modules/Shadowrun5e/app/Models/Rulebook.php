@@ -12,9 +12,6 @@ use function config;
 use function sprintf;
 use function strtolower;
 
-/**
- * @psalm-suppress PossiblyUnusedProperty
- */
 class Rulebook implements Stringable
 {
     /**
@@ -50,7 +47,6 @@ class Rulebook implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'rulebooks.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$books ??= require $filename;
 
         $id = strtolower($id);
@@ -79,7 +75,6 @@ class Rulebook implements Stringable
     public static function all(): array
     {
         $filename = config('shadowrun5e.data_path') . 'rulebooks.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$books ??= require $filename;
 
         $books = [];

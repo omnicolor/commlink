@@ -29,9 +29,6 @@
                 "action": "composer phpstan"
             },
             {
-                "action": "composer psalm"
-            },
-            {
                 "action": "composer test"
             }
         ]

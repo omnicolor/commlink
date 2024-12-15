@@ -36,9 +36,6 @@ class DiscordMessageReceived extends MessageReceived
      */
     public User|null $user;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct(public Message $message, public Discord $discord)
     {
         if (null === $message->channel || null === $message->channel->guild) {

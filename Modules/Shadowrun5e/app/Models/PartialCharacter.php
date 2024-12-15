@@ -32,7 +32,6 @@ class PartialCharacter extends Character implements Stringable
     /**
      * Return the starting maximum for a character based on their metatype and
      * qualities.
-     * @psalm-suppress UndefinedThisPropertyFetch
      */
     public function getStartingMaximumAttribute(string $attribute): int
     {

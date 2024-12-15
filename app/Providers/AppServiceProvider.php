@@ -13,7 +13,6 @@ use Laravel\Telescope\TelescopeServiceProvider as Telescope;
 
 /**
  * @codeCoverageIgnore
- * @psalm-suppress UnusedClass
  */
 class AppServiceProvider extends ServiceProvider
 {

@@ -29,7 +29,6 @@ class CreateGearRequest extends FormRequest
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, array<int, In|OneFromRow|string>>
      */
     public function rules(): array

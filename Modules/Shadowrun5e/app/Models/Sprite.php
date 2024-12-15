@@ -24,7 +24,6 @@ use function ucfirst;
  * @method int getInitiative()
  * @method int getResonance()
  * @method int getSleaze()
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Sprite implements Stringable
 {
@@ -115,7 +114,6 @@ class Sprite implements Stringable
     public function __construct(public string $id, public ?int $level = null)
     {
         $filename = config('shadowrun5e.data_path') . 'sprites.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$sprites = require $filename;
         $id = strtolower($id);
         if (!isset(self::$sprites[$id])) {
@@ -148,7 +146,6 @@ class Sprite implements Stringable
     /**
      * Return an attribute with the level taken into account.
      * @param array<mixed, mixed> $_arguments Unused
-     * @psalm-suppress PossiblyUnusedMethod
      * @throws BadMethodCallException
      * @throws RuntimeException
      */
@@ -178,9 +175,6 @@ class Sprite implements Stringable
         return self::convertFormula($formula, 'L', $this->level);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function setLevel(int $level): Sprite
     {
         $this->level = $level;
@@ -189,7 +183,6 @@ class Sprite implements Stringable
 
     /**
      * Return a collection of the sprite's powers.
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<int, SpritePower>
      */
     public function getPowers(): array
@@ -215,7 +208,6 @@ class Sprite implements Stringable
 
     /**
      * If the sprite has a level, return initialized skills instead of IDs.
-     * @psalm-suppress PossiblyUnusedMethod
      * @throws RuntimeException if the level isn't set
      */
     public function getSkills(): SkillArray

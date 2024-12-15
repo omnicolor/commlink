@@ -7,9 +7,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ChannelUpdateRequest;
 use App\Models\Channel;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class ChannelsController extends Controller
 {
     /**

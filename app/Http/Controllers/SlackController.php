@@ -34,7 +34,6 @@ use const PHP_EOL;
 
 /**
  * Controller for handling Slack requests.
- * @psalm-suppress UnusedClass
  */
 class SlackController extends Controller
 {

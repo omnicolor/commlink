@@ -13,7 +13,6 @@ use Modules\Subversion\Models\Impulse;
 
 /**
  * @mixin Impulse
- * @psalm-suppress UnusedClass
  */
 class ImpulseResource extends JsonResource
 {

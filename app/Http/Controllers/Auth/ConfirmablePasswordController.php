@@ -14,9 +14,6 @@ use Illuminate\View\View;
 
 use function time;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class ConfirmablePasswordController extends Controller
 {
     /**

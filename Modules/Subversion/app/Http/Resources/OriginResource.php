@@ -12,7 +12,6 @@ use Modules\Subversion\Models\Origin;
 
 /**
  * @mixin Origin
- * @psalm-suppress UnusedClass
  */
 class OriginResource extends JsonResource
 {
