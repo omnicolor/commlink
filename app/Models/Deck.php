@@ -108,7 +108,6 @@ abstract class Deck implements Countable
 
     /**
      * Find a deck in the database.
-     * @psalm-suppress PossiblyUnusedMethod
      * @throws RuntimeException
      */
     public static function find(int $id): Deck
@@ -171,7 +170,6 @@ abstract class Deck implements Countable
 
     /**
      * Take a peek at the top card in the deck without removing it.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function peek(): Card
     {
@@ -214,7 +212,6 @@ abstract class Deck implements Countable
 
     /**
      * Delete all decks from the database.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public static function truncate(): void
     {

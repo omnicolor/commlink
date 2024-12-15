@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Avatar\Models;
 
-/**
- * @psalm-suppress all
- */
 enum Era: string
 {
     case Aang = 'aang';

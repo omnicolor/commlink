@@ -8,7 +8,6 @@ use Stringable;
 
 /**
  * Contacts, because it's all about who you know.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Contact implements Stringable
 {

@@ -53,7 +53,6 @@ class CampaignInvitation extends Model
 
     /**
      * @codeCoverageIgnore
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function campaign(): BelongsTo
     {
@@ -62,7 +61,6 @@ class CampaignInvitation extends Model
 
     /**
      * @codeCoverageIgnore
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function invitor(): BelongsTo
     {

@@ -12,7 +12,6 @@ use Modules\Subversion\Models\Gear;
 
 /**
  * @mixin Gear
- * @psalm-suppress UnusedClass
  */
 class GearResource extends JsonResource
 {

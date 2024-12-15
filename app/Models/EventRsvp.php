@@ -27,17 +27,11 @@ class EventRsvp extends Model
         'user_id',
     ];
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

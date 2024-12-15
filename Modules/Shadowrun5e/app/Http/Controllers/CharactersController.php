@@ -43,7 +43,6 @@ use function sprintf;
 
 /**
  * Controller for interacting with Shadowrun 5E characters.
- * @psalm-api
  */
 class CharactersController extends Controller
 {
@@ -202,8 +201,6 @@ class CharactersController extends Controller
     /**
      * Show the selected step of character creation, or the first step if none
      * is explicitly chosen.
-     * @psalm-suppress InvalidArgument
-     * @psalm-suppress NoValue
      */
     public function create(
         Request $request,

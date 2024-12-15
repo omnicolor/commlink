@@ -12,7 +12,6 @@ use Modules\Alien\Models\Skill;
 
 /**
  * @mixin Skill
- * @psalm-suppress UnusedClass
  */
 class SkillResource extends JsonResource
 {

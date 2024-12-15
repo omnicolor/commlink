@@ -18,7 +18,6 @@ use const E_ERROR;
 
 /**
  * @codeCoverageIgnore
- * @psalm-suppress UnusedClass
  */
 class MakeModuleRollCommand extends GeneratorCommand
 {
@@ -37,15 +36,15 @@ class MakeModuleRollCommand extends GeneratorCommand
 
     public function handle(): int
     {
+        /**
+         * @phpstan-ignore offsetAccess.nonOffsetAccessible
+         */
+        $this->modules = $this->laravel['modules'];
+
         if (E_ERROR === parent::handle()) {
             return E_ERROR;
         }
 
-        /**
-         * @psalm-suppress UndefinedInterfaceMethod
-         * @phpstan-ignore offsetAccess.nonOffsetAccessible
-         */
-        $this->modules = $this->laravel['modules'];
         return self::SUCCESS;
     }
 

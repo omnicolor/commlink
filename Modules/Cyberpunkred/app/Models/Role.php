@@ -17,32 +17,27 @@ abstract class Role implements Stringable
 
     /**
      * Description of the role's ability.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $abilityDescription;
 
     /**
      * Name of the role's ability.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $abilityName;
 
     /**
      * Description of the role.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
     /**
      * Rank the character has achieved in the role.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public int $rank;
 
     /**
      * Constructor.
      * @param array<string, mixed> $role
-     * @psalm-suppress PossiblyUnusedMethod
      */
     abstract public function __construct(array $role);
 

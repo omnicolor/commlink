@@ -14,7 +14,6 @@ use ParseError;
 /**
  * Test all data files for correctness.
  * @codeCoverageIgnore
- * @psalm-suppress UnusedClass
  */
 class ValidateDataFiles extends Command
 {

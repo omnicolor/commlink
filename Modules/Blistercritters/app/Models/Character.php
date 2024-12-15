@@ -81,9 +81,6 @@ class Character extends BaseCharacter implements Stringable
         return CharacterFactory::new();
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function startingHealth(): Attribute
     {
         return Attribute::make(

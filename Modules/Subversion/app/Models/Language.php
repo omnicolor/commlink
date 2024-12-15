@@ -8,9 +8,6 @@ use RuntimeException;
 
 use function sprintf;
 
-/**
- * @psalm-suppress PossiblyUnusedProperty
- */
 class Language
 {
     public string $description;
@@ -26,7 +23,6 @@ class Language
     public function __construct(public string $id)
     {
         $filename = config('subversion.data_path') . 'languages.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$languages ??= require $filename;
 
         if (!isset(self::$languages[$id])) {
@@ -51,7 +47,6 @@ class Language
     public static function all(): array
     {
         $filename = config('subversion.data_path') . 'languages.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$languages ??= require $filename;
 
         $languages = [];

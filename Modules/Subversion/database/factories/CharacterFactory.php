@@ -9,7 +9,6 @@ use Modules\Subversion\Models\Character;
 
 /**
  * @extends Factory<Character>
- * @psalm-suppress UnusedClass
  */
 class CharacterFactory extends Factory
 {

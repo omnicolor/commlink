@@ -20,7 +20,6 @@ use const PHP_EOL;
 
 /**
  * Handle a user trying to accomplish a task with an appropriate focus.
- * @psalm-suppress UnusedClass
  */
 class Focused extends Roll
 {
@@ -135,9 +134,6 @@ class Focused extends Roll
         );
     }
 
-    /**
-     * @psalm-suppress UndefinedClass
-     */
     protected function roll(): void
     {
         for ($i = 2 + $this->extraDice; 0 < $i; $i--) {

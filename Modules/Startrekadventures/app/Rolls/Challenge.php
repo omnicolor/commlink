@@ -17,9 +17,6 @@ use function sprintf;
 
 use const PHP_EOL;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Challenge extends Roll
 {
     protected bool $effect = false;
@@ -101,9 +98,6 @@ class Challenge extends Roll
         return sprintf('Rolled %d challenge dice', $this->number);
     }
 
-    /**
-     * @psalm-suppress UndefinedClass
-     */
     protected function roll(): void
     {
         for ($i = 0; $i < $this->number; $i++) {

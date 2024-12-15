@@ -8,9 +8,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 use Modules\Shadowrun5e\Models\Character;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Attributes extends Component
 {
     /**

@@ -15,7 +15,6 @@ use function strtolower;
  * Class representing a species' trait.
  *
  * Plural since trait is a PHP reserved-word.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class Traits implements Stringable
 {
@@ -33,7 +32,6 @@ class Traits implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('startrekadventures.data_path') . 'traits.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$traits ??= require $filename;
 
         $id = strtolower($id);

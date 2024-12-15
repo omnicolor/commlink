@@ -9,7 +9,6 @@ use Illuminate\Foundation\Http\FormRequest;
 class StatisticsRequest extends FormRequest
 {
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, array<int, string>>
      */
     public function rules(): array

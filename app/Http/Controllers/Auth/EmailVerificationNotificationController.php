@@ -10,9 +10,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class EmailVerificationNotificationController extends Controller
 {
     /**

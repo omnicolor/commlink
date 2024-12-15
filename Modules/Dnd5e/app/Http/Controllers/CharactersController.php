@@ -13,9 +13,6 @@ use Modules\Dnd5e\Models\Character;
 
 use function view;
 
-/**
- * @psalm-api
- */
 class CharactersController extends Controller
 {
     public function index(Request $request): JsonResource

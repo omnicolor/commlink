@@ -15,7 +15,6 @@ use function in_array;
 
 /**
  * @extends Factory<Character>
- * @psalm-suppress UnusedClass
  */
 class CharacterFactory extends Factory
 {

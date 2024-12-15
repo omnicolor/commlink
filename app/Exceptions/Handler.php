@@ -8,9 +8,6 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Sentry\Laravel\Integration;
 use Throwable;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Handler extends ExceptionHandler
 {
     /**

@@ -17,9 +17,6 @@ use function explode;
 
 use const PHP_EOL;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Tarot extends Roll
 {
     /**

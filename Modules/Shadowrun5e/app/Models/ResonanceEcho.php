@@ -13,7 +13,6 @@ use function strtolower;
 
 /**
  * Shadowrun 5E echoes: powers a technomancer can take when they submerge.
- * @psalm-suppress UnusedClass
  */
 class ResonanceEcho implements Stringable
 {
@@ -40,7 +39,6 @@ class ResonanceEcho implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'resonance-echoes.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$echoes ??= require $filename;
         $id = strtolower($id);
         if (!isset(self::$echoes[$id])) {

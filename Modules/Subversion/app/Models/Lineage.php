@@ -8,9 +8,6 @@ use RuntimeException;
 
 use function sprintf;
 
-/**
- * @psalm-suppress PossiblyUnusedProperty
- */
 class Lineage
 {
     public string $description;
@@ -32,7 +29,6 @@ class Lineage
     public function __construct(public string $id, ?string $option = null)
     {
         $filename = config('subversion.data_path') . 'lineages.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$lineages ??= require $filename;
 
         if (!isset(self::$lineages[$id])) {
@@ -68,7 +64,6 @@ class Lineage
     public static function all(): array
     {
         $filename = config('subversion.data_path') . 'lineages.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$lineages ??= require $filename;
 
         $lineages = [];

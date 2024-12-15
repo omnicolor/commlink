@@ -86,9 +86,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function disciplines(): Attribute
     {
         return Attribute::make(
@@ -103,9 +100,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function focuses(): Attribute
     {
         return Attribute::make(
@@ -126,9 +120,6 @@ class Character extends BaseCharacter
         return CharacterFactory::new();
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function species(): Attribute
     {
         return Attribute::make(
@@ -138,14 +129,10 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function stats(): Attribute
     {
         return Attribute::make(
             get: function (): Attributes {
-                /** @psalm-suppress RedundantPropertyInitializationCheck */
                 if (!isset($this->attributesObject)) {
                     $this->attributesObject = new Attributes(
                         $this->attributes['attributes']
@@ -156,20 +143,15 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function stress(): Attribute
     {
         return Attribute::make(
             get: function (): int {
-                /** @psalm-suppress RedundantPropertyInitializationCheck */
                 if (!isset($this->attributesObject)) {
                     $this->attributesObject = new Attributes(
                         $this->attributes['attributes']
                     );
                 }
-                /** @psalm-suppress RedundantPropertyInitializationCheck */
                 if (!isset($this->disciplinesObject)) {
                     $this->disciplinesObject = new Disciplines(
                         $this->attributes['disciplines']
@@ -181,9 +163,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function talents(): Attribute
     {
         return Attribute::make(
@@ -212,9 +191,6 @@ class Character extends BaseCharacter
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function trait(): Attribute
     {
         return Attribute::make(

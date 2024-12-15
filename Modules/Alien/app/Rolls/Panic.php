@@ -17,9 +17,6 @@ use function trim;
 
 use const PHP_EOL;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Panic extends Roll
 {
     /** @var int<1, max> */
@@ -33,7 +30,6 @@ class Panic extends Roll
     ) {
         parent::__construct($content, $username, $channel);
 
-        /** @psalm-suppress UndefinedClass */
         $roll = DiceService::rollOne(6);
 
         $stress = 0;

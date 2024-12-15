@@ -71,7 +71,6 @@ class PartialCharacter extends Character implements Stringable
 
     /**
      * Store both what we roll for the user and what they choose for the value.
-     * @psalm-suppress UndefinedClass
      * @return array<string, int>
      */
     protected function createSubLifepathValue(): array

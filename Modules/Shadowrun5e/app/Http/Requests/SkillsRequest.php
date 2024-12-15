@@ -14,7 +14,6 @@ class SkillsRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, array<int, Closure|string>>
      */
     public function rules(): array

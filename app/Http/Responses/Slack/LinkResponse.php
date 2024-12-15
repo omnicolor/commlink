@@ -16,7 +16,6 @@ use function explode;
 
 /**
  * Try to link a character to a Slack channel.
- * @psalm-suppress UnusedClass
  */
 class LinkResponse extends SlackResponse
 {
@@ -47,7 +46,6 @@ class LinkResponse extends SlackResponse
         $args = explode(' ', $content);
         $characterId = $args[1];
         /**
-         * @psalm-suppress InvalidStaticInvocation
          * @var Character
          */
         $character = Character::find($characterId);

@@ -14,7 +14,6 @@ use function sprintf;
 
 /**
  * Roll a Shadowrun 5E luck test.
- * @psalm-api
  */
 class Luck extends Number
 {

@@ -16,7 +16,6 @@ class WeaponArray extends ArrayObject
     /**
      * Add a weapon to the array.
      * @param ?Weapon $weapon
-     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet(mixed $index = null, $weapon = null): void

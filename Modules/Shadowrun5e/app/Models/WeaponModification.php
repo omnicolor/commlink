@@ -13,7 +13,6 @@ use function strtolower;
 
 /**
  * Something to add to a character's weapon.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class WeaponModification implements Stringable
 {
@@ -83,7 +82,6 @@ class WeaponModification implements Stringable
     {
         $filename = config('shadowrun5e.data_path')
             . 'weapon-modifications.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$modifications ??= require $filename;
 
         $id = strtolower($id);
@@ -127,7 +125,6 @@ class WeaponModification implements Stringable
     {
         $filename = config('shadowrun5e.data_path')
             . 'weapon-modifications.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$modifications ??= require $filename;
 
         foreach (self::$modifications as $mod) {

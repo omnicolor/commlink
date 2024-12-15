@@ -12,7 +12,6 @@ use Modules\Subversion\Models\Ideology;
 class CreateIdeologyRequest extends FormRequest
 {
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array{
      *   ideology: array<int, In|string>,
      * }
