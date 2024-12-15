@@ -117,11 +117,13 @@ $ ./artisan commlink:irc-run [server]
 
 ## Running tests and static analysis
 
-All of the automated tests can be run through composer:
+Almost all of the automated tests can be run through composer:
 
 ```shell
 $ composer all
 ```
+would run lint, phpcs, php-cs-fixer, phpstan, psalm, coverage, and
+lint-openapi.
 
 If you'd like to run an individual check:
 * `coverage` - Build a [PHPUnit](https://phpunit.readthedocs.io/) code coverage
@@ -134,17 +136,36 @@ If you'd like to run an individual check:
     across the entire codebase.
 * `lint-openapi` - Run [Redocly](https://redocly.com/docs/cli/) to lint the
     OpenAPI specification.
-* `phpcs` - Run [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer)
-    on the entire codebase.
 * `php-cs-fixer` - Run
     [PHP-CS-Fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer)'s dry run on
     the entire codebase.
+* `phpcs` - Run [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer)
+    on the entire codebase.
 * `phpstan` - Run [PHPstan](https://phpstan.org/)'s highest level across the
     entire codebase.
+* `prism` - Start a Stoplight Prism proxy for contract testing.
 * `psalm` - Run [Psalm](https://psalm.dev/) across the entire codebase.
 * `static` - Run lint, PHPStan, and Psalm targets.
 * `style` - Run both phpcs and php-cs-fixer.
 * `test` - Run PHPUnit tests without generating a code coverage report.
+
+## Testing the API documentation
+
+Running `composer lint-openapi` will make sure the OpenAPI documentation is
+semantically correct, listing any errors or problems parsing the document. A
+passing lint means there's nothing obviously wrong with the specification.
+However, that doesn't mean it's correct.
+
+Running `composer prism` will start a proxy between your computer and
+Commlink's dev server. For testing locally, you should edit the URL in the
+composer.json file. The proxy will list all of the routes Commlink supports and
+will listen for a connection. Running cURL against a resource will test the
+response against what the OpenAPI specification says it should be:
+
+```
+$ curl --location 'http://127.0.0.1:4010/alien/talents' --header 'Accept: application/json' --header 'Authorization: Bearer <API key>'
+```
+You'll need to create an API key in settings to be able to test.
 
 # Credits
 

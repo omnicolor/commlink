@@ -3290,9 +3290,14 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/User'
-                type: array
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/User'
+                    type: array
+                required:
+                  - data
+                type: object
         '401':
           $ref: '#/components/responses/ErrorUnauthenticated'
         '403':
@@ -4248,7 +4253,7 @@ components:
           type: string
         system:
           type: string
-        _links:
+        links:
           $ref: '#/components/schemas/Links'
       type: object
     CampaignFull:
@@ -8925,7 +8930,7 @@ components:
           items:
             $ref: '#/components/schemas/Role'
           type: array
-        _links:
+        links:
           $ref: '#/components/schemas/Links'
       required:
         - characters
@@ -8936,7 +8941,7 @@ components:
         - name
         - playingIn
         - roles
-        - _links
+        - links
       type: object
     UserMinimal:
       nullable: true

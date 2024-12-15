@@ -12,6 +12,7 @@ use DirectoryIterator;
 use Error;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\View\View;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\PersonalAccessToken as Token;
@@ -66,9 +67,9 @@ class UsersController extends Controller
     /**
      * Get a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index(): AnonymousResourceCollection
     {
-        return new JsonResponse(UserResource::collection(User::all()));
+        return UserResource::collection(User::all());
     }
 
     /**
