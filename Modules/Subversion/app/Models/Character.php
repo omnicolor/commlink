@@ -27,7 +27,7 @@ use Modules\Subversion\Database\Factories\CharacterFactory;
  * @property bool $corrupted_value
  * @property int $dulled
  * @property-read GearArray $gear
- * @property-write GearArray|array $gear
+ * @property-write GearArray|array<int, array{id: string}> $gear
  * @property-read int $grit_starting
  * @property-read int $guard_defense
  * @property-read int $health_maximum
@@ -38,7 +38,7 @@ use Modules\Subversion\Database\Factories\CharacterFactory;
  * @property-write Impulse|string $impulse
  * @property-read int $initiative
  * @property-read LanguageArray $languages
- * @property-write LanguageArray|array $languages
+ * @property-write LanguageArray|array<int, string> $languages
  * @property-read ?Lineage $lineage
  * @property-write Lineage|string $lineage
  * @property string $lineage_option
@@ -75,7 +75,7 @@ class Character extends BaseCharacter
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'agility',

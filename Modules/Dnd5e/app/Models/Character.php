@@ -34,14 +34,14 @@ class Character extends BaseCharacter implements Stringable
     public const int ATTRIBUTE_MAX = 30;
 
     /**
-     * @var array<array-key, mixed>
+     * @var array<string, mixed>
      */
     protected $attributes = [
         'system' => 'dnd5e',
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'alignment',
@@ -65,7 +65,7 @@ class Character extends BaseCharacter implements Stringable
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [
         '_id',

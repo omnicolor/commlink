@@ -18,9 +18,11 @@ use Modules\Cyberpunkred\Models\PartialCharacter as CyberpunkredCharacter;
 use Modules\Expanse\Models\PartialCharacter as ExpanseCharacter;
 
 use function array_key_exists;
+use function assert;
 use function back;
 use function file_get_contents;
 use function json_decode;
+use function session;
 use function view;
 
 use const JSON_THROW_ON_ERROR;
@@ -78,6 +80,8 @@ class WorldAnvilController extends Controller
             session([$templateMap['session'] => $character->id]);
             return new RedirectResponse($templateMap['redirect']);
         }
+
+        assert(view()->exists($templateMap['view']));
         return view(
             $templateMap['view'],
             [

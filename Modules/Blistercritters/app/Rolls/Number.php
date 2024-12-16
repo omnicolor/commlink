@@ -47,8 +47,8 @@ class Number extends Roll
 
         if (
             2 > count($args)
-            || !is_numeric($args[0] ?? null)
-            || !is_numeric($args[1] ?? null)
+            || !is_numeric($args[0])
+            || !is_numeric($args[1])
         ) {
             $this->error = 'You must include the die size and the target number';
             return;

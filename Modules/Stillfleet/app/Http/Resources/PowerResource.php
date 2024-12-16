@@ -7,7 +7,6 @@ namespace Modules\Stillfleet\Http\Resources;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Resources\MissingValue;
 use Modules\Stillfleet\Models\Power;
 
 /**
@@ -16,7 +15,18 @@ use Modules\Stillfleet\Models\Power;
 class PowerResource extends JsonResource
 {
     /**
-     * @return array<string, array<string, MissingValue|array<string, string>|int|mixed|string>>
+     * @return array{
+     *     advanced_list?: string,
+     *     description?: string,
+     *     id: string,
+     *     name: string,
+     *     page: int,
+     *     ruleset: string,
+     *     type: string,
+     *     links: array{
+     *         self: string
+     *     }
+     * }
      */
     public function toArray(Request $request): array
     {

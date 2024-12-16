@@ -27,7 +27,7 @@ use Stringable;
  * @property string $drive
  * @property int $experience
  * @property int $fighting
- * @property array $focuses
+ * @property array<int, array{id: string, level?: int}> $focuses
  * @property string $gender
  * @property string $id
  * @property int $intelligence
@@ -51,14 +51,14 @@ class Character extends BaseCharacter implements Stringable
     use HasFactory;
 
     /**
-     * @var array<array-key, mixed>
+     * @var array<string, mixed>
      */
     protected $attributes = [
         'system' => 'expanse',
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'accuracy',
@@ -91,7 +91,7 @@ class Character extends BaseCharacter implements Stringable
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [
         '_id',
@@ -199,7 +199,7 @@ class Character extends BaseCharacter implements Stringable
     {
         $focuses = $this->getFocuses();
         foreach ($focuses as $potentialMatch) {
-            if ($focus == $potentialMatch) {
+            if ($focus->id === $potentialMatch->id) {
                 return true;
             }
         }

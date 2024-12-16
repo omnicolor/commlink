@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Models\Campaign;
 use App\Models\Character;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -44,6 +45,7 @@ class UserResource extends JsonResource
         }
 
         $gmedCampaigns = [];
+        /** @var Campaign */
         foreach ($this->campaignsGmed as $campaign) {
             $gmedCampaigns[] = [
                 'id' => $campaign->id,
@@ -57,6 +59,7 @@ class UserResource extends JsonResource
         }
 
         $playingCampaigns = [];
+        /** @var Campaign */
         foreach ($this->campaigns as $campaign) {
             $playingCampaigns[] = [
                 'id' => $campaign->id,
