@@ -70,5 +70,8 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --no-progress --no-interaction
 
+      - name: Show PHPStan version
+        run: vendor/bin/phpstan --version
+
       - name: Run PHPStan analysis
         run: vendor/bin/phpstan analyze
