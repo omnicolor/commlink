@@ -16,10 +16,10 @@ class Patch
 
     /**
      * @throws FailedTestException
-     * @throws InvalidPatchDocumentJsonException;
-     * @throws InvalidTargetDocumentJsonException;
-     * @throws InvalidPointerException;
-     * @throws TypeError;
+     * @throws InvalidPatchDocumentJsonException
+     * @throws InvalidTargetDocumentJsonException
+     * @throws InvalidPointerException
+     * @throws TypeError
      */
     public function apply(): mixed
     {
