@@ -7,6 +7,7 @@ infection.json5
 infection.log
 node_modules
 npm-debug.log
+phpstan.neon
 public/coverage
 public/css/app.css
 public/css/app.css.map

@@ -43,8 +43,8 @@ class Number extends Roll
         $args = explode(' ', trim($content));
         if (
             2 > count($args)
-            || !is_numeric($args[0] ?? null)
-            || !is_numeric($args[1] ?? null)
+            || !is_numeric($args[0])
+            || !is_numeric($args[1])
         ) {
             $this->error = 'LotFR rolls require two numbers: how many dice to '
                 . 'roll and how many to keep.';

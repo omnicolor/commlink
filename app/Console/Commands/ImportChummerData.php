@@ -21,7 +21,6 @@ use function array_combine;
 use function array_diff;
 use function array_merge;
 use function array_reverse;
-use function array_walk;
 use function count;
 use function explode;
 use function file_exists;
@@ -424,7 +423,7 @@ class ImportChummerData extends Command implements Isolatable
     }
 
     /**
-     * @param array<int, array<string, int|string>> $augmentations
+     * @param array<string, array<string, float|int|string>> $augmentations
      */
     protected function addSingleAugmentation(
         SimpleXMLElement $aug,
@@ -727,14 +726,10 @@ class ImportChummerData extends Command implements Isolatable
         $matrix = [];
         if ('' !== (string)$gear->attributearray) {
             $attributes = explode(',', (string)$gear->attributearray);
-            array_walk(
-                $attributes,
-                function (string &$value): void {
-                    $value = (int)$value;
-                },
-            );
-            /** @var array<int, int> $attributes */
-            $matrix['attributes'] = $attributes;
+            $matrix['attributes'] = [];
+            foreach ($attributes as $attribute) {
+                $matrix['attributes'][] = (int)$attribute;
+            }
         } else {
             $matrix['attributes'] = [
                 'attack' => (int)$gear->attack,

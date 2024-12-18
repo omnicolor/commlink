@@ -16,7 +16,25 @@ use function route;
 class CharacterResource extends JsonResource
 {
     /**
-     * @return array<string, array<string, int|string>|int|string>
+     * @return array{
+     *     name: string,
+     *     instinct: int,
+     *     noggin: int,
+     *     scrap: int,
+     *     scurry: int,
+     *     vibe: int,
+     *     id: string,
+     *     campaign_id: int|null,
+     *     owner: array{
+     *         id: int,
+     *         name: string
+     *     },
+     *     system: string,
+     *     links: array{
+     *         self: string,
+     *         campaign?: string
+     *     }
+     * }
      */
     public function toArray(Request $request): array
     {

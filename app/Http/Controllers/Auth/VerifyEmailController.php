@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -28,7 +29,7 @@ class VerifyEmailController extends Controller
                 ->intended(RouteServiceProvider::HOME . '?verified=1');
         }
 
-        /** @var MustVerifyEmail */
+        /** @var MustVerifyEmail&User */
         $user = $request->user();
         if ($user->markEmailAsVerified()) {
             event(new Verified($user));

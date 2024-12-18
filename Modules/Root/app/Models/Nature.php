@@ -9,7 +9,6 @@ use Stringable;
 use Sushi\Sushi;
 
 /**
- * @immutable
  * @property string $description
  * @property string $id
  * @property string $name
@@ -31,7 +30,7 @@ class Nature extends Model implements Stringable
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'description',

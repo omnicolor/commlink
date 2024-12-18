@@ -85,7 +85,12 @@ class IrcRunCommand extends SignalAwareCommand
         $channels = $this->option('channel');
         $options = new ClientOptions(
             nickname: $this->nickname,
-            channels: array_filter($channels),
+            channels: array_filter(
+                $channels,
+                function (null|string $channel): bool {
+                    return null !== $channel;
+                },
+            ),
         );
         $options->autoRejoin = true;
 

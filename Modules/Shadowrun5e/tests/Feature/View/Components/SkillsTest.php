@@ -21,14 +21,14 @@ final class SkillsTest extends TestCase
      */
     public function testNoSkillsExistingCharacter(): void
     {
-        /** @var Skills */
         $view = $this->component(
             Skills::class,
             ['character' => new Character()]
         )
             ->assertDontSee('No skill groups purchased.')
             ->assertDontSee('No skills purchased.');
-        self::assertFalse($view->charGen);
+        self::assertInstanceOf(Skills::class, $view->component);
+        self::assertFalse($view->component->charGen);
     }
 
     /**
@@ -36,14 +36,14 @@ final class SkillsTest extends TestCase
      */
     public function testNoSkillsNewCharacter(): void
     {
-        /** @var Skills */
         $view = $this->component(
             Skills::class,
             ['character' => new PartialCharacter()]
         )
             ->assertSee('No skill groups purchased.')
             ->assertSee('No skills purchased.');
-        self::assertTrue($view->charGen);
+        self::assertInstanceOf(Skills::class, $view->component);
+        self::assertTrue($view->component->charGen);
     }
 
     /**
@@ -51,7 +51,6 @@ final class SkillsTest extends TestCase
      */
     public function testRenderSkill(): void
     {
-        /** @var Skills */
         $view = $this->component(
             Skills::class,
             [
@@ -64,6 +63,7 @@ final class SkillsTest extends TestCase
         )
             ->assertSee('No skill groups purchased.')
             ->assertDontSee('No skills purchased.');
-        self::assertTrue($view->charGen);
+        self::assertInstanceOf(Skills::class, $view->component);
+        self::assertTrue($view->component->charGen);
     }
 }

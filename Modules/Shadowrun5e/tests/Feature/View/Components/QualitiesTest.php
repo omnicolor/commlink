@@ -21,13 +21,13 @@ final class QualitiesTest extends TestCase
      */
     public function testCharGenExistingCharacter(): void
     {
-        /** @var Qualities */
         $view = $this->component(
             Qualities::class,
             ['character' => new Character()]
         )
             ->assertDontSee('No qualities found.');
-        self::assertFalse($view->charGen);
+        self::assertInstanceOf(Qualities::class, $view->component);
+        self::assertFalse($view->component->charGen);
     }
 
     /**
@@ -35,13 +35,13 @@ final class QualitiesTest extends TestCase
      */
     public function testCharGenInprogressCharacter(): void
     {
-        /** @var Qualities */
         $view = $this->component(
             Qualities::class,
             ['character' => new PartialCharacter()]
         )
             ->assertSee('No qualities found.');
-        self::assertTrue($view->charGen);
+        self::assertInstanceOf(Qualities::class, $view->component);
+        self::assertTrue($view->component->charGen);
     }
 
     /**
@@ -49,7 +49,6 @@ final class QualitiesTest extends TestCase
      */
     public function testRenderQuality(): void
     {
-        /** @var Qualities */
         $view = $this->component(
             Qualities::class,
             [
@@ -62,6 +61,7 @@ final class QualitiesTest extends TestCase
         )
             ->assertSee('Alpha Junkie')
             ->assertDontSee('No qualities found.');
-        self::assertTrue($view->charGen);
+        self::assertInstanceOf(Qualities::class, $view->component);
+        self::assertTrue($view->component->charGen);
     }
 }
