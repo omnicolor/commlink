@@ -50,7 +50,7 @@ class MoveResource extends JsonResource
                 'self' => route('avatar.moves.show', $this->id),
                 'playbook' => $this->when(
                     null !== $this->playbook,
-                    route('avatar.playbooks.show', $this->playbook?->id ?? ''),
+                    route('avatar.playbooks.show', $this->playbook->id ?? ''),
                 ),
             ],
         ];
