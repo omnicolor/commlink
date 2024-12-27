@@ -23,9 +23,13 @@ parameters:
         - stubs/PHPStan/DiscordChannel.stub
         - stubs/PHPStan/DiscordEmbed.stub
         - stubs/PHPStan/DiscordEmoji.stub
+        - stubs/PHPStan/DiscordFooter.stub
+        - stubs/PHPStan/DiscordGuild.stub
+        - stubs/PHPStan/DiscordMember.stub
         - stubs/PHPStan/DiscordMessage.stub
         - stubs/PHPStan/DiscordMessageBuilder.stub
         - stubs/PHPStan/DiscordPart.stub
+        - stubs/PHPStan/DiscordUser.stub
         - stubs/PHPStan/ExtendedPromiseInterface.stub
         - stubs/PHPStan/JsonPatch.stub
         - stubs/PHPStan/JsonPatchExceptions.stub
