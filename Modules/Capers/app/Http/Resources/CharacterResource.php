@@ -5,8 +5,12 @@ declare(strict_types=1);
 namespace Modules\Capers\Http\Resources;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Capers\Models\Character;
+use Modules\Capers\Models\Gear;
+use Modules\Capers\Models\Power;
+use Modules\Capers\Models\Skill;
 
 use function array_values;
 
@@ -16,7 +20,38 @@ use function array_values;
 class CharacterResource extends JsonResource
 {
     /**
-     * @return array<string, mixed>
+     * @return array{
+     *     name: string,
+     *     background: string,
+     *     description: string,
+     *     gear: AnonymousResourceCollection<Gear>,
+     *     mannerisms: string,
+     *     powers: AnonymousResourceCollection<Power>,
+     *     identity: IdentityResource,
+     *     skills: AnonymousResourceCollection<Skill>,
+     *     stats: array{
+     *         agility: int,
+     *         charisma: int,
+     *         expertise: int,
+     *         perception: int,
+     *         resilience: int,
+     *         strength: int
+     *     },
+     *     type: string,
+     *     vice: ViceResource,
+     *     virtue: VirtueResource,
+     *     id: string,
+     *     campaign_id: int|null,
+     *     system: string,
+     *     owner: array{
+     *         id: int,
+     *         name: string
+     *     },
+     *     links: array{
+     *         self: string,
+     *         campaign?: string
+     *     }
+     * }
      */
     public function toArray(Request $request): array
     {
@@ -43,10 +78,7 @@ class CharacterResource extends JsonResource
             'vice' => new ViceResource($this->vice),
             'virtue' => new VirtueResource($this->virtue),
             'id' => $this->id,
-            'campaign_id' => $this->when(
-                null !== $this->campaign_id,
-                $this->campaign_id,
-            ),
+            'campaign_id' => $this->campaign_id,
             'system' => $this->system,
             'owner' => [
                 'id' => $this->user()->id,

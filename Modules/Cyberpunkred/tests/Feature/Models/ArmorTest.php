@@ -72,4 +72,9 @@ final class ArmorTest extends TestCase
         $armor = Armor::findByName('Light Armorjack');
         self::assertSame('Light armorjack', $armor->type);
     }
+
+    public function testAll(): void
+    {
+        self::assertCount(9, Armor::all());
+    }
 }

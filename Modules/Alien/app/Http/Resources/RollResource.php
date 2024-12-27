@@ -15,20 +15,21 @@ class RollResource extends JsonResource
      */
     public function __construct(
         Request $request,
-        protected array $result,
-        protected Character $character,
+        protected readonly array $result,
+        protected readonly Character $character,
     ) {
         parent::__construct($request);
     }
 
     /**
      * @return array{
-     *   panic: bool,
-     *   pushable: bool,
-     *   rolls: array<int, int>,
-     *   success: bool,
-     *   text: string,
-     *   title: string,
+     *     id: string,
+     *     panic: bool,
+     *     pushable: bool,
+     *     rolls: array<int, int>,
+     *     success: bool,
+     *     text: string,
+     *     title: string,
      * }
      */
     public function toArray(Request $request): array
@@ -46,12 +47,12 @@ class RollResource extends JsonResource
 
     /**
      * @return array{
-     *   links: array{
-     *     character: string,
-     *     campaign?: string,
-     *     self: string,
-     *     pushes: array<int, string>
-     *   }
+     *     links: array{
+     *         character: string,
+     *         campaign?: string,
+     *         self: string,
+     *         pushes: array<int, string>
+     *     }
      * }
      */
     public function with(Request $request): array

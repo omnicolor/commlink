@@ -7,7 +7,6 @@ namespace Modules\Alien\Http\Resources;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Resources\MissingValue;
 use Modules\Alien\Models\Gear;
 
 /**
@@ -17,16 +16,16 @@ class GearResource extends JsonResource
 {
     /**
      * @return array{
-     *   category: string,
-     *   cost: ?int,
-     *   description: MissingValue|string,
-     *   effects: array<string, int>,
-     *   effects_text: string,
-     *   name: string,
-     *   page: integer,
-     *   quantity: integer,
-     *   ruleset: string,
-     *   weight: ?float
+     *     category: string,
+     *     cost: ?int,
+     *     description?: string,
+     *     effects: array<string, int>,
+     *     effects_text: string,
+     *     name: string,
+     *     page: integer,
+     *     quantity: integer,
+     *     ruleset: string,
+     *     weight: ?float
      * }
      */
     public function toArray(Request $request): array

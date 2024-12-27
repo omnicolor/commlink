@@ -67,6 +67,8 @@ class AdeptPowersController extends Controller
                 $effects[str_replace('-', '_', $key)] = $effect;
             }
             $power['effects'] = $effects;
+        } else {
+            unset($power['effects']);
         }
         return $power;
     }

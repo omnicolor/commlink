@@ -14,7 +14,13 @@ use Modules\Capers\Models\Gear;
 class GearResource extends JsonResource
 {
     /**
-     * @return array<string, mixed>
+     * @return array{
+     *     name: string,
+     *     cost: float,
+     *     id: string,
+     *     quantity?: int,
+     *     type: string
+     * }
      */
     public function toArray(Request $request): array
     {

@@ -6,7 +6,9 @@ namespace Modules\Capers\Http\Resources;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Capers\Models\Boost;
 use Modules\Capers\Models\Power;
 
 use function array_values;
@@ -17,7 +19,23 @@ use function array_values;
 class PowerResource extends JsonResource
 {
     /**
-     * @return array<string, mixed>
+     * @return array{
+     *     name: string,
+     *     activation: string,
+     *     available_boosts: AnonymousResourceCollection<Boost>,
+     *     description?: string,
+     *     duration: string,
+     *     effect?: string,
+     *     id: string,
+     *     max_rank: int,
+     *     range: string,
+     *     target: string,
+     *     type: string,
+     *     rank: int,
+     *     links: array{
+     *         self: string
+     *     }
+     * }
      */
     public function toArray(Request $request): array
     {

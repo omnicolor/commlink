@@ -15,7 +15,12 @@ use Modules\Capers\Models\Identity;
 class IdentityResource extends JsonResource
 {
     /**
-     * @return array<string, mixed>
+     * @return array{
+     *     name: string,
+     *     card: string,
+     *     description?: string,
+     *     id: string
+     * }
      */
     public function toArray(Request $request): array
     {
