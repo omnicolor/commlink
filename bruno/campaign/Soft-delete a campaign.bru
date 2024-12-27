@@ -1,0 +1,15 @@
+meta {
+  name: Soft-delete a campaign
+  type: http
+  seq: 2
+}
+
+delete {
+  url: https:/commlink.digitaldarkness.com/api//campaigns/:campaign_id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

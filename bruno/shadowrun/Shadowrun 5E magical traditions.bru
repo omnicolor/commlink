@@ -1,0 +1,15 @@
+meta {
+  name: Shadowrun 5E magical traditions
+  type: http
+  seq: 33
+}
+
+get {
+  url: https:/commlink.digitaldarkness.com/api//shadowrun5e/traditions
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

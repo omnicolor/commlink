@@ -1,0 +1,15 @@
+meta {
+  name: Expanse RPG social classes
+  type: http
+  seq: 4
+}
+
+get {
+  url: https:/commlink.digitaldarkness.com/api//expanse/social-classes
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

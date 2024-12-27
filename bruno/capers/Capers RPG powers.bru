@@ -1,0 +1,15 @@
+meta {
+  name: Capers RPG powers
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{host}}/capers/powers
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

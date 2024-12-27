@@ -1,0 +1,15 @@
+meta {
+  name: Update a channel
+  type: http
+  seq: 1
+}
+
+patch {
+  url: https:/commlink.digitaldarkness.com/api//channels/:channel_id
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

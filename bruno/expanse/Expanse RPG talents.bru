@@ -1,0 +1,15 @@
+meta {
+  name: Expanse RPG talents
+  type: http
+  seq: 5
+}
+
+get {
+  url: https:/commlink.digitaldarkness.com/api//expanse/talents
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

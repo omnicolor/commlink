@@ -1,0 +1,15 @@
+meta {
+  name: A Shadowrun 5E gear item
+  type: http
+  seq: 13
+}
+
+get {
+  url: https:/commlink.digitaldarkness.com/api//shadowrun5e/gear/:gear_id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

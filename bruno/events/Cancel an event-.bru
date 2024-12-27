@@ -1,0 +1,15 @@
+meta {
+  name: Cancel an event-
+  type: http
+  seq: 2
+}
+
+delete {
+  url: https:/commlink.digitaldarkness.com/api//events/:event_id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

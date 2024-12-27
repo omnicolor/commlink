@@ -1,0 +1,15 @@
+meta {
+  name: Shadowrun 5E ammunition
+  type: http
+  seq: 2
+}
+
+get {
+  url: https:/commlink.digitaldarkness.com/api//shadowrun5e/ammunitions
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

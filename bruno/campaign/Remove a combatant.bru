@@ -1,0 +1,15 @@
+meta {
+  name: Remove a combatant
+  type: http
+  seq: 10
+}
+
+delete {
+  url: https:/commlink.digitaldarkness.com/api//campaigns/:campaign_id/initiatives/:initiative_id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

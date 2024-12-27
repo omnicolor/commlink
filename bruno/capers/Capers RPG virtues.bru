@@ -1,0 +1,15 @@
+meta {
+  name: Capers RPG virtues
+  type: http
+  seq: 7
+}
+
+get {
+  url: https:/commlink.digitaldarkness.com/api//capers/virtues
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

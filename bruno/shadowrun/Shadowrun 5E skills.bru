@@ -1,0 +1,15 @@
+meta {
+  name: Shadowrun 5E skills
+  type: http
+  seq: 29
+}
+
+get {
+  url: https:/commlink.digitaldarkness.com/api//shadowrun5e/skills
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

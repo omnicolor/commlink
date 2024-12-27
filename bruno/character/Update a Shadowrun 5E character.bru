@@ -1,0 +1,21 @@
+meta {
+  name: Update a Shadowrun 5E character
+  type: http
+  seq: 7
+}
+
+patch {
+  url: https:/commlink.digitaldarkness.com/api//shadowrun5e/characters/:character_id
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "patch": []
+  }
+}

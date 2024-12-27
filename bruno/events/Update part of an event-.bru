@@ -1,0 +1,15 @@
+meta {
+  name: Update part of an event-
+  type: http
+  seq: 4
+}
+
+patch {
+  url: https:/commlink.digitaldarkness.com/api//events/:event_id
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

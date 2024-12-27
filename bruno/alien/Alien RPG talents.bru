@@ -1,0 +1,15 @@
+meta {
+  name: Alien RPG talents
+  type: http
+  seq: 9
+}
+
+get {
+  url: https:/commlink.digitaldarkness.com/api//alien/talents
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

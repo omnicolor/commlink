@@ -1,0 +1,15 @@
+meta {
+  name: Return a single campaign
+  type: http
+  seq: 3
+}
+
+get {
+  url: https:/commlink.digitaldarkness.com/api//campaigns/:campaign_id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

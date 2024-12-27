@@ -1,0 +1,15 @@
+meta {
+  name: Subversion backgrounds
+  type: http
+  seq: 1
+}
+
+get {
+  url: https:/commlink.digitaldarkness.com/api//subversion/backgrounds
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

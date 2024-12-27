@@ -1,0 +1,15 @@
+meta {
+  name: Alien RPG characters
+  type: http
+  seq: 3
+}
+
+get {
+  url: https:/commlink.digitaldarkness.com/api//alien/characters
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

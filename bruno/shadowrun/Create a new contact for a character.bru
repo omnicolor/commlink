@@ -1,0 +1,26 @@
+meta {
+  name: Create a new contact for a character
+  type: http
+  seq: 6
+}
+
+post {
+  url: https:/commlink.digitaldarkness.com/api//shadowrun5e/characters/:character_id/contacts
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "archetype": "",
+    "connection": "",
+    "loyalty": "",
+    "gmNotes": "",
+    "name": "",
+    "notes": ""
+  }
+}

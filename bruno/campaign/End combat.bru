@@ -1,0 +1,15 @@
+meta {
+  name: End combat
+  type: http
+  seq: 7
+}
+
+delete {
+  url: https:/commlink.digitaldarkness.com/api//campaigns/:campaign_id/initiatives
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

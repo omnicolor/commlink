@@ -1,0 +1,21 @@
+meta {
+  name: Update a campaign
+  type: http
+  seq: 4
+}
+
+patch {
+  url: https:/commlink.digitaldarkness.com/api//campaigns/:campaign_id
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "currentDate": ""
+  }
+}

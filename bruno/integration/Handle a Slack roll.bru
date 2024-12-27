@@ -1,0 +1,26 @@
+meta {
+  name: Handle a Slack roll
+  type: http
+  seq: 2
+}
+
+post {
+  url: https:/commlink.digitaldarkness.com/api//roll
+  body: json
+  auth: none
+}
+
+headers {
+  X-Slack-Request-Timestamp: 
+  X-Slack-Signature: 
+  X-Slack-Signature: {{apiKey}}
+}
+
+body:json {
+  {
+    "channel_id": "",
+    "team_id": "",
+    "text": "",
+    "user_id": ""
+  }
+}

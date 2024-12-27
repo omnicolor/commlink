@@ -1,0 +1,15 @@
+meta {
+  name: Update an initiative
+  type: http
+  seq: 12
+}
+
+put {
+  url: https:/commlink.digitaldarkness.com/api//campaigns/:campaign_id/initiatives/:initiative_id
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

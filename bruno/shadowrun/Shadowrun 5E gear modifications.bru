@@ -1,0 +1,15 @@
+meta {
+  name: Shadowrun 5E gear modifications
+  type: http
+  seq: 14
+}
+
+get {
+  url: https:/commlink.digitaldarkness.com/api//shadowrun5e/gear-modifications
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

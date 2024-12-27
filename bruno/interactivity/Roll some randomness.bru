@@ -1,0 +1,23 @@
+meta {
+  name: Roll some randomness
+  type: http
+  seq: 3
+}
+
+post {
+  url: https:/commlink.digitaldarkness.com/api//rolls
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "character_id": "",
+    "text": "",
+    "system": ""
+  }
+}

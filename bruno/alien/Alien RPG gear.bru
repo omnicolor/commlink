@@ -1,0 +1,15 @@
+meta {
+  name: Alien RPG gear
+  type: http
+  seq: 4
+}
+
+get {
+  url: https:/commlink.digitaldarkness.com/api//alien/gear
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

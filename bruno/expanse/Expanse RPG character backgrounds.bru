@@ -1,0 +1,15 @@
+meta {
+  name: Expanse RPG character backgrounds
+  type: http
+  seq: 1
+}
+
+get {
+  url: https:/commlink.digitaldarkness.com/api//expanse/backgrounds
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

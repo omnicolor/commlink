@@ -1,0 +1,15 @@
+meta {
+  name: Avatar RPG characters
+  type: http
+  seq: 1
+}
+
+get {
+  url: https:/commlink.digitaldarkness.com/api//avatar/characters
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

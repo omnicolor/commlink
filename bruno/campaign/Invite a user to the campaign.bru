@@ -1,0 +1,15 @@
+meta {
+  name: Invite a user to the campaign
+  type: http
+  seq: 13
+}
+
+post {
+  url: https:/commlink.digitaldarkness.com/api//campaigns/:campaign_id/invite
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
