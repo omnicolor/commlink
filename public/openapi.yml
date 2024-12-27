@@ -5986,6 +5986,7 @@ components:
           might: 1
         id: 'brute'
         name: 'Brute'
+        weapon_move: false
         links:
           self: 'https://commlink.digitaldarkness.com/api/root/moves/brute'
       properties:
@@ -6000,6 +6001,8 @@ components:
           type: string
         name:
           type: string
+        weapon_move:
+          type: boolean
         links:
           $ref: '#/components/schemas/Links'
       required:
@@ -6049,6 +6052,7 @@ components:
               might: 1
             id: 'brute'
             name: 'Brute'
+            weapon_move: false
             links:
               self: 'https://commlink.digitaldarkness.com/api/root/moves/brute'
         natures:
@@ -6070,6 +6074,7 @@ components:
             effects: null
             id: 'cleave'
             name: 'Cleave'
+            weapon_move: true
             links:
               self: 'https://commlink.digitaldarkness.com/api/root/moves/cleave'
         stats:
