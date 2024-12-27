@@ -16,9 +16,6 @@ parameters:
         - %currentWorkingDirectory%/app
         - %currentWorkingDirectory%/Modules
         - %currentWorkingDirectory%/tests
-    excludePaths:
-        analyse:
-            - %currentWorkingDirectory%/stubs/PHPStan
     polluteScopeWithAlwaysIterableForeach: false
     reportMaybesInPropertyPhpDocTypes: false
     stubFiles:

@@ -91,12 +91,12 @@ class EventsController extends Controller
             $updatedEvent = json_decode(
                 (string)(new Patch($document, $patch))->apply()
             );
-        } catch (TypeError $ex) { // @phpstan-ignore catch.neverThrown
+        } catch (TypeError $ex) {
             abort(JsonResponse::HTTP_BAD_REQUEST, $ex->getMessage());
         } catch (InvalidOperationException $ex) {
             // Will be thrown when using invalid JSON in a patch document.
             abort(JsonResponse::HTTP_BAD_REQUEST, $ex->getMessage());
-        } catch (InvalidPointerException $ex) { // @phpstan-ignore catch.neverThrown
+        } catch (InvalidPointerException $ex) {
             abort(
                 JsonResponse::HTTP_BAD_REQUEST,
                 $ex->getMessage()
