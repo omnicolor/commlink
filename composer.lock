@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d3270aabed2e0e16713bca04e6246f81",
+    "content-hash": "827c7f349f271a38a7ec02032da807cf",
     "packages": [
         {
             "name": "brick/math",
@@ -9601,6 +9601,70 @@
                 }
             ],
             "time": "2024-12-11T14:50:44+00:00"
+        },
+        {
+            "name": "calebdw/fakerstan",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/calebdw/fakerstan.git",
+                "reference": "ed52fa3c9afacae22a38b6e82759b4c669c35717"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/calebdw/fakerstan/zipball/ed52fa3c9afacae22a38b6e82759b4c669c35717",
+                "reference": "ed52fa3c9afacae22a38b6e82759b4c669c35717",
+                "shasum": ""
+            },
+            "require": {
+                "fakerphp/faker": "^1.24",
+                "php": "^8.2",
+                "phpstan/phpstan": "^1.12 || ^2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^11.5"
+            },
+            "type": "phpstan-extension",
+            "extra": {
+                "phpstan": {
+                    "includes": [
+                        "extension.neon"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "CalebDW\\Fakerstan\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Caleb White",
+                    "email": "cdwhite3@pm.me"
+                }
+            ],
+            "description": "PHPStan extension for Faker",
+            "homepage": "https://github.com/calebdw/fakerstan",
+            "keywords": [
+                "PHPStan",
+                "faker",
+                "static analysis"
+            ],
+            "support": {
+                "issues": "https://github.com/calebdw/fakerstan/issues",
+                "source": "https://github.com/calebdw/fakerstan/tree/v1.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/calebdw",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-12-19T06:46:16+00:00"
         },
         {
             "name": "captainhook/captainhook-phar",

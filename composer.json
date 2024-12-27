@@ -79,6 +79,7 @@
     "require-dev": {
         "ext-sqlite3": "*",
         "brianium/paratest": "^7.4",
+        "calebdw/fakerstan": "^1.0",
         "captainhook/captainhook-phar": "^5.23",
         "cypresslab/gitelephant": "^4.5",
         "fakerphp/faker": "^1.9",

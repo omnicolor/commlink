@@ -4,6 +4,7 @@ includes:
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-phpunit/rules.neon
     - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/calebdw/fakerstan/extension.neon
 parameters:
     exceptions:
         check:
@@ -26,7 +27,6 @@ parameters:
         - stubs/PHPStan/DiscordMessageBuilder.stub
         - stubs/PHPStan/DiscordPart.stub
         - stubs/PHPStan/ExtendedPromiseInterface.stub
-        - stubs/PHPStan/Generator.stub
         - stubs/PHPStan/JsonPatch.stub
         - stubs/PHPStan/JsonPatchExceptions.stub
         - stubs/PHPStan/JsonPointerExceptions.stub
