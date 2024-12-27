@@ -54,14 +54,15 @@
         "ext-random": "*",
         "ext-redis": "*",
         "ext-zip": "*",
+        "calebporzio/sushi": "^2.5",
         "captainhook/hook-installer": "^1.0",
         "fakerphp/faker": "^1.23",
         "guzzlehttp/guzzle": "^7.3",
         "jerodev/php-irc-client": "dev-main",
-        "joetannenbaum/chewie": "^0.1.5",
+        "joetannenbaum/chewie": "^0.1.11",
         "laravel/framework": "^11.0",
         "laravel/pennant": "^1.1",
-        "laravel/prompts": "^0.1.25",
+        "laravel/prompts": "^0.3.2",
         "laravel/pulse": "^1.2",
         "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.6",
@@ -122,6 +123,10 @@
             "Composer\\Config::disableProcessTimeout",
             "phpstan analyze"
         ],
+        "prism": [
+            "Composer\\Config::disableProcessTimeout",
+            "node ./node_modules/@stoplight/prism-cli/dist/index.js proxy ./public/openapi.yml https://commlink-dev.digitaldarkness.com/api/"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
@@ -152,6 +157,7 @@
         "php-cs-fixer": "Run php-cs-fixer",
         "phpcs": "Run PHPCodesniffer",
         "phpstan": "Run PHPstan",
+        "prism": "Start a Stoplight Prism proxy for testing OpenAPI documentation versus actual responses",
         "static": "Run static analysis (Lint and PHPStan)",
         "style": "Run PHPCodesniffer and php-cs-fixer",
         "test": "Run all unit/feature tests"

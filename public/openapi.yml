@@ -1,4 +1,3 @@
----
 openapi: 3.0.3
 info:
   title: Commlink
@@ -46,6 +45,8 @@ tags:
     description: Commlink's interactive functions
   - name: meta
     description: Information about the service itself
+  - name: root
+    description: Root RPG
   - name: shadowrun
     description: Shadowrun RPG
   - name: startrekadventures
@@ -198,11 +199,11 @@ paths:
                     text: "Rolled 1 success"
                     title: "Ripley succeeded with 6 dice for Heavy machinery (0+5+1)"
                   links:
-                    character: "https://commlink-dev.digitaldarkness.com/api/alien/characters/6697e43d245ac6b4f2032432"
-                    campaign: "https://commlink-dev.digitaldarkness.com/api/campaigns/9"
-                    self: "https://commlink-dev.digitaldarkness.com/api/alien/roll/b3e151db-6434-4170-a9d6-9f181f6a4755"
+                    character: "https://commlink.digitaldarkness.com/api/alien/characters/6697e43d245ac6b4f2032432"
+                    campaign: "https://commlink.digitaldarkness.com/api/campaigns/9"
+                    self: "https://commlink.digitaldarkness.com/api/alien/roll/b3e151db-6434-4170-a9d6-9f181f6a4755"
                     pushes:
-                      - "https://commlink-dev.digitaldarkness.com/api/alien/roll/a3ca4dac-911f-419e-a6b9-85a498261c9a"
+                      - "https://commlink.digitaldarkness.com/api/alien/roll/a3ca4dac-911f-419e-a6b9-85a498261c9a"
                 properties:
                   data:
                     $ref: '#/components/schemas/AlienRollResult'
@@ -227,9 +228,7 @@ paths:
                           type: string
                         type: array
                       self:
-                        description: |
-                          Link to this roll, which can be interacted with to
-                          push.
+                        description: Link to this roll, which can be interacted with to push.
                         format: url
                         type: string
                     required:
@@ -276,8 +275,7 @@ paths:
                         format: url
                         type: string
                       campaign:
-                        description: |
-                          Link to the campaign the character belongs to.
+                        description: Link to the campaign the character belongs to.
                         format: url
                         type: string
                       parent:
@@ -291,9 +289,7 @@ paths:
                           type: string
                         type: array
                       self:
-                        description: |
-                          Link to this roll, which can be interacted with to
-                          push.
+                        description: Link to this roll, which can be interacted with to push.
                         format: url
                         type: string
                     required:
@@ -319,6 +315,111 @@ paths:
             The ID has never existed.
             The ID used to exist, but has been evicted from the cache.
             The ID exists, but is for a character owned by someone else.
+      tags:
+        - alien
+        - interactivity
+    post:
+      summary: Try to push your roll
+      operationId: alien-rolls-update
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                example:
+                  data:
+                    panic: false
+                    pushable: false
+                    rolls: [2, 5, 2, 4, 6, 4]
+                    success: true
+                    text: "Rolled 1 success"
+                    title: "Ripley succeeded with 6 dice for Heavy machinery (0+5+1)"
+                  links:
+                    character: "https://commlink.digitaldarkness.com/api/alien/characters/6697e43d245ac6b4f2032432"
+                    campaign: "https://commlink.digitaldarkness.com/api/campaigns/9"
+                    self: "https://commlink.digitaldarkness.com/api/alien/roll/b3e151db-6434-4170-a9d6-9f181f6a4755"
+                    parent: "https://commlink.digitaldarkness.com/api/alien/roll/a3ca4dac-911f-419e-a6b9-85a498261c9a"
+                properties:
+                  data:
+                    $ref: '#/components/schemas/AlienRollResult'
+                  links:
+                    properties:
+                      character:
+                        description: Link to the character making the roll.
+                        format: url
+                        type: string
+                      campaign:
+                        description: Link to the campaign the character belongs to.
+                        format: url
+                        type: string
+                      parent:
+                        description: Link to the roll that this roll pushes.
+                        format: url
+                        type: string
+                      pushes:
+                        items:
+                          description: Link to a push for this roll.
+                          format: url
+                          type: string
+                        type: array
+                      self:
+                        description: Link to this roll, which can be interacted with to push.
+                        format: url
+                        type: string
+                    required:
+                      - character
+                      - campaign
+                      - self
+                    type: object
+                required:
+                  - data
+                  - links
+          description: Result of the character's roll.
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+        '403':
+          content:
+            application/json:
+              schema:
+                example:
+                  message: "The roll has already been pushed."
+                  errors:
+                    roll:
+                      - "The roll has already been pushed."
+                  links:
+                    self: "https://commlink.digitaldarkness.com/api/alien/roll/b3e151db-6434-4170-a9d6-9f181f6a4755"
+                    pushes:
+                      - "https://commlink.digitaldarkness.com/api/alien/roll/a3ca4dac-911f-419e-a6b9-85a498261c9a"
+                properties:
+                  message:
+                    type: string
+                  errors:
+                    properties:
+                      roll:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  links:
+                    properties:
+                      parent:
+                        description: Link to the roll that this roll pushes.
+                        format: url
+                        type: string
+                      pushes:
+                        items:
+                          description: Link to a push for this roll.
+                          format: url
+                          type: string
+                        type: array
+                      self:
+                        description: Link to this roll, which may be interacted with to push.
+                        format: url
+                        type: string
+                    type: object
+          description: The roll can not be pushed.
+        '404':
+          $ref: '#/components/responses/ErrorNotFound'
       tags:
         - alien
         - interactivity
@@ -412,6 +513,75 @@ paths:
                   - links
                 type: object
           description: Collection of the user's Avatar characters.
+      tags:
+        - avatar
+  /avatar/moves:
+    get:
+      summary: Avatar Legends moves
+      operationId: avatar-moves-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/AvatarMove'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of moves from Avatar Legends.
+      tags:
+        - avatar
+  /avatar/playbooks:
+    get:
+      summary: Avatar Legends playbooks
+      operationId: avatar-playbooks-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/AvatarPlaybook'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of playbooks from Avatar Legends.
+      tags:
+        - avatar
+  /avatar/statuses:
+    get:
+      summary: Avatar Legends statuses
+      operationId: avatar-statuses-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/AvatarStatus'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of statuses from Avatar Legends.
       tags:
         - avatar
   /blistercritters/characters:
@@ -1133,6 +1303,29 @@ paths:
           $ref: '#/components/responses/ErrorUnprocessableContent'
       tags:
         - interactivity
+  /cyberpunkred/armor:
+    get:
+      summary: Cyberpunk Red RPG armor
+      operationId: cyberpunkred-armor-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CyberpunkredArmor'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of armor from Cyberpunk Red.
+      tags:
+        - cyberpunkred
   /cyberpunkred/characters:
     get:
       summary: Cyberpunk Red characters
@@ -1181,6 +1374,52 @@ paths:
                 type: object
       tags:
         - character
+        - cyberpunkred
+  /cyberpunkred/skills:
+    get:
+      summary: Cyberpunk Red RPG skills
+      operationId: cyberpunkred-skills-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CyberpunkredSkill'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of skills from Cyberpunk Red.
+      tags:
+        - cyberpunkred
+  /cyberpunkred/weapons:
+    get:
+      summary: Cyberpunk Red RPG weapons
+      operationId: cyberpunkred-weapons-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CyberpunkredWeapon'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of weapons from Cyberpunk Red.
+      tags:
         - cyberpunkred
   /dnd5e/characters:
     get:
@@ -1981,6 +2220,91 @@ paths:
                 type: object
       tags:
         - interactivity
+  /root/characters:
+    get:
+      summary: All Root RPG characters
+      description: Return Root RPG characters.
+      operationId: root-characters-index
+      responses:
+        '200':
+          description: Collection of the user's Root characters.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/RootCharacter'
+                    type: array
+                required:
+                  - data
+                type: object
+      tags:
+        - character
+        - root
+  /root/moves:
+    get:
+      summary: All Root RPG moves
+      description: Root moves.
+      operationId: root-moves-index
+      responses:
+        '200':
+          description: Collection of possibly Root moves from playbooks.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/RootMove'
+                    type: array
+                required:
+                  - data
+                type: object
+      tags:
+        - root
+  /root/natures:
+    get:
+      summary: All Root RPG natures
+      description: Return Root RPG natures.
+      operationId: root-natures-index
+      responses:
+        '200':
+          description: Collection of possible Root natures from playbooks.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/RootNature'
+                    type: array
+                required:
+                  - data
+                type: object
+      tags:
+        - root
+  /root/playbooks:
+    get:
+      summary: All Root RPG playbooks
+      description: Return Root RPG playbooks.
+      operationId: root-playbooks-index
+      responses:
+        '200':
+          description: Collection of Root RPG playbooks.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/RootPlaybook'
+                    type: array
+                required:
+                  - data
+                type: object
+      tags:
+        - root
   /shadowrun5e/adept-powers:
     get:
       summary: Shadowrun 5E adept powers
@@ -3290,9 +3614,14 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/User'
-                type: array
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/User'
+                    type: array
+                required:
+                  - data
+                type: object
         '401':
           $ref: '#/components/responses/ErrorUnauthenticated'
         '403':
@@ -3604,7 +3933,7 @@ components:
         ruleset: 'core'
         weight: 2
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/alien/armor/irc-mk-35-pressure-suit'
+          self: 'https://commlink.digitaldarkness.com/api/alien/armor/irc-mk-35-pressure-suit'
       properties:
         air_supply:
           type: integer
@@ -3686,7 +4015,7 @@ components:
             stunts:
               - 'You inflict one more point of damage. You can choose this stunt multiple times, if you roll several successes.'
             links:
-              self: 'https://commlink-dev.digitaldarkness.com/api/alien/skills/close-combat'
+              self: 'https://commlink.digitaldarkness.com/api/alien/skills/close-combat'
         id: 'colonial-marine'
         name: 'Colonial marine'
         page: 38
@@ -3704,10 +4033,10 @@ components:
             page: 74
             ruleset: 'core'
             links:
-              self: 'https://commlink-dev.digitaldarkness.com/api/alien/talents/banter'
-              career: 'https://commlink-dev.digitaldarkness.com/api/alien/careers/colonial-marine'
+              self: 'https://commlink.digitaldarkness.com/api/alien/talents/banter'
+              career: 'https://commlink.digitaldarkness.com/api/alien/careers/colonial-marine'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/alien/careers/colonial-marine'
+          self: 'https://commlink.digitaldarkness.com/api/alien/careers/colonial-marine'
       properties:
         description:
           type: string
@@ -3865,7 +4194,7 @@ components:
         roll: 31
         time_limit: null
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/alien/injuries/broken-nose'
+          self: 'https://commlink.digitaldarkness.com/api/alien/injuries/broken-nose'
       properties:
         death_roll_modifier:
           nullable: true
@@ -3985,7 +4314,7 @@ components:
         stunts:
           - 'Gain a +1 modification to a later skill roll relating to this one.'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/alien/skills/heavy-machinery'
+          self: 'https://commlink.digitaldarkness.com/api/alien/skills/heavy-machinery'
       properties:
         attribute:
           type: string
@@ -4031,8 +4360,8 @@ components:
         page: 77
         ruleset: 'core'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/alien/talents/analysis'
-          career: 'https://commlink-dev.digitaldarkness.com/api/alien/careers/scientist'
+          self: 'https://commlink.digitaldarkness.com/api/alien/talents/analysis'
+          career: 'https://commlink.digitaldarkness.com/api/alien/careers/scientist'
       properties:
         career:
           type: string
@@ -4087,7 +4416,7 @@ components:
         ruleset: 'core'
         weight: 0.5
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/alien/weapons/rexim-rxf-m5-eva-pistol'
+          self: 'https://commlink.digitaldarkness.com/api/alien/weapons/rexim-rxf-m5-eva-pistol'
       properties:
         bonus:
           type: integer
@@ -4147,51 +4476,146 @@ components:
         - weight
         - links
       type: object
+    AvatarBackground:
+      enum:
+        - military
+        - monastic
+        - outlaw
+        - privileged
+        - urban
+        - wilderness
+      type: string
     AvatarCharacter:
       example:
         name: 'Aang'
         appearance: 'Blue arrow tattoo on his bald head.'
-        background: 'Wilderness'
-        creativity: null
-        fatigue: null
-        focus: null
-        harmony: null
+        background: 'wilderness'
+        balance: 0
+        conditions:
+          - afraid
+          - guilty
+        creativity: 1
+        demeanor: 'Affable and Impetuous'
+        fatigue: 0
+        focus: 1
+        harmony: -1
         history: null
-        passion: null
+        passion: 3
+        playbook:
+          advanced_technique: 'pinpoint-aim'
+          balance_left: 'restraint'
+          balance_right: 'results'
+          base_stats:
+            creativity: 0
+            focus: 1
+            harmony: -1
+            passion: 1
+          demeanor_options:
+            - 'above-it-all'
+            - 'perfectionist'
+            - 'chilly'
+            - 'rebellious'
+            - 'flippant'
+            - 'standoffish'
+          description: |
+            A zealous advocate with a heart of gold and a diamond-hard will,
+            ready to do what it takes to fix the world. Their balance
+            principles are Restraint vs Results.
+          history:
+            - |
+              What experience of being deceived or manipulated convinced you
+              to steel yourself against being swayed by other people?
+          id: 'the-adamant'
+          moment_of_balance: |
+            You’ve held true to a core of conviction even while getting your
+            hands dirty to do what you deemed necessary. But balance means
+            appreciating that other people are just as complex as you are, not
+            merely obstacles or pawns. Tell the GM how you solve an intractable
+            problem or calm a terrible conflict by relating to dangerous people
+            on a human level.
+          moves:
+            - id: 'this-was-a-victory'
+              name: 'This Was a Victory'
+              page: 168
+              playbook: 'The Adamant'
+              ruleset: core
+              links:
+                self: 'https://commlink.digitaldarkness.com/api/avatar/moves/this-was-a-victory'
+                playbook: 'https://commlink.digitaldarkness.com/api/avatar/playbooks/the-adamant'
+              description: |
+                When you reveal that you have sabotaged a building, device, or
+                vehicle right as it becomes relevant, mark fatigue and roll with
+                Passion. On a hit, your work pays off, creating an opportunity
+                for you and your allies at just the right time. On a 7–9, the
+                opportunity is fleeting—act fast to stay ahead of the
+                consequences. On a miss, your action was ill-judged and
+                something or someone you care about is hurt as collateral
+                damage.
+          name: 'The Adamant'
+          page: 166
+          ruleset: 'core'
+          links:
+            self: 'https://commlink.digitaldarkness.com/api/avatar/playbooks/the-adamant'
         id: '667ee7f8246ccb219839df35'
         owner:
           id: 3
           name: 'Omni A'
         system: 'avatar'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/avatar/characters/667ee7f8246ccb219839df35'
+          playbook: 'https://commlink.digitaldarkness.com/api/avatar/playbooks/the-adamant'
+          self: 'https://commlink.digitaldarkness.com/api/avatar/characters/667ee7f8246ccb219839df35'
       allOf:
         - $ref: '#/components/schemas/Character'
         - properties:
             appearance:
               type: string
             background:
-              type: string
+              $ref: '#/components/schemas/AvatarBackground'
+            balance:
+              maximum: 3
+              minimum: -3
+              type: integer
+            conditions:
+              items:
+                enum:
+                  - afraid
+                  - angry
+                  - guilty
+                  - insecure
+                  - troubled
+                type: string
+              type: array
             creativity:
-              nullable: true
+              maximum: 4
+              minimum: -1
+              type: integer
+            demeanor:
+              type: string
+            era:
               type: string
             fatigue:
-              nullable: true
-              type: string
+              maximum: 5
+              minimum: 0
+              type: integer
             focus:
-              nullable: true
-              type: string
+              maximum: 4
+              minimum: -1
+              type: integer
             harmony:
-              nullable: true
-              type: string
+              maximum: 4
+              minimum: -1
+              type: integer
             history:
               nullable: true
               type: string
             name:
               type: string
             passion:
-              nullable: true
-              type: string
+              maximum: 4
+              minimum: -1
+              type: integer
+            playbook:
+              $ref: '#/components/schemas/AvatarPlaybook'
           required:
             - appearance
             - background
@@ -4202,8 +4626,231 @@ components:
             - history
             - id
             - passion
+            - playbook
             - name
           type: object
+    AvatarMove:
+      example:
+        description: |
+          When you reveal that you have sabotaged a building, device, or vehicle
+          right as it becomes relevant, mark fatigue and roll with Passion. On a
+          hit, your work pays off, creating an opportunity for you and your
+          allies at just the right time. On a 7–9, the opportunity is
+          fleeting—act fast to stay ahead of the consequences. On a miss, your
+          action was ill-judged and something or someone you care about is hurt
+          as collateral damage.
+        id: 'this-was-a-victory'
+        name: 'This Was a Victory'
+        page: 168
+        playbook: 'the-adamant'
+        ruleset: core
+        links:
+          self: 'https://commlink.digitaldarkness.com/api/avatar/moves/this-was-a-victory'
+          playbook: 'https://commlink.digitaldarkness.com/api/avatar/playbooks/the-adamant'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        playbook:
+          type: string
+        ruleset:
+          type: string
+        links:
+          properties:
+            playbook:
+              format: url
+              type: string
+            self:
+              format: url
+              type: string
+          required:
+            - playbook
+            - self
+          type: object
+      required:
+        - id
+        - name
+        - page
+        - playbook
+        - ruleset
+        - links
+      type: object
+    AvatarPlaybook:
+      example:
+        advanced_technique: 'pinpoint-aim'
+        balance_left: 'restraint'
+        balance_right: 'results'
+        base_stats:
+          creativity: 0
+          focus: 1
+          harmony: -1
+          passion: 1
+        demeanor_options:
+          - 'above-it-all'
+          - 'perfectionist'
+          - 'chilly'
+          - 'rebellious'
+          - 'flippant'
+          - 'standoffish'
+        description: |
+          A zealous advocate with a heart of gold and a diamond-hard will,
+          ready to do what it takes to fix the world. Their balance
+          principles are Restraint vs Results.
+        history:
+          - |
+            What experience of being deceived or manipulated convinced you
+            to steel yourself against being swayed by other people?
+        id: 'the-adamant'
+        moment_of_balance: |
+          You’ve held true to a core of conviction even while getting your hands
+          dirty to do what you deemed necessary. But balance means appreciating
+          that other people are just as complex as you are, not merely obstacles
+          or pawns. Tell the GM how you solve an intractable problem or calm a
+          terrible conflict by relating to dangerous people on a human level.
+        moves:
+          - id: 'this-was-a-victory'
+            name: 'This Was a Victory'
+            page: 168
+            playbook: 'The Adamant'
+            ruleset: core
+            links:
+              self: 'https://commlink.digitaldarkness.com/api/avatar/moves/this-was-a-victory'
+              playbook: 'https://commlink.digitaldarkness.com/api/avatar/playbooks/the-adamant'
+            description: |
+              When you reveal that you have sabotaged a building, device, or
+              vehicle right as it becomes relevant, mark fatigue and roll with
+              Passion. On a hit, your work pays off, creating an opportunity for
+              you and your allies at just the right time. On a 7–9, the
+              opportunity is fleeting—act fast to stay ahead of the consequences.
+              On a miss, your action was ill-judged and something or someone you
+              care about is hurt as collateral damage.
+        name: 'The Adamant'
+        page: 166
+        ruleset: 'core'
+        links:
+          self: 'https://commlink.digitaldarkness.com/api/avatar/playbooks/the-adamant'
+      properties:
+        advanced_technique:
+          type: string
+        balance_left:
+          type: string
+        balance_right:
+          type: string
+        base_stats:
+          properties:
+            creativity:
+              type: integer
+            focus:
+              type: integer
+            harmony:
+              type: integer
+            passion:
+              type: integer
+          required:
+            - creativity
+            - focus
+            - harmony
+            - passion
+          type: object
+        demeanor_options:
+          items:
+            type: string
+          type: array
+        description:
+          type: string
+        history:
+          items:
+            type: string
+          type: array
+        id:
+          type: string
+        moment_of_balance:
+          type: string
+        moves:
+          items:
+            $ref: '#/components/schemas/AvatarMove'
+          type: array
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - advanced_technique
+        - balance_left
+        - balance_right
+        - base_stats
+        - demeanor_options
+        - history
+        - id
+        - moment_of_balance
+        - moves
+        - name
+        - page
+        - ruleset
+        - links
+      type: object
+    AvatarStatus:
+      example:
+        description: |
+          Doomed is the status for when you’re drowning, or when you’re on fire,
+          or when the stone around you isn’t simply immobilizing you—it’s
+          crushing you. It represents a constant, ongoing pressure upon you,
+          causing you to mark fatigue at a steady rate until you are free. The
+          GM decides exactly how often you mark fatigue during play, unless
+          you’re in exchanges—then, you should mark 1-fatigue at the beginning
+          of each exchange. Remember that if you can’t mark more fatigue, you
+          mark conditions instead.
+
+          Much of the time, you can’t be Doomed unless you’re first Impaired, or
+          Impaired and Trapped. You won’t be drowning unless something holds you
+          in the water; you won’t be slowly crushed by rock without first being
+          trapped in rock. But sometimes it’s appropriate—your entire outfit,
+          head to toe, can be set on fire by an angry firebending master without
+          warning!
+        effect: 'negative'
+        id: 'doomed'
+        name: 'Doomed'
+        page: 151
+        ruleset: 'core'
+        short_description: 'You’re in grave danger—mark 1-fatigue every few seconds (or each exchange) until you free yourself.'
+        links:
+          self: 'https://commlink.digitaldarkness.com/api/avatar/statuses/doomed'
+      properties:
+        description:
+          type: string
+        effect:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        short_description:
+          type: string
+        links:
+          properties:
+            self:
+              format: uri
+              type: string
+          type: object
+      required:
+        - effect
+        - id
+        - name
+        - page
+        - ruleset
+        - links
+      type: object
     BlistercrittersCharacter:
       example:
         id: '667cda3b3dc4b0ecfa014d62'
@@ -4216,7 +4863,7 @@ components:
         owner: 'omni@digitaldarkness.com'
         system: 'blistercritters'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/blistercritters/characters/667cda3b3dc4b0ecfa014d62'
+          self: 'https://commlink.digitaldarkness.com/api/blistercritters/characters/667cda3b3dc4b0ecfa014d62'
       allOf:
         - $ref: '#/components/schemas/Character'
         - properties:
@@ -4248,7 +4895,7 @@ components:
           type: string
         system:
           type: string
-        _links:
+        links:
           $ref: '#/components/schemas/Links'
       type: object
     CampaignFull:
@@ -4418,7 +5065,7 @@ components:
           id: 3
           name: 'Omni A'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/capers/characters/6684584c4a56300f150627a3'
+          self: 'https://commlink.digitaldarkness.com/api/capers/characters/6684584c4a56300f150627a3'
       allOf:
         - $ref: '#/components/schemas/Character'
         - properties:
@@ -4638,6 +5285,45 @@ components:
               type: string
           type: object
       type: object
+    CyberpunkredArmor:
+      example:
+        id: 'leathers'
+        type: 'Leathers'
+        cost_category: 'Everyday'
+        description: 'Favored by Nomads and other ‘punks who ride bikes.'
+        page: 97
+        penalty: 0
+        ruleset: 'core'
+        stopping_power: 4
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/cyberpunkred/armor/leathers'
+      properties:
+        cost_category:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+        page:
+          type: integer
+        penalty:
+          type: integer
+        ruleset:
+          type: string
+        stopping_power:
+          type: integer
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - cost_category
+        - id
+        - page
+        - penalty
+        - ruleset
+        - stopping_power
+        - type
+        - links
+      type: object
     CyberpunkredCharacter:
       example:
         handle: 'Caleb'
@@ -4713,7 +5399,7 @@ components:
           owner: 'omni@digitaldarkness.com'
           system: 'cyberpunkred'
           links:
-            self: 'https://commlink-dev.digitaldarkness.com/api/cyberpunkred/characters/65776d7c77223955eee96ec1'
+            self: 'https://commlink.digitaldarkness.com/api/cyberpunkred/characters/65776d7c77223955eee96ec1'
         owner: 'omni@digitaldarkness.com'
         system: 'cyberpunkred'
       allOf:
@@ -4814,6 +5500,118 @@ components:
             willpower:
               type: integer
           type: object
+    CyberpunkredSkill:
+      example:
+        id: 'accounting'
+        attribute: 'intelligence'
+        category: 'Education'
+        description: |
+          Skill of balancing books, creating false books, and identifying them,
+          juggling numbers, creating budgets and handling day-to-day business
+          operations.
+        examples: |
+          At a Base 10, you can manage the books for a small company by yourself
+          and rarely make any clerical errors. At a Base 14, you can manage the
+          books for a medium-sized Corp and hide your embezzlement at the same
+          time. At a Base 18, you're a master at double entry and offshore
+          accounting that would make the best white collar criminals proud.
+          You'll probably be sought out by a Corp or a Crime Family to help them
+          with their operations.
+        name: 'Accounting'
+        page: 133
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/cyberpunkred/armor/accounting'
+      properties:
+        attribute:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        examples:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - attribute
+        - category
+        - name
+        - page
+        - id
+        - links
+      type: object
+    CyberpunkredWeapon:
+      example:
+        id: 'medium-melee'
+        type: 'Medium melee'
+        class: 'melee'
+        concealable: false
+        cost: 50
+        damage: '2d6'
+        examples:
+          poor: []
+          standard:
+            - 'Baseball bat'
+            - 'Crowbar'
+          excellent: []
+        hands_required: 1
+        rate_of_fire: 2
+        skill: 'melee-weapon'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/cyberpunkred/weapons/medium-melee'
+      properties:
+        class:
+          type: string
+        concealable:
+          type: boolean
+        cost:
+          type: integer
+        damage:
+          type: string
+        examples:
+          properties:
+            poor:
+              items:
+                type: string
+              type: array
+            standard:
+              items:
+                type: string
+              type: array
+            excellent:
+              items:
+                type: string
+              type: array
+          required:
+            - poor
+            - standard
+            - excellent
+          type: object
+        id:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        type:
+          type: string
+      required:
+        - class
+        - concealable
+        - cost
+        - damage
+        - examples
+        - hands_required
+        - id
+        - links
+        - rate_of_fire
+        - skill
+        - type
+      type: object
     Dnd5eCharacter:
       allOf:
         - $ref: '#/components/schemas/Character'
@@ -4923,7 +5721,7 @@ components:
           - 'improvisation'
           - 'maker'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/expanse/backgrounds/trade'
+          self: 'https://commlink.digitaldarkness.com/api/expanse/backgrounds/trade'
       properties:
         ability:
           description: Ability change that the background gives.
@@ -4981,7 +5779,7 @@ components:
             page: 47
             level: 1
             links:
-              self: 'https://commlink-dev.digitaldarkness.com/api/expanse/focuses/crafting'
+              self: 'https://commlink.digitaldarkness.com/api/expanse/focuses/crafting'
         background:
           ability: 'dexterity'
           focuses:
@@ -4994,7 +5792,7 @@ components:
             - 'improvisation'
             - 'maker'
           links:
-            self: 'https://commlink-dev.digitaldarkness.com/api/expanse/backgrounds/trade'
+            self: 'https://commlink.digitaldarkness.com/api/expanse/backgrounds/trade'
         downfall: 'Guilt'
         drive: 'Penitent'
         origin:
@@ -5032,7 +5830,7 @@ components:
           id: 4
           name: 'The Depths of Mars'
           links:
-            self: 'https://commlink-dev.digitaldarkness.com/api/campaigns/4'
+            self: 'https://commlink.digitaldarkness.com/api/campaigns/4'
         owner: 'omni@digitaldarkness.com'
         system: 'expanse'
         created_at: '2024-02-15T15:32:32.000000Z'
@@ -5094,7 +5892,7 @@ components:
         name: 'Deafened'
         page: 21
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/expanse/conditions/deafened'
+          self: 'https://commlink.digitaldarkness.com/api/expanse/conditions/deafened'
       properties:
         description:
           type: string
@@ -5122,7 +5920,7 @@ components:
         name: 'Gunnery'
         page: 47
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/expanse/focuses/gunnery'
+          self: 'https://commlink.digitaldarkness.com/api/expanse/focuses/gunnery'
       properties:
         attribute:
           type: string
@@ -5155,7 +5953,7 @@ components:
         id: 'lower'
         name: 'Lower Class'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/expanse/social-classes/lower'
+          self: 'https://commlink.digitaldarkness.com/api/expanse/social-classes/lower'
       properties:
         description:
           type: string
@@ -5195,7 +5993,7 @@ components:
           focus:
             - 'acrobatics'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/expanse/talents/affluent'
+          self: 'https://commlink.digitaldarkness.com/api/expanse/talents/affluent'
       properties:
         benefits:
           properties:
@@ -5368,6 +6166,177 @@ components:
         - id
         - name
       type: object
+    RootCharacter:
+      allOf:
+        - $ref: '#/components/schemas/Character'
+        - properties:
+            name:
+              type: string
+            meta:
+              properties:
+                look:
+                  nullable: true
+                  type: string
+                species:
+                  type: string
+              type: object
+            stats:
+              $ref: '#/components/schemas/RootStatsBlock'
+            moves:
+              items:
+                $ref: '#/components/schemas/RootMove'
+              type: array
+            nature:
+              $ref: '#/components/schemas/RootNature'
+            playbook:
+              $ref: '#/components/schemas/RootPlaybook'
+          required:
+            - id
+            - links
+            - meta
+            - moves
+            - name
+            - nature
+            - owner
+            - playbook
+            - stats
+            - system
+          type: object
+    RootMove:
+      example:
+        description: 'Take +1 to Might (max +3).'
+        effects:
+          might: 1
+        id: 'brute'
+        name: 'Brute'
+        links:
+          self: 'https://commlink.digitaldarkness.com/api/root/moves/brute'
+      properties:
+        description:
+          type: string
+        effects:
+          nullable: true
+          type: object
+        id:
+          type: string
+        name:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - effects
+        - id
+        - name
+        - links
+      type: object
+    RootNature:
+      example:
+        description: |
+          Clear your exhaustion track when you defend someone who cannot defend
+          themself from dire threat.
+        id: 'defender'
+        name: 'Defender'
+        links:
+          self: 'https://commlink.digitaldarkness.com/api/root/natures/defender'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - id
+        - name
+        - links
+      type: object
+    RootPlaybook:
+      example:
+        id: 'arbiter'
+        name: 'The Arbiter'
+        description_long: |
+          You are the Arbiter. A powerful, obstinate vagabond, serving as
+          somewhere between a mercenary and a protector, perhaps taking sides
+          too easily in the greater conflict between the factions.
+        description_short: |
+          a powerful warrior devoted to what they think is right and just.
+        moves:
+          - description: 'Take +1 to Might (max +3).'
+            effects:
+              might: 1
+            id: 'brute'
+            name: 'Brute'
+            links:
+              self: 'https://commlink.digitaldarkness.com/api/root/moves/brute'
+        natures:
+          - description: |
+              Clear your exhaustion track when you defend someone who
+              cannot defend themself from dire threat.
+            id: 'defender'
+            name: 'Defender'
+            links:
+              self: 'https://commlink.digitaldarkness.com/api/root/natures/defender'
+        stats:
+          charm: 1
+          cunning: 0
+          finesse: 0
+          luck: 0
+          might: 2
+        links:
+          self: 'https://commlink.digitaldarkness.com/api/root/playbooks/arbiter'
+      properties:
+        description_long:
+          type: string
+        description_short:
+          type: string
+        id:
+          type: string
+        moves:
+          items:
+            $ref: '#/components/schemas/RootMove'
+          type: array
+        name:
+          type: string
+        natures:
+          items:
+            $ref: '#/components/schemas/RootNature'
+          type: array
+        stats:
+          $ref: '#/components/schemas/RootStatsBlock'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - id
+        - name
+        - natures
+        - stats
+        - links
+      type: object
+    RootStat:
+      maximum: 2
+      minimum: -1
+      type: integer
+    RootStatsBlock:
+      properties:
+        charm:
+          $ref: '#/components/schemas/RootStat'
+        cunning:
+          $ref: '#/components/schemas/RootStat'
+        finesse:
+          $ref: '#/components/schemas/RootStat'
+        luck:
+          $ref: '#/components/schemas/RootStat'
+        might:
+          $ref: '#/components/schemas/RootStat'
+      required:
+        - charm
+        - cunning
+        - finesse
+        - luck
+        - might
+      type: object
     Rulebook:
       description: A rulebook for an RPG.
       example:
@@ -5391,7 +6360,7 @@ components:
         name: 'Core 5th Edition'
         required: true
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/rulebooks/core'
+          self: 'https://commlink.digitaldarkness.com/api/shadowrun5e/rulebooks/core'
       properties:
         default:
           description: Whether the book should be enabled by default for campaigns.
@@ -5442,7 +6411,7 @@ components:
         effects:
           items:
             type: object
-          type: array
+          type: object
         incompatible_with:
           items:
             type: string
@@ -5461,7 +6430,6 @@ components:
         - cost
         - description
         - id
-        - incompatible_with
         - name
         - links
       type: object
@@ -6270,7 +7238,7 @@ components:
         strength: 6
         willpower: 4
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/critters/barghest'
+          self: 'https://commlink.digitaldarkness.com/api/shadowrun5e/critters/barghest'
       properties:
         agility:
           type: integer
@@ -6367,7 +7335,7 @@ components:
         type: 'P'
         id: 'accident'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/critter-powers/accident'
+          self: 'https://commlink.digitaldarkness.com/api/shadowrun5e/critter-powers/accident'
       properties:
         action:
           enum:
@@ -6420,7 +7388,7 @@ components:
         page: 401
         ruleset: 'core'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/critter-weaknesses/allergy'
+          self: 'https://commlink.digitaldarkness.com/api/shadowrun5e/critter-weaknesses/allergy'
       properties:
         description:
           type: string
@@ -6466,7 +7434,7 @@ components:
         links:
           properties:
             self:
-              example: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/gear/activesoft-forgery-1'
+              example: 'https://commlink.digitaldarkness.com/api/shadowrun5e/gear/activesoft-forgery-1'
               format: url
               type: string
           type: object
@@ -6578,7 +7546,7 @@ components:
           - id: 'combat-knife'
         willpower: 3
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/grunts/pr-0'
+          self: 'https://commlink.digitaldarkness.com/api/shadowrun5e/grunts/pr-0'
       properties:
         agility:
           type: integer
@@ -6702,7 +7670,7 @@ components:
         page: 248
         ruleset: 'core'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/intrusion_countermeasures/acid'
+          self: 'https://commlink.digitaldarkness.com/api/shadowrun5e/intrusion_countermeasures/acid'
       properties:
         defense:
           type: string
@@ -7077,7 +8045,7 @@ components:
         page: 258
         ruleset: 'core'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/resonance-echoes/attack-upgrade'
+          self: 'https://commlink.digitaldarkness.com/api/shadowrun5e/resonance-echoes/attack-upgrade'
       properties:
         description:
           type: string
@@ -7918,7 +8886,7 @@ components:
         owner: 'omni@digitaldarkness.com'
         system: 'startrekadventures'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/startrekadventures/characters/5ecab94af4d90c95236cd77b'
+          self: 'https://commlink.digitaldarkness.com/api/startrekadventures/characters/5ecab94af4d90c95236cd77b'
       allOf:
         - $ref: '#/components/schemas/Character'
         - properties:
@@ -8088,7 +9056,7 @@ components:
         ruleset: 'core'
         type: 'advanced'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/stillfleet/powers/ally'
+          self: 'https://commlink.digitaldarkness.com/api/stillfleet/powers/ally'
       properties:
         advanced_list:
           description: What advanced list of powers the power can be added from.
@@ -8141,7 +9109,7 @@ components:
           ruleset: 'core'
           type: 'marquee'
           links:
-            self: 'https://commlink-dev.digitaldarkness.com/api/stillfleet/powers/tack'
+            self: 'https://commlink.digitaldarkness.com/api/stillfleet/powers/tack'
         optional_powers:
           - description: 'You can, with effort, actually pilot spacefaring vessels. Cost to command a vessel is based purely on its class (a combined 1–6 rating based on its size, complexity, and condition), with each point of vessel class costing 6 GRT. Burning this GRT grants you the ability to pilot or otherwise command the ship, within reason. (If the hyperdrive’s broke, it ain’t jumpin; mining vessels may not sport armament, etc.) While piloting, you are essentially stuck and unable to otherwise venture. You must pay the astrogation cost each time you chart a course into or out of a system, or each time the ship is damaged or upgraded. Doing anything with the ship other than moving from point A to B (firing weapons, scanning a mysterious craft, remotely salvaging damaged life support systems, etc.) requires relevant checks, typically REA or, in a dogfight, COM and MOV.'
             id: 'astrogate'
@@ -8150,7 +9118,7 @@ components:
             ruleset: 'core'
             type: 'class'
             links:
-              self: 'https://commlink-dev.digitaldarkness.com/api/stillfleet/powers/astrogate'
+              self: 'https://commlink.digitaldarkness.com/api/stillfleet/powers/astrogate'
         other_powers:
           - description: 'The ship is on fire—you have to get your party through the stuck bulkhead before the O2 combusts! (Or whatever!) This is your big getaway power. Burn 6 GRT and make a MOV check: if you succeed, you and some or all of your party make it out safely. You can bring 1 +your level humanoid-sized beings along with you to safety, or burn an additional 6 GRT to bring one additional being beyond your limit. Small sapient beings (0.5-M tall/long) count for half a slot; large sapes (3-M tall/long) count double; small pets (cat/beagle-sized) are free. If you fail your MOV check, you alone get away but injure yourself for 2d6 HEA damage.'
             id: 'dive'
@@ -8159,14 +9127,14 @@ components:
             ruleset: 'core'
             type: 'class'
             links:
-              self: 'https://commlink-dev.digitaldarkness.com/api/stillfleet/powers/dive'
+              self: 'https://commlink.digitaldarkness.com/api/stillfleet/powers/dive'
         responsibilities:
           - 'opening stiffworks (quantum gates connecting disparate points in timespaces)'
           - 'appraising and, as needed, repairing technologies discovered during the venture'
           - 'assisting the venture’s pir in the collection of technoscientific samples for the Archive'
         ruleset: 'core'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/stillfleet/roles/banshee'
+          self: 'https://commlink.digitaldarkness.com/api/stillfleet/roles/banshee'
       properties:
         description:
           type: string
@@ -8219,7 +9187,7 @@ components:
         page: 86
         ruleset: core
         links:
-          self: https://commlink-dev.digitaldarkness.com/api/subversion/backgrounds/agriculturist
+          self: https://commlink.digitaldarkness.com/api/subversion/backgrounds/agriculturist
       properties:
         description:
           type: string
@@ -8249,7 +9217,7 @@ components:
         page: 76
         ruleset: core
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/castes/lower-middle'
+          self: 'https://commlink.digitaldarkness.com/api/subversion/castes/lower-middle'
       properties:
         description:
           type: string
@@ -8279,7 +9247,7 @@ components:
           page: 86
           ruleset: 'core'
           links:
-            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/backgrounds/agriculturist'
+            self: 'https://commlink.digitaldarkness.com/api/subversion/backgrounds/agriculturist'
         brawn: 3
         caste:
           description: "You have enough income to cover the necessities and the occasional splurge, but little else. You wouldn't call your housing spacious, but at least it's yours. Your food tends towards the economical, but is broadly acceptable. You probably own a small electric commuter bike, and can afford a multiuser taxi service when you need it. Lawjacks are ambivalent to you as long as you don't cause trouble.||Lower-middle caste characters start with the normal amount of Fortune."
@@ -8289,7 +9257,7 @@ components:
           page: 76
           ruleset: 'core'
           links:
-            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/castes/lower-middle'
+            self: 'https://commlink.digitaldarkness.com/api/subversion/castes/lower-middle'
         charisma: 2
         grit_starting: 9
         id: '65fde97e178d3cca2e0224f3'
@@ -8301,7 +9269,7 @@ components:
           ruleset: 'core'
           value: 'I will strive to give everyone the ability to choose their own life absent of any external edicts or expectations.'
           links:
-            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/ideologies/neo-anarchist'
+            self: 'https://commlink.digitaldarkness.com/api/subversion/ideologies/neo-anarchist'
         lineage:
           description: 'Dwarves tend to be shorter and sturdier than most other lineages. While Dwarves are the most common lineage in Acape Anya, they are a common sight throughout the world.'
           id: 'dwarven'
@@ -8326,10 +9294,10 @@ components:
           page: 82
           ruleset: 'core'
           links:
-            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/lineages/dwarven'
+            self: 'https://commlink.digitaldarkness.com/api/subversion/lineages/dwarven'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/characters/65fde97e178d3cca2e0224f3'
-          owner: 'https://commlink-dev.digitaldarkness.com/users/3'
+          self: 'https://commlink.digitaldarkness.com/api/subversion/characters/65fde97e178d3cca2e0224f3'
+          owner: 'https://commlink.digitaldarkness.com/users/3'
         origin:
           description: 'The physically largest of the lineages, Yettin have historically congregated in their own communities in Altaiphera, and for much of history, integrated less with the surrounding cultures (and each other). This tradition has led to wide variance among different strains of Altaipheran culture, though most place an emphasis on the importance of tight-knit community and are influenced by rural life.||The UYC may have rebelled against the more warlike Altaipheran Yettin, but they share a common culture.'
           id: 'altaipheran'
@@ -8337,7 +9305,7 @@ components:
           page: 85
           ruleset: 'core'
           links:
-            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/origins/altaipheran'
+            self: 'https://commlink.digitaldarkness.com/api/subversion/origins/altaipheran'
         owner: 'omni@digitaldarkness.com'
         skills:
           - attributes:
@@ -8350,7 +9318,7 @@ components:
             rank: 2
             ruleset: 'core'
             links:
-              self: 'https://commlink-dev.digitaldarkness.com/api/subversion/skills/observation'
+              self: 'https://commlink.digitaldarkness.com/api/subversion/skills/observation'
         system: 'subversion'
         will: 3
         wit: 5
@@ -8409,7 +9377,7 @@ components:
         ruleset: core
         security_rating: 8
         links:
-          self: https://commlink-dev.digitaldarkness.com/api/subversion/gear/paylo
+          self: https://commlink.digitaldarkness.com/api/subversion/gear/paylo
       properties:
         category:
           type: string
@@ -8449,7 +9417,7 @@ components:
         ruleset: 'core'
         value: 'I will strive to give everyone the ability to choose their own life absent of any external edicts or expectations.'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/ideologies/neo-anarchist'
+          self: 'https://commlink.digitaldarkness.com/api/subversion/ideologies/neo-anarchist'
       properties:
         description:
           type: string
@@ -8493,7 +9461,7 @@ components:
             name: 'Intoxication'
         ruleset: 'core'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/impulses/indulgence'
+          self: 'https://commlink.digitaldarkness.com/api/subversion/impulses/indulgence'
       properties:
         description:
           type: string
@@ -8567,7 +9535,7 @@ components:
         page: 97
         ruleset: 'core'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/languages/altaipheran'
+          self: 'https://commlink.digitaldarkness.com/api/subversion/languages/altaipheran'
       properties:
         description:
           type: string
@@ -8600,7 +9568,7 @@ components:
         page: 82
         ruleset: 'core'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/lineages/dwarven'
+          self: 'https://commlink.digitaldarkness.com/api/subversion/lineages/dwarven'
       properties:
         description:
           type: string
@@ -8650,7 +9618,7 @@ components:
         page: 85
         ruleset: 'core'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/origins/altaipheran'
+          self: 'https://commlink.digitaldarkness.com/api/subversion/origins/altaipheran'
       properties:
         description:
           type: string
@@ -8683,7 +9651,7 @@ components:
         rank: null
         ruleset: 'core'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/skills/observation'
+          self: 'https://commlink.digitaldarkness.com/api/subversion/skills/observation'
       properties:
         attributes:
           items:
@@ -8926,7 +9894,7 @@ components:
           items:
             $ref: '#/components/schemas/Role'
           type: array
-        _links:
+        links:
           $ref: '#/components/schemas/Links'
       required:
         - characters
@@ -8937,7 +9905,7 @@ components:
         - name
         - playingIn
         - roles
-        - _links
+        - links
       type: object
     UserMinimal:
       nullable: true

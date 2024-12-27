@@ -4,45 +4,45 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\Models\Character;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\Permission\Models\Role;
 
 /**
+ * @phpstan-type Campaign array{
+ *     id: int,
+ *     links: array{
+ *         json: ?string,
+ *         html: ?string
+ *     },
+ *     name: string,
+ *     system: string
+ * }
  * @mixin User
  */
 class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
-     * @return array<string, array<int|string, array<string, mixed>|string>|int|string>
+     * @psalm-suppress UndefinedMagicPropertyFetch
+     * @return array{
+     *     characters: AnonymousResourceCollection,
+     *     email: string,
+     *     features: array<int, string>,
+     *     gmOf: array<int, Campaign>,
+     *     id: int,
+     *     name: string,
+     *     playingIn: array<int, Campaign>,
+     *     roles: array<int, array{id: int, name: string}>,
+     *     links: array{
+     *         self: string
+     *     }
+     * }
      */
     public function toArray(Request $request): array
     {
-        $characters = [];
-        /** @var Character $character */
-        foreach ($this->characters()->get() as $character) {
-            $characters[] = [
-                'id' => $character->id,
-                'name' => (string)$character,
-                'system' => $character->system,
-                'links' => [
-                    'json' => (string)url(sprintf(
-                        '/api/%s/characters/%s',
-                        $character->system,
-                        $character->id,
-                    )),
-                    'html' => (string)url(sprintf(
-                        '/characters/%s/%s',
-                        $character->system,
-                        $character->id,
-                    )),
-                ],
-            ];
-        }
-
         $gmedCampaigns = [];
         foreach ($this->campaignsGmed as $campaign) {
             $gmedCampaigns[] = [
@@ -73,13 +73,13 @@ class UserResource extends JsonResource
         /** @var Role $role */
         foreach ($this->roles as $role) {
             $roles[] = [
-                'id' => $role->id,
+                'id' => (int)$role->id,
                 'name' => $role->name,
             ];
         }
 
         return [
-            'characters' => $characters,
+            'characters' => CharacterResource::collection($this->characters()->get()),
             'email' => $this->email,
             'features' => $this->getFeatures(),
             'gmOf' => $gmedCampaigns,

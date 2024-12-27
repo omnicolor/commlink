@@ -14,7 +14,20 @@ use Modules\Dnd5e\Models\Character;
 class CharacterResource extends JsonResource
 {
     /**
-     * @return array<string, mixed>
+     * @return array{
+     *     id: string,
+     *     name: string,
+     *     campaign_id: null|int,
+     *     owner: array{
+     *         id: int,
+     *         name: string
+     *     },
+     *     system: string,
+     *     links: array{
+     *         self: string,
+     *         campaign?: string
+     *     }
+     * }
      */
     public function toArray(Request $request): array
     {

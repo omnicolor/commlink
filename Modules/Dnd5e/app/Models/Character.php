@@ -21,6 +21,7 @@ use function floor;
  * @property int $constitution
  * @property int $dexterity
  * @property int $intelligence
+ * @property string $name
  * @property string $owner
  * @property int $strength
  * @property string $system
