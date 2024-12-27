@@ -54,6 +54,7 @@
         "ext-random": "*",
         "ext-redis": "*",
         "ext-zip": "*",
+        "calebporzio/sushi": "^2.5",
         "captainhook/hook-installer": "^1.0",
         "fakerphp/faker": "^1.23",
         "guzzlehttp/guzzle": "^7.3",
@@ -98,7 +99,6 @@
         "roave/security-advisories": "dev-latest",
         "spatie/laravel-ignition": "^2.0",
         "squizlabs/php_codesniffer": "^3.6",
-        "vimeo/psalm": "dev-master",
         "worksome/envy": "^1.1"
     },
     "scripts": {
@@ -107,7 +107,6 @@
             "@phpcs",
             "@php-cs-fixer",
             "@phpstan",
-            "@psalm",
             "@coverage",
             "@lint-openapi"
         ],
@@ -123,7 +122,10 @@
             "Composer\\Config::disableProcessTimeout",
             "phpstan analyze"
         ],
-        "psalm": "psalm",
+        "prism": [
+            "Composer\\Config::disableProcessTimeout",
+            "node ./node_modules/@stoplight/prism-cli/dist/index.js proxy ./public/openapi.yml https://commlink-dev.digitaldarkness.com/api/"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
@@ -137,8 +139,7 @@
         ],
         "static": [
             "@lint",
-            "@phpstan",
-            "@psalm"
+            "@phpstan"
         ],
         "style": [
             "@phpcs",
@@ -155,8 +156,8 @@
         "php-cs-fixer": "Run php-cs-fixer",
         "phpcs": "Run PHPCodesniffer",
         "phpstan": "Run PHPstan",
-        "psalm": "Run Psalm",
-        "static": "Run static analysis (Lint, PHPStan, and Psalm)",
+        "prism": "Start a Stoplight Prism proxy for testing OpenAPI documentation versus actual responses",
+        "static": "Run static analysis (Lint and PHPStan)",
         "style": "Run PHPCodesniffer and php-cs-fixer",
         "test": "Run all unit/feature tests"
     },

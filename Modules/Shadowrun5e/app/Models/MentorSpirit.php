@@ -13,7 +13,6 @@ use function strtolower;
 
 /**
  * Mentor spirit class.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class MentorSpirit implements Stringable
 {
@@ -55,7 +54,6 @@ class MentorSpirit implements Stringable
     public function __construct(public string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'mentor-spirits.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$spirits ??= require $filename;
 
         $id = strtolower($id);
@@ -85,7 +83,6 @@ class MentorSpirit implements Stringable
     public static function findByName(string $name): MentorSpirit
     {
         $filename = config('shadowrun5e.data_path') . 'mentor-spirits.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$spirits ??= require $filename;
 
         foreach (self::$spirits as $id => $spirit) {

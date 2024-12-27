@@ -8,6 +8,7 @@ use RuntimeException;
 use Stringable;
 
 use function array_key_exists;
+use function array_keys;
 use function sprintf;
 use function strtolower;
 
@@ -28,7 +29,6 @@ abstract class Weapon implements Stringable
 
     /**
      * Whether the weapon can be concealed.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public bool $concealable;
 
@@ -39,7 +39,6 @@ abstract class Weapon implements Stringable
 
     /**
      * Single-shot/hit damage from the weapon.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $damage;
 
@@ -50,7 +49,6 @@ abstract class Weapon implements Stringable
      *     'standard' => ['Example 1'],
      *     'excellent' => ['Example 🔫'],
      * ].
-     * @psalm-suppress PossiblyUnusedProperty
      * @var array<string, array<int, string>>
      */
     public array $examples = [
@@ -61,7 +59,6 @@ abstract class Weapon implements Stringable
 
     /**
      * Number of hands required to wield the weapon.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public int $handsRequired;
 
@@ -79,13 +76,11 @@ abstract class Weapon implements Stringable
 
     /**
      * The weapon's rate of fire, how many shots you can take in a combat turn.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public int $rateOfFire;
 
     /**
      * ID of the skill used to fire the weapon.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $skill;
 
@@ -114,7 +109,6 @@ abstract class Weapon implements Stringable
     /**
      * Return the cost of the weapon, including quality modifier and
      * accessories.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getCost(): int
     {
@@ -149,13 +143,11 @@ abstract class Weapon implements Stringable
     {
         if (null === self::$rangedWeapons) {
             $filename = config('cyberpunkred.data_path') . 'ranged-weapons.php';
-            /** @psalm-suppress UnresolvableInclude */
             self::$rangedWeapons = require $filename;
         }
 
         if (null === self::$meleeWeapons) {
             $filename = config('cyberpunkred.data_path') . 'melee-weapons.php';
-            /** @psalm-suppress UnresolvableInclude */
             self::$meleeWeapons = require $filename;
         }
 
@@ -179,11 +171,9 @@ abstract class Weapon implements Stringable
     public static function findByName(string $name): Weapon
     {
         $filename = config('cyberpunkred.data_path') . 'ranged-weapons.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$rangedWeapons = require $filename;
 
         $filename = config('cyberpunkred.data_path') . 'melee-weapons.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$meleeWeapons = require $filename;
 
         $lowerName = strtolower($name);
@@ -199,5 +189,28 @@ abstract class Weapon implements Stringable
         }
 
         throw new RuntimeException(sprintf('Weapon "%s" was not found', $name));
+    }
+
+    /**
+     * @return array<int, self>
+     */
+    public static function all(): array
+    {
+        $filename = config('cyberpunkred.data_path') . 'ranged-weapons.php';
+        self::$rangedWeapons = require $filename;
+
+        $filename = config('cyberpunkred.data_path') . 'melee-weapons.php';
+        self::$meleeWeapons = require $filename;
+
+        $weapons = [];
+        /** @var string $id */
+        /** @var string $id */
+        foreach (array_keys(self::$meleeWeapons) as $id) {
+            $weapons[] = new MeleeWeapon(['id' => $id]);
+        }
+        foreach (array_keys(self::$rangedWeapons) as $id) {
+            $weapons[] = new RangedWeapon(['id' => $id]);
+        }
+        return $weapons;
     }
 }

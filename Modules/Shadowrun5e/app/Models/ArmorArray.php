@@ -16,7 +16,6 @@ class ArmorArray extends ArrayObject
     /**
      * Add an armor to the array.
      * @param Armor $armor
-     * @psalm-suppress ParamNameMismatch
      * @throws TypeError
      */
     public function offsetSet(mixed $index = null, $armor = null): void

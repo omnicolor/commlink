@@ -18,7 +18,6 @@ class ArmorModification implements Stringable
 {
     /**
      * Availability code for the modification.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public ?string $availability;
 
@@ -34,7 +33,6 @@ class ArmorModification implements Stringable
 
     /**
      * Description of the modification.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $description;
 
@@ -46,7 +44,6 @@ class ArmorModification implements Stringable
 
     /**
      * List of modifications this is incompatible with.
-     * @psalm-suppress PossiblyUnusedProperty
      * @var array<int, string>
      */
     public array $incompatibleWith = [];
@@ -58,13 +55,11 @@ class ArmorModification implements Stringable
 
     /**
      * Rating for the modification.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public ?int $rating;
 
     /**
      * Ruleset the modification comes from.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public string $ruleset = 'core';
 
@@ -82,7 +77,6 @@ class ArmorModification implements Stringable
     {
         $filename = config('shadowrun5e.data_path')
             . 'armor-modifications.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$modifications ??= require $filename;
 
         $id = strtolower($id);
@@ -132,7 +126,6 @@ class ArmorModification implements Stringable
     ): ArmorModification {
         $filename = config('shadowrun5e.data_path')
             . 'armor-modifications.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$modifications ??= require $filename;
 
         foreach (self::$modifications as $mod) {

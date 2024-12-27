@@ -12,15 +12,13 @@ use DirectoryIterator;
 use Error;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\View\View;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\PersonalAccessToken as Token;
 use Spatie\Permission\Models\Role;
 use Stringable;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class UsersController extends Controller
 {
     public function createToken(
@@ -66,9 +64,9 @@ class UsersController extends Controller
     /**
      * Get a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index(): AnonymousResourceCollection
     {
-        return new JsonResponse(UserResource::collection(User::all()));
+        return UserResource::collection(User::all());
     }
 
     /**
@@ -100,7 +98,6 @@ class UsersController extends Controller
                 case 'features':
                     try {
                         $feature = 'App\\Features\\' . $path[2];
-                        // @psalm-suppress TaintedCallable
                         $feature = new $feature();
                     } catch (Error) {
                         return new JsonResponse(

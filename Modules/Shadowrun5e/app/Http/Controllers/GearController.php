@@ -21,7 +21,6 @@ use function urlencode;
 
 /**
  * Controller for Shadowrun 5E gear.
- * @psalm-suppress UnusedClass
  */
 class GearController extends Controller
 {
@@ -36,9 +35,6 @@ class GearController extends Controller
      */
     protected array $gear;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
@@ -46,7 +42,6 @@ class GearController extends Controller
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/gear';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->gear = require $this->filename;
 
         $stat = stat($this->filename);
@@ -56,7 +51,6 @@ class GearController extends Controller
 
     /**
      * Get the entire collection of Shadowrun 5e gear.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -85,7 +79,6 @@ class GearController extends Controller
 
     /**
      * Return a single item.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $id): Response
     {

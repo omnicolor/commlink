@@ -30,7 +30,6 @@ use function sprintf;
 use function view;
 
 /**
- * @psalm-suppress UnusedClass
  * @phpstan-type Guild array{icon: ?string, name: string, snowflake: string}
  */
 class DiscordController extends Controller

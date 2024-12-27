@@ -20,7 +20,6 @@ use function urlencode;
 
 /**
  * Vehicle modifications for Shadowrun 5E controller.
- * @psalm-suppress UnusedClass
  */
 class VehicleModificationsController extends Controller
 {
@@ -35,9 +34,6 @@ class VehicleModificationsController extends Controller
      */
     protected array $mods;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
@@ -46,7 +42,6 @@ class VehicleModificationsController extends Controller
         $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = '/api/shadowrun5e/vehicle-modifications';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->mods = require $this->filename;
 
         $stat = stat($this->filename);
@@ -56,7 +51,6 @@ class VehicleModificationsController extends Controller
 
     /**
      * Return a collection of all modifications.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -80,7 +74,6 @@ class VehicleModificationsController extends Controller
 
     /**
      * Return a single vehicle modification.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $id): Response
     {

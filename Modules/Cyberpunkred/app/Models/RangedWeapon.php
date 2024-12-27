@@ -20,7 +20,6 @@ class RangedWeapon extends Weapon implements Stringable
 {
     /**
      * Number of rounds remaining in the magazine.
-     * @psalm-suppress PossiblyUnusedProperty
      */
     public int $ammoRemaining;
 

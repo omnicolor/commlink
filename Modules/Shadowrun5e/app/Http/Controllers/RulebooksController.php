@@ -19,7 +19,6 @@ use function strtolower;
 
 /**
  * Controller for Shadowrun rulebooks.
- * @psalm-suppress UnusedClass
  */
 class RulebooksController extends Controller
 {
@@ -34,15 +33,11 @@ class RulebooksController extends Controller
      */
     protected array $rulebooks;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct()
     {
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path') . 'rulebooks.php';
 
-        /** @psalm-suppress UnresolvableInclude */
         $this->rulebooks = require $this->filename;
 
         $stat = stat($this->filename);
@@ -52,7 +47,6 @@ class RulebooksController extends Controller
 
     /**
      * Get the entire collection of fifth edition rulebooks.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function index(): Response
     {
@@ -75,7 +69,6 @@ class RulebooksController extends Controller
 
     /**
      * Get a single fifth edition rulebook.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function show(string $id): Response
     {

@@ -103,9 +103,6 @@ class Character extends BaseCharacter implements Stringable
         return $this->name ?? 'Unnamed character';
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function agility(): Attribute
     {
         return Attribute::make(
@@ -123,9 +120,6 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function agilityUnmodified(): Attribute
     {
         return Attribute::make(
@@ -135,9 +129,6 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function armor(): Attribute
     {
         return Attribute::make(
@@ -167,9 +158,6 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function career(): Attribute
     {
         return Attribute::make(
@@ -189,9 +177,6 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function encumbrance(): Attribute
     {
         return Attribute::make(
@@ -210,9 +195,6 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function encumbranceMaximum(): Attribute
     {
         return Attribute::make(
@@ -222,9 +204,6 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function gear(): Attribute
     {
         return Attribute::make(
@@ -253,9 +232,6 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function healthMaximum(): Attribute
     {
         return Attribute::make(
@@ -265,9 +241,6 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function injuries(): Attribute
     {
         return Attribute::make(
@@ -298,9 +271,6 @@ class Character extends BaseCharacter implements Stringable
         return CharacterFactory::new();
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function skills(): Attribute
     {
         return Attribute::make(
@@ -349,9 +319,6 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function talents(): Attribute
     {
         return Attribute::make(
@@ -375,9 +342,6 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function weapons(): Attribute
     {
         return Attribute::make(

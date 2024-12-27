@@ -11,7 +11,6 @@ use function sprintf;
 class Origin
 {
     public string $description;
-    /** @psalm-suppress PossiblyUnusedProperty */
     public string $more;
     public string $name;
     public int $page;
@@ -25,7 +24,6 @@ class Origin
     public function __construct(public string $id)
     {
         $filename = config('subversion.data_path') . 'origins.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$origins ??= require $filename;
 
         if (!isset(self::$origins[$id])) {
@@ -51,7 +49,6 @@ class Origin
     public static function all(): array
     {
         $filename = config('subversion.data_path') . 'origins.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$origins ??= require $filename;
 
         $origins = [];

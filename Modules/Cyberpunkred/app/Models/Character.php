@@ -46,15 +46,15 @@ use function ksort;
  * @property int $improvement_points
  * @property int $improvement_points_current
  * @property int $intelligence
- * @property array<string, array<string, int>> $lifepath
+ * @property array<string, string> $lifepath
  * @property int $luck
  * @property int $luck_current
  * @property int $movement
  * @property int $reflexes
  * @property int $reputation
- * @property array<int, array<string, int|string>> $roles
+ * @property array<int, array{role: string, rank: int, type?: int}> $roles
  * @property array<string, int<1, max>> $skills
- * @property array<int, array<string, int|string>> $skills_custom
+ * @property array<int, array{type: string, name: string, level: int}> $skills_custom
  * @property int $technique
  * @property array<int, array<string, int|string>> $weapons
  * @property int $willpower
@@ -141,9 +141,6 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function armor(): Attribute
     {
         return Attribute::make(
@@ -174,7 +171,6 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Return the character's death save attribute.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function deathSave(): Attribute
     {
@@ -187,7 +183,6 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Return the character's calculated empathy.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function empathy(): Attribute
     {
@@ -200,7 +195,6 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Return the character's original empathy.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getEmpathyOriginalAttribute(): int
     {
@@ -222,7 +216,6 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Return the character's remaining humanity.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getHumanityAttribute(): int
     {
@@ -231,7 +224,6 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Get the character's roles.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getRoles(): RoleArray
     {
@@ -255,7 +247,6 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Get the character's seriously wounded threshold.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getSeriouslyWoundedThresholdAttribute(): int
     {
@@ -264,7 +255,6 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Get the skills the character has ranks in.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getSkills(): SkillArray
     {
@@ -292,7 +282,6 @@ class Character extends BaseCharacter implements Stringable
     public function getAllSkills(): SkillArray
     {
         $filename = config('cyberpunkred.data_path') . 'skills.php';
-        /** @psalm-suppress UnresolvableInclude */
         $rawSkills = require $filename;
         $skills = new SkillArray();
         /** @var string $id */
@@ -308,7 +297,6 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Get skills grouped by category.
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, SkillArray>
      */
     public function getSkillsByCategory(): array
@@ -327,7 +315,6 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Return the character's weapons.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getWeapons(?string $type = null): WeaponArray
     {

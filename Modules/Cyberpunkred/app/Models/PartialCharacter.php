@@ -12,6 +12,7 @@ use Stringable;
 /**
  * Representation of a character currently being built.
  * @method static self create(array<mixed, mixed> $attributes)
+ * @property array<string, array{rolled: int, chosen: int}> $lifepath
  */
 class PartialCharacter extends Character implements Stringable
 {
@@ -53,6 +54,7 @@ class PartialCharacter extends Character implements Stringable
         if (isset($this->lifepath)) {
             return;
         }
+        // @phpstan-ignore assign.propertyType
         $this->lifepath = [
             'affectation' => $this->createSubLifepathValue(),
             'background' => $this->createSubLifepathValue(),
@@ -71,7 +73,6 @@ class PartialCharacter extends Character implements Stringable
 
     /**
      * Store both what we roll for the user and what they choose for the value.
-     * @psalm-suppress UndefinedClass
      * @return array<string, int>
      */
     protected function createSubLifepathValue(): array

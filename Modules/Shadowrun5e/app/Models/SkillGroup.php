@@ -24,7 +24,6 @@ class SkillGroup implements Stringable
 
     /**
      * Skills that are part of the group.
-     * @psalm-suppress PossiblyUnusedProperty
      * @var array<int, ActiveSkill>
      */
     public array $skills;
@@ -42,7 +41,6 @@ class SkillGroup implements Stringable
     {
         if (!isset(self::$skillGroups)) {
             $filename = config('shadowrun5e.data_path') . 'skills.php';
-            /** @psalm-suppress UnresolvableInclude */
             $skills = require $filename;
 
             foreach ($skills as $skill) {

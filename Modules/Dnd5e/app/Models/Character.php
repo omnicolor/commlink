@@ -21,6 +21,7 @@ use function floor;
  * @property int $constitution
  * @property int $dexterity
  * @property int $intelligence
+ * @property string $name
  * @property string $owner
  * @property int $strength
  * @property string $system
@@ -110,7 +111,6 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Return the character's armor class.
-     * @psalm-suppress PossiblyUnusedMethod
      * @throws OutOfRangeException If the character's dexterity is invalid
      * @throws RuntimeException If the character's dexterity isn't set
      */
@@ -121,7 +121,6 @@ class Character extends BaseCharacter implements Stringable
 
     protected static function newFactory(): Factory
     {
-        // @psalm-suppress UndefinedClass
         return CharacterFactory::new();
     }
 }

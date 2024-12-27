@@ -14,7 +14,6 @@ use function strtolower;
 
 /**
  * Something to add to a vehicle.
- * @psalm-suppress PossiblyUnusedProperty
  */
 class VehicleModification implements Stringable
 {
@@ -117,7 +116,6 @@ class VehicleModification implements Stringable
     {
         $filename = config('shadowrun5e.data_path')
             . 'vehicle-modifications.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$all_modifications ??= require $filename;
 
         $id = strtolower($id);
@@ -210,7 +208,6 @@ class VehicleModification implements Stringable
     /**
      * Get the number of slots this modification takes up, including any
      * additional modifications to it.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function getSlots(): ?int
     {
@@ -228,7 +225,6 @@ class VehicleModification implements Stringable
     /**
      * If the modification has any requirements, test them on a vehicle to
      * determine whether they're allowed.
-     * @psalm-suppress PossiblyUnusedMethod
      */
     public function isAllowed(Vehicle $vehicle): bool
     {

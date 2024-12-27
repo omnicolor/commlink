@@ -7,19 +7,26 @@ namespace Modules\Alien\Http\Resources;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Resources\MissingValue;
 use Modules\Alien\Models\Talent;
 
 /**
  * @mixin Talent
- * @psalm-suppress UnusedClass
  */
 class TalentResource extends JsonResource
 {
     /**
-     * @psalm-suppress InvalidReturnStatement
-     * @psalm-suppress InvalidReturnType
-     * @return array<string, array<string, MissingValue|array<string, string>|int|mixed|string>>
+     * @return array{
+     *     career: null|string,
+     *     description?: string,
+     *     id: string,
+     *     name: string,
+     *     page: int,
+     *     ruleset: string,
+     *     links: array{
+     *         self: string,
+     *         career: string
+     *     }
+     * }
      */
     public function toArray(Request $request): array
     {

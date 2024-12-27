@@ -15,9 +15,6 @@ use function sprintf;
 
 use const PHP_EOL;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Trauma extends Roll
 {
     /** @var int<1, 6> */
@@ -33,7 +30,6 @@ class Trauma extends Roll
 
         /**
          * @var int<1, 6>
-         * @psalm-suppress UndefinedClass
          */
         $roll = DiceService::rollOne(6);
 

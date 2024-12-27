@@ -15,7 +15,6 @@ use function array_values;
 
 /**
  * @mixin Character
- * @psalm-suppress UnusedClass
  */
 class CharacterResource extends JsonResource
 {

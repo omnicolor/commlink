@@ -58,7 +58,6 @@ use const PHP_EOL;
 
 /**
  * Importer class for Hero Lab Shadowrun 5E profiles.
- * @psalm-suppress UnusedClass
  */
 class Shadowrun5eConverter implements ConverterInterface
 {
@@ -238,7 +237,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Extract the portfolio to the temporary directory.
-     * @psalm-suppress PossiblyFalseArgument
      * @throws RuntimeException
      */
     protected function extractArchive(string $filename): void
@@ -276,7 +274,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse the XML and text files from the portfolio.
-     * @psalm-suppress InvalidPropertyFetch
      * @throws RuntimeException
      */
     protected function parseFiles(): void
@@ -481,7 +478,6 @@ class Shadowrun5eConverter implements ConverterInterface
      */
     protected function parseSpecializations(SimpleXMLElement $skill): array
     {
-        /** @psalm-suppress TypeDoesNotContainType */
         if (!isset($skill->specialization)) {
             return [];
         }
@@ -546,7 +542,6 @@ class Shadowrun5eConverter implements ConverterInterface
             /**
              * Psalm thinks the array can never be empty, but not every skill
              * has a specialization.
-             * @psalm-suppress RedundantCondition
              */
             if (0 !== count($specializations)) {
                 $specializations = implode(',', $specializations);
@@ -1049,7 +1044,6 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Parse the character's contacts.
-     * @psalm-suppress PossiblyUnusedParam
      */
     protected function parseJournals(
         SimpleXMLElement $journals

@@ -15,7 +15,11 @@ use Modules\Capers\Models\Boost;
 class BoostResource extends JsonResource
 {
     /**
-     * @return array<string, mixed>
+     * @return array{
+     *     name: string,
+     *     description?: string,
+     *     id: string
+     * }
      */
     public function toArray(Request $request): array
     {

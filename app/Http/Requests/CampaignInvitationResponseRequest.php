@@ -8,14 +8,8 @@ use App\Models\Campaign;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class CampaignInvitationResponseRequest extends FormRequest
 {
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function authorize(): bool
     {
         /** @var Campaign */
@@ -26,7 +20,6 @@ class CampaignInvitationResponseRequest extends FormRequest
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedMethod
      * @return array<string, array<int, string>>
      */
     public function rules(): array

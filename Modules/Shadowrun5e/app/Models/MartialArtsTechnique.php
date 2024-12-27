@@ -14,7 +14,6 @@ use function strtolower;
 /**
  * Martial arts technique.
  * @property string $id
- * @psalm-suppress PossiblyUnusedProperty
  */
 class MartialArtsTechnique implements Stringable
 {
@@ -56,7 +55,6 @@ class MartialArtsTechnique implements Stringable
     {
         $filename = config('shadowrun5e.data_path')
             . 'martial-arts-techniques.php';
-        /** @psalm-suppress UnresolvableInclude */
         self::$techniques ??= require $filename;
 
         $id = strtolower($id);

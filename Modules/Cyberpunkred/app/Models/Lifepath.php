@@ -6,9 +6,6 @@ namespace Modules\Cyberpunkred\Models;
 
 use RuntimeException;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class Lifepath
 {
     /**

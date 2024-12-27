@@ -6,18 +6,31 @@ namespace Modules\Alien\Http\Resources;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Resources\MissingValue;
 use Modules\Alien\Models\Career;
+use Modules\Alien\Models\Skill;
+use Modules\Alien\Models\Talent;
 
 /**
  * @mixin Career
- * @psalm-suppress UnusedClass
  */
 class CareerResource extends JsonResource
 {
     /**
-     * @return array<string, array<string, MissingValue|array<string, string>|int|mixed|string>>
+     * @return array{
+     *     description?: string,
+     *     key_attribute: string,
+     *     key_skills: AnonymousResourceCollection<Skill>,
+     *     id: string,
+     *     name: string,
+     *     page: int,
+     *     ruleset: string,
+     *     talents: AnonymousResourceCollection<Talent>,
+     *     links: array{
+     *         self: string
+     *     }
+     * }
      */
     public function toArray(Request $request): array
     {

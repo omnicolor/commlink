@@ -14,14 +14,8 @@ use Modules\Startrekadventures\Models\Character;
 
 use function view;
 
-/**
- * @psalm-suppress UnusedClass
- */
 class CharactersController extends Controller
 {
-    /**
-     * @psalm-suppress PossiblyUnusedReturnValue
-     */
     public function list(Request $request): View
     {
         /** @var User */
@@ -33,9 +27,6 @@ class CharactersController extends Controller
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function index(Request $request): JsonResource
     {
         $user = $request->user();
@@ -44,9 +35,6 @@ class CharactersController extends Controller
         );
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function show(Request $request, string $identifier): JsonResource
     {
         /** @var User */

@@ -20,7 +20,6 @@ use function sprintf;
 
 /**
  * Handle a user requesting to link a Discord channel to Commlink.
- * @psalm-suppress UnusedClass
  */
 class RegisterResponse implements Stringable
 {

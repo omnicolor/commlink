@@ -93,7 +93,10 @@ final class CharacterControllerTest extends TestCase
             ->assertJsonFragment([
                 'id' => $character2->_id,
                 'handle' => $character2->handle,
-                'owner' => $user->email,
+                'owner' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                ],
                 'system' => 'cyberpunkred',
             ]);
 
@@ -122,6 +125,9 @@ final class CharacterControllerTest extends TestCase
             'lifepath' => [
                 'what-valued' => 'Cold, hard eddies',
             ],
+            'weapons' => [
+                ['id' => 'medium-melee'],
+            ],
         ]);
 
         self::actingAs($user)
@@ -130,7 +136,10 @@ final class CharacterControllerTest extends TestCase
             ->assertJsonFragment([
                 'id' => $character->_id,
                 'handle' => $character->handle,
-                'owner' => $user->email,
+                'owner' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                ],
                 'system' => 'cyberpunkred',
             ]);
 
