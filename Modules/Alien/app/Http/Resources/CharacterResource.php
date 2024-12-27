@@ -7,8 +7,12 @@ namespace Modules\Alien\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Resources\MissingValue;
 use Modules\Alien\Models\Character;
+use Modules\Alien\Models\Gear;
+use Modules\Alien\Models\Injury;
+use Modules\Alien\Models\Skill;
+use Modules\Alien\Models\Talent;
+use Modules\Alien\Models\Weapon;
 
 /**
  * @mixin Character
@@ -17,40 +21,40 @@ class CharacterResource extends JsonResource
 {
     /**
      * @return array{
-     *   name: string,
-     *   stats: array{
-     *     agility: int,
-     *     empathy: int,
-     *     strength: int,
-     *     wits: int
-     *   },
-     *   appearance: ?string,
-     *   armor: ArmorResource,
-     *   buddy: string,
-     *   career: CareerResource,
-     *   cash: int,
-     *   encumbrance: int,
-     *   encumbrance_maximum: int,
-     *   gear: AnonymousResourceCollection,
-     *   health_current: int,
-     *   health_maximum: int,
-     *   injuries: AnonymousResourceCollection,
-     *   radiation: int,
-     *   rival: string,
-     *   skills: AnonymousResourceCollection,
-     *   talents: AnonymousResourceCollection,
-     *   weapons: AnonymousResourceCollection,
-     *   id: string,
-     *   campaign_id: MissingValue|integer,
-     *   system: string,
-     *   owner: array{
-     *     id: integer,
-     *     name: string
-     *   },
-     *   links: array{
-     *     self: string,
-     *     campaign: MissingValue|string
-     *   }
+     *     name: string,
+     *     stats: array{
+     *         agility: int,
+     *         empathy: int,
+     *         strength: int,
+     *         wits: int
+     *     },
+     *     appearance: ?string,
+     *     armor: ArmorResource,
+     *     buddy: string,
+     *     career: CareerResource,
+     *     cash: int,
+     *     encumbrance: int,
+     *     encumbrance_maximum: int,
+     *     gear: AnonymousResourceCollection<Gear>,
+     *     health_current: int,
+     *     health_maximum: int,
+     *     injuries: AnonymousResourceCollection<Injury>,
+     *     radiation: int,
+     *     rival: string,
+     *     skills: AnonymousResourceCollection<Skill>,
+     *     talents: AnonymousResourceCollection<Talent>,
+     *     weapons: AnonymousResourceCollection<Weapon>,
+     *     id: string,
+     *     campaign_id: integer,
+     *     system: string,
+     *     owner: array{
+     *         id: integer,
+     *         name: string
+     *     },
+     *     links: array{
+     *         self: string,
+     *         campaign?: string
+     *     }
      * }
      */
     public function toArray(Request $request): array
