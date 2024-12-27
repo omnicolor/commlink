@@ -1,4 +1,3 @@
----
 openapi: 3.0.3
 info:
   title: Commlink
@@ -46,6 +45,8 @@ tags:
     description: Commlink's interactive functions
   - name: meta
     description: Information about the service itself
+  - name: root
+    description: Root RPG
   - name: shadowrun
     description: Shadowrun RPG
   - name: startrekadventures
@@ -198,11 +199,11 @@ paths:
                     text: "Rolled 1 success"
                     title: "Ripley succeeded with 6 dice for Heavy machinery (0+5+1)"
                   links:
-                    character: "https://commlink-dev.digitaldarkness.com/api/alien/characters/6697e43d245ac6b4f2032432"
-                    campaign: "https://commlink-dev.digitaldarkness.com/api/campaigns/9"
-                    self: "https://commlink-dev.digitaldarkness.com/api/alien/roll/b3e151db-6434-4170-a9d6-9f181f6a4755"
+                    character: "https://commlink.digitaldarkness.com/api/alien/characters/6697e43d245ac6b4f2032432"
+                    campaign: "https://commlink.digitaldarkness.com/api/campaigns/9"
+                    self: "https://commlink.digitaldarkness.com/api/alien/roll/b3e151db-6434-4170-a9d6-9f181f6a4755"
                     pushes:
-                      - "https://commlink-dev.digitaldarkness.com/api/alien/roll/a3ca4dac-911f-419e-a6b9-85a498261c9a"
+                      - "https://commlink.digitaldarkness.com/api/alien/roll/a3ca4dac-911f-419e-a6b9-85a498261c9a"
                 properties:
                   data:
                     $ref: '#/components/schemas/AlienRollResult'
@@ -227,9 +228,7 @@ paths:
                           type: string
                         type: array
                       self:
-                        description: |
-                          Link to this roll, which can be interacted with to
-                          push.
+                        description: Link to this roll, which can be interacted with to push.
                         format: url
                         type: string
                     required:
@@ -276,8 +275,7 @@ paths:
                         format: url
                         type: string
                       campaign:
-                        description: |
-                          Link to the campaign the character belongs to.
+                        description: Link to the campaign the character belongs to.
                         format: url
                         type: string
                       parent:
@@ -291,9 +289,7 @@ paths:
                           type: string
                         type: array
                       self:
-                        description: |
-                          Link to this roll, which can be interacted with to
-                          push.
+                        description: Link to this roll, which can be interacted with to push.
                         format: url
                         type: string
                     required:
@@ -339,10 +335,10 @@ paths:
                     text: "Rolled 1 success"
                     title: "Ripley succeeded with 6 dice for Heavy machinery (0+5+1)"
                   links:
-                    character: "https://commlink-dev.digitaldarkness.com/api/alien/characters/6697e43d245ac6b4f2032432"
-                    campaign: "https://commlink-dev.digitaldarkness.com/api/campaigns/9"
-                    self: "https://commlink-dev.digitaldarkness.com/api/alien/roll/b3e151db-6434-4170-a9d6-9f181f6a4755"
-                    parent: "https://commlink-dev.digitaldarkness.com/api/alien/roll/a3ca4dac-911f-419e-a6b9-85a498261c9a"
+                    character: "https://commlink.digitaldarkness.com/api/alien/characters/6697e43d245ac6b4f2032432"
+                    campaign: "https://commlink.digitaldarkness.com/api/campaigns/9"
+                    self: "https://commlink.digitaldarkness.com/api/alien/roll/b3e151db-6434-4170-a9d6-9f181f6a4755"
+                    parent: "https://commlink.digitaldarkness.com/api/alien/roll/a3ca4dac-911f-419e-a6b9-85a498261c9a"
                 properties:
                   data:
                     $ref: '#/components/schemas/AlienRollResult'
@@ -391,9 +387,9 @@ paths:
                     roll:
                       - "The roll has already been pushed."
                   links:
-                    self: "https://commlink-dev.digitaldarkness.com/api/alien/roll/b3e151db-6434-4170-a9d6-9f181f6a4755"
+                    self: "https://commlink.digitaldarkness.com/api/alien/roll/b3e151db-6434-4170-a9d6-9f181f6a4755"
                     pushes:
-                      - "https://commlink-dev.digitaldarkness.com/api/alien/roll/a3ca4dac-911f-419e-a6b9-85a498261c9a"
+                      - "https://commlink.digitaldarkness.com/api/alien/roll/a3ca4dac-911f-419e-a6b9-85a498261c9a"
                 properties:
                   message:
                     type: string
@@ -2155,6 +2151,91 @@ paths:
                 type: object
       tags:
         - interactivity
+  /root/characters:
+    get:
+      summary: All Root RPG characters
+      description: Return Root RPG characters.
+      operationId: root-characters-index
+      responses:
+        '200':
+          description: Collection of the user's Root characters.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/RootCharacter'
+                    type: array
+                required:
+                  - data
+                type: object
+      tags:
+        - character
+        - root
+  /root/moves:
+    get:
+      summary: All Root RPG moves
+      description: Root moves.
+      operationId: root-moves-index
+      responses:
+        '200':
+          description: Collection of possibly Root moves from playbooks.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/RootMove'
+                    type: array
+                required:
+                  - data
+                type: object
+      tags:
+        - root
+  /root/natures:
+    get:
+      summary: All Root RPG natures
+      description: Return Root RPG natures.
+      operationId: root-natures-index
+      responses:
+        '200':
+          description: Collection of possible Root natures from playbooks.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/RootNature'
+                    type: array
+                required:
+                  - data
+                type: object
+      tags:
+        - root
+  /root/playbooks:
+    get:
+      summary: All Root RPG playbooks
+      description: Return Root RPG playbooks.
+      operationId: root-playbooks-index
+      responses:
+        '200':
+          description: Collection of Root RPG playbooks.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/RootPlaybook'
+                    type: array
+                required:
+                  - data
+                type: object
+      tags:
+        - root
   /shadowrun5e/adept-powers:
     get:
       summary: Shadowrun 5E adept powers
@@ -3778,7 +3859,7 @@ components:
         ruleset: 'core'
         weight: 2
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/alien/armor/irc-mk-35-pressure-suit'
+          self: 'https://commlink.digitaldarkness.com/api/alien/armor/irc-mk-35-pressure-suit'
       properties:
         air_supply:
           type: integer
@@ -3860,7 +3941,7 @@ components:
             stunts:
               - 'You inflict one more point of damage. You can choose this stunt multiple times, if you roll several successes.'
             links:
-              self: 'https://commlink-dev.digitaldarkness.com/api/alien/skills/close-combat'
+              self: 'https://commlink.digitaldarkness.com/api/alien/skills/close-combat'
         id: 'colonial-marine'
         name: 'Colonial marine'
         page: 38
@@ -3878,10 +3959,10 @@ components:
             page: 74
             ruleset: 'core'
             links:
-              self: 'https://commlink-dev.digitaldarkness.com/api/alien/talents/banter'
-              career: 'https://commlink-dev.digitaldarkness.com/api/alien/careers/colonial-marine'
+              self: 'https://commlink.digitaldarkness.com/api/alien/talents/banter'
+              career: 'https://commlink.digitaldarkness.com/api/alien/careers/colonial-marine'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/alien/careers/colonial-marine'
+          self: 'https://commlink.digitaldarkness.com/api/alien/careers/colonial-marine'
       properties:
         description:
           type: string
@@ -4039,7 +4120,7 @@ components:
         roll: 31
         time_limit: null
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/alien/injuries/broken-nose'
+          self: 'https://commlink.digitaldarkness.com/api/alien/injuries/broken-nose'
       properties:
         death_roll_modifier:
           nullable: true
@@ -4159,7 +4240,7 @@ components:
         stunts:
           - 'Gain a +1 modification to a later skill roll relating to this one.'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/alien/skills/heavy-machinery'
+          self: 'https://commlink.digitaldarkness.com/api/alien/skills/heavy-machinery'
       properties:
         attribute:
           type: string
@@ -4205,8 +4286,8 @@ components:
         page: 77
         ruleset: 'core'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/alien/talents/analysis'
-          career: 'https://commlink-dev.digitaldarkness.com/api/alien/careers/scientist'
+          self: 'https://commlink.digitaldarkness.com/api/alien/talents/analysis'
+          career: 'https://commlink.digitaldarkness.com/api/alien/careers/scientist'
       properties:
         career:
           type: string
@@ -4261,7 +4342,7 @@ components:
         ruleset: 'core'
         weight: 0.5
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/alien/weapons/rexim-rxf-m5-eva-pistol'
+          self: 'https://commlink.digitaldarkness.com/api/alien/weapons/rexim-rxf-m5-eva-pistol'
       properties:
         bonus:
           type: integer
@@ -4385,8 +4466,8 @@ components:
               playbook: 'The Adamant'
               ruleset: core
               links:
-                self: 'https://commlink-dev.digitaldarkness.com/api/avatar/moves/this-was-a-victory'
-                playbook: 'https://commlink-dev.digitaldarkness.com/api/avatar/playbooks/the-adamant'
+                self: 'https://commlink.digitaldarkness.com/api/avatar/moves/this-was-a-victory'
+                playbook: 'https://commlink.digitaldarkness.com/api/avatar/playbooks/the-adamant'
               description: |
                 When you reveal that you have sabotaged a building, device, or
                 vehicle right as it becomes relevant, mark fatigue and roll with
@@ -4400,15 +4481,15 @@ components:
           page: 166
           ruleset: 'core'
           links:
-            self: 'https://commlink-dev.digitaldarkness.com/api/avatar/playbooks/the-adamant'
+            self: 'https://commlink.digitaldarkness.com/api/avatar/playbooks/the-adamant'
         id: '667ee7f8246ccb219839df35'
         owner:
           id: 3
           name: 'Omni A'
         system: 'avatar'
         links:
-          playbook: 'https://commlink-dev.digitaldarkness.com/api/avatar/playbooks/the-adamant'
-          self: 'https://commlink-dev.digitaldarkness.com/api/avatar/characters/667ee7f8246ccb219839df35'
+          playbook: 'https://commlink.digitaldarkness.com/api/avatar/playbooks/the-adamant'
+          self: 'https://commlink.digitaldarkness.com/api/avatar/characters/667ee7f8246ccb219839df35'
       allOf:
         - $ref: '#/components/schemas/Character'
         - properties:
@@ -4490,8 +4571,8 @@ components:
         playbook: 'the-adamant'
         ruleset: core
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/avatar/moves/this-was-a-victory'
-          playbook: 'https://commlink-dev.digitaldarkness.com/api/avatar/playbooks/the-adamant'
+          self: 'https://commlink.digitaldarkness.com/api/avatar/moves/this-was-a-victory'
+          playbook: 'https://commlink.digitaldarkness.com/api/avatar/playbooks/the-adamant'
       properties:
         description:
           type: string
@@ -4562,8 +4643,8 @@ components:
             playbook: 'The Adamant'
             ruleset: core
             links:
-              self: 'https://commlink-dev.digitaldarkness.com/api/avatar/moves/this-was-a-victory'
-              playbook: 'https://commlink-dev.digitaldarkness.com/api/avatar/playbooks/the-adamant'
+              self: 'https://commlink.digitaldarkness.com/api/avatar/moves/this-was-a-victory'
+              playbook: 'https://commlink.digitaldarkness.com/api/avatar/playbooks/the-adamant'
             description: |
               When you reveal that you have sabotaged a building, device, or
               vehicle right as it becomes relevant, mark fatigue and roll with
@@ -4576,7 +4657,7 @@ components:
         page: 166
         ruleset: 'core'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/avatar/playbooks/the-adamant'
+          self: 'https://commlink.digitaldarkness.com/api/avatar/playbooks/the-adamant'
       properties:
         advanced_technique:
           type: string
@@ -4666,7 +4747,7 @@ components:
         ruleset: 'core'
         short_description: 'You’re in grave danger—mark 1-fatigue every few seconds (or each exchange) until you free yourself.'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/avatar/statuses/doomed'
+          self: 'https://commlink.digitaldarkness.com/api/avatar/statuses/doomed'
       properties:
         description:
           type: string
@@ -4708,7 +4789,7 @@ components:
         owner: 'omni@digitaldarkness.com'
         system: 'blistercritters'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/blistercritters/characters/667cda3b3dc4b0ecfa014d62'
+          self: 'https://commlink.digitaldarkness.com/api/blistercritters/characters/667cda3b3dc4b0ecfa014d62'
       allOf:
         - $ref: '#/components/schemas/Character'
         - properties:
@@ -4910,7 +4991,7 @@ components:
           id: 3
           name: 'Omni A'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/capers/characters/6684584c4a56300f150627a3'
+          self: 'https://commlink.digitaldarkness.com/api/capers/characters/6684584c4a56300f150627a3'
       allOf:
         - $ref: '#/components/schemas/Character'
         - properties:
@@ -5205,7 +5286,7 @@ components:
           owner: 'omni@digitaldarkness.com'
           system: 'cyberpunkred'
           links:
-            self: 'https://commlink-dev.digitaldarkness.com/api/cyberpunkred/characters/65776d7c77223955eee96ec1'
+            self: 'https://commlink.digitaldarkness.com/api/cyberpunkred/characters/65776d7c77223955eee96ec1'
         owner: 'omni@digitaldarkness.com'
         system: 'cyberpunkred'
       allOf:
@@ -5415,7 +5496,7 @@ components:
           - 'improvisation'
           - 'maker'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/expanse/backgrounds/trade'
+          self: 'https://commlink.digitaldarkness.com/api/expanse/backgrounds/trade'
       properties:
         ability:
           description: Ability change that the background gives.
@@ -5473,7 +5554,7 @@ components:
             page: 47
             level: 1
             links:
-              self: 'https://commlink-dev.digitaldarkness.com/api/expanse/focuses/crafting'
+              self: 'https://commlink.digitaldarkness.com/api/expanse/focuses/crafting'
         background:
           ability: 'dexterity'
           focuses:
@@ -5486,7 +5567,7 @@ components:
             - 'improvisation'
             - 'maker'
           links:
-            self: 'https://commlink-dev.digitaldarkness.com/api/expanse/backgrounds/trade'
+            self: 'https://commlink.digitaldarkness.com/api/expanse/backgrounds/trade'
         downfall: 'Guilt'
         drive: 'Penitent'
         origin:
@@ -5524,7 +5605,7 @@ components:
           id: 4
           name: 'The Depths of Mars'
           links:
-            self: 'https://commlink-dev.digitaldarkness.com/api/campaigns/4'
+            self: 'https://commlink.digitaldarkness.com/api/campaigns/4'
         owner: 'omni@digitaldarkness.com'
         system: 'expanse'
         created_at: '2024-02-15T15:32:32.000000Z'
@@ -5586,7 +5667,7 @@ components:
         name: 'Deafened'
         page: 21
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/expanse/conditions/deafened'
+          self: 'https://commlink.digitaldarkness.com/api/expanse/conditions/deafened'
       properties:
         description:
           type: string
@@ -5614,7 +5695,7 @@ components:
         name: 'Gunnery'
         page: 47
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/expanse/focuses/gunnery'
+          self: 'https://commlink.digitaldarkness.com/api/expanse/focuses/gunnery'
       properties:
         attribute:
           type: string
@@ -5647,7 +5728,7 @@ components:
         id: 'lower'
         name: 'Lower Class'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/expanse/social-classes/lower'
+          self: 'https://commlink.digitaldarkness.com/api/expanse/social-classes/lower'
       properties:
         description:
           type: string
@@ -5687,7 +5768,7 @@ components:
           focus:
             - 'acrobatics'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/expanse/talents/affluent'
+          self: 'https://commlink.digitaldarkness.com/api/expanse/talents/affluent'
       properties:
         benefits:
           properties:
@@ -5860,6 +5941,222 @@ components:
         - id
         - name
       type: object
+    RootCharacter:
+      allOf:
+        - $ref: '#/components/schemas/Character'
+        - properties:
+            name:
+              type: string
+            meta:
+              properties:
+                look:
+                  nullable: true
+                  type: string
+                species:
+                  type: string
+              type: object
+            stats:
+              $ref: '#/components/schemas/RootStatsBlock'
+            moves:
+              items:
+                $ref: '#/components/schemas/RootMove'
+              type: array
+            nature:
+              $ref: '#/components/schemas/RootNature'
+            playbook:
+              $ref: '#/components/schemas/RootPlaybook'
+            tracks:
+              $ref: '#/components/schemas/RootTracksBlock'
+          required:
+            - id
+            - links
+            - meta
+            - moves
+            - name
+            - nature
+            - owner
+            - playbook
+            - stats
+            - system
+          type: object
+    RootMove:
+      example:
+        description: 'Take +1 to Might (max +3).'
+        effects:
+          might: 1
+        id: 'brute'
+        name: 'Brute'
+        links:
+          self: 'https://commlink.digitaldarkness.com/api/root/moves/brute'
+      properties:
+        description:
+          type: string
+        effects:
+          additionalProperties:
+            type: integer
+          nullable: true
+          type: object
+        id:
+          type: string
+        name:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - effects
+        - id
+        - name
+        - links
+        - weapon_move
+      type: object
+    RootNature:
+      example:
+        description: |
+          Clear your exhaustion track when you defend someone who cannot defend
+          themself from dire threat.
+        id: 'defender'
+        name: 'Defender'
+        links:
+          self: 'https://commlink.digitaldarkness.com/api/root/natures/defender'
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - id
+        - name
+        - links
+      type: object
+    RootPlaybook:
+      example:
+        id: 'arbiter'
+        name: 'The Arbiter'
+        description_long: |
+          You are the Arbiter. A powerful, obstinate vagabond, serving as
+          somewhere between a mercenary and a protector, perhaps taking sides
+          too easily in the greater conflict between the factions.
+        description_short: |
+          a powerful warrior devoted to what they think is right and just.
+        moves:
+          brute:
+            description: 'Take +1 to Might (max +3).'
+            effects:
+              might: 1
+            id: 'brute'
+            name: 'Brute'
+            links:
+              self: 'https://commlink.digitaldarkness.com/api/root/moves/brute'
+        natures:
+          defender:
+            description: |
+              Clear your exhaustion track when you defend someone who
+              cannot defend themself from dire threat.
+            id: 'defender'
+            name: 'Defender'
+            links:
+              self: 'https://commlink.digitaldarkness.com/api/root/natures/defender'
+        starting_weapon_moves:
+          cleave:
+            description: |
+              When you cleave armored foes at close range, mark exhaustion and roll
+              with Might. On a hit, you smash through their defenses and equipment;
+              inflict 3-decay. On a 7–9, you overextend your weapon or yourself:
+              mark decay or end up in a bad spot, your choice.
+            effects: null
+            id: 'cleave'
+            name: 'Cleave'
+            links:
+              self: 'https://commlink.digitaldarkness.com/api/root/moves/cleave'
+        stats:
+          charm: 1
+          cunning: 0
+          finesse: 0
+          luck: 0
+          might: 2
+        links:
+          self: 'https://commlink.digitaldarkness.com/api/root/playbooks/arbiter'
+      properties:
+        description_long:
+          type: string
+        description_short:
+          type: string
+        id:
+          type: string
+        moves:
+          additionalProperties:
+            $ref: '#/components/schemas/RootMove'
+          type: object
+        name:
+          type: string
+        natures:
+          additionalProperties:
+            $ref: '#/components/schemas/RootNature'
+          type: object
+        starting_weapon_moves:
+          additionalProperties:
+            $ref: '#/components/schemas/RootMove'
+          type: object
+        stats:
+          $ref: '#/components/schemas/RootStatsBlock'
+
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - id
+        - name
+        - natures
+        - stats
+        - links
+      type: object
+    RootStat:
+      maximum: 3
+      minimum: -1
+      type: integer
+    RootStatsBlock:
+      properties:
+        charm:
+          $ref: '#/components/schemas/RootStat'
+        cunning:
+          $ref: '#/components/schemas/RootStat'
+        finesse:
+          $ref: '#/components/schemas/RootStat'
+        luck:
+          $ref: '#/components/schemas/RootStat'
+        might:
+          $ref: '#/components/schemas/RootStat'
+      required:
+        - charm
+        - cunning
+        - finesse
+        - luck
+        - might
+      type: object
+    RootTrack:
+      minimum: 4
+      type: integer
+    RootTracksBlock:
+      properties:
+        decay:
+          minimum: 0
+          type: integer
+        decay_max:
+          $ref: '#/components/schemas/RootTrack'
+        exhaustion:
+          minimum: 0
+          type: integer
+        exhaustion_max:
+          $ref: '#/components/schemas/RootTrack'
+        injury:
+          minimum: 0
+          type: integer
+        injury_max:
+          $ref: '#/components/schemas/RootTrack'
+      type: object
     Rulebook:
       description: A rulebook for an RPG.
       example:
@@ -5883,7 +6180,7 @@ components:
         name: 'Core 5th Edition'
         required: true
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/rulebooks/core'
+          self: 'https://commlink.digitaldarkness.com/api/shadowrun5e/rulebooks/core'
       properties:
         default:
           description: Whether the book should be enabled by default for campaigns.
@@ -6762,7 +7059,7 @@ components:
         strength: 6
         willpower: 4
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/critters/barghest'
+          self: 'https://commlink.digitaldarkness.com/api/shadowrun5e/critters/barghest'
       properties:
         agility:
           type: integer
@@ -6859,7 +7156,7 @@ components:
         type: 'P'
         id: 'accident'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/critter-powers/accident'
+          self: 'https://commlink.digitaldarkness.com/api/shadowrun5e/critter-powers/accident'
       properties:
         action:
           enum:
@@ -6912,7 +7209,7 @@ components:
         page: 401
         ruleset: 'core'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/critter-weaknesses/allergy'
+          self: 'https://commlink.digitaldarkness.com/api/shadowrun5e/critter-weaknesses/allergy'
       properties:
         description:
           type: string
@@ -6958,7 +7255,7 @@ components:
         links:
           properties:
             self:
-              example: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/gear/activesoft-forgery-1'
+              example: 'https://commlink.digitaldarkness.com/api/shadowrun5e/gear/activesoft-forgery-1'
               format: url
               type: string
           type: object
@@ -7070,7 +7367,7 @@ components:
           - id: 'combat-knife'
         willpower: 3
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/grunts/pr-0'
+          self: 'https://commlink.digitaldarkness.com/api/shadowrun5e/grunts/pr-0'
       properties:
         agility:
           type: integer
@@ -7194,7 +7491,7 @@ components:
         page: 248
         ruleset: 'core'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/intrusion_countermeasures/acid'
+          self: 'https://commlink.digitaldarkness.com/api/shadowrun5e/intrusion_countermeasures/acid'
       properties:
         defense:
           type: string
@@ -7569,7 +7866,7 @@ components:
         page: 258
         ruleset: 'core'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/shadowrun5e/resonance-echoes/attack-upgrade'
+          self: 'https://commlink.digitaldarkness.com/api/shadowrun5e/resonance-echoes/attack-upgrade'
       properties:
         description:
           type: string
@@ -8410,7 +8707,7 @@ components:
         owner: 'omni@digitaldarkness.com'
         system: 'startrekadventures'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/startrekadventures/characters/5ecab94af4d90c95236cd77b'
+          self: 'https://commlink.digitaldarkness.com/api/startrekadventures/characters/5ecab94af4d90c95236cd77b'
       allOf:
         - $ref: '#/components/schemas/Character'
         - properties:
@@ -8580,7 +8877,7 @@ components:
         ruleset: 'core'
         type: 'advanced'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/stillfleet/powers/ally'
+          self: 'https://commlink.digitaldarkness.com/api/stillfleet/powers/ally'
       properties:
         advanced_list:
           description: What advanced list of powers the power can be added from.
@@ -8633,7 +8930,7 @@ components:
           ruleset: 'core'
           type: 'marquee'
           links:
-            self: 'https://commlink-dev.digitaldarkness.com/api/stillfleet/powers/tack'
+            self: 'https://commlink.digitaldarkness.com/api/stillfleet/powers/tack'
         optional_powers:
           - description: 'You can, with effort, actually pilot spacefaring vessels. Cost to command a vessel is based purely on its class (a combined 1–6 rating based on its size, complexity, and condition), with each point of vessel class costing 6 GRT. Burning this GRT grants you the ability to pilot or otherwise command the ship, within reason. (If the hyperdrive’s broke, it ain’t jumpin; mining vessels may not sport armament, etc.) While piloting, you are essentially stuck and unable to otherwise venture. You must pay the astrogation cost each time you chart a course into or out of a system, or each time the ship is damaged or upgraded. Doing anything with the ship other than moving from point A to B (firing weapons, scanning a mysterious craft, remotely salvaging damaged life support systems, etc.) requires relevant checks, typically REA or, in a dogfight, COM and MOV.'
             id: 'astrogate'
@@ -8642,7 +8939,7 @@ components:
             ruleset: 'core'
             type: 'class'
             links:
-              self: 'https://commlink-dev.digitaldarkness.com/api/stillfleet/powers/astrogate'
+              self: 'https://commlink.digitaldarkness.com/api/stillfleet/powers/astrogate'
         other_powers:
           - description: 'The ship is on fire—you have to get your party through the stuck bulkhead before the O2 combusts! (Or whatever!) This is your big getaway power. Burn 6 GRT and make a MOV check: if you succeed, you and some or all of your party make it out safely. You can bring 1 +your level humanoid-sized beings along with you to safety, or burn an additional 6 GRT to bring one additional being beyond your limit. Small sapient beings (0.5-M tall/long) count for half a slot; large sapes (3-M tall/long) count double; small pets (cat/beagle-sized) are free. If you fail your MOV check, you alone get away but injure yourself for 2d6 HEA damage.'
             id: 'dive'
@@ -8651,14 +8948,14 @@ components:
             ruleset: 'core'
             type: 'class'
             links:
-              self: 'https://commlink-dev.digitaldarkness.com/api/stillfleet/powers/dive'
+              self: 'https://commlink.digitaldarkness.com/api/stillfleet/powers/dive'
         responsibilities:
           - 'opening stiffworks (quantum gates connecting disparate points in timespaces)'
           - 'appraising and, as needed, repairing technologies discovered during the venture'
           - 'assisting the venture’s pir in the collection of technoscientific samples for the Archive'
         ruleset: 'core'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/stillfleet/roles/banshee'
+          self: 'https://commlink.digitaldarkness.com/api/stillfleet/roles/banshee'
       properties:
         description:
           type: string
@@ -8711,7 +9008,7 @@ components:
         page: 86
         ruleset: core
         links:
-          self: https://commlink-dev.digitaldarkness.com/api/subversion/backgrounds/agriculturist
+          self: https://commlink.digitaldarkness.com/api/subversion/backgrounds/agriculturist
       properties:
         description:
           type: string
@@ -8741,7 +9038,7 @@ components:
         page: 76
         ruleset: core
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/castes/lower-middle'
+          self: 'https://commlink.digitaldarkness.com/api/subversion/castes/lower-middle'
       properties:
         description:
           type: string
@@ -8771,7 +9068,7 @@ components:
           page: 86
           ruleset: 'core'
           links:
-            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/backgrounds/agriculturist'
+            self: 'https://commlink.digitaldarkness.com/api/subversion/backgrounds/agriculturist'
         brawn: 3
         caste:
           description: "You have enough income to cover the necessities and the occasional splurge, but little else. You wouldn't call your housing spacious, but at least it's yours. Your food tends towards the economical, but is broadly acceptable. You probably own a small electric commuter bike, and can afford a multiuser taxi service when you need it. Lawjacks are ambivalent to you as long as you don't cause trouble.||Lower-middle caste characters start with the normal amount of Fortune."
@@ -8781,7 +9078,7 @@ components:
           page: 76
           ruleset: 'core'
           links:
-            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/castes/lower-middle'
+            self: 'https://commlink.digitaldarkness.com/api/subversion/castes/lower-middle'
         charisma: 2
         grit_starting: 9
         id: '65fde97e178d3cca2e0224f3'
@@ -8793,7 +9090,7 @@ components:
           ruleset: 'core'
           value: 'I will strive to give everyone the ability to choose their own life absent of any external edicts or expectations.'
           links:
-            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/ideologies/neo-anarchist'
+            self: 'https://commlink.digitaldarkness.com/api/subversion/ideologies/neo-anarchist'
         lineage:
           description: 'Dwarves tend to be shorter and sturdier than most other lineages. While Dwarves are the most common lineage in Acape Anya, they are a common sight throughout the world.'
           id: 'dwarven'
@@ -8818,10 +9115,10 @@ components:
           page: 82
           ruleset: 'core'
           links:
-            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/lineages/dwarven'
+            self: 'https://commlink.digitaldarkness.com/api/subversion/lineages/dwarven'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/characters/65fde97e178d3cca2e0224f3'
-          owner: 'https://commlink-dev.digitaldarkness.com/users/3'
+          self: 'https://commlink.digitaldarkness.com/api/subversion/characters/65fde97e178d3cca2e0224f3'
+          owner: 'https://commlink.digitaldarkness.com/users/3'
         origin:
           description: 'The physically largest of the lineages, Yettin have historically congregated in their own communities in Altaiphera, and for much of history, integrated less with the surrounding cultures (and each other). This tradition has led to wide variance among different strains of Altaipheran culture, though most place an emphasis on the importance of tight-knit community and are influenced by rural life.||The UYC may have rebelled against the more warlike Altaipheran Yettin, but they share a common culture.'
           id: 'altaipheran'
@@ -8829,7 +9126,7 @@ components:
           page: 85
           ruleset: 'core'
           links:
-            self: 'https://commlink-dev.digitaldarkness.com/api/subversion/origins/altaipheran'
+            self: 'https://commlink.digitaldarkness.com/api/subversion/origins/altaipheran'
         owner: 'omni@digitaldarkness.com'
         skills:
           - attributes:
@@ -8842,7 +9139,7 @@ components:
             rank: 2
             ruleset: 'core'
             links:
-              self: 'https://commlink-dev.digitaldarkness.com/api/subversion/skills/observation'
+              self: 'https://commlink.digitaldarkness.com/api/subversion/skills/observation'
         system: 'subversion'
         will: 3
         wit: 5
@@ -8901,7 +9198,7 @@ components:
         ruleset: core
         security_rating: 8
         links:
-          self: https://commlink-dev.digitaldarkness.com/api/subversion/gear/paylo
+          self: https://commlink.digitaldarkness.com/api/subversion/gear/paylo
       properties:
         category:
           type: string
@@ -8941,7 +9238,7 @@ components:
         ruleset: 'core'
         value: 'I will strive to give everyone the ability to choose their own life absent of any external edicts or expectations.'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/ideologies/neo-anarchist'
+          self: 'https://commlink.digitaldarkness.com/api/subversion/ideologies/neo-anarchist'
       properties:
         description:
           type: string
@@ -8985,7 +9282,7 @@ components:
             name: 'Intoxication'
         ruleset: 'core'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/impulses/indulgence'
+          self: 'https://commlink.digitaldarkness.com/api/subversion/impulses/indulgence'
       properties:
         description:
           type: string
@@ -9059,7 +9356,7 @@ components:
         page: 97
         ruleset: 'core'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/languages/altaipheran'
+          self: 'https://commlink.digitaldarkness.com/api/subversion/languages/altaipheran'
       properties:
         description:
           type: string
@@ -9092,7 +9389,7 @@ components:
         page: 82
         ruleset: 'core'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/lineages/dwarven'
+          self: 'https://commlink.digitaldarkness.com/api/subversion/lineages/dwarven'
       properties:
         description:
           type: string
@@ -9142,7 +9439,7 @@ components:
         page: 85
         ruleset: 'core'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/origins/altaipheran'
+          self: 'https://commlink.digitaldarkness.com/api/subversion/origins/altaipheran'
       properties:
         description:
           type: string
@@ -9175,7 +9472,7 @@ components:
         rank: null
         ruleset: 'core'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/subversion/skills/observation'
+          self: 'https://commlink.digitaldarkness.com/api/subversion/skills/observation'
       properties:
         attributes:
           items:
