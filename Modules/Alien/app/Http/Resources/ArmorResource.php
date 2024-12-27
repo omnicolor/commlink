@@ -7,7 +7,6 @@ namespace Modules\Alien\Http\Resources;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Resources\MissingValue;
 use Modules\Alien\Models\Armor;
 
 /**
@@ -17,19 +16,19 @@ class ArmorResource extends JsonResource
 {
     /**
      * @return array{
-     *   air_supply: int,
-     *   cost: int,
-     *   description: MissingValue|string,
-     *   id: string,
-     *   modifiers: array<int, string>,
-     *   name: string,
-     *   page: int,
-     *   rating: int,
-     *   ruleset: string,
-     *   weight: ?float,
-     *   links: array{
-     *     self: string
-     *   },
+     *     air_supply: int,
+     *     cost: int,
+     *     description?: string,
+     *     id: string,
+     *     modifiers: array<int, string>,
+     *     name: string,
+     *     page: int,
+     *     rating: int,
+     *     ruleset: string,
+     *     weight: ?float,
+     *     links: array{
+     *         self: string
+     *     }
      * }
      */
     public function toArray(Request $request): array

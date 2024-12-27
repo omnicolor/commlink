@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use RuntimeException;
 use Stringable;
 
+use function array_keys;
 use function config;
 use function sprintf;
 use function strtolower;
@@ -80,5 +81,21 @@ class Armor implements Stringable
     public function getCost(): int
     {
         return $this->cost_category->marketPrice();
+    }
+
+    /**
+     * @return array<int, self>
+     */
+    public static function all(): array
+    {
+        $filename = config('cyberpunkred.data_path') . 'armor.php';
+        self::$armor ??= require $filename;
+
+        $armor = [];
+        /** @var string $id */
+        foreach (array_keys(self::$armor) as $id) {
+            $armor[] = new self($id);
+        }
+        return $armor;
     }
 }

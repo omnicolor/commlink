@@ -2,29 +2,30 @@
 
 declare(strict_types=1);
 
-namespace Modules\Alien\Http\Resources;
+namespace Modules\Cyberpunkred\Http\Resources;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\Alien\Models\Talent;
+use Modules\Cyberpunkred\Models\Armor;
 
 /**
- * @mixin Talent
+ * @mixin Armor
  */
-class TalentResource extends JsonResource
+class ArmorResource extends JsonResource
 {
     /**
      * @return array{
-     *     career: null|string,
-     *     description?: string,
      *     id: string,
-     *     name: string,
+     *     type: string,
+     *     cost_category: string,
+     *     description?: string,
      *     page: int,
+     *     penalty: int,
      *     ruleset: string,
+     *     stopping_power: int,
      *     links: array{
-     *         self: string,
-     *         career: string
+     *         self: string
      *     }
      * }
      */
@@ -33,21 +34,19 @@ class TalentResource extends JsonResource
         /** @var User */
         $user = $request->user();
         return [
-            'career' => $this->career,
+            'id' => $this->id,
+            'type' => $this->type,
+            'cost_category' => $this->cost_category->value,
             'description' => $this->when(
                 $user->hasPermissionTo('view data'),
                 $this->description,
             ),
-            'id' => $this->id,
-            'name' => $this->name,
             'page' => $this->page,
+            'penalty' => $this->penalty,
             'ruleset' => $this->ruleset,
+            'stopping_power' => $this->stopping_power,
             'links' => [
-                'self' => route('alien.talents.show', $this->id),
-                'career' => $this->when(
-                    null !== $this->career,
-                    route('alien.careers.show', $this->career ?? ''),
-                ),
+                'self' => route('cyberpunkred.armor.show', $this->id),
             ],
         ];
     }

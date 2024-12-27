@@ -8,6 +8,7 @@ use RuntimeException;
 use Stringable;
 
 use function array_key_exists;
+use function array_keys;
 use function config;
 use function sprintf;
 use function strtolower;
@@ -123,5 +124,21 @@ class Skill implements Stringable
             return $this->attribute;
         }
         return $attributes[$this->attribute];
+    }
+
+    /**
+     * @return array<int, self>
+     */
+    public static function all(): array
+    {
+        $filename = config('cyberpunkred.data_path') . 'skills.php';
+        self::$skills ??= require $filename;
+
+        $skills = [];
+        /** @var string $id */
+        foreach (array_keys(self::$skills) as $id) {
+            $skills[] = new self($id);
+        }
+        return $skills;
     }
 }

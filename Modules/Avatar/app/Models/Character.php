@@ -16,15 +16,15 @@ use Stringable;
  * @property string $appearance
  * @property-read Background $background
  * @property-write Background|string $background
- * @property string $creativity
+ * @property int $creativity
  * @property-read Era $era
  * @property-write Era|string $era
- * @property string $fatigue
- * @property string $focus
- * @property string $harmony
+ * @property int $fatigue
+ * @property int $focus
+ * @property int $harmony
  * @property string $history
  * @property string $name
- * @property string $passion
+ * @property int $passion
  */
 class Character extends BaseCharacter implements Stringable
 {

@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace Modules\Cyberpunkred\Http\Resources;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Cyberpunkred\Models\Armor;
 use Modules\Cyberpunkred\Models\Character;
+use Modules\Cyberpunkred\Models\Weapon;
 
 /**
  * @mixin Character
@@ -14,11 +17,51 @@ use Modules\Cyberpunkred\Models\Character;
 class CharacterResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
-     * @return array<string, mixed>
+     * @return array{
+     *     handle: string,
+     *     id: string,
+     *     body: int,
+     *     cool: int,
+     *     dexterity: int,
+     *     empathy: int,
+     *     intelligence: int,
+     *     luck: int,
+     *     movement: int,
+     *     reflexes: int,
+     *     technique: int,
+     *     willpower: int,
+     *     hit_points: int,
+     *     hit_points_current: int,
+     *     roles: array<int, array{role: string, rank: int, type?: int}>,
+     *     skills: array<string, int>,
+     *     skills_custom: array<int, array{type: string, name: string, level: int}>,
+     *     lifepath: array<string, string>,
+     *     weapons: AnonymousResourceCollection<Weapon>,
+     *     armor: array{
+     *         head: ArmorResource|null,
+     *         body: ArmorResource|null,
+     *         shield: ArmorResource|null,
+     *         unworn: AnonymousResourceCollection<Armor>
+     *     },
+     *     campaign_id: int|null,
+     *     owner: array{
+     *         id: integer,
+     *         name: string
+     *     },
+     *     system: string,
+     *     links: array{
+     *         self: string,
+     *         campaign?: string
+     *     }
+     * }
      */
     public function toArray(Request $request): array
     {
+        $weapons = [];
+        foreach ($this->weapons ?? [] as $weapon) {
+            $weapons[] = Weapon::build($weapon);
+        }
+
         $character = [
             'handle' => $this->handle,
             'id' => $this->id,
@@ -38,13 +81,18 @@ class CharacterResource extends JsonResource
             'skills' => [],
             'skills_custom' => $this->skills_custom,
             'lifepath' => [],
-            'weapons' => $this->weapons,
-            'armor' => $this->armor,
-            'campaign_id' => $this->when(
-                null !== $this->campaign_id,
-                $this->campaign_id,
-            ),
-            'owner' => $this->owner,
+            'weapons' => WeaponResource::collection($weapons),
+            'armor' => [
+                'head' => new ArmorResource($this->armor['head']),
+                'body' => new ArmorResource($this->armor['body']),
+                'shield' => new ArmorResource($this->armor['shield']),
+                'unworn' => ArmorResource::collection($this->armor['unworn']),
+            ],
+            'campaign_id' => $this->campaign_id,
+            'owner' => [
+                'id' => $this->user()->id,
+                'name' => $this->user()->name,
+            ],
             'system' => $this->system,
             'links' => [
                 'self' => route('cyberpunkred.characters.show', ['character' => $this->id]),

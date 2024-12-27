@@ -46,15 +46,15 @@ use function ksort;
  * @property int $improvement_points
  * @property int $improvement_points_current
  * @property int $intelligence
- * @property array<string, array<string, int>> $lifepath
+ * @property array<string, string> $lifepath
  * @property int $luck
  * @property int $luck_current
  * @property int $movement
  * @property int $reflexes
  * @property int $reputation
- * @property array<int, array<string, int|string>> $roles
+ * @property array<int, array{role: string, rank: int, type?: int}> $roles
  * @property array<string, int<1, max>> $skills
- * @property array<int, array<string, int|string>> $skills_custom
+ * @property array<int, array{type: string, name: string, level: int}> $skills_custom
  * @property int $technique
  * @property array<int, array<string, int|string>> $weapons
  * @property int $willpower

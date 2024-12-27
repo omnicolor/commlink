@@ -14,7 +14,28 @@ use Modules\Avatar\Models\Character;
 class CharacterResource extends JsonResource
 {
     /**
-     * @return array<string, mixed>
+     * @return array{
+     *     name: string,
+     *     appearance: string,
+     *     background: string,
+     *     creativity: int,
+     *     fatigue: int,
+     *     focus: int,
+     *     harmony: int,
+     *     history: string,
+     *     passion: int,
+     *     campaign_id?: int,
+     *     id: string,
+     *     owner: array{
+     *         id: int,
+     *         name: string
+     *     },
+     *     system: string,
+     *     links: array{
+     *         self: string,
+     *         campaign?: string
+     *     }
+     * }
      */
     public function toArray(Request $request): array
     {

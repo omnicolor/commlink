@@ -15,7 +15,12 @@ use Modules\Capers\Models\Vice;
 class ViceResource extends JsonResource
 {
     /**
-     * @return array<string, mixed>
+     * @return array{
+     *     name: string,
+     *     card: string,
+     *     description?: string,
+     *     id: string
+     * }
      */
     public function toArray(Request $request): array
     {

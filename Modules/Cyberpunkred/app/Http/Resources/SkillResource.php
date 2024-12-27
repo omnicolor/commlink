@@ -2,30 +2,30 @@
 
 declare(strict_types=1);
 
-namespace Modules\Alien\Http\Resources;
+namespace Modules\Cyberpunkred\Http\Resources;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\Alien\Models\Gear;
+use Modules\Cyberpunkred\Models\Skill;
 
 /**
- * @mixin Gear
+ * @mixin Skill
  */
-class GearResource extends JsonResource
+class SkillResource extends JsonResource
 {
     /**
      * @return array{
+     *     id: string,
+     *     attribute: string,
      *     category: string,
-     *     cost: ?int,
      *     description?: string,
-     *     effects: array<string, int>,
-     *     effects_text: string,
+     *     examples?: string,
      *     name: string,
-     *     page: integer,
-     *     quantity: integer,
-     *     ruleset: string,
-     *     weight: ?float
+     *     page: int,
+     *     links: array{
+     *         self: string
+     *     }
      * }
      */
     public function toArray(Request $request): array
@@ -33,19 +33,22 @@ class GearResource extends JsonResource
         /** @var User */
         $user = $request->user();
         return [
+            'id' => $this->id,
+            'attribute' => $this->attribute,
             'category' => $this->category,
-            'cost' => $this->cost,
             'description' => $this->when(
                 $user->hasPermissionTo('view data'),
                 $this->description,
             ),
-            'effects' => $this->effects,
-            'effects_text' => $this->effects_text,
+            'examples' => $this->when(
+                $user->hasPermissionTo('view data'),
+                $this->examples,
+            ),
             'name' => $this->name,
             'page' => $this->page,
-            'quantity' => $this->quantity,
-            'ruleset' => $this->ruleset,
-            'weight' => $this->weight,
+            'links' => [
+                'self' => route('cyberpunkred.armor.show', $this->id),
+            ],
         ];
     }
 }
