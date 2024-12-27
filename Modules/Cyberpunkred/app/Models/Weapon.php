@@ -8,6 +8,7 @@ use RuntimeException;
 use Stringable;
 
 use function array_key_exists;
+use function array_keys;
 use function sprintf;
 use function strtolower;
 
@@ -188,5 +189,28 @@ abstract class Weapon implements Stringable
         }
 
         throw new RuntimeException(sprintf('Weapon "%s" was not found', $name));
+    }
+
+    /**
+     * @return array<int, self>
+     */
+    public static function all(): array
+    {
+        $filename = config('cyberpunkred.data_path') . 'ranged-weapons.php';
+        self::$rangedWeapons = require $filename;
+
+        $filename = config('cyberpunkred.data_path') . 'melee-weapons.php';
+        self::$meleeWeapons = require $filename;
+
+        $weapons = [];
+        /** @var string $id */
+        /** @var string $id */
+        foreach (array_keys(self::$meleeWeapons) as $id) {
+            $weapons[] = new MeleeWeapon(['id' => $id]);
+        }
+        foreach (array_keys(self::$rangedWeapons) as $id) {
+            $weapons[] = new RangedWeapon(['id' => $id]);
+        }
+        return $weapons;
     }
 }

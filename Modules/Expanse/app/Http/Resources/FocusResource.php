@@ -2,31 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Modules\Alien\Http\Resources;
+namespace Modules\Expanse\Http\Resources;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\Alien\Models\Career;
-use Modules\Alien\Models\Skill;
-use Modules\Alien\Models\Talent;
+use Modules\Expanse\Models\Focus;
 
 /**
- * @mixin Career
+ * @mixin Focus
  */
-class CareerResource extends JsonResource
+class FocusResource extends JsonResource
 {
     /**
      * @return array{
+     *     attribute: string,
      *     description?: string,
-     *     key_attribute: string,
-     *     key_skills: AnonymousResourceCollection<Skill>,
-     *     id: string,
+     *     level: int,
      *     name: string,
      *     page: int,
-     *     ruleset: string,
-     *     talents: AnonymousResourceCollection<Talent>,
      *     links: array{
      *         self: string
      *     }
@@ -37,19 +31,17 @@ class CareerResource extends JsonResource
         /** @var User */
         $user = $request->user();
         return [
+            'attribute' => $this->attribute,
             'description' => $this->when(
                 $user->hasPermissionTo('view data'),
                 $this->description,
             ),
-            'key_attribute' => $this->keyAttribute,
-            'key_skills' => SkillResource::collection($this->keySkills),
             'id' => $this->id,
+            'level' => $this->level,
             'name' => $this->name,
             'page' => $this->page,
-            'ruleset' => $this->ruleset,
-            'talents' => TalentResource::collection($this->talents),
             'links' => [
-                'self' => route('alien.careers.show', $this->id),
+                'self' => route('expanse.focuses.show', $this->id),
             ],
         ];
     }

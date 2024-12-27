@@ -14,7 +14,20 @@ use Modules\Alien\Models\Injury;
 class InjuryResource extends JsonResource
 {
     /**
-     * @return  array<string, array<string, int|string>|bool|int|null|string>
+     * @return array{
+     *     death_roll_modifier: int|null,
+     *     effects: array<string, int>,
+     *     effects_text: string,
+     *     fatal: bool,
+     *     healing_time: null|string,
+     *     id: string,
+     *     name: string,
+     *     roll: int,
+     *     time_limit: null|string,
+     *     links: array{
+     *         self: string
+     *     }
+     * }
      */
     public function toArray(Request $request): array
     {
