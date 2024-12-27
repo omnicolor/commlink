@@ -1,0 +1,9 @@
+<?php
+
+namespace Discord\Parts\Guild;
+
+use Carbon\Carbon;
+
+class Guild
+{
+}

@@ -21,7 +21,7 @@ class ChatCharacter extends Model
 
     /**
      * Mass assignable properties.
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'channel_id',

@@ -18,7 +18,7 @@ class Career implements Stringable
     public string $keyAttribute;
     /** @var array<int, Skill> */
     public array $keySkills = [];
-    /** @var array<int, array<string, int|string>> */
+    /** @var array<int, array<int, array{id: string, quantity?: int}>> */
     public array $gear = [];
     public string $name;
     public int $page;

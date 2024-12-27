@@ -1,0 +1,9 @@
+<?php
+
+namespace Discord\Parts\User;
+
+use Discord\Parts\Part;
+
+class Member extends Part
+{
+}
