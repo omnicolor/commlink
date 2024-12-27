@@ -112,7 +112,7 @@ class DiscordRunCommand extends Command
         if (null === $channel) {
             return;
         }
-        $footer = $message->embeds[0]?->footer?->text;
+        $footer = $message->embeds[0]->footer?->text;
         if (null === $footer) {
             return;
         }

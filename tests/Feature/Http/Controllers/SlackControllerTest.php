@@ -538,8 +538,9 @@ final class SlackControllerTest extends TestCase
             ]);
         self::get('/slack/callback')->assertRedirect('/dashboard');
 
-        /** @var User */
         $user = User::where('email', $email)->first();
+        // @phpstan-ignore staticMethod.impossibleType
+        self::assertInstanceOf(User::class, $user);
         self::assertSame($slackUserName, $user->name);
         self::assertSame('reset me', $user->password);
         self::assertAuthenticatedAs($user);

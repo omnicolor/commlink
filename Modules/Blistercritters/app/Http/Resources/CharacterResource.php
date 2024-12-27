@@ -24,7 +24,7 @@ class CharacterResource extends JsonResource
      *     scurry: int,
      *     vibe: int,
      *     id: string,
-     *     campaign_id: integer|null,
+     *     campaign_id: int|null,
      *     owner: array{
      *         id: int,
      *         name: string
@@ -32,7 +32,7 @@ class CharacterResource extends JsonResource
      *     system: string,
      *     links: array{
      *         self: string,
-     *         campaign: string
+     *         campaign?: string
      *     }
      * }
      */

@@ -209,11 +209,13 @@ class CharactersController extends Controller
                     );
                 }
                 $role = $character->roles[0]['role'];
+                $view = sprintf(
+                    'cyberpunkred::create-lifepath-%s',
+                    strtolower((string)$role),
+                );
+                assert(view()->exists($view));
                 return view(
-                    sprintf(
-                        'cyberpunkred::create-lifepath-%s',
-                        strtolower((string)$role),
-                    ),
+                    $view,
                     [
                         'character' => $character,
                         'creating' => 'role-based-lifepath',

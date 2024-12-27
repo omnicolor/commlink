@@ -11,7 +11,6 @@ use Sushi\Sushi;
 use function config;
 
 /**
- * @immutable
  * @property string $description
  * @property string $id
  * @property string $name
@@ -33,7 +32,7 @@ class Nature extends Model implements Stringable
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'description',

@@ -11,6 +11,9 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Pennant\Feature;
 use Laravel\Telescope\TelescopeServiceProvider as Telescope;
 
+use function config;
+use function touch;
+
 /**
  * @codeCoverageIgnore
  */
@@ -34,11 +37,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Feature::discover();
         ParallelTesting::setUpTestCase(function (int $token): void {
-            $mongo = env('MONGO_DATABASE') . $token;
+            $mongo = config('database.mongodb.database') . $token;
             config(['database.connections.mongodb.database' => $mongo]);
 
-            touch((string)env('DB_DATABASE'));
-            $sqlite = env('DB_DATABASE') . $token;
+            $sqlite = config('database.sqlite.database') . $token;
             touch($sqlite);
         });
         Gate::define('viewPulse', function (User $user): bool {
