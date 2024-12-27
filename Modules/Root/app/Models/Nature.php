@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Stringable;
 use Sushi\Sushi;
 
+use function config;
+
 /**
  * @property string $description
  * @property string $id

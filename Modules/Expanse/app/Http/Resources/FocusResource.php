@@ -2,30 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Modules\Alien\Http\Resources;
+namespace Modules\Expanse\Http\Resources;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\Alien\Models\Armor;
+use Modules\Expanse\Models\Focus;
 
 /**
- * @mixin Armor
+ * @mixin Focus
  */
-class ArmorResource extends JsonResource
+class FocusResource extends JsonResource
 {
     /**
      * @return array{
-     *     air_supply: int,
-     *     cost: int,
+     *     attribute: string,
      *     description?: string,
-     *     id: string,
-     *     modifiers: array<int, string>,
+     *     level: int,
      *     name: string,
      *     page: int,
-     *     rating: int,
-     *     ruleset: string,
-     *     weight: ?float,
      *     links: array{
      *         self: string
      *     }
@@ -36,21 +31,17 @@ class ArmorResource extends JsonResource
         /** @var User */
         $user = $request->user();
         return [
-            'air_supply' => $this->air_supply,
-            'cost' => $this->cost,
+            'attribute' => $this->attribute,
             'description' => $this->when(
                 $user->hasPermissionTo('view data'),
                 $this->description,
             ),
             'id' => $this->id,
-            'modifiers' => $this->modifiers,
+            'level' => $this->level,
             'name' => $this->name,
             'page' => $this->page,
-            'rating' => $this->rating,
-            'ruleset' => $this->ruleset,
-            'weight' => $this->weight,
             'links' => [
-                'self' => route('alien.armor.show', $this->id),
+                'self' => route('expanse.focuses.show', $this->id),
             ],
         ];
     }

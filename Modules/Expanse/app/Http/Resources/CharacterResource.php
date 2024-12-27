@@ -14,8 +14,23 @@ use Modules\Expanse\Models\Character;
 class CharacterResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
-     * @return array<string, mixed>
+     * @return array{
+     *     id: string,
+     *     name: string,
+     *     accuracy: int,
+     *     communication: int,
+     *     constitution: int,
+     *     dexterity: int,
+     *     fighting: int,
+     *     intelligence: int,
+     *     perception: int,
+     *     strength: int,
+     *     toughness: int,
+     *     willpower: int,
+     *     age: int|null,
+     *     level: int,
+     *     speed: int
+     * }
      */
     public function toArray(Request $request): array
     {

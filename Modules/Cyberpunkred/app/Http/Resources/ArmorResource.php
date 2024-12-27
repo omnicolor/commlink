@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Modules\Alien\Http\Resources;
+namespace Modules\Cyberpunkred\Http\Resources;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\Alien\Models\Armor;
+use Modules\Cyberpunkred\Models\Armor;
 
 /**
  * @mixin Armor
@@ -16,16 +16,14 @@ class ArmorResource extends JsonResource
 {
     /**
      * @return array{
-     *     air_supply: int,
-     *     cost: int,
-     *     description?: string,
      *     id: string,
-     *     modifiers: array<int, string>,
-     *     name: string,
+     *     type: string,
+     *     cost_category: string,
+     *     description?: string,
      *     page: int,
-     *     rating: int,
+     *     penalty: int,
      *     ruleset: string,
-     *     weight: ?float,
+     *     stopping_power: int,
      *     links: array{
      *         self: string
      *     }
@@ -36,21 +34,19 @@ class ArmorResource extends JsonResource
         /** @var User */
         $user = $request->user();
         return [
-            'air_supply' => $this->air_supply,
-            'cost' => $this->cost,
+            'id' => $this->id,
+            'type' => $this->type,
+            'cost_category' => $this->cost_category->value,
             'description' => $this->when(
                 $user->hasPermissionTo('view data'),
                 $this->description,
             ),
-            'id' => $this->id,
-            'modifiers' => $this->modifiers,
-            'name' => $this->name,
             'page' => $this->page,
-            'rating' => $this->rating,
+            'penalty' => $this->penalty,
             'ruleset' => $this->ruleset,
-            'weight' => $this->weight,
+            'stopping_power' => $this->stopping_power,
             'links' => [
-                'self' => route('alien.armor.show', $this->id),
+                'self' => route('cyberpunkred.armor.show', $this->id),
             ],
         ];
     }
