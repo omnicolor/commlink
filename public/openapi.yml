@@ -1303,6 +1303,29 @@ paths:
           $ref: '#/components/responses/ErrorUnprocessableContent'
       tags:
         - interactivity
+  /cyberpunkred/armor:
+    get:
+      summary: Cyberpunk Red RPG armor
+      operationId: cyberpunkred-armor-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CyberpunkredArmor'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of armor from Cyberpunk Red.
+      tags:
+        - cyberpunkred
   /cyberpunkred/characters:
     get:
       summary: Cyberpunk Red characters
@@ -1351,6 +1374,52 @@ paths:
                 type: object
       tags:
         - character
+        - cyberpunkred
+  /cyberpunkred/skills:
+    get:
+      summary: Cyberpunk Red RPG skills
+      operationId: cyberpunkred-skills-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CyberpunkredSkill'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of skills from Cyberpunk Red.
+      tags:
+        - cyberpunkred
+  /cyberpunkred/weapons:
+    get:
+      summary: Cyberpunk Red RPG weapons
+      operationId: cyberpunkred-weapons-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/CyberpunkredWeapon'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of weapons from Cyberpunk Red.
+      tags:
         - cyberpunkred
   /dnd5e/characters:
     get:
@@ -3545,9 +3614,14 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/User'
-                type: array
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/User'
+                    type: array
+                required:
+                  - data
+                type: object
         '401':
           $ref: '#/components/responses/ErrorUnauthenticated'
         '403':
@@ -4821,7 +4895,7 @@ components:
           type: string
         system:
           type: string
-        _links:
+        links:
           $ref: '#/components/schemas/Links'
       type: object
     CampaignFull:
@@ -5211,6 +5285,45 @@ components:
               type: string
           type: object
       type: object
+    CyberpunkredArmor:
+      example:
+        id: 'leathers'
+        type: 'Leathers'
+        cost_category: 'Everyday'
+        description: 'Favored by Nomads and other ‘punks who ride bikes.'
+        page: 97
+        penalty: 0
+        ruleset: 'core'
+        stopping_power: 4
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/cyberpunkred/armor/leathers'
+      properties:
+        cost_category:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+        page:
+          type: integer
+        penalty:
+          type: integer
+        ruleset:
+          type: string
+        stopping_power:
+          type: integer
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - cost_category
+        - id
+        - page
+        - penalty
+        - ruleset
+        - stopping_power
+        - type
+        - links
+      type: object
     CyberpunkredCharacter:
       example:
         handle: 'Caleb'
@@ -5387,6 +5500,118 @@ components:
             willpower:
               type: integer
           type: object
+    CyberpunkredSkill:
+      example:
+        id: 'accounting'
+        attribute: 'intelligence'
+        category: 'Education'
+        description: |
+          Skill of balancing books, creating false books, and identifying them,
+          juggling numbers, creating budgets and handling day-to-day business
+          operations.
+        examples: |
+          At a Base 10, you can manage the books for a small company by yourself
+          and rarely make any clerical errors. At a Base 14, you can manage the
+          books for a medium-sized Corp and hide your embezzlement at the same
+          time. At a Base 18, you're a master at double entry and offshore
+          accounting that would make the best white collar criminals proud.
+          You'll probably be sought out by a Corp or a Crime Family to help them
+          with their operations.
+        name: 'Accounting'
+        page: 133
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/cyberpunkred/armor/accounting'
+      properties:
+        attribute:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        examples:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - attribute
+        - category
+        - name
+        - page
+        - id
+        - links
+      type: object
+    CyberpunkredWeapon:
+      example:
+        id: 'medium-melee'
+        type: 'Medium melee'
+        class: 'melee'
+        concealable: false
+        cost: 50
+        damage: '2d6'
+        examples:
+          poor: []
+          standard:
+            - 'Baseball bat'
+            - 'Crowbar'
+          excellent: []
+        hands_required: 1
+        rate_of_fire: 2
+        skill: 'melee-weapon'
+        links:
+          self: 'https://commlink-dev.digitaldarkness.com/api/cyberpunkred/weapons/medium-melee'
+      properties:
+        class:
+          type: string
+        concealable:
+          type: boolean
+        cost:
+          type: integer
+        damage:
+          type: string
+        examples:
+          properties:
+            poor:
+              items:
+                type: string
+              type: array
+            standard:
+              items:
+                type: string
+              type: array
+            excellent:
+              items:
+                type: string
+              type: array
+          required:
+            - poor
+            - standard
+            - excellent
+          type: object
+        id:
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+        type:
+          type: string
+      required:
+        - class
+        - concealable
+        - cost
+        - damage
+        - examples
+        - hands_required
+        - id
+        - links
+        - rate_of_fire
+        - skill
+        - type
+      type: object
     Dnd5eCharacter:
       allOf:
         - $ref: '#/components/schemas/Character'
@@ -6236,7 +6461,7 @@ components:
         effects:
           items:
             type: object
-          type: array
+          type: object
         incompatible_with:
           items:
             type: string
@@ -6255,7 +6480,6 @@ components:
         - cost
         - description
         - id
-        - incompatible_with
         - name
         - links
       type: object
@@ -9720,7 +9944,7 @@ components:
           items:
             $ref: '#/components/schemas/Role'
           type: array
-        _links:
+        links:
           $ref: '#/components/schemas/Links'
       required:
         - characters
@@ -9731,7 +9955,7 @@ components:
         - name
         - playingIn
         - roles
-        - _links
+        - links
       type: object
     UserMinimal:
       nullable: true

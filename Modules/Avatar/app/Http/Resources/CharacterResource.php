@@ -6,7 +6,6 @@ namespace Modules\Avatar\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Resources\MissingValue;
 use Modules\Avatar\Models\Character;
 
 /**
@@ -16,28 +15,27 @@ class CharacterResource extends JsonResource
 {
     /**
      * @return array{
-     *   name: string,
-     *   appearance: string,
-     *   background: string,
-     *   creativity: int,
-     *   fatigue: int,
-     *   focus: int,
-     *   harmony: int,
-     *   history: ?string,
-     *   passion: int,
-     *   playbook: PlaybookResource,
-     *   campaign_id: MissingValue|string,
-     *   id: string,
-     *   owner: array{
-     *     id: int,
-     *     name: string
-     *   },
-     *   system: string,
-     *   links: array{
-     *     campaign: MissingValue|string,
-     *     playbook: string,
-     *     self: string
-     *   }
+     *     name: string,
+     *     appearance: string,
+     *     background: string,
+     *     creativity: int,
+     *     fatigue: int,
+     *     focus: int,
+     *     harmony: int,
+     *     history: string,
+     *     passion: int,
+     *     campaign_id?: int,
+     *     id: string,
+     *     owner: array{
+     *         id: int,
+     *         name: string
+     *     },
+     *     system: string,
+     *     links: array{
+     *         self: string,
+     *         campaign?: string,
+     *         playbook: string
+     *     }
      * }
      */
     public function toArray(Request $request): array
