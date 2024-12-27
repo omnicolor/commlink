@@ -61,7 +61,7 @@ class ValidateDataFiles extends Command
      */
     public function handle(): int
     {
-        $systems = config('app.systems');
+        $systems = config('commlink.systems');
         $this->line('Enabled systems to be validated:');
         foreach ($systems as $system) {
             $this->line('  * ' . $system);
