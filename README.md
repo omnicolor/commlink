@@ -24,6 +24,7 @@ levels of completeness.
 * [Cyberpunk Red](https://rtalsoriangames.com/cyberpunk/)
 * [Dungeons & Dragons 5th Edition](https://dnd.wizards.com/)
 * [The Expanse](https://greenroninstore.com/collections/the-expanse-rpg)
+* [Root](https://ledergames.com/products/root-rpg)
 * [Shadowrun 5th Edition](https://www.catalystgamelabs.com/brands/shadowrun)
 * [Shadowrun 6th Edition](https://www.catalystgamelabs.com/brands/shadowrun)
 * [Star Trek Adventures](https://www.modiphius.net/collections/star-trek-adventures/star-trek_core)
