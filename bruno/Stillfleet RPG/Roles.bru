@@ -1,17 +1,13 @@
 meta {
-  name: Generate some fake names
+  name: Roles
   type: http
   seq: 2
 }
 
 get {
-  url: {{host}}/fakes/names
+  url: {{host}}/stillfleet/roles
   body: none
   auth: bearer
-}
-
-params:query {
-  ~quantity: 1
 }
 
 auth:bearer {

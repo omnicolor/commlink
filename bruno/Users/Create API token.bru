@@ -1,20 +1,17 @@
 meta {
-  name: Update a channel
+  name: Create API token
   type: http
-  seq: 1
+  seq: 3
 }
 
-patch {
-  url: {{host}}/channels/:channel_id
+post {
+  url: {{host}}/users/{{user_id}}/token
   body: json
   auth: bearer
 }
 
-params:path {
-  channel_id: 
-}
-
 headers {
+  Accept: application/json
   Content-Type: application/json
 }
 
@@ -24,6 +21,7 @@ auth:bearer {
 
 body:json {
   {
-    "webhook": null
+    "expires_at": "",
+    "name": ""
   }
 }

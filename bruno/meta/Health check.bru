@@ -1,11 +1,11 @@
 meta {
-  name: Statistics about the system
+  name: Health check
   type: http
-  seq: 2
+  seq: 1
 }
 
 get {
-  url: {{host}}/varz
+  url: {{host}}/healthz
   body: none
   auth: bearer
 }

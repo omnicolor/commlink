@@ -1,13 +1,17 @@
 meta {
-  name: Statistics about the system
+  name: End combat
   type: http
-  seq: 2
+  seq: 1
 }
 
-get {
-  url: {{host}}/varz
+delete {
+  url: {{host}}/campaigns/:campaign_id/initiatives
   body: none
   auth: bearer
+}
+
+params:path {
+  campaign_id: 
 }
 
 headers {

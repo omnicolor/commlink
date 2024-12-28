@@ -1,0 +1,34 @@
+meta {
+  name: Create a new contact
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{host}}/shadowrun5e/characters/:character_id/contacts
+  body: json
+  auth: bearer
+}
+
+params:path {
+  character_id: 65ca3fe9bd713993c512af01
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "archetype": "",
+    "connection": "",
+    "loyalty": "",
+    "gmNotes": "",
+    "name": "",
+    "notes": ""
+  }
+}

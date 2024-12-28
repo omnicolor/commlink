@@ -1,13 +1,19 @@
 meta {
-  name: Statistics about the system
+  name: User's events
   type: http
-  seq: 2
+  seq: 1
 }
 
 get {
-  url: {{host}}/varz
+  url: {{host}}/events
   body: none
   auth: bearer
+}
+
+params:query {
+  ~campaign_id: 
+  ~future: 
+  ~response[]: 
 }
 
 headers {

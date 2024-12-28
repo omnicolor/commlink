@@ -1,0 +1,15 @@
+meta {
+  name: Rulebooks
+  type: http
+  seq: 27
+}
+
+get {
+  url: {{host}}/shadowrun5e/rulebooks
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

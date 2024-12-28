@@ -1,13 +1,17 @@
 meta {
-  name: Statistics about the system
+  name: RSVP for an event
   type: http
-  seq: 2
+  seq: 1
 }
 
-get {
-  url: {{host}}/varz
+delete {
+  url: {{host}}/events/:event_id/rsvp
   body: none
   auth: bearer
+}
+
+params:path {
+  event_id: 1
 }
 
 headers {

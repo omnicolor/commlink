@@ -1,20 +1,21 @@
 meta {
-  name: Update a channel
+  name: Update - Data patch
   type: http
-  seq: 1
+  seq: 4
 }
 
 patch {
-  url: {{host}}/channels/:channel_id
+  url: {{host}}/events/:event_id
   body: json
   auth: bearer
 }
 
 params:path {
-  channel_id: 
+  event_id: 1
 }
 
 headers {
+  Accept: application/json
   Content-Type: application/json
 }
 
@@ -24,6 +25,6 @@ auth:bearer {
 
 body:json {
   {
-    "webhook": null
+      "description": "This is a test."
   }
 }

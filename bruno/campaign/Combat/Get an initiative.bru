@@ -1,17 +1,18 @@
 meta {
-  name: Return a single campaign
+  name: Get an initiative
   type: http
-  seq: 3
+  seq: 5
 }
 
 get {
-  url: {{host}}/campaigns/:campaign_id
+  url: {{host}}/campaigns/:campaign_id/initiatives/:initiative_id
   body: none
   auth: bearer
 }
 
 params:path {
   campaign_id: 
+  initiative_id: 
 }
 
 headers {

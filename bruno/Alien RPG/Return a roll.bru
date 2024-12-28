@@ -1,13 +1,17 @@
 meta {
-  name: Statistics about the system
+  name: Return a roll
   type: http
-  seq: 2
+  seq: 7
 }
 
 get {
-  url: {{host}}/varz
+  url: {{host}}/alien/rolls/:roll_id
   body: none
   auth: bearer
+}
+
+params:path {
+  roll_id: 
 }
 
 headers {

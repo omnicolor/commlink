@@ -1,0 +1,15 @@
+meta {
+  name: Star Trek Adventures RPG characters
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/startrekadventures/characters
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

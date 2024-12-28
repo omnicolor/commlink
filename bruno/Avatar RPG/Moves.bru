@@ -1,17 +1,17 @@
 meta {
-  name: Generate some fake names
+  name: Moves
   type: http
   seq: 2
 }
 
 get {
-  url: {{host}}/fakes/names
+  url: {{host}}/avatar/moves
   body: none
   auth: bearer
 }
 
-params:query {
-  ~quantity: 1
+headers {
+  Accept: application/json
 }
 
 auth:bearer {

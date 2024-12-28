@@ -1,17 +1,18 @@
 meta {
-  name: Return a single campaign
+  name: Remove a combatant
   type: http
-  seq: 3
+  seq: 4
 }
 
-get {
-  url: {{host}}/campaigns/:campaign_id
+delete {
+  url: {{host}}/campaigns/:campaign_id/initiatives/:initiative_id
   body: none
   auth: bearer
 }
 
 params:path {
   campaign_id: 
+  initiative_id: 
 }
 
 headers {

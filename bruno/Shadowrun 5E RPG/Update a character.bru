@@ -1,0 +1,25 @@
+meta {
+  name: Update a character
+  type: http
+  seq: 39
+}
+
+patch {
+  url: {{host}}/shadowrun5e/characters/:character_id
+  body: json
+  auth: bearer
+}
+
+params:path {
+  character_id: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "patch": []
+  }
+}
