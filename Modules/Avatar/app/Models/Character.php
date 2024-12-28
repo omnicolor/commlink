@@ -16,15 +16,20 @@ use Stringable;
  * @property string $appearance
  * @property-read Background $background
  * @property-write Background|string $background
- * @property int $creativity
- * @property-read Era $era
- * @property-write Era|string $era
- * @property int $fatigue
- * @property int $focus
- * @property int $harmony
+ * @property int<-3, 3> $balance
+ * @property-read array<int, Condition> $conditions
+ * @property-write array<int, Condition|string> $conditions
+ * @property int<-1, 4> $creativity
+ * @property array<int, string> $demeanors
+ * @property int<0, 5> $fatigue
+ * @property string $fighting_style
+ * @property int<-1, 4> $focus
+ * @property int<-1, 4> $harmony
  * @property string $history
  * @property string $name
- * @property int $passion
+ * @property int<-1, 4> $passion
+ * @property-read Playbook $playbook
+ * @property-write Playbook|string $playbook
  */
 class Character extends BaseCharacter implements Stringable
 {
@@ -43,19 +48,21 @@ class Character extends BaseCharacter implements Stringable
     protected $fillable = [
         'appearance',
         'background',
-        //'balance',
-        //'conditions',
+        'balance',
+        'conditions',
         'creativity',
-        'era',
+        'demeanors',
         'fatigue',
+        'fighting_style',
         'focus',
         'harmony',
         'history',
         'name',
         'passion',
-        //'playbook',
+        'playbook',
         //'statuses',
         //'techniques',
+        'training',
     ];
 
     /**
@@ -103,17 +110,122 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function era(): Attribute
+    public function conditions(): Attribute
     {
         return Attribute::make(
-            get: function (): Era {
-                return Era::from($this->attributes['era']);
+            get: function (?array $conditions): array {
+                return array_map(
+                    function (string $condition): Condition {
+                        return Condition::from($condition);
+                    },
+                    $conditions ?? [],
+                );
             },
-            set: function (string | Era $era): string {
-                if ($era instanceof Era) {
-                    return $era->value;
+            set: function (array $conditions): array {
+                foreach ($conditions as $key => $condition) {
+                    if ($conditions[$key] instanceof Condition) {
+                        $conditions[$key] = $condition->value;
+                    }
                 }
-                return Era::from($era)->value;
+                return ['conditions' => $conditions];
+            },
+        );
+    }
+
+    public function creativity(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return $this->playbook->creativity
+                    + ($this->attributes['creativity'] ?? 0);
+            },
+            set: function (int $creativity): int {
+                $this->attributes['creativity'] = $creativity;
+                return $creativity;
+            },
+        );
+    }
+
+    public function fatigue(): Attribute
+    {
+        return Attribute::make(
+            get: function (?int $fatigue): int {
+                return $fatigue ?? 0;
+            },
+        );
+    }
+
+    public function focus(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return $this->playbook->focus
+                    + ($this->attributes['focus'] ?? 0);
+            },
+            set: function (int $focus): int {
+                $this->attributes['focus'] = $focus;
+                return $focus;
+            },
+        );
+    }
+
+    public function harmony(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return $this->playbook->harmony
+                    + ($this->attributes['harmony'] ?? 0);
+            },
+            set: function (int $harmony): int {
+                $this->attributes['harmony'] = $harmony;
+                return $harmony;
+            },
+        );
+    }
+
+    public function passion(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return $this->playbook->passion
+                    + ($this->attributes['passion'] ?? 0);
+            },
+            set: function (int $passion): int {
+                $this->attributes['passion'] = $passion;
+                return $passion;
+            },
+        );
+    }
+
+    public function playbook(): Attribute
+    {
+        return Attribute::make(
+            get: function (): Playbook {
+                return new Playbook($this->attributes['playbook']);
+            },
+            set: function (string | Playbook $playbook): string {
+                if ($playbook instanceof Playbook) {
+                    return $playbook->id;
+                }
+                return $playbook;
+            },
+        );
+    }
+
+    public function training(): Attribute
+    {
+        return Attribute::make(
+            get: function (): ?Training {
+                if (!isset($this->attributes['training'])) {
+                    return null;
+                }
+                return Training::from($this->attributes['training']);
+            },
+            set: function (string | Training $training): string {
+                if ($training instanceof Training) {
+                    return $training->value;
+                }
+                return $training;
             },
         );
     }

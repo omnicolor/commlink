@@ -33,7 +33,8 @@ class CharacterResource extends JsonResource
      *     system: string,
      *     links: array{
      *         self: string,
-     *         campaign?: string
+     *         campaign?: string,
+     *         playbook: string
      *     }
      * }
      */
@@ -50,6 +51,7 @@ class CharacterResource extends JsonResource
             'harmony' => $this->harmony,
             'history' => $this->history,
             'passion' => $this->passion,
+            'playbook' => new PlaybookResource($this->playbook),
             'campaign_id' => $this->when(
                 null !== $this->campaign_id,
                 $this->campaign_id
@@ -61,13 +63,14 @@ class CharacterResource extends JsonResource
             ],
             'system' => $this->system,
             'links' => [
-                'self' => route('avatar.characters.show', $this->id),
                 'campaign' => $this->when(
                     null !== $this->campaign_id,
                     null !== $this->campaign_id
                         ? route('campaigns.show', $this->campaign_id)
                         : null,
                 ),
+                'playbook' => route('avatar.playbooks.show', $this->playbook->id),
+                'self' => route('avatar.characters.show', $this->id),
             ],
         ];
     }
