@@ -1,0 +1,15 @@
+meta {
+  name: Talents
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{host}}/expanse/talents
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

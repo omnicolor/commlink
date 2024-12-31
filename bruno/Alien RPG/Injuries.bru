@@ -1,0 +1,19 @@
+meta {
+  name: Injuries
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{host}}/alien/injuries
+  body: none
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}

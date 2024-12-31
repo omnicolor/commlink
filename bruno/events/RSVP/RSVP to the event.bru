@@ -1,0 +1,21 @@
+meta {
+  name: RSVP to the event
+  type: http
+  seq: 3
+}
+
+put {
+  url: https:/commlink.digitaldarkness.com/api//events/:event_id/rsvp
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "response": ""
+  }
+}

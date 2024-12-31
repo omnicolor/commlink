@@ -1,0 +1,28 @@
+meta {
+  name: Roll dice
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{host}}/alien/rolls
+  body: json
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "character": "6697e43d245ac6b4f2032432",
+    "type": "skill",
+    "skill": "heavy-machinery"
+  }
+}

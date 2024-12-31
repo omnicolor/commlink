@@ -1,0 +1,34 @@
+meta {
+  name: Update - JSON patch
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{host}}/campaigns/:campaign_id
+  body: json
+  auth: bearer
+}
+
+params:path {
+  campaign_id: 
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json-patch+json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  [
+      {
+          "op": "replace",
+          "path": "/options/currentDate",
+          "value": "2080-04-04"
+      }
+  ]
+}
