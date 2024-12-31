@@ -135,8 +135,8 @@ final class Shadowrun5eConverterTest extends TestCase
     #[Depends('testLoadOmae')]
     public function testQualitites(PartialCharacter $character): void
     {
-        /** @var array<string, int|string> */
         $qualities = $character->qualities;
+        self::assertNotNull($qualities);
         self::assertCount(3, $qualities);
         self::assertContains(['id' => 'natural-athlete'], $qualities);
         self::assertContains(['id' => 'quick-healer'], $qualities);
@@ -149,8 +149,8 @@ final class Shadowrun5eConverterTest extends TestCase
     #[Depends('testLoadOmae')]
     public function testSkills(PartialCharacter $character): void
     {
-        /** @var array<string, string|int> */
         $skills = $character->skills;
+        self::assertNotNull($skills);
         self::assertContains(
             [
                 'id' => 'computer',
@@ -169,8 +169,8 @@ final class Shadowrun5eConverterTest extends TestCase
     #[Depends('testLoadOmae')]
     public function testWeapons(PartialCharacter $character): void
     {
-        /** @var array<string, string|array<int, string>> */
         $weapons = $character->weapons;
+        self::assertNotNull($weapons);
         self::assertContains(['id' => 'ares-predator-v'], $weapons);
         self::assertContains(['id' => 'combat-knife'], $weapons);
         self::assertContains(
@@ -218,8 +218,8 @@ final class Shadowrun5eConverterTest extends TestCase
     #[Depends('testLoadOmae')]
     public function testAugmentations(PartialCharacter $character): void
     {
-        /** @var array<string, string|array<int, string>> */
         $augmentations = $character->augmentations;
+        self::assertNotNull($augmentations);
         self::assertCount(3, $augmentations);
         self::assertContains(['id' => 'damper'], $augmentations);
         self::assertContains(['id' => 'cybereyes-1'], $augmentations);

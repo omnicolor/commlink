@@ -58,7 +58,7 @@ class Character extends BaseCharacter
     protected const int SPEED_FLEET_OF_FOOT = 40;
 
     /**
-     * @var array<array-key, mixed>
+     * @var array<string, mixed>
      */
     protected $attributes = [
         'powers' => [],
@@ -89,7 +89,7 @@ class Character extends BaseCharacter
     protected $connection = 'mongodb';
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'agility',
@@ -119,7 +119,7 @@ class Character extends BaseCharacter
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [
         '_id',

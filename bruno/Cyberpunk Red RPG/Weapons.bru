@@ -1,0 +1,19 @@
+meta {
+  name: Weapons
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{host}}/cyberpunkred/weapons
+  body: none
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}

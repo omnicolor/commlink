@@ -1,0 +1,35 @@
+meta {
+  name: Update event
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{host}}/events/:event_id
+  body: json
+  auth: bearer
+}
+
+params:path {
+  event_id: 1
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "description": "This is a test.",
+      "name":"Testing",
+      "real_end": "2023-12-21T02:37:38.000000Z",
+      "real_start": "2023-12-21T01:37:38.000000Z",
+      "game_end": "2080-01-02T09:00:00Z",
+      "game_start": "2080-01-01T08:00:00Z"
+  }
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Moves
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/root/moves
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

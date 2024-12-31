@@ -1,0 +1,15 @@
+meta {
+  name: Castes
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/subversion/castes
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

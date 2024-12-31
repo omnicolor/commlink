@@ -28,7 +28,7 @@ class Initiative extends Model
 
     /**
      * The attributes that are mass assignable.
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         // Either campaign_id or channel_id must be filled.

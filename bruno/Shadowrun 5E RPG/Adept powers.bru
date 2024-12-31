@@ -1,0 +1,15 @@
+meta {
+  name: Adept powers
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/shadowrun5e/adept-powers
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

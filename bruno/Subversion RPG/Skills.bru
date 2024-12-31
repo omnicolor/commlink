@@ -1,0 +1,15 @@
+meta {
+  name: Skills
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{host}}/subversion/skills
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

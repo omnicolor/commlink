@@ -1,0 +1,23 @@
+meta {
+  name: Delete API token
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{host}}/users/{{user_id}}/token/:token_id
+  body: none
+  auth: bearer
+}
+
+params:path {
+  token_id: 
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}

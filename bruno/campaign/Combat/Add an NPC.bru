@@ -1,0 +1,33 @@
+meta {
+  name: Add an NPC
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{host}}/campaigns/:campaign_id/initiatives
+  body: json
+  auth: bearer
+}
+
+params:path {
+  campaign_id: 
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "base_initiative": "",
+    "initiative": "",
+    "initiative_dice": "",
+    "character_name": "",
+    "grunt_id": ""
+  }
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Magical traditions
+  type: http
+  seq: 33
+}
+
+get {
+  url: {{host}}/shadowrun5e/traditions
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

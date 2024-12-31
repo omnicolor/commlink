@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Models\Campaign;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -11,7 +12,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\Permission\Models\Role;
 
 /**
- * @phpstan-type Campaign array{
+ * @phpstan-type LocalCampaignResource array{
  *     id: int,
  *     links: array{
  *         json: ?string,
@@ -26,15 +27,14 @@ class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
-     * @psalm-suppress UndefinedMagicPropertyFetch
      * @return array{
      *     characters: AnonymousResourceCollection,
      *     email: string,
      *     features: array<int, string>,
-     *     gmOf: array<int, Campaign>,
+     *     gmOf: array<int, LocalCampaignResource>,
      *     id: int,
      *     name: string,
-     *     playingIn: array<int, Campaign>,
+     *     playingIn: array<int, LocalCampaignResource>,
      *     roles: array<int, array{id: int, name: string}>,
      *     links: array{
      *         self: string
@@ -44,6 +44,7 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         $gmedCampaigns = [];
+        /** @var Campaign $campaign */
         foreach ($this->campaignsGmed as $campaign) {
             $gmedCampaigns[] = [
                 'id' => $campaign->id,
@@ -57,6 +58,7 @@ class UserResource extends JsonResource
         }
 
         $playingCampaigns = [];
+        /** @var Campaign $campaign */
         foreach ($this->campaigns as $campaign) {
             $playingCampaigns[] = [
                 'id' => $campaign->id,

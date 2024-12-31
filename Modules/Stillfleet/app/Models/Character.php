@@ -15,6 +15,8 @@ use LogicException;
 use Modules\Stillfleet\Database\Factories\CharacterFactory;
 use RuntimeException;
 
+use function assert;
+
 /**
  * @property string $charm
  * @property string $combat
@@ -26,7 +28,7 @@ use RuntimeException;
  * @property string $name
  * @property int $rank
  * @property string $reason
- * @property array $roles
+ * @property array<int, array{id: string, level: int, powers: array<int, string>}> $roles
  * @property string $species
  * @property string $will
  */
@@ -51,7 +53,7 @@ class Character extends BaseCharacter
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'charm',
@@ -76,7 +78,7 @@ class Character extends BaseCharacter
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [
         '_id',
@@ -136,6 +138,7 @@ class Character extends BaseCharacter
         return Attribute::make(
             get: function (): int {
                 $grit = 0;
+                assert($this->roles[0] instanceof Role);
                 foreach ($this->roles[0]->grit as $attribute) {
                     if (Str::startsWith($attribute, '-')) {
                         $attribute = Str::after($attribute, '-');

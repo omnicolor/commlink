@@ -17,7 +17,22 @@ use function array_values;
 class RoleResource extends JsonResource
 {
     /**
-     * @return array<string, array<int|string, string>|int|string>
+     * @return array{
+     *     description?: string,
+     *     grit: array<int, string>,
+     *     id: string,
+     *     name: string,
+     *     page: int,
+     *     advanced_power_lists: array<int, string>,
+     *     marquee_power: PowerResource,
+     *     optional_powers: array<int, PowerResource>,
+     *     other_powers: array<int, PowerResource>,
+     *     responsibilities: array<int, string>,
+     *     ruleset: string,
+     *     links: array{
+     *         self: string
+     *     }
+     * }
      */
     public function toArray(Request $request): array
     {

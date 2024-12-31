@@ -1,0 +1,23 @@
+meta {
+  name: Soft-delete campaign
+  type: http
+  seq: 2
+}
+
+delete {
+  url: {{host}}/campaigns/:campaign_id
+  body: none
+  auth: bearer
+}
+
+params:path {
+  campaign_id: 
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}

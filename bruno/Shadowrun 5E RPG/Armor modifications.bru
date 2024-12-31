@@ -1,0 +1,15 @@
+meta {
+  name: Armor modifications
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{host}}/shadowrun5e/armor-modifications
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

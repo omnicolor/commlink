@@ -1,0 +1,19 @@
+meta {
+  name: All characters
+  type: http
+  seq: 38
+}
+
+get {
+  url: {{host}}/shadowrun5e/characters
+  body: none
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}

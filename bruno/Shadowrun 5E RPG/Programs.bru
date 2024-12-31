@@ -1,0 +1,15 @@
+meta {
+  name: Programs
+  type: http
+  seq: 24
+}
+
+get {
+  url: {{host}}/shadowrun5e/programs
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

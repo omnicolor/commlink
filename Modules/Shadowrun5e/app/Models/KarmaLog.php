@@ -114,10 +114,13 @@ class KarmaLog extends ArrayObject
      */
     public static function countSkillPoints(?int $carry, Skill $item): int
     {
+        if (null === $carry) {
+            $carry = 0;
+        }
         // A character should only have one native language, or two with the
         // bilingual quality, which are free.
-        if ('N' == $item->level) {
-            return $carry ?? 0;
+        if ('N' === $item->level) {
+            return $carry;
         }
         $carry += (int)$item->level;
         if (isset($item->specialization)) {
@@ -487,7 +490,7 @@ class KarmaLog extends ArrayObject
                 sprintf('Increase %s to %d', $key, $value),
                 $value * -5,
             );
-            if (2 == $value) {
+            if (2 === $value) {
                 // The first one's free, so this attribute can't be used
                 // anymore.
                 unset($attributeList[$key]);

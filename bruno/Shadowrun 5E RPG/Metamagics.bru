@@ -1,0 +1,15 @@
+meta {
+  name: Metamagics
+  type: http
+  seq: 23
+}
+
+get {
+  url: {{host}}/shadowrun5e/metamagics
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

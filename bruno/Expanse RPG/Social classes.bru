@@ -1,0 +1,15 @@
+meta {
+  name: Social classes
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{host}}/expanse/social-classes
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

@@ -4,24 +4,17 @@ declare(strict_types=1);
 
 namespace Discord\Parts\Embed;
 
-use Carbon\Carbon;
-use Discord\Helpers\Collection;
 use Discord\Parts\Part;
+use Discord\Parts\Embed\Footer;
 
 /**
  * @property string|null $title
  * @property string|null $type
  * @property string|null $description
  * @property string|null $url
- * @property Carbon|null $timestamp
  * @property int|null $color
  * @property Footer|null $footer
- * @property Image|null $image
- * @property Image|null $thumbnail
- * @property Video|null $video
  * @property object|null $provider
- * @property Author|null $author
- * @property Collection|Field[] $fields
  */
 class Embed extends Part
 {

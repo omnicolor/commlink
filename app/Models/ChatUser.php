@@ -47,7 +47,7 @@ class ChatUser extends Model
 
     /**
      * Mass assignable properties.
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'remote_user_id',

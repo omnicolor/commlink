@@ -27,6 +27,7 @@ class HandleEventCreated
 
     public function handle(EventCreated $event): bool
     {
+        /** @var Channel */
         foreach ($event->event->campaign->channels ?? [] as $channel) {
             switch ($channel->type) {
                 case Channel::TYPE_SLACK: // @codeCoverageIgnore

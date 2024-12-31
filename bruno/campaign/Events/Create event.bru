@@ -1,0 +1,35 @@
+meta {
+  name: Create event
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{host}}/campaigns/:campaign_id/events
+  body: json
+  auth: bearer
+}
+
+params:path {
+  campaign_id: 
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "description": "string",
+    "game_end": "string",
+    "game_start": "string",
+    "name": "string",
+    "real_end": "string",
+    "real_start": "string"
+  }
+}

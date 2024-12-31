@@ -1,0 +1,15 @@
+meta {
+  name: Sprites
+  type: http
+  seq: 32
+}
+
+get {
+  url: {{host}}/shadowrun5e/sprites
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

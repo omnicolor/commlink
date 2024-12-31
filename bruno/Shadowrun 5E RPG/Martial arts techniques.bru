@@ -1,0 +1,15 @@
+meta {
+  name: Martial arts techniques
+  type: http
+  seq: 21
+}
+
+get {
+  url: {{host}}/shadowrun5e/martial-arts-techniques
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

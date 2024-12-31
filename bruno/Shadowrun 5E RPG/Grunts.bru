@@ -1,0 +1,15 @@
+meta {
+  name: Grunts
+  type: http
+  seq: 15
+}
+
+get {
+  url: {{host}}/shadowrun5e/grunts
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

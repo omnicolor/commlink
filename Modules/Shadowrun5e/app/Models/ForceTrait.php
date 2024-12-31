@@ -61,12 +61,10 @@ trait ForceTrait
         $divideIndex = array_search('/', $components, true);
         while (false !== $multiplyIndex || false !== $divideIndex) {
             if (false !== $multiplyIndex && (false === $divideIndex || $multiplyIndex < $divideIndex)) {
-                /** @var int $index */
-                $index = $multiplyIndex;
+                $index = (int)$multiplyIndex;
                 $result = (int)$components[$index - 1] * (int)$components[$index + 1];
             } else {
-                /** @var int $index */
-                $index = $divideIndex;
+                $index = (int)$divideIndex;
                 $result = (int)$components[$index - 1] / (int)$components[$index + 1];
             }
             array_splice($components, $index - 1, 3, (string)$result);
@@ -79,12 +77,10 @@ trait ForceTrait
         $minusIndex = array_search('-', $components, true);
         while (false !== $plusIndex || false !== $minusIndex) {
             if (false !== $plusIndex && (false === $minusIndex || $plusIndex < $minusIndex)) {
-                /** @var int $index */
-                $index = $plusIndex;
+                $index = (int)$plusIndex;
                 $result = (int)$components[$index - 1] + (int)$components[$index + 1];
             } else {
-                /** @var int $index */
-                $index = $minusIndex;
+                $index = (int)$minusIndex;
                 $result = (int)$components[$index - 1] - (int)$components[$index + 1];
             }
             array_splice($components, $index - 1, 3, (string)$result);
