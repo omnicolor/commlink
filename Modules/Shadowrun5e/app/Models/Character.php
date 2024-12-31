@@ -17,6 +17,7 @@ use Stringable;
 
 use function array_key_exists;
 use function array_merge;
+use function assert;
 use function ceil;
 use function count;
 use function is_int;
@@ -91,7 +92,7 @@ class Character extends BaseCharacter implements Stringable
     use Notifiable;
 
     /**
-     * @var array<array-key, mixed>
+     * @var array<string, mixed>
      */
     protected $attributes = [
         'system' => 'shadowrun5e',
@@ -116,7 +117,7 @@ class Character extends BaseCharacter implements Stringable
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'agility',
@@ -171,7 +172,7 @@ class Character extends BaseCharacter implements Stringable
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [
         '_id',
@@ -200,7 +201,7 @@ class Character extends BaseCharacter implements Stringable
      */
     protected function dashedToCamel(string $string): string
     {
-        if ('' == $string) {
+        if ('' === $string) {
             return '';
         }
         $string = str_replace('-', ' ', $string);
@@ -730,9 +731,11 @@ class Character extends BaseCharacter implements Stringable
     protected function getSkillLimitModifierFromQualities(Skill $skill): int
     {
         // Ignore knowledge skills.
-        if (!isset($skill->id)) {
+        if ($skill instanceof KnowledgeSkill) {
             return 0;
         }
+        assert($skill instanceof ActiveSkill);
+
         $limitModifier = 0;
         foreach ($this->getQualities() as $quality) {
             foreach ($quality->effects as $effect => $value) {

@@ -1,0 +1,11 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Discord\Parts\User;
+
+use Discord\Parts\Part;
+
+class User extends Part
+{
+}

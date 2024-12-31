@@ -1,0 +1,15 @@
+meta {
+  name: Vehicles
+  type: http
+  seq: 35
+}
+
+get {
+  url: {{host}}/shadowrun5e/vehicles
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

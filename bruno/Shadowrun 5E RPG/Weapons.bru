@@ -1,0 +1,15 @@
+meta {
+  name: Weapons
+  type: http
+  seq: 37
+}
+
+get {
+  url: {{host}}/shadowrun5e/weapons
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

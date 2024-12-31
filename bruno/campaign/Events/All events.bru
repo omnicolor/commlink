@@ -1,0 +1,27 @@
+meta {
+  name: All events
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/campaigns/:campaign_id/events
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~future: 
+}
+
+params:path {
+  campaign_id: 1
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}

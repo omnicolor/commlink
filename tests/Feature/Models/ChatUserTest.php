@@ -181,20 +181,18 @@ final class ChatUserTest extends TestCase
      */
     public function testGetChatCharacter(): void
     {
-        /** @var ChatUser */
-        $chatUser = ChatUser::factory()->create();
-        /** @var Character */
-        $character = Character::factory()->create([
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
-        $chatCharacter = ChatCharacter::factory()->create([
+        $chat_user = ChatUser::factory()->create();
+        $character = Character::factory()->create([]);
+        ChatCharacter::factory()->create([
             'character_id' => $character->id,
-            'chat_user_id' => $chatUser->id,
+            'chat_user_id' => $chat_user->id,
         ]);
 
+        $loaded_chat_character = $chat_user->chatCharacter;
+        self::assertInstanceOf(ChatCharacter::class, $loaded_chat_character);
         self::assertSame(
             $character->id,
-            $chatUser->chatCharacter?->getCharacter()?->id,
+            $loaded_chat_character->getCharacter()?->id,
         );
         $character->delete();
     }

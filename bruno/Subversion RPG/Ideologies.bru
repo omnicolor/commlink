@@ -1,0 +1,15 @@
+meta {
+  name: Ideologies
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{host}}/subversion/ideologies
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

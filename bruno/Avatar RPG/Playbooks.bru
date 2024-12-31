@@ -1,0 +1,19 @@
+meta {
+  name: Playbooks
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{host}}/avatar/playbooks
+  body: none
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}

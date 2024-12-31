@@ -36,7 +36,6 @@ final class HandleEventCreatedTest extends TestCase
         Http::fake();
 
         $creator = User::factory()->create();
-        /** @var Channel */
         $campaign = Campaign::factory()
             ->hasChannels(1, ['type' => Channel::TYPE_SLACK])
             ->create();
@@ -61,7 +60,6 @@ final class HandleEventCreatedTest extends TestCase
         Http::fake();
 
         $creator = User::factory()->create();
-        /** @var Channel */
         $campaign = Campaign::factory()
             ->hasChannels(1, ['type' => Channel::TYPE_DISCORD])
             ->create();
@@ -81,7 +79,6 @@ final class HandleEventCreatedTest extends TestCase
         Http::fake();
 
         $creator = User::factory()->create();
-        /** @var Channel */
         $campaign = Campaign::factory()
             ->hasChannels(
                 1,

@@ -1,0 +1,29 @@
+meta {
+  name: Update a channel
+  type: http
+  seq: 1
+}
+
+patch {
+  url: {{host}}/channels/:channel_id
+  body: json
+  auth: bearer
+}
+
+params:path {
+  channel_id: 
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "webhook": null
+  }
+}

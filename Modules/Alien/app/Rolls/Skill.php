@@ -6,8 +6,10 @@ namespace Modules\Alien\Rolls;
 
 use App\Models\Channel;
 use App\Rolls\Roll;
+use Modules\Alien\Models\Character;
 
 use function array_shift;
+use function assert;
 use function explode;
 use function sprintf;
 use function trim;
@@ -36,6 +38,7 @@ class Skill extends Number
                 . 'a character';
             return;
         }
+        assert($this->character instanceof Character);
 
         $args = explode(' ', trim($content));
         // Ignore the word 'skill'.

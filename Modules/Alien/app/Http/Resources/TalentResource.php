@@ -24,7 +24,7 @@ class TalentResource extends JsonResource
      *     ruleset: string,
      *     links: array{
      *         self: string,
-     *         career: string
+     *         career?: string
      *     }
      * }
      */

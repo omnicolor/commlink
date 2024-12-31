@@ -1,0 +1,15 @@
+meta {
+  name: Powers
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/stillfleet/powers
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

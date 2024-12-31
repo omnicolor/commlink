@@ -1,0 +1,15 @@
+meta {
+  name: Augmentations (cyberware & bioware)
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{host}}/shadowrun5e/cyberware
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

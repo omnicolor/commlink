@@ -45,7 +45,7 @@ class Character extends Model implements Stringable
 
     /**
      * The attributes that are mass assignable.
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'campaign_id',

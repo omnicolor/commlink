@@ -1,0 +1,15 @@
+meta {
+  name: Spirits
+  type: http
+  seq: 31
+}
+
+get {
+  url: {{host}}/shadowrun5e/spirits
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

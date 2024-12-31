@@ -11,7 +11,6 @@ use Sushi\Sushi;
 use stdClass;
 
 /**
- * @immutable
  * @property string $description
  * @property stdClass $effects
  * @property string $id
@@ -37,7 +36,7 @@ class Move extends Model implements Stringable
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'description',

@@ -1,0 +1,15 @@
+meta {
+  name: Critter powers
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{host}}/shadowrun5e/critter-powers
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

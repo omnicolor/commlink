@@ -1,0 +1,15 @@
+meta {
+  name: Skill groups
+  type: http
+  seq: 28
+}
+
+get {
+  url: {{host}}/shadowrun5e/skill-groups
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

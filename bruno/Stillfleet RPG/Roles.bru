@@ -1,0 +1,15 @@
+meta {
+  name: Roles
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/stillfleet/roles
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

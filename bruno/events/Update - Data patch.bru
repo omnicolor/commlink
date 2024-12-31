@@ -1,0 +1,30 @@
+meta {
+  name: Update - Data patch
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{host}}/events/:event_id
+  body: json
+  auth: bearer
+}
+
+params:path {
+  event_id: 1
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "description": "This is a test."
+  }
+}

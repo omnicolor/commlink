@@ -1,0 +1,15 @@
+meta {
+  name: Lifestyle zones
+  type: http
+  seq: 18
+}
+
+get {
+  url: {{host}}/shadowrun5e/lifestyle-zones
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
