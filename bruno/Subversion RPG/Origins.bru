@@ -1,0 +1,15 @@
+meta {
+  name: Origins
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{host}}/subversion/origins
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
