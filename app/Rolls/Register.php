@@ -32,7 +32,7 @@ class Register extends Roll
     ) {
         parent::__construct($content, $character, $channel);
         $arguments = explode(' ', $content);
-        $systems = config('app.systems');
+        $systems = config('commlink.systems');
 
         if (self::EXPECTED_ARGUMENTS !== count($arguments)) {
             $this->error = 'To register a channel, use `register [system]`, '

@@ -28,8 +28,8 @@ class InvitedToCampaign extends Mailable
         $campaign = $invitation->campaign;
         $this->campaign = $campaign;
         $this->system = $this->campaign->system;
-        if (array_key_exists($this->campaign->system, config('app.systems'))) {
-            $this->system = config('app.systems')[$this->campaign->system];
+        if (array_key_exists($this->campaign->system, config('commlink.systems'))) {
+            $this->system = config('commlink.systems')[$this->campaign->system];
         }
     }
 

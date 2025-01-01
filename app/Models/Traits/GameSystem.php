@@ -15,8 +15,8 @@ trait GameSystem
             return 'Unknown';
         }
 
-        if (array_key_exists($this->attributes['system'], config('app.systems'))) {
-            return config('app.systems')[$this->attributes['system']];
+        if (array_key_exists($this->attributes['system'], config('commlink.systems'))) {
+            return config('commlink.systems')[$this->attributes['system']];
         }
 
         return $this->attributes['system'];
