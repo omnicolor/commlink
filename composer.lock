@@ -9600,16 +9600,16 @@
         },
         {
             "name": "calebdw/fakerstan",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/calebdw/fakerstan.git",
-                "reference": "ed52fa3c9afacae22a38b6e82759b4c669c35717"
+                "reference": "18f6c97cb4d206c1a8fab847c12383d2d7c04d49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/calebdw/fakerstan/zipball/ed52fa3c9afacae22a38b6e82759b4c669c35717",
-                "reference": "ed52fa3c9afacae22a38b6e82759b4c669c35717",
+                "url": "https://api.github.com/repos/calebdw/fakerstan/zipball/18f6c97cb4d206c1a8fab847c12383d2d7c04d49",
+                "reference": "18f6c97cb4d206c1a8fab847c12383d2d7c04d49",
                 "shasum": ""
             },
             "require": {
@@ -9652,7 +9652,7 @@
             ],
             "support": {
                 "issues": "https://github.com/calebdw/fakerstan/issues",
-                "source": "https://github.com/calebdw/fakerstan/tree/v1.0.0"
+                "source": "https://github.com/calebdw/fakerstan/tree/v1.1.0"
             },
             "funding": [
                 {
@@ -9660,7 +9660,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-12-19T06:46:16+00:00"
+            "time": "2024-12-31T19:02:36+00:00"
         },
         {
             "name": "captainhook/captainhook-phar",
