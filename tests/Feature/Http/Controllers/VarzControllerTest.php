@@ -40,7 +40,7 @@ final class VarzControllerTest extends TestCase
     public function testVarzEmpty(): void
     {
         $systems = [];
-        foreach (config('app.systems') as $code => $name) {
+        foreach (config('commlink.systems') as $code => $name) {
             $systems[$code] = [
                 'name' => $name,
                 'data' => [
@@ -69,7 +69,7 @@ final class VarzControllerTest extends TestCase
     public function testVarz(): void
     {
         $systems = [];
-        foreach (config('app.systems') as $code => $name) {
+        foreach (config('commlink.systems') as $code => $name) {
             $systems[$code] = [
                 'name' => $name,
                 'data' => [
