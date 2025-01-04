@@ -148,7 +148,10 @@ class VehicleModification implements Stringable
         // Vehicle modifications can be modified by other modifications.
         $this->modifications = new VehicleModificationArray();
         if (VehicleModificationType::VehicleModification === $this->type) {
-            assert(null === $options['modifications'] || is_array($options['modifications']));
+            assert(
+                null === ($options['modifications'] ?? null)
+                || is_array($options['modifications'])
+            );
             foreach ($options['modifications'] ?? [] as $modMod) {
                 $this->modifications[] = new VehicleModification($modMod);
             }
