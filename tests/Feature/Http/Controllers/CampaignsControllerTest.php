@@ -418,8 +418,7 @@ final class CampaignsControllerTest extends TestCase
             ->assertJson([
                 'data' => [],
                 'links' => [
-                    'collection' => '/campaigns',
-                    'root' => '/',
+                    'self' => route('campaigns.index'),
                 ],
             ]);
     }
