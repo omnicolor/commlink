@@ -20,13 +20,25 @@ Route::middleware('auth')->prefix('characters')->group(function (): void {
                 [CharactersController::class, 'create'],
             )->name('create');
             Route::post(
+                'create/armor',
+                [CharactersController::class, 'storeArmor'],
+            )->name('create-armor');
+            Route::post(
                 'create/attributes',
                 [CharactersController::class, 'storeAttributes'],
             )->name('create-attributes');
             Route::post(
+                'create/augmentations',
+                [CharactersController::class, 'storeAugmentations'],
+            )->name('create-augmentations');
+            Route::post(
                 'create/background',
                 [CharactersController::class, 'storeBackground'],
             )->name('create-background');
+            Route::post(
+                'create/gear',
+                [CharactersController::class, 'storeGear'],
+            )->name('create-gear');
             Route::post(
                 'create/knowledge',
                 [CharactersController::class, 'storeKnowledgeSkills'],
@@ -55,6 +67,14 @@ Route::middleware('auth')->prefix('characters')->group(function (): void {
                 'create/standard',
                 [CharactersController::class, 'storeStandard'],
             )->name('create-standard');
+            Route::post(
+                'create/weapons',
+                [CharactersController::class, 'storeWeapons'],
+            )->name('create-weapons');
+            Route::post(
+                'create/vehicles',
+                [CharactersController::class, 'storeVehicles'],
+            )->name('create-vehicles');
             Route::post(
                 'create/vitals',
                 [CharactersController::class, 'storeVitals'],
