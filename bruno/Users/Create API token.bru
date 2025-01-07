@@ -1,0 +1,27 @@
+meta {
+  name: Create API token
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{host}}/users/{{user_id}}/token
+  body: json
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "expires_at": "",
+    "name": ""
+  }
+}

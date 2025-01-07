@@ -1,0 +1,30 @@
+meta {
+  name: Update - data patch
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{host}}/campaigns/:campaign_id
+  body: json
+  auth: bearer
+}
+
+params:path {
+  campaign_id: 
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "currentDate": ""
+  }
+}

@@ -1,0 +1,19 @@
+meta {
+  name: Virtues
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{host}}/capers/virtues
+  body: none
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}

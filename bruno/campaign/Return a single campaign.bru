@@ -1,0 +1,23 @@
+meta {
+  name: Return a single campaign
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{host}}/campaigns/:campaign_id
+  body: none
+  auth: bearer
+}
+
+params:path {
+  campaign_id: 
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}

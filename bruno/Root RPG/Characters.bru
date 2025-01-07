@@ -1,0 +1,15 @@
+meta {
+  name: Characters
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/root/characters
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

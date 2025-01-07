@@ -6,6 +6,7 @@ namespace App\Console\Commands;
 
 use App\Events\IrcMessageReceived;
 use App\Models\Irc\User;
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Jerodev\PhpIrcClient\IrcChannel;
@@ -74,29 +75,11 @@ class IrcRunCommand extends SignalAwareCommand
     {
         $this->server = $this->argument('server');
         $this->port = $this->option('port') ?? '6667';
-        if (
-            null !== $this->option('nickname')
-            && '' !== trim($this->option('nickname'))
-        ) {
-            $this->nickname = trim($this->option('nickname'));
-        } else {
-            $this->nickname = config('app.name');
-        }
-        $channels = $this->option('channel');
-        $options = new ClientOptions(
-            nickname: $this->nickname,
-            channels: array_filter(
-                $channels,
-                function (null|string $channel): bool {
-                    return null !== $channel;
-                },
-            ),
-        );
-        $options->autoRejoin = true;
+        $this->setNickname();
 
         $this->client = new IrcClient(
             sprintf('%s:%s', $this->server, $this->port),
-            $options,
+            $this->setClientOptions(),
         );
 
         $this->client->on('kick', [$this, 'handleKick']);
@@ -109,7 +92,12 @@ class IrcRunCommand extends SignalAwareCommand
         $this->client->on('nick-is-registered', [$this, 'handleWhois']);
         $this->client->on('renamed', [$this, 'handleRename']);
 
-        $this->client->connect();
+        try {
+            $this->client->connect();
+        } catch (Exception $ex) {
+            $this->error($ex->getMessage());
+            return self::INVALID;
+        }
 
         return self::SUCCESS;
     }
@@ -296,5 +284,34 @@ class IrcRunCommand extends SignalAwareCommand
         $message = sprintf('Disconnecting from %s', $this->server);
         $this->line($message);
         Log::info($message);
+    }
+
+    private function setNickname(): void
+    {
+        if (
+            null !== $this->option('nickname')
+            && '' !== trim($this->option('nickname'))
+        ) {
+            $this->nickname = trim($this->option('nickname'));
+            return;
+        }
+
+        $this->nickname = config('app.name');
+    }
+
+    private function setClientOptions(): ClientOptions
+    {
+        $channels = $this->option('channel');
+        $options = new ClientOptions(
+            nickname: $this->nickname,
+            channels: array_filter(
+                $channels,
+                function (null|string $channel): bool {
+                    return null !== $channel;
+                },
+            ),
+        );
+        $options->autoRejoin = true;
+        return $options;
     }
 }

@@ -202,7 +202,7 @@ class Channel extends Model
                 return $this->attributes['system'] ?? null;
             },
             set: function (string $system): string {
-                if (!array_key_exists($system, config('app.systems'))) {
+                if (!array_key_exists($system, config('commlink.systems'))) {
                     throw new RuntimeException('Invalid system');
                 }
                 $this->attributes['system'] = $system;

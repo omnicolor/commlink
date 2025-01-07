@@ -1,0 +1,23 @@
+meta {
+  name: Return a roll
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{host}}/alien/rolls/:roll_id
+  body: none
+  auth: bearer
+}
+
+params:path {
+  roll_id: 
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
