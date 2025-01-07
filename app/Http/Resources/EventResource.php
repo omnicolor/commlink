@@ -8,6 +8,8 @@ use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+use function route;
+
 /**
  * @mixin Event
  */

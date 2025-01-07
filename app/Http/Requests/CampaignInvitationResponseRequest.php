@@ -20,7 +20,9 @@ class CampaignInvitationResponseRequest extends FormRequest
     }
 
     /**
-     * @return array<string, array<int, string>>
+     * @return array{
+     *     response: array<int, string>
+     * }
      */
     public function rules(): array
     {
