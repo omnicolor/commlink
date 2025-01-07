@@ -109,7 +109,7 @@ class VehicleModification implements Stringable
 
     /**
      * Construct a new modification object.
-     * @param array<string, array<int|string, string>|string> $options
+     * @param array{modifications?: array<int, string>, weapon?: array<string, mixed>} $options
      * @throws RuntimeException
      */
     public function __construct(public string $id, array $options = [])
@@ -148,10 +148,6 @@ class VehicleModification implements Stringable
         // Vehicle modifications can be modified by other modifications.
         $this->modifications = new VehicleModificationArray();
         if (VehicleModificationType::VehicleModification === $this->type) {
-            assert(
-                null === ($options['modifications'] ?? null)
-                || is_array($options['modifications'])
-            );
             foreach ($options['modifications'] ?? [] as $modMod) {
                 $this->modifications[] = new VehicleModification($modMod);
             }
