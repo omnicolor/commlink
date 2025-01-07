@@ -9,6 +9,7 @@ use App\Models\User;
 use Laravel\Pennant\Feature;
 use Modules\Stillfleet\Models\Character;
 use Modules\Stillfleet\Models\PartialCharacter;
+use Modules\Stillfleet\Models\Role;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -171,6 +172,7 @@ final class CharactersControllerTest extends TestCase
             )
             ->assertRedirect(route('stillfleet.create', 'class-powers'));
         $character->refresh();
+        self::assertInstanceOf(Role::class, $character->roles[0]);
         self::assertSame('Tremulant', $character->roles[0]->name);
         $character->delete();
     }
@@ -197,6 +199,7 @@ final class CharactersControllerTest extends TestCase
             )
             ->assertRedirect(route('stillfleet.create', 'class-powers'));
         $character->refresh();
+        self::assertInstanceOf(Role::class, $character->roles[0]);
         self::assertSame('Tremulant', $character->roles[0]->name);
         self::assertCount(0, $character->roles[0]->powers_additional);
         $character->delete();
@@ -224,6 +227,7 @@ final class CharactersControllerTest extends TestCase
             )
             ->assertRedirect(route('stillfleet.create', 'class-powers'));
         $character->refresh();
+        self::assertInstanceOf(Role::class, $character->roles[0]);
         self::assertSame('Banshee', $character->roles[0]->name);
         self::assertCount(1, $character->roles[0]->powers_additional);
         $character->delete();

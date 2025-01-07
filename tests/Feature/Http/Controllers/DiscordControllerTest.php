@@ -255,9 +255,9 @@ final class DiscordControllerTest extends TestCase
             ]);
         self::get('discord/callback')->assertRedirect('/discord');
 
-        /** @var User */
         $user = User::where('email', $email)->first();
-        self::assertNotNull($user);
+        // @phpstan-ignore staticMethod.impossibleType
+        self::assertInstanceOf(User::class, $user);
         self::assertSame($name, $user->name);
         self::assertSame('reset me', $user->password);
         self::assertAuthenticatedAs($user);

@@ -48,14 +48,24 @@ class Relation implements Stringable
         if ('cost' === $name) {
             return $this->cost();
         }
-        /** @var array<int, array{file: string, line: int}> */
+        /**
+         * @var list<array{
+         *     function: string,
+         *     line?: int,
+         *     file?: string,
+         *     class?: class-string,
+         *     type?: string,
+         *     args?: array<mixed>,
+         *     object?: object
+         * }>
+         */
         $trace = debug_backtrace();
         trigger_error(
             sprintf(
                 'Undefined property via __get(): %s in %s on line %d',
                 $name,
-                $trace[0]['file'],
-                $trace[0]['line'],
+                $trace[0]['file'] ?? '',
+                $trace[0]['line'] ?? 0,
             ),
             E_USER_NOTICE
         );

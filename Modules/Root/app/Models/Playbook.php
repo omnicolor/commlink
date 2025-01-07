@@ -16,7 +16,6 @@ use function collect;
 use function json_decode;
 
 /**
- * @immutable
  * @property Attribute $charm
  * @property Attribute $cunning
  * @property string $description_long
@@ -51,7 +50,7 @@ class Playbook extends Model implements Stringable
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'description_long',

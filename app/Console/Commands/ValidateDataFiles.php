@@ -29,6 +29,9 @@ class ValidateDataFiles extends Command
         'cyberpunkred' => 'Modules/Cyberpunkred/data/',
         'dnd5e' => 'Modules/Dnd5e/data/',
         'expanse' => 'Modules/Expanse/data/',
+        'legendofthefiverings4e' => 'Modules/Legendofthefiverings4e/data/',
+        'root' => 'Modules/Root/data/',
+        'shadowrunanarchy' => 'Modules\Shadowrunanarchy/data/',
         'shadowrun5e' => 'Modules/Shadowrun5e/data/',
         'shadowrun6e' => 'Modules/Shadowrun6e/data/',
         'startrekadventures' => 'Modules/Startrekadventures/data/',
@@ -54,14 +57,14 @@ class ValidateDataFiles extends Command
      */
     protected array $paths;
 
-    protected int $return = Command::SUCCESS;
+    protected int $return = self::SUCCESS;
 
     /**
      * Execute the console command.
      */
     public function handle(): int
     {
-        $systems = config('app.systems');
+        $systems = config('commlink.systems');
         $this->line('Enabled systems to be validated:');
         foreach ($systems as $system) {
             $this->line('  * ' . $system);
@@ -77,7 +80,7 @@ class ValidateDataFiles extends Command
 
             if (!isset($this->paths[$system])) {
                 $this->error('  * No data_path config set');
-                $this->return = Command::FAILURE;
+                $this->return = self::FAILURE;
                 continue;
             }
 
@@ -88,7 +91,7 @@ class ValidateDataFiles extends Command
                 $this->error(
                     '  * Invalid data directory: ' . $this->paths[$system]
                 );
-                $this->return = Command::FAILURE;
+                $this->return = self::FAILURE;
                 continue;
             }
 

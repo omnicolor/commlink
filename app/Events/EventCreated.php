@@ -12,13 +12,13 @@ use Illuminate\Queue\SerializesModels;
 /**
  * An event (a calendar event, not a Laravel event) was scheduled.
  */
-class EventCreated
+final class EventCreated
 {
     use Dispatchable;
     use InteractsWithSockets;
     use SerializesModels;
 
-    public function __construct(public Event $event)
+    public function __construct(public readonly Event $event)
     {
     }
 }

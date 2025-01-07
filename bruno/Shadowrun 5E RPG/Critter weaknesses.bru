@@ -1,0 +1,15 @@
+meta {
+  name: Critter weaknesses
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{host}}/shadowrun5e/critter-weaknesses
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Resonance echoes
+  type: http
+  seq: 26
+}
+
+get {
+  url: {{host}}/shadowrun5e/resonance-echoes
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

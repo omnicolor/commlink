@@ -1,0 +1,15 @@
+meta {
+  name: Gear modifications
+  type: http
+  seq: 14
+}
+
+get {
+  url: {{host}}/shadowrun5e/gear-modifications
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Playbooks
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{host}}/root/playbooks
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

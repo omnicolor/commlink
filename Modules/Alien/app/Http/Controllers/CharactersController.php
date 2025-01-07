@@ -145,6 +145,7 @@ class CharactersController extends Controller
                         ]);
                 }
                 $gear = $character->career->gear;
+                /** @var array<int, array<string, string>> $choice */
                 foreach ($gear as &$choice) {
                     /** @var array<string, string> $item */
                     foreach ($choice as &$item) {
@@ -365,6 +366,7 @@ class CharactersController extends Controller
         $career = $character->career;
 
         $needsQuantity = [];
+        /** @var array<int, array<string, int|string>> */
         foreach ($career->gear as $row) {
             /** @var array<string, int|string> $item */
             foreach ($row as $item) {

@@ -157,7 +157,7 @@ class Number extends Roll
         array_walk($rolls, function (int &$value): void {
             if ($value >= self::MIN_SUCCESS) {
                 $value = sprintf('*%d*', $value);
-            } elseif (self::FAILURE == $value) {
+            } elseif (self::FAILURE === $value) {
                 $value = sprintf('~%d~', $value);
             }
             $value = (string)$value;
