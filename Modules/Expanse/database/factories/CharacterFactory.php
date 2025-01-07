@@ -9,6 +9,7 @@ use Modules\Expanse\Models\Character;
 use Modules\Expanse\Models\Focus;
 
 use function array_keys;
+use function assert;
 use function config;
 
 /**
@@ -67,6 +68,7 @@ class CharacterFactory extends Factory
             $this->loadBackgrounds();
             $this->loadSocialClasses();
         }
+        assert(null !== self::$socialClasses);
         return [
             'background' => (string)$this->faker->randomElement(self::$backgrounds),
             'focuses' => [

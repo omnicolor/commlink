@@ -1,0 +1,32 @@
+meta {
+  name: Update - JSON patch
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{host}}/events/:event_id
+  body: json
+  auth: bearer
+}
+
+params:path {
+  event_id: 1
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json-patch+json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  [
+      {"op": "add", "path": "/foo", "value": "Patched name"},
+      {"op": "remove", "path": "/name"},
+      {"op": "replace", "path": "/real_start", "value": "2023-04-01"}
+  ]
+}

@@ -39,7 +39,7 @@ class CampaignInvitation extends Model
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'campaign_id',

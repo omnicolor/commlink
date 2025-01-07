@@ -1,0 +1,23 @@
+meta {
+  name: End combat
+  type: http
+  seq: 1
+}
+
+delete {
+  url: {{host}}/campaigns/:campaign_id/initiatives
+  body: none
+  auth: bearer
+}
+
+params:path {
+  campaign_id: 
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}

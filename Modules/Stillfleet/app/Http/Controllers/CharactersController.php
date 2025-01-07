@@ -122,6 +122,7 @@ class CharactersController extends Controller
             return new RedirectResponse(route('stillfleet.create', 'class-powers'));
         }
         $chosenRole = $character->roles[0];
+        assert($chosenRole instanceof Role);
 
         if ($chosenRole->id === $request->role) {
             // Updating to the same class.
@@ -150,7 +151,7 @@ class CharactersController extends Controller
 
         if (null !== $characterId) {
             // Return the character they're working on.
-            /** @var ?PartialCharacter */
+            /** @var PartialCharacter */
             return PartialCharacter::where('owner', $user->email)
                 ->where('_id', $characterId)
                 ->firstOrFail();

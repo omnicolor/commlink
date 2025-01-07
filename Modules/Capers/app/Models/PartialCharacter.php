@@ -28,7 +28,7 @@ class PartialCharacter extends Character implements Stringable
     protected $connection = 'mongodb';
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'agility',

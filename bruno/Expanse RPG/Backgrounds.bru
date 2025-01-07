@@ -1,0 +1,15 @@
+meta {
+  name: Backgrounds
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/expanse/backgrounds
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

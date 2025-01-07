@@ -1,0 +1,19 @@
+meta {
+  name: Character's contacts
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{host}}/shadowrun5e/characters/:character_id/contacts
+  body: none
+  auth: bearer
+}
+
+params:path {
+  character_id: 65ca3fe9bd713993c512af01
+}
+
+auth:bearer {
+  token: {{token}}
+}

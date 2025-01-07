@@ -1,0 +1,25 @@
+meta {
+  name: User's events
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/events
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~campaign_id: 
+  ~future: 
+  ~response[]: 
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}

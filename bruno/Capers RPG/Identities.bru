@@ -1,0 +1,19 @@
+meta {
+  name: Identities
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{host}}/capers/identities
+  body: none
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}

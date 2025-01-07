@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace Discord\Parts\Channel;
 
-use Carbon\Carbon;
 use Discord\Builders\MessageBuilder;
-use Discord\Helpers\Collection;
 use Discord\Parts\Embed\Embed;
 use Discord\Parts\Guild\Emoji;
 use Discord\Parts\Part;
 use Discord\Parts\User\Member;
 use Discord\Parts\User\User;
 use Discord\Parts\Guild\Guild;
-use Discord\Parts\WebSockets\MessageInteraction;
 use React\Promise\ExtendedPromiseInterface;
 
 /**
@@ -26,14 +23,9 @@ use React\Promise\ExtendedPromiseInterface;
  * @property string|null $user_id
  * @property Member|null $member
  * @property string $content
- * @property Carbon $timestamp
- * @property Carbon|null $edited_timestamp
  * @property bool $tts
  * @property bool $mention_everyone
- * @property Collection|User[] $mentions
- * @property Collection|Channel[] $mention_channels
- * @property Collection|Attachment[] $attachments
- * @property Collection|Embed[] $embeds
+ * @property Embed[] $embeds
  * @property string|null $nonce
  * @property bool $pinned
  * @property string|null $webhook_id
@@ -44,7 +36,6 @@ use React\Promise\ExtendedPromiseInterface;
  * @property object|null $message_reference
  * @property int|null $flags
  * @property Message|null $referenced_message
- * @property MessageInteraction|null $interaction
  * @property bool $crossposted
  * @property bool $is_crosspost
  * @property bool $suppress_embeds

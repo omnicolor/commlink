@@ -52,7 +52,7 @@ final class LinkResponseTest extends TestCase
         );
 
         $systems = [];
-        foreach (config('app.systems') as $code => $name) {
+        foreach (config('commlink.systems') as $code => $name) {
             $systems[] = sprintf('%s (%s)', $code, $name);
         }
         $expected = 'This channel must be registered for a system before '

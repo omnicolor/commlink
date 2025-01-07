@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0] - 2024-12-27
+
+Mostly backend updates, specifically cleaning up PHPStan ignores and removing
+Psalm. Fixed up a lot of the resource doc blocks to make them more explicit.
+
+### Added
+
+- Initial support for Root RPG. (#1757)
+- Add support for Stoplight Prism. (#1814)
+
+### Fixed
+
+- Fixed link to OpenAPI documentation. (#1746)
+- Downgraded and pinned nwidart/laravel-modules since the new version wasn't
+  working. (#1756)
+
+### Changed
+
+- Updated so many dependencies.
+- Cleaned up a whole lot of PHPStan ignores, getting ready for PHPStan 2.0.
+  (#1816) Upgraded to PHPStan 2.0. (#1899)
+- Cleaned up a bunch of the docblocks for API resources and added a few new
+  ones. (#1916)
+
+### Removed
+
+- Removed support for Psalm. (#1896)
+
 ## [1.7.0] - 2024-10-29
 
 Completely inconsequential update from the user's perspective, with only

@@ -1,0 +1,24 @@
+meta {
+  name: Get an initiative
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{host}}/campaigns/:campaign_id/initiatives/:initiative_id
+  body: none
+  auth: bearer
+}
+
+params:path {
+  campaign_id: 
+  initiative_id: 
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
