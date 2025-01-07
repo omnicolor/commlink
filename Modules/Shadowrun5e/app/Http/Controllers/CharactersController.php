@@ -994,32 +994,37 @@ class CharactersController extends Controller
             ->where('owner', $user->email)
             ->firstOrFail();
 
-        $character->background = array_filter(array_merge(
-            $character->background ?? [],
-            $request->only([
-                'age',
-                'appearance',
-                'born',
-                'description',
-                'education',
-                'family',
-                'gender-identity',
-                'goals',
-                'hate',
-                'limitations',
-                'living',
-                'love',
-                'married',
-                'moral',
-                'motivation',
-                'name',
-                'personality',
-                'qualities',
-                'religion',
-                'size',
-                'why',
-            ]),
-        ));
+        $character->background = array_filter(
+            array_merge(
+                $character->background ?? [],
+                $request->only([
+                    'age',
+                    'appearance',
+                    'born',
+                    'description',
+                    'education',
+                    'family',
+                    'gender-identity',
+                    'goals',
+                    'hate',
+                    'limitations',
+                    'living',
+                    'love',
+                    'married',
+                    'moral',
+                    'motivation',
+                    'name',
+                    'personality',
+                    'qualities',
+                    'religion',
+                    'size',
+                    'why',
+                ]),
+            ),
+            function (null|string $value): bool {
+                return null !== $value;
+            },
+        );
         $character->update();
 
         return $this->redirect(

@@ -13,7 +13,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class InitiativeAdded implements ShouldBroadcast
+final class InitiativeAdded implements ShouldBroadcast
 {
     use Dispatchable;
     use InteractsWithSockets;
@@ -22,15 +22,15 @@ class InitiativeAdded implements ShouldBroadcast
     /**
      * Name of the combatant.
      */
-    public string $name;
+    public readonly string $name;
 
     /**
      * Create a new event instance.
      */
     public function __construct(
-        public Initiative $initiative,
-        public Campaign $campaign,
-        public ?Channel $source = null
+        public readonly Initiative $initiative,
+        public readonly Campaign $campaign,
+        public readonly ?Channel $source = null,
     ) {
         $this->name = (string)$initiative;
     }

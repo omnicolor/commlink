@@ -1,0 +1,15 @@
+meta {
+  name: Focuses
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{host}}/expanse/focuses
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

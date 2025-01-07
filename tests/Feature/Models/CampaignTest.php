@@ -50,7 +50,7 @@ final class CampaignTest extends TestCase
      */
     public function testSetSystem(): void
     {
-        $system = key(config('app.systems'));
+        $system = key(config('commlink.systems'));
         $campaign = new Campaign();
         $campaign->system = $system;
         self::assertSame($system, $campaign->system);

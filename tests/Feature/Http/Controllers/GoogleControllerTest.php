@@ -42,8 +42,9 @@ final class GoogleControllerTest extends TestCase
             ]);
         self::get('/google/callback')->assertRedirect('/dashboard');
 
-        /** @var User */
         $user = User::where('email', $email)->first();
+        // @phpstan-ignore staticMethod.impossibleType
+        self::assertInstanceOf(User::class, $user);
         self::assertSame($name, $user->name);
         self::assertSame('reset me', $user->password);
         self::assertAuthenticatedAs($user);

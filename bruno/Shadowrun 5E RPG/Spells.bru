@@ -1,0 +1,15 @@
+meta {
+  name: Spells
+  type: http
+  seq: 30
+}
+
+get {
+  url: {{host}}/shadowrun5e/spells
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

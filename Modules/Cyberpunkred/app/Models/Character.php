@@ -64,7 +64,7 @@ class Character extends BaseCharacter implements Stringable
     use HasFactory;
 
     /**
-     * @var array<array-key, mixed>
+     * @var array<string, mixed>
      */
     protected $attributes = [
         'system' => 'cyberpunkred',
@@ -87,7 +87,7 @@ class Character extends BaseCharacter implements Stringable
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'armor',
@@ -117,7 +117,7 @@ class Character extends BaseCharacter implements Stringable
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [
         '_id',

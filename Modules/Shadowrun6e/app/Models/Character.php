@@ -17,8 +17,8 @@ use Stringable;
 /**
  * Representation of a Shadowrun 6E character.
  * @property int $agility
- * @property array $armor
- * @property array $augmentations
+ * @property array<int, string> $armor
+ * @property array<int, string> $augmentations
  * @property int $body
  * @property int $charisma
  * @property array<int, mixed> $complex_forms
@@ -53,7 +53,7 @@ class Character extends BaseCharacter implements Stringable
     use HasFactory;
 
     /**
-     * @var array<array-key, mixed>
+     * @var array<string, mixed>
      */
     protected $attributes = [
         'system' => 'shadowrun6e',
@@ -79,7 +79,7 @@ class Character extends BaseCharacter implements Stringable
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'agility',
@@ -113,7 +113,7 @@ class Character extends BaseCharacter implements Stringable
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [
         '_id',

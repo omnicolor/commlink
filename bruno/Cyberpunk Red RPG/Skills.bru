@@ -1,0 +1,19 @@
+meta {
+  name: Skills
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{host}}/cyberpunkred/skills
+  body: none
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}

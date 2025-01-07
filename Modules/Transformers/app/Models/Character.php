@@ -57,7 +57,7 @@ class Character extends BaseCharacter
     use HasFactory;
 
     /**
-     * @var array<array-key, mixed>
+     * @var array<string, mixed>
      */
     protected $attributes = [
         'system' => 'transformers',
@@ -85,7 +85,7 @@ class Character extends BaseCharacter
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'allegiance',
@@ -121,7 +121,7 @@ class Character extends BaseCharacter
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [
         '_id',

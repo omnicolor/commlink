@@ -42,7 +42,7 @@ class VarzController extends Controller
 
     public function index(): Response
     {
-        $systems = config('app.systems');
+        $systems = config('commlink.systems');
 
         $data = [
             'campaigns-total' => Campaign::count(),

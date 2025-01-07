@@ -20,6 +20,7 @@ use function current;
 /**
  * @property ?string $agenda
  * @property int $agility
+ * @property int $agility_unmodified
  * @property ?string $appearance
  * @property ?Armor $armor
  * @property string $buddy
@@ -56,14 +57,14 @@ class Character extends BaseCharacter implements Stringable
     use HasFactory;
 
     /**
-     * @var array<array-key, mixed>
+     * @var array<string, mixed>
      */
     protected $attributes = [
         'system' => 'alien',
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'agenda',
@@ -92,7 +93,7 @@ class Character extends BaseCharacter implements Stringable
     ];
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [
         '_id',
@@ -110,7 +111,7 @@ class Character extends BaseCharacter implements Stringable
                 if (null === $agility) {
                     return null;
                 }
-                foreach ($this->armor?->modifiers ?? [] as $modifier) {
+                foreach ($this->armor->modifiers ?? [] as $modifier) {
                     if (Armor::MODIFIER_AGILITY_DECREASE === $modifier) {
                         $agility -= 1;
                     }
@@ -280,7 +281,7 @@ class Character extends BaseCharacter implements Stringable
                     assert($returnedSkills[$skill] instanceof Skill);
                     $returnedSkills[$skill]->rank = $rank;
                 }
-                foreach ($this->armor?->modifiers ?? [] as $modifier) {
+                foreach ($this->armor->modifiers ?? [] as $modifier) {
                     switch ($modifier) {
                         case Armor::MODIFIER_CLOSE_COMBAT_INCREASE: // @codeCoverageIgnore
                             assert($returnedSkills['close-combat'] instanceof Skill);

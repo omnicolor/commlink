@@ -172,6 +172,7 @@ final class HandleRollEventTest extends TestCase
             )
             ->create();
         $source = $campaign->channels->first();
+        self::assertInstanceOf(Channel::class, $source);
         $rollEvent = new RollEvent($roll, $source);
         (new HandleRollEvent())->handle($rollEvent);
 
@@ -202,6 +203,7 @@ final class HandleRollEventTest extends TestCase
             ->create();
 
         $source = $campaign->channels->first();
+        self::assertInstanceOf(Channel::class, $source);
         $rollEvent = new RollEvent($roll, $source);
         (new HandleRollEvent())->handle($rollEvent);
 

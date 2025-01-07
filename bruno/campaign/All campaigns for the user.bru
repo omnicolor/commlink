@@ -1,0 +1,19 @@
+meta {
+  name: All campaigns for the user
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/campaigns
+  body: none
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}

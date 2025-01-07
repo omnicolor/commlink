@@ -38,6 +38,7 @@ class HandleRollEvent
             return;
         }
 
+        /** @var Channel $channel */
         foreach ($event->source->campaign->channels ?? [] as $channel) {
             if ($event->source->id === $channel->id) {
                 // Don't broadcast back to the original channel.
