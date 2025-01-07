@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Features;
 
+use Override;
 use Stringable;
 
 class Shadowrun5eCharacterGeneration implements Stringable
@@ -16,6 +17,7 @@ class Shadowrun5eCharacterGeneration implements Stringable
         return false;
     }
 
+    #[Override]
     public function __toString(): string
     {
         return 'Shadowrun 5E Character Generation';
