@@ -68,7 +68,7 @@ class Info extends Roll
         if (null === $system || '' === $system) {
             $system = 'Unregistered';
         } else {
-            $system = config('app.systems')[$this->channel->system];
+            $system = config('commlink.systems')[$this->channel->system];
         }
 
         return '**Debugging info**' . PHP_EOL
@@ -93,7 +93,7 @@ class Info extends Roll
         if (null === $system || '' === $system) {
             $system = 'unregistered';
         } else {
-            $system = config('app.systems')[$this->channel->system];
+            $system = config('commlink.systems')[$this->channel->system];
         }
 
         return 'Debugging info' . PHP_EOL
@@ -115,7 +115,7 @@ class Info extends Roll
             ->addField(new Field('Commlink User', $this->commlink_user))
             ->addField(new Field(
                 'System',
-                config('app.systems')[$this->channel->system] ?? $this->channel->system ?? 'unregistered'
+                config('commlink.systems')[$this->channel->system] ?? $this->channel->system ?? 'unregistered'
             ))
             ->addField(new Field('Character', $this->character_name))
             ->addField(new Field('Campaign', $this->campaign_name));

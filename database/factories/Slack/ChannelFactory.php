@@ -24,7 +24,7 @@ class ChannelFactory extends Factory
         return [
             'channel' => Str::random(10),
             'team' => 'T' . Str::random(9),
-            'system' => (string)$this->faker->randomElement(config('app.systems')),
+            'system' => (string)$this->faker->randomElement(config('commlink.systems')),
         ];
     }
 }

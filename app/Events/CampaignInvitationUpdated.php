@@ -10,13 +10,13 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class CampaignInvitationUpdated
+final class CampaignInvitationUpdated
 {
     use Dispatchable;
     use InteractsWithSockets;
     use SerializesModels;
 
-    public function __construct(public CampaignInvitation $invitation)
+    public function __construct(public readonly CampaignInvitation $invitation)
     {
     }
 

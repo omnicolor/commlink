@@ -7,6 +7,8 @@ namespace Modules\Capers\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Capers\Models\Character;
 
+use function array_keys;
+use function array_merge;
 use function config;
 use function str_replace;
 use function strtolower;
@@ -19,7 +21,29 @@ class CharacterFactory extends Factory
     protected $model = Character::class;
 
     /**
-     * @return array<string, array<int, string>|int|string>
+     * @return array{
+     *     agility: int,
+     *     background: string,
+     *     charisma: int,
+     *     description: string,
+     *     expertise: int,
+     *     hits: int,
+     *     identity: string,
+     *     level: int,
+     *     mannerisms: string,
+     *     moxie: int,
+     *     name: string,
+     *     perception: int,
+     *     perks?: array<int, array{id: string, skill?: string}>,
+     *     powers?: array<int, array{id: string}>,
+     *     resilience: int,
+     *     skills: array<int, string>,
+     *     strength: int,
+     *     system: string,
+     *     type: string,
+     *     vice: string,
+     *     virtue: string
+     * }
      */
     public function definition(): array
     {

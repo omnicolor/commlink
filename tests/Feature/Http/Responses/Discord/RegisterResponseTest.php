@@ -32,7 +32,7 @@ final class RegisterResponseTest extends TestCase
 
         $expected = 'To register a channel, use `register [system]`, where '
             . 'system is a system code: '
-            . implode(', ', array_keys(config('app.systems')));
+            . implode(', ', array_keys(config('commlink.systems')));
         $messageMock = $this->createDiscordMessageMock('/roll register');
         $messageMock->expects(self::once())
             ->method('reply')
@@ -58,7 +58,7 @@ final class RegisterResponseTest extends TestCase
         $expected = sprintf(
             '"invalid" is not a valid system code. Use `register '
                 . '<system>`, where system is one of: %s',
-            \implode(', ', \array_keys(config('app.systems'))),
+            \implode(', ', \array_keys(config('commlink.systems'))),
         );
         $messageMock = $this->createDiscordMessageMock('/roll register invalid');
         $messageMock->expects(self::once())
