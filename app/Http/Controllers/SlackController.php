@@ -209,30 +209,30 @@ class SlackController extends Controller
     public function handleCallback(): RedirectResponse
     {
         /** @var SocialiteUser */
-        $socialUser = Socialite::driver('slack')->user();
+        $social_user = Socialite::driver('slack')->user();
 
-        $user = User::where('email', $socialUser->email)->first();
+        $user = User::where('email', $social_user->email)->first();
         if (null === $user) {
             // The user wasn't found, create a new one.
             $user = User::create([
-                'email' => $socialUser->email,
-                'name' => $socialUser->name,
+                'email' => $social_user->email,
+                'name' => $social_user->name,
                 'password' => 'reset me',
             ]);
         }
 
-        $chatUser = ChatUser::slack()
-            ->where('server_id', $socialUser->attributes['organization_id'])
-            ->where('remote_user_id', $socialUser->id)
+        $chat_user = ChatUser::slack()
+            ->where('server_id', $social_user->attributes['organization_id'])
+            ->where('remote_user_id', $social_user->id)
             ->where('user_id', $user->id)
             ->first();
-        if (null === $chatUser) {
+        if (null === $chat_user) {
             ChatUser::create([
-                'server_id' => $socialUser->attributes['organization_id'],
-                'server_name' => $socialUser->user['team']['name'],
+                'server_id' => $social_user->attributes['organization_id'],
+                'server_name' => $social_user->user['team']['name'],
                 'server_type' => ChatUser::TYPE_SLACK,
-                'remote_user_id' => $socialUser->id,
-                'remote_user_name' => $socialUser->name,
+                'remote_user_id' => $social_user->id,
+                'remote_user_name' => $social_user->name,
                 'user_id' => $user->id,
             ]);
         }

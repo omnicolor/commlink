@@ -88,7 +88,7 @@ class EventsController extends Controller
         $document = $event->toJson();
         $patch = (string)json_encode($request->input());
         try {
-            $updatedEvent = json_decode(
+            $updated_event = json_decode(
                 (string)(new Patch($document, $patch))->apply()
             );
         } catch (TypeError $ex) {
@@ -107,13 +107,13 @@ class EventsController extends Controller
 
         // Real start is required and needs to be a date.
         abort_if(
-            !property_exists($updatedEvent, 'real_start')
-                || null === $updatedEvent->real_start,
+            !property_exists($updated_event, 'real_start')
+                || null === $updated_event->real_start,
             JsonResponse::HTTP_BAD_REQUEST,
             'real_start is required',
         );
         try {
-            $event->real_start = new Carbon($updatedEvent->real_start);
+            $event->real_start = new Carbon($updated_event->real_start);
         } catch (InvalidFormatException) {
             abort(
                 JsonResponse::HTTP_BAD_REQUEST,
@@ -121,14 +121,14 @@ class EventsController extends Controller
             );
         }
         if (
-            !property_exists($updatedEvent, 'real_end')
-            || null === $updatedEvent->real_end
+            !property_exists($updated_event, 'real_end')
+            || null === $updated_event->real_end
         ) {
             $event->real_end = null;
         } else {
             // If real_end is included, it needs to be a real date.
             try {
-                $event->real_end = new Carbon($updatedEvent->real_end);
+                $event->real_end = new Carbon($updated_event->real_end);
             } catch (InvalidFormatException) {
                 abort(
                     JsonResponse::HTTP_BAD_REQUEST,
@@ -143,11 +143,11 @@ class EventsController extends Controller
         }
 
         // Event's name is required, but defaults to the event's start time.
-        $event->name = $updatedEvent->name
+        $event->name = $updated_event->name
             ?? $event->real_start->toDayDateTimeString();
-        $event->game_start = $updatedEvent->game_start;
-        $event->game_end = $updatedEvent->game_end;
-        $event->description = $updatedEvent->description ?? null;
+        $event->game_start = $updated_event->game_start;
+        $event->game_end = $updated_event->game_end;
+        $event->description = $updated_event->description ?? null;
         $event->save();
         return new JsonResponse(
             new EventResource($event),

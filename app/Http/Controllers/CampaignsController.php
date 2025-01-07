@@ -32,8 +32,12 @@ use Rs\Json\Patch\InvalidOperationException;
 use Rs\Json\Pointer\InvalidPointerException;
 use TypeError;
 
+use function abort;
+use function abort_if;
 use function max;
+use function route;
 use function sprintf;
+use function view;
 
 class CampaignsController extends Controller
 {
@@ -120,7 +124,7 @@ class CampaignsController extends Controller
                 );
             case 'shadowrun5e':
                 $characters = $campaign->characters();
-                // Figure out the what the largest monitor row will be.
+                // Figure out what the largest monitor row will be.
                 $maxMonitor = 0;
                 /** @var Character $character */
                 foreach ($characters as $character) {
@@ -148,7 +152,7 @@ class CampaignsController extends Controller
                     ]
                 );
             default:
-                return abort(Response::HTTP_NOT_FOUND);
+                abort(Response::HTTP_NOT_FOUND);
         }
     }
 
