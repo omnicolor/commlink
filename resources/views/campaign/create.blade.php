@@ -65,7 +65,7 @@
             <div class="col">
                 <select class="form-control" id="system" name="system" required>
                     <option value="">Choose RPG system</option>
-                    @foreach (config('app.systems') as $key => $system)
+                    @foreach (config('commlink.systems') as $key => $system)
                         <option value="{{ $key }}"
                             @if ($key === old('system'))
                             selected

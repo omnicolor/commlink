@@ -105,7 +105,7 @@ class LinkResponse implements Stringable
     protected function sendChannelNotRegisteredError(): void
     {
         $systems = [];
-        foreach (config('app.systems') as $code => $name) {
+        foreach (config('commlink.systems') as $code => $name) {
             $systems[] = sprintf('%s (%s)', $code, $name);
         }
         $this->message = 'This channel must be registered for a system before '
@@ -150,7 +150,7 @@ class LinkResponse implements Stringable
 
     protected function sendWrongSystemError(Character $character): void
     {
-        $systems = config('app.systems');
+        $systems = config('commlink.systems');
         $this->event->message->reply(sprintf(
             '%s is a %s character. This channel is playing %s.',
             (string)$character,

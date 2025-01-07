@@ -56,7 +56,7 @@ final class RegisterResponseTest extends TestCase
             config('app.name')
         ));
         $response = new RegisterResponse(
-            content: sprintf('register %s', key(config('app.systems'))),
+            content: sprintf('register %s', key(config('commlink.systems'))),
             channel: $channel,
         );
     }
@@ -84,7 +84,7 @@ final class RegisterResponseTest extends TestCase
         self::expectExceptionMessage(sprintf(
             'To register a channel, use `register [system]`, where system '
                 . 'is a system code: %s',
-            implode(', ', array_keys(config('app.systems')))
+            implode(', ', array_keys(config('commlink.systems')))
         ));
         $user = User::factory()->create();
         $channel = new Channel([
@@ -115,7 +115,7 @@ final class RegisterResponseTest extends TestCase
             '"%s" is not a valid system code. Use `register [system]`, '
                 . 'where system is: %s',
             'invalid',
-            implode(', ', array_keys(config('app.systems')))
+            implode(', ', array_keys(config('commlink.systems')))
         ));
         $user = User::factory()->create();
         $channel = new Channel([
@@ -174,10 +174,10 @@ final class RegisterResponseTest extends TestCase
             'server_type' => ChatUser::TYPE_SLACK,
             'verified' => true,
         ])->create();
-        $response = new RegisterResponse(
-            content: sprintf('register %s', key(config('app.systems'))),
+        new RegisterResponse(
+            content: sprintf('register %s', key(config('commlink.systems'))),
             channel: $channel,
         );
-        self::assertSame(key(config('app.systems')), $channel->system);
+        self::assertSame(key(config('commlink.systems')), $channel->system);
     }
 }

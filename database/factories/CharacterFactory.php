@@ -44,7 +44,7 @@ class CharacterFactory extends Factory
             'name' => $name,
             'owner' => (string)(User::factory()->create())->email,
             'system' => (string)$this->faker->randomElement(
-                array_keys((array)config('app.systems'))
+                array_keys((array)config('commlink.systems'))
             ),
         ];
     }
