@@ -50,6 +50,7 @@
     "require": {
         "php": "^8.3",
         "ext-curl": "^7.34|^8.0",
+        "ext-fileinfo": "*",
         "ext-mongodb": "^1.15",
         "ext-random": "*",
         "ext-redis": "*",
@@ -82,7 +83,6 @@
         "calebdw/fakerstan": "^1.0",
         "captainhook/captainhook-phar": "^5.23",
         "cypresslab/gitelephant": "^4.5",
-        "fakerphp/faker": "^1.9",
         "friendsofphp/php-cs-fixer": "^3.49",
         "larastan/larastan": "^3.0",
         "laravel/breeze": "^2.0",
