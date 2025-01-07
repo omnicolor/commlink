@@ -650,8 +650,7 @@ final class SlackControllerTest extends TestCase
             ],
         ];
         Http::fake([
-            'https://slack.com/api/auth.teams.list'
-                => Http::response($teams, Response::HTTP_OK),
+            'https://slack.com/api/auth.teams.list' => Http::response($teams, Response::HTTP_OK),
         ]);
         self::withHeaders(['Accept' => 'application/json'])
             ->post(
