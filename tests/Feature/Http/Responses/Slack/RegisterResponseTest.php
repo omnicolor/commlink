@@ -148,6 +148,7 @@ final class RegisterResponseTest extends TestCase
                 'name' => 'channel name',
             ],
         ];
+        $channels_response = Http::response($channels, Response::HTTP_OK);
         $teams = [
             'ok' => true,
             'teams' => [
@@ -159,7 +160,7 @@ final class RegisterResponseTest extends TestCase
         ];
         Http::fake([
             'https://slack.com/api/auth.teams.list' => Http::response($teams, Response::HTTP_OK),
-            'https://slack.com/api/conversations.info?channel=channel-id' => Http::response($channels, Response::HTTP_OK),
+            'https://slack.com/api/conversations.info?channel=channel-id' => $channels_response,
         ]);
         $channel = new Channel([
             'channel_id' => 'channel-id',
