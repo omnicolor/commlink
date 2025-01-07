@@ -10,23 +10,20 @@ use Jerodev\PhpIrcClient\IrcClient;
 
 use function str_replace;
 
-/**
- * @property IrcClient $client
- */
-class IrcMessageReceived extends MessageReceived
+final class IrcMessageReceived extends MessageReceived
 {
     /**
      * Content of the command, without the preceding ':roll '.
      */
-    public string $content;
+    public readonly string $content;
 
-    public string $server;
+    public readonly string $server;
 
     public function __construct(
         string $message,
-        public User $user,
-        public IrcClient $client,
-        public IrcChannel $channel,
+        public readonly User $user,
+        public readonly IrcClient $client,
+        public readonly IrcChannel $channel,
     ) {
         $this->content = str_replace(':roll ', '', $message);
         $this->server = $client->getConnection()->getServer();
