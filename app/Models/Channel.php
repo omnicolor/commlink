@@ -21,6 +21,9 @@ use function sprintf;
 
 /**
  * Representation of a Slack, Discord, or IRC channel.
+ * @method static Builder discord()
+ * @method static Builder irc()
+ * @method static Builder slack()
  * @property-read ?Campaign $campaign
  * @property ?int $campaign_id
  * @property string $channel_id
