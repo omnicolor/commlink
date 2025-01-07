@@ -11,13 +11,13 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UserLinked implements ShouldBroadcast
+final class UserLinked implements ShouldBroadcast
 {
     use Dispatchable;
     use InteractsWithSockets;
     use SerializesModels;
 
-    public function __construct(public ChatUser $chat_user)
+    public function __construct(public readonly ChatUser $chat_user)
     {
     }
 

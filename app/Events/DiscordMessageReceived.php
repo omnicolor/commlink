@@ -14,7 +14,7 @@ use RuntimeException;
 
 use function str_replace;
 
-class DiscordMessageReceived extends MessageReceived
+final class DiscordMessageReceived extends MessageReceived
 {
     /**
      * Channel the message was sent on.
@@ -36,8 +36,10 @@ class DiscordMessageReceived extends MessageReceived
      */
     public User|null $user;
 
-    public function __construct(public Message $message, public Discord $discord)
-    {
+    public function __construct(
+        public readonly Message $message,
+        public readonly Discord $discord,
+    ) {
         if (null === $message->channel || null === $message->channel->guild) {
             throw new RuntimeException('Cannot handle null channels or servers');
         }

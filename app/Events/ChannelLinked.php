@@ -12,7 +12,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ChannelLinked implements ShouldBroadcast
+final class ChannelLinked implements ShouldBroadcast
 {
     use Dispatchable;
     use InteractsWithSockets;
@@ -22,7 +22,7 @@ class ChannelLinked implements ShouldBroadcast
      * Create a new event, dispatched when a Channel (like Slack or Discord) are
      * linked to Commlink.
      */
-    public function __construct(public Channel $channel)
+    public function __construct(public readonly Channel $channel)
     {
     }
 

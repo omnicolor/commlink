@@ -13,7 +13,7 @@ use Illuminate\Queue\SerializesModels;
 /**
  * A user rolled some generic dice.
  */
-class RollEvent
+final class RollEvent
 {
     use Dispatchable;
     use InteractsWithSockets;
@@ -22,7 +22,9 @@ class RollEvent
     /**
      * Create a new event instance.
      */
-    public function __construct(public Roll $roll, public ?Channel $source)
-    {
+    public function __construct(
+        public readonly Roll $roll,
+        public readonly ?Channel $source,
+    ) {
     }
 }

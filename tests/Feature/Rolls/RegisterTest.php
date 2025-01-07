@@ -37,7 +37,7 @@ final class RegisterTest extends TestCase
         self::expectExceptionMessage(
             'To register a channel, use `register [system]`, where system is a '
                 . 'system code: '
-                . implode(', ', array_keys(config('app.systems')))
+                . implode(', ', array_keys(config('commlink.systems')))
         );
         (new Register('register', $this->faker->userName(), $channel))
             ->forSlack();
@@ -85,7 +85,7 @@ final class RegisterTest extends TestCase
         self::assertSame(
             '"invalid" is not a valid system code. Use register <system>, '
                 . 'where system is one of: '
-                . implode(', ', array_keys(config('app.systems'))),
+                . implode(', ', array_keys(config('commlink.systems'))),
             $response,
         );
 

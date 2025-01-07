@@ -11,13 +11,13 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class CampaignInvitationCreated implements ShouldBroadcast
+final class CampaignInvitationCreated implements ShouldBroadcast
 {
     use Dispatchable;
     use InteractsWithSockets;
     use SerializesModels;
 
-    public function __construct(public CampaignInvitation $invitation)
+    public function __construct(public readonly CampaignInvitation $invitation)
     {
     }
 

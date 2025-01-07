@@ -102,7 +102,7 @@ final class ChannelTest extends TestCase
             'channel_id' => 'C' . Str::random(10),
             'registered_by' => $user->id,
             'server_id' => 'T' . Str::random(10),
-            'system' => $this->faker->randomElement(array_keys(config('app.systems'))),
+            'system' => $this->faker->randomElement(array_keys(config('commlink.systems'))),
             'type' => Channel::TYPE_SLACK,
         ]);
         $channel->save();
@@ -184,7 +184,7 @@ final class ChannelTest extends TestCase
             'channel_id' => '2' . Str::random(10),
             'registered_by' => $user->id,
             'server_id' => '1' . Str::random(10),
-            'system' => $this->faker->randomElement(array_keys(config('app.systems'))),
+            'system' => $this->faker->randomElement(array_keys(config('commlink.systems'))),
             'type' => Channel::TYPE_DISCORD,
         ]);
         $channel->save();
@@ -241,7 +241,7 @@ final class ChannelTest extends TestCase
      */
     public function testSetSystem(): void
     {
-        $system = key(config('app.systems'));
+        $system = key(config('commlink.systems'));
         $channel = new Channel();
         $channel->system = $system;
         self::assertSame($system, $channel->system);
