@@ -14,7 +14,9 @@ use App\Models\ChatUser;
 use App\Models\User;
 use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use PHPUnit\Framework\Attributes\Group;
@@ -638,6 +640,19 @@ final class SlackControllerTest extends TestCase
 
     public function testHandleActionWithValidAction(): void
     {
+        $teams = [
+            'ok' => true,
+            'teams' => [
+                [
+                    'id' => 'team-id',
+                    'name' => 'foo',
+                ],
+            ],
+        ];
+        Http::fake([
+            'https://slack.com/api/auth.teams.list'
+                => Http::response($teams, Response::HTTP_OK),
+        ]);
         self::withHeaders(['Accept' => 'application/json'])
             ->post(
                 route('roll'),
