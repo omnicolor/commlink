@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -16,47 +17,20 @@ use function strtolower;
 /**
  * Representation of something added to a lifestyle.
  */
-class LifestyleOption implements Stringable
+final class LifestyleOption implements Stringable
 {
-    /**
-     * Nuyen cost of the option.
-     */
-    public ?int $cost;
-
-    /**
-     * Cost multiplier for the option.
-     */
-    public ?float $costMultiplier;
-
-    /**
-     * Description of the lifestyle option.
-     */
-    public string $description;
+    public int|null $cost;
+    public float|null $costMultiplier;
+    public readonly string $description;
 
     /**
      * Minimum lifestyle required to have the cost covered.
      */
     public string $minimumLifestyle;
-
-    /**
-     * Name of the lifestyle option.
-     */
-    public string $name;
-
-    /**
-     * Page the lifestyle option was introduced on.
-     */
-    public int $page;
-
-    /**
-     * Number of points the option costs.
-     */
-    public int $points;
-
-    /**
-     * Ruleset the option was introduced in.
-     */
-    public string $ruleset;
+    public readonly string $name;
+    public readonly int $page;
+    public readonly int $points;
+    public readonly string $ruleset;
 
     /**
      * Type of option: Asset, Outing, Service.
@@ -72,7 +46,7 @@ class LifestyleOption implements Stringable
     /**
      * @throws RuntimeException
      */
-    public function __construct(public string $id)
+    public function __construct(public readonly string $id)
     {
         $filename = config('shadowrun5e.data_path')
             . 'lifestyle-options.php';
@@ -88,6 +62,7 @@ class LifestyleOption implements Stringable
         $option = self::$options[$id];
         $this->cost = $option['cost'] ?? null;
         $this->costMultiplier = $option['costMultiplier'] ?? null;
+        $this->description = $option['description'];
         $this->minimumLifestyle = $option['minimumLifestyle'];
         $this->name = $option['name'];
         $this->page = (int)$option['page'];
@@ -96,6 +71,7 @@ class LifestyleOption implements Stringable
         $this->type = $option['type'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -132,7 +108,7 @@ class LifestyleOption implements Stringable
      * Return the actual cost of the option.
      *
      * If the option is covered by the attached lifestyle, the cost is zero.
-     * Otherwise you need to pay for it.
+     * Otherwise, you need to pay for it.
      */
     public function getCost(Lifestyle $lifestyle): int
     {

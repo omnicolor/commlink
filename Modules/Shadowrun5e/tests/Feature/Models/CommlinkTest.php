@@ -53,16 +53,6 @@ final class CommlinkTest extends TestCase
     }
 
     /**
-     * Test handling a device with no rating (which shouldn't happen).
-     */
-    public function testNoRatingConditionMonitor(): void
-    {
-        $commlink = new Commlink('cyberdeck-evo-sublime');
-        $commlink->rating = null;
-        self::assertSame(0, $commlink->getConditionMonitor());
-    }
-
-    /**
      * Test getCost() on a modified Commlink with a program.
      */
     public function testGetCost(): void

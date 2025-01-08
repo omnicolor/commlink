@@ -6,11 +6,12 @@ namespace Modules\Shadowrun5e\Models;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Shadowrun5e\Database\Factories\PartialCharacterFactory;
+use Override;
 use Stringable;
 
 /**
  * Representation of a character currently being built.
- * @method static self create(array<mixed, mixed> $attributes)
+ * @method static self create(array<string, mixed> $attributes)
  * @property array<int, string> $errors
  */
 class PartialCharacter extends Character implements Stringable
@@ -92,11 +93,13 @@ class PartialCharacter extends Character implements Stringable
             && 'technomancer' === $this->priorities['magic'];
     }
 
+    #[Override]
     protected static function newFactory(): Factory
     {
         return PartialCharacterFactory::new();
     }
 
+    #[Override]
     public function newFromBuilder(
         $attributes = [],
         $connection = null,

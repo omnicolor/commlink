@@ -11,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Modules\Shadowrun5e\Models\Character;
 use stdClass;
 
-class DamageEvent
+final readonly class DamageEvent
 {
     use Dispatchable;
     use InteractsWithSockets;

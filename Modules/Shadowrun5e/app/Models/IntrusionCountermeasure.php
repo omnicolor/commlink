@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -18,7 +19,7 @@ use function trim;
 /**
  * Class representing automated matrix defense: ICE.
  */
-class IntrusionCountermeasure implements Stringable
+final class IntrusionCountermeasure implements Stringable
 {
     public string $defense;
     public string $description;
@@ -38,11 +39,11 @@ class IntrusionCountermeasure implements Stringable
      * @throws RuntimeException
      */
     public function __construct(
-        public string $id,
-        public ?int $attack = null,
-        public ?int $data_processing = null,
-        public ?int $firewall = null,
-        public ?int $sleaze = null,
+        public readonly string $id,
+        public readonly int|null $attack = null,
+        public readonly int|null $data_processing = null,
+        public readonly int|null $firewall = null,
+        public readonly int|null $sleaze = null,
     ) {
         // Lazy load the intrusion countermeasures.
         $filename = config('shadowrun5e.data_path')
@@ -66,6 +67,7 @@ class IntrusionCountermeasure implements Stringable
         $this->ruleset = $ice['ruleset'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -14,65 +15,33 @@ use function strtolower;
 /**
  * Class representing a spell in Shadowrun 5E.
  */
-class Spell implements Stringable
+final class Spell implements Stringable
 {
     use ForceTrait;
 
     /**
      * Category (combat, detection, etc).
      */
-    public string $category;
-
-    /**
-     * Damage type for the spell.
-     */
-    public ?string $damage;
-
-    /**
-     * Description of the spell.
-     */
-    public string $description;
-
-    /**
-     * Drain code for the spell.
-     */
-    public string $drain;
-
-    /**
-     * Duration of the spell.
-     */
-    public string $duration;
-
-    /**
-     * Name of the spell.
-     */
-    public string $name;
-
-    /**
-     * Page the spell was introduced on.
-     */
-    public ?int $page;
+    public readonly string $category;
+    public readonly null|string $damage;
+    public readonly string $description;
+    public readonly string $drain;
+    public readonly string $duration;
+    public readonly string $name;
+    public readonly int|null $page;
 
     /**
      * Range of the spell (T, LOS, etc).
      */
-    public string $range;
-
-    /**
-     * Book ID the spell was introduced in.
-     */
-    public string $ruleset;
+    public readonly string $range;
+    public readonly string $ruleset;
 
     /**
      * List of tags for the spell.
      * @var array<int, string>
      */
     public array $tags = [];
-
-    /**
-     * Type of the spell.
-     */
-    public string $type;
+    public readonly string $type;
 
     /**
      * List of all spells.
@@ -83,7 +52,7 @@ class Spell implements Stringable
     /**
      * @throws RuntimeException if the ID is invalid
      */
-    public function __construct(public string $id, public ?int $force = null)
+    public function __construct(public readonly string $id, public ?int $force = null)
     {
         $filename = config('shadowrun5e.data_path') . 'spells.php';
         self::$spells ??= require $filename;
@@ -109,6 +78,7 @@ class Spell implements Stringable
         $this->type = $spell['type'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

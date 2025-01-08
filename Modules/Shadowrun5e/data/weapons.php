@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Modules\Shadowrun5e\Models\WeaponClass;
+
 /**
  * List of Shadowrun 5th edition weapons.
  */
@@ -11,7 +13,7 @@ return [
         'accuracy' => '',
         'armor-piercing' => ,
         'availability' => '',
-        'class' => '',
+        'class' => WeaponClass::,
         'cost' => ,
         'damage' => '',
         'description' => '',
@@ -30,7 +32,7 @@ return [
         'ammo-container' => '',
         'armor-piercing' => ,
         'availability' => '',
-        'class' => '',
+        'class' => WeaponClass::,
         'cost' => ,
         'damage' => '',
         'description' => '',
@@ -55,7 +57,7 @@ return [
         'armor-piercing' => -2,
         'availability' => '8F',
         'chummer-id' => '1a5768a6-012a-4884-9bdd-4f3b32e86aa2',
-        'class' => 'Assault Rifle',
+        'class' => WeaponClass::AssaultRifle,
         'cost' => 1250,
         'damage' => '10P',
         'description' => 'AK-98 description.',
@@ -76,7 +78,7 @@ return [
         'armor-piercing' => -1,
         'availability' => '5R',
         'chummer-id' => '971c711b-db32-4339-9203-865ef38f350e',
-        'class' => 'Heavy Pistol',
+        'class' => WeaponClass::HeavyPistol,
         'cost' => 725,
         'damage' => '8P',
         'description' => 'Ares Predator description.',
@@ -96,7 +98,7 @@ return [
         'armor-piercing' => -3,
         'availability' => '4',
         'chummer-id' => '656906d8-b6a4-47a2-9554-de365097eba0',
-        'class' => 'Blade',
+        'class' => WeaponClass::Blade,
         'cost' => 300,
         'damage' => '(STR+2)P',
         'description' => 'Combat knife description',
@@ -116,7 +118,7 @@ return [
         'armor-piercing' => -1,
         'availability' => '4R',
         'chummer-id' => '5011b79e-8594-4dbe-9768-0db4d11ead2b',
-        'class' => 'Shotgun',
+        'class' => WeaponClass::Shotgun,
         'concealability' => 4,
         'cost' => 450,
         'damage' => '9P',
@@ -137,7 +139,7 @@ return [
         'ammo-container' => 'c',
         'availability' => '8R',
         'chummer-id' => 'f9ff7bf6-3ed4-41bd-b934-34e751ecf266',
-        'class' => 'Submachine Gun',
+        'class' => WeaponClass::SubmachineGun,
         'cost' => 730,
         'damage' => '7P',
         'description' => 'HK-227 description.',
@@ -161,7 +163,7 @@ return [
         'armor-piercing' => -2,
         'availability' => '4R',
         'chummer-id' => '61c59a89-3c51-46b7-880a-933b29394315',
-        'class' => 'Heavy Pistol',
+        'class' => WeaponClass::HeavyPistol,
         'cost' => 400,
         'damage' => '9P',
         'description' => 'Super Warhawk description.',

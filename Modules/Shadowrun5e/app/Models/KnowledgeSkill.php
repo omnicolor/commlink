@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Models;
 
 use RuntimeException;
+use Stringable;
 
 use function in_array;
 use function sprintf;
@@ -14,7 +15,7 @@ use function sprintf;
  * @property string $id
  * @property string $short_category
  */
-class KnowledgeSkill extends Skill
+final class KnowledgeSkill extends Skill implements Stringable
 {
     /**
      * Category of knowledge skill (professional, academic, etc).
@@ -48,23 +49,10 @@ class KnowledgeSkill extends Skill
         $this->category = $category;
         $this->level = $level;
         $this->limit = 'mental';
-        switch ($this->category) {
-            case 'academic':
-                $this->attribute = 'logic';
-                break;
-            case 'interests':
-                $this->attribute = 'intuition';
-                break;
-            case 'language':
-                $this->attribute = 'intuition';
-                break;
-            case 'professional':
-                $this->attribute = 'logic';
-                break;
-            case 'street':
-                $this->attribute = 'intuition';
-                break;
-        }
+        $this->attribute = match ($category) {
+            'academic', 'professional' => 'logic',
+            'interests', 'language', 'street' => 'intuition',
+        };
         $this->specialization = $specializations;
     }
 

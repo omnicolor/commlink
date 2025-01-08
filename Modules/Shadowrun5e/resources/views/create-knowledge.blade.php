@@ -293,7 +293,7 @@
         <div class="col">
             <ul class="list-group" id="skills">
                 @php $skills = false; @endphp
-                @foreach ($character->getKnowledgeSkills(onlyKnowledges: true) as $skill)
+                @foreach ($character->getKnowledgeSkills(only_knowledges: true) as $skill)
                     @php $skills = true; @endphp
                     <li class="list-group-item" data-id="{{ $skill->id }}-{{ $skill->category }}">
                         <div class="row">
@@ -349,7 +349,7 @@
                     No knowledge skills
                 </li>
                 @php $skills = false; @endphp
-                @foreach ($character->getKnowledgeSkills(onlyLanguages: true) as $skill)
+                @foreach ($character->getKnowledgeSkills(only_languages: true) as $skill)
                     @php $skills = true; @endphp
                     <li class="list-group-item language" data-id="{{ $skill->id }}-language">
                         <div class="row">

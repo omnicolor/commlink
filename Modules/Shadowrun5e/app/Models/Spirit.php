@@ -6,6 +6,7 @@ namespace Modules\Shadowrun5e\Models;
 
 use BadMethodCallException;
 use Illuminate\Support\Facades\Log;
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -37,70 +38,35 @@ class Spirit implements Stringable
 {
     use ForceTrait;
 
-    /**
-     * Spirit's agility.
-     */
     public string $agility;
-
-    /**
-     * Spirit's body.
-     */
-    public string $body;
+    public readonly string $body;
 
     /**
      * Whether the spirit has been bound by the caster.
      */
     public bool $bound = false;
-
-    /**
-     * Spirit's charisma.
-     */
-    public string $charisma;
-
-    /**
-     * Spirit's edge.
-     */
-    public string $edge;
-
-    /**
-     * Spirit's essence.
-     */
-    public string $essence;
+    public readonly string $charisma;
+    public readonly string $edge;
+    public readonly string $essence;
 
     /**
      * Spirit's astral initiative.
      */
-    public string $initiativeAstral;
+    public readonly string $initiativeAstral;
 
     /**
      * Spirit's meat-space initiative.
      */
-    public string $initiative;
-
-    /**
-     * Spirit's intuition.
-     */
-    public string $intuition;
-
-    /**
-     * Spirit's logic.
-     */
-    public string $logic;
-
-    /**
-     a *Spirit's name.
-     */
-    public string $name;
+    public readonly string $initiative;
+    public readonly string $intuition;
+    public readonly string $logic;
+    public readonly string $name;
 
     /**
      * Spirit's magic rating.
      */
     public string $magic;
-
-    /**
-     * Page number the spirit type was introduced on.
-     */
-    public int $page;
+    public readonly int $page;
 
     /**
      * Powers the spirit innately has.
@@ -113,16 +79,8 @@ class Spirit implements Stringable
      * @var array<int, string>
      */
     public array $powersOptional = [];
-
-    /**
-     * Spirit's reaction.
-     */
-    public string $reaction;
-
-    /**
-     * Ruleset the spirit type was introduced in.
-     */
-    public string $ruleset;
+    public readonly string $reaction;
+    public readonly string $ruleset;
 
     /**
      * Services the spirit owes the conjuror.
@@ -138,17 +96,9 @@ class Spirit implements Stringable
     /**
      * Any special information about the spirit.
      */
-    public ?string $special;
-
-    /**
-     * Spirit's strength.
-     */
-    public string $strength;
-
-    /**
-     * Spirit's willpower.
-     */
-    public string $willpower;
+    public readonly null|string $special;
+    public readonly string $strength;
+    public readonly string $willpower;
 
     /**
      * List of all spirits.
@@ -203,7 +153,7 @@ class Spirit implements Stringable
     /**
      * Return an attribute with the force taken into account.
      * @param string $name Name of the method: getAgility, getBody, etc
-     * @param array<mixed> $arguments Unused
+     * @param array<mixed, mixed> $arguments Unused
      * @throws BadMethodCallException
      * @throws RuntimeException
      */
@@ -233,6 +183,7 @@ class Spirit implements Stringable
         return self::convertFormula($attribute, 'F', $this->force);
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

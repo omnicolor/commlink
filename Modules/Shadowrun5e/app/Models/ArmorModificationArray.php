@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Models;
 
 use ArrayObject;
+use Override;
 use TypeError;
 
 /**
@@ -12,13 +13,14 @@ use TypeError;
  * GearModifications.
  * @extends ArrayObject<int, ArmorModification|GearModification>
  */
-class ArmorModificationArray extends ArrayObject
+final class ArmorModificationArray extends ArrayObject
 {
     /**
      * Add an armor modification to the array.
      * @param ArmorModification|GearModification $mod
      * @throws TypeError
      */
+    #[Override]
     public function offsetSet(mixed $index = null, $mod = null): void
     {
         if (

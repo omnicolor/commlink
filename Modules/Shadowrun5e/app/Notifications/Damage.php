@@ -10,7 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 
-class Damage extends Notification implements ShouldBroadcast, ShouldQueue
+final class Damage extends Notification implements ShouldBroadcast, ShouldQueue
 {
     use Queueable;
 

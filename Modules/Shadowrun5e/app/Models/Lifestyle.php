@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -16,31 +17,15 @@ use function urlencode;
 /**
  * Base class for Shadowrun lifestyles.
  */
-class Lifestyle implements Stringable
+final class Lifestyle implements Stringable
 {
     /**
      * Base and maximum attributes for the lifestyle.
      */
     public LifestyleAttributes $attributes;
-
-    /**
-     * Cost of the lifestyle with no additional options.
-     */
-    public int $cost;
-
-    /**
-     * Description of the lifestyle.
-     */
-    public string $description;
-
-    /**
-     * Name of the lifestyle.
-     */
-    public string $name;
-
-    /**
-     * Optional notes about the character's lifestyle.
-     */
+    public readonly int $cost;
+    public readonly string $description;
+    public readonly string $name;
     public string $notes = '';
 
     /**
@@ -52,21 +37,9 @@ class Lifestyle implements Stringable
      * Number of months paid for this lifestyle.
      */
     public int $quantity;
-
-    /**
-     * Number of points that can be spent on upgrades.
-     */
-    public int $points;
-
-    /**
-     * Page the lifestyle was introduced on.
-     */
-    public int $page;
-
-    /**
-     * Ruleset the lifestyle was introduced in.
-     */
-    public string $ruleset;
+    public readonly int $points;
+    public readonly int $page;
+    public readonly string $ruleset;
 
     /**
      * Collection of all lifestyles.
@@ -77,7 +50,7 @@ class Lifestyle implements Stringable
     /**
      * @throws RuntimeException
      */
-    public function __construct(public string $id)
+    public function __construct(public readonly string $id)
     {
         $this->options = new LifestyleOptionArray();
         $filename = config('shadowrun5e.data_path') . 'lifestyles.php';
@@ -100,6 +73,7 @@ class Lifestyle implements Stringable
         $this->ruleset = $lifestyle['ruleset'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

@@ -4,27 +4,21 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
 use function config;
 use function sprintf;
 use function strtolower;
+use function ucfirst;
 
 /**
  * An augmentation (either cyberware or bioware) that the character can spend
  * essence on.
  */
-class Augmentation implements Stringable
+final class Augmentation implements Stringable
 {
-    public const string GRADE_ALPHA = 'Alpha';
-    public const string GRADE_BETA = 'Beta';
-    public const string GRADE_DELTA = 'Delta';
-    public const string GRADE_GAMMA = 'Gamma';
-    public const string GRADE_OMEGA = 'Omega';
-    public const string GRADE_STANDARD = 'Standard';
-    public const string GRADE_USED = 'Used';
-
     public const string TYPE_BIOWARE = 'bioware';
     public const string TYPE_CYBERWARE = 'cyberware';
 
@@ -36,17 +30,17 @@ class Augmentation implements Stringable
     /**
      * Availability code for the augmentation.
      */
-    public string $availability;
+    public readonly string $availability;
 
     /**
      * Base cost of the augmentation.
      */
-    public ?int $cost;
+    public int $cost;
 
     /**
      * Description of the augmentation.
      */
-    public string $description;
+    public readonly string $description;
 
     /**
      * List of effects the augmentation has.
@@ -59,10 +53,7 @@ class Augmentation implements Stringable
      */
     public float $essence;
 
-    /**
-     * Grade of the augmentation.
-     */
-    public ?string $grade;
+    public readonly AugmentationGrade $grade;
 
     /**
      * List of augmentations this one is incompatible with.
@@ -78,18 +69,14 @@ class Augmentation implements Stringable
     /**
      * Name of the augmentation.
      */
-    public string $name;
+    public readonly string $name;
 
-    /**
-     * Rating of the augmentation.
-     * @var int|string|null
-     */
-    public $rating;
+    public int|null|string $rating;
 
     /**
      * Type of augmentation, which should be either cyberware or bioware.
      */
-    public string $type;
+    public readonly string $type;
 
     /**
      * Loaded know- or skill- softs for Skilljacks.
@@ -106,8 +93,10 @@ class Augmentation implements Stringable
     /**
      * @throws RuntimeException If the augmentation isn't valid
      */
-    public function __construct(public string $id, ?string $grade = null)
-    {
+    public function __construct(
+        public readonly string $id,
+        AugmentationGrade|null|string $grade = null,
+    ) {
         $filename = config('shadowrun5e.data_path') . 'cyberware.php';
         self::$augmentations ??= require $filename;
 
@@ -118,42 +107,32 @@ class Augmentation implements Stringable
             );
         }
 
+        if (!($grade instanceof AugmentationGrade)) {
+            $grade = AugmentationGrade::tryFrom(ucfirst((string)$grade))
+                ?? AugmentationGrade::Standard;
+        }
+        $this->grade = $grade;
         $augmentation = self::$augmentations[$id];
 
         $this->availability = (string)$augmentation['availability'];
         $this->cost = $augmentation['cost'];
         $this->description = $augmentation['description'];
         $this->effects = $augmentation['effects'] ?? [];
-        $this->essence = $augmentation['essence'];
+        $this->essence = $augmentation['essence'] * $this->grade->essenceModifier();
         $this->incompatibilities = $augmentation['incompatibilities'] ?? [];
         $this->modifications = new AugmentationArray();
         foreach ($augmentation['modifications'] ?? [] as $mod) {
-            // Built-in modifications are free
+            // Built-in modifications are free.
             $aug = new Augmentation($mod, $grade);
-            $aug->cost = null;
+            $aug->cost = 0;
             $this->modifications[] = $aug;
         }
         $this->name = $augmentation['name'];
         $this->rating = $augmentation['rating'] ?? null;
         $this->type = $augmentation['type'] ?? self::TYPE_CYBERWARE;
-
-        $this->grade = $grade;
-        switch ($grade) {
-            case self::GRADE_ALPHA:
-                $this->essence *= 0.8;
-                break;
-            case self::GRADE_BETA:
-                $this->essence *= 0.7;
-                break;
-            case self::GRADE_DELTA:
-                $this->essence *= 0.5;
-                break;
-            case self::GRADE_USED:
-                $this->essence *= 1.25;
-                break;
-        }
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -225,14 +204,7 @@ class Augmentation implements Stringable
      */
     public function getCost(): int
     {
-        $cost = $this->cost;
-        $cost = match ($this->grade) {
-            self::GRADE_ALPHA => (float)$cost * 1.2,
-            self::GRADE_BETA => (float)$cost * 1.5,
-            self::GRADE_DELTA => (float)$cost * 2.5,
-            self::GRADE_USED => (float)$cost * 0.75,
-            default => (float)$cost * 1,
-        };
+        $cost = $this->cost * $this->grade->costModifier();
         foreach ($this->modifications as $mod) {
             $cost += $mod->getCost();
         }

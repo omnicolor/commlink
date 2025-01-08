@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -14,7 +15,7 @@ use const PHP_EOL;
 /**
  * Class representing a Shadowrun identity.
  */
-class Identity implements Stringable
+final class Identity implements Stringable
 {
     /**
      * Identifier for the identity.
@@ -61,6 +62,7 @@ class Identity implements Stringable
      */
     public array $subscriptions = [];
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

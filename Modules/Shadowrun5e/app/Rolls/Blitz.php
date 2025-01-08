@@ -12,6 +12,7 @@ use App\Models\Initiative;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Modules\Shadowrun5e\Models\Character;
+use Override;
 
 use function sprintf;
 
@@ -23,7 +24,7 @@ use const PHP_EOL;
  * Roll the maximum of five initiative dice for a single turn.
  * @property Character $character
  */
-class Blitz extends Init
+final class Blitz extends Init
 {
     /**
      * @var array<int, int>
@@ -85,6 +86,10 @@ class Blitz extends Init
         }
     }
 
+    /**
+     * @throws SlackException
+     */
+    #[Override]
     public function forSlack(): SlackResponse
     {
         if (null !== $this->error) {
@@ -104,6 +109,7 @@ class Blitz extends Init
         return $response->sendToChannel();
     }
 
+    #[Override]
     public function forDiscord(): string
     {
         if (null !== $this->error) {
@@ -119,6 +125,7 @@ class Blitz extends Init
             );
     }
 
+    #[Override]
     public function forIrc(): string
     {
         if (null !== $this->error) {

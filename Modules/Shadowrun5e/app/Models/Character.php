@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Log;
 use Modules\Shadowrun5e\Database\Factories\CharacterFactory;
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -178,6 +179,7 @@ class Character extends BaseCharacter implements Stringable
         '_id',
     ];
 
+    #[Override]
     public function __toString(): string
     {
         return $this->handle ?? 'Unnamed Character';
@@ -186,6 +188,7 @@ class Character extends BaseCharacter implements Stringable
     /**
      * Force this model to only load for Shadowrun 5E characters.
      */
+    #[Override]
     protected static function booted(): void
     {
         static::addGlobalScope(
@@ -246,16 +249,16 @@ class Character extends BaseCharacter implements Stringable
         if (null === $this->armor) {
             return $armor;
         }
-        foreach ($this->armor as $rawArmor) {
+        foreach ($this->armor as $raw_armor) {
             try {
-                $armor[] = Armor::build($rawArmor);
+                $armor[] = Armor::build($raw_armor);
             } catch (RuntimeException) {
                 Log::warning(
                     'Shadowrun 5E character "{name}" ({id}) has invalid armor "{armor}"',
                     [
                         'handle' => $this->handle,
                         'id' => $this->id,
-                        'armor' => $rawArmor['id'],
+                        'armor' => $raw_armor['id'],
                     ]
                 );
             }
@@ -268,18 +271,18 @@ class Character extends BaseCharacter implements Stringable
      */
     public function getArmorValue(): int
     {
-        $armorValue = 0;
-        $stackValue = 0;
+        $armor_value = 0;
+        $stack_value = 0;
         foreach ($this->getArmor() as $armor) {
             if (!$armor->active) {
                 continue;
             }
             if (null !== $armor->stackRating) {
-                $stackValue += $armor->stackRating;
+                $stack_value += $armor->stackRating;
             }
-            $armorValue = max($armor->getModifiedRating(), $armorValue);
+            $armor_value = max($armor->getModifiedRating(), $armor_value);
         }
-        return $armorValue + $stackValue;
+        return $armor_value + $stack_value;
     }
 
     /**
@@ -368,23 +371,23 @@ class Character extends BaseCharacter implements Stringable
     public function getEssenceAttribute(): float
     {
         $essence = 6;
-        $modifierBioware = 1;
-        $modifierCyberware = 1;
+        $modifier_bioware = 1;
+        $modifier_cyberware = 1;
         foreach ($this->getQualities() as $quality) {
             if (isset($quality->effects['cyberware-essence-multiplier'])) {
-                $modifierCyberware *= $quality->effects['cyberware-essence-multiplier'];
+                $modifier_cyberware *= $quality->effects['cyberware-essence-multiplier'];
             }
             if (isset($quality->effects['bioware-essence-multiplier'])) {
-                $modifierBioware *= $quality->effects['bioware-essence-multiplier'];
+                $modifier_bioware *= $quality->effects['bioware-essence-multiplier'];
             }
         }
 
         foreach ($this->getAugmentations() as $augmentation) {
             if (Augmentation::TYPE_CYBERWARE === $augmentation->type) {
-                $essence -= $augmentation->essence * $modifierCyberware;
+                $essence -= $augmentation->essence * $modifier_cyberware;
                 continue;
             }
-            $essence -= $augmentation->essence * $modifierBioware;
+            $essence -= $augmentation->essence * $modifier_bioware;
         }
         return $essence;
     }
@@ -469,22 +472,22 @@ class Character extends BaseCharacter implements Stringable
 
     /**
      * Return the character's knowledge skills.
-     * @param ?bool $onlyLanguages Only include languages
-     * @param ?bool $onlyKnowledges Only include non-language knowledge skills
+     * @param bool|null $only_languages Only include languages
+     * @param bool|null $only_knowledges Only include non-language knowledge skills
      */
     public function getKnowledgeSkills(
-        ?bool $onlyLanguages = null,
-        ?bool $onlyKnowledges = null,
+        ?bool $only_languages = null,
+        ?bool $only_knowledges = null,
     ): SkillArray {
         $skills = new SkillArray();
         if (null === $this->knowledgeSkills) {
             return $skills;
         }
         foreach ($this->knowledgeSkills as $skill) {
-            if (true === $onlyLanguages && 'language' !== $skill['category']) {
+            if (true === $only_languages && 'language' !== $skill['category']) {
                 continue;
             }
-            if (true === $onlyKnowledges && 'language' === $skill['category']) {
+            if (true === $only_knowledges && 'language' === $skill['category']) {
                 continue;
             }
 
@@ -636,15 +639,15 @@ class Character extends BaseCharacter implements Stringable
      */
     public function getModifiedAttribute(string $attribute): int
     {
-        $cleanAttributeName = $this->dashedToCamel($attribute);
-        $modifiedAttribute = $this->attributes[$cleanAttributeName] ?? 0;
+        $clean_attribute_name = $this->dashedToCamel($attribute);
+        $modified_attribute = $this->attributes[$clean_attribute_name] ?? 0;
+        /** @var array<int, AdeptPower|Augmentation|Quality> $modifiers */
         $modifiers = array_merge(
             (array)$this->getAugmentations(),
             (array)$this->getQualities(),
             (array)$this->getAdeptPowers(),
         );
 
-        // PHPstan seems to think $modifiers will always be an empty array.
         foreach ($modifiers as $modifier) {
             foreach ($modifier->effects as $effect => $value) {
                 if (is_int($effect)) {
@@ -652,11 +655,11 @@ class Character extends BaseCharacter implements Stringable
                 }
                 if (
                     $attribute !== $effect
-                    && $cleanAttributeName !== $this->dashedToCamel($effect)
+                    && $clean_attribute_name !== $this->dashedToCamel($effect)
                 ) {
                     continue;
                 }
-                $modifiedAttribute += (int)$value;
+                $modified_attribute += (int)$value;
             }
         }
         foreach ($this->getArmor() as $armor) {
@@ -668,21 +671,21 @@ class Character extends BaseCharacter implements Stringable
                 if (0 === count($mod->effects)) {
                     continue;
                 }
-                if (!isset($mod->effects[$cleanAttributeName])) {
+                if (!isset($mod->effects[$clean_attribute_name])) {
                     continue;
                 }
-                $modifiedAttribute += $mod->effects[$cleanAttributeName];
+                $modified_attribute += $mod->effects[$clean_attribute_name];
             }
             if (0 === count($armor->effects)) {
                 // Armor has no effects.
                 continue;
             }
-            if (!isset($armor->effects[$cleanAttributeName])) {
+            if (!isset($armor->effects[$clean_attribute_name])) {
                 continue;
             }
-            $modifiedAttribute += $armor->effects[$cleanAttributeName];
+            $modified_attribute += $armor->effects[$clean_attribute_name];
         }
-        return (int)$modifiedAttribute;
+        return (int)$modified_attribute;
     }
 
     public function getQualities(): QualityArray
@@ -710,16 +713,16 @@ class Character extends BaseCharacter implements Stringable
 
     public function getSkillLimit(Skill $skill): string
     {
-        $limitModifier = $this->getSkillLimitModifierFromQualities($skill);
+        $limit_modifier = $this->getSkillLimitModifierFromQualities($skill);
         return match ($skill->limit) {
-            'astral' => (string)($this->astral_limit + $limitModifier),
+            'astral' => (string)($this->astral_limit + $limit_modifier),
             'force' => 'F',
             'handling' => 'H',
             'level' => 'L',
             'matrix' => 'M',
-            'mental' => (string)($this->mental_limit + $limitModifier),
-            'physical' => (string)($this->physical_limit + $limitModifier),
-            'social' => (string)($this->social_limit + $limitModifier),
+            'mental' => (string)($this->mental_limit + $limit_modifier),
+            'physical' => (string)($this->physical_limit + $limit_modifier),
+            'social' => (string)($this->social_limit + $limit_modifier),
             'weapon' => 'W',
             default => '?',
         };
@@ -736,15 +739,15 @@ class Character extends BaseCharacter implements Stringable
         }
         assert($skill instanceof ActiveSkill);
 
-        $limitModifier = 0;
+        $limit_modifier = 0;
         foreach ($this->getQualities() as $quality) {
             foreach ($quality->effects as $effect => $value) {
                 if ($effect === 'limit-' . $skill->id) {
-                    $limitModifier += $value;
+                    $limit_modifier += $value;
                 }
             }
         }
-        return (int)$limitModifier;
+        return (int)$limit_modifier;
     }
 
     /**

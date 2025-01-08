@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -19,17 +20,13 @@ use function strtolower;
 /**
  * Weapon to take out the opposition.
  */
-class Weapon implements Stringable
+final class Weapon implements Stringable
 {
     /**
      * Collection of accessories.
      */
     public WeaponModificationArray $accessories;
-
-    /**
-     * Accuracy of the weapon.
-     */
-    public int | null | string $accuracy;
+    public readonly int|null|string $accuracy;
 
     /**
      * Array of ammunition.
@@ -40,42 +37,22 @@ class Weapon implements Stringable
     /**
      * Number of rounds the weapon holds.
      */
-    public ?int $ammoCapacity;
+    public readonly int|null $ammoCapacity;
 
     /**
      * Type of container for the ammunition.
      */
-    public ?string $ammoContainer;
+    public readonly null|string $ammoContainer;
 
     /**
      * Armor piercing base value for the weapon.
      */
-    public ?int $armorPiercing;
-
-    /**
-     * Availability code for the weapon.
-     */
-    public string $availability = '';
-
-    /**
-     * Class of the weapon.
-     */
-    public string $class;
-
-    /**
-     * Cost of the weapon.
-     */
-    public ?int $cost;
-
-    /**
-     * Damage code for the weapon.
-     */
-    public string $damage;
-
-    /**
-     * Description of the weapon.
-     */
-    public string $description;
+    public readonly int|null $armorPiercing;
+    public readonly string $availability;
+    public readonly WeaponClass $class;
+    public readonly int|null $cost;
+    public readonly string $damage;
+    public readonly string $description;
 
     /**
      * Unique identifier for this instance of the weapon.
@@ -102,41 +79,13 @@ class Weapon implements Stringable
      * Added-on modifications.
      */
     public WeaponModificationArray $modificationsAdded;
-
-    /**
-     * Name of the weapon.
-     */
-    public string $name;
-
-    /**
-     * Page the weapon was added on.
-     */
-    public ?int $page;
-
-    /**
-     * Weapon's reach.
-     */
-    public ?int $reach;
-
-    /**
-     * Recoil compensation.
-     */
-    public ?int $recoilCompensation;
-
-    /**
-     * Ruleset the weapon is listed in.
-     */
-    public string $ruleset = 'core';
-
-    /**
-     * Skill to use for the weapon.
-     */
-    public string $skill;
-
-    /**
-     * Subname for the weapon.
-     */
-    public ?string $subname;
+    public readonly string $name;
+    public readonly int|null $page;
+    public readonly int|null $reach;
+    public readonly int|null $recoilCompensation;
+    public readonly string $ruleset;
+    public readonly ActiveSkill $skill;
+    public readonly null|string $subname;
 
     /**
      * Type of combat for the weapon.
@@ -152,7 +101,7 @@ class Weapon implements Stringable
     /**
      * @throws RuntimeException
      */
-    public function __construct(public string $id)
+    public function __construct(public readonly string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'weapons.php';
         self::$weapons ??= require $filename;
@@ -168,12 +117,11 @@ class Weapon implements Stringable
                 . 'primary weapon. This includes a wide array of martial arts '
                 . 'along with the use of cybernetic implant weaponry and the '
                 . 'fighting styles that sprung up around those implants.';
-            $this->id = 'unarmed-strike';
             $this->name = 'Unarmed Strike';
             $this->reach = 0;
             $this->page = 132;
             $this->ruleset = 'core';
-            $this->skill = 'unarmed-combat';
+            $this->skill = new ActiveSkill('unarmed-combat');
             return;
         }
 
@@ -191,7 +139,12 @@ class Weapon implements Stringable
         $this->ammoContainer = $weapon['ammo-container'] ?? null;
         $this->armorPiercing = $weapon['armor-piercing'] ?? null;
         $this->availability = $weapon['availability'];
-        $this->class = $weapon['class'] ?? null;
+        if ($weapon['class'] instanceof WeaponClass) {
+            $this->class = $weaponClass;
+        } else {
+            $this->class = WeaponClass::from($weapon['class']);
+        }
+
         $this->cost = $weapon['cost'];
         $this->description = $weapon['description'];
         $this->damage = $weapon['damage'];
@@ -224,6 +177,7 @@ class Weapon implements Stringable
         }
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -274,29 +228,29 @@ class Weapon implements Stringable
     public function getRange(): string
     {
         return match ($this->class) {
-            'Assault Cannon' => '50/300/750/1200',
-            'Assault Rifle' => '25/150/350/550',
-            'Bow' => 'STR/STRx10/STRx30/STRx60',
-            'Grenade' => 'STRx2/STRx4/STRx6/STRx10',
-            'Grenade Launcher' => '5-50/100/150/500',
-            'Heavy Crossbow' => '14/45/120/180',
-            'Heavy Machinegun' => '40/250/750/1200',
-            'Heavy Pistol' => '5/20/40/60',
-            'Hold-Out Pistol' => '5/15/30/50',
-            'Light Crossbow' => '6/24/60/120',
-            'Light Machinegun' => '25/200/400/800',
-            'Light Pistol' => '5/15/30/50',
-            'Machine Pistol' => '5/15/30/50',
-            'Medium Crossbow' => '9/36/90/150',
-            'Medium Machinegun' => '40/250/750/1200',
-            'Missile Launcher' => '20-70*/150/450/1500',
-            'Shotgun' => '10/40/80/150',
-            'Shotgun (flechette)' => '15/30/45/60',
-            'Sniper Rifle' => '50/350/800/1500',
-            'Submachine Gun' => '10/40/80/150',
-            'Taser' => '5/10/15/20',
-            'Throwing Weapon' => 'STR/STRx2/STRx5/STRx7',
-            'Thrown Knife' => 'STR/STRx2/STRx3/STRx5',
+            WeaponClass::Cannon => '50/300/750/1200',
+            WeaponClass::AssaultRifle => '25/150/350/550',
+            WeaponClass::Bow => 'STR/STRx10/STRx30/STRx60',
+            //'Grenade' => 'STRx2/STRx4/STRx6/STRx10',
+            //'Grenade Launcher' => '5-50/100/150/500',
+            WeaponClass::Crossbow => '14/45/120/180',
+            WeaponClass::HeavyMachinegun => '40/250/750/1200',
+            WeaponClass::HeavyPistol => '5/20/40/60',
+            WeaponClass::HoldOutPistol => '5/15/30/50',
+            //'Light Crossbow' => '6/24/60/120',
+            //'Light Machinegun' => '25/200/400/800',
+            WeaponClass::LightPistol => '5/15/30/50',
+            WeaponClass::MachinePistol => '5/15/30/50',
+            //'Medium Crossbow' => '9/36/90/150',
+            //'Medium Machinegun' => '40/250/750/1200',
+            WeaponClass::MissileLauncher => '20-70*/150/450/1500',
+            WeaponClass::Shotgun => '10/40/80/150',
+            //'Shotgun (flechette)' => '15/30/45/60',
+            WeaponClass::SniperRifle => '50/350/800/1500',
+            WeaponClass::SubmachineGun => '10/40/80/150',
+            WeaponClass::Taser => '5/10/15/20',
+            WeaponClass::ThrowingWeapon => 'STR/STRx2/STRx5/STRx7',
+            //'Thrown Knife' => 'STR/STRx2/STRx3/STRx5',
             default => '???',
         };
     }

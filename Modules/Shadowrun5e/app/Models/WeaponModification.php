@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -14,27 +15,12 @@ use function strtolower;
 /**
  * Something to add to a character's weapon.
  */
-class WeaponModification implements Stringable
+final class WeaponModification implements Stringable
 {
-    /**
-     * Availability code for the modification.
-     */
-    public string $availability;
-
-    /**
-     * Cost of the modification.
-     */
-    public ?int $cost;
-
-    /**
-     * Cost modifier for the modification.
-     */
-    public ?int $costModifier;
-
-    /**
-     * Description of the modification.
-     */
-    public string $description;
+    public readonly string $availability;
+    public int|null $cost;
+    public int|null $costModifier;
+    public readonly string $description;
 
     /**
      * List of effects for the modification.
@@ -53,21 +39,9 @@ class WeaponModification implements Stringable
      * @var array<int, string>
      */
     public array $mount;
-
-    /**
-     * Name of the modification.
-     */
-    public string $name;
-
-    /**
-     * Ruleset the modification comes from.
-     */
-    public string $ruleset;
-
-    /**
-     * Type of modification (accessory or modification).
-     */
-    public string $type;
+    public readonly string $name;
+    public readonly string $ruleset;
+    public readonly string $type;
 
     /**
      * List of all modifications.
@@ -78,7 +52,7 @@ class WeaponModification implements Stringable
     /**
      * @throws RuntimeException
      */
-    public function __construct(public string $id)
+    public function __construct(public readonly string $id)
     {
         $filename = config('shadowrun5e.data_path')
             . 'weapon-modifications.php';
@@ -104,6 +78,7 @@ class WeaponModification implements Stringable
         $this->type = $mod['type'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

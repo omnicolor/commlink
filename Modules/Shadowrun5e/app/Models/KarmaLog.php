@@ -6,6 +6,7 @@ namespace Modules\Shadowrun5e\Models;
 
 use ArrayObject;
 use DateTimeImmutable;
+use Override;
 use RuntimeException;
 use TypeError;
 
@@ -31,7 +32,7 @@ use function usort;
  * Collection of karma log entries.
  * @extends ArrayObject<int, KarmaLogEntry>
  */
-class KarmaLog extends ArrayObject
+final class KarmaLog extends ArrayObject
 {
     protected const int KARMA_SKILL = 2;
     protected const int KARMA_KNOWLEDGE = 1;
@@ -88,6 +89,7 @@ class KarmaLog extends ArrayObject
      * @param KarmaLogEntry $entry
      * @throws TypeError
      */
+    #[Override]
     public function offsetSet(mixed $index = null, $entry = null): void
     {
         if ($entry instanceof KarmaLogEntry) {
@@ -518,6 +520,7 @@ class KarmaLog extends ArrayObject
             );
         }
 
+        /** @var array<int, MartialArtsTechnique> $techniques */
         $techniques = (array)$this->character->getMartialArtsTechniques();
         // Only techniques past the first cost karma.
         array_shift($techniques);
@@ -620,6 +623,7 @@ class KarmaLog extends ArrayObject
             return;
         }
         $skills = $this->processMagicalSkills($this->character->getSkills());
+        /** @var array<int, ActiveSkill> $skills */
         $skills = (array)$skills;
         $deficit = (int)array_reduce($skills, [$this, 'countSkillPoints'])
             - $this->skillPoints;
@@ -627,27 +631,27 @@ class KarmaLog extends ArrayObject
             // If they didn't spend too much, don't worry about the rest.
             return;
         }
+        /** @var array<int, ActiveSkill> $specializations */
         $specializations = array_filter(
             $skills,
             [$this, 'filterUnspecialized']
         );
         usort($skills, [$this, 'compareSkills']);
 
-        /** @var ActiveSkill */
         $skill = array_shift($skills);
         while (0 < $deficit && null !== $skill) {
             if (0 === $skill->level) {
                 $skill = array_shift($skills);
                 continue;
             }
-            $skill->level = $skill->level;
+            $skill->level = (int)$skill->level;
 
             if (
-                (int)$skill->level * self::KARMA_SKILL > self::KARMA_SPECIALIZATION
+                $skill->level * self::KARMA_SKILL > self::KARMA_SPECIALIZATION
                 && 0 !== count($specializations)
             ) {
                 // The next cheapest skill, karma-wise, is a specialization.
-                /** @var ActiveSkill */
+                /** @var ActiveSkill $tmp */
                 $tmp = array_shift($specializations);
                 $this[] = new KarmaLogEntry(
                     sprintf(
@@ -666,11 +670,11 @@ class KarmaLog extends ArrayObject
             $this[] = new KarmaLogEntry(
                 sprintf(
                     '%d₭ for %s (%d)',
-                    (int)$skill->level * self::KARMA_SKILL,
+                    $skill->level * self::KARMA_SKILL,
                     $skill->name,
                     $skill->level
                 ),
-                (int)$skill->level * self::KARMA_SKILL * -1,
+                $skill->level * self::KARMA_SKILL * -1,
             );
             $skill->level--;
             $deficit--;
@@ -687,19 +691,21 @@ class KarmaLog extends ArrayObject
             return;
         }
         $points = ($this->character->intuition + $this->character->logic) * 2;
+        /** @var array<int, KnowledgeSkill> $skills */
         $skills = (array)$this->character->getKnowledgeSkills();
         $deficit = (int)array_reduce($skills, [$this, 'countSkillPoints']) - $points;
         if (0 >= $deficit) {
             // They didn't overspend.
             return;
         }
+        /** @var array<int, KnowledgeSkill> $specializations */
         $specializations = array_filter(
             $skills,
             [$this, 'filterUnspecialized']
         );
         usort($skills, [$this, 'compareSkills']);
 
-        /** @var Skill */
+        /** @var KnowledgeSkill $skill */
         $skill = array_shift($skills);
         while (0 < $deficit && null !== $skill) {
             if ('N' === $skill->level) {
@@ -713,7 +719,7 @@ class KarmaLog extends ArrayObject
                 && 0 !== count($specializations)
             ) {
                 // The next cheapest skill, karma-wise, is a specialization.
-                /** @var Skill */
+                /** @var KnowledgeSkill $tmp */
                 $tmp = array_shift($specializations);
                 $this[] = new KarmaLogEntry(
                     sprintf(

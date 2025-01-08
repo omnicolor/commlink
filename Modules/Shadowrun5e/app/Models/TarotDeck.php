@@ -7,8 +7,9 @@ namespace Modules\Shadowrun5e\Models;
 use App\Models\Card;
 use App\Models\Deck;
 use Countable;
+use Override;
 
-class TarotDeck extends Deck implements Countable
+final class TarotDeck extends Deck implements Countable
 {
     /**
      * @var array<string, string>
@@ -70,6 +71,7 @@ class TarotDeck extends Deck implements Countable
     /**
      * Initialize the cards in a deck.
      */
+    #[Override]
     protected function initialize(): void
     {
         foreach ($this->suits as $suit) {

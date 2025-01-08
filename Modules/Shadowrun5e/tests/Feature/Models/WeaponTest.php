@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Tests\Feature\Models;
 
 use Modules\Shadowrun5e\Models\Weapon;
+use Modules\Shadowrun5e\Models\WeaponClass;
 use Modules\Shadowrun5e\Models\WeaponModification;
+use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
@@ -22,6 +24,7 @@ final class WeaponTest extends TestCase
     /**
      * Set up subject under test.
      */
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -172,13 +175,13 @@ final class WeaponTest extends TestCase
     public static function weaponRangeDataProvider(): array
     {
         return [
-            ['Melee Weapon', '???'],
-            ['Assault Cannon', '50/300/750/1200'],
-            ['Assault Rifle', '25/150/350/550'],
-            ['Bow', 'STR/STRx10/STRx30/STRx60'],
-            ['Grenade', 'STRx2/STRx4/STRx6/STRx10'],
-            ['Grenade Launcher', '5-50/100/150/500'],
-            ['Heavy Crossbow', '14/45/120/180'],
+            //['Melee Weapon', '???'],
+            [WeaponClass::Cannon, '50/300/750/1200'],
+            [WeaponClass::AssaultRifle, '25/150/350/550'],
+            [WeaponClass::Bow, 'STR/STRx10/STRx30/STRx60'],
+            //['Grenade', 'STRx2/STRx4/STRx6/STRx10'],
+            //['Grenade Launcher', '5-50/100/150/500'],
+            [WeaponClass::HeavyCrossbow, '14/45/120/180'],
             ['Heavy Machinegun', '40/250/750/1200'],
             ['Heavy Pistol', '5/20/40/60'],
             ['Hold-Out Pistol', '5/15/30/50'],
@@ -193,7 +196,7 @@ final class WeaponTest extends TestCase
             ['Shotgun (flechette)', '15/30/45/60'],
             ['Sniper Rifle', '50/350/800/1500'],
             ['Submachine Gun', '10/40/80/150'],
-            ['Taser', '5/10/15/20'],
+            [WeaponClass::Taser, '5/10/15/20'],
             ['Throwing Weapon', 'STR/STRx2/STRx5/STRx7'],
             ['Thrown Knife', 'STR/STRx2/STRx3/STRx5'],
         ];
@@ -203,7 +206,7 @@ final class WeaponTest extends TestCase
      * Test getting the range for various classes of weapons.
      */
     #[DataProvider('weaponRangeDataProvider')]
-    public function testGetRange(string $class, string $range): void
+    public function testGetRange(WeaponClass $class, string $range): void
     {
         $this->weapon->class = $class;
         self::assertEquals($range, $this->weapon->getRange());

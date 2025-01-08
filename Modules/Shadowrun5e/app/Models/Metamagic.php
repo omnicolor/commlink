@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -11,35 +12,13 @@ use function config;
 use function sprintf;
 use function strtolower;
 
-/**
- * Class representing a metamagic in Shadowrun.
- */
-class Metamagic implements Stringable
+final class Metamagic implements Stringable
 {
-    /**
-     * Whether the metamagic is for adepts only.
-     */
-    public bool $adeptOnly;
-
-    /**
-     * Description of the metamagic.
-     */
-    public string $description;
-
-    /**
-     * Name of the metamagic.
-     */
-    public string $name;
-
-    /**
-     * Page the metamagic was introduced on.
-     */
-    public int $page;
-
-    /**
-     * Ruleset the metamagic was introduced in.
-     */
-    public string $ruleset;
+    public readonly bool $adeptOnly;
+    public readonly string $description;
+    public readonly string $name;
+    public readonly int $page;
+    public readonly string $ruleset;
 
     /**
      * Collection of all metamagics.
@@ -47,7 +26,7 @@ class Metamagic implements Stringable
      */
     public static ?array $metamagics;
 
-    public function __construct(public string $id)
+    public function __construct(public readonly string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'metamagics.php';
         self::$metamagics ??= require $filename;
@@ -67,6 +46,7 @@ class Metamagic implements Stringable
         $this->ruleset = (string)$magic['ruleset'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

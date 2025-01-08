@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Models;
 
 use Exception;
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -12,7 +13,7 @@ use function config;
 use function sprintf;
 use function strtolower;
 
-class Armor implements Stringable
+final class Armor implements Stringable
 {
     /**
      * Whether the armor is currently active.
@@ -22,17 +23,17 @@ class Armor implements Stringable
     /**
      * Availability code.
      */
-    public string $availability;
+    public readonly string $availability;
 
     /**
      * Cost of the item.
      */
-    public int $cost;
+    public readonly int $cost;
 
     /**
      * Description of the item.
      */
-    public string $description;
+    public readonly string $description;
 
     /**
      * List of additional effects of the armor.
@@ -43,7 +44,7 @@ class Armor implements Stringable
     /**
      * Name of the item.
      */
-    public string $name;
+    public readonly string $name;
 
     /**
      * Modifications to the item.
@@ -53,22 +54,22 @@ class Armor implements Stringable
     /**
      * Page the armor was introduced on.
      */
-    public ?int $page;
+    public readonly int|null $page;
 
     /**
      * Armor rating.
      */
-    public int $rating;
+    public readonly int $rating;
 
     /**
      * Armor rating for stacking.
      */
-    public ?int $stackRating;
+    public readonly int|null $stackRating;
 
     /**
      * Rulebook for the item.
      */
-    public string $ruleset;
+    public readonly string $ruleset;
 
     /**
      * List of all armor.
@@ -80,7 +81,7 @@ class Armor implements Stringable
      * Construct a new armor object.
      * @throws RuntimeException if the ID is invalid.
      */
-    public function __construct(public string $id)
+    public function __construct(public readonly string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'armor.php';
         self::$armor ??= require $filename;
@@ -107,6 +108,7 @@ class Armor implements Stringable
         $this->ruleset = $armor['ruleset'] ?? 'core';
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

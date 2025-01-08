@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -14,33 +15,17 @@ use function strtolower;
 /**
  * Martial art style.
  */
-class MartialArtsStyle implements Stringable
+final class MartialArtsStyle implements Stringable
 {
     /**
      * Collection of IDs for techniques the style allows.
      * @var array<int, string>
      */
     public array $allowedTechniques;
-
-    /**
-     * Description of the style.
-     */
-    public string $description;
-
-    /**
-     * Name of the style.
-     */
-    public string $name;
-
-    /**
-     * Page the style was introduced on.
-     */
-    public int $page;
-
-    /**
-     * ID of the book the style was introduced in.
-     */
-    public string $ruleset;
+    public readonly string $description;
+    public readonly string $name;
+    public readonly int $page;
+    public readonly string $ruleset;
 
     /**
      * Collection of all styles.
@@ -51,7 +36,7 @@ class MartialArtsStyle implements Stringable
     /**
      * @throws RuntimeException if the ID is invalid
      */
-    public function __construct(public string $id)
+    public function __construct(public readonly string $id)
     {
         $filename = config('shadowrun5e.data_path')
             . 'martial-arts-styles.php';
@@ -73,6 +58,7 @@ class MartialArtsStyle implements Stringable
         $this->allowedTechniques = $style['techniques'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

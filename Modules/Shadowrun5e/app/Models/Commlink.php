@@ -14,7 +14,7 @@ use function ceil;
 /**
  * Commlink class.
  */
-class Commlink extends Gear implements Stringable
+final class Commlink extends Gear implements Stringable
 {
     /**
      * Collection of attribute values allowed for the device.
@@ -81,7 +81,7 @@ class Commlink extends Gear implements Stringable
     /**
      * @throws RuntimeException if ID is invalid
      */
-    public function __construct(public string $id, int $quantity = 1)
+    public function __construct(string $id, int $quantity = 1)
     {
         parent::__construct($id, $quantity);
         // Parent would have thrown an exception if $id is not found.

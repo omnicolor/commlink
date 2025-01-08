@@ -13,14 +13,14 @@ use function str_starts_with;
 /**
  * Gear factory, returns an appropriate gear object.
  */
-class GearFactory
+final class GearFactory
 {
     /**
      * Return a Gear object.
      * @param string|array<string, mixed> $gear
      * @throws RuntimeException
      */
-    public static function get($gear): Gear
+    public static function get(array|string $gear): Gear
     {
         if (is_array($gear)) {
             return self::getGearFromArray($gear);
@@ -31,10 +31,9 @@ class GearFactory
     /**
      * Return a gear item from an array.
      * @param array<string, mixed> $gear
-     * @return Gear|Commlink
      * @throws RuntimeException
      */
-    protected static function getGearFromArray(array $gear): Gear
+    protected static function getGearFromArray(array $gear): Gear | Commlink
     {
         $quantity = 1;
         if (isset($gear['quantity']) && is_numeric($gear['quantity'])) {

@@ -8,7 +8,7 @@ use Modules\Shadowrun5e\Models\ActiveSkill;
 use Modules\Shadowrun5e\Models\Armor;
 use Modules\Shadowrun5e\Models\ArmorArray;
 use Modules\Shadowrun5e\Models\ArmorModification;
-use Modules\Shadowrun5e\Models\Augmentation;
+use Modules\Shadowrun5e\Models\AugmentationGrade;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\KarmaLogEntry;
 use Modules\Shadowrun5e\Models\KnowledgeSkill;
@@ -378,7 +378,7 @@ final class CharacterTest extends TestCase
         self::assertEquals(6, $character->essence);
         $character->augmentations = [[
             'id' => 'bone-lacing-aluminum',
-            'grade' => Augmentation::GRADE_ALPHA,
+            'grade' => AugmentationGrade::Alpha->value,
         ]];
         self::assertEquals(5.2, $character->essence);
     }
@@ -540,8 +540,8 @@ final class CharacterTest extends TestCase
             ],
         ]]);
         self::assertCount(1, $character->getKnowledgeSkills());
-        self::assertEmpty($character->getKnowledgeSkills(onlyLanguages: true));
-        self::assertCount(1, $character->getKnowledgeSkills(onlyKnowledges: true));
+        self::assertEmpty($character->getKnowledgeSkills(only_languages: true));
+        self::assertCount(1, $character->getKnowledgeSkills(only_knowledges: true));
     }
 
     /**
@@ -558,8 +558,8 @@ final class CharacterTest extends TestCase
             ],
         ]]);
         self::assertCount(1, $character->getKnowledgeSkills());
-        self::assertEmpty($character->getKnowledgeSkills(onlyKnowledges: true));
-        self::assertCount(1, $character->getKnowledgeSkills(onlyLanguages: true));
+        self::assertEmpty($character->getKnowledgeSkills(only_knowledges: true));
+        self::assertCount(1, $character->getKnowledgeSkills(only_languages: true));
     }
 
     /**
@@ -581,8 +581,8 @@ final class CharacterTest extends TestCase
             ],
         ]]);
         self::assertCount(2, $character->getKnowledgeSkills());
-        self::assertCount(1, $character->getKnowledgeSkills(onlyKnowledges: true));
-        self::assertCount(1, $character->getKnowledgeSkills(onlyLanguages: true));
+        self::assertCount(1, $character->getKnowledgeSkills(only_knowledges: true));
+        self::assertCount(1, $character->getKnowledgeSkills(only_languages: true));
     }
 
     /**

@@ -5,19 +5,21 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Models;
 
 use ArrayObject;
+use Override;
 use TypeError;
 
 /**
  * Collection of programs.
  * @extends ArrayObject<int, Program>
  */
-class ProgramArray extends ArrayObject
+final class ProgramArray extends ArrayObject
 {
     /**
-     * Add a item to the array.
+     * Add an item to the array.
      * @param Program $program
      * @throws TypeError
      */
+    #[Override]
     public function offsetSet(mixed $index = null, $program = null): void
     {
         if ($program instanceof Program) {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -15,32 +16,25 @@ use function strtolower;
 /**
  * Something to add to a vehicle.
  */
-class VehicleModification implements Stringable
+final class VehicleModification implements Stringable
 {
-    /**
-     * Availability code for the modification.
-     */
-    public string $availability;
+    public readonly string $availability;
 
     /**
      * Cost of the modification.
      */
-    public ?int $cost;
+    public readonly int|null $cost;
 
     /**
      * Attribute of the vehicle to multiply the cost.
      */
-    public ?string $costAttribute;
+    public readonly null|string $costAttribute;
 
     /**
      * Cost multiplier to use based on the vehicle's cost.
      */
-    public ?float $costMultiplier = null;
-
-    /**
-     * Description of the modification.
-     */
-    public string $description;
+    public readonly float|null $costMultiplier;
+    public readonly string $description;
 
     /**
      * Collection of effects after installing the modification.
@@ -53,32 +47,16 @@ class VehicleModification implements Stringable
      * example.
      */
     public VehicleModificationArray $modifications;
-
-    /**
-     * Name of the modification.
-     */
-    public string $name;
-
-    /**
-     * Page the modification is found on.
-     */
-    public int $page;
-
-    /**
-     * Rating of the modification.
-     */
-    public ?int $rating;
+    public readonly string $name;
+    public readonly int $page;
+    public readonly int|null $rating;
 
     /**
      * Requirements for the modification to be valid for a vehicle.
      * @var array<int, callable>
      */
     public array $requirements;
-
-    /**
-     * Ruleset identifier.
-     */
-    public string $ruleset;
+    public readonly string $ruleset;
 
     /**
      * For modifications, what type of slot it takes: power-train, protection,
@@ -94,12 +72,12 @@ class VehicleModification implements Stringable
     /**
      * Type of modification: equipment, vehicle-mod, modification-mod.
      */
-    public ?VehicleModificationType $type;
+    public readonly VehicleModificationType|null $type;
 
     /**
      * Weapon attached to the modification (assuming it's a weapon mount).
      */
-    public ?Weapon $weapon = null;
+    public Weapon|null $weapon = null;
 
     /**
      * List of all modifications.
@@ -112,8 +90,10 @@ class VehicleModification implements Stringable
      * @param array{modifications?: array<int, string>, weapon?: array<string, mixed>} $options
      * @throws RuntimeException
      */
-    public function __construct(public string $id, array $options = [])
-    {
+    public function __construct(
+        public readonly string $id,
+        array $options = [],
+    ) {
         $filename = config('shadowrun5e.data_path')
             . 'vehicle-modifications.php';
         self::$all_modifications ??= require $filename;
@@ -128,12 +108,8 @@ class VehicleModification implements Stringable
         $mod = self::$all_modifications[$id];
         $this->availability = $mod['availability'];
         $this->cost = $mod['cost'] ?? null;
-        if (isset($mod['cost-attribute'])) {
-            $this->costAttribute = $mod['cost-attribute'];
-        }
-        if (isset($mod['cost-multiplier'])) {
-            $this->costMultiplier = (float)$mod['cost-multiplier'];
-        }
+        $this->costAttribute = $mod['cost-attribute'] ?? null;
+        $this->costMultiplier = $mod['cost-multiplier'] ?? null;
         $this->description = $mod['description'];
         $this->effects = $mod['effects'] ?? [];
         $this->name = $mod['name'];
@@ -158,6 +134,7 @@ class VehicleModification implements Stringable
         }
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

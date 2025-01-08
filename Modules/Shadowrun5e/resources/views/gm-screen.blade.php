@@ -228,8 +228,8 @@ use Modules\Shadowrun5e\Models\Contact;
             <tbody>
                 @foreach ($characters as $character)
                 @php
-                    $knowledges = (array)$character->getKnowledgeSkills(onlyKnowledges: true);
-                    $languages = (array)$character->getKnowledgeSkills(onlyLanguages: true);
+                    $knowledges = (array)$character->getKnowledgeSkills(only_knowledges: true);
+                    $languages = (array)$character->getKnowledgeSkills(only_languages: true);
                     $count = count($knowledges) + count($languages);
                 @endphp
                 @foreach (array_merge($languages, $knowledges) as $skill)

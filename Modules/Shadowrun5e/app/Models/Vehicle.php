@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -31,42 +32,38 @@ class Vehicle implements Stringable
     /**
      * Acceleration rating for the vehicle.
      */
-    public int $stockAcceleration;
+    public readonly int $stockAcceleration;
 
     /**
      * True if the vehicle is active (shown on character sheet).
      */
-    public bool $active;
+    public bool $active = false;
 
     /**
      * Vehicle's armor rating.
      */
-    public int $stockArmor;
+    public readonly int $stockArmor;
 
     /**
      * Collection of programs running.
      */
     public ProgramArray $autosofts;
-
-    /**
-     * Availability code for the vehicle.
-     */
-    public string $availability;
+    public readonly string $availability;
 
     /**
      * Body rating for the vehicle.
      */
-    public int $stockBody;
+    public readonly int $stockBody;
 
     /**
      * Category of the vehicle.
      */
-    public string $category;
+    public readonly string $category;
 
     /**
      * Cost of the vehicle.
      */
-    public int $cost;
+    public readonly int $cost;
 
     /**
      * Amount of matrix damage the vehicle has taken.
@@ -77,38 +74,30 @@ class Vehicle implements Stringable
      * Amount of physical damage the vehicle has taken.
      */
     public int $damagePhysical;
-
-    /**
-     * Description of the vehicle.
-     */
-    public string $description;
+    public readonly string $description;
 
     /**
      * Device rating for the vehicle.
      */
-    public ?int $deviceRating;
+    public int|null $deviceRating;
 
     /**
      * List of equipment added to the vehicle.
      */
     public VehicleModificationArray $equipment;
 
-    public string $id;
+    public readonly string $id;
 
     /**
      * Handling rating for the vehicle.
      */
-    public int $stockHandling;
+    public readonly int $stockHandling;
 
     /**
      * Off-road handling for the vehicle.
      */
-    public ?int $stockHandlingOffRoad;
-
-    /**
-     * Name of the vehicle.
-     */
-    public string $name;
+    public readonly ?int $stockHandlingOffRoad;
+    public readonly string $name;
 
     /**
      * List of modifications that have been made to the vehicle, including
@@ -124,32 +113,32 @@ class Vehicle implements Stringable
     /**
      * Pilot rating for the vehicle.
      */
-    public int $stockPilot;
+    public readonly int $stockPilot;
 
     /**
      * Number of seats the vehicle has.
      */
-    public int $seats;
+    public readonly int $seats;
 
     /**
      * Sensor rating for the vehicle.
      */
-    public int $stockSensor;
+    public readonly int $stockSensor;
 
     /**
      * Speed rating for the vehicle.
      */
-    public int $stockSpeed;
+    public readonly int $stockSpeed;
 
     /**
      * Optional Subname for the vehicle.
      */
-    public ?string $subname;
+    public readonly null|string $subname;
 
     /**
      * Type of vehicle (aircraft, groundcraft, etc).
      */
-    public string $type;
+    public readonly string $type;
 
     /**
      * Array of weapons on the vehicle.
@@ -276,6 +265,7 @@ class Vehicle implements Stringable
         return $attribute;
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

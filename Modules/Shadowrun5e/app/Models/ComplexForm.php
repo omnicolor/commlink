@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -14,14 +15,11 @@ use function strtolower;
 /**
  * Technomancer complex form.
  */
-class ComplexForm implements Stringable
+final class ComplexForm implements Stringable
 {
     use ForceTrait;
 
-    /**
-     * Description of the complex form.
-     */
-    public string $description;
+    public readonly string $description;
 
     /**
      * Duration of the complex form.
@@ -33,27 +31,15 @@ class ComplexForm implements Stringable
      *   S: Sustained
      *   Varies: Special for Hyperthreading
      */
-    public string $duration;
+    public readonly string $duration;
 
     /**
      * Fade formula for the complex form.
      */
-    public string $fade;
-
-    /**
-     * Name of the form.
-     */
-    public string $name;
-
-    /**
-     * Page the form is described on.
-     */
-    public int $page;
-
-    /**
-     * Ruleset the form is introduced in.
-     */
-    public string $ruleset;
+    public readonly string $fade;
+    public readonly string $name;
+    public readonly int $page;
+    public readonly string $ruleset;
 
     /**
      * Optional Stream the form belongs to.
@@ -76,25 +62,24 @@ class ComplexForm implements Stringable
      * @throws RuntimeException if the ID is not found
      */
     public function __construct(
-        public string $identifier,
-        public ?int $level = null,
+        public readonly string $id,
+        public int|null $level = null,
     ) {
         $filename = config('shadowrun5e.data_path') . 'complex-forms.php';
         self::$forms ??= require $filename;
 
-        $identifier = strtolower($identifier);
-        if (!isset(self::$forms[$identifier])) {
+        $id = strtolower($id);
+        if (!isset(self::$forms[$id])) {
             throw new RuntimeException(sprintf(
                 'Complex Form ID "%s" is invalid',
-                $identifier
+                $id
             ));
         }
 
-        $form = self::$forms[$identifier];
+        $form = self::$forms[$id];
         $this->description = $form['description'];
         $this->duration = $form['duration'];
         $this->fade = $form['fade'];
-        $this->identifier = $form['id'];
         $this->name = $form['name'];
         $this->page = $form['page'];
         $this->ruleset = $form['ruleset'];
@@ -102,6 +87,7 @@ class ComplexForm implements Stringable
         $this->target = $form['target'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -14,33 +15,18 @@ use function strtolower;
 /**
  * Mentor spirit class.
  */
-class MentorSpirit implements Stringable
+final class MentorSpirit implements Stringable
 {
-    /**
-     * Description of the mentor spirit.
-     */
-    public string $description;
+    public readonly string $description;
 
     /**
      * Collection of effects the mentor spirit provides.
      * @var array<string, int>
      */
     public array $effects = [];
-
-    /**
-     * Name of the mentor spirit.
-     */
-    public string $name;
-
-    /**
-     * Page the mentor spirit was introduced on.
-     */
-    public ?int $page;
-
-    /**
-     * Ruleset the mentor spirit was introduced in.
-     */
-    public string $ruleset;
+    public readonly string $name;
+    public readonly int|null $page;
+    public readonly string $ruleset;
 
     /**
      * Collection of all mentor spirits.
@@ -51,7 +37,7 @@ class MentorSpirit implements Stringable
     /**
      * @throws RuntimeException if the ID is invalid
      */
-    public function __construct(public string $id)
+    public function __construct(public readonly string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'mentor-spirits.php';
         self::$spirits ??= require $filename;
@@ -71,6 +57,7 @@ class MentorSpirit implements Stringable
         $this->ruleset = $spirit['ruleset'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
