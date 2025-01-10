@@ -23,6 +23,10 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function json_encode;
+use function route;
+use function sprintf;
+
 use const PHP_EOL;
 
 #[Group('slack')]
@@ -116,7 +120,6 @@ final class SlackControllerTest extends TestCase
      */
     public function testGetHelpInRegisteredChannel(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
@@ -147,7 +150,6 @@ final class SlackControllerTest extends TestCase
             ->with(6)
             ->andReturn(5);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'system' => 'shadowrun5e',
             'type' => Channel::TYPE_SLACK,
@@ -174,7 +176,6 @@ final class SlackControllerTest extends TestCase
             ->with(10)
             ->andReturn(4);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'system' => 'transformers',
             'type' => Channel::TYPE_SLACK,
@@ -201,7 +202,6 @@ final class SlackControllerTest extends TestCase
      */
     public function testRollNumberUnsupported(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'system' => 'dnd5e',
             'type' => Channel::TYPE_SLACK,
@@ -233,17 +233,12 @@ final class SlackControllerTest extends TestCase
 
         $slackUserId = 'E567';
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'system' => 'shadowrun5e',
             'type' => Channel::TYPE_SLACK,
         ]);
 
-        /** @var Character */
-        $character = Character::factory()->create([
-            'system' => 'shadowrun5e',
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create(['system' => 'shadowrun5e']);
 
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $slackUserId,
@@ -285,24 +280,18 @@ final class SlackControllerTest extends TestCase
 
         $slackUserId = 'U' . Str::random(8);
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'options' => ['nightCityTarot' => true],
             'system' => 'cyberpunkred',
         ]);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
             'type' => Channel::TYPE_SLACK,
         ]);
 
-        /** @var Character */
-        $character = Character::factory()->create([
-            'system' => 'cyberpunkred',
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create(['system' => 'cyberpunkred']);
 
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $slackUserId,
@@ -383,7 +372,6 @@ final class SlackControllerTest extends TestCase
      */
     public function testRollDiceInvalidNumericForSystem(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->create(['system' => 'dnd5e']);
         self::post(
             route('roll'),
@@ -410,7 +398,6 @@ final class SlackControllerTest extends TestCase
      */
     public function testRollInfo(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->create([]);
         self::post(
             route('roll'),
@@ -461,7 +448,6 @@ final class SlackControllerTest extends TestCase
 
     public function testLoginThroughSlackExistingUserNewChatUser(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         $slackUserId = 'U' . Str::random(8);
@@ -564,23 +550,19 @@ final class SlackControllerTest extends TestCase
      */
     public function testSlackResponseNotForSystem(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         $slackUserId = 'U' . Str::random(8);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'system' => 'cyberpunkred',
             'server_id' => 'T' . Str::random(10),
             'type' => Channel::TYPE_SLACK,
         ]);
 
-        /** @var Character */
         $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'cyberpunkred',
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         $chatUser = ChatUser::factory()->create([
@@ -640,6 +622,7 @@ final class SlackControllerTest extends TestCase
 
     public function testHandleActionWithValidAction(): void
     {
+        Http::preventStrayRequests();
         $teams = [
             'ok' => true,
             'teams' => [
@@ -649,9 +632,11 @@ final class SlackControllerTest extends TestCase
                 ],
             ],
         ];
+        $teams_response = Http::response($teams, Response::HTTP_OK);
         Http::fake([
-            'https://slack.com/api/auth.teams.list' => Http::response($teams, Response::HTTP_OK),
+            'https://slack.com/api/auth.teams.list' => $teams_response,
         ]);
+
         self::withHeaders(['Accept' => 'application/json'])
             ->post(
                 route('roll'),

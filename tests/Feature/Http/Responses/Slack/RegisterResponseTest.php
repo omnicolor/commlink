@@ -17,6 +17,7 @@ use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function array_keys;
+use function config;
 use function implode;
 use function key;
 use function sprintf;
@@ -140,6 +141,7 @@ final class RegisterResponseTest extends TestCase
      * Test registering a channel to a valid system after creating a Commlink
      * account and having all other required data.
      */
+    #[Group('current')]
     public function testRegister(): void
     {
         $channels = [
@@ -158,10 +160,14 @@ final class RegisterResponseTest extends TestCase
                 ],
             ],
         ];
+
+        Http::preventStrayRequests();
         Http::fake([
             'https://slack.com/api/auth.teams.list' => Http::response($teams, Response::HTTP_OK),
             'https://slack.com/api/conversations.info?channel=channel-id' => $channels_response,
         ]);
+
+        $user = User::factory()->create();
         $channel = new Channel([
             'channel_id' => 'channel-id',
             'server_id' => 'team-id',
