@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Features;
 
+use Override;
 use Stringable;
 
 class ApiAccess implements Stringable
@@ -16,6 +17,7 @@ class ApiAccess implements Stringable
         return false;
     }
 
+    #[Override]
     public function __toString(): string
     {
         return 'API Access';

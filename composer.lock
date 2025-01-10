@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d06aa17b8e54198bb125e775cb4b016b",
+    "content-hash": "ae2e8379cdc7e692c8a8256a70afacdf",
     "packages": [
         {
             "name": "brick/math",
@@ -3482,12 +3482,12 @@
             "version": "3.8.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/briannesbitt/Carbon.git",
+                "url": "https://github.com/CarbonPHP/carbon.git",
                 "reference": "129700ed449b1f02d70272d2ac802357c8c30c58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/129700ed449b1f02d70272d2ac802357c8c30c58",
+                "url": "https://api.github.com/repos/CarbonPHP/carbon/zipball/129700ed449b1f02d70272d2ac802357c8c30c58",
                 "reference": "129700ed449b1f02d70272d2ac802357c8c30c58",
                 "shasum": ""
             },
@@ -9089,16 +9089,16 @@
         },
         {
             "name": "team-reflex/discord-php",
-            "version": "v10.1.4",
+            "version": "v10.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP.git",
-                "reference": "f07ffa2d7673c0b76f8166b50a5fe099f50e8e83"
+                "reference": "23d1347025a7aa57e2a6918080bf2e1eaf1f0181"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/f07ffa2d7673c0b76f8166b50a5fe099f50e8e83",
-                "reference": "f07ffa2d7673c0b76f8166b50a5fe099f50e8e83",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/23d1347025a7aa57e2a6918080bf2e1eaf1f0181",
+                "reference": "23d1347025a7aa57e2a6918080bf2e1eaf1f0181",
                 "shasum": ""
             },
             "require": {
@@ -9160,10 +9160,24 @@
                 "chat": "https://discord.gg/dphp",
                 "docs": "https://discord-php.github.io/DiscordPHP/",
                 "issues": "https://github.com/discord-php/DiscordPHP/issues",
-                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.1.4",
+                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.1.5",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
-            "time": "2024-12-24T22:02:06+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/Log1x",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/valzargaming",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/DiscordPHP",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2025-01-09T07:53:01+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -10252,16 +10266,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.66.1",
+            "version": "v3.67.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "cde186799d8e92960c5a00c96e6214bf7f5547a9"
+                "reference": "0ad34c75d1172f7d30320460e803887981830cbf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/cde186799d8e92960c5a00c96e6214bf7f5547a9",
-                "reference": "cde186799d8e92960c5a00c96e6214bf7f5547a9",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/0ad34c75d1172f7d30320460e803887981830cbf",
+                "reference": "0ad34c75d1172f7d30320460e803887981830cbf",
                 "shasum": ""
             },
             "require": {
@@ -10343,7 +10357,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.66.1"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.67.0"
             },
             "funding": [
                 {
@@ -10351,7 +10365,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-05T14:43:25+00:00"
+            "time": "2025-01-08T10:17:40+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
@@ -14873,6 +14887,7 @@
     "platform": {
         "php": "^8.3",
         "ext-curl": "^7.34|^8.0",
+        "ext-fileinfo": "*",
         "ext-mongodb": "^1.15",
         "ext-random": "*",
         "ext-redis": "*",

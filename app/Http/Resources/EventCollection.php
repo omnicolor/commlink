@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
@@ -11,7 +12,12 @@ use Illuminate\Support\Collection;
 class EventCollection extends ResourceCollection
 {
     /**
-     * @return array<string, array<string, string>|Collection>
+     * @return array{
+     *     data: Collection<Event>,
+     *     links: array{
+     *         collection: string
+     *     }
+     * }
      */
     public function toArray(Request $request): array
     {

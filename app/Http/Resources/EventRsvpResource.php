@@ -14,7 +14,22 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class EventRsvpResource extends JsonResource
 {
     /**
-     * @return array<string, array<string, mixed>>
+     * @return array{
+     *     data: array{
+     *         event: array{
+     *             id: int,
+     *             name: string,
+     *             real_start: string
+     *         },
+     *         response: string
+     *     },
+     *     links: array{
+     *         campaign: string,
+     *         event: string,
+     *         self: string,
+     *         user: string
+     *     }
+     * }
      */
     public function toArray(Request $request): array
     {
@@ -23,7 +38,7 @@ class EventRsvpResource extends JsonResource
                 'event' => [
                     'id' => $this->event->id,
                     'name' => $this->event->name,
-                    'real_start' => $this->event->real_start,
+                    'real_start' => $this->event->real_start->toAtomString(),
                 ],
                 'response' => $this->response ?? 'tentative',
             ],
