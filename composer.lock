@@ -9677,7 +9677,7 @@
         },
         {
             "name": "captainhook/captainhook-phar",
-            "version": "5.24.1",
+            "version": "5.24.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/captainhookphp/captainhook-phar.git",
@@ -9731,7 +9731,7 @@
             ],
             "support": {
                 "issues": "https://github.com/captainhookphp/captainhook/issues",
-                "source": "https://github.com/captainhookphp/captainhook-phar/tree/5.24.1"
+                "source": "https://github.com/captainhookphp/captainhook-phar/tree/5.24.2"
             },
             "funding": [
                 {
@@ -14858,5 +14858,5 @@
     "platform-dev": {
         "ext-sqlite3": "*"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
