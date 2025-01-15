@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Features;
 
+use Override;
 use Stringable;
 
 class CyberpunkCharacterGeneration implements Stringable
@@ -16,6 +17,7 @@ class CyberpunkCharacterGeneration implements Stringable
         return false;
     }
 
+    #[Override]
     public function __toString(): string
     {
         return 'Cyberpunk Character Generation';

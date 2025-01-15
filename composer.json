@@ -41,15 +41,10 @@
     "minimum-stability": "stable",
     "name": "omnicolor/commlink",
     "prefer-stable": true,
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/omnicolor/php-irc-client"
-        }
-    ],
     "require": {
         "php": "^8.3",
         "ext-curl": "^7.34|^8.0",
+        "ext-fileinfo": "*",
         "ext-mongodb": "^1.15",
         "ext-random": "*",
         "ext-redis": "*",
@@ -58,7 +53,6 @@
         "captainhook/hook-installer": "^1.0",
         "fakerphp/faker": "^1.23",
         "guzzlehttp/guzzle": "^7.3",
-        "jerodev/php-irc-client": "dev-main",
         "laravel/framework": "^11.0",
         "laravel/pennant": "^1.1",
         "laravel/pulse": "^1.2",
@@ -67,6 +61,7 @@
         "markrogoyski/math-php": "^2.8",
         "mongodb/laravel-mongodb": "^4.3",
         "nwidart/laravel-modules": "11.0.11",
+        "omnicolor/php-irc-client": "^1.1",
         "php-jsonpatch/php-jsonpatch": "^4.1",
         "pusher/pusher-php-server": "^7.0",
         "sentry/sentry-laravel": "^4.7",
@@ -82,7 +77,6 @@
         "calebdw/fakerstan": "^1.0",
         "captainhook/captainhook-phar": "^5.23",
         "cypresslab/gitelephant": "^4.5",
-        "fakerphp/faker": "^1.9",
         "friendsofphp/php-cs-fixer": "^3.49",
         "larastan/larastan": "^3.0",
         "laravel/breeze": "^2.0",

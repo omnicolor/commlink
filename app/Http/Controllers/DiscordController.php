@@ -46,35 +46,35 @@ class DiscordController extends Controller
     public function save(Request $request): RedirectResponse
     {
         /** @var User */
-        $commlinkUser = Auth::user();
+        $commlink_user = Auth::user();
 
         /** @var array<int, Guild> */
-        $potentialGuilds = $request->session()->pull('guilds');
+        $potential_guilds = $request->session()->pull('guilds');
         /** @var Collection<string, Guild> */
-        $potentialGuilds = collect($potentialGuilds)->keyBy('snowflake');
+        $potential_guilds = collect($potential_guilds)->keyBy('snowflake');
         $guilds = $request->input('guilds');
         if (null === $guilds || !is_array($guilds)) {
             return redirect()->route('settings')
                 ->withErrors(['error' => 'No guilds selected.']);
         }
 
-        $discordUser = $request->session()->pull('discordUser');
+        $discord_user = $request->session()->pull('discordUser');
         foreach ($guilds as $guild) {
-            if (!$potentialGuilds->has($guild)) {
+            if (!$potential_guilds->has($guild)) {
                 return redirect()
                     ->route('settings')
                     ->withErrors(['error' => 'An invalid Guild ID was found.']);
             }
-            assert(null !== $potentialGuilds[$guild]);
+            assert(null !== $potential_guilds[$guild]);
 
             ChatUser::create([
                 'server_id' => $guild,
-                'server_name' => $potentialGuilds[$guild]['name'],
+                'server_name' => $potential_guilds[$guild]['name'],
                 'server_type' => ChatUser::TYPE_DISCORD,
-                'remote_user_id' => $discordUser['snowflake'],
-                'remote_user_name' => $discordUser['username'] . '#'
-                    . $discordUser['discriminator'],
-                'user_id' => $commlinkUser->id,
+                'remote_user_id' => $discord_user['snowflake'],
+                'remote_user_name' => $discord_user['username'] . '#'
+                    . $discord_user['discriminator'],
+                'user_id' => $commlink_user->id,
                 'verified' => false,
             ]);
         }
@@ -97,7 +97,7 @@ class DiscordController extends Controller
     {
         try {
             /** @var SocialiteUser */
-            $socialUser = Socialite::driver('discord')->user();
+            $social_user = Socialite::driver('discord')->user();
         } catch (InvalidStateException $ex) {
             Log::error('Invalid state exception: ' . $ex->getMessage());
             return redirect()->route('settings')
@@ -107,24 +107,24 @@ class DiscordController extends Controller
             return redirect()->route('settings')
                 ->withErrors(['error' => 'Discord login failed on our side, nothing you did wrong!']);
         }
-        $user = User::where('email', $socialUser->email)->first();
+        $user = User::where('email', $social_user->email)->first();
 
         if (null === $user) {
             // The user wasn't found, create a new one.
             $user = User::create([
-                'email' => $socialUser->email,
-                'name' => $socialUser->name,
+                'email' => $social_user->email,
+                'name' => $social_user->name,
                 'password' => 'reset me',
             ]);
         }
 
         Auth::login($user);
         session(['discordUser' => [
-            'token' => $socialUser->token,
-            'avatar' => $socialUser->avatar,
-            'snowflake' => $socialUser->id,
-            'username' => $socialUser->name,
-            'discriminator' => $socialUser->user['discriminator'],
+            'token' => $social_user->token,
+            'avatar' => $social_user->avatar,
+            'snowflake' => $social_user->id,
+            'username' => $social_user->name,
+            'discriminator' => $social_user->user['discriminator'],
         ]]);
         return redirect('/discord');
     }
@@ -148,11 +148,11 @@ class DiscordController extends Controller
      */
     public function view(Request $request): RedirectResponse | View
     {
-        $wasDiscordLogin = false;
+        $was_discord_login = false;
         if ($request->session()->has('discordUser')) {
-            $discordUser = $request->session()->pull('discordUser');
-            $accessToken = $discordUser['token'];
-            $wasDiscordLogin = true;
+            $discord_user = $request->session()->pull('discordUser');
+            $access_token = $discord_user['token'];
+            $was_discord_login = true;
         } elseif (null === $request->input('code')) {
             return redirect()->route('settings')->withErrors([
                 'error' => 'Discord login failed, no Oauth code supplied',
@@ -163,8 +163,8 @@ class DiscordController extends Controller
             ]);
         } else {
             try {
-                $accessToken = $this->getDiscordAccessToken($request->input('code'));
-                $discordUser = $this->getDiscordUser($accessToken);
+                $access_token = $this->getDiscordAccessToken($request->input('code'));
+                $discord_user = $this->getDiscordUser($access_token);
             } catch (RuntimeException $ex) {
                 Log::error($ex->getMessage());
                 return redirect()
@@ -179,10 +179,10 @@ class DiscordController extends Controller
         }
 
         try {
-            $guilds = $this->getDiscordGuilds($accessToken);
+            $guilds = $this->getDiscordGuilds($access_token);
             session([
                 'guilds' => $guilds,
-                'discordUser' => $discordUser,
+                'discordUser' => $discord_user,
             ]);
         } catch (RuntimeException $ex) {
             Log::error($ex->getMessage());
@@ -197,26 +197,26 @@ class DiscordController extends Controller
         }
 
         /** @var User */
-        $commlinkUser = Auth::user();
-        $registeredGuilds = ChatUser::discord()
-            ->where('user_id', $commlinkUser->id)
-            ->where('remote_user_id', $discordUser['snowflake'])
+        $commlink_user = Auth::user();
+        $registered_guilds = ChatUser::discord()
+            ->where('user_id', $commlink_user->id)
+            ->where('remote_user_id', $discord_user['snowflake'])
             ->pluck('server_id')
             ->flip();
 
-        if ($wasDiscordLogin) {
-            $allGuildsRegistered = true;
+        if ($was_discord_login) {
+            $all_guilds_registered = true;
             // Check to see if all guilds have already been registered.
             foreach ($guilds as $guild) {
-                if (!$registeredGuilds->has((string)$guild['snowflake'])) {
-                    $allGuildsRegistered = false;
+                if (!$registered_guilds->has((string)$guild['snowflake'])) {
+                    $all_guilds_registered = false;
                     break;
                 }
             }
 
             // If the user has already registered all of their guilds, don't
             // show the guild registration page, just go to the dashboard.
-            if ($allGuildsRegistered) {
+            if ($all_guilds_registered) {
                 return redirect()->route('dashboard');
             }
         }
@@ -224,10 +224,10 @@ class DiscordController extends Controller
         return view(
             'discord-choose-guild',
             [
-                'discordUser' => $discordUser,
+                'discordUser' => $discord_user,
                 'guilds' => $guilds,
-                'registeredGuilds' => $registeredGuilds,
-                'user' => $commlinkUser,
+                'registeredGuilds' => $registered_guilds,
+                'user' => $commlink_user,
             ]
         );
     }

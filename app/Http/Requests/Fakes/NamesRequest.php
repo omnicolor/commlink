@@ -9,7 +9,9 @@ use Illuminate\Foundation\Http\FormRequest;
 class NamesRequest extends FormRequest
 {
     /**
-     * @return array<string, array<int, string>>
+     * @return array{
+     *     quantity: array<int, string>
+     * }
      */
     public function rules(): array
     {

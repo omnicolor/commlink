@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Override;
 use Sentry\Laravel\Integration;
 use Throwable;
 
@@ -30,15 +31,12 @@ class Handler extends ExceptionHandler
     /**
      * Register the exception handling callbacks for the application.
      */
+    #[Override]
     public function register(): void
     {
+        parent::register();
         $this->reportable(function (Throwable $e): void {
             Integration::captureUnhandledException($e);
         });
-    }
-
-    public function report(Throwable $e): void
-    {
-        parent::report($e);
     }
 }

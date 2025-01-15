@@ -12,7 +12,9 @@ use App\Models\ChatUser;
 use App\Models\User;
 use App\Rolls\Campaign as CampaignRoll;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
@@ -433,16 +435,43 @@ final class CampaignTest extends TestCase
     {
         Event::fake();
 
+        $team_id = 'T' . Str::random(10);
+        $teams = [
+            'ok' => true,
+            'teams' => [
+                [
+                    'id' => $team_id,
+                    'name' => 'foo',
+                ],
+            ],
+        ];
+        $teams_response = Http::response($teams, Response::HTTP_OK);
+
+        $channel_id = 'C' . Str::random(10);
+        $channels = [
+            'ok' => true,
+            'channel' => [
+                'id' => $channel_id,
+                'name' => 'Channel name',
+            ],
+        ];
+        $channels_response = Http::response($channels, Response::HTTP_OK);
+        $channels_url = 'https://slack.com/api/conversations.info?channel='
+            . $channel_id;
+        Http::fake([
+            'https://slack.com/api/auth.teams.list' => $teams_response,
+            $channels_url => $channels_response,
+        ]);
+
         $user = User::factory()->create();
 
-        /** @var CampaignModel */
         $campaign = CampaignModel::factory()->create([
             'registered_by' => $user->id,
         ]);
 
         $channel = new Channel([
-            'channel_id' => 'C' . Str::random(10),
-            'server_id' => 'T' . Str::random(10),
+            'channel_id' => $channel_id,
+            'server_id' => $team_id,
             'type' => Channel::TYPE_SLACK,
         ]);
         $channel->user = 'U' . Str::random(10);
