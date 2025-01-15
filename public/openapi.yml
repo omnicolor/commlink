@@ -6190,6 +6190,8 @@ components:
               $ref: '#/components/schemas/RootNature'
             playbook:
               $ref: '#/components/schemas/RootPlaybook'
+            tracks:
+              $ref: '#/components/schemas/RootTracksBlock'
           required:
             - id
             - links
@@ -6209,18 +6211,23 @@ components:
           might: 1
         id: 'brute'
         name: 'Brute'
+        weapon_move: false
         links:
           self: 'https://commlink.digitaldarkness.com/api/root/moves/brute'
       properties:
         description:
           type: string
         effects:
+          additionalProperties:
+            type: integer
           nullable: true
           type: object
         id:
           type: string
         name:
           type: string
+        weapon_move:
+          type: boolean
         links:
           $ref: '#/components/schemas/Links'
       required:
@@ -6228,6 +6235,7 @@ components:
         - id
         - name
         - links
+        - weapon_move
       type: object
     RootNature:
       example:
@@ -6263,21 +6271,37 @@ components:
         description_short: |
           a powerful warrior devoted to what they think is right and just.
         moves:
-          - description: 'Take +1 to Might (max +3).'
+          brute:
+            description: 'Take +1 to Might (max +3).'
             effects:
               might: 1
             id: 'brute'
             name: 'Brute'
+            weapon_move: false
             links:
               self: 'https://commlink.digitaldarkness.com/api/root/moves/brute'
         natures:
-          - description: |
+          defender:
+            description: |
               Clear your exhaustion track when you defend someone who
               cannot defend themself from dire threat.
             id: 'defender'
             name: 'Defender'
             links:
               self: 'https://commlink.digitaldarkness.com/api/root/natures/defender'
+        starting_weapon_moves:
+          cleave:
+            description: |
+              When you cleave armored foes at close range, mark exhaustion and roll
+              with Might. On a hit, you smash through their defenses and equipment;
+              inflict 3-decay. On a 7–9, you overextend your weapon or yourself:
+              mark decay or end up in a bad spot, your choice.
+            effects: null
+            id: 'cleave'
+            name: 'Cleave'
+            weapon_move: true
+            links:
+              self: 'https://commlink.digitaldarkness.com/api/root/moves/cleave'
         stats:
           charm: 1
           cunning: 0
@@ -6294,17 +6318,22 @@ components:
         id:
           type: string
         moves:
-          items:
+          additionalProperties:
             $ref: '#/components/schemas/RootMove'
-          type: array
+          type: object
         name:
           type: string
         natures:
-          items:
+          additionalProperties:
             $ref: '#/components/schemas/RootNature'
-          type: array
+          type: object
+        starting_weapon_moves:
+          additionalProperties:
+            $ref: '#/components/schemas/RootMove'
+          type: object
         stats:
           $ref: '#/components/schemas/RootStatsBlock'
+
         links:
           $ref: '#/components/schemas/Links'
       required:
@@ -6315,7 +6344,7 @@ components:
         - links
       type: object
     RootStat:
-      maximum: 2
+      maximum: 3
       minimum: -1
       type: integer
     RootStatsBlock:
@@ -6336,6 +6365,27 @@ components:
         - finesse
         - luck
         - might
+      type: object
+    RootTrack:
+      minimum: 4
+      type: integer
+    RootTracksBlock:
+      properties:
+        decay:
+          minimum: 0
+          type: integer
+        decay_max:
+          $ref: '#/components/schemas/RootTrack'
+        exhaustion:
+          minimum: 0
+          type: integer
+        exhaustion_max:
+          $ref: '#/components/schemas/RootTrack'
+        injury:
+          minimum: 0
+          type: integer
+        injury_max:
+          $ref: '#/components/schemas/RootTrack'
       type: object
     Rulebook:
       description: A rulebook for an RPG.
