@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Modules\Subversion\Models;
 
+use Override;
 use RuntimeException;
+use Stringable;
 
 use function config;
 use function sprintf;
 
-class Impulse
+class Impulse implements Stringable
 {
     public string $description;
     public ImpulseDowntime $downtime;
@@ -59,6 +61,7 @@ class Impulse
         $this->triggers = $impulse['triggers'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -74,7 +77,7 @@ class Impulse
 
         $impulses = [];
         /** @var string $id */
-        foreach (self::$impulses as $id => $impulse) {
+        foreach (self::$impulses ?? [] as $id => $impulse) {
             $impulses[$id] = new Impulse($impulse['id']);
         }
         return $impulses;

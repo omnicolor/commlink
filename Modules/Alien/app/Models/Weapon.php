@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Alien\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -73,6 +74,7 @@ class Weapon implements Stringable
         $this->weight = $weapon['weight'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -88,7 +90,7 @@ class Weapon implements Stringable
 
         $weapons = [];
         /** @var string $id */
-        foreach (array_keys(self::$weapons) as $id) {
+        foreach (array_keys(self::$weapons ?? []) as $id) {
             $weapons[] = new self($id);
         }
         return $weapons;

@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace Modules\Stillfleet\Models;
 
 use Illuminate\Support\Facades\Log;
+use Override;
 use RuntimeException;
+use Stringable;
 
+use function config;
 use function sprintf;
 
 /**
  * The character's class (job, vocation, role).
  */
-class Role
+class Role implements Stringable
 {
     public string $description;
     /** @var array<int, string> */
@@ -129,6 +132,7 @@ class Role
         }
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -144,7 +148,7 @@ class Role
 
         $roles = [];
         /** @var string $id */
-        foreach (array_keys(self::$roles) as $id) {
+        foreach (array_keys(self::$roles ?? []) as $id) {
             $roles[] = new Role($id, 1);
         }
         return $roles;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -104,6 +105,7 @@ class WeaponModification implements Stringable
         $this->type = $mod['type'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -127,7 +129,7 @@ class WeaponModification implements Stringable
             . 'weapon-modifications.php';
         self::$modifications ??= require $filename;
 
-        foreach (self::$modifications as $mod) {
+        foreach (self::$modifications ?? [] as $mod) {
             if (strtolower((string)$mod['name']) === strtolower($name)) {
                 return new WeaponModification($mod['id']);
             }

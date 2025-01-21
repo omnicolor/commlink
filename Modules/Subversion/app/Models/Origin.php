@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Modules\Subversion\Models;
 
+use Override;
 use RuntimeException;
+use Stringable;
 
+use function config;
 use function sprintf;
 
-class Origin
+class Origin implements Stringable
 {
     public string $description;
     public string $more;
@@ -38,6 +41,7 @@ class Origin
         $this->ruleset = $origin['ruleset'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -52,7 +56,7 @@ class Origin
         self::$origins ??= require $filename;
 
         $origins = [];
-        foreach (self::$origins as $origin) {
+        foreach (self::$origins ?? [] as $origin) {
             $origins[] = new Origin($origin['id']);
         }
         return $origins;
