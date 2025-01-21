@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Stillfleet\Models;
 
+use Override;
 use RuntimeException;
+use Stringable;
 
 use function array_keys;
+use function config;
 use function sprintf;
 use function strtolower;
 
@@ -14,13 +17,13 @@ use function strtolower;
  * A power granted to a character by their class or species, or achieved through
  * leveling up.
  */
-class Power
+class Power implements Stringable
 {
-    public const TYPE_ADVANCED = 'advanced';
-    public const TYPE_CLASS = 'class';
-    public const TYPE_HELL_SCIENCE = 'hell-science';
-    public const TYPE_MARQUEE = 'marquee';
-    public const TYPE_SPECIES = 'species';
+    public const string TYPE_ADVANCED = 'advanced';
+    public const string TYPE_CLASS = 'class';
+    public const string TYPE_HELL_SCIENCE = 'hell-science';
+    public const string TYPE_MARQUEE = 'marquee';
+    public const string TYPE_SPECIES = 'species';
 
     public ?string $advanced_list;
     public string $description;
@@ -55,6 +58,7 @@ class Power
         $this->type = $power['type'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -70,7 +74,7 @@ class Power
 
         $powers = [];
         /** @var string $id */
-        foreach (array_keys(self::$powers) as $id) {
+        foreach (array_keys(self::$powers ?? []) as $id) {
             $powers[] = new Power($id);
         }
         return $powers;

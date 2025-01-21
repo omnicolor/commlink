@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Expanse\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -66,6 +67,7 @@ class Focus implements Stringable
         $this->page = $focus['page'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -81,7 +83,7 @@ class Focus implements Stringable
 
         $focuses = [];
         /** @var string $focus */
-        foreach (array_keys(self::$focuses) as $focus) {
+        foreach (array_keys(self::$focuses ?? []) as $focus) {
             $focuses[$focus] = new self($focus);
         }
         return $focuses;

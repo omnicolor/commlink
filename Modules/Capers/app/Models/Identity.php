@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Capers\Models;
 
 use App\Models\Card;
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -60,6 +61,7 @@ class Identity implements Stringable
         $this->name = $identity['name'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -76,7 +78,7 @@ class Identity implements Stringable
 
         $identities = [];
         /** @var string $id */
-        foreach (array_keys(self::$identities) as $id) {
+        foreach (array_keys(self::$identities ?? []) as $id) {
             $identities[$id] = new self($id);
         }
         return $identities;
@@ -96,7 +98,7 @@ class Identity implements Stringable
             default => throw new RuntimeException('Invalid suit'),
         };
 
-        foreach (self::$identities as $id => $identity) {
+        foreach (self::$identities ?? [] as $id => $identity) {
             if ($identity['card'] === $coloredCard) {
                 return new self($id);
             }

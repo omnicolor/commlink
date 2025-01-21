@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Subversion\Models;
 
 use ArrayObject;
+use Override;
 use TypeError;
 
 /**
@@ -19,6 +20,7 @@ class LanguageArray extends ArrayObject
      * @param Language $language
      * @throws TypeError
      */
+    #[Override]
     public function offsetSet($index = null, $language = null): void
     {
         if ($language instanceof Language) {

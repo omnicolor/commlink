@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Alien\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
-use function array_key_exists;
 use function array_keys;
 use function collect;
 use function config;
@@ -35,7 +35,7 @@ class Injury implements Stringable
         self::$injuries ??= require $filename;
 
         $id = strtolower($id);
-        if (!array_key_exists($id, self::$injuries)) {
+        if (!isset(self::$injuries[$id])) {
             throw new RuntimeException(sprintf(
                 'Injury ID "%s" is invalid',
                 $id
@@ -53,6 +53,7 @@ class Injury implements Stringable
         $this->time_limit = $injury['time-limit'] ?? null;
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -68,7 +69,7 @@ class Injury implements Stringable
 
         $injuries = [];
         /** @var string $id */
-        foreach (array_keys(self::$injuries) as $id) {
+        foreach (array_keys(self::$injuries ?? []) as $id) {
             $injuries[] = new Injury($id);
         }
         return $injuries;

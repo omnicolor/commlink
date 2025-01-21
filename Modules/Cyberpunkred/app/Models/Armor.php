@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Cyberpunkred\Models;
 
 use Illuminate\Support\Str;
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -58,6 +59,7 @@ class Armor implements Stringable
         $this->type = $armor['type'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->type;
@@ -69,7 +71,7 @@ class Armor implements Stringable
         self::$armor ??= require $filename;
 
         $lowerName = Str::lower($name);
-        foreach (self::$armor as $id => $armor) {
+        foreach (self::$armor ?? [] as $id => $armor) {
             if (Str::lower($armor['type']) !== $lowerName) {
                 continue;
             }
@@ -93,7 +95,7 @@ class Armor implements Stringable
 
         $armor = [];
         /** @var string $id */
-        foreach (array_keys(self::$armor) as $id) {
+        foreach (array_keys(self::$armor ?? []) as $id) {
             $armor[] = new self($id);
         }
         return $armor;

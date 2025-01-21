@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Subversion\Models;
 
 use Illuminate\Support\Str;
+use Override;
 use Stringable;
 
 use function ceil;
@@ -72,6 +73,7 @@ class Relation implements Stringable
         return null; // @codeCoverageIgnore
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
