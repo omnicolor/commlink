@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
-use function array_key_exists;
 use function config;
 use function sprintf;
 use function strtolower;
@@ -47,7 +47,7 @@ class LifestyleZone implements Stringable
         self::$zones ??= require $filename;
 
         $id = strtolower($id);
-        if (!array_key_exists($id, self::$zones)) {
+        if (!isset(self::$zones[$id])) {
             throw new RuntimeException(
                 sprintf('Lifestyle Zone ID "%s" is invalid', $id)
             );
@@ -59,6 +59,7 @@ class LifestyleZone implements Stringable
         $this->response_time = $zone['response_time'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

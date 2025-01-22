@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -128,6 +129,7 @@ class Quality implements Stringable
         }
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -141,7 +143,7 @@ class Quality implements Stringable
     {
         $filename = config('shadowrun5e.data_path') . 'qualities.php';
         self::$qualities ??= require $filename;
-        foreach (self::$qualities as $quality) {
+        foreach (self::$qualities ?? [] as $quality) {
             if (strtolower((string)$quality['name']) === strtolower($name)) {
                 return new Quality($quality['id']);
             }

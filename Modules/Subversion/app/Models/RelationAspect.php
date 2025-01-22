@@ -56,7 +56,7 @@ class RelationAspect
 
         $aspects = [];
         /** @var string $aspect */
-        foreach (array_keys(self::$aspects) as $aspect) {
+        foreach (array_keys(self::$aspects ?? []) as $aspect) {
             $aspects[] = new self($aspect);
         }
         return $aspects;

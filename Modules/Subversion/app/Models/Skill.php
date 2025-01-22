@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Subversion\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -43,6 +44,7 @@ class Skill implements Stringable
         $this->ruleset = $skill['ruleset'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -57,7 +59,7 @@ class Skill implements Stringable
         self::$skills ??= require $filename;
 
         $skills = [];
-        foreach (self::$skills as $skill) {
+        foreach (self::$skills ?? [] as $skill) {
             $skills[(string)$skill['id']] = new Skill($skill['id']);
         }
         return $skills;

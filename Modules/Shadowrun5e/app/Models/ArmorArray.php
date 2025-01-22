@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Models;
 
 use ArrayObject;
+use Override;
 use TypeError;
 
 /**
@@ -18,6 +19,7 @@ class ArmorArray extends ArrayObject
      * @param Armor $armor
      * @throws TypeError
      */
+    #[Override]
     public function offsetSet(mixed $index = null, $armor = null): void
     {
         if ($armor instanceof Armor) {

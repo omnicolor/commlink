@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -276,6 +277,7 @@ class Vehicle implements Stringable
         return $attribute;
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -285,7 +287,7 @@ class Vehicle implements Stringable
     {
         $filename = config('shadowrun5e.data_path') . 'vehicles.php';
         self::$vehicles ??= require $filename;
-        foreach (self::$vehicles as $vehicle) {
+        foreach (self::$vehicles ?? [] as $vehicle) {
             if (strtolower((string)$vehicle['name']) === strtolower($name)) {
                 return new Vehicle(['id' => $vehicle['id']]);
             }

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Expanse\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
-use function array_key_exists;
 use function config;
 use function sprintf;
 use function strtolower;
@@ -42,7 +42,7 @@ class SocialClass implements Stringable
         self::$classes ??= require $filename;
 
         $id = strtolower($id);
-        if (!array_key_exists($id, self::$classes)) {
+        if (!isset(self::$classes[$id])) {
             throw new RuntimeException(
                 sprintf('Social Class ID "%s" is invalid', $id)
             );
@@ -54,6 +54,7 @@ class SocialClass implements Stringable
         $this->name = $class['name'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
