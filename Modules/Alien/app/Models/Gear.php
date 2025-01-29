@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Alien\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -67,6 +68,7 @@ class Gear implements Stringable
         }
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -82,7 +84,7 @@ class Gear implements Stringable
 
         $gear = [];
         /** @var string $id */
-        foreach (array_keys(self::$gear) as $id) {
+        foreach (array_keys(self::$gear ?? []) as $id) {
             $gear[] = new self($id);
         }
         return $gear;

@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Modules\Subversion\Models;
 
+use Override;
 use RuntimeException;
+use Stringable;
 
+use function config;
 use function sprintf;
 
-class Lineage
+class Lineage implements Stringable
 {
     public string $description;
     public string $name;
@@ -53,6 +56,7 @@ class Lineage
         }
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -67,7 +71,7 @@ class Lineage
         self::$lineages ??= require $filename;
 
         $lineages = [];
-        foreach (self::$lineages as $lineage) {
+        foreach (self::$lineages ?? [] as $lineage) {
             $lineages[] = new Lineage($lineage['id']);
         }
         return $lineages;

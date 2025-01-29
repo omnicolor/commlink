@@ -58,7 +58,7 @@ class RangedWeapon extends Weapon implements Stringable
             }
             $this->quality = $options['quality'];
         }
-        $this->name = $options['name'] ?? $this->type;
-        $this->ammoRemaining = $options['ammoRemaining'] ?? $this->magazine;
+        $this->name = (string)($options['name'] ?? $this->type);
+        $this->ammoRemaining = (int)($options['ammoRemaining'] ?? $this->magazine);
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -67,6 +68,7 @@ class Metamagic implements Stringable
         $this->ruleset = (string)$magic['ruleset'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -82,7 +84,7 @@ class Metamagic implements Stringable
         self::$metamagics ??= require $filename;
 
         $name = strtolower($name);
-        foreach (self::$metamagics as $meta) {
+        foreach (self::$metamagics ?? [] as $meta) {
             if (strtolower((string)$meta['name']) === $name) {
                 return new self($meta['id']);
             }

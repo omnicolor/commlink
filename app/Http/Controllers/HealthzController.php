@@ -22,7 +22,7 @@ use function shell_exec;
 use const PHP_EOL;
 
 /**
- * @codeCoverageIgnore
+ * @codeCoverageIngore
  */
 class HealthzController extends Controller
 {
@@ -116,6 +116,7 @@ class HealthzController extends Controller
             $statuses['irc'] = $this->checkIrc();
         }
 
+        // @phpstan-ignore function.alreadyNarrowedType
         if (in_array(false, $statuses, true)) {
             $status = JsonResponse::HTTP_SERVICE_UNAVAILABLE;
         } else {

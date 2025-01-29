@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Modules\Subversion\Models;
 
+use Override;
 use RuntimeException;
+use Stringable;
 
 use function sprintf;
 
-class Caste
+class Caste implements Stringable
 {
     public string $description;
     public int $fortune;
@@ -38,6 +40,7 @@ class Caste
         $this->ruleset = $caste['ruleset'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -52,7 +55,7 @@ class Caste
         self::$castes ??= require $filename;
 
         $castes = [];
-        foreach (self::$castes as $caste) {
+        foreach (self::$castes ?? [] as $caste) {
             $castes[] = new Caste($caste['id']);
         }
         return $castes;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -154,6 +155,7 @@ class Augmentation implements Stringable
         }
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -196,7 +198,7 @@ class Augmentation implements Stringable
         $filename = config('shadowrun5e.data_path') . 'cyberware.php';
         self::$augmentations ??= require $filename;
 
-        foreach (self::$augmentations as $aug) {
+        foreach (self::$augmentations ?? [] as $aug) {
             if (strtolower((string)$aug['name']) !== strtolower($name)) {
                 continue;
             }
