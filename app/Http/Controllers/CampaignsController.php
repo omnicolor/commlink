@@ -93,7 +93,7 @@ class CampaignsController extends Controller
         }
         $campaign->save();
         CampaignCreated::dispatch($campaign);
-        return redirect('dashboard');
+        return redirect(route('campaign.createForm'));
     }
 
     public function destroy(Campaign $campaign): Response

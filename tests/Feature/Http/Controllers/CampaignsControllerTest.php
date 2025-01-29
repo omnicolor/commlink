@@ -58,7 +58,7 @@ final class CampaignsControllerTest extends TestCase
                     'system' => 'dnd5e',
                 ]
             )
-            ->assertRedirect('/dashboard');
+            ->assertRedirect(route('campaign.createForm'));
         $this->assertDatabaseHas(
             'campaigns',
             [
@@ -99,7 +99,7 @@ final class CampaignsControllerTest extends TestCase
                     'avatar-focus-defeat-object' => 'the big bad guy',
                 ]
             )
-            ->assertRedirect('/dashboard');
+            ->assertRedirect(route('campaign.createForm'));
 
         $expectedOptions = json_encode([
             'era' => 'aang',
@@ -153,7 +153,7 @@ final class CampaignsControllerTest extends TestCase
                     'system' => 'shadowrun5e',
                 ]
             )
-            ->assertRedirect('/dashboard');
+            ->assertRedirect(route('campaign.createForm'));
 
         $expectedOptions = json_encode([
             'creation' => ['priority', 'sum-to-ten'],
@@ -197,7 +197,7 @@ final class CampaignsControllerTest extends TestCase
                     'system' => 'cyberpunkred',
                 ]
             )
-            ->assertRedirect('/dashboard');
+            ->assertRedirect(route('campaign.createForm'));
 
         $expectedOptions = json_encode([
             'nightCityTarot' => true,
@@ -235,7 +235,7 @@ final class CampaignsControllerTest extends TestCase
                     'system' => 'subversion',
                 ]
             )
-            ->assertRedirect('/dashboard');
+            ->assertRedirect(route('campaign.createForm'));
 
         $expectedOptions = json_encode([
             'community-description' => $communityDescription,
