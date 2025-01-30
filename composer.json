@@ -80,7 +80,7 @@
         "friendsofphp/php-cs-fixer": "^3.49",
         "larastan/larastan": "^3.0",
         "laravel/breeze": "^2.0",
-        "laravel/prompts": "^0.1.3",
+        "laravel/prompts": "^0.3",
         "laravel/telescope": "^5.2",
         "laravel/tinker": "^2.9",
         "mockery/mockery": "^1.4",
