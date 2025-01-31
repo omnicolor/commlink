@@ -37,6 +37,14 @@ class SettingsController extends Controller
         );
     }
 
+    public function channels(): View
+    {
+        return view(
+            'settings.channels',
+            ['user' => Auth::user()],
+        );
+    }
+
     public function chatUsers(): View
     {
         return view(
@@ -44,7 +52,7 @@ class SettingsController extends Controller
             [
                 'discordOauthURL' => $this->getDiscordOauthURL(),
                 'user' => Auth::user(),
-            ]
+            ],
         );
     }
 

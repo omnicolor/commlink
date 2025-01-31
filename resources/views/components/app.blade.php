@@ -50,7 +50,7 @@
 
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="{{ route('settings.chat-users') }}">Chat users</a></li>
-                        <li><a class="dropdown-item" href="{{ route('settings') }}">Chat channels</a></li>
+                        <li><a class="dropdown-item" href="{{ route('settings.channels') }}">Chat channels</a></li>
                         <li><a class="dropdown-item" href="{{ route('settings') }}">API keys</a></li>
                         @can('admin users')
                         <li><hr class="dropdown-divider"></li>

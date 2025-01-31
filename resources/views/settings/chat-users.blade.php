@@ -290,43 +290,6 @@
                 const id = '#success-discord-' + e.chatUser.server_id + '-'
                     + e.chatUser.remote_user_id;
                 updateAlert(id, message);
-            })
-            .listen('ChannelLinked', (e) => {
-                const channel = e.channel;
-                let row = '<tr><td><i class="bi bi-' + channel.type + '"></i>'
-                    + '</td><td>' + channel.server_id + '</td>';
-                if (channel.server_name) {
-                    row += '<td>' + channel.server_name + '</td>';
-                } else {
-                    row += '<td><small class="text-muted">Unable to load name</small></td>';
-                }
-                row += '<td>' + channel.channel_id + '</td>';
-                if (channel.channel_name) {
-                    row += '<td>' + channel.channel_name + '</td>';
-                } else {
-                    row += '<td><small class="text-muted">Unable to load name</small></td>';
-                }
-                row += '<td>&nbsp;</td>';
-                if (channel.campaign) {
-                    row += '<td><a href="/campaigns/' + channel.campaign.id
-                        + '">' + channel.campaign.name + '</a></td>';
-                } else {
-                    row += '<td>&nbsp;</td>';
-                }
-                row += '<td>' + channel.system + '</td>';
-                if ('slack' === channel.type) {
-                    row += '<td><i class="bi bi-check-square-fill text-success" '
-                        + 'title="Slack channels don\'t require webhooks"></i>'
-                        + '</td>';
-                } else if (channel.webhook) {
-                    row += '<td><i class="bi bi-check-square-fill text-success"'
-                        + ' title="' + channel.webhook + '"></i></td>';
-                } else {
-                    row += '<td><i class="bi bi-question-square-fill text-danger"></i></td>';
-                }
-                row += '</tr>';
-                $('#no-channels').remove();
-                $('#channels').append(row);
             });
 
         $('#delete-user').on('show.bs.modal', function (event) {
