@@ -52,6 +52,10 @@
                         <li><a class="dropdown-item" href="{{ route('settings.chat-users') }}">Chat users</a></li>
                         <li><a class="dropdown-item" href="{{ route('settings') }}">Chat channels</a></li>
                         <li><a class="dropdown-item" href="{{ route('settings') }}">API keys</a></li>
+                        @can('admin users')
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ route('users.view') }}">Admin users</a></li>
+                        @endcan
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}" id="logout-form">
