@@ -68,8 +68,8 @@ Route::middleware('auth')->group(function (): void {
             ->name('world-anvil.upload');
     });
 
-    Route::get('/settings', [SettingsController::class, 'show'])
-        ->name('settings')->middleware('web');
+    Route::permanentRedirect('/settings', '/settings/chat-users')
+        ->name('settings');
     Route::get('/settings/chat-users', [SettingsController::class, 'chatUsers'])
         ->name('settings.chat-users');
     Route::get('/settings/channels', [SettingsController::class, 'channels'])

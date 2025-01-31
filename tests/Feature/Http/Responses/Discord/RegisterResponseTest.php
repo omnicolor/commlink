@@ -120,7 +120,7 @@ final class RegisterResponseTest extends TestCase
                 . 'linked it to this server before you can register a '
                 . 'channel to a specific system.',
             config('app.name'),
-            config('app.url') . '/settings',
+            config('app.url') . '/settings/chat-users',
         );
         $messageMock = $this->createDiscordMessageMock('/roll register shadowrun5e');
         $messageMock->expects(self::once())

@@ -124,7 +124,7 @@ class LinkResponse implements Stringable
             'You must have already created an account on %s (%s) and linked it '
                 . 'to this server before you can link a character.',
             config('app.name'),
-            config('app.url') . '/settings',
+            config('app.url') . '/settings/chat-users',
         );
     }
 

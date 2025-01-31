@@ -43,7 +43,7 @@ final class DiscordControllerTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)->get(route('discord.view'))
-            ->assertRedirect(route('settings'))
+            ->assertRedirect(route('settings.chat-users'))
             ->assertSessionHasErrors([
                 'error' => 'Discord login failed, no Oauth code supplied',
             ]);
@@ -58,7 +58,7 @@ final class DiscordControllerTest extends TestCase
         $user = User::factory()->create();
         self::actingAs($user)
             ->get(route('discord.view', ['code' => '1']))
-            ->assertRedirect(route('settings'))
+            ->assertRedirect(route('settings.chat-users'))
             ->assertSessionHasErrors([
                 'error' => 'Discord login failed, invalid Oauth code',
             ]);
@@ -76,7 +76,7 @@ final class DiscordControllerTest extends TestCase
         $user = User::factory()->create();
         self::actingAs($user)
             ->get(route('discord.view', ['code' => Str::random(30)]))
-            ->assertRedirect(route('settings'))
+            ->assertRedirect(route('settings.chat-users'))
             ->assertSessionHasErrors([
                 'error' => sprintf(
                     'Request to Discord failed. Please <a href="%s">try again</a>.',
@@ -141,7 +141,7 @@ final class DiscordControllerTest extends TestCase
         $user = User::factory()->create();
         self::actingAs($user)
             ->post(route('discord.save'))
-            ->assertRedirect(route('settings'))
+            ->assertRedirect(route('settings.chat-users'))
             ->assertSessionHasErrors([
                 'error' => 'No guilds selected.',
             ]);
@@ -156,7 +156,7 @@ final class DiscordControllerTest extends TestCase
         $user = User::factory()->create();
         self::actingAs($user)
             ->post(route('discord.save'), ['guilds' => ['0']])
-            ->assertRedirect(route('settings'))
+            ->assertRedirect(route('settings.chat-users'))
             ->assertSessionHasErrors([
                 'error' => 'An invalid Guild ID was found.',
             ]);
@@ -195,7 +195,7 @@ final class DiscordControllerTest extends TestCase
 
         self::actingAs($user)
             ->post(route('discord.save'), ['guilds' => ['3333333']])
-            ->assertRedirect(route('settings'))
+            ->assertRedirect(route('settings.chat-users'))
             ->assertSessionHasNoErrors();
     }
 
@@ -384,7 +384,7 @@ final class DiscordControllerTest extends TestCase
 
         self::actingAs($user)
             ->get(route('discord.view'))
-            ->assertRedirect(route('settings'))
+            ->assertRedirect(route('settings.chat-users'))
             ->assertSessionHasErrors([
                 'error' => sprintf(
                     'Request to Discord failed. Please <a href="%s">try again</a>.',
