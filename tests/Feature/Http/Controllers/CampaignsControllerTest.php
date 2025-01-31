@@ -58,7 +58,10 @@ final class CampaignsControllerTest extends TestCase
                     'system' => 'dnd5e',
                 ]
             )
-            ->assertRedirect(route('campaign.createForm'));
+            ->assertRedirect(
+                route('campaign.view', Campaign::latest()->firstOrFail())
+            );
+            
         $this->assertDatabaseHas(
             'campaigns',
             [
@@ -85,8 +88,7 @@ final class CampaignsControllerTest extends TestCase
         $description = $this->faker->bs();
 
         $user = User::factory()->create();
-        $this->actingAs($user)
-            ->postJson(
+        $this->actingAs($user)->postJson(
                 route('campaign.createForm'),
                 [
                     'description' => $description,
@@ -99,7 +101,9 @@ final class CampaignsControllerTest extends TestCase
                     'avatar-focus-defeat-object' => 'the big bad guy',
                 ]
             )
-            ->assertRedirect(route('campaign.createForm'));
+            ->assertRedirect(
+                route('campaign.view', Campaign::latest()->firstOrFail())
+            );
 
         $expectedOptions = json_encode([
             'era' => 'aang',
@@ -153,7 +157,9 @@ final class CampaignsControllerTest extends TestCase
                     'system' => 'shadowrun5e',
                 ]
             )
-            ->assertRedirect(route('campaign.createForm'));
+            ->assertRedirect(
+                route('campaign.view', Campaign::latest()->firstOrFail())
+            );
 
         $expectedOptions = json_encode([
             'creation' => ['priority', 'sum-to-ten'],
@@ -197,7 +203,9 @@ final class CampaignsControllerTest extends TestCase
                     'system' => 'cyberpunkred',
                 ]
             )
-            ->assertRedirect(route('campaign.createForm'));
+            ->assertRedirect(
+                route('campaign.view', Campaign::latest()->firstOrFail())
+            );
 
         $expectedOptions = json_encode([
             'nightCityTarot' => true,
@@ -235,7 +243,9 @@ final class CampaignsControllerTest extends TestCase
                     'system' => 'subversion',
                 ]
             )
-            ->assertRedirect(route('campaign.createForm'));
+            ->assertRedirect(
+                route('campaign.view', Campaign::latest()->firstOrFail())
+            );
 
         $expectedOptions = json_encode([
             'community-description' => $communityDescription,
