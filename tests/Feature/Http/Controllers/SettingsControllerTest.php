@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Models\Channel;
 use App\Models\ChatUser;
 use App\Models\User;
 use Illuminate\Http\Response;
@@ -300,7 +301,6 @@ final class SettingsControllerTest extends TestCase
      */
     public function testLinkIrcUser(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $serverId = 'chat.freenode.net:6667';
         $userId = Str::random(10);
@@ -328,5 +328,23 @@ final class SettingsControllerTest extends TestCase
                 'verified' => false,
             ]
         );
+    }
+
+    public function testChannelsEmpty(): void
+    {
+        self::actingAs(User::factory()->create())
+            ->get(route('settings.channels'))
+            ->assertSee('registered any channels');
+    }
+
+    public function testChannels(): void
+    {
+        $user = User::factory()->create();
+        Channel::factory()->create([
+            'registered_by' => $user->id,
+        ]);
+        self::actingAs($user)
+            ->get(route('settings.channels'))
+            ->assertDontSee('registered any channels');
     }
 }
