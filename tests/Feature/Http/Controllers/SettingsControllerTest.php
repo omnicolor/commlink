@@ -70,7 +70,7 @@ final class SettingsControllerTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)
-            ->post(route('settings-link-user'), [])
+            ->post(route('settings.link-user'), [])
             ->assertFound()
             ->assertSessionHasErrors();
         self::assertSame(
@@ -105,11 +105,11 @@ final class SettingsControllerTest extends TestCase
         ]);
         self::actingAs($user)
             ->post(
-                route('settings-link-user'),
+                route('settings.link-user'),
                 [
                     'server-id' => $serverId,
                     'user-id' => $userId,
-                ]
+                ],
             )
             ->assertFound()
             ->assertSessionHasNoErrors();
@@ -123,7 +123,7 @@ final class SettingsControllerTest extends TestCase
                 'remote_user_name' => null,
                 'user_id' => $user->id,
                 'verified' => false,
-            ]
+            ],
         );
     }
 
@@ -145,12 +145,12 @@ final class SettingsControllerTest extends TestCase
         self::actingAs($user)
             ->followingRedirects()
             ->post(
-                route('settings-link-user'),
+                route('settings.link-user'),
                 [
                     'server-id' => $serverId,
                     'server-type' => ChatUser::TYPE_SLACK,
                     'user-id' => $userId,
-                ]
+                ],
             )
             ->assertSee('Slack user already registered.');
     }
@@ -171,11 +171,11 @@ final class SettingsControllerTest extends TestCase
         self::actingAs($user)
             ->followingRedirects()
             ->post(
-                route('settings-link-user'),
+                route('settings.link-user'),
                 [
                     'server-id' => $serverId,
                     'user-id' => $userId,
-                ]
+                ],
             )
             ->assertOk()
             ->assertSessionHasNoErrors();
@@ -189,7 +189,7 @@ final class SettingsControllerTest extends TestCase
                 'remote_user_name' => null,
                 'user_id' => $user->id,
                 'verified' => false,
-            ]
+            ],
         );
     }
 
@@ -205,24 +205,24 @@ final class SettingsControllerTest extends TestCase
         Http::fake([
             self::API_DISCORD_GUILDS . $serverId => Http::response(
                 ['name' => 'Discord Guild'],
-                Response::HTTP_OK
+                Response::HTTP_OK,
             ),
             self::API_DISCORD_USERS . $userId => Http::response(
                 [
                     'username' => 'DiscordUser',
                     'discriminator' => '1234',
                 ],
-                Response::HTTP_OK
+                Response::HTTP_OK,
             ),
         ]);
         self::actingAs($user)
             ->followingRedirects()
             ->post(
-                route('settings-link-user'),
+                route('settings.link-user'),
                 [
                     'server-id' => $serverId,
                     'user-id' => $userId,
-                ]
+                ],
             )
             ->assertOk()
             ->assertSessionHasNoErrors();
@@ -236,7 +236,7 @@ final class SettingsControllerTest extends TestCase
                 'remote_user_name' => 'DiscordUser#1234',
                 'user_id' => $user->id,
                 'verified' => false,
-            ]
+            ],
         );
     }
 
@@ -258,12 +258,12 @@ final class SettingsControllerTest extends TestCase
         self::actingAs($user)
             ->followingRedirects()
             ->post(
-                route('settings-link-user'),
+                route('settings.link-user'),
                 [
                     'server-id' => $serverId,
                     'server-type' => ChatUser::TYPE_DISCORD,
                     'user-id' => $userId,
-                ]
+                ],
             )
             ->assertSee('Discord user already registered.');
     }
@@ -286,12 +286,12 @@ final class SettingsControllerTest extends TestCase
         self::actingAs($user)
             ->followingRedirects()
             ->post(
-                route('settings-link-user'),
+                route('settings.link-user'),
                 [
                     'server-id' => $serverId,
                     'server-type' => ChatUser::TYPE_IRC,
                     'user-id' => $userId,
-                ]
+                ],
             )
             ->assertSee('IRC user already registered.');
     }
@@ -307,12 +307,12 @@ final class SettingsControllerTest extends TestCase
         self::actingAs($user)
             ->followingRedirects()
             ->post(
-                route('settings-link-user'),
+                route('settings.link-user'),
                 [
                     'server-id' => $serverId,
                     'server-type' => ChatUser::TYPE_IRC,
                     'user-id' => $userId,
-                ]
+                ],
             )
             ->assertOk()
             ->assertSessionHasNoErrors();
@@ -326,7 +326,7 @@ final class SettingsControllerTest extends TestCase
                 'remote_user_name' => $userId,
                 'user_id' => $user->id,
                 'verified' => false,
-            ]
+            ],
         );
     }
 

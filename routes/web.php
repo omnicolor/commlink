@@ -70,12 +70,25 @@ Route::middleware('auth')->group(function (): void {
 
     Route::permanentRedirect('/settings', '/settings/chat-users')
         ->name('settings');
-    Route::get('/settings/chat-users', [SettingsController::class, 'chatUsers'])
-        ->name('settings.chat-users');
-    Route::get('/settings/channels', [SettingsController::class, 'channels'])
-        ->name('settings.channels');
-    Route::post('/settings/link-user', [SettingsController::class, 'linkUser'])
-        ->name('settings-link-user');
+    Route::prefix('/settings')->name('settings.')->group(function (): void {
+        Route::get(
+            '/chat-users',
+            [SettingsController::class, 'chatUsers'],
+        )->name('chat-users');
+        Route::get(
+            '/channels',
+            [SettingsController::class, 'channels'],
+        )->name('channels');
+        Route::get(
+            '/api-keys',
+            [SettingsController::class, 'apiKeys'],
+        )->name('api-keys');
+
+        Route::post(
+            '/link-user',
+            [SettingsController::class, 'linkUser'],
+        )->name('link-user');
+    });
 });
 
 Route::group(['middleware' => ['auth', 'permission:admin users']], function (): void {

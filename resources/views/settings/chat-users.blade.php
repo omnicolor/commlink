@@ -18,114 +18,127 @@
     </div>
     @endif
 
-    <h2>Linked chat users</h2>
+    <div class="row mt-4">
+        <div class="col-lg-1"></div>
+        <div class="col">
+            <h1>Settings - Linked chat users</h1>
+        </div>
+        <div class="col-lg-1"></div>
+    </div>
 
-    <p>
-        Linked chat users are connections between your account on a chat
-        service (like Discord or Slack) and {{ config('app.name') }}. Linking
-        your chat user to {{ config('app.name') }} allows us to know who you
-        are when you use commands in your chat program to do things like roll
-        dice or flip coins.
-    </p>
+    <div class="row mt-4">
+        <div class="col-lg-1"></div>
+        <div class="col">
+            <p>
+                Linked chat users are connections between your account on a
+                chat service (like Discord or Slack) and
+                {{ config('app.name') }}. Linking your chat user to
+                {{ config('app.name') }} allows us to know who you are when you
+                use commands in your chat program to do things like roll dice
+                or flip coins.
+            </p>
 
-    <p>
-        You only need to register a user once per server, no matter how many
-        channels you play in on that server.
-    </p>
+            <p>
+                You only need to register a user once per server, no matter how
+                many channels you play in on that server.
+            </p>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Server</th>
-                <th scope="col">User</th>
-                <th scope="col">Status</th>
-                <th scope="col">Delete</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($user->chatUsers->sortByDesc('verified') as $chat_user)
-            <tr data-id="{{ $chat_user->id }}">
-                <td>
-                    <div class="d-flex align-items-center">
-                        <i class="bi bi-{{ $chat_user->server_type !== 'irc' ? $chat_user->server_type : 'chat-text-fill' }} me-3"></i>
-                        <div class="d-inline-block">
-                            @if ($chat_user->server_name)
-                                {{ $chat_user->server_name }}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Server</th>
+                        <th scope="col">User</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($user->chatUsers->sortByDesc('verified') as $chat_user)
+                    <tr data-id="{{ $chat_user->id }}">
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-{{ $chat_user->server_type !== 'irc' ? $chat_user->server_type : 'chat-text-fill' }} me-3"></i>
+                                <div class="d-inline-block">
+                                    @if ($chat_user->server_name)
+                                        {{ $chat_user->server_name }}
+                                    @else
+                                        Unable to load name
+                                    @endif
+                                    <br>
+                                    <small class="text-muted">{{ $chat_user->server_id }}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            @if ($chat_user->remote_user_name)
+                                {{ $chat_user->remote_user_name }}
                             @else
                                 Unable to load name
                             @endif
                             <br>
-                            <small class="text-muted">{{ $chat_user->server_id }}</small>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    @if ($chat_user->remote_user_name)
-                        {{ $chat_user->remote_user_name }}
-                    @else
-                        Unable to load name
-                    @endif
-                    <br>
-                    <small class="text-muted">{{ $chat_user->remote_user_id }}</small>
-                </td>
-                @if ($chat_user->verified)
-                    <td title="User link is verified">
-                        <i class="bi bi-check-square-fill text-success"></i>
-                    </td>
-                @else
-                    <td id="{{ $chat_user->server_type }}-{{ $chat_user->server_id }}-{{ $chat_user->remote_user_id }}"
-                        title="User link is not verified">
-                        <div class="input-group input-group-sm">
-                            <span class="input-group-text">
-                                <i class="bi bi-question-square-fill text-danger"></i>
-                            </span>
-                            <span class="input-group-text user-select-all">
-                                @if ($chat_user->server_type === 'irc')
-                                :roll validate {{ $chat_user->verification }}
-                                @else
-                                /roll validate {{ $chat_user->verification }}
-                                @endif
-                            </span>
-                            <button class="btn btn-outline-secondary copy-btn" type="button">
-                                <i class="bi bi-clipboard"></i>
+                            <small class="text-muted">{{ $chat_user->remote_user_id }}</small>
+                        </td>
+                        @if ($chat_user->verified)
+                            <td title="User link is verified">
+                                <i class="bi bi-check-square-fill text-success"></i>
+                            </td>
+                        @else
+                            <td id="{{ $chat_user->server_type }}-{{ $chat_user->server_id }}-{{ $chat_user->remote_user_id }}"
+                                title="User link is not verified">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-question-square-fill text-danger"></i>
+                                    </span>
+                                    <span class="input-group-text user-select-all">
+                                        @if ($chat_user->server_type === 'irc')
+                                        :roll validate {{ $chat_user->verification }}
+                                        @else
+                                        /roll validate {{ $chat_user->verification }}
+                                        @endif
+                                    </span>
+                                    <button class="btn btn-outline-secondary copy-btn" type="button">
+                                        <i class="bi bi-clipboard"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        @endif
+                        <td>
+                            <button class="btn btn-light" data-bs-target="#delete-user"
+                                data-bs-toggle="modal" data-bs-id="{{ $chat_user->id }}"
+                                type="button">
+                                <i class="bi bi-trash"></i>
                             </button>
-                        </div>
-                    </td>
-                @endif
-                <td>
-                    <button class="btn btn-light" data-bs-target="#delete-user"
-                        data-bs-toggle="modal" data-bs-id="{{ $chat_user->id }}"
-                        type="button">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </td>
-            </tr>
-            @empty
-                <tr>
-                    <td colspan="4">
-                        You don't have any linked chat users!
-                    </td>
-                </tr>
-            @endforelse
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="6">
-                    <button class="btn btn-primary"
-                        data-bs-target="#link-user"
-                        data-bs-toggle="modal" type="button">
-                        Link a user
-                    </button>
-                </td>
-            </tr>
-        </tfoot>
-    </table>
+                        </td>
+                    </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4">
+                                You don't have any linked chat users!
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            <button class="btn btn-primary"
+                                data-bs-target="#link-user"
+                                data-bs-toggle="modal" type="button">
+                                Link a user
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="col-lg-1"></div>
+    </div>
 
     <div aria-hidden="true" aria-labelledby="link-user-title" class="modal fade"
         id="link-user" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="/settings/link-user" method="POST">
+                <form action="{{ route('settings.link-user') }}" method="POST">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="link-user-title">

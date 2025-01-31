@@ -1,3 +1,7 @@
+@php
+use App\Features\ApiAccess;
+use Laravel\Pennant\Feature;
+@endphp
 <!doctype html>
 <html lang="en-US">
 <head>
@@ -51,7 +55,9 @@
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="{{ route('settings.chat-users') }}">Chat users</a></li>
                         <li><a class="dropdown-item" href="{{ route('settings.channels') }}">Chat channels</a></li>
-                        <li><a class="dropdown-item" href="{{ route('settings') }}">API keys</a></li>
+                        @if (Feature::active(ApiAccess::class))
+                        <li><a class="dropdown-item" href="{{ route('settings.api-keys') }}">API keys</a></li>
+                        @endif
                         @can('admin users')
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{{ route('users.view') }}">Admin users</a></li>
