@@ -70,6 +70,10 @@ Route::middleware('auth')->group(function (): void {
 
     Route::get('/settings', [SettingsController::class, 'show'])
         ->name('settings')->middleware('web');
+    Route::get('/settings/chat-users', [SettingsController::class, 'chatUsers'])
+        ->name('settings.chat-users');
+    Route::get('/settings/channels', [SettingsController::class, 'channels'])
+        ->name('settings.channels');
     Route::post('/settings/link-user', [SettingsController::class, 'linkUser'])
         ->name('settings-link-user');
 });

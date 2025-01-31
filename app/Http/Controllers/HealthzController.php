@@ -22,7 +22,7 @@ use function shell_exec;
 use const PHP_EOL;
 
 /**
- * @codeCoverageIngore
+ * @codeCoverageIgnore
  */
 class HealthzController extends Controller
 {
