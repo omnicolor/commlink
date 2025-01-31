@@ -13,10 +13,10 @@ use Tests\TestCase;
 #[Medium]
 final class ChatUserPolicyTest extends TestCase
 {
-    private readonly ChatUserPolicy $policy;
-    private readonly User $owner;
-    private readonly User $other_user;
-    private readonly ChatUser $chat_user;
+    private ChatUserPolicy $policy;
+    private User $owner;
+    private User $other_user;
+    private ChatUser $chat_user;
 
     protected function setUp(): void
     {
