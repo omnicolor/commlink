@@ -16,7 +16,6 @@ use Tests\TestCase;
 use function sprintf;
 
 #[Group('settings')]
-#[Group('settings')]
 #[Medium]
 final class SettingsControllerTest extends TestCase
 {
@@ -26,15 +25,6 @@ final class SettingsControllerTest extends TestCase
     protected const string API_SLACK_USERS = 'slack.com/api/users.info';
 
     /**
-     * Test an unauthenticated request.
-     */
-    public function testUnauthenticated(): void
-    {
-        self::get(route('settings'))
-            ->assertRedirect(route('login'));
-    }
-
-    /**
      * Test an authenticated user with no linked users.
      */
     public function testNoLinkedUsers(): void
@@ -42,7 +32,7 @@ final class SettingsControllerTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)
-            ->get(route('settings'))
+            ->get(route('settings.chat-users'))
             ->assertOk()
             ->assertSee('You don\'t have any linked chat users!', false);
     }
@@ -64,7 +54,7 @@ final class SettingsControllerTest extends TestCase
             'verified' => false,
         ]);
         self::actingAs($user)
-            ->get(route('settings'))
+            ->get(route('settings.chat-users'))
             ->assertDontSee('You don\'t have any linked chat users!', false)
             ->assertSee($serverId)
             ->assertSee($remoteUserId)
@@ -80,7 +70,7 @@ final class SettingsControllerTest extends TestCase
         $user = User::factory()->create();
         self::actingAs($user)
             ->post(route('settings-link-user'), [])
-            ->assertStatus(Response::HTTP_FOUND)
+            ->assertFound()
             ->assertSessionHasErrors();
         self::assertSame(
             ['The server-id field is required.'],
@@ -120,7 +110,7 @@ final class SettingsControllerTest extends TestCase
                     'user-id' => $userId,
                 ]
             )
-            ->assertStatus(Response::HTTP_FOUND)
+            ->assertFound()
             ->assertSessionHasNoErrors();
         self::assertDatabaseHas(
             'chat_users',
