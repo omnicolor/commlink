@@ -67,6 +67,11 @@ Route::middleware('auth:sanctum')->group(function (): void {
         'users/{user}/token/{tokenId}',
         [UsersController::class, 'deleteToken'],
     )->name('delete-token');
+
+    Route::delete(
+        'users/{user}/chat-users/{chat_user}',
+        [UsersController::class, 'deleteChatUser'],
+    )->name('chat-user-delete');
 });
 
 Route::options('/roll', [SlackController::class, 'options'])

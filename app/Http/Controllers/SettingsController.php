@@ -37,6 +37,17 @@ class SettingsController extends Controller
         );
     }
 
+    public function chatUsers(): View
+    {
+        return view(
+            'settings.chat-users',
+            [
+                'discordOauthURL' => $this->getDiscordOauthURL(),
+                'user' => Auth::user(),
+            ]
+        );
+    }
+
     /**
      * Handle a request to link a Discord guild/user to the current Commlink
      * user.
@@ -72,7 +83,7 @@ class SettingsController extends Controller
             = $chat_user->getDiscordUserName($remote_user_id);
         $chat_user->save();
 
-        return redirect('settings')
+        return redirect(route('settings.chat-users'))
             ->with(
                 'successObj',
                 [
@@ -124,7 +135,7 @@ class SettingsController extends Controller
         ]);
         $chat_user->save();
 
-        return redirect('settings')
+        return redirect(route('settings.chat-users'))
             ->with(
                 'successObj',
                 [
@@ -175,7 +186,7 @@ class SettingsController extends Controller
             = $chat_user->getSlackUserName($remote_user_id);
         $chat_user->save();
 
-        return redirect('settings')
+        return redirect(route('settings.chat-users'))
             ->with(
                 'successObj',
                 [
