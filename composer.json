@@ -106,7 +106,7 @@
             "@lint-openapi"
         ],
         "coverage": [
-            "XDEBUG_MODE=coverage ./artisan test --parallel --coverage-html=public/coverage"
+            "XDEBUG_MODE=coverage phpunit --coverage-html=public/coverage"
         ],
         "infection": "infection --coverage=public/coverage",
         "lint": "parallel-lint --colors app config database routes tests Modules",
