@@ -35,11 +35,11 @@ final class ValidateTest extends TestCase
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(sprintf(
-            'To link your Commlink user, go to the settings page (%s/settings) '
-                . 'and copy the command listed there for this server. If the '
-                . 'server isn\'t listed, follow the instructions there to add '
-                . 'it. You\'ll need to know your server ID (`%s`) and your '
-                . 'user ID (`%s`).',
+            'To link your Commlink user, go to the settings page '
+                . '(%s/settings/chat-users) and copy the command listed there '
+                . 'for this server. If the server isn\'t listed, follow the '
+                . 'instructions there to add it. You\'ll need to know your '
+                . 'server ID (`%s`) and your user ID (`%s`).',
             config('app.url'),
             $channel->server_id,
             $channel->user,
@@ -76,11 +76,11 @@ final class ValidateTest extends TestCase
         self::assertSame(
             sprintf(
                 'We couldn\'t find a %s registration for this server and your '
-                    . 'user. Go to the settings page (%s/settings) and copy '
-                    . 'the command listed there for this server. If the server '
-                    . 'isn\'t listed, follow the instructions there to add it. '
-                    . 'You\'ll need to know your server ID (`%s`) and your '
-                    . 'user ID (`%s`).',
+                    . 'user. Go to the settings page (%s/settings/chat-users) '
+                    . 'and copy the command listed there for this server. If '
+                    . 'the server isn\'t listed, follow the instructions '
+                    . 'there to add it. You\'ll need to know your server ID '
+                    . '(`%s`) and your user ID (`%s`).',
                 config('app.name'),
                 config('app.url'),
                 $channel->server_id,

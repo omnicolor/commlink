@@ -54,7 +54,7 @@ class DiscordController extends Controller
         $potential_guilds = collect($potential_guilds)->keyBy('snowflake');
         $guilds = $request->input('guilds');
         if (null === $guilds || !is_array($guilds)) {
-            return redirect()->route('settings')
+            return redirect()->route('settings.chat-users')
                 ->withErrors(['error' => 'No guilds selected.']);
         }
 
@@ -62,7 +62,7 @@ class DiscordController extends Controller
         foreach ($guilds as $guild) {
             if (!$potential_guilds->has($guild)) {
                 return redirect()
-                    ->route('settings')
+                    ->route('settings.chat-users')
                     ->withErrors(['error' => 'An invalid Guild ID was found.']);
             }
             assert(null !== $potential_guilds[$guild]);
@@ -80,7 +80,7 @@ class DiscordController extends Controller
         }
 
         $count = count($guilds);
-        return redirect()->route('settings')->with(
+        return redirect()->route('settings.chat-users')->with(
             'success',
             sprintf(
                 '%d Discord %s linked!',
@@ -100,11 +100,11 @@ class DiscordController extends Controller
             $social_user = Socialite::driver('discord')->user();
         } catch (InvalidStateException $ex) {
             Log::error('Invalid state exception: ' . $ex->getMessage());
-            return redirect()->route('settings')
+            return redirect()->route('settings.chat-users')
                 ->withErrors(['error' => $ex->getMessage()]);
         } catch (ClientException $ex) {
             Log::error('Discord client not set up: ' . $ex->getMessage());
-            return redirect()->route('settings')
+            return redirect()->route('settings.chat-users')
                 ->withErrors(['error' => 'Discord login failed on our side, nothing you did wrong!']);
         }
         $user = User::where('email', $social_user->email)->first();
@@ -154,11 +154,11 @@ class DiscordController extends Controller
             $access_token = $discord_user['token'];
             $was_discord_login = true;
         } elseif (null === $request->input('code')) {
-            return redirect()->route('settings')->withErrors([
+            return redirect()->route('settings.chat-users')->withErrors([
                 'error' => 'Discord login failed, no Oauth code supplied',
             ]);
         } elseif (self::DISCORD_CODE_LENGTH !== strlen((string)$request->input('code'))) {
-            return redirect()->route('settings')->withErrors([
+            return redirect()->route('settings.chat-users')->withErrors([
                 'error' => 'Discord login failed, invalid Oauth code',
             ]);
         } else {
@@ -168,7 +168,7 @@ class DiscordController extends Controller
             } catch (RuntimeException $ex) {
                 Log::error($ex->getMessage());
                 return redirect()
-                    ->route('settings')
+                    ->route('settings.chat-users')
                     ->withErrors([
                         'error' => sprintf(
                             'Request to Discord failed. Please <a href="%s">try again</a>.',
@@ -187,7 +187,7 @@ class DiscordController extends Controller
         } catch (RuntimeException $ex) {
             Log::error($ex->getMessage());
             return redirect()
-                ->route('settings')
+                ->route('settings.chat-users')
                 ->withErrors([
                     'error' => sprintf(
                         'Request to Discord failed. Please <a href="%s">try again</a>.',

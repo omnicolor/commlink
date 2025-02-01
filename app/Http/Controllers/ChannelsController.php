@@ -4,14 +4,21 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChannelDeleteRequest;
 use App\Http\Requests\ChannelUpdateRequest;
 use App\Models\Channel;
+use Illuminate\Http\JsonResponse;
 
 class ChannelsController extends Controller
 {
-    /**
-     * Update a channel.
-     */
+    public function destroy(
+        ChannelDeleteRequest $request,
+        Channel $channel,
+    ): JsonResponse {
+        $channel->delete();
+        return new JsonResponse('', JsonResponse::HTTP_NO_CONTENT);
+    }
+
     public function update(ChannelUpdateRequest $request, Channel $channel): Channel
     {
         if ($request->has('auto')) {

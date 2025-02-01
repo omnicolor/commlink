@@ -171,6 +171,11 @@ class Channel extends Model
         return $this->hasMany(Initiative::class);
     }
 
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'registered_by');
+    }
+
     /**
      * Scope the query to only include Discord accounts.
      */
