@@ -1280,6 +1280,21 @@ paths:
         required: true
         schema:
           type: integer
+    delete:
+      summary: Delete a channel
+      description: Deletes a channel.
+      operationId: channels-delete
+      responses:
+        '204':
+          description: The channel has been deleted.
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
+        '404':
+          $ref: '#/components/responses/ErrorNotFound'
+      tags:
+        - interactivity
     patch:
       summary: Update a channel
       description: Configure a channel's webhook.
@@ -1299,6 +1314,8 @@ paths:
           $ref: '#/components/responses/ErrorUnauthenticated'
         '403':
           $ref: '#/components/responses/ErrorForbidden'
+        '404':
+          $ref: '#/components/responses/ErrorNotFound'
         '422':
           $ref: '#/components/responses/ErrorUnprocessableContent'
       tags:
@@ -3614,14 +3631,9 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  data:
-                    items:
-                      $ref: '#/components/schemas/User'
-                    type: array
-                required:
-                  - data
-                type: object
+                items:
+                  $ref: '#/components/schemas/User'
+                type: array
         '401':
           $ref: '#/components/responses/ErrorUnauthenticated'
         '403':
@@ -3656,6 +3668,30 @@ paths:
           $ref: '#/components/responses/ErrorForbidden'
         '404':
           $ref: '#/components/responses/ErrorNotFound'
+      tags:
+        - user
+  /users/{user_id}/chat-users/{chat_user_id}:
+    parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: chat_user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    delete:
+      summary: Remove a chat user
+      operationId: users-deleteChatUser
+      responses:
+        '204':
+          description: Chat user was deleted.
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
       tags:
         - user
   /users/{user_id}/token:
@@ -4895,7 +4931,7 @@ components:
           type: string
         system:
           type: string
-        links:
+        _links:
           $ref: '#/components/schemas/Links'
       type: object
     CampaignFull:
@@ -6190,6 +6226,8 @@ components:
               $ref: '#/components/schemas/RootNature'
             playbook:
               $ref: '#/components/schemas/RootPlaybook'
+            tracks:
+              $ref: '#/components/schemas/RootTracksBlock'
           required:
             - id
             - links
@@ -6209,18 +6247,23 @@ components:
           might: 1
         id: 'brute'
         name: 'Brute'
+        weapon_move: false
         links:
           self: 'https://commlink.digitaldarkness.com/api/root/moves/brute'
       properties:
         description:
           type: string
         effects:
+          additionalProperties:
+            type: integer
           nullable: true
           type: object
         id:
           type: string
         name:
           type: string
+        weapon_move:
+          type: boolean
         links:
           $ref: '#/components/schemas/Links'
       required:
@@ -6228,6 +6271,7 @@ components:
         - id
         - name
         - links
+        - weapon_move
       type: object
     RootNature:
       example:
@@ -6263,21 +6307,37 @@ components:
         description_short: |
           a powerful warrior devoted to what they think is right and just.
         moves:
-          - description: 'Take +1 to Might (max +3).'
+          brute:
+            description: 'Take +1 to Might (max +3).'
             effects:
               might: 1
             id: 'brute'
             name: 'Brute'
+            weapon_move: false
             links:
               self: 'https://commlink.digitaldarkness.com/api/root/moves/brute'
         natures:
-          - description: |
+          defender:
+            description: |
               Clear your exhaustion track when you defend someone who
               cannot defend themself from dire threat.
             id: 'defender'
             name: 'Defender'
             links:
               self: 'https://commlink.digitaldarkness.com/api/root/natures/defender'
+        starting_weapon_moves:
+          cleave:
+            description: |
+              When you cleave armored foes at close range, mark exhaustion and roll
+              with Might. On a hit, you smash through their defenses and equipment;
+              inflict 3-decay. On a 7–9, you overextend your weapon or yourself:
+              mark decay or end up in a bad spot, your choice.
+            effects: null
+            id: 'cleave'
+            name: 'Cleave'
+            weapon_move: true
+            links:
+              self: 'https://commlink.digitaldarkness.com/api/root/moves/cleave'
         stats:
           charm: 1
           cunning: 0
@@ -6294,17 +6354,22 @@ components:
         id:
           type: string
         moves:
-          items:
+          additionalProperties:
             $ref: '#/components/schemas/RootMove'
-          type: array
+          type: object
         name:
           type: string
         natures:
-          items:
+          additionalProperties:
             $ref: '#/components/schemas/RootNature'
-          type: array
+          type: object
+        starting_weapon_moves:
+          additionalProperties:
+            $ref: '#/components/schemas/RootMove'
+          type: object
         stats:
           $ref: '#/components/schemas/RootStatsBlock'
+
         links:
           $ref: '#/components/schemas/Links'
       required:
@@ -6315,7 +6380,7 @@ components:
         - links
       type: object
     RootStat:
-      maximum: 2
+      maximum: 3
       minimum: -1
       type: integer
     RootStatsBlock:
@@ -6336,6 +6401,27 @@ components:
         - finesse
         - luck
         - might
+      type: object
+    RootTrack:
+      minimum: 4
+      type: integer
+    RootTracksBlock:
+      properties:
+        decay:
+          minimum: 0
+          type: integer
+        decay_max:
+          $ref: '#/components/schemas/RootTrack'
+        exhaustion:
+          minimum: 0
+          type: integer
+        exhaustion_max:
+          $ref: '#/components/schemas/RootTrack'
+        injury:
+          minimum: 0
+          type: integer
+        injury_max:
+          $ref: '#/components/schemas/RootTrack'
       type: object
     Rulebook:
       description: A rulebook for an RPG.
@@ -6411,7 +6497,7 @@ components:
         effects:
           items:
             type: object
-          type: object
+          type: array
         incompatible_with:
           items:
             type: string
@@ -6430,6 +6516,7 @@ components:
         - cost
         - description
         - id
+        - incompatible_with
         - name
         - links
       type: object
@@ -9894,7 +9981,7 @@ components:
           items:
             $ref: '#/components/schemas/Role'
           type: array
-        links:
+        _links:
           $ref: '#/components/schemas/Links'
       required:
         - characters
@@ -9905,7 +9992,7 @@ components:
         - name
         - playingIn
         - roles
-        - links
+        - _links
       type: object
     UserMinimal:
       nullable: true
