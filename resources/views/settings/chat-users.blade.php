@@ -49,11 +49,11 @@
                         <th scope="col">Server</th>
                         <th scope="col">User</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Delete</th>
+                        <th class="text-center" scope="col">Delete</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($user->chatUsers->sortByDesc('verified') as $chat_user)
+                    @foreach ($user->chatUsers->sortByDesc('verified') as $chat_user)
                     <tr data-id="{{ $chat_user->id }}">
                         <td>
                             <div class="d-flex align-items-center">
@@ -102,7 +102,7 @@
                                 </div>
                             </td>
                         @endif
-                        <td>
+                        <td class="text-center">
                             <button class="btn btn-light" data-bs-target="#delete-user"
                                 data-bs-toggle="modal" data-bs-id="{{ $chat_user->id }}"
                                 type="button">
@@ -110,13 +110,12 @@
                             </button>
                         </td>
                     </tr>
-                    @empty
-                        <tr>
-                            <td colspan="4">
-                                You don't have any linked chat users!
-                            </td>
-                        </tr>
-                    @endforelse
+                    @endforeach
+                    <tr @class(['d-none' => 0 !== count($user->chatUsers)]) id="no-chat-users">
+                        <td colspan="4">
+                            You don't have any linked chat users!
+                        </td>
+                    </tr>
                 </tbody>
                 <tfoot>
                     <tr>
@@ -322,7 +321,7 @@
                     let span = element.querySelectorAll('span');
                     span[0].textContent = 'There was an error deleting '
                         + 'the chat user: ' + error;
-                    const heading = document.querySelector('h2');
+                    const heading = document.querySelector('h1');
                     heading.parentNode.insertBefore(element, heading);
                     modal.hide();
                     $('.modal-backdrop').remove();
@@ -331,6 +330,9 @@
                     $('tr[data-id="' + id + '"]').remove();
                     modal.hide();
                     $('.modal-backdrop').remove();
+                    if (3 === $('tr').length) {
+                        $('#no-chat-users').removeClass('d-none');
+                    }
                 },
                 url: '/api/users/{{ $user->id }}/chat-users/' + id,
             });

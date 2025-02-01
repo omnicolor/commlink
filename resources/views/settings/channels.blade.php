@@ -53,11 +53,12 @@ use App\Models\ChatUser;
                         <th scope="col">Character</th>
                         <th scope="col">Campaign</th>
                         <th scope="col">System</th>
-                        <th scope="col">Webhook</th>
+                        <th class="text-center" scope="col">Webhook</th>
+                        <th class="text-center" scope="col">Delete</th>
                     </tr>
                 </thead>
                 <tbody id="channels">
-                    @forelse ($user->channels as $channel)
+                    @foreach ($user->channels as $channel)
                         @php
                             $chatUser = ChatUser::where('server_id', $channel->server_id)
                                 ->where('user_id', \Auth::user()->id)
@@ -73,7 +74,7 @@ use App\Models\ChatUser;
                                 }
                             }
                         @endphp
-                        <tr class="align-middle">
+                        <tr class="align-middle" data-id="{{ $channel->id }}">
                             <td>
                                 <div class="d-flex align-items-center">
                                     <i class="bi bi-{{ $channel->type !== 'irc' ? $channel->type : 'chat-text' }} me-3"></i>
@@ -108,7 +109,7 @@ use App\Models\ChatUser;
                                 @endif
                             </td>
                             <td>{{ $channel->getSystem() }}</td>
-                            <td>
+                            <td class="text-center">
                                 @if (Channel::TYPE_SLACK === $channel->type)
                                     <i class="bi bi-check-square-fill text-success" title="Slack channels don't require webhooks"></i>
                                 @elseif ($channel->webhook)
@@ -117,20 +118,57 @@ use App\Models\ChatUser;
                                     <i class="bi bi-question-square-fill text-danger"></i>
                                 @endif
                             </td>
+                            <td class="text-center">
+                                <button class="btn btn-light"
+                                    data-bs-target="#delete-channel"
+                                    data-bs-toggle="modal"
+                                    data-bs-id="{{ $channel->id }}"
+                                    type="button">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
                         </tr>
-                    @empty
-                    <tr id="no-channels">
-                        <td colspan="6">You haven't registered any channels</td>
+                    @endforeach
+                    <tr @class(['d-none' => 0 !== count($user->channels)]) id="no-channels">
+                        <td colspan="7">You haven't registered any channels</td>
                     </tr>
-                    @endforelse
                 </tbody>
             </table>
         </div>
         <div class="col-lg-1"></div>
     </div>
 
+    <div aria-hidden="true" aria-labelledby="delete-channel-title"
+        class="modal fade" id="delete-channel" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="delete-channel-title">Delete channel?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this channel? This action
+                    can not be undone!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Never mind</button>
+                    <button type="button" class="btn btn-primary">Yes, I'm sure</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <template id="alert">
+    <div class="alert alert-danger alert-dismissible fade mt-4 show" role="alert">
+        <span></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    </template>
+
 <x-slot name="javascript">
     <script>
+        const csrfToken = '{{ csrf_token() }}';
+
         Echo.private(`users.{{ $user->id }}`)
             .listen('ChannelLinked', (e) => {
                 const channel = e.channel;
@@ -169,6 +207,40 @@ use App\Models\ChatUser;
                 $('#no-channels').remove();
                 $('#channels').append(row);
             });
+
+        $('#delete-channel').on('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const id = button.getAttribute('data-bs-id');
+            $('#delete-channel').data('id', id);
+        });
+        $('#delete-channel .btn-primary').on('click', function () {
+            const modal = $('#delete-channel');
+            const id = modal.data('id');
+            $.ajax({
+                data: {_token: csrfToken},
+                method: 'DELETE',
+                error: function (xhr, status, error) {
+                    const template = document.querySelector('#alert');
+                    const element = template.content.cloneNode(true);
+                    let span = element.querySelectorAll('span');
+                    span[0].textContent = 'There was an error deleting '
+                        + 'the channel: ' + error;
+                    const heading = document.querySelector('h1');
+                    heading.parentNode.insertBefore(element, heading);
+                    modal.hide();
+                    $('.modal-backdrop').remove();
+                },
+                success: function () {
+                    $('tr[data-id="' + id + '"]').remove();
+                    if (2 === $('tr').length) {
+                        $('#no-channels').removeClass('d-none');
+                    }
+                    modal.hide();
+                    $('.modal-backdrop').remove();
+                },
+                url: '/api/channels/' + id,
+            });
+        });
     </script>
 </x-slot>
 </x-app>

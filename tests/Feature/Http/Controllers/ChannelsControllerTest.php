@@ -191,4 +191,30 @@ final class ChannelsControllerTest extends TestCase
             $channel->webhook
         );
     }
+
+    public function testDeletingAChannelOwnedBySomeoneElse(): void
+    {
+        $channel = Channel::factory()->create();
+        self::actingAs(User::factory()->create())
+            ->delete(route('channels.destroy', $channel))
+            ->assertForbidden();
+    }
+
+    public function testDeletingANotFoundChannel(): void
+    {
+        self::actingAs(User::factory()->create())
+            ->delete('/channels/0')
+            ->assertNotFound();
+    }
+
+    public function testDeletingAChannel(): void
+    {
+        $user = User::factory()->create();
+        $channel = Channel::factory()->create(['registered_by' => $user->id]);
+        self::assertDatabaseHas('channels', ['id' => $channel->id]);
+        self::actingAs($user)
+            ->delete(route('channels.destroy', $channel))
+            ->assertNoContent();
+        self::assertDatabaseMissing('channels', ['id' => $channel->id]);
+    }
 }

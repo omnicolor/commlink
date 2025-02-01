@@ -42,14 +42,16 @@ use Laravel\Pennant\Feature;
                             <td>{{ $token->name }}</td>
                             <td>{{ $token->expires_at?->format('Y-m-d') }}</td>
                             <td>{{ $token->last_used_at }}</td>
-                            <td><button
-                                class="btn btn-outline-danger btn-sm"
+                            <td><button class="btn btn-outline-danger btn-sm"
                                 data-id="{{ $token->id }}"
                                 type="button">
                                 <i class="bi bi-trash3"></i>
                             </button></td>
                         </tr>
                     @endforeach
+                        <tr @class(['d-none' => 0 !== count($user->tokens)]) id="no-tokens">
+                            <td colspan="4">You don't have any API keys!</td>
+                        </tr>
                     </tbody>
                     <tfoot>
                         <tr>
@@ -235,6 +237,7 @@ use Laravel\Pennant\Feature;
                         '<i class="bi bi-trash3"></i></button></td>' +
                         '</tr>'
                     );
+                    $('#no-tokens').addClass('d-none');
                 })
                 .fail(function (data) { window.console.log(data); });
         });
@@ -252,7 +255,12 @@ use Laravel\Pennant\Feature;
                 url: '/api/users/' + {{ $user->id }} + '/token/' + token
             };
             $.ajax(settings)
-                .done(function () { e.parents('TR').remove(); })
+                .done(function () {
+                    e.parents('TR').remove();
+                    if (3 === $('tr').length) {
+                        $('#no-tokens').removeClass('d-none');
+                    }
+                })
                 .fail(function (data) { window.console.log(data); });
         });
     </script>
