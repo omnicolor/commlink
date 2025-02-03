@@ -61,7 +61,6 @@ final class CampaignsControllerTest extends TestCase
             ->assertRedirect(
                 route('campaign.view', Campaign::latest()->firstOrFail())
             );
-            
         $this->assertDatabaseHas(
             'campaigns',
             [
@@ -89,8 +88,8 @@ final class CampaignsControllerTest extends TestCase
 
         $user = User::factory()->create();
         $this->actingAs($user)->postJson(
-                route('campaign.createForm'),
-                [
+            route('campaign.createForm'),
+            [
                     'description' => $description,
                     'name' => $name,
                     'system' => 'avatar',
@@ -100,7 +99,7 @@ final class CampaignsControllerTest extends TestCase
                     'avatar-focus-details' => 'Details about the focus',
                     'avatar-focus-defeat-object' => 'the big bad guy',
                 ]
-            )
+        )
             ->assertRedirect(
                 route('campaign.view', Campaign::latest()->firstOrFail())
             );
