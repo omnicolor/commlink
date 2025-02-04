@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Subversion\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -37,6 +38,7 @@ class Background implements Stringable
         $this->ruleset = $background['ruleset'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -51,7 +53,7 @@ class Background implements Stringable
         self::$backgrounds ??= require $filename;
 
         $backgrounds = [];
-        foreach (self::$backgrounds as $background) {
+        foreach (self::$backgrounds ?? [] as $background) {
             $backgrounds[] = new Background($background['id']);
         }
         return $backgrounds;

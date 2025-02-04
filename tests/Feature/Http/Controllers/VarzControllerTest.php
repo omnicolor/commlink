@@ -12,8 +12,12 @@ use App\Models\ChatCharacter;
 use App\Models\Deck;
 use App\Models\Initiative;
 use Modules\Shadowrun5e\Models\Character as Runner;
+use Override;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
+
+use function config;
+use function route;
 
 /**
  * Tests for the Varz controller.
@@ -21,6 +25,7 @@ use Tests\TestCase;
 #[Medium]
 final class VarzControllerTest extends TestCase
 {
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();
@@ -45,7 +50,7 @@ final class VarzControllerTest extends TestCase
                 'name' => $name,
                 'data' => [
                     'campaigns' => 0,
-                    'player-characters' => 0,
+                    'player_characters' => 0,
                 ],
             ];
         }
@@ -53,12 +58,12 @@ final class VarzControllerTest extends TestCase
         self::getJson(route('varz'))
             ->assertOk()
             ->assertJson([
-                'campaigns-total' => 0,
+                'campaigns_total' => 0,
                 'channels' => [
                     'discord' => 0,
                     'slack' => 0,
                 ],
-                'characters-total' => 0,
+                'characters_total' => 0,
                 'systems' => $systems,
             ]);
     }
@@ -74,7 +79,7 @@ final class VarzControllerTest extends TestCase
                 'name' => $name,
                 'data' => [
                     'campaigns' => 0,
-                    'player-characters' => 0,
+                    'player_characters' => 0,
                 ],
             ];
         }
@@ -92,18 +97,18 @@ final class VarzControllerTest extends TestCase
 
         $systems['shadowrun5e']['data'] = [
             'campaigns' => 1,
-            'player-characters' => 1,
+            'player_characters' => 1,
         ];
 
         self::getJson(route('varz'))
             ->assertOk()
             ->assertJson([
-                'campaigns-total' => 1,
+                'campaigns_total' => 1,
                 'channels' => [
                     'discord' => 1,
                     'slack' => 1,
                 ],
-                'characters-total' => 1,
+                'characters_total' => 1,
                 'systems' => $systems,
             ]);
     }

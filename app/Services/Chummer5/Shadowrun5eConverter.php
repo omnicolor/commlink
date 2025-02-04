@@ -20,7 +20,10 @@ use Modules\Shadowrun5e\Models\Weapon;
 use RuntimeException;
 use SimpleXMLElement;
 
+use function array_key_exists;
 use function array_merge;
+use function count;
+use function sprintf;
 
 /**
  * Converter class to convert a Chummer 5 file to a Commlink Character.

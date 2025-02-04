@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Subversion\Models;
 
-readonly class LineageOption
+use Override;
+use Stringable;
+
+readonly class LineageOption implements Stringable
 {
     public function __construct(
         public string $id,
@@ -13,6 +16,7 @@ readonly class LineageOption
     ) {
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

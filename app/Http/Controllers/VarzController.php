@@ -16,6 +16,11 @@ use League\Flysystem\UnableToCreateDirectory;
 use ParseError;
 use Throwable;
 
+use function array_key_exists;
+use function config;
+use function count;
+use function is_array;
+use function sprintf;
 use function ucwords;
 
 class VarzController extends Controller
@@ -24,7 +29,7 @@ class VarzController extends Controller
      * Collection mapping the different supported systems to the example data
      * files.
      */
-    protected const SYSTEM_MAP = [
+    protected const array SYSTEM_MAP = [
         'alien' => 'Modules/Alien/data/',
         'avatar' => 'Modules/Avatar/data/',
         'blistercritters' => 'Modules/Blistercritters/data/',
@@ -32,6 +37,9 @@ class VarzController extends Controller
         'cyberpunkred' => 'Modules/Cyberpunkred/data/',
         'dnd5e' => 'Modules/Dnd5e/data/',
         'expanse' => 'Modules/Expanse/data/',
+        'legendofthe5rings' => 'Modules/LegendOf5rings/data/',
+        'root' => 'Modules/Root/data/',
+        'shadowrunanarchy' => 'Modules/Shadowrunanarchy/data/',
         'shadowrun5e' => 'Modules/Shadowrun5e/data/',
         'shadowrun6e' => 'Modules/Shadowrun6e/data/',
         'startrekadventures' => 'Modules/Startrekadventures/data/',
@@ -45,14 +53,14 @@ class VarzController extends Controller
         $systems = config('commlink.systems');
 
         $data = [
-            'campaigns-total' => Campaign::count(),
+            'campaigns_total' => Campaign::count(),
             'channels' => [
                 // @phpstan-ignore staticMethod.dynamicCall
                 'discord' => Channel::discord()->count(),
                 // @phpstan-ignore staticMethod.dynamicCall
                 'slack' => Channel::slack()->count(),
             ],
-            'characters-total' => Character::count(),
+            'characters_total' => Character::count(),
             'systems' => [],
             'users' => User::count(),
         ];
@@ -71,20 +79,21 @@ class VarzController extends Controller
      */
     protected function getSystemMetrics(string $system): array
     {
+        /** @var class-string $characterClass */
         $characterClass = sprintf(
             '\\Modules\\%s\\Models\\Character',
-            str_replace(' ', '', ucwords(str_replace('-', ' ', $system)))
+            str_replace(' ', '', ucwords(str_replace('_', ' ', $system)))
         );
         try {
             $metrics = [
                 // @phpstan-ignore staticMethod.dynamicCall
                 'campaigns' => Campaign::where('system', $system)->count(),
-                'player-characters' => $characterClass::count(),
+                'player_characters' => $characterClass::count(),
             ];
         } catch (Throwable) { // @codeCoverageIgnoreStart
             $metrics = [
                 'campaigns' => 0,
-                'player-characters' => 0,
+                'player_characters' => 0,
             ];
         } // @codeCoverageIgnoreEnd
 
@@ -116,9 +125,6 @@ class VarzController extends Controller
             ])->files();
         }
         foreach ($dataFiles as $file) {
-            if (!in_array($file, $exampleFiles, true)) {
-                continue; // @codeCoverageIgnore
-            }
             try {
                 $data = require $path . $file;
             } catch (ParseError) { // @codeCoverageIgnore
@@ -128,7 +134,7 @@ class VarzController extends Controller
                 continue; // @codeCoverageIgnore
             }
             $file = (string)str_replace('.php', '', $file);
-            $metrics[$file] = count($data);
+            $metrics[str_replace('-', '_', $file)] = count($data);
         }
         return $metrics;
     }

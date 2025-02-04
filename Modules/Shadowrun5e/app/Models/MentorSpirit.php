@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -71,6 +72,7 @@ class MentorSpirit implements Stringable
         $this->ruleset = $spirit['ruleset'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -85,7 +87,7 @@ class MentorSpirit implements Stringable
         $filename = config('shadowrun5e.data_path') . 'mentor-spirits.php';
         self::$spirits ??= require $filename;
 
-        foreach (self::$spirits as $id => $spirit) {
+        foreach (self::$spirits ?? [] as $id => $spirit) {
             if (strtolower((string)$spirit['name']) === strtolower($name)) {
                 return new MentorSpirit($id);
             }

@@ -24,6 +24,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function sprintf;
+
 use const PHP_EOL;
 
 #[Group('discord')]

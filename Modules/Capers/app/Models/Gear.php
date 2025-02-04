@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Capers\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
 use function array_keys;
+use function assert;
 use function config;
 use function sprintf;
 use function str_replace;
@@ -30,12 +32,14 @@ class Gear implements Stringable
         $filename = config('capers.data_path') . 'gear.php';
         self::$gear ??= require $filename;
 
+        assert(isset(self::$gear[$id]));
         $gear = self::$gear[$id];
         $this->cost = $gear['cost'];
         $this->name = $gear['name'];
         $this->type = $gear['type'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

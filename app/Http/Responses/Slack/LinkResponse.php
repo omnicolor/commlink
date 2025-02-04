@@ -11,8 +11,10 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\Slack\TextAttachment;
 
+use function assert;
 use function config;
 use function explode;
+use function sprintf;
 
 /**
  * Try to link a character to a Slack channel.

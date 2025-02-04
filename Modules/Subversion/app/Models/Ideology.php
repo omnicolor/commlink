@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Modules\Subversion\Models;
 
+use Override;
 use RuntimeException;
+use Stringable;
 
+use function config;
 use function sprintf;
 
-class Ideology
+class Ideology implements Stringable
 {
     public string $description;
     public string $name;
@@ -38,6 +41,7 @@ class Ideology
         $this->value = $ideology['value'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -52,7 +56,7 @@ class Ideology
         self::$ideologies ??= require $filename;
 
         $ideologies = [];
-        foreach (self::$ideologies as $ideology) {
+        foreach (self::$ideologies ?? [] as $ideology) {
             $ideologies[] = new Ideology($ideology['id']);
         }
         return $ideologies;

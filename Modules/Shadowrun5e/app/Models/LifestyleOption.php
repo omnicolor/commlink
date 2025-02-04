@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
-use function array_key_exists;
 use function config;
 use function floor;
 use function sprintf;
@@ -79,7 +79,7 @@ class LifestyleOption implements Stringable
         self::$options ??= require $filename;
 
         $id = strtolower($id);
-        if (!array_key_exists($id, self::$options)) {
+        if (!isset(self::$options[$id])) {
             throw new RuntimeException(
                 sprintf('Lifestyle Option ID "%s" is invalid', $id)
             );
@@ -96,6 +96,7 @@ class LifestyleOption implements Stringable
         $this->type = $option['type'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

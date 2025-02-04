@@ -15,6 +15,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function sprintf;
+
 #[Group('cyberpunkred')]
 #[Medium]
 final class TarotTest extends TestCase
@@ -349,7 +351,7 @@ final class TarotTest extends TestCase
         $response = (new Tarot('tarot', $channel->username, $channel))
             ->forIrc();
         self::assertStringContainsString(
-            \sprintf('%s drew', $channel->username),
+            sprintf('%s drew', $channel->username),
             $response
         );
     }

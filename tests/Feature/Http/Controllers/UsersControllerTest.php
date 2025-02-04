@@ -296,16 +296,16 @@ final class UsersControllerTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
 
-        $tokenName = Str::random(10);
+        $token_name = Str::random(10);
         self::actingAs($user)
             ->postJson(
                 route('create-token', ['user' => $user]),
-                ['name' => $tokenName],
+                ['name' => $token_name],
             )
             ->assertCreated();
         self::assertDatabaseHas(
             'personal_access_tokens',
-            ['name' => $tokenName, 'expires_at' => null],
+            ['name' => $token_name, 'expires_at' => null],
         );
     }
 
@@ -314,13 +314,13 @@ final class UsersControllerTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
 
-        $tokenName = Str::random(10);
+        $token_name = Str::random(10);
         $expiration = CarbonImmutable::now()->addMonth();
         self::actingAs($user)
             ->postJson(
                 route('create-token', ['user' => $user]),
                 [
-                    'name' => $tokenName,
+                    'name' => $token_name,
                     'expires_at' => $expiration->toDateString(),
                 ],
             )
@@ -328,7 +328,7 @@ final class UsersControllerTest extends TestCase
         self::assertDatabaseHas(
             'personal_access_tokens',
             [
-                'name' => $tokenName,
+                'name' => $token_name,
                 'expires_at' => $expiration->startOfDay()->toDateTimeString(),
             ],
         );
@@ -341,8 +341,8 @@ final class UsersControllerTest extends TestCase
         /** @var User */
         $hacker = User::factory()->create();
 
-        $tokenName = Str::random(10);
-        $token = $innocentUser->createToken($tokenName, ['*']);
+        $token_name = Str::random(10);
+        $token = $innocentUser->createToken($token_name, ['*']);
 
         self::actingAs($hacker)
             ->delete(route(
@@ -354,7 +354,7 @@ final class UsersControllerTest extends TestCase
             'personal_access_tokens',
             [
                 'id' => $token->accessToken->id,
-                'name' => $tokenName,
+                'name' => $token_name,
             ],
         );
     }
@@ -364,8 +364,8 @@ final class UsersControllerTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
 
-        $tokenName = Str::random(10);
-        $token = $user->createToken($tokenName, ['*']);
+        $token_name = Str::random(10);
+        $token = $user->createToken($token_name, ['*']);
 
         self::actingAs($user)
             ->delete(route(
@@ -377,8 +377,21 @@ final class UsersControllerTest extends TestCase
             'personal_access_tokens',
             [
                 'id' => $token->accessToken->id,
-                'name' => $tokenName,
+                'name' => $token_name,
             ],
         );
+    }
+
+    public function testDeleteChatUser(): void
+    {
+        $user = User::factory()->create();
+        $chat_user = ChatUser::factory()->create([
+            'user_id' => $user->id,
+        ]);
+        self::assertDatabaseHas('chat_users', ['id' => $chat_user->id]);
+        self::actingAs($user)
+            ->delete(route('chat-user-delete', [$user, $chat_user]))
+            ->assertNoContent();
+        self::assertDatabaseMissing('chat_users', ['id' => $chat_user->id]);
     }
 }

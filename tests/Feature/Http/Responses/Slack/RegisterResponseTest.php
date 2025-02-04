@@ -9,12 +9,15 @@ use App\Http\Responses\Slack\RegisterResponse;
 use App\Models\Channel;
 use App\Models\ChatUser;
 use App\Models\User;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function array_keys;
+use function config;
 use function implode;
 use function key;
 use function sprintf;
@@ -138,8 +141,32 @@ final class RegisterResponseTest extends TestCase
      * Test registering a channel to a valid system after creating a Commlink
      * account and having all other required data.
      */
+    #[Group('current')]
     public function testRegister(): void
     {
+        $channels = [
+            'ok' => true,
+            'channel' => [
+                'name' => 'channel name',
+            ],
+        ];
+        $channels_response = Http::response($channels, Response::HTTP_OK);
+        $teams = [
+            'ok' => true,
+            'teams' => [
+                [
+                    'id' => 'team-id',
+                    'name' => 'foo',
+                ],
+            ],
+        ];
+
+        Http::preventStrayRequests();
+        Http::fake([
+            'https://slack.com/api/auth.teams.list' => Http::response($teams, Response::HTTP_OK),
+            'https://slack.com/api/conversations.info?channel=channel-id' => $channels_response,
+        ]);
+
         $user = User::factory()->create();
         $channel = new Channel([
             'channel_id' => 'channel-id',
@@ -147,7 +174,7 @@ final class RegisterResponseTest extends TestCase
             'type' => ChatUser::TYPE_SLACK,
         ]);
         $channel->user = 'U' . Str::random(8);
-        $chatUser = ChatUser::factory([
+        ChatUser::factory([
             'remote_user_id' => $channel->user,
             'server_id' => 'team-id',
             'server_type' => ChatUser::TYPE_SLACK,

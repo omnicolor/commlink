@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Models;
 
 use Exception;
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -107,6 +108,7 @@ class Armor implements Stringable
         $this->ruleset = $armor['ruleset'] ?? 'core';
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -150,7 +152,7 @@ class Armor implements Stringable
     {
         $filename = config('shadowrun5e.data_path') . 'armor.php';
         self::$armor ??= require $filename;
-        foreach (self::$armor as $armor) {
+        foreach (self::$armor ?? [] as $armor) {
             if (strtolower((string) $armor['name']) === strtolower($name)) {
                 return new Armor($armor['id']);
             }

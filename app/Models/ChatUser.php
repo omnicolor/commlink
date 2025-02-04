@@ -17,6 +17,9 @@ use function sha1;
 use function substr;
 
 /**
+ * @method static Builder discord()
+ * @method static Builder irc()
+ * @method static Builder slack()
  * @property-read ?ChatCharacter $chat_character
  * @property int $id
  * @property string $remote_user_id

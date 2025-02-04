@@ -12,6 +12,7 @@ use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
 
 use function array_shift;
+use function array_slice;
 use function array_sum;
 use function explode;
 use function implode;

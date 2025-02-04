@@ -26,7 +26,7 @@ Route::middleware('auth:sanctum')
             } catch (RuntimeException) {
                 abort(
                     Response::HTTP_NOT_FOUND,
-                    sprintf('%s is not found', $armor),
+                    \sprintf('%s is not found', $armor),
                 );
             }
         })->name('armor.show');
@@ -44,7 +44,7 @@ Route::middleware('auth:sanctum')
             } catch (RuntimeException) {
                 abort(
                     Response::HTTP_NOT_FOUND,
-                    sprintf('%s is not found', $skill),
+                    \sprintf('%s is not found', $skill),
                 );
             }
         })->name('skills.show');
@@ -59,7 +59,7 @@ Route::middleware('auth:sanctum')
             } catch (RuntimeException) {
                 abort(
                     Response::HTTP_NOT_FOUND,
-                    sprintf('%s is not found', $weapon),
+                    \sprintf('%s is not found', $weapon),
                 );
             }
         })->name('weapons.show');

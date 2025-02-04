@@ -17,6 +17,7 @@ use Modules\Shadowrun5e\Models\ForceTrait;
 use RuntimeException;
 
 use function array_shift;
+use function count;
 use function explode;
 use function implode;
 use function preg_match;

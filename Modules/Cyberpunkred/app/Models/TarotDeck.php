@@ -9,6 +9,9 @@ use Countable;
 use RuntimeException;
 use UnderflowException;
 
+use function assert;
+use function count;
+
 class TarotDeck extends Deck implements Countable
 {
     /**

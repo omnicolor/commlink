@@ -68,7 +68,7 @@ class RelationArchetype implements Stringable
 
         $archetypes = [];
         /** @var string $archetype */
-        foreach (array_keys(self::$archetypes) as $archetype) {
+        foreach (array_keys(self::$archetypes ?? []) as $archetype) {
             $archetypes[] = new self($archetype);
         }
         return $archetypes;

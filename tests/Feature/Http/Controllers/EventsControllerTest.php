@@ -14,6 +14,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function sprintf;
+
 #[Group('events')]
 #[Medium]
 final class EventsControllerTest extends TestCase

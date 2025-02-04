@@ -26,9 +26,16 @@ class CampaignInvitation extends Model
 {
     use HasFactory;
 
-    public const INVITED = 'invited';
-    public const RESPONDED = 'responded';
-    public const SPAM = 'spam';
+    public const string INVITED = 'invited';
+    public const string RESPONDED = 'responded';
+    public const string SPAM = 'spam';
+
+    /**
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'campaign_id' => 'int',
+    ];
 
     /**
      * @var array<string, class-string>
@@ -52,7 +59,7 @@ class CampaignInvitation extends Model
     ];
 
     /**
-     * @codeCoverageIgnore
+     * @codeCoverageIngore
      */
     public function campaign(): BelongsTo
     {
@@ -60,7 +67,7 @@ class CampaignInvitation extends Model
     }
 
     /**
-     * @codeCoverageIgnore
+     * @codeCoverageIngore
      */
     public function invitor(): BelongsTo
     {
