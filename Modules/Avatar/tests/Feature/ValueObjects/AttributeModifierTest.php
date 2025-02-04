@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Avatar\Tests\Feature\ValueObjects;
 
 use DomainException;
@@ -21,8 +23,8 @@ final class AttributeModifierTest extends TestCase
     public function testTooLow(): void
     {
         self::expectException(DomainException::class);
-        self::expectExceptionMessage('Attribute modifiers can not be less than -1');
-        new AttributeModifier(-2);
+        self::expectExceptionMessage('Attribute modifiers can not be less than -2');
+        new AttributeModifier(-3);
     }
 
     public function testTooHigh(): void

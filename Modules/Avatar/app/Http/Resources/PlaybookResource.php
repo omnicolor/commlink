@@ -50,10 +50,10 @@ class PlaybookResource extends JsonResource
             'balance_left' => $this->balance_left,
             'balance_right' => $this->balance_right,
             'base_stats' => [
-                'creativity' => $this->creativity,
-                'focus' => $this->focus,
-                'harmony' => $this->harmony,
-                'passion' => $this->passion,
+                'creativity' => $this->creativity->value,
+                'focus' => $this->focus->value,
+                'harmony' => $this->harmony->value,
+                'passion' => $this->passion->value,
             ],
             'demeanor_options' => $this->demeanor_options,
             'description' => $this->when(
