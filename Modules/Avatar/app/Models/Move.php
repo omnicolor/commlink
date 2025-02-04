@@ -59,7 +59,7 @@ class Move implements Stringable
 
         $moves = [];
         /** @var string $id */
-        foreach (array_keys(self::$moves) as $id) {
+        foreach (array_keys(self::$moves ?? []) as $id) {
             $moves[$id] = new self($id);
         }
         return $moves;

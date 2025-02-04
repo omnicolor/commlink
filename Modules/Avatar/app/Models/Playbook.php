@@ -114,7 +114,7 @@ class Playbook implements Stringable
 
         $playbooks = [];
         /** @var string $id */
-        foreach (array_keys(self::$playbooks) as $id) {
+        foreach (array_keys(self::$playbooks ?? []) as $id) {
             $playbooks[$id] = new self($id);
         }
         return $playbooks;
