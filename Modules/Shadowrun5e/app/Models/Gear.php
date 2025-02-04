@@ -139,7 +139,7 @@ class Gear implements Stringable
     {
         $filename = config('shadowrun5e.data_path') . 'gear.php';
         self::$gear ??= require $filename;
-        foreach (self::$gear as $gear) {
+        foreach (self::$gear ?? [] as $gear) {
             if (strtolower((string)$gear['name']) === strtolower($name)) {
                 return GearFactory::get($gear['id']);
             }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Expanse\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -55,6 +56,7 @@ class ShipQuality implements Stringable
         $this->ruleset = $quality['ruleset'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -71,7 +73,7 @@ class ShipQuality implements Stringable
 
         $qualities = [];
         /** @var string $id */
-        foreach (array_keys(self::$qualities) as $id) {
+        foreach (array_keys(self::$qualities ?? []) as $id) {
             $qualities[$id] = new self($id);
         }
         return $qualities;

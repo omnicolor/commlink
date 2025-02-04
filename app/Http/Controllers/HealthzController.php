@@ -17,7 +17,9 @@ use function disk_free_space;
 use function disk_total_space;
 use function escapeshellarg;
 use function explode;
+use function in_array;
 use function shell_exec;
+use function sprintf;
 
 use const PHP_EOL;
 
@@ -116,6 +118,7 @@ class HealthzController extends Controller
             $statuses['irc'] = $this->checkIrc();
         }
 
+        // @phpstan-ignore function.alreadyNarrowedType
         if (in_array(false, $statuses, true)) {
             $status = JsonResponse::HTTP_SERVICE_UNAVAILABLE;
         } else {

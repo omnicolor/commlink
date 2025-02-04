@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Subversion\Models;
 
 use ArrayObject;
+use Override;
 use TypeError;
 
 /**
@@ -19,6 +20,7 @@ class GearArray extends ArrayObject
      * @param Gear $gear
      * @throws TypeError
      */
+    #[Override]
     public function offsetSet($index = null, $gear = null): void
     {
         if ($gear instanceof Gear) {

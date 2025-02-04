@@ -74,7 +74,7 @@ final class ActiveSkill extends Skill implements Stringable
     {
         $filename = config('shadowrun5e.data_path') . 'skills.php';
         self::$skills ??= require $filename;
-        foreach (self::$skills as $skill) {
+        foreach (self::$skills ?? [] as $skill) {
             if ($skill['name'] === $name) {
                 return $skill['id'];
             }
@@ -95,7 +95,7 @@ final class ActiveSkill extends Skill implements Stringable
 
         $skills = new SkillArray();
         /** @var string $id */
-        foreach (array_keys(self::$skills) as $id) {
+        foreach (array_keys(self::$skills ?? []) as $id) {
             $skills[] = new self($id, 1);
         }
         return $skills;

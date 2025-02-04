@@ -8,7 +8,6 @@ use Override;
 use RuntimeException;
 use Stringable;
 
-use function array_key_exists;
 use function config;
 use function floor;
 use function sprintf;
@@ -53,7 +52,7 @@ final class LifestyleOption implements Stringable
         self::$options ??= require $filename;
 
         $id = strtolower($id);
-        if (!array_key_exists($id, self::$options)) {
+        if (!isset(self::$options[$id])) {
             throw new RuntimeException(
                 sprintf('Lifestyle Option ID "%s" is invalid', $id)
             );

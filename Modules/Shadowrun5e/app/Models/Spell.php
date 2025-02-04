@@ -93,7 +93,7 @@ final class Spell implements Stringable
         $filename = config('shadowrun5e.data_path') . 'spells.php';
         self::$spells ??= require $filename;
 
-        foreach (self::$spells as $spell) {
+        foreach (self::$spells ?? [] as $spell) {
             if (strtolower($name) === strtolower((string)$spell['name'])) {
                 return new Spell($spell['id']);
             }

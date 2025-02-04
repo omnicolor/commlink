@@ -7,6 +7,10 @@ namespace Modules\Subversion\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Subversion\Database\Factories\PartialCharacterFactory;
+use Override;
+use Stringable;
+
+use function count;
 
 /**
  * Representation of a character in character generation.
@@ -16,11 +20,11 @@ use Modules\Subversion\Database\Factories\PartialCharacterFactory;
  * @property-read array<int, Relation> $relations
  * @property-write array<int, array<string, mixed>|Relation> $relations
  */
-class PartialCharacter extends Character
+class PartialCharacter extends Character implements Stringable
 {
-    public const STARTING_FORTUNE = 320;
-    public const STARTING_RELATION_FORTUNE = 30;
-    public const CORRUPTED_VALUE_FORTUNE = 5;
+    public const int STARTING_FORTUNE = 320;
+    public const int STARTING_RELATION_FORTUNE = 30;
+    public const int CORRUPTED_VALUE_FORTUNE = 5;
 
     protected $connection = 'mongodb';
 
@@ -57,11 +61,13 @@ class PartialCharacter extends Character
 
     protected $table = 'characters-partial';
 
+    #[Override]
     protected static function newFactory(): Factory
     {
         return PartialCharacterFactory::new();
     }
 
+    #[Override]
     public function newFromBuilder(
         $attributes = [],
         $connection = null,

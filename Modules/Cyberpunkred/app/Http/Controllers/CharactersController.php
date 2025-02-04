@@ -21,6 +21,10 @@ use Modules\Cyberpunkred\Models\Character;
 use Modules\Cyberpunkred\Models\PartialCharacter;
 use Modules\Cyberpunkred\Models\Role;
 
+use function assert;
+use function count;
+use function sprintf;
+
 /**
  * Controller for interacting with Cyberpunk Red characters.
  */

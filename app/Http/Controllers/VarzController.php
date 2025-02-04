@@ -16,7 +16,10 @@ use League\Flysystem\UnableToCreateDirectory;
 use ParseError;
 use Throwable;
 
+use function array_key_exists;
 use function config;
+use function count;
+use function is_array;
 use function sprintf;
 use function ucwords;
 
@@ -26,7 +29,7 @@ class VarzController extends Controller
      * Collection mapping the different supported systems to the example data
      * files.
      */
-    protected const SYSTEM_MAP = [
+    protected const array SYSTEM_MAP = [
         'alien' => 'Modules/Alien/data/',
         'avatar' => 'Modules/Avatar/data/',
         'blistercritters' => 'Modules/Blistercritters/data/',
@@ -76,6 +79,7 @@ class VarzController extends Controller
      */
     protected function getSystemMetrics(string $system): array
     {
+        /** @var class-string $characterClass */
         $characterClass = sprintf(
             '\\Modules\\%s\\Models\\Character',
             str_replace(' ', '', ucwords(str_replace('_', ' ', $system)))
@@ -121,9 +125,6 @@ class VarzController extends Controller
             ])->files();
         }
         foreach ($dataFiles as $file) {
-            if (!in_array($file, $exampleFiles, true)) {
-                continue; // @codeCoverageIgnore
-            }
             try {
                 $data = require $path . $file;
             } catch (ParseError) { // @codeCoverageIgnore

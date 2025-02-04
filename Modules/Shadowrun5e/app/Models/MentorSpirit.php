@@ -72,7 +72,7 @@ final class MentorSpirit implements Stringable
         $filename = config('shadowrun5e.data_path') . 'mentor-spirits.php';
         self::$spirits ??= require $filename;
 
-        foreach (self::$spirits as $id => $spirit) {
+        foreach (self::$spirits ?? [] as $id => $spirit) {
             if (strtolower((string)$spirit['name']) === strtolower($name)) {
                 return new MentorSpirit($id);
             }

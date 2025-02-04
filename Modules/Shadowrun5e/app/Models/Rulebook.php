@@ -73,7 +73,7 @@ final class Rulebook implements Stringable
 
         $books = [];
         /** @var string $id */
-        foreach (array_keys(self::$books) as $id) {
+        foreach (array_keys(self::$books ?? []) as $id) {
             $books[$id] = new Rulebook($id);
         }
         return $books;

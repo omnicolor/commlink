@@ -10,6 +10,7 @@ use Stringable;
 
 use function ceil;
 use function config;
+use function count;
 use function is_array;
 use function sprintf;
 use function str_contains;
@@ -275,7 +276,7 @@ class Vehicle implements Stringable
     {
         $filename = config('shadowrun5e.data_path') . 'vehicles.php';
         self::$vehicles ??= require $filename;
-        foreach (self::$vehicles as $vehicle) {
+        foreach (self::$vehicles ?? [] as $vehicle) {
             if (strtolower((string)$vehicle['name']) === strtolower($name)) {
                 return new Vehicle(['id' => $vehicle['id']]);
             }

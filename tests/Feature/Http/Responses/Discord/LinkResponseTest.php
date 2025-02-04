@@ -88,8 +88,8 @@ final class LinkResponseTest extends TestCase
 
         self::assertSame(
             'You must have already created an account on Commlink - Test '
-                . '(http://localhost/settings) and linked it to this server '
-                . 'before you can link a character.',
+                . '(http://localhost/settings/chat-users) and linked it to '
+                . 'this server before you can link a character.',
             (string)(new LinkResponse($event))
         );
     }

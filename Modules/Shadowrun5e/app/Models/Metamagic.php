@@ -62,7 +62,7 @@ final class Metamagic implements Stringable
         self::$metamagics ??= require $filename;
 
         $name = strtolower($name);
-        foreach (self::$metamagics as $meta) {
+        foreach (self::$metamagics ?? [] as $meta) {
             if (strtolower((string)$meta['name']) === $name) {
                 return new self($meta['id']);
             }

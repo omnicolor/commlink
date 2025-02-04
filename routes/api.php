@@ -14,9 +14,10 @@ use App\Http\Controllers\VarzController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function (): void {
-    Route::resource('/channels', ChannelsController::class)
-        ->only(['update']);
-    Route::resource('/campaigns', CampaignsController::class)
+    Route::resource('channels', ChannelsController::class)
+        ->only(['destroy', 'update']);
+
+    Route::resource('campaigns', CampaignsController::class)
         ->only(['destroy', 'index', 'show']);
     Route::patch('/campaigns/{campaign}', [CampaignsController::class, 'patch'])
         ->name('campaign.patch');
@@ -67,6 +68,11 @@ Route::middleware('auth:sanctum')->group(function (): void {
         'users/{user}/token/{tokenId}',
         [UsersController::class, 'deleteToken'],
     )->name('delete-token');
+
+    Route::delete(
+        'users/{user}/chat-users/{chat_user}',
+        [UsersController::class, 'deleteChatUser'],
+    )->name('chat-user-delete');
 });
 
 Route::options('/roll', [SlackController::class, 'options'])

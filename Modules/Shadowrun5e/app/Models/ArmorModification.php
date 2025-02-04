@@ -132,7 +132,7 @@ final class ArmorModification implements Stringable
             . 'armor-modifications.php';
         self::$modifications ??= require $filename;
 
-        foreach (self::$modifications as $mod) {
+        foreach (self::$modifications ?? [] as $mod) {
             if (strtolower((string)$mod['name']) !== strtolower($name)) {
                 continue;
             }

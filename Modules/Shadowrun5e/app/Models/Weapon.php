@@ -8,7 +8,6 @@ use Override;
 use RuntimeException;
 use Stringable;
 
-use function array_key_exists;
 use function array_merge;
 use function assert;
 use function config;
@@ -126,7 +125,7 @@ final class Weapon implements Stringable
         }
 
         $id = strtolower($id);
-        if (!array_key_exists($id, self::$weapons)) {
+        if (!isset(self::$weapons[$id])) {
             throw new RuntimeException(sprintf(
                 'Weapon ID "%s" is invalid',
                 $id
@@ -294,7 +293,7 @@ final class Weapon implements Stringable
         $filename = config('shadowrun5e.data_path') . 'weapons.php';
         self::$weapons ??= require $filename;
 
-        foreach (self::$weapons as $weapon) {
+        foreach (self::$weapons ?? [] as $weapon) {
             if (strtolower((string)$weapon['name']) === strtolower($name)) {
                 return new Weapon($weapon['id']);
             }

@@ -124,7 +124,7 @@ final class Quality implements Stringable
     {
         $filename = config('shadowrun5e.data_path') . 'qualities.php';
         self::$qualities ??= require $filename;
-        foreach (self::$qualities as $quality) {
+        foreach (self::$qualities ?? [] as $quality) {
             if (strtolower((string)$quality['name']) === strtolower($name)) {
                 return new Quality($quality['id']);
             }

@@ -9,6 +9,7 @@ use RuntimeException;
 use Stringable;
 
 use function config;
+use function is_int;
 use function sprintf;
 use function strtolower;
 use function ucfirst;
@@ -175,7 +176,7 @@ final class Augmentation implements Stringable
         $filename = config('shadowrun5e.data_path') . 'cyberware.php';
         self::$augmentations ??= require $filename;
 
-        foreach (self::$augmentations as $aug) {
+        foreach (self::$augmentations ?? [] as $aug) {
             if (strtolower((string)$aug['name']) !== strtolower($name)) {
                 continue;
             }

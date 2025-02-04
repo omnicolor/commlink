@@ -102,7 +102,7 @@ final class WeaponModification implements Stringable
             . 'weapon-modifications.php';
         self::$modifications ??= require $filename;
 
-        foreach (self::$modifications as $mod) {
+        foreach (self::$modifications ?? [] as $mod) {
             if (strtolower((string)$mod['name']) === strtolower($name)) {
                 return new WeaponModification($mod['id']);
             }

@@ -20,6 +20,7 @@ use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function json_encode;
+use function sprintf;
 
 #[Group('campaigns')]
 #[Medium]

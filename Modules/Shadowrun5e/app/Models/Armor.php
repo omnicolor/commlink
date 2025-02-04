@@ -152,7 +152,7 @@ final class Armor implements Stringable
     {
         $filename = config('shadowrun5e.data_path') . 'armor.php';
         self::$armor ??= require $filename;
-        foreach (self::$armor as $armor) {
+        foreach (self::$armor ?? [] as $armor) {
             if (strtolower((string) $armor['name']) === strtolower($name)) {
                 return new Armor($armor['id']);
             }

@@ -20,6 +20,7 @@ use Spatie\Permission\Traits\HasRoles;
 use stdClass;
 
 /**
+ * @method static int count()
  * @property iterable<array-key, Campaign> $campaignsGmed
  * @property iterable<array-key, Campaign> $campaignsRegistered
  * @property string $email

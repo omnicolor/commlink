@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun6e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
 use function config;
+use function count;
 use function sprintf;
 use function strtolower;
 
@@ -57,6 +59,7 @@ class Quality implements Stringable
         $this->ruleset = $quality['ruleset'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -73,7 +76,7 @@ class Quality implements Stringable
         self::$qualities ??= require $filename;
 
         $qualities = [];
-        foreach (self::$qualities as $id => $quality) {
+        foreach (self::$qualities ?? [] as $id => $quality) {
             if (strtolower((string)$quality['name']) === strtolower($name)) {
                 $qualities[] = new Quality($id);
             }
