@@ -24,8 +24,10 @@ use Laravel\Socialite\Facades\Socialite;
 use Nwidart\Modules\Facades\Module;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
+use function array_key_exists;
 use function explode;
 use function is_numeric;
+use function is_object;
 use function preg_match;
 use function sprintf;
 use function ucfirst;

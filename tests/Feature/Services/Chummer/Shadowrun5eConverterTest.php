@@ -12,6 +12,8 @@ use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
+use function dirname;
+
 use const DIRECTORY_SEPARATOR;
 
 #[Group('chummer5')]

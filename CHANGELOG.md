@@ -6,6 +6,37 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.0] - 2025-02-03
+
+### Added
+
+- Created an initial [Bruno](https://www.usebruno.com/) collection for
+  interacting with Commlink's API. (#1918)
+- Added Override attribute where it's appropriate. (#1943)
+- Added ability to delete a chat user. (#2015)
+- Added menu option for user administration. (#2015)
+
+### Fixed
+
+- Cleaned up console commands. (#1939)
+- Cleaned up system configuration. (#1919)
+- Stopped some tests from trying to make network connections. (#1940)
+- Fixed redirect after creating a new campaign. It used to go to the dashboard,
+  now it goes to the page for the newly created campaign. (#2011) Closes issue
+  #1995. Thanks to new contributor
+  [developerluanramos](https://github.com/developerluanramos)!
+- Import all global functions. (#2021, #1802)
+
+### Changed
+
+- Lots of dependencies updated.
+- Changed from using jerodev/php-irc-client to using my fork at
+  omnicolor/php-irc-client. (#1962)
+- Refactored the settings page from the two or three accordion layout
+  (depending on your permissions) to different pages. (#2015)
+
+### Removed
+
 ## [1.8.0] - 2024-12-27
 
 Mostly backend updates, specifically cleaning up PHPStan ignores and removing

@@ -1,3 +1,7 @@
+@php
+use App\Features\ApiAccess;
+use Laravel\Pennant\Feature;
+@endphp
 <!doctype html>
 <html lang="en-US">
 <head>
@@ -40,20 +44,33 @@
                 @endif
             </ul>
         </div>
-        <div class="d-flex">
+        <div class="d-flex navbar-nav">
             @if (Auth::user())
-                <span class="navbar-text">
-                    {{ Auth::user()->email }}
-                    <small><a href="/settings">
+                <span class="navbar-text">{{ Auth::user()->email }}</span>
+                <div class="dropdown">
+                    <a class="btn btn-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-gear" title="Settings"></i>
-                    </a></small>
-                </span>
-                <form method="POST" action="{{ route('logout') }}" id="logout-form">
-                    @csrf
-                    <span class="nav-item">
-                        <a class="nav-link" href="#" id="logout">Logout</a>
-                    </span>
-                </form>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{{ route('settings.chat-users') }}">Chat users</a></li>
+                        <li><a class="dropdown-item" href="{{ route('settings.channels') }}">Chat channels</a></li>
+                        @if (Feature::active(ApiAccess::class))
+                        <li><a class="dropdown-item" href="{{ route('settings.api-keys') }}">API keys</a></li>
+                        @endif
+                        @can('admin users')
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ route('users.view') }}">Admin users</a></li>
+                        @endcan
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}" id="logout-form">
+                                @csrf
+                                <a class="dropdown-item" href="#" id="logout">Logout</a>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
             @endif
         </div>
     </div>

@@ -11,6 +11,9 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\In;
 use Modules\Capers\Models\PartialCharacter;
 
+use function count;
+use function sprintf;
+
 class BoostsRequest extends BaseRequest
 {
     /**

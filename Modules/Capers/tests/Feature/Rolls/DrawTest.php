@@ -14,6 +14,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function sprintf;
+
 #[Group('capers')]
 #[Medium]
 final class DrawTest extends TestCase
@@ -186,7 +188,7 @@ final class DrawTest extends TestCase
         $response = (new Draw('draw guns', $channel->username, $channel))
             ->forDiscord();
         self::assertStringStartsWith(
-            \sprintf('%s drew the **', $channel->username),
+            sprintf('%s drew the **', $channel->username),
             $response
         );
         self::assertStringContainsString('for guns', $response);
@@ -239,7 +241,7 @@ final class DrawTest extends TestCase
         $response = (new Draw('draw guns', $channel->username, $channel))
             ->forIrc();
         self::assertStringStartsWith(
-            \sprintf('%s drew the ', $channel->username),
+            sprintf('%s drew the ', $channel->username),
             $response
         );
         self::assertStringContainsString('for guns', $response);

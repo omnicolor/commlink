@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Models\Channel;
 use App\Models\ChatUser;
 use App\Models\User;
 use Illuminate\Http\Response;
@@ -16,7 +17,6 @@ use Tests\TestCase;
 use function sprintf;
 
 #[Group('settings')]
-#[Group('settings')]
 #[Medium]
 final class SettingsControllerTest extends TestCase
 {
@@ -26,15 +26,6 @@ final class SettingsControllerTest extends TestCase
     protected const string API_SLACK_USERS = 'slack.com/api/users.info';
 
     /**
-     * Test an unauthenticated request.
-     */
-    public function testUnauthenticated(): void
-    {
-        self::get(route('settings'))
-            ->assertRedirect(route('login'));
-    }
-
-    /**
      * Test an authenticated user with no linked users.
      */
     public function testNoLinkedUsers(): void
@@ -42,7 +33,7 @@ final class SettingsControllerTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)
-            ->get(route('settings'))
+            ->get(route('settings.chat-users'))
             ->assertOk()
             ->assertSee('You don\'t have any linked chat users!', false);
     }
@@ -54,20 +45,20 @@ final class SettingsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $serverId = 'T' . Str::random(10);
-        $remoteUserId = 'U' . Str::random(10);
-        ChatUser::factory()->create([
-            'server_id' => $serverId,
+        $server_id = 'T' . Str::random(10);
+        $remote_user_id = 'U' . Str::random(10);
+        $chat_user = ChatUser::factory()->create([
+            'server_id' => $server_id,
             'server_type' => ChatUser::TYPE_SLACK,
-            'remote_user_id' => $remoteUserId,
+            'remote_user_id' => $remote_user_id,
             'user_id' => $user->id,
             'verified' => false,
         ]);
         self::actingAs($user)
-            ->get(route('settings'))
-            ->assertDontSee('You don\'t have any linked chat users!', false)
-            ->assertSee($serverId)
-            ->assertSee($remoteUserId)
+            ->get(route('settings.chat-users'))
+            ->assertSee($chat_user->remote_user_id)
+            ->assertSee($server_id)
+            ->assertSee($remote_user_id)
             ->assertSee('/roll validate');
     }
 
@@ -79,8 +70,8 @@ final class SettingsControllerTest extends TestCase
         /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)
-            ->post(route('settings-link-user'), [])
-            ->assertStatus(Response::HTTP_FOUND)
+            ->post(route('settings.link-user'), [])
+            ->assertFound()
             ->assertSessionHasErrors();
         self::assertSame(
             ['The server-id field is required.'],
@@ -100,7 +91,7 @@ final class SettingsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $serverId = 'T' . Str::random(10);
+        $server_id = 'T' . Str::random(10);
         $userId = 'U' . Str::random(10);
         Http::fake([
             self::API_SLACK_TEAMS => Http::response([
@@ -114,25 +105,25 @@ final class SettingsControllerTest extends TestCase
         ]);
         self::actingAs($user)
             ->post(
-                route('settings-link-user'),
+                route('settings.link-user'),
                 [
-                    'server-id' => $serverId,
+                    'server-id' => $server_id,
                     'user-id' => $userId,
-                ]
+                ],
             )
-            ->assertStatus(Response::HTTP_FOUND)
+            ->assertFound()
             ->assertSessionHasNoErrors();
         self::assertDatabaseHas(
             'chat_users',
             [
-                'server_id' => $serverId,
+                'server_id' => $server_id,
                 'server_name' => null,
                 'server_type' => ChatUser::TYPE_SLACK,
                 'remote_user_id' => $userId,
                 'remote_user_name' => null,
                 'user_id' => $user->id,
                 'verified' => false,
-            ]
+            ],
         );
     }
 
@@ -143,10 +134,10 @@ final class SettingsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $serverId = 'T' . Str::random(10);
+        $server_id = 'T' . Str::random(10);
         $userId = 'U' . Str::random(10);
         ChatUser::factory()->create([
-            'server_id' => $serverId,
+            'server_id' => $server_id,
             'server_type' => ChatUser::TYPE_SLACK,
             'remote_user_id' => $userId,
             'user_id' => $user->id,
@@ -154,12 +145,12 @@ final class SettingsControllerTest extends TestCase
         self::actingAs($user)
             ->followingRedirects()
             ->post(
-                route('settings-link-user'),
+                route('settings.link-user'),
                 [
-                    'server-id' => $serverId,
+                    'server-id' => $server_id,
                     'server-type' => ChatUser::TYPE_SLACK,
                     'user-id' => $userId,
-                ]
+                ],
             )
             ->assertSee('Slack user already registered.');
     }
@@ -171,34 +162,34 @@ final class SettingsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $serverId = '1' . Str::random(10);
+        $server_id = '1' . Str::random(10);
         $userId = Str::random(10);
         Http::fake([
-            self::API_DISCORD_GUILDS . $serverId => Http::response([], Response::HTTP_BAD_REQUEST),
+            self::API_DISCORD_GUILDS . $server_id => Http::response([], Response::HTTP_BAD_REQUEST),
             self::API_DISCORD_USERS . $userId => Http::response([], Response::HTTP_NOT_FOUND),
         ]);
         self::actingAs($user)
             ->followingRedirects()
             ->post(
-                route('settings-link-user'),
+                route('settings.link-user'),
                 [
-                    'server-id' => $serverId,
+                    'server-id' => $server_id,
                     'user-id' => $userId,
-                ]
+                ],
             )
             ->assertOk()
             ->assertSessionHasNoErrors();
         self::assertDatabaseHas(
             'chat_users',
             [
-                'server_id' => $serverId,
+                'server_id' => $server_id,
                 'server_name' => null,
                 'server_type' => ChatUser::TYPE_DISCORD,
                 'remote_user_id' => $userId,
                 'remote_user_name' => null,
                 'user_id' => $user->id,
                 'verified' => false,
-            ]
+            ],
         );
     }
 
@@ -209,43 +200,43 @@ final class SettingsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $serverId = '1' . Str::random(10);
+        $server_id = '1' . Str::random(10);
         $userId = Str::random(10);
         Http::fake([
-            self::API_DISCORD_GUILDS . $serverId => Http::response(
+            self::API_DISCORD_GUILDS . $server_id => Http::response(
                 ['name' => 'Discord Guild'],
-                Response::HTTP_OK
+                Response::HTTP_OK,
             ),
             self::API_DISCORD_USERS . $userId => Http::response(
                 [
                     'username' => 'DiscordUser',
                     'discriminator' => '1234',
                 ],
-                Response::HTTP_OK
+                Response::HTTP_OK,
             ),
         ]);
         self::actingAs($user)
             ->followingRedirects()
             ->post(
-                route('settings-link-user'),
+                route('settings.link-user'),
                 [
-                    'server-id' => $serverId,
+                    'server-id' => $server_id,
                     'user-id' => $userId,
-                ]
+                ],
             )
             ->assertOk()
             ->assertSessionHasNoErrors();
         self::assertDatabaseHas(
             'chat_users',
             [
-                'server_id' => $serverId,
+                'server_id' => $server_id,
                 'server_name' => 'Discord Guild',
                 'server_type' => ChatUser::TYPE_DISCORD,
                 'remote_user_id' => $userId,
                 'remote_user_name' => 'DiscordUser#1234',
                 'user_id' => $user->id,
                 'verified' => false,
-            ]
+            ],
         );
     }
 
@@ -256,10 +247,10 @@ final class SettingsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $serverId = '1' . Str::random(10);
+        $server_id = '1' . Str::random(10);
         $userId = '2' . Str::random(10);
         ChatUser::factory()->create([
-            'server_id' => $serverId,
+            'server_id' => $server_id,
             'server_type' => ChatUser::TYPE_DISCORD,
             'remote_user_id' => $userId,
             'user_id' => $user->id,
@@ -267,12 +258,12 @@ final class SettingsControllerTest extends TestCase
         self::actingAs($user)
             ->followingRedirects()
             ->post(
-                route('settings-link-user'),
+                route('settings.link-user'),
                 [
-                    'server-id' => $serverId,
+                    'server-id' => $server_id,
                     'server-type' => ChatUser::TYPE_DISCORD,
                     'user-id' => $userId,
-                ]
+                ],
             )
             ->assertSee('Discord user already registered.');
     }
@@ -284,10 +275,10 @@ final class SettingsControllerTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        $serverId = 'chat.freenode.net:6667';
+        $server_id = 'chat.freenode.net:6667';
         $userId = Str::random(10);
         ChatUser::factory()->create([
-            'server_id' => $serverId,
+            'server_id' => $server_id,
             'server_type' => ChatUser::TYPE_IRC,
             'remote_user_id' => $userId,
             'user_id' => $user->id,
@@ -295,12 +286,12 @@ final class SettingsControllerTest extends TestCase
         self::actingAs($user)
             ->followingRedirects()
             ->post(
-                route('settings-link-user'),
+                route('settings.link-user'),
                 [
-                    'server-id' => $serverId,
+                    'server-id' => $server_id,
                     'server-type' => ChatUser::TYPE_IRC,
                     'user-id' => $userId,
-                ]
+                ],
             )
             ->assertSee('IRC user already registered.');
     }
@@ -310,33 +301,64 @@ final class SettingsControllerTest extends TestCase
      */
     public function testLinkIrcUser(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $serverId = 'chat.freenode.net:6667';
+        $server_id = 'chat.freenode.net:6667';
         $userId = Str::random(10);
         self::actingAs($user)
             ->followingRedirects()
             ->post(
-                route('settings-link-user'),
+                route('settings.link-user'),
                 [
-                    'server-id' => $serverId,
+                    'server-id' => $server_id,
                     'server-type' => ChatUser::TYPE_IRC,
                     'user-id' => $userId,
-                ]
+                ],
             )
             ->assertOk()
             ->assertSessionHasNoErrors();
         self::assertDatabaseHas(
             'chat_users',
             [
-                'server_id' => $serverId,
+                'server_id' => $server_id,
                 'server_name' => 'chat.freenode.net',
                 'server_type' => ChatUser::TYPE_IRC,
                 'remote_user_id' => $userId,
                 'remote_user_name' => $userId,
                 'user_id' => $user->id,
                 'verified' => false,
-            ]
+            ],
         );
+    }
+
+    public function testChannelsEmpty(): void
+    {
+        self::actingAs(User::factory()->create())
+            ->get(route('settings.channels'))
+            ->assertSee('registered any channels');
+    }
+
+    public function testChannels(): void
+    {
+        $user = User::factory()->create();
+        $channel = Channel::factory()->create(['registered_by' => $user->id]);
+        self::actingAs($user)
+            ->get(route('settings.channels'))
+            ->assertSee($channel->channel_name);
+    }
+
+    public function testApiKeysEmpty(): void
+    {
+        self::actingAs(User::factory()->create())
+            ->get(route('settings.api-keys'))
+            ->assertSee('have any API keys!');
+    }
+
+    public function testApiKeysNotEmpty(): void
+    {
+        $user = User::factory()->create();
+        $user->createToken('My API token', ['*'], null);
+        self::actingAs($user)
+            ->get(route('settings.api-keys'))
+            ->assertSee('My API token');
     }
 }

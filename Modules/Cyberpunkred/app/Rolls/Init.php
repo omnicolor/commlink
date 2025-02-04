@@ -17,6 +17,7 @@ use function array_shift;
 use function count;
 use function explode;
 use function optional;
+use function sprintf;
 
 use const PHP_EOL;
 

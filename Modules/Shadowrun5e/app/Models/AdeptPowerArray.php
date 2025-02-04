@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Models;
 
 use ArrayObject;
+use Override;
 use TypeError;
 
 /**
@@ -18,6 +19,7 @@ class AdeptPowerArray extends ArrayObject
      * @param AdeptPower $power
      * @throws TypeError
      */
+    #[Override]
     public function offsetSet(mixed $index = null, $power = null): void
     {
         if ($power instanceof AdeptPower) {

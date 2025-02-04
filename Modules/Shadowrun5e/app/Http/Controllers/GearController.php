@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 use function array_key_exists;
 use function array_values;
+use function assert;
 use function date;
 use function json_encode;
 use function sha1;

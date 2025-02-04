@@ -13,6 +13,8 @@ use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
 use Tests\TestCase;
 
+use function sprintf;
+
 #[Group('discord')]
 #[Small]
 final class InteractsWithDiscordTest extends TestCase

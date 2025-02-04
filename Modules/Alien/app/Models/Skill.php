@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Alien\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -49,6 +50,7 @@ class Skill implements Stringable
         $this->stunts = $skill['stunts'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -64,7 +66,7 @@ class Skill implements Stringable
 
         $skills = [];
         /** @var string $id */
-        foreach (array_keys(self::$skills) as $id) {
+        foreach (array_keys(self::$skills ?? []) as $id) {
             $skills[] = new self($id);
         }
         return $skills;

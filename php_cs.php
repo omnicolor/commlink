@@ -71,6 +71,7 @@ $rules = [
         'strategy' => 'no_multi_line',
     ],
     'native_constant_invocation' => true,
+    'native_function_invocation' => true,
     'native_function_casing' => true,
     'new_with_parentheses' => true,
     'no_alias_functions' => true,

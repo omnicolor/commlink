@@ -10,6 +10,8 @@ use Modules\Alien\Http\Controllers\CharactersController;
 use Modules\Alien\Models\PartialCharacter;
 use Modules\Alien\Models\Skill;
 
+use function in_array;
+
 class CreateSkillsRequest extends FormRequest
 {
     /**

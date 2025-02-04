@@ -17,6 +17,8 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
+use function assert;
+
 #[Group('alien')]
 #[Medium]
 final class CharactersControllerTest extends TestCase

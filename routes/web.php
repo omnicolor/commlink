@@ -68,10 +68,27 @@ Route::middleware('auth')->group(function (): void {
             ->name('world-anvil.upload');
     });
 
-    Route::get('/settings', [SettingsController::class, 'show'])
-        ->name('settings')->middleware('web');
-    Route::post('/settings/link-user', [SettingsController::class, 'linkUser'])
-        ->name('settings-link-user');
+    Route::permanentRedirect('/settings', '/settings/chat-users')
+        ->name('settings');
+    Route::prefix('/settings')->name('settings.')->group(function (): void {
+        Route::get(
+            '/chat-users',
+            [SettingsController::class, 'chatUsers'],
+        )->name('chat-users');
+        Route::get(
+            '/channels',
+            [SettingsController::class, 'channels'],
+        )->name('channels');
+        Route::get(
+            '/api-keys',
+            [SettingsController::class, 'apiKeys'],
+        )->name('api-keys');
+
+        Route::post(
+            '/link-user',
+            [SettingsController::class, 'linkUser'],
+        )->name('link-user');
+    });
 });
 
 Route::group(['middleware' => ['auth', 'permission:admin users']], function (): void {
