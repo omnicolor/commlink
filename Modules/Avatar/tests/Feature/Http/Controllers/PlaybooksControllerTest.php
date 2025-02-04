@@ -41,6 +41,10 @@ final class PlaybooksControllerTest extends TestCase
                             'passion',
                         ],
                         'demeanor_options',
+                        'feature' => [
+                            'name',
+                            'description',
+                        ],
                         'history',
                         'id',
                         'moment_of_balance',
@@ -71,6 +75,10 @@ final class PlaybooksControllerTest extends TestCase
                         'passion',
                     ],
                     'demeanor_options',
+                    'feature' => [
+                        'name',
+                        'description',
+                    ],
                     'history',
                     'id',
                     'moment_of_balance',
@@ -104,6 +112,10 @@ final class PlaybooksControllerTest extends TestCase
                     ],
                     'demeanor_options',
                     'description',
+                    'feature' => [
+                        'name',
+                        'description',
+                    ],
                     'history',
                     'id',
                     'moment_of_balance',

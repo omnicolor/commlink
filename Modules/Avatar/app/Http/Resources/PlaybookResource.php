@@ -29,6 +29,10 @@ class PlaybookResource extends JsonResource
      *   },
      *   demeanor_options: array<int, string>,
      *   description: MissingValue|string,
+     *   feature: array{
+     *     name: string,
+     *     description: string
+     *   },
      *   history: array<int, string>,
      *   id: string,
      *   moment_of_balance: string,
@@ -60,6 +64,10 @@ class PlaybookResource extends JsonResource
                 $user->hasPermissionTo('view data'),
                 $this->description,
             ),
+            'feature' => [
+                'name' => (string)$this->feature,
+                'description' => $this->feature->description(),
+            ],
             'history' => $this->history,
             'id' => $this->id,
             'moment_of_balance' => $this->moment_of_balance,

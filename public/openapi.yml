@@ -4557,6 +4557,12 @@ components:
             A zealous advocate with a heart of gold and a diamond-hard will,
             ready to do what it takes to fix the world. Their balance
             principles are Restraint vs Results.
+          feature:
+            name: The Lodestar
+            description: |
+              There’s only one person you often let past your emotional walls.
+
+              **Name your lodestar:** Phil
           history:
             - |
               What experience of being deceived or manipulated convinced you
@@ -4735,6 +4741,12 @@ components:
           A zealous advocate with a heart of gold and a diamond-hard will,
           ready to do what it takes to fix the world. Their balance
           principles are Restraint vs Results.
+        feature:
+          name: The Lodestar
+          description: |
+            There’s only one person you often let past your emotional walls.
+
+            **Name your lodestar:** Phil
         history:
           - |
             What experience of being deceived or manipulated convinced you
@@ -4797,6 +4809,14 @@ components:
           type: array
         description:
           type: string
+        feature:
+          properties:
+            name:
+              type: string
+            description:
+              format: markdown
+              type: string
+          type: object
         history:
           items:
             type: string
