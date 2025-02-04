@@ -16,6 +16,7 @@ use Modules\Root\ValueObjects\Attribute;
 use Stringable;
 
 use function collect;
+use function is_array;
 use function json_decode;
 
 /**

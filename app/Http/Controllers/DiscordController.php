@@ -24,9 +24,11 @@ use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse
 use function assert;
 use function collect;
 use function count;
+use function is_array;
 use function redirect;
 use function session;
 use function sprintf;
+use function strlen;
 use function view;
 
 /**

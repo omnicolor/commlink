@@ -17,7 +17,9 @@ use function disk_free_space;
 use function disk_total_space;
 use function escapeshellarg;
 use function explode;
+use function in_array;
 use function shell_exec;
+use function sprintf;
 
 use const PHP_EOL;
 

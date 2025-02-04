@@ -10,6 +10,8 @@ use Modules\Subversion\Database\Factories\PartialCharacterFactory;
 use Override;
 use Stringable;
 
+use function count;
+
 /**
  * Representation of a character in character generation.
  * @method static self create(array<mixed, mixed> $attributes)

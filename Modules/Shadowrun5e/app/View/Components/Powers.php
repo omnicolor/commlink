@@ -11,6 +11,7 @@ use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\PartialCharacter;
 
 use function assert;
+use function in_array;
 
 class Powers extends Component
 {

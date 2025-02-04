@@ -21,6 +21,7 @@ use function ceil;
 use function count;
 use function current;
 use function in_array;
+use function is_int;
 use function key;
 use function number_format;
 use function sprintf;

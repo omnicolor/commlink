@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 use function config;
+use function is_array;
 use function sprintf;
 
 class Rsvp extends Roll

@@ -9,6 +9,7 @@ use RuntimeException;
 use Stringable;
 
 use function config;
+use function is_int;
 use function sprintf;
 use function strtolower;
 

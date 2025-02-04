@@ -15,6 +15,7 @@ use Modules\Capers\Database\Factories\CharacterFactory;
 use RuntimeException;
 
 use function array_search;
+use function sprintf;
 
 /**
  * Representation of a Capers character.
