@@ -11,6 +11,7 @@ use Stringable;
 use function array_merge;
 use function array_search;
 use function is_array;
+use function sprintf;
 
 /**
  * Representation of a character currently being built.

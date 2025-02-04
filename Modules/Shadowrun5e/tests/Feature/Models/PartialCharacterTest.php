@@ -10,6 +10,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
+use function sprintf;
+
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
 #[Small]
