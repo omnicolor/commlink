@@ -1,131 +1,77 @@
 @php
 use App\Features\ApiAccess;
-use App\Models\Channel;
-use App\Models\ChatCharacter;
-use App\Models\ChatUser;
 use Laravel\Pennant\Feature;
 @endphp
 <x-app>
-    <x-slot name="title">
-        Settings
-    </x-slot>
+    <x-slot name="title">Settings - API keys</x-slot>
 
-    @if(session('successObj'))
-    <div class="alert alert-success alert-dismissible fade mt-4 show" id="{{ session('successObj')['id'] }}" role="alert">
-        {{ session('successObj')['message'] }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
-
-    @if(session('success'))
-    <div class="alert alert-success mt-4">
-        {{ session('success') }}
-    </div>
-    @endif
-
-    @if ($errors->any())
-    <div class="alert alert-danger alert-dismissible fade mt-4 show" role="alert">
-        There
-        @if (1 === count($errors->all()))
-            was a problem
-        @else
-            were problems
-        @endif
-        with your request:
-        <ul>
-        @foreach ($errors->all() as $message)
-            <li>{!! $message !!}</li>
-        @endforeach
-        </ul>
-    </div>
-    @endif
-
-    @if(session('error'))
-    <div class="alert alert-danger mt-4">
-        {{ session('error') }}
-    </div>
-    @endif
-
-    <div class="row">
+    <div class="row mt-4">
+        <div class="col-lg-1"></div>
         <div class="col">
-            <h1>Settings</h1>
+            <h1>Settings - API keys</h1>
         </div>
+        <div class="col-lg-1"></div>
     </div>
 
     <div class="row mt-4">
+        <div class="col-lg-1"></div>
         <div class="col">
-            <div class="accordion mt-4" id="settings-accordion">
-                @if (Feature::active(ApiAccess::class))
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="api-keys-heading">
-                        <button aria-controls="api-keys-collapse"
-                            aria-expanded="true" class="accordion-button"
-                            data-bs-target="#api-keys-collapse"
-                            data-bs-toggle="collapse" type="button">
-                        API keys
-                    </h2>
-                    <div aria-labelledby="api-keys-heading"
-                        class="accordion-collapse collapse"
-                        data-bs-parent="#settings-accordion"
-                        id="api-keys-collapse">
-                        <div class="accordion-body" id="api-keys-table">
-                            <p>
-                                An API token is used to interact directly with
-                                <a href="/openapi/index.html">{{ config('app.name') }}'s API</a>.
-                                If you're not a software developer or don't know
-                                what an API is, this probably isn't something
-                                that you need to use. In fact, unless you are
-                                building an integration with
-                                {{ config('app.name') }}, this is really
-                                something you should avoid playing with.
-                            </p>
+            <div id="api-keys-table">
+                <p>
+                    An API token is used to interact directly with
+                    <a href="/openapi/index.html">{{ config('app.name') }}'s API</a>.
+                    If you're not a software developer or don't know what an
+                    API is, this probably isn't something that you need to use.
+                    In fact, unless you are building an integration with
+                    {{ config('app.name') }}, this is really something you
+                    should avoid playing with.
+                </p>
 
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Expires at</th>
-                                        <th scope="col">Last used</th>
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @foreach ($user->tokens as $token)
-                                    <tr>
-                                        <td>{{ $token->name }}</td>
-                                        <td>{{ $token->expires_at?->format('Y-m-d') }}</td>
-                                        <td>{{ $token->last_used_at }}</td>
-                                        <td><button
-                                            class="btn btn-outline-danger btn-sm"
-                                            data-id="{{ $token->id }}"
-                                            type="button">
-                                            <i class="bi bi-trash3"></i>
-                                        </button></td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="4">
-                                            <button class="btn btn-primary"
-                                                data-bs-target="#create-token"
-                                                data-bs-toggle="modal" type="button">
-                                                Create a token
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                @endif
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Expires at</th>
+                            <th scope="col">Last used</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($user->tokens as $token)
+                        <tr>
+                            <td>{{ $token->name }}</td>
+                            <td>{{ $token->expires_at?->format('Y-m-d') }}</td>
+                            <td>{{ $token->last_used_at }}</td>
+                            <td><button class="btn btn-outline-danger btn-sm"
+                                data-id="{{ $token->id }}"
+                                type="button">
+                                <i class="bi bi-trash3"></i>
+                            </button></td>
+                        </tr>
+                    @endforeach
+                        <tr @class(['d-none' => 0 !== count($user->tokens)]) id="no-tokens">
+                            <td colspan="4">You don't have any API keys!</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4">
+                                <button class="btn btn-primary"
+                                    data-bs-target="#create-token"
+                                    data-bs-toggle="modal" type="button">
+                                    Create a token
+                                </button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
         </div>
+        <div class="col-lg-1"></div>
     </div>
 
-    <div aria-hidden="true" aria-labelledby="create-token-title" class="modal fade"
-        id="create-token" tabindex="-1">
+    <div aria-hidden="true" aria-labelledby="create-token-title"
+        class="modal fade" id="create-token" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="api-token-form">
@@ -249,19 +195,6 @@ use Laravel\Pennant\Feature;
             }
         });
 
-        function updateAlert(id, message) {
-            let el = $(id);
-            if (el.length) {
-                el.html(message);
-            } else {
-                $('main').prepend(
-                    '<div class="alert alert-success alert-dismissible '
-                    + 'fade mt-4 show" id="' + id + '" role="alert">'
-                    + message + '</div>'
-                );
-            }
-        }
-
         $('#token-name').on('keyup', function (e) {
             e = $(e.target);
             $('#token-submit').prop('disabled', '' === e.val().trim());
@@ -304,6 +237,7 @@ use Laravel\Pennant\Feature;
                         '<i class="bi bi-trash3"></i></button></td>' +
                         '</tr>'
                     );
+                    $('#no-tokens').addClass('d-none');
                 })
                 .fail(function (data) { window.console.log(data); });
         });
@@ -321,7 +255,12 @@ use Laravel\Pennant\Feature;
                 url: '/api/users/' + {{ $user->id }} + '/token/' + token
             };
             $.ajax(settings)
-                .done(function () { e.parents('TR').remove(); })
+                .done(function () {
+                    e.parents('TR').remove();
+                    if (3 === $('tr').length) {
+                        $('#no-tokens').removeClass('d-none');
+                    }
+                })
                 .fail(function (data) { window.console.log(data); });
         });
     </script>

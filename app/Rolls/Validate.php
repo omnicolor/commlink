@@ -34,10 +34,10 @@ class Validate extends Roll
         if (self::EXPECTED_ARGUMENTS !== count($arguments)) {
             $this->error = sprintf(
                 'To link your Commlink user, go to the settings page '
-                    . '(%s/settings) and copy the command listed there for '
-                    . 'this server. If the server isn\'t listed, follow the '
-                    . 'instructions there to add it. You\'ll need to know your '
-                    . 'server ID (`%s`) and your user ID (`%s`).',
+                    . '(%s/settings/chat-users) and copy the command listed '
+                    . 'there for this server. If the server isn\'t listed, '
+                    . 'follow the instructions there to add it. You\'ll need '
+                    . 'to know your server ID (`%s`) and your user ID (`%s`).',
                 config('app.url'),
                 $channel->server_id,
                 $channel->user,
@@ -75,10 +75,11 @@ class Validate extends Roll
 
         $this->error = sprintf(
             'We couldn\'t find a %s registration for this server and your '
-                . 'user. Go to the settings page (%s/settings) and copy the '
-                . 'command listed there for this server. If the server isn\'t '
-                . 'listed, follow the instructions there to add it. You\'ll '
-                . 'need to know your server ID (`%s`) and your user ID (`%s`).',
+                . 'user. Go to the settings page (%s/settings/chat-users) and '
+                . 'copy the command listed there for this server. If the '
+                . 'server isn\'t listed, follow the instructions there to add '
+                . 'it. You\'ll need to know your server ID (`%s`) and your '
+                . 'user ID (`%s`).',
             config('app.name'),
             config('app.url'),
             $channel->server_id,

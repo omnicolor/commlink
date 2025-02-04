@@ -130,11 +130,11 @@ class Help extends Roll
             'color' => TextAttachment::COLOR_DANGER,
             'discordText' => sprintf(
                 'Your Discord user has not been linked with a %s user. Go to '
-                    . 'the settings page (%s/settings) and copy the command '
-                    . 'listed there for this server. If the server isn\'t '
-                    . 'listed, follow the instructions there to add it. '
-                    . 'You\'ll need to know your server ID (`%s`) and your '
-                    . 'user ID (`%s`).',
+                    . 'the settings page (%s/settings/chat-users) and copy '
+                    . 'the command listed there for this server. If the '
+                    . 'server isn\'t listed, follow the instructions there to '
+                    . 'add it. You\'ll need to know your server ID (`%s`) and '
+                    . 'your user ID (`%s`).',
                 config('app.name'),
                 config('app.url'),
                 $this->channel->server_id,
@@ -142,11 +142,11 @@ class Help extends Roll
             ),
             'ircText' => sprintf(
                 'Your IRC user has not been linked with a %s user. Go to '
-                    . 'the settings page (%s/settings) and copy the command '
-                    . 'listed there for this server. If the server isn\'t '
-                    . 'listed, follow the instructions there to add it. '
-                    . 'You\'ll need to know your server ID (%s) and your '
-                    . 'user ID (%s).',
+                    . 'the settings page (%s/settings/chat-users) and copy '
+                    . 'the command listed there for this server. If the '
+                    . 'server isn\'t listed, follow the instructions there to '
+                    . 'add it. You\'ll need to know your server ID (%s) and '
+                    . 'your user ID (%s).',
                 config('app.name'),
                 config('app.url'),
                 $this->channel->server_id,
@@ -154,10 +154,10 @@ class Help extends Roll
             ),
             'slackText' => sprintf(
                 'Your Slack user has not been linked with a %s user. '
-                    . 'Go to the <%s/settings|settings page> and copy the '
-                    . 'command listed there for this server. If the server '
-                    . 'isn\'t listed, follow the instructions there to add '
-                    . 'it. You\'ll need to know your server ID (`%s`) and '
+                    . 'Go to the <%s/settings/chat-users|settings page> and '
+                    . 'copy the command listed there for this server. If the '
+                    . 'server isn\'t listed, follow the instructions there to '
+                    . 'add it. You\'ll need to know your server ID (`%s`) and '
                     . 'your user ID (`%s`).',
                 config('app.name'),
                 config('app.url'),

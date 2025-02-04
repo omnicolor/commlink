@@ -101,9 +101,9 @@ final class RegisterTest extends TestCase
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(sprintf(
-            'You must have already created an account on %s (%s/settings) and '
-                . 'linked it to this server before you can register a channel '
-                . 'to a specific system.',
+            'You must have already created an account on %s '
+                . '(%s/settings/chat-users) and linked it to this server '
+                . 'before you can register a channel to a specific system.',
             config('app.name'),
             config('app.url'),
         ));
