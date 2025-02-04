@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Avatar\Models;
 
+use Modules\Avatar\ValueObjects\AttributeModifier;
 use RuntimeException;
 use Stringable;
 
@@ -25,24 +26,20 @@ class Playbook implements Stringable
     public string $balance_right;
     /** @var list<string> */
     public array $connections;
-    /** @var int<-1, 1> */
-    public int $creativity;
+    public AttributeModifier $creativity;
     /** @var list<string> */
     public array $demeanor_options;
     public string $description;
-    /** @var int<-1, 1> */
-    public int $focus;
-    /** @var int<-1, 1> */
-    public int $harmony;
+    public AttributeModifier $focus;
+    public AttributeModifier $harmony;
     /** @var list<string> */
     public array $history;
     public string $moment_of_balance;
     /** @var non-empty-list<string> */
     public array $move_ids;
     public string $name;
-    /** @var int<-1, 1> */
-    public int $passion;
     public int $page;
+    public AttributeModifier $passion;
     public string $ruleset;
 
     /** @var ?array<string, mixed> */
@@ -65,17 +62,17 @@ class Playbook implements Stringable
         $this->balance_left = $playbook['balance_left'];
         $this->balance_right = $playbook['balance_right'];
         $this->connections = $playbook['connections'];
-        $this->creativity = $playbook['creativity'];
+        $this->creativity = new AttributeModifier($playbook['creativity']);
         $this->demeanor_options = $playbook['demeanor_options'];
         $this->description = $playbook['description'];
-        $this->focus = $playbook['focus'];
-        $this->harmony = $playbook['harmony'];
+        $this->focus = new AttributeModifier($playbook['focus']);
+        $this->harmony = new AttributeModifier($playbook['harmony']);
         $this->history = $playbook['history'];
         $this->moment_of_balance = $playbook['moment_of_balance'];
         $this->move_ids = $playbook['moves'];
         $this->name = $playbook['name'];
         $this->page = $playbook['page'];
-        $this->passion = $playbook['passion'];
+        $this->passion = new AttributeModifier($playbook['passion']);
         $this->ruleset = $playbook['ruleset'];
     }
 

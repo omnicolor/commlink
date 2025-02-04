@@ -139,7 +139,7 @@ class Character extends BaseCharacter implements Stringable
     {
         return Attribute::make(
             get: function (): int {
-                return $this->playbook->creativity
+                return $this->playbook->creativity->value
                     + ($this->attributes['creativity'] ?? 0);
             },
             set: function (int $creativity): int {
@@ -162,7 +162,7 @@ class Character extends BaseCharacter implements Stringable
     {
         return Attribute::make(
             get: function (): int {
-                return $this->playbook->focus
+                return $this->playbook->focus->value
                     + ($this->attributes['focus'] ?? 0);
             },
             set: function (int $focus): int {
@@ -176,7 +176,7 @@ class Character extends BaseCharacter implements Stringable
     {
         return Attribute::make(
             get: function (): int {
-                return $this->playbook->harmony
+                return $this->playbook->harmony->value
                     + ($this->attributes['harmony'] ?? 0);
             },
             set: function (int $harmony): int {
@@ -211,7 +211,7 @@ class Character extends BaseCharacter implements Stringable
     {
         return Attribute::make(
             get: function (): int {
-                return $this->playbook->passion
+                return $this->playbook->passion->value
                     + ($this->attributes['passion'] ?? 0);
             },
             set: function (int $passion): int {
