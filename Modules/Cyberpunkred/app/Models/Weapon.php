@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Cyberpunkred\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -101,6 +102,7 @@ abstract class Weapon implements Stringable
      */
     public static ?array $meleeWeapons = null;
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -158,11 +160,11 @@ abstract class Weapon implements Stringable
         }
 
         $id = strtolower((string)$options['id']);
-        if (array_key_exists($id, self::$rangedWeapons)) {
+        if (array_key_exists($id, self::$rangedWeapons ?? [])) {
             return new RangedWeapon($options);
         }
 
-        if (array_key_exists($id, self::$meleeWeapons)) {
+        if (array_key_exists($id, self::$meleeWeapons ?? [])) {
             return new MeleeWeapon($options);
         }
         throw new RuntimeException(sprintf('Weapon ID "%s" is invalid', $id));
@@ -177,12 +179,12 @@ abstract class Weapon implements Stringable
         self::$meleeWeapons = require $filename;
 
         $lowerName = strtolower($name);
-        foreach (self::$rangedWeapons as $id => $weapon) {
+        foreach (self::$rangedWeapons ?? [] as $id => $weapon) {
             if ($lowerName === strtolower($weapon['type'])) {
                 return new RangedWeapon(['id' => $id]);
             }
         }
-        foreach (self::$meleeWeapons as $id => $weapon) {
+        foreach (self::$meleeWeapons ?? [] as $id => $weapon) {
             if ($lowerName === strtolower($weapon['type'])) {
                 return new MeleeWeapon(['id' => $id]);
             }
@@ -205,10 +207,10 @@ abstract class Weapon implements Stringable
         $weapons = [];
         /** @var string $id */
         /** @var string $id */
-        foreach (array_keys(self::$meleeWeapons) as $id) {
+        foreach (array_keys(self::$meleeWeapons ?? []) as $id) {
             $weapons[] = new MeleeWeapon(['id' => $id]);
         }
-        foreach (array_keys(self::$rangedWeapons) as $id) {
+        foreach (array_keys(self::$rangedWeapons ?? []) as $id) {
             $weapons[] = new RangedWeapon(['id' => $id]);
         }
         return $weapons;

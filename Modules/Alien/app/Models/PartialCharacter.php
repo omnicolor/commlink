@@ -11,6 +11,7 @@ use Modules\Alien\Database\Factories\PartialCharacterFactory;
 use Stringable;
 
 use function array_key_exists;
+use function count;
 use function sprintf;
 
 /**

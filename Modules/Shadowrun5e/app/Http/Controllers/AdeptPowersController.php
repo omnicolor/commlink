@@ -10,6 +10,8 @@ use Illuminate\Http\Response;
 use function array_key_exists;
 use function array_keys;
 use function array_values;
+use function assert;
+use function count;
 use function date;
 use function json_encode;
 use function sha1;

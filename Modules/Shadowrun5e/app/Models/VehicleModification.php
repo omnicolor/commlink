@@ -9,6 +9,7 @@ use Stringable;
 
 use function assert;
 use function config;
+use function is_array;
 use function sprintf;
 use function strtolower;
 

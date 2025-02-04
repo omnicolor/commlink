@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Alien\Models\Skill;
 
+use function count;
+
 /**
  * @mixin Skill
  */

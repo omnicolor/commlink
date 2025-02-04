@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -81,6 +82,7 @@ class AdeptPower implements Stringable
         $this->ruleset = $power['ruleset'] ?? 'core';
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

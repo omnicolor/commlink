@@ -46,6 +46,6 @@ class MeleeWeapon extends Weapon implements Stringable
             }
             $this->quality = $options['quality'];
         }
-        $this->name = $options['name'] ?? $this->type;
+        $this->name = (string)($options['name'] ?? $this->type);
     }
 }

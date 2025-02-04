@@ -10,6 +10,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+use function assert;
+
 class EmailVerificationNotificationController extends Controller
 {
     /**

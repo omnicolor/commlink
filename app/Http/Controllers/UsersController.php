@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateTokenRequest;
+use App\Http\Requests\DeleteChatUserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\ChatUser;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use DirectoryIterator;
@@ -18,6 +20,13 @@ use Laravel\Pennant\Feature;
 use Laravel\Sanctum\PersonalAccessToken as Token;
 use Spatie\Permission\Models\Role;
 use Stringable;
+
+use function abort_if;
+use function app_path;
+use function array_key_exists;
+use function explode;
+use function ksort;
+use function mime_content_type;
 
 class UsersController extends Controller
 {
@@ -48,7 +57,7 @@ class UsersController extends Controller
         Request $request,
     ): JsonResponse {
         $token = Token::findOrFail($token_id);
-        /** @var User Only authenticated requests can make it here. */
+        /** @var User $request_user Only authenticated requests can make it here. */
         $request_user = $request->user();
         abort_if(
             User::class !== $token->tokenable_type
@@ -166,5 +175,14 @@ class UsersController extends Controller
                 'users' => User::all(),
             ]
         );
+    }
+
+    public function deleteChatUser(
+        DeleteChatUserRequest $request,
+        User $user,
+        ChatUser $chat_user
+    ): JsonResponse {
+        $chat_user->delete();
+        return new JsonResponse('', JsonResponse::HTTP_NO_CONTENT);
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Expanse\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -59,6 +60,7 @@ class ShipWeapon implements Stringable
         $this->ruleset = $weapon['ruleset'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -75,7 +77,7 @@ class ShipWeapon implements Stringable
 
         $weapons = [];
         /** @var string $id */
-        foreach (array_keys(self::$weapons) as $id) {
+        foreach (array_keys(self::$weapons ?? []) as $id) {
             $weapons[$id] = new self($id, 'fore');
         }
         return $weapons;

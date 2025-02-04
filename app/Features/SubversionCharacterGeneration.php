@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Features;
 
+use Override;
 use Stringable;
 
 class SubversionCharacterGeneration implements Stringable
@@ -13,6 +14,7 @@ class SubversionCharacterGeneration implements Stringable
         return false;
     }
 
+    #[Override]
     public function __toString(): string
     {
         return 'Subversion Character Generation';

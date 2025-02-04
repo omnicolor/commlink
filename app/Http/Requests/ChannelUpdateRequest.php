@@ -24,7 +24,10 @@ class ChannelUpdateRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     * @return array<string, array<int, string|callable>>
+     * @return array{
+     *     auto: array<int, callable|string>,
+     *     webhook: array<int, string>
+     * }
      */
     public function rules(): array
     {

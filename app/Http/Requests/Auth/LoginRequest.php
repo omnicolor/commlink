@@ -12,12 +12,18 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 use function ceil;
+use function event;
 
 class LoginRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
-     * @return array<string, array<int, string>>
+     * @return array{
+     *     email: array<int, string>,
+     *     invitation: array<int, string>,
+     *     password: array<int, string>,
+     *     token: array<int, string>
+     * }
      */
     public function rules(): array
     {

@@ -17,6 +17,7 @@ use Modules\Stillfleet\Models\PartialCharacter;
 use Modules\Stillfleet\Models\Role;
 
 use function abort;
+use function assert;
 use function count;
 use function route;
 use function view;

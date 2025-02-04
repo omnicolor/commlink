@@ -26,6 +26,8 @@ use function explode;
 use function file_exists;
 use function file_put_contents;
 use function iconv;
+use function in_array;
+use function is_array;
 use function is_dir;
 use function ksort;
 use function min;

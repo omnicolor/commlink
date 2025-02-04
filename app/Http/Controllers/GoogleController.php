@@ -21,14 +21,14 @@ class GoogleController extends Controller
     public function handleCallback(): RedirectResponse
     {
         /** @var SocialiteUser */
-        $socialUser = Socialite::driver('google')->user();
-        $user = User::where('email', $socialUser->email)->first();
+        $social_user = Socialite::driver('google')->user();
+        $user = User::where('email', $social_user->email)->first();
 
         if (null === $user) {
             // The user wasn't found, create a new one.
             $user = User::create([
-                'email' => $socialUser->email,
-                'name' => $socialUser->name,
+                'email' => $social_user->email,
+                'name' => $social_user->name,
                 'password' => 'reset me',
             ]);
         }

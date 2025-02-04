@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Capers\Models;
 
 use App\Models\Card;
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -52,6 +53,7 @@ class Virtue implements Stringable
         $this->name = $virtue['name'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -68,7 +70,7 @@ class Virtue implements Stringable
 
         $virtues = [];
         /** @var string $id */
-        foreach (array_keys(self::$virtues) as $id) {
+        foreach (array_keys(self::$virtues ?? []) as $id) {
             $virtues[$id] = new self($id);
         }
         return $virtues;
@@ -79,7 +81,7 @@ class Virtue implements Stringable
         $filename = config('capers.data_path') . 'virtues.php';
         self::$virtues ??= require $filename;
 
-        foreach (self::$virtues as $id => $virtue) {
+        foreach (self::$virtues ?? [] as $id => $virtue) {
             if ($virtue['card'] === $card->value) {
                 return new self($id);
             }

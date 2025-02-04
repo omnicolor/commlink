@@ -67,7 +67,7 @@ class RelationLevel implements Stringable
 
         $levels = [];
         /** @var string $level */
-        foreach (array_keys(self::$levels) as $level) {
+        foreach (array_keys(self::$levels ?? []) as $level) {
             $levels[] = new self($level);
         }
         return $levels;

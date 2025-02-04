@@ -17,6 +17,7 @@ use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function sha1;
+use function sprintf;
 
 #[Group('slack')]
 #[Medium]

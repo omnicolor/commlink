@@ -14,7 +14,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class EventResponseResource extends JsonResource
 {
     /**
-     * @return array<string, int|string>
+     * @return array{
+     *     user_name: string,
+     *     user_id: int,
+     *     response: string
+     * }
      */
     public function toArray(Request $request): array
     {

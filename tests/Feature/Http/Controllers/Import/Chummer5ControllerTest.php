@@ -10,6 +10,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function dirname;
+
 use const DIRECTORY_SEPARATOR;
 
 #[Group('chummer5')]

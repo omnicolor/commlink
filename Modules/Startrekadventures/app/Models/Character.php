@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Log;
 use Modules\Startrekadventures\Database\Factories\CharacterFactory;
 use RuntimeException;
 
+use function is_array;
+
 /**
  * @property string $assignment
  * @property-read Disciplines $disciplines

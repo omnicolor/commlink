@@ -7,6 +7,10 @@ namespace App\Http\Resources;
 use App\Models\Campaign;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Override;
+
+use function route;
+use function sprintf;
 
 /**
  * @mixin Campaign
@@ -14,8 +18,30 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class CampaignResource extends JsonResource
 {
     /**
-     * @return array<string, mixed>
+     * @return array{
+     *     characters: array<int, array{
+     *         id: string,
+     *         name: string,
+     *         owner: array{id: int, name: string},
+     *         links: array{
+     *             self: string
+     *         }
+     *     }>,
+     *     description: null|string,
+     *     id: int,
+     *     gm: array{id: int, name: string}|null,
+     *     name: string,
+     *     options: array<string, mixed>,
+     *     players: array<int, array{id: int, name: string, status: string}>,
+     *     registered_by: array{id: int|null, name: null|string},
+     *     system: string,
+     *     links: array{
+     *         collection: string,
+     *         self: string
+     *     }
+     * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         $gm = null;
@@ -51,10 +77,12 @@ class CampaignResource extends JsonResource
                     'name' => $character->user()->name,
                 ],
                 'links' => [
-                    'self' => sprintf(
-                        '/characters/%s/%s',
-                        $character->system,
-                        $character->id,
+                    'self' => route(
+                        sprintf(
+                            '%s.characters.show',
+                            $character->system,
+                        ),
+                        $character,
                     ),
                 ],
             ];
@@ -74,9 +102,8 @@ class CampaignResource extends JsonResource
             ],
             'system' => $this->system,
             'links' => [
-                'root' => '/',
-                'collection' => '/campaigns',
-                'self' => sprintf('/campaigns/%d', $this->id),
+                'collection' => route('campaigns.index'),
+                'self' => route('campaigns.show', $this),
             ],
         ];
     }

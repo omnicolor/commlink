@@ -9,10 +9,12 @@ use Illuminate\Http\Response;
 
 use function array_key_exists;
 use function array_values;
+use function assert;
 use function date;
 use function json_encode;
 use function sha1;
 use function sha1_file;
+use function sprintf;
 use function stat;
 use function strtolower;
 

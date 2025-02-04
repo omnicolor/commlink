@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Modules\Subversion\Models;
 
+use Override;
 use RuntimeException;
+use Stringable;
 
 use function config;
 use function sprintf;
 
-class Gear
+class Gear implements Stringable
 {
     public string $category;
     public string $description;
@@ -45,6 +47,7 @@ class Gear
         $this->security_rating = $gear['security'] ?? null;
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -59,7 +62,7 @@ class Gear
         self::$gear ??= require $filename;
 
         $gear = [];
-        foreach (self::$gear as $item) {
+        foreach (self::$gear ?? [] as $item) {
             $gear[] = new Gear($item['id']);
         }
         return $gear;

@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Subversion\Database\Factories\CharacterFactory;
+use Override;
+use Stringable;
 
 /**
  * @property string $_id
@@ -54,7 +56,7 @@ use Modules\Subversion\Database\Factories\CharacterFactory;
  * @property int $will
  * @property int $wit
  */
-class Character extends BaseCharacter
+class Character extends BaseCharacter implements Stringable
 {
     use HasFactory;
 
@@ -104,6 +106,7 @@ class Character extends BaseCharacter
         'wit',
     ];
 
+    #[Override]
     public function __toString(): string
     {
         return $this->attributes['name'] ?? 'Unnamed character';
@@ -336,6 +339,7 @@ class Character extends BaseCharacter
         );
     }
 
+    #[Override]
     protected static function newFactory(): Factory
     {
         return CharacterFactory::new();

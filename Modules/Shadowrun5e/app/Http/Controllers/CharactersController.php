@@ -38,7 +38,12 @@ use Rs\Json\Patch\InvalidPatchDocumentJsonException;
 use Rs\Json\Pointer\InvalidPointerException;
 use RuntimeException;
 
+use function array_key_exists;
 use function array_keys;
+use function array_slice;
+use function assert;
+use function count;
+use function in_array;
 use function sprintf;
 
 /**

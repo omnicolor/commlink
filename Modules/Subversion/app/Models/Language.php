@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Modules\Subversion\Models;
 
+use Override;
 use RuntimeException;
+use Stringable;
 
+use function config;
 use function sprintf;
 
-class Language
+class Language implements Stringable
 {
     public string $description;
     public string $name;
@@ -36,6 +39,7 @@ class Language
         $this->ruleset = $language['ruleset'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -50,7 +54,7 @@ class Language
         self::$languages ??= require $filename;
 
         $languages = [];
-        foreach (self::$languages as $language) {
+        foreach (self::$languages ?? [] as $language) {
             $languages[] = new Language($language['id']);
         }
         return $languages;

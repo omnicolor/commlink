@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Expanse\Models;
 
 use Illuminate\Support\Facades\Log;
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -117,6 +118,7 @@ class Ship implements Stringable
         }
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -133,7 +135,7 @@ class Ship implements Stringable
 
         $ships = [];
         /** @var string $id */
-        foreach (array_keys(self::$ships) as $id) {
+        foreach (array_keys(self::$ships ?? []) as $id) {
             $ships[$id] = new Ship($id);
         }
         return $ships;

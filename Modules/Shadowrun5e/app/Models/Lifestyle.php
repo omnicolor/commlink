@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
-use function array_key_exists;
 use function config;
 use function sprintf;
 use function strtolower;
@@ -84,7 +84,7 @@ class Lifestyle implements Stringable
         self::$lifestyles ??= require $filename;
 
         $id = strtolower($id);
-        if (!array_key_exists($id, self::$lifestyles)) {
+        if (!isset(self::$lifestyles[$id])) {
             throw new RuntimeException(
                 sprintf('Lifestyle ID "%s" is invalid', urlencode($id))
             );
@@ -100,6 +100,7 @@ class Lifestyle implements Stringable
         $this->ruleset = $lifestyle['ruleset'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -115,7 +116,7 @@ class Lifestyle implements Stringable
 
         $lifestyles = [];
         /** @var string $id */
-        foreach (array_keys(self::$lifestyles) as $id) {
+        foreach (array_keys(self::$lifestyles ?? []) as $id) {
             $lifestyles[] = new self($id);
         }
         return $lifestyles;

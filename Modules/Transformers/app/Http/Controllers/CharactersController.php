@@ -19,6 +19,8 @@ use Modules\Transformers\Models\Character;
 use Modules\Transformers\Models\PartialCharacter;
 use Modules\Transformers\Models\Programming;
 
+use function count;
+
 class CharactersController extends Controller
 {
     protected const SESSION_KEY = 'transformers-partial';

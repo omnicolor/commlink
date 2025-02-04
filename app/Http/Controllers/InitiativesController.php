@@ -12,6 +12,7 @@ use Facades\App\Services\DiceService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+use function abort_if;
 use function now;
 
 class InitiativesController extends Controller
