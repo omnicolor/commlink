@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Avatar\Models;
 
+use Modules\Avatar\Features\Feature;
 use Modules\Avatar\ValueObjects\AttributeModifier;
 use RuntimeException;
 use Stringable;
 
+use function assert;
 use function config;
 use function debug_backtrace;
 use function sprintf;
@@ -30,6 +32,7 @@ class Playbook implements Stringable
     /** @var list<string> */
     public array $demeanor_options;
     public string $description;
+    public Feature $feature;
     public AttributeModifier $focus;
     public AttributeModifier $harmony;
     /** @var list<string> */
@@ -65,6 +68,9 @@ class Playbook implements Stringable
         $this->creativity = new AttributeModifier($playbook['creativity']);
         $this->demeanor_options = $playbook['demeanor_options'];
         $this->description = $playbook['description'];
+        $feature = new $playbook['feature']([]);
+        assert($feature instanceof Feature);
+        $this->feature = $feature;
         $this->focus = new AttributeModifier($playbook['focus']);
         $this->harmony = new AttributeModifier($playbook['harmony']);
         $this->history = $playbook['history'];

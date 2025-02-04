@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Avatar\Tests\Feature\Models;
 
 use ErrorException;
+use Modules\Avatar\Features\TheLodestar;
 use Modules\Avatar\Models\Playbook;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
@@ -44,5 +45,11 @@ final class PlaybookTest extends TestCase
         self::expectException(ErrorException::class);
         // @phpstan-ignore property.notFound
         self::assertNull($playbook->unknown);
+    }
+
+    public function testFeature(): void
+    {
+        $playbook = new Playbook('the-adamant');
+        self::assertInstanceOf(TheLodestar::class, $playbook->feature);
     }
 }

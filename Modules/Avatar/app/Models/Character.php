@@ -9,11 +9,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute as EloquentAttribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Avatar\Casts\AttributeCast;
 use Modules\Avatar\Database\Factories\CharacterFactory;
 use Modules\Avatar\ValueObjects\Attribute;
 use Override;
 use Stringable;
+
+use function get_class;
 
 /**
  * @property string $appearance
@@ -34,7 +35,10 @@ use Stringable;
  * @property string $name
  * @property Attribute $passion
  * @property-read Playbook $playbook
+ * @property array<string, string> $playbook_options
  * @property-write Playbook|string $playbook
+ * @property-read Training $training
+ * @property-write Training|string $training
  */
 class Character extends BaseCharacter implements Stringable
 {
@@ -66,6 +70,7 @@ class Character extends BaseCharacter implements Stringable
         'name',
         'passion',
         'playbook',
+        'playbook_options',
         //'statuses',
         //'techniques',
         'training',
@@ -229,7 +234,12 @@ class Character extends BaseCharacter implements Stringable
     {
         return EloquentAttribute::make(
             get: function (): Playbook {
-                return new Playbook($this->attributes['playbook']);
+                $playbook = new Playbook($this->attributes['playbook']);
+                if (isset($this->attributes['playbook_options'])) {
+                    $class = get_class($playbook->feature);
+                    $playbook->feature = new $class($this->attributes['playbook_options']);
+                }
+                return $playbook;
             },
             set: function (string | Playbook $playbook): string {
                 if ($playbook instanceof Playbook) {

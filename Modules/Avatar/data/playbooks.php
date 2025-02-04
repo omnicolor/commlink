@@ -2,6 +2,30 @@
 
 declare(strict_types=1);
 
+use Modules\Avatar\Features\TheLodestar;
+
+/**
+ * @return array<int, array{
+ *   creativity: int,
+ *   focus: int,
+ *   harmony: int,
+ *   passion: int,
+ *   advanced_technique: string,
+ *   balance_left: string,
+ *   balance_right: string,
+ *   clearing_conditions: array<string, string>,
+ *   connections: array<int, string>,
+ *   demeanor_options: array<int, string>,
+ *   description: string,
+ *   feature: class-string,
+ *   history: array<int, string>,
+ *   moment_of_balance: string,
+ *   moves: array<int, string>,
+ *   name: string,
+ *   page: int,
+ *   ruleset: string
+ * }>
+ */
 return [
     /*
     '' => [
@@ -26,6 +50,7 @@ return [
             '',
         ],
         'description' => '',
+        'feature' => Feature::class,
         'history' => [
             '',
         ],
@@ -70,6 +95,7 @@ return [
             'standoffish',
         ],
         'description' => 'A zealous advocate with a heart of gold and a diamond-hard will, ready to do what it takes to fix the world. Their balance principles are Restraint vs Results.',
+        'feature' => TheLodestar::class,
         'history' => [
             'What experience of being deceived or manipulated convinced you to steel yourself against being swayed by other people?',
             'Who was your first lodestar, and why were they an exception? Why aren’t they your lodestar anymore?',

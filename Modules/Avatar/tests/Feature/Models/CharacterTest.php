@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Modules\Avatar\Tests\Feature\Models;
 
 use DomainException;
+use Modules\Avatar\Features\TheLodestar;
 use Modules\Avatar\Models\Background;
 use Modules\Avatar\Models\Character;
 use Modules\Avatar\Models\Condition;
 use Modules\Avatar\Models\Move;
 use Modules\Avatar\Models\Playbook;
+use Modules\Avatar\Models\Training;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
@@ -94,6 +96,22 @@ final class CharacterTest extends TestCase
     {
         $character = new Character(['playbook' => 'the-adamant']);
         self::assertSame('The Adamant', (string)$character->playbook);
+        $feature = $character->playbook->feature;
+        self::assertInstanceOf(TheLodestar::class, $feature);
+        self::assertSame('Unknown', $feature->lodestar);
+    }
+
+    public function testPlaybookWithConstructor(): void
+    {
+        $character = new Character([
+            'playbook' => 'the-adamant',
+            'playbook_options' => [
+                'lodestar' => 'Phil',
+            ],
+        ]);
+        $feature = $character->playbook->feature;
+        self::assertInstanceOf(TheLodestar::class, $feature);
+        self::assertSame('Phil', $feature->lodestar);
     }
 
     public function testSetPlaybook(): void
@@ -150,6 +168,31 @@ final class CharacterTest extends TestCase
             new Move('this-was-a-victory'),
         ];
         self::assertCount(2, $character->moves);
+    }
+
+    public function testTrainingNotSet(): void
+    {
+        self::assertNull((new Character())->training);
+    }
+
+    public function testTrainingSetInConstructor(): void
+    {
+        $character = new Character(['training' => 'Airbending']);
+        self::assertSame(Training::Airbending, $character->training);
+    }
+
+    public function testSetTrainingString(): void
+    {
+        $character = new Character();
+        $character->training = 'Earthbending';
+        self::assertSame(Training::Earthbending, $character->training);
+    }
+
+    public function testSetTrainingEnum(): void
+    {
+        $character = new Character();
+        $character->training = Training::Firebending;
+        self::assertSame(Training::Firebending, $character->training);
     }
 
     /**

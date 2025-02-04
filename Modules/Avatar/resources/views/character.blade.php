@@ -33,6 +33,7 @@
             }
         </style>
     </x-slot>
+
     <x-slot name="navbar">
         <li class="nav-item">
             <a class="nav-link" href="{{ route('dashboard') }}">Home</a>
@@ -48,12 +49,7 @@
             <strong>Background</strong> {{ $character->background }}<br>
             <strong>Demeanor</strong>
             <div class="row">
-            @php
-                $demeanors = collect($character->demeanors ?? []);
-                $options = collect($character->playbook->demeanor_options);
-                $extra_demeanors = $demeanors->diff($options);
-            @endphp
-            @foreach ($options as $demeanor)
+            @foreach ($demeanor_options as $demeanor)
                 <div class="col">
                     <div class="form-check">
                         <input
@@ -301,11 +297,12 @@
         </div>
     </div>
 
-    @php
-    $moves = collect($character->moves)->pluck('id');
-    @endphp
     <div class="row">
-        <div class="col"></div>
+        <div class="col">
+            <h3>{{ $character->playbook->feature }}</h3>
+
+            {!! $feature_description !!}
+        </div>
         <div class="col">
             <h3>Moves</h3>
             @foreach ($character->playbook->moves as $move)
