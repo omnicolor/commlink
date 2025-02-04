@@ -13,7 +13,10 @@ use Exception;
 use Modules\Cyberpunkred\Models\TarotCard;
 use Modules\Cyberpunkred\Models\TarotDeck;
 
+use function assert;
+use function count;
 use function explode;
+use function sprintf;
 
 use const PHP_EOL;
 

@@ -8,6 +8,8 @@ use Override;
 use RuntimeException;
 use Stringable;
 
+use function sprintf;
+
 class Weapon implements Stringable
 {
     public const string RANGE_ENGAGED = 'engaged';

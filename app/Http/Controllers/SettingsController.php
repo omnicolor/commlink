@@ -23,17 +23,24 @@ class SettingsController extends Controller
 {
     use InteractsWithDiscord;
 
-    /**
-     * Show the settings page.
-     */
-    public function show(): View
+    public function apiKeys(): View
+    {
+        return view('settings.api-keys', ['user' => Auth::user()]);
+    }
+
+    public function channels(): View
+    {
+        return view('settings.channels', ['user' => Auth::user()]);
+    }
+
+    public function chatUsers(): View
     {
         return view(
-            'settings',
+            'settings.chat-users',
             [
                 'discordOauthURL' => $this->getDiscordOauthURL(),
                 'user' => Auth::user(),
-            ]
+            ],
         );
     }
 
@@ -55,7 +62,7 @@ class SettingsController extends Controller
             ->where('server_type', ChatUser::TYPE_DISCORD)
             ->first();
         if (null !== $chat_user) {
-            return redirect('settings')
+            return redirect(route('settings.chat-users'))
                 ->with('error', 'Discord user already registered.')
                 ->withInput();
         }
@@ -72,7 +79,7 @@ class SettingsController extends Controller
             = $chat_user->getDiscordUserName($remote_user_id);
         $chat_user->save();
 
-        return redirect('settings')
+        return redirect(route('settings.chat-users'))
             ->with(
                 'successObj',
                 [
@@ -109,7 +116,7 @@ class SettingsController extends Controller
             ->where('user_id', $user_id)
             ->first();
         if (null !== $chat_user) {
-            return redirect('settings')
+            return redirect(route('settings.chat-users'))
                 ->with('error', 'IRC user already registered.')
                 ->withInput();
         }
@@ -124,7 +131,7 @@ class SettingsController extends Controller
         ]);
         $chat_user->save();
 
-        return redirect('settings')
+        return redirect(route('settings.chat-users'))
             ->with(
                 'successObj',
                 [
@@ -158,7 +165,7 @@ class SettingsController extends Controller
             ->where('server_type', ChatUser::TYPE_SLACK)
             ->first();
         if (null !== $chat_user) {
-            return redirect('settings')
+            return redirect(route('settings.chat-users'))
                 ->with('error', 'Slack user already registered.')
                 ->withInput();
         }
@@ -175,7 +182,7 @@ class SettingsController extends Controller
             = $chat_user->getSlackUserName($remote_user_id);
         $chat_user->save();
 
-        return redirect('settings')
+        return redirect(route('settings.chat-users'))
             ->with(
                 'successObj',
                 [

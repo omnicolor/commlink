@@ -14,6 +14,7 @@ use Modules\Cyberpunkred\Models\Weapon;
 use RuntimeException;
 use stdClass;
 
+use function count;
 use function explode;
 use function sprintf;
 use function strtolower;

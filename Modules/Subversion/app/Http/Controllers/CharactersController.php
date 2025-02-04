@@ -35,6 +35,7 @@ use Modules\Subversion\Models\RelationLevel;
 use Modules\Subversion\Models\Skill;
 
 use function abort;
+use function array_key_exists;
 use function count;
 use function route;
 use function usort;

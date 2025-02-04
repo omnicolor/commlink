@@ -10,6 +10,7 @@ use Stringable;
 
 use function ceil;
 use function config;
+use function count;
 use function is_array;
 use function sprintf;
 use function str_contains;

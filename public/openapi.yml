@@ -9,7 +9,7 @@ info:
   license:
     name: MIT License
     url: https://mit-license.org/
-  version: 1.8.0
+  version: 1.9.0
 externalDocs:
   description: Find out more about Commlink
   url: https://commlink.digitaldarkness.com/about
@@ -1280,6 +1280,21 @@ paths:
         required: true
         schema:
           type: integer
+    delete:
+      summary: Delete a channel
+      description: Deletes a channel.
+      operationId: channels-delete
+      responses:
+        '204':
+          description: The channel has been deleted.
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
+        '404':
+          $ref: '#/components/responses/ErrorNotFound'
+      tags:
+        - interactivity
     patch:
       summary: Update a channel
       description: Configure a channel's webhook.
@@ -1299,6 +1314,8 @@ paths:
           $ref: '#/components/responses/ErrorUnauthenticated'
         '403':
           $ref: '#/components/responses/ErrorForbidden'
+        '404':
+          $ref: '#/components/responses/ErrorNotFound'
         '422':
           $ref: '#/components/responses/ErrorUnprocessableContent'
       tags:
@@ -3614,14 +3631,9 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  data:
-                    items:
-                      $ref: '#/components/schemas/User'
-                    type: array
-                required:
-                  - data
-                type: object
+                items:
+                  $ref: '#/components/schemas/User'
+                type: array
         '401':
           $ref: '#/components/responses/ErrorUnauthenticated'
         '403':
@@ -3656,6 +3668,30 @@ paths:
           $ref: '#/components/responses/ErrorForbidden'
         '404':
           $ref: '#/components/responses/ErrorNotFound'
+      tags:
+        - user
+  /users/{user_id}/chat-users/{chat_user_id}:
+    parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: chat_user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+    delete:
+      summary: Remove a chat user
+      operationId: users-deleteChatUser
+      responses:
+        '204':
+          description: Chat user was deleted.
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
       tags:
         - user
   /users/{user_id}/token:
@@ -4895,7 +4931,7 @@ components:
           type: string
         system:
           type: string
-        links:
+        _links:
           $ref: '#/components/schemas/Links'
       type: object
     CampaignFull:
@@ -6461,7 +6497,7 @@ components:
         effects:
           items:
             type: object
-          type: object
+          type: array
         incompatible_with:
           items:
             type: string
@@ -6480,6 +6516,7 @@ components:
         - cost
         - description
         - id
+        - incompatible_with
         - name
         - links
       type: object
@@ -9944,7 +9981,7 @@ components:
           items:
             $ref: '#/components/schemas/Role'
           type: array
-        links:
+        _links:
           $ref: '#/components/schemas/Links'
       required:
         - characters
@@ -9955,7 +9992,7 @@ components:
         - name
         - playingIn
         - roles
-        - links
+        - _links
       type: object
     UserMinimal:
       nullable: true

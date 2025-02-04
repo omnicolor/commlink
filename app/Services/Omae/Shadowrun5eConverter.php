@@ -16,6 +16,9 @@ use Modules\Shadowrun5e\Models\Weapon;
 use Modules\Shadowrun5e\Models\WeaponModification;
 use RuntimeException;
 
+use function count;
+use function sprintf;
+
 use const FILE_IGNORE_NEW_LINES;
 use const FILE_SKIP_EMPTY_LINES;
 

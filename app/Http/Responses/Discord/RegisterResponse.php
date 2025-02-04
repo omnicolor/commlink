@@ -150,7 +150,7 @@ class RegisterResponse implements Stringable
                 . 'to this server before you can register a channel to a '
                 . 'specific system.',
             config('app.name'),
-            config('app.url') . '/settings',
+            config('app.url') . '/settings/chat-users',
         ));
     }
 }

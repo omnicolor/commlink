@@ -15,6 +15,7 @@ use function array_shift;
 use function array_sum;
 use function explode;
 use function implode;
+use function sprintf;
 
 use const PHP_EOL;
 
