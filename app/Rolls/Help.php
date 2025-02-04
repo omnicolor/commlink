@@ -9,6 +9,7 @@ use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
 
 use function config;
+use function count;
 use function sprintf;
 use function str_replace;
 

@@ -11,6 +11,11 @@ use League\Flysystem\UnableToCreateDirectory;
 use Nwidart\Modules\Facades\Module;
 use ParseError;
 
+use function count;
+use function in_array;
+use function is_array;
+use function sprintf;
+
 /**
  * Test all data files for correctness.
  * @codeCoverageIgnore

@@ -18,6 +18,9 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function in_array;
+use function sprintf;
+
 #[Group('discord')]
 #[Medium]
 final class RegisterResponseTest extends TestCase
@@ -58,7 +61,7 @@ final class RegisterResponseTest extends TestCase
         $expected = sprintf(
             '"invalid" is not a valid system code. Use `register '
                 . '<system>`, where system is one of: %s',
-            \implode(', ', \array_keys(config('commlink.systems'))),
+            implode(', ', array_keys(config('commlink.systems'))),
         );
         $messageMock = $this->createDiscordMessageMock('/roll register invalid');
         $messageMock->expects(self::once())
@@ -115,7 +118,7 @@ final class RegisterResponseTest extends TestCase
         Event::fake();
         Http::fake();
 
-        $expected = \sprintf(
+        $expected = sprintf(
             'You must have already created an account on %s (%s) and '
                 . 'linked it to this server before you can register a '
                 . 'channel to a specific system.',
@@ -158,7 +161,7 @@ final class RegisterResponseTest extends TestCase
             'server_type' => ChatUser::TYPE_DISCORD,
             'verified' => true,
         ]);
-        $expected = \sprintf(
+        $expected = sprintf(
             '%s has registered this channel for the "Shadowrun 5th Edition" system.',
             // @phpstan-ignore property.notFound
             $event->channel->username,
@@ -210,7 +213,7 @@ final class RegisterResponseTest extends TestCase
             'server_type' => ChatUser::TYPE_DISCORD,
             'verified' => true,
         ]);
-        $expected = \sprintf(
+        $expected = sprintf(
             '%s has registered this channel for the "Shadowrun 5th Edition" system.',
             // @phpstan-ignore property.notFound
             $event->channel->username,

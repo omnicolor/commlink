@@ -7,6 +7,7 @@ namespace Modules\Transformers\Models;
 use RuntimeException;
 use Stringable;
 
+use function in_array;
 use function ucfirst;
 
 readonly class AltMode implements Stringable

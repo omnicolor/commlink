@@ -13,6 +13,8 @@ use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function sprintf;
+
 #[Medium]
 final class ChannelsControllerTest extends TestCase
 {
