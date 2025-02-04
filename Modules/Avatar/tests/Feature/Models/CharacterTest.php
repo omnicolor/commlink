@@ -7,6 +7,7 @@ namespace Modules\Avatar\Tests\Feature\Models;
 use Modules\Avatar\Models\Background;
 use Modules\Avatar\Models\Character;
 use Modules\Avatar\Models\Condition;
+use Modules\Avatar\Models\Move;
 use Modules\Avatar\Models\Playbook;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
@@ -124,5 +125,28 @@ final class CharacterTest extends TestCase
         self::assertSame(2, $character->focus);
         self::assertSame(0, $character->harmony);
         self::assertSame(2, $character->passion);
+    }
+
+    public function testMovesEmpty(): void
+    {
+        $character = new Character();
+        self::assertCount(0, $character->moves);
+    }
+
+    public function testMoves(): void
+    {
+        $character = new Character(['moves' => ['this-was-a-victory']]);
+        self::assertCount(1, $character->moves);
+        self::assertSame('This Was a Victory', (string)$character->moves[0]);
+    }
+
+    public function testSetMoves(): void
+    {
+        $character = new Character();
+        $character->moves = [
+            'no-time-for-feelings',
+            new Move('this-was-a-victory'),
+        ];
+        self::assertCount(2, $character->moves);
     }
 }

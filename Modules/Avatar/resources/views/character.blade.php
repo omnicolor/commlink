@@ -301,6 +301,27 @@
         </div>
     </div>
 
+    @php
+    $moves = collect($character->moves)->pluck('id');
+    @endphp
+    <div class="row">
+        <div class="col"></div>
+        <div class="col">
+            <h3>Moves</h3>
+            @foreach ($character->playbook->moves as $move)
+                <div class="form-check">
+                    <input
+                        @if ($moves->contains($move->id))
+                            checked
+                        @endif
+                        class="form-check-input" disabled type="checkbox">
+                    <strong>{{ $move }}</strong><br>
+                    {!! str_replace('•', '<li>', $move->description) !!}
+                </div>
+            @endforeach
+        </div>
+    </div>
+
     <x-slot name="javascript">
         <script>
         </script>

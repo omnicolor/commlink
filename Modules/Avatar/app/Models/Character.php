@@ -26,6 +26,8 @@ use Stringable;
  * @property int<-1, 4> $focus
  * @property int<-1, 4> $harmony
  * @property string $history
+ * @property-read array<int, Move> $moves
+ * @property-write array<int, Move|string> $moves
  * @property string $name
  * @property int<-1, 4> $passion
  * @property-read Playbook $playbook
@@ -57,6 +59,7 @@ class Character extends BaseCharacter implements Stringable
         'focus',
         'harmony',
         'history',
+        'moves',
         'name',
         'passion',
         'playbook',
@@ -179,6 +182,27 @@ class Character extends BaseCharacter implements Stringable
             set: function (int $harmony): int {
                 $this->attributes['harmony'] = $harmony;
                 return $harmony;
+            },
+        );
+    }
+
+    public function moves(): Attribute
+    {
+        return Attribute::make(
+            get: function (): array {
+                $moves = [];
+                foreach ($this->attributes['moves'] ?? [] as $move) {
+                    $moves[] = new Move($move);
+                }
+                return $moves;
+            },
+            set: function (array $moves): array {
+                foreach ($moves as $key => $move) {
+                    if ($moves[$key] instanceof Move) {
+                        $moves[$key] = $move->id;
+                    }
+                }
+                return ['moves' => $moves];
             },
         );
     }
