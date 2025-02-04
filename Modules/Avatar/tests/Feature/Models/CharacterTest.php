@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Modules\Avatar\Tests\Feature\Models;
 
+use DomainException;
 use Modules\Avatar\Models\Background;
 use Modules\Avatar\Models\Character;
 use Modules\Avatar\Models\Condition;
 use Modules\Avatar\Models\Move;
 use Modules\Avatar\Models\Playbook;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
@@ -148,5 +150,41 @@ final class CharacterTest extends TestCase
             new Move('this-was-a-victory'),
         ];
         self::assertCount(2, $character->moves);
+    }
+
+    /**
+     * @return array<int, array<int, string>>
+     */
+    public static function attributeProvider(): array
+    {
+        return [
+            ['creativity'],
+            ['focus'],
+            ['harmony'],
+            ['passion'],
+        ];
+    }
+
+    #[DataProvider('attributeProvider')]
+    public function testAttributesCanNotBeTooLow(string $attribute): void
+    {
+        self::expectException(DomainException::class);
+        self::expectExceptionMessage('Attributes can not be less than -1');
+        $character = new Character([
+            $attribute => -2,
+            'playbook' => 'the-adamant',
+        ]);
+        // @phpstan-ignore property.dynamicName, expr.resultUnused
+        $character->$attribute;
+    }
+
+    #[DataProvider('attributeProvider')]
+    public function testAttributesCanNotBeToohigh(string $attribute): void
+    {
+        self::expectException(DomainException::class);
+        self::expectExceptionMessage('Attributes can not be greater than 4');
+        $character = new Character([$attribute => 5]);
+        // @phpstan-ignore property.dynamicName, expr.resultUnused
+        $character->$attribute;
     }
 }

@@ -6,10 +6,13 @@ namespace Modules\Avatar\Models;
 
 use App\Models\Character as BaseCharacter;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Casts\Attribute as EloquentAttribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Avatar\Casts\AttributeCast;
 use Modules\Avatar\Database\Factories\CharacterFactory;
+use Modules\Avatar\ValueObjects\Attribute;
+use Override;
 use Stringable;
 
 /**
@@ -19,17 +22,17 @@ use Stringable;
  * @property int<-3, 3> $balance
  * @property-read array<int, Condition> $conditions
  * @property-write array<int, Condition|string> $conditions
- * @property int<-1, 4> $creativity
+ * @property Attribute $creativity
  * @property array<int, string> $demeanors
  * @property int<0, 5> $fatigue
  * @property string $fighting_style
- * @property int<-1, 4> $focus
- * @property int<-1, 4> $harmony
+ * @property Attribute $focus
+ * @property Attribute $harmony
  * @property string $history
  * @property-read array<int, Move> $moves
  * @property-write array<int, Move|string> $moves
  * @property string $name
- * @property int<-1, 4> $passion
+ * @property Attribute $passion
  * @property-read Playbook $playbook
  * @property-write Playbook|string $playbook
  */
@@ -75,6 +78,7 @@ class Character extends BaseCharacter implements Stringable
         '_id',
     ];
 
+    #[Override]
     public function __toString(): string
     {
         return (string)($this->attributes['name'] ?? 'Unnamed character');
@@ -98,9 +102,9 @@ class Character extends BaseCharacter implements Stringable
         return CharacterFactory::new();
     }
 
-    public function background(): Attribute
+    public function background(): EloquentAttribute
     {
-        return Attribute::make(
+        return EloquentAttribute::make(
             get: function (): Background {
                 return Background::from($this->attributes['background']);
             },
@@ -113,9 +117,9 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function conditions(): Attribute
+    public function conditions(): EloquentAttribute
     {
-        return Attribute::make(
+        return EloquentAttribute::make(
             get: function (?array $conditions): array {
                 return array_map(
                     function (string $condition): Condition {
@@ -135,12 +139,12 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function creativity(): Attribute
+    public function creativity(): EloquentAttribute
     {
-        return Attribute::make(
+        return EloquentAttribute::make(
             get: function (): int {
-                return $this->playbook->creativity->value
-                    + ($this->attributes['creativity'] ?? 0);
+                $creativity = new Attribute($this->attributes['creativity'] ?? 0);
+                return $this->playbook->creativity->value + $creativity->value;
             },
             set: function (int $creativity): int {
                 $this->attributes['creativity'] = $creativity;
@@ -149,21 +153,21 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function fatigue(): Attribute
+    public function fatigue(): EloquentAttribute
     {
-        return Attribute::make(
+        return EloquentAttribute::make(
             get: function (?int $fatigue): int {
                 return $fatigue ?? 0;
             },
         );
     }
 
-    public function focus(): Attribute
+    public function focus(): EloquentAttribute
     {
-        return Attribute::make(
+        return EloquentAttribute::make(
             get: function (): int {
-                return $this->playbook->focus->value
-                    + ($this->attributes['focus'] ?? 0);
+                $focus = new Attribute($this->attributes['focus'] ?? 0);
+                return $this->playbook->focus->value + $focus->value;
             },
             set: function (int $focus): int {
                 $this->attributes['focus'] = $focus;
@@ -172,12 +176,12 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function harmony(): Attribute
+    public function harmony(): EloquentAttribute
     {
-        return Attribute::make(
+        return EloquentAttribute::make(
             get: function (): int {
-                return $this->playbook->harmony->value
-                    + ($this->attributes['harmony'] ?? 0);
+                $harmony = new Attribute($this->attributes['harmony'] ?? 0);
+                return $this->playbook->harmony->value + $harmony->value;
             },
             set: function (int $harmony): int {
                 $this->attributes['harmony'] = $harmony;
@@ -186,9 +190,9 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function moves(): Attribute
+    public function moves(): EloquentAttribute
     {
-        return Attribute::make(
+        return EloquentAttribute::make(
             get: function (): array {
                 $moves = [];
                 foreach ($this->attributes['moves'] ?? [] as $move) {
@@ -207,12 +211,12 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function passion(): Attribute
+    public function passion(): EloquentAttribute
     {
-        return Attribute::make(
+        return EloquentAttribute::make(
             get: function (): int {
-                return $this->playbook->passion->value
-                    + ($this->attributes['passion'] ?? 0);
+                $passion = new Attribute($this->attributes['passion'] ?? 0);
+                return $this->playbook->passion->value + $passion->value;
             },
             set: function (int $passion): int {
                 $this->attributes['passion'] = $passion;
@@ -221,9 +225,9 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function playbook(): Attribute
+    public function playbook(): EloquentAttribute
     {
-        return Attribute::make(
+        return EloquentAttribute::make(
             get: function (): Playbook {
                 return new Playbook($this->attributes['playbook']);
             },
@@ -236,9 +240,9 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function training(): Attribute
+    public function training(): EloquentAttribute
     {
-        return Attribute::make(
+        return EloquentAttribute::make(
             get: function (): ?Training {
                 if (!isset($this->attributes['training'])) {
                     return null;

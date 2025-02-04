@@ -7,6 +7,7 @@ namespace Modules\Avatar\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Avatar\Models\Character;
+use Modules\Avatar\ValueObjects\Attribute;
 
 /**
  * @mixin Character
@@ -18,12 +19,12 @@ class CharacterResource extends JsonResource
      *     name: string,
      *     appearance: string,
      *     background: string,
-     *     creativity: int,
+     *     creativity: Attribute,
      *     fatigue: int,
-     *     focus: int,
-     *     harmony: int,
+     *     focus: Attribute,
+     *     harmony: Attribute,
      *     history: string,
-     *     passion: int,
+     *     passion: Attribute,
      *     campaign_id?: int,
      *     id: string,
      *     owner: array{
