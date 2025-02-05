@@ -11,7 +11,9 @@ use Modules\Avatar\Models\Character;
 use Modules\Avatar\Models\Condition;
 use Modules\Avatar\Models\Move;
 use Modules\Avatar\Models\Playbook;
+use Modules\Avatar\Models\Status;
 use Modules\Avatar\Models\Training;
+use Modules\Avatar\ValueObjects\GrowthAdvancements;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
@@ -92,6 +94,33 @@ final class CharacterTest extends TestCase
         self::assertSame(2, $character->fatigue);
     }
 
+    public function testGrowthAdvancementDefault(): void
+    {
+        $character = new Character();
+        self::assertEquals(
+            new GrowthAdvancements([]),
+            $character->growth_advancements,
+        );
+    }
+
+    public function testGrowthAdvancements(): void
+    {
+        $character = new Character([
+            'growth_advancements' => [
+                'new_move_from_my_playbook' => 1,
+                'new_move_from_another_playbook' => 2,
+                'shift_your_center' => 1,
+                'unlock_your_moment_of_balance' => 2,
+            ],
+        ]);
+        $advancement = $character->growth_advancements;
+
+        self::assertSame(1, $advancement->new_move_from_my_playbook);
+        self::assertSame(2, $advancement->new_move_from_another_playbook);
+        self::assertSame(1, $advancement->shift_your_center);
+        self::assertSame(2, $advancement->unlock_your_moment_of_balance);
+    }
+
     public function testSetPlaybookConstructor(): void
     {
         $character = new Character(['playbook' => 'the-adamant']);
@@ -168,6 +197,30 @@ final class CharacterTest extends TestCase
             new Move('this-was-a-victory'),
         ];
         self::assertCount(2, $character->moves);
+    }
+
+    public function testStatusesEmpty(): void
+    {
+        $character = new Character();
+        self::assertCount(0, $character->statuses);
+    }
+
+    public function testStatusesConstructor(): void
+    {
+        $character = new Character(['statuses' => ['empowered']]);
+        self::assertCount(1, $character->statuses);
+        self::assertStringStartsWith(
+            'Empowered is the status for when a Waterbender',
+            $character->statuses[0]->description,
+        );
+    }
+
+    public function testSetStatuses(): void
+    {
+        $character = new Character();
+        $status = new Status('doomed');
+        $character->statuses = [$status];
+        self::assertCount(1, $character->statuses);
     }
 
     public function testTrainingNotSet(): void

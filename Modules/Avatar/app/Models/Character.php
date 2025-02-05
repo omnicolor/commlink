@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Avatar\Database\Factories\CharacterFactory;
 use Modules\Avatar\ValueObjects\Attribute;
+use Modules\Avatar\ValueObjects\GrowthAdvancements;
 use Override;
 use Stringable;
 
@@ -23,13 +24,17 @@ use function get_class;
  * @property int<-3, 3> $balance
  * @property-read array<int, Condition> $conditions
  * @property-write array<int, Condition|string> $conditions
+ * @property array{0: string, 1: string} $connections
  * @property Attribute $creativity
  * @property array<int, string> $demeanors
  * @property int<0, 5> $fatigue
  * @property string $fighting_style
  * @property Attribute $focus
+ * @property int<0, 4> $growth
+ * @property GrowthAdvancements $growth_advancements
  * @property Attribute $harmony
  * @property string $history
+ * @property string $home_town
  * @property-read array<int, Move> $moves
  * @property-write array<int, Move|string> $moves
  * @property string $name
@@ -37,6 +42,8 @@ use function get_class;
  * @property-read Playbook $playbook
  * @property array<string, string> $playbook_options
  * @property-write Playbook|string $playbook
+ * @property-read array<int, Status> $statuses
+ * @property-write array<int, Status|string> $statuses
  * @property-read Training $training
  * @property-write Training|string $training
  */
@@ -59,19 +66,23 @@ class Character extends BaseCharacter implements Stringable
         'background',
         'balance',
         'conditions',
+        'connections',
         'creativity',
         'demeanors',
         'fatigue',
         'fighting_style',
         'focus',
+        'growth',
+        'growth_advancements',
         'harmony',
         'history',
+        'home_town',
         'moves',
         'name',
         'passion',
         'playbook',
         'playbook_options',
-        //'statuses',
+        'statuses',
         //'techniques',
         'training',
     ];
@@ -181,6 +192,17 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
+    public function growthAdvancements(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (): GrowthAdvancements {
+                return new GrowthAdvancements(
+                    $this->attributes['growth_advancements'] ?? [],
+                );
+            },
+        );
+    }
+
     public function harmony(): EloquentAttribute
     {
         return EloquentAttribute::make(
@@ -246,6 +268,27 @@ class Character extends BaseCharacter implements Stringable
                     return $playbook->id;
                 }
                 return $playbook;
+            },
+        );
+    }
+
+    public function statuses(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (): array {
+                $statuses = [];
+                foreach ($this->attributes['statuses'] ?? [] as $status) {
+                    $statuses[] = new Status($status);
+                }
+                return $statuses;
+            },
+            set: function (array $statuses): array {
+                foreach ($statuses as $key => $status) {
+                    if ($statuses[$key] instanceof Status) {
+                        $statuses[$key] = $status->id;
+                    }
+                }
+                return ['statuses' => $statuses];
             },
         );
     }

@@ -26,7 +26,7 @@ class Playbook implements Stringable
     public string $advanced_technique;
     public string $balance_left;
     public string $balance_right;
-    /** @var list<string> */
+    /** @var array{0: string, 1: string} */
     public array $connections;
     public AttributeModifier $creativity;
     /** @var list<string> */
@@ -34,6 +34,7 @@ class Playbook implements Stringable
     public string $description;
     public Feature $feature;
     public AttributeModifier $focus;
+    public string $growth_question;
     public AttributeModifier $harmony;
     /** @var list<string> */
     public array $history;
@@ -72,6 +73,7 @@ class Playbook implements Stringable
         assert($feature instanceof Feature);
         $this->feature = $feature;
         $this->focus = new AttributeModifier($playbook['focus']);
+        $this->growth_question = $playbook['growth_question'];
         $this->harmony = new AttributeModifier($playbook['harmony']);
         $this->history = $playbook['history'];
         $this->moment_of_balance = $playbook['moment_of_balance'];
@@ -121,6 +123,18 @@ class Playbook implements Stringable
             $playbooks[$id] = new self($id);
         }
         return $playbooks;
+    }
+
+    /**
+     * @param array{0: string, 1: string} $connections
+     * @return array{0: string, 1: string}
+     */
+    public function getConnections(array $connections): array
+    {
+        return [
+            sprintf($this->connections[0], $connections[0] ?? '???'),
+            sprintf($this->connections[1], $connections[1] ?? '???'),
+        ];
     }
 
     /**

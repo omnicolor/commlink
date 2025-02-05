@@ -1,3 +1,4 @@
+@use(Modules\Avatar\Models\Condition)
 @use(Illuminate\Support\Str)
 <x-app>
     <x-slot name="title">{{ $character }}</x-slot>
@@ -232,13 +233,41 @@
                             <td>-3</td>
                         </tr>
                         <tr>
-                            <td><input class="form-check-input" name="balance" type="radio" value="3"></td>
-                            <td><input class="form-check-input" name="balance" type="radio" value="2"></td>
-                            <td><input class="form-check-input" name="balance" type="radio" value="1"></td>
-                            <td><input class="form-check-input" name="balance" type="radio" value="0"></td>
-                            <td><input class="form-check-input" name="balance" type="radio" value="-1"></td>
-                            <td><input class="form-check-input" name="balance" type="radio" value="-2"></td>
-                            <td><input class="form-check-input" name="balance" type="radio" value="-3"></td>
+                            <td>
+                                <input class="form-check-input" name="balance"
+                                    @if (($character->balance ?? 0) === 3) checked @endif
+                                    type="radio" value="3">
+                            </td>
+                            <td>
+                                <input class="form-check-input" name="balance"
+                                    @if (($character->balance ?? 0) === 2) checked @endif
+                                    type="radio" value="2">
+                            </td>
+                            <td>
+                                <input class="form-check-input" name="balance"
+                                    @if (($character->balance ?? 0) === 1) checked @endif
+                                    type="radio" value="1">
+                            </td>
+                            <td>
+                                <input class="form-check-input" name="balance"
+                                    @if (($character->balance ?? 0) === 0) checked @endif
+                                    type="radio" value="0">
+                            </td>
+                            <td>
+                                <input class="form-check-input" name="balance"
+                                    @if (($character->balance ?? 0) === -1) checked @endif
+                                    type="radio" value="-1">
+                            </td>
+                            <td>
+                                <input class="form-check-input" name="balance"
+                                    @if (($character->balance ?? 0) === -2) checked @endif
+                                    type="radio" value="-2">
+                            </td>
+                            <td>
+                                <input class="form-check-input" name="balance"
+                                    @if (($character->balance ?? 0) === -3) checked @endif
+                                    type="radio" value="-3">
+                            </td>
                         </tr>
                         <tr class="lightness">
                             <td>-3</td>
@@ -258,35 +287,45 @@
                     <h3>Conditions</h3>
 
                     <label class="form-check-label">
-                        <input class="form-check-input" type="textbox">
+                        <input class="form-check-input conditions"
+                            @if (in_array(Condition::Afraid, $character->conditions)) checked @endif
+                            id="afraid" type="checkbox">
                         Afraid
                         <div class="form-text">
                             Take -2 to intimidate and call someone out
                         </div>
                     </label>
                     <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox">
+                        <input class="form-check-input conditions"
+                            @if (in_array(Condition::Angry, $character->conditions)) checked @endif
+                            id="angry" type="checkbox">
                         Angry
                         <div class="form-text">
                             Take -2 to guide and comfort and assess a situation
                         </div>
                     </label>
                     <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox">
+                        <input class="form-check-input conditions"
+                            @if (in_array(Condition::Guilty, $character->conditions)) checked @endif
+                            id="guilty" type="checkbox">
                         Guilty
                         <div class="form-text">
                             Take -2 to push your luck and +2 to deny a callout
                         </div>
                     </label>
                     <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox">
+                        <input class="form-check-input conditions"
+                            @if (in_array(Condition::Insecure, $character->conditions)) checked @endif
+                            id="insecure" type="checkbox">
                         Insecure
                         <div class="form-text">
                             Take -2 to trick and resist shifting your balance
                         </div>
                     </label>
                     <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox">
+                        <input class="form-check-input conditions"
+                            @if (in_array(Condition::Troubled, $character->conditions)) checked @endif
+                            id="troubled" type="checkbox">
                         Troubled
                         <div class="form-text">
                             Take -2 to plead and rely on your skills or training
@@ -297,7 +336,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row mb-4">
         <div class="col">
             <h3>{{ $character->playbook->feature }}</h3>
 
@@ -317,6 +356,117 @@
                 </div>
             @endforeach
         </div>
+    </div>
+
+    <div class="mt-4 row">
+        <div class="col">
+            <h3>Your Character</h3>
+
+            <strong>Look:</strong><br />
+            <p>{{ $character->appearance }}</p>
+
+            <strong>Home Town:</strong> {{ $character->home_town ?? '' }}
+
+            <h4 class="mt-1">History</h4>
+            <ul>
+            @foreach ($character->playbook->history as $history)
+                <li>{{ $history }}</li>
+            @endforeach
+            </ul>
+
+            <h4 class="mt-1">Connections</h4>
+
+            <ul>
+            @foreach ($character->playbook->getConnections($character->connections ?? []) as $connection)
+                <li>{{ $connection }}</li>
+            @endforeach
+            </ul>
+
+            <h4 class="mt-1">Moment of Balance</h4>
+            <p>{{ $character->playbook->moment_of_balance }}</p>
+
+            <h4 class="mt-1">Clearing Conditions</h4>
+
+            <ul>
+                <li><strong>Afraid:</strong> run from danger or difficulty.</li>
+                <li><strong>Angry:</strong> break something important or lash out at a friend.</li>
+                <li><strong>Guilty:</strong> make a personal sacrifice to absolve your guilt.</li>
+                <li><strong>Insecure:</strong> take foolhardy action without talking to your companions.</li>
+                <li><strong>Troubled:</strong> seek guidance from a mentor or powerful figure.</li>
+            </ul>
+
+            <h4 class="mt-1">
+                Growth
+                @for ($i = 1; $i <= 4; $i++)
+                <input class="form-check-input" disabled
+                    @if (($character->growth ?? 0) >= $i) checked @endif
+                    id="growth-{{ $i }}" type="checkbox" value="true">
+                @endfor
+            </h4>
+
+            <h5>Growth questions</h5>
+            <p>At the end of each session, answer these questions:</p>
+
+            <ul>
+                <li>
+                    Did you learn something challenging, exciting, or
+                    complicated about the world?
+                </li>
+                <li>
+                    Did you stop a dangerous threat or solve a community
+                    problem?
+                </li>
+                <li>
+                    Did you guide a character towards balance or end the
+                    session at your center?
+                </li>
+                <li><strong>
+                    {{ $character->playbook->growth_question ?? '' }}
+                </strong></li>
+            </ul>
+
+            <h5>Growth Advancements</h5>
+            <ul>
+                <li>
+                    Take a new move from your playbook
+                    <input class="form-check-input" disabled
+                        @if ($character->growth_advancements->new_move_from_my_playbook >= 1) checked @endif
+                        id="move-from-my-playbook-1" type="checkbox" value="true">
+                    <input class="form-check-input move-from-my-playbook" disabled
+                        @if ($character->growth_advancements->new_move_from_my_playbook === 2) checked @endif
+                        disabled id="move-from-my-playbook-2" type="checkbox" value="true">
+                </li>
+                <li>
+                    Take a new move from another playbook
+                    <input class="form-check-input" disabled
+                        @if ($character->growth_advancements->new_move_from_another_playbook >= 1) checked @endif
+                        id="move-from-another-playbook-1" type="checkbox" value="true">
+                    <input class="form-check-input" disabled
+                        @if ($character->growth_advancements->new_move_from_another_playbook >= 2) checked @endif
+                        id="move-from-another-playbook-2" type="checkbox" value="true">
+                </li>
+                <li>Raise a stat by +1 (maximum of +2 in any given stat)</li>
+                <li>
+                    Shift your center one step
+                    <input class="form-check-input" disabled
+                        @if ($character->growth_advancements->shift_your_center >= 1) checked @endif
+                        id="shift-your-center-1" type="checkbox" value="true">
+                    <input class="form-check-input" disabled
+                        @if ($character->growth_advancements->shift_your_center >= 2) checked @endif
+                        id="shift-your-center-2" type="checkbox" value="true">
+                </li>
+                <li>
+                    Unlock your Moment of Balance
+                    <input class="form-check-input" disabled
+                        @if ($character->growth_advancements->unlock_your_moment_of_balance >= 1) checked @endif
+                        id="unlock-your-moment-of-balance-1" type="checkbox" value="true">
+                    <input class="form-check-input" disabled
+                        @if ($character->growth_advancements->unlock_your_moment_of_balance >= 2) checked @endif
+                        id="unlock-your-moment-of-balance-2" type="checkbox" value="true">
+                </li>
+            </ul>
+        </div>
+        <div class="col"></div>
     </div>
 
     <x-slot name="javascript">

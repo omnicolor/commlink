@@ -13,11 +13,11 @@ use Modules\Avatar\Features\TheLodestar;
  *   advanced_technique: string,
  *   balance_left: string,
  *   balance_right: string,
- *   clearing_conditions: array<string, string>,
  *   connections: array<int, string>,
  *   demeanor_options: array<int, string>,
  *   description: string,
  *   feature: class-string,
+ *   growth_question: string,
  *   history: array<int, string>,
  *   moment_of_balance: string,
  *   moves: array<int, string>,
@@ -36,14 +36,9 @@ return [
         'advanced_technique' => '',
         'balance_left' => '',
         'balance_right' => '',
-        'clearing_conditions' => [
-            'afraid' => '',
-            'angry' => '',
-            'guilty' => '',
-            'insecure' => '',
-            'troubled' => '',
-        ],
+        // Use %s where you want each connection to be added to the string.
         'connections' => [
+            '',
             '',
         ],
         'demeanor_options' => [
@@ -51,6 +46,7 @@ return [
         ],
         'description' => '',
         'feature' => Feature::class,
+        'growth_question' => '',
         'history' => [
             '',
         ],
@@ -75,16 +71,9 @@ return [
         'advanced_technique' => 'pinpoint-aim',
         'balance_left' => 'restraint',
         'balance_right' => 'results',
-        'clearing_conditions' => [
-            'afraid' => 'run from danger or difficulty',
-            'angry' => 'break something important or lash out at a friend',
-            'guilty' => 'make a personal sacrifice to absolve your guilt',
-            'insecure' => 'take foolhardy action without talking to your companions',
-            'troubled' => 'seek guidance from a mentor or powerful figure',
-        ],
         'connections' => [
-            'takes issue with my methods—perhaps they have a point, but I certainly can’t admit that to them!',
-            'is my lodestar; something about them makes them the one person I let my guard down around.',
+            '%s takes issue with my methods—perhaps they have a point, but I certainly can’t admit that to them!',
+            '%s is my lodestar; something about them makes them the one person I let my guard down around.',
         ],
         'demeanor_options' => [
             'above-it-all',
@@ -96,6 +85,7 @@ return [
         ],
         'description' => 'A zealous advocate with a heart of gold and a diamond-hard will, ready to do what it takes to fix the world. Their balance principles are Restraint vs Results.',
         'feature' => TheLodestar::class,
+        'growth_question' => 'Did you seek support or guidance from others?',
         'history' => [
             'What experience of being deceived or manipulated convinced you to steel yourself against being swayed by other people?',
             'Who was your first lodestar, and why were they an exception? Why aren’t they your lodestar anymore?',
