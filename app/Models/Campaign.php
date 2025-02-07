@@ -13,7 +13,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Modules\Shadowrun5e\Models\Campaign as Shadowrun5eCampaign;
+use Nwidart\Modules\Facades\Module;
+use stdClass;
+
+use function class_exists;
+use function ucfirst;
 
 /**
  * Class representing a gaming campaign or one-shot.
@@ -111,21 +115,34 @@ class Campaign extends Model
 
     /**
      * Create a new Campaign, subclassed if available.
-     * @param array<mixed, mixed> $attributes
+     * @param array<int|string, mixed>|Campaign $attributes
      * @param ?string $connection
      */
     public function newFromBuilder(
         $attributes = [],
         $connection = null,
     ): static {
-        // @phpstan-ignore property.nonObject
-        $campaign = match ($attributes->system ?? null) {
-            'shadowrun5e' => new Shadowrun5eCampaign((array)$attributes),
-            default => new Campaign((array)$attributes),
-        };
+        if (
+            $attributes instanceof Campaign
+            || $attributes instanceof stdClass
+        ) {
+            $attributes = (array)$attributes;
+        }
+        $system = $attributes['system'];
+        $class = 'Modules\\' . ucfirst($system) . '\\Models\\Campaign';
+        if (
+            null !== Module::find($system)
+            && Module::isEnabled($system)
+            && class_exists($class)
+        ) {
+            /** @var Campaign */
+            $campaign = new $class($attributes);
+        } else {
+            $campaign = new Campaign($attributes);
+        }
 
         $campaign->exists = true;
-        $campaign->setRawAttributes((array)$attributes, true);
+        $campaign->setRawAttributes($attributes, true);
         $campaign->setConnection($this->connection);
         $campaign->fireModelEvent('retrieved', false);
         // @phpstan-ignore return.type

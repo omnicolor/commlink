@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Modules\Transformers\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Transformers\Enums\Mode;
+use Modules\Transformers\Enums\Programming;
+use Modules\Transformers\Enums\Size;
 use Modules\Transformers\Models\Character;
-use Modules\Transformers\Models\Mode;
-use Modules\Transformers\Models\Programming;
-use Modules\Transformers\Models\Size;
 
 /**
  * @extends Factory<Character>

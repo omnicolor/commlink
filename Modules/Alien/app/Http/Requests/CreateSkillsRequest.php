@@ -32,7 +32,6 @@ class CreateSkillsRequest extends FormRequest
         $skills = collect(Skill::all())->pluck('id');
 
         $rules = [];
-        /** @var string $skill */
         foreach ($skills as $skill) {
             $rules[$skill] = [
                 'integer',

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Traits\FormulaConverter;
 use GitElephant\Repository;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\Isolatable;
 use Illuminate\Support\Str;
-use Modules\Shadowrun5e\Models\ForceTrait;
-use Modules\Shadowrun5e\Models\VehicleModificationSlotType;
-use Modules\Shadowrun5e\Models\VehicleModificationType;
+use Modules\Shadowrun5e\Enums\VehicleModificationSlotType;
+use Modules\Shadowrun5e\Enums\VehicleModificationType;
 use RuntimeException;
 use SimpleXMLElement;
 use Throwable;
@@ -47,7 +47,7 @@ use const PHP_EOL;
  */
 class ImportChummerData extends Command implements Isolatable
 {
-    use ForceTrait;
+    use FormulaConverter;
 
     protected const MAX_VEHICLE_BODY = 36;
     protected const SLOTS_PER_STANDARD_ARMOR = 2;

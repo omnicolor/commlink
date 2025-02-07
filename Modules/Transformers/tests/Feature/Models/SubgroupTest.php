@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Transformers\Tests\Feature\Models;
 
-use Modules\Transformers\Models\Classification;
+use Modules\Transformers\Enums\Classification;
 use Modules\Transformers\Models\Subgroup;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;

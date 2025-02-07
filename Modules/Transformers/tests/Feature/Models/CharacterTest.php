@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Transformers\Tests\Feature\Models;
 
+use Modules\Transformers\Enums\Mode;
+use Modules\Transformers\Enums\Programming;
+use Modules\Transformers\Enums\Size;
 use Modules\Transformers\Models\Character;
-use Modules\Transformers\Models\Mode;
-use Modules\Transformers\Models\Programming;
-use Modules\Transformers\Models\Size;
 use Modules\Transformers\Models\Subgroup;
 use Modules\Transformers\Models\SubgroupArray;
 use Modules\Transformers\Models\Weapon;

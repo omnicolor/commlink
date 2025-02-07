@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Cyberpunkred\Models;
 
 use Illuminate\Support\Str;
+use Modules\Cyberpunkred\Enums\CostCategory;
 use Override;
 use RuntimeException;
 use Stringable;

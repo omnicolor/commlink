@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Modules\Transformers\Models\Classification;
+use Modules\Transformers\Enums\Classification;
 
 return [
     /*

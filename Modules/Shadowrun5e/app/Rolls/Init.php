@@ -11,9 +11,9 @@ use App\Models\Channel;
 use App\Models\Initiative;
 use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
+use App\Traits\FormulaConverter;
 use Facades\App\Services\DiceService;
 use Modules\Shadowrun5e\Models\Character;
-use Modules\Shadowrun5e\Models\ForceTrait;
 use RuntimeException;
 
 use function array_shift;
@@ -27,7 +27,7 @@ use const PHP_EOL;
 
 class Init extends Roll
 {
-    use ForceTrait;
+    use FormulaConverter;
 
     protected const MAX_DICE = 5;
     protected const REQUIRED_PIPS = 6;

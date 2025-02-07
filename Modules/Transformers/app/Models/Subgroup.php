@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Transformers\Models;
 
+use Modules\Transformers\Enums\Classification;
+use Override;
 use RuntimeException;
 
 use function sprintf;
@@ -51,6 +53,7 @@ class Subgroup
         $this->requirements = $group['requirements'] ?? [];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

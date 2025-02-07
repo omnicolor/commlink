@@ -31,7 +31,7 @@ class Help extends Roll
             'title' => 'Commlink - Avatar RPG',
             'text' => 'Commlink is a Slack/Discord ot that lets you roll dice '
                 . 'for the Avatar RPG.' . PHP_EOL
-                . '· `2d6 [1]` - Roll two dice, optionally adding a modifier '
+                . '· `2d6[+1]` - Roll two dice, optionally adding a modifier '
                 . '(+1 in this case)' . PHP_EOL
                 . '· `-2` - Alternate form for rolling two dice with a modifier',
             'color' => TextAttachment::COLOR_INFO,
