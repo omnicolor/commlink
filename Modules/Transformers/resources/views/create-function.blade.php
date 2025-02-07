@@ -1,3 +1,4 @@
+@use(\Modules\Transformers\Enums\Programming)
 <x-app>
     <x-slot name="title">Create character</x-slot>
     @include('transformers::create-navigation')
@@ -47,14 +48,14 @@
             <select class="form-control" id="programming" name="programming"
                 required>
                 <option>Choose function</option>
-                @foreach (\Modules\Transformers\Models\Programming::all() as $key => $value)
+                @foreach (Programming::all() as $key => $value)
                     <option @if (null !== $programming && $key === $programming->value) selected @endif
                         value="{{ $key }}">{{ $value->name }}</option>
                 @endforeach
             </select>
         </div>
         <div class="col" id="about-function">
-            @foreach (\Modules\Transformers\Models\Programming::all() as $key => $value)
+            @foreach (Programming::all() as $key => $value)
                 <div class="d-none" id="about-{{ $key }}">
                     {{ $value->description() }}
                 </div>

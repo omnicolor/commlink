@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Transformers\Models;
+namespace Modules\Transformers\Enums;
 
 enum Size: int
 {

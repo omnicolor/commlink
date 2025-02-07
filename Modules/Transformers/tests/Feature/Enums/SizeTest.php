@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Modules\Transformers\Tests\Feature\Models;
+namespace Modules\Transformers\Tests\Feature\Enums;
 
-use Modules\Transformers\Models\Size;
+use Modules\Transformers\Enums\Size;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;

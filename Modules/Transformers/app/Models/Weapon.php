@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Transformers\Models;
 
+use Modules\Transformers\Enums\Classification;
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -54,6 +56,7 @@ class Weapon implements Stringable
         return null;
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

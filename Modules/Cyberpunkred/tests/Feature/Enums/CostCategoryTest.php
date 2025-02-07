@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Modules\Cyberpunkred\Tests\Feature\Models;
+namespace Modules\Cyberpunkred\Tests\Feature\Enums;
 
-use Modules\Cyberpunkred\Models\CostCategory;
+use Modules\Cyberpunkred\Enums\CostCategory;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
@@ -36,7 +36,7 @@ final class CostCategoryTest extends TestCase
     {
         self::expectException(TypeError::class);
         self::expectExceptionMessage(
-            'Modules\\Cyberpunkred\\Models\\CostCategory::from(): Argument #1 '
+            'Modules\\Cyberpunkred\\Enums\\CostCategory::from(): Argument #1 '
                 . '($value) must be of type string, int given'
         );
         CostCategory::from(1);

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Expanse\Models;
+namespace Modules\Expanse\Enums;
 
 enum ShipSize: string
 {

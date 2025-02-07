@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Modules\Expanse\Tests\Feature\Models;
+namespace Modules\Expanse\Tests\Feature\Enums;
 
-use Modules\Expanse\Models\CrewCompetence;
+use Modules\Expanse\Enums\CrewCompetence;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Dnd5e\Models;
+namespace Modules\Dnd5e\Enums;
 
 enum CoinType: string
 {

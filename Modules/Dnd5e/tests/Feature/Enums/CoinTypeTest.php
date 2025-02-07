@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Modules\Dnd5e\Tests\Feature\Models;
+namespace Modules\Dnd5e\Tests\Feature\Enums;
 
-use Modules\Dnd5e\Models\CoinType;
+use Modules\Dnd5e\Enums\CoinType;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use PHPUnit\Framework\TestCase;

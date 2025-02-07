@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Cyberpunkred\Models;
+namespace Modules\Cyberpunkred\Enums;
 
 enum CostCategory: string
 {
