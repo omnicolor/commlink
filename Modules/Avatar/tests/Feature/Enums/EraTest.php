@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Modules\Avatar\Tests\Feature\Models;
+namespace Modules\Avatar\Tests\Feature\Enums;
 
-use Modules\Avatar\Models\Era;
+use Modules\Avatar\Enums\Era;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;

@@ -314,3 +314,6 @@ $('#current-date-form').on('submit', function (event) {
         .done(updateDateSucceeded)
         .fail(function (data) { window.console.log(data); });
 });
+
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
