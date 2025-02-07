@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Shadowrun5e\Models;
+namespace App\Traits;
 
 use function array_search;
 use function array_splice;
@@ -17,20 +17,17 @@ use const PREG_SPLIT_NO_EMPTY;
  * Calculator for things that depend on a force or level, like spells and
  * complex forms.
  */
-trait ForceTrait
+trait FormulaConverter
 {
     /**
-     * Given a string involving a force or level calculation, replace the F or L
-     * with the items's force or level and return what the value should be.
+     * Given a string involving a formula with a letter that needs to be
+     * replaced with a number and return what the value should be.
      *
      * Basically a complicated (but safe) way of avoiding eval(). Given
      * a string like "F/2" or "L+3", the letter to replace (F for magical
-     * formulas, L for resonance formulas), and the force or level, will return
-     * an integer for whatever the formula resolves to.
-     *
-     * @param string $formula Formula involving force or level
-     * @param string $letter Letter to replace (L or F)
-     * @param int $rating Force or level to use in formula
+     * formulas or L for resonance formulas in Shadowrun for example),
+     * and the force or level, will return an integer for whatever the
+     * formula resolves to.
      */
     public static function convertFormula(
         string $formula,
