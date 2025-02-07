@@ -13,6 +13,7 @@ use Modules\Avatar\Database\Factories\CharacterFactory;
 use Modules\Avatar\Enums\Background;
 use Modules\Avatar\Enums\Condition;
 use Modules\Avatar\Enums\TechniqueLevel;
+use Modules\Avatar\Enums\Training;
 use Modules\Avatar\ValueObjects\Attribute;
 use Modules\Avatar\ValueObjects\GrowthAdvancements;
 use Override;
