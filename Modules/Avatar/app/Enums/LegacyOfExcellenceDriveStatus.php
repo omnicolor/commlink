@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Avatar\Features;
+namespace Modules\Avatar\Enums;
 
 enum LegacyOfExcellenceDriveStatus: string
 {

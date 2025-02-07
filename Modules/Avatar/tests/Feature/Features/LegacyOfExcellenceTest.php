@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Avatar\Tests\Feature\Features;
 
+use Modules\Avatar\Enums\LegacyOfExcellenceDriveStatus;
 use Modules\Avatar\Features\LegacyOfExcellence;
-use Modules\Avatar\Features\LegacyOfExcellenceDriveStatus;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;

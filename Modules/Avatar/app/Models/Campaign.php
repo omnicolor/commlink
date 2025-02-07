@@ -8,6 +8,7 @@ use App\Models\Campaign as BaseCampaign;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Avatar\Database\Factories\CampaignFactory;
+use Modules\Avatar\Enums\Era;
 
 class Campaign extends BaseCampaign
 {

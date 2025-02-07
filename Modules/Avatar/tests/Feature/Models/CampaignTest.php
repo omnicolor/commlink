@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Avatar\Tests\Feature\Models;
 
+use Modules\Avatar\Enums\Era;
 use Modules\Avatar\Models\Campaign;
-use Modules\Avatar\Models\Era;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;

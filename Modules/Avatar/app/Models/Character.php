@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Casts\Attribute as EloquentAttribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Avatar\Database\Factories\CharacterFactory;
+use Modules\Avatar\Enums\Background;
+use Modules\Avatar\Enums\Condition;
 use Modules\Avatar\Enums\TechniqueLevel;
 use Modules\Avatar\ValueObjects\Attribute;
 use Modules\Avatar\ValueObjects\GrowthAdvancements;

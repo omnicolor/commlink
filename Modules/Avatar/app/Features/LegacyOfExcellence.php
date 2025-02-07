@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Avatar\Features;
 
+use Modules\Avatar\Enums\LegacyOfExcellenceDriveStatus;
 use Override;
 use Stringable;
 

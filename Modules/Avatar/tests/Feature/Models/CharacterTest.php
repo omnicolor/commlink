@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Modules\Avatar\Tests\Feature\Models;
 
 use DomainException;
+use Modules\Avatar\Enums\Background;
+use Modules\Avatar\Enums\Condition;
 use Modules\Avatar\Enums\TechniqueLevel;
 use Modules\Avatar\Features\TheLodestar;
-use Modules\Avatar\Models\Background;
 use Modules\Avatar\Models\Character;
-use Modules\Avatar\Models\Condition;
 use Modules\Avatar\Models\Move;
 use Modules\Avatar\Models\Playbook;
 use Modules\Avatar\Models\Status;
