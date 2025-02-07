@@ -32,6 +32,18 @@
                 padding-top: .1em;
                 width: 2em;
             }
+            .technique-class {
+                color: #64110b;
+                font-size: large;
+                font-weight: bold;
+            }
+            .techniques strong {
+                font-size: x-large;
+            }
+            .techniques .form-check-reverse .form-check-input {
+                margin-left: 1em;
+                margin-top: .8em;
+            }
         </style>
     </x-slot>
 
@@ -466,7 +478,46 @@
                 </li>
             </ul>
         </div>
-        <div class="col"></div>
+        <div class="col techniques">
+            <h3>Fighting Techniques</h3>
+
+            @foreach ($character->techniques as $technique)
+            <div>
+                <strong>{{ $technique }}</strong>
+                <div class="float-end">
+                    <div class="form-check form-check-inline form-check-reverse">
+                        <label class="form-check-label">
+                            <strong>L</strong>
+                            <input class="form-check-input"
+                                @if ($technique->level->isLearned()) checked @endif
+                                disabled type="checkbox" value="true">
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline form-check-reverse">
+                        <label class="form-check-label">
+                            <strong>P</strong>
+                            <input class="form-check-input"
+                                @if ($technique->level->isPracticed()) checked @endif
+                                disabled type="checkbox" value="true">
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline form-check-reverse">
+                        <label class="form-check-label">
+                            <strong>M</strong>
+                            <input class="form-check-input"
+                                @if ($technique->level->isMastered()) checked @endif
+                                disabled type="checkbox" value="true">
+                        </label>
+                    </div>
+                </div>
+                <br>
+                <div class="technique-class">{{ $technique->class->name() }}</div>
+                <div>
+                    {{ $technique->description }}
+                </div>
+            </div>
+            @endforeach
+        </div>
     </div>
 
     <x-slot name="javascript">

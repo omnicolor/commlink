@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute as EloquentAttribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Avatar\Database\Factories\CharacterFactory;
+use Modules\Avatar\Enums\TechniqueLevel;
 use Modules\Avatar\ValueObjects\Attribute;
 use Modules\Avatar\ValueObjects\GrowthAdvancements;
 use Override;
@@ -44,6 +45,8 @@ use function get_class;
  * @property-write Playbook|string $playbook
  * @property-read array<int, Status> $statuses
  * @property-write array<int, Status|string> $statuses
+ * @property-read array<int, Technique> $techniques
+ * @property-write array<int, Technique|array{id: string, level: string}> $techniques
  * @property-read Training $training
  * @property-write Training|string $training
  */
@@ -83,7 +86,7 @@ class Character extends BaseCharacter implements Stringable
         'playbook',
         'playbook_options',
         'statuses',
-        //'techniques',
+        'techniques',
         'training',
     ];
 
@@ -289,6 +292,34 @@ class Character extends BaseCharacter implements Stringable
                     }
                 }
                 return ['statuses' => $statuses];
+            },
+        );
+    }
+
+    public function techniques(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (): array {
+                $techniques = [];
+                foreach ($this->attributes['techniques'] ?? [] as $technique) {
+                    /** @var Technique */
+                    $temp = Technique::findOrFail($technique['id']);
+                    $temp->level = TechniqueLevel::from($technique['level']);
+                    $techniques[] = $temp;
+                }
+                return $techniques;
+            },
+            set: function (array $techniques): array {
+                foreach ($techniques as $key => $technique) {
+                    if ($techniques[$key] instanceof Technique) {
+                        $temp = [
+                            'id' => $technique->id,
+                            'level' => $technique->level->value,
+                        ];
+                        $techniques[$key] = $temp;
+                    }
+                }
+                return ['techniques' => $techniques];
             },
         );
     }

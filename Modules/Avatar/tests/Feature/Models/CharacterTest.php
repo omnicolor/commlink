@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Avatar\Tests\Feature\Models;
 
 use DomainException;
+use Modules\Avatar\Enums\TechniqueLevel;
 use Modules\Avatar\Features\TheLodestar;
 use Modules\Avatar\Models\Background;
 use Modules\Avatar\Models\Character;
@@ -12,6 +13,7 @@ use Modules\Avatar\Models\Condition;
 use Modules\Avatar\Models\Move;
 use Modules\Avatar\Models\Playbook;
 use Modules\Avatar\Models\Status;
+use Modules\Avatar\Models\Technique;
 use Modules\Avatar\Models\Training;
 use Modules\Avatar\ValueObjects\GrowthAdvancements;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -221,6 +223,33 @@ final class CharacterTest extends TestCase
         $status = new Status('doomed');
         $character->statuses = [$status];
         self::assertCount(1, $character->statuses);
+    }
+
+    public function testTechniquesEmpty(): void
+    {
+        $character = new Character();
+        self::assertCount(0, $character->techniques);
+    }
+
+    public function testTechniquesSetInConstructor(): void
+    {
+        $character = new Character([
+            'techniques' => [
+                ['id' => 'a-single-spark', 'level' => 'learned'],
+            ],
+        ]);
+        self::assertCount(1, $character->techniques);
+        self::assertInstanceOf(Technique::class, $character->techniques[0]);
+        self::assertSame('A Single Spark', (string)$character->techniques[0]);
+    }
+
+    public function testSetTechnique(): void
+    {
+        $character = new Character();
+        $technique = Technique::findOrFail('blood-twisting');
+        $technique->level = TechniqueLevel::Practiced;
+        $character->techniques = [$technique];
+        self::assertCount(1, $character->techniques);
     }
 
     public function testTrainingNotSet(): void
