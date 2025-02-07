@@ -1,5 +1,5 @@
 @php
-use Modules\Avatar\Models\Era;
+use Modules\Avatar\Enums\Era;
 @endphp
 <div class="mt-3 row">
     <div class="col-2 col-form-label">

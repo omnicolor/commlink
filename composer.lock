@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d830bf849dde0697fb86e7b8ae0ffae",
+    "content-hash": "c71dbe7a6b7e9bfd1e378bdf7a1962a0",
     "packages": [
         {
             "name": "brick/math",
@@ -14858,5 +14858,5 @@
     "platform-dev": {
         "ext-sqlite3": "*"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }

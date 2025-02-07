@@ -7,6 +7,7 @@ namespace Modules\Avatar\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Avatar\Models\Character;
+use Modules\Avatar\ValueObjects\Attribute;
 
 /**
  * @mixin Character
@@ -18,12 +19,12 @@ class CharacterResource extends JsonResource
      *     name: string,
      *     appearance: string,
      *     background: string,
-     *     creativity: int,
+     *     creativity: Attribute,
      *     fatigue: int,
-     *     focus: int,
-     *     harmony: int,
+     *     focus: Attribute,
+     *     harmony: Attribute,
      *     history: string,
-     *     passion: int,
+     *     passion: Attribute,
      *     campaign_id?: int,
      *     id: string,
      *     owner: array{
@@ -33,7 +34,8 @@ class CharacterResource extends JsonResource
      *     system: string,
      *     links: array{
      *         self: string,
-     *         campaign?: string
+     *         campaign?: string,
+     *         playbook: string
      *     }
      * }
      */
@@ -50,6 +52,7 @@ class CharacterResource extends JsonResource
             'harmony' => $this->harmony,
             'history' => $this->history,
             'passion' => $this->passion,
+            'playbook' => new PlaybookResource($this->playbook),
             'campaign_id' => $this->when(
                 null !== $this->campaign_id,
                 $this->campaign_id
@@ -61,13 +64,14 @@ class CharacterResource extends JsonResource
             ],
             'system' => $this->system,
             'links' => [
-                'self' => route('avatar.characters.show', $this->id),
                 'campaign' => $this->when(
                     null !== $this->campaign_id,
                     null !== $this->campaign_id
                         ? route('campaigns.show', $this->campaign_id)
                         : null,
                 ),
+                'playbook' => route('avatar.playbooks.show', $this->playbook->id),
+                'self' => route('avatar.characters.show', $this->id),
             ],
         ];
     }
