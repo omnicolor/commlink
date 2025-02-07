@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use Modules\Shadowrun5e\Models\ForceTrait;
+use App\Traits\FormulaConverter;
 use RuntimeException;
 
 use function explode;
@@ -30,7 +30,7 @@ use function sprintf;
  */
 class DiceService
 {
-    use ForceTrait;
+    use FormulaConverter;
 
     /**
      * @return array<int, int>

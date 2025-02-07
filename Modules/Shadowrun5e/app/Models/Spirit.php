@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use App\Traits\FormulaConverter;
 use BadMethodCallException;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
@@ -35,7 +36,7 @@ use function ucfirst;
  */
 class Spirit implements Stringable
 {
-    use ForceTrait;
+    use FormulaConverter;
 
     /**
      * Spirit's agility.

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use App\Traits\FormulaConverter;
 use RuntimeException;
 use Stringable;
 
@@ -16,7 +17,7 @@ use function strtolower;
  */
 class ComplexForm implements Stringable
 {
-    use ForceTrait;
+    use FormulaConverter;
 
     /**
      * Description of the complex form.
