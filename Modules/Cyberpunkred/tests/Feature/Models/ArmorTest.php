@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Cyberpunkred\Tests\Feature\Models;
 
+use Modules\Cyberpunkred\Enums\CostCategory;
 use Modules\Cyberpunkred\Models\Armor;
-use Modules\Cyberpunkred\Models\CostCategory;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;

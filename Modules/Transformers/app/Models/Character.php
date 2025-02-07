@@ -11,6 +11,10 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
 use Modules\Transformers\Database\Factories\CharacterFactory;
+use Modules\Transformers\Enums\Mode;
+use Modules\Transformers\Enums\Programming;
+use Modules\Transformers\Enums\Size;
+use Override;
 use RuntimeException;
 
 /**
@@ -127,6 +131,7 @@ class Character extends BaseCharacter
         '_id',
     ];
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name ?? 'Unnamed character';

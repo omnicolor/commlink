@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use Modules\Shadowrun5e\Enums\VehicleModificationSlotType;
+use Modules\Shadowrun5e\Enums\VehicleModificationType;
 use Modules\Shadowrun5e\Models\Vehicle;
-use Modules\Shadowrun5e\Models\VehicleModificationSlotType;
-use Modules\Shadowrun5e\Models\VehicleModificationType;
 
 /**
  * Data file for Shadowrun 5th edition vehicle modifications.
