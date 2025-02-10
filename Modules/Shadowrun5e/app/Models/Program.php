@@ -33,7 +33,7 @@ final class Program implements Stringable
      */
     public array $effects = [];
     public readonly string $name;
-    public readonly int $page;
+    public readonly int|null $page;
     public readonly int|null $rating;
     public readonly string $ruleset;
 
