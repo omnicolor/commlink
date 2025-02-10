@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Modules\Expanse\Models;
 
 use Illuminate\Support\Facades\Log;
+use Modules\Expanse\Enums\CrewCompetence;
+use Modules\Expanse\Enums\ShipSize;
 use Override;
 use RuntimeException;
 use Stringable;

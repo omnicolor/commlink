@@ -7,8 +7,8 @@ namespace App\Rolls;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Slack\TextAttachment;
+use App\Traits\FormulaConverter;
 use Facades\App\Services\DiceService;
-use Modules\Shadowrun5e\Models\ForceTrait;
 
 use function array_shift;
 use function array_sum;
@@ -26,7 +26,7 @@ use const PHP_EOL;
  */
 class Generic extends Roll
 {
-    use ForceTrait;
+    use FormulaConverter;
 
     public function __construct(
         string $content,

@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Modules\Dnd5e\Models\CoinType;
-use Modules\Dnd5e\Models\DamageType;
+use Modules\Dnd5e\Enums\CoinType;
+use Modules\Dnd5e\Enums\DamageType;
 
 /**
  * Weapons list for Dungeons and Dragons 5E.

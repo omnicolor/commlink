@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Models;
 
+use Modules\Shadowrun5e\Enums\VehicleModificationSlotType;
 use Modules\Shadowrun5e\Models\Vehicle;
 use Modules\Shadowrun5e\Models\VehicleModification;
-use Modules\Shadowrun5e\Models\VehicleModificationSlotType;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;

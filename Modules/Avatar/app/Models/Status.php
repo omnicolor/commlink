@@ -22,7 +22,7 @@ class Status implements Stringable
     public string $name;
     public int $page;
     public string $ruleset;
-    public string $shortDescription;
+    public string $short_description;
     public string $type;
 
     /**
@@ -49,7 +49,7 @@ class Status implements Stringable
         $this->name = $status['name'];
         $this->page = $status['page'];
         $this->ruleset = $status['ruleset'];
-        $this->shortDescription = $status['description-short'];
+        $this->short_description = $status['description-short'];
     }
 
     public function __toString(): string

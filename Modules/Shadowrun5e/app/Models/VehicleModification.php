@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Modules\Shadowrun5e\Enums\VehicleModificationSlotType;
+use Modules\Shadowrun5e\Enums\VehicleModificationType;
 use Override;
 use RuntimeException;
 use Stringable;

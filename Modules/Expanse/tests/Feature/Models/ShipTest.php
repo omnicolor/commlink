@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Expanse\Tests\Feature\Models;
 
+use Modules\Expanse\Enums\ShipSize;
 use Modules\Expanse\Models\Ship;
-use Modules\Expanse\Models\ShipSize;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;

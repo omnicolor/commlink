@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use App\Traits\FormulaConverter;
 use Override;
 use RuntimeException;
 use Stringable;
@@ -17,7 +18,7 @@ use function strtolower;
  */
 final class Spell implements Stringable
 {
-    use ForceTrait;
+    use FormulaConverter;
 
     /**
      * Category (combat, detection, etc).
