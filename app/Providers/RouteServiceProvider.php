@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
+use function abort;
+use function base_path;
+use function optional;
+
 /**
  * @codeCoverageIgnore
  */
