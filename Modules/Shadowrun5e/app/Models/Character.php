@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Log;
 use Modules\Shadowrun5e\Database\Factories\CharacterFactory;
+use Modules\Shadowrun5e\Enums\AugmentationType;
 use Override;
 use RuntimeException;
 use Stringable;
@@ -383,7 +384,7 @@ class Character extends BaseCharacter implements Stringable
         }
 
         foreach ($this->getAugmentations() as $augmentation) {
-            if (Augmentation::TYPE_CYBERWARE === $augmentation->type) {
+            if (AugmentationType::Cyberware === $augmentation->type) {
                 $essence -= $augmentation->essence * $modifier_cyberware;
                 continue;
             }

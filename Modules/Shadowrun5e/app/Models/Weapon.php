@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Modules\Shadowrun5e\Enums\WeaponClass;
+use Modules\Shadowrun5e\Enums\WeaponRange;
 use Override;
 use RuntimeException;
 use Stringable;
@@ -21,34 +23,15 @@ use function strtolower;
  */
 final class Weapon implements Stringable
 {
-    /**
-     * Collection of accessories.
-     */
     public WeaponModificationArray $accessories;
     public readonly int|null|string $accuracy;
-
-    /**
-     * Array of ammunition.
-     * @var mixed[]
-     */
+    /** @var mixed[] */
     public array $ammunition = [];
-
-    /**
-     * Number of rounds the weapon holds.
-     */
-    public readonly int|null $ammoCapacity;
-
-    /**
-     * Type of container for the ammunition.
-     */
-    public readonly null|string $ammoContainer;
-
-    /**
-     * Armor piercing base value for the weapon.
-     */
-    public readonly int|null $armorPiercing;
+    public readonly int|null $ammo_capacity;
+    public readonly null|string $ammo_container;
+    public readonly int|null $armor_piercing;
     public readonly string $availability;
-    public readonly WeaponClass $class;
+    public WeaponClass $class;
     public readonly int|null $cost;
     public readonly string $damage;
     public readonly string $description;
@@ -77,11 +60,12 @@ final class Weapon implements Stringable
     /**
      * Added-on modifications.
      */
-    public WeaponModificationArray $modificationsAdded;
+    public WeaponModificationArray $modifications_added;
     public readonly string $name;
     public readonly int|null $page;
+    public readonly WeaponRange $range;
     public readonly int|null $reach;
-    public readonly int|null $recoilCompensation;
+    public readonly int|null $recoil_compensation;
     public readonly string $ruleset;
     public readonly ActiveSkill $skill;
     public readonly null|string $subname;
@@ -110,6 +94,11 @@ final class Weapon implements Stringable
 
         if ('unarmed-strike' === $id) {
             $this->accuracy = 'physical';
+            $this->ammo_capacity = null;
+            $this->ammo_container = null;
+            $this->armor_piercing = null;
+            $this->availability = '';
+            $this->cost = 0;
             $this->damage = '(STR)';
             $this->description = 'Unarmed Combat covers the various '
                 . 'self-defense and attack moves that employ the body as a '
@@ -117,10 +106,13 @@ final class Weapon implements Stringable
                 . 'along with the use of cybernetic implant weaponry and the '
                 . 'fighting styles that sprung up around those implants.';
             $this->name = 'Unarmed Strike';
+            $this->range = WeaponRange::Melee;
             $this->reach = 0;
+            $this->recoil_compensation = null;
             $this->page = 132;
             $this->ruleset = 'core';
-            $this->skill = new ActiveSkill('unarmed-combat');
+            $this->skill = new ActiveSkill('unarmed-combat', 1);
+            $this->subname = null;
             return;
         }
 
@@ -134,12 +126,12 @@ final class Weapon implements Stringable
 
         $weapon = self::$weapons[$id];
         $this->accuracy = $weapon['accuracy'] ?? null;
-        $this->ammoCapacity = $weapon['ammo-capacity'] ?? null;
-        $this->ammoContainer = $weapon['ammo-container'] ?? null;
-        $this->armorPiercing = $weapon['armor-piercing'] ?? null;
+        $this->ammo_capacity = $weapon['ammo-capacity'] ?? null;
+        $this->ammo_container = $weapon['ammo-container'] ?? null;
+        $this->armor_piercing = $weapon['armor-piercing'] ?? null;
         $this->availability = $weapon['availability'];
         if ($weapon['class'] instanceof WeaponClass) {
-            $this->class = $weaponClass;
+            $this->class = $weapon['class'];
         } else {
             $this->class = WeaponClass::from($weapon['class']);
         }
@@ -163,10 +155,12 @@ final class Weapon implements Stringable
             }
         }
         $this->name = $weapon['name'];
+        $this->page = $weapon['page'] ?? null;
+        $this->range = WeaponRange::tryFrom($weapon['range'] ?? '') ?? WeaponRange::Unknown;
         $this->reach = $weapon['reach'] ?? null;
-        $this->recoilCompensation = $weapon['recoil-compensation'] ?? null;
+        $this->recoil_compensation = $weapon['recoil-compensation'] ?? null;
         $this->ruleset = $weapon['ruleset'] ?? 'core';
-        $this->skill = $weapon['skill'];
+        $this->skill = new ActiveSkill($weapon['skill'], 1);
         $this->subname = $weapon['subname'] ?? null;
         $this->type = $weapon['type'];
         if (isset($weapon['mounts'])) {
@@ -226,32 +220,7 @@ final class Weapon implements Stringable
      */
     public function getRange(): string
     {
-        return match ($this->class) {
-            WeaponClass::Cannon => '50/300/750/1200',
-            WeaponClass::AssaultRifle => '25/150/350/550',
-            WeaponClass::Bow => 'STR/STRx10/STRx30/STRx60',
-            //'Grenade' => 'STRx2/STRx4/STRx6/STRx10',
-            //'Grenade Launcher' => '5-50/100/150/500',
-            WeaponClass::Crossbow => '14/45/120/180',
-            WeaponClass::HeavyMachinegun => '40/250/750/1200',
-            WeaponClass::HeavyPistol => '5/20/40/60',
-            WeaponClass::HoldOutPistol => '5/15/30/50',
-            //'Light Crossbow' => '6/24/60/120',
-            //'Light Machinegun' => '25/200/400/800',
-            WeaponClass::LightPistol => '5/15/30/50',
-            WeaponClass::MachinePistol => '5/15/30/50',
-            //'Medium Crossbow' => '9/36/90/150',
-            //'Medium Machinegun' => '40/250/750/1200',
-            WeaponClass::MissileLauncher => '20-70*/150/450/1500',
-            WeaponClass::Shotgun => '10/40/80/150',
-            //'Shotgun (flechette)' => '15/30/45/60',
-            WeaponClass::SniperRifle => '50/350/800/1500',
-            WeaponClass::SubmachineGun => '10/40/80/150',
-            WeaponClass::Taser => '5/10/15/20',
-            WeaponClass::ThrowingWeapon => 'STR/STRx2/STRx5/STRx7',
-            //'Thrown Knife' => 'STR/STRx2/STRx3/STRx5',
-            default => '???',
-        };
+        return $this->range->range();
     }
 
     /**

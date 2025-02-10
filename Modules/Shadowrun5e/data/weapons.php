@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Modules\Shadowrun5e\Models\WeaponClass;
+use Modules\Shadowrun5e\Enums\WeaponClass;
 
 /**
  * List of Shadowrun 5th edition weapons.
@@ -90,7 +90,7 @@ return [
         'name' => 'Ares Predator V',
         'page' => 426,
         'ruleset' => 'core',
-        'skill' => 'pistol',
+        'skill' => 'pistols',
         'type' => 'firearm',
     ],
     'combat-knife' => [

@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Models;
 
+use Modules\Shadowrun5e\Enums\AugmentationGrade;
+use Modules\Shadowrun5e\Enums\AugmentationType;
 use Modules\Shadowrun5e\Models\Augmentation;
-use Modules\Shadowrun5e\Models\AugmentationGrade;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
@@ -97,10 +98,10 @@ final class AugmentationTest extends TestCase
      */
     public function testLoadSetsType(): void
     {
-        self::assertSame(Augmentation::TYPE_CYBERWARE, $this->augmentation->type);
+        self::assertSame(AugmentationType::Cyberware, $this->augmentation->type);
 
         $augmentation = new Augmentation('bone-density-augmentation-2');
-        self::assertSame(Augmentation::TYPE_BIOWARE, $augmentation->type);
+        self::assertSame(AugmentationType::Bioware, $augmentation->type);
     }
 
     /**

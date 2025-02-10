@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Models;
 
+use Modules\Shadowrun5e\Enums\AugmentationGrade;
 use Modules\Shadowrun5e\Models\ActiveSkill;
 use Modules\Shadowrun5e\Models\Armor;
 use Modules\Shadowrun5e\Models\ArmorArray;
 use Modules\Shadowrun5e\Models\ArmorModification;
-use Modules\Shadowrun5e\Models\AugmentationGrade;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\KarmaLogEntry;
 use Modules\Shadowrun5e\Models\KnowledgeSkill;

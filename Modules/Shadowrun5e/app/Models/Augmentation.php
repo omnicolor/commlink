@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Modules\Shadowrun5e\Enums\AugmentationGrade;
+use Modules\Shadowrun5e\Enums\AugmentationType;
 use Override;
 use RuntimeException;
 use Stringable;
@@ -20,9 +22,6 @@ use function ucfirst;
  */
 final class Augmentation implements Stringable
 {
-    public const string TYPE_BIOWARE = 'bioware';
-    public const string TYPE_CYBERWARE = 'cyberware';
-
     /**
      * Whether the augmentation is currently active.
      */
@@ -74,10 +73,7 @@ final class Augmentation implements Stringable
 
     public int|null|string $rating;
 
-    /**
-     * Type of augmentation, which should be either cyberware or bioware.
-     */
-    public readonly string $type;
+    public readonly AugmentationType $type;
 
     /**
      * Loaded know- or skill- softs for Skilljacks.
@@ -130,7 +126,7 @@ final class Augmentation implements Stringable
         }
         $this->name = $augmentation['name'];
         $this->rating = $augmentation['rating'] ?? null;
-        $this->type = $augmentation['type'] ?? self::TYPE_CYBERWARE;
+        $this->type = AugmentationType::tryFrom($augmentation['type'] ?? '') ?? AugmentationType::Cyberware;
     }
 
     #[Override]

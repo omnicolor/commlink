@@ -62,10 +62,10 @@
                     @else
                         <td {!! $class !!}>{{ $weapon->reach }}</td>
                     @endif
-                    <td {!! $class !!}>{{ $weapon->recoilCompensation }}</td>
-                    <td {!! $class !!}>{{ $weapon->armorPiercing }}</td>
+                    <td {!! $class !!}>{{ $weapon->recoil_compensation }}</td>
+                    <td {!! $class !!}>{{ $weapon->armor_piercing }}</td>
                     @if ('firearm' === $weapon->type)
-                        <td {!! $class !!}>{{ $weapon->ammoCapacity }} ({{ $weapon->ammoContainer }})</td>
+                        <td {!! $class !!}>{{ $weapon->ammo_capacity }} ({{ $weapon->ammo_container }})</td>
                     @else
                         <td {!! $class !!}></td>
                     @endif
