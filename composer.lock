@@ -9655,16 +9655,16 @@
         },
         {
             "name": "captainhook/captainhook-phar",
-            "version": "5.24.3",
+            "version": "5.24.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/captainhookphp/captainhook-phar.git",
-                "reference": "cf50ad07abd291af2770eceb3c1dcadf615f0819"
+                "reference": "de7a0e8a2d4ee7b63f46ac61c6f9a89ff0a30011"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/captainhookphp/captainhook-phar/zipball/cf50ad07abd291af2770eceb3c1dcadf615f0819",
-                "reference": "cf50ad07abd291af2770eceb3c1dcadf615f0819",
+                "url": "https://api.github.com/repos/captainhookphp/captainhook-phar/zipball/de7a0e8a2d4ee7b63f46ac61c6f9a89ff0a30011",
+                "reference": "de7a0e8a2d4ee7b63f46ac61c6f9a89ff0a30011",
                 "shasum": ""
             },
             "require": {
@@ -9709,7 +9709,7 @@
             ],
             "support": {
                 "issues": "https://github.com/captainhookphp/captainhook/issues",
-                "source": "https://github.com/captainhookphp/captainhook-phar/tree/5.24.3"
+                "source": "https://github.com/captainhookphp/captainhook-phar/tree/5.24.4"
             },
             "funding": [
                 {
@@ -9717,7 +9717,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-18T15:40:42+00:00"
+            "time": "2025-01-16T12:46:49+00:00"
         },
         {
             "name": "clue/ndjson-react",
