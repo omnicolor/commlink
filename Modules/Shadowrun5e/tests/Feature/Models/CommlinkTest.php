@@ -63,4 +63,11 @@ final class CommlinkTest extends TestCase
 
         self::assertSame(12350, $commlink->getCost());
     }
+
+    public function testGetConditionMonitorNotSet(): void
+    {
+        // Make a commlink that has no rating by abusing things...
+        $commlink = new Commlink('credstick-gold');
+        self::assertSame(0, $commlink->getConditionMonitor());
+    }
 }

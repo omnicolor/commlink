@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Models;
 
+use Modules\Shadowrun5e\Enums\WeaponRange;
 use Modules\Shadowrun5e\Models\Weapon;
 use Modules\Shadowrun5e\Models\WeaponModification;
 use Override;
@@ -101,12 +102,21 @@ final class WeaponTest extends TestCase
     public function testWeaponDoesntSetRuleset(): void
     {
         $weapon = new Weapon('ares-predator-v');
-        self::assertEquals('core', $weapon->ruleset);
+        self::assertSame('core', $weapon->ruleset);
     }
 
-    /**
-     * Test that a weapon can be cast to a string.
-     */
+    public function testWeaponWithTextRange(): void
+    {
+        $weapon = new Weapon('defiance-t-250-short');
+        self::assertSame(WeaponRange::Shotgun, $weapon->range);
+    }
+
+    public function testWeaponWithoutRange(): void
+    {
+        $weapon = new Weapon('ares-predator-v');
+        self::assertSame(WeaponRange::HeavyPistol, $weapon->range);
+    }
+
     public function testCastWeaponToString(): void
     {
         self::assertEquals('AK-98', (string)$this->weapon);
@@ -327,5 +337,10 @@ final class WeaponTest extends TestCase
         self::assertSame(1300, $weapon->getCost());
         $weapon->accessories['under'] = new WeaponModification('bayonet');
         self::assertSame(1350, $weapon->getCost());
+    }
+
+    public function testAll(): void
+    {
+        self::assertCount(6, Weapon::all());
     }
 }

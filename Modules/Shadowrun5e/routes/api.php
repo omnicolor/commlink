@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Route;
 use Modules\Shadowrun5e\Http\Controllers\AdeptPowersController;
 use Modules\Shadowrun5e\Http\Controllers\AmmunitionController;
@@ -38,7 +39,8 @@ use Modules\Shadowrun5e\Http\Controllers\TraditionsController;
 use Modules\Shadowrun5e\Http\Controllers\VehicleModificationsController;
 use Modules\Shadowrun5e\Http\Controllers\VehiclesController;
 use Modules\Shadowrun5e\Http\Controllers\WeaponModificationsController;
-use Modules\Shadowrun5e\Http\Controllers\WeaponsController;
+use Modules\Shadowrun5e\Http\Resources\WeaponResource;
+use Modules\Shadowrun5e\Models\Weapon;
 
 Route::middleware('auth:sanctum')
     ->prefix('shadowrun5e')
@@ -111,8 +113,17 @@ Route::middleware('auth:sanctum')
             ->only(['index', 'show']);
         Route::resource('vehicle-modifications', VehicleModificationsController::class)
             ->only(['index', 'show']);
-        Route::resource('weapons', WeaponsController::class)
-            ->only(['index', 'show']);
+
+        Route::get('weapons', function (): AnonymousResourceCollection {
+            return WeaponResource::collection((array)Weapon::all());
+        })->name('weapons.index');
+        Route::get(
+            'weapons/{weapon}',
+            function (string $weapon): WeaponResource {
+                return new WeaponResource(new Weapon($weapon));
+            }
+        )->name('weapons.show');
+
         Route::resource('weapon-modifications', WeaponModificationsController::class)
             ->only(['index', 'show']);
     });

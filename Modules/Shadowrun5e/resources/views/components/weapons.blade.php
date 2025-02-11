@@ -53,7 +53,7 @@
                         <td {!! $class !!}>{{ $weapon->accuracy }}</td>
                     @endif
                     @if (is_array($weapon->modes))
-                        <td {!! $class !!}>{{ implode(', ', $weapon->modes) }}</td>
+                        <td {!! $class !!}>{{ implode(', ', $weapon->getModes()) }}</td>
                     @else
                         <td {!! $class !!}>{{ $weapon->modes }}</td>
                     @endif

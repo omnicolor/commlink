@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use Modules\Shadowrun5e\Enums\FiringMode;
 use Modules\Shadowrun5e\Enums\WeaponClass;
+use Modules\Shadowrun5e\Enums\WeaponRange;
 
 /**
  * List of Shadowrun 5th edition weapons.
@@ -38,7 +40,12 @@ return [
         'description' => '',
         'id' => '',
         'image' => '',
-        'modes' => [],
+        'modes' => [
+            FiringMode::SingleShot,
+            FiringMode::SemiAutomatic,
+            FiringMode::BurstFire,
+            FiringMode::FullAuto,
+        ],
         'modifications' => [],
         'mounts' => [],
         'name' => '',
@@ -51,7 +58,7 @@ return [
     */
     'ak-98' => [
         'id' => 'ak-98',
-        'accuracy' => 5,
+        'accuracy' => '5',
         'ammo-capacity' => 38,
         'ammo-container' => 'c',
         'armor-piercing' => -2,
@@ -61,40 +68,47 @@ return [
         'cost' => 1250,
         'damage' => '10P',
         'description' => 'AK-98 description.',
-        'modes' => ['SA', 'BF', 'FA'],
+        'modes' => [
+            FiringMode::SemiAutomatic,
+            FiringMode::BurstFire,
+            FiringMode::FullAuto,
+        ],
         // TODO Add grenade launcher when supported
         //'modifications' => ['grenade-launcher'],
         'mounts' => ['top', 'barrel', 'stock'],
         'name' => 'AK-98',
-        'range' => '25/150/350/550',
+        'range' => WeaponRange::AssaultRifle,
         'ruleset' => 'run-and-gun',
         'skill' => 'automatics',
         'type' => 'firearm',
     ],
     'ares-predator-v' => [
-        'accuracy' => 5,
+        'accuracy' => '5',
         'ammo-capacity' => 15,
         'ammo-container' => 'c',
         'armor-piercing' => -1,
         'availability' => '5R',
         'chummer-id' => '971c711b-db32-4339-9203-865ef38f350e',
-        'class' => WeaponClass::HeavyPistol,
+        'class' => 'heavy-pistol',
         'cost' => 725,
         'damage' => '8P',
         'description' => 'Ares Predator description.',
         'id' => 'ares-predator-v',
         'image' => '/images/ares-predator-v.png',
-        'modes' => ['SA'],
+        'modes' => [
+            FiringMode::SemiAutomatic,
+        ],
         'modifications' => ['smartlink-internal'],
         'mounts' => ['barrel', 'top'],
         'name' => 'Ares Predator V',
         'page' => 426,
-        'ruleset' => 'core',
+        'range' => 'heavy-pistol', // For testing setting as a string.
+        //'ruleset' => 'core', // Left our for WeaponTest::testWeaponDoesntSetRuleset.
         'skill' => 'pistols',
         'type' => 'firearm',
     ],
     'combat-knife' => [
-        'accuracy' => 6,
+        'accuracy' => '6',
         'armor-piercing' => -3,
         'availability' => '4',
         'chummer-id' => '656906d8-b6a4-47a2-9554-de365097eba0',
@@ -106,6 +120,7 @@ return [
         'mounts' => ['stock'],
         'name' => 'Combat Knife',
         'page' => 422,
+        'range' => WeaponRange::Melee,
         'reach' => 0,
         'ruleset' => 'core',
         'skill' => 'blades',
@@ -124,10 +139,14 @@ return [
         'damage' => '9P',
         'description' => '',
         'id' => 'defiance-t-250-short',
-        'modes' => ['SS', 'SA'],
+        'modes' => [
+            FiringMode::SingleShot,
+            FiringMode::SemiAutomatic,
+        ],
         'mounts' => ['top', 'under', 'barrel', 'side', 'stock'],
         'name' => 'Defiance T-250 (Short Barrel)',
         'page' => 429,
+        //'range' => WeaponRange::Shotgun, Left off to test getting range from class.
         'ruleset' => 'core',
         'skill' => 'longarms',
         'type' => 'firearm',
@@ -143,7 +162,11 @@ return [
         'cost' => 730,
         'damage' => '7P',
         'description' => 'HK-227 description.',
-        'modes' => ['SA', 'BF', 'FA'],
+        'modes' => [
+            FiringMode::SemiAutomatic,
+            FiringMode::BurstFire,
+            FiringMode::FullAuto,
+        ],
         'modifications' => [
             'folding-stock',
             'silencer',
@@ -152,6 +175,7 @@ return [
         'mounts' => ['top'],
         'name' => 'HK-227',
         'page' => 427,
+        'range' => WeaponRange::SubmachineGun,
         'ruleset' => 'core',
         'skill' => 'automatics',
         'type' => 'firearm',
@@ -168,10 +192,13 @@ return [
         'damage' => '9P',
         'description' => 'Super Warhawk description.',
         'id' => 'ruger-super-warhawk',
-        'modes' => ['SS'],
+        'modes' => [
+            FiringMode::SingleShot,
+        ],
         'modifications' => [],
         'mounts' => ['barrel', 'top'],
         'name' => 'Ruger Super Warhawk',
+        'range' => WeaponRange::HeavyPistol,
         'skill' => 'pistols',
         'type' => 'firearm',
     ],

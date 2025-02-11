@@ -11,9 +11,6 @@ use function array_key_exists;
 use function assert;
 use function ceil;
 
-/**
- * Commlink class.
- */
 final class Commlink extends Gear implements Stringable
 {
     /**
@@ -92,7 +89,7 @@ final class Commlink extends Gear implements Stringable
         $this->programsInstalled = new ProgramArray();
         $this->programsRunning = new ProgramArray();
 
-        $this->programsAllowed = $item['programs'];
+        $this->programsAllowed = $item['programs'] ?? 0;
         if (isset($item['attributes'], $item['attributes']['firewall'])) {
             $this->attributes = [
                 $item['attributes']['attack'] ?? null,
@@ -115,7 +112,7 @@ final class Commlink extends Gear implements Stringable
      */
     public function getConditionMonitor(): int
     {
-        if (!isset($this->rating)) {
+        if (null === $this->rating) {
             return 0;
         }
         return 8 + (int)ceil($this->rating / 2);

@@ -18,15 +18,20 @@ use function strtolower;
 final class WeaponModification implements Stringable
 {
     public readonly string $availability;
+
+    /*
+     * $cost or $costModifier should be set for an aftermarket modification,
+     * but not both. For built-in modifications, the Weapon constructor will
+     * null out both so they don't add to the cost of the weapon.
+     */
     public int|null $cost;
     public int|null $costModifier;
-    public readonly string $description;
 
-    /**
-     * List of effects for the modification.
-     * @var array<string, int>
-     */
+    public readonly string $description;
+    /** @var array<string, int> */
     public array $effects;
+    /** @var array<string, int> */
+    public readonly array $wirelessEffects;
 
     /**
      * List of modifications this is incompatible with.
@@ -40,6 +45,7 @@ final class WeaponModification implements Stringable
      */
     public array $mount;
     public readonly string $name;
+    public readonly int|null $page;
     public readonly string $ruleset;
     public readonly string $type;
 
@@ -67,15 +73,22 @@ final class WeaponModification implements Stringable
         }
         $mod = self::$modifications[$id];
         $this->availability = $mod['availability'];
-        $this->cost = $mod['cost'] ?? null;
-        $this->costModifier = $mod['cost-modifier'] ?? null;
+        if (isset($mod['cost'])) {
+            $this->cost = (int)$mod['cost'];
+            $this->costModifier = null;
+        } else {
+            $this->cost = null;
+            $this->costModifier = $mod['cost-modifier'];
+        }
         $this->description = $mod['description'];
         $this->effects = $mod['effects'] ?? [];
         $this->incompatibleWith = $mod['incompatible-with'] ?? [];
         $this->mount = $mod['mount'] ?? [];
         $this->name = $mod['name'];
+        $this->page = $mod['page'] ?? null;
         $this->ruleset = $mod['ruleset'] ?? 'core';
         $this->type = $mod['type'];
+        $this->wirelessEffects = $mod['wireless-effects'] ?? [];
     }
 
     #[Override]

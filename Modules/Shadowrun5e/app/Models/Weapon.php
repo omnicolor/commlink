@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Modules\Shadowrun5e\Enums\FiringMode;
 use Modules\Shadowrun5e\Enums\WeaponClass;
 use Modules\Shadowrun5e\Enums\WeaponRange;
 use Override;
@@ -24,7 +25,7 @@ use function strtolower;
 final class Weapon implements Stringable
 {
     public WeaponModificationArray $accessories;
-    public readonly int|null|string $accuracy;
+    public readonly string|null $accuracy;
     /** @var mixed[] */
     public array $ammunition = [];
     public readonly int|null $ammo_capacity;
@@ -46,11 +47,8 @@ final class Weapon implements Stringable
      */
     public ?string $loaded;
 
-    /**
-     * Modes the weapon can shoot in.
-     * @var string[]
-     */
-    public ?array $modes;
+    /** @var array<int, FiringMode> */
+    public readonly array $modes;
 
     /**
      * Built-in modifications.
@@ -105,11 +103,12 @@ final class Weapon implements Stringable
                 . 'primary weapon. This includes a wide array of martial arts '
                 . 'along with the use of cybernetic implant weaponry and the '
                 . 'fighting styles that sprung up around those implants.';
+            $this->modes = [];
             $this->name = 'Unarmed Strike';
+            $this->page = 132;
             $this->range = WeaponRange::Melee;
             $this->reach = 0;
             $this->recoil_compensation = null;
-            $this->page = 132;
             $this->ruleset = 'core';
             $this->skill = new ActiveSkill('unarmed-combat', 1);
             $this->subname = null;
@@ -130,16 +129,19 @@ final class Weapon implements Stringable
         $this->ammo_container = $weapon['ammo-container'] ?? null;
         $this->armor_piercing = $weapon['armor-piercing'] ?? null;
         $this->availability = $weapon['availability'];
-        if ($weapon['class'] instanceof WeaponClass) {
-            $this->class = $weapon['class'];
-        } else {
-            $this->class = WeaponClass::from($weapon['class']);
-        }
-
         $this->cost = $weapon['cost'];
         $this->description = $weapon['description'];
         $this->damage = $weapon['damage'];
-        $this->modes = $weapon['modes'] ?? null;
+        $this->modes = $weapon['modes'] ?? [];
+        $this->name = $weapon['name'];
+        $this->page = $weapon['page'] ?? null;
+        $this->reach = $weapon['reach'] ?? null;
+        $this->recoil_compensation = $weapon['recoil-compensation'] ?? null;
+        $this->ruleset = $weapon['ruleset'] ?? 'core';
+        $this->skill = new ActiveSkill($weapon['skill'], 1);
+        $this->subname = $weapon['subname'] ?? null;
+        $this->type = $weapon['type'];
+
         if (isset($weapon['modifications'])) {
             foreach ($weapon['modifications'] as $mod) {
                 try {
@@ -154,15 +156,25 @@ final class Weapon implements Stringable
                 $this->modifications[] = $weaponMod;
             }
         }
-        $this->name = $weapon['name'];
-        $this->page = $weapon['page'] ?? null;
-        $this->range = WeaponRange::tryFrom($weapon['range'] ?? '') ?? WeaponRange::Unknown;
-        $this->reach = $weapon['reach'] ?? null;
-        $this->recoil_compensation = $weapon['recoil-compensation'] ?? null;
-        $this->ruleset = $weapon['ruleset'] ?? 'core';
-        $this->skill = new ActiveSkill($weapon['skill'], 1);
-        $this->subname = $weapon['subname'] ?? null;
-        $this->type = $weapon['type'];
+
+        if ($weapon['class'] instanceof WeaponClass) {
+            $this->class = $weapon['class'];
+        } else {
+            $this->class = WeaponClass::from($weapon['class']);
+        }
+
+        // Depending on the state of the data files, the weapon's range could
+        // be a variety of different things.
+        if (isset($weapon['range']) && $weapon['range'] instanceof WeaponRange) {
+            $this->range = $weapon['range'];
+        } elseif (!isset($weapon['range'])) {
+            $this->range = WeaponRange::tryFrom($this->class->value)
+                ?? WeaponRange::Unknown; // @codeCoverageIgnore
+        } else {
+            $this->range = WeaponRange::tryFrom($weapon['range'])
+                ?? WeaponRange::Unknown; // @codeCoverageIgnore
+        }
+
         if (isset($weapon['mounts'])) {
             foreach ($weapon['mounts'] as $mount) {
                 $this->accessories[$mount] = null;
@@ -176,51 +188,16 @@ final class Weapon implements Stringable
         return $this->name;
     }
 
-    /**
-     * Return the cost of the weapon, including ammo, modifications, and
-     * accessories.
-     */
-    public function getCost(): int
+    public static function all(): WeaponArray
     {
-        $cost = (int)$this->cost;
-        foreach ($this->modifications as $mod) {
-            assert(null !== $mod);
-            $cost += $mod->getCost($this);
-        }
-        foreach ($this->accessories as $mod) {
-            // Accessories are might be null for a given slot.
-            if (null === $mod) {
-                continue;
-            }
-            $cost += $mod->getCost($this);
-        }
-        // TODO Add ammunition
-        return $cost;
-    }
+        $filename = config('shadowrun5e.data_path') . 'weapons.php';
+        self::$weapons ??= require $filename;
 
-    /**
-     * Return the weapon's damage.
-     */
-    public function getDamage(int $strength): string
-    {
-        if (!str_contains($this->damage, 'STR')) {
-            // Weapon is not strength-based.
-            return $this->damage;
+        $weapons = new WeaponArray();
+        foreach (array_keys(self::$weapons ?? []) as $id) {
+            $weapons[] = new Weapon($id);
         }
-        $damage = str_replace('(STR', '', $this->damage);
-        $damage = (int)$damage + $strength;
-        if ('unarmed-strike' === $this->id) {
-            return $damage . 'S';
-        }
-        return $damage . 'P';
-    }
-
-    /**
-     * Get the range listing for a firearm.
-     */
-    public function getRange(): string
-    {
-        return $this->range->range();
+        return $weapons;
     }
 
     /**
@@ -272,5 +249,64 @@ final class Weapon implements Stringable
             'Weapon name "%s" was not found',
             $name
         ));
+    }
+
+    /**
+     * Return the cost of the weapon, including ammo, modifications, and
+     * accessories.
+     */
+    public function getCost(): int
+    {
+        $cost = (int)$this->cost;
+        foreach ($this->modifications as $mod) {
+            assert(null !== $mod);
+            $cost += $mod->getCost($this);
+        }
+        foreach ($this->accessories as $mod) {
+            // Accessories are might be null for a given slot.
+            if (null === $mod) {
+                continue;
+            }
+            $cost += $mod->getCost($this);
+        }
+        // TODO Add ammunition
+        return $cost;
+    }
+
+    /**
+     * Return the weapon's damage.
+     */
+    public function getDamage(int $strength): string
+    {
+        if (!str_contains($this->damage, 'STR')) {
+            // Weapon is not strength-based.
+            return $this->damage;
+        }
+        $damage = str_replace('(STR', '', $this->damage);
+        $damage = (int)$damage + $strength;
+        if ('unarmed-strike' === $this->id) {
+            return $damage . 'S';
+        }
+        return $damage . 'P';
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public function getModes(): array
+    {
+        $modes = [];
+        foreach ($this->modes as $mode) {
+            $modes[] = $mode->value;
+        }
+        return $modes;
+    }
+
+    /**
+     * Get the range listing for a firearm.
+     */
+    public function getRange(): string
+    {
+        return $this->range->range();
     }
 }
