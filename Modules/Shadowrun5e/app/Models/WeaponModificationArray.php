@@ -5,19 +5,21 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Models;
 
 use ArrayObject;
+use Override;
 use TypeError;
 
 /**
  * Collection of weapon modifications, or null for the named slots in a weapon.
  * @extends ArrayObject<int|string, ?WeaponModification>
  */
-class WeaponModificationArray extends ArrayObject
+final class WeaponModificationArray extends ArrayObject
 {
     /**
-     * Add a item to the array.
-     * @param ?WeaponModification $mod
+     * Add an item to the array.
+     * @param WeaponModification|null $mod
      * @throws TypeError
      */
+    #[Override]
     public function offsetSet(mixed $index = null, $mod = null): void
     {
         if (null === $mod) {

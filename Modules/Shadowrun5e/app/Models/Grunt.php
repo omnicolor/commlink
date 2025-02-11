@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -16,38 +17,38 @@ use function strtolower;
 /**
  * Representation of a Shadowrun 5E grunt.
  */
-class Grunt implements Stringable
+final class Grunt implements Stringable
 {
-    public ?AdeptPowerArray $adept_powers = null;
-    public int $agility;
+    public AdeptPowerArray|null $adept_powers = null;
+    public readonly int $agility;
     public ArmorArray $armor;
     public AugmentationArray $augmentations;
-    public int $body;
-    public int $charisma;
-    public ?ComplexFormArray $complex_forms = null;
+    public readonly int $body;
+    public readonly int $charisma;
+    public ComplexFormArray|null $complex_forms = null;
     public int $condition_monitor;
-    public string $description;
+    public readonly string $description;
     public float $essence = 6.0;
     public GearArray $gear;
-    public ?int $initiate_grade = null;
-    public int $initiative_base;
-    public int $initiative_dice = 1;
-    public int $intuition;
+    public readonly int|null $initiate_grade;
+    public readonly int $initiative_base;
+    public readonly int $initiative_dice;
+    public readonly int $intuition;
     public SkillArray $knowledge;
-    public int $logic;
-    public ?int $magic = null;
-    public string $name;
-    public int $page;
-    public int $professional_rating;
+    public readonly int $logic;
+    public readonly int|null $magic;
+    public readonly string $name;
+    public readonly int $page;
+    public readonly int $professional_rating;
     public QualityArray $qualities;
-    public int $reaction;
-    public ?int $resonance = null;
-    public string $ruleset;
+    public readonly int $reaction;
+    public readonly int|null $resonance;
+    public readonly string $ruleset;
     public SkillArray $skills;
-    public ?SpellArray $spells = null;
-    public int $strength;
+    public SpellArray|null $spells = null;
+    public readonly int $strength;
     public WeaponArray $weapons;
-    public int $willpower;
+    public readonly int $willpower;
 
     /**
      * List of all grunts.
@@ -55,7 +56,7 @@ class Grunt implements Stringable
      */
     public static ?array $grunts;
 
-    public function __construct(public string $id)
+    public function __construct(public readonly string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'grunts.php';
         self::$grunts ??= require $filename;
@@ -76,8 +77,8 @@ class Grunt implements Stringable
         $this->description = $grunt['description'];
         $this->essence = $grunt['essence'];
         $this->initiate_grade = $grunt['initiate_grade'] ?? null;
-        $this->initiative_base = $grunt['initiative_base'];
-        $this->initiative_dice = $grunt['initiative_dice'];
+        $this->initiative_base = $grunt['initiative_base'] ?? null;
+        $this->initiative_dice = $grunt['initiative_dice'] ?? 1;
         $this->intuition = $grunt['intuition'];
         $this->logic = $grunt['logic'];
         $this->magic = $grunt['magic'] ?? null;
@@ -179,6 +180,7 @@ class Grunt implements Stringable
         }
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

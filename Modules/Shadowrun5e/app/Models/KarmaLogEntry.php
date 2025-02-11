@@ -10,13 +10,13 @@ use DateTimeInterface;
  * Karma log stores all karma gain and spent, including during character
  * generation.
  */
-class KarmaLogEntry
+final class KarmaLogEntry
 {
     public function __construct(
-        public string $description,
-        public int $karma,
-        public ?DateTimeInterface $realDate = null,
-        public ?DateTimeInterface $gameDate = null,
+        public readonly string $description,
+        public readonly int $karma,
+        public readonly ?DateTimeInterface $realDate = null,
+        public readonly ?DateTimeInterface $gameDate = null,
     ) {
     }
 }

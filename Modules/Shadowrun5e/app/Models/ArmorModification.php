@@ -8,6 +8,7 @@ use Override;
 use RuntimeException;
 use Stringable;
 
+use function assert;
 use function config;
 use function sprintf;
 use function strtolower;
@@ -15,27 +16,27 @@ use function strtolower;
 /**
  * Something to change a piece of armor's behavior.
  */
-class ArmorModification implements Stringable
+final class ArmorModification implements Stringable
 {
     /**
      * Availability code for the modification.
      */
-    public ?string $availability;
+    public readonly null|string $availability;
 
     /**
      * Cost of the modification.
      */
-    public int $cost;
+    public readonly int $cost;
 
     /**
      * Cost modifier for the modification.
      */
-    public float $costModifier;
+    public readonly float|null $costModifier;
 
     /**
      * Description of the modification.
      */
-    public string $description;
+    public readonly string $description;
 
     /**
      * List of effects for the modification.
@@ -52,12 +53,12 @@ class ArmorModification implements Stringable
     /**
      * Name of the modification.
      */
-    public string $name;
+    public readonly string $name;
 
     /**
      * Rating for the modification.
      */
-    public ?int $rating;
+    public readonly int|null $rating;
 
     /**
      * Ruleset the modification comes from.
@@ -74,7 +75,7 @@ class ArmorModification implements Stringable
      * Construct a new modification object.
      * @throws RuntimeException
      */
-    public function __construct(public string $id)
+    public function __construct(public readonly string $id)
     {
         $filename = config('shadowrun5e.data_path')
             . 'armor-modifications.php';
@@ -92,13 +93,13 @@ class ArmorModification implements Stringable
         $this->availability = $mod['availability'];
         if (isset($mod['cost'])) {
             $this->cost = $mod['cost'];
+            $this->costModifier = null;
         } else {
             $this->cost = 0;
             $this->costModifier = $mod['cost-multiplier'];
         }
         $this->description = $mod['description'];
         $this->effects = $mod['effects'] ?? [];
-        $this->id = $mod['id'];
         $this->name = $mod['name'];
         $this->rating = $mod['rating'] ?? null;
         $this->ruleset = $mod['ruleset'] ?? 'core';
@@ -115,6 +116,7 @@ class ArmorModification implements Stringable
         if (0 !== $this->cost) {
             return $this->cost;
         }
+        assert(null !== $this->costModifier);
         return (int)(($armor->cost * $this->costModifier) - $armor->cost);
     }
 

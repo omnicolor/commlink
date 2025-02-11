@@ -4,22 +4,20 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use Stringable;
 
 /**
  * Contacts, because it's all about who you know.
  */
-class Contact implements Stringable
+final class Contact implements Stringable
 {
-    /**
-     * Archetype for the contact.
-     */
-    public string $archetype;
+    public readonly string $archetype;
 
     /**
      * Numerical rating for how connected the contact is in the world.
      */
-    public ?int $connection;
+    public int|null $connection;
 
     /**
      * Characters that the contact shares.
@@ -28,14 +26,14 @@ class Contact implements Stringable
     public array $characters = [];
 
     /**
-     * Notes the GM has made about the contect, not shown to players.
+     * Notes the GM has made about the contact, not shown to players.
      */
-    public ?string $gmNotes;
+    public null|string $gmNotes;
 
     /**
      * Numerical rating for how loyal the contact is to the character.
      */
-    public ?int $loyalty;
+    public int|null $loyalty;
 
     /**
      * Contact's street name.
@@ -45,7 +43,7 @@ class Contact implements Stringable
     /**
      * Notes about the contact.
      */
-    public ?string $notes;
+    public null|string $notes;
 
     /**
      * Construct a new contact object.
@@ -61,6 +59,7 @@ class Contact implements Stringable
         $this->notes = $data['notes'] ?? '';
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

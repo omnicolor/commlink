@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Models;
 
 use ArrayObject;
+use Override;
 use TypeError;
 
 /**
@@ -14,10 +15,11 @@ use TypeError;
 class SpellArray extends ArrayObject
 {
     /**
-     * Add a item to the array.
+     * Add an item to the array.
      * @param Spell $spell
      * @throws TypeError
      */
+    #[Override]
     public function offsetSet(mixed $index = null, $spell = null): void
     {
         if ($spell instanceof Spell) {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -15,59 +16,26 @@ use function strtolower;
 /**
  * Program class, for a program installed on a commlink, 'deck, rcc, etc.
  */
-class Program implements Stringable
+final class Program implements Stringable
 {
     /**
      * List of devices that can run the program.
      * @var array<int, string>
      */
     public array $allowedDevices = [];
-
-    /**
-     * Availability code for the program.
-     */
-    public string $availability;
-
-    /**
-     * Cost of the program.
-     */
-    public int $cost;
-
-    /**
-     * Description of the program.
-     */
-    public string $description;
+    public readonly string $availability;
+    public readonly int $cost;
+    public readonly string $description;
 
     /**
      * Collection of effects the program has.
      * @var array<string, int>
      */
     public array $effects = [];
-
-    /**
-     * Name of the program.
-     */
-    public string $name;
-
-    /**
-     * Page the program was listed on.
-     */
-    public ?int $page;
-
-    /**
-     * Optional rating for programs (agents) that need one.
-     */
-    public ?int $rating;
-
-    /**
-     * ID of the rules the program was introduced in.
-     */
-    public ?string $ruleset;
-
-    /**
-     * Whether the program is currently running.
-     */
-    public bool $running;
+    public readonly string $name;
+    public readonly int|null $page;
+    public readonly int|null $rating;
+    public readonly string $ruleset;
 
     /**
      * Specific vehicle if the program is an autosoft.
@@ -88,8 +56,10 @@ class Program implements Stringable
     /**
      * @throws RuntimeException if the ID isn't found
      */
-    public function __construct(public string $id, ?bool $running = null)
-    {
+    public function __construct(
+        public readonly string $id,
+        public ?bool $running = false,
+    ) {
         // Lazy load the programs.
         $filename = config('shadowrun5e.data_path') . 'programs.php';
         self::$programs ??= require $filename;
@@ -115,6 +85,7 @@ class Program implements Stringable
         $this->ruleset = $program['ruleset'] ?? 'core';
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
@@ -131,7 +102,7 @@ class Program implements Stringable
      * @throws RuntimeException
      */
     public static function build(
-        array | string $rawProgram,
+        array|string $rawProgram,
         ProgramArray $running,
     ): Program {
         if (!is_array($rawProgram)) {

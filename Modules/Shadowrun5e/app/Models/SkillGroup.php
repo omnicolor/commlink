@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -15,12 +16,9 @@ use function ucfirst;
 /**
  * Skill group.
  */
-class SkillGroup implements Stringable
+final class SkillGroup implements Stringable
 {
-    /**
-     * Name of the skill group.
-     */
-    public string $name;
+    public readonly string $name;
 
     /**
      * Skills that are part of the group.
@@ -37,7 +35,7 @@ class SkillGroup implements Stringable
     /**
      * @throws RuntimeException If the ID is invalid
      */
-    public function __construct(public string $id, public int $level)
+    public function __construct(public readonly string $id, public int $level)
     {
         if (!isset(self::$skillGroups)) {
             $filename = config('shadowrun5e.data_path') . 'skills.php';
@@ -65,11 +63,11 @@ class SkillGroup implements Stringable
             ));
         }
 
-        $this->id = $id;
         $this->name = ucfirst(str_replace('-', ' ', $id));
         $this->skills = self::$skillGroups[$id];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

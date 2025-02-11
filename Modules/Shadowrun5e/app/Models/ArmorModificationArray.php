@@ -13,7 +13,7 @@ use TypeError;
  * GearModifications.
  * @extends ArrayObject<int, ArmorModification|GearModification>
  */
-class ArmorModificationArray extends ArrayObject
+final class ArmorModificationArray extends ArrayObject
 {
     /**
      * Add an armor modification to the array.

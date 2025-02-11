@@ -7,6 +7,7 @@ namespace Modules\Shadowrun5e\Models;
 use App\Traits\FormulaConverter;
 use BadMethodCallException;
 use Illuminate\Support\Facades\Log;
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -33,37 +34,25 @@ class Sprite implements Stringable
     /**
      * Sprite's attack rating formula.
      */
-    public string $attack;
+    public readonly string $attack;
 
     /**
      * Sprite's data processing rating formula.
      */
-    public string $dataProcessing;
-
-    /**
-     * Description of the sprite.
-     */
-    public string $description;
+    public readonly string $dataProcessing;
+    public readonly string $description;
 
     /**
      * Sprite's firewall rating formula.
      */
-    public string $firewall;
+    public readonly string $firewall;
 
     /**
      * Sprites formula for calculating initiative.
      */
-    public string $initiative;
-
-    /**
-     * Sprite's name.
-     */
-    public string $name;
-
-    /**
-     * Page number the sprite was introduced on.
-     */
-    public int $page;
+    public readonly string $initiative;
+    public readonly string $name;
+    public readonly int $page;
 
     /**
      * Collection of powers the sprite has.
@@ -74,17 +63,13 @@ class Sprite implements Stringable
     /**
      * Sprite's resonance formula.
      */
-    public string $resonance;
+    public readonly string $resonance;
 
     /**
      * Whether the sprite is registered.
      */
     public bool $registered = false;
-
-    /**
-     * ID for the ruleset the sprite was introduced in.
-     */
-    public string $ruleset;
+    public readonly string $ruleset;
 
     /**
      * Collection of skills the sprite has.
@@ -95,7 +80,7 @@ class Sprite implements Stringable
     /**
      * Sprite's sleaze formula.
      */
-    public string $sleaze;
+    public readonly string $sleaze;
 
     /**
      * Number of tasks remaining for the sprite.
@@ -112,7 +97,7 @@ class Sprite implements Stringable
      * Constructor.
      * @throws RuntimeException if the ID is not found
      */
-    public function __construct(public string $id, public ?int $level = null)
+    public function __construct(public readonly string $id, public ?int $level = null)
     {
         $filename = config('shadowrun5e.data_path') . 'sprites.php';
         self::$sprites = require $filename;
@@ -139,6 +124,7 @@ class Sprite implements Stringable
         $this->sleaze = $sprite['sleaze'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

@@ -15,22 +15,19 @@ use function strtolower;
 /**
  * Representation of a neighborhood's lifestyle zone.
  */
-class LifestyleZone implements Stringable
+final class LifestyleZone implements Stringable
 {
-    /**
-     * Description of the Zone.
-     */
-    public string $description;
+    public readonly string $description;
 
     /**
      * Zone code.
      */
-    public string $name;
+    public readonly string $name;
 
     /**
      * Response time for first responders.
      */
-    public string $response_time;
+    public readonly string $response_time;
 
     /**
      * List of all zones.
@@ -41,7 +38,7 @@ class LifestyleZone implements Stringable
     /**
      * @throws RuntimeException if the ID is invalid.
      */
-    public function __construct(public string $id)
+    public function __construct(public readonly string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'lifestyle-zones.php';
         self::$zones ??= require $filename;

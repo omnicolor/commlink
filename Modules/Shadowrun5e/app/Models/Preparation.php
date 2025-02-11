@@ -11,26 +11,11 @@ use function in_array;
 /**
  * Class representing an alchemical preparation.
  */
-class Preparation
+final class Preparation
 {
-    /**
-     * In-game date the preparation was created on.
-     */
     public string $date;
-
-    /**
-     * Potency of the preparation.
-     */
     public int $potency;
-
-    /**
-     * Spell the preparation was created from.
-     */
     public Spell $spell;
-
-    /**
-     * Trigger for the preparation.
-     */
     public string $trigger;
 
     /**

@@ -20,11 +20,8 @@ use function ucfirst;
 /**
  * Quality (positive or negative) a character possesses.
  */
-class Quality implements Stringable
+final class Quality implements Stringable
 {
-    /**
-     * Description of the quality and its effects.
-     */
     public string $description;
 
     /**
@@ -38,26 +35,10 @@ class Quality implements Stringable
      * @var array<int, string>
      */
     public array $incompatibilities = [];
-
-    /**
-     * Amount of karma quality is worth.
-     */
-    public int $karma;
-
-    /**
-     * Name of the quality.
-     */
+    public readonly int $karma;
     public string $name;
-
-    /**
-     * Book quality is described in.
-     */
-    public string $ruleset = 'core';
-
-    /**
-     * Type of quality for those that need it.
-     */
-    public ?string $type;
+    public readonly string $ruleset;
+    //public readonly null|string $type;
 
     /**
      * List of all qualities.
@@ -70,7 +51,7 @@ class Quality implements Stringable
      * @param array<string, mixed> $raw Raw quality from the data store
      * @throws RuntimeException If the ID is invalid
      */
-    public function __construct(public string $id, array $raw = [])
+    public function __construct(public readonly string $id, array $raw = [])
     {
         $filename = config('shadowrun5e.data_path') . 'qualities.php';
         self::$qualities ??= require $filename;

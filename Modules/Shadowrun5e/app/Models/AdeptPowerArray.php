@@ -12,7 +12,7 @@ use TypeError;
  * Collection of adept powers.
  * @extends ArrayObject<int, AdeptPower>
  */
-class AdeptPowerArray extends ArrayObject
+final class AdeptPowerArray extends ArrayObject
 {
     /**
      * Add a power to the array.

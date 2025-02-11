@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -11,36 +12,17 @@ use function config;
 use function sprintf;
 use function strtolower;
 
-/**
- * Martial arts technique.
- * @property string $id
- */
-class MartialArtsTechnique implements Stringable
+final class MartialArtsTechnique implements Stringable
 {
-    /**
-     * Description of the technique.
-     */
-    public string $description;
-
-    /**
-     * Name of the technique.
-     */
-    public string $name;
-
-    /**
-     * Page the technique was introduced on.
-     */
-    public int $page;
-
-    /**
-     * Rulebook technique was introduced in.
-     */
-    public string $ruleset;
+    public readonly string $description;
+    public readonly string $name;
+    public readonly int $page;
+    public readonly string $ruleset;
 
     /**
      * Optional subname for the technique.
      */
-    public ?string $subname;
+    public readonly null|string $subname;
 
     /**
      * Collection of techniques.
@@ -51,7 +33,7 @@ class MartialArtsTechnique implements Stringable
     /**
      * @throws RuntimeException if the ID is invalid
      */
-    public function __construct(public string $id)
+    public function __construct(public readonly string $id)
     {
         $filename = config('shadowrun5e.data_path')
             . 'martial-arts-techniques.php';
@@ -73,6 +55,7 @@ class MartialArtsTechnique implements Stringable
         $this->subname = $technique['subname'] ?? null;
     }
 
+    #[Override]
     public function __toString(): string
     {
         if (null !== $this->subname) {

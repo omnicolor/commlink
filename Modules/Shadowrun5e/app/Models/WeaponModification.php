@@ -15,33 +15,23 @@ use function strtolower;
 /**
  * Something to add to a character's weapon.
  */
-class WeaponModification implements Stringable
+final class WeaponModification implements Stringable
 {
-    /**
-     * Availability code for the modification.
-     */
-    public string $availability;
+    public readonly string $availability;
 
-    /**
-     * Cost of the modification.
+    /*
+     * $cost or $costModifier should be set for an aftermarket modification,
+     * but not both. For built-in modifications, the Weapon constructor will
+     * null out both so they don't add to the cost of the weapon.
      */
-    public ?int $cost;
+    public int|null $cost;
+    public int|null $costModifier;
 
-    /**
-     * Cost modifier for the modification.
-     */
-    public ?int $costModifier;
-
-    /**
-     * Description of the modification.
-     */
-    public string $description;
-
-    /**
-     * List of effects for the modification.
-     * @var array<string, int>
-     */
+    public readonly string $description;
+    /** @var array<string, int> */
     public array $effects;
+    /** @var array<string, int> */
+    public readonly array $wirelessEffects;
 
     /**
      * List of modifications this is incompatible with.
@@ -54,21 +44,10 @@ class WeaponModification implements Stringable
      * @var array<int, string>
      */
     public array $mount;
-
-    /**
-     * Name of the modification.
-     */
-    public string $name;
-
-    /**
-     * Ruleset the modification comes from.
-     */
-    public string $ruleset;
-
-    /**
-     * Type of modification (accessory or modification).
-     */
-    public string $type;
+    public readonly string $name;
+    public readonly int|null $page;
+    public readonly string $ruleset;
+    public readonly string $type;
 
     /**
      * List of all modifications.
@@ -79,7 +58,7 @@ class WeaponModification implements Stringable
     /**
      * @throws RuntimeException
      */
-    public function __construct(public string $id)
+    public function __construct(public readonly string $id)
     {
         $filename = config('shadowrun5e.data_path')
             . 'weapon-modifications.php';
@@ -94,15 +73,22 @@ class WeaponModification implements Stringable
         }
         $mod = self::$modifications[$id];
         $this->availability = $mod['availability'];
-        $this->cost = $mod['cost'] ?? null;
-        $this->costModifier = $mod['cost-modifier'] ?? null;
+        if (isset($mod['cost'])) {
+            $this->cost = (int)$mod['cost'];
+            $this->costModifier = null;
+        } else {
+            $this->cost = null;
+            $this->costModifier = $mod['cost-modifier'];
+        }
         $this->description = $mod['description'];
         $this->effects = $mod['effects'] ?? [];
         $this->incompatibleWith = $mod['incompatible-with'] ?? [];
         $this->mount = $mod['mount'] ?? [];
         $this->name = $mod['name'];
+        $this->page = $mod['page'] ?? null;
         $this->ruleset = $mod['ruleset'] ?? 'core';
         $this->type = $mod['type'];
+        $this->wirelessEffects = $mod['wireless-effects'] ?? [];
     }
 
     #[Override]

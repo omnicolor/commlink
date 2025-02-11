@@ -5,19 +5,21 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Models;
 
 use ArrayObject;
+use Override;
 use TypeError;
 
 /**
  * Collection of sprites.
  * @extends ArrayObject<int, Sprite>
  */
-class SpriteArray extends ArrayObject
+final class SpriteArray extends ArrayObject
 {
     /**
-     * Add a item to the array.
+     * Add an item to the array.
      * @param Sprite $sprite
      * @throws TypeError
      */
+    #[Override]
     public function offsetSet(mixed $index = null, $sprite = null): void
     {
         if ($sprite instanceof Sprite) {
