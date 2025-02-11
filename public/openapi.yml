@@ -9,7 +9,7 @@ info:
   license:
     name: MIT License
     url: https://mit-license.org/
-  version: 1.9.0
+  version: 1.10.0
 externalDocs:
   description: Find out more about Commlink
   url: https://commlink.digitaldarkness.com/about
@@ -8756,9 +8756,9 @@ components:
     Shadowrun5eWeapon:
       example:
         accuracy: '5'
-        ammo-capacity: 38
-        ammo-container: 'c'
-        armor-piercing: -2
+        ammo_capacity: 38
+        ammo_container: 'c'
+        armor_piercing: -2
         availability: '4R'
         class: 'Assault Rifle'
         cost: 950
@@ -8770,7 +8770,7 @@ components:
           AK-97s kept functioning just fine.
         id: 'ak-97'
         links:
-          self: '/api/shadowrun5e/weapons/ak-97'
+          self: 'https://commlink.digitaldarkness.com/api/shadowrun5e/weapons/ak-97'
         modes:
           - 'SA'
           - 'BF'
@@ -8788,11 +8788,11 @@ components:
       properties:
         accuracy:
           type: string
-        ammo-capacity:
+        ammo_capacity:
           type: integer
-        ammo-container:
+        ammo_container:
           type: string
-        armor-piercing:
+        armor_piercing:
           type: integer
         availability:
           $ref: '#/components/schemas/Shadowrun5eAvailability'
@@ -8843,7 +8843,7 @@ components:
           type: array
         modifications:
           items:
-            type: string
+            $ref: '#/components/schemas/Shadowrun5eWeaponModification'
           type: array
         mounts:
           items:
