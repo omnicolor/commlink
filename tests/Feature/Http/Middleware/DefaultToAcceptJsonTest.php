@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Middleware;
 
 use App\Http\Middleware\DefaultToAcceptJson;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Override;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
@@ -28,9 +28,9 @@ final class DefaultToAcceptJsonTest extends TestCase
         $request = Request::create('http://example.com/api/testing', 'GET');
         $request->headers->set('Accept', null);
 
-        $this->middleware->handle($request, function (Request $request): Response {
+        $this->middleware->handle($request, function (Request $request): JsonResponse {
             self::assertSame('application/json', $request->headers->get('Accept'));
-            return new Response();
+            return new JsonResponse();
         });
     }
 
@@ -39,9 +39,9 @@ final class DefaultToAcceptJsonTest extends TestCase
         $request = Request::create('http://example.com/api/testing', 'GET');
         $request->headers->set('Accept', 'text/plain');
 
-        $this->middleware->handle($request, function () use ($request): Response {
+        $this->middleware->handle($request, function () use ($request): JsonResponse {
             self::assertSame('text/plain', $request->headers->get('Accept'));
-            return new Response();
+            return new JsonResponse();
         });
     }
 }
