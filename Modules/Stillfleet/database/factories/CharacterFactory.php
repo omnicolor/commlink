@@ -21,6 +21,9 @@ class CharacterFactory extends Factory
     public function definition(): array
     {
         return [
+            'charm' => 'd6',
+            'combat' => 'd4',
+            'movement' => 'd8+1',
             'name' => 'Fake Stillfleet Character',
             'system' => 'stillfleet',
         ];
