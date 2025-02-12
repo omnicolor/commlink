@@ -101,12 +101,13 @@ class PartialCharacter extends Character implements Stringable
 
     #[Override]
     public function newFromBuilder(
+        // @phpstan-ignore parameter.defaultValue
         $attributes = [],
         $connection = null,
     ): PartialCharacter {
-        $character = new self($attributes);
+        $character = new self((array)$attributes);
         $character->exists = true;
-        $character->setRawAttributes($attributes, true);
+        $character->setRawAttributes((array)$attributes, true);
         $character->setConnection($this->connection);
         $character->fireModelEvent('retrieved', false);
         $character->fillable[] = 'errors';

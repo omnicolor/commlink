@@ -39,7 +39,6 @@ final class CharactersControllerTest extends TestCase
         $character = Character::factory()->create([
             'owner' => $this->user->email,
         ]);
-
         self::actingAs($this->user)
             ->get(
                 route('stillfleet.character', $character),
@@ -47,7 +46,6 @@ final class CharactersControllerTest extends TestCase
             )
             ->assertSee($this->user->email)
             ->assertSee(e($character->name), false);
-
         $character->delete();
     }
 
@@ -68,12 +66,10 @@ final class CharactersControllerTest extends TestCase
         $character = Character::factory()->create([
             'owner' => $this->user->email,
         ]);
-
         self::actingAs($this->user)
             ->get(route('stillfleet.list'))
             ->assertSee($this->user->email)
             ->assertSee(e($character->name), false);
-
         $character->delete();
     }
 

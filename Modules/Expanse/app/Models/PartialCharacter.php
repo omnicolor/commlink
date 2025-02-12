@@ -25,11 +25,14 @@ class PartialCharacter extends Character implements Stringable
      */
     public array $errors = [];
 
-    public function newFromBuilder($attributes = [], $connection = null): self
-    {
-        $character = new self($attributes);
+    public function newFromBuilder(
+        // @phpstan-ignore parameter.defaultValue
+        $attributes = [],
+        $connection = null,
+    ): self {
+        $character = new self((array)$attributes);
         $character->exists = true;
-        $character->setRawAttributes($attributes, true);
+        $character->setRawAttributes((array)$attributes, true);
         $character->setConnection($this->connection);
         $character->fireModelEvent('retrieved', false);
         // @phpstan-ignore return.type

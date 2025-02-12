@@ -16,6 +16,7 @@ use Modules\Stillfleet\Database\Factories\CharacterFactory;
 use RuntimeException;
 
 use function assert;
+use function count;
 
 /**
  * @property string $charm
@@ -47,9 +48,11 @@ class Character extends BaseCharacter
      * @var array<string, string>
      */
     protected $casts = [
+        'combat' => 'string',
         'grit_current' => 'integer',
         'health_current' => 'integer',
         'money' => 'integer',
+        'movement' => 'string',
     ];
 
     /**
@@ -137,6 +140,10 @@ class Character extends BaseCharacter
     {
         return Attribute::make(
             get: function (): int {
+                if (0 === count($this->roles)) {
+                    return 0;
+                }
+
                 $grit = 0;
                 assert($this->roles[0] instanceof Role);
                 foreach ($this->roles[0]->grit as $attribute) {
