@@ -107,6 +107,7 @@
             "@lint-openapi"
         ],
         "coverage": [
+            "Composer\\Config::disableProcessTimeout",
             "XDEBUG_MODE=coverage phpunit --coverage-html=public/coverage"
         ],
         "infection": "infection --coverage=public/coverage",
