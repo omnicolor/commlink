@@ -1320,6 +1320,30 @@ paths:
           $ref: '#/components/responses/ErrorUnprocessableContent'
       tags:
         - interactivity
+  /characters:
+    get:
+      summary: All characters owned by the current user from all systems
+      operationId: characters-index
+      responses:
+        '200':
+          description: Collection of characters.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      allOf:
+                        - $ref: '#/components/schemas/Character'
+                        - $ref: '#/components/schemas/CharacterLinks'
+                    type: array
+                required:
+                  - data
+                type: object
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+      tags:
+        - character
   /cyberpunkred/armor:
     get:
       summary: Cyberpunk Red RPG armor
@@ -5308,13 +5332,14 @@ components:
         - name
       type: object
     Character:
+      description: Minimal character object.
       properties:
         campaign_id:
           type: integer
         id:
           type: string
-        links:
-          $ref: '#/components/schemas/Links'
+        name:
+          type: string
         owner:
           oneOf:
             - format: email
@@ -5338,6 +5363,18 @@ components:
             id:
               type: integer
             name:
+              type: string
+          type: object
+      type: object
+    CharacterLinks:
+      properties:
+        links:
+          properties:
+            html:
+              format: url
+              type: string
+            json:
+              format: url
               type: string
           type: object
       type: object
