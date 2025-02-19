@@ -10,6 +10,7 @@ use Stringable;
 /**
  * @property array<string, int> $effects
  */
+
 readonly class ImpulseDowntime implements Stringable
 {
     /**
