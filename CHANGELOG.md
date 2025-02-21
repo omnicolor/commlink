@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.11.0] - 2025-02-20
+
+### Added
+
+- Added middleware to default API requests to application/json. (#2052)
+- Added a generic characters route. (#2063)
+
+### Changed
+
+- Finally updated the Mongo dependency. (#2062)
+- Lots of dependencies updated, including at least one security vulnerability.
+
 ## [1.10.0] - 2025-02-11
 
 ### Added
