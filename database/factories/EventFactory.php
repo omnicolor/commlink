@@ -14,8 +14,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class EventFactory extends Factory
 {
-    protected $model = Event::class;
-
     /**
      * @return array<string, int|null|string>
      */
