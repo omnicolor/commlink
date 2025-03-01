@@ -7,11 +7,10 @@ namespace Modules\Startrekadventures\Tests\Feature\Rolls;
 use App\Models\Channel;
 use Facades\App\Services\DiceService;
 use Modules\Startrekadventures\Rolls\Focused;
+use Omnicolor\Slack\Attachment;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
-
-use function json_decode;
 
 use const PHP_EOL;
 
@@ -22,19 +21,28 @@ final class FocusedTest extends TestCase
     #[Group('slack')]
     public function testFocusedSlack(): void
     {
-        DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(3);
+        DiceService::shouldReceive('rollOne')
+            ->times(2)
+            ->with(20)
+            ->andReturn(3);
 
-        /** @var Channel */
-        $channel = Channel::factory()->make();
-        $response = new Focused('focused 1 2 3', 'username', $channel);
-        $response = json_decode((string)$response->forSlack());
-        $response = $response->attachments[0];
+        $response = (new Focused(
+            'focused 1 2 3',
+            'username',
+            Channel::factory()->make(),
+        ))
+            ->forSlack()
+            ->jsonSerialize();
 
-        self::assertSame('Rolls: 3 3', $response->footer);
-        self::assertSame('Rolled 2 successes', $response->text);
+        self::assertArrayHasKey('attachments', $response);
         self::assertSame(
-            'username failed a roll with a focus',
-            $response->title
+            [
+                'color' => Attachment::COLOR_DANGER,
+                'footer' => 'Rolls: 3 3',
+                'text' => 'Rolled 2 successes',
+                'title' => 'username failed a roll with a focus',
+            ],
+            $response['attachments'][0],
         );
     }
 
@@ -43,7 +51,6 @@ final class FocusedTest extends TestCase
     {
         DiceService::shouldReceive('rollOne')->times(6)->with(20)->andReturn(3);
 
-        /** @var Channel */
         $channel = Channel::factory()->make();
         $response = (new Focused('focused 1 2 3 4', 'username', $channel))
             ->forDiscord();
@@ -58,7 +65,6 @@ final class FocusedTest extends TestCase
     {
         DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(20);
 
-        /** @var Channel */
         $channel = Channel::factory()->make();
         $response = (new Focused('focused 1 2 3', 'username', $channel))
             ->forIrc();
@@ -74,7 +80,6 @@ final class FocusedTest extends TestCase
     {
         DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(1);
 
-        /** @var Channel */
         $channel = Channel::factory()->make();
         $response = (new Focused('focused 1 2 3', 'username', $channel))
             ->forDiscord();
@@ -88,23 +93,28 @@ final class FocusedTest extends TestCase
     #[Group('slack')]
     public function testFocusedRollWithOptionalText(): void
     {
-        DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(3);
+        DiceService::shouldReceive('rollOne')
+            ->times(2)
+            ->with(20)
+            ->andReturn(3);
 
-        /** @var Channel */
-        $channel = Channel::factory()->make();
-        $response = new Focused(
+        $response = (new Focused(
             'focused 1 2 3 testing',
             'username',
-            $channel
-        );
-        $response = json_decode((string)$response->forSlack());
-        $response = $response->attachments[0];
+            Channel::factory()->make(),
+        ))
+            ->forSlack()
+            ->jsonSerialize();
 
-        self::assertSame('Rolls: 3 3', $response->footer);
-        self::assertSame('Rolled 2 successes', $response->text);
+        self::assertArrayHasKey('attachments', $response);
         self::assertSame(
-            'username failed a roll with a focus for "testing"',
-            $response->title
+            [
+                'color' => Attachment::COLOR_DANGER,
+                'footer' => 'Rolls: 3 3',
+                'text' => 'Rolled 2 successes',
+                'title' => 'username failed a roll with a focus for "testing"',
+            ],
+            $response['attachments'][0],
         );
     }
 }

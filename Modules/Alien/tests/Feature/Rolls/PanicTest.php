@@ -11,8 +11,6 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-use function json_decode;
-
 #[Group('alien')]
 #[Medium]
 final class PanicTest extends TestCase
@@ -21,15 +19,19 @@ final class PanicTest extends TestCase
     public function testSlack(): void
     {
         DiceService::shouldReceive('rollOne')->times(1)->with(6)->andReturn(1);
-        $response = (new Panic('', 'user', new Channel()))->forSlack();
-        $attachment = json_decode((string)$response)->attachments[0];
+        $response = (new Panic('', 'user', new Channel()))
+            ->forSlack()
+            ->jsonSerialize();
 
+        self::assertArrayHasKey('attachments', $response);
+        self::assertArrayHasKey('text', $response['attachments'][0]);
+        self::assertArrayHasKey('color', $response['attachments'][0]);
         self::assertSame(
             'user rolled 1+0=1 on the panic roll table',
-            $attachment->title,
+            $response['attachments'][0]['title'],
         );
-        self::assertStringStartsWith('KEEPING IT', $attachment->text);
-        self::assertSame('good', $attachment->color);
+        self::assertStringStartsWith('KEEPING IT', $response['attachments'][0]['text']);
+        self::assertSame('good', $response['attachments'][0]['color']);
     }
 
     #[Group('discord')]
@@ -49,17 +51,22 @@ final class PanicTest extends TestCase
     public function testSlackFailed(): void
     {
         DiceService::shouldReceive('rollOne')->times(1)->with(6)->andReturn(6);
-        $response = (new Panic('panic 2', 'user', new Channel()))->forSlack();
-        $attachment = json_decode((string)$response)->attachments[0];
+        $response = (new Panic('panic 2', 'user', new Channel()))
+            ->forSlack()
+            ->jsonSerialize();
 
+        self::assertArrayHasKey('attachments', $response);
+        self::assertArrayHasKey('text', $response['attachments'][0]);
+        self::assertArrayHasKey('color', $response['attachments'][0]);
         self::assertSame(
             'user rolled 6+2=8 on the panic roll table',
-            $attachment->title,
+            $response['attachments'][0]['title'],
         );
-        self::assertStringStartsWith('TREMBLE', $attachment->text);
-        self::assertSame('danger', $attachment->color);
+        self::assertStringStartsWith('TREMBLE', $response['attachments'][0]['text']);
+        self::assertSame('danger', $response['attachments'][0]['color']);
     }
 
+    #[Group('irc')]
     public function testIrcAndRemainingValues(): void
     {
         DiceService::shouldReceive('rollOne')->with(6)->andReturn(6);

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Capers\Tests\Feature\Rolls;
 
-use App\Exceptions\SlackException;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\ChatUser;
@@ -13,6 +12,8 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Modules\Capers\Models\StandardDeck;
 use Modules\Capers\Rolls\ShuffleAll;
+use Omnicolor\Slack\Attachment;
+use Omnicolor\Slack\Exceptions\SlackException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -29,13 +30,12 @@ final class ShuffleAllTest extends TestCase
     #[Group('slack')]
     public function testShuffleWithNoCampaign(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'capers']);
         $channel->username = $this->faker->name;
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(
-            'Decks for Capers require a linked Commlink campaign.'
+            'Decks for Capers require a linked Commlink campaign.',
         );
         (new ShuffleAll('shuffleAll', $channel->username, $channel))
             ->forSlack();
@@ -47,10 +47,8 @@ final class ShuffleAllTest extends TestCase
     #[Group('discord')]
     public function testShuffleFromOtherSystem(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',
@@ -71,10 +69,8 @@ final class ShuffleAllTest extends TestCase
     #[Group('slack')]
     public function testShuffleAllNotGm(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'capers']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',
@@ -83,7 +79,7 @@ final class ShuffleAllTest extends TestCase
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(
-            'You must be the game\'s GM to shuffle all decks'
+            'You must be the game\'s GM to shuffle all decks',
         );
         (new ShuffleAll('shuffleAll', $channel->username, $channel))
             ->forSlack();
@@ -95,16 +91,13 @@ final class ShuffleAllTest extends TestCase
     #[Group('slack')]
     public function testShuffleAllWithNoDecks(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $user->id,
             'system' => 'capers',
         ]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',
@@ -122,10 +115,17 @@ final class ShuffleAllTest extends TestCase
         ]);
 
         $response = (new ShuffleAll('shuffleAll', $channel->username, $channel))
-            ->forSlack();
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $response);
         self::assertSame(
-            'The Gamemaster shuffled all decks',
-            json_decode((string)$response)->attachments[0]->title
+            [
+                'color' => Attachment::COLOR_INFO,
+                'text' => '',
+                'title' => 'The Gamemaster shuffled all decks',
+            ],
+            $response['attachments'][0],
         );
 
         // Make sure no decks were created by shuffling.
@@ -138,16 +138,13 @@ final class ShuffleAllTest extends TestCase
     #[Group('discord')]
     public function testShuffleAllFromDiscord(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $user->id,
             'system' => 'capers',
         ]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',
@@ -175,12 +172,12 @@ final class ShuffleAllTest extends TestCase
             ->forDiscord();
         self::assertSame(
             'The Gamemaster shuffled all decks',
-            $response
+            $response,
         );
 
         $deck = StandardDeck::findForCampaignAndPlayer(
             $campaign,
-            $deck->character_id
+            $deck->character_id,
         );
         self::assertCount(54, $deck);
     }
@@ -188,10 +185,8 @@ final class ShuffleAllTest extends TestCase
     #[Group('irc')]
     public function testNotGmInIrc(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'capers']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',
@@ -209,16 +204,13 @@ final class ShuffleAllTest extends TestCase
     #[Group('irc')]
     public function testForIrc(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $user->id,
             'system' => 'capers',
         ]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',
@@ -246,7 +238,7 @@ final class ShuffleAllTest extends TestCase
             ->forIrc();
         self::assertSame(
             'The Gamemaster shuffled all decks',
-            $response
+            $response,
         );
     }
 }

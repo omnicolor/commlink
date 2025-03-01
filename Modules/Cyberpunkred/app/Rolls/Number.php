@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Cyberpunkred\Rolls;
 
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
-use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
+use Omnicolor\Slack\Attachments\TextAttachment;
+use Omnicolor\Slack\Response;
+use Override;
 
 use function abs;
 use function array_shift;
@@ -58,7 +59,7 @@ class Number extends Roll
     public function __construct(
         string $content,
         string $username,
-        Channel $channel
+        Channel $channel,
     ) {
         parent::__construct($content, $username, $channel);
 
@@ -69,7 +70,8 @@ class Number extends Roll
         $this->roll();
     }
 
-    public function forSlack(): SlackResponse
+    #[Override]
+    public function forSlack(): Response
     {
         $color = TextAttachment::COLOR_INFO;
         if ($this->critFailure) {
@@ -80,25 +82,24 @@ class Number extends Roll
         $attachment = new TextAttachment(
             $this->formatTitle(),
             $this->formatBody(),
-            $color
+            $color,
+            implode(' ', $this->dice),
         );
-        $attachment->addFooter(implode(' ', $this->dice));
 
-        $response = new SlackResponse(
-            '',
-            SlackResponse::HTTP_OK,
-            [],
-            $this->channel
-        );
-        return $response->addAttachment($attachment)->sendToChannel();
+        // @phpstan-ignore method.deprecated
+        return (new Response())
+            ->addAttachment($attachment)
+            ->sendToChannel();
     }
 
+    #[Override]
     public function forDiscord(): string
     {
         return sprintf('**%s**', $this->formatTitle()) . PHP_EOL
             . $this->formatBody();
     }
 
+    #[Override]
     public function forIrc(): string
     {
         return $this->formatTitle() . PHP_EOL . $this->formatBody();
@@ -111,7 +112,7 @@ class Number extends Roll
                 '1d10 + %1$d = %2$d + %1$d = %3$d',
                 $this->addition,
                 $this->dice[0],
-                $this->result
+                $this->result,
             );
         }
         if ($this->critFailure) {
@@ -119,14 +120,14 @@ class Number extends Roll
                 '1d10 + %1$d = 1 - %2$d + %1$d = %3$d',
                 $this->addition,
                 abs($this->dice[1]),
-                $this->result
+                $this->result,
             );
         }
         return sprintf(
             '1d10 + %1$d = 10 + %2$d + %1$d = %3$d',
             $this->addition,
             $this->dice[1],
-            $this->result
+            $this->result,
         );
     }
 
@@ -147,14 +148,14 @@ class Number extends Roll
             return sprintf(
                 '%s made a roll with a critical failure%s',
                 $this->username,
-                $for
+                $for,
             );
         }
 
         return sprintf(
             '%s made a roll with a critical success%s',
             $this->username,
-            $for
+            $for,
         );
     }
 

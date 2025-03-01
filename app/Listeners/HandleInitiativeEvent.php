@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace App\Listeners;
 
 use App\Events\InitiativeAdded;
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Initiative;
-use App\Models\Slack\TextAttachment;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Omnicolor\Slack\Headers\Header;
+use Omnicolor\Slack\Response;
+use Omnicolor\Slack\Sections\Text;
 
 use function config;
 use function sprintf;
@@ -52,19 +53,15 @@ class HandleInitiativeEvent
      */
     protected function sendToSlack(Initiative $initiative, Channel $channel): void
     {
-        $data = new SlackResponse(channel: $channel);
-        $data->addAttachment(new TextAttachment(
-            'Initiative set',
-            sprintf(
+        $message = (new Response())
+            ->addBlock(new Header('Initiative set'))
+            ->addBlock(new Text(sprintf(
                 'Set initiative for "%s" to "%d"',
                 $initiative->name,
                 $initiative->initiative
-            ),
-            TextAttachment::COLOR_INFO
-        ));
-        $data = $data->getData();
-        $data->response_type = null;
-        $data->channel = $channel->channel_id;
+            )))->jsonSerialize();
+        unset($message['response_type']);
+        $message['channel'] = $channel->channel_id;
 
         try {
             Http::retry(3, 100, throw: false)
@@ -72,7 +69,7 @@ class HandleInitiativeEvent
                     'Authorization' => sprintf('Bearer %s', config('services.slack.bot_token')),
                     'Content-Type' => 'application/json;charset=UTF-8',
                 ])
-                ->post('https://slack.com/api/chat.postMessage', (array)$data);
+                ->post('https://slack.com/api/chat.postMessage', $message);
             // @codeCoverageIgnoreStart
         } catch (RequestException $ex) {
             Log::error(

@@ -14,7 +14,6 @@ use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function config;
-use function json_decode;
 use function sprintf;
 
 #[Group('alien')]
@@ -28,34 +27,35 @@ final class HelpTest extends TestCase
             'system' => 'alien',
             'type' => Channel::TYPE_SLACK,
         ]);
-        $response = (new Help('', 'username', $channel))->forSlack();
-        $response = json_decode((string)$response);
+        $response = (new Help('', 'username', $channel))
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $response);
+        self::assertArrayHasKey('text', $response['attachments'][0]);
         self::assertSame(
             config('app.name') . ' - Alien RPG',
-            $response->attachments[0]->title
+            $response['attachments'][0]['title'],
         );
         self::assertStringStartsWith(
             'I am a bot that lets you roll Alien RPG dice.',
-            $response->attachments[0]->text,
+            $response['attachments'][0]['text'],
         );
     }
 
     #[Group('discord')]
     public function testHelpWithCharacter(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_DISCORD,
             'system' => 'alien',
         ]);
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
             'server_type' => ChatUser::TYPE_DISCORD,
             'verified' => true,
         ]);
-        /** @var Character */
         $character = Character::factory()->create();
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,

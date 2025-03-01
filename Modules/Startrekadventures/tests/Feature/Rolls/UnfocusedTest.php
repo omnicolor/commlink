@@ -7,11 +7,10 @@ namespace Modules\Startrekadventures\Tests\Feature\Rolls;
 use App\Models\Channel;
 use Facades\App\Services\DiceService;
 use Modules\Startrekadventures\Rolls\Unfocused;
+use Omnicolor\Slack\Attachment;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
-
-use function json_decode;
 
 use const PHP_EOL;
 
@@ -22,20 +21,28 @@ final class UnfocusedTest extends TestCase
     #[Group('slack')]
     public function testUnfocusedSlack(): void
     {
-        /** @var Channel */
-        $channel = Channel::factory()->make();
+        DiceService::shouldReceive('rollOne')
+            ->times(2)
+            ->with(20)
+            ->andReturn(3);
 
-        DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(3);
+        $response = (new Unfocused(
+            'unfocused 1 2 3',
+            'username',
+            Channel::factory()->make(),
+        ))
+            ->forSlack()
+            ->jsonSerialize();
 
-        $response = new Unfocused('unfocused 1 2 3', 'username', $channel);
-        $response = json_decode((string)$response->forSlack());
-        $response = $response->attachments[0];
-
-        self::assertSame('Rolls: 3 3', $response->footer);
-        self::assertSame('Rolled 2 successes', $response->text);
+        self::assertArrayHasKey('attachments', $response);
         self::assertSame(
-            'username failed a roll without a focus',
-            $response->title
+            [
+                'color' => Attachment::COLOR_DANGER,
+                'footer' => 'Rolls: 3 3',
+                'text' => 'Rolled 2 successes',
+                'title' => 'username failed a roll without a focus',
+            ],
+            $response['attachments'][0],
         );
     }
 
@@ -45,7 +52,6 @@ final class UnfocusedTest extends TestCase
     #[Group('discord')]
     public function testUnfocusedExtraDice(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make();
 
         DiceService::shouldReceive('rollOne')->times(6)->with(20)->andReturn(3);
@@ -64,7 +70,6 @@ final class UnfocusedTest extends TestCase
     #[Group('discord')]
     public function testUnfocusedWithComplication(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make();
 
         DiceService::shouldReceive('rollOne')
@@ -89,7 +94,6 @@ final class UnfocusedTest extends TestCase
     {
         DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(1);
 
-        /** @var Channel */
         $channel = Channel::factory()->make();
 
         $response = (new Unfocused('unfocused 1 2 3', 'username', $channel))
@@ -107,24 +111,28 @@ final class UnfocusedTest extends TestCase
     #[Group('slack')]
     public function testUnfocusedRollWithOptionalText(): void
     {
-        DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(3);
+        DiceService::shouldReceive('rollOne')
+            ->times(2)
+            ->with(20)
+            ->andReturn(3);
 
-        /** @var Channel */
-        $channel = Channel::factory()->make();
-
-        $response = new Unfocused(
+        $response = (new Unfocused(
             'unfocused 1 2 3 testing',
             'username',
-            $channel
-        );
-        $response = json_decode((string)$response->forSlack());
-        $response = $response->attachments[0];
+            Channel::factory()->make(),
+        ))
+            ->forSlack()
+            ->jsonSerialize();
 
-        self::assertSame('Rolls: 3 3', $response->footer);
-        self::assertSame('Rolled 2 successes', $response->text);
+        self::assertArrayHasKey('attachments', $response);
         self::assertSame(
-            'username failed a roll without a focus for "testing"',
-            $response->title
+            [
+                'color' => Attachment::COLOR_DANGER,
+                'footer' => 'Rolls: 3 3',
+                'text' => 'Rolled 2 successes',
+                'title' => 'username failed a roll without a focus for "testing"',
+            ],
+            $response['attachments'][0],
         );
     }
 
@@ -133,7 +141,6 @@ final class UnfocusedTest extends TestCase
     {
         DiceService::shouldReceive('rollOne')->times(2)->with(20)->andReturn(1);
 
-        /** @var Channel */
         $channel = Channel::factory()->make();
 
         $response = (new Unfocused('unfocused 1 2 3', 'username', $channel))

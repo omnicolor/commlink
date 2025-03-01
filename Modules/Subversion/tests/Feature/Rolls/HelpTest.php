@@ -13,7 +13,6 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-use function json_decode;
 use function sprintf;
 
 #[Group('subversion')]
@@ -26,33 +25,32 @@ final class HelpTest extends TestCase
     #[Group('slack')]
     public function testHelpSlack(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'system' => 'subversion',
             'type' => Channel::TYPE_SLACK,
         ]);
-        $response = (new Help('', 'username', $channel))->forSlack();
-        $response = json_decode((string)$response);
+        $response = (new Help('', 'username', $channel))
+            ->forSlack()
+            ->jsonSerialize();
+        self::assertArrayHasKey('attachments', $response);
         self::assertSame(
             sprintf('%s - Subversion', config('app.name')),
-            $response->attachments[0]->title
+            $response['attachments'][0]['title'],
         );
         self::assertSame(
             'Note for unregistered users:',
-            $response->attachments[1]->title
+            $response['attachments'][1]['title'],
         );
     }
 
     #[Group('discord')]
     public function testHelpInDiscordWithCharacter(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'system' => 'subversion',
             'type' => Channel::TYPE_DISCORD,
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -60,11 +58,7 @@ final class HelpTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
-        $character = Character::factory()->create([
-            'system' => 'subversion',
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create(['system' => 'subversion']);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,
@@ -77,12 +71,13 @@ final class HelpTest extends TestCase
             sprintf('Subversion commands (as %s)', (string)$character),
             $response
         );
+
+        $character->delete();
     }
 
     #[Group('irc')]
     public function testHelpIrc(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'system' => 'subversion',
             'type' => Channel::TYPE_IRC,

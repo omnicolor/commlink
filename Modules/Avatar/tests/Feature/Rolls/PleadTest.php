@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Modules\Avatar\Tests\Feature\Rolls;
 
-use App\Exceptions\SlackException;
 use App\Models\Channel;
 use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\WithFaker;
 use Modules\Avatar\Rolls\Plead;
+use Omnicolor\Slack\Exceptions\SlackException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-use function json_decode;
 use function sprintf;
 
 #[Group('avatar')]
@@ -28,14 +27,13 @@ final class PleadTest extends TestCase
     #[Group('slack')]
     public function testWrongSystemSlack(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'capers']);
         $channel->username = $this->faker->name;
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(
             'Avatar moves are only available for channels registered for the '
-                . 'Avatar system.'
+                . 'Avatar system.',
         );
         (new Plead('plead', $channel->username, $channel))->forSlack();
     }
@@ -46,7 +44,6 @@ final class PleadTest extends TestCase
     #[Group('discord')]
     public function testWrongSystemDiscord(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'capers']);
         $channel->username = $this->faker->name;
 
@@ -55,7 +52,7 @@ final class PleadTest extends TestCase
         self::assertSame(
             'Avatar moves are only available for channels registered for the '
                 . 'Avatar system.',
-            $response
+            $response,
         );
     }
 
@@ -65,7 +62,6 @@ final class PleadTest extends TestCase
     #[Group('irc')]
     public function testWrongSystemIrc(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'capers']);
         $channel->username = $this->faker->name;
 
@@ -74,7 +70,7 @@ final class PleadTest extends TestCase
         self::assertSame(
             'Avatar moves are only available for channels registered for the '
                 . 'Avatar system.',
-            $response
+            $response,
         );
     }
 
@@ -89,7 +85,6 @@ final class PleadTest extends TestCase
             ->with(2, 6)
             ->andReturn([4, 4]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'avatar']);
         $channel->username = $this->faker->name;
 
@@ -98,9 +93,9 @@ final class PleadTest extends TestCase
         self::assertSame(
             sprintf(
                 "**%s is getting close to succeeding in pleading**\n2d6 = 4 + 4 = 8",
-                $channel->username
+                $channel->username,
             ),
-            $response
+            $response,
         );
     }
 
@@ -115,7 +110,6 @@ final class PleadTest extends TestCase
             ->with(2, 6)
             ->andReturn([4, 4]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'avatar']);
         $channel->username = $this->faker->name;
 
@@ -124,9 +118,9 @@ final class PleadTest extends TestCase
         self::assertSame(
             sprintf(
                 "%s is getting close to succeeding in pleading\n2d6 = 4 + 4 = 8",
-                $channel->username
+                $channel->username,
             ),
-            $response
+            $response,
         );
     }
 
@@ -141,24 +135,25 @@ final class PleadTest extends TestCase
             ->with(2, 6)
             ->andReturn([6, 6]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'avatar']);
         $channel->username = $this->faker->name;
 
         $response = (new Plead('plead 6 testing', $channel->username, $channel))
-            ->forSlack();
-        $response = json_decode((string)$response);
-        $response = $response->attachments[0];
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $response);
+        self::assertArrayHasKey('text', $response['attachments'][0]);
         self::assertSame(
             sprintf(
                 '%s succeeded in a plead roll for "testing"',
                 $channel->username
             ),
-            $response->title
+            $response['attachments'][0]['title']
         );
         self::assertSame(
             '2d6 + 6 = 6 + 6 + 6 = 18',
-            $response->text
+            $response['attachments'][0]['text'],
         );
     }
 
@@ -173,24 +168,25 @@ final class PleadTest extends TestCase
             ->with(2, 6)
             ->andReturn([6, 6]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'avatar']);
         $channel->username = $this->faker->name;
 
         $response = (new Plead('plead -8', $channel->username, $channel))
-            ->forSlack();
-        $response = json_decode((string)$response);
-        $response = $response->attachments[0];
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $response);
+        self::assertArrayHasKey('text', $response['attachments'][0]);
         self::assertSame(
             sprintf(
                 '%s failed a plead roll',
                 $channel->username
             ),
-            $response->title
+            $response['attachments'][0]['title'],
         );
         self::assertSame(
             '2d6 - 8 = 6 + 6 - 8 = 4',
-            $response->text
+            $response['attachments'][0]['text'],
         );
     }
 }

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Responses\Slack;
 
-use App\Exceptions\SlackException;
 use App\Models\Channel;
 use App\Models\ChatUser;
-use App\Models\Slack\Attachment;
 use Illuminate\Http\JsonResponse;
+use Omnicolor\Slack\Attachment;
+use Omnicolor\Slack\Exceptions\SlackException;
 
 use function count;
 use function sprintf;
@@ -81,7 +81,7 @@ class SlackResponse extends JsonResponse
      */
     public function addAttachment(Attachment $attachment): SlackResponse
     {
-        $this->attachments[] = $attachment->toArray();
+        $this->attachments[] = $attachment->jsonSerialize();
         $this->updateData();
         return $this;
     }

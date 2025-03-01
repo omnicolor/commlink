@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Responses\Slack;
 
-use App\Exceptions\SlackException;
 use App\Http\Responses\Slack\LinkResponse;
 use App\Models\Channel;
 use App\Models\Character;
@@ -12,6 +11,7 @@ use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
 use Illuminate\Support\Str;
+use Omnicolor\Slack\Exceptions\SlackException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;

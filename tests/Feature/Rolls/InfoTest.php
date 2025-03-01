@@ -25,8 +25,6 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-use function json_decode;
-
 use const PHP_EOL;
 
 #[Medium]
@@ -43,7 +41,7 @@ final class InfoTest extends TestCase
         $messageMock = $this->createDiscordMessageMock('info');
         $event = new DiscordMessageReceived(
             $messageMock,
-            self::createStub(Discord::class)
+            self::createStub(Discord::class),
         );
 
         $username = Str::random(5);
@@ -83,7 +81,6 @@ final class InfoTest extends TestCase
         /** @var DiscordChannel */
         $discordChannel = $messageMock->channel;
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'channel_id' => $discordChannel->id,
             'channel_name' => $discordChannel->name,
@@ -136,10 +133,8 @@ final class InfoTest extends TestCase
             ->method('getConnection')
             ->willReturn($ircConnection);
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'channel_id' => '#commlink',
@@ -151,10 +146,8 @@ final class InfoTest extends TestCase
         ]);
         $channel->user = $username;
 
-        /** @var User */
         $user = User::factory()->create();
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'server_id' => $server . ':6667',
             'server_name' => $server,
@@ -165,7 +158,6 @@ final class InfoTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
         $character = Character::factory()->create();
 
         ChatCharacter::factory()->create([
@@ -192,6 +184,8 @@ final class InfoTest extends TestCase
 
         $info = (new Info('info', $username, $channel, $event))->forIrc();
         self::assertSame($expected, $info);
+
+        $character->delete();
     }
 
     /**
@@ -217,7 +211,6 @@ final class InfoTest extends TestCase
             ->method('getConnection')
             ->willReturn($ircConnection);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'channel_id' => '#commlink',
             'channel_name' => '#commlink',
@@ -230,8 +223,7 @@ final class InfoTest extends TestCase
 
         $user = User::factory()->create();
 
-        /** @var ChatUser */
-        $chatUser = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'server_id' => $server . ':6667',
             'server_name' => $server,
             'server_type' => ChatUser::TYPE_IRC,
@@ -268,16 +260,13 @@ final class InfoTest extends TestCase
     #[Group('slack')]
     public function testSlackRegisteredWithInvalidCharacter(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
         ]);
         $channel->user = 'U' . Str::random(10);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -293,37 +282,37 @@ final class InfoTest extends TestCase
         ]);
 
         $expectedFields = [
-            (object)[
+            [
                 'title' => 'Team ID',
                 'value' => $channel->server_id,
                 'short' => true,
             ],
-            (object)[
+            [
                 'title' => 'Channel ID',
                 'value' => $channel->channel_id,
                 'short' => true,
             ],
-            (object)[
+            [
                 'title' => 'User ID',
                 'value' => $channel->user,
                 'short' => true,
             ],
-            (object)[
+            [
                 'title' => 'Commlink User',
                 'value' => $user->email,
                 'short' => true,
             ],
-            (object)[
+            [
                 'title' => 'System',
                 'value' => config('commlink.systems')[$channel->system],
                 'short' => true,
             ],
-            (object)[
+            [
                 'title' => 'Character',
                 'value' => 'Invalid character',
                 'short' => true,
             ],
-            (object)[
+            [
                 'title' => 'Campaign',
                 'value' => 'No campaign',
                 'short' => true,
@@ -331,9 +320,14 @@ final class InfoTest extends TestCase
         ];
 
         $info = (new Info('info', $this->faker->userName(), $channel, null))
-            ->forSlack();
-        $response = json_decode((string)$info)->attachments[0];
-        self::assertSame('Debugging Info', $response->title);
-        self::assertEquals($expectedFields, $response->fields);
+            ->forSlack()
+            ->jsonSerialize();
+        self::assertArrayHasKey('attachments', $info);
+        self::assertSame(
+            'Debugging Info',
+            $info['attachments'][0]['title'],
+        );
+        // @phpstan-ignore offsetAccess.notFound
+        self::assertEquals($expectedFields, $info['attachments'][0]['fields']);
     }
 }

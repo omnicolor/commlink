@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Modules\Cyberpunkred\Rolls;
 
-use App\Exceptions\SlackException;
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
-use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Exception;
 use Modules\Cyberpunkred\Models\TarotCard;
 use Modules\Cyberpunkred\Models\TarotDeck;
+use Omnicolor\Slack\Attachments\TextAttachment;
+use Omnicolor\Slack\Exceptions\SlackException;
+use Omnicolor\Slack\Response;
+use Override;
 
 use function assert;
 use function count;
@@ -107,10 +108,8 @@ class Tarot extends Roll
         $this->deck->shuffle();
     }
 
-    /**
-     * Return the roll formatted for Slack.
-     */
-    public function forSlack(): SlackResponse
+    #[Override]
+    public function forSlack(): Response
     {
         if (null !== $this->error) {
             throw new SlackException($this->error);
@@ -121,15 +120,12 @@ class Tarot extends Roll
                 sprintf('%s shuffled the deck', $this->username),
                 '',
                 TextAttachment::COLOR_INFO,
+                count($this->deck) . ' cards remain',
             );
-            $attachment->addFooter(count($this->deck) . ' cards remain');
-            $response = new SlackResponse(
-                '',
-                SlackResponse::HTTP_OK,
-                [],
-                $this->channel
-            );
-            return $response->addAttachment($attachment)->sendToChannel();
+            // @phpstan-ignore method.deprecated
+            return (new Response())
+                ->addAttachment($attachment)
+                ->sendToChannel();
         }
 
         $attachment = new TextAttachment(
@@ -138,20 +134,16 @@ class Tarot extends Roll
                 . '*Effect:* '
                 . str_replace('||', PHP_EOL, $this->card->getEffect()),
             TextAttachment::COLOR_INFO,
+            count($this->deck) . ' cards remain',
         );
-        $attachment->addFooter(count($this->deck) . ' cards remain');
-        $response = new SlackResponse(
-            '',
-            SlackResponse::HTTP_OK,
-            [],
-            $this->channel
-        );
-        return $response->addAttachment($attachment)->sendToChannel();
+
+        // @phpstan-ignore method.deprecated
+        return (new Response())
+            ->addAttachment($attachment)
+            ->sendToChannel();
     }
 
-    /**
-     * Return the roll formatted for Discord.
-     */
+    #[Override]
     public function forDiscord(): string
     {
         if (null !== $this->error) {
@@ -168,9 +160,7 @@ class Tarot extends Roll
             . str_replace('||', PHP_EOL, $this->card->getEffect());
     }
 
-    /**
-     * Return the roll formatted for IRC.
-     */
+    #[Override]
     public function forIrc(): string
     {
         if (null !== $this->error) {

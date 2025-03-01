@@ -11,8 +11,6 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-use function json_decode;
-
 #[Group('alien')]
 #[Medium]
 final class TraumaTest extends TestCase
@@ -21,15 +19,22 @@ final class TraumaTest extends TestCase
     public function testSlack(): void
     {
         DiceService::shouldReceive('rollOne')->times(1)->with(6)->andReturn(1);
-        $response = (new Trauma('', 'user', new Channel()))->forSlack();
-        $attachment = json_decode((string)$response)->attachments[0];
+        $response = (new Trauma('', 'user', new Channel()))
+            ->forSlack()
+            ->jsonSerialize();
 
+        self::assertArrayHasKey('attachments', $response);
+        self::assertArrayHasKey('color', $response['attachments'][0]);
+        self::assertArrayHasKey('text', $response['attachments'][0]);
         self::assertSame(
             'user rolled 1 on the permanent mental trauma table',
-            $attachment->title,
+            $response['attachments'][0]['title'],
         );
-        self::assertStringStartsWith('PHOBIA', $attachment->text);
-        self::assertSame('danger', $attachment->color);
+        self::assertStringStartsWith(
+            'PHOBIA',
+            $response['attachments'][0]['text'],
+        );
+        self::assertSame('danger', $response['attachments'][0]['color']);
     }
 
     #[Group('discord')]

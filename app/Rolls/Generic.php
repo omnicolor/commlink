@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Rolls;
 
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
-use App\Models\Slack\TextAttachment;
 use App\Traits\FormulaConverter;
 use Facades\App\Services\DiceService;
+use Omnicolor\Slack\Contexts\PlainText;
+use Omnicolor\Slack\Headers\Header;
+use Omnicolor\Slack\Response;
+use Omnicolor\Slack\Sections\Text;
+use Override;
 
 use function array_shift;
 use function array_sum;
@@ -115,6 +118,7 @@ class Generic extends Roll
         return DiceService::rollMany($dice, $pips);
     }
 
+    #[Override]
     public function forDiscord(): string
     {
         $value = sprintf('**%s**', $this->title) . PHP_EOL
@@ -125,16 +129,19 @@ class Generic extends Roll
         return $value;
     }
 
+    #[Override]
     public function forIrc(): string
     {
         return $this->title . PHP_EOL . $this->text;
     }
 
-    public function forSlack(): SlackResponse
+    #[Override]
+    public function forSlack(): Response
     {
-        $attachment = new TextAttachment($this->title, $this->text);
-        $attachment->addFooter($this->footer);
-        $response = new SlackResponse(channel: $this->channel);
-        return $response->addAttachment($attachment)->sendToChannel();
+        return (new Response())
+            ->addBlock(new Header($this->title))
+            ->addBlock(new Text($this->text))
+            ->addBlock(new PlainText($this->footer))
+            ->sendToChannel();
     }
 }

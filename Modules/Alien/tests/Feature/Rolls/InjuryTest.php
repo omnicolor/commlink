@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Modules\Alien\Tests\Feature\Rolls;
 
-use App\Exceptions\SlackException;
 use App\Models\Channel;
 use Facades\App\Services\DiceService;
 use Modules\Alien\Rolls\Injury;
+use Omnicolor\Slack\Exceptions\SlackException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
-
-use function json_decode;
 
 use const PHP_EOL;
 
@@ -84,11 +82,16 @@ final class InjuryTest extends TestCase
     public function testWeakInjury(): void
     {
         DiceService::shouldReceive('rollOne')->times(2)->with(6)->andReturn(1);
-        $response = (new Injury('6', 'user', new Channel()))->forSlack();
-        $attachment = json_decode((string)$response)->attachments[0];
-        self::assertSame('danger', $attachment->color);
-        self::assertSame('Effects: None.', $attachment->text);
-        self::assertSame('1 1', $attachment->footer);
-        self::assertSame('user gains an injury: Winded', $attachment->title);
+        $response = (new Injury('6', 'user', new Channel()))
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $response);
+        self::assertArrayHasKey('color', $response['attachments'][0]);
+        self::assertArrayHasKey('footer', $response['attachments'][0]);
+        self::assertSame('danger', $response['attachments'][0]['color']);
+        self::assertSame('Effects: None.', $response['attachments'][0]['text']);
+        self::assertSame('1 1', $response['attachments'][0]['footer']);
+        self::assertSame('user gains an injury: Winded', $response['attachments'][0]['title']);
     }
 }

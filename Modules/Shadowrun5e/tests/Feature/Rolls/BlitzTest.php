@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Rolls;
 
-use App\Exceptions\SlackException;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
@@ -13,11 +12,13 @@ use App\Models\User;
 use Facades\App\Services\DiceService;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Rolls\Blitz;
+use Omnicolor\Slack\Attachment;
+use Omnicolor\Slack\Exceptions\SlackException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-use function json_decode;
+use function sprintf;
 
 use const PHP_EOL;
 
@@ -32,25 +33,21 @@ final class BlitzTest extends TestCase
     #[Group('slack')]
     public function testGmBlitz(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->create([
                 'gm' => $user->id,
                 'system' => 'shadowrun5e',
             ]);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
-        $chatUser = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
             'server_type' => ChatUser::TYPE_SLACK,
@@ -69,11 +66,10 @@ final class BlitzTest extends TestCase
     #[Group('slack')]
     public function testBlitzWithoutCharacter(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         self::expectException(SlackException::class);
         self::expectExceptionMessage(
-            'You must have a character linked to blitz initiative'
+            'You must have a character linked to blitz initiative',
         );
         (new Blitz('blitz', 'user', $channel))->forSlack();
     }
@@ -84,13 +80,11 @@ final class BlitzTest extends TestCase
     #[Group('discord')]
     public function testBlitzOutOfEdge(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -98,11 +92,9 @@ final class BlitzTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
         $character = Character::factory()->create([
             'edgeCurrent' => 0,
             'edge' => 5,
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -121,13 +113,11 @@ final class BlitzTest extends TestCase
     #[Group('irc')]
     public function testBlitzErrorIrc(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_IRC,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -135,11 +125,9 @@ final class BlitzTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
         $character = Character::factory()->create([
             'edgeCurrent' => 0,
             'edge' => 5,
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -155,9 +143,6 @@ final class BlitzTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * Test trying to blitz from Slack.
-     */
     #[Group('slack')]
     public function testBlitzSlack(): void
     {
@@ -166,20 +151,16 @@ final class BlitzTest extends TestCase
             ->with(5, 6)
             ->andReturn([6, 6, 6, 6, 6]);
 
-        /** @var User */
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -188,12 +169,10 @@ final class BlitzTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
         $character = Character::factory()->create([
             'edge' => 4,
             'intuition' => 4,
             'reaction' => 5,
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -202,22 +181,27 @@ final class BlitzTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $response = (new Blitz('blitz', 'username', $channel))->forSlack();
-        $response = json_decode((string)$response)->attachments[0];
+        $response = (new Blitz('blitz', 'username', $channel))
+            ->forSlack()
+            ->jsonSerialize();
 
+        self::assertArrayHasKey('attachments', $response);
         self::assertSame(
-            $character->handle . ' blitzed',
-            $response->title
+            [
+                'color' => Attachment::COLOR_INFO,
+                'footer' => 'Rolls: 6 6 6 6 6',
+                'text' => '9 + 5d6 = 39',
+                'title' => sprintf('%s blitzed', (string)$character),
+            ],
+            $response['attachments'][0],
         );
-        self::assertSame('9 + 5d6 = 39', $response->text);
-        self::assertSame('Rolls: 6 6 6 6 6', $response->footer);
         self::assertDatabaseHas(
             'initiatives',
             [
                 'campaign_id' => $campaign->id,
                 'character_id' => $character->id,
                 'initiative' => 39,
-            ]
+            ],
         );
 
         $character->refresh();
@@ -236,20 +220,16 @@ final class BlitzTest extends TestCase
             ->with(5, 6)
             ->andReturn([5, 5, 5, 5, 5]);
 
-        /** @var User */
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'type' => Channel::TYPE_DISCORD,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -258,13 +238,11 @@ final class BlitzTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
         $character = Character::factory()->create([
             'edge' => 4,
             'edgeCurrent' => 3,
             'intuition' => 3,
             'reaction' => 3,
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -293,9 +271,6 @@ final class BlitzTest extends TestCase
         $character->delete();
     }
 
-    /**
-     * Test trying to blitz from IRC.
-     */
     #[Group('irc')]
     public function testBlitzIrc(): void
     {
@@ -304,20 +279,16 @@ final class BlitzTest extends TestCase
             ->with(5, 6)
             ->andReturn([5, 5, 5, 5, 5]);
 
-        /** @var User */
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'type' => Channel::TYPE_IRC,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -326,13 +297,11 @@ final class BlitzTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
         $character = Character::factory()->create([
             'edge' => 4,
             'edgeCurrent' => 3,
             'intuition' => 3,
             'reaction' => 3,
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([

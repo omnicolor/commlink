@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Events\RollEvent;
-use App\Exceptions\SlackException;
 use App\Http\Requests\SlackRequest;
 use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
@@ -22,6 +21,8 @@ use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\AbstractUser as SocialiteUser;
 use Laravel\Socialite\Facades\Socialite;
 use Nwidart\Modules\Facades\Module;
+use Omnicolor\Slack\Exceptions\SlackException;
+use Omnicolor\Slack\Response as NewSlackResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
 use function array_key_exists;
@@ -55,7 +56,10 @@ class SlackController extends Controller
         return new Response('OK');
     }
 
-    public function post(SlackRequest $request): ?SlackResponse
+    /**
+     * @throws SlackException
+     */
+    public function post(SlackRequest $request): NewSlackResponse | SlackResponse | null
     {
         if (isset($request->payload)) {
             return $this->handleAction($request->payload);
@@ -124,8 +128,17 @@ class SlackController extends Controller
                 RollEvent::dispatch($roll, $channel);
             }
             return $roll->forSlack();
-        } catch (Error) {
+        } catch (Error $ex) {
             // Again, ignore errors, they might want an old-school response.
+            Log::debug(
+                '{system} - Could not find roll "{roll}" from user "{user}"',
+                [
+                    'system' => $channel->system,
+                    'roll' => $this->text,
+                    'user' => $channel->username,
+                    'exception' => $ex->getMessage(),
+                ],
+            );
         }
 
         // Finally, see if there's a Slack response that isn't system-specific.
@@ -154,7 +167,10 @@ class SlackController extends Controller
         }
     }
 
-    protected function handleAction(string $payload): ?SlackResponse
+    /**
+     * @throws SlackException
+     */
+    protected function handleAction(string $payload): null
     {
         $request = json_decode($payload);
         if (

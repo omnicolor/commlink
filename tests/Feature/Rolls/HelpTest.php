@@ -31,7 +31,7 @@ final class HelpTest extends TestCase
         ]);
         $channel->user = $username;
 
-        $chatUser = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'server_id' => $channel->server_id,
             'server_type' => $channel->type,
             'remote_user_id' => $username,
@@ -62,7 +62,6 @@ final class HelpTest extends TestCase
         ]);
         $channel->user = $username;
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'server_id' => $channel->server_id,
             'server_type' => $channel->type,
@@ -70,12 +69,10 @@ final class HelpTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Campaign */
-        $campaignRegistered = Campaign::factory()->create([
+        Campaign::factory()->create([
             'registered_by' => $chatUser->user->id,
         ]);
-        /** @var Campaign */
-        $campaignGmed = Campaign::factory()->create([
+        Campaign::factory()->create([
             'gm' => $chatUser->user->id,
         ]);
 
