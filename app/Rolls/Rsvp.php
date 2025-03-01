@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Rolls;
 
-use App\Exceptions\SlackException;
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Event;
 use App\Models\EventRsvp;
 use App\Policies\EventPolicy;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Omnicolor\Slack\Exceptions\SlackException;
+use Omnicolor\Slack\Response;
+use Override;
 
 use function config;
 use function is_array;
@@ -18,17 +19,20 @@ use function sprintf;
 
 class Rsvp extends Roll
 {
+    #[Override]
     public function forDiscord(): string
     {
         return 'RSVP is not a valid roll';
     }
 
+    #[Override]
     public function forIrc(): string
     {
         return 'RSVP is not a valid roll';
     }
 
-    public function forSlack(): SlackResponse
+    #[Override]
+    public function forSlack(): Response
     {
         throw new SlackException('RSVP is not a valid roll');
     }

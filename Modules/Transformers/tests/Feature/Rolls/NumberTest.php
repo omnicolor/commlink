@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Modules\Transformers\Tests\Feature\Rolls;
 
 use App\Models\Channel;
-use App\Models\Slack\TextAttachment;
 use Facades\App\Services\DiceService;
 use Modules\Transformers\Rolls\Number;
+use Omnicolor\Slack\Attachment;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -23,22 +23,24 @@ final class NumberTest extends TestCase
     {
         DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(5);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = 'user';
 
-        $response = (new Number('5', 'user', $channel))->forSlack();
+        $response = (new Number('5', 'user', $channel))
+            ->forSlack()
+            ->jsonSerialize();
         $expected = [
+            'blocks' => [],
             'response_type' => 'in_channel',
             'attachments' => [
                 [
-                    'color' => TextAttachment::COLOR_DANGER,
+                    'color' => Attachment::COLOR_DANGER,
                     'text' => '5 >= 5',
                     'title' => 'user rolled a failure',
                 ],
             ],
         ];
-        self::assertSame($expected, $response->original);
+        self::assertSame($expected, $response);
     }
 
     #[Group('slack')]
@@ -46,22 +48,24 @@ final class NumberTest extends TestCase
     {
         DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(5);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = 'user';
 
-        $response = (new Number('10 espionage', 'user', $channel))->forSlack();
+        $response = (new Number('10 espionage', 'user', $channel))
+            ->forSlack()
+            ->jsonSerialize();
         $expected = [
+            'blocks' => [],
             'response_type' => 'in_channel',
             'attachments' => [
                 [
-                    'color' => TextAttachment::COLOR_SUCCESS,
+                    'color' => Attachment::COLOR_SUCCESS,
                     'text' => '5 < 10',
                     'title' => 'user rolled a success for "espionage"',
                 ],
             ],
         ];
-        self::assertSame($expected, $response->original);
+        self::assertSame($expected, $response);
     }
 
     #[Group('discord')]
@@ -69,7 +73,6 @@ final class NumberTest extends TestCase
     {
         DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(5);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = 'user';
 
@@ -84,7 +87,6 @@ final class NumberTest extends TestCase
     {
         DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(5);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = 'user';
 

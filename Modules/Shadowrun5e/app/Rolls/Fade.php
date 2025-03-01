@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Rolls;
 
-use App\Exceptions\SlackException;
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Rolls\Roll;
 use Discord\Builders\MessageBuilder;
+use Omnicolor\Slack\Exceptions\SlackException;
+use Omnicolor\Slack\Response;
+use Override;
 
 use function sprintf;
 
@@ -55,7 +56,8 @@ class Fade extends Number
         );
     }
 
-    public function forSlack(): SlackResponse
+    #[Override]
+    public function forSlack(): Response
     {
         if (null !== $this->error) {
             throw new SlackException($this->error);
@@ -63,6 +65,7 @@ class Fade extends Number
         return parent::forSlack();
     }
 
+    #[Override]
     public function forDiscord(): string | MessageBuilder
     {
         if (null !== $this->error) {
@@ -75,6 +78,7 @@ class Fade extends Number
         return parent::forDiscord();
     }
 
+    #[Override]
     public function forIrc(): string
     {
         if (null !== $this->error) {

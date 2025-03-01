@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Rolls;
 
 use App\Events\ChannelLinked;
-use App\Exceptions\SlackException;
 use App\Models\Channel;
 use App\Models\ChatUser;
 use App\Models\User;
@@ -13,12 +12,14 @@ use App\Rolls\Register;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
+use Omnicolor\Slack\Exceptions\SlackException;
+use Omnicolor\Slack\Headers\Header;
+use Omnicolor\Slack\Sections\Text;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function implode;
-use function json_decode;
 use function sprintf;
 
 #[Medium]
@@ -126,8 +127,7 @@ final class RegisterTest extends TestCase
         ]);
         $channel->username = 'Test User';
 
-        /** @var ChatUser */
-        $chatUser = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
             'server_type' => $channel->type,
@@ -140,12 +140,18 @@ final class RegisterTest extends TestCase
             $this->faker->userName(),
             $channel
         ))
-            ->forSlack();
-        $response = json_decode((string)$response)->attachments[0];
+            ->forSlack()
+            ->jsonSerialize();
 
         self::assertSame(
-            'Test User has registered this channel for the "Capers" system.',
-            $response->text,
+            (new Header('Registered'))->jsonSerialize(),
+            $response['blocks'][0],
+        );
+        self::assertSame(
+            (new Text(
+                'Test User has registered this channel for the "Capers" system.'
+            ))->jsonSerialize(),
+            $response['blocks'][1],
         );
 
         Event::assertDispatched(ChannelLinked::class);
@@ -164,8 +170,7 @@ final class RegisterTest extends TestCase
         ]);
         $channel->username = 'Test User';
 
-        /** @var ChatUser */
-        $chatUser = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
             'server_type' => $channel->type,
@@ -201,8 +206,7 @@ final class RegisterTest extends TestCase
         ]);
         $channel->username = 'Test User';
 
-        /** @var ChatUser */
-        $chatUser = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
             'server_type' => $channel->type,

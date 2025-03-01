@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Responses\Slack;
 
-use App\Exceptions\SlackException;
 use App\Models\Channel;
 use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
-use App\Models\Slack\TextAttachment;
+use Omnicolor\Slack\Attachments\TextAttachment;
+use Omnicolor\Slack\Exceptions\SlackException;
 
 use function assert;
 use function config;

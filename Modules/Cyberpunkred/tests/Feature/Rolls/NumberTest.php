@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Modules\Cyberpunkred\Tests\Feature\Rolls;
 
 use App\Models\Channel;
-use App\Models\Slack\TextAttachment;
 use Facades\App\Services\DiceService;
 use Modules\Cyberpunkred\Rolls\Number;
+use Omnicolor\Slack\Attachment;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -16,9 +16,6 @@ use Tests\TestCase;
 #[Medium]
 final class NumberTest extends TestCase
 {
-    /**
-     * Test trying to roll.
-     */
     #[Group('slack')]
     public function testRollSlack(): void
     {
@@ -27,22 +24,24 @@ final class NumberTest extends TestCase
             ->with(10)
             ->andReturn(5);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = 'user';
-        $response = (new Number('5', 'user', $channel))->forSlack();
+        $response = (new Number('5', 'user', $channel))
+            ->forSlack()
+            ->jsonSerialize();
         $expected = [
+            'blocks' => [],
             'response_type' => 'in_channel',
             'attachments' => [
                 [
-                    'color' => TextAttachment::COLOR_INFO,
+                    'color' => Attachment::COLOR_INFO,
                     'footer' => '5',
                     'text' => '1d10 + 5 = 5 + 5 = 10',
                     'title' => 'user made a roll',
                 ],
             ],
         ];
-        self::assertSame($expected, $response->original);
+        self::assertSame($expected, $response);
     }
 
     /**
@@ -56,22 +55,24 @@ final class NumberTest extends TestCase
             ->with(10)
             ->andReturn(10, 4);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = 'user';
-        $response = (new Number('5', 'user', $channel))->forSlack();
+        $response = (new Number('5', 'user', $channel))
+            ->forSlack()
+            ->jsonSerialize();
         $expected = [
+            'blocks' => [],
             'response_type' => 'in_channel',
             'attachments' => [
                 [
-                    'color' => TextAttachment::COLOR_SUCCESS,
+                    'color' => Attachment::COLOR_SUCCESS,
                     'footer' => '10 4',
                     'text' => '1d10 + 5 = 10 + 4 + 5 = 19',
                     'title' => 'user made a roll with a critical success',
                 ],
             ],
         ];
-        self::assertSame($expected, $response->original);
+        self::assertSame($expected, $response);
     }
 
     /**
@@ -85,27 +86,26 @@ final class NumberTest extends TestCase
             ->with(10)
             ->andReturn(1, 4);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = 'user';
-        $response = (new Number('5 shooting', 'user', $channel))->forSlack();
+        $response = (new Number('5 shooting', 'user', $channel))
+            ->forSlack()
+            ->jsonSerialize();
         $expected = [
+            'blocks' => [],
             'response_type' => 'in_channel',
             'attachments' => [
                 [
-                    'color' => TextAttachment::COLOR_DANGER,
+                    'color' => Attachment::COLOR_DANGER,
                     'footer' => '1 -4',
                     'text' => '1d10 + 5 = 1 - 4 + 5 = 2',
                     'title' => 'user made a roll with a critical failure for "shooting"',
                 ],
             ],
         ];
-        self::assertSame($expected, $response->original);
+        self::assertSame($expected, $response);
     }
 
-    /**
-     * Test trying to roll in Discord.
-     */
     #[Group('discord')]
     public function testRollDiscord(): void
     {

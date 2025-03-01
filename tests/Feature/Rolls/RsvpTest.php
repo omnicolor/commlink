@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Rolls;
 
-use App\Exceptions\SlackException;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\ChatUser;
@@ -15,6 +14,7 @@ use App\Rolls\Rsvp;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Omnicolor\Slack\Exceptions\SlackException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -29,7 +29,6 @@ final class RsvpTest extends TestCase
     #[Group('discord')]
     public function testRsvpDirectlyFromDiscord(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make();
         $roll = new Rsvp('rsvp foo', 'user', $channel);
         self::assertSame('RSVP is not a valid roll', $roll->forDiscord());
@@ -38,7 +37,6 @@ final class RsvpTest extends TestCase
     #[Group('irc')]
     public function testRsvpDirectlyFromIrc(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make();
         $roll = new Rsvp('rsvp foo', 'user', $channel);
         self::assertSame('RSVP is not a valid roll', $roll->forIrc());
@@ -47,7 +45,6 @@ final class RsvpTest extends TestCase
     #[Group('slack')]
     public function testRsvpDirectlyFromSlack(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make();
         $roll = new Rsvp('rsvp foo', 'user', $channel);
         self::expectException(SlackException::class);
@@ -60,7 +57,6 @@ final class RsvpTest extends TestCase
     {
         Http::fake();
 
-        /** @var Channel */
         $channel = Channel::factory()->make();
         $content = (string)json_encode(['no-actions' => 'test']);
         (new Rsvp($content, 'user', $channel))->handleSlackAction();
@@ -73,7 +69,6 @@ final class RsvpTest extends TestCase
     {
         Http::fake();
 
-        /** @var Channel */
         $channel = Channel::factory()->make();
         $content = (string)json_encode((object)[
             'actions' => [
@@ -92,9 +87,7 @@ final class RsvpTest extends TestCase
     {
         Http::fake();
 
-        /** @var Event */
         $event = Event::factory()->create();
-        /** @var Channel */
         $channel = Channel::factory()->make();
         $content = (string)json_encode((object)[
             'actions' => [
@@ -117,15 +110,12 @@ final class RsvpTest extends TestCase
         Http::fake();
 
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->hasAttached($user, ['status' => 'banned'])
             ->create();
 
-        /** @var Event */
         $event = Event::factory()->create(['campaign_id' => $campaign->id]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign->id,
             'type' => Channel::TYPE_SLACK,
@@ -161,15 +151,12 @@ final class RsvpTest extends TestCase
 
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->hasAttached($user, ['status' => 'accepted'])
             ->create();
 
-        /** @var Event */
         $event = Event::factory()->create(['campaign_id' => $campaign->id]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign->id,
             'type' => Channel::TYPE_SLACK,
@@ -217,15 +204,12 @@ final class RsvpTest extends TestCase
 
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->hasAttached($user, ['status' => 'accepted'])
             ->create();
 
-        /** @var Event */
         $event = Event::factory()->create(['campaign_id' => $campaign->id]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign->id,
             'type' => Channel::TYPE_SLACK,

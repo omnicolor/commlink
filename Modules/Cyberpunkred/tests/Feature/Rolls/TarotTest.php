@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Modules\Cyberpunkred\Tests\Feature\Rolls;
 
-use App\Exceptions\SlackException;
 use App\Models\Campaign;
 use App\Models\Channel;
 use DB;
 use Illuminate\Foundation\Testing\WithFaker;
 use Modules\Cyberpunkred\Models\TarotDeck;
 use Modules\Cyberpunkred\Rolls\Tarot;
+use Omnicolor\Slack\Exceptions\SlackException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -29,13 +29,12 @@ final class TarotTest extends TestCase
     #[Group('slack')]
     public function testSlackTarotWithNoCampaign(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = $this->faker->name;
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(
-            'Tarot decks require a linked Commlink campaign.'
+            'Tarot decks require a linked Commlink campaign.',
         );
         (new Tarot('tarot', $channel->username, $channel))->forSlack();
     }
@@ -47,10 +46,8 @@ final class TarotTest extends TestCase
     #[Group('slack')]
     public function testSlackTarotCampaignHasWrongSystem(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
@@ -59,7 +56,7 @@ final class TarotTest extends TestCase
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(
-            'Night City Tarot only available for Cyberpunk Red campaigns.'
+            'Night City Tarot only available for Cyberpunk Red campaigns.',
         );
         (new Tarot('tarot', $channel->username, $channel))->forSlack();
     }
@@ -71,10 +68,8 @@ final class TarotTest extends TestCase
     #[Group('slack')]
     public function testSlackTarotCampaignNotEnabled(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'cyberpunkred']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
@@ -83,7 +78,7 @@ final class TarotTest extends TestCase
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(
-            'Night City Tarot not enabled for campaign.'
+            'Night City Tarot not enabled for campaign.',
         );
         (new Tarot('tarot', $channel->username, $channel))->forSlack();
     }
@@ -94,7 +89,6 @@ final class TarotTest extends TestCase
     #[Group('discord')]
     public function testDiscordTarotWithNoCampaign(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = $this->faker->name;
 
@@ -112,10 +106,8 @@ final class TarotTest extends TestCase
     #[Group('discord')]
     public function testDiscordTarotCampaignHasWrongSystem(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
@@ -137,7 +129,6 @@ final class TarotTest extends TestCase
     #[Group('slack')]
     public function testDrawCardFromNewDeck(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'options' => [
                 'nightCityTarot' => true,
@@ -145,7 +136,6 @@ final class TarotTest extends TestCase
             'system' => 'cyberpunkred',
         ]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
@@ -154,15 +144,21 @@ final class TarotTest extends TestCase
 
         self::assertDatabaseMissing(
             'decks',
-            ['campaign_id' => $campaign->id, 'type' => TarotDeck::class]
+            ['campaign_id' => $campaign->id, 'type' => TarotDeck::class],
         );
         $response = (new Tarot('tarot', $channel->username, $channel))
-            ->forSlack();
-        $response = json_decode((string)$response);
-        self::assertSame('21 cards remain', $response->attachments[0]->footer);
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $response);
+        self::assertArrayHasKey('footer', $response['attachments'][0]);
+        self::assertSame(
+            '21 cards remain',
+            $response['attachments'][0]['footer'],
+        );
         self::assertDatabaseHas(
             'decks',
-            ['campaign_id' => $campaign->id, 'type' => TarotDeck::class]
+            ['campaign_id' => $campaign->id, 'type' => TarotDeck::class],
         );
     }
 
@@ -172,7 +168,6 @@ final class TarotTest extends TestCase
     #[Group('slack')]
     public function testShuffleDeckSlack(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'options' => [
                 'nightCityTarot' => true,
@@ -186,7 +181,6 @@ final class TarotTest extends TestCase
             'type' => TarotDeck::class,
         ]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
@@ -194,9 +188,15 @@ final class TarotTest extends TestCase
         $channel->username = $this->faker->name;
 
         $response = (new Tarot('tarot shuffle', $channel->username, $channel))
-            ->forSlack();
-        $response = json_decode((string)$response);
-        self::assertSame('22 cards remain', $response->attachments[0]->footer);
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $response);
+        self::assertArrayHasKey('footer', $response['attachments'][0]);
+        self::assertSame(
+            '22 cards remain',
+            $response['attachments'][0]['footer'],
+        );
     }
 
     /**
@@ -205,7 +205,6 @@ final class TarotTest extends TestCase
     #[Group('discord')]
     public function testShuffleDeckDiscord(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'options' => [
                 'nightCityTarot' => true,
@@ -219,7 +218,6 @@ final class TarotTest extends TestCase
             'type' => TarotDeck::class,
         ]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
@@ -241,7 +239,6 @@ final class TarotTest extends TestCase
     #[Group('discord')]
     public function testDrawFromEmptyDeckDiscord(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'options' => [
                 'nightCityTarot' => true,
@@ -255,7 +252,6 @@ final class TarotTest extends TestCase
             'type' => TarotDeck::class,
         ]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
@@ -275,10 +271,8 @@ final class TarotTest extends TestCase
     #[Group('irc')]
     public function testIRCTarotCampaignHasWrongSystem(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
@@ -299,7 +293,6 @@ final class TarotTest extends TestCase
     #[Group('irc')]
     public function testShuffleDeckIRC(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'options' => [
                 'nightCityTarot' => true,
@@ -313,7 +306,6 @@ final class TarotTest extends TestCase
             'type' => TarotDeck::class,
         ]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
@@ -333,7 +325,6 @@ final class TarotTest extends TestCase
     #[Group('irc')]
     public function testDrawCardFromNewDeckIRC(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'options' => [
                 'nightCityTarot' => true,
@@ -341,7 +332,6 @@ final class TarotTest extends TestCase
             'system' => 'cyberpunkred',
         ]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
@@ -352,7 +342,7 @@ final class TarotTest extends TestCase
             ->forIrc();
         self::assertStringContainsString(
             sprintf('%s drew', $channel->username),
-            $response
+            $response,
         );
     }
 }

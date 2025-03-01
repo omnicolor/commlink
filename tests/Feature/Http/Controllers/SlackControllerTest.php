@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Controllers;
 
 use App\Events\RollEvent;
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\Character;
@@ -19,6 +18,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
+use Omnicolor\Slack\Attachment;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -109,7 +109,7 @@ final class SlackControllerTest extends TestCase
         )
             ->assertOk()
             ->assertJsonFragment([
-                'color' => SlackResponse::COLOR_DANGER,
+                'color' => Attachment::COLOR_DANGER,
                 'response_type' => 'ephemeral',
                 'title' => 'Commands for unregistered channels:',
             ]);
@@ -135,7 +135,7 @@ final class SlackControllerTest extends TestCase
         )
             ->assertOk()
             ->assertJsonFragment([
-                'color' => SlackResponse::COLOR_INFO,
+                'color' => Attachment::COLOR_INFO,
                 'response_type' => 'ephemeral',
                 'title' => 'Commlink - Shadowrun 5th Edition',
             ]);
@@ -335,7 +335,7 @@ final class SlackControllerTest extends TestCase
         )
             ->assertOk()
             ->assertJsonFragment([
-                'color' => SlackResponse::COLOR_DANGER,
+                'color' => Attachment::COLOR_DANGER,
                 'response_type' => 'ephemeral',
                 'text' => 'That doesn\'t appear to be a valid Commlink command.'
                     . PHP_EOL . PHP_EOL
@@ -384,7 +384,7 @@ final class SlackControllerTest extends TestCase
         )
             ->assertOk()
             ->assertJsonFragment([
-                'color' => SlackResponse::COLOR_DANGER,
+                'color' => Attachment::COLOR_DANGER,
                 'response_type' => 'ephemeral',
                 'text' => 'That doesn\'t appear to be a valid Commlink command.'
                     . PHP_EOL . PHP_EOL

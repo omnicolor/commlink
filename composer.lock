@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "82f8fe19e5de42787a6e7a5d134bf302",
+    "content-hash": "62c47fbc8f9758e44acf0b05f969c853",
     "packages": [
         {
             "name": "brick/math",
@@ -4037,6 +4037,61 @@
                 "source": "https://github.com/omnicolor/php-irc-client/tree/v1.1.1"
             },
             "time": "2024-12-28T19:12:55+00:00"
+        },
+        {
+            "name": "omnicolor/slack",
+            "version": "v0.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/omnicolor/slack.git",
+                "reference": "65f610f303a8c656bacdd3f940392f7a9895ecc3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/omnicolor/slack/zipball/65f610f303a8c656bacdd3f940392f7a9895ecc3",
+                "reference": "65f610f303a8c656bacdd3f940392f7a9895ecc3",
+                "shasum": ""
+            },
+            "require": {
+                "league/uri": "^7.5",
+                "php": "^8.3",
+                "vlucas/phpdotenv": "^5.6"
+            },
+            "require-dev": {
+                "captainhook/captainhook-phar": "^5.23",
+                "captainhook/hook-installer": "^1.0",
+                "friendsofphp/php-cs-fixer": "^3.59",
+                "php-parallel-lint/php-parallel-lint": "^1.4",
+                "phpstan/phpstan": "^1.11",
+                "phpstan/phpstan-deprecation-rules": "^1.2",
+                "phpstan/phpstan-phpunit": "^1.4",
+                "phpstan/phpstan-strict-rules": "^1.6",
+                "phpunit/phpunit": "^12.0",
+                "roave/security-advisories": "dev-latest",
+                "squizlabs/php_codesniffer": "^3.10"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Omnicolor\\Slack\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Omni Adams",
+                    "email": "omni@digitaldarkness.com"
+                }
+            ],
+            "description": "Library for creating Slack messages",
+            "support": {
+                "issues": "https://github.com/omnicolor/slack/issues",
+                "source": "https://github.com/omnicolor/slack/tree/v0.9.0"
+            },
+            "time": "2025-02-28T18:25:29+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
@@ -14867,5 +14922,5 @@
     "platform-dev": {
         "ext-sqlite3": "*"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Capers\Tests\Feature\Rolls;
 
-use App\Exceptions\SlackException;
 use App\Models\Campaign;
 use App\Models\Channel;
 use Illuminate\Foundation\Testing\WithFaker;
 use Modules\Capers\Models\StandardDeck;
 use Modules\Capers\Rolls\Shuffle;
+use Omnicolor\Slack\Exceptions\SlackException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -28,13 +28,12 @@ final class ShuffleTest extends TestCase
     #[Group('slack')]
     public function testShuffleWithNoCampaign(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'capers']);
         $channel->username = $this->faker->name;
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(
-            'Decks for Capers require a linked Commlink campaign.'
+            'Decks for Capers require a linked Commlink campaign.',
         );
         (new Shuffle('shuffle', $channel->username, $channel))->forSlack();
     }
@@ -45,10 +44,8 @@ final class ShuffleTest extends TestCase
     #[Group('discord')]
     public function testShuffleFromOtherSystem(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',
@@ -69,10 +66,8 @@ final class ShuffleTest extends TestCase
     #[Group('slack')]
     public function testShuffleFirstTime(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'capers']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',
@@ -84,21 +79,25 @@ final class ShuffleTest extends TestCase
             [
                 'campaign_id' => $campaign->id,
                 'character_id' => $channel->username,
-            ]
+            ],
         );
         $response = (new Shuffle('shuffle', $channel->username, $channel))
-            ->forSlack();
+            ->forSlack()
+            ->jsonSerialize();
+
         self::assertDatabaseHas(
             'decks',
             [
                 'campaign_id' => $campaign->id,
                 'character_id' => $channel->username,
-            ]
+            ],
         );
 
+        self::assertArrayHasKey('attachments', $response);
+        self::assertArrayHasKey('title', $response['attachments'][0]);
         self::assertStringStartsWith(
             sprintf('%s shuffled their deck', $channel->username),
-            json_decode((string)$response)->attachments[0]->title
+            $response['attachments'][0]['title'],
         );
     }
 
@@ -109,10 +108,8 @@ final class ShuffleTest extends TestCase
     #[Group('discord')]
     public function testShuffleAgain(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'capers']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',
@@ -131,12 +128,12 @@ final class ShuffleTest extends TestCase
 
         self::assertStringStartsWith(
             sprintf('%s shuffled their deck', $channel->username),
-            $response
+            $response,
         );
 
         $deck = StandardDeck::findForCampaignAndPlayer(
             $campaign,
-            $channel->username
+            $channel->username,
         );
         self::assertCount(54, $deck);
     }
@@ -144,10 +141,8 @@ final class ShuffleTest extends TestCase
     #[Group('irc')]
     public function testErrorForIrc(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',
@@ -158,17 +153,15 @@ final class ShuffleTest extends TestCase
             ->forIrc();
         self::assertSame(
             'Capers-style card decks are only available for Capers campaigns.',
-            $response
+            $response,
         );
     }
 
     #[Group('irc')]
     public function testForIrc(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'capers']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',
@@ -188,7 +181,7 @@ final class ShuffleTest extends TestCase
 
         self::assertStringStartsWith(
             sprintf('%s shuffled their deck', $channel->username),
-            $response
+            $response,
         );
     }
 }

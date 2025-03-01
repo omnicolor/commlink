@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Modules\Stillfleet\Rolls;
 
 use App\Events\DiscordMessageReceived;
-use App\Exceptions\SlackException;
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
-use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
+use Omnicolor\Slack\Exceptions\SlackException;
+use Omnicolor\Slack\Headers\Header;
+use Omnicolor\Slack\Response;
+use Omnicolor\Slack\Sections\Text;
+use Override;
 
 use function array_shift;
 use function explode;
@@ -72,6 +74,7 @@ class Number extends Roll
         $this->roll();
     }
 
+    #[Override]
     public function forDiscord(): string
     {
         if (null !== $this->error) {
@@ -89,6 +92,7 @@ class Number extends Roll
         return $value;
     }
 
+    #[Override]
     public function forIrc(): string
     {
         if (null !== $this->error) {
@@ -106,7 +110,8 @@ class Number extends Roll
         return $value;
     }
 
-    public function forSlack(): SlackResponse
+    #[Override]
+    public function forSlack(): Response
     {
         if (null !== $this->error) {
             throw new SlackException($this->error);
@@ -119,12 +124,10 @@ class Number extends Roll
             $value .= ' - ' . (string)$this->penalty;
         }
 
-        $attachment = new TextAttachment(
-            sprintf('%s rolled a %d', $this->username, $this->result),
-            $value,
-        );
-        $response = new SlackResponse(channel: $this->channel);
-        return $response->addAttachment($attachment)->sendToChannel();
+        return (new Response())
+            ->addBlock(new Header(sprintf('%s rolled a %d', $this->username, $this->result)))
+            ->addBlock(new Text($value))
+            ->sendToChannel();
     }
 
     protected function roll(): void

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Rolls;
 
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\Character;
 use App\Models\ChatUser;
 use Discord\Builders\MessageBuilder;
+use Omnicolor\Slack\Response as SlackResponse;
 
 abstract class Roll
 {

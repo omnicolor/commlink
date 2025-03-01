@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Rolls;
 
 use App\Events\UserLinked;
-use App\Exceptions\SlackException;
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\ChatUser;
-use App\Models\Slack\TextAttachment;
+use Omnicolor\Slack\Exceptions\SlackException;
+use Omnicolor\Slack\Headers\Header;
+use Omnicolor\Slack\Response as SlackResponse;
+use Omnicolor\Slack\Sections\Text;
+use Override;
 
 use function count;
 use function explode;
@@ -87,6 +89,7 @@ class Validate extends Roll
         );
     }
 
+    #[Override]
     public function forDiscord(): string
     {
         if (null !== $this->error) {
@@ -95,6 +98,7 @@ class Validate extends Roll
         return $this->message;
     }
 
+    #[Override]
     public function forIrc(): string
     {
         if (null !== $this->error) {
@@ -103,14 +107,16 @@ class Validate extends Roll
         return str_replace('`', '', $this->message);
     }
 
+    #[Override]
     public function forSlack(): SlackResponse
     {
         if (null !== $this->error) {
             throw new SlackException($this->error);
         }
 
-        $attachment = new TextAttachment('Verified!', $this->message);
-        $response = new SlackResponse(channel: $this->channel);
-        return $response->addAttachment($attachment)->sendToChannel();
+        return (new SlackResponse())
+            ->addBlock(new Header('Verified!'))
+            ->addBlock(new Text($this->message))
+            ->sendToChannel();
     }
 }

@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Modules\Blistercritters\Tests\Feature\Rolls;
 
-use App\Exceptions\SlackException;
 use App\Models\Channel;
 use Facades\App\Services\DiceService;
 use Modules\Blistercritters\Rolls\Number;
+use Omnicolor\Slack\Exceptions\SlackException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
-
-use function json_decode;
 
 use const PHP_EOL;
 
@@ -54,25 +52,33 @@ final class NumberTest extends TestCase
     {
         DiceService::shouldReceive('rollOne')->once()->with(6)->andReturn(1);
         $response = (new Number('6 5 testing', 'user', new Channel()))
-            ->forSlack();
-        $attachment = json_decode((string)$response)->attachments[0];
-        self::assertSame('danger', $attachment->color);
-        self::assertSame('Rolled 1 vs 5', $attachment->text);
-        self::assertSame('Rolls: 1', $attachment->footer);
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $response);
+        self::assertArrayHasKey('footer', $response['attachments'][0]);
+        self::assertSame('danger', $response['attachments'][0]['color']);
+        self::assertSame('Rolled 1 vs 5', $response['attachments'][0]['text']);
+        self::assertSame('Rolls: 1', $response['attachments'][0]['footer']);
         self::assertSame(
             'user botched the roll for "testing"',
-            $attachment->title,
+            $response['attachments'][0]['title'],
         );
     }
 
+    #[Group('slack')]
     public function testSlackRollSuccess(): void
     {
         DiceService::shouldReceive('rollOne')->once()->with(6)->andReturn(6);
-        $response = (new Number('6 5', 'user', new Channel()))->forSlack();
-        $attachment = json_decode((string)$response)->attachments[0];
-        self::assertSame('good', $attachment->color);
-        self::assertSame('Rolled 6 vs 5', $attachment->text);
-        self::assertSame('user succeeded', $attachment->title);
+        $response = (new Number('6 5', 'user', new Channel()))
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $response);
+        self::assertArrayHasKey('color', $response['attachments'][0]);
+        self::assertSame('good', $response['attachments'][0]['color']);
+        self::assertSame('Rolled 6 vs 5', $response['attachments'][0]['text']);
+        self::assertSame('user succeeded', $response['attachments'][0]['title']);
     }
 
     #[Group('discord')]

@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Modules\Stillfleet\Tests\Feature\Rolls;
 
-use App\Exceptions\SlackException;
 use App\Models\Channel;
 use Facades\App\Services\DiceService;
 use Modules\Stillfleet\Rolls\Number;
+use Omnicolor\Slack\Exceptions\SlackException;
+use Omnicolor\Slack\Headers\Header;
+use Omnicolor\Slack\Sections\Text;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
-
-use function json_decode;
 
 use const PHP_EOL;
 
@@ -22,7 +23,8 @@ final class NumberTest extends TestCase
 {
     protected Channel $channel;
 
-    public function setUp(): void
+    #[Override]
+    protected function setUp(): void
     {
         parent::setUp();
         $this->channel = Channel::factory()->make(['system' => 'stillfleet']);
@@ -58,11 +60,18 @@ final class NumberTest extends TestCase
             ->with(6)
             ->andReturn(3);
 
-        $response = (new Number('6', 'user', $this->channel))->forSlack();
-        $response = json_decode((string)$response);
+        $response = (new Number('6', 'user', $this->channel))
+            ->forSlack()
+            ->jsonSerialize();
 
-        self::assertSame('user rolled a 3', $response->attachments[0]->title);
-        self::assertSame('3', $response->attachments[0]->text);
+        self::assertSame(
+            (new Header('user rolled a 3'))->jsonSerialize(),
+            $response['blocks'][0],
+        );
+        self::assertSame(
+            (new Text('3'))->jsonSerialize(),
+            $response['blocks'][1],
+        );
     }
 
     #[Group('slack')]
@@ -73,11 +82,18 @@ final class NumberTest extends TestCase
             ->with(10)
             ->andReturn(3);
 
-        $response = (new Number('10 2', 'user', $this->channel))->forSlack();
-        $response = json_decode((string)$response);
+        $response = (new Number('10 2', 'user', $this->channel))
+            ->forSlack()
+            ->jsonSerialize();
 
-        self::assertSame('user rolled a 5', $response->attachments[0]->title);
-        self::assertSame('3 + 2', $response->attachments[0]->text);
+        self::assertSame(
+            (new Header('user rolled a 5'))->jsonSerialize(),
+            $response['blocks'][0],
+        );
+        self::assertSame(
+            (new Text('3 + 2'))->jsonSerialize(),
+            $response['blocks'][1],
+        );
     }
 
     #[Group('slack')]
@@ -88,11 +104,18 @@ final class NumberTest extends TestCase
             ->with(10)
             ->andReturn(8);
 
-        $response = (new Number('10 -2', 'user', $this->channel))->forSlack();
-        $response = json_decode((string)$response);
+        $response = (new Number('10 -2', 'user', $this->channel))
+            ->forSlack()
+            ->jsonSerialize();
 
-        self::assertSame('user rolled a 6', $response->attachments[0]->title);
-        self::assertSame('8 - 2', $response->attachments[0]->text);
+        self::assertSame(
+            (new Header('user rolled a 6'))->jsonSerialize(),
+            $response['blocks'][0],
+        );
+        self::assertSame(
+            (new Text('8 - 2'))->jsonSerialize(),
+            $response['blocks'][1],
+        );
     }
 
     #[Group('discord')]

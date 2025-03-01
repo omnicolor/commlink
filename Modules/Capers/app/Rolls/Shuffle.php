@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Modules\Capers\Rolls;
 
-use App\Exceptions\SlackException;
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
-use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Exception;
 use Modules\Capers\Models\StandardDeck;
+use Omnicolor\Slack\Attachments\TextAttachment;
+use Omnicolor\Slack\Exceptions\SlackException;
+use Omnicolor\Slack\Response;
+use Override;
 
 use function assert;
 
@@ -74,6 +75,7 @@ class Shuffle extends Roll
         $this->deck->character_id = $this->username;
     }
 
+    #[Override]
     public function forDiscord(): string
     {
         if (null !== $this->error) {
@@ -83,6 +85,7 @@ class Shuffle extends Roll
         return $this->username . ' shuffled their deck';
     }
 
+    #[Override]
     public function forIrc(): string
     {
         if (null !== $this->error) {
@@ -92,7 +95,8 @@ class Shuffle extends Roll
         return $this->username . ' shuffled their deck';
     }
 
-    public function forSlack(): SlackResponse
+    #[Override]
+    public function forSlack(): Response
     {
         if (null !== $this->error) {
             throw new SlackException($this->error);
@@ -103,7 +107,10 @@ class Shuffle extends Roll
             '',
             TextAttachment::COLOR_INFO,
         );
-        $response = new SlackResponse(channel: $this->channel);
-        return $response->addAttachment($attachment)->sendToChannel();
+
+        // @phpstan-ignore method.deprecated
+        return (new Response())
+            ->addAttachment($attachment)
+            ->sendToChannel();
     }
 }

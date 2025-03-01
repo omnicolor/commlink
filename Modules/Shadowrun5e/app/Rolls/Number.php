@@ -6,10 +6,7 @@ namespace Modules\Shadowrun5e\Rolls;
 
 use App\Events\DiscordMessageReceived;
 use App\Events\MessageReceived;
-use App\Exceptions\SlackException;
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
-use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Discord\Builders\Components\ActionRow;
 use Discord\Builders\Components\Button;
@@ -18,6 +15,10 @@ use Discord\Parts\Interactions\Interaction;
 use Facades\App\Services\DiceService;
 use MathPHP\Probability\Combinatorics;
 use Modules\Shadowrun5e\Models\Character;
+use Omnicolor\Slack\Attachments\TextAttachment;
+use Omnicolor\Slack\Exceptions\SlackException;
+use Omnicolor\Slack\Response;
+use Override;
 
 use function array_shift;
 use function array_walk;
@@ -190,6 +191,7 @@ class Number extends Roll
         return $this->isGlitch() && 0 === $this->successes;
     }
 
+    #[Override]
     public function forDiscord(): string | MessageBuilder
     {
         if (null !== $this->error) {
@@ -237,6 +239,7 @@ class Number extends Roll
         return $message;
     }
 
+    #[Override]
     public function forIrc(): string
     {
         if (null !== $this->error) {
@@ -255,21 +258,17 @@ class Number extends Roll
     /**
      * @throws SlackException
      */
-    public function forSlack(): SlackResponse
+    #[Override]
+    public function forSlack(): Response
     {
         if (null !== $this->error) {
             throw new SlackException($this->error);
         }
-        $color = TextAttachment::COLOR_SUCCESS;
-        if ($this->isCriticalGlitch() || $this->isGlitch()) {
-            $color = TextAttachment::COLOR_DANGER;
-        }
-        $footer = implode(' ', $this->prettifyRolls());
 
+        $footer = implode(' ', $this->prettifyRolls());
         if (null !== $this->limit) {
             $footer .= sprintf(', Limit: %d', $this->limit);
         }
-
         $probability = $this->getProbability($this->dice, $this->successes);
         if (1.0 !== $probability) {
             $footer .= sprintf(
@@ -277,10 +276,19 @@ class Number extends Roll
                 $this->getProbability($this->dice, $this->successes) * 100
             );
         }
-        $attachment = new TextAttachment($this->title, $this->text, $color);
-        $attachment->addFooter($footer);
-        $response = new SlackResponse(channel: $this->channel);
-        return $response->addAttachment($attachment)->sendToChannel();
+
+        $attachment = new TextAttachment(
+            $this->title,
+            $this->text,
+            $this->isCriticalGlitch() || $this->isGlitch()
+                ? TextAttachment::COLOR_DANGER
+                : TextAttachment::COLOR_SUCCESS,
+            $footer,
+        );
+        // @phpstan-ignore method.deprecated
+        return (new Response())
+            ->addAttachment($attachment)
+            ->sendToChannel();
     }
 
     public function secondChance(Interaction $interaction): void

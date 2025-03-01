@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Tests\Feature\Rolls;
 
 use App\Events\DiscordMessageReceived;
-use App\Exceptions\SlackException;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
@@ -20,11 +19,14 @@ use Discord\Parts\User\User;
 use Facades\App\Services\DiceService;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Rolls\Number;
+use Omnicolor\Slack\Attachment;
+use Omnicolor\Slack\Exceptions\SlackException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use PHPUnit\Framework\Attributes\TestDox;
 use Tests\TestCase;
 
+use function json_encode;
 use function sprintf;
 
 use const PHP_EOL;
@@ -40,7 +42,7 @@ final class NumberTest extends TestCase
     {
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         $response = new Number('5', 'user', $channel);
-        $response = (string)$response->forSlack();
+        $response = (string)json_encode($response->forSlack());
         self::assertStringNotContainsString('limit', $response);
         self::assertStringNotContainsString('for', $response);
     }
@@ -49,9 +51,12 @@ final class NumberTest extends TestCase
     #[TestDox('Test trying to roll with a limit')]
     public function testRollWithLimit(): void
     {
-        $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
-        $response = new Number('15 5', 'username', $channel);
-        $response = (string)$response->forSlack();
+        $response = (string)json_encode((new Number(
+            '15 5',
+            'username',
+            Channel::factory()->make(['system' => 'shadowrun5e']),
+        ))
+            ->forSlack());
         self::assertStringContainsString('Limit: 5', $response);
         self::assertStringNotContainsString('for', $response);
     }
@@ -60,9 +65,12 @@ final class NumberTest extends TestCase
     #[TestDox('Test trying to roll with a description')]
     public function testRollWithDescription(): void
     {
-        $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
-        $response = new Number('5 description', 'username', $channel);
-        $response = (string)$response->forSlack();
+        $response = (string)json_encode((new Number(
+            '5 description',
+            'username',
+            Channel::factory()->make(['system' => 'shadowrun5e']),
+        ))
+            ->forSlack());
         self::assertStringNotContainsString('limit', $response);
         self::assertStringContainsString('for \\"description\\"', $response);
     }
@@ -71,9 +79,11 @@ final class NumberTest extends TestCase
     #[TestDox('Test trying to roll with both a description and a limit')]
     public function testRollBoth(): void
     {
-        $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
-        $response = new Number('20 10 description', 'username', $channel);
-        $response = (string)$response->forSlack();
+        $response = (string)json_encode((new Number(
+            '20 10 description',
+            'username',
+            Channel::factory()->make(['system' => 'shadowrun5e']),
+        ))->forSlack());
         self::assertStringContainsString('Limit: 10', $response);
         self::assertStringContainsString('for \\"description\\"', $response);
     }
@@ -92,15 +102,25 @@ final class NumberTest extends TestCase
     #[TestDox('Test the user rolling a critical glitch')]
     public function testCriticalGlitch(): void
     {
-        DiceService::shouldReceive('rollOne')->times(3)->with(6)->andReturn(1);
+        DiceService::shouldReceive('rollOne')
+            ->times(3)
+            ->with(6)
+            ->andReturn(1);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
-        $response = new Number('3', 'username', $channel);
-        $response = (string)$response->forSlack();
-        self::assertStringContainsString(
-            'username rolled a critical glitch on 3 dice!',
-            $response
+        $response = (new Number('3', 'username', $channel))
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $response);
+        self::assertSame(
+            [
+                'color' => Attachment::COLOR_DANGER,
+                'footer' => '~1~ ~1~ ~1~',
+                'text' => 'Rolled 3 ones with no successes!',
+                'title' => 'username rolled a critical glitch on 3 dice!',
+            ],
+            $response['attachments'][0],
         );
     }
 
@@ -108,28 +128,49 @@ final class NumberTest extends TestCase
     #[TestDox('Test the footer formatting a user getting successes')]
     public function testFooterSixes(): void
     {
-        DiceService::shouldReceive('rollOne')->times(3)->with(6)->andReturn(6);
+        DiceService::shouldReceive('rollOne')
+            ->times(3)
+            ->with(6)
+            ->andReturn(6);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
-        $response = new Number('3', 'username', $channel);
-        $response = (string)$response->forSlack();
-        self::assertStringContainsString('*6* *6* *6*', $response);
+        $response = (new Number('3', 'username', $channel))
+            ->forSlack()
+            ->jsonSerialize();
+        self::assertArrayHasKey('attachments', $response);
+        self::assertSame(
+            [
+                'color' => Attachment::COLOR_SUCCESS,
+                'footer' => '*6* *6* *6*, Probability: 3.7037%',
+                'text' => 'Rolled 3 successes',
+                'title' => 'username rolled 3 dice',
+            ],
+            $response['attachments'][0],
+        );
     }
 
     #[TestDox('Test the description when the roll hits the limit')]
     #[Group('slack')]
     public function testDescriptionHitLimit(): void
     {
-        DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(5);
+        DiceService::shouldReceive('rollOne')
+            ->times(6)
+            ->with(6)
+            ->andReturn(5);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
-        $response = new Number('6 3 shooting', 'username', $channel);
-        $response = (string)$response->forSlack();
-        self::assertStringContainsString(
-            'Rolled 3 successes for \\"shooting\\", hit limit',
-            $response
+        $response = (new Number('6 3 shooting', 'username', $channel))
+            ->forSlack()
+            ->jsonSerialize();
+        self::assertArrayHasKey('attachments', $response);
+        self::assertSame(
+            [
+                'color' => Attachment::COLOR_SUCCESS,
+                'footer' => '*5* *5* *5* *5* *5* *5*, Limit: 3, Probability: 0.1372%',
+                'text' => 'Rolled 3 successes for "shooting", hit limit',
+                'title' => 'username rolled 6 dice with a limit of 3',
+            ],
+            $response['attachments'][0],
         );
     }
 
@@ -359,9 +400,6 @@ final class NumberTest extends TestCase
             $message,
             self::createStub(Discord::class)
         );
-        $expected = sprintf('**%s rolled 6 dice with a limit of 3**', (string)$character) . PHP_EOL
-            . 'Rolled 0 successes' . PHP_EOL
-            . 'Rolls: 3 3 3 3 3 3, Limit: 3';
 
         $roll = (new Number('6 3', (string)$character, $channel, $event));
         $roll->forDiscord();

@@ -62,12 +62,12 @@ class HandleRollEvent
     protected function sendToSlack(Roll $roll, Channel $channel): void
     {
         try {
-            $data = $roll->forSlack()->getData();
+            $data = $roll->forSlack()->jsonSerialize();
         } catch (Exception) {
             return;
         }
-        $data->response_type = null;
-        $data->channel = $channel->channel_id;
+        $data['response_type'] = null;
+        $data['channel'] = $channel->channel_id;
 
         // TODO: Add error handling.
         Http::withHeaders(
@@ -75,7 +75,7 @@ class HandleRollEvent
                 'Authorization' => sprintf('Bearer %s', config('services.slack.bot_token')),
                 'Content-Type' => 'application/json;charset=UTF-8',
             ],
-        )->post('https://slack.com/api/chat.postMessage', (array)$data);
+        )->post('https://slack.com/api/chat.postMessage', $data);
     }
 
     /**
