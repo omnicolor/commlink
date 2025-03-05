@@ -1720,16 +1720,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v11.44.0",
+            "version": "v11.44.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "e9a33da34815ac1ed46c7e4c477a775f4592f0a7"
+                "reference": "0883d4175f4e2b5c299e7087ad3c74f2ce195c6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/e9a33da34815ac1ed46c7e4c477a775f4592f0a7",
-                "reference": "e9a33da34815ac1ed46c7e4c477a775f4592f0a7",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/0883d4175f4e2b5c299e7087ad3c74f2ce195c6d",
+                "reference": "0883d4175f4e2b5c299e7087ad3c74f2ce195c6d",
                 "shasum": ""
             },
             "require": {
@@ -1837,7 +1837,7 @@
                 "league/flysystem-read-only": "^3.25.1",
                 "league/flysystem-sftp-v3": "^3.25.1",
                 "mockery/mockery": "^1.6.10",
-                "orchestra/testbench-core": "^9.9.4",
+                "orchestra/testbench-core": "^9.11.2",
                 "pda/pheanstalk": "^5.0.6",
                 "php-http/discovery": "^1.15",
                 "phpstan/phpstan": "^2.0",
@@ -1931,7 +1931,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-02-24T13:08:54+00:00"
+            "time": "2025-03-05T15:34:10+00:00"
         },
         {
             "name": "laravel/pennant",
@@ -14816,33 +14816,33 @@
         },
         {
             "name": "worksome/envy",
-            "version": "v1.3.1",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/worksome/envy.git",
-                "reference": "663b5603ffb2c3104db0cd96bc4b3f5de573fbbd"
+                "reference": "ae8b7b0f9e94aa1d3ee3d17c3cd104950e8bb3d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/worksome/envy/zipball/663b5603ffb2c3104db0cd96bc4b3f5de573fbbd",
-                "reference": "663b5603ffb2c3104db0cd96bc4b3f5de573fbbd",
+                "url": "https://api.github.com/repos/worksome/envy/zipball/ae8b7b0f9e94aa1d3ee3d17c3cd104950e8bb3d8",
+                "reference": "ae8b7b0f9e94aa1d3ee3d17c3cd104950e8bb3d8",
                 "shasum": ""
             },
             "require": {
-                "illuminate/contracts": "^10.0 || ^11.0",
+                "illuminate/contracts": "^11.0 || ^12.0",
                 "nikic/php-parser": "^4.19.1 || ^5.0.2",
                 "nunomaduro/termwind": "^1.15 || ^2.0",
                 "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.16",
-                "thecodingmachine/safe": "^2.4 || ^3.0"
+                "thecodingmachine/safe": "^2.5 || ^3.0"
             },
             "require-dev": {
-                "larastan/larastan": "^2.6",
-                "nunomaduro/collision": "^7.0 || ^8.1",
-                "orchestra/testbench": "^8.0 || ^9.0",
-                "pestphp/pest": "^2.33",
-                "pestphp/pest-plugin-laravel": "^2.2",
-                "worksome/coding-style": "^2.8"
+                "larastan/larastan": "^3.0",
+                "nunomaduro/collision": "^8.1",
+                "orchestra/testbench": "^9.0 || ^10.0",
+                "pestphp/pest": "^3.7",
+                "pestphp/pest-plugin-laravel": "^3.1",
+                "worksome/coding-style": "^3.1"
             },
             "type": "library",
             "extra": {
@@ -14878,7 +14878,7 @@
             ],
             "support": {
                 "issues": "https://github.com/worksome/envy/issues",
-                "source": "https://github.com/worksome/envy/tree/v1.3.1"
+                "source": "https://github.com/worksome/envy/tree/v1.4.0"
             },
             "funding": [
                 {
@@ -14886,7 +14886,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-02-19T11:28:14+00:00"
+            "time": "2025-03-04T17:42:17+00:00"
         }
     ],
     "aliases": [],
