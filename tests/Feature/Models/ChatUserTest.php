@@ -25,7 +25,6 @@ final class ChatUserTest extends TestCase
      */
     public function testGetVerificationAttribute(): void
     {
-        /** @var ChatUser */
         $user = ChatUser::factory()->make([
             'server_id' => 'server-id',
             'remote_user_id' => 'Ud3adb33f',
@@ -139,8 +138,7 @@ final class ChatUserTest extends TestCase
                 ->get()
         );
 
-        /** @var ChatUser */
-        $user = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'remote_user_name' => 'scopeUnverifiedTest',
             'verified' => false,
         ]);
@@ -163,8 +161,7 @@ final class ChatUserTest extends TestCase
                 ->get()
         );
 
-        /** @var ChatUser */
-        $user = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'remote_user_name' => 'scopeVerifiedTest',
             'verified' => true,
         ]);
@@ -202,9 +199,7 @@ final class ChatUserTest extends TestCase
      */
     public function testGetUser(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->make(['user_id' => $user->id]);
         self::assertSame($user->email, $chatUser->user->email);
     }

@@ -14,8 +14,6 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-use function sprintf;
-
 #[Group('events')]
 #[Medium]
 final class EventsControllerTest extends TestCase
@@ -24,7 +22,7 @@ final class EventsControllerTest extends TestCase
     {
         $user = User::factory()->create();
         self::actingAs($user)
-            ->get('/api/events')
+            ->get(route('events.index'))
             ->assertOk()
             ->assertJsonCount(0, 'data');
     }
@@ -34,7 +32,7 @@ final class EventsControllerTest extends TestCase
         $user = User::factory()->create();
         Event::factory()->create(['created_by' => $user->id]);
         self::actingAs($user)
-            ->get('/api/events')
+            ->get(route('events.index'))
             ->assertOk()
             ->assertJsonCount(1, 'data');
     }
@@ -67,7 +65,7 @@ final class EventsControllerTest extends TestCase
         $user = User::factory()->create();
         $event = Event::factory()->create();
         self::actingAs($user)
-            ->get(sprintf('/api/events/%d', $event->id))
+            ->get(route('events.show', $event))
             ->assertForbidden();
     }
 
@@ -76,7 +74,7 @@ final class EventsControllerTest extends TestCase
         $user = User::factory()->create();
         $event = Event::factory()->create(['created_by' => $user->id]);
         self::actingAs($user)
-            ->get(sprintf('/api/events/%d', $event->id))
+            ->get(route('events.show', $event))
             ->assertOk();
     }
 
@@ -89,7 +87,7 @@ final class EventsControllerTest extends TestCase
             'created_by' => $user->id,
         ]);
         self::actingAs($user)
-            ->get(sprintf('/api/events/%d', $event->id))
+            ->get(route('events.show', $event))
             ->assertOk()
             ->assertJsonCount(0, 'data.responses');
     }
@@ -109,7 +107,7 @@ final class EventsControllerTest extends TestCase
             'user_id' => $user->id,
         ]);
         self::actingAs($user)
-            ->get(sprintf('/api/events/%d', $event->id))
+            ->get(route('events.show', $event))
             ->assertOk()
             ->assertJsonCount(1, 'data.responses');
     }
@@ -246,7 +244,6 @@ final class EventsControllerTest extends TestCase
     public function testUpdateWithJsonPatchStartAfterEnd(): void
     {
         $user = User::factory()->create();
-        $campaign = Campaign::factory()->create();
         $event = Event::factory()->create([
             'created_by' => $user->id,
             'real_start' => '2023-01-01T00:00:00Z',
@@ -359,9 +356,7 @@ final class EventsControllerTest extends TestCase
     public function testStoreCampaign(): void
     {
         $user = User::factory()->create();
-        $campaign = Campaign::factory()->create([
-            'gm' => $user->id,
-        ]);
+        $campaign = Campaign::factory()->create(['gm' => $user->id]);
         self::actingAs($user)
             ->postJson(
                 route('events.store', ['campaign' => $campaign]),

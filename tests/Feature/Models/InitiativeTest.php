@@ -25,10 +25,7 @@ final class InitiativeTest extends TestCase
 
     public function testToStringWithCharacter(): void
     {
-        /** @var Character */
-        $character = Character::factory()->create([
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create();
 
         $initiative = new Initiative(['character_id' => $character->id]);
         self::assertSame($character->handle, (string)$initiative);
@@ -38,7 +35,6 @@ final class InitiativeTest extends TestCase
 
     public function testCampaign(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
 
         $initiative = new Initiative([
@@ -53,7 +49,6 @@ final class InitiativeTest extends TestCase
 
     public function testScopeForCampaign(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
 
         Initiative::factory()->count(4)->create(['campaign_id' => $campaign]);
@@ -63,7 +58,6 @@ final class InitiativeTest extends TestCase
 
     public function testScopeForChannel(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make();
 
         Initiative::forChannel($channel)->delete();

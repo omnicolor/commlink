@@ -22,7 +22,6 @@ final class HeroLabControllerTest extends TestCase
 {
     public function testInvalidFileType(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         $file = UploadedFile::fake()->create('not-portfolio.por');
@@ -58,7 +57,6 @@ final class HeroLabControllerTest extends TestCase
             (string)file_get_contents($filename)
         );
 
-        /** @var User */
         $user = User::factory()->create();
 
         self::actingAs($user)
@@ -69,7 +67,6 @@ final class HeroLabControllerTest extends TestCase
 
     public function testView(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         self::actingAs($user)

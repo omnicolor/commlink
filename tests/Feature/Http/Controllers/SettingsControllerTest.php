@@ -30,7 +30,6 @@ final class SettingsControllerTest extends TestCase
      */
     public function testNoLinkedUsers(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)
             ->get(route('settings.chat-users'))
@@ -43,7 +42,6 @@ final class SettingsControllerTest extends TestCase
      */
     public function testWithLinkedUser(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $server_id = 'T' . Str::random(10);
         $remote_user_id = 'U' . Str::random(10);
@@ -67,7 +65,6 @@ final class SettingsControllerTest extends TestCase
      */
     public function testLinkUserMissingData(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)
             ->post(route('settings.link-user'), [])
@@ -89,7 +86,6 @@ final class SettingsControllerTest extends TestCase
      */
     public function testLinkUserSlackCallsFail(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $server_id = 'T' . Str::random(10);
         $userId = 'U' . Str::random(10);
@@ -132,7 +128,6 @@ final class SettingsControllerTest extends TestCase
      */
     public function testLinkDuplicateSlackUser(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $server_id = 'T' . Str::random(10);
         $userId = 'U' . Str::random(10);
@@ -160,7 +155,6 @@ final class SettingsControllerTest extends TestCase
      */
     public function testLinkDiscordUserAPICallsFail(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $server_id = '1' . Str::random(10);
         $userId = Str::random(10);
@@ -198,7 +192,6 @@ final class SettingsControllerTest extends TestCase
      */
     public function testLinkDiscordUser(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $server_id = '1' . Str::random(10);
         $userId = Str::random(10);
@@ -245,7 +238,6 @@ final class SettingsControllerTest extends TestCase
      */
     public function testLinkDuplicateDiscordUser(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $server_id = '1' . Str::random(10);
         $userId = '2' . Str::random(10);
@@ -273,7 +265,6 @@ final class SettingsControllerTest extends TestCase
      */
     public function testLinkDuplicateIrcUser(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $server_id = 'chat.freenode.net:6667';
         $userId = Str::random(10);

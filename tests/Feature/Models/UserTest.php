@@ -25,7 +25,6 @@ final class UserTest extends TestCase
      */
     public function testCampaignsNone(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         self::assertCount(0, $user->campaigns);
         self::assertCount(0, $user->campaignsRegistered);
@@ -36,7 +35,6 @@ final class UserTest extends TestCase
      */
     public function testCampaignsGmed(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         Campaign::factory()->create(['gm' => $user]);
         Campaign::factory()->create([
@@ -52,7 +50,6 @@ final class UserTest extends TestCase
      */
     public function testGetCharactersNone(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         self::assertEmpty($user->characters()->get());
     }
@@ -62,15 +59,12 @@ final class UserTest extends TestCase
      */
     public function testGetCharacters(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $character1 = Character::factory()->create([
             'owner' => $user->email,
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         $character2 = Character::factory()->create([
             'owner' => $user->email,
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         // @phpstan-ignore staticMethod.dynamicCall
@@ -85,17 +79,14 @@ final class UserTest extends TestCase
      */
     public function testGetSystemCharacters(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $character1 = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun5e',
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         $character2 = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'cyberpunk2077',
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
         // @phpstan-ignore staticMethod.dynamicCall
         self::assertSame(1, $user->characters('shadowrun5e')->count());
@@ -109,7 +100,6 @@ final class UserTest extends TestCase
      */
     public function testGetChatUsersNone(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         self::assertEmpty($user->chatUsers);
     }
@@ -119,10 +109,8 @@ final class UserTest extends TestCase
      */
     public function testGetChatUsers(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        /** @var ChatUser */
-        $chatUser = ChatUser::factory()->create(['user_id' => $user->id]);
+        ChatUser::factory()->create(['user_id' => $user->id]);
         self::assertNotEmpty($user->chatUsers);
     }
 
@@ -136,7 +124,6 @@ final class UserTest extends TestCase
     #[Group('events')]
     public function testEvents(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $user = User::factory()->create();
         Event::create([
@@ -150,7 +137,6 @@ final class UserTest extends TestCase
 
     public function testGetFeatures(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         self::assertCount(0, $user->getFeatures());
 

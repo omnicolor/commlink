@@ -213,12 +213,6 @@ final class RegisterResponseTest extends TestCase
             'server_type' => ChatUser::TYPE_DISCORD,
             'verified' => true,
         ]);
-        $expected = sprintf(
-            '%s has registered this channel for the "Shadowrun 5th Edition" system.',
-            // @phpstan-ignore property.notFound
-            $event->channel->username,
-        );
-
         $guildResponse = Http::response(
             ['name' => 'Guild Name'],
             Response::HTTP_OK,

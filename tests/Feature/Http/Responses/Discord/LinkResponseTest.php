@@ -67,13 +67,6 @@ final class LinkResponseTest extends TestCase
      */
     public function testLinkWithoutCommlinkUser(): void
     {
-        $expected = sprintf(
-            'You must have already created an account on %s (%s) and '
-                . 'linked it to this server before you can link a character.',
-            config('app.name'),
-            config('app.url') . '/settings',
-        );
-
         $messageMock = $this->createDiscordMessageMock('/roll link 123');
         $event = new DiscordMessageReceived(
             $messageMock,
@@ -100,10 +93,7 @@ final class LinkResponseTest extends TestCase
      */
     public function testLinkCharacterAlreadyLinked(): void
     {
-        /** @var Character */
-        $alreadyLinkedCharacter = Character::factory()->create([
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $alreadyLinkedCharacter = Character::factory()->create();
 
         $expected = sprintf(
             'It looks like you\'ve already linked "%s" to this channel.',
@@ -155,14 +145,13 @@ final class LinkResponseTest extends TestCase
             $messageMock,
             self::createStub(Discord::class)
         );
-
-        $channel = Channel::factory()->create([
+        Channel::factory()->create([
             'channel_id' => $event->channel->id,
             'server_id' => $event->server->id,
             'type' => Channel::TYPE_DISCORD,
         ]);
 
-        $chatUser = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'remote_user_id' => optional($event->user)->id,
             'server_id' => $event->server->id,
             'server_type' => ChatUser::TYPE_DISCORD,
@@ -177,10 +166,7 @@ final class LinkResponseTest extends TestCase
      */
     public function testLinkCharacterNotYours(): void
     {
-        /** @var Character */
-        $character = Character::factory()->create([
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create();
 
         $expected = 'You don\'t own that character.';
         $messageMock = $this->createDiscordMessageMock(sprintf(
@@ -219,13 +205,10 @@ final class LinkResponseTest extends TestCase
      */
     public function testLinkCharacterOtherSystem(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        /** @var Character */
         $character = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'capers',
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         $expected = sprintf(
@@ -269,12 +252,9 @@ final class LinkResponseTest extends TestCase
      */
     public function testLinkCharacter(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        /** @var Character */
         $character = Character::factory()->create([
             'owner' => $user->email,
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         $expected = sprintf(

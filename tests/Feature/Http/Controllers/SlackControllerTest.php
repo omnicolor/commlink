@@ -35,9 +35,6 @@ final class SlackControllerTest extends TestCase
 {
     use WithFaker;
 
-    /**
-     * Test an OPTIONS request to the dice roller.
-     */
     public function testOptions(): void
     {
         self::options(route('roll-options'))
@@ -247,7 +244,7 @@ final class SlackControllerTest extends TestCase
             'verified' => true,
         ]);
 
-        $chatCharacter = ChatCharacter::factory()->create([
+        ChatCharacter::factory()->create([
             'channel_id' => $channel,
             'character_id' => $character->id,
             'chat_user_id' => $chatUser,
@@ -293,7 +290,7 @@ final class SlackControllerTest extends TestCase
 
         $character = Character::factory()->create(['system' => 'cyberpunkred']);
 
-        $chatUser = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'remote_user_id' => $slackUserId,
             'server_id' => $channel->server_id,
             'server_type' => Channel::TYPE_SLACK,
@@ -565,7 +562,7 @@ final class SlackControllerTest extends TestCase
             'system' => 'cyberpunkred',
         ]);
 
-        $chatUser = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'remote_user_id' => $slackUserId,
             'server_id' => $channel->server_id,
             'server_type' => Channel::TYPE_SLACK,

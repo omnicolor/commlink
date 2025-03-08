@@ -14,7 +14,7 @@ use function route;
 #[Small]
 final class CharactersControllerTest extends TestCase
 {
-    public function testExample(): void
+    public function testCharactersIndex(): void
     {
         $user = User::factory()->create();
 

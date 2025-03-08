@@ -25,9 +25,6 @@ use function sprintf;
 #[Medium]
 final class RegisterResponseTest extends TestCase
 {
-    /**
-     * Test trying to register a channel without passing in the channel.
-     */
     public function testChannelMissing(): void
     {
         self::expectException(SlackException::class);
