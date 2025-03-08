@@ -37,7 +37,6 @@ final class ChannelsControllerTest extends TestCase
      */
     public function testUpdateNotFoundChannel(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->patchJson(
@@ -52,9 +51,7 @@ final class ChannelsControllerTest extends TestCase
      */
     public function testUpdateSomeoneElsesChannel(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        /** @var Channel */
         $channel = Channel::factory()->create();
         $this->actingAs($user)
             ->patchJson(
@@ -64,14 +61,9 @@ final class ChannelsControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    /**
-     * Test updating a channel with no changes.
-     */
     public function testUpdateNoChanges(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'registered_by' => $user->id,
         ]);
@@ -83,14 +75,9 @@ final class ChannelsControllerTest extends TestCase
             ->assertUnprocessable();
     }
 
-    /**
-     * Test updating a channel with incompatible changes.
-     */
     public function testUpdateIncompatibleChanges(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'registered_by' => $user->id,
         ]);
@@ -102,17 +89,12 @@ final class ChannelsControllerTest extends TestCase
             ->assertUnprocessable();
     }
 
-    /**
-     * Test updating a channel with a webhook URL.
-     */
     public function testUpdateWebhookURL(): void
     {
         Http::fake();
 
         $url = 'https://example.org/webhook';
-        /** @var User */
         $user = User::factory()->create();
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'registered_by' => $user->id,
         ]);
@@ -133,9 +115,7 @@ final class ChannelsControllerTest extends TestCase
      */
     public function testAutoNonDiscord(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'registered_by' => $user->id,
             'type' => Channel::TYPE_SLACK,
@@ -154,10 +134,7 @@ final class ChannelsControllerTest extends TestCase
      */
     public function testAutoDiscord(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'channel_id' => (string)$this->faker->randomNumber(8, true),
             'registered_by' => $user->id,

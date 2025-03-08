@@ -13,20 +13,13 @@ use Tests\TestCase;
 #[Medium]
 final class DashboardControllerTest extends TestCase
 {
-    /**
-     * Test an unauthenticated request.
-     */
     public function testUnauthenticated(): void
     {
         $this->get('/dashboard')->assertRedirect('/login');
     }
 
-    /**
-     * Test an authenticated request with no characters.
-     */
     public function testAuthenticatedNoCharactersNoCampaigns(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)
             ->get(route('dashboard'))
@@ -35,16 +28,10 @@ final class DashboardControllerTest extends TestCase
             ->assertSee('You don\'t have any campaigns!', false);
     }
 
-    /**
-     * Test an authenticated request that has characters.
-     */
     public function testAuthenticatedWithCharacters(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        /** @var Character */
         $character1 = Character::factory()->create(['owner' => $user->email]);
-        /** @var Character */
         $character2 = Character::factory()->create([
             'owner' => $user->email,
             'system' => 'shadowrun6e',
@@ -60,14 +47,9 @@ final class DashboardControllerTest extends TestCase
         $character2->delete();
     }
 
-    /**
-     * Test an authenticated request that has registered campaigns.
-     */
     public function testWithRegisteredCampaigns(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'registered_by' => $user,
             'gm' => null,
@@ -80,13 +62,11 @@ final class DashboardControllerTest extends TestCase
     }
 
     /**
-     * Test a the dashboard with a gamemastering campaign.
+     * Test the dashboard with a gamemastering campaign.
      */
     public function testWithGamemasterCampaign(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $user]);
         self::actingAs($user)
             ->get(route('dashboard'))

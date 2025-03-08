@@ -24,7 +24,6 @@ final class WorldAnvilControllerTest extends TestCase
 {
     public function testInvalidFileType(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         $file = UploadedFile::fake()->create('not-world-anvil-json.jpg');
@@ -50,7 +49,6 @@ final class WorldAnvilControllerTest extends TestCase
             '{"templateId":"a"}',
         );
 
-        /** @var User */
         $user = User::factory()->create();
 
         self::actingAs($user)
@@ -81,7 +79,6 @@ final class WorldAnvilControllerTest extends TestCase
             (string)file_get_contents($filename)
         );
 
-        /** @var User */
         $user = User::factory()->create();
 
         self::actingAs($user)
@@ -104,7 +101,6 @@ final class WorldAnvilControllerTest extends TestCase
             (string)file_get_contents($filename)
         );
 
-        /** @var User */
         $user = User::factory()->create();
 
         self::actingAs($user)
@@ -117,7 +113,6 @@ final class WorldAnvilControllerTest extends TestCase
 
     public function testMissingUpload(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         self::actingAs($user)
@@ -131,7 +126,6 @@ final class WorldAnvilControllerTest extends TestCase
 
     public function testView(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         self::actingAs($user)

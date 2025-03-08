@@ -26,7 +26,6 @@ final class CampaignTest extends TestCase
     {
         $gm = User::factory()->create();
         $registerer = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $gm->id,
             'registered_by' => $registerer->id,
@@ -40,7 +39,6 @@ final class CampaignTest extends TestCase
      */
     public function testNullGM(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => null]);
         self::assertNull($campaign->gamemaster);
     }
@@ -61,7 +59,6 @@ final class CampaignTest extends TestCase
      */
     public function testGetChannelsNone(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->make();
         self::assertCount(0, $campaign->channels);
     }
@@ -71,7 +68,6 @@ final class CampaignTest extends TestCase
      */
     public function testGetChannels(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         Channel::factory()->count(2)->create(['campaign_id' => $campaign]);
         self::assertCount(2, $campaign->channels);
@@ -79,14 +75,12 @@ final class CampaignTest extends TestCase
 
     public function testGetEventsNone(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         self::assertCount(0, $campaign->events);
     }
 
     public function testGetEvents(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         Event::factory()->create(['campaign_id' => $campaign->id]);
         self::assertCount(1, $campaign->events);
@@ -98,13 +92,11 @@ final class CampaignTest extends TestCase
      */
     public function testGetSubclass(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'dnd5e']);
         $campaign = Campaign::find($campaign->id);
         self::assertInstanceOf(Campaign::class, $campaign);
         self::assertNotInstanceOf(ShadowrunCampaign::class, $campaign);
 
-        /** @var Campaign */
         $srCampaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
         $srCampaign = Campaign::find($srCampaign->id);
         self::assertInstanceOf(Campaign::class, $srCampaign);

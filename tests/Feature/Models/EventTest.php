@@ -33,7 +33,6 @@ final class EventTest extends TestCase
 
     public function testCampaign(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['name' => 'Event campaign']);
         $user = User::factory()->create();
         $event = Event::create([
@@ -50,7 +49,6 @@ final class EventTest extends TestCase
 
     public function testCreatedBy(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $user = User::factory()->create(['name' => 'Test user']);
         $event = Event::create([
@@ -67,7 +65,6 @@ final class EventTest extends TestCase
 
     public function testResponsesEmpty(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $user = User::factory()->create();
         $event = Event::create([
@@ -81,7 +78,6 @@ final class EventTest extends TestCase
 
     public function testResponses(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $user = User::factory()->create();
         $event = Event::create([

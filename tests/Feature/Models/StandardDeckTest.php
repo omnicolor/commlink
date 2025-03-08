@@ -185,7 +185,6 @@ final class StandardDeckTest extends TestCase
     {
         DB::shouldReceive('table->where->get')->andReturn([]);
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $decks = StandardDeck::findForCampaign($campaign);
         self::assertEmpty($decks);
@@ -196,7 +195,6 @@ final class StandardDeckTest extends TestCase
      */
     public function testFindForDeck(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         DB::shouldReceive('table->where->get')
             ->andReturn([
@@ -221,7 +219,6 @@ final class StandardDeckTest extends TestCase
      */
     public function testTruncate(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
 
         $deck = new StandardDeck();

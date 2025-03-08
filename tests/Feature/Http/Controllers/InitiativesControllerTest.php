@@ -23,13 +23,8 @@ final class InitiativesControllerTest extends TestCase
      */
     public function testDestroyAnothersInitiative(): void
     {
-        /** @var User */
         $gm = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([]);
-
-        /** @var Initiative */
         $initiative = Initiative::factory()->create([
             'campaign_id' => $campaign,
         ]);
@@ -44,15 +39,9 @@ final class InitiativesControllerTest extends TestCase
         self::assertModelExists($initiative);
     }
 
-    /**
-     * Test trying to destroy an initiative that doesn't exist.
-     */
     public function testDestroyNotFound(): void
     {
-        /** @var User */
         $gm = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $gm]);
 
         self::actingAs($gm)
@@ -65,13 +54,8 @@ final class InitiativesControllerTest extends TestCase
      */
     public function testDestroy(): void
     {
-        /** @var User */
         $gm = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $gm]);
-
-        /** @var Initiative */
         $initiative = Initiative::factory()->create([
             'campaign_id' => $campaign,
         ]);
@@ -91,13 +75,8 @@ final class InitiativesControllerTest extends TestCase
      */
     public function testIndexNotGm(): void
     {
-        /** @var User */
         $gm = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([]);
-
-        /** @var Initiative */
         $initiative = Initiative::factory()->create([
             'campaign_id' => $campaign,
         ]);
@@ -112,10 +91,7 @@ final class InitiativesControllerTest extends TestCase
      */
     public function testIndexEmpty(): void
     {
-        /** @var User */
         $gm = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $gm]);
 
         self::actingAs($gm)
@@ -129,16 +105,9 @@ final class InitiativesControllerTest extends TestCase
      */
     public function testIndex(): void
     {
-        /** @var User */
         $gm = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $gm]);
-
-        /** @var Initiative */
-        $initiative = Initiative::factory()->create([
-            'campaign_id' => $campaign,
-        ]);
+        Initiative::factory()->create(['campaign_id' => $campaign]);
 
         $response = self::actingAs($gm)
             ->getJson(sprintf('/api/campaigns/%d/initiatives', $campaign->id))
@@ -146,18 +115,10 @@ final class InitiativesControllerTest extends TestCase
         self::assertNotEmpty($response['initiatives']);
     }
 
-    /**
-     * Test updating an initiative from a different campaign.
-     */
     public function testUpdateDifferentCampaign(): void
     {
-        /** @var User */
         $gm = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $gm]);
-
-        /** @var Initiative */
         $initiative = Initiative::factory()->create([
             'campaign_id' => Campaign::factory()->create(['gm' => $gm]),
         ]);
@@ -180,13 +141,8 @@ final class InitiativesControllerTest extends TestCase
      */
     public function testUpdateInitiative(): void
     {
-        /** @var User */
         $gm = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $gm]);
-
-        /** @var Initiative */
         $initiative = Initiative::factory()->create([
             'campaign_id' => $campaign,
             'character_name' => 'Phil',
@@ -220,13 +176,8 @@ final class InitiativesControllerTest extends TestCase
      */
     public function testShowFromDifferentCampaign(): void
     {
-        /** @var User */
         $gm = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $gm]);
-
-        /** @var Initiative */
         $initiative = Initiative::factory()->create([
             'campaign_id' => Campaign::factory()->create(['gm' => $gm]),
         ]);
@@ -245,18 +196,13 @@ final class InitiativesControllerTest extends TestCase
      */
     public function testShowInitiative(): void
     {
-        /** @var User */
         $gm = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $gm]);
-
-        /** @var Initiative */
         $initiative = Initiative::factory()->create([
             'campaign_id' => $campaign,
         ]);
 
-        $response = self::actingAs($gm)
+        self::actingAs($gm)
             ->getJson(sprintf(
                 '/api/campaigns/%d/initiatives/%d',
                 $campaign->id,
@@ -279,10 +225,7 @@ final class InitiativesControllerTest extends TestCase
      */
     public function testStoreInitiativeNotGm(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
 
         self::actingAs($user)
@@ -304,10 +247,7 @@ final class InitiativesControllerTest extends TestCase
      */
     public function testStoreInitiativeSettingManually(): void
     {
-        /** @var User */
         $gm = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $gm]);
 
         self::actingAs($gm)
@@ -343,10 +283,7 @@ final class InitiativesControllerTest extends TestCase
             ->with(6)
             ->andReturn(5);
 
-        /** @var User */
         $gm = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $gm]);
 
         self::actingAs($gm)
@@ -378,13 +315,8 @@ final class InitiativesControllerTest extends TestCase
      */
     public function testTruncateInitiativesFromAnothersCampaign(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
-
-        /** @var Initiative */
         $initiative = Initiative::factory()->create([
             'campaign_id' => $campaign,
         ]);
@@ -403,13 +335,8 @@ final class InitiativesControllerTest extends TestCase
      */
     public function testTruncateInitiatives(): void
     {
-        /** @var User */
         $gm = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $gm]);
-
-        /** @var Initiative */
         $initiative = Initiative::factory()->create([
             'campaign_id' => $campaign,
         ]);

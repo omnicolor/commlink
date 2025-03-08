@@ -103,12 +103,9 @@ final class HandleIrcMessageTest extends TestCase
      */
     public function testHandleInfoRegisteredChannel(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'system' => 'shadowrun5e',
         ]);
-
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'channel_id' => '#test-channel',

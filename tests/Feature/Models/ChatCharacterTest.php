@@ -22,13 +22,9 @@ final class ChatCharacterTest extends TestCase
      */
     public function testRelationships(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->create();
-        /** @var Character */
         $character = Character::factory()->create([
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create();
 
         $chatCharacter = new ChatCharacter([
