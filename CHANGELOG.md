@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.12.0] - 2025-03-08
+
+### Changed
+
+- Lots of dependencies updated.
+
+### Fixed
+
+- Cleaned up some Laravel "issues" brought up by Shift's Laravel Linter:
+  reverted config files to be more like the defaults, removed the $model
+  property for base database factories. (#2080)
+
+### Removed
+
+- Removed Slack code from Commlink. (#2106) Code is now its own project at
+  [omnicolor/slack](https://github.com/omnicolor/slack).
+- Removed Paratest dependency since it wasn't working correctly some of the
+  time (creating a bunch of numbered files in the cwd and failing tests
+  randomly). (#2123)
+
 ## [1.11.0] - 2025-02-20
 
 ### Added
