@@ -65,6 +65,7 @@
         "omnicolor/php-irc-client": "^1.1",
         "omnicolor/slack": "^0.9",
         "php-jsonpatch/php-jsonpatch": "^4.1",
+        "predis/predis": "^2.3",
         "pusher/pusher-php-server": "^7.0",
         "sentry/sentry-laravel": "^4.7",
         "socialiteproviders/discord": "^4.1",
