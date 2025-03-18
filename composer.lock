@@ -4039,16 +4039,16 @@
         },
         {
             "name": "omnicolor/slack",
-            "version": "v0.9.0",
+            "version": "v0.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/omnicolor/slack.git",
-                "reference": "65f610f303a8c656bacdd3f940392f7a9895ecc3"
+                "reference": "abd0dbda6fdb1caa5cb94a7886e0e2c3bd8df05e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/omnicolor/slack/zipball/65f610f303a8c656bacdd3f940392f7a9895ecc3",
-                "reference": "65f610f303a8c656bacdd3f940392f7a9895ecc3",
+                "url": "https://api.github.com/repos/omnicolor/slack/zipball/abd0dbda6fdb1caa5cb94a7886e0e2c3bd8df05e",
+                "reference": "abd0dbda6fdb1caa5cb94a7886e0e2c3bd8df05e",
                 "shasum": ""
             },
             "require": {
@@ -4088,9 +4088,9 @@
             "description": "Library for creating Slack messages",
             "support": {
                 "issues": "https://github.com/omnicolor/slack/issues",
-                "source": "https://github.com/omnicolor/slack/tree/v0.9.0"
+                "source": "https://github.com/omnicolor/slack/tree/v0.9.1"
             },
-            "time": "2025-02-28T18:25:29+00:00"
+            "time": "2025-03-18T13:26:21+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
