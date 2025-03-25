@@ -31,7 +31,7 @@ final class CampaignsControllerTest extends TestCase
     public function testLoadForm(): void
     {
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->get(route('campaign.createForm'))
             ->assertSee($user->email)
             ->assertSee('Create campaign', false);
@@ -50,7 +50,7 @@ final class CampaignsControllerTest extends TestCase
         }
         $name = $this->faker->catchPhrase();
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->postJson(
                 route('campaign.create'),
                 [
@@ -87,7 +87,7 @@ final class CampaignsControllerTest extends TestCase
         $description = $this->faker->bs();
 
         $user = User::factory()->create();
-        $this->actingAs($user)->postJson(
+        self::actingAs($user)->postJson(
             route('campaign.createForm'),
             [
                     'description' => $description,
@@ -137,7 +137,7 @@ final class CampaignsControllerTest extends TestCase
         $description = $this->faker->bs();
 
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->postJson(
                 route('campaign.createForm'),
                 [
@@ -192,7 +192,7 @@ final class CampaignsControllerTest extends TestCase
         $description = $this->faker->bs();
 
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->postJson(
                 route('campaign.createForm'),
                 [
@@ -231,7 +231,7 @@ final class CampaignsControllerTest extends TestCase
         $description = $this->faker->bs();
         $communityDescription = $this->faker->bs();
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->postJson(
                 route('campaign.createForm'),
                 [
@@ -281,7 +281,7 @@ final class CampaignsControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $campaign = Campaign::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->get(route('campaign.view', $campaign))
             ->assertForbidden();
     }
@@ -296,7 +296,7 @@ final class CampaignsControllerTest extends TestCase
             'registered_by' => $user->id,
         ]);
 
-        $this->actingAs($user)
+        self::actingAs($user)
             ->get(route('campaign.view', $campaign))
             ->assertOk();
     }
@@ -311,7 +311,7 @@ final class CampaignsControllerTest extends TestCase
             'gm' => $user,
         ]);
 
-        $this->actingAs($user)
+        self::actingAs($user)
             ->get(route('campaign.view', $campaign))
             ->assertOk();
     }
@@ -323,7 +323,7 @@ final class CampaignsControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $campaign = Campaign::factory()->create([]);
-        $this->actingAs($user)
+        self::actingAs($user)
             ->get(route('campaign.gm-screen', $campaign))
             ->assertForbidden();
     }
@@ -338,7 +338,7 @@ final class CampaignsControllerTest extends TestCase
             'gm' => $user,
             'system' => 'capers',
         ]);
-        $this->actingAs($user)
+        self::actingAs($user)
             ->get(route('campaign.gm-screen', $campaign))
             ->assertNotFound();
     }
@@ -353,7 +353,7 @@ final class CampaignsControllerTest extends TestCase
             'gm' => $user,
             'system' => 'cyberpunkred',
         ]);
-        $this->actingAs($user)
+        self::actingAs($user)
             ->get(route('campaign.gm-screen', $campaign))
             ->assertOk();
     }
@@ -371,10 +371,9 @@ final class CampaignsControllerTest extends TestCase
         $character = Character::factory()->create([
             'campaign_id' => $campaign,
             'system' => 'shadowrun5e',
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
-        $this->actingAs($user)
+        self::actingAs($user)
             ->get(route('campaign.gm-screen', $campaign))
             ->assertOk()
             ->assertSee((string)$character, true);
