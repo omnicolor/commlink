@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
+use Modules\Stillfleet\Enums\AdvancedPowersCategory;
 use Modules\Stillfleet\Models\Power;
 
 return [
     /*
     '' => [
-        'advanced-list' => '',
+        'advanced-list' => AdvancedPowersCategory::,
         'description' => '',
         'id' => '',
         'name' => '',
@@ -17,7 +18,7 @@ return [
     ],
      */
     'ally' => [
-        'advanced-list' => 'communications',
+        'advanced-list' => AdvancedPowersCategory::Communications,
         'description' => 'You can convert code-based intelligences to your cause. Burn 4 GRT and roll a REA and a CHA check. The difficulty of the REA check is 1 + the complexity level of the code-based intelligence (generally at least a 3). The CHA check is a standard difficulty of 6. If both checks are successful, you convince the code-based intelligence to ally with you and accomplish some goal. This is a permanent alliance, unless you double-cross the AI. If one check succeeds, the AI is not angry, simply unconvinced—perhaps curious about the terms of the alliance. If both checks fail, you have angered the AI and should probably flee…',
         'id' => 'ally',
         'name' => 'Ally',
@@ -30,6 +31,14 @@ return [
         'id' => 'astrogate',
         'name' => 'Astrogate',
         'page' => 45,
+        'ruleset' => 'core',
+        'type' => Power::TYPE_CLASS,
+    ],
+    'call-weird' => [
+        'description' => 'Call weird description.',
+        'id' => 'call-weird',
+        'name' => 'Call Weird',
+        'page' => 66,
         'ruleset' => 'core',
         'type' => Power::TYPE_CLASS,
     ],
@@ -49,6 +58,30 @@ return [
         'ruleset' => 'core',
         'type' => Power::TYPE_CLASS,
     ],
+    'drain' => [
+        'description' => 'Drain description.',
+        'id' => 'drain',
+        'name' => 'Drain',
+        'page' => 66,
+        'ruleset' => 'core',
+        'type' => Power::TYPE_CLASS,
+    ],
+    'extend-self' => [
+        'description' => 'Extend self description.',
+        'id' => 'extend-self',
+        'name' => 'Extend Self',
+        'page' => 66,
+        'ruleset' => 'core',
+        'type' => Power::TYPE_CLASS,
+    ],
+    'feel-weird' => [
+        'description' => 'Feel Weird description.',
+        'id' => 'feel-weird',
+        'name' => 'Feel Weird',
+        'page' => 66,
+        'ruleset' => 'core',
+        'type' => Power::TYPE_CLASS,
+    ],
     'interface' => [
         'description' => 'Burn d10 GRT to tap into any comm system (any code-stratum archaetech), or to communicate with any AI or otherwise informatic being. Using this power requires no roll, and it obviates the need to spend copious GRT on jack.',
         'id' => 'interface',
@@ -62,6 +95,30 @@ return [
         'id' => 'jack',
         'name' => 'Jack',
         'page' => 45,
+        'ruleset' => 'core',
+        'type' => Power::TYPE_CLASS,
+    ],
+    'memorize' => [
+        'description' => 'Memorize description.',
+        'id' => 'memorize',
+        'name' => 'Memorize',
+        'page' => 66,
+        'ruleset' => 'core',
+        'type' => Power::TYPE_CLASS,
+    ],
+    'pass' => [
+        'description' => 'Pass description.',
+        'id' => 'pass',
+        'name' => 'Pass',
+        'page' => 66,
+        'ruleset' => 'core',
+        'type' => Power::TYPE_CLASS,
+    ],
+    'phase' => [
+        'description' => 'Phase description',
+        'id' => 'phase',
+        'name' => 'Phase',
+        'page' => 66,
         'ruleset' => 'core',
         'type' => Power::TYPE_CLASS,
     ],

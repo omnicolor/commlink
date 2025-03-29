@@ -4,29 +4,58 @@ declare(strict_types=1);
 
 namespace Modules\Stillfleet\Tests\Feature\Models;
 
+use Modules\Stillfleet\Enums\AdvancedPowersCategory;
+use Modules\Stillfleet\Models\Power;
 use Modules\Stillfleet\Models\Role;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
-use RuntimeException;
 use Tests\TestCase;
 
 #[Group('stillfleet')]
 #[Small]
 final class RoleTest extends TestCase
 {
-    public function testLoadInvalid(): void
+    public function testToString(): void
     {
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Role ID "invalid" is invalid');
-        new Role('invalid', 1);
+        $role = Role::findOrFail('banshee');
+        self::assertSame('Banshee', (string)$role);
     }
 
-    public function testConstructor(): void
+    public function testGrit(): void
     {
-        $role = new Role('banshee', 1);
-        self::assertSame('Banshee', (string)$role);
-        self::assertStringContainsString('daredevil', $role->description);
+        $role = Role::findOrFail('banshee');
         self::assertSame(['movement', 'reason'], $role->grit);
+    }
+
+    public function testAdvancePowersLists(): void
+    {
+        $role = Role::findOrFail('banshee');
+        self::assertSame([AdvancedPowersCategory::Communications], $role->advanced_powers_lists);
+    }
+
+    public function testMarqueePower(): void
+    {
+        $role = Role::findOrFail('banshee');
+        self::assertEquals(new Power('tack'), $role->marquee_power);
+    }
+
+    public function testOptionalPowers(): void
+    {
+        $role = Role::findOrFail('banshee');
+        self::assertEquals(
+            [
+                new Power('astrogate'),
+                new Power('interface'),
+                new Power('power-up'),
+                new Power('reposition'),
+            ],
+            $role->optional_powers,
+        );
+    }
+
+    public function testResponsibilities(): void
+    {
+        $role = Role::findOrFail('banshee');
         self::assertCount(3, $role->responsibilities);
     }
 
@@ -37,13 +66,14 @@ final class RoleTest extends TestCase
 
     public function testPowersEmpty(): void
     {
-        $role = new Role('banshee', 1);
-        self::assertCount(3, $role->powers());
+        $role = Role::findOrFail('banshee');
+        self::assertCount(3, $role->powers);
     }
 
     public function testPowersWithOptional(): void
     {
-        $role = new Role('banshee', 1, ['astrogate']);
-        self::assertCount(4, $role->powers());
+        $role = Role::findOrFail('banshee'); //, 1, ['astrogate']
+        $role->addPowers(new Power('astrogate'));
+        self::assertCount(4, $role->powers);
     }
 }

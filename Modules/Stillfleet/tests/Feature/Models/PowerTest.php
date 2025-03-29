@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Stillfleet\Tests\Feature\Models;
 
+use Modules\Stillfleet\Enums\AdvancedPowersCategory;
 use Modules\Stillfleet\Models\Power;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
@@ -32,6 +33,9 @@ final class PowerTest extends TestCase
     public function testAdvancedList(): void
     {
         $power = new Power('ally');
-        self::assertSame('communications', $power->advanced_list);
+        self::assertSame(
+            AdvancedPowersCategory::Communications,
+            $power->advanced_list,
+        );
     }
 }

@@ -185,11 +185,15 @@ class Character extends BaseCharacter
             get: function (): array {
                 $roles = [];
                 foreach ($this->attributes['roles'] ?? [] as $role) {
-                    $roles[] = new Role(
-                        $role['id'],
-                        $role['level'],
-                        $role['powers'] ?? [],
-                    );
+                    /** @var Role */
+                    $new_role = Role::findOrFail($role['id']);
+                    $new_role->level = $role['level'];
+                    $powers = $role['powers'] ?? [];
+                    array_walk($powers, function (string &$power): void {
+                        $power = new Power($power);
+                    });
+                    $new_role->addPowers(...$powers);
+                    $roles[] = $new_role;
                 }
                 return $roles;
             },
