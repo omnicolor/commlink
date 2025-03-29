@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace Modules\Stillfleet\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\JsonResource;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\View\View;
 use Modules\Stillfleet\Http\Requests\RoleRequest;
+use Modules\Stillfleet\Http\Resources\CharacterResource;
 use Modules\Stillfleet\Models\Character;
 use Modules\Stillfleet\Models\PartialCharacter;
 use Modules\Stillfleet\Models\Role;
@@ -170,6 +173,30 @@ class CharactersController extends Controller
             $request->session()->put('stillfleet-partial', $character->id);
         }
         return $character;
+    }
+
+    public function index(Request $request): AnonymousResourceCollection
+    {
+        /** @var User */
+        $user = $request->user();
+
+        return CharacterResource::collection(
+            Character::where('owner', $user->email)->get()
+        );
+    }
+
+    public function show(Request $request, Character $character): JsonResource
+    {
+        /** @var User */
+        $user = $request->user();
+
+        $campaign = $character->campaign();
+        abort_if(
+            $user->email !== $character->owner
+            && (null === $campaign || $user->isNot($campaign->gamemaster)),
+            Response::HTTP_NOT_FOUND
+        );
+        return new CharacterResource($character);
     }
 
     public function view(Request $request, Character $character): View

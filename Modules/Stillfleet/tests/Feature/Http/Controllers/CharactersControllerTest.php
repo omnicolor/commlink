@@ -10,6 +10,7 @@ use Laravel\Pennant\Feature;
 use Modules\Stillfleet\Models\Character;
 use Modules\Stillfleet\Models\PartialCharacter;
 use Modules\Stillfleet\Models\Role;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -24,6 +25,7 @@ final class CharactersControllerTest extends TestCase
 {
     protected User $user;
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();
@@ -197,7 +199,7 @@ final class CharactersControllerTest extends TestCase
         $character->refresh();
         self::assertInstanceOf(Role::class, $character->roles[0]);
         self::assertSame('Tremulant', $character->roles[0]->name);
-        self::assertCount(0, $character->roles[0]->powers_additional);
+        self::assertCount(0, $character->roles[0]->added_powers);
         $character->delete();
     }
 
@@ -225,7 +227,7 @@ final class CharactersControllerTest extends TestCase
         $character->refresh();
         self::assertInstanceOf(Role::class, $character->roles[0]);
         self::assertSame('Banshee', $character->roles[0]->name);
-        self::assertCount(1, $character->roles[0]->powers_additional);
+        self::assertCount(1, $character->roles[0]->added_powers);
         $character->delete();
     }
 
@@ -245,6 +247,56 @@ final class CharactersControllerTest extends TestCase
         self::actingAs($this->user)
             ->get(route('stillfleet.create', 'class-powers'))
             ->assertSee('Powers');
+        $character->delete();
+    }
+
+    public function testIndex(): void
+    {
+        $character1 = Character::factory()->create([
+            'owner' => $this->user->email,
+            'system' => '5',
+        ]);
+
+        $character2 = Character::factory()->create([
+            'owner' => $this->user->email,
+            'system' => 'stillfleet',
+        ]);
+
+        self::actingAs($this->user)
+            ->getJson(route('stillfleet.characters.index'))
+            ->assertOk()
+            ->assertJsonFragment([
+                'id' => $character2->_id,
+                'handle' => $character2->handle,
+                'owner' => $this->user->email,
+                'system' => 'stillfleet',
+                'updated_at' => $character2->updated_at,
+                'created_at' => $character2->created_at,
+            ]);
+
+        $character1->delete();
+        $character2->delete();
+    }
+
+    public function testShowCharacter(): void
+    {
+        $character = Character::factory()->create([
+            'owner' => $this->user->email,
+            'system' => 'stillfleet',
+        ]);
+
+        self::actingAs($this->user)
+            ->getJson(route('stillfleet.characters.show', $character->id))
+            ->assertOk()
+            ->assertJsonFragment([
+                'id' => $character->_id,
+                'handle' => $character->handle,
+                'owner' => $this->user->email,
+                'system' => 'stillfleet',
+                'updated_at' => $character->updated_at,
+                'created_at' => $character->created_at,
+            ]);
+
         $character->delete();
     }
 }

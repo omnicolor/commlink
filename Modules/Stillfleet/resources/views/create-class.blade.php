@@ -1,5 +1,6 @@
 @php
-use Modules\Stillfleet\Models\Role;
+    use Modules\Stillfleet\Models\Role;
+    use Modules\Stillfleet\Enums\AdvancedPowersCategory;
 @endphp
 <x-app>
     <x-slot name="title">Create character: Class</x-slot>
@@ -9,6 +10,7 @@ use Modules\Stillfleet\Models\Role;
             .accordion-collapse {
                 border-bottom: var(--bs-accordion-border-width) solid var(--bs-accordion-border-color);
             }
+
             .accordion-header:has(+ .show) {
                 border-bottom: 0;
             }
@@ -43,95 +45,101 @@ use Modules\Stillfleet\Models\Role;
             </p>
 
             <form action="{{ route('stillfleet.create-class') }}" method="POST">
-            @csrf
-            <div class="accordion" id="roles-list">
-                <div class="accordion-item">
-                    @foreach ($roles as $role)
-                    <h2 class="accordion-header" id="heading-{{ $role->id }}">
-                        <button aria-controls="collapse-{{ $role->id }}"
-                            aria-expanded="{{ $chosenRole?->id === $role->id ? 'true' : 'false' }}"
-                            class="accordion-button
+                @csrf
+                <div class="accordion" id="roles-list">
+                    <div class="accordion-item">
+                        @foreach ($roles as $role)
+                            @php
+                                $advance_powers_categories = [];
+                                foreach ($role->advanced_powers_lists as $list) {
+                                    $advance_powers_categories[] = $list->name;
+                                }
+                            @endphp
+                            <h2 class="accordion-header" id="heading-{{ $role->id }}">
+                                <button aria-controls="collapse-{{ $role->id }}"
+                                        aria-expanded="{{ $chosenRole?->id === $role->id ? 'true' : 'false' }}"
+                                        class="accordion-button
                             @if ($chosenRole?->id !== $role->id) collapsed @endif
                             "
-                            data-bs-target="#collapse-{{ $role->id }}"
-                            data-bs-toggle="collapse" type="button">
-                            {{ $role }}
-                        </button>
-                    </h2>
-                    <div aria-labelledby="heading-{{ $role->id }}"
-                        class="accordion-collapse collapse
+                                        data-bs-target="#collapse-{{ $role->id }}"
+                                        data-bs-toggle="collapse" type="button">
+                                    {{ $role }}
+                                </button>
+                            </h2>
+                            <div aria-labelledby="heading-{{ $role->id }}"
+                                 class="accordion-collapse collapse
                         @if ($chosenRole?->id === $role->id) show @endif
                         "
-                        data-bs-parent="#roles-list"
-                        id="collapse-{{ $role->id }}">
-                        <div class="accordion-body">
-                            <p><small class="fs-6 text-muted">
-                                {{ ucfirst($role->ruleset) }} p{{ $role->page }}
-                            </small></p>
-                            @can ('view data')
-                            <p>{{ $role->description }}</p>
-                            @endcan
-                            <p><strong>Responsibilities:</strong></p>
-                            <ul>
-                            @foreach ($role->responsibilities as $responsibility)
-                                <li>{{ $responsibility }}</li>
-                            @endforeach
-                            </ul>
-
-                            <p>
-                                <strong>GRT:</strong>
-                                {{ implode(' + ', $role->grit) }}
-                            </p>
-
-                            <p>
-                                <strong>Advanced power list:</strong>
-                                {{ implode(', ', $role->power_advanced) }}
-                            </p>
-
-                            <p>
-                                <strong>Marquee power:</strong>
-                                {{ $role->power_marquee }}
-                                @can ('view data')
-                                    &mdash; {{ $role->power_marquee->description }}
-                                @endcan
-                            </p>
-
-                            <p><strong>Other class powers:</strong></p>
-                            <ul>
-                            @foreach ($role->powers_other as $power)
-                                <li>
-                                    {{ $power }}
+                                 data-bs-parent="#roles-list"
+                                 id="collapse-{{ $role->id }}">
+                                <div class="accordion-body">
+                                    <p><small class="fs-6 text-muted">
+                                            {{ ucfirst($role->ruleset) }} p{{ $role->page }}
+                                        </small></p>
                                     @can ('view data')
-                                        &mdash; {{ $power->description }}
+                                        <p>{{ $role->description }}</p>
                                     @endcan
-                                </li>
-                            @endforeach
-                            </ul>
+                                    <p><strong>Responsibilities:</strong></p>
+                                    <ul>
+                                        @foreach ($role->responsibilities as $responsibility)
+                                            <li>{{ $responsibility }}</li>
+                                        @endforeach
+                                    </ul>
 
-                            <p><strong>Optional powers:</strong> (chosen on the next page)</p>
-                            <ul>
-                            @foreach ($role->powers_optional as $power)
-                                <li>
-                                    {{ $power }}
-                                    @can ('view data')
-                                        &mdash; {{ $power->description }}
-                                    @endcan
-                                </li>
-                            @endforeach
-                            </ul>
+                                    <p>
+                                        <strong>GRT:</strong>
+                                        {{ implode(' + ', $role->grit) }}
+                                    </p>
 
-                            <button class="btn btn-primary" name="role" type="submit" value="{{ $role->id }}">
-                                @if ($chosenRole?->id !== $role->id)
-                                Become a {{ $role }}
-                                @else
-                                Remain a {{ $role }}
-                                @endif
-                            </button>
-                        </div>
+                                    <p>
+                                        <strong>Advanced power list(s):</strong>
+                                        {{ implode(', ', $advance_powers_categories) }}
+                                    </p>
+
+                                    <p>
+                                        <strong>Marquee power:</strong>
+                                        {{ $role->marquee_power }}
+                                        @can ('view data')
+                                            &mdash; {{ $role->power_marquee->description }}
+                                        @endcan
+                                    </p>
+
+                                    <p><strong>Other class powers:</strong></p>
+                                    <ul>
+                                        @foreach ($role->other_powers as $power)
+                                            <li>
+                                                {{ $power }}
+                                                @can ('view data')
+                                                    &mdash; {{ $power->description }}
+                                                @endcan
+                                            </li>
+                                        @endforeach
+                                    </ul>
+
+                                    <p><strong>Optional powers:</strong> (chosen on the next page)</p>
+                                    <ul>
+                                        @foreach ($role->optional_powers as $power)
+                                            <li>
+                                                {{ $power }}
+                                                @can ('view data')
+                                                    &mdash; {{ $power->description }}
+                                                @endcan
+                                            </li>
+                                        @endforeach
+                                    </ul>
+
+                                    <button class="btn btn-primary" name="role" type="submit" value="{{ $role->id }}">
+                                        @if ($chosenRole?->id !== $role->id)
+                                            Become a {{ $role }}
+                                        @else
+                                            Remain a {{ $role }}
+                                        @endif
+                                    </button>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
-                    @endforeach
                 </div>
-            </div>
             </form>
         </div>
         <div class="col-1"></div>

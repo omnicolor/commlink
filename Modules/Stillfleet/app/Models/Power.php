@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Stillfleet\Models;
 
+use Modules\Stillfleet\Enums\AdvancedPowersCategory;
 use Override;
 use RuntimeException;
 use Stringable;
@@ -25,7 +26,7 @@ class Power implements Stringable
     public const string TYPE_MARQUEE = 'marquee';
     public const string TYPE_SPECIES = 'species';
 
-    public ?string $advanced_list;
+    public ?AdvancedPowersCategory $advanced_list;
     public string $description;
     public string $id;
     public string $name;

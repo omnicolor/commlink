@@ -47,14 +47,14 @@ class RoleResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'page' => $this->page,
-            'advanced_power_lists' => $this->power_advanced,
-            'marquee_power' => new PowerResource($this->power_marquee),
+            'advanced_power_lists' => $this->advanced_powers_lists,
+            'marquee_power' => new PowerResource($this->marquee_power),
             'optional_powers' => array_values(
-                (array)PowerResource::collection($this->powers_optional)
+                (array)PowerResource::collection($this->optional_powers)
                     ->toArray($request)
             ),
             'other_powers' => array_values(
-                (array)PowerResource::collection($this->powers_other)
+                (array)PowerResource::collection($this->other_powers)
                     ->toArray($request)
             ),
             'responsibilities' => $this->responsibilities,
