@@ -16,6 +16,7 @@ use Stringable;
 
 use function explode;
 use function is_numeric;
+use function optional;
 use function preg_match;
 use function sprintf;
 use function ucfirst;

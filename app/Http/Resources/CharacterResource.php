@@ -7,6 +7,7 @@ namespace App\Http\Resources;
 use App\Models\Character;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Override;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 use function route;
@@ -31,6 +32,7 @@ class CharacterResource extends JsonResource
      *     }
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         try {
