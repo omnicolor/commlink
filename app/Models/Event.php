@@ -14,6 +14,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Override;
+
+use function now;
 
 /**
  * Class representing a real life event, like a game session.
@@ -55,8 +58,6 @@ class Event extends Model
      */
     protected $dispatchesEvents = [
         'created' => EventCreated::class,
-        //'deleted' => EventDeleted::class,
-        //'updated' => EventUpdated::class,
     ];
 
     /**
@@ -73,6 +74,7 @@ class Event extends Model
         'real_start',
     ];
 
+    #[Override]
     public function __toString(): string
     {
         if (null !== $this->name) {

@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Override;
+use Stringable;
 
 /**
  * @property ?int $campaign_id
@@ -22,7 +24,7 @@ use Illuminate\Support\Carbon;
  * @property-read string $name
  * @property Carbon|string $updated_at
  */
-class Initiative extends Model
+class Initiative extends Model implements Stringable
 {
     use HasFactory;
 
@@ -49,6 +51,7 @@ class Initiative extends Model
         'initiative' => 'int',
     ];
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
