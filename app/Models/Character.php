@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use MongoDB\Laravel\Eloquent\Model;
 use Nwidart\Modules\Facades\Module;
+use Override;
 use Stringable;
 use stdClass;
 
@@ -56,6 +57,7 @@ class Character extends Model implements Stringable
         'system',
     ];
 
+    #[Override]
     public function __toString(): string
     {
         return $this->handle ?? $this->name ?? '';
@@ -91,6 +93,7 @@ class Character extends Model implements Stringable
      * @param ?string $connection
      * @phpstan-ignore method.childParameterType
      */
+    #[Override]
     public function newFromBuilder(
         // @phpstan-ignore parameter.defaultValue
         $attributes = [],

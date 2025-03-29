@@ -13,6 +13,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
 
+use function config;
 use function sprintf;
 
 class HandleRollEvent

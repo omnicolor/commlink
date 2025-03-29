@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Override;
 use Stringable;
 
 class Card implements Stringable
@@ -20,6 +21,7 @@ class Card implements Stringable
     /**
      * Return the card as a string, like 2♦ for the two of diamonds.
      */
+    #[Override]
     public function __toString(): string
     {
         return $this->value . $this->suit;

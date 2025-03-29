@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use RuntimeException;
 
 use function array_key_exists;
+use function config;
 use function in_array;
 use function sprintf;
 

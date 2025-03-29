@@ -9,14 +9,17 @@ use App\Models\ChatUser;
 use Illuminate\Http\JsonResponse;
 use Omnicolor\Slack\Attachment;
 use Omnicolor\Slack\Exceptions\SlackException;
+use Override;
+use Stringable;
 
+use function config;
 use function count;
 use function sprintf;
 
 /**
  * Slack response class.
  */
-class SlackResponse extends JsonResponse
+class SlackResponse extends JsonResponse implements Stringable
 {
     public const COLOR_DANGER = 'danger';
     public const COLOR_INFO = '#439Fe0';
@@ -71,6 +74,7 @@ class SlackResponse extends JsonResponse
         $this->updateData();
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->data;
