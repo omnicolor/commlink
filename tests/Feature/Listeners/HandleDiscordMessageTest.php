@@ -294,7 +294,7 @@ final class HandleDiscordMessageTest extends TestCase
         $channelMock = $this->createMock(TextChannel::class);
         $channelMock->method('__get')->willReturnMap($channelMap);
 
-        $chatUser = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'remote_user_id' => $userId,
             'server_id' => $serverNameAndId,
             'server_type' => ChatUser::TYPE_DISCORD,
