@@ -267,7 +267,7 @@ final class CharactersControllerTest extends TestCase
             ->assertOk()
             ->assertJsonFragment([
                 'id' => $character2->_id,
-                'handle' => $character2->handle,
+                'name' => $character2->name,
                 'owner' => $this->user->email,
                 'system' => 'stillfleet',
                 'updated_at' => $character2->updated_at,
@@ -290,7 +290,7 @@ final class CharactersControllerTest extends TestCase
             ->assertOk()
             ->assertJsonFragment([
                 'id' => $character->_id,
-                'handle' => $character->handle,
+                'name' => $character->name,
                 'owner' => $this->user->email,
                 'system' => 'stillfleet',
                 'updated_at' => $character->updated_at,
