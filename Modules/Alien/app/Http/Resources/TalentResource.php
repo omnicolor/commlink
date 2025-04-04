@@ -32,6 +32,11 @@ class TalentResource extends JsonResource
     {
         /** @var User */
         $user = $request->user();
+        $career_link = null;
+        if (null !== $this->career) {
+            $career_link = route('alien.careers.show', $this->career);
+        }
+
         return [
             'career' => $this->career,
             'description' => $this->when(
@@ -44,10 +49,7 @@ class TalentResource extends JsonResource
             'ruleset' => $this->ruleset,
             'links' => [
                 'self' => route('alien.talents.show', $this->id),
-                'career' => $this->when(
-                    null !== $this->career,
-                    route('alien.careers.show', $this->career ?? ''),
-                ),
+                'career' => $this->when(null !== $this->career, $career_link),
             ],
         ];
     }
