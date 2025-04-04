@@ -33,6 +33,11 @@ class MoveResource extends JsonResource
     {
         /** @var User */
         $user = $request->user();
+        $playbook_link = null;
+        if (null !== $this->playbook) {
+            $playbook_link = route('avatar.playbooks.show', $this->playbook->id);
+        }
+
         return [
             'description' => $this->when(
                 $user->hasPermissionTo('view data'),
@@ -48,10 +53,7 @@ class MoveResource extends JsonResource
             'ruleset' => $this->ruleset,
             'links' => [
                 'self' => route('avatar.moves.show', $this->id),
-                'playbook' => $this->when(
-                    null !== $this->playbook,
-                    route('avatar.playbooks.show', $this->playbook->id ?? ''),
-                ),
+                'playbook' => $this->when(null !== $playbook_link, $playbook_link),
             ],
         ];
     }
