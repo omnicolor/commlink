@@ -18,6 +18,7 @@ class PowerResource extends JsonResource
      * @return array{
      *     advanced_list?: string,
      *     description?: string,
+     *     effects?: array<string, mixed>,
      *     id: string,
      *     name: string,
      *     page: int,
@@ -34,12 +35,16 @@ class PowerResource extends JsonResource
         $user = $request->user();
         return [
             'advanced_list' => $this->when(
-                null !== $this->advanced_list,
+                isset($this->advanced_list),
                 $this->advanced_list,
             ),
             'description' => $this->when(
                 $user->hasPermissionTo('view data'),
                 $this->description,
+            ),
+            'effects' => $this->when(
+                0 !== count($this->effects),
+                $this->effects,
             ),
             'id' => $this->id,
             'name' => $this->name,

@@ -6,8 +6,10 @@ use Illuminate\Support\Facades\Route;
 use Modules\Stillfleet\Http\Controllers\CharactersController;
 use Modules\Stillfleet\Http\Resources\PowerResource;
 use Modules\Stillfleet\Http\Resources\RoleResource;
+use Modules\Stillfleet\Http\Resources\SpeciesResource;
 use Modules\Stillfleet\Models\Power;
 use Modules\Stillfleet\Models\Role;
+use Modules\Stillfleet\Models\Species;
 
 Route::middleware('auth:sanctum')
     ->prefix('stillfleet')
@@ -19,8 +21,8 @@ Route::middleware('auth:sanctum')
         Route::get('powers', function () {
             return PowerResource::collection(Power::all());
         })->name('powers.index');
-        Route::get('powers/{power}', function (string $power) {
-            return new PowerResource(new Power($power));
+        Route::get('powers/{power}', function (Power $power) {
+            return new PowerResource($power);
         })->name('powers.show');
 
         Route::get('roles', function () {
@@ -29,4 +31,11 @@ Route::middleware('auth:sanctum')
         Route::get('roles/{role}', function (Role $role) {
             return new RoleResource($role);
         })->name('roles.show');
+
+        Route::get('species', function () {
+            return SpeciesResource::collection(Species::all());
+        })->name('species.index');
+        Route::get('species/{species}', function (Species $species) {
+            return new SpeciesResource($species);
+        })->name('species.show');
     });

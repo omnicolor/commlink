@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Stillfleet\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\JsonResource;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,6 +19,7 @@ use Modules\Stillfleet\Models\PartialCharacter;
 use Modules\Stillfleet\Models\Role;
 
 use function abort;
+use function abort_if;
 use function assert;
 use function count;
 use function route;
@@ -133,7 +133,7 @@ class CharactersController extends Controller
             return new RedirectResponse(route('stillfleet.create', 'class-powers'));
         }
 
-        // Chosing a new class, remove their powers.
+        // Choosing a new class, remove their powers.
         $character->roles = [
             [
                 'id' => $request->role,
@@ -165,7 +165,7 @@ class CharactersController extends Controller
             return null;
         }
 
-        // Maybe they're chosing to continue a character right now.
+        // Maybe they're choosing to continue a character right now.
         /** @var ?PartialCharacter */
         $character = PartialCharacter::where('owner', $user->email)
             ->find($step);
@@ -185,7 +185,7 @@ class CharactersController extends Controller
         );
     }
 
-    public function show(Request $request, Character $character): JsonResource
+    public function show(Request $request, Character $character): CharacterResource
     {
         /** @var User */
         $user = $request->user();
