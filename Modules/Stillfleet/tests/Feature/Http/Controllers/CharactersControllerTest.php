@@ -268,10 +268,14 @@ final class CharactersControllerTest extends TestCase
             ->assertJsonFragment([
                 'id' => $character2->_id,
                 'name' => $character2->name,
-                'owner' => $this->user->email,
+                'owner' => [
+                    'id' => $this->user->id,
+                    'name' => $this->user->name,
+                ],
+                'rank' => null,
+                'roles' => [],
+                'species' => null,
                 'system' => 'stillfleet',
-                'updated_at' => $character2->updated_at,
-                'created_at' => $character2->created_at,
             ]);
 
         $character1->delete();
@@ -291,10 +295,14 @@ final class CharactersControllerTest extends TestCase
             ->assertJsonFragment([
                 'id' => $character->_id,
                 'name' => $character->name,
-                'owner' => $this->user->email,
+                'owner' => [
+                    'id' => $this->user->id,
+                    'name' => $this->user->name,
+                ],
+                'rank' => null,
+                'roles' => [],
+                'species' => null,
                 'system' => 'stillfleet',
-                'updated_at' => $character->updated_at,
-                'created_at' => $character->created_at,
             ]);
 
         $character->delete();

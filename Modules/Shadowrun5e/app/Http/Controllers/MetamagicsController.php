@@ -12,12 +12,12 @@ use function array_values;
 use function assert;
 use function date;
 use function json_encode;
+use function route;
 use function sha1;
 use function sha1_file;
 use function sprintf;
 use function stat;
 use function strtolower;
-use function urlencode;
 
 /**
  * Controller for metamagics.
@@ -57,10 +57,7 @@ class MetamagicsController extends Controller
     {
         foreach (array_keys($this->magics) as $key) {
             $this->magics[$key]['links'] = [
-                'self' => sprintf(
-                    '/api/shadowrun5e/metamagics/%s',
-                    urlencode($key)
-                ),
+                'self' => route('shadowrun5e.metamagics.show', $key),
             ];
         }
 

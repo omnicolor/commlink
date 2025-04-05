@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Shadowrun5e\Models\WeaponModification;
 use Override;
+use stdClass;
 
 /**
  * @mixin WeaponModification
@@ -19,16 +20,16 @@ class WeaponModificationResource extends JsonResource
      * @return array{
      *     availability: string,
      *     cost?: int,
-     *     cost_modifier?: int,
+     *     cost_modifier?: int|string,
      *     description?: string,
-     *     effects: array<string, int>,
+     *     effects: array<string, int>|stdClass,
      *     id: string,
      *     mount: array<int, string>,
      *     name: string,
      *     page: int|null,
      *     ruleset: string,
      *     type: string,
-     *     wireless_effects: array<string, int>
+     *     wireless_effects: array<string, int>|stdClass
      * }
      */
     #[Override]
@@ -50,14 +51,14 @@ class WeaponModificationResource extends JsonResource
                 $user->hasPermissionTo('view data'),
                 $this->description,
             ),
-            'effects' => $this->effects,
+            'effects' => (object)$this->effects,
             'id' => $this->id,
             'mount' => $this->mount,
             'name' => $this->name,
             'page' => $this->page,
             'ruleset' => $this->ruleset,
             'type' => $this->type,
-            'wireless_effects' => $this->wirelessEffects,
+            'wireless_effects' => (object)$this->wirelessEffects,
         ];
     }
 }

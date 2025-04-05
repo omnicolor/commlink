@@ -4,60 +4,40 @@ declare(strict_types=1);
 
 namespace Modules\Stillfleet\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Stillfleet\Enums\AdvancedPowersCategory;
 use Override;
-use RuntimeException;
 use Stringable;
+use Sushi\Sushi;
 
-use function array_keys;
 use function config;
-use function sprintf;
-use function strtolower;
+use function json_decode;
 
 /**
- * A power granted to a character by their class or species, or achieved through
- * leveling up.
+ * A power granted to a character by their class or species, or achieved
+ * through leveling up.
+ * @property AdvancedPowersCategory|null $advanced_list
+ * @property string $description
+ * @property array<string, mixed> $effects
+ * @property string $id
+ * @property string $name
+ * @property int $page
+ * @property string $ruleset
+ * @property string $type
  */
-class Power implements Stringable
+class Power extends Model implements Stringable
 {
+    use Sushi;
+
     public const string TYPE_ADVANCED = 'advanced';
     public const string TYPE_CLASS = 'class';
     public const string TYPE_HELL_SCIENCE = 'hell-science';
     public const string TYPE_MARQUEE = 'marquee';
     public const string TYPE_SPECIES = 'species';
 
-    public ?AdvancedPowersCategory $advanced_list;
-    public string $description;
-    public string $id;
-    public string $name;
-    public int $page;
-    public string $ruleset;
-    public string $type;
-
-    /** @var ?array<string, array<string, int|string>> */
-    protected static ?array $powers;
-
-    public function __construct(string $id)
-    {
-        $filename = config('stillfleet.data_path') . 'powers.php';
-        self::$powers ??= require $filename;
-
-        $this->id = strtolower($id);
-        if (!isset(self::$powers[$this->id])) {
-            throw new RuntimeException(sprintf(
-                'Power ID "%s" is invalid',
-                $id
-            ));
-        }
-
-        $power = self::$powers[$this->id];
-        $this->advanced_list = $power['advanced-list'] ?? null;
-        $this->description = $power['description'];
-        $this->name = $power['name'];
-        $this->page = $power['page'];
-        $this->ruleset = $power['ruleset'];
-        $this->type = $power['type'];
-    }
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     #[Override]
     public function __toString(): string
@@ -65,19 +45,33 @@ class Power implements Stringable
         return $this->name;
     }
 
+    public function effects(): Attribute
+    {
+        return Attribute::make(
+            get: function (): array {
+                if (null === $this->attributes['effects']) {
+                    return [];
+                }
+                return json_decode($this->attributes['effects'], true);
+            },
+        );
+    }
+
     /**
-     * @return array<int, Power>
+     * @return array{
+     *     advanced_list: ?AdvancedPowersCategory,
+     *     description: string,
+     *     effects: ?string,
+     *     id: string,
+     *     name: string,
+     *     page: integer,
+     *     ruleset: string,
+     *     type: string
+     * }
      */
-    public static function all(): array
+    public function getRows(): array
     {
         $filename = config('stillfleet.data_path') . 'powers.php';
-        self::$powers ??= require $filename;
-
-        $powers = [];
-        /** @var string $id */
-        foreach (array_keys(self::$powers ?? []) as $id) {
-            $powers[] = new Power($id);
-        }
-        return $powers;
+        return require $filename;
     }
 }

@@ -36,7 +36,7 @@ final class RoleTest extends TestCase
     public function testMarqueePower(): void
     {
         $role = Role::findOrFail('banshee');
-        self::assertEquals(new Power('tack'), $role->marquee_power);
+        self::assertEquals(Power::find('tack'), $role->marquee_power);
     }
 
     public function testOptionalPowers(): void
@@ -44,10 +44,10 @@ final class RoleTest extends TestCase
         $role = Role::findOrFail('banshee');
         self::assertEquals(
             [
-                new Power('astrogate'),
-                new Power('interface'),
-                new Power('power-up'),
-                new Power('reposition'),
+                Power::find('astrogate'),
+                Power::find('interface'),
+                Power::find('power-up'),
+                Power::find('reposition'),
             ],
             $role->optional_powers,
         );
@@ -73,7 +73,7 @@ final class RoleTest extends TestCase
     public function testPowersWithOptional(): void
     {
         $role = Role::findOrFail('banshee'); //, 1, ['astrogate']
-        $role->addPowers(new Power('astrogate'));
+        $role->addPowers(Power::findOrFail('astrogate'));
         self::assertCount(4, $role->powers);
     }
 }

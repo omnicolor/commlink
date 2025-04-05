@@ -23,7 +23,8 @@ class CharacterFactory extends Factory
         return [
             'charm' => 'd6',
             'combat' => 'd4',
-            'movement' => 'd8+1',
+            'movement' => 'd8',
+            'will' => 'd10',
             'name' => 'Fake Stillfleet Character',
             'system' => 'stillfleet',
         ];

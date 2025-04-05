@@ -9,9 +9,12 @@ use Illuminate\Http\Response;
 
 use function array_key_exists;
 use function array_keys;
+use function array_values;
 use function assert;
+use function config;
 use function date;
 use function json_encode;
+use function route;
 use function sha1;
 use function sha1_file;
 use function stat;
@@ -42,8 +45,11 @@ class ArmorController extends Controller
         $armor['links'] = [
             'self' => route('shadowrun5e.armor.show', $armor['id']),
         ];
+        if (array_key_exists('effects', $armor)) {
+            $armor['effects'] = (object)$armor['effects'];
+        }
         if (array_key_exists('wireless-effects', $armor)) {
-            $armor['wireless_effects'] = $armor['wireless-effects'];
+            $armor['wireless_effects'] = (object)$armor['wireless-effects'];
             unset($armor['wireless-effects']);
         }
         if (array_key_exists('stack-rating', $armor)) {
@@ -80,7 +86,7 @@ class ArmorController extends Controller
 
         $data = [
             'links' => $this->links,
-            'data' => $this->armor,
+            'data' => array_values($this->armor),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);

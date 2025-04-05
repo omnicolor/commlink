@@ -10,30 +10,40 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Str;
 use LogicException;
 use Modules\Stillfleet\Database\Factories\CharacterFactory;
+use Override;
 use RuntimeException;
+use Stringable;
 
+use function array_walk;
 use function assert;
-use function count;
 
 /**
+ * @property-read array<int, Power> $all_powers
  * @property string $charm
+ * @property-read int $charm_modifier
  * @property string $combat
+ * @property-read int $combat_modifier
  * @property int $grit
  * @property int $grit_current
  * @property int $health
  * @property int $health_current
  * @property string $movement
+ * @property-read int $movement_modifier
  * @property string $name
  * @property int $rank
  * @property string $reason
- * @property array<int, array{id: string, level: int, powers: array<int, string>}> $roles
- * @property string $species
+ * @property-read int $reason_modifier
+ * @property-read array<int, Role> $roles
+ * @property-write array<int, array{id: string, level: int, powers: array<int, string>}> $roles
+ * @property Species|null $species
  * @property string $will
+ * @property-read int $will_modifier
  */
-class Character extends BaseCharacter
+class Character extends BaseCharacter implements Stringable
 {
     use HasFactory;
 
@@ -75,7 +85,7 @@ class Character extends BaseCharacter
         'reason',
         'roles', // Classes in the rules.
         'species',
-        'species-power',
+        'species_powers',
         'teloi',
         'will',
     ];
@@ -92,9 +102,24 @@ class Character extends BaseCharacter
      */
     protected $table = 'characters';
 
+    public function allPowers(): Attribute
+    {
+        return Attribute::make(
+            get: function (): array {
+                // @phpstan-ignore nullsafe.neverNull
+                $powers = $this->species?->powers ?? [];
+                foreach ($this->roles ?? [] as $role) {
+                    $powers = array_merge($powers, $role->powers);
+                }
+                return $powers;
+            },
+        );
+    }
+
     /**
      * Force this model to only load for Stillfleet characters.
      */
+    #[Override]
     protected static function booted(): void
     {
         static::addGlobalScope(
@@ -102,6 +127,37 @@ class Character extends BaseCharacter
             function (Builder $builder): void {
                 $builder->where('system', 'stillfleet');
             }
+        );
+    }
+
+    public function charmModifier(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return $this->getPowersModifierForAttribute('CHA');
+            },
+        );
+    }
+
+    private function getPowersModifierForAttribute(string $attribute): int
+    {
+        $modifier = 0;
+        foreach ($this->all_powers as $power) {
+            foreach ($power->effects as $effect => $value) {
+                if ($attribute === $effect) {
+                    $modifier += $value;
+                }
+            }
+        }
+        return $modifier;
+    }
+
+    public function combatModifier(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return $this->getPowersModifierForAttribute('COM');
+            },
         );
     }
 
@@ -140,20 +196,27 @@ class Character extends BaseCharacter
     {
         return Attribute::make(
             get: function (): int {
-                if (0 === count($this->roles)) {
-                    return 0;
+                $grit = 0;
+                if (isset($this->roles[0])) {
+                    assert($this->roles[0] instanceof Role);
+                    foreach ($this->roles[0]->grit as $attribute) {
+                        if (Str::startsWith($attribute, '-')) {
+                            $attribute = Str::after($attribute, '-');
+                            $grit -= DiceService::rollMax($this->attributes[$attribute]);
+                            continue;
+                        }
+                        $grit += DiceService::rollMax($this->attributes[$attribute]);
+                    }
                 }
 
-                $grit = 0;
-                assert($this->roles[0] instanceof Role);
-                foreach ($this->roles[0]->grit as $attribute) {
-                    if (Str::startsWith($attribute, '-')) {
-                        $attribute = Str::after($attribute, '-');
-                        $grit -= DiceService::rollMax($this->attributes[$attribute]);
-                        continue;
+                foreach ($this->all_powers as $power) {
+                    foreach ($power->effects as $effect => $value) {
+                        if ('GRT' === $effect) {
+                            $grit += $value;
+                        }
                     }
-                    $grit += DiceService::rollMax($this->attributes[$attribute]);
                 }
+
                 return $grit;
             },
             set: function (): never {
@@ -174,9 +237,28 @@ class Character extends BaseCharacter
         );
     }
 
+    public function movementModifier(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return $this->getPowersModifierForAttribute('MOV');
+            },
+        );
+    }
+
+    #[Override]
     protected static function newFactory(): Factory
     {
         return CharacterFactory::new();
+    }
+
+    public function reasonModifier(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return $this->getPowersModifierForAttribute('REA');
+            },
+        );
     }
 
     public function roles(): Attribute
@@ -190,12 +272,45 @@ class Character extends BaseCharacter
                     $new_role->level = $role['level'];
                     $powers = $role['powers'] ?? [];
                     array_walk($powers, function (string &$power): void {
-                        $power = new Power($power);
+                        $power = Power::findOrFail($power);
                     });
                     $new_role->addPowers(...$powers);
                     $roles[] = $new_role;
                 }
                 return $roles;
+            },
+        );
+    }
+
+    public function species(): Attribute
+    {
+        return Attribute::make(
+            get: function (): Species|null {
+                try {
+                    $species = Species::findOrFail($this->attributes['species'] ?? '');
+                    assert($species instanceof Species);
+                } catch (ModelNotFoundException) {
+                    return null;
+                }
+                foreach ($this->attributes['species_powers'] ?? [] as $power) {
+                    try {
+                        $power = Power::findOrFail($power);
+                        assert($power instanceof Power);
+                        $species->addPowers($power);
+                    } catch (ModelNotFoundException) {
+                        // Ignore.
+                    }
+                }
+                return $species;
+            },
+        );
+    }
+
+    public function willModifier(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return $this->getPowersModifierForAttribute('WIL');
             },
         );
     }

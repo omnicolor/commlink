@@ -7,11 +7,15 @@ namespace Modules\Shadowrun5e\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function abort_if;
 use function array_key_exists;
 use function array_keys;
+use function array_values;
 use function assert;
 use function date;
 use function json_encode;
+use function response;
+use function route;
 use function sha1;
 use function sha1_file;
 use function stat;
@@ -38,7 +42,6 @@ class ArmorModificationsController extends Controller
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path')
             . 'armor-modifications.php';
-        $this->links['collection'] = '/api/shadowrun5e/armor-modifications';
 
         $this->mods = require $this->filename;
 
@@ -66,6 +69,7 @@ class ArmorModificationsController extends Controller
             unset($modification['wireless-effects']);
         }
         $modification['ruleset'] ??= 'core';
+        $modification['effects'] = (object)($modification['effects'] ?? []);
         return $modification;
     }
 
@@ -83,7 +87,7 @@ class ArmorModificationsController extends Controller
 
         $data = [
             'links' => $this->links,
-            'data' => $this->mods,
+            'data' => array_values($this->mods),
         ];
 
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);

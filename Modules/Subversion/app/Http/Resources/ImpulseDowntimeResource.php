@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\MissingValue;
 use Modules\Subversion\Models\ImpulseDowntime;
+use stdClass;
 
 /**
  * @mixin ImpulseDowntime
@@ -18,7 +19,7 @@ class ImpulseDowntimeResource extends JsonResource
     /**
      * @return array{
      *   description: MissingValue|string,
-     *   effects: array<string, int>,
+     *   effects: array<string, int>|stdClass,
      *   name: string,
      * }
      */
@@ -31,7 +32,7 @@ class ImpulseDowntimeResource extends JsonResource
                 $user->hasPermissionTo('view data'),
                 $this->description,
             ),
-            'effects' => $this->effects,
+            'effects' => (object)$this->effects,
             'name' => $this->name,
         ];
     }
