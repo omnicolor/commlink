@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Stillfleet\Tests\Feature\Models;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use LogicException;
 use Modules\Stillfleet\Models\Character;
 use Modules\Stillfleet\Models\Role;
@@ -115,8 +116,7 @@ final class CharacterTest extends TestCase
                 ],
             ],
         ]);
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Role ID "invalid" is invalid');
+        self::expectException(ModelNotFoundException::class);
         // @phpstan-ignore expr.resultUnused
         $character->roles;
     }

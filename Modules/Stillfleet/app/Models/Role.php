@@ -4,165 +4,152 @@ declare(strict_types=1);
 
 namespace Modules\Stillfleet\Models;
 
-use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Model;
+use Modules\Stillfleet\Enums\AdvancedPowersCategory;
 use Override;
-use RuntimeException;
 use Stringable;
+use Sushi\Sushi;
 
+use function array_merge;
+use function array_walk;
 use function config;
-use function sprintf;
+use function json_decode;
 
 /**
  * The character's class (job, vocation, role).
+ * @property-read string $description
+ * @property-read array<int, string> $grit
+ * @property-read array<int, string> $advanced_powers_lists
+ * @property-read Power $marquee_power
+ * @property-read string $name
+ * @property-read array<int, Power> $optional_powers
+ * @property-read array<int, Power> $other_powers
+ * @property-read int $page
+ * @property-read array<int, Power> $powers
+ * @property-read array<int, string> $responsibilities
+ * @property-read string $ruleset
  */
-class Role implements Stringable
+class Role extends Model implements Stringable
 {
-    public string $description;
-    /** @var array<int, string> */
-    public array $grit;
-    public string $name;
-    public int $page;
-    /** @var array<int, string> */
-    public array $power_advanced = [];
-    public Power $power_marquee;
-    /** @var array<string, Power> */
-    public array $powers_optional = [];
-    /** @var array<string, Power> */
-    public array $powers_other = [];
-    /** @var array<string, Power> */
-    public array $powers_additional = [];
-    /** @var array<int, string> */
-    public array $responsibilities;
-    public string $ruleset;
+    use Sushi;
 
-    /**
-     * List of all roles.
-     * @var ?array<string, array<string, mixed>>
-     */
-    public static ?array $roles;
+    public $incrementing = false;
+    protected $keyType = 'string';
 
-    /**
-     * @param ?array<int, string> $powers
-     */
-    public function __construct(
-        public string $id,
-        public int $level,
-        ?array $powers = [],
-    ) {
-        $filename = config('stillfleet.data_path') . 'roles.php';
-        self::$roles ??= require $filename;
-
-        if (!isset(self::$roles[$id])) {
-            throw new RuntimeException(sprintf(
-                'Role ID "%s" is invalid',
-                $id
-            ));
-        }
-
-        $role = self::$roles[$id];
-        $this->description = $role['description'];
-        $this->grit = $role['grit'];
-        $this->name = $role['name'];
-        $this->page = $role['page'];
-        $this->power_advanced = $role['power-advanced'];
-        try {
-            $this->power_marquee = new Power($role['power-marquee']);
-            // @codeCoverageIgnoreStart
-        } catch (RuntimeException) {
-            Log::warning(
-                'Stillfleet role has invalid marquee power',
-                [
-                    'role' => $this->id,
-                    'power' => $role['power-marquee'],
-                ]
-            );
-        }
-        // @codeCoverageIgnoreEnd
-        /** @var string $powerId */
-        foreach ($role['power-optional'] as $powerId) {
-            try {
-                $this->powers_optional[$powerId] = new Power($powerId);
-                // @codeCoverageIgnoreStart
-            } catch (RuntimeException) {
-                Log::warning(
-                    'Stillfleet role has invalid optional power',
-                    [
-                        'role' => $this->id,
-                        'power' => $powerId,
-                    ]
-                );
-            }
-            // @codeCoverageIgnoreEnd
-        }
-        /** @var string $powerId */
-        foreach ($role['power-other'] as $powerId) {
-            try {
-                $this->powers_other[$powerId] = new Power($powerId);
-                // @codeCoverageIgnoreStart
-            } catch (RuntimeException) {
-                Log::warning(
-                    'Stillfleet role has invalid other power',
-                    [
-                        'role' => $this->id,
-                        'power' => $powerId,
-                    ]
-                );
-            }
-            // @codeCoverageIgnoreEnd
-        }
-        $this->responsibilities = $role['responsibilities'];
-        $this->ruleset = $role['ruleset'];
-
-        // Finally, add the character's additional powers, which may (or may
-        // not) have anything to do with this role.
-        foreach ($powers ?? [] as $powerId) {
-            try {
-                $this->powers_additional[$powerId] = new Power($powerId);
-                // @codeCoverageIgnoreStart
-            } catch (RuntimeException) {
-                Log::warning(
-                    'Stillfleet character has invalid additional power',
-                    [
-                        'role' => $this->id,
-                        'power' => $powerId,
-                    ]
-                );
-            }
-            // @codeCoverageIgnoreEnd
-        }
-    }
+    /** @var array<int|string, Power> */
+    public array $added_powers = [];
+    public int $level = 1;
 
     #[Override]
     public function __toString(): string
     {
-        return $this->name;
+        return $this->attributes['name'];
+    }
+
+    public function addPowers(Power ...$powers): self
+    {
+        $this->added_powers += $powers;
+        return $this;
     }
 
     /**
-     * @return array<int, Role>
+     * @return array{
+     *     description: string,
+     *     grit: string,
+     *     id: string,
+     *     name: string,
+     *     page: integer,
+     *     power_advanced: string,
+     *     power_marque: string,
+     *     power_optional: string,
+     *     power_other: string,
+     *     responsibilities: string,
+     *     ruleset: string
+     * }
      */
-    public static function all(): array
+    public function getRows(): array
     {
         $filename = config('stillfleet.data_path') . 'roles.php';
-        self::$roles ??= require $filename;
-
-        $roles = [];
-        /** @var string $id */
-        foreach (array_keys(self::$roles ?? []) as $id) {
-            $roles[] = new Role($id, 1);
-        }
-        return $roles;
+        return require $filename;
     }
 
-    /**
-     * @return array<string, Power>
-     */
-    public function powers(): array
+    public function grit(): Attribute
     {
-        return array_merge(
-            [$this->power_marquee->id => $this->power_marquee],
-            $this->powers_other,
-            $this->powers_additional,
+        return Attribute::make(
+            get: function (string $value): array {
+                return json_decode($value, true);
+            },
+        );
+    }
+
+    public function advancedPowersLists(): Attribute
+    {
+        return Attribute::make(
+            get: function (): array {
+                $lists = json_decode($this->attributes['power_advanced'], true);
+                array_walk($lists, function (&$list): void {
+                    $list = AdvancedPowersCategory::from($list);
+                });
+                return $lists;
+            },
+        );
+    }
+
+    public function marqueePower(): Attribute
+    {
+        return Attribute::make(
+            get: function (): Power {
+                return new Power($this->attributes['power_marquee']);
+            },
+        );
+    }
+
+    public function optionalPowers(): Attribute
+    {
+        return Attribute::make(
+            get: function (): array {
+                $powers = json_decode($this->attributes['power_optional'], true);
+                array_walk($powers, function (&$power): void {
+                    $power = new Power($power);
+                });
+                return $powers;
+            },
+        );
+    }
+
+    public function otherPowers(): Attribute
+    {
+        return Attribute::make(
+            get: function (): array {
+                $powers = json_decode($this->attributes['power_other'], true);
+                array_walk($powers, function (&$power): void {
+                    $power = new Power($power);
+                });
+                return $powers;
+            }
+        );
+    }
+
+    public function powers(): Attribute
+    {
+        return Attribute::make(
+            get: function (): array {
+                return array_merge(
+                    [$this->marquee_power],
+                    $this->other_powers,
+                    $this->added_powers,
+                );
+            }
+        );
+    }
+
+    public function responsibilities(): Attribute
+    {
+        return Attribute::make(
+            get: function (string $responsibilities): array {
+                return json_decode($responsibilities, true);
+            }
         );
     }
 }
