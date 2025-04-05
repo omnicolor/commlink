@@ -93,7 +93,7 @@ class GearModificationsController extends Controller
 
         $mod = $this->mods[$id];
         $mod['links']['self'] = $this->links['self'] =
-            route('shadowrun5e/gear-modifications.show', $id);
+            route('shadowrun5e.gear-modifications.show', $id);
         $mod['ruleset'] ??= 'core';
 
         $this->headers['Etag'] = sha1((string)json_encode($mod));
