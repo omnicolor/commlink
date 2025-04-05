@@ -8,6 +8,7 @@ use Override;
 use RuntimeException;
 use Stringable;
 
+use function array_keys;
 use function config;
 use function sprintf;
 use function strtolower;
@@ -103,6 +104,19 @@ final class WeaponModification implements Stringable
             return ($this->costModifier - 1) * (int)$weapon->cost;
         }
         return $this->cost ?? 0;
+    }
+
+    public static function all(): WeaponModificationArray
+    {
+        $filename = config('shadowrun5e.data_path')
+            . 'weapon-modifications.php';
+        self::$modifications ??= require $filename;
+
+        $modifications = new WeaponModificationArray();
+        foreach (array_keys(self::$modifications ?? []) as $id) {
+            $modifications[] = new WeaponModification($id);
+        }
+        return $modifications;
     }
 
     /**

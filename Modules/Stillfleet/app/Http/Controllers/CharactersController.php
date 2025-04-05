@@ -182,7 +182,8 @@ class CharactersController extends Controller
 
         return CharacterResource::collection(
             Character::where('owner', $user->email)->get()
-        );
+        )
+            ->additional(['links' => ['self' => route('stillfleet.characters.index')]]);
     }
 
     public function show(Request $request, Character $character): CharacterResource

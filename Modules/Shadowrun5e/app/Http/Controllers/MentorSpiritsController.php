@@ -12,6 +12,7 @@ use function array_values;
 use function assert;
 use function date;
 use function json_encode;
+use function route;
 use function sha1;
 use function sha1_file;
 use function sprintf;
@@ -40,8 +41,7 @@ class MentorSpiritsController extends Controller
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path')
             . 'mentor-spirits.php';
-        $this->links['system'] = '/api/shadowrun5e';
-        $this->links['collection'] = '/api/shadowrun5e/mentor-spirits';
+        $this->links['collection'] = route('shadowrun5e.mentor-spirits.index');
 
         $this->spirits = require $this->filename;
 
@@ -57,12 +57,10 @@ class MentorSpiritsController extends Controller
     {
         foreach (array_keys($this->spirits) as $key) {
             $this->spirits[$key]['links'] = [
-                'self' => sprintf(
-                    '/api/shadowrun5e/mentor-spirits/%s',
-                    urlencode($key)
-                ),
+                'self' => route('shadowrun5e.mentor-spirits.show', $key),
             ];
             $this->spirits[$key]['ruleset'] ??= 'core';
+            $this->spirits[$key]['effects'] = (object)($this->spirits[$key]['effects'] ?? []);
         }
 
         $this->headers['Etag'] = sha1_file($this->filename);

@@ -15,7 +15,7 @@ use Override;
  * @mixin Weapon
  * @phpstan-type MeleeWeapon array{
  *     accuracy: string|null,
- *     armor_piercing: int|null,
+ *     armor_piercing: int,
  *     availability: string,
  *     class: string,
  *     cost: int|null,
@@ -36,7 +36,7 @@ use Override;
  *     accuracy: string|null,
  *     ammo_capacity: int|null,
  *     ammo_container: string|null,
- *     armor_piercing: int|null,
+ *     armor_piercing: int,
  *     availability: string,
  *     class: string,
  *     cost: int|null,
@@ -67,7 +67,7 @@ class WeaponResource extends JsonResource
         $user = $request->user();
         $weapon = [
             'accuracy' => $this->accuracy,
-            'armor_piercing' => $this->armor_piercing,
+            'armor_piercing' => $this->armor_piercing ?? 0,
             'availability' => $this->availability,
             'class' => $this->class->name(),
             'cost' => $this->cost,

@@ -62,6 +62,7 @@ class QualitiesController extends Controller
                 urlencode($key)
             );
             $this->qualities[$key]['ruleset'] ??= 'core';
+            $this->qualities[$key]['effects'] = (object)($this->qualities[$key]['effects'] ?? []);
         }
 
         $this->headers['Etag'] = sha1_file($this->filename);

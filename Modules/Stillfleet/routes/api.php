@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Route;
 use Modules\Stillfleet\Http\Controllers\CharactersController;
 use Modules\Stillfleet\Http\Resources\PowerResource;
@@ -18,22 +19,25 @@ Route::middleware('auth:sanctum')
         Route::resource('characters', CharactersController::class)
             ->only(['index', 'show']);
 
-        Route::get('powers', function () {
-            return PowerResource::collection(Power::all());
+        Route::get('powers', function (): AnonymousResourceCollection {
+            return PowerResource::collection(Power::all())
+                ->additional(['links' => ['self' => route('stillfleet.powers.index')]]);
         })->name('powers.index');
         Route::get('powers/{power}', function (Power $power) {
             return new PowerResource($power);
         })->name('powers.show');
 
-        Route::get('roles', function () {
-            return RoleResource::collection(Role::all());
+        Route::get('roles', function (): AnonymousResourceCollection {
+            return RoleResource::collection(Role::all())
+                ->additional(['links' => ['self' => route('stillfleet.roles.index')]]);
         })->name('roles.index');
         Route::get('roles/{role}', function (Role $role) {
             return new RoleResource($role);
         })->name('roles.show');
 
-        Route::get('species', function () {
-            return SpeciesResource::collection(Species::all());
+        Route::get('species', function (): AnonymousResourceCollection {
+            return SpeciesResource::collection(Species::all())
+                ->additional(['links' => ['self' => route('stillfleet.species.index')]]);
         })->name('species.index');
         Route::get('species/{species}', function (Species $species) {
             return new SpeciesResource($species);

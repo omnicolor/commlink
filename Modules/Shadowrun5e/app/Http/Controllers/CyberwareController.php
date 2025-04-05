@@ -12,12 +12,11 @@ use function array_values;
 use function assert;
 use function date;
 use function json_encode;
+use function route;
 use function sha1;
 use function sha1_file;
-use function sprintf;
 use function stat;
 use function strtolower;
-use function urlencode;
 
 /**
  * Controller for Shadowrun augmentations.
@@ -39,8 +38,7 @@ class CyberwareController extends Controller
     {
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path') . 'cyberware.php';
-        $this->links['system'] = '/api/shadowrun5e';
-        $this->links['collection'] = '/api/shadowrun5e/cyberware';
+        $this->links['collection'] = route('shadowrun5e.cyberware.index');
 
         $this->augmentations = require $this->filename;
 
@@ -56,12 +54,13 @@ class CyberwareController extends Controller
     {
         foreach (array_keys($this->augmentations) as $key) {
             $this->augmentations[$key]['links'] = [
-                'self' => sprintf(
-                    '/api/shadowrun5e/cyberware/%s',
-                    urlencode($key)
-                ),
+                'self' => route('shadowrun5e.cyberware.show', $key),
             ];
-            $this->augmentations['ruleset'] ??= 'core';
+            $this->augmentations[$key]['ruleset'] ??= 'core';
+            $this->augmentations[$key]['effects']
+                = (object)($this->augmentations[$key]['effects'] ?? []);
+            $this->augmentations[$key]['wireless-effects']
+                = (object)($this->augmentations[$key]['wireless-effects'] ?? []);
         }
 
         $this->headers['Etag'] = sha1_file($this->filename);
@@ -93,7 +92,7 @@ class CyberwareController extends Controller
         $cyberware = $this->augmentations[$id];
         $cyberware['ruleset'] ??= 'core';
         $cyberware['links']['self'] = $this->links['self'] =
-            sprintf('/api/shadowrun5e/cyberware/%s', $id);
+            route('shadowrun5e.cyberware.show', $id);
 
         $this->headers['Etag'] = sha1((string)json_encode($cyberware));
 

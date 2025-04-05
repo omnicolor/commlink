@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Stillfleet\Models\Power;
 
+use function count;
+
 /**
  * @mixin Power
  */

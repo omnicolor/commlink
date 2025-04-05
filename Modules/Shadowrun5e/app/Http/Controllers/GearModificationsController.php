@@ -12,12 +12,11 @@ use function array_values;
 use function assert;
 use function date;
 use function json_encode;
+use function route;
 use function sha1;
 use function sha1_file;
-use function sprintf;
 use function stat;
 use function strtolower;
-use function urlencode;
 
 /**
  * Controller for gear modifications.
@@ -40,8 +39,7 @@ class GearModificationsController extends Controller
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path')
             . 'gear-modifications.php';
-        $this->links['system'] = '/api/shadowrun5e';
-        $this->links['collection'] = '/api/shadowrun5e/gear-modifications';
+        $this->links['collection'] = route('shadowrun5e.gear-modifications.index');
 
         $this->mods = require $this->filename;
 
@@ -56,13 +54,15 @@ class GearModificationsController extends Controller
     public function index(): Response
     {
         foreach ($this->mods as $key => $value) {
-            $this->mods[$key]['links']['self'] = sprintf(
-                '/api/shadowrun5e/gear-modifications/%s',
-                urlencode($key)
+            $this->mods[$key]['links']['self'] = route(
+                'shadowrun5e.gear-modifications.show',
+                $key,
             );
-            if (!array_key_exists('ruleset', $value)) {
-                $this->mods[$key]['ruleset'] = 'core';
-            }
+            $this->mods[$key]['ruleset'] ??= 'core';
+            $this->mods[$key]['effects']
+                = (object)($this->mods[$key]['effects'] ?? []);
+            $this->mods[$key]['wireless-effects']
+                = (object)($this->mods[$key]['wireless-effects'] ?? []);
         }
 
         $this->headers['Etag'] = sha1_file($this->filename);
@@ -93,7 +93,7 @@ class GearModificationsController extends Controller
 
         $mod = $this->mods[$id];
         $mod['links']['self'] = $this->links['self'] =
-            sprintf('/api/shadowrun5e/gear-modifications/%s', $id);
+            route('shadowrun5e/gear-modifications.show', $id);
         $mod['ruleset'] ??= 'core';
 
         $this->headers['Etag'] = sha1((string)json_encode($mod));
