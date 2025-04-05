@@ -11,7 +11,7 @@ class MessageBuilder implements JsonSerializable
 {
     public static function new(): self {}
     public function setContent(string $content): self {}
-    public function setNonce(string $nonce = null): self {}
+    public function setNonce(string|null $nonce = null): self {}
     public function setUsername(string $username): self {}
     public function setAvatarUrl(string $avatar_url): self {}
     public function setTts(bool $tts = false): self {}
