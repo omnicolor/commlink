@@ -48,6 +48,7 @@ rules:
       - root
       - rsvp
       - shadowrun5e
+      - species
       - stillfleet
       - subversion
       - token

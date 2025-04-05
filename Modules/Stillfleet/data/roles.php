@@ -18,9 +18,9 @@ return [
     ],
      */
     [
+        'id' => 'banshee',
         'description' => 'You are an engineer—and very likely a daredevil—trained by the Archivists to understand the beyond-human science of stiffworks.',
         'grit' => '["movement","reason"]',
-        'id' => 'banshee',
         'name' => 'Banshee',
         'page' => 43,
         'power_advanced' => '["communications"]',
@@ -31,9 +31,9 @@ return [
         'ruleset' => 'core',
     ],
     [
+        'id' => 'tremulant',
         'description' => 'You are a trained hell scientist—a Terran conscript who was tortured for years by the Archivists in order to allow you to control the Weird.',
         'grit' => '["charm","-combat","reason","will"]',
-        'id' => 'tremulant',
         'name' => 'Tremulant',
         'page' => 65,
         'power_advanced' => '["immerphysics"]',

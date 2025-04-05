@@ -100,7 +100,8 @@ class Role extends Model implements Stringable
     {
         return Attribute::make(
             get: function (): Power {
-                return new Power($this->attributes['power_marquee']);
+                // @phpstan-ignore return.type
+                return Power::findOrFail($this->attributes['power_marquee']);
             },
         );
     }
@@ -111,7 +112,7 @@ class Role extends Model implements Stringable
             get: function (): array {
                 $powers = json_decode($this->attributes['power_optional'], true);
                 array_walk($powers, function (&$power): void {
-                    $power = new Power($power);
+                    $power = Power::findOrFail($power);
                 });
                 return $powers;
             },
@@ -124,7 +125,7 @@ class Role extends Model implements Stringable
             get: function (): array {
                 $powers = json_decode($this->attributes['power_other'], true);
                 array_walk($powers, function (&$power): void {
-                    $power = new Power($power);
+                    $power = Power::findOrFail($power);
                 });
                 return $powers;
             }

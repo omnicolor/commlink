@@ -12,6 +12,7 @@ use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function count;
+use function route;
 
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
@@ -24,7 +25,6 @@ final class GearControllerTest extends TestCase
     public function testIndexBrokenConfig(): void
     {
         Config::set('shadowrun5e.data_path', '/tmp/unused/');
-        /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)
             ->getJson(route('shadowrun5e.gear.index'))
@@ -45,7 +45,6 @@ final class GearControllerTest extends TestCase
      */
     public function testAuthIndex(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $this->seed();
         $response = self::actingAs($user)
@@ -53,7 +52,7 @@ final class GearControllerTest extends TestCase
             ->assertOk()
             ->assertJsonFragment([
                 'links' => [
-                    'self' => '/api/shadowrun5e/gear/credstick-gold',
+                    'self' => route('shadowrun5e.gear.show', 'credstick-gold'),
                 ],
             ]);
         self::assertGreaterThanOrEqual(1, count($response['data']));
@@ -82,7 +81,6 @@ final class GearControllerTest extends TestCase
      */
     public function testAuthShow(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $this->seed();
         self::actingAs($user)
@@ -104,7 +102,6 @@ final class GearControllerTest extends TestCase
      */
     public function testAuthShowNotFound(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)
             ->getJson(route('shadowrun5e.gear.show', 'not-found'))

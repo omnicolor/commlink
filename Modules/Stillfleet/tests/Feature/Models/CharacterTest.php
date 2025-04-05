@@ -7,6 +7,7 @@ namespace Modules\Stillfleet\Tests\Feature\Models;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use LogicException;
 use Modules\Stillfleet\Models\Character;
+use Modules\Stillfleet\Models\Power;
 use Modules\Stillfleet\Models\Role;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
@@ -95,6 +96,16 @@ final class CharacterTest extends TestCase
         $character->grit = 10;
     }
 
+    public function testGritWithPower(): void
+    {
+        $character = new Character([
+            'species' => 'fleeter',
+        ]);
+        // @phpstan-ignore method.nonObject
+        $character->species->addPowers(Power::find('auxin-network-non-mind-plant-mind'));
+        self::assertSame(4, $character->grit);
+    }
+
     public function testHealth(): void
     {
         $character = new Character(['combat' => 'd4', 'movement' => 'd4']);
@@ -134,5 +145,53 @@ final class CharacterTest extends TestCase
         ]);
 
         self::assertInstanceOf(Role::class, $character->roles[0]);
+    }
+
+    public function testSpecies(): void
+    {
+        $character = new Character(['species' => 'fleeter']);
+        self::assertSame('Fleeter', (string)$character->species);
+    }
+
+    public function testSpeciesReasonModifier(): void
+    {
+        $character = new Character(['species' => 'fleeter']);
+        self::assertSame(0, $character->reason_modifier);
+        $character->species?->addPowers(Power::findOrFail('arkheion-access'));
+        self::assertSame(1, $character->reason_modifier);
+    }
+
+    public function testSpeciesWithChosenPower(): void
+    {
+        $character = new Character([
+            'species' => 'fleeter',
+            'species_powers' => ['arkheion-access'],
+        ]);
+        self::assertCount(4, $character->species->powers ?? []);
+    }
+
+    public function testSpeciesWithInvalidChosenPower(): void
+    {
+        $character = new Character([
+            'species' => 'fleeter',
+            'species_powers' => ['invalid'],
+        ]);
+        self::assertCount(3, $character->species->powers ?? []);
+    }
+
+    public function testAllPowers(): void
+    {
+        $character = new Character([
+            'roles' => [
+                [
+                    'id' => 'banshee',
+                    'level' => 1,
+                    'powers' => ['astrogate'],
+                ],
+            ],
+            'species' => 'fleeter',
+            'species_powers' => ['arkheion-access'],
+        ]);
+        self::assertCount(8, $character->all_powers);
     }
 }

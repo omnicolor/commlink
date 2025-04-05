@@ -7,6 +7,8 @@ namespace Modules\Stillfleet\Providers;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
+use function module_path;
+
 class RouteServiceProvider extends ServiceProvider
 {
     /**
