@@ -20,7 +20,7 @@ jobs:
         with:
           tools: composer:v2
           php-version: ${{ matrix.php-version }}
-          extensions: "json, mbstring, mongodb, pdo, xdebug"
+          extensions: "json, mbstring, mongodb-1.21.1, pdo, xdebug"
 
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.11.0
