@@ -14,23 +14,23 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install PHP with extensions
-        uses: shivammathur/setup-php@more-verbose
+        uses: shivammathur/setup-php@master
         with:
           tools: composer:v2
           php-version: ${{ matrix.php-version }}
-          extensions: none, json, mbstring, mongodb-1.21.1, pdo
+          extensions: json, mbstring, mongodb-1.21.0, pdo
 
-#      - name: Get Composer Cache Directory
-#        id: composer-cache
-#        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-#
-#      - name: Cache Composer
-#        uses: actions/cache@v4
-#        with:
-#          path: ${{ steps.composer-cache.outputs.dir }}
-#          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-#          restore-keys: |
-#            ${{ runner.os }}-composer-
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
       - name: Install Composer dependencies and app configuration
         run: composer install --no-progress --no-interaction
@@ -53,7 +53,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           coverage: none
-          extensions: "json, mbstring, mongodb-1.21.1, pdo"
+          extensions: "json, mbstring, mongodb-1.21.0, pdo"
 
       - name: Install PHP CS Fixer
         run: COMPOSER=.github/workflows/composer.php-cs-fixer.json composer install --no-interaction --no-progress
