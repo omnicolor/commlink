@@ -93,9 +93,6 @@ class Generic extends Roll
     {
         $matches = [];
         preg_match('/(\d+)d(\d+)/', $string, $matches);
-        // The controller that chose this roll determined that it is the right
-        // format for this regular expression to *always* match.
-        // @phpstan-ignore offsetAccess.notFound
         return $matches[0];
     }
 
