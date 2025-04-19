@@ -63,6 +63,10 @@ class WorldAnvilController extends Controller
         } catch (JsonException $ex) {
             return back()->withInput()->withErrors($ex->getMessage());
         }
+        if (!isset($rawCharacter->templateId)) {
+            return back()->withInput()
+                ->withErrors('That does not appear to be a World Anvil character');
+        }
         if (!isset($this->templateMap[$rawCharacter->templateId])) {
             return back()->withInput()
                 ->withErrors('System is not (yet) supported.');

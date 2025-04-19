@@ -368,6 +368,10 @@ final class CampaignsControllerTest extends TestCase
             'gm' => $user,
             'system' => 'shadowrun5e',
         ]);
+        // Handle flaky test from previous failures causing a non-Shadowrun 5E
+        // character to show up for this campaign.
+        Character::where('campaign_id', $campaign->id)
+            ->delete();
         $character = Character::factory()->create([
             'campaign_id' => $campaign,
             'system' => 'shadowrun5e',

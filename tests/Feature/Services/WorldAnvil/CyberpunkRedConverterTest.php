@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Services\WorldAnvil;
 
 use App\Services\WorldAnvil\CyberpunkRedConverter;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use RuntimeException;
@@ -23,6 +24,7 @@ final class CyberpunkRedConverterTest extends TestCase
 {
     protected static string $testFile;
 
+    #[Override]
     public static function setUpBeforeClass(): void
     {
         $path = explode(DIRECTORY_SEPARATOR, dirname(__DIR__, 3));
@@ -75,7 +77,9 @@ final class CyberpunkRedConverterTest extends TestCase
         self::assertSame('light-armorjack', $character->armor['body']?->id);
         self::assertSame('light-armorjack', $character->armor['shield']?->id);
         self::assertCount(2, $character->weapons);
-        self::assertCount(22, $converter->getErrors());
+        self::assertCount(2, $converter->getErrors());
+        self::assertCount(2, $converter->getErrors()['weapon']);
+        self::assertCount(20, $converter->getErrors()['skill']);
     }
 
     public function testConvertCharacterWithInvalidData(): void
@@ -93,21 +97,21 @@ final class CyberpunkRedConverterTest extends TestCase
         self::assertNull($character->armor['head']);
         self::assertNull($character->armor['body']);
         self::assertNull($character->armor['shield']);
-        self::assertContains(
+        self::assertSame(
             'Role "Unknown" is invalid',
-            $converter->getErrors(),
+            $converter->getErrors()['role'][0],
         );
         self::assertContains(
             'Armor "Unknown helmet" was not found',
-            $converter->getErrors(),
+            $converter->getErrors()['armor'],
         );
         self::assertContains(
             'Armor "Unknown armor" was not found',
-            $converter->getErrors(),
+            $converter->getErrors()['armor'],
         );
         self::assertContains(
             'Armor "Unknown shield" was not found',
-            $converter->getErrors(),
+            $converter->getErrors()['armor'],
         );
     }
 }

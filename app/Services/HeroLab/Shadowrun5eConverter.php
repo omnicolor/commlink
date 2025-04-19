@@ -21,6 +21,7 @@ use Modules\Shadowrun5e\Models\Vehicle;
 use Modules\Shadowrun5e\Models\VehicleModification;
 use Modules\Shadowrun5e\Models\Weapon;
 use Modules\Shadowrun5e\Models\WeaponModification;
+use Override;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RuntimeException;
@@ -70,11 +71,7 @@ class Shadowrun5eConverter implements ConverterInterface
      * Directory the portfolio was extracted to.
      */
     protected string $directory;
-
-    /**
-     * Errors encountered and not handled.
-     * @var array<int, string>
-     */
+    /** @var array<string, array<int, string>> */
     protected array $errors = [];
 
     /**
@@ -355,9 +352,6 @@ class Shadowrun5eConverter implements ConverterInterface
         ));
     }
 
-    /**
-     * Parse the character's attributes out from the XML.
-     */
     protected function parseAttributes(
         SimpleXMLElement $attributes
     ): Shadowrun5eConverter {
@@ -385,9 +379,6 @@ class Shadowrun5eConverter implements ConverterInterface
         return $this;
     }
 
-    /**
-     * Parse out the character's qualities.
-     */
     protected function parseQualities(
         SimpleXMLElement $qualities
     ): Shadowrun5eConverter {
@@ -407,7 +398,8 @@ class Shadowrun5eConverter implements ConverterInterface
                 try {
                     $quality = new Quality($this->mapQualities[$name]);
                 } catch (RuntimeException $ex) {
-                    $this->errors[] = $ex->getMessage();
+                    $this->errors['qualities'] ??= [];
+                    $this->errors['qualities'][] = $ex->getMessage();
                     continue;
                 }
                 $qualitiesArray[] = [
@@ -442,16 +434,13 @@ class Shadowrun5eConverter implements ConverterInterface
                     // Fall through to adding an error.
                 }
             }
-            $this->errors[] = sprintf('Quality "%s" was not found.', $name);
-            continue;
+            $this->errors['qualities'] ??= [];
+            $this->errors['qualities'][] = sprintf('Quality "%s" was not found.', $name);
         }
         $this->character->qualities = $qualitiesArray;
         return $this;
     }
 
-    /**
-     * Parse out the character's skill groups.
-     */
     protected function parseSkillGroups(
         SimpleXMLElement $groups
     ): Shadowrun5eConverter {
@@ -464,7 +453,8 @@ class Shadowrun5eConverter implements ConverterInterface
             try {
                 $group = new SkillGroup($id, $level);
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['skill-groups'] ??= [];
+                $this->errors['skill-groups'][] = $ex->getMessage();
                 continue;
             }
             $skillGroups[$group->id] = $group->level;
@@ -488,9 +478,6 @@ class Shadowrun5eConverter implements ConverterInterface
         return ['specialization' => implode(', ', $specializations)];
     }
 
-    /**
-     * Parse out the character's active skills.
-     */
     protected function parseActiveSkills(
         SimpleXMLElement $skills
     ): Shadowrun5eConverter {
@@ -506,7 +493,8 @@ class Shadowrun5eConverter implements ConverterInterface
             try {
                 $skillObject = new ActiveSkill($id, $level);
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['skills'] ??= [];
+                $this->errors['skills'][] = $ex->getMessage();
                 continue;
             }
             $skillsArray[] = array_merge(
@@ -521,9 +509,6 @@ class Shadowrun5eConverter implements ConverterInterface
         return $this;
     }
 
-    /**
-     * Parse out the character's knowledge skills (regular or language).
-     */
     protected function parseKnowledgeSkills(
         SimpleXMLElement $skills,
         bool $isLanguage
@@ -561,7 +546,6 @@ class Shadowrun5eConverter implements ConverterInterface
     }
 
     /**
-     * Parse out the character's spells.
      * @TODO Add support for alchemical spells
      */
     protected function parseSpells(
@@ -580,7 +564,8 @@ class Shadowrun5eConverter implements ConverterInterface
             try {
                 $magics['spells'][] = Spell::findByName($name)->id;
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['magic'] ??= [];
+                $this->errors['magic'][] = $ex->getMessage();
                 continue;
             }
         }
@@ -588,9 +573,6 @@ class Shadowrun5eConverter implements ConverterInterface
         return $this;
     }
 
-    /**
-     * Parse out the character's powers.
-     */
     protected function parsePowers(
         ?SimpleXMLElement $powers
     ): Shadowrun5eConverter {
@@ -618,10 +600,6 @@ class Shadowrun5eConverter implements ConverterInterface
         return $this;
     }
 
-    /**
-     * Parse out the character's metamagics.
-     * @TODO Implement
-     */
     protected function parseMetamagics(
         ?SimpleXMLElement $meta
     ): Shadowrun5eConverter {
@@ -650,7 +628,8 @@ class Shadowrun5eConverter implements ConverterInterface
             try {
                 $metaArray[] = Metamagic::findByName($name)->id;
             } catch (RuntimeException $ex) { // @codeCoverageIgnore
-                $this->errors[] = $ex->getMessage(); // @codeCoverageIgnore
+                $this->errors['magic'] ??= [];
+                $this->errors['magic'][] = $ex->getMessage(); // @codeCoverageIgnore
                 continue; // @codeCoverageIgnore
             }
         }
@@ -664,7 +643,6 @@ class Shadowrun5eConverter implements ConverterInterface
     }
 
     /**
-     * Parse out the character's augmentations.
      * @TODO Add cyberware modifications
      * @TODO Add cyberware grades
      */
@@ -686,7 +664,8 @@ class Shadowrun5eConverter implements ConverterInterface
                     'id' => (new Augmentation($id))->id,
                 ];
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['augmentations'] ??= [];
+                $this->errors['augmentations'][] = $ex->getMessage();
                 continue;
             }
         }
@@ -700,7 +679,6 @@ class Shadowrun5eConverter implements ConverterInterface
     }
 
     /**
-     * Parse the character's weapons.
      * @TODO Handle accessories
      * @TODO Handle modifications
      */
@@ -722,7 +700,8 @@ class Shadowrun5eConverter implements ConverterInterface
             try {
                 $weapon = Weapon::findByName($name);
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['weapons'] ??= [];
+                $this->errors['weapons'][] = $ex->getMessage();
                 continue;
             }
             $weaponsArray[] = [
@@ -734,7 +713,6 @@ class Shadowrun5eConverter implements ConverterInterface
     }
 
     /**
-     * Parse the character's armor.
      * @TODO Handle modifications
      */
     protected function parseArmor(
@@ -755,7 +733,8 @@ class Shadowrun5eConverter implements ConverterInterface
             try {
                 $armor = Armor::findByName($name);
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['armor'] ??= [];
+                $this->errors['armor'][] = $ex->getMessage();
                 continue;
             }
             $armorArray[] = [
@@ -767,7 +746,6 @@ class Shadowrun5eConverter implements ConverterInterface
     }
 
     /**
-     * Parse the character's gear.
      * @TODO Handle modifications
      * @TODO Handle programs
      */
@@ -784,7 +762,8 @@ class Shadowrun5eConverter implements ConverterInterface
                 try {
                     $gear = GearFactory::get($this->mapGear[$name]);
                 } catch (RuntimeException $ex) {
-                    $this->errors[] = $ex->getMessage();
+                    $this->errors['gear'] ??= [];
+                    $this->errors['gear'][] = $ex->getMessage();
                     continue;
                 }
             } else {
@@ -800,7 +779,8 @@ class Shadowrun5eConverter implements ConverterInterface
                     try {
                         $gear = Gear::findByName($name);
                     } catch (RuntimeException $ex) {
-                        $this->errors[] = $ex->getMessage();
+                        $this->errors['gear'] ??= [];
+                        $this->errors['gear'][] = $ex->getMessage();
                         continue;
                     }
                 }
@@ -815,9 +795,6 @@ class Shadowrun5eConverter implements ConverterInterface
         return $this;
     }
 
-    /**
-     * Parse the character's identities.
-     */
     protected function parseIdentities(
         SimpleXMLElement $identities
     ): Shadowrun5eConverter {
@@ -859,9 +836,6 @@ class Shadowrun5eConverter implements ConverterInterface
         return $this;
     }
 
-    /**
-     * Parse the character's contacts.
-     */
     protected function parseContacts(
         SimpleXMLElement $contacts
     ): Shadowrun5eConverter {
@@ -897,9 +871,6 @@ class Shadowrun5eConverter implements ConverterInterface
         };
     }
 
-    /**
-     * Parse the character's priorities.
-     */
     protected function parsePriorities(): Shadowrun5eConverter
     {
         $priorities = [
@@ -1042,9 +1013,6 @@ class Shadowrun5eConverter implements ConverterInterface
         return $this;
     }
 
-    /**
-     * Parse the character's contacts.
-     */
     protected function parseJournals(
         SimpleXMLElement $journals
     ): Shadowrun5eConverter {
@@ -1124,7 +1092,8 @@ class Shadowrun5eConverter implements ConverterInterface
                         $line = next($stats);
                         continue;
                     } catch (RuntimeException $ex) {
-                        $this->errors[] = $ex->getMessage();
+                        $this->errors['vehicles'] ??= [];
+                        $this->errors['vehicles'][] = $ex->getMessage();
                     }
                     $line = next($stats);
                 }
@@ -1170,7 +1139,6 @@ class Shadowrun5eConverter implements ConverterInterface
                     } catch (RuntimeException) {
                     }
                     $line = (string)next($stats);
-                    continue;
                 }
             }
             if (str_starts_with((string)$line, 'Weapons:')) {
@@ -1191,7 +1159,8 @@ class Shadowrun5eConverter implements ConverterInterface
                         try {
                             $weapon = Weapon::findByName($weapon);
                         } catch (RuntimeException $ex) {
-                            $this->errors[] = $ex->getMessage();
+                            $this->errors['vehicles'] ??= [];
+                            $this->errors['vehicles'][] = $ex->getMessage();
                             $line = next($stats);
                             continue;
                         }
@@ -1278,7 +1247,8 @@ class Shadowrun5eConverter implements ConverterInterface
                 }
             }
             if (false === $stats) {
-                $this->errors[] = sprintf(
+                $this->errors['vehicles'] ??= [];
+                $this->errors['vehicles'][] = sprintf(
                     'Vehicle "%s" is missing stats',
                     $name,
                 );
@@ -1288,7 +1258,8 @@ class Shadowrun5eConverter implements ConverterInterface
             try {
                 $vehiclesArray[] = $this->parseVehicleStatBlock($stats, $name);
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['vehicles'] ??= [];
+                $this->errors['vehicles'][] = $ex->getMessage();
             }
         }
         $this->character->vehicles = $vehiclesArray;
@@ -1321,6 +1292,7 @@ class Shadowrun5eConverter implements ConverterInterface
     /**
      * Convert a loaded Hero Lab portfolio to a Commlink character.
      */
+    #[Override]
     public function convert(): PartialCharacter
     {
         $this->character->handle = (string)$this->xml['name'];
@@ -1363,9 +1335,9 @@ class Shadowrun5eConverter implements ConverterInterface
     }
 
     /**
-     * Return the list of errors produced during conversion.
-     * @return array<int, string>
+     * @return array<string, array<int, string>>
      */
+    #[Override]
     public function getErrors(): array
     {
         return $this->errors;

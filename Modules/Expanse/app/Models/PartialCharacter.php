@@ -4,27 +4,19 @@ declare(strict_types=1);
 
 namespace Modules\Expanse\Models;
 
+use Override;
 use Stringable;
 
 class PartialCharacter extends Character implements Stringable
 {
-    /**
-     * The database connection that should be used by the model.
-     * @var string
-     */
+    /** @var string */
     protected $connection = 'mongodb';
-
-    /**
-     * Table to pull from.
-     * @var string
-     */
+    /** @var string */
     protected $table = 'characters-partial';
-
-    /**
-     * @var array<int, string>
-     */
+    /** @var array<string, array<int, string>> */
     public array $errors = [];
 
+    #[Override]
     public function newFromBuilder(
         // @phpstan-ignore parameter.defaultValue
         $attributes = [],

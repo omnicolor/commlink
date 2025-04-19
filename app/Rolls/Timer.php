@@ -77,6 +77,10 @@ class Timer extends Roll
             return;
         }
 
+        $this->error = 'There\'s currently an error in PHP that is preventing this feature from working.';
+        return;
+
+        // @phpstan-ignore deadCode.unreachable
         if (!str_contains($time, ':')) {
             $time = '0:' . $time;
         }
