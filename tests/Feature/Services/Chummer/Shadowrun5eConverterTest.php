@@ -7,6 +7,7 @@ namespace Tests\Feature\Services\Chummer;
 use App\Services\Chummer5\Shadowrun5eConverter;
 use Modules\Shadowrun5e\Models\Identity;
 use Modules\Shadowrun5e\Models\Tradition;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -23,6 +24,7 @@ final class Shadowrun5eConverterTest extends TestCase
 {
     protected static string $dataDirectory;
 
+    #[Override]
     public static function setUpBeforeClass(): void
     {
         $path = explode(
@@ -91,7 +93,10 @@ final class Shadowrun5eConverterTest extends TestCase
         self::assertSame(5, $character->willpower);
         self::assertCount(2, $character->getSkills());
         self::assertCount(5, $character->getKnowledgeSkills());
-        self::assertCount(55, $converter->getErrors());
+        $errors = $converter->getErrors();
+        self::assertCount(7, $errors);
+        self::assertCount(10, $errors['spells']);
+        self::assertCount(31, $errors['gear']);
     }
 
     /**

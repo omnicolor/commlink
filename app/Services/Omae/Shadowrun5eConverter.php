@@ -14,6 +14,7 @@ use Modules\Shadowrun5e\Models\PartialCharacter;
 use Modules\Shadowrun5e\Models\Quality;
 use Modules\Shadowrun5e\Models\Weapon;
 use Modules\Shadowrun5e\Models\WeaponModification;
+use Override;
 use RuntimeException;
 
 use function count;
@@ -29,15 +30,9 @@ class Shadowrun5eConverter implements ConverterInterface
 {
     protected const REQUIRED_NUM_PRIORITIES = 5;
 
-    /**
-     * @var PartialCharacter Character being converted.
-     */
+    /** @var PartialCharacter Character being converted. */
     protected PartialCharacter $character;
-
-    /**
-     * Errors encountered and not handled.
-     * @var array<int, string>
-     */
+    /** @var array<string, array<int, string>> */
     protected array $errors = [];
 
     /**
@@ -54,9 +49,6 @@ class Shadowrun5eConverter implements ConverterInterface
         'Smartgun System, Internal' => 'smartlink-internal',
     ];
 
-    /**
-     * Constructor.
-     */
     public function __construct(string $filename)
     {
         if (!file_exists($filename)) {
@@ -78,6 +70,7 @@ class Shadowrun5eConverter implements ConverterInterface
         $this->character = new PartialCharacter();
     }
 
+    #[Override]
     public function convert(): PartialCharacter
     {
         while (!$this->endOfFile()) {
@@ -107,7 +100,8 @@ class Shadowrun5eConverter implements ConverterInterface
                     $this->parseGear();
                     break;
                 default:
-                    $this->errors[] = sprintf(
+                    $this->errors['section'] ??= [];
+                    $this->errors['section'][] = sprintf(
                         'Found unhandled section "%s"',
                         substr($nextline, 2)
                     );
@@ -160,7 +154,8 @@ class Shadowrun5eConverter implements ConverterInterface
 
         $priorities = explode(' | ', (string)array_shift($this->file));
         if (self::REQUIRED_NUM_PRIORITIES !== count($priorities)) {
-            $this->errors[] = 'Invalid priorities listed';
+            $this->errors['priorities'] ??= [];
+            $this->errors['priorities'][] = 'Invalid priorities listed';
             return;
         }
         $priorities = array_combine(
@@ -206,7 +201,6 @@ class Shadowrun5eConverter implements ConverterInterface
                 $karmas = explode(' | ', (string)array_shift($this->file));
                 $this->character->karma = (int)$karmas[1];
                 $this->character->karmaCurrent = (int)$karmas[0];
-                continue;
             }
         }
     }
@@ -249,7 +243,8 @@ class Shadowrun5eConverter implements ConverterInterface
                 $quality = Quality::findByName($qualityName);
                 $qualities[] = ['id' => $quality->id];
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['qualities'] ??= [];
+                $this->errors['qualities'][] = $ex->getMessage();
             }
         }
         $this->character->qualities = $qualities;
@@ -281,7 +276,8 @@ class Shadowrun5eConverter implements ConverterInterface
                     $this->parseActiveSkills();
                     break;
                 default:
-                    $this->errors[] = sprintf(
+                    $this->errors['skills'] ??= [];
+                    $this->errors['skills'][] = sprintf(
                         'Unknown skill type "%s"',
                         $skillType
                     );
@@ -304,7 +300,8 @@ class Shadowrun5eConverter implements ConverterInterface
                 // Make sure the skill is valid.
                 $id = ActiveSkill::findIdByName($name);
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['skills'] ??= [];
+                $this->errors['skills'][] = $ex->getMessage();
                 continue;
             }
             $skill = [
@@ -347,7 +344,8 @@ class Shadowrun5eConverter implements ConverterInterface
                     $this->parseWeapons();
                     break;
                 default:
-                    $this->errors[] = sprintf(
+                    $this->errors['gear'] ??= [];
+                    $this->errors['gear'][] = sprintf(
                         'Unknown gear category "%s"',
                         $gearType
                     );
@@ -370,7 +368,8 @@ class Shadowrun5eConverter implements ConverterInterface
             try {
                 $armor['id'] = Armor::findByName($name)->id;
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['armor'] ??= [];
+                $this->errors['armor'][] = $ex->getMessage();
                 continue;
             }
 
@@ -394,7 +393,8 @@ class Shadowrun5eConverter implements ConverterInterface
                         $rating
                     )->id;
                 } catch (RuntimeException $ex) {
-                    $this->errors[] = $ex->getMessage();
+                    $this->errors['armor'] ??= [];
+                    $this->errors['armor'][] = $ex->getMessage();
                 }
             }
             $armors[] = $armor;
@@ -424,7 +424,8 @@ class Shadowrun5eConverter implements ConverterInterface
                     'id' => (Augmentation::findByName($name, $rating))->id,
                 ];
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['augmentations'] ??= [];
+                $this->errors['augmentations'][] = $ex->getMessage();
                 continue;
             }
         }
@@ -451,7 +452,8 @@ class Shadowrun5eConverter implements ConverterInterface
                     'id' => (Weapon::findByName($name))->id,
                 ];
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['weapons'] ??= [];
+                $this->errors['weapons'][] = $ex->getMessage();
                 continue;
             }
             if ('N/A' !== $mods) {
@@ -466,7 +468,8 @@ class Shadowrun5eConverter implements ConverterInterface
                         $weaponMod = WeaponModification::findByName($mod);
                         $weapon['modifications'][] = $weaponMod->id;
                     } catch (RuntimeException $ex) {
-                        $this->errors[] = $ex->getMessage();
+                        $this->errors['weapons'] ??= [];
+                        $this->errors['weapons'][] = $ex->getMessage();
                     }
                 }
             }
@@ -485,8 +488,9 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Return any errors that happened during conversion.
-     * @return array<int, string>
+     * @return array<string, array<int, string>>
      */
+    #[Override]
     public function getErrors(): array
     {
         return $this->errors;

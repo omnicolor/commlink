@@ -11,6 +11,7 @@ use JsonException;
 use Modules\Cyberpunkred\Models\Armor;
 use Modules\Cyberpunkred\Models\PartialCharacter;
 use Modules\Cyberpunkred\Models\Weapon;
+use Override;
 use RuntimeException;
 use stdClass;
 
@@ -25,9 +26,7 @@ class CyberpunkRedConverter implements ConverterInterface
 {
     public const string TEMPLATE_ID = '6836';
 
-    /**
-     * @var array<int, string>
-     */
+    /** @var array<string, array<int, string>> */
     protected array $errors = [];
     protected PartialCharacter $character;
     protected stdClass $rawCharacter;
@@ -61,6 +60,7 @@ class CyberpunkRedConverter implements ConverterInterface
         $this->character = new PartialCharacter();
     }
 
+    #[Override]
     public function convert(): PartialCharacter
     {
         $this->character->handle = $this->rawCharacter->handle;
@@ -77,6 +77,10 @@ class CyberpunkRedConverter implements ConverterInterface
         return $this->character;
     }
 
+    /**
+     * @return array<string, array<int, string>>
+     */
+    #[Override]
     public function getErrors(): array
     {
         return $this->errors;
@@ -97,7 +101,7 @@ class CyberpunkRedConverter implements ConverterInterface
             try {
                 $armors['head'] = (Armor::findByName($armorName))->id;
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['armor'] = [$ex->getMessage()];
             }
         }
         $armorName = (string)$this->rawCharacter->armor_body;
@@ -105,7 +109,8 @@ class CyberpunkRedConverter implements ConverterInterface
             try {
                 $armors['body'] = (Armor::findByName($armorName))->id;
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['armor'] ??= [];
+                $this->errors['armor'][] = $ex->getMessage();
             }
         }
         $armorName = (string)$this->rawCharacter->armor_shield;
@@ -113,7 +118,8 @@ class CyberpunkRedConverter implements ConverterInterface
             try {
                 $armors['shield'] = (Armor::findByName($armorName))->id;
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['armor'] ??= [];
+                $this->errors['armor'][] = $ex->getMessage();
             }
         }
 
@@ -128,7 +134,7 @@ class CyberpunkRedConverter implements ConverterInterface
         try {
             $role = new $class();
         } catch (Error) {
-            $this->errors[] = sprintf('Role "%s" is invalid', $role);
+            $this->errors['role'] = [sprintf('Role "%s" is invalid', $role)];
             return $this;
         }
 
@@ -163,7 +169,8 @@ class CyberpunkRedConverter implements ConverterInterface
                 $name = 'skill_name_' . $id;
                 if (!isset($this->rawCharacter->$name)) {
                     // Maybe the data file is incomplete...
-                    $this->errors[] = sprintf(
+                    $this->errors['skill'] ??= [];
+                    $this->errors['skill'][] = sprintf(
                         'World Anvil skill "%s" not found',
                         $id
                     );
@@ -221,7 +228,8 @@ class CyberpunkRedConverter implements ConverterInterface
             try {
                 $weapon = Weapon::findByName($name);
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['weapon'] ??= [];
+                $this->errors['weapon'][] = $ex->getMessage();
                 continue;
             }
 

@@ -12,23 +12,18 @@ use Stringable;
 /**
  * Representation of a character currently being built.
  * @method static self create(array<string, mixed> $attributes)
- * @property array<int, string> $errors
  */
 class PartialCharacter extends Character implements Stringable
 {
     protected const int DEFAULT_MAX_ATTRIBUTE = 6;
 
-    /**
-     * The database connection that should be used by the model.
-     * @var ?string
-     */
+    /** @var string */
     protected $connection = 'mongodb';
 
-    /**
-     * Table to pull from.
-     * @var string
-     */
+    /** @var string */
     protected $table = 'characters-partial';
+    /** @var array<string, array<int, string>> */
+    public array $errors = [];
 
     /**
      * Return the starting maximum for a character based on their metatype and
