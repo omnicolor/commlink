@@ -22,6 +22,7 @@ class TimerJobTest extends TestCase
     public function testCreateForIrc(): void
     {
         self::markTestSkipped('Skipped until https://github.com/briannesbitt/Carbon/issues/3178 is resolved');
+        // @phpstan-ignore deadCode.unreachable
         self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Can not start timer for irc channels');
         new TimerJob(
@@ -47,6 +48,7 @@ class TimerJobTest extends TestCase
     public function testDiscordTimer(): void
     {
         self::markTestSkipped('Skipped until https://github.com/briannesbitt/Carbon/issues/3178 is resolved');
+        // @phpstan-ignore deadCode.unreachable
         Http::preventStrayRequests();
         Http::fake(['example.com/webhook' => Response::HTTP_OK]);
         $channel = new Channel([
@@ -74,6 +76,7 @@ class TimerJobTest extends TestCase
     public function testSlackTimer(): void
     {
         self::markTestSkipped('Skipped until https://github.com/briannesbitt/Carbon/issues/3178 is resolved');
+        // @phpstan-ignore deadCode.unreachable
         Http::preventStrayRequests();
         Http::fake(['slack.com/api/chat.postMessage' => Response::HTTP_OK]);
 
