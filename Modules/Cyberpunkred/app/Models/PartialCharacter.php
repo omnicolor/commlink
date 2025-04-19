@@ -7,6 +7,7 @@ namespace Modules\Cyberpunkred\Models;
 use Facades\App\Services\DiceService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Cyberpunkred\Database\Factories\PartialCharacterFactory;
+use Override;
 use Stringable;
 
 /**
@@ -16,21 +17,16 @@ use Stringable;
  */
 class PartialCharacter extends Character implements Stringable
 {
-    /**
-     * @var ?string
-     */
+    /** @var string */
     protected $connection = 'mongodb';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $table = 'characters-partial';
 
-    /**
-     * @var array<int, string>
-     */
+    /** @var array<string, array<int, string>> */
     public array $errors = [];
 
+    #[Override]
     public function newFromBuilder(
         // @phpstan-ignore parameter.defaultValue
         $attributes = [],
