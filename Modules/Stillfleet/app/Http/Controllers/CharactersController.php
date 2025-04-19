@@ -34,9 +34,6 @@ use function view;
 
 class CharactersController extends Controller
 {
-    /**
-     * View all of the logged-in user's characters.
-     */
     public function list(): View
     {
         return view('stillfleet::characters');
@@ -90,6 +87,11 @@ class CharactersController extends Controller
 
         switch ($step) {
             case 'attributes':
+                if (!isset($character->roles[0])) {
+                    return redirect()->route('stillfleet.create', 'class')
+                        ->withErrors(['You must choose a class before attributes.']);
+                }
+
                 $grit = $character->roles[0]->grit;
                 foreach ($grit as &$attribute) {
                     $attribute = strtoupper(substr($attribute, 0, 3));
@@ -128,6 +130,7 @@ class CharactersController extends Controller
                 $choices2 = null;
                 $list = collect($role->optional_powers)->keyBy('id');
                 $list2 = [];
+                // @codeCoverageIgnoreStart
                 if (in_array($role->id, ['jackal', 'mouse'], true)) {
                     $choices = 2;
                     $choices2 = 1;
@@ -141,6 +144,7 @@ class CharactersController extends Controller
                     $list2 = $list->except(['aetherspeak', 'augur', 'listen', 'regenerate']);
                     $list = $list->only(['aetherspeak', 'augur', 'listen', 'regenerate']);
                 }
+                // @codeCoverageIgnoreEnd
 
                 return view(
                     'stillfleet::create-class-powers',

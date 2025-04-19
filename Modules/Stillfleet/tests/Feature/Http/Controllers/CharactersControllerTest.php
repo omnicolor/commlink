@@ -231,6 +231,20 @@ final class CharactersControllerTest extends TestCase
         $character->delete();
     }
 
+    public function testLoadClassPowersPageBeforeChoosingClass(): void
+    {
+        $character = PartialCharacter::create([
+            'owner' => $this->user->email,
+        ]);
+        session(['stillfleet-partial' => $character->id]);
+
+        self::actingAs($this->user)
+            ->get(route('stillfleet.create', 'class-powers'))
+            ->assertRedirect(route('stillfleet.create', 'class'));
+
+        $character->delete();
+    }
+
     public function testCreatePowers(): void
     {
         $character = PartialCharacter::create([
@@ -358,6 +372,68 @@ final class CharactersControllerTest extends TestCase
             ->assertRedirect(route('stillfleet.create', 'attributes'));
         $character->refresh();
         self::assertCount(1, $character->species_powers);
+        $character->delete();
+    }
+
+    public function testLoadAttributesPageWithoutClass(): void
+    {
+        $character = PartialCharacter::create([
+            'owner' => $this->user->email,
+        ]);
+        session(['stillfleet-partial' => $character->id]);
+
+        self::actingAs($this->user)
+            ->get(route('stillfleet.create', 'attributes'))
+            ->assertRedirect(route('stillfleet.create', 'class'));
+
+        $character->delete();
+    }
+
+    public function testLoadAttributesPage(): void
+    {
+        $character = PartialCharacter::create([
+            'owner' => $this->user->email,
+            'roles' => [
+                [
+                    'id' => 'banshee',
+                    'level' => 1,
+                ],
+            ],
+        ]);
+        session(['stillfleet-partial' => $character->id]);
+        self::actingAs($this->user)
+            ->get(route('stillfleet.create', 'attributes'))
+            ->assertSee('maxMOV &plus; maxREA', false);
+        $character->delete();
+    }
+
+    public function testLoadGearPageWithoutAttributes(): void
+    {
+        $character = PartialCharacter::create([
+            'owner' => $this->user->email,
+        ]);
+        session(['stillfleet-partial' => $character->id]);
+
+        self::actingAs($this->user)
+            ->get(route('stillfleet.create', 'gear'))
+            ->assertRedirect(route('stillfleet.create', 'attributes'));
+
+        $character->delete();
+    }
+
+    public function testLoadGearWithAttributes(): void
+    {
+        $character = PartialCharacter::create([
+            'charm' => 'd8',
+            'owner' => $this->user->email,
+            'will' => 'd6',
+        ]);
+        session(['stillfleet-partial' => $character->id]);
+
+        self::actingAs($this->user)
+            ->get(route('stillfleet.create', 'gear'))
+            ->assertSee('1400 voidguilder');
+
         $character->delete();
     }
 
