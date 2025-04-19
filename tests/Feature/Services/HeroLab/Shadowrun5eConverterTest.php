@@ -245,7 +245,13 @@ final class Shadowrun5eConverterTest extends TestCase
         self::assertNull($character->magic);
         self::assertSame(3, $character->edge);
         self::assertCount(2, $character->gear ?? []);
-        self::assertCount(10, $hl->getErrors());
+        $errors = $hl->getErrors();
+        self::assertCount(5, $errors);
+        self::assertSame(
+            'Quality "Custom quality: None" was not found.',
+            $errors['qualities'][0],
+        );
+        self::assertCount(5, $errors['skills']);
         // TODO: Implement martial arts
         self::assertEmpty($character->martialArts);
         // TODO: Implement complex forms

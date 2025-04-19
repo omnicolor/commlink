@@ -17,6 +17,7 @@ use Modules\Shadowrun5e\Models\Quality;
 use Modules\Shadowrun5e\Models\Spell;
 use Modules\Shadowrun5e\Models\Tradition;
 use Modules\Shadowrun5e\Models\Weapon;
+use Override;
 use RuntimeException;
 use SimpleXMLElement;
 
@@ -37,7 +38,7 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Errors encountered and not handled.
-     * @var array<int, string>
+     * @var array<string, array<int, string>>
      */
     protected array $errors = [];
 
@@ -73,7 +74,6 @@ class Shadowrun5eConverter implements ConverterInterface
     protected SimpleXMLElement $xml;
 
     /**
-     * Constructor.
      * @throws RuntimeException
      */
     public function __construct(string $filename)
@@ -103,8 +103,9 @@ class Shadowrun5eConverter implements ConverterInterface
 
     /**
      * Return any conversion errors.
-     * @return array<int, string>
+     * @return array<string, array<int, string>>
      */
+    #[Override]
     public function getErrors(): array
     {
         return $this->errors;
@@ -129,7 +130,8 @@ class Shadowrun5eConverter implements ConverterInterface
             try {
                 $armor = Armor::findByName((string)$rawArmor->name);
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['armor'] ??= [];
+                $this->errors['armor'][] = $ex->getMessage();
                 continue;
             }
 
@@ -141,7 +143,8 @@ class Shadowrun5eConverter implements ConverterInterface
                     );
                     $mods[] = $mod->id;
                 } catch (RuntimeException) {
-                    $this->errors[] = sprintf(
+                    $this->errors['armor'] ??= [];
+                    $this->errors['armor'][] = sprintf(
                         'Could not find armor modification "%s" for "%s"',
                         (string)$rawMod->name,
                         $armor->name
@@ -266,7 +269,8 @@ class Shadowrun5eConverter implements ConverterInterface
                     'quantity' => (int)$rawItem->qty,
                 ];
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['gear'] ??= [];
+                $this->errors['gear'][] = $ex->getMessage();
             }
         }
         $this->character->gear = $gear;
@@ -318,7 +322,8 @@ class Shadowrun5eConverter implements ConverterInterface
                     $this->createIDFromName((string)$rawLifestyle->baselifestyle)
                 );
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['identities'] ??= [];
+                $this->errors['identities'][] = $ex->getMessage();
                 continue;
             }
             $identities[0]['lifestyles'][] = [
@@ -435,7 +440,8 @@ class Shadowrun5eConverter implements ConverterInterface
             try {
                 $quality = Quality::findByName($name);
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['qualities'] ??= [];
+                $this->errors['qualities'][] = $ex->getMessage();
                 continue;
             }
             $qualities[] = [
@@ -475,7 +481,8 @@ class Shadowrun5eConverter implements ConverterInterface
                     'specialization' => $spec,
                 ];
             } catch (RuntimeException) {
-                $this->errors[] = sprintf('Unable to find skill "%s"', $name);
+                $this->errors['skills'] ??= [];
+                $this->errors['skills'][] = sprintf('Unable to find skill "%s"', $name);
             }
         }
         $this->character->skills = $skills;
@@ -497,7 +504,8 @@ class Shadowrun5eConverter implements ConverterInterface
                 );
                 $magics['spells'][] = $spell->id;
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['spells'] ??= [];
+                $this->errors['spells'][] = $ex->getMessage();
             }
         }
         $this->character->magics = $magics;
@@ -513,7 +521,8 @@ class Shadowrun5eConverter implements ConverterInterface
         try {
             new Tradition($id);
         } catch (RuntimeException $ex) {
-            $this->errors[] = $ex->getMessage();
+            $this->errors['tradition'] ??= [];
+            $this->errors['tradition'][] = $ex->getMessage();
         }
         $magics = $this->character->magics ?? [];
         $magics['tradition'] = $id;
@@ -531,7 +540,8 @@ class Shadowrun5eConverter implements ConverterInterface
             try {
                 $weapon = Weapon::findByName((string)$rawWeapon->name);
             } catch (RuntimeException $ex) {
-                $this->errors[] = $ex->getMessage();
+                $this->errors['weapons'] ??= [];
+                $this->errors['weapons'][] = $ex->getMessage();
                 continue;
             }
             $weapons[] = [
@@ -545,6 +555,7 @@ class Shadowrun5eConverter implements ConverterInterface
     /**
      * Convert a Chummer 5 file to a Commlink character and return it.
      */
+    #[Override]
     public function convert(): Character
     {
         $this->isAdept = 'True' === (string)$this->xml->adept;
