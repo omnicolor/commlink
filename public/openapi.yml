@@ -130,6 +130,7 @@ paths:
           description: Collection of characters from the Alien RPG.
       tags:
         - alien
+        - character
   /alien/gear:
     get:
       summary: Alien RPG gear
@@ -607,6 +608,7 @@ paths:
           description: Collection of the user's Blister Critters characters.
       tags:
         - blistercritters
+        - character
   /capers/characters:
     get:
       summary: Capers RPG characters
@@ -630,6 +632,7 @@ paths:
           description: Collection of the user's Capers characters.
       tags:
         - capers
+        - character
   /capers/gear:
     get:
       summary: Capers RPG gear
@@ -3440,6 +3443,29 @@ paths:
           description: All species available in Stillfleet.
       tags:
         - stillfleet
+  /stillfleet/weapons:
+    get:
+      summary: Collection of Stillfleet weapons
+      operationId: stillfleet-weapons-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/StillfleetWeapon'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: All weapons available in Stillfleet.
+      tags:
+        - stillfleet
   /subversion/backgrounds:
     get:
       summary: Subversion backgrounds
@@ -3508,6 +3534,7 @@ paths:
                 type: object
           description: Collection of Subversion characters.
       tags:
+        - character
         - subversion
   /subversion/gear:
     get:
@@ -3692,6 +3719,7 @@ paths:
                 type: object
           description: Collection of the user's Transformer characters.
       tags:
+        - character
         - transformers
   /users:
     get:
@@ -9531,6 +9559,72 @@ components:
         - optional_powers
         - powers
         - powers_choose
+        - links
+      type: object
+    StillfleetTechStrata:
+      enum:
+        - bio
+        - bug
+        - clank
+        - code
+        - escheresque
+        - force
+        - nano
+      type: string
+    StillfleetWeapon:
+      example:
+        damage: d12
+        id: bastard-sword
+        name: Bastard sword
+        notes: Normally two-handed. If you fight with one of these one-handed, you suffer a −1 to hit.
+        other_names: dadao,falx,flambard,katana
+        page: 150
+        price: 80
+        ruleset: core
+        tech_cost: 3
+        tech_strata: clank
+        type: melee
+        links:
+          self: https://commlink.digitaldarkness.com/api/stillfleet/weapons/bastard-sword
+      properties:
+        damage:
+          type: string
+        id:
+          $ref: '#/components/schemas/ItemId'
+        name:
+          type: string
+        notes:
+          type: string
+        other_names:
+          type: string
+        page:
+          type: integer
+        range:
+          type: integer
+        ruleset:
+          type: string
+        tech_cost:
+          type: integer
+        tech_stata:
+          $ref: '#/components/schemas/StillfleetTechStrata'
+        type:
+          enum:
+            - grenade
+            - melee
+            - missile
+          type: string
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - damage
+        - id
+        - name
+        - page
+        - price
+        - ruleset
+        - tech_cost
+        - tech_strata
+        - type
         - links
       type: object
     SubversionAttribute:
