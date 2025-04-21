@@ -3346,6 +3346,29 @@ paths:
       tags:
         - character
         - startrekadventures
+  /stillfleet/armor:
+    get:
+      summary: Collection of Stillfleet armor
+      operationId: stillfleet-armor-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/StillfleetArmor'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: All armor available in Stillfleet.
+      tags:
+        - stillfleet
   /stillfleet/characters:
     get:
       summary: Stillfleet RPG characters
@@ -3395,9 +3418,9 @@ paths:
           $ref: '#/components/responses/ErrorUnauthenticated'
       tags:
         - stillfleet
-  /stillfleet/roles:
+  /stillfleet/classes:
     get:
-      summary: Collection of Stillfleet roles
+      summary: Collection of Stillfleet classes
       operationId: stillfleet-roles-index
       responses:
         '200':
@@ -3407,7 +3430,7 @@ paths:
                 properties:
                   data:
                     items:
-                      $ref: '#/components/schemas/StillfleetRole'
+                      $ref: '#/components/schemas/StillfleetClass'
                     type: array
                   links:
                     $ref: '#/components/schemas/Links'
@@ -5473,7 +5496,7 @@ components:
         ruleset: 'core'
         stopping_power: 4
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/cyberpunkred/armor/leathers'
+          self: 'https://commlink.digitaldarkness.com/api/cyberpunkred/armor/leathers'
       properties:
         cost_category:
           type: string
@@ -5697,7 +5720,7 @@ components:
         name: 'Accounting'
         page: 133
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/cyberpunkred/armor/accounting'
+          self: 'https://commlink.digitaldarkness.com/api/cyberpunkred/armor/accounting'
       properties:
         attribute:
           type: string
@@ -5741,7 +5764,7 @@ components:
         rate_of_fire: 2
         skill: 'melee-weapon'
         links:
-          self: 'https://commlink-dev.digitaldarkness.com/api/cyberpunkred/weapons/medium-melee'
+          self: 'https://commlink.digitaldarkness.com/api/cyberpunkred/weapons/medium-melee'
       properties:
         class:
           type: string
@@ -9270,6 +9293,49 @@ components:
         - page
         - ruleset
       type: object
+    StillfleetArmor:
+      example:
+        cost: 175
+        damage_reduction: 5
+        id: 'bend-full-plate'
+        name: 'Bend, full plate'
+        notes: '-1 penalty to MOV.'
+        page: 156
+        ruleset: 'core'
+        tech_cost: 5
+        tech_strata: 'clank'
+        links:
+          self: 'https://commlink.digitaldarkness.com/api/stillfleet/armor/bend-full-plate'
+      properties:
+        cost:
+          type: integer
+        damage_reduction:
+          type: integer
+        id:
+          $ref: '#/components/schemas/ItemId'
+        name:
+          type: string
+        notes:
+          type: string
+        page:
+          type: integer
+        tech_cost:
+          type: integer
+        tech_strata:
+          $ref: '#/components/schemas/StillfleetTechStrata'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - cost
+        - damage_reduction
+        - id
+        - name
+        - notes
+        - page
+        - tech_cost
+        - tech_strata
+        - links
+      type: object
     StillfleetAttribute:
       description: Stillfleet uses different dice sizes for attributes.
       enum:
@@ -9335,9 +9401,9 @@ components:
           $ref: '#/components/schemas/UserMinimal'
         rank:
           type: integer
-        roles:
+        classes:
           items:
-            $ref: '#/components/schemas/StillfleetRole'
+            $ref: '#/components/schemas/StillfleetClass'
           type: array
         species:
           $ref: '#/components/schemas/StillfleetSpecies'
@@ -9402,8 +9468,8 @@ components:
         - type
         - links
       type: object
-    StillfleetRole:
-      description: Role (class) a voidminer can have with the company.
+    StillfleetClass:
+      description: Class a voidminer can have with the company.
       example:
         description: 'You are an engineer—and very likely a daredevil—trained by the Archivists to understand the beyond-human science of stiffworks.'
         grit:
@@ -9573,19 +9639,19 @@ components:
       type: string
     StillfleetWeapon:
       example:
-        damage: d12
-        id: bastard-sword
-        name: Bastard sword
-        notes: Normally two-handed. If you fight with one of these one-handed, you suffer a −1 to hit.
-        other_names: dadao,falx,flambard,katana
+        damage: 'd12'
+        id: 'bastard-sword'
+        name: 'Bastard sword'
+        notes: 'Normally two-handed. If you fight with one of these one-handed, you suffer a −1 to hit.'
+        other_names: 'dadao,falx,flambard,katana'
         page: 150
         price: 80
-        ruleset: core
+        ruleset: 'core'
         tech_cost: 3
-        tech_strata: clank
-        type: melee
+        tech_strata: 'clank'
+        type: 'melee'
         links:
-          self: https://commlink.digitaldarkness.com/api/stillfleet/weapons/bastard-sword
+          self: 'https://commlink.digitaldarkness.com/api/stillfleet/weapons/bastard-sword'
       properties:
         damage:
           type: string
