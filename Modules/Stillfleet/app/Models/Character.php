@@ -22,13 +22,18 @@ use Stringable;
 
 use function array_walk;
 use function assert;
+use function current;
 
 /**
  * @property-read array<int, Power> $all_powers
+ * @property-read array<int, Armor> $armor
+ * @property-write array<int, Armor|string> $armor
  * @property string $charm
  * @property-read int $charm_modifier
  * @property string $combat
  * @property-read int $combat_modifier
+ * @property-read array<int, Gear> $gear
+ * @property-write array<int, Gear|string> $gear
  * @property int $grit
  * @property int $grit_current
  * @property int $health
@@ -46,6 +51,8 @@ use function assert;
  * @property-write Species|string $species
  * @property-read array<int, Power> $species_powers
  * @property-write array<int, string> $species_powers
+ * @property-read array<int, Weapon> $weapons
+ * @property-write array<int, Weapon|string> $weapons
  * @property string $will
  * @property-read int $will_modifier
  */
@@ -70,8 +77,10 @@ class Character extends BaseCharacter implements Stringable
 
     /** @var list<string> */
     protected $fillable = [
+        'armor',
         'charm',
         'combat',
+        'gear',
         'grit_current',
         'health_current',
         'hustle',
@@ -88,6 +97,7 @@ class Character extends BaseCharacter implements Stringable
         'species',
         'species_powers',
         'teloi',
+        'weapons',
         'will',
     ];
 
@@ -106,6 +116,29 @@ class Character extends BaseCharacter implements Stringable
                     $powers = array_merge($powers, $role->powers);
                 }
                 return $powers;
+            },
+        );
+    }
+
+    protected function armor(): Attribute
+    {
+        return Attribute::make(
+            get: function (?array $armor): array {
+                $returnedArmor = [];
+                foreach ($armor ?? [] as $armorId) {
+                    $returnedArmor[] = Armor::findOrFail($armorId);
+                }
+                return $returnedArmor;
+            },
+            set: function (array $armor): array {
+                if (current($armor) instanceof Armor) {
+                    $rawArmor = [];
+                    foreach ($armor as $item) {
+                        $rawArmor[] = $item->id;
+                    }
+                    return ['armor' => $rawArmor];
+                }
+                return ['armor' => $armor];
             },
         );
     }
@@ -164,28 +197,6 @@ class Character extends BaseCharacter implements Stringable
         $this->grit_current += 1;
     }
 
-    public function health(): Attribute
-    {
-        return Attribute::make(
-            get: function (): int {
-                return DiceService::rollMax($this->combat)
-                    + DiceService::rollMax($this->movement);
-            },
-        );
-    }
-
-    public function healthCurrent(): Attribute
-    {
-        return Attribute::make(
-            get: function (): int {
-                return $this->attributes['health_current'] ?? $this->health;
-            },
-            set: function (int $health): int {
-                return $health;
-            },
-        );
-    }
-
     public function grit(): Attribute
     {
         return Attribute::make(
@@ -227,6 +238,51 @@ class Character extends BaseCharacter implements Stringable
             },
             set: function (int $grit): int {
                 return $grit;
+            },
+        );
+    }
+
+    protected function gear(): Attribute
+    {
+        return Attribute::make(
+            get: function (?array $gear): array {
+                $returnedGear = [];
+                foreach ($gear ?? [] as $gearId) {
+                    $returnedGear[] = Gear::findOrFail($gearId);
+                }
+                return $returnedGear;
+            },
+            set: function (array $gear): array {
+                if (current($gear) instanceof Gear) {
+                    $rawGear = [];
+                    foreach ($gear as $item) {
+                        $rawGear[] = $item->id;
+                    }
+                    return ['gear' => $rawGear];
+                }
+                return ['gear' => $gear];
+            },
+        );
+    }
+
+    public function health(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return DiceService::rollMax($this->combat)
+                    + DiceService::rollMax($this->movement);
+            },
+        );
+    }
+
+    public function healthCurrent(): Attribute
+    {
+        return Attribute::make(
+            get: function (): int {
+                return $this->attributes['health_current'] ?? $this->health;
+            },
+            set: function (int $health): int {
+                return $health;
             },
         );
     }
@@ -302,6 +358,29 @@ class Character extends BaseCharacter implements Stringable
                     return $species->id;
                 }
                 return $species;
+            },
+        );
+    }
+
+    protected function weapons(): Attribute
+    {
+        return Attribute::make(
+            get: function (?array $weapons): array {
+                $returnedWeapons = [];
+                foreach ($weapons ?? [] as $weaponId) {
+                    $returnedWeapons[] = Weapon::findOrFail($weaponId);
+                }
+                return $returnedWeapons;
+            },
+            set: function (array $weapons): array {
+                if (current($weapons) instanceof Weapon) {
+                    $rawWeapons = [];
+                    foreach ($weapons as $weapon) {
+                        $rawWeapons[] = $weapon->id;
+                    }
+                    return ['weapons' => $rawWeapons];
+                }
+                return ['weapons' => $weapons];
             },
         );
     }
