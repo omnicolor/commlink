@@ -6,10 +6,13 @@ namespace Modules\Stillfleet\Tests\Feature\Models;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use LogicException;
+use Modules\Stillfleet\Models\Armor;
 use Modules\Stillfleet\Models\Character;
+use Modules\Stillfleet\Models\Gear;
 use Modules\Stillfleet\Models\Power;
 use Modules\Stillfleet\Models\Role;
 use Modules\Stillfleet\Models\Species;
+use Modules\Stillfleet\Models\Weapon;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -19,6 +22,34 @@ use Tests\TestCase;
 #[Small]
 final class CharacterTest extends TestCase
 {
+    public function testArmorEmpty(): void
+    {
+        $character = new Character();
+        self::assertCount(0, $character->armor);
+    }
+
+    public function testArmor(): void
+    {
+        $character = new Character(['armor' => ['chainmail']]);
+        self::assertCount(1, $character->armor);
+        self::assertInstanceOf(Armor::class, $character->armor[0]);
+        self::assertSame('Chainmail', (string)$character->armor[0]);
+    }
+
+    public function testSetArmorStrings(): void
+    {
+        $character = new Character();
+        $character->armor = ['chainmail'];
+        self::assertInstanceOf(Armor::class, $character->armor[0]);
+    }
+
+    public function testSetArmorObjects(): void
+    {
+        $character = new Character();
+        $character->armor = [Armor::findOrFail('chainmail')];
+        self::assertInstanceOf(Armor::class, $character->armor[0]);
+    }
+
     public function testConvertNotEnoughHealth(): void
     {
         $character = new Character([
@@ -54,6 +85,34 @@ final class CharacterTest extends TestCase
 
         self::assertSame(10, $character->grit_current);
         self::assertSame(7, $character->health_current);
+    }
+
+    public function testGearEmpty(): void
+    {
+        $character = new Character();
+        self::assertCount(0, $character->gear);
+    }
+
+    public function testGear(): void
+    {
+        $character = new Character(['gear' => ['aleph']]);
+        self::assertCount(1, $character->gear);
+        self::assertInstanceOf(Gear::class, $character->gear[0]);
+        self::assertSame('Aleph', (string)$character->gear[0]);
+    }
+
+    public function testSetGearStrings(): void
+    {
+        $character = new Character();
+        $character->gear = ['automobile'];
+        self::assertInstanceOf(Gear::class, $character->gear[0]);
+    }
+
+    public function testSetGearObjects(): void
+    {
+        $character = new Character();
+        $character->gear = [Gear::findOrFail('graxanna')];
+        self::assertInstanceOf(Gear::class, $character->gear[0]);
     }
 
     public function testGrit(): void
@@ -208,5 +267,34 @@ final class CharacterTest extends TestCase
             'species_powers' => ['arkheion-access'],
         ]);
         self::assertCount(8, $character->all_powers);
+    }
+
+    public function testWeaponsEmpty(): void
+    {
+        $character = new Character();
+        self::assertCount(0, $character->weapons);
+    }
+
+    public function testWeapons(): void
+    {
+        $character = new Character(['weapons' => ['club']]);
+        $weapons = $character->weapons;
+        self::assertCount(1, $weapons);
+        self::assertInstanceOf(Weapon::class, $weapons[0]);
+        self::assertSame('Club', (string)$weapons[0]);
+    }
+
+    public function testSetWeaponsStrings(): void
+    {
+        $character = new Character();
+        $character->weapons = ['club'];
+        self::assertInstanceOf(Weapon::class, $character->weapons[0]);
+    }
+
+    public function testSetWeaponsObjects(): void
+    {
+        $character = new Character();
+        $character->weapons = [Weapon::findOrFail('club')];
+        self::assertInstanceOf(Weapon::class, $character->weapons[0]);
     }
 }
