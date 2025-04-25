@@ -61,7 +61,6 @@ class RouteServiceProvider extends ServiceProvider
     protected function configureRateLimiting(): void
     {
         RateLimiter::for('api', function (Request $request): Limit {
-            // @phpstan-ignore if.condNotBoolean
             if (App::environment('testing')) {
                 return Limit::perMinute(6000)
                     ->by(optional($request->user())->id ?? $request->ip());
