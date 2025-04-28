@@ -1661,16 +1661,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v12.10.1",
+            "version": "v12.10.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "3264999c3123f55b7651c275efb6942034c47eda"
+                "reference": "0f123cc857bc177abe4d417448d4f7164f71802a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/3264999c3123f55b7651c275efb6942034c47eda",
-                "reference": "3264999c3123f55b7651c275efb6942034c47eda",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/0f123cc857bc177abe4d417448d4f7164f71802a",
+                "reference": "0f123cc857bc177abe4d417448d4f7164f71802a",
                 "shasum": ""
             },
             "require": {
@@ -1872,7 +1872,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-04-23T14:49:24+00:00"
+            "time": "2025-04-24T14:11:20+00:00"
         },
         {
             "name": "laravel/pennant",
@@ -8662,16 +8662,16 @@
         },
         {
             "name": "team-reflex/discord-php",
-            "version": "v10.4.7",
+            "version": "v10.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP.git",
-                "reference": "4a809f6f747a6452998d094b09051f0f9ac43254"
+                "reference": "b8d41dafcd69790f27b926edc25ad08dc4155f42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/4a809f6f747a6452998d094b09051f0f9ac43254",
-                "reference": "4a809f6f747a6452998d094b09051f0f9ac43254",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP/zipball/b8d41dafcd69790f27b926edc25ad08dc4155f42",
+                "reference": "b8d41dafcd69790f27b926edc25ad08dc4155f42",
                 "shasum": ""
             },
             "require": {
@@ -8733,7 +8733,7 @@
                 "chat": "https://discord.gg/dphp",
                 "docs": "https://discord-php.github.io/DiscordPHP/",
                 "issues": "https://github.com/discord-php/DiscordPHP/issues",
-                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.4.7",
+                "source": "https://github.com/discord-php/DiscordPHP/tree/v10.5.0",
                 "wiki": "https://github.com/discord-php/DiscordPHP/wiki"
             },
             "funding": [
@@ -8750,7 +8750,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2025-04-09T17:06:16+00:00"
+            "time": "2025-04-24T15:02:18+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
