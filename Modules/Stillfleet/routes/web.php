@@ -15,6 +15,10 @@ Route::prefix('characters/stillfleet')
         Route::get('', [CharactersController::class, 'list'])
             ->name('list');
         Route::get(
+            'create/save-for-later',
+            [CharactersController::class, 'saveForLater'],
+        )->name('save-for-later');
+        Route::get(
             'create/{step?}',
             [CharactersController::class, 'create'],
         )->name('create');

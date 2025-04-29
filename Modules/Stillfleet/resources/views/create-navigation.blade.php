@@ -61,7 +61,7 @@
             </li>
 
             <li>
-                <a class="dropdown-item" href="#">Save for later</a>
+                <a class="dropdown-item" href="{{ route('stillfleet.save-for-later') }}">Save for later</a>
             </li>
             <li>
                 <a class="dropdown-item @if ('review' === $creating) active @endif" href="#">
