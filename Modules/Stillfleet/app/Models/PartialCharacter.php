@@ -10,7 +10,7 @@ use RuntimeException;
 
 /**
  * @method static self create(array<mixed, mixed> $attributes)
- * @property array{COM: string, MOV: string, REA: string, WIL: string, CHA: string} $attribute_choices
+ * @property string $attribute_dice_option
  */
 class PartialCharacter extends Character
 {
@@ -23,7 +23,7 @@ class PartialCharacter extends Character
      * @var list<string>
      */
     protected $fillable = [
-        'attribute_choices',
+        'attribute_dice_option',
         'charm',
         'combat',
         'grit_current',
