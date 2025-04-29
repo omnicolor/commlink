@@ -58,6 +58,7 @@ class CharactersController extends Controller
         if (null !== $character && $step === $character->id) {
             return new RedirectResponse(route('stillfleet.create', 'class'));
         }
+
         if (null === $character) {
             // No current character, see if they already have a character they
             // might want to continue.
@@ -101,6 +102,7 @@ class CharactersController extends Controller
                     [
                         'character' => $character,
                         'creating' => 'attributes',
+                        'option' => $request->old('dice-option') ?? $character->attribute_dice_option ?? null,
                         'grit' => $grit,
                     ],
                 );
@@ -223,6 +225,7 @@ class CharactersController extends Controller
             ->where('owner', $user->email)
             ->firstOrFail();
 
+        $character->attribute_dice_option = $request->input('dice-option');
         $character->charm = $request->input('CHA');
         $character->combat = $request->input('COM');
         $character->movement = $request->input('MOV');

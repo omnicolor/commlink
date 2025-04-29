@@ -31,13 +31,17 @@
             <ul class="list-group">
                 <li class="list-group-item">
                     <label class="form-label">
-                        <input class="form-check-input" name="dice-option" required type="radio" value="option1">
+                        <input class="form-check-input" name="dice-option"
+                               @if ('option1' === $option) checked @endif
+                               required type="radio" value="option1">
                         d12, d10, d8, d6, d6
                     </label>
                 </li>
                 <li class="list-group-item">
                     <label class="form-label">
-                        <input class="form-check-input" name="dice-option" required type="radio" value="option2">
+                        <input class="form-check-input" name="dice-option"
+                               @if ('option2' === $option) checked @endif
+                               required type="radio" value="option2">
                         d12, d10, d8, d8, d4
                     </label>
                     <span class="ms-4 text-muted">Note: A d4 score will limit you to easy, aided checks only!</span>
@@ -153,11 +157,11 @@
             };
             const grit = {!! json_encode($grit) !!};
             const attributes = {
-                'COM': null,
-                'MOV': null,
-                'REA': null,
-                'WIL': null,
-                'CHA': null
+                'COM': {!! $character->combat ? '\'' . $character->combat . '\'' : 'null' !!},
+                'MOV': {!! $character->movement ? '\'' . $character->movement . '\'' : 'null' !!},
+                'REA': {!! $character->reason ? '\'' . $character->reason . '\'' : 'null' !!},
+                'WIL': {!! $character->will ? '\'' . $character->will . '\'' : 'null' !!},
+                'CHA': {!! $character->charm ? '\'' . $character->charm . '\'' : 'null' !!}
             };
 
             function initializeForm() {
@@ -170,6 +174,7 @@
                 }
 
                 setDiceOptions(checked);
+                setAttributes();
             }
 
             function setDiceOptions(choice) {
@@ -182,6 +187,14 @@
                 $('select').html(html)
                     .prop('disabled', false)
                     .prop('title', '');
+            }
+
+            function setAttributes() {
+                $.each(attributes, function (attribute, value) {
+                    $('#' + attribute)
+                        .val(value)
+                        .change();
+                });
             }
 
             $(function () {
