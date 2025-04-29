@@ -20,6 +20,7 @@ use Override;
 use RuntimeException;
 use Stringable;
 
+use function array_merge;
 use function array_walk;
 use function assert;
 use function current;

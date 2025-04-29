@@ -357,6 +357,13 @@ class CharactersController extends Controller
         return new RedirectResponse(route('stillfleet.create', 'attributes'));
     }
 
+    public function saveForLater(Request $request): RedirectResponse
+    {
+        $request->session()->forget('stillfleet-partial');
+
+        return new RedirectResponse(route('dashboard'));
+    }
+
     protected function findPartialCharacter(
         Request $request,
         User $user,
