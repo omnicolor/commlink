@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use LogicException;
 use Modules\Stillfleet\Models\Armor;
 use Modules\Stillfleet\Models\Character;
+use Modules\Stillfleet\Models\CharacterDetails;
 use Modules\Stillfleet\Models\Gear;
 use Modules\Stillfleet\Models\Power;
 use Modules\Stillfleet\Models\Role;
@@ -85,6 +86,32 @@ final class CharacterTest extends TestCase
 
         self::assertSame(10, $character->grit_current);
         self::assertSame(7, $character->health_current);
+    }
+
+    public function testDetailsEmpty(): void
+    {
+        $character = new Character();
+        self::assertEquals(new CharacterDetails(), $character->details);
+    }
+
+    public function testDetailsConstructor(): void
+    {
+        $character = new Character(['details' => ['appearance' => 'Green skin']]);
+        self::assertSame('Green skin', $character->details->appearance);
+    }
+
+    public function testDetailsSetterObject(): void
+    {
+        $character = new Character();
+        $character->details = CharacterDetails::make(['family' => 'Loner']);
+        self::assertSame('Loner', $character->details->family);
+    }
+
+    public function testDetailsSetterArray(): void
+    {
+        $character = new Character();
+        $character->details = ['company' => 'Detest'];
+        self::assertSame('Detest', $character->details->company);
     }
 
     public function testGearEmpty(): void

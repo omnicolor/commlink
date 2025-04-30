@@ -15,10 +15,12 @@ use Illuminate\View\View;
 use Modules\Stillfleet\Http\Requests\AttributesRequest;
 use Modules\Stillfleet\Http\Requests\ClassPowersRequest;
 use Modules\Stillfleet\Http\Requests\ClassRequest;
+use Modules\Stillfleet\Http\Requests\DetailsRequest;
 use Modules\Stillfleet\Http\Requests\SpeciesPowersRequest;
 use Modules\Stillfleet\Http\Requests\SpeciesRequest;
 use Modules\Stillfleet\Http\Resources\CharacterResource;
 use Modules\Stillfleet\Models\Character;
+use Modules\Stillfleet\Models\CharacterDetails;
 use Modules\Stillfleet\Models\PartialCharacter;
 use Modules\Stillfleet\Models\Role;
 use Modules\Stillfleet\Models\Species;
@@ -51,12 +53,12 @@ class CharactersController extends Controller
                 'owner' => $user->email->address,
             ]);
             $request->session()->put('stillfleet-partial', $character->id);
-            return new RedirectResponse(route('stillfleet.create', 'class'));
+            return new RedirectResponse(route('stillfleet.create', 'details'));
         }
 
         $character = $this->findPartialCharacter($request, $user, $step);
         if (null !== $character && $step === $character->id) {
-            return new RedirectResponse(route('stillfleet.create', 'class'));
+            return new RedirectResponse(route('stillfleet.create', 'details'));
         }
 
         if (null === $character) {
@@ -83,7 +85,7 @@ class CharactersController extends Controller
         }
 
         if (null === $step || $step === $character->id) {
-            $step = 'class';
+            $step = 'details';
         }
 
         switch ($step) {
@@ -160,6 +162,25 @@ class CharactersController extends Controller
                         'role' => $role,
                         'chosen_powers' => collect($role->added_powers)->pluck('id')->toArray(),
                     ],
+                );
+            case 'details':
+                $details = $character->details;
+                return view(
+                    'stillfleet::create-details',
+                    [
+                        'appearance' => $request->old('appearance') ?? $details->appearance,
+                        'character' => $character,
+                        'company' => $request->old('appearance') ?? $details->company,
+                        'creating' => 'details',
+                        'crew_nickname' => $request->old('crew_nickname') ?? $details->crew_nickname,
+                        'family' => $request->old('family') ?? $details->family,
+                        'motivation' => $request->old('motivation') ?? $details->motivation,
+                        'origin' => $request->old('origin') ?? $details->origin,
+                        'others' => $request->old('others') ?? $details->others,
+                        'name' => $request->old('name') ?? $character->name ?? null,
+                        'refactor' => $request->old('refactor') ?? $details->refactor,
+                        'team' => $request->old('team') ?? $details->team,
+                    ]
                 );
             case 'gear':
                 try {
@@ -310,6 +331,24 @@ class CharactersController extends Controller
         $character->save();
 
         return new RedirectResponse(route('stillfleet.create', 'species'));
+    }
+
+    public function saveDetails(DetailsRequest $request): RedirectResponse
+    {
+        /** @var User */
+        $user = $request->user();
+
+        $characterId = $request->session()->get('stillfleet-partial');
+        /** @var PartialCharacter */
+        $character = PartialCharacter::where('_id', $characterId)
+            ->where('owner', $user->email)
+            ->firstOrFail();
+
+        $character->name = $request->name;
+        $character->details = CharacterDetails::make($request->input());
+        $character->save();
+
+        return new RedirectResponse(route('stillfleet.create', 'class'));
     }
 
     public function saveSpecies(SpeciesRequest $request): RedirectResponse

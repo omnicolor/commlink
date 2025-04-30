@@ -26,6 +26,7 @@ use function assert;
 use function current;
 
 /**
+ * @phpstan-import-type CharacterDetailsArray from CharacterDetails
  * @property-read array<int, Power> $all_powers
  * @property-read array<int, Armor> $armor
  * @property-write array<int, Armor|string> $armor
@@ -33,6 +34,8 @@ use function current;
  * @property-read int $charm_modifier
  * @property string $combat
  * @property-read int $combat_modifier
+ * @property-read CharacterDetails $details
+ * @property-write CharacterDetails|CharacterDetailsArray $details
  * @property-read array<int, Gear> $gear
  * @property-write array<int, Gear|string> $gear
  * @property int $grit
@@ -81,6 +84,7 @@ class Character extends BaseCharacter implements Stringable
         'armor',
         'charm',
         'combat',
+        'details',
         'gear',
         'grit_current',
         'health_current',
@@ -164,6 +168,21 @@ class Character extends BaseCharacter implements Stringable
             get: function (): int {
                 return $this->getPowersModifierForAttribute('CHA');
             },
+        );
+    }
+
+    public function details(): Attribute
+    {
+        return Attribute::make(
+            get: function (array|null $values): CharacterDetails {
+                return CharacterDetails::make($values);
+            },
+            set: function (array|CharacterDetails $details): array {
+                if ($details instanceof CharacterDetails) {
+                    return ['details' => $details->toArray()];
+                }
+                return ['details' => $details];
+            }
         );
     }
 
