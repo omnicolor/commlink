@@ -34,6 +34,7 @@ class CharacterResource extends JsonResource
      *         health_max: int,
      *         health_current: int
      *     },
+     *     gear: AnonymousResourceCollection,
      *     rank: integer,
      *     classes: AnonymousResourceCollection,
      *     species: SpeciesResource,
@@ -62,6 +63,7 @@ class CharacterResource extends JsonResource
                 'health_max' => $this->health,
                 'health_current' => $this->health_current,
             ],
+            'gear' => GearResource::collection($this->gear),
             'rank' => $this->rank,
             'classes' => RoleResource::collection($this->roles),
             'species' => new SpeciesResource($this->species),

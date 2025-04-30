@@ -988,7 +988,7 @@ paths:
                       $ref: '#/components/schemas/Event'
                     type: array
                   links:
-                      $ref: '#/components/schemas/Links'
+                    $ref: '#/components/schemas/Links'
                 required:
                   - data
                   - links
@@ -1062,7 +1062,7 @@ paths:
                       $ref: '#/components/schemas/Event'
                     type: array
                   links:
-                      $ref: '#/components/schemas/Links'
+                    $ref: '#/components/schemas/Links'
                 required:
                   - data
                   - links
@@ -1541,10 +1541,10 @@ paths:
                           user_id: 42
                           response: 'declined'
                   links:
-                      self: '/events/99'
-                      collection: '/campaigns/123/events'
-                      root: '/'
-                      campaign: '/campaigns/123'
+                    self: '/events/99'
+                    collection: '/campaigns/123/events'
+                    root: '/'
+                    campaign: '/campaigns/123'
                 properties:
                   data:
                     items:
@@ -3393,31 +3393,6 @@ paths:
       tags:
         - character
         - stillfleet
-  /stillfleet/powers:
-    get:
-      summary: Collection of Stillfleet powers
-      operationId: stillfleet-powers-index
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                properties:
-                  data:
-                    items:
-                      $ref: '#/components/schemas/StillfleetPower'
-                    type: array
-                  links:
-                    $ref: '#/components/schemas/Links'
-                required:
-                  - data
-                  - links
-                type: object
-          description: All powers a Stillfleet character may possess.
-        '401':
-          $ref: '#/components/responses/ErrorUnauthenticated'
-      tags:
-        - stillfleet
   /stillfleet/classes:
     get:
       summary: Collection of Stillfleet classes
@@ -3439,6 +3414,56 @@ paths:
                   - links
                 type: object
           description: All classes a Stillfleet character may fulfill.
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+      tags:
+        - stillfleet
+  /stillfleet/gear:
+    get:
+      summary: Collection of Stillfleet gear
+      operationId: stillfleet-gear-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/StillfleetGear'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: All gear for Stillfleet.
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+      tags:
+        - stillfleet
+  /stillfleet/powers:
+    get:
+      summary: Collection of Stillfleet powers
+      operationId: stillfleet-powers-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/StillfleetPower'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: All powers a Stillfleet character may possess.
         '401':
           $ref: '#/components/responses/ErrorUnauthenticated'
       tags:
@@ -6890,7 +6915,7 @@ components:
             - type: string
             - type: integer
         ruleset:
-            type: string
+          type: string
         type:
           enum:
             - bioware
@@ -7001,7 +7026,7 @@ components:
               - id: 'stealth-rcc-3'
                 vehicle: 'gm-nissan-doberman'
               - modifications:
-                - biomonitor'
+                  - 'biomonitor'
             active: true
             sin: 2
             programs_running:
@@ -7666,10 +7691,10 @@ components:
           type: number
         description:
           example: |
-              Typically handheld, binoculars come with built-in vision
-              magnification. Binoculars are available in optical (which can't
-              take additional vision enhancements) and electronic versions
-              (which can take vision enhancements).
+            Typically handheld, binoculars come with built-in vision
+            magnification. Binoculars are available in optical (which can't
+            take additional vision enhancements) and electronic versions
+            (which can take vision enhancements).
           type: string
         effects:
           example:
@@ -8329,7 +8354,7 @@ components:
         name: 'Pistols'
         limit: 'weapon'
         links:
-            self: '/api/shadowrun5e/skills/pistols'
+          self: '/api/shadowrun5e/skills/pistols'
         specializations:
           - 'Holdouts'
           - 'Revolvers'
@@ -9421,6 +9446,56 @@ components:
         - owner
         - system
       type: object
+    StillfleetGear:
+      example:
+        description: |
+          This looks like the head of a giant black beetle. You put it on over
+          your head, and for ten minutes, you can see anywhere in the
+          universe that you can imagine by making a REA check and burning d20
+          GRT. The Archive sometimes leases these out to particularly trusted
+          venturers.
+        id: aleph
+        name: Aleph
+        page: 157
+        price: 30000
+        ruleset: core
+        tech_cost: 3
+        tech_strata: bug
+        type: comm
+        links:
+          self: https://commlink.digitaldarkness.com/api/stillfleet/gear/aleph
+      properties:
+        description:
+          type: string
+        id:
+          $ref: '#/components/schemas/ItemId'
+        name:
+          type: string
+        page:
+          type: integer
+        price:
+          type: integer
+        ruleset:
+          type: string
+        tech_cost:
+          type: integer
+        tech_strata:
+          $ref: '#/components/schemas/StillfleetTechStrata'
+        type:
+          $ref: '#/components/schemas/StillfleetVoidwareType'
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - id
+        - name
+        - page
+        - price
+        - ruleset
+        - tech_cost
+        - tech_strata
+        - type
+        - links
+      type: object
     StillfleetPower:
       description:  A power granted to a character by their class or species, or achieved through leveling up.
       example:
@@ -9637,6 +9712,14 @@ components:
         - force
         - nano
       type: string
+    StillfleetVoidwareType:
+      enum:
+        - comm
+        - drug
+        - pets
+        - vehicle
+        - ventureware
+      type: string
     StillfleetWeapon:
       example:
         damage: 'd12'
@@ -9832,8 +9915,8 @@ components:
         owner: 'omni@digitaldarkness.com'
         skills:
           - attributes:
-            - 'awareness'
-            - 'wit'
+              - 'awareness'
+              - 'wit'
             description: 'Observation is the skill of learning things about the world, whether it be determining if someone is telling the truth, finding evidence, looking for food or shelter, judging what is safe or not, spotting traps, or deeply seeing the world around you. Searching and finding use Awareness while memory, pattern recognition, deduction, and analysis use Wit.'
             id: 'observation'
             name: 'Observation'
@@ -9945,7 +10028,7 @@ components:
         description:
           type: string
         id:
-            type: string
+          type: string
         name:
           type: string
         page:
