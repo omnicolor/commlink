@@ -31,6 +31,10 @@ Route::prefix('characters/stillfleet')
             [CharactersController::class, 'saveClassPowers'],
         )->name('create-class-powers');
         Route::post(
+            'create/details',
+            [CharactersController::class, 'saveDetails'],
+        )->name('create-details');
+        Route::post(
             'create/species',
             [CharactersController::class, 'saveSpecies'],
         )->name('create-species');

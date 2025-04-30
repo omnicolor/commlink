@@ -12,13 +12,19 @@
            data-bs-toggle="dropdown" href="#" id="creating-dropdown"
            role="button">
             Creating
-            @if ($character->handle)
-                &ldquo;{{ $character->handle }}&rdquo;
+            @if ($character->name)
+                &ldquo;{{ $character->name }}&rdquo;
             @else
                 new character
             @endif
         </a>
         <ul class="dropdown-menu" aria-labelledby="creating-dropdown">
+            <li>
+                <a class="dropdown-item @if ('details' === $creating) active @endif"
+                   href="{{ route('stillfleet.create', 'details') }}">
+                   Details
+                </a>
+            </li>
             <li>
                 <a class="dropdown-item @if ('class' === $creating) active @endif"
                     href="{{ route('stillfleet.create', 'class') }}">
