@@ -1,0 +1,27 @@
+meta {
+  name: Conversations info
+  type: http
+  seq: 4
+}
+
+post {
+  url: https://slack.com/api/conversations.info
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-type: application/json;charset=UTF-8
+}
+
+auth:bearer {
+  token: {{slack_bot_token}}
+}
+
+body:json {
+  {
+    "channel": "C08F8PETZCG",
+    "text": "<@U025GMATW> Testing",
+    "username": "Commlink (Dev)"
+  }
+}
