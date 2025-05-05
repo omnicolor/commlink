@@ -1,0 +1,9 @@
+Character:
+  allOf:
+    - $ref: '../../openapi.yml#/components/schemas/Character'
+    - properties:
+        name:
+          type: string
+      required:
+        - name
+      type: object

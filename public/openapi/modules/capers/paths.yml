@@ -1,0 +1,150 @@
+characters:
+  get:
+    summary: Capers RPG characters
+    operationId: capers-characters-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Character'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of the user's Capers characters.
+    tags:
+      - capers
+      - character
+
+gear:
+  get:
+    summary: Capers RPG gear
+    operationId: capers-gear-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Gear'
+                  type: array
+              required:
+                - data
+              type: object
+        description: Collection of gear that characters can buy.
+    tags:
+      - capers
+
+identities:
+  get:
+    summary: Capers RPG identity
+    operationId: capers-identity-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/CardChoice'
+                  type: array
+              required:
+                - data
+              type: object
+        description: Collection of identities that characters can have.
+    tags:
+      - capers
+
+powers:
+  get:
+    summary: Capers RPG powers
+    operationId: capers-powers-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Power'
+                  type: array
+              required:
+                - data
+              type: object
+        description: Collection of powers that characters can have.
+    tags:
+      - capers
+
+skills:
+  get:
+    summary: Capers RPG skills
+    operationId: capers-skills-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Skill'
+                  type: array
+              required:
+                - data
+              type: object
+        description: Collection of skills that characters can have.
+    tags:
+      - capers
+
+vices:
+  get:
+    summary: Capers RPG vices
+    operationId: capers-vices-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/CardChoice'
+                  type: array
+              required:
+                - data
+              type: object
+        description: Collection of vices that characters can have.
+    tags:
+      - capers
+
+virtues:
+  get:
+    summary: Capers RPG virtues
+    operationId: capers-virtues-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/CardChoice'
+                  type: array
+              required:
+                - data
+              type: object
+        description: Collection of virtues that characters can have.
+    tags:
+      - capers

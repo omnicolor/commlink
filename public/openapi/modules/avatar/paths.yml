@@ -1,0 +1,95 @@
+characters:
+  get:
+    summary: Avatar RPG characters
+    operationId: avatar-characters-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Character'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of the user's Avatar characters.
+    tags:
+      - avatar
+
+moves:
+  get:
+    summary: Avatar Legends moves
+    operationId: avatar-moves-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Move'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of moves from Avatar Legends.
+    tags:
+      - avatar
+
+playbooks:
+  get:
+    summary: Avatar Legends playbooks
+    operationId: avatar-playbooks-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Playbook'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of playbooks from Avatar Legends.
+    tags:
+      - avatar
+
+statuses:
+  get:
+    summary: Avatar Legends statuses
+    operationId: avatar-statuses-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Status'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of statuses from Avatar Legends.
+    tags:
+      - avatar

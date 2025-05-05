@@ -1,0 +1,234 @@
+Character:
+  example:
+    name: Billy Bob Petrov
+    assignment: Chief Medical Officer
+    disciplines:
+      command: 2
+      conn: 2
+      engineering: 3
+      medicine: 5
+      science: 3
+      security: 1
+    environment: Busy Colony
+    focuses:
+      - Infectious Disease
+      - Virology
+      - Xenobiology
+      - Botany
+      - Quantum Mechanics
+      - Medical Sensors
+    rank: Commander
+    species:
+      name: Human
+      description: |
+        Originating on the planet Earth in the Sol system, Humans are a
+        resilient, diverse, and adaptable species, who developed from
+        fractious, warring nations on the brink of mutual annihilation to a
+        united, peaceful society in less than a century, and managed to
+        forge alliances between former enemies within a century of achieving
+        interstellar space flight. Earth is a founder and pivotal member of
+        the United Federation of Planets, and many of the Federation’s
+        institutions can be found on Earth. Humans often exhibit a dichotomy
+        in their nature — being both driven to strong emotion and careful
+        reason — and while they have largely grown beyond their warlike and
+        divisive past, their drive and capacity for aggression are as much a
+        part of their success as their curiosity and analytical minds.
+    stats:
+      control: 9
+      daring: 7
+      fitness: 7
+      insight: 10
+      presence: 9
+      reason: 12
+    talents:
+      - name: Computer expertise
+        description: |
+          Whenever you attempt a Task that involves the programming or study
+          of a computer system, you may add a bonus d20 to your pool.
+        id: computer-expertise
+        page: 137
+        requirements:
+          science: 2
+        ruleset: core
+    trait:
+      description: |
+        Humans are adaptable and resilient, and their resolve and ambition
+        often allow them to resist great hardship and triumph despite great
+        adversity. However, Humans can also be reckless and stubborn,
+        irrational, and unpredictable.
+      name: Human
+      page: 107
+      ruleset: core
+      id: Human
+    upbringing: Agriculture or Rural
+    values:
+      - Insatiable Curiosity
+      - Exploring to Test New Theories
+      - Threw Out The Handbook and Wrote My Own
+      - Body and Mind Alike Must Be Healthy
+    id: 5ecab94af4d90c95236cd77b
+    owner: omni@digitaldarkness.com
+    system: startrekadventures
+    links:
+      self: https://commlink.digitaldarkness.com/api/startrekadventures/characters/5ecab94af4d90c95236cd77b
+  allOf:
+    - $ref: '../../openapi.yml#/components/schemas/Character'
+    - properties:
+        assignment:
+          type: string
+        disciplines:
+          properties:
+            command:
+              type: integer
+            conn:
+              type: integer
+            engineering:
+              type: integer
+            medicine:
+              type: integer
+            science:
+              type: integer
+            security:
+              type: integer
+          required:
+            - command
+            - conn
+            - engineering
+            - medicine
+            - science
+            - security
+          type: object
+        environment:
+          type: string
+        focuses:
+          items:
+            type: string
+          type: array
+        name:
+          type: string
+        rank:
+          type: string
+        species:
+          $ref: '#/Species'
+        stats:
+          properties:
+            control:
+              type: integer
+            daring:
+              type: integer
+            fitness:
+              type: integer
+            insight:
+              type: integer
+            presence:
+              type: integer
+            reason:
+              type: integer
+          required:
+            - control
+            - daring
+            - fitness
+            - insight
+            - presence
+            - reason
+          type: object
+        talents:
+          items:
+            $ref: '#/Talent'
+          type: array
+        traits:
+          items:
+            $ref: '#/Trait'
+          type: array
+        upbringing:
+          type: string
+        values:
+          items:
+            type: string
+          type: array
+      type: object
+
+Species:
+  example:
+    name: Human
+    description: |
+      Originating on the planet Earth in the Sol system, Humans are a
+      resilient, diverse, and adaptable species, who developed from
+      fractious, warring nations on the brink of mutual annihilation to a
+      united, peaceful society in less than a century, and managed to forge
+      alliances between former enemies within a century of achieving
+      interstellar space flight. Earth is a founder and pivotal member of
+      the United Federation of Planets, and many of the Federation’s
+      institutions can be found on Earth. Humans often exhibit a dichotomy
+      in their nature — being both driven to strong emotion and careful
+      reason — and while they have largely grown beyond their warlike and
+      divisive past, their drive and capacity for aggression are as much a
+      part of their success as their curiosity and analytical minds.
+  properties:
+    description:
+      type: string
+    name:
+      type: string
+  required:
+    - name
+  type: object
+
+Talent:
+  example:
+    name: Computer expertise
+    description: |
+      Whenever you attempt a Task that involves the programming or study of
+      a computer system, you may add a bonus d20 to your pool.
+    id: computer-expertise
+    page: 137
+    requirements:
+      science: 2
+    ruleset: core
+  properties:
+    description:
+      type: string
+    id:
+      type: string
+    name:
+      type: string
+    page:
+      type: integer
+    requirements:
+      type: object
+    ruleset:
+      type: string
+  required:
+    - id
+    - name
+    - page
+    - ruleset
+  type: object
+
+Trait:
+  example:
+    description: |
+      Humans are adaptable and resilient, and their resolve and ambition
+      often allow them to resist great hardship and triumph despite great
+      adversity. However, Humans can also be reckless and stubborn,
+      irrational, and unpredictable.
+    name: Human
+    page: 107
+    ruleset: core
+    id: Human
+  properties:
+    description:
+      type: string
+    id:
+      type: string
+    name:
+      type: string
+    page:
+      type: integer
+    ruleset:
+      type: string
+  required:
+    - id
+    - name
+    - page
+    - ruleset
+  type: object

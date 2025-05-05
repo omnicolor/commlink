@@ -1,0 +1,241 @@
+backgrounds:
+  get:
+    summary: Subversion backgrounds
+    operationId: subversion-backgrounds-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Background'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Subversion backgrounds.
+    tags:
+      - subversion
+
+castes:
+  get:
+    summary: Subversion castes
+    operationId: subversion-castes-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Caste'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Subversion castes.
+    tags:
+      - subversion
+
+characters:
+  get:
+    summary: Subversion characters
+    operationId: subversion-characters-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Character'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Subversion characters.
+    tags:
+      - character
+      - subversion
+
+gear:
+  get:
+    summary: Subversion gear
+    operationId: subversion-gear-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Gear'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Subversion gear.
+    tags:
+      - subversion
+
+ideologies:
+  get:
+    summary: Subversion ideologies
+    operationId: subversion-ideologies-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Ideology'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Subversion ideologies.
+    tags:
+      - subversion
+
+impulses:
+  get:
+    summary: Subversion impulses
+    operationId: subversion-impulses-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Impulse'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Subversion impulses.
+    tags:
+      - subversion
+
+languages:
+  get:
+    summary: Subversion languages
+    operationId: subversion-languages-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Language'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Subversion languages.
+    tags:
+      - subversion
+
+lineages:
+  get:
+    summary: Subversion lineages
+    operationId: subversion-lineages-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Lineage'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Subversion lineages.
+    tags:
+      - subversion
+
+origins:
+  get:
+    summary: Subversion origins
+    operationId: subversion-origins-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Origin'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Subversion origins.
+    tags:
+      - subversion
+
+skills:
+
+  get:
+    summary: Subversion skills
+    operationId: subversion-skills-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Skill'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Subversion skills.
+    tags:
+      - subversion

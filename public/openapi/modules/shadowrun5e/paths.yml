@@ -1,0 +1,1010 @@
+adept-powers:
+  get:
+    summary: Shadowrun 5E adept powers
+    operationId: shadowrun5e-adeptPowers-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/AdeptPower'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 5E adept powers.
+    tags:
+      - shadowrun
+
+ammunitions:
+  get:
+    summary: Shadowrun 5E ammunition
+    operationId: shadowrun5e-ammunition-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Ammunition'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 5E ammunition.
+    tags:
+      - shadowrun
+
+armor:
+  get:
+    summary: Shadowrun 5E armor
+    operationId: shadowrun5e-armor-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Armor'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 5E armor.
+    tags:
+      - shadowrun
+
+armor-modifications:
+  get:
+    summary: Shadowrun 5E armor modifications
+    operationId: shadowrun5e-armorModifications-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/ArmorModification'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 5E armor modifications.
+    tags:
+      - shadowrun
+
+characters:
+  get:
+    summary: All Shadowrun 5E characters
+    description: Return Shadowrun 5E RPG characters.
+    operationId: shadowrun5e-characters-index
+    responses:
+      '200':
+        description: Collection of the user's Shadowrun 5E characters.
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Character'
+                  type: array
+              required:
+                - data
+              type: object
+    tags:
+      - character
+      - shadowrun
+
+character-by-id:
+  parameters:
+    - name: character_id
+      in: path
+      required: true
+      schema:
+        type: string
+  get:
+    summary: Single Shadowrun 5E character
+    description: Return a single Shadowrun 5E character.
+    operationId: shadowrun5e-characters-view
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  $ref: 'schemas.yml#/Character'
+              required:
+                - data
+              type: object
+        description: A single Shadowrun 5E character.
+    tags:
+      - character
+      - shadowrun
+  patch:
+    summary: Update a Shadowrun 5E character
+    description: Update a Shadowrun character's condition monitor.
+    operationId: shadowrun5e-characters-update
+    requestBody:
+      description: |
+        This is a JSON patch document describing what should happen to the
+        character sheet.
+
+        Healing a character is done by setting the appropriate damage track
+        to 0.
+        ```
+        {
+          "patch": [
+            {"op": "replace", "path": "/damagePhysical", "value": 0}
+          ]
+        }
+        ```
+
+        Damaging a character is done by setting the total damage to a given
+        track. If they already had 6 stun, this would give them an additional
+        4 boxes of stun.
+        ```
+        {
+          "patch": [
+            {"op": "replace", "path": "/damageStun", "value": 10}
+          ]
+        }
+        ```
+        Applying more stun damage to a character than their condition monitor
+        allows automatically converts to the appropriate amount of additional
+        physical damage. Similarly, adding more physical damage than their
+        physical monitor allows converts to overflow damage.
+
+        Using edge is similar. If a character starts with 3 edge and uses one,
+        set the edgeCurrent field to 2.
+        ```
+        {
+          "patch": [
+            {"op": "replace", "path": "/edgeCurrent", "value": 2}
+          ]
+        }
+        ```
+      required: true
+      content:
+        application/json:
+          schema:
+            properties:
+              patch:
+                items:
+                  properties:
+                    op:
+                      description: Type of operation (should be 'replace').
+                      type: string
+                    path:
+                      description: Field to update.
+                      enum:
+                        - /damagePhysical
+                        - /damageStun
+                        - /edgeCurrent
+                      type: string
+                    value:
+                      description: New value for the field.
+                      type: integer
+                  type: object
+                type: array
+            type: object
+    responses:
+      '200':
+        description: Character was updated.
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  $ref: 'schemas.yml#/Character'
+              required:
+                - data
+              type: object
+      '400':
+        description: There was something wrong with the request.
+      '401':
+        $ref: '../../openapi.yml#/components/responses/ErrorUnauthenticated'
+      '403':
+        $ref: '../../openapi.yml#/components/responses/ErrorForbidden'
+    tags:
+      - character
+      - shadowrun
+
+character-contacts:
+  parameters:
+    - name: character_id
+      in: path
+      required: true
+      schema:
+        type: string
+  get:
+    summary: Character's contacts
+    operationId: shadowrun5e-contacts-index
+    responses:
+      '200':
+        description: Collection of contacts. You are who you know, chummer.
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: 'schemas.yml#/Contact'
+              type: array
+      '401':
+        $ref: '../../openapi.yml#/components/responses/ErrorUnauthenticated'
+      '403':
+        $ref: '../../openapi.yml#/components/responses/ErrorForbidden'
+      '404':
+        $ref: '../../openapi.yml#/components/responses/ErrorNotFound'
+    tags:
+      - shadowrun
+  post:
+    summary: Create a new contact for a character
+    operationId: shadowrun5e-contacts-store
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties:
+              archetype:
+                type: string
+              connection:
+                type: integer
+              loyalty:
+                type: integer
+              gmNotes:
+                type: string
+              name:
+                type: string
+              notes:
+                type: string
+            type: object
+    responses:
+      '201':
+        description: Contact was created.
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yml#/Contact'
+      '401':
+        $ref: '../../openapi.yml#/components/responses/ErrorUnauthenticated'
+      '403':
+        $ref: '../../openapi.yml#/components/responses/ErrorForbidden'
+      '404':
+        $ref: '../../openapi.yml#/components/responses/ErrorNotFound'
+    tags:
+      - shadowrun
+
+complex-forms:
+  get:
+    summary: Shadowrun 5E complex forms
+    operationId: shadowrun5e-complexForms-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/ComplexForm'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 5E complex forms.
+    tags:
+      - shadowrun
+
+critters:
+  get:
+    summary: Shadowrun 5E critters
+    operationId: shadowrun5e-critters-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Critter'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 5E critters.
+    tags:
+      - shadowrun
+
+critter-powers:
+  get:
+    summary: Shadowrun 5E critter powers
+    operationId: shadowrun5e-critterPowers-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/CritterPower'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 5E critter powers.
+    tags:
+      - shadowrun
+
+critter-weaknesses:
+  get:
+    summary: Shadowrun 5E critter weaknesses
+    operationId: shadowrun5e-critterWeaknesses-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/CritterWeakness'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 5E critter weaknesses.
+    tags:
+      - shadowrun
+
+cyberware:
+  get:
+    summary: Shadowrun 5E augmentations (cyberware and bioware)
+    operationId: shadowrun5e-augmentations-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Augmentation'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Shadowrun 5E augmentations.
+      '401':
+        $ref: '../../openapi.yml#/components/responses/ErrorUnauthenticated'
+    tags:
+      - shadowrun
+
+gear:
+  get:
+    summary: Shadowrun 5E gear
+    operationId: shadowrun5e-gear-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Gear'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: All Shadowrun 5E gear.
+    tags:
+      - shadowrun
+
+gear-by-id:
+  parameters:
+    - name: gear_id
+      in: path
+      required: true
+      schema:
+        type: string
+  get:
+    summary: A Shadowrun 5E gear item
+    operationId: shadowrun5e-gear-view
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  $ref: 'schemas.yml#/Gear'
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: Single Shadowrun 5E item.
+    tags:
+      - shadowrun
+
+gear-modifications:
+  get:
+    summary: Shadowrun 5E gear modifications
+    operationId: shadowrun5e-gearModifications-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/GearModification'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 5E modifications to install in other gear.
+    tags:
+      - shadowrun
+
+grunts:
+  get:
+    summary: Shadowrun 5E grunts
+    operationId: shadowrun5e-grunts-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Grunt'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 5E grunts.
+    tags:
+      - shadowrun
+
+intrusion-countermeasures:
+  get:
+    summary: Shadowrun 5E ICE
+    operationId: shadowrun5e-intrusionCountermeasures-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/IntrusionCountermeasure'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 5E intrusion countermeasures.
+    tags:
+      - shadowrun
+
+lifestyle-options:
+  get:
+    summary: Shadowrun 5E lifestyle options
+    operationId: shadowrun5e-lifestyle-options-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/LifestyleOption'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Shadowrun 5E lifestyle options.
+    tags:
+      - shadowrun
+
+lifestyle-zones:
+  get:
+    summary: Shadowrun 5E lifestyle zones
+    operationId: shadowrun5e-lifestyle-zones-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/LifestyleZone'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Shadowrun 5E lifestyle zones.
+    tags:
+      - shadowrun
+
+lifestyles:
+  get:
+    summary: Shadowrun 5E lifestyles
+    operationId: shadowrun5e-lifestyles-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Lifestyle'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Shadowrun 5E lifestyles.
+    tags:
+      - shadowrun
+
+martial-arts-styles:
+  get:
+    summary: Shadowrun 5E martial arts styles
+    operationId: shadowrun5e-martial-arts-styles-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/MartialArtsStyle'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Shadowrun 5E martial arts styles.
+    tags:
+      - shadowrun
+
+martial-arts-techniques:
+  get:
+    summary: Shadowrun 5E martial arts technique
+    operationId: shadowrun5e-martial-arts-techniques-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/MartialArtsTechnique'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Shadowrun 5E martial arts techniques.
+    tags:
+      - shadowrun
+
+mentor-spirits:
+  get:
+    summary: Shadowrun 5E mentor spirits
+    operationId: shadowrun5e-mentor-spirits-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/MentorSpirit'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Shadowrun 5E mentor spirits.
+    tags:
+      - shadowrun
+
+metamagics:
+  get:
+    summary: Shadowrun 5E metamagics
+    operationId: shadowrun5e-metamagics-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Metamagic'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Shadowrun 5E metamagics.
+    tags:
+      - shadowrun
+
+programs:
+  get:
+    summary: Shadowrun 5E matrix programs
+    operationId: shadowrun5e-programs-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Program'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Shadowrun 5E matrix programs.
+    tags:
+      - shadowrun
+
+qualities:
+  get:
+    summary: Shadowrun 5E character qualities
+    operationId: shadowrun5e-qualities-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Quality'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Shadowrun 5E qualities.
+    tags:
+      - shadowrun
+
+resonance-echoes:
+  get:
+    summary: Shadowrun 5E resonance echoes
+    operationId: shadowrun5e-resonance-echoes-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/ResonanceEcho'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of all Shadowrun 5E resonance echoes.
+      '401':
+        $ref: '../../openapi.yml#/components/responses/ErrorNotFound'
+    tags:
+      - shadowrun
+
+rulebooks:
+  get:
+    summary: Shadowrun 5E rulebooks
+    operationId: shadowrun5e-rulebooks-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: '../../openapi.yml#/components/schemas/Rulebook'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              type: object
+        description: All Shadowrun 5E rulebooks.
+    tags:
+      - shadowrun
+
+skill-groups:
+  get:
+    summary: Shadowrun 5E skill groups
+    operationId: shadowrun5e-skill-groups-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/SkillGroup'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Shadowrun 5E skill groups.
+    tags:
+      - shadowrun
+
+skills:
+  get:
+    summary: Shadowrun 5E skills
+    operationId: shadowrun5e-skills-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Skill'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Shadowrun 5E skills.
+    tags:
+      - shadowrun
+
+spells:
+  get:
+    summary: Shadowrun 5E spells
+    operationId: shadowrun5e-spells-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Spell'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Shadowrun 5E spells.
+    tags:
+      - shadowrun
+
+spirits:
+  get:
+    summary: Shadowrun 5E spirits
+    operationId: shadowrun5e-spirits-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Spirit'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Shadowrun 5E spirits.
+    tags:
+      - shadowrun
+
+sprites:
+  get:
+    summary: Shadowrun 5E sprites
+    operationId: shadowrun5e-sprites-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Sprite'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Shadowrun 5E sprites.
+    tags:
+      - shadowrun
+
+traditions:
+  get:
+    summary: Shadowrun 5E magical traditions
+    operationId: shadowrun5e-traditions-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Tradition'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Shadowrun 5E traditions.
+    tags:
+      - shadowrun
+
+vehicle-modifications:
+  get:
+    summary: Shadowrun 5E vehicle modifications
+    operationId: shadowrun5e-vehicle-modifications-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/VehicleModification'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Shadowrun 5E vehicle modifications.
+    tags:
+      - shadowrun
+
+vehicles:
+  get:
+    summary: Shadowrun 5E vehicles
+    operationId: shadowrun5e-vehicles-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Vehicle'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Shadowrun 5E vehicles.
+    tags:
+      - shadowrun
+
+weapon-modifications:
+  get:
+    summary: Shadowrun 5E weapon modifications
+    operationId: shadowrun5e-weapon-modifications-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/WeaponModification'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Shadowrun 5E weapon modifications.
+    tags:
+      - shadowrun
+
+weapons:
+  get:
+    summary: Shadowrun 5E weapons
+    operationId: shadowrun5e-weapons-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Weapon'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of Shadowrun 5E weapons.
+    tags:
+      - shadowrun
