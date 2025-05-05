@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Modules\Cyberpunkred\Models\CostCategory;
+use Modules\Cyberpunkred\Enums\CostCategory;
 
 /**
  * Armor for Cyberpunk Red.

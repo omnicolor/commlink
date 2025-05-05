@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use MongoDB\Laravel\Eloquent\Model;
 use Nwidart\Modules\Facades\Module;
+use Override;
 use Stringable;
+use stdClass;
 
 use function class_exists;
 use function ucfirst;
@@ -55,6 +57,7 @@ class Character extends Model implements Stringable
         'system',
     ];
 
+    #[Override]
     public function __toString(): string
     {
         return $this->handle ?? $this->name ?? '';
@@ -86,27 +89,30 @@ class Character extends Model implements Stringable
 
     /**
      * Create a new Character, subclassed if available.
-     * @param array<int|string, mixed> $attributes
+     * @param stdClass $attributes
      * @param ?string $connection
+     * @phpstan-ignore method.childParameterType
      */
+    #[Override]
     public function newFromBuilder(
+        // @phpstan-ignore parameter.defaultValue
         $attributes = [],
         $connection = null,
     ): Character {
-        $class = 'Modules\\' . ucfirst($attributes['system'])
+        $class = 'Modules\\' . ucfirst($attributes->system)
             . '\\Models\\Character';
         if (
-            null !== Module::find($attributes['system'])
-            && Module::isEnabled($attributes['system'])
+            null !== Module::find($attributes->system)
+            && Module::isEnabled($attributes->system)
             && class_exists($class)
         ) {
             /** @var Character */
-            $character = new $class($attributes);
+            $character = new $class((array)$attributes);
         } else {
-            $character = new Character($attributes);
+            $character = new Character((array)$attributes);
         }
         $character->exists = true;
-        $character->setRawAttributes($attributes, true);
+        $character->setRawAttributes((array)$attributes, true);
         $character->setConnection($this->connection);
         $character->fireModelEvent('retrieved', false);
         // @phpstan-ignore return.type

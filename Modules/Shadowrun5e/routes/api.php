@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Route;
 use Modules\Shadowrun5e\Http\Controllers\AdeptPowersController;
 use Modules\Shadowrun5e\Http\Controllers\AmmunitionController;
@@ -37,15 +38,17 @@ use Modules\Shadowrun5e\Http\Controllers\SpritesController;
 use Modules\Shadowrun5e\Http\Controllers\TraditionsController;
 use Modules\Shadowrun5e\Http\Controllers\VehicleModificationsController;
 use Modules\Shadowrun5e\Http\Controllers\VehiclesController;
-use Modules\Shadowrun5e\Http\Controllers\WeaponModificationsController;
-use Modules\Shadowrun5e\Http\Controllers\WeaponsController;
+use Modules\Shadowrun5e\Http\Resources\WeaponModificationResource;
+use Modules\Shadowrun5e\Http\Resources\WeaponResource;
+use Modules\Shadowrun5e\Models\Weapon;
+use Modules\Shadowrun5e\Models\WeaponModification;
 
 Route::middleware('auth:sanctum')
     ->prefix('shadowrun5e')
     ->name('shadowrun5e.')->group(function (): void {
         Route::resource('adept-powers', AdeptPowersController::class)
             ->only(['index', 'show']);
-        Route::resource('ammunition', AmmunitionController::class)
+        Route::resource('ammunitions', AmmunitionController::class)
             ->only(['index', 'show']);
         Route::resource('armor', ArmorController::class)
             ->only(['index', 'show']);
@@ -111,8 +114,32 @@ Route::middleware('auth:sanctum')
             ->only(['index', 'show']);
         Route::resource('vehicle-modifications', VehicleModificationsController::class)
             ->only(['index', 'show']);
-        Route::resource('weapons', WeaponsController::class)
-            ->only(['index', 'show']);
-        Route::resource('weapon-modifications', WeaponModificationsController::class)
-            ->only(['index', 'show']);
+
+        Route::get('weapons', function (): AnonymousResourceCollection {
+            return WeaponResource::collection((array)Weapon::all())
+                ->additional(['links' => ['self' => route('shadowrun5e.weapons.index')]]);
+        })->name('weapons.index');
+        Route::get(
+            'weapons/{weapon}',
+            function (string $weapon): WeaponResource {
+                return new WeaponResource(new Weapon($weapon));
+            }
+        )->name('weapons.show');
+
+        Route::get('weapon-modifications', function (): AnonymousResourceCollection {
+            return WeaponModificationResource::collection((array)WeaponModification::all())
+                ->additional(['links' => ['self' => route('shadowrun5e.weapon-modifications.index')]]);
+        })->name('weapon-modifications.index');
+        Route::get(
+            'weapon-modifications/{modification}',
+            function (string $modification): WeaponModificationResource {
+                try {
+                    $modification = new WeaponModification($modification);
+                } catch (RuntimeException) {
+                    abort(404, 'Requested modification not found.');
+                }
+
+                return new WeaponModificationResource($modification);
+            }
+        )->name('weapon-modifications.show');
     });

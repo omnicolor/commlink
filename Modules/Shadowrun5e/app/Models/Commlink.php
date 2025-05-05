@@ -11,10 +11,7 @@ use function array_key_exists;
 use function assert;
 use function ceil;
 
-/**
- * Commlink class.
- */
-class Commlink extends Gear implements Stringable
+final class Commlink extends Gear implements Stringable
 {
     /**
      * Collection of attribute values allowed for the device.
@@ -81,7 +78,7 @@ class Commlink extends Gear implements Stringable
     /**
      * @throws RuntimeException if ID is invalid
      */
-    public function __construct(public string $id, int $quantity = 1)
+    public function __construct(string $id, int $quantity = 1)
     {
         parent::__construct($id, $quantity);
         // Parent would have thrown an exception if $id is not found.
@@ -92,7 +89,7 @@ class Commlink extends Gear implements Stringable
         $this->programsInstalled = new ProgramArray();
         $this->programsRunning = new ProgramArray();
 
-        $this->programsAllowed = $item['programs'];
+        $this->programsAllowed = $item['programs'] ?? 0;
         if (isset($item['attributes'], $item['attributes']['firewall'])) {
             $this->attributes = [
                 $item['attributes']['attack'] ?? null,
@@ -115,7 +112,7 @@ class Commlink extends Gear implements Stringable
      */
     public function getConditionMonitor(): int
     {
-        if (!isset($this->rating)) {
+        if (null === $this->rating) {
             return 0;
         }
         return 8 + (int)ceil($this->rating / 2);

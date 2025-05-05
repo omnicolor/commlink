@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
 use Modules\Cyberpunkred\Database\Factories\CharacterFactory;
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -123,6 +124,7 @@ class Character extends BaseCharacter implements Stringable
         '_id',
     ];
 
+    #[Override]
     public function __toString(): string
     {
         return $this->handle ?? 'Unnamed character';
@@ -131,6 +133,7 @@ class Character extends BaseCharacter implements Stringable
     /**
      * Force this model to only load for Cyberpunk Red characters.
      */
+    #[Override]
     protected static function booted(): void
     {
         static::addGlobalScope(
@@ -356,6 +359,7 @@ class Character extends BaseCharacter implements Stringable
         return $weapons;
     }
 
+    #[Override]
     protected static function newFactory(): Factory
     {
         return CharacterFactory::new();

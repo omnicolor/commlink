@@ -10,6 +10,8 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
+use function route;
+
 /**
  * @codeCoverageIgnore
  */
@@ -18,7 +20,7 @@ class ForgotPassword extends Mailable
     use Queueable;
     use SerializesModels;
 
-    public function __construct(public string $token)
+    public function __construct(public readonly string $token)
     {
     }
 

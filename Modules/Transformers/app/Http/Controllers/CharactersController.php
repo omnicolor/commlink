@@ -11,13 +11,13 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
+use Modules\Transformers\Enums\Programming;
 use Modules\Transformers\Http\Requests\BaseRequest;
 use Modules\Transformers\Http\Requests\ProgrammingRequest;
 use Modules\Transformers\Http\Requests\StatisticsRequest;
 use Modules\Transformers\Http\Resources\CharacterResource;
 use Modules\Transformers\Models\Character;
 use Modules\Transformers\Models\PartialCharacter;
-use Modules\Transformers\Models\Programming;
 
 use function count;
 
@@ -243,7 +243,8 @@ class CharactersController extends Controller
     {
         return CharacterResource::collection(
             Character::where('owner', $request->user()?->email)->get()
-        );
+        )
+            ->additional(['links' => ['self' => route('transformers.characters.index')]]);
     }
 
     public function show(Request $request, string $identifier): JsonResource

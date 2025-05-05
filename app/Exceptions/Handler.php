@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Omnicolor\Slack\Exceptions\SlackException;
 use Override;
-use Sentry\Laravel\Integration;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -35,8 +35,5 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         parent::register();
-        $this->reportable(function (Throwable $e): void {
-            Integration::captureUnhandledException($e);
-        });
     }
 }

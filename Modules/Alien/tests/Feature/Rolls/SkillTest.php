@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Alien\Tests\Feature\Rolls;
 
-use App\Exceptions\SlackException;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
@@ -12,6 +11,7 @@ use App\Models\WebChannel;
 use Facades\App\Services\DiceService;
 use Modules\Alien\Models\Character;
 use Modules\Alien\Rolls\Skill;
+use Omnicolor\Slack\Exceptions\SlackException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -29,7 +29,7 @@ final class SkillTest extends TestCase
     {
         self::expectException(SlackException::class);
         self::expectExceptionMessage(
-            'Skill rolls are only available if you have linked a character'
+            'Skill rolls are only available if you have linked a character',
         );
 
         (new Skill('skill close-combat', 'username', new Channel()))
@@ -39,19 +39,16 @@ final class SkillTest extends TestCase
     #[Group('irc')]
     public function testInvalidSkill(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_IRC,
             'system' => 'alien',
         ]);
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
             'server_type' => ChatUser::TYPE_IRC,
             'verified' => true,
         ]);
-        /** @var Character */
         $character = Character::factory()->create();
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,
@@ -71,19 +68,16 @@ final class SkillTest extends TestCase
             ->with(6)
             ->andReturn(6, 1, 3, 3, 6, 1);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_IRC,
             'system' => 'alien',
         ]);
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
             'server_type' => ChatUser::TYPE_IRC,
             'verified' => true,
         ]);
-        /** @var Character */
         $character = Character::factory()->create([
             'skills' => [
                 'close-combat' => 4,
@@ -113,7 +107,6 @@ final class SkillTest extends TestCase
             ->with(6)
             ->andReturn(6, 1, 3, 3, 6, 1);
 
-        /** @var Character */
         $character = Character::factory()->make([
             'skills' => [
                 'close-combat' => 4,

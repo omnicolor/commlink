@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Listeners;
 
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
-use App\Models\Slack\TextAttachment;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
 use Modules\Shadowrun5e\Events\DamageEvent;
 use Modules\Shadowrun5e\Models\Character;
+use Omnicolor\Slack\Attachments\TextAttachment;
+use Omnicolor\Slack\Response;
 use stdClass;
 
 use function sprintf;
@@ -37,7 +37,7 @@ class HandleDamageEvent
 
     protected function formatFooter(
         Character $character,
-        stdClass $damage
+        stdClass $damage,
     ): string {
         return sprintf(
             'Stun: %d Physical: %d Overflow: %d',
@@ -49,7 +49,7 @@ class HandleDamageEvent
 
     protected function formatMessage(
         Character $character,
-        stdClass $damage
+        stdClass $damage,
     ): string {
         if (0 !== $damage->stun) {
             if (0 === $damage->physical && 0 === $damage->overflow) {
@@ -110,30 +110,32 @@ class HandleDamageEvent
     protected function sendToSlack(
         Character $character,
         stdClass $damage,
-        Channel $channel
+        Channel $channel,
     ): void {
-        $data = new SlackResponse(channel: $channel);
-        $attachment = new TextAttachment(
+        $attachment = (new TextAttachment(
             'Damage!',
             $this->formatMessage($character, $damage),
             TextAttachment::COLOR_DANGER,
-        );
-        $attachment->addFooter($this->formatFooter($character, $damage));
-        $data->addAttachment($attachment);
-        $data = $data->getData();
-        $data->response_type = null;
-        $data->channel = $channel->channel_id;
+        ))
+            ->addFooter($this->formatFooter($character, $damage));
+
+        // @phpstan-ignore method.deprecated
+        $response = (new Response())
+            ->addAttachment($attachment)
+            ->jsonSerialize();
+        $response['response_type'] = null;
+        $response['channel'] = $channel->channel_id;
 
         // TODO: Add error handling.
         Http::withHeaders([
             'Authorization' => sprintf('Bearer %s', config('app.slack_token')),
-        ])->post('https://slack.com/api/chat.postMessage', (array)$data);
+        ])->post('https://slack.com/api/chat.postMessage', $response);
     }
 
     protected function sendToDiscord(
         Character $character,
         stdClass $damage,
-        Channel $channel
+        Channel $channel,
     ): void {
         $data = [
             'content' => $this->formatMessage($character, $damage)

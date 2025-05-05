@@ -29,10 +29,8 @@ final class HelpTest extends TestCase
     #[Group('slack')]
     public function testHelpNoLinkedUser(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'avatar']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'avatar',
@@ -40,14 +38,18 @@ final class HelpTest extends TestCase
         $channel->username = $this->faker->name;
 
         $response = (new Help('help', $channel->username, $channel))
-            ->forSlack();
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $response);
+        self::assertArrayHasKey('text', $response['attachments'][1]);
         self::assertStringContainsString(
             'Avatar RPG',
-            json_decode((string)$response)->attachments[0]->title
+            $response['attachments'][0]['title'],
         );
         self::assertStringContainsString(
             'link <characterId>',
-            json_decode((string)$response)->attachments[1]->text
+            $response['attachments'][1]['text'],
         );
     }
 
@@ -57,16 +59,13 @@ final class HelpTest extends TestCase
     #[Group('discord')]
     public function testHelpGamemaster(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $user->id,
             'system' => 'avatar',
         ]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'avatar',
@@ -94,13 +93,10 @@ final class HelpTest extends TestCase
     #[Group('discord')]
     public function testHelpPlayerNoCharacter(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'avatar']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'avatar',
@@ -128,13 +124,10 @@ final class HelpTest extends TestCase
     #[Group('discord')]
     public function testHelpPlayerCharacter(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'avatar']);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'system' => 'avatar',
@@ -143,7 +136,6 @@ final class HelpTest extends TestCase
         $channel->username = $this->faker->name;
         $channel->user = 'U' . Str::random(10);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -152,11 +144,9 @@ final class HelpTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
         $character = Character::factory()->create([
             'name' => $this->faker->name,
             'system' => 'avatar',
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -178,13 +168,10 @@ final class HelpTest extends TestCase
     #[Group('irc')]
     public function testHelpPlayerCharacterIrc(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'avatar']);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'system' => 'avatar',
@@ -193,7 +180,6 @@ final class HelpTest extends TestCase
         $channel->username = $this->faker->name;
         $channel->user = 'U' . Str::random(10);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -202,11 +188,9 @@ final class HelpTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
         $character = Character::factory()->create([
             'name' => $this->faker->name,
             'system' => 'avatar',
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([

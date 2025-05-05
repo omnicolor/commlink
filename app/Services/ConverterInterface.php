@@ -15,7 +15,7 @@ interface ConverterInterface
 
     /**
      * Return any errors that happened during conversion.
-     * @return array<int, string>
+     * @return array<string, array<int, string>>
      */
     public function getErrors(): array;
 }

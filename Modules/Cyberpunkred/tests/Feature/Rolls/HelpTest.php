@@ -27,23 +27,26 @@ final class HelpTest extends TestCase
     #[Group('slack')]
     public function testGetSlackHelpNothingRegistered(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = 'user';
 
-        $response = (new Help('help', 'user', $channel))->forSlack()->original;
+        $response = (new Help('help', 'user', $channel))
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $response);
         self::assertSame('ephemeral', $response['response_type']);
         self::assertSame(
             sprintf('About %s', config('app.name')),
-            $response['attachments'][0]['title']
+            $response['attachments'][0]['title'],
         );
         self::assertSame(
             'Note for unregistered users:',
-            $response['attachments'][1]['title']
+            $response['attachments'][1]['title'],
         );
         self::assertSame(
             'Cyberpunk Red commands (no character linked):',
-            $response['attachments'][2]['title']
+            $response['attachments'][2]['title'],
         );
     }
 
@@ -54,7 +57,6 @@ final class HelpTest extends TestCase
     #[Group('slack')]
     public function testGetSlackHelpWithChatUser(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'system' => 'cyberpunkred',
             'type' => Channel::TYPE_SLACK,
@@ -69,7 +71,11 @@ final class HelpTest extends TestCase
             'verified' => true,
         ]);
 
-        $response = (new Help('help', 'user', $channel))->forSlack()->original;
+        $response = (new Help('help', 'user', $channel))
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $response);
         self::assertSame('ephemeral', $response['response_type']);
         self::assertSame(
             sprintf('About %s', config('app.name')),
@@ -88,7 +94,6 @@ final class HelpTest extends TestCase
     #[Group('slack')]
     public function testGetSlackHelpWithCharacter(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'system' => 'cyberpunkred',
             'type' => Channel::TYPE_SLACK,
@@ -96,7 +101,6 @@ final class HelpTest extends TestCase
         $channel->username = 'user';
         $channel->user = 'U' . Str::random(10);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -104,10 +108,7 @@ final class HelpTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
-        $character = Character::factory()->create([
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create([]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel,
@@ -115,15 +116,19 @@ final class HelpTest extends TestCase
             'chat_user_id' => $chatUser,
         ]);
 
-        $response = (new Help('help', 'user', $channel))->forSlack()->original;
+        $response = (new Help('help', 'user', $channel))
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $response);
         self::assertSame('ephemeral', $response['response_type']);
         self::assertSame(
             sprintf('About %s', config('app.name')),
-            $response['attachments'][0]['title']
+            $response['attachments'][0]['title'],
         );
         self::assertSame(
             sprintf('Cyberpunk Red commands (as %s):', (string)$character),
-            $response['attachments'][1]['title']
+            $response['attachments'][1]['title'],
         );
         $character->delete();
     }
@@ -135,7 +140,6 @@ final class HelpTest extends TestCase
     #[Group('discord')]
     public function testGetDiscordHelpWithCharacter(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'system' => 'cyberpunkred',
             'type' => Channel::TYPE_DISCORD,
@@ -143,7 +147,6 @@ final class HelpTest extends TestCase
         $channel->username = 'user';
         $channel->user = 'U' . Str::random(10);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -151,10 +154,7 @@ final class HelpTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
-        $character = Character::factory()->create([
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create([]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel,
@@ -165,11 +165,11 @@ final class HelpTest extends TestCase
         $response = (new Help('help', 'user', $channel))->forDiscord();
         self::assertStringContainsString(
             sprintf('About %s', config('app.name')),
-            $response
+            $response,
         );
         self::assertStringContainsString(
             sprintf('Cyberpunk Red commands (as %s):', (string)$character),
-            $response
+            $response,
         );
         $character->delete();
     }
@@ -181,7 +181,6 @@ final class HelpTest extends TestCase
     #[Group('irc')]
     public function testGetHelpIrc(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'system' => 'cyberpunkred',
             'type' => Channel::TYPE_IRC,
@@ -192,7 +191,7 @@ final class HelpTest extends TestCase
         $response = (new Help('help', 'user', $channel))->forIrc();
         self::assertStringContainsString(
             'Your IRC user has not been linked',
-            $response
+            $response,
         );
     }
 }

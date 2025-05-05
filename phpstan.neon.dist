@@ -12,6 +12,9 @@ parameters:
     ignoreErrors:
         - identifier: missingType.generics
         - identifier: staticMethod.dynamicCall
+        -
+            message: '#Call to an undefined static method object::convertFormula\(\).#'
+            path: tests/Feature/Traits/FormulaConverterTest.php
     level: 8
     paths:
         - %currentWorkingDirectory%/app

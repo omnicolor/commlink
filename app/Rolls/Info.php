@@ -7,12 +7,13 @@ namespace App\Rolls;
 use App\Events\DiscordMessageReceived;
 use App\Events\IrcMessageReceived;
 use App\Events\MessageReceived;
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
-use App\Models\Slack\Field;
-use App\Models\Slack\FieldsAttachment;
+use Omnicolor\Slack\Attachments\Field;
+use Omnicolor\Slack\Attachments\FieldsAttachment;
+use Omnicolor\Slack\Response;
+use Override;
 
 use const PHP_EOL;
 
@@ -59,6 +60,7 @@ class Info extends Roll
         $this->character_name = (string)$character;
     }
 
+    #[Override]
     public function forDiscord(): string
     {
         /** @var DiscordMessageReceived */
@@ -84,6 +86,7 @@ class Info extends Roll
             . 'Campaign: ' . $this->campaign_name;
     }
 
+    #[Override]
     public function forIrc(): string
     {
         /** @var IrcMessageReceived */
@@ -106,7 +109,8 @@ class Info extends Roll
             . 'Campaign: ' . $this->campaign_name;
     }
 
-    public function forSlack(): SlackResponse
+    #[Override]
+    public function forSlack(): Response
     {
         $attachment = (new FieldsAttachment('Debugging Info'))
             ->addField(new Field('Team ID', $this->channel->server_id))
@@ -119,7 +123,7 @@ class Info extends Roll
             ))
             ->addField(new Field('Character', $this->character_name))
             ->addField(new Field('Campaign', $this->campaign_name));
-        $response = new SlackResponse(channel: $this->channel);
-        return $response->addAttachment($attachment);
+        // @phpstan-ignore method.deprecated
+        return (new Response())->addAttachment($attachment);
     }
 }

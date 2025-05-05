@@ -10,6 +10,7 @@ use JsonException;
 use Modules\Expanse\Models\Focus;
 use Modules\Expanse\Models\PartialCharacter;
 use Modules\Expanse\Models\Talent;
+use Override;
 use RuntimeException;
 use stdClass;
 
@@ -25,9 +26,7 @@ class ExpanseConverter implements ConverterInterface
 {
     public const string TEMPLATE_ID = '3892';
 
-    /**
-     * @var array<int, string>
-     */
+    /** @var array<string, array<int, string>> */
     protected array $errors = [];
     protected PartialCharacter $character;
     protected stdClass $rawCharacter;
@@ -91,6 +90,7 @@ class ExpanseConverter implements ConverterInterface
         return $this->character;
     }
 
+    #[Override]
     public function getErrors(): array
     {
         return $this->errors;
@@ -127,7 +127,8 @@ class ExpanseConverter implements ConverterInterface
                     $focus = new Focus(Str::trim($focus));
                     $focuses[] = ['id' => $focus->id];
                 } catch (RuntimeException) {
-                    $this->errors[] = sprintf('Invalid focus "%s"', $focus);
+                    $this->errors['focus'] ??= [];
+                    $this->errors['focus'][] = sprintf('Invalid focus "%s"', $focus);
                 }
                 continue;
             }
@@ -146,7 +147,8 @@ class ExpanseConverter implements ConverterInterface
                     $focus = new Focus($focus);
                     $focuses[] = ['id' => $focus->id];
                 } catch (RuntimeException) {
-                    $this->errors[] = sprintf('Invalid focus "%s"', $focus);
+                    $this->errors['focus'] ??= [];
+                    $this->errors['focus'][] = sprintf('Invalid focus "%s"', $focus);
                 }
             }
         }

@@ -16,35 +16,31 @@ use function strtolower;
  * Skill a character can use.
  * @param int $level
  */
-class ActiveSkill extends Skill implements Stringable
+final class ActiveSkill extends Skill implements Stringable
 {
     /**
      * Whether the character can default this skill.
      */
     public bool $default = false;
-
-    /**
-     * Description of the skill.
-     */
-    public string $description;
+    public readonly string $description;
 
     /**
      * Skill group the skill belongs to.
      */
-    public ?string $group = null;
+    public null|string $group = null;
 
     /**
      * List of all skills.
      * @var ?array<string, array<string, mixed>>
      */
-    public static ?array $skills;
+    public static array|null $skills;
 
     /**
      * Construct a skill for the character.
      * @throws RuntimeException If the skill isn't valid
      */
     public function __construct(
-        public string $id,
+        public readonly string $id,
         int $level,
         ?string $specialization = null
     ) {

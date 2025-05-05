@@ -7,6 +7,7 @@ namespace App\Http\Resources;
 use App\Models\EventRsvp;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Override;
 
 /**
  * @mixin EventRsvp
@@ -20,6 +21,7 @@ class EventResponseResource extends JsonResource
      *     response: string
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         return [

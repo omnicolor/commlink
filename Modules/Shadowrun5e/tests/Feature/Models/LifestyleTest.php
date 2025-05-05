@@ -129,17 +129,13 @@ final class LifestyleTest extends TestCase
     public function testGetCostWithMultiplier(): void
     {
         $lifestyle = new Lifestyle('low');
-        $hotTub = new LifestyleOption('swimming-pool');
-        $hotTub->cost = null;
-        $hotTub->costMultiplier = 0.1;
+        $hotTub = new LifestyleOption('increase-neighborhood');
         $lifestyle->options[] = $hotTub;
         self::assertEquals(2200, $lifestyle->getCost());
 
         $pool = new LifestyleOption('swimming-pool');
-        $pool->cost = null;
-        $pool->costMultiplier = -0.2;
         $lifestyle->options[] = $pool;
-        self::assertEquals(1800, $lifestyle->getCost());
+        self::assertEquals(2300, $lifestyle->getCost());
     }
 
     /**

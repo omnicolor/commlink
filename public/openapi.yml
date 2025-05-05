@@ -9,7 +9,7 @@ info:
   license:
     name: MIT License
     url: https://mit-license.org/
-  version: 1.9.0
+  version: 1.12.0
 externalDocs:
   description: Find out more about Commlink
   url: https://commlink.digitaldarkness.com/about
@@ -1320,6 +1320,30 @@ paths:
           $ref: '#/components/responses/ErrorUnprocessableContent'
       tags:
         - interactivity
+  /characters:
+    get:
+      summary: All characters owned by the current user from all systems
+      operationId: characters-index
+      responses:
+        '200':
+          description: Collection of characters.
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      allOf:
+                        - $ref: '#/components/schemas/Character'
+                        - $ref: '#/components/schemas/CharacterLinks'
+                    type: array
+                required:
+                  - data
+                type: object
+        '401':
+          $ref: '#/components/responses/ErrorUnauthenticated'
+      tags:
+        - character
   /cyberpunkred/armor:
     get:
       summary: Cyberpunk Red RPG armor
@@ -2793,7 +2817,7 @@ paths:
           description: All Shadowrun 5E grunts.
       tags:
         - shadowrun
-  /shadowrun5e/intrustion-countermeasures:
+  /shadowrun5e/intrusion-countermeasures:
     get:
       summary: Shadowrun 5E ICE
       operationId: shadowrun5e-intrusionCountermeasures-index
@@ -3317,7 +3341,32 @@ paths:
                 type: object
           description: Collection of the user's Star Trek Adventures characters.
       tags:
+        - character
         - startrekadventures
+  /stillfleet/characters:
+    get:
+      summary: Stillfleet RPG characters
+      operationId: stillfleet-characters-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/StillfleetCharacter'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: Collection of the user's Stillfleet characters.
+      tags:
+        - character
+        - stillfleet
   /stillfleet/powers:
     get:
       summary: Collection of Stillfleet powers
@@ -3363,9 +3412,32 @@ paths:
                   - data
                   - links
                 type: object
-          description: All roles a Stillfleet character may fulfill.
+          description: All classes a Stillfleet character may fulfill.
         '401':
           $ref: '#/components/responses/ErrorUnauthenticated'
+      tags:
+        - stillfleet
+  /stillfleet/species:
+    get:
+      summary: Collection of Stillfleet species
+      operationId: stillfleet-species-index
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/StillfleetSpecies'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
+                type: object
+          description: All species available in Stillfleet.
       tags:
         - stillfleet
   /subversion/backgrounds:
@@ -3631,9 +3703,16 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/User'
-                type: array
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/User'
+                    type: array
+                  links:
+                    $ref: '#/components/schemas/Links'
+                required:
+                  - data
+                  - links
         '401':
           $ref: '#/components/responses/ErrorUnauthenticated'
         '403':
@@ -4400,6 +4479,7 @@ components:
           career: 'https://commlink.digitaldarkness.com/api/alien/careers/scientist'
       properties:
         career:
+          nullable: true
           type: string
         description:
           type: string
@@ -4557,6 +4637,12 @@ components:
             A zealous advocate with a heart of gold and a diamond-hard will,
             ready to do what it takes to fix the world. Their balance
             principles are Restraint vs Results.
+          feature:
+            name: The Lodestar
+            description: |
+              There’s only one person you often let past your emotional walls.
+
+              **Name your lodestar:** Phil
           history:
             - |
               What experience of being deceived or manipulated convinced you
@@ -4735,6 +4821,12 @@ components:
           A zealous advocate with a heart of gold and a diamond-hard will,
           ready to do what it takes to fix the world. Their balance
           principles are Restraint vs Results.
+        feature:
+          name: The Lodestar
+          description: |
+            There’s only one person you often let past your emotional walls.
+
+            **Name your lodestar:** Phil
         history:
           - |
             What experience of being deceived or manipulated convinced you
@@ -4797,6 +4889,14 @@ components:
           type: array
         description:
           type: string
+        feature:
+          properties:
+            name:
+              type: string
+            description:
+              format: markdown
+              type: string
+          type: object
         history:
           items:
             type: string
@@ -5288,13 +5388,14 @@ components:
         - name
       type: object
     Character:
+      description: Minimal character object.
       properties:
         campaign_id:
           type: integer
         id:
           type: string
-        links:
-          $ref: '#/components/schemas/Links'
+        name:
+          type: string
         owner:
           oneOf:
             - format: email
@@ -5318,6 +5419,18 @@ components:
             id:
               type: integer
             name:
+              type: string
+          type: object
+      type: object
+    CharacterLinks:
+      properties:
+        links:
+          properties:
+            html:
+              format: url
+              type: string
+            json:
+              format: url
               type: string
           type: object
       type: object
@@ -6495,9 +6608,7 @@ components:
         description:
           type: string
         effects:
-          items:
-            type: object
-          type: array
+          type: object
         incompatible_with:
           items:
             type: string
@@ -6516,14 +6627,13 @@ components:
         - cost
         - description
         - id
-        - incompatible_with
         - name
         - links
       type: object
     Shadowrun5eAmmunition:
       example:
         id: 'apds'
-        ap-modifier: -4
+        ap_modifier: -4
         availability: '12F'
         cost: 120
         description: |
@@ -6534,7 +6644,7 @@ components:
         links:
           self: '/api/shadowrun5e/ammunition/apds'
       properties:
-        ap-modifier:
+        ap_modifier:
           type: integer
         availability:
           $ref: '#/components/schemas/Shadowrun5eAvailability'
@@ -6542,9 +6652,9 @@ components:
           type: string
         cost:
           type: integer
-        cost-modifier:
+        cost_modifier:
           type: number
-        damage-modifier:
+        damage_modifier:
           type: string
         description:
           type: string
@@ -6561,7 +6671,6 @@ components:
         ruleset:
           type: string
       required:
-        - ap-modifier
         - availability
         - description
         - id
@@ -6624,7 +6733,7 @@ components:
     Shadowrun5eArmorModification:
       example:
         availability: ''
-        capacity-cost: 0
+        capacity_cost: 0
         cost: 50
         description: |
           This enhancement enables your armor and clothing to display a wide
@@ -6646,13 +6755,13 @@ components:
       properties:
         availability:
           $ref: '#/components/schemas/Shadowrun5eAvailability'
-        capacity-cost:
+        capacity_cost:
           type: integer
-        capacity-multiplier:
+        capacity_multiplier:
           type: number
         cost:
           type: integer
-        cost-multiplier:
+        cost_multiplier:
           type: number
         description:
           type: string
@@ -6672,7 +6781,7 @@ components:
           type: string
       required:
         - availability
-        - capacity-cost
+        - capacity_cost
         - description
         - id
         - links
@@ -6710,9 +6819,7 @@ components:
         description:
           type: string
         effects:
-          items:
-            type: object
-          type: array
+          type: object
         essence:
           type: number
         id:
@@ -6737,6 +6844,7 @@ components:
           enum:
             - bioware
             - cyberware
+            - genemod
           type: string
         wireless_effects:
           type: object
@@ -7504,7 +7612,7 @@ components:
           type: array
         cost:
           example: 50
-          type: integer
+          type: number
         description:
           example: |
               Typically handheld, binoculars come with built-in vision
@@ -7557,7 +7665,7 @@ components:
           employees to use these, as they can provide more time for them to
           track down and punish intruders.
         effects:
-          - attack: 1
+          attack: 1
         id: 'attack-dongle-1'
         name: 'Attack dongle'
         page: 61
@@ -7575,9 +7683,7 @@ components:
         description:
           type: string
         effects:
-          items:
-            type: object
-          type: array
+          type: object
         id:
           $ref: '#/components/schemas/ItemId'
         links:
@@ -7590,6 +7696,8 @@ components:
           type: integer
         ruleset:
           type: string
+        wireless-effects:
+          type: object
       required:
         - availability
       type: object
@@ -8151,7 +8259,6 @@ components:
         links:
           $ref: '#/components/schemas/Links'
       required:
-        - effects
         - id
         - limit
         - name
@@ -8648,7 +8755,16 @@ components:
           $ref: '#/components/schemas/Links'
         modifications:
           items:
-            type: string
+            oneOf:
+              - type: string
+              - type: object
+                properties:
+                  id:
+                    type: string
+                  modifications:
+                    items:
+                      type: string
+                    type: array
           type: array
         name:
           type: string
@@ -8736,11 +8852,11 @@ components:
     Shadowrun5eWeapon:
       example:
         accuracy: '5'
-        ammo-capacity: 38
-        ammo-container: 'c'
-        armor-piercing: -2
+        ammo_capacity: 38
+        ammo_container: 'c'
+        armor_piercing: -2
         availability: '4R'
-        class: 'Assault Rifle'
+        class: 'Assault rifle'
         cost: 950
         damage: '10P'
         description: |
@@ -8750,7 +8866,7 @@ components:
           AK-97s kept functioning just fine.
         id: 'ak-97'
         links:
-          self: '/api/shadowrun5e/weapons/ak-97'
+          self: 'https://commlink.digitaldarkness.com/api/shadowrun5e/weapons/ak-97'
         modes:
           - 'SA'
           - 'BF'
@@ -8767,45 +8883,38 @@ components:
         type: 'firearm'
       properties:
         accuracy:
+          nullable: true
           type: string
-        ammo-capacity:
+        ammo_capacity:
           type: integer
-        ammo-container:
+        ammo_container:
           type: string
-        armor-piercing:
+        armor_piercing:
           type: integer
         availability:
           $ref: '#/components/schemas/Shadowrun5eAvailability'
         class:
           enum:
-            - Assault Cannon
-            - Assault Rifle
+            - Assault rifle
             - Blade
             - Bow
+            - Cannon
             - Club
-            - Exotic
-            - Flamethrower
-            - Grenade
-            - Grenade Launcher
-            - Heavy Crossbow
-            - Heavy Machinegun
-            - Heavy Pistol
-            - Hold-Out Pistol
-            - Light Crossbow
-            - Light Machinegun
-            - Light Pistol
-            - Machine Pistol
-            - Medium Crossbow
-            - Medium Machinegun
-            - Missile Launcher
+            - Crossbow
+            - Grenade launcher
+            - Heavy pistol
+            - Hold-out pistol
+            - Light pistol
+            - Machine gun
+            - Machine pistol
+            - Missile launcher
+            - Other Melee
             - Shotgun
-            - Sniper Rifle
-            - Sporting Rifle
-            - Submachine Gun
+            - Sniper rifle
+            - Special weapon
+            - Submachine gun
             - Taser
             - Throwing Weapon
-            - Thrown Knife
-            - Unarmed
           type: string
         cost:
           type: integer
@@ -8823,7 +8932,7 @@ components:
           type: array
         modifications:
           items:
-            type: string
+            $ref: '#/components/schemas/Shadowrun5eWeaponModification'
           type: array
         mounts:
           items:
@@ -8841,6 +8950,7 @@ components:
         type:
           enum:
             - firearm
+            - grenade
             - melee
           type: string
       type: object
@@ -9132,6 +9242,91 @@ components:
         - page
         - ruleset
       type: object
+    StillfleetAttribute:
+      description: Stillfleet uses different dice sizes for attributes.
+      enum:
+        - d4
+        - d6
+        - d8
+        - d10
+        - d12
+      type: string
+    StillfleetCharacter:
+      properties:
+        attributes:
+          properties:
+            charm:
+              $ref: '#/components/schemas/StillfleetAttribute'
+            charm_modifier:
+              type: integer
+            combat:
+              $ref: '#/components/schemas/StillfleetAttribute'
+            combat_modifier:
+              type: integer
+            movement:
+              $ref: '#/components/schemas/StillfleetAttribute'
+            movement_modifier:
+              type: integer
+            reason:
+              $ref: '#/components/schemas/StillfleetAttribute'
+            reason_modifier:
+              type: integer
+            will:
+              $ref: '#/components/schemas/StillfleetAttribute'
+            will_modifier:
+              type: integer
+            grit_max:
+              type: integer
+            grit_current:
+              type: integer
+            health_max:
+              type: integer
+            health_current:
+              type: integer
+          required:
+            - charm
+            - charm_modifier
+            - combat
+            - combat_modifier
+            - movement
+            - movement_modifier
+            - reason
+            - reason_modifier
+            - will
+            - will_modifier
+            - grit_max
+            - grit_current
+            - health_max
+            - health_current
+          type: object
+        id:
+          type: string
+        name:
+          type: string
+        owner:
+          $ref: '#/components/schemas/UserMinimal'
+        rank:
+          type: integer
+        roles:
+          items:
+            $ref: '#/components/schemas/StillfleetRole'
+          type: array
+        species:
+          $ref: '#/components/schemas/StillfleetSpecies'
+        system:
+          enum:
+            - stillfleet
+          type: string
+      required:
+        - attributes
+        - name
+        - rank
+        - roles
+        - species
+        - id
+        - owner
+        - system
+      type: object
     StillfleetPower:
       description:  A power granted to a character by their class or species, or achieved through leveling up.
       example:
@@ -9150,6 +9345,9 @@ components:
           type: string
         description:
           type: string
+        effects:
+          description: Game effects the power gives the user.
+          type: object
         id:
           type: string
         name:
@@ -9177,7 +9375,7 @@ components:
         - links
       type: object
     StillfleetRole:
-      description: Role a voidminer can have with the company.
+      description: Role (class) a voidminer can have with the company.
       example:
         description: 'You are an engineer—and very likely a daredevil—trained by the Archivists to understand the beyond-human science of stiffworks.'
         grit:
@@ -9227,6 +9425,9 @@ components:
           type: string
         grit:
           description: Attributes to use to determine the voidminer's maximum grit. Uses the die size for the given attributes. If the attribute starts with a minus (-) subtracts that attribute.
+          items:
+            type: string
+          type: array
         id:
           type: string
         name:
@@ -9234,8 +9435,8 @@ components:
         page:
           type: integer
         advanced_power_lists:
+          description: List(s) that the voidminer can pick from when gaining advanced powers.
           items:
-            description: List(s) that the voidminer can pick from when gaining advanced powers.
             type: string
           type: array
         marquee_power:
@@ -9256,6 +9457,81 @@ components:
           type: string
         links:
           $ref: '#/components/schemas/Links'
+      type: object
+    StillfleetSpecies:
+      example:
+        description: You spell it with a capital F. You are a space-born human. You claim to be immune to the voidpanic that grips other inhabitants of the vacuum, but in reality, you are merely better at faking calm.
+        id: fleeter
+        languages: You speak Spin plus many common wetan rasp-words.
+        name: Fleeter
+        page: 68
+        ruleset: core
+        optional_powers:
+          - description: You gain a permanent bonus of +1 REA.
+            effects:
+              REA: 1
+            id: arkheion-access
+            name: Arkheion access
+            page: 68
+            ruleset: core
+            type: species
+            links:
+              self: https://commlink.digitaldarkness.com/api/stillfleet/powers/arkheion-access
+        powers:
+          - description: You gain +125 voidguilders at character creation.
+            effects:
+              voidbuilders: 125
+            id: company-soul
+            name: Company Soul
+            page: 68
+            ruleset: core
+            type: species
+            links:
+              self: https://commlink.digitaldarkness.com/api/stillfleet/powers/company-soul
+        powers_choose: 1
+        links:
+          self: https://commlink.digitaldarkness.com/api/stillfleet/species/fleeter
+      properties:
+        description:
+          type: string
+        id:
+          type: string
+        languages:
+          description: Languages the species tends to speak or options they can choose.
+          type: string
+        name:
+          type: string
+        page:
+          type: integer
+        ruleset:
+          type: string
+        optional_powers:
+          items:
+            $ref: '#/components/schemas/StillfleetPower'
+          type: array
+        powers:
+          items:
+            $ref: '#/components/schemas/StillfleetPower'
+          type: array
+        powers_choose:
+          description: How many optional powers a character can choose from the species's optional list.
+          type: integer
+        powers_chosen:
+          description: Optional powers the character inherits from their species.
+          items:
+            $ref: '#/components/schemas/StillfleetPower'
+          type: array
+        links:
+          $ref: '#/components/schemas/Links'
+      required:
+        - id
+        - name
+        - page
+        - ruleset
+        - optional_powers
+        - powers
+        - powers_choose
+        - links
       type: object
     SubversionAttribute:
       enum:
@@ -9981,7 +10257,7 @@ components:
           items:
             $ref: '#/components/schemas/Role'
           type: array
-        _links:
+        links:
           $ref: '#/components/schemas/Links'
       required:
         - characters
@@ -9992,7 +10268,7 @@ components:
         - name
         - playingIn
         - roles
-        - _links
+        - links
       type: object
     UserMinimal:
       nullable: true

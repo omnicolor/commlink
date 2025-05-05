@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -16,10 +17,10 @@ use function strtolower;
  */
 class SpritePower implements Stringable
 {
-    public string $description;
-    public string $name;
-    public int $page;
-    public string $ruleset;
+    public readonly string $description;
+    public readonly string $name;
+    public readonly int $page;
+    public readonly string $ruleset;
 
     /**
      * Collection of all potential powers.
@@ -30,7 +31,7 @@ class SpritePower implements Stringable
     /**
      * @throws RuntimeException if the ID is not found
      */
-    public function __construct(public string $id)
+    public function __construct(public readonly string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'sprite-powers.php';
         self::$powers = require $filename;
@@ -50,6 +51,7 @@ class SpritePower implements Stringable
         $this->ruleset = $power['ruleset'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

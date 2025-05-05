@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrunanarchy\Tests\Feature\Rolls;
 
-use App\Exceptions\SlackException;
 use App\Models\Channel;
 use Facades\App\Services\DiceService;
 use Modules\Shadowrunanarchy\Rolls\Number;
+use Omnicolor\Slack\Exceptions\SlackException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -21,9 +21,6 @@ final class NumberTest extends TestCase
     #[Group('slack')]
     public function testRollTooManySlack(): void
     {
-        self::expectException(SlackException::class);
-        self::expectExceptionMessage('');
-
         self::expectException(SlackException::class);
         self::expectExceptionMessage('You can\'t roll more than 100 dice!');
         (new Number('101', 'username', new Channel()))->forSlack();
@@ -46,23 +43,46 @@ final class NumberTest extends TestCase
     #[Group('slack')]
     public function testSuccessSlack(): void
     {
-        DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(6);
-        $result = (new Number('6', 'user', new Channel()))->forSlack();
-        $result = json_decode((string)$result)->attachments[0];
-        self::assertSame('good', $result->color);
-        self::assertSame('user rolled 6 successes', $result->title);
+        DiceService::shouldReceive('rollOne')
+            ->times(6)
+            ->with(6)
+            ->andReturn(6);
+        $result = (new Number('6', 'user', new Channel()))
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $result);
+        self::assertSame(
+            [
+                'color' => 'good',
+                'footer' => '6 6 6 6 6 6',
+                'text' => '6 dice',
+                'title' => 'user rolled 6 successes',
+            ],
+            $result['attachments'][0],
+        );
     }
 
     #[Group('slack')]
     public function testFailureWithDescriptionSlack(): void
     {
-        DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(1);
-        $result = (new Number('6 testing', 'user', new Channel()))->forSlack();
-        $result = json_decode((string)$result)->attachments[0];
-        self::assertSame('danger', $result->color);
+        DiceService::shouldReceive('rollOne')
+            ->times(6)
+            ->with(6)
+            ->andReturn(1);
+        $result = (new Number('6 testing', 'user', new Channel()))
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $result);
         self::assertSame(
-            'user rolled 0 successes for "testing"',
-            $result->title,
+            [
+                'color' => 'danger',
+                'footer' => '1 1 1 1 1 1',
+                'text' => '6 dice',
+                'title' => 'user rolled 0 successes for "testing"',
+            ],
+            $result['attachments'][0],
         );
     }
 
@@ -95,10 +115,23 @@ final class NumberTest extends TestCase
     #[Group('slack')]
     public function testGlitchDieWithExploit(): void
     {
-        DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(6);
-        $result = (new Number('5 glitch', 'user', new Channel()))->forSlack();
-        $result = json_decode((string)$result)->attachments[0];
-        self::assertSame('good', $result->color);
-        self::assertSame('user rolled 5 successes, EXPLOITED', $result->title);
+        DiceService::shouldReceive('rollOne')
+            ->times(6)
+            ->with(6)
+            ->andReturn(6);
+        $result = (new Number('5 glitch', 'user', new Channel()))
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $result);
+        self::assertSame(
+            [
+                'color' => 'good',
+                'footer' => '6 6 6 6 6 6',
+                'text' => '5 dice plus a glitch die',
+                'title' => 'user rolled 5 successes, EXPLOITED',
+            ],
+            $result['attachments'][0],
+        );
     }
 }

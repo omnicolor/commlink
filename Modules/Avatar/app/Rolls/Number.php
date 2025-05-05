@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Avatar\Rolls;
 
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
-use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
+use Omnicolor\Slack\Attachments\TextAttachment;
+use Omnicolor\Slack\Response;
+use Override;
 
 use function abs;
 use function array_shift;
@@ -54,26 +55,32 @@ class Number extends Roll
         $this->roll();
     }
 
+    #[Override]
     public function forDiscord(): string
     {
         return sprintf('**%s**', $this->title) . PHP_EOL . $this->text;
     }
 
+    #[Override]
     public function forIrc(): string
     {
         return $this->title . PHP_EOL . $this->text;
     }
 
-    public function forSlack(): SlackResponse
+    #[Override]
+    public function forSlack(): Response
     {
-        $color = TextAttachment::COLOR_DANGER;
-        if (self::FAILURE < $this->result) {
-            $color = TextAttachment::COLOR_SUCCESS;
-        }
-
-        $attachment = new TextAttachment($this->title, $this->text, $color);
-        $response = new SlackResponse(channel: $this->channel);
-        return $response->addAttachment($attachment)->sendToChannel();
+        $attachment = new TextAttachment(
+            $this->title,
+            $this->text,
+            self::FAILURE < $this->result
+                ? TextAttachment::COLOR_SUCCESS
+                : TextAttachment::COLOR_DANGER,
+        );
+        // @phpstan-ignore method.deprecated
+        return (new Response())
+            ->addAttachment($attachment)
+            ->sendToChannel();
     }
 
     protected function roll(): void

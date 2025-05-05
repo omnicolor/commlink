@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\MissingValue;
 use Modules\Subversion\Models\ImpulseResponse;
+use stdClass;
 
 /**
  * @mixin ImpulseResponse
@@ -18,7 +19,7 @@ class ImpulseResponseResource extends JsonResource
     /**
      * @return array{
      *   description: MissingValue|string,
-     *   effects: array<string, int>,
+     *   effects: array<string, int>|stdClass,
      *   id: string,
      *   name: string,
      * }
@@ -32,7 +33,7 @@ class ImpulseResponseResource extends JsonResource
                 $user->hasPermissionTo('view data'),
                 $this->description,
             ),
-            'effects' => $this->effects,
+            'effects' => (object)$this->effects,
             'id' => $this->id,
             'name' => $this->name,
         ];

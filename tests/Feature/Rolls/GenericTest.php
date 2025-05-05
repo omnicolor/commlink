@@ -7,11 +7,12 @@ namespace Tests\Feature\Rolls;
 use App\Models\Channel;
 use App\Rolls\Generic;
 use Facades\App\Services\DiceService;
+use Omnicolor\Slack\Contexts\PlainText;
+use Omnicolor\Slack\Headers\Header;
+use Omnicolor\Slack\Sections\Text;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
-
-use function json_decode;
 
 use const PHP_EOL;
 
@@ -30,14 +31,22 @@ final class GenericTest extends TestCase
             ->with(3, 6)
             ->andReturn([2, 2, 2]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make();
-        $response = new Generic('3d6', 'username', $channel);
-        $response = json_decode((string)$response->forSlack());
-        self::assertSame('Rolls: 2, 2, 2', $response->attachments[0]->footer);
-        self::assertSame(
-            'Rolling: 3d6 = [2+2+2] = 6',
-            $response->attachments[0]->text
+        $response = (new Generic('3d6', 'username', $channel))
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertEquals(
+            (new Header('username rolled 6'))->jsonSerialize(),
+            $response['blocks'][0],
+        );
+        self::assertEquals(
+            (new Text('Rolling: 3d6 = [2+2+2] = 6'))->jsonSerialize(),
+            $response['blocks'][1],
+        );
+        self::assertEquals(
+            (new PlainText('Rolls: 2, 2, 2'))->jsonSerialize(),
+            $response['blocks'][2],
         );
     }
 
@@ -51,21 +60,21 @@ final class GenericTest extends TestCase
             ->with(4, 6)
             ->andReturn([3, 3, 3, 3]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make();
         $roll = new Generic('4d6 testing', 'user', $channel);
-        $response = json_decode((string)$roll->forSlack());
-        self::assertSame(
-            'Rolls: 3, 3, 3, 3',
-            $response->attachments[0]->footer
+
+        $slack = $roll->forSlack()->jsonSerialize();
+        self::assertEquals(
+            (new Header('user rolled 12 for "testing"'))->jsonSerialize(),
+            $slack['blocks'][0],
         );
-        self::assertSame(
-            'Rolling: 4d6 = [3+3+3+3] = 12',
-            $response->attachments[0]->text
+        self::assertEquals(
+            (new Text('Rolling: 4d6 = [3+3+3+3] = 12'))->jsonSerialize(),
+            $slack['blocks'][1],
         );
-        self::assertSame(
-            'user rolled 12 for "testing"',
-            $response->attachments[0]->title
+        self::assertEquals(
+            (new PlainText('Rolls: 3, 3, 3, 3'))->jsonSerialize(),
+            $slack['blocks'][2],
         );
 
         $expected = '**user rolled 12 for "testing"**' . PHP_EOL
@@ -85,14 +94,20 @@ final class GenericTest extends TestCase
             ->with(2, 10)
             ->andReturn([10, 10]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make();
         $roll = new Generic('4+2d10-1*10 foo', 'Bob', $channel);
-        $response = json_decode((string)$roll->forSlack());
-        self::assertSame('Rolls: 10, 10', $response->attachments[0]->footer);
-        self::assertSame(
-            'Rolling: 4+2d10-1*10 = 4+[10+10]-1*10 = 14',
-            $response->attachments[0]->text
+        $slack = $roll->forSlack()->jsonSerialize();
+        self::assertEquals(
+            (new Header('Bob rolled 14 for "foo"'))->jsonSerialize(),
+            $slack['blocks'][0],
+        );
+        self::assertEquals(
+            (new Text('Rolling: 4+2d10-1*10 = 4+[10+10]-1*10 = 14'))->jsonSerialize(),
+            $slack['blocks'][1],
+        );
+        self::assertEquals(
+            (new PlainText('Rolls: 10, 10'))->jsonSerialize(),
+            $slack['blocks'][2],
         );
 
         $expected = '**Bob rolled 14 for "foo"**' . PHP_EOL

@@ -21,27 +21,15 @@ class Gear implements Stringable
     /**
      * Whether the item is active.
      */
-    public ?bool $active;
-
-    /**
-     * Availability code of the item.
-     */
-    public string $availability;
-
-    /**
-     * Base cost of the item.
-     */
-    public int $cost;
+    public bool $active = false;
+    public readonly string $availability;
+    public readonly int $cost;
 
     /**
      * Matrix damage the item has taken.
      */
-    public ?int $damage;
-
-    /**
-     * Description of the item.
-     */
-    public string $description;
+    public int $damage = 0;
+    public readonly string $description;
 
     /**
      * Effects of the item.
@@ -53,21 +41,13 @@ class Gear implements Stringable
      * Modifications applied to the item.
      */
     public GearModificationArray $modifications;
-
-    /**
-     * Name of the item.
-     */
-    public string $name;
-
-    /**
-     * Optional rating for the item.
-     */
-    public ?int $rating = null;
+    public readonly string $name;
+    public readonly int|null $rating;
 
     /**
      * Optional subname of the item.
      */
-    public ?string $subname = null;
+    public null|string $subname = null;
 
     /**
      * List of all gear.
@@ -78,7 +58,7 @@ class Gear implements Stringable
     /**
      * @throws RuntimeException If ID is invalid
      */
-    public function __construct(public string $id, public int $quantity = 1)
+    public function __construct(public readonly string $id, public int $quantity = 1)
     {
         $filename = config('shadowrun5e.data_path') . 'gear.php';
         self::$gear ??= require $filename;

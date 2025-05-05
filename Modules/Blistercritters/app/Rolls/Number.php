@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Modules\Blistercritters\Rolls;
 
-use App\Exceptions\SlackException;
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
-use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
+use Omnicolor\Slack\Attachments\TextAttachment;
+use Omnicolor\Slack\Exceptions\SlackException;
+use Omnicolor\Slack\Response;
+use Override;
 
 use function array_shift;
 use function count;
@@ -73,6 +74,7 @@ class Number extends Roll
         $this->roll();
     }
 
+    #[Override]
     public function forDiscord(): string
     {
         if (null !== $this->error) {
@@ -83,6 +85,7 @@ class Number extends Roll
             . 'Rolls: ' . implode(' ', $this->rolls);
     }
 
+    #[Override]
     public function forIrc(): string
     {
         if (null !== $this->error) {
@@ -93,24 +96,25 @@ class Number extends Roll
             . 'Rolls: ' . implode(' ', $this->rolls);
     }
 
-    public function forSlack(): SlackResponse
+    #[Override]
+    public function forSlack(): Response
     {
         if (null !== $this->error) {
             throw new SlackException($this->error);
         }
 
-        $color = $this->result < $this->target
-            ? TextAttachment::COLOR_DANGER
-            : TextAttachment::COLOR_SUCCESS;
-
         $attachment = new TextAttachment(
             $this->formatTitle(),
             $this->formatText(),
-            $color,
+            $this->result < $this->target
+                ? TextAttachment::COLOR_DANGER
+                : TextAttachment::COLOR_SUCCESS,
+            'Rolls: ' . implode(' ', $this->rolls),
         );
-        $attachment->addFooter('Rolls: ' . implode(' ', $this->rolls));
-        $response = new SlackResponse(channel: $this->channel);
-        return $response->addAttachment($attachment)->sendToChannel();
+        // @phpstan-ignore method.deprecated
+        return (new Response())
+            ->addAttachment($attachment)
+            ->sendToChannel();
     }
 
     protected function formatTitle(): string

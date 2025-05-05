@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\CampaignsController;
 use App\Http\Controllers\ChannelsController;
+use App\Http\Controllers\CharactersController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\Fakes\NamesController as FakeNamesController;
 use App\Http\Controllers\HealthzController;
@@ -41,6 +42,9 @@ Route::middleware('auth:sanctum')->group(function (): void {
         '/campaigns/{campaign}/invite',
         [CampaignsController::class, 'invite'],
     )->name('campaign.invite');
+
+    Route::resource('characters', CharactersController::class)
+        ->only(['index']);
 
     Route::resource('events', EventsController::class)
         ->withTrashed(['destroy'])

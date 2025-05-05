@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Modules\Avatar\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Modules\Avatar\Models\Background;
+use Modules\Avatar\Enums\Background;
+use Modules\Avatar\Enums\Era;
 use Modules\Avatar\Models\Character;
-use Modules\Avatar\Models\Era;
 
 /**
  * @extends Factory<Character>

@@ -31,7 +31,8 @@ Route::middleware('auth:sanctum')
     ->name('subversion.')
     ->group(function (): void {
         Route::get('backgrounds', function (): AnonymousResourceCollection {
-            return BackgroundResource::collection(Background::all());
+            return BackgroundResource::collection(Background::all())
+                ->additional(['links' => ['self' => route('subversion.backgrounds.index')]]);
         })->name('backgrounds.index');
         Route::get(
             'backgrounds/{background}',
@@ -41,7 +42,8 @@ Route::middleware('auth:sanctum')
         )->name('backgrounds.show');
 
         Route::get('castes', function (): AnonymousResourceCollection {
-            return CasteResource::collection(Caste::all());
+            return CasteResource::collection(Caste::all())
+                ->additional(['links' => ['self' => route('subversion.castes.index')]]);
         })->name('castes.index');
         Route::get(
             'castes/{caste}',
@@ -74,7 +76,8 @@ Route::middleware('auth:sanctum')
         )->name('characters.show');
 
         Route::get('gear', function (): AnonymousResourceCollection {
-            return GearResource::collection(Gear::all());
+            return GearResource::collection(Gear::all())
+                ->additional(['links' => ['self' => route('subversion.gear.index')]]);
         })->name('gear.index');
         Route::get(
             'gear/{gear}',
@@ -84,7 +87,8 @@ Route::middleware('auth:sanctum')
         )->name('gear.show');
 
         Route::get('ideologies', function (): AnonymousResourceCollection {
-            return IdeologyResource::collection(Ideology::all());
+            return IdeologyResource::collection(Ideology::all())
+                ->additional(['links' => ['self' => route('subversion.ideologies.index')]]);
         })->name('ideologies.index');
         Route::get(
             'ideologies/{ideology}',
@@ -94,7 +98,8 @@ Route::middleware('auth:sanctum')
         )->name('ideologies.show');
 
         Route::get('impulses', function (): AnonymousResourceCollection {
-            return ImpulseResource::collection(Impulse::all());
+            return ImpulseResource::collection(array_values(Impulse::all()))
+                ->additional(['links' => ['self' => route('subversion.impulses.index')]]);
         })->name('impulses.index');
         Route::get(
             'impulses/{impulse}',
@@ -104,7 +109,8 @@ Route::middleware('auth:sanctum')
         )->name('impulses.show');
 
         Route::get('languages', function (): AnonymousResourceCollection {
-            return LanguageResource::collection(Language::all());
+            return LanguageResource::collection(Language::all())
+                ->additional(['links' => ['self' => route('subversion.languages.index')]]);
         })->name('languages.index');
         Route::get(
             'languages/{language}',
@@ -114,7 +120,8 @@ Route::middleware('auth:sanctum')
         )->name('languages.show');
 
         Route::get('lineages', function (): AnonymousResourceCollection {
-            return LineageResource::collection(Lineage::all());
+            return LineageResource::collection(Lineage::all())
+                ->additional(['links' => ['self' => route('subversion.lineages.index')]]);
         })->name('lineages.index');
         Route::get(
             'lineages/{lineage}',
@@ -124,14 +131,16 @@ Route::middleware('auth:sanctum')
         )->name('lineages.show');
 
         Route::get('origins', function (): AnonymousResourceCollection {
-            return OriginResource::collection(Origin::all());
+            return OriginResource::collection(Origin::all())
+                ->additional(['links' => ['self' => route('subversion.origins.index')]]);
         })->name('origins.index');
         Route::get('origins/{origin}', function (string $origin): OriginResource {
             return new OriginResource(new Origin($origin));
         })->name('origins.show');
 
         Route::get('skills', function (): AnonymousResourceCollection {
-            return SkillResource::collection(Skill::all());
+            return SkillResource::collection(array_values(Skill::all()))
+                ->additional(['links' => ['self' => route('subversion.skills.index')]]);
         })->name('skills.index');
         Route::get(
             'skills/{skill}',

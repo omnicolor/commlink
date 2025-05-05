@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Capers\Tests\Feature\Rolls;
 
-use App\Exceptions\SlackException;
 use App\Models\Campaign;
 use App\Models\Channel;
 use Illuminate\Foundation\Testing\WithFaker;
 use Modules\Capers\Models\StandardDeck;
 use Modules\Capers\Rolls\Draw;
+use Omnicolor\Slack\Exceptions\SlackException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -28,13 +28,12 @@ final class DrawTest extends TestCase
     #[Group('slack')]
     public function testDrawWithNoCampaign(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'capers']);
         $channel->username = $this->faker->name;
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(
-            'Decks for Capers require a linked Commlink campaign.'
+            'Decks for Capers require a linked Commlink campaign.',
         );
         (new Draw('draw', $channel->username, $channel))->forSlack();
     }
@@ -45,10 +44,8 @@ final class DrawTest extends TestCase
     #[Group('slack')]
     public function testDrawFromOtherSystem(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',
@@ -57,7 +54,7 @@ final class DrawTest extends TestCase
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(
-            'Capers-style card decks are only available for Capers campaigns.'
+            'Capers-style card decks are only available for Capers campaigns.',
         );
         (new Draw('draw', $channel->username, $channel))->forSlack();
     }
@@ -68,7 +65,6 @@ final class DrawTest extends TestCase
     #[Group('slack')]
     public function testDrawFirstTime(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'capers']);
 
         /** @var Channel */
@@ -83,25 +79,28 @@ final class DrawTest extends TestCase
             [
                 'campaign_id' => $campaign->id,
                 'character_id' => $channel->username,
-            ]
+            ],
         );
         $response = (new Draw('draw', $channel->username, $channel))
-            ->forSlack();
+            ->forSlack()
+            ->jsonSerialize();
         self::assertDatabaseHas(
             'decks',
             [
                 'campaign_id' => $campaign->id,
                 'character_id' => $channel->username,
-            ]
+            ],
         );
 
+        self::assertArrayHasKey('attachments', $response);
+        self::assertArrayHasKey('footer', $response['attachments'][0]);
         self::assertStringStartsWith(
             sprintf('%s drew the ', $channel->username),
-            json_decode((string)$response)->attachments[0]->title
+            $response['attachments'][0]['title'],
         );
         self::assertSame(
             '53 cards remain',
-            json_decode((string)$response)->attachments[0]->footer
+            $response['attachments'][0]['footer'],
         );
     }
 
@@ -111,10 +110,8 @@ final class DrawTest extends TestCase
     #[Group('slack')]
     public function testDrawAgain(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'capers']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',
@@ -129,15 +126,18 @@ final class DrawTest extends TestCase
         $deck->save();
 
         $response = (new Draw('draw', $channel->username, $channel))
-            ->forSlack();
+            ->forSlack()
+            ->jsonSerialize();
 
+        self::assertArrayHasKey('attachments', $response);
+        self::assertArrayHasKey('footer', $response['attachments'][0]);
         self::assertStringStartsWith(
             sprintf('%s drew the ', $channel->username),
-            json_decode((string)$response)->attachments[0]->title
+            $response['attachments'][0]['title'],
         );
         self::assertSame(
             '43 cards remain',
-            json_decode((string)$response)->attachments[0]->footer
+            $response['attachments'][0]['footer'],
         );
     }
 
@@ -147,10 +147,8 @@ final class DrawTest extends TestCase
     #[Group('slack')]
     public function testDrawEmptySlack(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'capers']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',
@@ -175,10 +173,8 @@ final class DrawTest extends TestCase
     #[Group('discord')]
     public function testDrawDiscord(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'capers']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',
@@ -200,10 +196,8 @@ final class DrawTest extends TestCase
     #[Group('discord')]
     public function testDrawEmptyDiscord(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'capers']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',
@@ -228,10 +222,8 @@ final class DrawTest extends TestCase
     #[Group('irc')]
     public function testDrawIrc(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'capers']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',
@@ -253,10 +245,8 @@ final class DrawTest extends TestCase
     #[Group('irc')]
     public function testDrawEmptyIRC(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'capers']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',

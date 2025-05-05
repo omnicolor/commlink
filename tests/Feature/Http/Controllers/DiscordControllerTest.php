@@ -40,7 +40,6 @@ final class DiscordControllerTest extends TestCase
      */
     public function testGetNoCode(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)->get(route('discord.view'))
             ->assertRedirect(route('settings.chat-users'))
@@ -54,7 +53,6 @@ final class DiscordControllerTest extends TestCase
      */
     public function testGetWrongLengthCode(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)
             ->get(route('discord.view', ['code' => '1']))
@@ -72,7 +70,6 @@ final class DiscordControllerTest extends TestCase
         Http::fake([
             '*' => Http::response('', Response::HTTP_BAD_REQUEST),
         ]);
-        /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)
             ->get(route('discord.view', ['code' => Str::random(30)]))
@@ -123,7 +120,6 @@ final class DiscordControllerTest extends TestCase
             ),
             '*' => Http::response('', Response::HTTP_BAD_REQUEST),
         ]);
-        /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)
             ->get(route('discord.view', ['code' => Str::random(30)]))
@@ -137,7 +133,6 @@ final class DiscordControllerTest extends TestCase
      */
     public function testSaveWithNoGuilds(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)
             ->post(route('discord.save'))
@@ -152,7 +147,6 @@ final class DiscordControllerTest extends TestCase
      */
     public function testSaveWithInvalidGuild(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         self::actingAs($user)
             ->post(route('discord.save'), ['guilds' => ['0']])
@@ -190,7 +184,6 @@ final class DiscordControllerTest extends TestCase
             ],
         ]);
 
-        /** @var User */
         $user = User::factory()->create();
 
         self::actingAs($user)
@@ -199,21 +192,14 @@ final class DiscordControllerTest extends TestCase
             ->assertSessionHasNoErrors();
     }
 
-    /**
-     * Test trying to authenticate through Discord.
-     */
     public function testAuthThroughDiscord(): void
     {
         self::get('/discord/auth')
             ->assertRedirectContains('https://discord.com/api/oauth2/authorize?');
     }
 
-    /**
-     * Test a successful login through Discord with an existing user.
-     */
     public function testLoginThroughDiscordExistingUser(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         Socialite::shouldReceive('driver->user')
@@ -288,7 +274,6 @@ final class DiscordControllerTest extends TestCase
             ),
             '*' => Http::response('', Response::HTTP_BAD_REQUEST),
         ]);
-        /** @var User */
         $user = User::factory()->create();
 
         $username = $this->faker->word();
@@ -330,7 +315,6 @@ final class DiscordControllerTest extends TestCase
             '*' => Http::response('', Response::HTTP_BAD_REQUEST),
         ]);
 
-        /** @var User */
         $user = User::factory()->create();
 
         $username = $this->faker->word();
@@ -369,7 +353,6 @@ final class DiscordControllerTest extends TestCase
             '*' => Http::response('', Response::HTTP_BAD_REQUEST),
         ]);
 
-        /** @var User */
         $user = User::factory()->create();
 
         session([

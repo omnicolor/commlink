@@ -10,13 +10,16 @@ use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use Discord\Parts\Channel\Channel as TextChannel;
+use Override;
 use Stringable;
 
 use function config;
 use function count;
 use function explode;
 use function implode;
+use function optional;
 use function sprintf;
+use function trim;
 
 /**
  * Handle a user requesting to link a character to this Discord channel.
@@ -97,6 +100,7 @@ class LinkResponse implements Stringable
         ));
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->message;

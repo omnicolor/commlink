@@ -9,14 +9,14 @@ use RuntimeException;
 /**
  * Lifestyle attributes.
  */
-class LifestyleAttributes
+final class LifestyleAttributes
 {
-    public int $comforts;
-    public int $comfortsMax;
+    public readonly int $comforts;
+    public readonly int $comfortsMax;
     public int $neighborhood;
-    public int $neighborhoodMax;
-    public int $security;
-    public int $securityMax;
+    public readonly int $neighborhoodMax;
+    public readonly int $security;
+    public readonly int $securityMax;
 
     /**
      * @param array<string, int> $attributes

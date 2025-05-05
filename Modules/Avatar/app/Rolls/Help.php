@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Avatar\Rolls;
 
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
-use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
+use Omnicolor\Slack\Attachments\TextAttachment;
+use Omnicolor\Slack\Response;
+use Override;
 
 use function sprintf;
 
@@ -31,7 +32,7 @@ class Help extends Roll
             'title' => 'Commlink - Avatar RPG',
             'text' => 'Commlink is a Slack/Discord ot that lets you roll dice '
                 . 'for the Avatar RPG.' . PHP_EOL
-                . '· `2d6 [1]` - Roll two dice, optionally adding a modifier '
+                . '· `2d6[+1]` - Roll two dice, optionally adding a modifier '
                 . '(+1 in this case)' . PHP_EOL
                 . '· `-2` - Alternate form for rolling two dice with a modifier',
             'color' => TextAttachment::COLOR_INFO,
@@ -65,6 +66,7 @@ class Help extends Roll
         }
     }
 
+    #[Override]
     public function forDiscord(): string
     {
         $value = '';
@@ -75,6 +77,7 @@ class Help extends Roll
         return $value;
     }
 
+    #[Override]
     public function forIrc(): string
     {
         $value = '';
@@ -85,10 +88,12 @@ class Help extends Roll
         return $value;
     }
 
-    public function forSlack(): SlackResponse
+    #[Override]
+    public function forSlack(): Response
     {
-        $response = new SlackResponse(channel: $this->channel);
+        $response = new Response();
         foreach ($this->data as $element) {
+            // @phpstan-ignore method.deprecated
             $response->addAttachment(new TextAttachment(
                 $element['title'],
                 $element['text'],

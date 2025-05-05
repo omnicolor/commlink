@@ -12,7 +12,7 @@ use TypeError;
  * Collection of armor.
  * @extends ArrayObject<int, Armor>
  */
-class ArmorArray extends ArrayObject
+final class ArmorArray extends ArrayObject
 {
     /**
      * Add an armor to the array.

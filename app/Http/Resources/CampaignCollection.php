@@ -8,6 +8,7 @@ use App\Models\Campaign;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
+use Override;
 
 use function route;
 
@@ -22,6 +23,7 @@ final class CampaignCollection extends ResourceCollection
      *     }
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         return [

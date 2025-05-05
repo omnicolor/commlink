@@ -6,6 +6,10 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Override;
+
+use function config;
+use function route;
 
 /**
  * @codeCoverageIgnore
@@ -26,6 +30,7 @@ class HealthResource extends JsonResource
     /**
      * @return array<string, mixed>
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         return [

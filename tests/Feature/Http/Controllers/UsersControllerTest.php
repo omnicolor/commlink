@@ -85,7 +85,7 @@ final class UsersControllerTest extends TestCase
         $admin->givePermissionTo(Permission::create(['name' => 'admin users']));
         $user->assignRole($admin);
         $character = Character::factory()->create(['owner' => $user->email]);
-        $campaign = Campaign::factory()->create(['gm' => $user->id]);
+        Campaign::factory()->create(['gm' => $user->id]);
 
         self::actingAs($user)
             ->get(route('users.index'))
@@ -270,9 +270,7 @@ final class UsersControllerTest extends TestCase
 
     public function testCreateApiTokenForAnotherUser(): void
     {
-        /** @var User */
         $innocentUser = User::factory()->create();
-        /** @var User */
         $hacker = User::factory()->create();
 
         self::assertDatabaseMissing(
@@ -293,7 +291,6 @@ final class UsersControllerTest extends TestCase
 
     public function testCreateApiTokenNoExpiration(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         $token_name = Str::random(10);
@@ -311,7 +308,6 @@ final class UsersControllerTest extends TestCase
 
     public function testCreateApiTokenWithExpiration(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         $token_name = Str::random(10);
@@ -336,9 +332,7 @@ final class UsersControllerTest extends TestCase
 
     public function testDeleteAnotherUsersToken(): void
     {
-        /** @var User */
         $innocentUser = User::factory()->create();
-        /** @var User */
         $hacker = User::factory()->create();
 
         $token_name = Str::random(10);
@@ -361,7 +355,6 @@ final class UsersControllerTest extends TestCase
 
     public function testDeleteToken(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         $token_name = Str::random(10);

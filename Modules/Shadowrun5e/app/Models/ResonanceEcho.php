@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -14,12 +15,12 @@ use function strtolower;
 /**
  * Shadowrun 5E echoes: powers a technomancer can take when they submerge.
  */
-class ResonanceEcho implements Stringable
+final class ResonanceEcho implements Stringable
 {
-    public string $description;
-    public string $name;
-    public int $page;
-    public string $ruleset;
+    public readonly string $description;
+    public readonly string $name;
+    public readonly int $page;
+    public readonly string $ruleset;
 
     /**
      * @var array<string, int|string>
@@ -29,14 +30,14 @@ class ResonanceEcho implements Stringable
     /**
      * Number of times the echo can be taken after submerging.
      */
-    public int $limit;
+    public readonly int $limit;
 
     /**
      * @var ?array<string, array<string, array<string, int|string>|int|string>>
      */
     public static ?array $echoes;
 
-    public function __construct(public string $id)
+    public function __construct(public readonly string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'resonance-echoes.php';
         self::$echoes ??= require $filename;
@@ -57,6 +58,7 @@ class ResonanceEcho implements Stringable
         $this->ruleset = $echo['ruleset'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

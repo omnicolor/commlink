@@ -7,6 +7,7 @@ namespace App\Http\Resources;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Override;
 
 /**
  * @mixin User
@@ -20,6 +21,7 @@ class UserMinimalResource extends JsonResource
      *     name: string
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         return [

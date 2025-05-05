@@ -18,9 +18,6 @@ use const DIRECTORY_SEPARATOR;
 #[Small]
 final class Shadowrun5eConverterTest extends TestCase
 {
-    /**
-     * Test trying to load a file that doesn't exist.
-     */
     public function testLoadNotFoundFile(): void
     {
         self::expectException(RuntimeException::class);
@@ -28,9 +25,6 @@ final class Shadowrun5eConverterTest extends TestCase
         new Shadowrun5eConverter('not found');
     }
 
-    /**
-     * Test trying to load a non-text file.
-     */
     public function testLoadBinaryFile(): void
     {
         self::expectException(RuntimeException::class);
@@ -46,9 +40,6 @@ final class Shadowrun5eConverterTest extends TestCase
         new Shadowrun5eConverter(implode(DIRECTORY_SEPARATOR, $path));
     }
 
-    /**
-     * Test loading a file that is a plain text file, but not an Omae file.
-     */
     public function testLoadNotOmae(): void
     {
         self::expectException(RuntimeException::class);
@@ -56,9 +47,6 @@ final class Shadowrun5eConverterTest extends TestCase
         new Shadowrun5eConverter(__FILE__);
     }
 
-    /**
-     * Test loading a valid Omae sheet.
-     */
     public function testLoadOmae(): PartialCharacter
     {
         $path = explode(
@@ -74,9 +62,6 @@ final class Shadowrun5eConverterTest extends TestCase
         return $character;
     }
 
-    /**
-     * Test the character's metadata.
-     */
     #[Depends('testLoadOmae')]
     public function testMetadata(PartialCharacter $character): void
     {
@@ -84,9 +69,6 @@ final class Shadowrun5eConverterTest extends TestCase
         self::assertSame('shadowrun5e', $character->system);
     }
 
-    /**
-     * Test the character's priorities.
-     */
     #[Depends('testLoadOmae')]
     public function testPriorities(PartialCharacter $character): void
     {
@@ -99,9 +81,6 @@ final class Shadowrun5eConverterTest extends TestCase
         self::assertSame('human', $priorities['metatype']);
     }
 
-    /**
-     * Test the character's remaining karma.
-     */
     #[Depends('testLoadOmae')]
     public function testKarma(PartialCharacter $character): void
     {
@@ -109,9 +88,6 @@ final class Shadowrun5eConverterTest extends TestCase
         self::assertSame(7, $character->karma);
     }
 
-    /**
-     * Test the character's attributes.
-     */
     #[Depends('testLoadOmae')]
     public function testAttributes(PartialCharacter $character): void
     {
@@ -129,9 +105,6 @@ final class Shadowrun5eConverterTest extends TestCase
         self::assertNull($character->magic);
     }
 
-    /**
-     * Test the character's qualities.
-     */
     #[Depends('testLoadOmae')]
     public function testQualitites(PartialCharacter $character): void
     {
@@ -143,9 +116,6 @@ final class Shadowrun5eConverterTest extends TestCase
         self::assertContains(['id' => 'tough-and-targeted'], $qualities);
     }
 
-    /**
-     * Test the character's skills.
-     */
     #[Depends('testLoadOmae')]
     public function testSkills(PartialCharacter $character): void
     {
@@ -163,9 +133,6 @@ final class Shadowrun5eConverterTest extends TestCase
         self::assertContains(['id' => 'sneaking', 'level' => 6], $skills);
     }
 
-    /**
-     * Test the character's weapons.
-     */
     #[Depends('testLoadOmae')]
     public function testWeapons(PartialCharacter $character): void
     {
@@ -186,9 +153,6 @@ final class Shadowrun5eConverterTest extends TestCase
         self::assertContains(['id' => 'ruger-super-warhawk'], $weapons);
     }
 
-    /**
-     * Test the character's armor.
-     */
     #[Depends('testLoadOmae')]
     public function testArmor(PartialCharacter $character): void
     {
@@ -212,9 +176,6 @@ final class Shadowrun5eConverterTest extends TestCase
         self::assertSame(['id' => 'armor-jacket'], $armor[1]);
     }
 
-    /**
-     * Test the character's augmentations.
-     */
     #[Depends('testLoadOmae')]
     public function testAugmentations(PartialCharacter $character): void
     {
@@ -226,9 +187,6 @@ final class Shadowrun5eConverterTest extends TestCase
         self::assertContains(['id' => 'bone-lacing-aluminum'], $augmentations);
     }
 
-    /**
-     * Test the errors from converting the character.
-     */
     public function testErrors(): void
     {
         $path = explode(
@@ -242,34 +200,36 @@ final class Shadowrun5eConverterTest extends TestCase
         $converter = new Shadowrun5eConverter($filename);
         $converter->convert();
         $errors = $converter->getErrors();
-        self::assertCount(11, $errors);
         self::assertContains(
             'Found unhandled section "Unknown section"',
-            $errors
+            $errors['section'],
         );
         self::assertContains(
             'Quality name "Invalid Quality" was not found',
-            $errors
+            $errors['qualities'],
         );
-        self::assertContains('Unknown gear category "custom"', $errors);
+        self::assertContains(
+            'Unknown gear category "custom"',
+            $errors['gear'],
+        );
         self::assertContains(
             'Armor modification "Unknown" was not found',
-            $errors
+            $errors['armor'],
         );
         self::assertContains(
             'Armor modification "Not Found" was not found',
-            $errors
+            $errors['armor'],
         );
         self::assertContains(
             'Weapon modification "Unknown" was not found',
-            $errors
+            $errors['weapons'],
         );
-        self::assertContains('Augmentation "Not Found" was not found', $errors);
+        self::assertContains(
+            'Augmentation "Not Found" was not found',
+            $errors['augmentations'],
+        );
     }
 
-    /**
-     * Test loading a character with invalid data.
-     */
     public function testInvalid(): void
     {
         $path = explode(
@@ -284,13 +244,16 @@ final class Shadowrun5eConverterTest extends TestCase
         $converter->convert();
 
         $errors = $converter->getErrors();
-        self::assertContains('Invalid priorities listed', $errors);
-        self::assertContains('Unknown skill type "Inactive"', $errors);
+        self::assertContains(
+            'Invalid priorities listed',
+            $errors['priorities'],
+        );
+        self::assertContains(
+            'Unknown skill type "Inactive"',
+            $errors['skills'],
+        );
     }
 
-    /**
-     * Test loading a mage's sheet.
-     */
     public function testLoadMage(): void
     {
         $path = explode(
@@ -316,9 +279,6 @@ final class Shadowrun5eConverterTest extends TestCase
         );
     }
 
-    /**
-     * Test loading a technomancer's sheet.
-     */
     public function testLoadTechno(): void
     {
         $path = explode(

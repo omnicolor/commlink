@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Models;
 
 use Illuminate\Support\Facades\Log;
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -15,32 +16,31 @@ use function strtolower;
 /**
  * Representation of a Shadowrun 5E critter.
  */
-class Critter implements Stringable
+final class Critter implements Stringable
 {
-    public int $agility;
-    public int $armor;
-    public int $body;
-    public int $charisma;
+    public readonly int $agility;
+    public readonly int $armor;
+    public readonly int $body;
+    public readonly int $charisma;
     public int $condition_physical;
     public int $condition_stun;
-    public string $description;
-    public int $edge;
-    public float $essence;
-    public ?string $habitat;
-    public string $id;
-    public int $initiative_base;
-    public int $initiative_dice;
-    public int $intuition;
-    public int $logic;
-    public ?int $magic;
-    public string $name;
-    public int $page;
-    public int $reaction;
-    public ?int $resonance;
-    public string $ruleset;
+    public readonly string $description;
+    public readonly int $edge;
+    public readonly float $essence;
+    public readonly null|string $habitat;
+    public readonly int $initiative_base;
+    public readonly int $initiative_dice;
+    public readonly int $intuition;
+    public readonly int $logic;
+    public readonly null|int $magic;
+    public readonly string $name;
+    public readonly int $page;
+    public readonly int $reaction;
+    public readonly null|int $resonance;
+    public readonly string $ruleset;
     public SkillArray $skills;
-    public int $strength;
-    public int $willpower;
+    public readonly int $strength;
+    public readonly int $willpower;
 
     /**
      * Collection of critter's powers.
@@ -64,13 +64,13 @@ class Critter implements Stringable
      * Constructor.
      * @throws RuntimeException
      */
-    public function __construct(string $id)
+    public function __construct(public readonly string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'critters.php';
         self::$critters ??= require $filename;
 
-        $this->id = strtolower($id);
-        if (!isset(self::$critters[$this->id])) {
+        $id = strtolower($id);
+        if (!isset(self::$critters[$id])) {
             throw new RuntimeException(sprintf(
                 'Critter ID "%s" is invalid',
                 $this->id
@@ -155,6 +155,7 @@ class Critter implements Stringable
         }
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

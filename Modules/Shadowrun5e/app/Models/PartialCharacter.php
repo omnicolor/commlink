@@ -6,6 +6,7 @@ namespace Modules\Shadowrun5e\Models;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Shadowrun5e\Database\Factories\PartialCharacterFactory;
+use Override;
 use Stringable;
 
 use function array_merge;
@@ -15,8 +16,7 @@ use function sprintf;
 
 /**
  * Representation of a character currently being built.
- * @method static self create(array<mixed, mixed> $attributes)
- * @property array<int, string> $errors
+ * @method static self create(array<string, mixed> $attributes)
  */
 class PartialCharacter extends Character implements Stringable
 {
@@ -26,17 +26,13 @@ class PartialCharacter extends Character implements Stringable
     protected const PRIORITY_SUM_TO_TEN = 'sum-to-ten';
     protected const PRIORITY_KARMA = 'karma';
 
-    /**
-     * The database connection that should be used by the model.
-     * @var ?string
-     */
+    /** @var string */
     protected $connection = 'mongodb';
 
-    /**
-     * Table to pull from.
-     * @var string
-     */
+    /** @var string */
     protected $table = 'characters-partial';
+    /** @var array<string, array<int, string>> */
+    public array $errors = [];
 
     protected string $priority_method;
 
@@ -106,6 +102,28 @@ class PartialCharacter extends Character implements Stringable
     {
         return isset($this->priorities, $this->priorities['magic'])
             && 'technomancer' === $this->priorities['magic'];
+    }
+
+    #[Override]
+    protected static function newFactory(): Factory
+    {
+        return PartialCharacterFactory::new();
+    }
+
+    #[Override]
+    public function newFromBuilder(
+        // @phpstan-ignore parameter.defaultValue
+        $attributes = [],
+        $connection = null,
+    ): PartialCharacter {
+        $character = new self((array)$attributes);
+        $character->exists = true;
+        $character->setRawAttributes((array)$attributes, true);
+        $character->setConnection($this->connection);
+        $character->fireModelEvent('retrieved', false);
+        $character->fillable[] = 'errors';
+        // @phpstan-ignore return.type
+        return $character;
     }
 
     /**
@@ -292,19 +310,5 @@ class PartialCharacter extends Character implements Stringable
             }
         }
         return $errors;
-    }
-
-    public function newFromBuilder(
-        $attributes = [],
-        $connection = null,
-    ): PartialCharacter {
-        $character = new self($attributes);
-        $character->exists = true;
-        $character->setRawAttributes($attributes, true);
-        $character->setConnection($this->connection);
-        $character->fireModelEvent('retrieved', false);
-        $character->fillable[] = 'errors';
-        // @phpstan-ignore return.type
-        return $character;
     }
 }

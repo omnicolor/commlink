@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Rolls;
 
-use App\Exceptions\SlackException;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use Facades\App\Services\DiceService;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Rolls\Memory;
+use Omnicolor\Slack\Attachment;
+use Omnicolor\Slack\Exceptions\SlackException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-use function json_decode;
 use function sprintf;
 
 use const PHP_EOL;
@@ -31,12 +31,11 @@ final class MemoryTest extends TestCase
     #[Group('slack')]
     public function testWithoutCharacterSlack(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(
-            'You must have a character linked to make memory tests'
+            'You must have a character linked to make memory tests',
         );
         (new Memory('15 5', 'username', $channel))->forSlack();
     }
@@ -47,7 +46,6 @@ final class MemoryTest extends TestCase
     #[Group('discord')]
     public function testWithoutCharacterDiscord(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
 
         self::assertSame(
@@ -59,7 +57,6 @@ final class MemoryTest extends TestCase
     #[Group('irc')]
     public function testWithoutCharacterIrc(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
 
         self::assertSame(
@@ -74,15 +71,16 @@ final class MemoryTest extends TestCase
     #[Group('slack')]
     public function testCritGlitch(): void
     {
-        DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(1);
+        DiceService::shouldReceive('rollOne')
+            ->times(6)
+            ->with(6)
+            ->andReturn(1);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -90,11 +88,9 @@ final class MemoryTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
         $character = Character::factory()->create([
             'logic' => 4,
             'willpower' => 2,
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -103,16 +99,23 @@ final class MemoryTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $response = (new Memory('', 'username', $channel))->forSlack();
-        $response = json_decode((string)$response)->attachments[0];
+        $response = (new Memory('', 'username', $channel))
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $response);
         self::assertSame(
-            sprintf(
-                '%s critically glitched on a memory roll!',
-                $character
-            ),
-            $response->title
+            [
+                'color' => Attachment::COLOR_DANGER,
+                'footer' => '~1~ ~1~ ~1~ ~1~ ~1~ ~1~, Probability: 100.0000%',
+                'text' => 'Rolled 6 ones with no successes!',
+                'title' => sprintf(
+                    '%s critically glitched on a memory roll!',
+                    $character
+                ),
+            ],
+            $response['attachments'][0],
         );
-        self::assertSame('Rolled 6 ones with no successes!', $response->text);
 
         $character->delete();
     }
@@ -125,13 +128,11 @@ final class MemoryTest extends TestCase
     {
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(6);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_DISCORD,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -139,11 +140,9 @@ final class MemoryTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
         $character = Character::factory()->create([
             'logic' => 5,
             'willpower' => 3,
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -171,13 +170,11 @@ final class MemoryTest extends TestCase
     {
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(6);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_IRC,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -185,11 +182,9 @@ final class MemoryTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
         $character = Character::factory()->create([
             'logic' => 5,
             'willpower' => 3,
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([

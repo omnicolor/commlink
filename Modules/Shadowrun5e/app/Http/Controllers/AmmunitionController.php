@@ -9,7 +9,9 @@ use Illuminate\Http\Response;
 
 use function array_key_exists;
 use function array_keys;
+use function array_values;
 use function assert;
+use function config;
 use function date;
 use function json_encode;
 use function sha1;
@@ -52,7 +54,7 @@ class AmmunitionController extends Controller
     protected function cleanAmmo(array $ammo): array
     {
         $ammo['links'] = [
-            'self' => route('shadowrun5e.ammunition.show', $ammo['id']),
+            'self' => route('shadowrun5e.ammunitions.show', $ammo['id']),
         ];
         if (array_key_exists('ap-modifier', $ammo)) {
             $ammo['ap_modifier'] = $ammo['ap-modifier'];
@@ -75,11 +77,11 @@ class AmmunitionController extends Controller
         }
 
         $this->headers['Etag'] = sha1_file($this->filename);
-        $this->links['self'] = route('shadowrun5e.ammunition.index');
+        $this->links['self'] = route('shadowrun5e.ammunitions.index');
 
         $data = [
             'links' => $this->links,
-            'data' => $this->ammo,
+            'data' => array_values($this->ammo),
         ];
         return response($data, Response::HTTP_OK)->withHeaders($this->headers);
     }
@@ -97,7 +99,7 @@ class AmmunitionController extends Controller
         );
 
         $ammo = $this->cleanAmmo($this->ammo[$id]);
-        $this->links['collection'] = route('shadowrun5e.ammunition.index');
+        $this->links['collection'] = route('shadowrun5e.ammunitions.index');
         $this->headers['Etag'] = sha1((string)json_encode($ammo));
 
         $data = [

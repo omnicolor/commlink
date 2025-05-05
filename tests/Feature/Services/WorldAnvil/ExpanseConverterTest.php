@@ -69,7 +69,7 @@ final class ExpanseConverterTest extends TestCase
     {
         $converter = new ExpanseConverter(self::$testFile);
         $character = $converter->convert();
-        self::assertCount(5, $converter->getErrors());
+        self::assertCount(5, (array)$converter->getErrors()['focus']);
         self::assertSame('Aric Hessel', $character->name);
         self::assertSame('Male', $character->gender);
         self::assertInstanceOf(Martian::class, $character->origin);

@@ -13,6 +13,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Modules\Capers\Rolls\Help;
+use Omnicolor\Slack\Attachment;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -33,10 +34,8 @@ final class HelpTest extends TestCase
     #[Group('slack')]
     public function testHelpNoLinkedUser(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'capers']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',
@@ -44,14 +43,30 @@ final class HelpTest extends TestCase
         $channel->username = $this->faker->name;
 
         $response = (new Help('help', $channel->username, $channel))
-            ->forSlack();
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $response);
         self::assertSame(
-            sprintf('%s - Capers', config('app.name')),
-            json_decode((string)$response)->attachments[0]->title
+            [
+                'color' => Attachment::COLOR_INFO,
+                'text' => 'Commlink is a Slack/Discord bot that lets you '
+                    . 'track virtual card decks for the Capers RPG system.'
+                    . PHP_EOL
+                    . '· `draw [text]` - Draw a card, with optional text '
+                    . '(automatics, perception, etc)' . PHP_EOL
+                    . '· `shuffle` - Shuffle your deck' . PHP_EOL,
+                'title' => sprintf('%s - Capers', config('app.name')),
+            ],
+            $response['attachments'][0],
         );
         self::assertSame(
-            'No character linked',
-            json_decode((string)$response)->attachments[1]->text
+            [
+                'color' => Attachment::COLOR_INFO,
+                'text' => 'No character linked',
+                'title' => 'Player',
+            ],
+            $response['attachments'][1]
         );
     }
 
@@ -61,16 +76,13 @@ final class HelpTest extends TestCase
     #[Group('discord')]
     public function testHelpGamemaster(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $user->id,
             'system' => 'capers',
         ]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',
@@ -98,13 +110,10 @@ final class HelpTest extends TestCase
     #[Group('discord')]
     public function testHelpPlayerNoCharacter(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'capers']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',
@@ -132,13 +141,10 @@ final class HelpTest extends TestCase
     #[Group('irc')]
     public function testHelpPlayerCharacter(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'capers']);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'system' => 'capers',
@@ -147,7 +153,6 @@ final class HelpTest extends TestCase
         $channel->username = $this->faker->name;
         $channel->user = 'U' . Str::random(10);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -156,11 +161,9 @@ final class HelpTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
         $character = Character::factory()->create([
             'name' => $this->faker->name,
             'system' => 'capers',
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([

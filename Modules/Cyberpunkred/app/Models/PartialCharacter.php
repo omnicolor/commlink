@@ -7,6 +7,7 @@ namespace Modules\Cyberpunkred\Models;
 use Facades\App\Services\DiceService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Cyberpunkred\Database\Factories\PartialCharacterFactory;
+use Override;
 use Stringable;
 
 /**
@@ -16,30 +17,24 @@ use Stringable;
  */
 class PartialCharacter extends Character implements Stringable
 {
-    /**
-     * The database connection that should be used by the model.
-     * @var ?string
-     */
+    /** @var string */
     protected $connection = 'mongodb';
 
-    /**
-     * Table to pull from.
-     * @var string
-     */
+    /** @var string */
     protected $table = 'characters-partial';
 
-    /**
-     * @var array<int, string>
-     */
+    /** @var array<string, array<int, string>> */
     public array $errors = [];
 
+    #[Override]
     public function newFromBuilder(
+        // @phpstan-ignore parameter.defaultValue
         $attributes = [],
         $connection = null,
     ): PartialCharacter {
-        $character = new self($attributes);
+        $character = new self((array)$attributes);
         $character->exists = true;
-        $character->setRawAttributes($attributes, true);
+        $character->setRawAttributes((array)$attributes, true);
         $character->setConnection($this->connection);
         $character->fireModelEvent('retrieved', false);
         // @phpstan-ignore return.type

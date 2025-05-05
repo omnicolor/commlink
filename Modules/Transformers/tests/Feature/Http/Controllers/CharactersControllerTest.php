@@ -6,9 +6,9 @@ namespace Modules\Transformers\Tests\Feature\Http\Controllers;
 
 use App\Models\Campaign;
 use App\Models\User;
+use Modules\Transformers\Enums\Programming;
 use Modules\Transformers\Models\Character;
 use Modules\Transformers\Models\PartialCharacter;
-use Modules\Transformers\Models\Programming;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Spatie\Permission\Models\Permission;

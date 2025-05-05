@@ -51,7 +51,10 @@ class CharacterResource extends JsonResource
             'values' => $this->values,
             //'weapons' => [],
             'id' => $this->id,
-            'campaign_id' => $this->campaign_id,
+            'campaign_id' => $this->when(
+                null !== $this->campaign_id,
+                $this->campaign_id,
+            ),
             'owner' => [
                 'id' => $this->user()->id,
                 'name' => $this->user()->name,

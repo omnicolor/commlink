@@ -16,6 +16,7 @@ use Stringable;
 
 use function explode;
 use function is_numeric;
+use function optional;
 use function preg_match;
 use function sprintf;
 use function ucfirst;
@@ -40,7 +41,9 @@ class HandleDiscordMessage
             ]);
         }
         $channel->user = (string)$event->user?->id;
-        $channel->username = optional($event->user)->displayname;
+        $channel->username = $event->user->username
+            ?? $event->user->displayname
+            ?? 'Unknown';
 
         // See if the requested roll is XdY or something similar.
         if (1 === preg_match('/\d+d\d+/i', $args[0])) {
@@ -105,7 +108,7 @@ class HandleDiscordMessage
             /** @var Roll */
             $roll = new $class(
                 $event->content,
-                optional($event->user)->username ?? optional($event->user)->displayname,
+                $event->user->username ?? $event->user?->displayname,
                 $channel,
                 $event
             );

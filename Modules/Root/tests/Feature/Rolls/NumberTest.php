@@ -7,11 +7,10 @@ namespace Modules\Root\Tests\Feature\Rolls;
 use App\Models\Channel;
 use Facades\App\Services\DiceService;
 use Modules\Root\Rolls\Number;
+use Omnicolor\Slack\Attachment;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
-
-use function json_decode;
 
 use const PHP_EOL;
 
@@ -26,11 +25,19 @@ final class NumberTest extends TestCase
             ->times(2)
             ->with(6)
             ->andReturn(4, 6);
-        $result = (new Number('0 pleading', 'Rat', new Channel()))->forSlack();
-        $result = json_decode((string)$result)->attachments[0];
-        self::assertSame('good', $result->color);
-        self::assertSame('Rat got a full hit for "pleading"!', $result->title);
-        self::assertSame('Rolled 10 (4+6)', $result->text);
+        $result = (new Number('0 pleading', 'Rat', new Channel()))
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $result);
+        self::assertSame(
+            [
+                'color' => Attachment::COLOR_SUCCESS,
+                'text' => 'Rolled 10 (4+6)',
+                'title' => 'Rat got a full hit for "pleading"!',
+            ],
+            $result['attachments'][0],
+        );
     }
 
     #[Group('discord')]

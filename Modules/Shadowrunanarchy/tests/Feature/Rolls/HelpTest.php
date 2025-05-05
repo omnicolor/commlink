@@ -11,7 +11,6 @@ use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function config;
-use function json_decode;
 
 #[Group('shadowrunanarchy')]
 #[Medium]
@@ -20,15 +19,20 @@ final class HelpTest extends TestCase
     #[Group('slack')]
     public function testHelpSlack(): void
     {
-        $response = (new Help('help', 'username', new Channel()))->forSlack();
-        $response = json_decode((string)$response);
+        $response = (new Help('help', 'username', new Channel()))
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $response);
+        self::assertArrayHasKey(0, $response['attachments']);
+        self::assertArrayHasKey('text', $response['attachments'][0]);
         self::assertSame(
             config('app.name') . ' - Shadowrun Anarchy',
-            $response->attachments[0]->title
+            $response['attachments'][0]['title'],
         );
         self::assertStringStartsWith(
             'I am a bot that lets you roll Shadowrun Anarchy dice.',
-            $response->attachments[0]->text,
+            $response['attachments'][0]['text'],
         );
     }
 

@@ -7,12 +7,12 @@ namespace Modules\Expanse\Tests\Feature\Rolls;
 use App\Models\Channel;
 use Facades\App\Services\DiceService;
 use Modules\Expanse\Rolls\Number;
+use Omnicolor\Slack\Attachment;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function explode;
-use function json_decode;
 
 use const PHP_EOL;
 
@@ -31,15 +31,21 @@ final class NumberTest extends TestCase
             ->with(3, 6)
             ->andReturn([3, 3, 3]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'expanse']);
-        $response = json_decode(
-            (string)(new Number('5', 'user', $channel))->forSlack()
+        $response = (new Number('5', 'user', $channel))
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $response);
+        self::assertSame(
+            [
+                'color' => Attachment::COLOR_SUCCESS,
+                'footer' => '3 3 `3`',
+                'text' => '14 (3 SP)',
+                'title' => 'user made a roll',
+            ],
+            $response['attachments'][0],
         );
-        self::assertCount(1, $response->attachments);
-        self::assertSame('user made a roll', $response->attachments[0]->title);
-        self::assertSame('14 (3 SP)', $response->attachments[0]->text);
-        self::assertSame('3 3 `3`', $response->attachments[0]->footer);
     }
 
     /**
@@ -54,7 +60,6 @@ final class NumberTest extends TestCase
             ->with(3, 6)
             ->andReturn([3, 3, 3]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'expanse']);
         $response = (new Number('5', 'user', $channel))->forDiscord();
         $response = explode(PHP_EOL, $response);
@@ -74,7 +79,6 @@ final class NumberTest extends TestCase
             ->with(3, 6)
             ->andReturn([2, 3, 5]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'expanse']);
         $response = (new Number('5 percept', 'user', $channel))->forDiscord();
         $response = explode(PHP_EOL, $response);
@@ -93,7 +97,6 @@ final class NumberTest extends TestCase
             ->with(3, 6)
             ->andReturn([2, 3, 5]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'expanse']);
 
         $response = (new Number('5 percept', 'user', $channel))->forIrc();

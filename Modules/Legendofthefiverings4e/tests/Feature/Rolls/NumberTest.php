@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace Modules\Legendofthefiverings4e\Tests\Feature\Rolls;
 
-use App\Exceptions\SlackException;
 use App\Models\Channel;
 use Facades\App\Services\DiceService;
 use Modules\Legendofthefiverings4e\Rolls\Number;
+use Omnicolor\Slack\Attachment;
+use Omnicolor\Slack\Exceptions\SlackException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
-
-use function json_decode;
 
 use const PHP_EOL;
 
@@ -54,18 +53,24 @@ final class NumberTest extends TestCase
     #[Group('slack')]
     public function testRollingWithoutExploding(): void
     {
-        DiceService::shouldReceive('rollOne')->times(6)->with(10)->andReturn(3);
+        DiceService::shouldReceive('rollOne')
+            ->times(6)
+            ->with(10)
+            ->andReturn(3);
         $response = (new Number('6 3 testing', 'user', new Channel()))
-            ->forSlack();
-        $response = json_decode((string)$response);
-        $response = $response->attachments[0];
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $response);
         self::assertSame(
-            'user rolled 9 for "testing"',
-            $response->title,
+            [
+                'color' => Attachment::COLOR_SUCCESS,
+                'footer' => '3 3 3 3 3 3',
+                'text' => 'Rolled 6, kept 3',
+                'title' => 'user rolled 9 for "testing"',
+            ],
+            $response['attachments'][0],
         );
-        self::assertSame('Rolled 6, kept 3', $response->text);
-        self::assertSame('good', $response->color);
-        self::assertSame('3 3 3 3 3 3', $response->footer);
     }
 
     #[Group('discord')]

@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use App\Exceptions\SlackException;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Omnicolor\Slack\Exceptions\SlackException;
+use Override;
 
 class SlackRequest extends FormRequest
 {
+    #[Override]
     protected function failedValidation(Validator $validator): void
     {
         throw new SlackException();

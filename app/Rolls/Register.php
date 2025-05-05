@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Rolls;
 
 use App\Events\ChannelLinked;
-use App\Exceptions\SlackException;
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
-use App\Models\Slack\TextAttachment;
+use Omnicolor\Slack\Exceptions\SlackException;
+use Omnicolor\Slack\Headers\Header;
+use Omnicolor\Slack\Response;
+use Omnicolor\Slack\Sections\Text;
+use Override;
 
 use function array_key_exists;
 use function array_keys;
@@ -84,17 +86,20 @@ class Register extends Roll
         ChannelLinked::dispatch($this->channel);
     }
 
-    public function forSlack(): SlackResponse
+    #[Override]
+    public function forSlack(): Response
     {
         if (null !== $this->error) {
             throw new SlackException($this->error);
         }
 
-        $attachment = new TextAttachment('Registered', $this->message);
-        $response = new SlackResponse(channel: $this->channel);
-        return $response->addAttachment($attachment)->sendToChannel();
+        return (new Response())
+            ->addBlock(new Header('Registered'))
+            ->addBlock(new Text($this->message))
+            ->sendToChannel();
     }
 
+    #[Override]
     public function forDiscord(): string
     {
         if (null !== $this->error) {
@@ -103,6 +108,7 @@ class Register extends Roll
         return $this->message;
     }
 
+    #[Override]
     public function forIrc(): string
     {
         if (null !== $this->error) {

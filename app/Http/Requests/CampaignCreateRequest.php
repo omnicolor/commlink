@@ -6,7 +6,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Modules\Avatar\Models\Era;
+use Modules\Avatar\Enums\Era;
 
 use function array_keys;
 use function config;

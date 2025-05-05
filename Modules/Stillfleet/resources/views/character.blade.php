@@ -102,7 +102,12 @@
                             <li>grapple</li>
                         </ul>
                     </td>
-                    <td class="attribute-value" width="32%">{{ $character->combat }}</td>
+                    <td class="attribute-value" width="32%">
+                        {{ $character->combat }}
+                        @if(0 !== $character->combat_modifier)
+                            +{{ $character->combat_modifier }}
+                        @endif
+                    </td>
                 </tr>
                 <tr>
                     <td class="attribute-short">MOV</td>
@@ -116,7 +121,12 @@
                             <li>sneak</li>
                         </ul>
                     </td>
-                    <td class="attribute-value">{{ $character->movement }}</td>
+                    <td class="attribute-value">
+                        {{ $character->movement }}
+                        @if(0 !== $character->movement_modifier)
+                            +{{ $character->movement_modifier }}
+                        @endif
+                    </td>
                 </tr>
                 <tr>
                     <td class="attribute-short">REA</td>
@@ -130,7 +140,12 @@
                             <li>use weird power</li>
                         </ul>
                     </td>
-                    <td class="attribute-value">{{ $character->reason }}</td>
+                    <td class="attribute-value">
+                        {{ $character->reason }}
+                        @if(0 !== $character->reason_modifier)
+                            +{{ $character->reason_modifier }}
+                        @endif
+                    </td>
                 </tr>
                 <tr>
                     <td class="attribute-short">WIL</td>
@@ -142,7 +157,12 @@
                             <li>resist</li>
                         </ul>
                     </td>
-                    <td class="attribute-value">{{ $character->will }}</td>
+                    <td class="attribute-value">
+                        {{ $character->will }}
+                        @if(0 !== $character->will_modifier)
+                            +{{ $character->will_modifier }}
+                        @endif
+                    </td>
                 </tr>
                 <tr>
                     <td class="attribute-short">CHA</td>
@@ -154,7 +174,12 @@
                             <li>seduce</li>
                         </ul>
                     </td>
-                    <td class="attribute-value">{{ $character->charm }}</td>
+                    <td class="attribute-value">
+                        {{ $character->charm }}
+                        @if(0 !== $character->charm_modifier)
+                            +{{ $character->charm_modifier }}
+                        @endif
+                    </td>
                 </tr>
             </table>
 

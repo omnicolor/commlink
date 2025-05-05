@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Rolls;
 
 use App\Events\InitiativeAdded;
-use App\Exceptions\SlackException;
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Initiative;
-use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Modules\Shadowrun5e\Models\Character;
+use Omnicolor\Slack\Attachments\TextAttachment;
+use Omnicolor\Slack\Exceptions\SlackException;
+use Omnicolor\Slack\Response;
+use Override;
 
 use function sprintf;
 
@@ -23,7 +24,7 @@ use const PHP_EOL;
  * Roll the maximum of five initiative dice for a single turn.
  * @property Character $character
  */
-class Blitz extends Init
+final class Blitz extends Init
 {
     /**
      * @var array<int, int>
@@ -85,25 +86,32 @@ class Blitz extends Init
         }
     }
 
-    public function forSlack(): SlackResponse
+    /**
+     * @throws SlackException
+     */
+    #[Override]
+    public function forSlack(): Response
     {
         if (null !== $this->error) {
             throw new SlackException($this->error);
         }
-        $response = new SlackResponse(channel: $this->channel);
-        $response->addAttachment(new TextAttachment(
-            sprintf('%s blitzed', $this->username),
-            sprintf(
-                '%d + 5d6 = %d',
-                $this->initiativeScore,
-                $this->initiativeScore + array_sum($this->dice),
-            ),
-            TextAttachment::COLOR_INFO,
-            'Rolls: ' . implode(' ', $this->dice)
-        ));
-        return $response->sendToChannel();
+
+        // @phpstan-ignore method.deprecated
+        return (new Response())
+            ->addAttachment(new TextAttachment(
+                sprintf('%s blitzed', $this->username),
+                sprintf(
+                    '%d + 5d6 = %d',
+                    $this->initiativeScore,
+                    $this->initiativeScore + array_sum($this->dice),
+                ),
+                TextAttachment::COLOR_INFO,
+                'Rolls: ' . implode(' ', $this->dice)
+            ))
+            ->sendToChannel();
     }
 
+    #[Override]
     public function forDiscord(): string
     {
         if (null !== $this->error) {
@@ -119,6 +127,7 @@ class Blitz extends Init
             );
     }
 
+    #[Override]
     public function forIrc(): string
     {
         if (null !== $this->error) {

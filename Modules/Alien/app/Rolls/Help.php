@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Alien\Rolls;
 
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
-use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
+use Omnicolor\Slack\Attachments\TextAttachment;
+use Omnicolor\Slack\Response;
+use Override;
 
 use function sprintf;
 
@@ -67,10 +68,12 @@ class Help extends Roll
         }
     }
 
-    public function forSlack(): SlackResponse
+    #[Override]
+    public function forSlack(): Response
     {
-        $response = new SlackResponse(channel: $this->channel);
+        $response = new Response();
         foreach ($this->data as $element) {
+            // @phpstan-ignore method.deprecated
             $response->addAttachment(new TextAttachment(
                 $element['title'],
                 $element['text'],
@@ -80,6 +83,7 @@ class Help extends Roll
         return $response;
     }
 
+    #[Override]
     public function forDiscord(): string
     {
         $value = '';
@@ -90,6 +94,7 @@ class Help extends Roll
         return $value;
     }
 
+    #[Override]
     public function forIrc(): string
     {
         $value = '';

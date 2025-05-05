@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Rolls;
 
-use App\Exceptions\SlackException;
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use Facades\App\Services\DiceService;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Rolls\Push;
+use Omnicolor\Slack\Attachment;
+use Omnicolor\Slack\Exceptions\SlackException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -29,11 +29,10 @@ final class PushTest extends TestCase
     #[Group('slack')]
     public function testPushNoCharacter(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'shadowrun5e']);
         self::expectException(SlackException::class);
         self::expectExceptionMessage(
-            'You must have a character linked to push the limit'
+            'You must have a character linked to push the limit',
         );
         (new Push('push 5', 'user', $channel))->forSlack();
     }
@@ -44,13 +43,11 @@ final class PushTest extends TestCase
     #[Group('slack')]
     public function testPushNoDice(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -58,10 +55,7 @@ final class PushTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
-        $character = Character::factory()->create([
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create([]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,
@@ -72,7 +66,7 @@ final class PushTest extends TestCase
         self::expectException(SlackException::class);
         self::expectExceptionMessage(
             'Pushing the limit requires the number of dice to roll (not '
-            . 'including your edge)'
+            . 'including your edge)',
         );
         (new Push('push foo', 'username', $channel))->forSlack();
 
@@ -85,13 +79,11 @@ final class PushTest extends TestCase
     #[Group('discord')]
     public function testPushTooManyDice(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_DISCORD,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -99,11 +91,7 @@ final class PushTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
-        $character = Character::factory()->create([
-            'edge' => 2,
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create(['edge' => 2]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,
@@ -123,13 +111,11 @@ final class PushTest extends TestCase
     #[Group('slack')]
     public function testPushOutOfEdge(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -137,11 +123,7 @@ final class PushTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
-        $character = Character::factory()->create([
-            'edgeCurrent' => 0,
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create(['edgeCurrent' => 0]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,
@@ -164,13 +146,11 @@ final class PushTest extends TestCase
     {
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(5);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_DISCORD,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -178,11 +158,9 @@ final class PushTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
         $character = Character::factory()->create([
             'edge' => 4,
             'edgeCurrent' => 3,
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -215,13 +193,11 @@ final class PushTest extends TestCase
             ->with(6)
             ->andReturn(6, 5, 6, 1);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -229,11 +205,7 @@ final class PushTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
-        $character = Character::factory()->create([
-            'edge' => 1,
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create(['edge' => 1]);
         self::assertNull($character->edgeCurrent);
 
         ChatCharacter::factory()->create([
@@ -243,21 +215,21 @@ final class PushTest extends TestCase
         ]);
 
         $response = (new Push('push 1 6 testing', 'username', $channel))
-            ->forSlack();
-        $response = json_decode((string)$response);
-        self::assertSame('in_channel', $response->response_type);
-        $attachment = $response->attachments[0];
-        self::assertSame(SlackResponse::COLOR_SUCCESS, $attachment->color);
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertSame('in_channel', $response['response_type']);
+        self::assertArrayHasKey('attachments', $response);
         self::assertSame(
-            '*6* *6* *5* ~1~ (2 exploded), limit: 6',
-            $attachment->footer,
+            [
+                'color' => Attachment::COLOR_SUCCESS,
+                'footer' => '*6* *6* *5* ~1~ (2 exploded), limit: 6',
+                'text' => 'Rolled 3 successes',
+                'title' => $character->handle . ' rolled 2 (1 requested + 1 '
+                    . 'edge) dice for "testing" with a limit of 6',
+            ],
+            $response['attachments'][0],
         );
-        self::assertSame(
-            $character->handle . ' rolled 2 (1 requested + 1 edge) dice for '
-            . '"testing" with a limit of 6',
-            $attachment->title
-        );
-        self::assertSame('Rolled 3 successes', $attachment->text);
 
         // Verify character used some edge.
         $character->refresh();
@@ -278,13 +250,11 @@ final class PushTest extends TestCase
             ->with(6)
             ->andReturn(2, 1, 1);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -292,11 +262,7 @@ final class PushTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
-        $character = Character::factory()->create([
-            'edge' => 1,
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create(['edge' => 1]);
         self::assertNull($character->edgeCurrent);
 
         ChatCharacter::factory()->create([
@@ -305,18 +271,21 @@ final class PushTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $response = (new Push('push 2', 'username', $channel))->forSlack();
-        $response = json_decode((string)$response);
-        self::assertSame('in_channel', $response->response_type);
-        $attachment = $response->attachments[0];
-        self::assertSame(SlackResponse::COLOR_DANGER, $attachment->color);
-        self::assertSame('2 ~1~ ~1~ (0 exploded)', $attachment->footer);
+        $response = (new Push('push 2', 'username', $channel))
+            ->forSlack()
+            ->jsonSerialize();
+        self::assertSame('in_channel', $response['response_type']);
+        self::assertArrayHasKey('attachments', $response);
         self::assertSame(
-            $character->handle . ' rolled a critical glitch on 3 (2 requested '
-            . '+ 1 edge) dice!',
-            $attachment->title
+            [
+                'color' => Attachment::COLOR_DANGER,
+                'footer' => '2 ~1~ ~1~ (0 exploded)',
+                'text' => 'Rolled 2 ones with no successes!',
+                'title' => $character->handle . ' rolled a critical glitch on '
+                    . '3 (2 requested + 1 edge) dice!',
+            ],
+            $response['attachments'][0],
         );
-        self::assertSame('Rolled 2 ones with no successes!', $attachment->text);
 
         // Make sure it still used some edge.
         $character->refresh();
@@ -330,13 +299,11 @@ final class PushTest extends TestCase
     {
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(5);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_IRC,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -344,11 +311,9 @@ final class PushTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
         $character = Character::factory()->create([
             'edge' => 4,
             'edgeCurrent' => 3,
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -370,13 +335,11 @@ final class PushTest extends TestCase
     #[Group('irc')]
     public function testPushErrorIrc(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_DISCORD,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -384,11 +347,7 @@ final class PushTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
-        $character = Character::factory()->create([
-            'edge' => 2,
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create(['edge' => 2]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,
