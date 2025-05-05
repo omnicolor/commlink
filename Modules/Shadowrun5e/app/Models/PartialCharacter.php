@@ -36,11 +36,6 @@ class PartialCharacter extends Character implements Stringable
 
     protected string $priority_method;
 
-    protected static function newFactory(): Factory
-    {
-        return PartialCharacterFactory::new();
-    }
-
     /**
      * Return the starting maximum for a character based on their metatype and
      * qualities.
@@ -134,6 +129,7 @@ class PartialCharacter extends Character implements Stringable
      */
     public function validate(): void
     {
+        // @phpstan-ignore assign.propertyType
         $this->errors = array_merge(
             $this->errors ?? [],
             $this->validatePriorities(),
