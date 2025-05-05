@@ -27,7 +27,9 @@ Route::middleware('auth:sanctum')
     ->group(function (): void {
         Route::get('armor', function (): AnonymousResourceCollection {
             return ArmorResource::collection(Armor::all())
-                ->additional(['links' => ['self' => route('alien.armor.index')]]);
+                ->additional(['links' => [
+                    'self' => route('alien.armor.index'),
+                ]]);
         })->name('armor.index');
         Route::get('armor/{armor}', function (string $armor): ArmorResource {
             return new ArmorResource(new Armor($armor));
@@ -35,7 +37,9 @@ Route::middleware('auth:sanctum')
 
         Route::get('careers', function (): AnonymousResourceCollection {
             return CareerResource::collection(Career::all())
-                ->additional(['self' => route('alien.careers.index')]);
+                ->additional(['links' => [
+                    'self' => route('alien.careers.index'),
+                ]]);
         })->name('careers.index');
         Route::get('careers/{career}', function (string $career): CareerResource {
             return new CareerResource(new Career($career));
@@ -46,7 +50,9 @@ Route::middleware('auth:sanctum')
 
         Route::get('gear', function (): AnonymousResourceCollection {
             return GearResource::collection(Gear::all())
-                ->additional(['self' => route('alien.gear.index')]);
+                ->additional(['links' => [
+                    'self' => route('alien.gear.index'),
+                ]]);
         })->name('gear.index');
         Route::get('gear/{gear}', function (string $gear): GearResource {
             return new GearResource(new Gear($gear));
@@ -54,7 +60,10 @@ Route::middleware('auth:sanctum')
 
         Route::get('injuries', function (): AnonymousResourceCollection {
             return InjuryResource::collection(Injury::all())
-                ->additional(['self' => route('alien.injuries.index')]);
+                ->additional([
+                    'links' => [
+                        'self' => route('alien.injuries.index'),
+                    ]]);
         })->name('injuries.index');
         Route::get('injuries/{injury}', function (string $injury): InjuryResource {
             return new InjuryResource(new Injury($injury));
@@ -64,7 +73,9 @@ Route::middleware('auth:sanctum')
 
         Route::get('skills', function (): AnonymousResourceCollection {
             return SkillResource::collection(Skill::all())
-                ->additional(['self' => route('alien.skills.index')]);
+                ->additional(['links' => [
+                    'self' => route('alien.skills.index'),
+                ]]);
         })->name('skills.index');
         Route::get('skills/{skill}', function (string $skill): SkillResource {
             return new SkillResource(new Skill($skill));
@@ -72,7 +83,9 @@ Route::middleware('auth:sanctum')
 
         Route::get('talents', function (): AnonymousResourceCollection {
             return TalentResource::collection(Talent::all())
-                ->additional(['links' => ['self' => route('alien.talents.index')]]);
+                ->additional(['links' => [
+                    'self' => route('alien.talents.index'),
+                ]]);
         })->name('talents.index');
         Route::get('talents/{talent}', function (string $talent): TalentResource {
             return new TalentResource(new Talent($talent));
@@ -80,7 +93,9 @@ Route::middleware('auth:sanctum')
 
         Route::get('weapons', function (): AnonymousResourceCollection {
             return WeaponResource::collection(Weapon::all())
-                ->additional(['self' => route('alien.weapons.index')]);
+                ->additional(['links' => [
+                    'self' => route('alien.weapons.index'),
+                ]]);
         })->name('weapons.index');
         Route::get('weapons/{weapon}', function (string $weapon): WeaponResource {
             return new WeaponResource(new Weapon($weapon));

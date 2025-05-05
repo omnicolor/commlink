@@ -1,0 +1,122 @@
+armor:
+  get:
+    summary: Cyberpunk Red RPG armor
+    operationId: cyberpunkred-armor-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Armor'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of armor from Cyberpunk Red.
+    tags:
+      - cyberpunkred
+
+characters:
+  get:
+    summary: Cyberpunk Red characters
+    description: Return Cyberpunk Red characters.
+    operationId: cyberpunkred-characters-index
+    responses:
+      '200':
+        description: |
+          Collection of all Cyberpunk Red characters for the current user.
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Character'
+                  type: array
+              required:
+                - data
+              type: object
+    tags:
+      - character
+      - cyberpunkred
+
+character-by-id:
+  parameters:
+    - name: character_id
+      in: path
+      required: true
+      schema:
+        type: string
+  get:
+    summary: Return a Cyberpunk Red character
+    description: Return Cyberpunk Red characters.
+    operationId: cyberpunkred-characters-show
+    responses:
+      '200':
+        description: A Cyberpunk Red character
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  $ref: 'schemas.yml#/Character'
+              required:
+                - data
+              type: object
+    tags:
+      - character
+      - cyberpunkred
+
+skills:
+  get:
+    summary: Cyberpunk Red RPG skills
+    operationId: cyberpunkred-skills-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Skill'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of skills from Cyberpunk Red.
+    tags:
+      - cyberpunkred
+
+weapons:
+  get:
+    summary: Cyberpunk Red RPG weapons
+    operationId: cyberpunkred-weapons-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Weapon'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of weapons from Cyberpunk Red.
+    tags:
+      - cyberpunkred

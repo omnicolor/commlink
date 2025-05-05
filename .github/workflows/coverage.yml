@@ -1,6 +1,11 @@
 name: Unit Tests & Coverage
 
-on: [push]
+on:
+  push:
+    paths-ignore:
+      - 'bruno/**'
+      - 'docker/**'
+      - 'public/openapi/**'
 
 jobs:
   Code-Coverage:

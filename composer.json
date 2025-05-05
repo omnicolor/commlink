@@ -111,7 +111,7 @@
         ],
         "infection": "infection --coverage=public/coverage",
         "lint": "parallel-lint --colors app config database routes tests Modules",
-        "lint-openapi": "npx @redocly/cli lint public/openapi.yml",
+        "lint-openapi": "npx @redocly/cli lint public/openapi/openapi.yml",
         "php-cs-fixer": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --config=php_cs.php -v --diff",
         "phpcs": "phpcs -p --colors --cache",
         "phpstan": [
@@ -120,7 +120,7 @@
         ],
         "prism": [
             "Composer\\Config::disableProcessTimeout",
-            "node ./node_modules/@stoplight/prism-cli/dist/index.js proxy ./public/openapi.yml https://commlink-dev.digitaldarkness.com/api/"
+            "node ./node_modules/@stoplight/prism-cli/dist/index.js proxy ./public/openapi/openapi.yml https://commlink-dev.digitaldarkness.com/api/"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",

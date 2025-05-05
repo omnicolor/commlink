@@ -75,7 +75,8 @@ class UsersController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        return UserResource::collection(User::all());
+        return UserResource::collection(User::all())
+            ->additional(['links' => ['self' => route('users.index')]]);
     }
 
     /**

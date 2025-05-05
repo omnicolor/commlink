@@ -1,0 +1,467 @@
+Armor:
+  example:
+    cost: 175
+    damage_reduction: 5
+    id: bend-full-plate
+    name: Bend, full plate
+    notes: -1 penalty to MOV.
+    page: 156
+    ruleset: core
+    tech_cost: 5
+    tech_strata: clank
+    links:
+      self: https://commlink.digitaldarkness.com/api/stillfleet/armor/bend-full-plate
+  properties:
+    cost:
+      type: integer
+    damage_reduction:
+      type: integer
+    id:
+      $ref: '../../openapi.yml#/components/schemas/ItemId'
+    name:
+      type: string
+    notes:
+      type: string
+    page:
+      type: integer
+    tech_cost:
+      type: integer
+    tech_strata:
+      $ref: '#/TechStrata'
+    links:
+      $ref: '../../openapi.yml#/components/schemas/Links'
+  required:
+    - cost
+    - damage_reduction
+    - id
+    - name
+    - notes
+    - page
+    - tech_cost
+    - tech_strata
+    - links
+  type: object
+
+Attribute:
+  description: Stillfleet uses different dice sizes for attributes.
+  enum:
+    - d4
+    - d6
+    - d8
+    - d10
+    - d12
+  type: string
+
+Character:
+  properties:
+    attributes:
+      properties:
+        charm:
+          $ref: '#/Attribute'
+        charm_modifier:
+          type: integer
+        combat:
+          $ref: '#/Attribute'
+        combat_modifier:
+          type: integer
+        movement:
+          $ref: '#/Attribute'
+        movement_modifier:
+          type: integer
+        reason:
+          $ref: '#/Attribute'
+        reason_modifier:
+          type: integer
+        will:
+          $ref: '#/Attribute'
+        will_modifier:
+          type: integer
+        grit_max:
+          type: integer
+        grit_current:
+          type: integer
+        health_max:
+          type: integer
+        health_current:
+          type: integer
+      required:
+        - charm
+        - charm_modifier
+        - combat
+        - combat_modifier
+        - movement
+        - movement_modifier
+        - reason
+        - reason_modifier
+        - will
+        - will_modifier
+        - grit_max
+        - grit_current
+        - health_max
+        - health_current
+      type: object
+    id:
+      type: string
+    name:
+      type: string
+    owner:
+      $ref: '../../openapi.yml#/components/schemas/UserMinimal'
+    rank:
+      type: integer
+    classes:
+      items:
+        $ref: '#/Class'
+      type: array
+    species:
+      $ref: '#/Species'
+    system:
+      enum:
+        - stillfleet
+      type: string
+  required:
+    - attributes
+    - name
+    - rank
+    - roles
+    - species
+    - id
+    - owner
+    - system
+  type: object
+
+Gear:
+  example:
+    description: |
+      This looks like the head of a giant black beetle. You put it on over
+      your head, and for ten minutes, you can see anywhere in the
+      universe that you can imagine by making a REA check and burning d20
+      GRT. The Archive sometimes leases these out to particularly trusted
+      venturers.
+    id: aleph
+    name: Aleph
+    page: 157
+    price: 30000
+    ruleset: core
+    tech_cost: 3
+    tech_strata: bug
+    type: comm
+    links:
+      self: https://commlink.digitaldarkness.com/api/stillfleet/gear/aleph
+  properties:
+    description:
+      type: string
+    id:
+      $ref: '../../openapi.yml#/components/schemas/ItemId'
+    name:
+      type: string
+    page:
+      type: integer
+    price:
+      type: integer
+    ruleset:
+      type: string
+    tech_cost:
+      type: integer
+    tech_strata:
+      $ref: '#/TechStrata'
+    type:
+      $ref: '#/VoidwareType'
+    links:
+      $ref: '../../openapi.yml#/components/schemas/Links'
+  required:
+    - id
+    - name
+    - page
+    - price
+    - ruleset
+    - tech_cost
+    - tech_strata
+    - type
+    - links
+  type: object
+
+Power:
+  description:  A power granted to a character by their class or species, or achieved through leveling up.
+  example:
+    advanced_list: communications
+    description: You can convert code-based intelligences to your cause. Burn 4 GRT and roll a REA and a CHA check. The difficulty of the REA check is 1 + the complexity level of the code-based intelligence (generally at least a 3). The CHA check is a standard difficulty of 6. If both checks are successful, you convince the code-based intelligence to ally with you and accomplish some goal. This is a permanent alliance, unless you double-cross the AI. If one check succeeds, the AI is not angry, simply unconvinced—perhaps curious about the terms of the alliance. If both checks fail, you have angered the AI and should probably flee…
+    id: ally
+    name: Ally
+    page: 97
+    ruleset: core
+    type: advanced
+    links:
+      self: https://commlink.digitaldarkness.com/api/stillfleet/powers/ally
+  properties:
+    advanced_list:
+      description: What advanced list of powers the power can be added from.
+      type: string
+    description:
+      type: string
+    effects:
+      description: Game effects the power gives the user.
+      type: object
+    id:
+      type: string
+    name:
+      type: string
+    page:
+      type: integer
+    ruleset:
+      type: string
+    type:
+      enum:
+        - advanced
+        - class
+        - hell-science
+        - marquee
+        - species
+      type: string
+    links:
+      $ref: '../../openapi.yml#/components/schemas/Links'
+  required:
+    - id
+    - name
+    - page
+    - ruleset
+    - type
+    - links
+  type: object
+
+Class:
+  description: Class a voidminer can have with the company.
+  example:
+    description: You are an engineer—and very likely a daredevil—trained by the Archivists to understand the beyond-human science of stiffworks.
+    grit:
+      - movement
+      - reason
+    id: banshee
+    name: Banshee
+    page: 43
+    advanced_power_lists:
+      - communications
+    marquee_power:
+      description: Open, close, or change the destination of a stiffworks. Costs and mechanics vary by the works. Open stiffworks remain open for 10 minutes per tack… usually. Some stiffworks may be retacked (i.e., their destinations changed), although this varies by type.
+      id: tack
+      name: Tack
+      page: 43
+      ruleset: core
+      type: marquee
+      links:
+        self: https://commlink.digitaldarkness.com/api/stillfleet/powers/tack
+    optional_powers:
+      - description: You can, with effort, actually pilot spacefaring vessels. Cost to command a vessel is based purely on its class (a combined 1–6 rating based on its size, complexity, and condition), with each point of vessel class costing 6 GRT. Burning this GRT grants you the ability to pilot or otherwise command the ship, within reason. (If the hyperdrive’s broke, it ain’t jumpin; mining vessels may not sport armament, etc.) While piloting, you are essentially stuck and unable to otherwise venture. You must pay the astrogation cost each time you chart a course into or out of a system, or each time the ship is damaged or upgraded. Doing anything with the ship other than moving from point A to B (firing weapons, scanning a mysterious craft, remotely salvaging damaged life support systems, etc.) requires relevant checks, typically REA or, in a dogfight, COM and MOV.
+        id: astrogate
+        name: Astrogate
+        page: 45
+        ruleset: core
+        type: class
+        links:
+          self: https://commlink.digitaldarkness.com/api/stillfleet/powers/astrogate
+    other_powers:
+      - description: 'The ship is on fire—you have to get your party through the stuck bulkhead before the O2 combusts! (Or whatever!) This is your big getaway power. Burn 6 GRT and make a MOV check: if you succeed, you and some or all of your party make it out safely. You can bring 1 +your level humanoid-sized beings along with you to safety, or burn an additional 6 GRT to bring one additional being beyond your limit. Small sapient beings (0.5-M tall/long) count for half a slot; large sapes (3-M tall/long) count double; small pets (cat/beagle-sized) are free. If you fail your MOV check, you alone get away but injure yourself for 2d6 HEA damage.'
+        id: dive
+        name: Dive
+        page: 45
+        ruleset: core
+        type: class
+        links:
+          self: https://commlink.digitaldarkness.com/api/stillfleet/powers/dive
+    responsibilities:
+      - opening stiffworks (quantum gates connecting disparate points in timespaces)
+      - appraising and, as needed, repairing technologies discovered during the venture
+      - assisting the venture’s pir in the collection of technoscientific samples for the Archive
+    ruleset: core
+    links:
+      self: https://commlink.digitaldarkness.com/api/stillfleet/roles/banshee
+  properties:
+    description:
+      type: string
+    grit:
+      description: Attributes to use to determine the voidminer's maximum grit. Uses the die size for the given attributes. If the attribute starts with a minus (-) subtracts that attribute.
+      items:
+        type: string
+      type: array
+    id:
+      type: string
+    name:
+      type: string
+    page:
+      type: integer
+    advanced_power_lists:
+      description: List(s) that the voidminer can pick from when gaining advanced powers.
+      items:
+        type: string
+      type: array
+    marquee_power:
+      $ref: '#/Power'
+    optional_powers:
+      items:
+        $ref: '#/Power'
+      type: array
+    other_powers:
+      items:
+        $ref: '#/Power'
+      type: array
+    responsibilities:
+      items:
+        type: string
+      type: array
+    ruleset:
+      type: string
+    links:
+      $ref: '../../openapi.yml#/components/schemas/Links'
+  type: object
+
+Species:
+  example:
+    description: You spell it with a capital F. You are a space-born human. You claim to be immune to the voidpanic that grips other inhabitants of the vacuum, but in reality, you are merely better at faking calm.
+    id: fleeter
+    languages: You speak Spin plus many common wetan rasp-words.
+    name: Fleeter
+    page: 68
+    ruleset: core
+    optional_powers:
+      - description: You gain a permanent bonus of +1 REA.
+        effects:
+          REA: 1
+        id: arkheion-access
+        name: Arkheion access
+        page: 68
+        ruleset: core
+        type: species
+        links:
+          self: https://commlink.digitaldarkness.com/api/stillfleet/powers/arkheion-access
+    powers:
+      - description: You gain +125 voidguilders at character creation.
+        effects:
+          voidbuilders: 125
+        id: company-soul
+        name: Company Soul
+        page: 68
+        ruleset: core
+        type: species
+        links:
+          self: https://commlink.digitaldarkness.com/api/stillfleet/powers/company-soul
+    powers_choose: 1
+    links:
+      self: https://commlink.digitaldarkness.com/api/stillfleet/species/fleeter
+  properties:
+    description:
+      type: string
+    id:
+      type: string
+    languages:
+      description: Languages the species tends to speak or options they can choose.
+      type: string
+    name:
+      type: string
+    page:
+      type: integer
+    ruleset:
+      type: string
+    optional_powers:
+      items:
+        $ref: '#/Power'
+      type: array
+    powers:
+      items:
+        $ref: '#/Power'
+      type: array
+    powers_choose:
+      description: How many optional powers a character can choose from the species's optional list.
+      type: integer
+    powers_chosen:
+      description: Optional powers the character inherits from their species.
+      items:
+        $ref: '#/Power'
+      type: array
+    links:
+      $ref: '../../openapi.yml#/components/schemas/Links'
+  required:
+    - id
+    - name
+    - page
+    - ruleset
+    - optional_powers
+    - powers
+    - powers_choose
+    - links
+  type: object
+
+TechStrata:
+  enum:
+    - bio
+    - bug
+    - clank
+    - code
+    - escheresque
+    - force
+    - nano
+  type: string
+
+VoidwareType:
+  enum:
+    - comm
+    - drug
+    - pets
+    - vehicle
+    - ventureware
+  type: string
+
+Weapon:
+  example:
+    damage: d12
+    id: bastard-sword
+    name: Bastard sword
+    notes: Normally two-handed. If you fight with one of these one-handed, you suffer a −1 to hit.
+    other_names: dadao,falx,flambard,katana
+    page: 150
+    price: 80
+    ruleset: core
+    tech_cost: 3
+    tech_strata: clank
+    type: melee
+    links:
+      self: https://commlink.digitaldarkness.com/api/stillfleet/weapons/bastard-sword
+  properties:
+    damage:
+      type: string
+    id:
+      $ref: '../../openapi.yml#/components/schemas/ItemId'
+    name:
+      type: string
+    notes:
+      type: string
+    other_names:
+      type: string
+    page:
+      type: integer
+    range:
+      type: integer
+    ruleset:
+      type: string
+    tech_cost:
+      type: integer
+    tech_stata:
+      $ref: '#/TechStrata'
+    type:
+      enum:
+        - grenade
+        - melee
+        - missile
+      type: string
+    links:
+      $ref: '../../openapi.yml#/components/schemas/Links'
+  required:
+    - damage
+    - id
+    - name
+    - page
+    - price
+    - ruleset
+    - tech_cost
+    - tech_strata
+    - type
+    - links
+  type: object

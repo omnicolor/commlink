@@ -3,7 +3,7 @@
     "description": "Commlink is a tool for playing role playing games online, providing a character generator, campaign manager, dice roller, and more.",
     "url": "https://commlink.digitaldarkness.com/apis.json",
     "created": "2024-04-20",
-    "modified": "2024-04-20",
+    "modified": "2025-05-03",
     "specificationVersion": "0.16",
     "tags": [
         "RPG",
@@ -22,7 +22,7 @@
             "properties": [
                 {
                     "type": "OpenAPI",
-                    "url": "https://commlink.digitaldarkness.com/openapi.yml"
+                    "url": "https://commlink.digitaldarkness.com/openapi/openapi.yml"
                 },
                 {
                     "type": "Documentation",

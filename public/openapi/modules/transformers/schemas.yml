@@ -1,0 +1,186 @@
+Character:
+  example:
+    name: Bumblebee
+    allegiance: Autobots
+    alt_mode: null
+    color_primary: Yellow
+    color_secondary: Black
+    courage_alt: null
+    courage_robot: 5
+    endurance_alt: null
+    endurance_robot: 3
+    energon_base: 20
+    energon_current: 20
+    firepower_alt: null
+    firepower_robot: 7
+    hp_base: 13
+    hp_current: 13
+    intelligence_alt: null
+    intelligence_robot: 10
+    mode: robot
+    programming: engineer
+    quote: Bzzt
+    rank_alt: null
+    rank_robot: 3
+    size: 3
+    skill_alt: null
+    skill_robot: 7
+    speed_alt: null
+    speed_robot: 8
+    strength_alt: null
+    strength_robot: 4
+    subgroups:
+      - name: Actionmaster
+        class: standard
+        cost: 2
+        description: |
+          Nuclean fuel pumps through the Transformer’s veins, preventing
+          Transformation, but granting Damage Reduction of 1d6 / 2 rounded
+          up. See Partner Units for more options with Actionmaster.
+    weapons:
+      - name: Buzzsaw
+        class: minor
+        cost: 1
+        damage: 1d6 vs. HP + 2x Map + Radius
+        explanation: Melee range. Hand-replacement. Can also be Chainsaw.
+        id: buzzsaw
+    id: 668462afeeb2453f6f07eccc
+    owner:
+      id: 3
+      name: Omni A
+    system: transformers
+  allOf:
+    - $ref: '../../openapi.yml#/components/schemas/Character'
+    - properties:
+        allegiance:
+          enum:
+            - Autobots
+            - Decepticons
+          type: string
+        alt_mode:
+          nullable: true
+          type: string
+        color_primary:
+          type: string
+        color_secondary:
+          type: string
+        courage_alt:
+          nullable: true
+          type: integer
+        courage_robot:
+          type: integer
+        endurance_alt:
+          nullable: true
+          type: integer
+        endurance_robot:
+          type: integer
+        energon_base:
+          type: integer
+        energon_current:
+          type: integer
+        firepower_alt:
+          nullable: true
+          type: integer
+        firepower_robot:
+          type: integer
+        hp_base:
+          type: integer
+        hp_current:
+          type: integer
+        intelligence_alt:
+          nullable: true
+          type: integer
+        intelligence_robot:
+          type: integer
+        mode:
+          type: string
+        name:
+          type: string
+        programming:
+          type: string
+        quote:
+          type: string
+        rank_alt:
+          nullable: true
+          type: integer
+        rank_robot:
+          type: integer
+        size:
+          type: integer
+        skill_alt:
+          nullable: true
+          type: integer
+        skill_robot:
+          type: integer
+        speed_alt:
+          nullable: true
+          type: integer
+        speed_robot:
+          type: integer
+        strength_alt:
+          nullable: true
+          type: integer
+        strength_robot:
+          type: integer
+        subgroups:
+          items:
+            $ref: './schemas.yml#/Subgroup'
+          type: array
+        weapons:
+          items:
+            $ref: './schemas.yml#/Weapon'
+          type: array
+      type: object
+
+Subgroup:
+  example:
+    name: Actionmaster
+    class: standard
+    cost: 2
+    description: |
+      Nuclean fuel pumps through the Transformer’s veins, preventing
+      Transformation, but granting Damage Reduction of 1d6 / 2 rounded up.
+      See Partner Units for more options with Actionmaster.
+  properties:
+    class:
+      type: string
+    cost:
+      type: integer
+    description:
+      type: string
+    name:
+      type: string
+  required:
+    - class
+    - cost
+    - name
+  type: object
+
+Weapon:
+  example:
+    name: Buzzsaw
+    class: minor
+    cost: 1
+    damage: 1d6 vs. HP + 2x Map + Radius
+    explanation: Melee range. Hand-replacement. Can also be Chainsaw.
+    id: buzzsaw
+  properties:
+    class:
+      type: string
+    cost:
+      type: integer
+    damage:
+      type: string
+    explanation:
+      type: string
+    id:
+      type: string
+    name:
+      type: string
+  required:
+    - class
+    - cost
+    - damage
+    - id
+    - name
+  type: object

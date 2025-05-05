@@ -41,7 +41,7 @@ class CharacterResource extends JsonResource
      *     vice: ViceResource,
      *     virtue: VirtueResource,
      *     id: string,
-     *     campaign_id: int|null,
+     *     campaign_id?: int,
      *     system: string,
      *     owner: array{
      *         id: int,
@@ -78,7 +78,10 @@ class CharacterResource extends JsonResource
             'vice' => new ViceResource($this->vice),
             'virtue' => new VirtueResource($this->virtue),
             'id' => $this->id,
-            'campaign_id' => $this->campaign_id,
+            'campaign_id' => $this->when(
+                null !== $this->campaign_id,
+                $this->campaign_id,
+            ),
             'system' => $this->system,
             'owner' => [
                 'id' => $this->user()->id,

@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Alien\Models\Gear;
+use stdClass;
 
 /**
  * @mixin Gear
@@ -19,7 +20,7 @@ class GearResource extends JsonResource
      *     category: string,
      *     cost: ?int,
      *     description?: string,
-     *     effects: array<string, int>,
+     *     effects: stdClass,
      *     effects_text: string,
      *     name: string,
      *     page: integer,
@@ -39,7 +40,7 @@ class GearResource extends JsonResource
                 $user->hasPermissionTo('view data'),
                 $this->description,
             ),
-            'effects' => $this->effects,
+            'effects' => (object)$this->effects,
             'effects_text' => $this->effects_text,
             'name' => $this->name,
             'page' => $this->page,

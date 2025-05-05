@@ -50,6 +50,7 @@ class TalentsController extends Controller
             $this->talents[$key]['links'] = [
                 'self' => route('expanse.talents.show', $key),
             ];
+            $this->talents[$key]['requirements'] = (object)$this->talents[$key]['requirements'];
         }
 
         $this->headers['Etag'] = sha1_file($this->filename);

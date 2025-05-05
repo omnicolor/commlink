@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Modules\Root\Casts\AttributeCast;
 use Modules\Root\ValueObjects\Attribute;
+use Override;
 use Stringable;
 use Sushi\Sushi;
 
 use function collect;
+use function config;
 use function json_decode;
 
 /**
@@ -36,6 +38,7 @@ class Playbook extends Model implements Stringable
     public $incrementing = false;
     protected $keyType = 'string';
 
+    /** @var array<string, class-string|string> */
     protected $casts = [
         'charm' => AttributeCast::class,
         'cunning' => AttributeCast::class,
@@ -49,9 +52,7 @@ class Playbook extends Model implements Stringable
         'natures' => 'string',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $fillable = [
         'description_long',
         'description_short',
@@ -65,6 +66,7 @@ class Playbook extends Model implements Stringable
         'natures',
     ];
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

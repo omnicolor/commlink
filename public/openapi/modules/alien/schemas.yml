@@ -1,0 +1,575 @@
+Armor:
+  example:
+    air_supply: 4
+    cost: 2000
+    description: |
+      Standard issue for the USCMC, the Mk.35 is an unfortunately bulky
+      combat pressure suit with a cumbersome recycler unit. You want to be
+      careful wearing one of these in a fight, as the hard joints tend to
+      seize up with extreme motion. While the inexpensive suit offers full
+      protection from the vacuum of space, you have to spend time in a
+      decompression chamber after spacewalking in one. Basically, this suit
+      sucks, but if the choice is a Mk.35 or the cold of space, shut up and
+      suit up. Armor Rating 5, Maximum Air Supply 4. Heavy item.
+    id: 'irc-mk-35-pressure-suit'
+    modifiers:
+      - agility-decrease
+    name: IRC Mk.35 Pressure Suit
+    page: 127
+    rating: 5
+    ruleset: core
+    weight: 2
+    links:
+      self: https://commlink.digitaldarkness.com/api/alien/armor/irc-mk-35-pressure-suit
+  properties:
+    air_supply:
+      type: integer
+    cost:
+      type: integer
+    description:
+      type: string
+    id:
+      type: string
+    modifiers:
+      items:
+        enum:
+          - agility-decrease
+          - close-combat-increase
+          - comm-unit
+          - heavy-machinery-increase
+          - survival-increase
+        type: string
+      type: array
+    name:
+      type: string
+    page:
+      type: integer
+    rating:
+      type: integer
+    ruleset:
+      type: string
+    weight:
+      nullable: true
+      type: number
+    links:
+      $ref: '../../openapi.yml#/components/schemas/Links'
+  required:
+    - air_supply
+    - cost
+    - id
+    - modifiers
+    - name
+    - page
+    - rating
+    - ruleset
+    - weight
+    - links
+  type: object
+
+Attribute:
+  enum:
+    - agility
+    - empathy
+    - strength
+    - wits
+  type: string
+
+Career:
+  example:
+    description: |
+      Most of your friends will never see another world… but not you. As
+      soon as you were old enough, you signed up for the USCMC. The pay is
+      crap and the food is worse, but you’ve always got a bunk to sleep in
+      and you get to shoot all sorts of weapons at all sorts of things. Life
+      in the Corps is never dull—but the luster has begun to fade. You’ve
+      seen things that you’ll never be able to forget, and plenty you wish
+      you could.
+    key_attribute: strength
+    key_skills:
+      - attribute: strength
+        description: |
+          The world of ALIEN is a brutal place. Sometimes, you have no
+          choice but to fight for your life, toe-to-toe with the enemy. Roll
+          for this skill when you attack someone in close combat. Read more
+          about close combat and damage in Chapter 5.
+        id: close-combat
+        name: Close combat
+        page: 66
+        ruleset: core
+        stunts:
+          - You inflict one more point of damage. You can choose this stunt multiple times, if you roll several successes.
+        links:
+          self: https://commlink.digitaldarkness.com/api/alien/skills/close-combat
+    id: colonial-marine
+    name: Colonial marine
+    page: 38
+    ruleset: core
+    talents:
+      - career: colonial-marine
+        description: |
+          Between fights, you release the tension in your team with some
+          friendly banter. Your STRESS LEVEL, and the STRESS LEVEL of
+          everyone in SHORT range of you, drops two steps (instead of one)
+          for every Turn spent in a safe place (see page 104). Having
+          several Marines with this talent doesn’t increase the effect.
+        id: banter
+        name: Banter
+        page: 74
+        ruleset: core
+        links:
+          self: https://commlink.digitaldarkness.com/api/alien/talents/banter
+          career: https://commlink.digitaldarkness.com/api/alien/careers/colonial-marine
+    links:
+      self: https://commlink.digitaldarkness.com/api/alien/careers/colonial-marine
+  properties:
+    description:
+      type: string
+    id:
+      type: string
+    key_attribute:
+      $ref: '#/Attribute'
+    key_skills:
+      items:
+        $ref: '#/Skill'
+      type: array
+    name:
+      type: string
+    page:
+      type: integer
+    ruleset:
+      type: string
+    talents:
+      items:
+        $ref: '#/Talent'
+      type: array
+    links:
+      properties:
+        self:
+          format: url
+          type: string
+      type: object
+  required:
+    - id
+    - key_attribute
+    - key_skills
+    - name
+    - page
+    - ruleset
+    - talents
+    - links
+  type: object
+
+Character:
+  allOf:
+    - $ref: '../../openapi.yml#/components/schemas/Character'
+    - properties:
+        name:
+          type: string
+        stats:
+          properties:
+            agility:
+              type: integer
+            empathy:
+              type: integer
+            strength:
+              type: integer
+            wits:
+              type: integer
+          type: object
+        appearance:
+          nullable: true
+          type: string
+        armor:
+          $ref: '#/Armor'
+        buddy:
+          type: string
+        career:
+          $ref: '#/Career'
+        cash:
+          type: integer
+        encumbrance:
+          type: integer
+        encumbrance_maximum:
+          type: integer
+        gear:
+          items:
+            $ref: '#/Gear'
+          type: array
+        health_current:
+          type: integer
+        health_maximum:
+          type: integer
+        injuries:
+          items:
+            $ref: '#/Injury'
+          type: array
+        radiation:
+          type: integer
+        rival:
+          type: string
+        skills:
+          items:
+            $ref: '#/Skill'
+          type: array
+        talents:
+          items:
+            $ref: '#/Talent'
+          type: array
+        weapons:
+          items:
+            $ref: '#/Weapon'
+          type: array
+      type: object
+
+Gear:
+  example:
+    category: vision
+    cost: 100
+    description: |
+      Gives a +2 modification to OBSERVATION at LONG range or more when
+      scouting actively (not passive awareness).
+    effects:
+      observation: 2
+    effects_text: Bonus +2 to OBSERVATION.
+    name: Binoculars
+    page: 133
+    quantity: 1
+    ruleset: core
+    weight: 0.5
+  properties:
+    category:
+      type: string
+    cost:
+      nullable: true
+      type: integer
+    description:
+      type: string
+    effects:
+      type: object
+    effects_text:
+      type: string
+    name:
+      type: string
+    page:
+      type: integer
+    ruleset:
+      type: string
+    weight:
+      nullable: true
+      type: number
+  required:
+    - category
+    - cost
+    - effects
+    - effects_text
+    - name
+    - page
+    - ruleset
+    - weight
+  type: object
+
+Injury:
+  example:
+    death_roll_modifier: null
+    effects:
+      manipulation: -1
+      observation: -1
+    effects_text: MANIPULATION and OBSERVATION –1.
+    fatal: false
+    healing_time: null
+    id: broken-nose
+    name: Broken nose
+    roll: 31
+    time_limit: null
+    links:
+      self: https://commlink.digitaldarkness.com/api/alien/injuries/broken-nose
+  properties:
+    death_roll_modifier:
+      nullable: true
+      type: integer
+    effects:
+      type: object
+    fatal:
+      type: boolean
+    healing_time:
+      nullable: true
+      type: string
+    id:
+      type: string
+    name:
+      type: string
+    roll:
+      type: integer
+    time_limit:
+      nullable: true
+      type: string
+    links:
+      properties:
+        self:
+          type: string
+      type: object
+  required:
+    - death_roll_modifier
+    - effects
+    - effects_text
+    - fatal
+    - healing_time
+    - id
+    - name
+    - roll
+    - time_limit
+    - links
+  type: object
+
+RollRequest:
+  example:
+    character: 6697e43d245ac6b4f2032432
+    skill: close-combat
+    type: skill
+  properties:
+    character:
+      description: Character ID.
+      type: string
+    type:
+      description: Type of roll to make.
+      enum:
+        - skill
+      type: string
+    skill:
+      description: If "type" is "skill", the ID of the skill to roll.
+      enum:
+        - close-combat
+        - command
+        - comtech
+        - heavy-machinery
+        - manipulation
+        - medical-aid
+        - mobility
+        - observation
+        - piloting
+        - ranged-combat
+        - stamina
+        - survival
+      type: string
+  required:
+    - character
+    - type
+  type: object
+
+RollResult:
+  example:
+    panic: false
+    pushable: true
+    rolls: [2, 4, 1, 2, 1, 5]
+    success: false
+    text: Rolled 0 successes
+    title: Ripley failed with 6 dice for Heavy machinery (0+5+1)
+  properties:
+    panic:
+      type: boolean
+    pushable:
+      description: |
+        Whether the roll can be pushed. Some talents allow you to push a roll
+        a second time.
+      type: boolean
+    rolls:
+      items:
+        type: integer
+      type: array
+    success:
+      type: boolean
+    text:
+      type: string
+    title:
+      type: string
+  required:
+    - panic
+    - pushable
+    - rolls
+    - success
+    - text
+    - title
+  type: object
+
+Skill:
+  example:
+    attribute: strength
+    description: |
+      Hard work is part of life for any roughneck on the Frontier, but at
+      least you have powerful machines to help you. Roll for this skill when
+      you attempt to use, repair, jury-rig or break any kind of heavy
+      machinery.
+    id: heavy-machinery
+    name: Heavy machinery
+    page: 64
+    ruleset: core
+    stunts:
+      - Gain a +1 modification to a later skill roll relating to this one.
+    links:
+      self: https://commlink.digitaldarkness.com/api/alien/skills/heavy-machinery
+  properties:
+    attribute:
+      type: string
+    description:
+      type: string
+    id:
+      type: string
+    name:
+      type: string
+    page:
+      type: integer
+    ruleset:
+      type: string
+    links:
+      properties:
+        self:
+          type: string
+      type: object
+  required:
+    - attribute
+    - id
+    - name
+    - page
+    - ruleset
+    - links
+  type: object
+
+Talent:
+  example:
+    career: scientist
+    description: |
+      You can roll for OBSERVATION to gain insight regarding strange and
+      alien artifacts or creatures that you encounter and get a chance to
+      study for at least one Turn. For every you roll, you get to ask the GM
+      one of the questions below.||Is it human or alien?||Is it dead or
+      alive?||How old is it?||What is its purpose?||How does it work?||What
+      problems could it cause?||The GM must answer truthfully, but is
+      allowed to give vague or incomplete answers in order to avoid spoiling
+      the scenario.|| A successful Analyze roll also reduces the STRESS
+      LEVEL of all other PCs within SHORT range by one, while a failed roll
+      increases other PCs' stress levels by one.
+    id: analysis
+    name: Analysis
+    page: 77
+    ruleset: core
+    links:
+      self: https://commlink.digitaldarkness.com/api/alien/talents/analysis
+      career: https://commlink.digitaldarkness.com/api/alien/careers/scientist
+  properties:
+    career:
+      nullable: true
+      type: string
+    description:
+      type: string
+    id:
+      type: string
+    name:
+      type: string
+    page:
+      type: integer
+    ruleset:
+      type: string
+    links:
+      properties:
+        career:
+          format: url
+          type: string
+        self:
+          format: url
+          type: string
+      required:
+        - self
+      type: object
+  required:
+    - career
+    - id
+    - name
+    - page
+    - ruleset
+    - links
+  type: object
+
+Weapon:
+  example:
+    bonus: 1
+    class: pistol
+    cost: 400
+    damage: 1
+    description: |
+      A miniaturized and weaponized version of a Weyland-Yutani laser welder
+      in use from the 2100-2120s. This tool was originally improvised as a
+      weapon by the J’Har rebels during the 2106 uprising on Torin Prime.
+      Always one to find profit in anything, Weyland-Yutani studied the
+      modifications after the war and made them the standard self-defense
+      armament on their commercial fleet.
+    id: rexim-rxf-m5-eva-pistol
+    modifiers:
+      - armor-piercing
+    name: Rexim RXF-M5 EVA Pistol
+    page: 119
+    range: medium
+    ruleset: core
+    weight: 0.5
+    links:
+      self: https://commlink.digitaldarkness.com/api/alien/weapons/rexim-rxf-m5-eva-pistol
+  properties:
+    bonus:
+      type: integer
+    class:
+      enum:
+        - close-combat
+        - heavy-weapon
+        - pistol
+        - rifle
+      type: string
+    cost:
+      nullable: true
+      type: integer
+    damage:
+      nullable: true
+      type: integer
+    id:
+      type: string
+    modifiers:
+      items:
+        enum:
+          - armor-doubled
+          - armor-piercing
+          - fire-intensity-9
+          - full-auto
+          - grenade-launcher
+          - power-supply-5
+          - single-shot
+          - stun-effect
+          - stun-effect-2
+        type: string
+      type: array
+    name:
+      type: string
+    page:
+      type: integer
+    range:
+      enum:
+        - engaged
+        - short
+        - medium
+        - long
+        - extreme
+      type: string
+    weight:
+      nullable: true
+      type: number
+  required:
+    - bonus
+    - class
+    - cost
+    - damage
+    - id
+    - modifiers
+    - name
+    - page
+    - range
+    - ruleset
+    - weight
+    - links
+  type: object

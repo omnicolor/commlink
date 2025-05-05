@@ -1,0 +1,24 @@
+characters:
+  get:
+    summary: Star Trek Adventures RPG characters
+    operationId: startrekadventures-characters-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Character'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of the user's Star Trek Adventures characters.
+    tags:
+      - character
+      - startrekadventures

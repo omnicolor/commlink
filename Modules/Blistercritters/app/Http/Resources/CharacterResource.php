@@ -24,7 +24,7 @@ class CharacterResource extends JsonResource
      *     scurry: int,
      *     vibe: int,
      *     id: string,
-     *     campaign_id: int|null,
+     *     campaign_id?: int,
      *     owner: array{
      *         id: int,
      *         name: string
@@ -46,7 +46,10 @@ class CharacterResource extends JsonResource
             'scurry' => $this->scurry,
             'vibe' => $this->vibe,
             'id' => $this->id,
-            'campaign_id' => $this->campaign_id,
+            'campaign_id' => $this->when(
+                null !== $this->campaign_id,
+                $this->campaign_id,
+            ),
             'owner' => [
                 'id' => $this->user()->id,
                 'name' => $this->user()->name,
