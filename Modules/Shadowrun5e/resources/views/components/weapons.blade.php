@@ -53,7 +53,7 @@
                         <td {!! $class !!}>{{ $weapon->accuracy }}</td>
                     @endif
                     @if (is_array($weapon->modes))
-                        <td {!! $class !!}>{{ implode(', ', $weapon->modes) }}</td>
+                        <td {!! $class !!}>{{ implode(', ', $weapon->getModes()) }}</td>
                     @else
                         <td {!! $class !!}>{{ $weapon->modes }}</td>
                     @endif
@@ -62,10 +62,10 @@
                     @else
                         <td {!! $class !!}>{{ $weapon->reach }}</td>
                     @endif
-                    <td {!! $class !!}>{{ $weapon->recoilCompensation }}</td>
-                    <td {!! $class !!}>{{ $weapon->armorPiercing }}</td>
+                    <td {!! $class !!}>{{ $weapon->recoil_compensation }}</td>
+                    <td {!! $class !!}>{{ $weapon->armor_piercing }}</td>
                     @if ('firearm' === $weapon->type)
-                        <td {!! $class !!}>{{ $weapon->ammoCapacity }} ({{ $weapon->ammoContainer }})</td>
+                        <td {!! $class !!}>{{ $weapon->ammo_capacity }} ({{ $weapon->ammo_container }})</td>
                     @else
                         <td {!! $class !!}></td>
                     @endif

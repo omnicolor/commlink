@@ -7,6 +7,7 @@ namespace App\Http\Resources;
 use App\Models\CampaignInvitation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Override;
 
 /**
  * @mixin CampaignInvitation
@@ -16,6 +17,7 @@ class CampaignInvitationResource extends JsonResource
     /**
      * @return array<string, array<string, array<string, array<string, string>|int|string>>>
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         return [

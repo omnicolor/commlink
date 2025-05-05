@@ -18,8 +18,6 @@ use function in_array;
  */
 class CharacterFactory extends Factory
 {
-    protected $model = Character::class;
-
     /**
      * List of systems that use 'handle' instead of 'name' to describe the
      * character.

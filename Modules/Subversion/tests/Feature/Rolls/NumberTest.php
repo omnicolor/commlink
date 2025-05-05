@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Subversion\Tests\Feature\Rolls;
 
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use Facades\App\Services\DiceService;
 use Modules\Subversion\Rolls\Number;
+use Omnicolor\Slack\Attachment;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -30,23 +30,23 @@ final class NumberTest extends TestCase
             ->with(3, 6)
             ->andReturn([4, 4, 4]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'subversion']);
-        $response = json_decode(
-            (string)(new Number('3', 'username', $channel))->forSlack()
-        );
+        $response = (new Number('3', 'username', $channel))
+            ->forSlack()
+            ->jsonSerialize();
         self::assertSame(
             'in_channel',
-            $response->response_type
+            $response['response_type']
         );
-        self::assertEquals(
-            (object)[
-                'color' => SlackResponse::COLOR_INFO,
+        self::assertArrayHasKey('attachments', $response);
+        self::assertSame(
+            [
+                'color' => Attachment::COLOR_INFO,
+                'footer' => '4 4 4',
                 'text' => 'Rolled 3 dice: 4 + 4 + 4 = 12',
                 'title' => 'username rolled 12',
-                'footer' => '4 4 4',
             ],
-            $response->attachments[0]
+            $response['attachments'][0],
         );
     }
 
@@ -62,7 +62,6 @@ final class NumberTest extends TestCase
             ->with(4, 6)
             ->andReturn([5, 5, 5, 5]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'subversion']);
         $response = (new Number('4', 'username', $channel))->forDiscord();
         self::assertEquals(
@@ -81,7 +80,6 @@ final class NumberTest extends TestCase
             ->with(4, 6)
             ->andReturn([5, 5, 5, 5]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'subversion']);
         $response = (new Number('4', 'username', $channel))->forIrc();
         self::assertEquals(
@@ -100,7 +98,6 @@ final class NumberTest extends TestCase
             ->with(3, 6)
             ->andReturn([6, 6, 6]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'subversion']);
         $response = (new Number('2', 'username', $channel))->forDiscord();
         self::assertEquals(
@@ -119,7 +116,6 @@ final class NumberTest extends TestCase
             ->with(3, 6)
             ->andReturn([6, 6, 6]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'subversion']);
         $response = (new Number('1', 'username', $channel))->forDiscord();
         self::assertEquals(
@@ -138,7 +134,6 @@ final class NumberTest extends TestCase
             ->with(3, 6)
             ->andReturn([6, 6, 6]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'subversion']);
         $response = (new Number('0', 'username', $channel))->forDiscord();
         self::assertEquals(

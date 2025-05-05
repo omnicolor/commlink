@@ -18,7 +18,7 @@ final class LicenseTest extends TestCase
     {
         $license = new License(2, 'test');
         self::assertSame(400, $license->getCost());
-        $license->rating = 6;
+        $license = new License(6, 'Another test');
         self::assertSame(1200, $license->getCost());
     }
 

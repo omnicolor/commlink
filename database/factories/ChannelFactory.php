@@ -16,8 +16,6 @@ use function array_keys;
  */
 class ChannelFactory extends Factory
 {
-    protected $model = Channel::class;
-
     /**
      * Define the model's default state.
      * @return array<string, int|null|string>

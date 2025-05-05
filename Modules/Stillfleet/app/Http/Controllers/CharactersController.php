@@ -8,15 +8,18 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\View\View;
 use Modules\Stillfleet\Http\Requests\RoleRequest;
+use Modules\Stillfleet\Http\Resources\CharacterResource;
 use Modules\Stillfleet\Models\Character;
 use Modules\Stillfleet\Models\PartialCharacter;
 use Modules\Stillfleet\Models\Role;
 
 use function abort;
+use function abort_if;
 use function assert;
 use function count;
 use function route;
@@ -130,7 +133,7 @@ class CharactersController extends Controller
             return new RedirectResponse(route('stillfleet.create', 'class-powers'));
         }
 
-        // Chosing a new class, remove their powers.
+        // Choosing a new class, remove their powers.
         $character->roles = [
             [
                 'id' => $request->role,
@@ -162,7 +165,7 @@ class CharactersController extends Controller
             return null;
         }
 
-        // Maybe they're chosing to continue a character right now.
+        // Maybe they're choosing to continue a character right now.
         /** @var ?PartialCharacter */
         $character = PartialCharacter::where('owner', $user->email)
             ->find($step);
@@ -170,6 +173,31 @@ class CharactersController extends Controller
             $request->session()->put('stillfleet-partial', $character->id);
         }
         return $character;
+    }
+
+    public function index(Request $request): AnonymousResourceCollection
+    {
+        /** @var User */
+        $user = $request->user();
+
+        return CharacterResource::collection(
+            Character::where('owner', $user->email)->get()
+        )
+            ->additional(['links' => ['self' => route('stillfleet.characters.index')]]);
+    }
+
+    public function show(Request $request, Character $character): CharacterResource
+    {
+        /** @var User */
+        $user = $request->user();
+
+        $campaign = $character->campaign();
+        abort_if(
+            $user->email !== $character->owner
+            && (null === $campaign || $user->isNot($campaign->gamemaster)),
+            Response::HTTP_NOT_FOUND
+        );
+        return new CharacterResource($character);
     }
 
     public function view(Request $request, Character $character): View

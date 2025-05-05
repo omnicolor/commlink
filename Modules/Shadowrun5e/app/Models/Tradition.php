@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -18,36 +19,21 @@ use function trim;
  */
 class Tradition implements Stringable
 {
-    /**
-     * Description of the tradition.
-     */
-    public string $description;
+    public readonly string $description;
 
     /**
      * Attributes used to resist drain.
      */
-    public string $drain;
+    public readonly string $drain;
 
     /**
      * Map of elements to categories.
      * @var array<string, string>
      */
     public array $elements;
-
-    /**
-     * Name of the tradition.
-     */
-    public string $name;
-
-    /**
-     * Page the tradition was introduced on.
-     */
-    public int $page;
-
-    /**
-     * Rule book the tradition was introduced in.
-     */
-    public string $ruleset;
+    public readonly string $name;
+    public readonly int $page;
+    public readonly string $ruleset;
 
     /**
      * Collection of all traditions.
@@ -58,7 +44,7 @@ class Tradition implements Stringable
     /**
      * @throws RuntimeException if the ID is invalid or not found
      */
-    public function __construct(public string $id)
+    public function __construct(public readonly string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'traditions.php';
         self::$traditions ??= require $filename;
@@ -91,6 +77,7 @@ class Tradition implements Stringable
         return [trim($drain[0]), trim($drain[1])];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

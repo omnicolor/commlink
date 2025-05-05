@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Rolls;
 
 use App\Events\InitiativeAdded;
-use App\Exceptions\SlackException;
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
 use App\Models\Initiative;
-use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use App\Traits\FormulaConverter;
 use Facades\App\Services\DiceService;
 use Modules\Shadowrun5e\Models\Character;
+use Omnicolor\Slack\Attachments\TextAttachment;
+use Omnicolor\Slack\Exceptions\SlackException;
+use Omnicolor\Slack\Response;
+use Override;
 use RuntimeException;
 
 use function array_shift;
@@ -235,6 +236,7 @@ class Init extends Roll
         $this->dice = DiceService::rollMany($this->initiativeDice, 6);
     }
 
+    #[Override]
     public function forDiscord(): string
     {
         if (null !== $this->error) {
@@ -254,6 +256,7 @@ class Init extends Roll
             );
     }
 
+    #[Override]
     public function forIrc(): string
     {
         if (null !== $this->error) {
@@ -273,22 +276,27 @@ class Init extends Roll
             );
     }
 
-    public function forSlack(): SlackResponse
+    #[Override]
+    public function forSlack(): Response
     {
         if (null !== $this->error) {
             throw new SlackException($this->error);
         }
-        $response = new SlackResponse(channel: $this->channel);
+
+        $response = new Response();
         if ('' !== $this->title) {
-            $response->addAttachment(new TextAttachment(
+            // @phpstan-ignore method.deprecated
+            return $response->addAttachment(new TextAttachment(
                 $this->title,
                 $this->text,
                 TextAttachment::COLOR_INFO,
                 $this->footer,
-            ));
-            return $response->sendToChannel();
+            ))
+                ->sendToChannel();
         }
-        $response->addAttachment(new TextAttachment(
+
+        // @phpstan-ignore method.deprecated
+        return $response->addAttachment(new TextAttachment(
             sprintf('Rolling initiative for %s', $this->username),
             sprintf(
                 '%d + %dd6 = %d',
@@ -298,7 +306,7 @@ class Init extends Roll
             ),
             TextAttachment::COLOR_INFO,
             'Rolls: ' . implode(' ', $this->dice)
-        ));
-        return $response->sendToChannel();
+        ))
+            ->sendToChannel();
     }
 }

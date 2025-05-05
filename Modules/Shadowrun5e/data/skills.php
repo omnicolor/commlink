@@ -133,6 +133,21 @@ return [
             'Personas',
         ],
     ],
+    'longarms' => [
+        'id' => 'longarms',
+        'name' => 'Longarms',
+        'default' => true,
+        'attribute' => 'agility',
+        'group' => 'firearms',
+        'description' => 'The Longarms skill is for firing extended-barrel weapons such as sporting rifles and sniper rifles. This grouping also includes weapons like shotguns that are designed to be braced against the shoulder.',
+        'limit' => 'weapon',
+        'specializations' => [
+            'Extended-range shots',
+            'Long-Range shots',
+            'Shotguns',
+            'Sniper rifles',
+        ],
+    ],
     'medicine' => [
         'attribute' => 'logic',
         'description' => 'Medicine description.',

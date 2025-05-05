@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Responses\Slack;
 
 use App\Events\ChannelLinked;
-use App\Exceptions\SlackException;
 use App\Models\Channel;
-use App\Models\Slack\TextAttachment;
+use Omnicolor\Slack\Attachments\TextAttachment;
+use Omnicolor\Slack\Exceptions\SlackException;
 
 use function array_key_exists;
 use function array_keys;

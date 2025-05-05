@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Nwidart\Modules\Facades\Module;
+use Override;
+use Stringable;
 use stdClass;
 
 use function class_exists;
@@ -36,7 +38,7 @@ use function ucfirst;
  * @property string $system
  * @property-read Collection<User> $users
  */
-class Campaign extends Model
+class Campaign extends Model implements Stringable
 {
     use GameSystem;
     use HasFactory;
@@ -118,6 +120,7 @@ class Campaign extends Model
      * @param array<int|string, mixed>|Campaign $attributes
      * @param ?string $connection
      */
+    #[Override]
     public function newFromBuilder(
         $attributes = [],
         $connection = null,

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -12,28 +13,20 @@ use function config;
 use function sprintf;
 use function strtolower;
 
-class Rulebook implements Stringable
+final class Rulebook implements Stringable
 {
     /**
      * Whether the rulebook is included in Commlink character creation by
      * default.
      */
-    public bool $default = true;
-
-    /**
-     * Description of the rulebook.
-     */
-    public string $description;
-
-    /**
-     * Name of the rulebook.
-     */
-    public string $name;
+    public readonly bool $default;
+    public readonly string $description;
+    public readonly string $name;
 
     /**
      * Whether the rulebook is required to play the game.
      */
-    public bool $required = false;
+    public readonly bool $required;
 
     /**
      * List of all rulebooks.
@@ -44,7 +37,7 @@ class Rulebook implements Stringable
     /**
      * @throws RuntimeException
      */
-    public function __construct(public string $id)
+    public function __construct(public readonly string $id)
     {
         $filename = config('shadowrun5e.data_path') . 'rulebooks.php';
         self::$books ??= require $filename;
@@ -63,6 +56,7 @@ class Rulebook implements Stringable
         $this->required = $book['required'] ?? false;
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

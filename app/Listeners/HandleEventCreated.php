@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 use function config;
+use function now;
 use function sprintf;
 
 use const PHP_EOL;

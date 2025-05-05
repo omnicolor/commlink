@@ -6,6 +6,59 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.12.0] - 2025-03-08
+
+### Changed
+
+- Lots of dependencies updated.
+
+### Fixed
+
+- Cleaned up some Laravel "issues" brought up by Shift's Laravel Linter:
+  reverted config files to be more like the defaults, removed the $model
+  property for base database factories. (#2080)
+
+### Removed
+
+- Removed Slack code from Commlink. (#2106) Code is now its own project at
+  [omnicolor/slack](https://github.com/omnicolor/slack).
+- Removed Paratest dependency since it wasn't working correctly some of the
+  time (creating a bunch of numbered files in the cwd and failing tests
+  randomly). (#2123)
+
+## [1.11.0] - 2025-02-20
+
+### Added
+
+- Added middleware to default API requests to application/json. (#2052)
+- Added a generic characters route. (#2063)
+
+### Changed
+
+- Finally updated the Mongo dependency. (#2062)
+- Lots of dependencies updated, including at least one security vulnerability.
+
+## [1.10.0] - 2025-02-11
+
+### Added
+
+- Added initial Avatar Legends character sheet. (#1881)
+
+### Fixed
+
+- Fixed a missing semicolon in the migration stub. (#2023)
+- Added some missing system images for user admin page. (#2040)
+- Auto-expire API tokens when sent to insecure resources. (#2045)
+
+### Changed
+
+- Lots of dependencies updated.
+- Most enums are now in their own directory instead of being in the models
+  directory. (#2037)
+- Factored the ForceTrait out from Shadowrun 5E to be a reusable math component
+  since it's also used in dice rolls for other systems. (#2038)
+
+
 ## [1.9.0] - 2025-02-03
 
 ### Added
@@ -35,7 +88,6 @@ and this project adheres to
 - Refactored the settings page from the two or three accordion layout
   (depending on your permissions) to different pages. (#2015)
 
-### Removed
 
 ## [1.8.0] - 2024-12-27
 
@@ -64,6 +116,7 @@ Psalm. Fixed up a lot of the resource doc blocks to make them more explicit.
 ### Removed
 
 - Removed support for Psalm. (#1896)
+
 
 ## [1.7.0] - 2024-10-29
 
@@ -95,6 +148,7 @@ big win for running Commlink on my non-production hardware.
 
 - Updated so many dependencies.
 - Move data file for Chummer5 paths into the import command. (#1561)
+
 
 ## [1.6.0] - 2024-08-02
 
@@ -128,6 +182,7 @@ big win for running Commlink on my non-production hardware.
 - Improved Psalm support to level 4. (#1526)
 
 ## [1.5.0] - 2024-07-24
+
 
 ### Added
 

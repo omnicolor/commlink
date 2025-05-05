@@ -6,42 +6,46 @@ namespace Modules\Expanse\Tests\Feature\Rolls;
 
 use App\Models\Channel;
 use Modules\Expanse\Rolls\Help;
+use Omnicolor\Slack\Attachment;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-use function json_decode;
+use const PHP_EOL;
 
 #[Group('expanse')]
 #[Medium]
 final class HelpTest extends TestCase
 {
-    /**
-     * Test getting help via Slack.
-     */
     #[Group('slack')]
     public function testHelpSlack(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'system' => 'expanse',
             'type' => Channel::TYPE_SLACK,
         ]);
-        $response = (new Help('', 'username', $channel))->forSlack();
-        $response = json_decode((string)$response);
+        $response = (new Help('', 'username', $channel))
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $response);
         self::assertSame(
-            'Commlink - The Expanse',
-            $response->attachments[0]->title
+            [
+                'color' => Attachment::COLOR_INFO,
+                'text' => 'Commlink is a Slack/Discord bot that lets you roll '
+                    . 'dice for The Expanse.' . PHP_EOL
+                    . '· `4 [text]` - Roll 3d6 dice adding 4 to the result '
+                    . 'with optional text (automatics, perception, etc)'
+                    . PHP_EOL,
+                'title' => 'Commlink - The Expanse',
+            ],
+            $response['attachments'][0],
         );
     }
 
-    /**
-     * Test getting help via Discord.
-     */
     #[Group('discord')]
     public function testHelpDiscord(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'system' => 'expanse',
             'type' => Channel::TYPE_DISCORD,
@@ -49,22 +53,18 @@ final class HelpTest extends TestCase
         $response = (new Help('', 'username', $channel))->forDiscord();
         self::assertStringContainsString(
             'Commlink - The Expanse',
-            $response
+            $response,
         );
     }
 
-    /**
-     * Test getting help via IRC.
-     */
     #[Group('irc')]
     public function testHelpIrc(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'expanse']);
         $response = (new Help('', 'username', $channel))->forIrc();
         self::assertStringContainsString(
             'Commlink - The Expanse',
-            $response
+            $response,
         );
     }
 }

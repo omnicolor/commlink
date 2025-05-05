@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models\Traits;
 
 use function array_key_exists;
+use function config;
 
 /**
  * Trait for changing the short system tag into the full system name.

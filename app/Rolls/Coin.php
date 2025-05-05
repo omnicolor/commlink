@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Rolls;
 
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
-use App\Models\Slack\TextAttachment;
 use Facades\App\Services\DiceService;
+use Omnicolor\Slack\Response;
+use Omnicolor\Slack\Sections\Text;
+use Override;
 
 use function sprintf;
 
@@ -34,20 +35,23 @@ class Coin extends Roll
         $this->text = '';
     }
 
+    #[Override]
     public function forDiscord(): string
     {
         return sprintf('**%s**', $this->title) . PHP_EOL;
     }
 
+    #[Override]
     public function forIrc(): string
     {
         return $this->title;
     }
 
-    public function forSlack(): SlackResponse
+    #[Override]
+    public function forSlack(): Response
     {
-        $attachment = new TextAttachment($this->title, $this->text);
-        $response = new SlackResponse(channel: $this->channel);
-        return $response->addAttachment($attachment)->sendToChannel();
+        return (new Response())
+            ->addBlock(new Text($this->title))
+            ->sendToChannel();
     }
 }

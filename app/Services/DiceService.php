@@ -7,9 +7,15 @@ namespace App\Services;
 use App\Traits\FormulaConverter;
 use RuntimeException;
 
+use function array_merge;
+use function array_sum;
 use function explode;
+use function implode;
 use function preg_match_all;
+use function random_int;
 use function sprintf;
+use function str_replace;
+use function strtolower;
 
 /**
  * Service to roll one or more dice.

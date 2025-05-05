@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Http\Responses\Slack;
 
 use App\Http\Responses\Slack\SlackResponse;
-use App\Models\Slack\TextAttachment;
+use Omnicolor\Slack\Attachments\TextAttachment;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -51,7 +51,7 @@ final class SlackResponseTest extends TestCase
         );
         self::assertSame(
             '{"response_type":"ephemeral"}',
-            (string)$this->response
+            (string)$response
         );
     }
 

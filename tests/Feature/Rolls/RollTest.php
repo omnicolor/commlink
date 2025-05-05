@@ -24,10 +24,7 @@ final class RollTest extends TestCase
 
     public function testIsGmNoChatUser(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
-
-        /** @var Channel */
         $channel = Channel::factory()->create(['campaign_id' => $campaign]);
 
         $mock = $this->getMockBuilder(Roll::class)

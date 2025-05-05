@@ -14,8 +14,6 @@ use Illuminate\Support\Str;
  */
 class ChatUserFactory extends Factory
 {
-    protected $model = ChatUser::class;
-
     /**
      * Define the model's default state.
      * @return array<string, bool|int|string>

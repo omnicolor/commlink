@@ -17,8 +17,6 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-use function json_decode;
-
 #[Group('startrekadventures')]
 #[Medium]
 final class HelpTest extends TestCase
@@ -28,29 +26,30 @@ final class HelpTest extends TestCase
     #[Group('slack')]
     public function testHelpNoLinkedUserSlack(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'system' => 'startrekadventures',
         ]);
         $channel->username = $this->faker->name;
 
         $response = (new Help('help', $channel->username, $channel))
-            ->forSlack();
-        $response = json_decode((string)$response);
+            ->forSlack()
+            ->jsonSerialize();
+        self::assertArrayHasKey('attachments', $response);
+        self::assertArrayHasKey(0, $response['attachments']);
+        self::assertArrayHasKey('text', $response['attachments'][0]);
         self::assertStringContainsString(
-            'Star Trek Adventures',
-            $response->attachments[0]->title
+            'roll Star Trek Adventures dice',
+            $response['attachments'][0]['text'],
         );
         self::assertStringContainsString(
             'Note for unregistered users',
-            $response->attachments[1]->title
+            $response['attachments'][1]['title'],
         );
     }
 
     #[Group('discord')]
     public function testHelpNoLinkedUserDiscord(): void
     {
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'system' => 'startrekadventures',
         ]);
@@ -69,13 +68,11 @@ final class HelpTest extends TestCase
     {
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $user->id,
             'system' => 'startrekadventures',
         ]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'startrekadventures',
@@ -102,12 +99,10 @@ final class HelpTest extends TestCase
     {
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'system' => 'startrekadventures',
         ]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'startrekadventures',
@@ -134,10 +129,8 @@ final class HelpTest extends TestCase
     {
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'startrekadventures']);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'system' => 'startrekadventures',
@@ -146,7 +139,6 @@ final class HelpTest extends TestCase
         $channel->username = $this->faker->name;
         $channel->user = 'U' . Str::random(10);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -155,10 +147,7 @@ final class HelpTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
-        $character = Character::factory()->create([
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create([]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel->id,
@@ -176,14 +165,10 @@ final class HelpTest extends TestCase
     #[Group('irc')]
     public function testHelpIrc(): void
     {
-        $user = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'system' => 'startrekadventures',
         ]);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'startrekadventures',

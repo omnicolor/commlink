@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Modules\Alien\Rolls;
 
 use App\Events\MessageReceived;
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
-use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
+use Omnicolor\Slack\Attachments\TextAttachment;
+use Omnicolor\Slack\Response;
+use Override;
 
 use function sprintf;
 
@@ -65,24 +66,30 @@ class Trauma extends Roll
         };
     }
 
+    #[Override]
     public function forDiscord(): string
     {
         return sprintf('**%s**', $this->title) . PHP_EOL . $this->text;
     }
 
+    #[Override]
     public function forIrc(): string
     {
         return $this->title . PHP_EOL . $this->text;
     }
 
-    public function forSlack(): SlackResponse
+    #[Override]
+    public function forSlack(): Response
     {
         $attachment = new TextAttachment(
             $this->title,
             $this->text,
             TextAttachment::COLOR_DANGER,
         );
-        $response = new SlackResponse(channel: $this->channel);
-        return $response->addAttachment($attachment)->sendToChannel();
+
+        // @phpstan-ignore method.deprecated
+        return (new Response())
+            ->addAttachment($attachment)
+            ->sendToChannel();
     }
 }

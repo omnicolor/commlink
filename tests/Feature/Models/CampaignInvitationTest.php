@@ -25,9 +25,7 @@ final class CampaignInvitationTest extends TestCase
     {
         Event::fake();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
-
         CampaignInvitation::create([
             'campaign_id' => $campaign->id,
             'email' => $this->faker->safeEmail,
@@ -43,7 +41,6 @@ final class CampaignInvitationTest extends TestCase
     {
         Event::fake();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
 
         $invitation = CampaignInvitation::create([
@@ -53,7 +50,6 @@ final class CampaignInvitationTest extends TestCase
             'name' => $this->faker->name,
             'status' => CampaignInvitation::INVITED,
         ]);
-
         $invitation->status = CampaignInvitation::RESPONDED;
         $invitation->responded_at = now()->toDateTimeString();
         $invitation->update();

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,10 +16,8 @@ use function date;
 use function json_encode;
 use function sha1;
 use function sha1_file;
-use function sprintf;
 use function stat;
 use function strtolower;
-use function urlencode;
 
 /**
  * Controller for Shadowrun 5E gear.
@@ -40,8 +39,7 @@ class GearController extends Controller
     {
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path') . 'gear.php';
-        $this->links['system'] = '/api/shadowrun5e';
-        $this->links['collection'] = '/api/shadowrun5e/gear';
+        $this->links['collection'] = route('shadowrun5e.gear.index');
 
         $this->gear = require $this->filename;
 
@@ -55,15 +53,16 @@ class GearController extends Controller
      */
     public function index(): Response
     {
-        /** @var \App\Models\User */
+        /** @var User */
         $user = Auth::user();
         $trusted = $user->hasPermissionTo('view data');
 
         foreach (array_keys($this->gear) as $key) {
             $this->gear[$key]['links'] = [
-                'self' => sprintf('/api/shadowrun5e/gear/%s', urlencode($key)),
+                'self' => route('shadowrun5e.gear.show', $key),
             ];
             $this->gear[$key]['ruleset'] ??= 'core';
+            $this->gear[$key]['effects'] = (object)($this->gear[$key]['effects'] ?? []);
             if (!$trusted) {
                 unset($this->gear[$key]['description']);
             }
@@ -83,7 +82,7 @@ class GearController extends Controller
      */
     public function show(string $id): Response
     {
-        /** @var \App\Models\User */
+        /** @var User */
         $user = Auth::user();
 
         $id = strtolower($id);
@@ -100,7 +99,7 @@ class GearController extends Controller
         $item = $this->gear[$id];
         $item['ruleset'] ??= 'core';
         $item['links']['self'] = $this->links['self'] =
-            sprintf('/api/shadowrun5e/gear/%s', urlencode($id));
+            route('shadowrun5e.gear.show', $id);
 
         if (!$user->hasPermissionTo('view data')) {
             unset($item['description']);

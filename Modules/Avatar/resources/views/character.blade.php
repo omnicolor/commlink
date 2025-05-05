@@ -1,4 +1,4 @@
-@use(Modules\Avatar\Models\Condition)
+@use(Modules\Avatar\Enums\Condition)
 @use(Illuminate\Support\Str)
 <x-app>
     <x-slot name="title">{{ $character }}</x-slot>

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Rolls;
 
-use App\Exceptions\SlackException;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
@@ -13,11 +12,11 @@ use App\Models\User;
 use Facades\App\Services\DiceService;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Rolls\Init;
+use Omnicolor\Slack\Attachment;
+use Omnicolor\Slack\Exceptions\SlackException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
-
-use function json_decode;
 
 use const PHP_EOL;
 
@@ -33,10 +32,8 @@ final class InitTest extends TestCase
     #[Group('slack')]
     public function testGmCommandUnregistered(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'type' => Channel::TYPE_SLACK,
@@ -45,7 +42,7 @@ final class InitTest extends TestCase
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(
-            'Initiative is rolled like "/roll init 12 2" or "/roll init 12+2d6"'
+            'Initiative is rolled like "/roll init 12 2" or "/roll init 12+2d6"',
         );
         (new Init('init clear', 'username', $channel))->forSlack();
     }
@@ -58,7 +55,6 @@ final class InitTest extends TestCase
     {
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->hasInitiatives(3)
             ->create([
@@ -66,15 +62,13 @@ final class InitTest extends TestCase
                 'system' => 'shadowrun5e',
             ]);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
-        $chatUser = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
             'server_type' => ChatUser::TYPE_SLACK,
@@ -82,17 +76,23 @@ final class InitTest extends TestCase
             'verified' => true,
         ]);
 
-        $response = (new Init('init clear', 'username', $channel))->forSlack();
-        $response = json_decode((string)$response)->attachments[0];
+        $response = (new Init('init clear', 'username', $channel))
+            ->forSlack()
+            ->jsonSerialize();
 
-        self::assertSame('Initiative cleared', $response->title);
+        self::assertArrayHasKey('attachments', $response);
         self::assertSame(
-            'The GM has cleared the initiative tracker.',
-            $response->text
+            [
+                'color' => Attachment::COLOR_INFO,
+                'footer' => '',
+                'text' => 'The GM has cleared the initiative tracker.',
+                'title' => 'Initiative cleared',
+            ],
+            $response['attachments'][0],
         );
         self::assertDatabaseMissing(
             'initiatives',
-            ['campaign_id' => $campaign->id]
+            ['campaign_id' => $campaign->id],
         );
     }
 
@@ -104,7 +104,6 @@ final class InitTest extends TestCase
     {
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->hasInitiatives(3)
             ->create([
@@ -112,15 +111,13 @@ final class InitTest extends TestCase
                 'system' => 'shadowrun5e',
             ]);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
-        $chatUser = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
             'server_type' => ChatUser::TYPE_SLACK,
@@ -128,19 +125,25 @@ final class InitTest extends TestCase
             'verified' => true,
         ]);
 
-        $response = (new Init('init start', 'username', $channel))->forSlack();
-        $response = json_decode((string)$response)->attachments[0];
+        $response = (new Init('init start', 'username', $channel))
+            ->forSlack()
+            ->jsonSerialize();
 
-        self::assertSame('Roll initiative!', $response->title);
+        self::assertArrayHasKey('attachments', $response);
         self::assertSame(
-            'Type `/roll init` if your character is linked, or '
-                . '`/roll init A+Bd6` where A is your initiative score and B '
-                . 'is the number of initiative dice your character gets.',
-            $response->text
+            [
+                'color' => Attachment::COLOR_INFO,
+                'footer' => '',
+                'text' => 'Type `/roll init` if your character is linked, or '
+                    . '`/roll init A+Bd6` where A is your initiative score and B '
+                    . 'is the number of initiative dice your character gets.',
+                'title' => 'Roll initiative!',
+            ],
+            $response['attachments'][0],
         );
         self::assertDatabaseMissing(
             'initiatives',
-            ['campaign_id' => $campaign->id]
+            ['campaign_id' => $campaign->id],
         );
     }
 
@@ -152,22 +155,19 @@ final class InitTest extends TestCase
     {
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->create([
                 'gm' => $user->id,
                 'system' => 'shadowrun5e',
             ]);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
-        $chatUser = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
             'server_type' => ChatUser::TYPE_SLACK,
@@ -190,13 +190,11 @@ final class InitTest extends TestCase
     {
         $user = User::factory()->create();
 
-        /** @var Channel */
         $channel = Channel::factory()
             ->hasInitiatives(3)
             ->create(['system' => 'shadowrun5e']);
 
-        /** @var ChatUser */
-        $chatUser = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
             'server_type' => ChatUser::TYPE_DISCORD,
@@ -225,13 +223,11 @@ final class InitTest extends TestCase
     {
         $user = User::factory()->create();
 
-        /** @var Channel */
         $channel = Channel::factory()
             ->hasInitiatives(3)
             ->create(['system' => 'shadowrun5e']);
 
-        /** @var ChatUser */
-        $chatUser = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
             'server_type' => ChatUser::TYPE_DISCORD,
@@ -250,7 +246,7 @@ final class InitTest extends TestCase
         );
         self::assertDatabaseMissing(
             'initiatives',
-            ['channel_id' => $channel->id]
+            ['channel_id' => $channel->id],
         );
     }
 
@@ -267,17 +263,14 @@ final class InitTest extends TestCase
 
         $user = User::factory()->create();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
         ]);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -286,11 +279,9 @@ final class InitTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
         $character = Character::factory()->create([
             'intuition' => 4,
             'reaction' => 5,
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         ChatCharacter::factory()->create([
@@ -299,22 +290,27 @@ final class InitTest extends TestCase
             'chat_user_id' => $chatUser->id,
         ]);
 
-        $response = (new Init('init', 'username', $channel))->forSlack();
-        $response = json_decode((string)$response)->attachments[0];
+        $response = (new Init('init', 'username', $channel))
+            ->forSlack()
+            ->jsonSerialize();
 
+        self::assertArrayHasKey('attachments', $response);
         self::assertSame(
-            'Rolling initiative for ' . $character->handle,
-            $response->title
+            [
+                'color' => Attachment::COLOR_INFO,
+                'footer' => 'Rolls: 6',
+                'text' => '9 + 1d6 = 15',
+                'title' => 'Rolling initiative for ' . $character->handle,
+            ],
+            $response['attachments'][0],
         );
-        self::assertSame('9 + 1d6 = 15', $response->text);
-        self::assertSame('Rolls: 6', $response->footer);
         self::assertDatabaseHas(
             'initiatives',
             [
                 'campaign_id' => $campaign->id,
                 'character_id' => $character->id,
                 'initiative' => 15,
-            ]
+            ],
         );
 
         $character->delete();
@@ -332,23 +328,25 @@ final class InitTest extends TestCase
             ->with(3, 6)
             ->andReturn([4, 4, 4]);
 
-        $user = User::factory()->create();
-
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
         ]);
 
-        $response = (new Init('init 12+3d6', 'username', $channel))->forSlack();
-        $response = json_decode((string)$response)->attachments[0];
+        $response = (new Init('init 12+3d6', 'username', $channel))
+            ->forSlack()
+            ->jsonSerialize();
 
+        self::assertArrayHasKey('attachments', $response);
         self::assertSame(
-            'Rolling initiative for username',
-            $response->title
+            [
+                'color' => Attachment::COLOR_INFO,
+                'footer' => 'Rolls: 4 4 4',
+                'text' => '12 + 3d6 = 24',
+                'title' => 'Rolling initiative for username',
+            ],
+            $response['attachments'][0],
         );
-        self::assertSame('12 + 3d6 = 24', $response->text);
-        self::assertSame('Rolls: 4 4 4', $response->footer);
         self::assertDatabaseHas(
             'initiatives',
             [
@@ -357,18 +355,16 @@ final class InitTest extends TestCase
                 'character_id' => null,
                 'character_name' => 'username',
                 'initiative' => 24,
-            ]
+            ],
         );
     }
 
     /**
      * Test trying to roll initiative with too many arguments.
      */
+    #[Group('slack')]
     public function testRollInitiativeTooManyArguments(): void
     {
-        $user = User::factory()->create();
-
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
@@ -376,7 +372,7 @@ final class InitTest extends TestCase
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(
-            'Initiative is rolled like "/roll init 12 2" or "/roll init 12+2d6"'
+            'Initiative is rolled like "/roll init 12 2" or "/roll init 12+2d6"',
         );
 
         (new Init('init ☃ 3 <script>', 'username', $channel))->forSlack();
@@ -386,11 +382,9 @@ final class InitTest extends TestCase
      * Test trying to roll with base and dice as separate numbers with
      * a non-numeric base initiative.
      */
+    #[Group('slack')]
     public function testRollInitiativeInvalidBaseInit(): void
     {
-        $user = User::factory()->create();
-
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
@@ -398,7 +392,7 @@ final class InitTest extends TestCase
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(
-            'Initiative is rolled like "/roll init 12 2" or "/roll init 12+2d6"'
+            'Initiative is rolled like "/roll init 12 2" or "/roll init 12+2d6"',
         );
 
         (new Init('init ☃ 3', 'username', $channel))->forSlack();
@@ -408,11 +402,9 @@ final class InitTest extends TestCase
      * Test trying to roll with base and dice as separate numbers using
      * a non-numeric dice argument.
      */
+    #[Group('discord')]
     public function testRollInitiativeInvalidDice(): void
     {
-        $user = User::factory()->create();
-
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_DISCORD,
             'system' => 'shadowrun5e',
@@ -422,13 +414,14 @@ final class InitTest extends TestCase
             ->forDiscord();
         self::assertSame(
             'Initiative is rolled like "/roll init 12 2" or "/roll init 12+2d6"',
-            $response
+            $response,
         );
     }
 
     /**
      * Test trying to roll with base and dice as separate numbers.
      */
+    #[Group('discord')]
     public function testRollInitiativeWithBaseAndDice(): void
     {
         DiceService::shouldReceive('rollMany')
@@ -436,9 +429,6 @@ final class InitTest extends TestCase
             ->with(3, 6)
             ->andReturn([6, 6, 6]);
 
-        $user = User::factory()->create();
-
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_DISCORD,
             'system' => 'shadowrun5e',
@@ -455,11 +445,9 @@ final class InitTest extends TestCase
     /**
      * Test manually rolling initiative trying to use too many dice.
      */
+    #[Group('slack')]
     public function testRollInitiativeTooManyDice(): void
     {
-        $user = User::factory()->create();
-
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
@@ -467,7 +455,7 @@ final class InitTest extends TestCase
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(
-            'You can\'t roll more than five initiative dice'
+            'You can\'t roll more than five initiative dice',
         );
 
         (new Init('init 12+9d6', 'username', $channel))->forSlack();
@@ -476,11 +464,9 @@ final class InitTest extends TestCase
     /**
      * Test trying to use the wrong sized dice for initiative.
      */
+    #[Group('discord')]
     public function testRollInitiativeWrongDiceSize(): void
     {
-        $user = User::factory()->create();
-
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_DISCORD,
             'system' => 'shadowrun5e',
@@ -496,11 +482,9 @@ final class InitTest extends TestCase
     /**
      * Test rolling using dice notation with a non-numeric base initiative.
      */
+    #[Group('discord')]
     public function testRollInitiativeDiceNotationInvalidBase(): void
     {
-        $user = User::factory()->create();
-
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_DISCORD,
             'system' => 'shadowrun5e',
@@ -509,18 +493,16 @@ final class InitTest extends TestCase
         $response = (new Init('init A+9d6', 'user', $channel))->forDiscord();
         self::assertSame(
             'Initiative score must be a number',
-            $response
+            $response,
         );
     }
 
     /**
      * Test rolling using dice notation with a non-numeric number of dice.
      */
+    #[Group('slack')]
     public function testRollDiceNotationInvalidDice(): void
     {
-        $user = User::factory()->create();
-
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_SLACK,
             'system' => 'shadowrun5e',
@@ -528,7 +510,7 @@ final class InitTest extends TestCase
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(
-            'Initiative is rolled like "/roll init 12 2" or "/roll init 12+2d6"'
+            'Initiative is rolled like "/roll init 12 2" or "/roll init 12+2d6"',
         );
 
         (new Init('init 12+Ad6', 'username', $channel))->forSlack();
@@ -545,37 +527,29 @@ final class InitTest extends TestCase
             ->with(1, 6)
             ->andReturn([1]);
 
-        $user = User::factory()->create();
-
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_DISCORD,
             'system' => 'shadowrun5e',
         ]);
 
-        $response = (new Init('init 12', 'user', $channel))->forDiscord();
         self::assertSame(
             '**Rolling initiative for user**' . PHP_EOL
                 . '12 + 1d6 = 12 + 1 = 13',
-            $response
+            (new Init('init 12', 'user', $channel))->forDiscord(),
         );
     }
 
     #[Group('irc')]
     public function testRollInitiativeInvalidBaseIrc(): void
     {
-        $user = User::factory()->create();
-
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_IRC,
             'system' => 'shadowrun5e',
         ]);
 
-        $response = (new Init('init A+9d6', 'user', $channel))->forIrc();
         self::assertSame(
             'Initiative score must be a number',
-            $response
+            (new Init('init A+9d6', 'user', $channel))->forIrc(),
         );
     }
 
@@ -587,38 +561,30 @@ final class InitTest extends TestCase
             ->with(1, 6)
             ->andReturn([1]);
 
-        $user = User::factory()->create();
-
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_IRC,
             'system' => 'shadowrun5e',
         ]);
 
-        $response = (new Init('init 12', 'user', $channel))->forIrc();
         self::assertSame(
             'Rolling initiative for user' . PHP_EOL
                 . '12 + 1d6 = 12 + 1 = 13',
-            $response
+            (new Init('init 12', 'user', $channel))->forIrc(),
         );
     }
 
     #[Group('irc')]
     public function testClearInitiativeIrc(): void
     {
-        $user = User::factory()->create();
-
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'type' => Channel::TYPE_IRC,
             'system' => 'shadowrun5e',
         ]);
 
-        $response = (new Init('init clear', 'user', $channel))->forIrc();
         self::assertSame(
             'Initiative cleared' . PHP_EOL
                 . 'The GM has cleared the initiative tracker.',
-            $response,
+            (new Init('init clear', 'user', $channel))->forIrc(),
         );
     }
 }

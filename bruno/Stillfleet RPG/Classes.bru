@@ -1,0 +1,15 @@
+meta {
+  name: Classes
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{host}}/stillfleet/classes
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

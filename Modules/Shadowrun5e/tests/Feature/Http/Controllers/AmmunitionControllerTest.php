@@ -26,7 +26,7 @@ final class AmmunitionControllerTest extends TestCase
         Config::set('shadowrun5e.data_path', '/tmp/unused/');
         $user = User::factory()->create();
         self::actingAs($user)
-            ->getJson(route('shadowrun5e.ammunition.index'))
+            ->getJson(route('shadowrun5e.ammunitions.index'))
             ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
@@ -35,7 +35,7 @@ final class AmmunitionControllerTest extends TestCase
      */
     public function testNoAuthIndex(): void
     {
-        self::getJson(route('shadowrun5e.ammunition.index'))
+        self::getJson(route('shadowrun5e.ammunitions.index'))
             ->assertUnauthorized();
     }
 
@@ -46,11 +46,11 @@ final class AmmunitionControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $response = self::actingAs($user)
-            ->getJson(route('shadowrun5e.ammunition.index'))
+            ->getJson(route('shadowrun5e.ammunitions.index'))
             ->assertOk()
             ->assertJsonFragment([
                 'links' => [
-                    'self' => route('shadowrun5e.ammunition.show', 'apds'),
+                    'self' => route('shadowrun5e.ammunitions.show', 'apds'),
                 ],
             ]);
         self::assertGreaterThanOrEqual(1, count($response['data']));
@@ -61,7 +61,7 @@ final class AmmunitionControllerTest extends TestCase
      */
     public function testNoAuthShow(): void
     {
-        self::getJson(route('shadowrun5e.ammunition.show', 'apds'))
+        self::getJson(route('shadowrun5e.ammunitions.show', 'apds'))
             ->assertUnauthorized();
     }
 
@@ -70,7 +70,7 @@ final class AmmunitionControllerTest extends TestCase
      */
     public function testNoAuthShowNotFound(): void
     {
-        self::getJson(route('shadowrun5e.ammunition.show', 'not-found'))
+        self::getJson(route('shadowrun5e.ammunitions.show', 'not-found'))
             ->assertUnauthorized();
     }
 
@@ -81,7 +81,7 @@ final class AmmunitionControllerTest extends TestCase
     {
         $user = User::factory()->create();
         self::actingAs($user)
-            ->getJson(route('shadowrun5e.ammunition.show', 'apds'))
+            ->getJson(route('shadowrun5e.ammunitions.show', 'apds'))
             ->assertOk()
             ->assertJson([
                 'data' => [
@@ -101,7 +101,7 @@ final class AmmunitionControllerTest extends TestCase
     {
         $user = User::factory()->create();
         self::actingAs($user)
-            ->getJson(route('shadowrun5e.ammunition.show', 'not-found'))
+            ->getJson(route('shadowrun5e.ammunitions.show', 'not-found'))
             ->assertNotFound();
     }
 
@@ -109,7 +109,7 @@ final class AmmunitionControllerTest extends TestCase
     {
         $user = User::factory()->create();
         self::actingAs($user)
-            ->getJson(route('shadowrun5e.ammunition.show', 'depleted-uranium'))
+            ->getJson(route('shadowrun5e.ammunitions.show', 'depleted-uranium'))
             ->assertOk()
             ->assertJson([
                 'data' => [

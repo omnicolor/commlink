@@ -5,18 +5,19 @@ declare(strict_types=1);
 namespace Tests\Feature\Rolls;
 
 use App\Events\UserLinked;
-use App\Exceptions\SlackException;
 use App\Models\Channel;
 use App\Models\ChatUser;
 use App\Rolls\Validate;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
+use Omnicolor\Slack\Exceptions\SlackException;
+use Omnicolor\Slack\Headers\Header;
+use Omnicolor\Slack\Sections\Text;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
-use function json_decode;
 use function sprintf;
 
 #[Medium]
@@ -56,7 +57,6 @@ final class ValidateTest extends TestCase
     {
         Event::fake();
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['type' => Channel::TYPE_DISCORD]);
         $channel->user = 'U' . Str::random(10);
 
@@ -97,7 +97,6 @@ final class ValidateTest extends TestCase
         Event::fake();
         $username = $this->faker->userName();
 
-        /** @var Channel */
         $channel = Channel::factory()->create(['type' => Channel::TYPE_IRC]);
         $channel->user = $username;
 
@@ -127,7 +126,6 @@ final class ValidateTest extends TestCase
         Event::fake();
         $username = $this->faker->userName();
 
-        /** @var Channel */
         $channel = Channel::factory()->create(['type' => Channel::TYPE_SLACK]);
         $channel->user = $username;
 
@@ -143,17 +141,21 @@ final class ValidateTest extends TestCase
             $username,
             $channel,
         ))
-            ->forSlack();
-        $response = json_decode((string)$response)->attachments[0];
+            ->forSlack()
+            ->jsonSerialize();
 
         self::assertSame(
-            sprintf(
+            (new Header('Verified!'))->jsonSerialize(),
+            $response['blocks'][0],
+        );
+        self::assertSame(
+            (new Text(sprintf(
                 'Your %s account has been linked with this user. You only need '
                     . 'to do this once for this server, no matter how many '
                     . 'different channels you play in.',
                 config('app.name'),
-            ),
-            $response->text,
+            )))->jsonSerialize(),
+            $response['blocks'][1],
         );
         Event::assertDispatched(UserLinked::class);
     }
@@ -164,7 +166,6 @@ final class ValidateTest extends TestCase
         Event::fake();
         $username = $this->faker->userName();
 
-        /** @var Channel */
         $channel = Channel::factory()->create(['type' => Channel::TYPE_DISCORD]);
         $channel->user = $username;
 
@@ -200,7 +201,6 @@ final class ValidateTest extends TestCase
         Event::fake();
         $username = $this->faker->userName();
 
-        /** @var Channel */
         $channel = Channel::factory()->create(['type' => Channel::TYPE_IRC]);
         $channel->user = $username;
 

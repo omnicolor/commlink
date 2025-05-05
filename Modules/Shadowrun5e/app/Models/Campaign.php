@@ -7,10 +7,11 @@ namespace Modules\Shadowrun5e\Models;
 use App\Models\Campaign as BaseCampaign;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Shadowrun5e\Database\Factories\CampaignFactory;
+use Override;
 
 use function assert;
 
-class Campaign extends BaseCampaign
+final class Campaign extends BaseCampaign
 {
     public function contacts(): ContactArray
     {
@@ -33,6 +34,7 @@ class Campaign extends BaseCampaign
         return $contacts;
     }
 
+    #[Override]
     protected static function newFactory(): Factory
     {
         return CampaignFactory::new();

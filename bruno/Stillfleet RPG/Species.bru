@@ -1,0 +1,15 @@
+meta {
+  name: Species
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{host}}/stillfleet/species
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

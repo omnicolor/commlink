@@ -58,8 +58,6 @@ final class AuthenticatedSessionControllerTest extends TestCase
     public function testUserLoginWithInvitationBadHash(): void
     {
         $user = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
@@ -82,8 +80,6 @@ final class AuthenticatedSessionControllerTest extends TestCase
     public function testUserLoginWithInvitationAlreadyResponded(): void
     {
         $user = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
@@ -107,8 +103,6 @@ final class AuthenticatedSessionControllerTest extends TestCase
     public function testUserLoginWithInvitationAsGM(): void
     {
         $user = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['gm' => $user->id]);
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,
@@ -131,8 +125,6 @@ final class AuthenticatedSessionControllerTest extends TestCase
     public function testUserAcceptingInvitation(): void
     {
         $user = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create();
         $invitation = CampaignInvitation::create([
             'campaign_id' => $campaign->id,

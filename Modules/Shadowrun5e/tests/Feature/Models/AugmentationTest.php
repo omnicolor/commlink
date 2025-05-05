@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Models;
 
+use Modules\Shadowrun5e\Enums\AugmentationGrade;
+use Modules\Shadowrun5e\Enums\AugmentationType;
 use Modules\Shadowrun5e\Models\Augmentation;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -16,9 +18,6 @@ use Tests\TestCase;
 #[Small]
 final class AugmentationTest extends TestCase
 {
-    /**
-     * @var Augmentation Subject under test
-     */
     private Augmentation $augmentation;
 
     /**
@@ -99,10 +98,10 @@ final class AugmentationTest extends TestCase
      */
     public function testLoadSetsType(): void
     {
-        self::assertSame(Augmentation::TYPE_CYBERWARE, $this->augmentation->type);
+        self::assertSame(AugmentationType::Cyberware, $this->augmentation->type);
 
         $augmentation = new Augmentation('bone-density-augmentation-2');
-        self::assertSame(Augmentation::TYPE_BIOWARE, $augmentation->type);
+        self::assertSame(AugmentationType::Bioware, $augmentation->type);
     }
 
     /**
@@ -115,19 +114,19 @@ final class AugmentationTest extends TestCase
 
     /**
      * Data provider for cyberware grades.
-     * @return array<int, array<int, float|string>> [grade, expected essence]
+     * @return array<int, array{0: AugmentationGrade|string, 1: float}> [grade, expected essence]
      */
     public static function cyberwareGradesAndEssenceProvider(): array
     {
         return [
-            [Augmentation::GRADE_STANDARD, 1.0],
+            [AugmentationGrade::Standard, 1.0],
             ['Unknown', 1.0],
-            [Augmentation::GRADE_USED, 1.25],
-            [Augmentation::GRADE_ALPHA, 0.8],
-            [Augmentation::GRADE_BETA, 0.7],
-            [Augmentation::GRADE_DELTA, 0.5],
-            [Augmentation::GRADE_GAMMA, 1.0], // Not supported yet
-            [Augmentation::GRADE_OMEGA, 1.0], // Not supported yet
+            [AugmentationGrade::Used, 1.25],
+            [AugmentationGrade::Alpha, 0.8],
+            [AugmentationGrade::Beta, 0.7],
+            [AugmentationGrade::Delta, 0.5],
+            [AugmentationGrade::Gamma, 1.0], // Not supported yet
+            [AugmentationGrade::Omega, 1.0], // Not supported yet
         ];
     }
 
@@ -136,7 +135,7 @@ final class AugmentationTest extends TestCase
      */
     #[DataProvider('cyberwareGradesAndEssenceProvider')]
     public function testCyberwareStandardGrade(
-        string $grade,
+        AugmentationGrade|string $grade,
         float $expectedEssence,
     ): void {
         $mod = new Augmentation('bone-lacing-aluminum', $grade);
@@ -159,7 +158,7 @@ final class AugmentationTest extends TestCase
     {
         $aug = Augmentation::build(['id' => 'bone-lacing-aluminum']);
         self::assertSame('Bone Lacing', $aug->name);
-        self::assertNull($aug->grade);
+        self::assertEquals(AugmentationGrade::Standard, $aug->grade);
     }
 
     /**
@@ -171,11 +170,11 @@ final class AugmentationTest extends TestCase
             'id' => 'cyberears-1',
             'essence' => 0.5,
             'modifications' => ['damper'],
-            'grade' => 'alpha',
+            'grade' => 'Alpha',
         ];
         $aug = Augmentation::build($array);
         self::assertSame('Cyberears', $aug->name);
-        self::assertSame('alpha', $aug->grade);
+        self::assertSame('Alpha', $aug->grade->value);
         self::assertSame(0.5, $aug->essence);
         self::assertCount(1, $aug->modifications);
     }
@@ -192,7 +191,7 @@ final class AugmentationTest extends TestCase
         ];
         $aug = Augmentation::build($array);
         self::assertSame('Skilljack', $aug->name);
-        self::assertNull($aug->grade);
+        self::assertEquals(AugmentationGrade::Standard, $aug->grade);
         self::assertTrue($aug->active);
         self::assertSame(['soft-zero'], $aug->softs);
     }
@@ -227,19 +226,19 @@ final class AugmentationTest extends TestCase
 
     /**
      * Data provider for cyberware grades.
-     * @return array<int, array<int, int|string>> [grade, expected cost]
+     * @return array<int, array{0: AugmentationGrade|string, 1: int}>
      */
     public static function cyberwareGradesAndCostProvider(): array
     {
         return [
-            [Augmentation::GRADE_STANDARD, 4000],
+            [AugmentationGrade::Standard, 4000],
             ['Unknown', 4000],
-            [Augmentation::GRADE_USED, 3000],
-            [Augmentation::GRADE_ALPHA, 4800],
-            [Augmentation::GRADE_BETA, 6000],
-            [Augmentation::GRADE_DELTA, 10000],
-            [Augmentation::GRADE_GAMMA, 4000], // Not supported yet
-            [Augmentation::GRADE_OMEGA, 4000], // Not supported yet
+            [AugmentationGrade::Used, 3000],
+            [AugmentationGrade::Alpha, 4800],
+            [AugmentationGrade::Beta, 6000],
+            [AugmentationGrade::Delta, 10000],
+            [AugmentationGrade::Gamma, 4000], // Not supported yet
+            [AugmentationGrade::Omega, 4000], // Not supported yet
         ];
     }
 
@@ -247,12 +246,12 @@ final class AugmentationTest extends TestCase
      * Test a modification that has a built-in modification.
      */
     #[DataProvider('cyberwareGradesAndCostProvider')]
-    public function testModifiedModification(string $grade, int $cost): void
+    public function testModifiedModification(AugmentationGrade|string $grade, int $cost): void
     {
         $aug = new Augmentation('cybereyes-1', $grade);
         self::assertNotEmpty($aug->modifications);
         self::assertInstanceOf(Augmentation::class, $aug->modifications[0]);
-        self::assertNull($aug->modifications[0]->cost);
+        self::assertSame(0, $aug->modifications[0]->cost);
         self::assertSame($cost, $aug->getCost());
     }
 

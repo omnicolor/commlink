@@ -11,9 +11,11 @@ use function array_key_exists;
 use function array_keys;
 use function array_values;
 use function assert;
+use function config;
 use function count;
 use function date;
 use function json_encode;
+use function route;
 use function sha1;
 use function sha1_file;
 use function stat;
@@ -59,7 +61,7 @@ class AdeptPowersController extends Controller
             unset($power['incompatible-with']);
         }
         $power['links'] = [
-            'self' => route('shadowrun5e.adept-powers.show', ['adept_power' => $power['id']]),
+            'self' => route('shadowrun5e.adept-powers.show', $power['id']),
         ];
 
         if (array_key_exists('effects', $power) && 0 !== count($power['effects'])) {
@@ -68,7 +70,7 @@ class AdeptPowersController extends Controller
             foreach ($power['effects'] as $key => $effect) {
                 $effects[str_replace('-', '_', $key)] = $effect;
             }
-            $power['effects'] = $effects;
+            $power['effects'] = (object)$effects;
         } else {
             unset($power['effects']);
         }

@@ -192,7 +192,7 @@
 
                     <ol>
                         <li>
-                            <a href="https://discord.com/api/oauth2/authorize?client_id=473580429438484480&permissions=17740899616832&redirect_uri=https%3A%2F%2Fcommlink.digitaldarkness.com%2Fdiscord%2Fcallback&response_type=code&scope=bot%20guilds.join%20guilds.members.read">Install the app</a>
+                            <a href="https://discord.com/api/oauth2/authorize?client_id={{ config('services.discord.client_id') }}&permissions=17740899616832&redirect_uri={{ config('app.url') }}%2Fdiscord%2Fcallback&response_type=code&scope=bot%20guilds.join%20guilds.members.read">Install the app</a>
                         </li>
                         <li>
                             For each channel you want {{ config('app.name') }}

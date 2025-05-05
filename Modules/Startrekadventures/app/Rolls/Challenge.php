@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Startrekadventures\Rolls;
 
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
-use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
+use Omnicolor\Slack\Attachments\TextAttachment;
+use Omnicolor\Slack\Response;
+use Override;
 
 use function array_shift;
 use function explode;
@@ -46,6 +47,7 @@ class Challenge extends Roll
         $this->roll();
     }
 
+    #[Override]
     public function forDiscord(): string
     {
         return sprintf('**%s**', $this->formatTitle()) . PHP_EOL
@@ -53,6 +55,7 @@ class Challenge extends Roll
             . 'Rolls: ' . implode(' ', $this->dice);
     }
 
+    #[Override]
     public function forIrc(): string
     {
         return $this->formatTitle() . PHP_EOL
@@ -60,22 +63,18 @@ class Challenge extends Roll
             . 'Rolls: ' . implode(' ', $this->dice);
     }
 
-    public function forSlack(): SlackResponse
+    #[Override]
+    public function forSlack(): Response
     {
-        $footer = 'Rolls: ' . implode(' ', $this->dice);
         $attachment = new TextAttachment(
             $this->formatTitle(),
             $this->formatBody(),
-            TextAttachment::COLOR_SUCCESS
         );
-        $attachment->addFooter($footer);
-        $response = new SlackResponse(
-            '',
-            SlackResponse::HTTP_OK,
-            [],
-            $this->channel
-        );
-        return $response->addAttachment($attachment)->sendToChannel();
+        $attachment->addFooter('Rolls: ' . implode(' ', $this->dice));
+        // @phpstan-ignore method.deprecated
+        return (new Response())
+            ->addAttachment($attachment)
+            ->sendToChannel();
     }
 
     protected function formatTitle(): string

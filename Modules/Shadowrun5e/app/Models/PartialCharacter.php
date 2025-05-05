@@ -6,28 +6,24 @@ namespace Modules\Shadowrun5e\Models;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Shadowrun5e\Database\Factories\PartialCharacterFactory;
+use Override;
 use Stringable;
 
 /**
  * Representation of a character currently being built.
- * @method static self create(array<mixed, mixed> $attributes)
- * @property array<int, string> $errors
+ * @method static self create(array<string, mixed> $attributes)
  */
 class PartialCharacter extends Character implements Stringable
 {
     protected const int DEFAULT_MAX_ATTRIBUTE = 6;
 
-    /**
-     * The database connection that should be used by the model.
-     * @var ?string
-     */
+    /** @var string */
     protected $connection = 'mongodb';
 
-    /**
-     * Table to pull from.
-     * @var string
-     */
+    /** @var string */
     protected $table = 'characters-partial';
+    /** @var array<string, array<int, string>> */
+    public array $errors = [];
 
     /**
      * Return the starting maximum for a character based on their metatype and
@@ -92,18 +88,21 @@ class PartialCharacter extends Character implements Stringable
             && 'technomancer' === $this->priorities['magic'];
     }
 
+    #[Override]
     protected static function newFactory(): Factory
     {
         return PartialCharacterFactory::new();
     }
 
+    #[Override]
     public function newFromBuilder(
+        // @phpstan-ignore parameter.defaultValue
         $attributes = [],
         $connection = null,
     ): PartialCharacter {
-        $character = new self($attributes);
+        $character = new self((array)$attributes);
         $character->exists = true;
-        $character->setRawAttributes($attributes, true);
+        $character->setRawAttributes((array)$attributes, true);
         $character->setConnection($this->connection);
         $character->fireModelEvent('retrieved', false);
         $character->fillable[] = 'errors';

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -14,58 +15,31 @@ use function strtolower;
 /**
  * Something to add to an item.
  */
-class GearModification implements Stringable
+final class GearModification implements Stringable
 {
-    /**
-     * Availability of the modification.
-     */
-    public string $availability;
+    public readonly string $availability;
 
     /**
      * Amount of capacity in the modified gear taken up.
      */
-    public ?int $capacityCost;
+    public int|null $capacityCost;
 
     /**
      * What kind of container the modification can go in.
      */
     public string $containerType;
-
-    /**
-     * Cost of the modification.
-     */
-    public int $cost;
-
-    /**
-     * Description of the modification.
-     */
-    public string $description;
+    public readonly int $cost;
+    public readonly string $description;
 
     /**
      * List of effects the modification has in game terms.
      * @var array<string, int>
      */
     public array $effects;
-
-    /**
-     * Name of the modification.
-     */
-    public string $name;
-
-    /**
-     * Page number.
-     */
-    public ?int $page;
-
-    /**
-     * Rating of the modification.
-     */
-    public ?int $rating;
-
-    /**
-     * Ruleset code for where the modification was added.
-     */
-    public string $ruleset;
+    public readonly string $name;
+    public readonly int|null $page;
+    public readonly int|null $rating;
+    public readonly string $ruleset;
 
     /**
      * List of effects the modification has when wireless is on.
@@ -111,6 +85,7 @@ class GearModification implements Stringable
         $this->wirelessEffects = $mod['wireless-effects'] ?? [];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

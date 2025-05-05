@@ -28,8 +28,8 @@ class Knowledge extends Component
         $this->attributes = $this->newAttributeBag();
         $this->charGen = $character instanceof PartialCharacter;
         $this->componentName = 'Shadowrun5e\Knowledge';
-        $this->knowledges = $character->getKnowledgeSkills(onlyKnowledges: true);
-        $this->languages = $character->getKnowledgeSkills(onlyLanguages: true);
+        $this->knowledges = $character->getKnowledgeSkills(only_knowledges: true);
+        $this->languages = $character->getKnowledgeSkills(only_languages: true);
     }
 
     public function render(): View

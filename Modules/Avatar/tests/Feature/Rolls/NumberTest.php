@@ -11,8 +11,6 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
-use function json_decode;
-
 use const PHP_EOL;
 
 #[Group('avatar')]
@@ -26,11 +24,18 @@ final class NumberTest extends TestCase
             ->times(2)
             ->with(6)
             ->andReturn(4, 6);
-        $result = (new Number('0 pleading', 'Aang', new Channel()))->forSlack();
-        $result = json_decode((string)$result)->attachments[0];
-        self::assertSame('good', $result->color);
-        self::assertSame('Aang hit for "pleading"!', $result->title);
-        self::assertSame('Rolled 10 (4+6)', $result->text);
+        $result = (new Number('0 pleading', 'Aang', new Channel()))
+            ->forSlack()
+            ->jsonSerialize();
+
+        self::assertArrayHasKey('attachments', $result);
+        self::assertArrayHasKey('text', $result['attachments'][0]);
+        self::assertSame('good', $result['attachments'][0]['color']);
+        self::assertSame(
+            'Aang hit for "pleading"!',
+            $result['attachments'][0]['title'],
+        );
+        self::assertSame('Rolled 10 (4+6)', $result['attachments'][0]['text']);
     }
 
     #[Group('discord')]

@@ -9,6 +9,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\In;
 use Modules\Stillfleet\Models\Role;
 
+use function collect;
+
 class RoleRequest extends FormRequest
 {
     /**

@@ -8,6 +8,7 @@ use App\Events\ChannelLinked;
 use App\Events\DiscordMessageReceived;
 use App\Models\Channel;
 use Discord\Parts\Channel\Channel as TextChannel;
+use Override;
 use Stringable;
 
 use function array_key_exists;
@@ -16,7 +17,9 @@ use function config;
 use function count;
 use function explode;
 use function implode;
+use function optional;
 use function sprintf;
+use function trim;
 
 /**
  * Handle a user requesting to link a Discord channel to Commlink.
@@ -77,6 +80,7 @@ class RegisterResponse implements Stringable
         ChannelLinked::dispatch($channel);
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->message;

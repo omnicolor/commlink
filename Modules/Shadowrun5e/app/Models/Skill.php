@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use Stringable;
 
 /**
@@ -36,6 +37,7 @@ abstract class Skill implements Stringable
      */
     public string $limit;
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

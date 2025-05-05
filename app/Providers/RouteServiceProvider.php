@@ -8,9 +8,14 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
+
+use function abort;
+use function base_path;
+use function optional;
 
 /**
  * @codeCoverageIgnore
@@ -56,6 +61,10 @@ class RouteServiceProvider extends ServiceProvider
     protected function configureRateLimiting(): void
     {
         RateLimiter::for('api', function (Request $request): Limit {
+            if (App::environment('testing')) {
+                return Limit::perMinute(6000)
+                    ->by(optional($request->user())->id ?? $request->ip());
+            }
             return Limit::perMinute(60)->by(optional($request->user())->id ?? $request->ip());
         });
     }

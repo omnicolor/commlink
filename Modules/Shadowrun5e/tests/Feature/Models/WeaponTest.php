@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Models;
 
+use Modules\Shadowrun5e\Enums\WeaponRange;
 use Modules\Shadowrun5e\Models\Weapon;
 use Modules\Shadowrun5e\Models\WeaponModification;
-use PHPUnit\Framework\Attributes\DataProvider;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -22,6 +23,7 @@ final class WeaponTest extends TestCase
     /**
      * Set up subject under test.
      */
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -100,12 +102,21 @@ final class WeaponTest extends TestCase
     public function testWeaponDoesntSetRuleset(): void
     {
         $weapon = new Weapon('ares-predator-v');
-        self::assertEquals('core', $weapon->ruleset);
+        self::assertSame('core', $weapon->ruleset);
     }
 
-    /**
-     * Test that a weapon can be cast to a string.
-     */
+    public function testWeaponWithTextRange(): void
+    {
+        $weapon = new Weapon('defiance-t-250-short');
+        self::assertSame(WeaponRange::Shotgun, $weapon->range);
+    }
+
+    public function testWeaponWithoutRange(): void
+    {
+        $weapon = new Weapon('ares-predator-v');
+        self::assertSame(WeaponRange::HeavyPistol, $weapon->range);
+    }
+
     public function testCastWeaponToString(): void
     {
         self::assertEquals('AK-98', (string)$this->weapon);
@@ -132,7 +143,7 @@ final class WeaponTest extends TestCase
         self::assertEquals(0, $weapon->reach);
         self::assertEquals(132, $weapon->page);
         self::assertEquals('core', $weapon->ruleset);
-        self::assertEquals('unarmed-combat', $weapon->skill);
+        self::assertEquals('unarmed-combat', $weapon->skill->id);
     }
 
     /**
@@ -163,50 +174,6 @@ final class WeaponTest extends TestCase
         $weapon = new Weapon('ares-predator-v');
         self::assertEmpty($weapon->modifications);
         Weapon::$weapons['ares-predator-v']['modifications'] = $originalMods;
-    }
-
-    /**
-     * Data provider for weapons of each class along with its range.
-     * @return array<int, array<int, string>>
-     */
-    public static function weaponRangeDataProvider(): array
-    {
-        return [
-            ['Melee Weapon', '???'],
-            ['Assault Cannon', '50/300/750/1200'],
-            ['Assault Rifle', '25/150/350/550'],
-            ['Bow', 'STR/STRx10/STRx30/STRx60'],
-            ['Grenade', 'STRx2/STRx4/STRx6/STRx10'],
-            ['Grenade Launcher', '5-50/100/150/500'],
-            ['Heavy Crossbow', '14/45/120/180'],
-            ['Heavy Machinegun', '40/250/750/1200'],
-            ['Heavy Pistol', '5/20/40/60'],
-            ['Hold-Out Pistol', '5/15/30/50'],
-            ['Light Crossbow', '6/24/60/120'],
-            ['Light Machinegun', '25/200/400/800'],
-            ['Light Pistol', '5/15/30/50'],
-            ['Machine Pistol', '5/15/30/50'],
-            ['Medium Crossbow', '9/36/90/150'],
-            ['Medium Machinegun', '40/250/750/1200'],
-            ['Missile Launcher', '20-70*/150/450/1500'],
-            ['Shotgun', '10/40/80/150'],
-            ['Shotgun (flechette)', '15/30/45/60'],
-            ['Sniper Rifle', '50/350/800/1500'],
-            ['Submachine Gun', '10/40/80/150'],
-            ['Taser', '5/10/15/20'],
-            ['Throwing Weapon', 'STR/STRx2/STRx5/STRx7'],
-            ['Thrown Knife', 'STR/STRx2/STRx3/STRx5'],
-        ];
-    }
-
-    /**
-     * Test getting the range for various classes of weapons.
-     */
-    #[DataProvider('weaponRangeDataProvider')]
-    public function testGetRange(string $class, string $range): void
-    {
-        $this->weapon->class = $class;
-        self::assertEquals($range, $this->weapon->getRange());
     }
 
     /**
@@ -370,5 +337,10 @@ final class WeaponTest extends TestCase
         self::assertSame(1300, $weapon->getCost());
         $weapon->accessories['under'] = new WeaponModification('bayonet');
         self::assertSame(1350, $weapon->getCost());
+    }
+
+    public function testAll(): void
+    {
+        self::assertCount(6, Weapon::all());
     }
 }

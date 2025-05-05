@@ -9,7 +9,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Override;
 use Spatie\Permission\Models\Role;
+
+use function route;
 
 /**
  * @phpstan-type LocalCampaignResource array{
@@ -41,6 +44,7 @@ class UserResource extends JsonResource
      *     }
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         $gmedCampaigns = [];

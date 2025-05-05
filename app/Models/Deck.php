@@ -7,12 +7,15 @@ namespace App\Models;
 use Countable;
 use Error;
 use Illuminate\Support\Facades\DB;
+use Override;
 use RuntimeException;
 use UnderflowException;
 
 use function array_pop;
 use function assert;
 use function count;
+use function end;
+use function serialize;
 use function shuffle;
 use function unserialize;
 
@@ -60,9 +63,6 @@ abstract class Deck implements Countable
      */
     public array $values;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this->initialize();
@@ -71,6 +71,7 @@ abstract class Deck implements Countable
     /**
      * Return the number of cards remaining in the deck.
      */
+    #[Override]
     public function count(): int
     {
         return count($this->currentCards);

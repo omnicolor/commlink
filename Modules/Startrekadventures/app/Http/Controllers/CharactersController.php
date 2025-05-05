@@ -32,7 +32,8 @@ class CharactersController extends Controller
         $user = $request->user();
         return CharacterResource::collection(
             Character::where('owner', $user?->email)->get()
-        );
+        )
+            ->additional(['links' => ['self' => route('startrekadventures.characters.index')]]);
     }
 
     public function show(Request $request, string $identifier): JsonResource

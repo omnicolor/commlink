@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Modules\Alien\Rolls;
 
 use App\Events\MessageReceived;
-use App\Exceptions\SlackException;
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
-use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
 use Modules\Alien\Models\Injury as InjuryModel;
+use Omnicolor\Slack\Attachments\TextAttachment;
+use Omnicolor\Slack\Exceptions\SlackException;
+use Omnicolor\Slack\Response;
+use Override;
 
 use function implode;
 use function sprintf;
@@ -46,6 +47,7 @@ class Injury extends Roll
         }
     }
 
+    #[Override]
     public function forDiscord(): string
     {
         if (null !== $this->error) {
@@ -56,6 +58,7 @@ class Injury extends Roll
             . 'Rolls: ' . implode(' ', $this->rolls);
     }
 
+    #[Override]
     public function forIrc(): string
     {
         if (null !== $this->error) {
@@ -66,7 +69,8 @@ class Injury extends Roll
             . 'Rolls: ' . implode(' ', $this->rolls);
     }
 
-    public function forSlack(): SlackResponse
+    #[Override]
+    public function forSlack(): Response
     {
         if (null !== $this->error) {
             throw new SlackException($this->error);
@@ -76,10 +80,13 @@ class Injury extends Roll
             $this->formatTitle(),
             $this->formatText(),
             TextAttachment::COLOR_DANGER,
+            implode(' ', $this->rolls),
         );
-        $attachment->addFooter(implode(' ', $this->rolls));
-        $response = new SlackResponse(channel: $this->channel);
-        return $response->addAttachment($attachment)->sendToChannel();
+
+        // @phpstan-ignore method.deprecated
+        return (new Response())
+            ->addAttachment($attachment)
+            ->sendToChannel();
     }
 
     protected function formatTitle(): string

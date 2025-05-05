@@ -19,6 +19,12 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use stdClass;
 
+use function array_filter;
+use function array_keys;
+use function array_walk;
+use function sort;
+use function str_replace;
+
 /**
  * @method static int count()
  * @property iterable<array-key, Campaign> $campaignsGmed

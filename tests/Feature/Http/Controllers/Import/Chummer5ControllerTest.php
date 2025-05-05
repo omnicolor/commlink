@@ -21,7 +21,6 @@ final class Chummer5ControllerTest extends TestCase
 {
     public function testInvalidFileType(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         $file = UploadedFile::fake()->create('not-chummer.jpg');
@@ -51,7 +50,6 @@ final class Chummer5ControllerTest extends TestCase
             (string)file_get_contents($filename)
         );
 
-        /** @var User */
         $user = User::factory()->create();
 
         self::actingAs($user)
@@ -63,7 +61,6 @@ final class Chummer5ControllerTest extends TestCase
 
     public function testView(): void
     {
-        /** @var User */
         $user = User::factory()->create();
 
         self::actingAs($user)

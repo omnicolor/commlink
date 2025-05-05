@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace Modules\Cyberpunkred\Tests\Feature\Rolls;
 
 use App\Events\InitiativeAdded;
-use App\Exceptions\SlackException;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
-use App\Models\Slack\TextAttachment;
 use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Modules\Cyberpunkred\Models\Character;
 use Modules\Cyberpunkred\Rolls\Init;
+use Omnicolor\Slack\Attachment;
+use Omnicolor\Slack\Exceptions\SlackException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -39,7 +39,6 @@ final class InitTest extends TestCase
     {
         Event::fake();
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = $this->faker->name;
 
@@ -47,7 +46,7 @@ final class InitTest extends TestCase
         self::expectExceptionMessage(
             'Rolling initiative without a linked character requires your '
                 . 'reflexes, and optionally any modififers: `/roll init 8 -2` '
-                . 'for a character with 8 REF and a wound modifier of -2'
+                . 'for a character with 8 REF and a wound modifier of -2',
         );
         (new Init('init', $channel->username, $channel))->forSlack();
 
@@ -62,7 +61,6 @@ final class InitTest extends TestCase
     {
         Event::fake();
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = $this->faker->name;
 
@@ -85,7 +83,6 @@ final class InitTest extends TestCase
     {
         Event::fake();
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = $this->faker->name;
 
@@ -109,18 +106,19 @@ final class InitTest extends TestCase
         Event::fake();
         DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(5);
 
-        /** @var Channel */
         $channel = Channel::factory()->make(['system' => 'cyberpunkred']);
         $channel->username = $this->faker->name;
 
         $response = (new Init('init 5', $channel->username, $channel))
-            ->forSlack();
+            ->forSlack()
+            ->jsonSerialize();
 
         $expected = [
+            'blocks' => [],
             'response_type' => 'in_channel',
             'attachments' => [
                 [
-                    'color' => TextAttachment::COLOR_SUCCESS,
+                    'color' => Attachment::COLOR_SUCCESS,
                     'text' => 'Rolled: 5 + 5 = 10',
                     'title' => sprintf(
                         'Initiative added for %s',
@@ -129,7 +127,7 @@ final class InitTest extends TestCase
                 ],
             ],
         ];
-        self::assertSame($expected, $response->original);
+        self::assertSame($expected, $response);
 
         Event::assertNotDispatched(InitiativeAdded::class);
     }
@@ -144,7 +142,6 @@ final class InitTest extends TestCase
         Event::fake();
         DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(4);
 
-        /** @var Channel */
         $channel = Channel::factory()->make([
             'system' => 'cyberpunkred',
             'type' => Channel::TYPE_DISCORD,
@@ -170,7 +167,6 @@ final class InitTest extends TestCase
         Event::fake();
         DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(5);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'system' => 'cyberpunkred',
             'type' => Channel::TYPE_SLACK,
@@ -178,7 +174,6 @@ final class InitTest extends TestCase
         $channel->username = $this->faker->name;
         $channel->user = 'U' . Str::random(10);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -186,10 +181,7 @@ final class InitTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
-        $character = Character::factory()->create([
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create([]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel,
@@ -198,13 +190,15 @@ final class InitTest extends TestCase
         ]);
 
         $response = (new Init('init', $channel->username, $channel))
-            ->forSlack();
+            ->forSlack()
+            ->jsonSerialize();
 
         $expected = [
+            'blocks' => [],
             'response_type' => 'in_channel',
             'attachments' => [
                 [
-                    'color' => TextAttachment::COLOR_SUCCESS,
+                    'color' => Attachment::COLOR_SUCCESS,
                     'text' => sprintf(
                         'Rolled: 5 + %d = %d',
                         $character->reflexes,
@@ -217,7 +211,7 @@ final class InitTest extends TestCase
                 ],
             ],
         ];
-        self::assertSame($expected, $response->original);
+        self::assertSame($expected, $response);
 
         Event::assertNotDispatched(InitiativeAdded::class);
 
@@ -234,7 +228,6 @@ final class InitTest extends TestCase
         Event::fake();
         DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(4);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'system' => 'cyberpunkred',
             'type' => Channel::TYPE_DISCORD,
@@ -242,7 +235,6 @@ final class InitTest extends TestCase
         $channel->username = $this->faker->name;
         $channel->user = 'U' . Str::random(10);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -250,10 +242,7 @@ final class InitTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
-        $character = Character::factory()->create([
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create([]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel,
@@ -287,10 +276,8 @@ final class InitTest extends TestCase
         Event::fake();
         DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(4);
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'cyberpunkred']);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
@@ -299,7 +286,6 @@ final class InitTest extends TestCase
         $channel->username = $this->faker->name;
         $channel->user = 'U' . Str::random(10);
 
-        /** @var ChatUser */
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
@@ -307,10 +293,7 @@ final class InitTest extends TestCase
             'verified' => true,
         ]);
 
-        /** @var Character */
-        $character = Character::factory()->create([
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create([]);
 
         ChatCharacter::factory()->create([
             'channel_id' => $channel,
@@ -344,7 +327,6 @@ final class InitTest extends TestCase
         Event::fake();
         DiceService::shouldReceive('rollOne')->once()->with(10)->andReturn(4);
 
-        /** @var Channel */
         $channel = Channel::factory()->create([
             'system' => 'cyberpunkred',
             'type' => Channel::TYPE_DISCORD,

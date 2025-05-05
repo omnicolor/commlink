@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Expanse\Rolls;
 
-use App\Http\Responses\Slack\SlackResponse;
 use App\Models\Channel;
-use App\Models\Slack\TextAttachment;
 use App\Rolls\Roll;
 use Facades\App\Services\DiceService;
+use Omnicolor\Slack\Attachments\TextAttachment;
+use Omnicolor\Slack\Response;
+use Override;
 
 use function array_count_values;
 use function array_shift;
@@ -53,28 +54,26 @@ class Number extends Roll
         $this->footer = $this->formatFooter();
     }
 
-    public function forSlack(): SlackResponse
+    #[Override]
+    public function forSlack(): Response
     {
         $attachment = new TextAttachment(
             $this->title,
             $this->text,
-            TextAttachment::COLOR_SUCCESS
+            TextAttachment::COLOR_SUCCESS,
+            $this->footer,
         );
-        $attachment->addFooter($this->footer);
-        $response = new SlackResponse(
-            '',
-            SlackResponse::HTTP_OK,
-            [],
-            $this->channel
-        );
-        return $response->addAttachment($attachment)->sendToChannel();
+        // @phpstan-ignore method.deprecated
+        return (new Response())->addAttachment($attachment)->sendToChannel();
     }
 
+    #[Override]
     public function forDiscord(): string
     {
         return sprintf('**%s**', $this->title) . PHP_EOL . $this->text;
     }
 
+    #[Override]
     public function forIrc(): string
     {
         return $this->title . PHP_EOL . $this->text;
@@ -89,9 +88,6 @@ class Number extends Roll
         $this->result = array_sum($this->dice) + $this->addition;
     }
 
-    /**
-     * Format the title.
-     */
     protected function formatTitle(): string
     {
         $for = '';
@@ -101,9 +97,6 @@ class Number extends Roll
         return sprintf('%s made a roll%s', $this->username, $for);
     }
 
-    /**
-     * Format the body of the message.
-     */
     protected function formatText(): string
     {
         $result = (string)$this->result;
@@ -117,9 +110,6 @@ class Number extends Roll
         return $result;
     }
 
-    /**
-     * Format the footer for Slack.
-     */
     protected function formatFooter(): string
     {
         return sprintf(

@@ -13,6 +13,8 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 use function array_key_exists;
+use function config;
+use function route;
 use function sprintf;
 
 /**

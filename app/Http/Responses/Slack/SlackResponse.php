@@ -4,19 +4,22 @@ declare(strict_types=1);
 
 namespace App\Http\Responses\Slack;
 
-use App\Exceptions\SlackException;
 use App\Models\Channel;
 use App\Models\ChatUser;
-use App\Models\Slack\Attachment;
 use Illuminate\Http\JsonResponse;
+use Omnicolor\Slack\Attachment;
+use Omnicolor\Slack\Exceptions\SlackException;
+use Override;
+use Stringable;
 
+use function config;
 use function count;
 use function sprintf;
 
 /**
  * Slack response class.
  */
-class SlackResponse extends JsonResponse
+class SlackResponse extends JsonResponse implements Stringable
 {
     public const COLOR_DANGER = 'danger';
     public const COLOR_INFO = '#439Fe0';
@@ -71,6 +74,7 @@ class SlackResponse extends JsonResponse
         $this->updateData();
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->data;
@@ -81,7 +85,7 @@ class SlackResponse extends JsonResponse
      */
     public function addAttachment(Attachment $attachment): SlackResponse
     {
-        $this->attachments[] = $attachment->toArray();
+        $this->attachments[] = $attachment->jsonSerialize();
         $this->updateData();
         return $this;
     }
