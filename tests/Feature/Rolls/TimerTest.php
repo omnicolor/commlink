@@ -80,8 +80,6 @@ class TimerTest extends TestCase
     #[Group('slack')]
     public function testTimerCreateShorthand(): void
     {
-        self::markTestSkipped('Skipped until https://github.com/briannesbitt/Carbon/issues/3178 is resolved');
-        // @phpstan-ignore deadCode.unreachable
         $timer = new Timer(
             'timer 10',
             '',
@@ -105,8 +103,6 @@ class TimerTest extends TestCase
     #[Group('discord')]
     public function testTimerCreate(): void
     {
-        self::markTestSkipped('Skipped until https://github.com/briannesbitt/Carbon/issues/3178 is resolved');
-        // @phpstan-ignore deadCode.unreachable
         $timer = new Timer(
             'timer create 1:00',
             '',
