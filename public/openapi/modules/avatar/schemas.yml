@@ -197,14 +197,12 @@ Move:
           format: url
           type: string
       required:
-        - playbook
         - self
       type: object
   required:
     - id
     - name
     - page
-    - playbook
     - ruleset
     - links
   type: object

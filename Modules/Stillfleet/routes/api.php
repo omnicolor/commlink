@@ -19,6 +19,14 @@ Route::middleware('auth:sanctum')
         Route::resource('characters', CharactersController::class)
             ->only(['index', 'show']);
 
+        Route::get('classes', function (): AnonymousResourceCollection {
+            return RoleResource::collection(Role::all())
+                ->additional(['links' => ['self' => route('stillfleet.classes.index')]]);
+        })->name('classes.index');
+        Route::get('classes/{class}', function (Role $class) {
+            return new RoleResource($class);
+        })->name('classes.show');
+
         Route::get('powers', function (): AnonymousResourceCollection {
             return PowerResource::collection(Power::all())
                 ->additional(['links' => ['self' => route('stillfleet.powers.index')]]);
@@ -26,14 +34,6 @@ Route::middleware('auth:sanctum')
         Route::get('powers/{power}', function (Power $power) {
             return new PowerResource($power);
         })->name('powers.show');
-
-        Route::get('roles', function (): AnonymousResourceCollection {
-            return RoleResource::collection(Role::all())
-                ->additional(['links' => ['self' => route('stillfleet.roles.index')]]);
-        })->name('roles.index');
-        Route::get('roles/{role}', function (Role $role) {
-            return new RoleResource($role);
-        })->name('roles.show');
 
         Route::get('species', function (): AnonymousResourceCollection {
             return SpeciesResource::collection(Species::all())

@@ -26,7 +26,10 @@ class CharactersController extends Controller
     {
         return CharacterResource::collection(
             Character::where('owner', $request->user()?->email)->get()
-        );
+        )
+            ->additional(['links' => [
+                'self' => route('avatar.characters.index'),
+            ]]);
     }
 
     public function show(Request $request, Character $character): JsonResource

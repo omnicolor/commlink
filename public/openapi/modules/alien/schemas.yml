@@ -186,7 +186,7 @@ Character:
         career:
           $ref: '#/Career'
         cash:
-          type: string
+          type: integer
         encumbrance:
           type: integer
         encumbrance_maximum:
@@ -255,6 +255,7 @@ Gear:
     ruleset:
       type: string
     weight:
+      nullable: true
       type: number
   required:
     - category
@@ -539,6 +540,7 @@ Weapon:
           - grenade-launcher
           - power-supply-5
           - single-shot
+          - stun-effect
           - stun-effect-2
         type: string
       type: array
@@ -555,6 +557,7 @@ Weapon:
         - extreme
       type: string
     weight:
+      nullable: true
       type: number
   required:
     - bonus

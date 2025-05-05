@@ -26,7 +26,7 @@ final class RolesControllerTest extends TestCase
     public function testIndex(): void
     {
         self::actingAs(User::factory()->create())
-            ->getJson(route('stillfleet.roles.index'))
+            ->getJson(route('stillfleet.classes.index'))
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [
@@ -65,7 +65,7 @@ final class RolesControllerTest extends TestCase
     public function testShow(): void
     {
         self::actingAs(User::factory()->create())
-            ->getJson(route('stillfleet.roles.show', 'banshee'))
+            ->getJson(route('stillfleet.classes.show', 'banshee'))
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [
@@ -105,7 +105,7 @@ final class RolesControllerTest extends TestCase
         $user = User::factory()->create();
         $user->assignRole('trusted');
         self::actingAs($user)
-            ->getJson(route('stillfleet.roles.show', 'banshee'))
+            ->getJson(route('stillfleet.classes.show', 'banshee'))
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [

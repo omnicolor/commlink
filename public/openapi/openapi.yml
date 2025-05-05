@@ -847,11 +847,8 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/Event'
-                  links:
-                    $ref: '#/components/schemas/Links'
                 required:
                   - data
-                  - links
                 type: object
         '401':
           $ref: '#/components/responses/ErrorUnauthenticated'

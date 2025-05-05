@@ -20,7 +20,7 @@ final class MoveTest extends TestCase
         self::assertNull($move->effects);
     }
 
-    public function testLaodWithEffects(): void
+    public function testLoadWithEffects(): void
     {
         $move = Move::findOrFail('brute');
         self::assertSame('Brute', $move->name);

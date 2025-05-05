@@ -17,7 +17,7 @@ class CharacterResource extends JsonResource
      * @return array{
      *     id: string,
      *     name: string,
-     *     campaign_id: null|int,
+     *     campaign_id?: int,
      *     owner: array{
      *         id: int,
      *         name: string
@@ -34,7 +34,10 @@ class CharacterResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'campaign_id' => $this->campaign_id,
+            'campaign_id' => $this->when(
+                null !== $this->campaign_id,
+                $this->campaign_id,
+            ),
             'owner' => [
                 'id' => $this->user()->id,
                 'name' => $this->user()->name,
