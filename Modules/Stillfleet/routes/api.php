@@ -37,8 +37,8 @@ Route::middleware('auth:sanctum')
             return RoleResource::collection(Role::all())
                 ->additional(['links' => ['self' => route('stillfleet.classes.index')]]);
         })->name('classes.index');
-        Route::get('classes/{role}', function (Role $role) {
-            return new RoleResource($role);
+        Route::get('classes/{class}', function (Role $class) {
+            return new RoleResource($class);
         })->name('classes.show');
 
         Route::get('gear', function (): AnonymousResourceCollection {

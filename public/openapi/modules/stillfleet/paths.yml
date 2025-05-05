@@ -1,0 +1,174 @@
+armor:
+  get:
+    summary: Collection of Stillfleet armor
+    operationId: stillfleet-armor-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Armor'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: All armor available in Stillfleet.
+    tags:
+      - stillfleet
+
+characters:
+  get:
+    summary: Stillfleet RPG characters
+    operationId: stillfleet-characters-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Character'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of the user's Stillfleet characters.
+    tags:
+      - character
+      - stillfleet
+
+classes:
+  get:
+    summary: Collection of Stillfleet classes
+    operationId: stillfleet-roles-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Class'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: All classes a Stillfleet character may fulfill.
+      '401':
+        $ref: '../../openapi.yml#/components/responses/ErrorUnauthenticated'
+    tags:
+      - stillfleet
+
+gear:
+  get:
+    summary: Collection of Stillfleet gear
+    operationId: stillfleet-gear-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Gear'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: All gear for Stillfleet.
+      '401':
+        $ref: '../../openapi.yml#/components/responses/ErrorUnauthenticated'
+    tags:
+      - stillfleet
+
+powers:
+  get:
+    summary: Collection of Stillfleet powers
+    operationId: stillfleet-powers-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Power'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: All powers a Stillfleet character may possess.
+      '401':
+        $ref: '../../openapi.yml#/components/responses/ErrorUnauthenticated'
+    tags:
+      - stillfleet
+
+species:
+  get:
+    summary: Collection of Stillfleet species
+    operationId: stillfleet-species-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Species'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: All species available in Stillfleet.
+    tags:
+      - stillfleet
+
+weapons:
+  get:
+    summary: Collection of Stillfleet weapons
+    operationId: stillfleet-weapons-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: './schemas.yml#/Weapon'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: All weapons available in Stillfleet.
+    tags:
+      - stillfleet

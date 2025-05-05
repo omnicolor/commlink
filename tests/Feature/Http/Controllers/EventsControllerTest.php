@@ -14,6 +14,10 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function json_encode;
+use function now;
+use function route;
+
 #[Group('events')]
 #[Medium]
 final class EventsControllerTest extends TestCase
@@ -368,8 +372,8 @@ final class EventsControllerTest extends TestCase
                     'real_end' => '2020-02-02 22:00',
                 ]
             )
-            ->assertJson([
-                'data' => [
+            ->assertJson(
+                [
                     'campaign' => [
                         'id' => $campaign->id,
                         'name' => $campaign->name,
@@ -389,10 +393,7 @@ final class EventsControllerTest extends TestCase
                         // Ignoring since we don't know the event's ID.
                     ],
                 ],
-                'links' => [
-                    'collection' => route('events.index'),
-                ],
-            ])
+            )
             ->assertCreated();
     }
 

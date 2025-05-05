@@ -43,7 +43,7 @@ class CharacterResource extends JsonResource
      *         shield: ArmorResource|null,
      *         unworn: AnonymousResourceCollection<Armor>
      *     },
-     *     campaign_id: int|null,
+     *     campaign_id?: null,
      *     owner: array{
      *         id: integer,
      *         name: string
@@ -88,7 +88,10 @@ class CharacterResource extends JsonResource
                 'shield' => new ArmorResource($this->armor['shield']),
                 'unworn' => ArmorResource::collection($this->armor['unworn']),
             ],
-            'campaign_id' => $this->campaign_id,
+            'campaign_id' => $this->when(
+                null !== $this->campaign_id,
+                $this->campaign_id,
+            ),
             'owner' => [
                 'id' => $this->user()->id,
                 'name' => $this->user()->name,

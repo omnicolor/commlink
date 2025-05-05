@@ -521,7 +521,8 @@ class CampaignsController extends Controller
     public function show(Campaign $campaign): JsonResource
     {
         Gate::authorize('view', $campaign);
-        return new CampaignResource($campaign);
+        return (new CampaignResource($campaign))
+            ->additional(['links' => ['self' => route('campaigns.show', $campaign)]]);
     }
 
     public function view(Campaign $campaign): View

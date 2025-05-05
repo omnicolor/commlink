@@ -20,7 +20,10 @@ Route::middleware(['auth:sanctum'])
             ->only(['index', 'show']);
 
         Route::get('moves', function (): AnonymousResourceCollection {
-            return MoveResource::collection(Move::all());
+            return MoveResource::collection(array_values(Move::all()))
+                ->additional(['links' => [
+                    'self' => route('avatar.moves.index'),
+                ]]);
         })->name('moves.index');
         Route::get(
             'moves/{move}',
@@ -30,7 +33,10 @@ Route::middleware(['auth:sanctum'])
         )->name('moves.show');
 
         Route::get('playbooks', function (): AnonymousResourceCollection {
-            return PlaybookResource::collection(Playbook::all());
+            return PlaybookResource::collection(array_values(Playbook::all()))
+                ->additional(['links' => [
+                    'self' => route('avatar.playbooks.index'),
+                ]]);
         })->name('playbooks.index');
         Route::get(
             'playbooks/{playbook}',
@@ -40,7 +46,10 @@ Route::middleware(['auth:sanctum'])
         )->name('playbooks.show');
 
         Route::get('statuses', function (): AnonymousResourceCollection {
-            return StatusResource::collection(Status::all());
+            return StatusResource::collection(Status::all())
+                ->additional(['links' => [
+                    'self' => route('avatar.statuses.index'),
+                ]]);
         })->name('statuses.index');
         Route::get(
             'statuses/{status}',

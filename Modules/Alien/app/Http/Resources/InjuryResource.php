@@ -7,6 +7,7 @@ namespace Modules\Alien\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Alien\Models\Injury;
+use stdClass;
 
 /**
  * @mixin Injury
@@ -16,7 +17,7 @@ class InjuryResource extends JsonResource
     /**
      * @return array{
      *     death_roll_modifier: int|null,
-     *     effects: array<string, int>,
+     *     effects: stdClass,
      *     effects_text: string,
      *     fatal: bool,
      *     healing_time: null|string,
@@ -33,7 +34,7 @@ class InjuryResource extends JsonResource
     {
         return [
             'death_roll_modifier' => $this->death_roll_modifier,
-            'effects' => $this->effects,
+            'effects' => (object)$this->effects,
             'effects_text' => $this->effects_text,
             'fatal' => $this->fatal,
             'healing_time' => $this->healing_time,

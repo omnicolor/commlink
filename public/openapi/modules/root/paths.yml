@@ -1,0 +1,88 @@
+characters:
+  get:
+    summary: All Root RPG characters
+    description: Return Root RPG characters.
+    operationId: root-characters-index
+    responses:
+      '200':
+        description: Collection of the user's Root characters.
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Character'
+                  type: array
+              required:
+                - data
+              type: object
+    tags:
+      - character
+      - root
+
+moves:
+  get:
+    summary: All Root RPG moves
+    description: Root moves.
+    operationId: root-moves-index
+    responses:
+      '200':
+        description: Collection of possibly Root moves from playbooks.
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Move'
+                  type: array
+              required:
+                - data
+              type: object
+    tags:
+      - root
+
+natures:
+  get:
+    summary: All Root RPG natures
+    description: Return Root RPG natures.
+    operationId: root-natures-index
+    responses:
+      '200':
+        description: Collection of possible Root natures from playbooks.
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Nature'
+                  type: array
+              required:
+                - data
+              type: object
+    tags:
+      - root
+
+playbooks:
+  get:
+    summary: All Root RPG playbooks
+    description: Return Root RPG playbooks.
+    operationId: root-playbooks-index
+    responses:
+      '200':
+        description: Collection of Root RPG playbooks.
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Playbook'
+                  type: array
+              required:
+                - data
+              type: object
+    tags:
+      - root

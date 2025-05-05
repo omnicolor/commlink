@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Alien\Database\Factories\CharacterFactory;
+use Override;
 use Stringable;
 
 use function array_map;
@@ -56,16 +57,12 @@ class Character extends BaseCharacter implements Stringable
 {
     use HasFactory;
 
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     protected $attributes = [
         'system' => 'alien',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $fillable = [
         'agenda',
         'agility',
@@ -92,22 +89,21 @@ class Character extends BaseCharacter implements Stringable
         'wits',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $hidden = [
         '_id',
     ];
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name ?? 'Unnamed character';
     }
 
-    public function agility(): Attribute
+    protected function agility(): Attribute
     {
         return Attribute::make(
-            get: function (?int $agility): ?int {
+            get: function (int|null $agility): int|null {
                 if (null === $agility) {
                     return null;
                 }
@@ -121,16 +117,16 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function agilityUnmodified(): Attribute
+    protected function agilityUnmodified(): Attribute
     {
         return Attribute::make(
-            get: function (): ?int {
+            get: function (): int|null {
                 return $this->attributes['agility'] ?? null;
             },
         );
     }
 
-    public function armor(): Attribute
+    protected function armor(): Attribute
     {
         return Attribute::make(
             get: function (?string $armor): ?Armor {
@@ -149,6 +145,7 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
+    #[Override]
     protected static function booted(): void
     {
         static::addGlobalScope(
@@ -159,7 +156,7 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function career(): Attribute
+    protected function career(): Attribute
     {
         return Attribute::make(
             get: function (?string $career): ?Career {
@@ -178,7 +175,16 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function encumbrance(): Attribute
+    protected function cash(): Attribute
+    {
+        return Attribute::make(
+            get: function (?int $cash): int {
+                return $cash ?? 0;
+            },
+        );
+    }
+
+    protected function encumbrance(): Attribute
     {
         return Attribute::make(
             get: function (): float {
@@ -196,7 +202,7 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function encumbranceMaximum(): Attribute
+    protected function encumbranceMaximum(): Attribute
     {
         return Attribute::make(
             get: function (): int {
@@ -205,10 +211,10 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function gear(): Attribute
+    protected function gear(): Attribute
     {
         return Attribute::make(
-            get: function (?array $gear): array {
+            get: function (array|null $gear): array {
                 return array_map(
                     function (array $item): Gear {
                         return new Gear($item['id'], $item['quantity'] ?? null);
@@ -233,7 +239,16 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function healthMaximum(): Attribute
+    protected function healthCurrent(): Attribute
+    {
+        return Attribute::make(
+            get: function (int|null $health_current): int {
+                return $health_current ?? $this->health_maximum;
+            },
+        );
+    }
+
+    protected function healthMaximum(): Attribute
     {
         return Attribute::make(
             get: function (): int {
@@ -242,7 +257,7 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function injuries(): Attribute
+    protected function injuries(): Attribute
     {
         return Attribute::make(
             get: function (?array $injuries): array {
@@ -267,12 +282,22 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
+    #[Override]
     protected static function newFactory(): Factory
     {
         return CharacterFactory::new();
     }
 
-    public function skills(): Attribute
+    protected function radiation(): Attribute
+    {
+        return Attribute::make(
+            get: function (int|null $radiation): int {
+                return $radiation ?? 0;
+            },
+        );
+    }
+
+    protected function skills(): Attribute
     {
         return Attribute::make(
             get: function (?array $skills): array {
@@ -320,7 +345,7 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function talents(): Attribute
+    protected function talents(): Attribute
     {
         return Attribute::make(
             get: function (?array $talents): array {
@@ -343,7 +368,7 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
-    public function weapons(): Attribute
+    protected function weapons(): Attribute
     {
         return Attribute::make(
             get: function (?array $weapons): array {
