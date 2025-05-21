@@ -10,5 +10,5 @@ Route::name('battletech.')
         Route::get(
             '/characters/battletech/{character}',
             [CharactersController::class, 'view']
-        )->name('characters.view');
+        )->name('character');
     });

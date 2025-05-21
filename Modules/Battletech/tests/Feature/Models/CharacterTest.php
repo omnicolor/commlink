@@ -72,4 +72,65 @@ class CharacterTest extends TestCase
         // @phpstan-ignore expr.resultUnused
         $character->attributes;
     }
+
+    public function testSkillsEmpty(): void
+    {
+        $character = new Character();
+        self::assertSame([], $character->skills);
+    }
+
+    public function testSkills(): void
+    {
+        $character = new Character([
+            'skills' => [
+                [
+                    'id' => 'acting',
+                    'level' => 1,
+                    'specialty' => 'Seduction',
+                ],
+                ['id' => 'administration'],
+            ],
+        ]);
+
+        self::assertCount(2, $character->skills);
+
+        self::assertSame('Seduction', $character->skills[0]->specialty);
+        self::assertSame('Acting (Seduction)', (string)$character->skills[0]);
+        self::assertSame(1, $character->skills[0]->level);
+
+        self::assertNull($character->skills[1]->level);
+    }
+
+    public function testSkillsInvalid(): void
+    {
+        $character = new Character([
+            'skills' => [
+                ['id' => 'invalid'],
+            ],
+        ]);
+        self::assertCount(0, $character->skills);
+    }
+
+    public function testTraitsEmpty(): void
+    {
+        $character = new Character();
+        self::assertSame([], $character->traits);
+    }
+
+    public function testTraits(): void
+    {
+        $character = new Character([
+            'traits' => ['ambidextrous', 'animal-empathy'],
+        ]);
+
+        self::assertCount(2, $character->traits);
+
+        self::assertSame('Ambidextrous', $character->traits[0]->name);
+    }
+
+    public function testTraitsNotFound(): void
+    {
+        $character = new Character(['traits' => ['invalid']]);
+        self::assertCount(0, $character->traits);
+    }
 }

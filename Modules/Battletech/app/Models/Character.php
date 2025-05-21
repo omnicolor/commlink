@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute as EloquentAttribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Log;
 use Modules\Battletech\Database\Factories\CharacterFactory;
 use Modules\Battletech\ValueObjects\Attribute;
 use Modules\Battletech\ValueObjects\Attributes;
@@ -24,6 +26,8 @@ use Stringable;
  * @property-read Attributes $attributes
  * @property-write Attributes|AttributesArray $attributes
  * @property string $name
+ * @property-read array<int, Skill> $skills
+ * @property-read array<int, Quality> $traits
  */
 class Character extends BaseCharacter implements Stringable
 {
@@ -40,6 +44,8 @@ class Character extends BaseCharacter implements Stringable
         'appearance',
         'attributes',
         'name',
+        'skills',
+        'traits',
     ];
 
     /** @var list<string> */
@@ -108,5 +114,66 @@ class Character extends BaseCharacter implements Stringable
     protected static function newFactory(): Factory
     {
         return CharacterFactory::new();
+    }
+
+    protected function skills(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (array|null $skills): array {
+                if (null === $skills) {
+                    return [];
+                }
+
+                foreach ($skills as $key => $raw_skill) {
+                    try {
+                        /** @var Skill */
+                        $skill = Skill::findOrFail($raw_skill['id']);
+                    } catch (ModelNotFoundException) {
+                        Log::warning(
+                            'Battletech character "{name}" ({id}) has invalid skill "{skill}"',
+                            [
+                                'name' => $this->name,
+                                'id' => $this->id,
+                                'skill' => $raw_skill,
+                            ]
+                        );
+                        unset($skills[$key]);
+                        continue;
+                    }
+                    $skill->level = $raw_skill['level'] ?? null;
+                    $skill->specialty = $raw_skill['specialty'] ?? null;
+                    $skills[$key] = $skill;
+                }
+                return $skills;
+            },
+        );
+    }
+
+    protected function traits(): EloquentAttribute
+    {
+        return EloquentAttribute::make(
+            get: function (array|null $traits): array {
+                if (null === $traits) {
+                    return [];
+                }
+
+                foreach ($traits as $key => $trait) {
+                    try {
+                        $traits[$key] = Quality::findOrFail($trait);
+                    } catch (ModelNotFoundException) {
+                        Log::warning(
+                            'Battletech character "{name}" ({id}) has invalid trait "{trait}"',
+                            [
+                                'name' => $this->name,
+                                'id' => $this->id,
+                                'trait' => $trait,
+                            ]
+                        );
+                        unset($traits[$key]);
+                    }
+                }
+                return $traits;
+            },
+        );
     }
 }

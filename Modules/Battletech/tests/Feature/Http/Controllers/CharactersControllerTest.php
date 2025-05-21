@@ -36,11 +36,9 @@ final class CharactersControllerTest extends TestCase
 
     public function testIndex(): void
     {
-        /** @var Character */
         $character1 = Character::factory()->create([
             'owner' => $this->user->email,
         ]);
-        /** @var Character */
         $character2 = Character::factory()->create([
             'owner' => $this->user->email,
         ]);
@@ -56,9 +54,7 @@ final class CharactersControllerTest extends TestCase
 
     public function testShowCharacter(): void
     {
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'battletech']);
-        /** @var Character */
         $character = Character::factory()->create([
             'campaign_id' => $campaign->id,
             'owner' => $this->user->email,
@@ -75,14 +71,13 @@ final class CharactersControllerTest extends TestCase
 
     public function testViewCharacter(): void
     {
-        /** @var Character */
         $character = Character::factory()->create([
             'name' => 'Jonny Rotten',
             'owner' => $this->user->email,
         ]);
 
         self::actingAs($this->user)
-            ->get(route('battletech.characters.view', $character))
+            ->get(route('battletech.character', $character))
             ->assertSee('Jonny Rotten');
         $character->delete();
     }

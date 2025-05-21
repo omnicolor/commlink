@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Battletech\ValueObjects;
 
 use DomainException;
+use Modules\Battletech\Enums\Attribute as AttributeEnum;
 
 /**
  * @phpstan-type AttributesArray array{
@@ -37,19 +38,10 @@ final class Attributes
      */
     public static function make(array $attributes): self
     {
-        if (
-            !isset(
-                $attributes['body'],
-                $attributes['charisma'],
-                $attributes['dexterity'],
-                $attributes['edge'],
-                $attributes['intelligence'],
-                $attributes['reflexes'],
-                $attributes['strength'],
-                $attributes['willpower'],
-            )
-        ) {
-            throw new DomainException('Attributes list is incomplete.');
+        foreach (AttributeEnum::cases() as $attribute) {
+            if (!isset($attributes[$attribute->value])) {
+                throw new DomainException('Attributes list is incomplete.');
+            }
         }
 
         return new self(
