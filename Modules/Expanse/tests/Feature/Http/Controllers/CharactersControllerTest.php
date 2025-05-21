@@ -122,10 +122,7 @@ final class CharactersControllerTest extends TestCase
     public function testShowCharacter(): void
     {
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'expanse']);
-
-        /** @var Character */
         $character = Character::factory()->create([
             'focuses' => [
                 ['id' => 'crafting'],
@@ -156,8 +153,6 @@ final class CharactersControllerTest extends TestCase
     public function testShowCharacterOtherSystem(): void
     {
         $user = User::factory()->create();
-
-        /** @var CprCharacter */
         $character = CprCharacter::factory()->create([
             'owner' => $user->email,
             'created_by' => self::class . '::' . __FUNCTION__,
@@ -176,19 +171,14 @@ final class CharactersControllerTest extends TestCase
     public function testViewCharacter(): void
     {
         $user = User::factory()->create();
-
-        /** @var Character */
-        $character = Character::factory()->create([
-            'owner' => $user->email,
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create(['owner' => $user->email]);
 
         self::actingAs($user)
             ->get(
                 sprintf('/characters/expanse/%s', $character->id),
-                ['character' => $character, 'user' => $user]
+                ['character' => $character, 'user' => $user],
             )
-            ->assertSee($user->email)
+            ->assertSee($user->email->address)
             ->assertSee(e($character->name), false);
 
         $character->delete();

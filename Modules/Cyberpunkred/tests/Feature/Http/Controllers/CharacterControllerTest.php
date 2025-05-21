@@ -173,8 +173,6 @@ final class CharacterControllerTest extends TestCase
     public function testViewCharacter(): void
     {
         $user = User::factory()->create();
-
-        /** @var Character */
         $character = Character::factory()->create([
             'handle' => __FUNCTION__,
             'owner' => $user->email,
@@ -183,7 +181,7 @@ final class CharacterControllerTest extends TestCase
 
         self::actingAs($user)
             ->get(route('cyberpunkred.character', $character->id))
-            ->assertSee($user->email)
+            ->assertSee($user->email->address)
             ->assertSee(e($character->handle), false);
 
         $character->delete();

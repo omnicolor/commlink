@@ -150,7 +150,7 @@ final class CharactersControllerTest extends TestCase
 
         self::actingAs($user)
             ->get(route('dnd5e.character', $character))
-            ->assertSee($user->email)
+            ->assertSee($user->email->address)
             ->assertSee(e($character->name), false);
         $character->delete();
     }

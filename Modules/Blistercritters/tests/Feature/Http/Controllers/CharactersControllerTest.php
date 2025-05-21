@@ -18,7 +18,9 @@ final class CharactersControllerTest extends TestCase
     public function testIndex(): void
     {
         $user = User::factory()->create();
-        $character = Character::factory()->create(['owner' => $user->email]);
+        $character = Character::factory()->create([
+            'owner' => $user->email->address,
+        ]);
         self::actingAs($user)
             ->getJson(route('blistercritters.characters.index'))
             ->assertOk()
@@ -40,16 +42,14 @@ final class CharactersControllerTest extends TestCase
 
     public function testShowCharacter(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'system' => 'blistercritters',
         ]);
         $character = Character::factory()->create([
             'campaign_id' => $campaign->id,
             'name' => 'Roa Dent',
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         self::actingAs($user)
             ->getJson(route('blistercritters.characters.show', $character))
@@ -63,13 +63,13 @@ final class CharactersControllerTest extends TestCase
     public function testViewCharacter(): void
     {
         $user = User::factory()->create();
-
-        /** @var Character */
-        $character = Character::factory()->create(['owner' => $user->email]);
+        $character = Character::factory()->create([
+            'owner' => $user->email->address,
+        ]);
 
         self::actingAs($user)
             ->get(route('blistercritters.character', $character))
-            ->assertSee($user->email)
+            ->assertSee($user->email->address)
             ->assertSee(e($character->name), false);
 
         $character->delete();
