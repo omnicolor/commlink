@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "abd03f6151516d73863ef437a83b1dce",
+    "content-hash": "1a29ac2d42b92097a3c73039705a20aa",
     "packages": [
         {
             "name": "brick/math",
@@ -3244,21 +3244,21 @@
         },
         {
             "name": "mongodb/mongodb",
-            "version": "1.21.1",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mongodb/mongo-php-library.git",
-                "reference": "37bc8df3a67ddf8380704a5ba5dbd00e92ec1f6a"
+                "reference": "04cd7edc6a28950e3fab6eccb2869d72a0541232"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/37bc8df3a67ddf8380704a5ba5dbd00e92ec1f6a",
-                "reference": "37bc8df3a67ddf8380704a5ba5dbd00e92ec1f6a",
+                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/04cd7edc6a28950e3fab6eccb2869d72a0541232",
+                "reference": "04cd7edc6a28950e3fab6eccb2869d72a0541232",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.0",
-                "ext-mongodb": "^1.21.0",
+                "ext-mongodb": "^2.0",
                 "php": "^8.1",
                 "psr/log": "^1.1.4|^2|^3"
             },
@@ -3314,9 +3314,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mongodb/mongo-php-library/issues",
-                "source": "https://github.com/mongodb/mongo-php-library/tree/1.21.1"
+                "source": "https://github.com/mongodb/mongo-php-library/tree/2.0.0"
             },
-            "time": "2025-02-28T17:24:20+00:00"
+            "time": "2025-04-10T08:34:11+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -14214,7 +14214,7 @@
         "php": "^8.4",
         "ext-curl": "^7.34|^8.0",
         "ext-fileinfo": "*",
-        "ext-mongodb": "^1.15",
+        "ext-mongodb": "^2.0",
         "ext-random": "*",
         "ext-redis": "*",
         "ext-zip": "*"
@@ -14222,5 +14222,5 @@
     "platform-dev": {
         "ext-sqlite3": "*"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
