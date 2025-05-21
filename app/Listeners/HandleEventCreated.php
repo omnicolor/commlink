@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Listeners;
 
+use App\Enums\ChannelType;
 use App\Events\EventCreated;
 use App\Models\Channel;
 use App\Models\Event;
@@ -31,10 +32,10 @@ class HandleEventCreated
         /** @var Channel */
         foreach ($event->event->campaign->channels ?? [] as $channel) {
             switch ($channel->type) {
-                case Channel::TYPE_SLACK: // @codeCoverageIgnore
+                case ChannelType::Slack: // @codeCoverageIgnore
                     $this->sendToSlack($event->event, $channel);
                     break;
-                case Channel::TYPE_DISCORD: // @codeCoverageIgnore
+                case ChannelType::Discord: // @codeCoverageIgnore
                     $this->sendToDiscord($event->event, $channel);
                     break;
             }

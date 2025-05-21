@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Listeners;
 
+use App\Enums\ChannelType;
 use App\Events\DiscordMessageReceived;
 use App\Events\RollEvent;
 use App\Events\UserLinked;
@@ -452,7 +453,7 @@ final class HandleDiscordMessageTest extends TestCase
             'channel_id' => $channelMock->id,
             'server_id' => $serverStub->id,
             'system' => 'cyberpunkred',
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
 
         $userMock = $this->createMock(User::class);

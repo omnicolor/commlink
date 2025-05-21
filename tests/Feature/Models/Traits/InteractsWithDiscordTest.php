@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models\Traits;
 
+use App\Enums\ChannelType;
 use App\Models\Channel;
 use Illuminate\Http\Client\Request;
 use Illuminate\Http\Response;
@@ -24,7 +25,7 @@ final class InteractsWithDiscordTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->mock = new Channel(['type' => Channel::TYPE_DISCORD]);
+        $this->mock = new Channel(['type' => ChannelType::Discord]);
     }
 
     /**

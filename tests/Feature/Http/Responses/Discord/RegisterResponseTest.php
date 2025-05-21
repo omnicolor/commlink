@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Responses\Discord;
 
+use App\Enums\ChannelType;
 use App\Events\ChannelLinked;
 use App\Events\DiscordMessageReceived;
 use App\Http\Responses\Discord\RegisterResponse;
@@ -100,7 +101,7 @@ final class RegisterResponseTest extends TestCase
             'channel_id' => $event->channel->id,
             'server_id' => $event->server->id,
             'system' => 'dnd5e',
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
 
         self::assertSame('', (string)(new RegisterResponse($event)));

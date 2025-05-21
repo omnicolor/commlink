@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Listeners;
 
+use App\Enums\ChannelType;
 use App\Events\InitiativeAdded;
 use App\Listeners\HandleInitiativeEvent;
 use App\Models\Campaign;
@@ -82,7 +83,7 @@ final class HandleInitiativeEventTest extends TestCase
         $campaign = Campaign::factory()
             ->hasChannels(
                 1,
-                ['type' => Channel::TYPE_SLACK]
+                ['type' => ChannelType::Slack->value],
             )
             ->create();
         $event = new InitiativeAdded($initiative, $campaign);
@@ -109,10 +110,7 @@ final class HandleInitiativeEventTest extends TestCase
         $campaign = Campaign::factory()
             ->hasChannels(
                 1,
-                [
-                    'type' => Channel::TYPE_DISCORD,
-                    'webhook' => null,
-                ]
+                ['type' => 'discord']
             )
             ->create();
         $event = new InitiativeAdded($initiative, $campaign);
@@ -138,7 +136,7 @@ final class HandleInitiativeEventTest extends TestCase
             ->hasChannels(
                 1,
                 [
-                    'type' => Channel::TYPE_DISCORD,
+                    'type' => ChannelType::Discord->value,
                     'webhook' => 'https://example.com',
                 ]
             )

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Rolls;
 
+use App\Enums\ChannelType;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
@@ -43,7 +44,7 @@ final class BlitzTest extends TestCase
 
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
             'system' => 'shadowrun5e',
         ]);
 
@@ -81,7 +82,7 @@ final class BlitzTest extends TestCase
     public function testBlitzOutOfEdge(): void
     {
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
             'system' => 'shadowrun5e',
         ]);
 
@@ -114,7 +115,7 @@ final class BlitzTest extends TestCase
     public function testBlitzErrorIrc(): void
     {
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
             'system' => 'shadowrun5e',
         ]);
 
@@ -157,7 +158,7 @@ final class BlitzTest extends TestCase
 
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
             'system' => 'shadowrun5e',
         ]);
 
@@ -226,7 +227,7 @@ final class BlitzTest extends TestCase
 
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
             'system' => 'shadowrun5e',
         ]);
 
@@ -285,7 +286,7 @@ final class BlitzTest extends TestCase
 
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
             'system' => 'shadowrun5e',
         ]);
 

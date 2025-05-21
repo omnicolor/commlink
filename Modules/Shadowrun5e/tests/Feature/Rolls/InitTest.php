@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Rolls;
 
+use App\Enums\ChannelType;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
@@ -36,7 +37,7 @@ final class InitTest extends TestCase
 
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
             'system' => 'shadowrun5e',
         ]);
 
@@ -64,7 +65,7 @@ final class InitTest extends TestCase
 
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
             'system' => 'shadowrun5e',
         ]);
 
@@ -113,7 +114,7 @@ final class InitTest extends TestCase
 
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
             'system' => 'shadowrun5e',
         ]);
 
@@ -163,7 +164,7 @@ final class InitTest extends TestCase
 
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
             'system' => 'shadowrun5e',
         ]);
 
@@ -267,7 +268,7 @@ final class InitTest extends TestCase
 
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
             'system' => 'shadowrun5e',
         ]);
 
@@ -329,7 +330,7 @@ final class InitTest extends TestCase
             ->andReturn([4, 4, 4]);
 
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
             'system' => 'shadowrun5e',
         ]);
 
@@ -366,7 +367,7 @@ final class InitTest extends TestCase
     public function testRollInitiativeTooManyArguments(): void
     {
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
             'system' => 'shadowrun5e',
         ]);
 
@@ -386,7 +387,7 @@ final class InitTest extends TestCase
     public function testRollInitiativeInvalidBaseInit(): void
     {
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
             'system' => 'shadowrun5e',
         ]);
 
@@ -406,7 +407,7 @@ final class InitTest extends TestCase
     public function testRollInitiativeInvalidDice(): void
     {
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
             'system' => 'shadowrun5e',
         ]);
 
@@ -430,7 +431,7 @@ final class InitTest extends TestCase
             ->andReturn([6, 6, 6]);
 
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
             'system' => 'shadowrun5e',
         ]);
 
@@ -449,7 +450,7 @@ final class InitTest extends TestCase
     public function testRollInitiativeTooManyDice(): void
     {
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
             'system' => 'shadowrun5e',
         ]);
 
@@ -468,7 +469,7 @@ final class InitTest extends TestCase
     public function testRollInitiativeWrongDiceSize(): void
     {
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
             'system' => 'shadowrun5e',
         ]);
 
@@ -486,7 +487,7 @@ final class InitTest extends TestCase
     public function testRollInitiativeDiceNotationInvalidBase(): void
     {
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
             'system' => 'shadowrun5e',
         ]);
 
@@ -504,7 +505,7 @@ final class InitTest extends TestCase
     public function testRollDiceNotationInvalidDice(): void
     {
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
             'system' => 'shadowrun5e',
         ]);
 
@@ -528,7 +529,7 @@ final class InitTest extends TestCase
             ->andReturn([1]);
 
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
             'system' => 'shadowrun5e',
         ]);
 
@@ -543,7 +544,7 @@ final class InitTest extends TestCase
     public function testRollInitiativeInvalidBaseIrc(): void
     {
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
             'system' => 'shadowrun5e',
         ]);
 
@@ -562,7 +563,7 @@ final class InitTest extends TestCase
             ->andReturn([1]);
 
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
             'system' => 'shadowrun5e',
         ]);
 
@@ -577,7 +578,7 @@ final class InitTest extends TestCase
     public function testClearInitiativeIrc(): void
     {
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
             'system' => 'shadowrun5e',
         ]);
 

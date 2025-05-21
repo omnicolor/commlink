@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Rolls;
 
+use App\Enums\ChannelType;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\Character;
@@ -34,7 +35,7 @@ final class HelpTest extends TestCase
     {
         $channel = Channel::factory()->make([
             'system' => 'shadowrun5e',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $response = (new Help('', 'username', $channel))
             ->forSlack()
@@ -74,7 +75,7 @@ final class HelpTest extends TestCase
     public function testHelpDiscord(): void
     {
         $channel = Channel::factory()->make([
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         $response = (new Help('', 'username', $channel))->forDiscord();
         self::assertStringContainsString(
@@ -100,7 +101,7 @@ final class HelpTest extends TestCase
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'shadowrun5e',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
 
         $response = (new Help('', 'username', $channel))
@@ -135,7 +136,7 @@ final class HelpTest extends TestCase
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'shadowrun5e',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $channel->user = 'U' . Str::random(10);
         ChatUser::factory()->create([
@@ -177,7 +178,7 @@ final class HelpTest extends TestCase
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'system' => 'shadowrun5e',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $channel->user = 'U' . Str::random(10);
 
@@ -248,7 +249,7 @@ final class HelpTest extends TestCase
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'system' => 'shadowrun5e',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $channel->user = 'U' . Str::random(10);
 
@@ -334,7 +335,7 @@ final class HelpTest extends TestCase
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'shadowrun5e',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $channel->user = 'U' . Str::random(10);
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Startrekadventures\Tests\Feature\Rolls;
 
+use App\Enums\ChannelType;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
@@ -76,7 +77,7 @@ final class HelpTest extends TestCase
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'startrekadventures',
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         $channel->username = $this->faker->name;
         $channel->user = 'U' . Str::random(10);
@@ -106,7 +107,7 @@ final class HelpTest extends TestCase
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'startrekadventures',
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         $channel->username = $this->faker->name;
         $channel->user = 'U' . Str::random(10);
@@ -134,7 +135,7 @@ final class HelpTest extends TestCase
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'system' => 'startrekadventures',
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         $channel->username = $this->faker->name;
         $channel->user = 'U' . Str::random(10);
@@ -172,7 +173,7 @@ final class HelpTest extends TestCase
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'startrekadventures',
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
         ]);
         $channel->username = $this->faker->name;
         $channel->user = 'U' . Str::random(10);

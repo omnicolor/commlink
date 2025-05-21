@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\ChannelType;
 use App\Models\Traits\GameSystem;
 use App\Models\Traits\InteractsWithDiscord;
 use App\Models\Traits\InteractsWithSlack;
@@ -17,7 +18,6 @@ use RuntimeException;
 
 use function array_key_exists;
 use function config;
-use function in_array;
 use function sprintf;
 
 /**
@@ -34,7 +34,7 @@ use function sprintf;
  * @property string $server_id
  * @property ?string $server_name
  * @property ?string $system
- * @property string $type
+ * @property ChannelType $type
  * @property ?string $webhook
  */
 class Channel extends Model
@@ -44,18 +44,7 @@ class Channel extends Model
     use InteractsWithDiscord;
     use InteractsWithSlack;
 
-    public const TYPE_DISCORD = 'discord';
-    public const TYPE_IRC = 'irc';
-    public const TYPE_SLACK = 'slack';
-
-    public const VALID_TYPES = [
-        self::TYPE_DISCORD,
-        self::TYPE_IRC,
-        self::TYPE_SLACK,
-    ];
-
     /**
-     * Attributes that are mass assignable.
      * @var list<string>
      */
     protected $fillable = [
@@ -79,6 +68,16 @@ class Channel extends Model
     public function campaign(): BelongsTo
     {
         return $this->belongsTo(Campaign::class);
+    }
+
+    /**
+     * @return array<string, class-string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'type' => ChannelType::class,
+        ];
     }
 
     /**
@@ -142,7 +141,7 @@ class Channel extends Model
                 }
 
                 switch ($this->attributes['type'] ?? null) {
-                    case self::TYPE_DISCORD:
+                    case ChannelType::Discord:
                         $this->attributes['server_name'] = self::getDiscordServerName(
                             $this->attributes['server_id']
                         );
@@ -150,7 +149,7 @@ class Channel extends Model
                             $this->save();
                         }
                         return $this->attributes['server_name'];
-                    case self::TYPE_SLACK:
+                    case ChannelType::Slack:
                         $this->attributes['server_name']
                             = (string)self::getSlackTeamName($this->attributes['server_id']);
                         if (isset($this->id)) {
@@ -182,7 +181,7 @@ class Channel extends Model
      */
     public function scopeDiscord(Builder $query): Builder
     {
-        return $query->where('type', self::TYPE_DISCORD);
+        return $query->where('type', ChannelType::Discord);
     }
 
     /**
@@ -190,7 +189,7 @@ class Channel extends Model
      */
     public function scopeIrc(Builder $query): Builder
     {
-        return $query->where('type', self::TYPE_IRC);
+        return $query->where('type', ChannelType::Irc);
     }
 
     /**
@@ -198,7 +197,7 @@ class Channel extends Model
      */
     public function scopeSlack(Builder $query): Builder
     {
-        return $query->where('type', self::TYPE_SLACK);
+        return $query->where('type', ChannelType::Slack);
     }
 
     /**
@@ -216,25 +215,6 @@ class Channel extends Model
                 }
                 $this->attributes['system'] = $system;
                 return $system;
-            },
-        );
-    }
-
-    /**
-     * Set the type of server for the channel.
-     */
-    public function type(): Attribute
-    {
-        return Attribute::make(
-            get: function (): ?string {
-                return $this->attributes['type'] ?? null;
-            },
-            set: function (string $type): string {
-                if (!in_array($type, self::VALID_TYPES, true)) {
-                    throw new RuntimeException('Invalid channel type');
-                }
-                $this->attributes['type'] = $type;
-                return $type;
             },
         );
     }

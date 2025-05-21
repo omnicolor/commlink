@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Rolls;
 
+use App\Enums\ChannelType;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\ChatUser;
@@ -27,7 +28,7 @@ final class HelpTest extends TestCase
 
         $channel = new Channel([
             'server_id' => Str::random(10),
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         $channel->user = $username;
 
@@ -58,7 +59,7 @@ final class HelpTest extends TestCase
         $channel = new Channel([
             'channel_id' => Str::random(10),
             'server_id' => Str::random(10),
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         $channel->user = $username;
 
