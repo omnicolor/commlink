@@ -17,6 +17,8 @@ use Modules\Alien\Http\Resources\RollResource;
 use Modules\Alien\Models\Character;
 use Modules\Alien\Rolls\Skill;
 
+use function abort_if;
+use function now;
 use function sprintf;
 
 class RollController extends Controller
@@ -33,9 +35,8 @@ class RollController extends Controller
         );
         /** @var User */
         $user = $request->user();
-        /** @var Character */
         $character = Character::where('_id', $roll['character'])
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->first();
         abort_if(
             null === $character,
@@ -49,9 +50,8 @@ class RollController extends Controller
     {
         /** @var User */
         $user = $request->user();
-        /** @var Character */
         $character = Character::where('_id', $request->character)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
         $channel = new WebChannel([
             'campaign_id' => $character->campaign_id,

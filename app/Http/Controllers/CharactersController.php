@@ -14,7 +14,7 @@ class CharactersController extends Controller
     public function index(Request $request): JsonResource
     {
         return CharacterResource::collection(
-            Character::where('owner', $request->user()?->email)->get()
+            Character::where('owner', $request->user()?->email->address)->get()
         );
     }
 }

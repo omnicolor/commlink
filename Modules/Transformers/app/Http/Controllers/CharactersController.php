@@ -33,7 +33,9 @@ class CharactersController extends Controller
         $user = $request->user();
 
         if ('new' === $step) {
-            $character = PartialCharacter::create(['owner' => $user->email]);
+            $character = PartialCharacter::create([
+                'owner' => $user->email->address,
+            ]);
             $request->session()->put(self::SESSION_KEY, $character->id);
             return new RedirectResponse('/characters/transformers/create/base');
         }
@@ -45,7 +47,8 @@ class CharactersController extends Controller
         if (null === $character) {
             // No current character, see if they already have a character they
             // might want to continue.
-            $characters = PartialCharacter::where('owner', $user->email)->get();
+            $characters = PartialCharacter::where('owner', $user->email->address)
+                ->get();
 
             if (0 !== count($characters)) {
                 return view(
@@ -61,7 +64,9 @@ class CharactersController extends Controller
              * No in-progress characters, create a new one.
              * @var PartialCharacter
              */
-            $character = PartialCharacter::create(['owner' => $user->email]);
+            $character = PartialCharacter::create([
+                'owner' => $user->email->address,
+            ]);
             $request->session()->put(self::SESSION_KEY, $character->id);
         }
 
@@ -154,7 +159,7 @@ class CharactersController extends Controller
 
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $character_id)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $character->fill($request->validated());
@@ -173,7 +178,7 @@ class CharactersController extends Controller
 
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $character_id)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $character->programming = $request->input('programming');
@@ -192,7 +197,7 @@ class CharactersController extends Controller
 
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $character_id)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $character->fill($request->validated());
@@ -221,7 +226,7 @@ class CharactersController extends Controller
         if (null !== $character_id) {
             // Return the character they're working on.
             /** @var PartialCharacter */
-            return PartialCharacter::where('owner', $user->email)
+            return PartialCharacter::where('owner', $user->email->address)
                 ->where('_id', $character_id)
                 ->firstOrFail();
         }
@@ -231,7 +236,7 @@ class CharactersController extends Controller
 
         // Maybe they're chosing to continue a character right now.
         /** @var PartialCharacter */
-        $character = PartialCharacter::where('owner', $user->email)
+        $character = PartialCharacter::where('owner', $user->email->address)
             ->find($step);
         if (null !== $character) {
             $request->session()->put(self::SESSION_KEY, $character->id);
@@ -242,14 +247,14 @@ class CharactersController extends Controller
     public function index(Request $request): JsonResource
     {
         return CharacterResource::collection(
-            Character::where('owner', $request->user()?->email)->get()
+            Character::where('owner', $request->user()?->email->address)->get()
         )
             ->additional(['links' => ['self' => route('transformers.characters.index')]]);
     }
 
     public function show(Request $request, string $identifier): JsonResource
     {
-        $email = $request->user()?->email;
+        $email = $request->user()?->email->address;
         return new CharacterResource(
             Character::where('_id', $identifier)
                 ->where('owner', $email)

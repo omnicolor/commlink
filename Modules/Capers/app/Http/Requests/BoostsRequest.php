@@ -37,7 +37,7 @@ class BoostsRequest extends BaseRequest
         $user = Auth::user();
         $characterId = $this->session()->get('capers-partial');
         /** @var PartialCharacter */
-        $character = PartialCharacter::where('owner', $user->email)
+        $character = PartialCharacter::where('owner', $user->email->address)
             ->where('_id', $characterId)
             ->firstOrFail();
 

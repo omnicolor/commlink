@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Casts\AsEmail;
 use App\Mail\Auth\ForgotPassword;
+use App\ValueObjects\Email;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -29,7 +31,7 @@ use function str_replace;
  * @method static int count()
  * @property iterable<array-key, Campaign> $campaignsGmed
  * @property iterable<array-key, Campaign> $campaignsRegistered
- * @property string $email
+ * @property Email $email
  * @property Collection $events
  * @property int $id
  * @property string $name
@@ -67,6 +69,7 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
+        'email' => AsEmail::class,
         'email_verified_at' => 'datetime',
     ];
 
@@ -108,7 +111,7 @@ class User extends Authenticatable
      */
     public function characters(?string $system = null): Builder
     {
-        $characters = Character::where('owner', $this->email);
+        $characters = Character::where('owner', $this->email->address);
         if (null !== $system) {
             $characters->where('system', $system);
         }

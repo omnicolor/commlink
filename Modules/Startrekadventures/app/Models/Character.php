@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace Modules\Startrekadventures\Models;
 
+use App\Casts\AsEmail;
 use App\Models\Character as BaseCharacter;
+use App\ValueObjects\Email;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
 use Modules\Startrekadventures\Database\Factories\CharacterFactory;
+use Override;
 use RuntimeException;
+use Stringable;
 
 use function is_array;
 
@@ -21,6 +25,7 @@ use function is_array;
  * @property string $environment
  * @property array<int, string> $focuses
  * @property-read string $id
+ * @property Email $owner
  * @property string $rank
  * @property-read Species $species
  * @property-read Attributes $stats
@@ -30,23 +35,24 @@ use function is_array;
  * @property string $upbringing
  * @property array<int, string> $values
  */
-class Character extends BaseCharacter
+class Character extends BaseCharacter implements Stringable
 {
     use HasFactory;
 
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     protected $attributes = [
         'system' => 'startrekadventures',
+    ];
+
+    /** @var array<string, string> */
+    protected $casts = [
+        'owner' => AsEmail::class,
     ];
 
     protected Attributes $attributesObject;
     protected Disciplines $disciplinesObject;
 
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $fillable = [
         'assignment',
         'attributes',
@@ -63,13 +69,12 @@ class Character extends BaseCharacter
         'values',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $hidden = [
         '_id',
     ];
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name ?? 'Unnamed Character';
@@ -78,6 +83,7 @@ class Character extends BaseCharacter
     /**
      * Force this model to only load for Star Trek Adventure characters.
      */
+    #[Override]
     protected static function booted(): void
     {
         static::addGlobalScope(
@@ -117,6 +123,7 @@ class Character extends BaseCharacter
         );
     }
 
+    #[Override]
     protected static function newFactory(): Factory
     {
         return CharacterFactory::new();

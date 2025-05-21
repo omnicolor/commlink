@@ -207,7 +207,7 @@ final class LinkResponseTest extends TestCase
     {
         $user = User::factory()->create();
         $character = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'capers',
         ]);
 
@@ -254,7 +254,7 @@ final class LinkResponseTest extends TestCase
     {
         $user = User::factory()->create();
         $character = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
 
         $expected = sprintf(

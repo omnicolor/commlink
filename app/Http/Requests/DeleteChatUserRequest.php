@@ -12,7 +12,8 @@ class DeleteChatUserRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        $user = User::find($this->route('user'))?->first();
+        /** @var User */
+        $user = $this->route('user');
         $chat_user = ChatUser::find($this->route('chat_user'))?->first();
         return null !== $user
             && $user->is($this->user())

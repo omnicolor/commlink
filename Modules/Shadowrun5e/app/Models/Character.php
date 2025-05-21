@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use App\Casts\AsEmail;
 use App\Models\Character as BaseCharacter;
+use App\ValueObjects\Email;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -70,6 +72,7 @@ use function ucwords;
  * @property ?int $magic
  * @property ?array<string, mixed> $magics
  * @property int $nuyen
+ * @property Email $owner
  * @property-read int $physical_limit
  * @property-read int $physical_monitor
  * @property ?array<int, array<string, mixed>> $qualities
@@ -93,17 +96,12 @@ class Character extends BaseCharacter implements Stringable
     use HasFactory;
     use Notifiable;
 
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     protected $attributes = [
         'system' => 'shadowrun5e',
     ];
 
-    /**
-     * Attributes that need to be cast to a type.
-     * @var array<string, string>
-     */
+    /** @var array<string, string> */
     protected $casts = [
         'agility' => 'integer',
         'body' => 'integer',
@@ -112,15 +110,14 @@ class Character extends BaseCharacter implements Stringable
         'intuition' => 'integer',
         'logic' => 'integer',
         'magic' => 'integer',
+        'owner' => AsEmail::class,
         'reaction' => 'integer',
         'resonance' => 'integer',
         'strength' => 'integer',
         'willpower' => 'integer',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $fillable = [
         'agility',
         'armor',
@@ -173,9 +170,7 @@ class Character extends BaseCharacter implements Stringable
         'willpower',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $hidden = [
         '_id',
     ];
@@ -987,6 +982,7 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
+    #[Override]
     protected static function newFactory(): Factory
     {
         return CharacterFactory::new();

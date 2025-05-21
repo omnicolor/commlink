@@ -72,7 +72,7 @@ final class UsersControllerTest extends TestCase
         self::actingAs($user)
             ->get(route('users.view'))
             ->assertOk()
-            ->assertSee($user->email);
+            ->assertSee($user->email->address);
     }
 
     /**
@@ -84,7 +84,9 @@ final class UsersControllerTest extends TestCase
         $admin = Role::create(['name' => 'admin']);
         $admin->givePermissionTo(Permission::create(['name' => 'admin users']));
         $user->assignRole($admin);
-        $character = Character::factory()->create(['owner' => $user->email]);
+        $character = Character::factory()->create([
+            'owner' => $user->email->address,
+        ]);
         Campaign::factory()->create(['gm' => $user->id]);
 
         self::actingAs($user)

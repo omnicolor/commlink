@@ -69,7 +69,7 @@ final class LinkResponseTest extends TestCase
     {
         $user = User::factory()->create();
         $character = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         $channel = Channel::factory()->create([
             'system' => $character->system,
@@ -132,7 +132,7 @@ final class LinkResponseTest extends TestCase
         $otherUser = User::factory()->create();
         $character = Character::factory()->create([
             '_id' => sha1(Str::random(10)),
-            'owner' => $otherUser->email,
+            'owner' => $otherUser->email->address,
         ]);
         $channel = Channel::factory()->create([
             'system' => $character->system,
@@ -165,7 +165,7 @@ final class LinkResponseTest extends TestCase
         $user = User::factory()->create();
         $character = Character::factory()->create([
             '_id' => sha1(Str::random(10)),
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
         $channel = Channel::factory()->create([
@@ -202,7 +202,7 @@ final class LinkResponseTest extends TestCase
     {
         $user = User::factory()->create();
         $character = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         $channel = Channel::factory()->create([
             'system' => $character->system,
@@ -214,7 +214,7 @@ final class LinkResponseTest extends TestCase
             'remote_user_id' => $channel->user,
             'server_id' => $channel->server_id,
             'server_type' => ChatUser::TYPE_SLACK,
-            'user_id' => $user,
+            'user_id' => $user->id,
             'verified' => true,
         ]);
         $response = new LinkResponse(

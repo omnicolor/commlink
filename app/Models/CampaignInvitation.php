@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Casts\AsEmail;
 use App\Events\CampaignInvitationCreated;
 use App\Events\CampaignInvitationUpdated;
+use App\ValueObjects\Email;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,7 +17,7 @@ use function sha1;
 /**
  * @property Campaign $campaign
  * @property int $campaign_id
- * @property string $email
+ * @property Email $email
  * @property int $id
  * @property int $invited_by
  * @property-read User $invitor
@@ -37,6 +39,7 @@ class CampaignInvitation extends Model
      */
     protected $casts = [
         'campaign_id' => 'int',
+        'email' => AsEmail::class,
     ];
 
     /**

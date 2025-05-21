@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Cyberpunkred\Models;
 
+use App\Casts\AsEmail;
 use App\Models\Character as BaseCharacter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -82,6 +83,7 @@ class Character extends BaseCharacter implements Stringable
         'intelligence' => 'integer',
         'luck' => 'integer',
         'movement' => 'integer',
+        'owner' => AsEmail::class,
         'reflexes' => 'integer',
         'technique' => 'integer',
         'willpower' => 'integer',

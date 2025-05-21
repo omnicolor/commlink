@@ -44,7 +44,7 @@ final class CharactersControllerTest extends TestCase
                 route('capers.character', $character),
                 ['character' => $character, 'user' => $user]
             )
-            ->assertSee($user->email)
+            ->assertSee($user->email->address)
             ->assertSee(e($character->name), false);
 
         $character->delete();
@@ -57,7 +57,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun6e',
         ]);
         self::actingAs($user)
@@ -79,7 +79,8 @@ final class CharactersControllerTest extends TestCase
             ->get('/characters/capers/create')
             ->assertOk()
             ->assertSee('The basics');
-        $characters = PartialCharacter::where('owner', $user->email)->get();
+        $characters = PartialCharacter::where('owner', $user->email->address)
+            ->get();
         self::assertCount(1, $characters);
 
         $character = $characters[0];
@@ -94,10 +95,10 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character1 = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         $character2 = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
 
         self::actingAs($user)
@@ -116,7 +117,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
 
         self::actingAs($user)
@@ -133,7 +134,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -165,7 +166,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -198,7 +199,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -228,7 +229,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -262,7 +263,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -282,7 +283,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -305,7 +306,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -330,7 +331,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -363,7 +364,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -383,7 +384,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -413,7 +414,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'type' => Character::TYPE_EXCEPTIONAL,
         ]);
         session(['capers-partial' => $character->id]);
@@ -432,7 +433,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'type' => Character::TYPE_CAPER,
         ]);
         session(['capers-partial' => $character->id]);
@@ -454,7 +455,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'type' => Character::TYPE_EXCEPTIONAL,
         ]);
         session(['capers-partial' => $character->id]);
@@ -479,7 +480,7 @@ final class CharactersControllerTest extends TestCase
                     'rank' => 1,
                 ],
             ],
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'type' => Character::TYPE_CAPER,
         ]);
         session(['capers-partial' => $character->id]);
@@ -500,7 +501,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
             'type' => Character::TYPE_EXCEPTIONAL,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -531,7 +532,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
             'type' => Character::TYPE_CAPER,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -563,7 +564,7 @@ final class CharactersControllerTest extends TestCase
         /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'type' => Character::TYPE_CAPER,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -598,7 +599,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
             'type' => Character::TYPE_CAPER,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -630,7 +631,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
             'type' => Character::TYPE_CAPER,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -661,7 +662,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
             'type' => Character::TYPE_CAPER,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -692,7 +693,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
             'type' => Character::TYPE_CAPER,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -722,7 +723,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
             'type' => Character::TYPE_CAPER,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -752,7 +753,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
             'type' => Character::TYPE_CAPER,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -784,7 +785,7 @@ final class CharactersControllerTest extends TestCase
         /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'type' => Character::TYPE_CAPER,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -819,7 +820,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
             'type' => Character::TYPE_CAPER,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -857,7 +858,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'type' => Character::TYPE_EXCEPTIONAL,
         ]);
         session(['capers-partial' => $character->id]);
@@ -880,7 +881,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'type' => Character::TYPE_CAPER,
         ]);
         session(['capers-partial' => $character->id]);
@@ -911,7 +912,7 @@ final class CharactersControllerTest extends TestCase
                     'rank' => 1,
                 ],
             ],
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'type' => Character::TYPE_CAPER,
         ]);
         session(['capers-partial' => $character->id]);
@@ -932,13 +933,10 @@ final class CharactersControllerTest extends TestCase
      */
     public function testCreateBoostsExceptional(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'type' => Character::TYPE_EXCEPTIONAL,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'powers' => [
                 'alter-form' => [
                     'id' => 'alter-form',
@@ -973,13 +971,10 @@ final class CharactersControllerTest extends TestCase
      */
     public function testCreateBoostsNoPowers(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'type' => Character::TYPE_CAPER,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -1010,13 +1005,10 @@ final class CharactersControllerTest extends TestCase
      */
     public function testCreateBoostsTooMany(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'type' => Character::TYPE_CAPER,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'powers' => [
                 'alter-form' => [
                     'id' => 'alter-form',
@@ -1059,13 +1051,10 @@ final class CharactersControllerTest extends TestCase
      */
     public function testCreateBoostsInvalid(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'type' => Character::TYPE_CAPER,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'powers' => [
                 'alter-form' => [
                     'id' => 'alter-form',
@@ -1105,13 +1094,10 @@ final class CharactersControllerTest extends TestCase
      */
     public function testCreateBoosts(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'type' => Character::TYPE_CAPER,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'powers' => [
                 'alter-form' => [
                     'id' => 'alter-form',
@@ -1151,15 +1137,12 @@ final class CharactersControllerTest extends TestCase
      */
     public function testGearPage(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'gear' => [
                 ['id' => 'mens-tie', 'quantity' => 1],
             ],
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -1182,7 +1165,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
             'type' => Character::TYPE_CAPER,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -1215,12 +1198,9 @@ final class CharactersControllerTest extends TestCase
      */
     public function testReviewPage(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -1237,14 +1217,11 @@ final class CharactersControllerTest extends TestCase
      */
     public function testSave(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'name' => 'Save test',
             'type' => Character::TYPE_CAPER,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -1254,7 +1231,7 @@ final class CharactersControllerTest extends TestCase
         self::assertModelMissing($character);
         /** @var Character */
         $character = Character::where('name', 'Save test')
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
         self::assertSame('Save test', $character->name);
         $response->assertRedirect(route('capers.character', $character));
@@ -1269,7 +1246,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['capers-partial' => $character->id]);
 
@@ -1308,15 +1285,13 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $user->assignRole($trusted);
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'capers']);
-        /** @var Character */
         $character = Character::factory()->create([
             'campaign_id' => $campaign,
             'gear' => [
                 ['id' => 'mens-boots'],
             ],
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
 
         self::actingAs($user)

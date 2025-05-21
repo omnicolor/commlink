@@ -39,8 +39,11 @@ final class CharacterTest extends TestCase
     public function testGetUser(): void
     {
         $user = User::factory()->create();
-        $character = new Character(['owner' => $user->email]);
-        self::assertSame($user->email, $character->user()->email);
+        $character = new Character(['owner' => $user->email->address]);
+        self::assertSame(
+            $user->email->address,
+            $character->user()->email->address,
+        );
     }
 
     /**
