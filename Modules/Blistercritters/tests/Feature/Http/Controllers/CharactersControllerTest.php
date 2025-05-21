@@ -18,7 +18,9 @@ final class CharactersControllerTest extends TestCase
     public function testIndex(): void
     {
         $user = User::factory()->create();
-        $character = Character::factory()->create(['owner' => $user->email]);
+        $character = Character::factory()->create([
+            'owner' => $user->email->address,
+        ]);
         self::actingAs($user)
             ->getJson(route('blistercritters.characters.index'))
             ->assertOk()
@@ -47,7 +49,7 @@ final class CharactersControllerTest extends TestCase
         $character = Character::factory()->create([
             'campaign_id' => $campaign->id,
             'name' => 'Roa Dent',
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         self::actingAs($user)
             ->getJson(route('blistercritters.characters.show', $character))
@@ -61,7 +63,9 @@ final class CharactersControllerTest extends TestCase
     public function testViewCharacter(): void
     {
         $user = User::factory()->create();
-        $character = Character::factory()->create(['owner' => $user->email]);
+        $character = Character::factory()->create([
+            'owner' => $user->email->address,
+        ]);
 
         self::actingAs($user)
             ->get(route('blistercritters.character', $character))

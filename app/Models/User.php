@@ -111,7 +111,7 @@ class User extends Authenticatable
      */
     public function characters(?string $system = null): Builder
     {
-        $characters = Character::where('owner', $this->email);
+        $characters = Character::where('owner', $this->email->address);
         if (null !== $system) {
             $characters->where('system', $system);
         }

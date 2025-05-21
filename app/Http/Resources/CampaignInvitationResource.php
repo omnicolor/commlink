@@ -35,7 +35,7 @@ class CampaignInvitationResource extends JsonResource
                     'name' => $this->invitor->name,
                 ],
                 'invitee' => [
-                    'email' => $this->email,
+                    'email' => $this->email->address,
                     'name' => $this->name,
                 ],
             ],
