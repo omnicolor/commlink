@@ -23,7 +23,7 @@ final class DashboardControllerTest extends TestCase
         $user = User::factory()->create();
         self::actingAs($user)
             ->get(route('dashboard'))
-            ->assertSee($user->email)
+            ->assertSee($user->email->address)
             ->assertSee('You don\'t have any characters!', false)
             ->assertSee('You don\'t have any campaigns!', false);
     }
@@ -38,7 +38,7 @@ final class DashboardControllerTest extends TestCase
         ]);
         self::actingAs($user)
             ->get(route('dashboard'))
-            ->assertSee($user->email)
+            ->assertSee($user->email->address)
             ->assertSee((string)$character1->handle)
             ->assertSee(config('commlink.systems')[$character1->system])
             ->assertSee((string)$character2->handle)

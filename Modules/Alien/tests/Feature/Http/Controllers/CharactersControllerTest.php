@@ -595,9 +595,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $user->assignRole($trusted);
 
-        /** @var Character */
         $character1 = Character::factory()->create(['owner' => $user->email]);
-        /** @var Character */
         $character2 = Character::factory()->create(['owner' => $user->email]);
 
         self::actingAs($user)
@@ -616,9 +614,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $user->assignRole($trusted);
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'alien']);
-        /** @var Character */
         $character = Character::factory()->create([
             'campaign_id' => $campaign,
             'owner' => $user->email,
@@ -640,7 +636,7 @@ final class CharactersControllerTest extends TestCase
 
         $this->actingAs($user)
             ->get(route('alien.character', $character))
-            ->assertSee($user->email)
+            ->assertSee($user->email->address)
             ->assertSee(e($character->name), false);
         $character->delete();
     }

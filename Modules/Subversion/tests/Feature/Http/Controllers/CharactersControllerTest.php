@@ -577,7 +577,7 @@ final class CharactersControllerTest extends TestCase
                 route('subversion.character', $character),
                 ['character' => $character, 'user' => $user]
             )
-            ->assertSee($user->email)
+            ->assertSee($user->email->address)
             ->assertSee(e($character->name), false);
 
         $character->delete();

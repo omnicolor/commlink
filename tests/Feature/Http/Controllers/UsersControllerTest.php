@@ -72,7 +72,7 @@ final class UsersControllerTest extends TestCase
         self::actingAs($user)
             ->get(route('users.view'))
             ->assertOk()
-            ->assertSee($user->email);
+            ->assertSee($user->email->address);
     }
 
     /**

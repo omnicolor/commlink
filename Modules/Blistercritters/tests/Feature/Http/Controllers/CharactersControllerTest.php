@@ -40,9 +40,7 @@ final class CharactersControllerTest extends TestCase
 
     public function testShowCharacter(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'system' => 'blistercritters',
         ]);
@@ -63,13 +61,11 @@ final class CharactersControllerTest extends TestCase
     public function testViewCharacter(): void
     {
         $user = User::factory()->create();
-
-        /** @var Character */
         $character = Character::factory()->create(['owner' => $user->email]);
 
         self::actingAs($user)
             ->get(route('blistercritters.character', $character))
-            ->assertSee($user->email)
+            ->assertSee($user->email->address)
             ->assertSee(e($character->name), false);
 
         $character->delete();
