@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Capers\Tests\Feature\Rolls;
 
+use App\Enums\ChannelType;
 use App\Models\Campaign;
 use App\Models\Channel;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -165,7 +166,7 @@ final class ShuffleTest extends TestCase
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
             'system' => 'capers',
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
         ]);
         $channel->username = $this->faker->name;
 

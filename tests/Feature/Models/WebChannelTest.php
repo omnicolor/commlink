@@ -78,13 +78,6 @@ final class WebChannelTest extends TestCase
         self::assertSame('web', $channel->type);
     }
 
-    public function testSetType(): void
-    {
-        $channel = new WebChannel();
-        self::expectException(LogicException::class);
-        $channel->type = 'foo';
-    }
-
     public function testFindForWebhook(): void
     {
         self::expectException(LogicException::class);

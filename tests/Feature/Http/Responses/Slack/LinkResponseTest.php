@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Responses\Slack;
 
+use App\Enums\ChannelType;
 use App\Http\Responses\Slack\LinkResponse;
 use App\Models\Channel;
 use App\Models\Character;
@@ -73,7 +74,7 @@ final class LinkResponseTest extends TestCase
         ]);
         $channel = Channel::factory()->create([
             'system' => $character->system,
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $channel->user = Str::random(10);
         $chatUser = ChatUser::factory()->create([
@@ -103,7 +104,7 @@ final class LinkResponseTest extends TestCase
     public function testLinkNotFoundCharacter(): void
     {
         $user = User::factory()->create();
-        $channel = Channel::factory()->create(['type' => Channel::TYPE_SLACK]);
+        $channel = Channel::factory()->create(['type' => ChannelType::Slack]);
         $channel->user = Str::random(10);
         ChatUser::factory()->create([
             'remote_user_id' => $channel->user,
@@ -136,7 +137,7 @@ final class LinkResponseTest extends TestCase
         ]);
         $channel = Channel::factory()->create([
             'system' => $character->system,
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $channel->user = Str::random(10);
         ChatUser::factory()->create([
@@ -170,7 +171,7 @@ final class LinkResponseTest extends TestCase
         ]);
         $channel = Channel::factory()->create([
             'system' => 'expanse',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $channel->user = Str::random(10);
         ChatUser::factory()->create([
@@ -206,7 +207,7 @@ final class LinkResponseTest extends TestCase
         ]);
         $channel = Channel::factory()->create([
             'system' => $character->system,
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $channel->user = Str::random(10);
 

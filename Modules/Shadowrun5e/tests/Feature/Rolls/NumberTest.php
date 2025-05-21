@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Rolls;
 
+use App\Enums\ChannelType;
 use App\Events\DiscordMessageReceived;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
@@ -256,7 +257,7 @@ final class NumberTest extends TestCase
         DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(1);
 
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
             'system' => 'shadowrun5e',
         ]);
 
@@ -311,7 +312,7 @@ final class NumberTest extends TestCase
         DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(3);
 
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
             'system' => 'shadowrun5e',
         ]);
 
@@ -366,7 +367,7 @@ final class NumberTest extends TestCase
         DiceService::shouldReceive('rollOne')->times(6)->with(6)->andReturn(3);
 
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
             'system' => 'shadowrun5e',
         ]);
 
@@ -425,7 +426,7 @@ final class NumberTest extends TestCase
             ->andReturn(6, 3, 3, 3, 3, 3, 1, 5, 5, 5, 6);
 
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
             'system' => 'shadowrun5e',
         ]);
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Alien\Tests\Feature\Rolls;
 
+use App\Enums\ChannelType;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
@@ -40,7 +41,7 @@ final class SkillTest extends TestCase
     public function testInvalidSkill(): void
     {
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
             'system' => 'alien',
         ]);
         $chatUser = ChatUser::factory()->create([
@@ -69,7 +70,7 @@ final class SkillTest extends TestCase
             ->andReturn(6, 1, 3, 3, 6, 1);
 
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
             'system' => 'alien',
         ]);
         $chatUser = ChatUser::factory()->create([

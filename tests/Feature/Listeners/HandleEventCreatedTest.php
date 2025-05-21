@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Listeners;
 
+use App\Enums\ChannelType;
 use App\Events\EventCreated;
 use App\Listeners\HandleEventCreated;
 use App\Models\Campaign;
-use App\Models\Channel;
 use App\Models\Event;
 use App\Models\User;
 use Illuminate\Http\Client\Request;
@@ -37,7 +37,7 @@ final class HandleEventCreatedTest extends TestCase
 
         $creator = User::factory()->create();
         $campaign = Campaign::factory()
-            ->hasChannels(1, ['type' => Channel::TYPE_SLACK])
+            ->hasChannels(1, ['type' => ChannelType::Slack->value])
             ->create();
 
         $event = Event::factory()->create([
@@ -61,7 +61,7 @@ final class HandleEventCreatedTest extends TestCase
 
         $creator = User::factory()->create();
         $campaign = Campaign::factory()
-            ->hasChannels(1, ['type' => Channel::TYPE_DISCORD])
+            ->hasChannels(1, ['type' => ChannelType::Discord->value])
             ->create();
 
         $event = Event::factory()->create([
@@ -83,7 +83,7 @@ final class HandleEventCreatedTest extends TestCase
             ->hasChannels(
                 1,
                 [
-                'type' => Channel::TYPE_DISCORD,
+                'type' => ChannelType::Discord->value,
                 'webhook' => 'https://example.com',
                 ]
             )

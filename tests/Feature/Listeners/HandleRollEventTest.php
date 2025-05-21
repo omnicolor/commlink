@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Listeners;
 
+use App\Enums\ChannelType;
 use App\Events\RollEvent;
 use App\Listeners\HandleRollEvent;
 use App\Models\Campaign;
@@ -103,7 +104,7 @@ final class HandleRollEventTest extends TestCase
         /** @var Campaign */
         $campaign = Campaign::factory()
             ->has(Channel::factory([
-                'type' => Channel::TYPE_DISCORD,
+                'type' => ChannelType::Discord,
             ])->count(4))
             ->create();
         /** @var Channel */
@@ -132,7 +133,7 @@ final class HandleRollEventTest extends TestCase
             ->hasChannels(
                 1,
                 [
-                    'type' => Channel::TYPE_SLACK,
+                    'type' => 'slack',
                     'webhook' => 'http://example.com',
                 ]
             )
@@ -166,7 +167,7 @@ final class HandleRollEventTest extends TestCase
             ->hasChannels(
                 1,
                 [
-                    'type' => Channel::TYPE_DISCORD,
+                    'type' => 'discord',
                     'webhook' => 'http://example.org',
                 ]
             )
@@ -196,7 +197,7 @@ final class HandleRollEventTest extends TestCase
             ->hasChannels(
                 1,
                 [
-                    'type' => Channel::TYPE_SLACK,
+                    'type' => 'slack',
                     'webhook' => 'http://example.com',
                 ]
             )

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Listeners;
 
+use App\Enums\ChannelType;
 use App\Models\Campaign;
 use App\Models\Channel;
 use Illuminate\Http\Client\Request;
@@ -36,7 +37,7 @@ final class HandleDamageEventTest extends TestCase
 
         /** @var Campaign */
         $campaign = Campaign::factory()
-            ->has(Channel::factory(['type' => Channel::TYPE_DISCORD]))
+            ->has(Channel::factory(['type' => ChannelType::Discord]))
             ->create();
 
         /** @var Character */
@@ -66,7 +67,7 @@ final class HandleDamageEventTest extends TestCase
         /** @var Campaign */
         $campaign = Campaign::factory()
             ->has(Channel::factory([
-                'type' => Channel::TYPE_DISCORD,
+                'type' => ChannelType::Discord,
                 'webhook' => 'http://example.org',
             ]))
             ->create();
@@ -105,7 +106,7 @@ final class HandleDamageEventTest extends TestCase
         /** @var Campaign */
         $campaign = Campaign::factory()
             ->has(Channel::factory([
-                'type' => Channel::TYPE_DISCORD,
+                'type' => ChannelType::Discord,
                 'webhook' => 'http://example.org',
             ]))
             ->create();
@@ -147,7 +148,7 @@ final class HandleDamageEventTest extends TestCase
         /** @var Campaign */
         $campaign = Campaign::factory()
             ->has(Channel::factory([
-                'type' => Channel::TYPE_DISCORD,
+                'type' => ChannelType::Discord,
                 'webhook' => 'http://example.org',
             ]))
             ->create();
@@ -193,7 +194,7 @@ final class HandleDamageEventTest extends TestCase
 
         /** @var Campaign */
         $campaign = Campaign::factory()
-            ->has(Channel::factory(['type' => Channel::TYPE_SLACK]))
+            ->has(Channel::factory(['type' => ChannelType::Slack]))
             ->create();
 
         /** @var Character */
@@ -228,7 +229,7 @@ final class HandleDamageEventTest extends TestCase
 
         /** @var Campaign */
         $campaign = Campaign::factory()
-            ->has(Channel::factory(['type' => Channel::TYPE_SLACK]))
+            ->has(Channel::factory(['type' => ChannelType::Slack]))
             ->create();
 
         /** @var Character */
@@ -267,7 +268,7 @@ final class HandleDamageEventTest extends TestCase
 
         /** @var Campaign */
         $campaign = Campaign::factory()
-            ->has(Channel::factory(['type' => Channel::TYPE_SLACK]))
+            ->has(Channel::factory(['type' => ChannelType::Slack]))
             ->create();
 
         /** @var Character */
