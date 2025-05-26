@@ -8,6 +8,7 @@ use App\Models\Campaign;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Override;
+use stdClass;
 
 use function route;
 use function sprintf;
@@ -31,7 +32,7 @@ class CampaignResource extends JsonResource
      *     id: int,
      *     gm: array{id: int, name: string}|null,
      *     name: string,
-     *     options: array<string, mixed>,
+     *     options: stdClass,
      *     players: array<int, array{id: int, name: string, status: string}>,
      *     registered_by: array{id: int|null, name: null|string},
      *     system: string,
@@ -94,7 +95,7 @@ class CampaignResource extends JsonResource
             'id' => $this->id,
             'gm' => $gm,
             'name' => $this->name,
-            'options' => $this->options,
+            'options' => (object)$this->options,
             'players' => $players,
             'registered_by' => [
                 'id' => $this->registrant?->id,

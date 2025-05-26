@@ -67,6 +67,7 @@ class Campaign extends Model implements Stringable
         'system',
     ];
 
+    #[Override]
     public function __toString(): string
     {
         return (string)$this->attributes['name'];

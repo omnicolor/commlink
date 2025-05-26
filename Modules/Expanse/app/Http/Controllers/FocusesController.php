@@ -12,13 +12,14 @@ use Modules\Expanse\Models\Focus;
 use RuntimeException;
 
 use function abort;
+use function array_values;
 use function sprintf;
 
 class FocusesController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        return FocusResource::collection(Focus::all())
+        return FocusResource::collection(array_values(Focus::all()))
             ->additional([
                 'links' => [
                     'self' => route('expanse.focuses.index'),

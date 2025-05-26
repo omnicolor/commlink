@@ -40,7 +40,7 @@ class CharacterFactory extends Factory
         return [
             'handle' => $name,
             'name' => $name,
-            'owner' => (string)(User::factory()->create())->email,
+            'owner' => (User::factory()->create())->email->address,
             'system' => (string)$this->faker->randomElement(
                 array_keys((array)config('commlink.systems'))
             ),

@@ -216,7 +216,9 @@ class CharactersController extends Controller
         $user = $request->user();
 
         if ('new' === $step) {
-            $character = PartialCharacter::create(['owner' => $user->email]);
+            $character = PartialCharacter::create([
+                'owner' => $user->email->address,
+            ]);
             $request->session()->put('shadowrun5e-partial', $character->id);
             $step = 'rules';
         } else {
@@ -227,7 +229,7 @@ class CharactersController extends Controller
             if (null === $character) {
                 // No current character, see if they already have a character they
                 // might want to continue.
-                $characters = PartialCharacter::where('owner', $user->email)->get();
+                $characters = PartialCharacter::where('owner', $user->email->address)->get();
 
                 if (0 !== count($characters)) {
                     return view(
@@ -242,7 +244,9 @@ class CharactersController extends Controller
                 /**
                  * No in-progress characters, create a new one.
                  */
-                $character = PartialCharacter::create(['owner' => $user->email]);
+                $character = PartialCharacter::create([
+                    'owner' => $user->email->address,
+                ]);
                 $request->session()->put('shadowrun5e-partial', $character->id);
             }
 
@@ -963,7 +967,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get('shadowrun5e-partial');
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $attributes = $request->only([
@@ -1008,7 +1012,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get('shadowrun5e-partial');
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $character->background = array_filter(
@@ -1060,7 +1064,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get('shadowrun5e-partial');
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $categories = $request->input('skill-categories', []);
@@ -1098,7 +1102,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get('shadowrun5e-partial');
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $style = $request->input('style');
@@ -1125,7 +1129,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get('shadowrun5e-partial');
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $qualities = [];
@@ -1181,7 +1185,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get('shadowrun5e-partial');
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $rulebooks = $request->input('rulebook');
@@ -1211,7 +1215,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get('shadowrun5e-partial');
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $groupNames = $request->input('group-names', []);
@@ -1251,7 +1255,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get('shadowrun5e-partial');
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $contactNames = $request->input('contact-names', []);
@@ -1288,7 +1292,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get('shadowrun5e-partial');
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $priorities = [
@@ -1320,7 +1324,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get('shadowrun5e-partial');
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $character->handle = $request->input('handle');
@@ -1362,7 +1366,7 @@ class CharactersController extends Controller
         if (null !== $characterId) {
             // Return the character they're working on.
             /** @var PartialCharacter */
-            return PartialCharacter::where('owner', $user->email)
+            return PartialCharacter::where('owner', $user->email->address)
                 ->where('_id', $characterId)
                 ->firstOrFail();
         }
@@ -1372,7 +1376,7 @@ class CharactersController extends Controller
 
         // Maybe they're chosing to continue a character right now.
         /** @var PartialCharacter */
-        $character = PartialCharacter::where('owner', $user->email)
+        $character = PartialCharacter::where('owner', $user->email->address)
             ->find($step);
         if (null !== $character) {
             $request->session()->put('shadowrun5e-partial', $character->id);
@@ -1386,7 +1390,7 @@ class CharactersController extends Controller
         // Routing requires login for this resource.
         assert(null !== $user);
         return CharacterResource::collection(
-            Character::where('owner', $user->email)->get()
+            Character::where('owner', $user->email->address)->get()
         );
     }
 
@@ -1402,7 +1406,7 @@ class CharactersController extends Controller
 
         $campaign = $character->campaign();
         abort_if(
-            $user->email !== $character->owner
+            !$user->email->is($character->owner)
             && (null === $campaign || $user->isNot($campaign->gamemaster)),
             Response::HTTP_NOT_FOUND
         );
@@ -1421,7 +1425,7 @@ class CharactersController extends Controller
         );
         /*
         abort_if(
-            $user->email === $character->owner,
+            !$user->email->is($character->owner),
             Response::HTTP_FORBIDDEN,
             'You can not update your own character (yet)',
         );

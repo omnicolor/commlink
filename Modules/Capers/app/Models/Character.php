@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Capers\Models;
 
+use App\Casts\AsEmail;
 use App\Models\Character as BaseCharacter;
 use ErrorException;
 use Illuminate\Database\Eloquent\Builder;
@@ -12,7 +13,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
 use Modules\Capers\Database\Factories\CharacterFactory;
+use Override;
 use RuntimeException;
+use Stringable;
 
 use function array_search;
 use function sprintf;
@@ -47,7 +50,7 @@ use function sprintf;
  * @property ?Vice $vice
  * @property ?Virtue $virtue
  */
-class Character extends BaseCharacter
+class Character extends BaseCharacter implements Stringable
 {
     use HasFactory;
 
@@ -58,17 +61,13 @@ class Character extends BaseCharacter
     protected const int SPEED_DEFAULT = 30;
     protected const int SPEED_FLEET_OF_FOOT = 40;
 
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     protected $attributes = [
         'powers' => [],
         'system' => 'capers',
     ];
 
-    /**
-     * @var array<string, string>
-     */
+    /** @var array<string, string> */
     protected $casts = [
         'advancement_points' => 'integer',
         'agility' => 'integer',
@@ -78,20 +77,13 @@ class Character extends BaseCharacter
         'hits' => 'integer',
         'level' => 'integer',
         'moxie' => 'integer',
+        'owner' => AsEmail::class,
         'perception' => 'integer',
         'resilience' => 'integer',
         'strength' => 'integer',
     ];
 
-    /**
-     * The database connection that should be used by the model.
-     * @var ?string
-     */
-    protected $connection = 'mongodb';
-
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $fillable = [
         'agility',
         'background',
@@ -119,19 +111,12 @@ class Character extends BaseCharacter
         'virtue',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $hidden = [
         '_id',
     ];
 
-    /**
-     * Table to pull from.
-     * @var string
-     */
-    protected $table = 'characters';
-
+    #[Override]
     public function __toString(): string
     {
         return $this->name ?? 'Unnamed Character';
@@ -140,6 +125,7 @@ class Character extends BaseCharacter
     /**
      * Force this model to only load for Capers characters.
      */
+    #[Override]
     protected static function booted(): void
     {
         static::addGlobalScope(
@@ -241,6 +227,7 @@ class Character extends BaseCharacter
         return $perkArray;
     }
 
+    #[Override]
     protected static function newFactory(): Factory
     {
         return CharacterFactory::new();

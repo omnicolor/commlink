@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Modules\Blistercritters\Models;
 
+use App\Casts\AsEmail;
 use App\Models\Character as BaseCharacter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Blistercritters\Database\Factories\CharacterFactory;
+use Override;
 use Stringable;
 
 /**
@@ -32,16 +34,17 @@ class Character extends BaseCharacter implements Stringable
 {
     use HasFactory;
 
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     protected $attributes = [
         'system' => 'blistercritters',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var array<string, string> */
+    protected $casts = [
+        'owner' => AsEmail::class,
+    ];
+
+    /** @var list<string> */
     protected $fillable = [
         'instinct',
         'name',
@@ -51,13 +54,12 @@ class Character extends BaseCharacter implements Stringable
         'vibe',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $hidden = [
         '_id',
     ];
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name ?? 'Unnamed Critter';
@@ -66,6 +68,7 @@ class Character extends BaseCharacter implements Stringable
     /**
      * Force this model to only load for Blister Critters characters.
      */
+    #[Override]
     protected static function booted(): void
     {
         static::addGlobalScope(
@@ -76,6 +79,7 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
+    #[Override]
     protected static function newFactory(): Factory
     {
         return CharacterFactory::new();
