@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Stillfleet\Models;
 
+use App\Casts\AsEmail;
 use App\Models\Character as BaseCharacter;
 use App\Services\DiceService;
+use App\ValueObjects\Email;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -34,6 +36,7 @@ use function assert;
  * @property string $movement
  * @property-read int $movement_modifier
  * @property string $name
+ * @property Email $owner
  * @property int $rank
  * @property string $reason
  * @property-read int $reason_modifier
@@ -47,27 +50,22 @@ class Character extends BaseCharacter implements Stringable
 {
     use HasFactory;
 
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     protected $attributes = [
         'system' => 'stillfleet',
     ];
 
-    /**
-     * @var array<string, string>
-     */
+    /** @var array<string, string> */
     protected $casts = [
         'combat' => 'string',
         'grit_current' => 'integer',
         'health_current' => 'integer',
         'money' => 'integer',
         'movement' => 'string',
+        'owner' => AsEmail::class,
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $fillable = [
         'charm',
         'combat',
@@ -90,17 +88,10 @@ class Character extends BaseCharacter implements Stringable
         'will',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $hidden = [
         '_id',
     ];
-
-    /**
-     * @var string
-     */
-    protected $table = 'characters';
 
     public function allPowers(): Attribute
     {

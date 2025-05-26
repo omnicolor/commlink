@@ -1,0 +1,300 @@
+Boost:
+  example:
+    name: Body boost
+    description: Increase your Body by 1 until the beginning of your next turn.
+    id: body-boost
+  properties:
+    description:
+      type: string
+    id:
+      type: string
+    name:
+      type: string
+  required:
+    - id
+    - name
+  type: object
+
+CardChoice:
+  description: |
+    Several Capers character traits can be chosen or a card can be picked.
+    Either way, the trait is tied to a card. Examples are Identities, Vices,
+    and Virtues.
+  properties:
+    card:
+      type: string
+    description:
+      type: string
+    id:
+      type: string
+    name:
+      type: string
+  required:
+    - card
+    - id
+    - name
+  type: object
+
+Character:
+  example:
+    name: The Weevil
+    background: null
+    description: Kind of an oaf.
+    gear:
+      - name: Beer (glass)
+        cost: 0.1
+        id: beer
+        quantity: 1
+        type: food
+    mannerisms: null
+    powers:
+      - name: Body armor
+        activation: NA
+        available_boosts:
+          - name: Body boost
+            description: |
+              Increase your Body by 1 until the beginning of your next turn.
+            id: body-boost
+        boosts:
+          - name: Body boost
+            description: |
+              Increase your Body by 1 until the beginning of your next turn.
+            id: body-boost
+        description: Your skin is tough or sheathed in a hard material.
+        duration: Continuous
+        effect: |
+          At rank 1, your Body increases by 1. At rank 2, your Body instead
+          increases by 2.
+        id: body-armor
+        max_rank: 2
+        range: NA
+        target: Self
+        type: Minor
+        rank: 1
+    identity:
+      name: Glory hound
+      card: R9
+      description: |
+        You look for affirmation in all things. Gain Moxie when others
+        praise you for a significant deed.
+      id: glory-hound
+    skills:
+      - name: Willpower
+        description: |
+          Willpower involves staying focused while under duress, in pain, or
+          lacking sleep.
+        id: willpower
+    stats:
+      agility: 2
+      charisma: 2
+      expertise: 1
+      perception: 2
+      resilience: 3
+      strength: 2
+    type: caper
+    vice:
+      name: Drugs
+      card: '5'
+      description: |
+        You are addicted to heroin, opium, or another strong narcotic.
+      id: drugs
+    virtue:
+      name: Honest
+      card: '8'
+      description: You do not lie... ever.
+      id: honest
+    id: 6684584c4a56300f150627a3
+    system: capers
+    owner:
+      id: 3
+      name: Omni A
+    links:
+      self: https://commlink.digitaldarkness.com/api/capers/characters/6684584c4a56300f150627a3
+  allOf:
+    - $ref: '../../openapi.yml#/components/schemas/Character'
+    - properties:
+        background:
+          nullable: true
+          type: string
+        description:
+          type: string
+        gear:
+          items:
+            $ref: '#/Gear'
+          type: array
+        identity:
+          $ref: '#/CardChoice'
+        mannerisms:
+          nullable: true
+          type: string
+        name:
+          type: string
+        powers:
+          items:
+            $ref: '#/Power'
+          type: array
+        skills:
+          items:
+            $ref: '#/Skill'
+          type: array
+        stats:
+          properties:
+            charisma:
+              type: integer
+            agility:
+              type: integer
+            perception:
+              type: integer
+            expertise:
+              type: integer
+            resilience:
+              type: integer
+            strength:
+              type: integer
+          required:
+            - charisma
+            - agility
+            - perception
+            - expertise
+            - resilience
+            - strength
+          type: object
+        type:
+          enum:
+            - caper
+            - exceptional
+            - regular
+          type: string
+        vice:
+          $ref: '#/CardChoice'
+        virtue:
+          $ref: '#/CardChoice'
+      required:
+        - background
+        - description
+        - gear
+        - identity
+        - mannerisms
+        - name
+        - powers
+        - skills
+        - stats
+        - type
+        - vice
+        - virtue
+      type: object
+
+Gear:
+  example:
+    name: Beer (glass)
+    cost: 0.1
+    id: beer
+    quantity: 1
+    type: food
+  properties:
+    cost:
+      type: number
+    id:
+      type: string
+    name:
+      type: string
+    quantity:
+      type: integer
+    type:
+      type: string
+  required:
+    - cost
+    - id
+    - name
+    - quantity
+    - type
+  type: object
+
+Power:
+  example:
+    name: Body armor
+    activation: NA
+    available_boosts:
+      - name: Body boost
+        description: |
+          Increase your Body by 1 until the beginning of your next turn.
+        id: body-boost
+    boosts:
+      - name: Body boost
+        description: |
+          Increase your Body by 1 until the beginning of your next turn.
+        id: body-boost
+    description: Your skin is tough or sheathed in a hard material.
+    duration: Continuous
+    effect: |
+      At rank 1, your Body increases by 1. At rank 2, your Body instead
+      increases by 2.
+    id: body-armor
+    max_rank: 2
+    range: NA
+    target: Self
+    type: Minor
+    rank: 1
+  properties:
+    activation:
+      type: string
+    available_boosts:
+      description: Boosts that *can* be chosen with this power.
+      items:
+        $ref: '#/Boost'
+      type: array
+    boosts:
+      description: Boosts that *have* been chosen with this power.
+      items:
+        $ref: '#/Boost'
+      type: array
+    description:
+      type: string
+    duration:
+      type: string
+    effect:
+      type: string
+    id:
+      type: string
+    max_rank:
+      type: integer
+    range:
+      type: string
+    target:
+      type: string
+    type:
+      type: string
+    rank:
+      type: integer
+  required:
+    - activation
+    - available_boosts
+    - boosts
+    - duration
+    - id
+    - max_rank
+    - name
+    - range
+    - target
+    - type
+    - rank
+  type: object
+
+Skill:
+  example:
+    name: Willpower
+    description: |
+      Willpower involves staying focused while under duress, in pain, or
+      lacking sleep.
+    id: willpower
+  properties:
+    description:
+      type: string
+    id:
+      type: string
+    name:
+      type: string
+  required:
+    - id
+    - name
+  type: object

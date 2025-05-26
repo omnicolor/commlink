@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Modules\Expanse\Models;
 
+use App\Casts\AsEmail;
 use App\Models\Character as BaseCharacter;
+use App\ValueObjects\Email;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
 use Modules\Expanse\Database\Factories\CharacterFactory;
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -34,7 +37,7 @@ use Stringable;
  * @property int $level
  * @property string $name
  * @property Origin $origin
- * @property string $owner
+ * @property Email $owner
  * @property int $perception
  * @property string $profession
  * @property string $quality
@@ -50,16 +53,17 @@ class Character extends BaseCharacter implements Stringable
 {
     use HasFactory;
 
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     protected $attributes = [
         'system' => 'expanse',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var array<string, string> */
+    protected $casts = [
+        'owner' => AsEmail::class,
+    ];
+
+    /** @var list<string> */
     protected $fillable = [
         'accuracy',
         'age',
@@ -90,9 +94,7 @@ class Character extends BaseCharacter implements Stringable
         'willpower',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $hidden = [
         '_id',
         'abilities',
@@ -104,6 +106,7 @@ class Character extends BaseCharacter implements Stringable
      */
     protected FocusArray $focusArray;
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name ?? 'Unnamed Character';
@@ -112,6 +115,7 @@ class Character extends BaseCharacter implements Stringable
     /**
      * Force this model to only load for Expanse characters.
      */
+    #[Override]
     protected static function booted(): void
     {
         static::addGlobalScope(
@@ -206,6 +210,7 @@ class Character extends BaseCharacter implements Stringable
         return false;
     }
 
+    #[Override]
     protected static function newFactory(): Factory
     {
         return CharacterFactory::new();

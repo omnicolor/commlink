@@ -1,0 +1,227 @@
+Character:
+  allOf:
+    - $ref: '../../openapi.yml#/components/schemas/Character'
+    - properties:
+        name:
+          type: string
+        meta:
+          properties:
+            look:
+              nullable: true
+              type: string
+            species:
+              type: string
+          type: object
+        stats:
+          $ref: '#/StatsBlock'
+        moves:
+          items:
+            $ref: '#/Move'
+          type: array
+        nature:
+          $ref: '#/Nature'
+        playbook:
+          $ref: '#/Playbook'
+        tracks:
+          $ref: '#/TracksBlock'
+      required:
+        - id
+        - links
+        - meta
+        - moves
+        - name
+        - nature
+        - owner
+        - playbook
+        - stats
+        - system
+      type: object
+
+Move:
+  example:
+    description: Take +1 to Might (max +3).
+    effects:
+      might: 1
+    id: brute
+    name: Brute
+    weapon_move: false
+    links:
+      self: https://commlink.digitaldarkness.com/api/root/moves/brute
+  properties:
+    description:
+      type: string
+    effects:
+      additionalProperties:
+        type: integer
+      nullable: true
+      type: object
+    id:
+      type: string
+    name:
+      type: string
+    weapon_move:
+      type: boolean
+    links:
+      $ref: '../../openapi.yml#/components/schemas/Links'
+  required:
+    - effects
+    - id
+    - name
+    - links
+    - weapon_move
+  type: object
+
+Nature:
+  example:
+    description: |
+      Clear your exhaustion track when you defend someone who cannot defend
+      themself from dire threat.
+    id: defender
+    name: Defender
+    links:
+      self: https://commlink.digitaldarkness.com/api/root/natures/defender
+  properties:
+    description:
+      type: string
+    id:
+      type: string
+    name:
+      type: string
+    links:
+      $ref: '../../openapi.yml#/components/schemas/Links'
+  required:
+    - id
+    - name
+    - links
+  type: object
+
+Playbook:
+  example:
+    id: arbiter
+    name: The Arbiter
+    description_long: |
+      You are the Arbiter. A powerful, obstinate vagabond, serving as
+      somewhere between a mercenary and a protector, perhaps taking sides
+      too easily in the greater conflict between the factions.
+    description_short: |
+      a powerful warrior devoted to what they think is right and just.
+    moves:
+      brute:
+        description: Take +1 to Might (max +3).
+        effects:
+          might: 1
+        id: brute
+        name: Brute
+        weapon_move: false
+        links:
+          self: https://commlink.digitaldarkness.com/api/root/moves/brute
+    natures:
+      defender:
+        description: |
+          Clear your exhaustion track when you defend someone who
+          cannot defend themself from dire threat.
+        id: defender
+        name: Defender
+        links:
+          self: https://commlink.digitaldarkness.com/api/root/natures/defender
+    starting_weapon_moves:
+      cleave:
+        description: |
+          When you cleave armored foes at close range, mark exhaustion and roll
+          with Might. On a hit, you smash through their defenses and equipment;
+          inflict 3-decay. On a 7–9, you overextend your weapon or yourself:
+          mark decay or end up in a bad spot, your choice.
+        effects: null
+        id: cleave
+        name: Cleave
+        weapon_move: true
+        links:
+          self: https://commlink.digitaldarkness.com/api/root/moves/cleave
+    stats:
+      charm: 1
+      cunning: 0
+      finesse: 0
+      luck: 0
+      might: 2
+    links:
+      self: https://commlink.digitaldarkness.com/api/root/playbooks/arbiter
+  properties:
+    description_long:
+      type: string
+    description_short:
+      type: string
+    id:
+      type: string
+    moves:
+      additionalProperties:
+        $ref: '#/Move'
+      type: object
+    name:
+      type: string
+    natures:
+      additionalProperties:
+        $ref: '#/Nature'
+      type: object
+    starting_weapon_moves:
+      additionalProperties:
+        $ref: '#/Move'
+      type: object
+    stats:
+      $ref: '#/StatsBlock'
+    links:
+      $ref: '../../openapi.yml#/components/schemas/Links'
+  required:
+    - id
+    - name
+    - natures
+    - stats
+    - links
+  type: object
+
+Stat:
+  maximum: 3
+  minimum: -1
+  type: integer
+
+StatsBlock:
+  properties:
+    charm:
+      $ref: '#/Stat'
+    cunning:
+      $ref: '#/Stat'
+    finesse:
+      $ref: '#/Stat'
+    luck:
+      $ref: '#/Stat'
+    might:
+      $ref: '#/Stat'
+  required:
+    - charm
+    - cunning
+    - finesse
+    - luck
+    - might
+  type: object
+
+Track:
+  minimum: 4
+  type: integer
+
+TracksBlock:
+  properties:
+    decay:
+      minimum: 0
+      type: integer
+    decay_max:
+      $ref: '#/Track'
+    exhaustion:
+      minimum: 0
+      type: integer
+    exhaustion_max:
+      $ref: '#/Track'
+    injury:
+      minimum: 0
+      type: integer
+    injury_max:
+      $ref: '#/Track'
+  type: object

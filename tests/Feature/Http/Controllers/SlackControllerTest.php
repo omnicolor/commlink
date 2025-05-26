@@ -11,6 +11,7 @@ use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
+use App\ValueObjects\Email;
 use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
@@ -453,7 +454,7 @@ final class SlackControllerTest extends TestCase
         $teamName = $this->faker->word();
         Socialite::shouldReceive('driver->user')
             ->andReturn((object)[
-                'email' => $user->email,
+                'email' => $user->email->address,
                 'id' => $slackUserId,
                 'name' => $slackUserName,
                 'attributes' => [
@@ -558,14 +559,14 @@ final class SlackControllerTest extends TestCase
         ]);
 
         $character = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'cyberpunkred',
         ]);
 
         ChatUser::factory()->create([
             'remote_user_id' => $slackUserId,
             'server_id' => $channel->server_id,
-            'server_type' => Channel::TYPE_SLACK,
+            'server_type' => ChatUser::TYPE_SLACK,
             'user_id' => $user,
             'verified' => true,
         ]);

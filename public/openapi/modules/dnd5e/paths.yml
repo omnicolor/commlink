@@ -1,0 +1,19 @@
+characters:
+  get:
+    summary: Dungeons and Dragons 5E characters
+    description: Return all D&D 5E characters owned by the current user.
+    operationId: dnd5e-characters-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Character'
+                  type: array
+        description: Collection of D&D 5E characters.
+    tags:
+      - character
+      - dnd5e

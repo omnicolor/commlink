@@ -1,0 +1,330 @@
+Armor:
+  example:
+    id: leathers
+    type: Leathers
+    cost_category: Everyday
+    description: Favored by Nomads and other ‘punks who ride bikes.
+    page: 97
+    penalty: 0
+    ruleset: core
+    stopping_power: 4
+    links:
+      self: https://commlink.digitaldarkness.com/api/cyberpunkred/armor/leathers
+  properties:
+    cost_category:
+      type: string
+    description:
+      type: string
+    id:
+      type: string
+    page:
+      type: integer
+    penalty:
+      type: integer
+    ruleset:
+      type: string
+    stopping_power:
+      type: integer
+    links:
+      $ref: '../../openapi.yml#/components/schemas/Links'
+  required:
+    - cost_category
+    - id
+    - page
+    - penalty
+    - ruleset
+    - stopping_power
+    - type
+    - links
+  type: object
+
+Character:
+  example:
+    handle: Caleb
+    id: 65776d7c77223955eee96ec1
+    body: 5
+    cool: 8
+    dexterity: 7
+    empathy: 8
+    intelligence: 3
+    luck: 8
+    movement: 7
+    reflexes: 6
+    technique: 5
+    willpower: 5
+    hit_points: 35
+    hit_points_current: 19
+    roles:
+      - role: fixer
+        rank: 4
+        type: 7
+    skills:
+      acting: 2
+      athletics: 2
+      brawling: 2
+      bribery: 5
+      business: 4
+      concentration: 4
+      conversation: 5
+      education: 2
+      evasion: 4
+      first_aid: 2
+      handgun: 4
+      human_perception: 5
+      interrogation: 2
+      perception: 4
+      personal_grooming: 1
+      persuasion: 6
+      pick_pocket: 2
+      stealth: 2
+      streetslang: 4
+      streetwise: 5
+      trading: 5
+      wardrobe_and_style: 2
+      your_home: 4
+    skills_custom:
+      - type: language
+        name: Spanish
+        level: 4
+      - type: language
+        name: French
+        level: 4
+    lifepath:
+      cultural_origins: Canadian
+      clothing_style: Athletic wear
+      what_valued: Honor
+      person_valued: Aryana Murphy, 1st woman in the NHL
+      family_background: ''
+      family_crisis: ''
+      personality: ''
+      hairstyle: ''
+      people_feelings: ''
+      possession_valued: ''
+      childhood_environment: ''
+      life_goals: ''
+      weapons:
+        - id: heavy-pistol
+          name: Mustang Arms "Mark III"
+          ammo_remaining: 7
+        - id: medium-melee
+      armor:
+        head: light-armorjack
+        body: light-armorjack
+      owner: omni@digitaldarkness.com
+      system: cyberpunkred
+      links:
+        self: https://commlink.digitaldarkness.com/api/cyberpunkred/characters/65776d7c77223955eee96ec1
+    owner: omni@digitaldarkness.com
+    system: cyberpunkred
+  allOf:
+    - $ref: '../../openapi.yml#/components/schemas/Character'
+    - properties:
+        body:
+          type: integer
+        cool:
+          type: integer
+        dexterity:
+          type: integer
+        empathy:
+          type: integer
+        handle:
+          type: string
+        hit_points:
+          type: integer
+        hit_points_current:
+          type: integer
+        intelligence:
+          type: integer
+        lifepath:
+          properties:
+            cultural_origins:
+              type: string
+            clothing_style:
+              type: string
+            what_valued:
+              type: string
+            person_valued:
+              type: string
+            family_background:
+              type: string
+            family_crisis:
+              type: string
+            personality:
+              type: string
+            hairstyle:
+              type: string
+            people_feelings:
+              type: string
+            possession_valued:
+              type: string
+            childhood_environment:
+              type: string
+            life_goals:
+              type: string
+          type: object
+        luck:
+          type: integer
+        movement:
+          type: integer
+        reflexes:
+          type: integer
+        roles:
+          items:
+            properties:
+              rank:
+                type: integer
+              role:
+                type: string
+              type:
+                type: integer
+            type: object
+          type: array
+        skills:
+          properties:
+            business:
+              type: integer
+            human_perception:
+              type: integer
+          type: object
+        skills_custom:
+          items:
+            properties:
+              level:
+                type: integer
+              name:
+                type: string
+              type:
+                type: string
+            type: object
+          type: array
+        weapons:
+          items:
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              quality:
+                type: string
+            required:
+              - id
+              - name
+            type: object
+          type: array
+        willpower:
+          type: integer
+      type: object
+
+Skill:
+  example:
+    id: accounting
+    attribute: intelligence
+    category: Education
+    description: |
+      Skill of balancing books, creating false books, and identifying them,
+      juggling numbers, creating budgets and handling day-to-day business
+      operations.
+    examples: |
+      At a Base 10, you can manage the books for a small company by yourself
+      and rarely make any clerical errors. At a Base 14, you can manage the
+      books for a medium-sized Corp and hide your embezzlement at the same
+      time. At a Base 18, you're a master at double entry and offshore
+      accounting that would make the best white collar criminals proud.
+      You'll probably be sought out by a Corp or a Crime Family to help them
+      with their operations.
+    name: Accounting
+    page: 133
+    links:
+      self: https://commlink.digitaldarkness.com/api/cyberpunkred/armor/accounting
+  properties:
+    attribute:
+      type: string
+    category:
+      type: string
+    description:
+      type: string
+    examples:
+      type: string
+    id:
+      type: string
+    name:
+      type: string
+    page:
+      type: integer
+    links:
+      $ref: '../../openapi.yml#/components/schemas/Links'
+  required:
+    - attribute
+    - category
+    - name
+    - page
+    - id
+    - links
+  type: object
+
+Weapon:
+  example:
+    id: medium-melee
+    type: Medium melee
+    class: melee
+    concealable: false
+    cost: 50
+    damage: 2d6
+    examples:
+      poor: []
+      standard:
+        - Baseball bat
+        - Crowbar
+      excellent: []
+    hands_required: 1
+    rate_of_fire: 2
+    skill: melee-weapon
+    links:
+      self: https://commlink.digitaldarkness.com/api/cyberpunkred/weapons/medium-melee
+  properties:
+    class:
+      type: string
+    concealable:
+      type: boolean
+    cost:
+      type: integer
+    damage:
+      type: string
+    examples:
+      properties:
+        poor:
+          items:
+            type: string
+          type: array
+        standard:
+          items:
+            type: string
+          type: array
+        excellent:
+          items:
+            type: string
+          type: array
+      required:
+        - poor
+        - standard
+        - excellent
+      type: object
+    id:
+      type: string
+    links:
+      $ref: '../../openapi.yml#/components/schemas/Links'
+    type:
+      type: string
+  required:
+    - class
+    - concealable
+    - cost
+    - damage
+    - examples
+    - hands_required
+    - id
+    - links
+    - rate_of_fire
+    - skill
+    - type
+  type: object

@@ -1,0 +1,397 @@
+Background:
+  enum:
+    - military
+    - monastic
+    - outlaw
+    - privileged
+    - urban
+    - wilderness
+  type: string
+
+Character:
+  example:
+    name: Aang
+    appearance: Blue arrow tattoo on his bald head.
+    background: wilderness
+    balance: 0
+    conditions:
+      - afraid
+      - guilty
+    creativity: 1
+    demeanor: Affable and Impetuous
+    fatigue: 0
+    focus: 1
+    harmony: -1
+    history: null
+    passion: 3
+    playbook:
+      advanced_technique: pinpoint-aim
+      balance_left: restraint
+      balance_right: results
+      base_stats:
+        creativity: 0
+        focus: 1
+        harmony: -1
+        passion: 1
+      demeanor_options:
+        - above-it-all
+        - perfectionist
+        - chilly
+        - rebellious
+        - flippant
+        - standoffish
+      description: |
+        A zealous advocate with a heart of gold and a diamond-hard will,
+        ready to do what it takes to fix the world. Their balance
+        principles are Restraint vs Results.
+      feature:
+        name: The Lodestar
+        description: |
+          There’s only one person you often let past your emotional walls.
+
+          **Name your lodestar:** Phil
+      history:
+        - |
+          What experience of being deceived or manipulated convinced you
+          to steel yourself against being swayed by other people?
+      id: the-adamant
+      moment_of_balance: |
+        You’ve held true to a core of conviction even while getting your
+        hands dirty to do what you deemed necessary. But balance means
+        appreciating that other people are just as complex as you are, not
+        merely obstacles or pawns. Tell the GM how you solve an intractable
+        problem or calm a terrible conflict by relating to dangerous people
+        on a human level.
+      moves:
+        - id: this-was-a-victory
+          name: This Was a Victory
+          page: 168
+          playbook: The Adamant
+          ruleset: core
+          links:
+            self: https://commlink.digitaldarkness.com/api/avatar/moves/this-was-a-victory
+            playbook: https://commlink.digitaldarkness.com/api/avatar/playbooks/the-adamant
+          description: |
+            When you reveal that you have sabotaged a building, device, or
+            vehicle right as it becomes relevant, mark fatigue and roll with
+            Passion. On a hit, your work pays off, creating an opportunity
+            for you and your allies at just the right time. On a 7–9, the
+            opportunity is fleeting—act fast to stay ahead of the
+            consequences. On a miss, your action was ill-judged and
+            something or someone you care about is hurt as collateral
+            damage.
+      name: The Adamant
+      page: 166
+      ruleset: core
+      links:
+        self: https://commlink.digitaldarkness.com/api/avatar/playbooks/the-adamant
+    id: 667ee7f8246ccb219839df35
+    owner:
+      id: 3
+      name: Omni A
+    system: avatar
+    links:
+      playbook: https://commlink.digitaldarkness.com/api/avatar/playbooks/the-adamant
+      self: https://commlink.digitaldarkness.com/api/avatar/characters/667ee7f8246ccb219839df35
+  allOf:
+    - $ref: '../../openapi.yml#/components/schemas/Character'
+    - properties:
+        appearance:
+          type: string
+        background:
+          $ref: '#/Background'
+        balance:
+          maximum: 3
+          minimum: -3
+          type: integer
+        conditions:
+          items:
+            enum:
+              - afraid
+              - angry
+              - guilty
+              - insecure
+              - troubled
+            type: string
+          type: array
+        creativity:
+          maximum: 4
+          minimum: -1
+          type: integer
+        demeanor:
+          type: string
+        era:
+          type: string
+        fatigue:
+          maximum: 5
+          minimum: 0
+          type: integer
+        focus:
+          maximum: 4
+          minimum: -1
+          type: integer
+        harmony:
+          maximum: 4
+          minimum: -1
+          type: integer
+        history:
+          nullable: true
+          type: string
+        name:
+          type: string
+        passion:
+          maximum: 4
+          minimum: -1
+          type: integer
+        playbook:
+          $ref: '#/Playbook'
+      required:
+        - appearance
+        - background
+        - creativity
+        - fatigue
+        - focus
+        - harmony
+        - history
+        - id
+        - passion
+        - playbook
+        - name
+      type: object
+
+Move:
+  example:
+    description: |
+      When you reveal that you have sabotaged a building, device, or vehicle
+      right as it becomes relevant, mark fatigue and roll with Passion. On a
+      hit, your work pays off, creating an opportunity for you and your
+      allies at just the right time. On a 7–9, the opportunity is
+      fleeting—act fast to stay ahead of the consequences. On a miss, your
+      action was ill-judged and something or someone you care about is hurt
+      as collateral damage.
+    id: this-was-a-victory
+    name: This Was a Victory
+    page: 168
+    playbook: the-adamant
+    ruleset: core
+    links:
+      self: https://commlink.digitaldarkness.com/api/avatar/moves/this-was-a-victory
+      playbook: https://commlink.digitaldarkness.com/api/avatar/playbooks/the-adamant
+  properties:
+    description:
+      type: string
+    id:
+      type: string
+    name:
+      type: string
+    playbook:
+      type: string
+    ruleset:
+      type: string
+    links:
+      properties:
+        playbook:
+          format: url
+          type: string
+        self:
+          format: url
+          type: string
+      required:
+        - self
+      type: object
+  required:
+    - id
+    - name
+    - page
+    - ruleset
+    - links
+  type: object
+
+Playbook:
+  example:
+    advanced_technique: pinpoint-aim
+    balance_left: restraint
+    balance_right: results
+    base_stats:
+      creativity: 0
+      focus: 1
+      harmony: -1
+      passion: 1
+    demeanor_options:
+      - above-it-all
+      - perfectionist
+      - chilly
+      - rebellious
+      - flippant
+      - standoffish
+    description: |
+      A zealous advocate with a heart of gold and a diamond-hard will,
+      ready to do what it takes to fix the world. Their balance
+      principles are Restraint vs Results.
+    feature:
+      name: The Lodestar
+      description: |
+        There’s only one person you often let past your emotional walls.
+
+        **Name your lodestar:** Phil
+    history:
+      - |
+        What experience of being deceived or manipulated convinced you
+        to steel yourself against being swayed by other people?
+    id: the-adamant
+    moment_of_balance: |
+      You’ve held true to a core of conviction even while getting your hands
+      dirty to do what you deemed necessary. But balance means appreciating
+      that other people are just as complex as you are, not merely obstacles
+      or pawns. Tell the GM how you solve an intractable problem or calm a
+      terrible conflict by relating to dangerous people on a human level.
+    moves:
+      - id: this-was-a-victory
+        name: This Was a Victory
+        page: 168
+        playbook: The Adamant
+        ruleset: core
+        links:
+          self: https://commlink.digitaldarkness.com/api/avatar/moves/this-was-a-victory
+          playbook: https://commlink.digitaldarkness.com/api/avatar/playbooks/the-adamant
+        description: |
+          When you reveal that you have sabotaged a building, device, or
+          vehicle right as it becomes relevant, mark fatigue and roll with
+          Passion. On a hit, your work pays off, creating an opportunity for
+          you and your allies at just the right time. On a 7–9, the
+          opportunity is fleeting—act fast to stay ahead of the consequences.
+          On a miss, your action was ill-judged and something or someone you
+          care about is hurt as collateral damage.
+    name: The Adamant
+    page: 166
+    ruleset: core
+    links:
+      self: https://commlink.digitaldarkness.com/api/avatar/playbooks/the-adamant
+  properties:
+    advanced_technique:
+      type: string
+    balance_left:
+      type: string
+    balance_right:
+      type: string
+    base_stats:
+      properties:
+        creativity:
+          type: integer
+        focus:
+          type: integer
+        harmony:
+          type: integer
+        passion:
+          type: integer
+      required:
+        - creativity
+        - focus
+        - harmony
+        - passion
+      type: object
+    demeanor_options:
+      items:
+        type: string
+      type: array
+    description:
+      type: string
+    feature:
+      properties:
+        name:
+          type: string
+        description:
+          format: markdown
+          type: string
+      type: object
+    history:
+      items:
+        type: string
+      type: array
+    id:
+      type: string
+    moment_of_balance:
+      type: string
+    moves:
+      items:
+        $ref: '#/Move'
+      type: array
+    name:
+      type: string
+    page:
+      type: integer
+    ruleset:
+      type: string
+    links:
+      $ref: '../../openapi.yml#/components/schemas/Links'
+  required:
+    - advanced_technique
+    - balance_left
+    - balance_right
+    - base_stats
+    - demeanor_options
+    - history
+    - id
+    - moment_of_balance
+    - moves
+    - name
+    - page
+    - ruleset
+    - links
+  type: object
+
+Status:
+  example:
+    description: |
+      Doomed is the status for when you’re drowning, or when you’re on fire,
+      or when the stone around you isn’t simply immobilizing you—it’s
+      crushing you. It represents a constant, ongoing pressure upon you,
+      causing you to mark fatigue at a steady rate until you are free. The
+      GM decides exactly how often you mark fatigue during play, unless
+      you’re in exchanges—then, you should mark 1-fatigue at the beginning
+      of each exchange. Remember that if you can’t mark more fatigue, you
+      mark conditions instead.
+
+      Much of the time, you can’t be Doomed unless you’re first Impaired, or
+      Impaired and Trapped. You won’t be drowning unless something holds you
+      in the water; you won’t be slowly crushed by rock without first being
+      trapped in rock. But sometimes it’s appropriate—your entire outfit,
+      head to toe, can be set on fire by an angry firebending master without
+      warning!
+    effect: negative
+    id: doomed
+    name: Doomed
+    page: 151
+    ruleset: core
+    short_description: You’re in grave danger—mark 1-fatigue every few seconds (or each exchange) until you free yourself.
+    links:
+      self: https://commlink.digitaldarkness.com/api/avatar/statuses/doomed
+  properties:
+    description:
+      type: string
+    effect:
+      type: string
+    id:
+      type: string
+    name:
+      type: string
+    page:
+      type: integer
+    ruleset:
+      type: string
+    short_description:
+      type: string
+    links:
+      properties:
+        self:
+          format: uri
+          type: string
+      type: object
+  required:
+    - effect
+    - id
+    - name
+    - page
+    - ruleset
+    - links
+  type: object

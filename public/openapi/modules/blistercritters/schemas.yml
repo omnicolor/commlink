@@ -1,0 +1,36 @@
+Character:
+  example:
+    id: 667cda3b3dc4b0ecfa014d62
+    name: Philz McDillz
+    instinct: 10
+    noggin: 8
+    scrap: 8
+    scurry: 6
+    vibe: 6
+    owner: omni@digitaldarkness.com
+    system: blistercritters
+    links:
+      self: https://commlink.digitaldarkness.com/api/blistercritters/characters/667cda3b3dc4b0ecfa014d62
+  allOf:
+    - $ref: '../../openapi.yml#/components/schemas/Character'
+    - properties:
+        instinct:
+          type: integer
+        name:
+          type: string
+        noggin:
+          type: integer
+        scrap:
+          type: integer
+        scurry:
+          type: integer
+        vibe:
+          type: integer
+      required:
+        - instinct
+        - name
+        - noggin
+        - scrap
+        - scurry
+        - vibe
+      type: object

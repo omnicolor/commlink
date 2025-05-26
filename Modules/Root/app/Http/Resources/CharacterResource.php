@@ -69,7 +69,7 @@ class CharacterResource extends JsonResource
                 'luck' => $this->luck->value,
                 'might' => $this->might->value,
             ],
-            'moves' => MoveResource::collection($this->moves),
+            'moves' => MoveResource::collection($this->moves->values()),
             'nature' => new NatureResource($this->nature),
             'playbook' => new PlaybookResource($this->playbook),
             'tracks' => [

@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "8.3"
+          - "8.4"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -18,7 +18,7 @@ jobs:
         with:
           tools: composer:v2
           php-version: ${{ matrix.php-version }}
-          extensions: json, mbstring, mongodb-1.21.0, pdo
+          extensions: json, mbstring, mongodb, pdo
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -43,7 +43,7 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "8.3"
+          - "8.4"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -53,10 +53,10 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           coverage: none
-          extensions: "json, mbstring, mongodb-1.21.0, pdo"
+          extensions: "json, mbstring, mongodb, pdo"
 
       - name: Install PHP CS Fixer
         run: COMPOSER=.github/workflows/composer.php-cs-fixer.json composer install --no-interaction --no-progress
 
       - name: Run php-cs-fixer
-        run: vendor/bin/php-cs-fixer fix --dry-run --config=./php_cs.php -v --using-cache=no --diff --ansi
+        run: PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --dry-run --config=./php_cs.php -v --using-cache=no --diff --ansi

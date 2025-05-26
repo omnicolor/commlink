@@ -18,7 +18,7 @@ Route::middleware('auth:sanctum')
     ->group(function (): void {
         Route::get('armor', function () {
             return ArmorResource::collection(Armor::all())
-                ->additional(['self' => route('cyberpunkred.armor.index')]);
+                ->additional(['links' => ['self' => route('cyberpunkred.armor.index')]]);
         })->name('armor.index');
         Route::get('armor/{armor}', function (string $armor) {
             try {
@@ -36,7 +36,7 @@ Route::middleware('auth:sanctum')
 
         Route::get('skills', function () {
             return SkillResource::collection(Skill::all())
-                ->additional(['self' => route('cyberpunkred.skills.index')]);
+                ->additional(['links' => ['self' => route('cyberpunkred.skills.index')]]);
         })->name('skills.index');
         Route::get('skills/{weapon}', function (string $skill) {
             try {
@@ -51,7 +51,7 @@ Route::middleware('auth:sanctum')
 
         Route::get('weapons', function () {
             return WeaponResource::collection(Weapon::all())
-                ->additional(['self' => route('cyberpunkred.weapons.index')]);
+                ->additional(['links' => ['self' => route('cyberpunkred.weapons.index')]]);
         })->name('weapons.index');
         Route::get('weapons/{weapon}', function (string $weapon) {
             try {

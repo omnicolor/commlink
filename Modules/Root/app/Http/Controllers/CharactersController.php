@@ -24,7 +24,7 @@ class CharactersController extends Controller
         /** @var User */
         $user = $request->user();
         return CharacterResource::collection(
-            Character::where('owner', $user->email)->get()
+            Character::where('owner', $user->email->address)->get()
         );
     }
 
@@ -34,7 +34,7 @@ class CharactersController extends Controller
         $user = $request->user();
         $campaign = $character->campaign();
         abort_if(
-            $user->email !== $character->owner
+            !$user->email->is($character->owner)
             && (null === $campaign || $user->isNot($campaign->gamemaster)),
             Response::HTTP_NOT_FOUND
         );
