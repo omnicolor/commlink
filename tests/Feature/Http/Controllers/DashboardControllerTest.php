@@ -10,12 +10,14 @@ use App\Models\User;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function config;
+
 #[Medium]
 final class DashboardControllerTest extends TestCase
 {
     public function testUnauthenticated(): void
     {
-        $this->get('/dashboard')->assertRedirect('/login');
+        self::get('/dashboard')->assertRedirect('/login');
     }
 
     public function testAuthenticatedNoCharactersNoCampaigns(): void
@@ -23,7 +25,7 @@ final class DashboardControllerTest extends TestCase
         $user = User::factory()->create();
         self::actingAs($user)
             ->get(route('dashboard'))
-            ->assertSee($user->email)
+            ->assertSee($user->email->address)
             ->assertSee('You don\'t have any characters!', false)
             ->assertSee('You don\'t have any campaigns!', false);
     }
@@ -31,14 +33,16 @@ final class DashboardControllerTest extends TestCase
     public function testAuthenticatedWithCharacters(): void
     {
         $user = User::factory()->create();
-        $character1 = Character::factory()->create(['owner' => $user->email]);
+        $character1 = Character::factory()->create([
+            'owner' => $user->email->address,
+        ]);
         $character2 = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun6e',
         ]);
         self::actingAs($user)
             ->get(route('dashboard'))
-            ->assertSee($user->email)
+            ->assertSee($user->email->address)
             ->assertSee((string)$character1->handle)
             ->assertSee(config('commlink.systems')[$character1->system])
             ->assertSee((string)$character2->handle)

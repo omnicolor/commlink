@@ -78,7 +78,7 @@ class LinkResponse implements Stringable
         }
 
         $user = $chatUser->user;
-        if (null === $user || $character->owner !== $user->email) {
+        if (null === $user || !$character->owner->is($user->email)) {
             $this->sendOtherOwnerError();
             return;
         }

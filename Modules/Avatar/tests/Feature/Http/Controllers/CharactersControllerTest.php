@@ -24,12 +24,10 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $user->assignRole($trusted);
 
-        /** @var Character */
         $character1 = Character::factory()->create([
             'owner' => $user->email,
             'playbook' => 'the-adamant',
         ]);
-        /** @var Character */
         $character2 = Character::factory()->create([
             'owner' => $user->email,
             'playbook' => 'the-adamant',
@@ -51,9 +49,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $user->assignRole($trusted);
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'avatar']);
-        /** @var Character */
         $character = Character::factory()->create([
             'campaign_id' => $campaign->id,
             'owner' => $user->email,
@@ -72,8 +68,6 @@ final class CharactersControllerTest extends TestCase
     public function testViewCharacter(): void
     {
         $user = User::factory()->create();
-
-        /** @var Character */
         $character = Character::factory()->create([
             'owner' => $user->email,
             'playbook' => 'the-adamant',
@@ -81,7 +75,7 @@ final class CharactersControllerTest extends TestCase
 
         $this->actingAs($user)
             ->get(route('avatar.character', $character))
-            ->assertSee($user->email)
+            ->assertSee($user->email->address)
             ->assertSee(e($character->name), false);
         $character->delete();
     }

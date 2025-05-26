@@ -33,7 +33,7 @@ class Info extends Roll
         parent::__construct($content, $character, $channel);
         $this->chat_user = $this->channel->getChatUser();
         if (null !== $this->chat_user && null !== $this->chat_user->user) {
-            $this->commlink_user = $this->chat_user->user->email;
+            $this->commlink_user = $this->chat_user->user->email->address;
         }
         if (null !== $channel->campaign) {
             $this->campaign_name = $channel->campaign->name;

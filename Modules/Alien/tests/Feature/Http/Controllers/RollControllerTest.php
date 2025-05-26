@@ -50,7 +50,7 @@ final class RollControllerTest extends TestCase
 
         $user = User::factory()->create();
         $character = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'skills' => [
                 'close-combat' => 2,
             ],
@@ -96,7 +96,7 @@ final class RollControllerTest extends TestCase
         $user = User::factory()->create();
         $character = Character::factory()->create([
             'campaign_id' => 123,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'skills' => [
                 'close-combat' => 2,
             ],
@@ -155,7 +155,7 @@ final class RollControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'skills' => [
                 'close-combat' => 2,
             ],

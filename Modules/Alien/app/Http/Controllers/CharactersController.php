@@ -53,10 +53,9 @@ class CharactersController extends Controller
             return new RedirectResponse(route('dashboard'));
         }
         if ('new' === $step) {
-            /**
-             * @var PartialCharacter
-             */
-            $character = PartialCharacter::create(['owner' => $user->email]);
+            $character = PartialCharacter::create([
+                'owner' => $user->email->address,
+            ]);
             $request->session()->put(self::SESSION_KEY, $character->id);
             return new RedirectResponse(route('alien.create', 'career'));
         }
@@ -69,7 +68,7 @@ class CharactersController extends Controller
         if (null === $character) {
             // No current character, see if they already have a character they
             // might want to continue.
-            $characters = PartialCharacter::where('owner', $user->email)->get();
+            $characters = PartialCharacter::where('owner', $user->email->address)->get();
 
             if (0 !== count($characters)) {
                 return view(
@@ -85,7 +84,9 @@ class CharactersController extends Controller
              * No in-progress characters, create a new one.
              * @var PartialCharacter
              */
-            $character = PartialCharacter::create(['owner' => $user->email]);
+            $character = PartialCharacter::create([
+                'owner' => $user->email->address,
+            ]);
             $request->session()->put(self::SESSION_KEY, $character->id);
         }
 
@@ -258,7 +259,7 @@ class CharactersController extends Controller
         if (null !== $characterId) {
             // Return the character they're working on.
             /** @var PartialCharacter */
-            return PartialCharacter::where('owner', $user->email)
+            return PartialCharacter::where('owner', $user->email->address)
                 ->where('_id', $characterId)
                 ->firstOrFail();
         }
@@ -268,7 +269,7 @@ class CharactersController extends Controller
 
         // Maybe they're chosing to continue a character right now.
         /** @var PartialCharacter */
-        $character = PartialCharacter::where('owner', $user->email)
+        $character = PartialCharacter::where('owner', $user->email->address)
             ->find($step);
         if (null !== $character) {
             $request->session()->put(self::SESSION_KEY, $character->id);
@@ -283,7 +284,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get(self::SESSION_KEY);
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $character->name = $request->name;
@@ -301,7 +302,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get(self::SESSION_KEY);
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $character->agility = (int)$request->agility;
@@ -320,7 +321,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get(self::SESSION_KEY);
         /** @var PartialCharacter */
         $partialCharacter = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         if (0 !== count($partialCharacter->validate())) {
@@ -341,7 +342,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get(self::SESSION_KEY);
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $character->agenda = $request->agenda;
@@ -360,7 +361,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get(self::SESSION_KEY);
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
         /** @var Career */
         $career = $character->career;
@@ -435,7 +436,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get(self::SESSION_KEY);
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $characterSkills = $character->skills;
@@ -456,7 +457,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get(self::SESSION_KEY);
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $character->talents = [$request->talent];
@@ -468,7 +469,7 @@ class CharactersController extends Controller
     public function index(Request $request): JsonResource
     {
         return CharacterResource::collection(
-            Character::where('owner', $request->user()?->email)->get()
+            Character::where('owner', $request->user()?->email->address)->get()
         )
             ->additional(['links' => ['self' => route('alien.characters.index')]]);
     }
@@ -479,7 +480,7 @@ class CharactersController extends Controller
         $user = $request->user();
         $campaign = $character->campaign();
         abort_if(
-            $user->email !== $character->owner
+            !$user->email->is($character->owner)
             && (null === $campaign || $user->isNot($campaign->gamemaster)),
             Response::HTTP_NOT_FOUND
         );

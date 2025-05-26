@@ -46,7 +46,7 @@ final class CharactersControllerTest extends TestCase
                 route('stillfleet.character', $character),
                 ['character' => $character, 'user' => $this->user]
             )
-            ->assertSee($this->user->email)
+            ->assertSee($this->user->email->address)
             ->assertSee(e($character->name), false);
         $character->delete();
     }
@@ -70,7 +70,7 @@ final class CharactersControllerTest extends TestCase
         ]);
         self::actingAs($this->user)
             ->get(route('stillfleet.list'))
-            ->assertSee($this->user->email)
+            ->assertSee($this->user->email->address)
             ->assertSee(e($character->name), false);
         $character->delete();
     }

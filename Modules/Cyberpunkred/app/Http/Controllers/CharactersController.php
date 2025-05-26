@@ -66,13 +66,13 @@ class CharactersController extends Controller
         if (null !== $characterId) {
             // Return the character they're working on.
             /** @var PartialCharacter */
-            return PartialCharacter::where('owner', $user->email)
+            return PartialCharacter::where('owner', $user->email->address)
                 ->findOrFail($characterId);
         }
         if (null !== $step) {
             // Maybe they're chosing to continue a character right now.
             /** @var ?PartialCharacter */
-            $character = PartialCharacter::where('owner', $user->email)
+            $character = PartialCharacter::where('owner', $user->email->address)
                 ->find($step);
             if (null !== $character) {
                 $request->session()->put('cyberpunkred-partial', $character->id);
@@ -93,7 +93,9 @@ class CharactersController extends Controller
         /** @var User */
         $user = $request->user();
         if ('new' === $step) {
-            $character = PartialCharacter::create(['owner' => $user->email]);
+            $character = PartialCharacter::create([
+                'owner' => $user->email->address,
+            ]);
             $request->session()->put('cyberpunkred-partial', $character->id);
             return view(
                 'cyberpunkred::create-handle',
@@ -105,7 +107,7 @@ class CharactersController extends Controller
         }
         if ('save' === $step) {
             $request->session()->forget('cyberpunkred-partial');
-            $characters = PartialCharacter::where('owner', $user->email)
+            $characters = PartialCharacter::where('owner', $user->email->address)
                 ->where('system', 'cyberpunkred')
                 ->get();
             return view(
@@ -119,7 +121,7 @@ class CharactersController extends Controller
         if (null === $character) {
             // No current character, see if they already have a character they
             // might want to continue.
-            $characters = PartialCharacter::where('owner', $user->email)
+            $characters = PartialCharacter::where('owner', $user->email->address)
                 ->where('system', 'cyberpunkred')
                 ->get();
 
@@ -138,7 +140,7 @@ class CharactersController extends Controller
              * @var PartialCharacter
              */
             $character = PartialCharacter::create([
-                'owner' => $user->email,
+                'owner' => $user->email->address,
             ]);
             $request->session()->put('cyberpunkred-partial', $character->id);
         }
@@ -251,7 +253,7 @@ class CharactersController extends Controller
         $user = $request->user();
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
         $character->handle = $request->input('handle');
         $character->update();
@@ -271,7 +273,7 @@ class CharactersController extends Controller
         $user = $request->user();
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $lifepath = $character->lifepath;
@@ -297,7 +299,7 @@ class CharactersController extends Controller
         $user = $request->user();
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
         $character->roles = [
             [
@@ -322,7 +324,7 @@ class CharactersController extends Controller
         $user = $request->user();
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
         $character->fill($request->only([
             'body',
@@ -349,7 +351,7 @@ class CharactersController extends Controller
     public function index(Request $request): AnonymousResourceCollection
     {
         return CharacterResource::collection(
-            Character::where('owner', $request->user()?->email)->get()
+            Character::where('owner', $request->user()?->email->address)->get()
         );
     }
 
@@ -358,7 +360,7 @@ class CharactersController extends Controller
      */
     public function show(Request $request, string $identifier): JsonResource
     {
-        $email = $request->user()?->email;
+        $email = $request->user()?->email->address;
         return new CharacterResource(
             Character::where('_id', $identifier)
                 ->where('owner', $email)

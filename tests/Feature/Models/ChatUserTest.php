@@ -201,6 +201,9 @@ final class ChatUserTest extends TestCase
     {
         $user = User::factory()->create();
         $chatUser = ChatUser::factory()->make(['user_id' => $user->id]);
-        self::assertSame($user->email, $chatUser->user->email);
+        self::assertSame(
+            $user->email->address,
+            $chatUser->user->email->address,
+        );
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Avatar\Models;
 
+use App\Casts\AsEmail;
 use App\Models\Character as BaseCharacter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute as EloquentAttribute;
@@ -57,16 +58,17 @@ class Character extends BaseCharacter implements Stringable
 {
     use HasFactory;
 
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     protected $attributes = [
         'system' => 'avatar',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var array<string, string> */
+    protected $casts = [
+        'owner' => AsEmail::class,
+    ];
+
+    /** @var list<string> */
     protected $fillable = [
         'appearance',
         'background',
@@ -93,9 +95,7 @@ class Character extends BaseCharacter implements Stringable
         'training',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $hidden = [
         '_id',
     ];
@@ -109,6 +109,7 @@ class Character extends BaseCharacter implements Stringable
     /**
      * Force this model to only load for Avatar characters.
      */
+    #[Override]
     protected static function booted(): void
     {
         static::addGlobalScope(
@@ -119,6 +120,7 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
+    #[Override]
     protected static function newFactory(): Factory
     {
         return CharacterFactory::new();

@@ -23,7 +23,7 @@ class CreateSkillsRequest extends FormRequest
         $user = $this->user();
         $characterId = $this->session()->get(CharactersController::SESSION_KEY);
         /** @var PartialCharacter */
-        $character = PartialCharacter::where('owner', $user->email)
+        $character = PartialCharacter::where('owner', $user->email->address)
             ->where('_id', $characterId)
             ->firstOrFail();
         $keySkills = collect($character->career?->keySkills)

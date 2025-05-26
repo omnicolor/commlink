@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Modules\Dnd5e\Models;
 
+use App\Casts\AsEmail;
 use App\Models\Character as BaseCharacter;
+use App\ValueObjects\Email;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Dnd5e\Database\Factories\CharacterFactory;
 use OutOfRangeException;
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -22,7 +25,7 @@ use function floor;
  * @property int $dexterity
  * @property int $intelligence
  * @property string $name
- * @property string $owner
+ * @property Email $owner
  * @property int $strength
  * @property string $system
  * @property int $wisdom
@@ -34,16 +37,17 @@ class Character extends BaseCharacter implements Stringable
     public const int ATTRIBUTE_MIN = 1;
     public const int ATTRIBUTE_MAX = 30;
 
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     protected $attributes = [
         'system' => 'dnd5e',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var array<string, string> */
+    protected $casts = [
+        'owner' => AsEmail::class,
+    ];
+
+    /** @var list<string> */
     protected $fillable = [
         'alignment',
         'charisma',
@@ -65,13 +69,12 @@ class Character extends BaseCharacter implements Stringable
         'wisdom',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $hidden = [
         '_id',
     ];
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name ?? 'Unnamed Character';
@@ -80,6 +83,7 @@ class Character extends BaseCharacter implements Stringable
     /**
      * Force this model to only load for D&D 5E characters.
      */
+    #[Override]
     protected static function booted(): void
     {
         static::addGlobalScope(
@@ -119,6 +123,7 @@ class Character extends BaseCharacter implements Stringable
         return 10 + $this->getAbilityModifier('dexterity');
     }
 
+    #[Override]
     protected static function newFactory(): Factory
     {
         return CharacterFactory::new();
