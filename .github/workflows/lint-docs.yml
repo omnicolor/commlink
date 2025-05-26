@@ -3,7 +3,7 @@ name: Documentation
 on:
   push:
     paths:
-      - 'public/openapi.yml'
+      - 'public/openapi/**'
 
 jobs:
   openapi-lint:
@@ -12,5 +12,5 @@ jobs:
     steps:
       - uses: actions/setup-node@v4
       - uses: actions/checkout@v4
-      - name : Validate OpenAPI spec
-        run: npx @redocly/cli lint public/openapi.yml
+      - name: Validate OpenAPI spec
+        run: npx @redocly/cli lint public/openapi/openapi.yml

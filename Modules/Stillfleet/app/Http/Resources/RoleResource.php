@@ -60,7 +60,7 @@ class RoleResource extends JsonResource
             'responsibilities' => $this->responsibilities,
             'ruleset' => $this->ruleset,
             'links' => [
-                'self' => route('stillfleet.roles.show', $this->id),
+                'self' => route('stillfleet.classes.show', $this->id),
             ],
         ];
     }

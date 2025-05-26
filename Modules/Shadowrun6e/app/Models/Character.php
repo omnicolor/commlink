@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun6e\Models;
 
+use App\Casts\AsEmail;
 use App\Models\Character as BaseCharacter;
+use App\ValueObjects\Email;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
 use Modules\Shadowrun6e\Database\Factories\CharacterFactory;
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -37,6 +40,7 @@ use Stringable;
  * @property ?int $magic
  * @property ?string $name
  * @property int $nuyen
+ * @property Email $owner
  * @property array<int, mixed> $powers
  * @property array<int, array<string, int|string>> $qualities
  * @property int $reaction
@@ -52,17 +56,12 @@ class Character extends BaseCharacter implements Stringable
 {
     use HasFactory;
 
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     protected $attributes = [
         'system' => 'shadowrun6e',
     ];
 
-    /**
-     * Attributes that need to be cast to a type.
-     * @var array<string, string>
-     */
+    /** @var array<string, string> */
     protected $casts = [
         'agility' => 'integer',
         'body' => 'integer',
@@ -72,15 +71,14 @@ class Character extends BaseCharacter implements Stringable
         'karma' => 'integer',
         'karma_total' => 'integer',
         'logic' => 'integer',
+        'owner' => AsEmail::class,
         'nuyen' => 'integer',
         'reaction' => 'integer',
         'strength' => 'integer',
         'willpower' => 'integer',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $fillable = [
         'agility',
         'armor',
@@ -112,13 +110,12 @@ class Character extends BaseCharacter implements Stringable
         'willpower',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $hidden = [
         '_id',
     ];
 
+    #[Override]
     public function __toString(): string
     {
         return $this->handle ?? $this->name ?? 'Unnamed Character';
@@ -128,6 +125,7 @@ class Character extends BaseCharacter implements Stringable
      * Force this model to only load for Shadowrun 6E characters.
      * @codeCoverageIgnore
      */
+    #[Override]
     protected static function booted(): void
     {
         static::addGlobalScope(
@@ -180,6 +178,7 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
+    #[Override]
     protected static function newFactory(): Factory
     {
         return CharacterFactory::new();

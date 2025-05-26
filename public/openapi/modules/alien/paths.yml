@@ -1,0 +1,441 @@
+armor:
+  get:
+    summary: Alien RPG armor
+    operationId: alien-armor-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Armor'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of armor from the Alien RPG.
+    tags:
+      - alien
+
+careers:
+  get:
+    summary: Alien RPG careers
+    operationId: alien-careers-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Career'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of careers from the Alien RPG.
+    tags:
+      - alien
+
+characters:
+  get:
+    summary: Alien RPG characters
+    operationId: alien-characters-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Character'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of characters from the Alien RPG.
+    tags:
+      - alien
+      - character
+
+gear:
+  get:
+    summary: Alien RPG gear
+    operationId: alien-gear-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Gear'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of gear from the Alien RPG.
+    tags:
+      - alien
+
+injuries:
+  get:
+    summary: Alien RPG injuries
+    operationId: alien-injuries-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Injury'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of injuries from the Alien RPG.
+    tags:
+      - alien
+
+rolls:
+  post:
+    summary: Roll dice for an Alien character.
+    operationId: alien-rolls-store
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: 'schemas.yml#/RollRequest'
+    responses:
+      '201':
+        content:
+          application/json:
+            schema:
+              example:
+                data:
+                  panic: false
+                  pushable: false
+                  rolls: [2, 5, 2, 4, 6, 4]
+                  success: true
+                  text: Rolled 1 success
+                  title: Ripley succeeded with 6 dice for Heavy machinery (0+5+1)
+                links:
+                  character: https://commlink.digitaldarkness.com/api/alien/characters/6697e43d245ac6b4f2032432
+                  campaign: https://commlink.digitaldarkness.com/api/campaigns/9
+                  self: https://commlink.digitaldarkness.com/api/alien/roll/b3e151db-6434-4170-a9d6-9f181f6a4755
+                  pushes:
+                    - https://commlink.digitaldarkness.com/api/alien/roll/a3ca4dac-911f-419e-a6b9-85a498261c9a
+              properties:
+                data:
+                  $ref: 'schemas.yml#/RollResult'
+                links:
+                  properties:
+                    character:
+                      description: Link to the character making the roll.
+                      format: url
+                      type: string
+                    campaign:
+                      description: Link to the campaign the character belongs to.
+                      format: url
+                      type: string
+                    parent:
+                      description: Link to the roll that this roll pushes.
+                      format: url
+                      type: string
+                    pushes:
+                      items:
+                        description: Link to a push for this roll.
+                        format: url
+                        type: string
+                      type: array
+                    self:
+                      description: Link to this roll, which can be interacted with to push.
+                      format: url
+                      type: string
+                  required:
+                    - character
+                    - campaign
+                    - self
+                  type: object
+              required:
+                - data
+                - links
+        description: Result of the character's roll.
+      '401':
+        $ref: '../../openapi.yml#/components/responses/ErrorUnauthenticated'
+      '404':
+        $ref: '../../openapi.yml#/components/responses/ErrorNotFound'
+      '422':
+        $ref: '../../openapi.yml#/components/responses/ErrorUnprocessableContent'
+    tags:
+      - alien
+      - interactivity
+
+rolls-individual:
+  parameters:
+    - name: roll_id
+      in: path
+      required: true
+      schema:
+        format: uuid
+        type: string
+  get:
+    summary: Return a roll from the Alien RPG
+    operationId: alien-rolls-show
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  $ref: 'schemas.yml#/RollResult'
+                links:
+                  properties:
+                    character:
+                      description: Link to the character making the roll.
+                      format: url
+                      type: string
+                    campaign:
+                      description: Link to the campaign the character belongs to.
+                      format: url
+                      type: string
+                    parent:
+                      description: Link to the roll that this roll pushes.
+                      format: url
+                      type: string
+                    pushes:
+                      items:
+                        description: Link to a push for this roll.
+                        format: url
+                        type: string
+                      type: array
+                    self:
+                      description: Link to this roll, which can be interacted with to push.
+                      format: url
+                      type: string
+                  required:
+                    - character
+                    - campaign
+                    - self
+                  type: object
+              required:
+                - data
+                - links
+        description: Representation of an Alien roll.
+      '401':
+        $ref: '../../openapi.yml#/components/responses/ErrorUnauthenticated'
+      '404':
+        content:
+          application/json:
+            schema:
+              properties:
+                message:
+                  type: string
+        description: |
+          The given roll was not found, which could be for a few different reasons:
+          The ID has never existed.
+          The ID used to exist, but has been evicted from the cache.
+          The ID exists, but is for a character owned by someone else.
+    tags:
+      - alien
+      - interactivity
+  post:
+    summary: Try to push your roll
+    operationId: alien-rolls-update
+    responses:
+      '201':
+        content:
+          application/json:
+            schema:
+              example:
+                data:
+                  panic: false
+                  pushable: false
+                  rolls: [2, 5, 2, 4, 6, 4]
+                  success: true
+                  text: Rolled 1 success
+                  title: Ripley succeeded with 6 dice for Heavy machinery (0+5+1)
+                links:
+                  character: https://commlink.digitaldarkness.com/api/alien/characters/6697e43d245ac6b4f2032432
+                  campaign: https://commlink.digitaldarkness.com/api/campaigns/9
+                  self: https://commlink.digitaldarkness.com/api/alien/roll/b3e151db-6434-4170-a9d6-9f181f6a4755
+                  parent: https://commlink.digitaldarkness.com/api/alien/roll/a3ca4dac-911f-419e-a6b9-85a498261c9a
+              properties:
+                data:
+                  $ref: 'schemas.yml#/RollResult'
+                links:
+                  properties:
+                    character:
+                      description: Link to the character making the roll.
+                      format: url
+                      type: string
+                    campaign:
+                      description: Link to the campaign the character belongs to.
+                      format: url
+                      type: string
+                    parent:
+                      description: Link to the roll that this roll pushes.
+                      format: url
+                      type: string
+                    pushes:
+                      items:
+                        description: Link to a push for this roll.
+                        format: url
+                        type: string
+                      type: array
+                    self:
+                      description: Link to this roll, which can be interacted with to push.
+                      format: url
+                      type: string
+                  required:
+                    - character
+                    - campaign
+                    - self
+                  type: object
+              required:
+                - data
+                - links
+        description: Result of the character's roll.
+      '401':
+        $ref: '../../openapi.yml#/components/responses/ErrorUnauthenticated'
+      '403':
+        content:
+          application/json:
+            schema:
+              example:
+                message: The roll has already been pushed.
+                errors:
+                  roll:
+                    - The roll has already been pushed.
+                links:
+                  self: https://commlink.digitaldarkness.com/api/alien/roll/b3e151db-6434-4170-a9d6-9f181f6a4755
+                  pushes:
+                    - https://commlink.digitaldarkness.com/api/alien/roll/a3ca4dac-911f-419e-a6b9-85a498261c9a
+              properties:
+                message:
+                  type: string
+                errors:
+                  properties:
+                    roll:
+                      items:
+                        type: string
+                      type: array
+                  type: object
+                links:
+                  properties:
+                    parent:
+                      description: Link to the roll that this roll pushes.
+                      format: url
+                      type: string
+                    pushes:
+                      items:
+                        description: Link to a push for this roll.
+                        format: url
+                        type: string
+                      type: array
+                    self:
+                      description: Link to this roll, which may be interacted with to push.
+                      format: url
+                      type: string
+                  type: object
+        description: The roll can not be pushed.
+      '404':
+        $ref: '../../openapi.yml#/components/responses/ErrorNotFound'
+    tags:
+      - alien
+      - interactivity
+
+skills:
+  get:
+    summary: Alien RPG skills
+    operationId: alien-skills-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Skill'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of skills from the Alien RPG.
+    tags:
+      - alien
+
+talents:
+  get:
+    summary: Alien RPG talents
+    operationId: alien-talents-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Talent'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of talents from the Alien RPG.
+    tags:
+      - alien
+
+weapons:
+  get:
+    summary: Alien RPG weapons
+    operationId: alien-weapons-index
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Weapon'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+        description: Collection of weapons from the Alien RPG.
+    tags:
+      - alien

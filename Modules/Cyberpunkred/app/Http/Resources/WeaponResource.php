@@ -29,6 +29,7 @@ class WeaponResource extends JsonResource
      *     },
      *     hands_required: int,
      *     magazine?: int,
+     *     name: string,
      *     rate_of_fire: int,
      *     skill: string,
      *     links: array{
@@ -56,6 +57,7 @@ class WeaponResource extends JsonResource
                 // @phpstan-ignore property.notFound
                 $this->magazine,
             ),
+            'name' => $this->name,
             'rate_of_fire' => $this->rateOfFire,
             'skill' => $this->skill,
             'links' => [

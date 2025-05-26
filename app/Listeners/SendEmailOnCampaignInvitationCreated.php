@@ -12,7 +12,7 @@ class SendEmailOnCampaignInvitationCreated
 {
     public function handle(CampaignInvitationCreated $event): void
     {
-        Mail::to($event->invitation->email)
+        Mail::to($event->invitation->email->address)
             ->send(new InvitedToCampaign($event->invitation));
     }
 }

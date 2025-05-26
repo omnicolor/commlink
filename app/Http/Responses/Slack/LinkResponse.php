@@ -47,9 +47,7 @@ class LinkResponse extends SlackResponse
 
         $args = explode(' ', $content);
         $characterId = $args[1];
-        /**
-         * @var Character
-         */
+        /** @var Character */
         $character = Character::find($characterId);
         if (null === $character) {
             throw new SlackException(
@@ -58,7 +56,7 @@ class LinkResponse extends SlackResponse
         }
 
         $user = $chatUser->user;
-        if (null === $user || $character->owner !== $user->email) {
+        if (null === $user || !$character->owner->is($user->email)) {
             throw new SlackException(
                 'You don\'t own that character.'
             );

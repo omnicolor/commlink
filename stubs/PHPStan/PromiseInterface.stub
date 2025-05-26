@@ -7,8 +7,8 @@ namespace React\Promise;
 interface PromiseInterface
 {
     public function then(
-        callable $onFulfilled = null,
-        callable $onRejected = null,
-        callable $onProgress = null,
+        callable|null $onFulfilled = null,
+        callable|null $onRejected = null,
+        callable|null $onProgress = null,
     ): self;
 }

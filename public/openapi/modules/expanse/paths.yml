@@ -1,0 +1,141 @@
+backgrounds:
+  get:
+    summary: Expanse RPG character backgrounds
+    description: |
+      Collection of all backgrounds available to player characters in The
+      Expanse.
+    operationId: expanse-backgrounds-index
+    responses:
+      '200':
+        description: Collection of Expanse RPG backgrounds
+        content:
+          application/json:
+            schema:
+              properties:
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Background'
+                  type: array
+    tags:
+      - expanse
+
+characters:
+  get:
+    summary: Expanse RPG characters
+    description: Return Expanse RPG characters.
+    operationId: expanse-characters-index
+    responses:
+      '200':
+        description: Collection of the user's Expanse characters.
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Character'
+                  type: array
+              required:
+                - data
+              type: object
+    tags:
+      - character
+      - expanse
+
+conditions:
+  get:
+    summary: Expanse RPG conditions
+    description: All supported Expanse RPG conditions.
+    operationId: expanse-conditions-index
+    responses:
+      '200':
+        description: |
+          Collection of conditions that can affect an Expanse character.
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Condition'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+    tags:
+      - expanse
+
+focuses:
+  get:
+    summary: Expanse RPG focuses
+    operationId: expanse-focuses-index
+    responses:
+      '200':
+        description: Collection of focuses a character may have.
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Focus'
+                  type: array
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+    tags:
+      - expanse
+
+social-classes:
+  get:
+    summary: Expanse RPG social classes
+    operationId: expanse-socialClasses-index
+    responses:
+      '200':
+        description: Description of the social class a character may come from.
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/SocialClass'
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+    tags:
+      - expanse
+
+talents:
+  get:
+    summary: Expanse RPG talents
+    operationId: expanse-talents-index
+    responses:
+      '200':
+        description: Description of talents a character may possess.
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  items:
+                    $ref: 'schemas.yml#/Talent'
+                links:
+                  $ref: '../../openapi.yml#/components/schemas/Links'
+              required:
+                - data
+                - links
+              type: object
+    tags:
+      - expanse

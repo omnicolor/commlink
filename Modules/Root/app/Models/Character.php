@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Root\Models;
 
+use App\Casts\AsEmail;
 use App\Models\Character as BaseCharacter;
+use App\ValueObjects\Email;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute as EloquentAttribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -13,6 +15,7 @@ use Illuminate\Support\Collection;
 use Modules\Root\Casts\AttributeCast;
 use Modules\Root\Database\Factories\CharacterFactory;
 use Modules\Root\ValueObjects\Attribute;
+use Override;
 use Stringable;
 
 use function collect;
@@ -36,6 +39,7 @@ use function json_decode;
  * @property-read Collection<string, Move> $moves
  * @property-read Nature|null $nature
  * @property-write Nature|string $nature
+ * @property Email $owner
  * @property-read Playbook $playbook
  * @property-write Playbook|string $playbook
  * @property string $species
@@ -45,16 +49,12 @@ class Character extends BaseCharacter implements Stringable
 {
     use HasFactory;
 
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     protected $attributes = [
         'system' => 'root',
     ];
 
-    /**
-     * @var array<string, class-string|string>
-     */
+    /** @var array<string, class-string|string> */
     protected $casts = [
         'charm' => AttributeCast::class,
         'cunning' => AttributeCast::class,
@@ -67,14 +67,12 @@ class Character extends BaseCharacter implements Stringable
         'moves' => 'array',
         'name' => 'string',
         'nature' => 'string',
+        'owner' => AsEmail::class,
         'playbook' => 'string',
         'system' => 'string',
     ];
 
-    /**
-     * The attributes that are mass assignable.
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $fillable = [
         'charm',
         'cunning',
@@ -92,18 +90,18 @@ class Character extends BaseCharacter implements Stringable
         'system',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $hidden = [
         '_id',
     ];
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name ?? 'Unnamed character';
     }
 
+    #[Override]
     protected static function booted(): void
     {
         static::addGlobalScope(
@@ -232,6 +230,7 @@ class Character extends BaseCharacter implements Stringable
         );
     }
 
+    #[Override]
     protected static function newFactory(): Factory
     {
         return CharacterFactory::new();

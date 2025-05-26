@@ -24,6 +24,7 @@ class CharacterFactory extends Factory
             'agility' => $this->faker->numberBetween(1, 5),
             'empathy' => $this->faker->numberBetween(1, 5),
             'health_current' => $strength,
+            'owner' => $this->faker->email,
             'name' => $this->faker->name(),
             'strength' => $strength,
             'wits' => $this->faker->numberBetween(1, 5),

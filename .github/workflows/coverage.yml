@@ -1,6 +1,11 @@
 name: Unit Tests & Coverage
 
-on: [push]
+on:
+  push:
+    paths-ignore:
+      - 'bruno/**'
+      - 'docker/**'
+      - 'public/openapi/**'
 
 jobs:
   Code-Coverage:
@@ -8,7 +13,7 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "8.3"
+          - "8.4"
         mongodb-version:
           - "6.0.8"
     steps:
@@ -20,7 +25,7 @@ jobs:
         with:
           tools: composer:v2
           php-version: ${{ matrix.php-version }}
-          extensions: "json, mbstring, mongodb-1.21.0, pdo, xdebug"
+          extensions: "json, mbstring, mongodb, pdo, xdebug"
 
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.11.0

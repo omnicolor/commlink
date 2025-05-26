@@ -34,7 +34,7 @@ final class AuthenticatedSessionControllerTest extends TestCase
         $user = User::factory()->create();
 
         self::post('/login', [
-            'email' => $user->email,
+            'email' => $user->email->address,
             'password' => 'password',
         ])
             ->assertRedirect(RouteServiceProvider::HOME);
@@ -47,7 +47,7 @@ final class AuthenticatedSessionControllerTest extends TestCase
         $user = User::factory()->create();
 
         self::post('/login', [
-            'email' => $user->email,
+            'email' => $user->email->address,
             'password' => 'wrong-password',
         ]);
 
@@ -67,7 +67,7 @@ final class AuthenticatedSessionControllerTest extends TestCase
         ]);
 
         self::post('/login', [
-            'email' => $user->email,
+            'email' => $user->email->address,
             'password' => 'password',
             'invitation' => $invitation->id,
             'token' => '123',
@@ -90,7 +90,7 @@ final class AuthenticatedSessionControllerTest extends TestCase
         ]);
 
         self::post('/login', [
-            'email' => $user->email,
+            'email' => $user->email->address,
             'password' => 'password',
             'invitation' => $invitation->id,
             'token' => $invitation->hash(),
@@ -112,7 +112,7 @@ final class AuthenticatedSessionControllerTest extends TestCase
         ]);
 
         self::post('/login', [
-            'email' => $user->email,
+            'email' => $user->email->address,
             'password' => 'password',
             'invitation' => $invitation->id,
             'token' => $invitation->hash(),
@@ -134,7 +134,7 @@ final class AuthenticatedSessionControllerTest extends TestCase
         ]);
 
         self::post('/login', [
-            'email' => $user->email,
+            'email' => $user->email->address,
             'password' => 'password',
             'invitation' => $invitation->id,
             'token' => $invitation->hash(),

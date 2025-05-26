@@ -22,7 +22,6 @@ class NamesController extends Controller
             'data' => $names,
             'links' => [
                 'self' => route('fakes.names'),
-                'root' => '/',
             ],
         ]);
     }

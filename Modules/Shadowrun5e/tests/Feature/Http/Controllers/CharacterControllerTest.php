@@ -56,7 +56,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'cyberpunkred',
         ]);
 
@@ -77,12 +77,12 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character1 = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun6e',
         ]);
 
         $character2 = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -92,10 +92,11 @@ final class CharacterControllerTest extends TestCase
             ->assertJsonFragment([
                 'id' => $character2->_id,
                 'handle' => $character2->handle,
-                'owner' => $user->email,
+                'owner' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                ],
                 'system' => 'shadowrun5e',
-                'updated_at' => $character2->updated_at,
-                'created_at' => $character2->created_at,
             ]);
 
         $character1->delete();
@@ -123,7 +124,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
             'priorities' => [
                 'metatype' => 'dwarf',
@@ -143,7 +144,10 @@ final class CharacterControllerTest extends TestCase
             ->assertJsonFragment([
                 'id' => $character->_id,
                 'handle' => $character->handle,
-                'owner' => $user->email,
+                'owner' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                ],
                 'priorities' => [
                     'metatype' => 'dwarf',
                     'metatype_priority' => 'C',
@@ -155,8 +159,6 @@ final class CharacterControllerTest extends TestCase
                     'gameplay' => 'established',
                 ],
                 'system' => 'shadowrun5e',
-                'updated_at' => $character->updated_at,
-                'created_at' => $character->created_at,
             ]);
 
         $character->delete();
@@ -168,9 +170,8 @@ final class CharacterControllerTest extends TestCase
     public function testShowCharacterOtherSystem(): void
     {
         $user = User::factory()->create();
-
         $character = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun6e',
         ]);
 
@@ -189,7 +190,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -208,7 +209,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -227,7 +228,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -245,14 +246,14 @@ final class CharacterControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $characters = PartialCharacter::where('owner', $user->email)->get();
+        $characters = PartialCharacter::where('owner', $user->email->address)->get();
         self::assertCount(0, $characters);
         self::actingAs($user)
             ->get(route('shadowrun5e.create'))
             ->assertOk()
             ->assertSee('Rules');
 
-        $characters = PartialCharacter::where('owner', $user->email)->get();
+        $characters = PartialCharacter::where('owner', $user->email->address)->get();
         self::assertNotNull($characters[0]);
 
         $characters[0]->delete();
@@ -266,11 +267,11 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character1 = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
         $character2 = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -347,7 +348,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -385,7 +386,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -407,7 +408,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'priorities' => [
                 'gameplay' => 'established',
                 'rulebooks' => 'core,forbidden-arcana',
@@ -434,7 +435,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'priorities' => [
                 'gameplay' => 'established',
                 'rulebooks' => 'core,forbidden-arcana',
@@ -552,7 +553,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -599,7 +600,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -636,7 +637,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -694,7 +695,7 @@ final class CharacterControllerTest extends TestCase
                 'magic' => 'magician',
                 'metatype' => 'human',
             ],
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -739,7 +740,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -789,7 +790,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'qualities' => [
                 [
                     'id' => 'lucky',
@@ -818,7 +819,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'priorities' => [
                 'rulebooks' => 'core,run-and-gun',
             ],
@@ -882,7 +883,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -914,7 +915,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -948,7 +949,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -982,7 +983,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -1040,7 +1041,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -1069,7 +1070,7 @@ final class CharacterControllerTest extends TestCase
                     'Aikido',
                 ],
             ],
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -1131,7 +1132,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -1176,7 +1177,7 @@ final class CharacterControllerTest extends TestCase
                 'styles' => ['foo'],
                 'techniques' => ['called-shot-disarm'],
             ],
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -1206,7 +1207,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'skills' => [
                 [
                     'id' => 'automatics',
@@ -1242,7 +1243,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'priorities' => [
                 'rulebooks' => 'core,run-and-gun',
             ],
@@ -1317,7 +1318,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -1386,7 +1387,7 @@ final class CharacterControllerTest extends TestCase
                     'level' => 4,
                 ],
             ],
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -1414,7 +1415,7 @@ final class CharacterControllerTest extends TestCase
             'priorities' => [
                 'magic' => 'magician',
             ],
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -1441,7 +1442,7 @@ final class CharacterControllerTest extends TestCase
             'priorities' => [
                 'magic' => 'technomancer',
             ],
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -1464,7 +1465,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -1488,7 +1489,7 @@ final class CharacterControllerTest extends TestCase
             'priorities' => [
                 'magic' => 'magician',
             ],
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -1510,7 +1511,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -1534,7 +1535,7 @@ final class CharacterControllerTest extends TestCase
             'priorities' => [
                 'magic' => 'technomancer',
             ],
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -1561,7 +1562,7 @@ final class CharacterControllerTest extends TestCase
                     'id' => 'bone-lacing-aluminum',
                 ],
             ],
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -1588,7 +1589,7 @@ final class CharacterControllerTest extends TestCase
             'priorities' => [
                 'magic' => 'magician',
             ],
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -1613,7 +1614,7 @@ final class CharacterControllerTest extends TestCase
             'priorities' => [
                 'magic' => 'technomancer',
             ],
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -1658,7 +1659,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
             'weapons' => [
                 ['id' => 'ak-98'],
@@ -1711,7 +1712,7 @@ final class CharacterControllerTest extends TestCase
             'armor' => [
                 ['id' => 'armor-jacket'],
             ],
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -1761,7 +1762,7 @@ final class CharacterControllerTest extends TestCase
             'gear' => [
                 ['id' => 'ear-buds-1'],
             ],
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -1808,7 +1809,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
             'vehicles' => [
                 ['id' => 'dodge-scoot'],
@@ -1857,7 +1858,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -1877,7 +1878,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'qualities' => [
                 ['id' => 'friends-in-high-places'],
             ],
@@ -1897,7 +1898,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -1941,7 +1942,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -1965,7 +1966,7 @@ final class CharacterControllerTest extends TestCase
 
         $character = PartialCharacter::factory()->create([
             'background' => ['gender' => 'male'],
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -2019,7 +2020,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -2039,7 +2040,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 
@@ -2061,7 +2062,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
         self::actingAs($user)
@@ -2080,7 +2081,7 @@ final class CharacterControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
 

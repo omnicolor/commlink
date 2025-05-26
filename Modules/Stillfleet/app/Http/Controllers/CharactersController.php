@@ -43,7 +43,9 @@ class CharactersController extends Controller
         $user = $request->user();
 
         if ('new' === $step) {
-            $character = PartialCharacter::create(['owner' => $user->email]);
+            $character = PartialCharacter::create([
+                'owner' => $user->email->address,
+            ]);
             $request->session()->put('stillfleet-partial', $character->id);
             return new RedirectResponse(route('stillfleet.create', 'class'));
         }
@@ -55,7 +57,8 @@ class CharactersController extends Controller
         if (null === $character) {
             // No current character, see if they already have a character they
             // might want to continue.
-            $characters = PartialCharacter::where('owner', $user->email)->get();
+            $characters = PartialCharacter::where('owner', $user->email->address)
+                ->get();
 
             if (0 !== count($characters)) {
                 return view(
@@ -68,7 +71,9 @@ class CharactersController extends Controller
             }
 
             // No in-progress characters, create a new one.
-            $character = PartialCharacter::create(['owner' => $user->email]);
+            $character = PartialCharacter::create([
+                'owner' => $user->email->address,
+            ]);
             $request->session()->put('stillfleet-partial', $character->id);
         }
 
@@ -110,7 +115,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get('stillfleet-partial');
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         if (0 === count($character->roles)) {
@@ -156,7 +161,7 @@ class CharactersController extends Controller
         if (null !== $characterId) {
             // Return the character they're working on.
             /** @var PartialCharacter */
-            return PartialCharacter::where('owner', $user->email)
+            return PartialCharacter::where('owner', $user->email->address)
                 ->where('_id', $characterId)
                 ->firstOrFail();
         }
@@ -167,7 +172,7 @@ class CharactersController extends Controller
 
         // Maybe they're choosing to continue a character right now.
         /** @var ?PartialCharacter */
-        $character = PartialCharacter::where('owner', $user->email)
+        $character = PartialCharacter::where('owner', $user->email->address)
             ->find($step);
         if (null !== $character) {
             $request->session()->put('stillfleet-partial', $character->id);
@@ -181,7 +186,7 @@ class CharactersController extends Controller
         $user = $request->user();
 
         return CharacterResource::collection(
-            Character::where('owner', $user->email)->get()
+            Character::where('owner', $user->email->address)->get()
         )
             ->additional(['links' => ['self' => route('stillfleet.characters.index')]]);
     }
@@ -193,7 +198,7 @@ class CharactersController extends Controller
 
         $campaign = $character->campaign();
         abort_if(
-            $user->email !== $character->owner
+            !$user->email->is($character->owner)
             && (null === $campaign || $user->isNot($campaign->gamemaster)),
             Response::HTTP_NOT_FOUND
         );
