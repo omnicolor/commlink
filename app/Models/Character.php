@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Casts\AsEmail;
 use App\Models\Traits\GameSystem;
+use App\ValueObjects\Email;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -30,7 +32,7 @@ use function ucfirst;
  * @property ?string $handle
  * @property string $id
  * @property ?string $name
- * @property string $owner
+ * @property Email $owner
  * @property string $system
  * @property string $updated_at
  */
@@ -44,6 +46,13 @@ class Character extends Model implements Stringable
      * @var ?string
      */
     protected $connection = 'mongodb';
+
+    /**
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'owner' => AsEmail::class,
+    ];
 
     /**
      * The attributes that are mass assignable.

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Alien\Database\Factories\PartialCharacterFactory;
+use Override;
 use Stringable;
 
 use function array_key_exists;
@@ -26,16 +27,19 @@ class PartialCharacter extends Character implements Stringable
 
     protected $table = 'characters-partial';
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name ?? 'Unfinished character';
     }
 
+    #[Override]
     protected static function newFactory(): Factory
     {
         return PartialCharacterFactory::new();
     }
 
+    #[Override]
     public function newFromBuilder(
         // @phpstan-ignore parameter.defaultValue
         $attributes = [],

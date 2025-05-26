@@ -46,7 +46,7 @@ use Laravel\Pennant\Feature;
         </div>
         <div class="d-flex navbar-nav">
             @if (Auth::user())
-                <span class="navbar-text">{{ Auth::user()->email }}</span>
+                <span class="navbar-text">{{ Auth::user()->email->address }}</span>
                 <div class="dropdown">
                     <a class="btn btn-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-gear" title="Settings"></i>

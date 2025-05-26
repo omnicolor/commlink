@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Transformers\Models;
 
+use App\Casts\AsEmail;
 use App\Models\Character as BaseCharacter;
+use App\ValueObjects\Email;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -16,6 +18,7 @@ use Modules\Transformers\Enums\Programming;
 use Modules\Transformers\Enums\Size;
 use Override;
 use RuntimeException;
+use Stringable;
 
 /**
  * @property string $allegiance
@@ -37,6 +40,7 @@ use RuntimeException;
  * @property int $intelligence_robot
  * @property-read Mode $mode
  * @property-write string|Mode $mode
+ * @property Email $owner
  * @property-read Programming $programming
  * @property-write string|Programming $programming
  * @property string $quote
@@ -56,17 +60,16 @@ use RuntimeException;
  * @property-read WeaponArray $weapons
  * @property-write array<int, string>|WeaponArray $weapons
  */
-class Character extends BaseCharacter
+class Character extends BaseCharacter implements Stringable
 {
     use HasFactory;
 
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     protected $attributes = [
         'system' => 'transformers',
     ];
 
+    /** @var array<string, string> */
     protected $casts = [
         'courage_alt' => 'int',
         'courage_robot' => 'int',
@@ -78,6 +81,7 @@ class Character extends BaseCharacter
         'hp_current' => 'int',
         'intelligence_alt' => 'int',
         'intelligence_robot' => 'int',
+        'owner' => AsEmail::class,
         'rank_alt' => 'int',
         'rank_robot' => 'int',
         'skill_alt' => 'int',
@@ -88,9 +92,7 @@ class Character extends BaseCharacter
         'strength_robot' => 'int',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $fillable = [
         'allegiance',
         'alt_mode',
@@ -124,9 +126,7 @@ class Character extends BaseCharacter
         'weapons',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $hidden = [
         '_id',
     ];
@@ -140,6 +140,7 @@ class Character extends BaseCharacter
     /**
      * Force this model to only load for Transformers characters.
      */
+    #[Override]
     protected static function booted(): void
     {
         static::addGlobalScope(
@@ -209,6 +210,7 @@ class Character extends BaseCharacter
         );
     }
 
+    #[Override]
     protected static function newFactory(): Factory
     {
         return CharacterFactory::new();

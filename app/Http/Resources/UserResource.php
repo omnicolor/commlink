@@ -86,7 +86,7 @@ class UserResource extends JsonResource
 
         return [
             'characters' => CharacterResource::collection($this->characters()->get()),
-            'email' => $this->email,
+            'email' => $this->email->address,
             'features' => $this->getFeatures(),
             'gmOf' => $gmedCampaigns,
             'id' => $this->id,

@@ -35,7 +35,7 @@ use Laravel\Pennant\Feature;
                 @endphp
             <tr data-id="{{ $item->id }}">
                 <td>{{ $item->name }}</td>
-                <td>{{ $item->email }}</td>
+                <td>{{ $item->email->address }}</td>
                 <td>
                     @foreach ($systems as $system)
                         <img alt="{{ $system }}" height="32"

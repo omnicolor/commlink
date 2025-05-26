@@ -10,6 +10,8 @@ use App\Models\Character;
 use App\Models\ChatUser;
 use App\Models\Event;
 use App\Models\User;
+use App\ValueObjects\Email;
+use InvalidArgumentException;
 use Laravel\Pennant\Feature;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
@@ -20,6 +22,28 @@ use Tests\TestCase;
 #[Medium]
 final class UserTest extends TestCase
 {
+    public function testEmailCast(): void
+    {
+        $user = new User(['email' => 'bob@example.com']);
+        self::assertInstanceOf(Email::class, $user->email);
+        self::assertSame('bob@example.com', $user->email->address);
+    }
+
+    public function testEmailInvalid(): void
+    {
+        $user = new User(['email' => 'bob']);
+        self::expectException(InvalidArgumentException::class);
+        // @phpstan-ignore expr.resultUnused
+        $user->email;
+    }
+
+    public function testSetEmailInvalid(): void
+    {
+        $user = new User();
+        $user->email = new Email('bob@example.com');
+        self::assertSame('bob@example.com', $user->email->address);
+    }
+
     /**
      * Test getting a user's campaigns if they have none.
      */
@@ -61,10 +85,10 @@ final class UserTest extends TestCase
     {
         $user = User::factory()->create();
         $character1 = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         $character2 = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
 
         // @phpstan-ignore staticMethod.dynamicCall
@@ -81,11 +105,11 @@ final class UserTest extends TestCase
     {
         $user = User::factory()->create();
         $character1 = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'shadowrun5e',
         ]);
         $character2 = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'cyberpunk2077',
         ]);
         // @phpstan-ignore staticMethod.dynamicCall

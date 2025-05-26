@@ -54,7 +54,9 @@ class CharactersController extends Controller
             /**
              * @var PartialCharacter
              */
-            $character = PartialCharacter::create(['owner' => $user->email]);
+            $character = PartialCharacter::create([
+                'owner' => $user->email->address,
+            ]);
             $request->session()->put('subversion-partial', $character->id);
             return view(
                 'subversion::create-lineage',
@@ -71,7 +73,8 @@ class CharactersController extends Controller
 
         if ('later' === $step) {
             $request->session()->forget('subversion-partial');
-            $characters = PartialCharacter::where('owner', $user->email)->get();
+            $characters = PartialCharacter::where('owner', $user->email->address)
+                ->get();
             return view(
                 'subversion::choose-character',
                 [
@@ -88,7 +91,8 @@ class CharactersController extends Controller
         if (null === $character) {
             // No current character, see if they already have a character they
             // might want to continue.
-            $characters = PartialCharacter::where('owner', $user->email)->get();
+            $characters = PartialCharacter::where('owner', $user->email->address)
+                ->get();
 
             if (0 !== count($characters)) {
                 return view(
@@ -104,7 +108,9 @@ class CharactersController extends Controller
              * No in-progress characters, create a new one.
              * @var PartialCharacter
              */
-            $character = PartialCharacter::create(['owner' => $user->email]);
+            $character = PartialCharacter::create([
+                'owner' => $user->email->address,
+            ]);
             $request->session()->put('subversion-partial', $character->id);
         }
 
@@ -236,7 +242,7 @@ class CharactersController extends Controller
         if (null !== $characterId) {
             // Return the character they're working on.
             /** @var PartialCharacter */
-            return PartialCharacter::where('owner', $user->email)
+            return PartialCharacter::where('owner', $user->email->address)
                 ->where('_id', $characterId)
                 ->firstOrFail();
         }
@@ -246,7 +252,7 @@ class CharactersController extends Controller
 
         // Maybe they're chosing to continue a character right now.
         /** @var PartialCharacter */
-        $character = PartialCharacter::where('owner', $user->email)
+        $character = PartialCharacter::where('owner', $user->email->address)
             ->find($step);
         if (null !== $character) {
             $request->session()->put('subversion-partial', $character->id);
@@ -263,7 +269,7 @@ class CharactersController extends Controller
 
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
         $character->background = $request->background;
         $character->update();
@@ -280,7 +286,7 @@ class CharactersController extends Controller
 
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
         $character->caste = $request->caste;
         $character->update();
@@ -297,7 +303,7 @@ class CharactersController extends Controller
 
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
         $character->hooks = [
             $request->hook1,
@@ -317,7 +323,7 @@ class CharactersController extends Controller
 
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
         $character->ideology = $request->ideology;
         $character->update();
@@ -334,7 +340,7 @@ class CharactersController extends Controller
 
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
         $character->impulse = $request->impulse;
         $character->update();
@@ -351,7 +357,7 @@ class CharactersController extends Controller
 
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
         $character->name = $request->name;
         $character->lineage = $request->lineage;
@@ -370,7 +376,7 @@ class CharactersController extends Controller
 
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
         $character->origin = $request->origin;
         $character->update();
@@ -427,7 +433,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get('subversion-partial');
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
         $character->relations = $relations;
         $character->update();
@@ -444,7 +450,7 @@ class CharactersController extends Controller
 
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
         $character->values = [
             $request->value1,

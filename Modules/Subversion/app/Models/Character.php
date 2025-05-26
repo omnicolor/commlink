@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Subversion\Models;
 
+use App\Casts\AsEmail;
 use App\Models\Character as BaseCharacter;
+use App\ValueObjects\Email;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -47,7 +49,7 @@ use Stringable;
  * @property string $name
  * @property-read ?Origin $origin
  * @property-write Origin|string $origin
- * @property string $owner
+ * @property Email $owner
  * @property-read array<string, Skill> $skills
  * @property-write array<int|string, Skill|array<string, int|string>> $skills
  * @property string $system
@@ -60,25 +62,23 @@ class Character extends BaseCharacter implements Stringable
 {
     use HasFactory;
 
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     protected $attributes = [
         'system' => 'subversion',
     ];
 
+    /** @var array<string, string> */
     protected $casts = [
         'agility' => 'int',
         'awareness' => 'int',
         'brawn' => 'int',
         'charisma' => 'int',
+        'owner' => AsEmail::class,
         'will' => 'int',
         'wit' => 'int',
     ];
 
-    /**
-     * @var list<string>
-     */
+    /** @var list<string> */
     protected $fillable = [
         'agility',
         'arts',
@@ -153,6 +153,7 @@ class Character extends BaseCharacter implements Stringable
     /**
      * Force this model to only load for Subversion characters.
      */
+    #[Override]
     protected static function booted(): void
     {
         static::addGlobalScope(

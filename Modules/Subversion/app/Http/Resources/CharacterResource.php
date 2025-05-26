@@ -69,7 +69,7 @@ class CharacterResource extends JsonResource
                 'owner' => route('users.show', $this->user()),
             ],
             'origin' => new OriginResource($this->origin),
-            'owner' => $this->owner,
+            'owner' => $this->owner->address,
             'skills' => SkillResource::collection(array_values($this->skills)),
             'system' => $this->system,
             'will' => $this->will,

@@ -57,7 +57,6 @@ final class ContactsControllerTest extends TestCase
                 ],
             ],
             'owner' => $user->email,
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -152,7 +151,6 @@ final class ContactsControllerTest extends TestCase
         $character = Character::factory()->create([
             'contacts' => [],
             'owner' => $user->email,
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -189,7 +187,6 @@ final class ContactsControllerTest extends TestCase
                 ],
             ],
             'owner' => $user->email,
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
