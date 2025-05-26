@@ -22,10 +22,9 @@ final class CharactersControllerTest extends TestCase
     public function testCreateUnknownStep(): void
     {
         $user = User::factory()->create();
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'endurance_robot' => 5,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['transformers-partial' => $character->id]);
         self::actingAs($user)
@@ -41,7 +40,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         self::assertCount(
             0,
-            PartialCharacter::where('owner', $user->email)->get(),
+            PartialCharacter::where('owner', $user->email->address)->get(),
         );
         self::actingAs($user)
             ->get(route('transformers.create', 'new'))
@@ -49,7 +48,7 @@ final class CharactersControllerTest extends TestCase
         self::assertNotSame('old-character-id', session('transformers-partial'));
         self::assertCount(
             1,
-            PartialCharacter::where('owner', $user->email)->get(),
+            PartialCharacter::where('owner', $user->email->address)->get(),
         );
     }
 
@@ -59,7 +58,7 @@ final class CharactersControllerTest extends TestCase
         self::assertNull(session('transformers-partial'));
         self::assertCount(
             0,
-            PartialCharacter::where('owner', $user->email)->get(),
+            PartialCharacter::where('owner', $user->email->address)->get(),
         );
         self::actingAs($user)
             ->get(route('transformers.create'))
@@ -68,19 +67,17 @@ final class CharactersControllerTest extends TestCase
         self::assertNotNull(session('transformers-partial'));
         self::assertCount(
             1,
-            PartialCharacter::where('owner', $user->email)->get(),
+            PartialCharacter::where('owner', $user->email->address)->get(),
         );
     }
 
     public function testChooseCharacter(): void
     {
         $user = User::factory()->create();
-        /** @var PartialCharacter */
         $character1 = PartialCharacter::factory()
-            ->create(['owner' => $user->email]);
-        /** @var PartialCharacter */
+            ->create(['owner' => $user->email->address]);
         $character2 = PartialCharacter::factory()
-            ->create(['owner' => $user->email]);
+            ->create(['owner' => $user->email->address]);
         self::actingAs($user)
             ->get(route('transformers.create'))
             ->assertOk()
@@ -93,9 +90,8 @@ final class CharactersControllerTest extends TestCase
     public function testCreateWithPartialCharacterInUrl(): void
     {
         $user = User::factory()->create();
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()
-            ->create(['owner' => $user->email]);
+            ->create(['owner' => $user->email->address]);
         self::actingAs($user)
             ->get(route('transformers.create', $character->id))
             ->assertRedirect(route('transformers.create', 'base'));
@@ -106,9 +102,8 @@ final class CharactersControllerTest extends TestCase
     public function testCreateWithPartialCharacterInSession(): void
     {
         $user = User::factory()->create();
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()
-            ->create(['owner' => $user->email]);
+            ->create(['owner' => $user->email->address]);
         session(['transformers-partial' => $character->id]);
         self::actingAs($user)
             ->get(route('transformers.create'))
@@ -121,9 +116,8 @@ final class CharactersControllerTest extends TestCase
     public function testStoreBase(): void
     {
         $user = User::factory()->create();
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()
-            ->create(['owner' => $user->email]);
+            ->create(['owner' => $user->email->address]);
         session(['transformers-partial' => $character->id]);
         self::actingAs($user)
             ->post(
@@ -146,9 +140,8 @@ final class CharactersControllerTest extends TestCase
     public function testCreateTryAltModeBeforeStats(): void
     {
         $user = User::factory()->create();
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()
-            ->create(['owner' => $user->email]);
+            ->create(['owner' => $user->email->address]);
         session(['transformers-partial' => $character->id]);
         self::actingAs($user)
             ->get(route('transformers.create', 'alt-mode'))
@@ -160,10 +153,9 @@ final class CharactersControllerTest extends TestCase
     public function testCreateAltMode(): void
     {
         $user = User::factory()->create();
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()->create([
             'endurance_robot' => 5,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['transformers-partial' => $character->id]);
         self::actingAs($user)
@@ -177,9 +169,8 @@ final class CharactersControllerTest extends TestCase
     public function testCreateFunction(): void
     {
         $user = User::factory()->create();
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()
-            ->create(['owner' => $user->email]);
+            ->create(['owner' => $user->email->address]);
         session(['transformers-partial' => $character->id]);
         self::actingAs($user)
             ->get(route('transformers.create', 'function'))
@@ -192,9 +183,8 @@ final class CharactersControllerTest extends TestCase
     public function testStoreFunction(): void
     {
         $user = User::factory()->create();
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()
-            ->create(['owner' => $user->email]);
+            ->create(['owner' => $user->email->address]);
         session(['transformers-partial' => $character->id]);
         self::actingAs($user)
             ->post(
@@ -213,9 +203,8 @@ final class CharactersControllerTest extends TestCase
     public function testCreateStatistics(): void
     {
         $user = User::factory()->create();
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()
-            ->create(['owner' => $user->email]);
+            ->create(['owner' => $user->email->address]);
         session(['transformers-partial' => $character->id]);
         self::actingAs($user)
             ->get(route('transformers.create', 'statistics'))
@@ -228,9 +217,8 @@ final class CharactersControllerTest extends TestCase
     public function testSaveStatistics(): void
     {
         $user = User::factory()->create();
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()
-            ->create(['owner' => $user->email]);
+            ->create(['owner' => $user->email->address]);
         session(['transformers-partial' => $character->id]);
         self::actingAs($user)
             ->post(
@@ -263,9 +251,8 @@ final class CharactersControllerTest extends TestCase
     public function testSaveForLater(): void
     {
         $user = User::factory()->create();
-        /** @var PartialCharacter */
         $character = PartialCharacter::factory()
-            ->create(['owner' => $user->email]);
+            ->create(['owner' => $user->email->address]);
         session(['transformers-partial' => $character->id]);
         self::actingAs($user)
             ->get(route('transformers.create', 'save-for-later'))
@@ -279,10 +266,10 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        /** @var Character */
-        $character1 = Character::factory()->create(['owner' => $user->email]);
-        /** @var Character */
-        $character2 = Character::factory()->create(['owner' => $user->email]);
+        $character1 = Character::factory()
+            ->create(['owner' => $user->email->address]);
+        $character2 = Character::factory()
+            ->create(['owner' => $user->email->address]);
 
         self::actingAs($user)
             ->getJson(route('transformers.characters.index'))
@@ -300,12 +287,10 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $user->assignRole($trusted);
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'transformers']);
-        /** @var Character */
         $character = Character::factory()->create([
             'campaign_id' => $campaign,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'subgroups' => ['actionmaster'],
         ]);
 
@@ -322,13 +307,12 @@ final class CharactersControllerTest extends TestCase
     public function testViewCharacter(): void
     {
         $user = User::factory()->create();
-
-        /** @var Character */
-        $character = Character::factory()->create(['owner' => $user->email]);
+        $character = Character::factory()
+            ->create(['owner' => $user->email->address]);
 
         self::actingAs($user)
             ->get(route('transformers.character', $character))
-            ->assertSee($user->email)
+            ->assertSee($user->email->address)
             ->assertSee(e($character->name), false);
 
         $character->delete();

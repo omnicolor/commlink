@@ -33,7 +33,7 @@ final class CampaignsControllerTest extends TestCase
         $user = User::factory()->create();
         self::actingAs($user)
             ->get(route('campaign.createForm'))
-            ->assertSee($user->email)
+            ->assertSee($user->email->address)
             ->assertSee('Create campaign', false);
     }
 
@@ -676,7 +676,7 @@ final class CampaignsControllerTest extends TestCase
                     'name' => $gm->name,
                 ],
                 'invitee' => [
-                    'email' => $invitee->email,
+                    'email' => $invitee->email->address,
                     'name' => $invitee->name,
                 ],
             ]);

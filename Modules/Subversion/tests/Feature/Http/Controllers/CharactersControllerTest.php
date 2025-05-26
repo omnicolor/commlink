@@ -35,7 +35,8 @@ final class CharactersControllerTest extends TestCase
             ->get('/characters/subversion/create')
             ->assertOk()
             ->assertSee('Each character chooses one lineage and one lineage option');
-        $characters = PartialCharacter::where('owner', $user->email)->get();
+        $characters = PartialCharacter::where('owner', $user->email->address)
+            ->get();
         self::assertCount(1, $characters);
 
         // @phpstan-ignore method.nonObject
@@ -46,10 +47,10 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character1 = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         $character2 = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
 
         self::actingAs($user)
@@ -65,7 +66,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
 
         self::actingAs($user)
@@ -79,7 +80,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -95,7 +96,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -116,7 +117,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -132,7 +133,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -153,7 +154,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -169,7 +170,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -190,7 +191,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -205,7 +206,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -229,7 +230,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -244,7 +245,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -265,7 +266,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -280,7 +281,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -301,7 +302,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -329,7 +330,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -363,7 +364,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -394,7 +395,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -410,7 +411,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -425,7 +426,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -446,7 +447,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -462,7 +463,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -492,7 +493,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -508,7 +509,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -536,7 +537,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         session(['subversion-partial' => $character->id]);
 
@@ -549,7 +550,8 @@ final class CharactersControllerTest extends TestCase
     public function testIndex(): void
     {
         $user = User::factory()->create();
-        $character = Character::factory()->create(['owner' => $user->email]);
+        $character = Character::factory()
+            ->create(['owner' => $user->email->address]);
         self::actingAs($user)
             ->getJson(route('subversion.characters.index'))
             ->assertOk()
@@ -560,7 +562,8 @@ final class CharactersControllerTest extends TestCase
     public function testShow(): void
     {
         $user = User::factory()->create();
-        $character = Character::factory()->create(['owner' => $user->email]);
+        $character = Character::factory()
+            ->create(['owner' => $user->email->address]);
         self::actingAs($user)
             ->getJson(route('subversion.characters.show', $character))
             ->assertOk()
@@ -570,14 +573,15 @@ final class CharactersControllerTest extends TestCase
     public function testView(): void
     {
         $user = User::factory()->create();
-        $character = Character::factory()->create(['owner' => $user->email]);
+        $character = Character::factory()
+            ->create(['owner' => $user->email->address]);
 
         self::actingAs($user)
             ->get(
                 route('subversion.character', $character),
                 ['character' => $character, 'user' => $user]
             )
-            ->assertSee($user->email)
+            ->assertSee($user->email->address)
             ->assertSee(e($character->name), false);
 
         $character->delete();

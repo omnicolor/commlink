@@ -18,6 +18,8 @@ use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 use function assert;
+use function route;
+use function session;
 
 #[Group('alien')]
 #[Medium]
@@ -28,8 +30,9 @@ final class CharactersControllerTest extends TestCase
     public function testSaveForLater(): void
     {
         $user = User::factory()->create();
-        $character = PartialCharacter::factory()
-            ->create(['owner' => $user->email]);
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email->address,
+        ]);
 
         self::actingAs($user)
             ->withSession([CharactersController::SESSION_KEY => $character->id])
@@ -41,12 +44,14 @@ final class CharactersControllerTest extends TestCase
     public function testCreateNewCharacter(): void
     {
         $user = User::factory()->create();
-        $characters = PartialCharacter::where('owner', $user->email)->get();
+        $characters = PartialCharacter::where('owner', $user->email->address)
+            ->get();
         self::assertCount(0, $characters);
         self::actingAs($user)
             ->get(route('alien.create', 'new'))
             ->assertRedirect(route('alien.create', 'career'));
-        $characters = PartialCharacter::where('owner', $user->email)->get();
+        $characters = PartialCharacter::where('owner', $user->email->address)
+            ->get();
         self::assertCount(1, $characters);
 
         $character = $characters[0];
@@ -61,7 +66,7 @@ final class CharactersControllerTest extends TestCase
             ->get(route('alien.create'))
             ->assertOk()
             ->assertSee('Pick a name');
-        PartialCharacter::where('owner', $user->email)->delete();
+        PartialCharacter::where('owner', $user->email->address)->delete();
     }
 
     public function testCreateCharacterChoose(): void
@@ -84,8 +89,9 @@ final class CharactersControllerTest extends TestCase
     public function testContinueCharacter(): void
     {
         $user = User::factory()->create();
-        $character = PartialCharacter::factory()
-            ->create(['owner' => $user->email]);
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email->address,
+        ]);
         self::actingAs($user)
             ->get(route('alien.create', $character->id))
             ->assertRedirect(route('alien.create', 'career'))
@@ -96,8 +102,9 @@ final class CharactersControllerTest extends TestCase
     public function testCreateUnknown(): void
     {
         $user = User::factory()->create();
-        $character = PartialCharacter::factory()
-            ->create(['owner' => $user->email]);
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email->address,
+        ]);
         self::actingAs($user)
             ->withSession([CharactersController::SESSION_KEY => $character->id])
             ->get(route('alien.create', 'unknown'))
@@ -108,8 +115,9 @@ final class CharactersControllerTest extends TestCase
     public function testCreateCareer(): void
     {
         $user = User::factory()->create();
-        $character = PartialCharacter::factory()
-            ->create(['owner' => $user->email]);
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email->address,
+        ]);
         self::actingAs($user)
             ->withSession([CharactersController::SESSION_KEY => $character->id])
             ->get(route('alien.create', 'career'))
@@ -121,8 +129,9 @@ final class CharactersControllerTest extends TestCase
     public function testSaveCareer(): void
     {
         $user = User::factory()->create();
-        $character = PartialCharacter::factory()
-            ->create(['owner' => $user->email]);
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email->address,
+        ]);
         $name = $this->faker->name;
         self::actingAs($user)
             ->withSession([CharactersController::SESSION_KEY => $character->id])
@@ -145,7 +154,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
             'career' => 'colonial-marine',
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         self::actingAs($user)
             ->withSession([CharactersController::SESSION_KEY => $character->id])
@@ -159,8 +168,9 @@ final class CharactersControllerTest extends TestCase
     public function testCreateAttributesNoCareer(): void
     {
         $user = User::factory()->create();
-        $character = PartialCharacter::factory()
-            ->create(['owner' => $user->email]);
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email->address,
+        ]);
         self::actingAs($user)
             ->withSession([CharactersController::SESSION_KEY => $character->id])
             ->get(route('alien.create', 'attributes'))
@@ -175,7 +185,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
             'career' => 'colonial-marine',
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         self::actingAs($user)
             ->withSession([CharactersController::SESSION_KEY => $character->id])
@@ -200,8 +210,9 @@ final class CharactersControllerTest extends TestCase
     public function testCreateSkillsNoCareer(): void
     {
         $user = User::factory()->create();
-        $character = PartialCharacter::factory()
-            ->create(['owner' => $user->email]);
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email->address,
+        ]);
         self::actingAs($user)
             ->withSession([CharactersController::SESSION_KEY => $character->id])
             ->get(route('alien.create', 'skills'))
@@ -216,7 +227,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
             'career' => 'colonial-marine',
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         self::actingAs($user)
             ->withSession([CharactersController::SESSION_KEY => $character->id])
@@ -232,7 +243,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
             'career' => 'colonial-marine',
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         self::actingAs($user)
             ->withSession([CharactersController::SESSION_KEY => $character->id])
@@ -273,8 +284,9 @@ final class CharactersControllerTest extends TestCase
     public function testCreateTalentNoCareer(): void
     {
         $user = User::factory()->create();
-        $character = PartialCharacter::factory()
-            ->create(['owner' => $user->email]);
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email->address,
+        ]);
         self::actingAs($user)
             ->withSession([CharactersController::SESSION_KEY => $character->id])
             ->get(route('alien.create', 'talent'))
@@ -290,7 +302,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
             'career' => 'colonial-marine',
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'talents' => ['banter'],
         ]);
         self::actingAs($user)
@@ -306,7 +318,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
             'career' => 'colonial-marine',
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         self::actingAs($user)
             ->withSession([CharactersController::SESSION_KEY => $character->id])
@@ -323,8 +335,9 @@ final class CharactersControllerTest extends TestCase
     public function testCreateGearNoCareer(): void
     {
         $user = User::factory()->create();
-        $character = PartialCharacter::factory()
-            ->create(['owner' => $user->email]);
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email->address,
+        ]);
         self::actingAs($user)
             ->withSession([CharactersController::SESSION_KEY => $character->id])
             ->get(route('alien.create', 'gear'))
@@ -341,7 +354,7 @@ final class CharactersControllerTest extends TestCase
         $character = PartialCharacter::factory()->create([
             'armor' => 'm3-personnel-armor',
             'career' => 'colonial-marine',
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         self::actingAs($user)
             ->withSession([CharactersController::SESSION_KEY => $character->id])
@@ -356,7 +369,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
             'career' => 'colonial-marine',
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         self::actingAs($user)
             ->withSession([CharactersController::SESSION_KEY => $character->id])
@@ -384,7 +397,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
             'career' => 'colonial-marine',
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         self::actingAs($user)
             ->withSession([CharactersController::SESSION_KEY => $character->id])
@@ -410,7 +423,7 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
             'career' => 'colonial-marshal',
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         DiceService::shouldReceive('rollOne')->times(1)->with(6)->andReturn(6);
         self::actingAs($user)
@@ -436,7 +449,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         self::actingAs($user)
             ->withSession([CharactersController::SESSION_KEY => $character->id])
@@ -450,7 +463,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         self::actingAs($user)
             ->withSession([CharactersController::SESSION_KEY => $character->id])
@@ -476,7 +489,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         self::actingAs($user)
             ->withSession([CharactersController::SESSION_KEY => $character->id])
@@ -498,7 +511,7 @@ final class CharactersControllerTest extends TestCase
                 ['id' =>  'm314-motion-tracker'],
             ],
             'name' => 'Bob King',
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'skills' => [
                 'close-combat' => 3,
                 'command' => 1,
@@ -531,7 +544,7 @@ final class CharactersControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $character = PartialCharacter::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
         self::actingAs($user)
             ->withSession([CharactersController::SESSION_KEY => $character->id])
@@ -552,7 +565,7 @@ final class CharactersControllerTest extends TestCase
                 ['id' =>  'm314-motion-tracker'],
             ],
             'name' => 'Save Test',
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'skills' => [
                 'close-combat' => 3,
                 'command' => 1,
@@ -581,7 +594,7 @@ final class CharactersControllerTest extends TestCase
         self::assertModelMissing($partialCharacter);
         /** @var Character */
         $character = Character::where('name', 'Save Test')
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
         self::assertSame('Save Test', $character->name);
         $response->assertRedirect(route('alien.character', $character->id));
@@ -595,10 +608,12 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $user->assignRole($trusted);
 
-        /** @var Character */
-        $character1 = Character::factory()->create(['owner' => $user->email]);
-        /** @var Character */
-        $character2 = Character::factory()->create(['owner' => $user->email]);
+        $character1 = Character::factory()->create([
+            'owner' => $user->email->address,
+        ]);
+        $character2 = Character::factory()->create([
+            'owner' => $user->email->address,
+        ]);
 
         self::actingAs($user)
             ->getJson(route('alien.characters.index'))
@@ -616,12 +631,10 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
         $user->assignRole($trusted);
 
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'alien']);
-        /** @var Character */
         $character = Character::factory()->create([
             'campaign_id' => $campaign,
-            'owner' => $user->email,
+            'owner' => $user->email->address,
         ]);
 
         self::actingAs($user)
@@ -636,11 +649,13 @@ final class CharactersControllerTest extends TestCase
     public function testViewCharacter(): void
     {
         $user = User::factory()->create();
-        $character = Character::factory()->create(['owner' => $user->email]);
+        $character = Character::factory()->create([
+            'owner' => $user->email->address,
+        ]);
 
         $this->actingAs($user)
             ->get(route('alien.character', $character))
-            ->assertSee($user->email)
+            ->assertSee($user->email->address)
             ->assertSee(e($character->name), false);
         $character->delete();
     }

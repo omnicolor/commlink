@@ -45,7 +45,7 @@
         "php": "^8.4",
         "ext-curl": "^7.34|^8.0",
         "ext-fileinfo": "*",
-        "ext-mongodb": "^1.15",
+        "ext-mongodb": "^2.0",
         "ext-random": "*",
         "ext-redis": "*",
         "ext-zip": "*",

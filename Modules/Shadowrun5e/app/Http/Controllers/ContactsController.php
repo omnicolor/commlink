@@ -25,7 +25,7 @@ class ContactsController extends Controller
 
         $campaign = $character->campaign();
         abort_if(
-            $user->email !== $character->owner
+            !$user->email->is($character->owner)
             && (null === $campaign || $user->isNot($campaign->gamemaster)),
             JsonResponse::HTTP_NOT_FOUND,
         );

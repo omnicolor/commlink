@@ -25,7 +25,7 @@ class CharactersController extends Controller
     public function index(Request $request): JsonResource
     {
         return CharacterResource::collection(
-            Character::where('owner', $request->user()?->email)->get()
+            Character::where('owner', $request->user()?->email->address)->get()
         )
             ->additional(['links' => [
                 'self' => route('avatar.characters.index'),
@@ -38,7 +38,7 @@ class CharactersController extends Controller
         $user = $request->user();
         $campaign = $character->campaign();
         abort_if(
-            $user->email !== $character->owner
+            !$user->email->is($character->owner)
             && (null === $campaign || $user->isNot($campaign->gamemaster)),
             Response::HTTP_NOT_FOUND
         );

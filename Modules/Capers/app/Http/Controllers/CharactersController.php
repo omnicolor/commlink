@@ -59,7 +59,7 @@ class CharactersController extends Controller
 
         if ('new' === $step) {
             $character = PartialCharacter::create([
-                'owner' => $user->email,
+                'owner' => $user->email->address,
             ]);
             $request->session()->put('capers-partial', $character->id);
             return view(
@@ -84,7 +84,7 @@ class CharactersController extends Controller
         if (null === $character) {
             // No current character, see if they already have a character they
             // might want to continue.
-            $characters = PartialCharacter::where('owner', $user->email)->get();
+            $characters = PartialCharacter::where('owner', $user->email->address)->get();
 
             if (0 !== count($characters)) {
                 return view(
@@ -100,7 +100,9 @@ class CharactersController extends Controller
              * No in-progress characters, create a new one.
              * @var PartialCharacter
              */
-            $character = PartialCharacter::create(['owner' => $user->email]);
+            $character = PartialCharacter::create([
+                'owner' => $user->email->address,
+            ]);
             $request->session()->put('capers-partial', $character->id);
         }
 
@@ -271,7 +273,7 @@ class CharactersController extends Controller
         if (null !== $characterId) {
             // Return the character they're working on.
             /** @var PartialCharacter */
-            return PartialCharacter::where('owner', $user->email)
+            return PartialCharacter::where('owner', $user->email->address)
                 ->where('_id', $characterId)
                 ->firstOrFail();
         }
@@ -281,7 +283,7 @@ class CharactersController extends Controller
 
         // Maybe they're chosing to continue a character right now.
         /** @var PartialCharacter */
-        $character = PartialCharacter::where('owner', $user->email)
+        $character = PartialCharacter::where('owner', $user->email->address)
             ->find($step);
         if (null !== $character) {
             $request->session()->put('capers-partial', $character->id);
@@ -296,7 +298,7 @@ class CharactersController extends Controller
         $characterId = (string)$request->session()->pull('capers-partial');
         /** @var PartialCharacter */
         $partialCharacter = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
         $character = $partialCharacter->toCharacter();
         $character->save();
@@ -312,7 +314,7 @@ class CharactersController extends Controller
         $characterId = (string)$request->session()->get('capers-partial');
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $character->identity = $request->input('identity');
@@ -330,7 +332,7 @@ class CharactersController extends Controller
         $user = $request->user();
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $character->background = $request->input('background');
@@ -351,7 +353,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get('capers-partial');
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
         if (Character::TYPE_CAPER !== $character->type) {
             return redirect('/characters/capers/create/skills')
@@ -386,7 +388,7 @@ class CharactersController extends Controller
         $user = $request->user();
 
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $gearIds = $request->input('gear', []);
@@ -421,7 +423,7 @@ class CharactersController extends Controller
 
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
         if (Character::TYPE_CAPER !== $character->type) {
             return redirect('/characters/capers/create/skills')
@@ -461,7 +463,7 @@ class CharactersController extends Controller
 
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
         $character->skills = $request->input('skills');
         $character->update();
@@ -479,7 +481,7 @@ class CharactersController extends Controller
         $user = $request->user();
 
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
         $attributes = [
             'agility' => 2,
@@ -502,7 +504,7 @@ class CharactersController extends Controller
     public function index(Request $request): JsonResource
     {
         return CharacterResource::collection(
-            Character::where('owner', $request->user()?->email)->get()
+            Character::where('owner', $request->user()?->email->address)->get()
         )
             ->additional(['links' => [
                 'self' => route('capers.characters.index'),
@@ -515,7 +517,7 @@ class CharactersController extends Controller
         $user = $request->user();
         $campaign = $character->campaign();
         abort_if(
-            $user->email !== $character->owner
+            !$user->email->is($character->owner)
             && (null === $campaign || $user->isNot($campaign->gamemaster)),
             Response::HTTP_NOT_FOUND
         );

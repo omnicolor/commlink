@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Alien\Models;
 
+use App\Casts\AsEmail;
 use App\Models\Character as BaseCharacter;
+use App\ValueObjects\Email;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -39,7 +41,7 @@ use function current;
  * @property-read int $health_maximum
  * @property-read array<int, Injury> $injuries
  * @property-write array<int, Injury|string> $injuries
- * @property string $owner
+ * @property Email $owner
  * @property string $name
  * @property int $radiation
  * @property string $rival
@@ -60,6 +62,11 @@ class Character extends BaseCharacter implements Stringable
     /** @var array<string, mixed> */
     protected $attributes = [
         'system' => 'alien',
+    ];
+
+    /** @var array<string, string> */
+    protected $casts = [
+        'owner' => AsEmail::class,
     ];
 
     /** @var list<string> */

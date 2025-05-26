@@ -19,11 +19,11 @@ final class CharactersControllerTest extends TestCase
         $user = User::factory()->create();
 
         $character1 = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'alien',
         ]);
         $character2 = Character::factory()->create([
-            'owner' => $user->email,
+            'owner' => $user->email->address,
             'system' => 'unknown',
         ]);
 
