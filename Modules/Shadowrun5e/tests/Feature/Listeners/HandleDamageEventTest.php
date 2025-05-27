@@ -35,12 +35,9 @@ final class HandleDamageEventTest extends TestCase
     {
         Http::fake();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->has(Channel::factory(['type' => ChannelType::Discord]))
             ->create();
-
-        /** @var Character */
         $character = Character::factory()->create([]);
 
         $damage = (object)[
@@ -103,15 +100,12 @@ final class HandleDamageEventTest extends TestCase
     {
         Http::fake();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->has(Channel::factory([
                 'type' => ChannelType::Discord,
                 'webhook' => 'http://example.org',
             ]))
             ->create();
-
-        /** @var Character */
         $character = Character::factory()->create(['willpower' => 4]);
 
         // A character with 4 willpower will have 10 boxes of stun. So taking
@@ -145,7 +139,6 @@ final class HandleDamageEventTest extends TestCase
     {
         Http::fake();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->has(Channel::factory([
                 'type' => ChannelType::Discord,
@@ -153,7 +146,6 @@ final class HandleDamageEventTest extends TestCase
             ]))
             ->create();
 
-        /** @var Character */
         $character = Character::factory()->create([
             'body' => 2,
             'damageStun' => 9,
@@ -192,12 +184,10 @@ final class HandleDamageEventTest extends TestCase
     {
         Http::fake();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->has(Channel::factory(['type' => ChannelType::Slack]))
             ->create();
 
-        /** @var Character */
         $character = Character::factory()->create([]);
 
         $damage = (object)[
@@ -227,12 +217,10 @@ final class HandleDamageEventTest extends TestCase
     {
         Http::fake();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->has(Channel::factory(['type' => ChannelType::Slack]))
             ->create();
 
-        /** @var Character */
         $character = Character::factory()->create([]);
 
         $damage = (object)[

@@ -263,6 +263,7 @@ final class InfoTest extends TestCase
     {
         $user = User::factory()->create();
 
+        /** @var Channel $channel */
         $channel = Channel::factory()->create([
             'type' => ChannelType::Slack,
         ]);

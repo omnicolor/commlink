@@ -50,6 +50,7 @@ final class CoinTest extends TestCase
     {
         DiceService::shouldReceive('rollOne')->once()->with(2)->andReturn(1);
 
+        /** @var Channel */
         $channel = Channel::factory()->make();
         self::assertSame(
             'username flipped a coin: Heads',

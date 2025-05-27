@@ -180,6 +180,8 @@ final class ChannelTest extends TestCase
      */
     public function testGetServerNameDiscordInstance(): void
     {
+        Http::preventStrayRequests();
+
         $user = User::factory()->create();
         $channel = new Channel([
             'channel_id' => '2' . Str::random(10),
@@ -255,7 +257,7 @@ final class ChannelTest extends TestCase
     {
         $channel = new Channel();
         $channel->type = ChannelType::Slack;
-        self::assertSame('slack', $channel->type);
+        self::assertSame(ChannelType::Slack, $channel->type);
     }
 
     /**

@@ -140,7 +140,7 @@ class Channel extends Model
                     return $this->attributes['server_name'];
                 }
 
-                switch ($this->attributes['type'] ?? null) {
+                switch ($this->type ?? null) {
                     case ChannelType::Discord:
                         $this->attributes['server_name'] = self::getDiscordServerName(
                             $this->attributes['server_id']

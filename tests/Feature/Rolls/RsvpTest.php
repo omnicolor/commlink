@@ -211,6 +211,7 @@ final class RsvpTest extends TestCase
 
         $event = Event::factory()->create(['campaign_id' => $campaign->id]);
 
+        /** @var Channel $channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign->id,
             'type' => ChannelType::Slack,

@@ -202,6 +202,7 @@ final class ValidateTest extends TestCase
         Event::fake();
         $username = $this->faker->userName();
 
+        /** @var Channel $channel */
         $channel = Channel::factory()->create(['type' => ChannelType::Irc]);
         $channel->user = $username;
 

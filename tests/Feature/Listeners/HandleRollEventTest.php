@@ -133,7 +133,7 @@ final class HandleRollEventTest extends TestCase
             ->hasChannels(
                 1,
                 [
-                    'type' => 'slack',
+                    'type' => ChannelType::Slack->value,
                     'webhook' => 'http://example.com',
                 ]
             )
@@ -197,7 +197,7 @@ final class HandleRollEventTest extends TestCase
             ->hasChannels(
                 1,
                 [
-                    'type' => 'slack',
+                    'type' => ChannelType::Slack->value,
                     'webhook' => 'http://example.com',
                 ]
             )

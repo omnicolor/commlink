@@ -58,6 +58,7 @@ final class InitiativeTest extends TestCase
 
     public function testScopeForChannel(): void
     {
+        /** @var Channel */
         $channel = Channel::factory()->make();
 
         Initiative::forChannel($channel)->delete();
