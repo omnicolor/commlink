@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models;
 
+use App\Enums\ChannelType;
 use App\Models\Character;
 use App\Models\WebChannel;
 use LogicException;
@@ -72,10 +73,18 @@ final class WebChannelTest extends TestCase
         self::assertSame('alien', $channel->system);
     }
 
-    public function testType(): void
+    public function testGetType(): void
     {
         $channel = new WebChannel();
         self::assertSame('web', $channel->type);
+    }
+
+    public function testSetType(): void
+    {
+        $channel = new WebChannel();
+        self::expectException(LogicException::class);
+        self::expectExceptionMessage('WebChannel types can not be set');
+        $channel->type = ChannelType::Slack;
     }
 
     public function testFindForWebhook(): void
