@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers\Auth;
 
+use App\Enums\CampaignInvitationStatus;
 use App\Models\Campaign;
 use App\Models\CampaignInvitation;
 use App\Models\User;
@@ -86,7 +87,7 @@ final class AuthenticatedSessionControllerTest extends TestCase
             'email' => $this->faker->safeEmail,
             'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
-            'status' => CampaignInvitation::RESPONDED,
+            'status' => CampaignInvitationStatus::Responded,
         ]);
 
         self::post('/login', [
@@ -145,7 +146,7 @@ final class AuthenticatedSessionControllerTest extends TestCase
         $invitation->refresh();
         $campaign->refresh();
         self::assertNotNull($invitation->responded_at);
-        self::assertSame(CampaignInvitation::RESPONDED, $invitation->status);
+        self::assertSame(CampaignInvitationStatus::Responded, $invitation->status);
         self::assertCount(1, $campaign->users);
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Casts\AsEmail;
+use App\Enums\CampaignInvitationStatus;
 use App\Events\CampaignInvitationCreated;
 use App\Events\CampaignInvitationUpdated;
 use App\ValueObjects\Email;
@@ -23,16 +24,12 @@ use function sha1;
  * @property-read User $invitor
  * @property string $name
  * @property string $responded_at
- * @property string $status
+ * @property CampaignInvitationStatus $status
  * @property string $updated_at
  */
 class CampaignInvitation extends Model
 {
     use HasFactory;
-
-    public const string INVITED = 'invited';
-    public const string RESPONDED = 'responded';
-    public const string SPAM = 'spam';
 
     /**
      * @var array<string, string>
@@ -40,6 +37,7 @@ class CampaignInvitation extends Model
     protected $casts = [
         'campaign_id' => 'int',
         'email' => AsEmail::class,
+        'status' => CampaignInvitationStatus::class,
     ];
 
     /**

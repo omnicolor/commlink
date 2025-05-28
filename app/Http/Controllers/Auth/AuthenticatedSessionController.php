@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\CampaignInvitationStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\CampaignInvitation;
@@ -45,7 +46,7 @@ class AuthenticatedSessionController extends Controller
                 'The token does not appear to be valid for the invitation',
             );
             abort_if(
-                CampaignInvitation::INVITED !== $invitation->status,
+                CampaignInvitationStatus::Invited !== $invitation->status,
                 Response::HTTP_BAD_REQUEST,
                 'It appears you\'ve already responded to the invitation',
             );
@@ -60,7 +61,7 @@ class AuthenticatedSessionController extends Controller
                 ['status' => 'accepted']
             );
 
-            $invitation->status = CampaignInvitation::RESPONDED;
+            $invitation->status = CampaignInvitationStatus::Responded;
             $invitation->responded_at = $invitation->updated_at = now()->toDateTimeString();
             $invitation->save();
 

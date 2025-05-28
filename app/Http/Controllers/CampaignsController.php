@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enums\CampaignInvitationStatus;
 use App\Events\CampaignCreated;
 use App\Http\Requests\CampaignCreateRequest;
 use App\Http\Requests\CampaignInvitationCreateRequest;
@@ -227,7 +228,7 @@ class CampaignsController extends Controller
 
         $campaign->users()->attach(
             $user->id,
-            ['status' => CampaignInvitation::INVITED]
+            ['status' => CampaignInvitationStatus::Invited]
         );
         $invitation = new CampaignInvitation([
             'campaign_id' => $campaign->id,
@@ -375,7 +376,7 @@ class CampaignsController extends Controller
             'The token does not appear to be valid for the invitation',
         );
         abort_if(
-            CampaignInvitation::INVITED !== $invitation->status,
+            CampaignInvitationStatus::Invited !== $invitation->status,
             Response::HTTP_BAD_REQUEST,
             'It appears you\'ve already responded to the invitation',
         );
@@ -423,12 +424,12 @@ class CampaignsController extends Controller
             'The token does not appear to be valid for the invitation',
         );
         abort_if(
-            CampaignInvitation::INVITED !== $invitation->status,
+            CampaignInvitationStatus::Invited !== $invitation->status,
             Response::HTTP_BAD_REQUEST,
             'It appears you\'ve already responded to the invitation',
         );
 
-        $invitation->status = CampaignInvitation::RESPONDED;
+        $invitation->status = CampaignInvitationStatus::Responded;
         $invitation->updated_at = $invitation->responded_at = now()->toDateTimeString();
         $invitation->save();
 
@@ -452,12 +453,12 @@ class CampaignsController extends Controller
             'The token does not appear to be valid for the invitation',
         );
         abort_if(
-            CampaignInvitation::INVITED !== $invitation->status,
+            CampaignInvitationStatus::Invited !== $invitation->status,
             Response::HTTP_BAD_REQUEST,
             'It appears you\'ve already responded to the invitation',
         );
 
-        $invitation->status = CampaignInvitation::SPAM;
+        $invitation->status = CampaignInvitationStatus::Spam;
         $invitation->updated_at = $invitation->responded_at = now()->toDateTimeString();
         $invitation->save();
 
@@ -481,7 +482,7 @@ class CampaignsController extends Controller
             'The token does not appear to be valid for the invitation',
         );
         abort_if(
-            CampaignInvitation::INVITED !== $invitation->status,
+            CampaignInvitationStatus::Invited !== $invitation->status,
             Response::HTTP_BAD_REQUEST,
             'It appears you\'ve already responded to the invitation',
         );

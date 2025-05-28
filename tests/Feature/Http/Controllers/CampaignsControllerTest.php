@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Enums\CampaignInvitationStatus;
 use App\Models\Campaign;
 use App\Models\CampaignInvitation;
 use App\Models\User;
@@ -712,7 +713,7 @@ final class CampaignsControllerTest extends TestCase
             'email' => $this->faker->safeEmail,
             'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
-            'status' => CampaignInvitation::RESPONDED,
+            'status' => CampaignInvitationStatus::Responded,
         ]);
 
         self::get(route(
@@ -779,7 +780,7 @@ final class CampaignsControllerTest extends TestCase
             'email' => $this->faker->safeEmail,
             'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
-            'status' => CampaignInvitation::RESPONDED,
+            'status' => CampaignInvitationStatus::Responded,
         ]);
 
         self::get(route(
@@ -846,7 +847,7 @@ final class CampaignsControllerTest extends TestCase
             'email' => $this->faker->safeEmail,
             'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
-            'status' => CampaignInvitation::RESPONDED,
+            'status' => CampaignInvitationStatus::Responded,
         ]);
 
         self::get(route(
@@ -884,7 +885,7 @@ final class CampaignsControllerTest extends TestCase
 
         $invitation->refresh();
         self::assertNotNull($invitation->responded_at);
-        self::assertSame(CampaignInvitation::RESPONDED, $invitation->status);
+        self::assertSame(CampaignInvitationStatus::Responded, $invitation->status);
     }
 
     public function testSpamInvitationBadHash(): void
@@ -917,7 +918,7 @@ final class CampaignsControllerTest extends TestCase
             'email' => $this->faker->safeEmail,
             'invited_by' => $campaign->gamemaster?->id,
             'name' => $this->faker->name,
-            'status' => CampaignInvitation::RESPONDED,
+            'status' => CampaignInvitationStatus::Responded,
         ]);
 
         self::get(route(
@@ -955,7 +956,7 @@ final class CampaignsControllerTest extends TestCase
 
         $invitation->refresh();
         self::assertNotNull($invitation->responded_at);
-        self::assertSame(CampaignInvitation::SPAM, $invitation->status);
+        self::assertSame(CampaignInvitationStatus::Spam, $invitation->status);
     }
 
     public function testPatchNotGm(): void
