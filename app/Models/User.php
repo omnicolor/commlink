@@ -18,7 +18,9 @@ use Illuminate\Support\Facades\Mail;
 use Laravel\Pennant\Concerns\HasFeatures;
 use Laravel\Pennant\Feature;
 use Laravel\Sanctum\HasApiTokens;
+use Override;
 use Spatie\Permission\Traits\HasRoles;
+use Stringable;
 use stdClass;
 
 use function array_filter;
@@ -37,7 +39,7 @@ use function str_replace;
  * @property string $name
  * @property stdClass $pivot
  */
-class User extends Authenticatable
+class User extends Authenticatable implements Stringable
 {
     use HasApiTokens;
     use HasFactory;
@@ -72,6 +74,12 @@ class User extends Authenticatable
         'email' => AsEmail::class,
         'email_verified_at' => 'datetime',
     ];
+
+    #[Override]
+    public function __toString(): string
+    {
+        return $this->name ?? 'Unnamed User';
+    }
 
     /**
      * Get the campaigns for the user.

@@ -167,4 +167,12 @@ final class UserTest extends TestCase
         Feature::for($user)->activate(ChummerImport::class);
         self::assertCount(1, $user->getFeatures());
     }
+
+    public function testToString(): void
+    {
+        $user = new User();
+        self::assertSame('Unnamed User', (string)$user);
+        $user->name = 'Phil McCracken';
+        self::assertSame('Phil McCracken', (string)$user);
+    }
 }
