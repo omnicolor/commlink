@@ -20,7 +20,7 @@ class CharactersController extends Controller
     public function index(Request $request): AnonymousResourceCollection
     {
         return CharacterTransformer::collection(
-            Character::where('owner', $request->user()?->email)->get()
+            Character::where('owner', $request->user()?->email->address)->get()
         );
     }
 
@@ -30,7 +30,7 @@ class CharactersController extends Controller
         $user = $request->user();
         $campaign = $character->campaign();
         abort_if(
-            $user->email !== $character->owner
+            !$user->email->is($character->owner)
             && (null === $campaign || $user->isNot($campaign->gamemaster)),
             Response::HTTP_NOT_FOUND
         );
