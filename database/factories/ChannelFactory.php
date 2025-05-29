@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Enums\ChannelType;
 use App\Models\Channel;
 use Illuminate\Support\Str;
 
@@ -32,7 +33,7 @@ class ChannelFactory extends Factory
             'system' => (string)$this->faker->randomElement(
                 array_keys((array)config('commlink.systems'))
             ),
-            'type' => (string)$this->faker->randomElement(Channel::VALID_TYPES),
+            'type' => ($this->faker->randomElement(ChannelType::cases()))->value,
         ];
     }
 }

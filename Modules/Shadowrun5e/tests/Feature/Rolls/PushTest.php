@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Rolls;
 
+use App\Enums\ChannelType;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
@@ -44,7 +45,7 @@ final class PushTest extends TestCase
     public function testPushNoDice(): void
     {
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
             'system' => 'shadowrun5e',
         ]);
 
@@ -80,7 +81,7 @@ final class PushTest extends TestCase
     public function testPushTooManyDice(): void
     {
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
             'system' => 'shadowrun5e',
         ]);
 
@@ -112,7 +113,7 @@ final class PushTest extends TestCase
     public function testPushOutOfEdge(): void
     {
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
             'system' => 'shadowrun5e',
         ]);
 
@@ -147,7 +148,7 @@ final class PushTest extends TestCase
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(5);
 
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
             'system' => 'shadowrun5e',
         ]);
 
@@ -194,7 +195,7 @@ final class PushTest extends TestCase
             ->andReturn(6, 5, 6, 1);
 
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
             'system' => 'shadowrun5e',
         ]);
 
@@ -251,7 +252,7 @@ final class PushTest extends TestCase
             ->andReturn(2, 1, 1);
 
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
             'system' => 'shadowrun5e',
         ]);
 
@@ -300,7 +301,7 @@ final class PushTest extends TestCase
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(5);
 
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
             'system' => 'shadowrun5e',
         ]);
 
@@ -336,7 +337,7 @@ final class PushTest extends TestCase
     public function testPushErrorIrc(): void
     {
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
             'system' => 'shadowrun5e',
         ]);
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enums\ChannelType;
 use App\Events\RollEvent;
 use App\Http\Requests\SlackRequest;
 use App\Http\Responses\Slack\SlackResponse;
@@ -216,7 +217,7 @@ class SlackController extends Controller
             return new Channel([
                 'channel_id' => $channel,
                 'server_id' => $team,
-                'type' => Channel::TYPE_SLACK,
+                'type' => ChannelType::Slack,
             ]);
         }
     }

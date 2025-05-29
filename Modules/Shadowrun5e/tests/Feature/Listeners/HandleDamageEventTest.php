@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Listeners;
 
+use App\Enums\ChannelType;
 use App\Models\Campaign;
 use App\Models\Channel;
 use Illuminate\Http\Client\Request;
@@ -34,12 +35,9 @@ final class HandleDamageEventTest extends TestCase
     {
         Http::fake();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()
-            ->has(Channel::factory(['type' => Channel::TYPE_DISCORD]))
+            ->has(Channel::factory(['type' => ChannelType::Discord]))
             ->create();
-
-        /** @var Character */
         $character = Character::factory()->create([]);
 
         $damage = (object)[
@@ -66,7 +64,7 @@ final class HandleDamageEventTest extends TestCase
         /** @var Campaign */
         $campaign = Campaign::factory()
             ->has(Channel::factory([
-                'type' => Channel::TYPE_DISCORD,
+                'type' => ChannelType::Discord,
                 'webhook' => 'http://example.org',
             ]))
             ->create();
@@ -102,15 +100,12 @@ final class HandleDamageEventTest extends TestCase
     {
         Http::fake();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->has(Channel::factory([
-                'type' => Channel::TYPE_DISCORD,
+                'type' => ChannelType::Discord,
                 'webhook' => 'http://example.org',
             ]))
             ->create();
-
-        /** @var Character */
         $character = Character::factory()->create(['willpower' => 4]);
 
         // A character with 4 willpower will have 10 boxes of stun. So taking
@@ -144,15 +139,13 @@ final class HandleDamageEventTest extends TestCase
     {
         Http::fake();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()
             ->has(Channel::factory([
-                'type' => Channel::TYPE_DISCORD,
+                'type' => ChannelType::Discord,
                 'webhook' => 'http://example.org',
             ]))
             ->create();
 
-        /** @var Character */
         $character = Character::factory()->create([
             'body' => 2,
             'damageStun' => 9,
@@ -191,12 +184,10 @@ final class HandleDamageEventTest extends TestCase
     {
         Http::fake();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()
-            ->has(Channel::factory(['type' => Channel::TYPE_SLACK]))
+            ->has(Channel::factory(['type' => ChannelType::Slack]))
             ->create();
 
-        /** @var Character */
         $character = Character::factory()->create([]);
 
         $damage = (object)[
@@ -226,12 +217,10 @@ final class HandleDamageEventTest extends TestCase
     {
         Http::fake();
 
-        /** @var Campaign */
         $campaign = Campaign::factory()
-            ->has(Channel::factory(['type' => Channel::TYPE_SLACK]))
+            ->has(Channel::factory(['type' => ChannelType::Slack]))
             ->create();
 
-        /** @var Character */
         $character = Character::factory()->create([]);
 
         $damage = (object)[
@@ -267,7 +256,7 @@ final class HandleDamageEventTest extends TestCase
 
         /** @var Campaign */
         $campaign = Campaign::factory()
-            ->has(Channel::factory(['type' => Channel::TYPE_SLACK]))
+            ->has(Channel::factory(['type' => ChannelType::Slack]))
             ->create();
 
         /** @var Character */

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Http\Resources;
 
-use App\Http\Resources\JsonResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Shadowrun5e\Models\Character;
 
 /**

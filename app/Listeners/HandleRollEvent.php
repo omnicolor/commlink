@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Listeners;
 
+use App\Enums\ChannelType;
 use App\Events\RollEvent;
 use App\Models\Channel;
 use App\Rolls\Roll;
@@ -45,7 +46,7 @@ class HandleRollEvent
                 // Don't broadcast back to the original channel.
                 continue;
             }
-            if ('slack' === $channel->type) {
+            if (ChannelType::Slack === $channel->type) {
                 $this->sendToSlack($event->roll, $channel);
                 continue;
             }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Listeners;
 
+use App\Enums\ChannelType;
 use App\Events\InitiativeAdded;
 use App\Models\Channel;
 use App\Models\Initiative;
@@ -36,7 +37,7 @@ class HandleInitiativeEvent
                 // should get broadcast to all other channels.
                 continue;
             }
-            if ('slack' === $channel->type) {
+            if (ChannelType::Slack === $channel->type) {
                 $this->sendToSlack($event->initiative, $channel);
                 continue;
             }

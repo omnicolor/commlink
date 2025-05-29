@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Subversion\Tests\Feature\Rolls;
 
+use App\Enums\ChannelType;
 use App\Models\Channel;
 use App\Models\Character;
 use App\Models\ChatCharacter;
@@ -27,7 +28,7 @@ final class HelpTest extends TestCase
     {
         $channel = Channel::factory()->make([
             'system' => 'subversion',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $response = (new Help('', 'username', $channel))
             ->forSlack()
@@ -48,7 +49,7 @@ final class HelpTest extends TestCase
     {
         $channel = Channel::factory()->create([
             'system' => 'subversion',
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
 
         $chatUser = ChatUser::factory()->create([
@@ -80,7 +81,7 @@ final class HelpTest extends TestCase
     {
         $channel = Channel::factory()->make([
             'system' => 'subversion',
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
         ]);
         $response = (new Help('', 'username', $channel))->forIrc();
         self::assertStringContainsString(

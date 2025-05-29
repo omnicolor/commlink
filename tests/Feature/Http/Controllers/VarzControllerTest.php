@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Enums\ChannelType;
 use App\Models\Campaign;
 use App\Models\CampaignInvitation;
 use App\Models\Channel;
@@ -89,10 +90,10 @@ final class VarzControllerTest extends TestCase
             'system' => 'shadowrun5e',
         ]);
         Channel::factory()->create([
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         Channel::factory()->create([
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
 
         $systems['shadowrun5e']['data'] = [

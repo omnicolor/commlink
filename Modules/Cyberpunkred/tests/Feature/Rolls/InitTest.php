@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Cyberpunkred\Tests\Feature\Rolls;
 
+use App\Enums\ChannelType;
 use App\Events\InitiativeAdded;
 use App\Models\Campaign;
 use App\Models\Channel;
@@ -144,7 +145,7 @@ final class InitTest extends TestCase
 
         $channel = Channel::factory()->make([
             'system' => 'cyberpunkred',
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         $channel->username = $this->faker->name;
 
@@ -169,7 +170,7 @@ final class InitTest extends TestCase
 
         $channel = Channel::factory()->create([
             'system' => 'cyberpunkred',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $channel->username = $this->faker->name;
         $channel->user = 'U' . Str::random(10);
@@ -230,7 +231,7 @@ final class InitTest extends TestCase
 
         $channel = Channel::factory()->create([
             'system' => 'cyberpunkred',
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         $channel->username = $this->faker->name;
         $channel->user = 'U' . Str::random(10);
@@ -281,7 +282,7 @@ final class InitTest extends TestCase
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         $channel->username = $this->faker->name;
         $channel->user = 'U' . Str::random(10);
@@ -329,7 +330,7 @@ final class InitTest extends TestCase
 
         $channel = Channel::factory()->create([
             'system' => 'cyberpunkred',
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         $channel->username = $this->faker->name;
         $channel->user = $channel->username;

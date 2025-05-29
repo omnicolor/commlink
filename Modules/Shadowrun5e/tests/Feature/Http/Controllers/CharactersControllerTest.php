@@ -17,7 +17,7 @@ use Tests\TestCase;
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
 #[Medium]
-final class CharacterControllerTest extends TestCase
+final class CharactersControllerTest extends TestCase
 {
     public function setUp(): void
     {
@@ -119,7 +119,7 @@ final class CharacterControllerTest extends TestCase
      * Test loading an individual character, verifying that keys are correctly
      * converted to snake_case.
      */
-    public function testShowCharacter(): void
+    public function testShowCharacterSumToTen(): void
     {
         $user = User::factory()->create();
 
@@ -156,6 +156,51 @@ final class CharacterControllerTest extends TestCase
                     'skill_priority' => 'C',
                     'resource_priority' => 'B',
                     'magic' => 'mundane',
+                    'gameplay' => 'established',
+                ],
+                'system' => 'shadowrun5e',
+            ]);
+
+        $character->delete();
+    }
+
+    public function testShowCharacterStandard(): void
+    {
+        $user = User::factory()->create();
+
+        $character = Character::factory()->create([
+            'owner' => $user->email->address,
+            'system' => 'shadowrun5e',
+            'priorities' => [
+                'a' => 'attributes',
+                'b' => 'skills',
+                'c' => 'resources',
+                'd' => 'metatype',
+                'e' => 'magic',
+                'metatype' => 'human',
+                'magic' => '',
+                'gameplay' => 'established',
+            ],
+        ]);
+
+        self::actingAs($user)
+            ->getJson(route('shadowrun5e.characters.show', $character->id))
+            ->assertOk()
+            ->assertJsonFragment([
+                'id' => $character->_id,
+                'handle' => $character->handle,
+                'owner' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                ],
+                'priorities' => [
+                    'a' => 'attributes',
+                    'b' => 'skills',
+                    'c' => 'resources',
+                    'd' => 'metatype',
+                    'e' => 'magic',
+                    'metatype' => 'human',
+                    'magic' => '',
                     'gameplay' => 'established',
                 ],
                 'system' => 'shadowrun5e',

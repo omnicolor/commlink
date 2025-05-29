@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Enums\ChannelType;
 use App\Events\RollEvent;
 use App\Models\Campaign;
 use App\Models\Channel;
@@ -119,7 +120,7 @@ final class SlackControllerTest extends TestCase
     public function testGetHelpInRegisteredChannel(): void
     {
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
             'system' => 'shadowrun5e',
         ]);
         self::post(
@@ -150,7 +151,7 @@ final class SlackControllerTest extends TestCase
 
         $channel = Channel::factory()->create([
             'system' => 'shadowrun5e',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         self::post(
             route('roll'),
@@ -176,7 +177,7 @@ final class SlackControllerTest extends TestCase
 
         $channel = Channel::factory()->create([
             'system' => 'transformers',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         self::post(
             route('roll'),
@@ -202,7 +203,7 @@ final class SlackControllerTest extends TestCase
     {
         $channel = Channel::factory()->create([
             'system' => 'dnd5e',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         self::post(
             route('roll'),
@@ -233,7 +234,7 @@ final class SlackControllerTest extends TestCase
 
         $channel = Channel::factory()->create([
             'system' => 'shadowrun5e',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
 
         $character = Character::factory()->create(['system' => 'shadowrun5e']);
@@ -241,7 +242,7 @@ final class SlackControllerTest extends TestCase
         $chatUser = ChatUser::factory()->create([
             'remote_user_id' => $slackUserId,
             'server_id' => $channel->server_id,
-            'server_type' => Channel::TYPE_SLACK,
+            'server_type' => ChannelType::Slack,
             'verified' => true,
         ]);
 
@@ -286,7 +287,7 @@ final class SlackControllerTest extends TestCase
         $channel = Channel::factory()->create([
             'campaign_id' => $campaign,
             'system' => 'cyberpunkred',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
 
         $character = Character::factory()->create(['system' => 'cyberpunkred']);
@@ -294,7 +295,7 @@ final class SlackControllerTest extends TestCase
         ChatUser::factory()->create([
             'remote_user_id' => $slackUserId,
             'server_id' => $channel->server_id,
-            'server_type' => Channel::TYPE_SLACK,
+            'server_type' => ChannelType::Slack,
             'verified' => true,
         ]);
 
@@ -555,7 +556,7 @@ final class SlackControllerTest extends TestCase
         $channel = Channel::factory()->create([
             'system' => 'cyberpunkred',
             'server_id' => 'T' . Str::random(10),
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
 
         $character = Character::factory()->create([
@@ -566,7 +567,7 @@ final class SlackControllerTest extends TestCase
         ChatUser::factory()->create([
             'remote_user_id' => $slackUserId,
             'server_id' => $channel->server_id,
-            'server_type' => ChatUser::TYPE_SLACK,
+            'server_type' => ChannelType::Slack,
             'user_id' => $user,
             'verified' => true,
         ]);

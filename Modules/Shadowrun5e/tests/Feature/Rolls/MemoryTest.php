@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Tests\Feature\Rolls;
 
+use App\Enums\ChannelType;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
@@ -77,7 +78,7 @@ final class MemoryTest extends TestCase
             ->andReturn(1);
 
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
             'system' => 'shadowrun5e',
         ]);
 
@@ -129,7 +130,7 @@ final class MemoryTest extends TestCase
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(6);
 
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
             'system' => 'shadowrun5e',
         ]);
 
@@ -171,7 +172,7 @@ final class MemoryTest extends TestCase
         DiceService::shouldReceive('rollOne')->times(8)->with(6)->andReturn(6);
 
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
             'system' => 'shadowrun5e',
         ]);
 

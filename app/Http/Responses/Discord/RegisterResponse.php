@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Responses\Discord;
 
+use App\Enums\ChannelType;
 use App\Events\ChannelLinked;
 use App\Events\DiscordMessageReceived;
 use App\Models\Channel;
@@ -97,7 +98,7 @@ class RegisterResponse implements Stringable
             'channel_id' => $discordChannel->id,
             'server_id' => $this->event->server->id,
             'system' => $system,
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
 
         $channel->user = (string)$this->event->user?->id;

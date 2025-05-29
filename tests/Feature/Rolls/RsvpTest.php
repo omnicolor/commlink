@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Rolls;
 
+use App\Enums\ChannelType;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\ChatUser;
@@ -118,7 +119,7 @@ final class RsvpTest extends TestCase
 
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign->id,
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $channel->user = 'U' . Str::random(10);
 
@@ -159,7 +160,7 @@ final class RsvpTest extends TestCase
 
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign->id,
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $channel->user = 'U' . Str::random(10);
 
@@ -210,9 +211,10 @@ final class RsvpTest extends TestCase
 
         $event = Event::factory()->create(['campaign_id' => $campaign->id]);
 
+        /** @var Channel $channel */
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign->id,
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $channel->user = 'U' . Str::random(10);
 
