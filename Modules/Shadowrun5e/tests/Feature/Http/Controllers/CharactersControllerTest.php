@@ -1061,7 +1061,7 @@ final class CharactersControllerTest extends TestCase
                 ]
             )
             ->assertSessionHasNoErrors()
-            ->assertRedirect(config('app.url') . '/characters/shadowrun5e/create/augmentations');
+            ->assertRedirect(route('shadowrun5e.create', 'augmentations'));
 
         $character->refresh();
         $skills = $character->getKnowledgeSkills();
@@ -1673,6 +1673,29 @@ final class CharactersControllerTest extends TestCase
         $character->delete();
     }
 
+    public function testStoreAugmentations(): void
+    {
+        // TODO Placeholder until the augmentations page is ready.
+        $user = User::factory()->create();
+        /** @var PartialCharacter */
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+            'system' => 'shadowrun5e',
+        ]);
+
+        $augmentations = [
+            'nav' => 'next',
+        ];
+        self::actingAs($user)
+            ->withSession(['shadowrun5e-partial' => $character->id])
+            ->postJson(route('shadowrun5e.create-augmentations'), $augmentations)
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(route('shadowrun5e.create', 'weapons'));
+        $character->refresh();
+        self::assertCount(0, (array)$character->augmentations);
+        $character->delete();
+    }
+
     /**
      * Test loading the weapons page.
      */
@@ -1697,6 +1720,29 @@ final class CharactersControllerTest extends TestCase
             ->assertSee('Previous: Augmentations')
             ->assertSee('Next: Armor');
 
+        $character->delete();
+    }
+
+    public function testStoreWeapons(): void
+    {
+        // TODO Placeholder until the weapons page is ready.
+        $user = User::factory()->create();
+        /** @var PartialCharacter */
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+            'system' => 'shadowrun5e',
+        ]);
+
+        $weapons = [
+            'nav' => 'next',
+        ];
+        self::actingAs($user)
+            ->withSession(['shadowrun5e-partial' => $character->id])
+            ->postJson(route('shadowrun5e.create-weapons'), $weapons)
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(route('shadowrun5e.create', 'armor'));
+        $character->refresh();
+        self::assertCount(0, (array)$character->weapons);
         $character->delete();
     }
 
@@ -1727,6 +1773,29 @@ final class CharactersControllerTest extends TestCase
         $character->delete();
     }
 
+    public function testStoreArmor(): void
+    {
+        // TODO Placeholder until the armor page is ready.
+        $user = User::factory()->create();
+        /** @var PartialCharacter */
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+            'system' => 'shadowrun5e',
+        ]);
+
+        $armor = [
+            'nav' => 'next',
+        ];
+        self::actingAs($user)
+            ->withSession(['shadowrun5e-partial' => $character->id])
+            ->postJson(route('shadowrun5e.create-armor'), $armor)
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(route('shadowrun5e.create', 'gear'));
+        $character->refresh();
+        self::assertCount(0, (array)$character->armor);
+        $character->delete();
+    }
+
     /**
      * Test loading the gear page.
      */
@@ -1747,10 +1816,33 @@ final class CharactersControllerTest extends TestCase
             ->get(route('shadowrun5e.create', 'gear'))
             ->assertOk()
             ->assertSessionHasNoErrors()
-            //->assertSee('Ear Buds')
+            ->assertSee('Ear Buds')
             ->assertSee('Previous: Armor')
             ->assertSee('Next: Vehicles');
 
+        $character->delete();
+    }
+
+    public function testStoreGear(): void
+    {
+        // TODO Placeholder until the gear page is ready.
+        $user = User::factory()->create();
+        /** @var PartialCharacter */
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+            'system' => 'shadowrun5e',
+        ]);
+
+        $gear = [
+            'nav' => 'next',
+        ];
+        self::actingAs($user)
+            ->withSession(['shadowrun5e-partial' => $character->id])
+            ->postJson(route('shadowrun5e.create-gear'), $gear)
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(route('shadowrun5e.create', 'vehicles'));
+        $character->refresh();
+        self::assertCount(0, (array)$character->gear);
         $character->delete();
     }
 
@@ -1778,6 +1870,28 @@ final class CharactersControllerTest extends TestCase
             ->assertSee('Previous: Gear')
             ->assertSee('Next: Social');
 
+        $character->delete();
+    }
+
+    public function testStoreVehicles(): void
+    {
+        // TODO Placeholder until the vehicles page is ready.
+        $user = User::factory()->create();
+        $character = PartialCharacter::factory()->create([
+            'owner' => $user->email,
+            'system' => 'shadowrun5e',
+        ]);
+
+        $vehicles = [
+            'nav' => 'next',
+        ];
+        self::actingAs($user)
+            ->withSession(['shadowrun5e-partial' => $character->id])
+            ->postJson(route('shadowrun5e.create-vehicles'), $vehicles)
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(route('shadowrun5e.create', 'social'));
+        $character->refresh();
+        self::assertCount(0, (array)$character->vehicles);
         $character->delete();
     }
 
