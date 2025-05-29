@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Listeners;
 
+use App\Enums\ChannelType;
 use App\Models\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
@@ -23,7 +24,7 @@ class HandleDamageEvent
     {
         /** @var Channel $channel */
         foreach ($event->campaign->channels ?? [] as $channel) {
-            if ('slack' === $channel->type) {
+            if (ChannelType::Slack === $channel->type) {
                 $this->sendToSlack($event->character, $event->damage, $channel);
                 continue;
             }

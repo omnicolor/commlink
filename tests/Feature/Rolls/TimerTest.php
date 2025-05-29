@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Rolls;
 
+use App\Enums\ChannelType;
 use App\Models\Channel;
 use App\Models\User;
 use App\Rolls\Timer;
@@ -25,7 +26,7 @@ class TimerTest extends TestCase
         $timer = new Timer(
             'timer',
             '',
-            new Channel(['type' => Channel::TYPE_DISCORD]),
+            new Channel(['type' => ChannelType::Discord]),
         );
         self::assertSame(
             'Discord webhooks must be set up to use timers',
@@ -39,7 +40,7 @@ class TimerTest extends TestCase
         $timer = new Timer(
             'timer',
             '',
-            new Channel(['type' => Channel::TYPE_IRC]),
+            new Channel(['type' => ChannelType::Irc]),
         );
         self::assertSame(
             'IRC channels are not supported',
@@ -55,7 +56,7 @@ class TimerTest extends TestCase
         (new Timer(
             'timer foo',
             '',
-            new Channel(['type' => Channel::TYPE_SLACK]),
+            new Channel(['type' => ChannelType::Slack]),
         ))->forSlack();
     }
 
@@ -66,7 +67,7 @@ class TimerTest extends TestCase
             'timer create',
             '',
             new Channel([
-                'type' => Channel::TYPE_DISCORD,
+                'type' => ChannelType::Discord,
                 'webhook' => 'https://example.com/webhook',
             ]),
         );
@@ -88,7 +89,7 @@ class TimerTest extends TestCase
                 'registered_by' => User::factory()->create()->id,
                 'server_id' => 'T12345',
                 'system' => 'shadowrun5e',
-                'type' => Channel::TYPE_SLACK,
+                'type' => ChannelType::Slack,
             ]),
         );
         self::assertStringContainsString(
@@ -111,7 +112,7 @@ class TimerTest extends TestCase
                 'registered_by' => User::factory()->create()->id,
                 'server_id' => '123156354',
                 'system' => 'shadowrun5e',
-                'type' => Channel::TYPE_DISCORD,
+                'type' => ChannelType::Discord,
                 'webhook' => 'https://example.com/webhook',
             ]),
         );

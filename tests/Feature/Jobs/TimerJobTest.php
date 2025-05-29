@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Jobs;
 
+use App\Enums\ChannelType;
 use App\Jobs\TimerJob;
 use App\Models\Channel;
 use Carbon\CarbonInterval;
@@ -26,7 +27,7 @@ class TimerJobTest extends TestCase
         self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Can not start timer for irc channels');
         new TimerJob(
-            new Channel(['type' => Channel::TYPE_IRC]),
+            new Channel(['type' => ChannelType::Irc]),
             new CarbonInterval('1'),
             'user'
         );
@@ -40,7 +41,7 @@ class TimerJobTest extends TestCase
             'Can not start time for Discord channel without webhook',
         );
         new TimerJob(
-            new Channel(['type' => Channel::TYPE_DISCORD]),
+            new Channel(['type' => ChannelType::Discord]),
             new CarbonInterval('1'),
             'user'
         );
@@ -52,7 +53,7 @@ class TimerJobTest extends TestCase
         Http::preventStrayRequests();
         Http::fake(['example.com/webhook' => Response::HTTP_OK]);
         $channel = new Channel([
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
             'webhook' => 'https://example.com/webhook',
         ]);
 
@@ -81,7 +82,7 @@ class TimerJobTest extends TestCase
 
         $channel = new Channel([
             'channel_id' => 'C1234567',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         (new TimerJob(
             $channel,

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rolls;
 
+use App\Enums\ChannelType;
 use App\Events\DiscordMessageReceived;
 use App\Jobs\TimerJob;
 use App\Models\Channel;
@@ -38,11 +39,11 @@ class Timer extends Roll
     ) {
         parent::__construct($content, $character, $channel);
 
-        if (Channel::TYPE_DISCORD === $channel->type && null === $channel->webhook) {
+        if (ChannelType::Discord === $channel->type && null === $channel->webhook) {
             $this->error = 'Discord webhooks must be set up to use timers';
             return;
         }
-        if (Channel::TYPE_IRC === $channel->type) {
+        if (ChannelType::Irc === $channel->type) {
             $this->error = 'IRC channels are not supported';
             return;
         }
