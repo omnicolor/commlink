@@ -94,6 +94,7 @@ final class GenericTest extends TestCase
             ->with(2, 10)
             ->andReturn([10, 10]);
 
+        /** @var Channel */
         $channel = Channel::factory()->make();
         $roll = new Generic('4+2d10-1*10 foo', 'Bob', $channel);
         $slack = $roll->forSlack()->jsonSerialize();

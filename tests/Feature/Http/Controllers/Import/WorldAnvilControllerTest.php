@@ -42,6 +42,29 @@ final class WorldAnvilControllerTest extends TestCase
             ->assertSessionHasErrors();
     }
 
+    public function testUploadWithoutTemplateId(): void
+    {
+        $file = UploadedFile::fake()->createWithContent(
+            'no-template-id.json',
+            '{"foo":"bar"}',
+        );
+
+        $user = User::factory()->create();
+
+        self::actingAs($user)
+            ->withHeaders([
+                'Referer' => route('import.world-anvil.view'),
+            ])
+            ->post(
+                route('import.world-anvil.upload'),
+                [
+                    'character' => $file,
+                ]
+            )
+            ->assertRedirect(route('import.world-anvil.view'))
+            ->assertSessionHasErrors();
+    }
+
     public function testUnsupportedSystemUpload(): void
     {
         $file = UploadedFile::fake()->createWithContent(

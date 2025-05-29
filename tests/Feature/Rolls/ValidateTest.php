@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Rolls;
 
+use App\Enums\ChannelType;
 use App\Events\UserLinked;
 use App\Models\Channel;
 use App\Models\ChatUser;
@@ -31,7 +32,7 @@ final class ValidateTest extends TestCase
         Event::fake();
 
         /** @var Channel */
-        $channel = Channel::factory()->make(['type' => Channel::TYPE_SLACK]);
+        $channel = Channel::factory()->make(['type' => ChannelType::Slack]);
         $channel->user = 'U' . Str::random(10);
 
         self::expectException(SlackException::class);
@@ -57,7 +58,7 @@ final class ValidateTest extends TestCase
     {
         Event::fake();
 
-        $channel = Channel::factory()->make(['type' => Channel::TYPE_DISCORD]);
+        $channel = Channel::factory()->make(['type' => ChannelType::Discord]);
         $channel->user = 'U' . Str::random(10);
 
         // Valid chat user, but not the right hash.
@@ -97,7 +98,7 @@ final class ValidateTest extends TestCase
         Event::fake();
         $username = $this->faker->userName();
 
-        $channel = Channel::factory()->create(['type' => Channel::TYPE_IRC]);
+        $channel = Channel::factory()->create(['type' => ChannelType::Irc]);
         $channel->user = $username;
 
         $chatUser = ChatUser::factory()->create([
@@ -126,7 +127,7 @@ final class ValidateTest extends TestCase
         Event::fake();
         $username = $this->faker->userName();
 
-        $channel = Channel::factory()->create(['type' => Channel::TYPE_SLACK]);
+        $channel = Channel::factory()->create(['type' => ChannelType::Slack]);
         $channel->user = $username;
 
         $chatUser = ChatUser::factory()->create([
@@ -166,7 +167,7 @@ final class ValidateTest extends TestCase
         Event::fake();
         $username = $this->faker->userName();
 
-        $channel = Channel::factory()->create(['type' => Channel::TYPE_DISCORD]);
+        $channel = Channel::factory()->create(['type' => ChannelType::Discord]);
         $channel->user = $username;
 
         $chatUser = ChatUser::factory()->create([
@@ -201,7 +202,8 @@ final class ValidateTest extends TestCase
         Event::fake();
         $username = $this->faker->userName();
 
-        $channel = Channel::factory()->create(['type' => Channel::TYPE_IRC]);
+        /** @var Channel $channel */
+        $channel = Channel::factory()->create(['type' => ChannelType::Irc]);
         $channel->user = $username;
 
         $chatUser = ChatUser::factory()->create([

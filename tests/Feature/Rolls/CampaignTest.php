@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Rolls;
 
+use App\Enums\ChannelType;
 use App\Events\ChannelLinked;
 use App\Models\Campaign as CampaignModel;
 use App\Models\Channel;
@@ -38,7 +39,7 @@ final class CampaignTest extends TestCase
     {
         Event::fake();
 
-        $channel = Channel::factory()->make(['type' => Channel::TYPE_SLACK]);
+        $channel = Channel::factory()->make(['type' => ChannelType::Slack]);
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(
@@ -58,7 +59,7 @@ final class CampaignTest extends TestCase
     {
         Event::fake();
 
-        $channel = Channel::factory()->make(['type' => Channel::TYPE_DISCORD]);
+        $channel = Channel::factory()->make(['type' => ChannelType::Discord]);
 
         self::assertSame(
             'To link a campaign to this channel, use `campaign <campaignId>`.',
@@ -73,7 +74,7 @@ final class CampaignTest extends TestCase
     {
         Event::fake();
 
-        $channel = Channel::factory()->make(['type' => Channel::TYPE_IRC]);
+        $channel = Channel::factory()->make(['type' => ChannelType::Irc]);
 
         self::assertSame(
             'To link a campaign to this channel, use `campaign <campaignId>`.',
@@ -96,7 +97,7 @@ final class CampaignTest extends TestCase
 
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
 
         self::expectException(SlackException::class);
@@ -123,7 +124,7 @@ final class CampaignTest extends TestCase
 
         $channel = Channel::factory()->make([
             'campaign_id' => $campaign,
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
 
         $expected = sprintf(
@@ -147,7 +148,7 @@ final class CampaignTest extends TestCase
     {
         Event::fake();
 
-        $channel = Channel::factory()->make(['type' => Channel::TYPE_SLACK]);
+        $channel = Channel::factory()->make(['type' => ChannelType::Slack]);
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(sprintf(
@@ -172,7 +173,7 @@ final class CampaignTest extends TestCase
     {
         Event::fake();
 
-        $channel = Channel::factory()->make(['type' => Channel::TYPE_DISCORD]);
+        $channel = Channel::factory()->make(['type' => ChannelType::Discord]);
 
         $expected = sprintf(
             'You must have already created an account on %s (%s) and '
@@ -199,7 +200,7 @@ final class CampaignTest extends TestCase
     {
         Event::fake();
 
-        $channel = Channel::factory()->make(['type' => Channel::TYPE_SLACK]);
+        $channel = Channel::factory()->make(['type' => ChannelType::Slack]);
         $channel->user = 'U' . Str::random(10);
 
         ChatUser::factory()->create([
@@ -229,7 +230,7 @@ final class CampaignTest extends TestCase
         $channel = new Channel([
             'channel_id' => 'C' . Str::random(10),
             'server_id' => 'T' . Str::random(10),
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         $channel->user = 'U' . Str::random(10);
 
@@ -261,7 +262,7 @@ final class CampaignTest extends TestCase
 
         $channel = Channel::factory()->make([
             'system' => 'shadowrun5e',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $channel->user = 'U' . Str::random(10);
 
@@ -304,7 +305,7 @@ final class CampaignTest extends TestCase
 
         $channel = Channel::factory()->make([
             'system' => 'cyberpunkred',
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         $channel->user = 'U' . Str::random(10);
 
@@ -345,7 +346,7 @@ final class CampaignTest extends TestCase
 
         $channel = Channel::factory()->make([
             'system' => $campaign->system,
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $channel->user = 'U' . Str::random(10);
 
@@ -385,7 +386,7 @@ final class CampaignTest extends TestCase
 
         $channel = Channel::factory()->make([
             'system' => $campaign->system,
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         $channel->user = 'U' . Str::random(10);
 
@@ -455,7 +456,7 @@ final class CampaignTest extends TestCase
         $channel = new Channel([
             'channel_id' => $channel_id,
             'server_id' => $team_id,
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $channel->user = 'U' . Str::random(10);
         $channel->username = $this->faker->name;
@@ -507,7 +508,7 @@ final class CampaignTest extends TestCase
         $channel = new Channel([
             'channel_id' => 'C' . Str::random(10),
             'server_id' => 'T' . Str::random(10),
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         $channel->user = 'U' . Str::random(10);
         $channel->username = $this->faker->name;
@@ -559,7 +560,7 @@ final class CampaignTest extends TestCase
         $channel = Channel::factory()->make([
             'registered_by' => $user->id,
             'system' => $campaign->system,
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $channel->user = 'U' . Str::random(10);
         $channel->username = $this->faker->name;
@@ -611,7 +612,7 @@ final class CampaignTest extends TestCase
         $channel = Channel::factory()->make([
             'registered_by' => 1,
             'system' => $campaign->system,
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         $channel->user = 'U' . Str::random(10);
         $channel->username = $this->faker->name;
@@ -651,10 +652,11 @@ final class CampaignTest extends TestCase
         $user = User::factory()->create();
 
         $campaign = CampaignModel::factory()->create(['gm' => $user->id]);
+        /** @var Channel */
         $channel = new Channel([
             'channel_id' => 'C' . Str::random(10),
             'server_id' => 'T' . Str::random(10),
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
         ]);
         $channel->user = 'U' . Str::random(10);
         $channel->username = $this->faker->name;

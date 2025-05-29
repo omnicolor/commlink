@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models\Traits;
 
+use App\Enums\ChannelType;
 use App\Models\Channel;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
@@ -26,7 +27,7 @@ final class InteractsWithSlackTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->mock = new Channel(['type' => Channel::TYPE_SLACK]);
+        $this->mock = new Channel(['type' => ChannelType::Slack]);
     }
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models;
 
+use App\Enums\ChannelType;
 use App\Models\Campaign;
 use App\Models\Channel;
 use App\Models\Character;
@@ -60,13 +61,13 @@ final class ChannelTest extends TestCase
     {
         $channel = new Channel([
             'server_id' => 'T' . Str::random(10),
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         self::assertDatabaseMissing(
             'channels',
             [
                 'server_id' => $channel->server_id,
-                'type' => Channel::TYPE_SLACK,
+                'type' => ChannelType::Slack,
             ]
         );
         $name = Str::random(20);
@@ -86,7 +87,7 @@ final class ChannelTest extends TestCase
             'channels',
             [
                 'server_id' => $channel->server_id,
-                'type' => Channel::TYPE_SLACK,
+                'type' => ChannelType::Slack,
             ]
         );
     }
@@ -103,7 +104,7 @@ final class ChannelTest extends TestCase
             'registered_by' => $user->id,
             'server_id' => 'T' . Str::random(10),
             'system' => $this->faker->randomElement(array_keys(config('commlink.systems'))),
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $channel->save();
         $name = Str::random(20);
@@ -113,7 +114,7 @@ final class ChannelTest extends TestCase
                 'id' => $channel->id,
                 'server_id' => $channel->server_id,
                 'server_name' => null,
-                'type' => Channel::TYPE_SLACK,
+                'type' => ChannelType::Slack,
             ]
         );
         Http::fake([
@@ -134,7 +135,7 @@ final class ChannelTest extends TestCase
                 'id' => $channel->id,
                 'server_id' => $channel->server_id,
                 'server_name' => $name,
-                'type' => Channel::TYPE_SLACK,
+                'type' => ChannelType::Slack,
             ]
         );
     }
@@ -147,13 +148,13 @@ final class ChannelTest extends TestCase
     {
         $channel = new Channel([
             'server_id' => '1' . Str::random(10),
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         self::assertDatabaseMissing(
             'channels',
             [
                 'server_id' => $channel->server_id,
-                'type' => Channel::TYPE_DISCORD,
+                'type' => ChannelType::Discord,
             ]
         );
         $name = Str::random(20);
@@ -168,7 +169,7 @@ final class ChannelTest extends TestCase
             'channels',
             [
                 'server_id' => $channel->server_id,
-                'type' => Channel::TYPE_DISCORD,
+                'type' => ChannelType::Discord,
             ]
         );
     }
@@ -179,13 +180,15 @@ final class ChannelTest extends TestCase
      */
     public function testGetServerNameDiscordInstance(): void
     {
+        Http::preventStrayRequests();
+
         $user = User::factory()->create();
         $channel = new Channel([
             'channel_id' => '2' . Str::random(10),
             'registered_by' => $user->id,
             'server_id' => '1' . Str::random(10),
             'system' => $this->faker->randomElement(array_keys(config('commlink.systems'))),
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         $channel->save();
         $name = Str::random(20);
@@ -195,7 +198,7 @@ final class ChannelTest extends TestCase
                 'id' => $channel->id,
                 'server_id' => $channel->server_id,
                 'server_name' => null,
-                'type' => Channel::TYPE_DISCORD,
+                'type' => ChannelType::Discord,
             ]
         );
         Http::fake([
@@ -211,7 +214,7 @@ final class ChannelTest extends TestCase
                 'id' => $channel->id,
                 'server_id' => $channel->server_id,
                 'server_name' => $name,
-                'type' => Channel::TYPE_DISCORD,
+                'type' => ChannelType::Discord,
             ]
         );
     }
@@ -248,24 +251,13 @@ final class ChannelTest extends TestCase
     }
 
     /**
-     * Test setting the type of channel to an invalid type throws an exception.
-     */
-    public function testSetTypeInvalid(): void
-    {
-        $channel = new Channel();
-        self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Invalid channel type');
-        $channel->type = 'aol';
-    }
-
-    /**
      * Test setting the type of channel to a valid type.
      */
     public function testSetType(): void
     {
         $channel = new Channel();
-        $channel->type = Channel::TYPE_SLACK;
-        self::assertSame('slack', $channel->type);
+        $channel->type = ChannelType::Slack;
+        self::assertSame(ChannelType::Slack, $channel->type);
     }
 
     /**
@@ -284,11 +276,11 @@ final class ChannelTest extends TestCase
 
         Channel::factory()->create([
             'channel_name' => 'testScopeSlack',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         Channel::factory()->create([
             'channel_name' => 'testScopeSlack',
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         self::assertCount(
             1,
@@ -314,11 +306,11 @@ final class ChannelTest extends TestCase
 
         Channel::factory()->create([
             'channel_name' => 'testScopeDiscord',
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         Channel::factory()->create([
             'channel_name' => 'testScopeDiscord',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         self::assertCount(
             1,
@@ -394,7 +386,7 @@ final class ChannelTest extends TestCase
         $webhook_id = Str::random(10);
         Channel::factory()->create([
             'server_id' => $guild_id,
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
             'webhook' => sprintf(
                 'https://discord.com/api/webhooks/%s/%s',
                 $webhook_id,

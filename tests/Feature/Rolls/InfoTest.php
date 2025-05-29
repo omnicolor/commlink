@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Rolls;
 
+use App\Enums\ChannelType;
 use App\Events\DiscordMessageReceived;
 use App\Events\IrcMessageReceived;
 use App\Models\Campaign;
@@ -49,7 +50,7 @@ final class InfoTest extends TestCase
             'id' => $event->channel->id,
             'name' => $event->channel->name,
             'server_id' => $event->server->id,
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         $channel->user = $username;
 
@@ -87,7 +88,7 @@ final class InfoTest extends TestCase
             'server_id' => optional($discordChannel->guild)->id,
             'server_name' => optional($discordChannel->guild)->name,
             'system' => 'shadowrun5e',
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
 
         $event = new DiscordMessageReceived(
@@ -142,7 +143,7 @@ final class InfoTest extends TestCase
             'server_id' => $server . ':6667',
             'server_name' => $server,
             'system' => 'shadowrun5e',
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
         ]);
         $channel->user = $username;
 
@@ -217,7 +218,7 @@ final class InfoTest extends TestCase
             'server_id' => $server . ':6667',
             'server_name' => $server,
             'system' => 'shadowrun5e',
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
         ]);
         $channel->user = $username;
 
@@ -262,8 +263,9 @@ final class InfoTest extends TestCase
     {
         $user = User::factory()->create();
 
+        /** @var Channel $channel */
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $channel->user = 'U' . Str::random(10);
 

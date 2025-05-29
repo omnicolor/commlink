@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Rolls;
 
+use App\Enums\ChannelType;
 use App\Events\ChannelLinked;
 use App\Models\Channel;
 use App\Models\ChatUser;
@@ -32,7 +33,7 @@ final class RegisterTest extends TestCase
     {
         Event::fake();
 
-        $channel = new Channel(['type' => Channel::TYPE_SLACK]);
+        $channel = new Channel(['type' => ChannelType::Slack]);
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(
@@ -53,7 +54,7 @@ final class RegisterTest extends TestCase
 
         $channel = new Channel([
             'system' => 'shadowrun5e',
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
 
         $response = (new Register(
@@ -75,7 +76,7 @@ final class RegisterTest extends TestCase
     {
         Event::fake();
 
-        $channel = new Channel(['type' => Channel::TYPE_IRC]);
+        $channel = new Channel(['type' => ChannelType::Irc]);
 
         $response = (new Register(
             'register invalid',
@@ -98,7 +99,7 @@ final class RegisterTest extends TestCase
     {
         Event::fake();
 
-        $channel = new Channel(['type' => Channel::TYPE_SLACK]);
+        $channel = new Channel(['type' => ChannelType::Slack]);
 
         self::expectException(SlackException::class);
         self::expectExceptionMessage(sprintf(
@@ -123,7 +124,7 @@ final class RegisterTest extends TestCase
         $channel = new Channel([
             'channel_id' => 'C' . Str::random(10),
             'server_id' => 'T' . Str::random(10),
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $channel->username = 'Test User';
 
@@ -166,7 +167,7 @@ final class RegisterTest extends TestCase
         $channel = new Channel([
             'channel_id' => 'C' . Str::random(10),
             'server_id' => 'T' . Str::random(10),
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         $channel->username = 'Test User';
 
@@ -202,7 +203,7 @@ final class RegisterTest extends TestCase
         $channel = new Channel([
             'channel_id' => 'C' . Str::random(10),
             'server_id' => 'T' . Str::random(10),
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
         ]);
         $channel->username = 'Test User';
 
