@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Listeners;
 
+use App\Enums\ChannelType;
 use App\Events\DiscordMessageReceived;
 use App\Events\RollEvent;
 use App\Models\Channel;
@@ -37,7 +38,7 @@ class HandleDiscordMessage
             $channel = new Channel([
                 'channel_id' => $textChannel->id,
                 'server_id' => $event->server->id,
-                'type' => Channel::TYPE_DISCORD,
+                'type' => ChannelType::Discord,
             ]);
         }
         $channel->user = (string)$event->user?->id;

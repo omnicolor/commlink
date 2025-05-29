@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Rolls;
 
+use App\Enums\ChannelType;
 use App\Events\ChannelLinked;
 use App\Models\Campaign as CampaignModel;
 use App\Models\Channel;
@@ -153,7 +154,7 @@ class Campaign extends Roll
         $new = false;
         if (null === $this->channel->registered_by) {
             // Brand new channel registration.
-            if (Channel::TYPE_SLACK === $this->channel->type) {
+            if (ChannelType::Slack === $this->channel->type) {
                 $this->channel->server_name = $this->channel->getSlackTeamName(
                     $this->channel->server_id
                 );

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Enums\ChannelType;
 use App\Models\Channel;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -118,7 +119,7 @@ final class ChannelsControllerTest extends TestCase
         $user = User::factory()->create();
         $channel = Channel::factory()->create([
             'registered_by' => $user->id,
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $this->actingAs($user)
             ->patchJson(
@@ -138,7 +139,7 @@ final class ChannelsControllerTest extends TestCase
         $channel = Channel::factory()->create([
             'channel_id' => (string)$this->faker->randomNumber(8, true),
             'registered_by' => $user->id,
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
 
         // Values to return from mock Discord API.
@@ -152,7 +153,7 @@ final class ChannelsControllerTest extends TestCase
             ),
         ]);
 
-        self::assertSame(Channel::TYPE_DISCORD, $channel->type);
+        self::assertSame(ChannelType::Discord, $channel->type);
         self::actingAs($user)
             ->patchJson(
                 route('channels.update', $channel->id),

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Models;
 
+use App\Enums\CampaignInvitationStatus;
 use App\Events\CampaignInvitationCreated;
 use App\Events\CampaignInvitationUpdated;
 use App\Models\Campaign;
@@ -31,7 +32,7 @@ final class CampaignInvitationTest extends TestCase
             'email' => $this->faker->safeEmail,
             'invited_by' => User::factory()->create()->id,
             'name' => $this->faker->name,
-            'status' => CampaignInvitation::INVITED,
+            'status' => CampaignInvitationStatus::Invited,
         ]);
 
         Event::assertDispatched(CampaignInvitationCreated::class);
@@ -48,9 +49,9 @@ final class CampaignInvitationTest extends TestCase
             'email' => $this->faker->safeEmail,
             'invited_by' => User::factory()->create()->id,
             'name' => $this->faker->name,
-            'status' => CampaignInvitation::INVITED,
+            'status' => CampaignInvitationStatus::Invited,
         ]);
-        $invitation->status = CampaignInvitation::RESPONDED;
+        $invitation->status = CampaignInvitationStatus::Responded;
         $invitation->responded_at = now()->toDateTimeString();
         $invitation->update();
 

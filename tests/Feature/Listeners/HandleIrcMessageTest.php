@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Listeners;
 
+use App\Enums\ChannelType;
 use App\Events\IrcMessageReceived;
 use App\Events\RollEvent;
 use App\Listeners\HandleIrcMessage;
@@ -111,7 +112,7 @@ final class HandleIrcMessageTest extends TestCase
             'channel_id' => '#test-channel',
             'server_id' => 'chat.freenode.com',
             'system' => 'shadowrun5e',
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
         ]);
 
         $expected = 'Debugging info' . PHP_EOL
@@ -222,7 +223,7 @@ final class HandleIrcMessageTest extends TestCase
             'channel_id' => '#commlink',
             'server_id' => $server,
             'system' => 'shadowrun5e',
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
         ]);
 
         $event = new IrcMessageReceived(
@@ -274,7 +275,7 @@ final class HandleIrcMessageTest extends TestCase
             'channel_id' => '#commlink',
             'server_id' => $server,
             'system' => 'shadowrun5e',
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
         ]);
 
         $event = new IrcMessageReceived(
@@ -318,7 +319,7 @@ final class HandleIrcMessageTest extends TestCase
             'channel_id' => '#commlink',
             'server_id' => $server,
             'system' => 'cyberpunkred',
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
         ]);
 
         $event = new IrcMessageReceived(

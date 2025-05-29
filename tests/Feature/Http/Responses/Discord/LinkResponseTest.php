@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Http\Responses\Discord;
 
+use App\Enums\ChannelType;
 use App\Events\DiscordMessageReceived;
 use App\Http\Responses\Discord\LinkResponse;
 use App\Models\Channel;
@@ -76,7 +77,7 @@ final class LinkResponseTest extends TestCase
         Channel::factory()->create([
             'channel_id' => $event->channel->id,
             'server_id' => $event->server->id,
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
 
         self::assertSame(
@@ -111,7 +112,7 @@ final class LinkResponseTest extends TestCase
         $channel = Channel::factory()->create([
             'channel_id' => $event->channel->id,
             'server_id' => $event->server->id,
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
 
         $chatUser = ChatUser::factory()->create([
@@ -148,7 +149,7 @@ final class LinkResponseTest extends TestCase
         Channel::factory()->create([
             'channel_id' => $event->channel->id,
             'server_id' => $event->server->id,
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
 
         ChatUser::factory()->create([
@@ -184,7 +185,7 @@ final class LinkResponseTest extends TestCase
         $channel = Channel::factory()->create([
             'channel_id' => $event->channel->id,
             'server_id' => $event->server->id,
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
 
         $chatUser = ChatUser::factory()->create([
@@ -231,7 +232,7 @@ final class LinkResponseTest extends TestCase
             'channel_id' => $event->channel->id,
             'server_id' => $event->server->id,
             'system' => 'shadowrun5e',
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
 
         $chatUser = ChatUser::factory()->create([
@@ -277,7 +278,7 @@ final class LinkResponseTest extends TestCase
             'channel_id' => $event->channel->id,
             'server_id' => $event->server->id,
             'system' => $character->system,
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
 
         $chatUser = ChatUser::factory()->create([

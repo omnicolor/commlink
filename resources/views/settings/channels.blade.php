@@ -1,7 +1,8 @@
 @php
-use App\Models\Channel;
+use App\Enums\ChannelType;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
+use Illuminate\Support\Facades\Auth;
 @endphp
 <x-app>
     <x-slot name="title">Settings - Channels</x-slot>
@@ -61,7 +62,7 @@ use App\Models\ChatUser;
                     @foreach ($user->channels as $channel)
                         @php
                             $chatUser = ChatUser::where('server_id', $channel->server_id)
-                                ->where('user_id', \Auth::user()->id)
+                                ->where('user_id', Auth::user()->id)
                                 ->where('server_type', $channel->type)
                                 ->first();
                             $character = null;
@@ -110,7 +111,7 @@ use App\Models\ChatUser;
                             </td>
                             <td>{{ $channel->getSystem() }}</td>
                             <td class="text-center">
-                                @if (Channel::TYPE_SLACK === $channel->type)
+                                @if (ChannelType::Slack === $channel->type)
                                     <i class="bi bi-check-square-fill text-success" title="Slack channels don't require webhooks"></i>
                                 @elseif ($channel->webhook)
                                     <i class="bi bi-check-square-fill text-success" title="{{ $channel->webhook }}"></i>
