@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Expanse\Tests\Feature\Rolls;
 
+use App\Enums\ChannelType;
 use App\Models\Channel;
 use Modules\Expanse\Rolls\Help;
 use Omnicolor\Slack\Attachment;
@@ -22,7 +23,7 @@ final class HelpTest extends TestCase
     {
         $channel = Channel::factory()->make([
             'system' => 'expanse',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $response = (new Help('', 'username', $channel))
             ->forSlack()
@@ -48,7 +49,7 @@ final class HelpTest extends TestCase
     {
         $channel = Channel::factory()->make([
             'system' => 'expanse',
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         $response = (new Help('', 'username', $channel))->forDiscord();
         self::assertStringContainsString(

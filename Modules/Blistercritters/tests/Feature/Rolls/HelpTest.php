@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Blistercritters\Tests\Feature\Rolls;
 
+use App\Enums\ChannelType;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
@@ -25,7 +26,7 @@ final class HelpTest extends TestCase
     {
         $channel = new Channel([
             'system' => 'blistercritters',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $response = (new Help('', 'username', $channel))
             ->forSlack()
@@ -47,7 +48,7 @@ final class HelpTest extends TestCase
     public function testHelpWithCharacter(): void
     {
         $channel = Channel::factory()->create([
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
             'system' => 'blistercritters',
         ]);
 
@@ -76,7 +77,7 @@ final class HelpTest extends TestCase
     {
         $channel = new Channel([
             'system' => 'blistercritters',
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
         ]);
         $response = (new Help('', 'username', $channel))->forIrc();
         self::assertStringStartsWith(

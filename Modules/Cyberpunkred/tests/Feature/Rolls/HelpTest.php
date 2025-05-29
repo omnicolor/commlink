@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Cyberpunkred\Tests\Feature\Rolls;
 
+use App\Enums\ChannelType;
 use App\Models\Channel;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
@@ -59,7 +60,7 @@ final class HelpTest extends TestCase
     {
         $channel = Channel::factory()->make([
             'system' => 'cyberpunkred',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $channel->username = 'user';
         $channel->user = 'U' . Str::random(10);
@@ -96,7 +97,7 @@ final class HelpTest extends TestCase
     {
         $channel = Channel::factory()->create([
             'system' => 'cyberpunkred',
-            'type' => Channel::TYPE_SLACK,
+            'type' => ChannelType::Slack,
         ]);
         $channel->username = 'user';
         $channel->user = 'U' . Str::random(10);
@@ -142,7 +143,7 @@ final class HelpTest extends TestCase
     {
         $channel = Channel::factory()->create([
             'system' => 'cyberpunkred',
-            'type' => Channel::TYPE_DISCORD,
+            'type' => ChannelType::Discord,
         ]);
         $channel->username = 'user';
         $channel->user = 'U' . Str::random(10);
@@ -183,7 +184,7 @@ final class HelpTest extends TestCase
     {
         $channel = Channel::factory()->create([
             'system' => 'cyberpunkred',
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
         ]);
         $channel->username = 'user';
         $channel->user = 'user';

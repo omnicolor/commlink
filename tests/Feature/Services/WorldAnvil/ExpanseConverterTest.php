@@ -6,6 +6,7 @@ namespace Tests\Feature\Services\WorldAnvil;
 
 use App\Services\WorldAnvil\ExpanseConverter;
 use Modules\Expanse\Models\Origin\Martian;
+use Modules\Expanse\Models\Talent;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use RuntimeException;
@@ -93,5 +94,32 @@ final class ExpanseConverterTest extends TestCase
         self::assertSame('fringer', $character->getTalents()[0]?->id);
         self::assertCount(5, $character->getFocuses());
         self::assertSame('crafting', $character->getFocuses()[0]?->id);
+    }
+
+    public function testParseTalents(): void
+    {
+        $path = explode(DIRECTORY_SEPARATOR, dirname(__DIR__, 3));
+        $path[] = 'Data';
+        $path[] = 'WorldAnvil';
+        $path[] = 'Expanse';
+        $path[] = 'talents.json';
+        $converter = new ExpanseConverter(implode(DIRECTORY_SEPARATOR, $path));
+        $character = $converter->convert();
+        $talents = $character->getTalents();
+
+        self::assertSame('fringer', $talents[0]?->id);
+        self::assertSame(Talent::EXPERT, $talents[0]->level);
+
+        self::assertSame('maker', $talents[1]?->id);
+        self::assertSame(Talent::MASTER, $talents[1]->level);
+
+        self::assertSame('fringer', $talents[2]?->id);
+        self::assertSame(Talent::JOURNEYMAN, $talents[2]->level);
+
+        self::assertSame('maker', $talents[3]?->id);
+        self::assertSame(Talent::NOVICE, $talents[3]->level);
+
+        self::assertSame('fringer', $talents[4]?->id);
+        self::assertSame(Talent::NOVICE, $talents[4]->level);
     }
 }

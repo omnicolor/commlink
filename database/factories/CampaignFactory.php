@@ -10,7 +10,7 @@ use function array_keys;
 
 /**
  * @extends Factory<Campaign>
- * @method mixed hasChannels(int $count, array<string, ?string> $channel)
+ * @method mixed hasChannels(int $count, array{type: string, webhook?: string} $channel)
  * @method mixed hasInitiatives(int $count)
  */
 class CampaignFactory extends Factory

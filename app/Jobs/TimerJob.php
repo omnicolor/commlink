@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
+use App\Enums\ChannelType;
 use App\Models\Channel;
 use Carbon\CarbonInterval;
 use Illuminate\Bus\Queueable;
@@ -45,10 +46,10 @@ class TimerJob implements ShouldQueue
         public readonly string $user,
     ) {
         switch ($this->channel->type) {
-            case Channel::TYPE_SLACK:
+            case ChannelType::Slack:
                 $this->channel_id = $channel->channel_id;
                 break;
-            case Channel::TYPE_DISCORD:
+            case ChannelType::Discord:
                 if (null === $channel->webhook) {
                     throw new RuntimeException(
                         'Can not start time for Discord channel without webhook',
@@ -59,7 +60,7 @@ class TimerJob implements ShouldQueue
             default:
                 throw new RuntimeException(sprintf(
                     'Can not start timer for %s channels',
-                    $channel->type,
+                    $channel->type->value,
                 ));
         }
     }
@@ -67,10 +68,10 @@ class TimerJob implements ShouldQueue
     public function handle(): void
     {
         switch ($this->channel->type) {
-            case Channel::TYPE_SLACK:
+            case ChannelType::Slack:
                 $this->sendToSlack();
                 return;
-            case Channel::TYPE_DISCORD:
+            case ChannelType::Discord:
                 $this->sendToDiscord();
                 return;
         }

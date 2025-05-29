@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Listeners;
 
+use App\Enums\ChannelType;
 use App\Events\IrcMessageReceived;
 use App\Events\RollEvent;
 use App\Models\Channel;
@@ -120,7 +121,7 @@ class HandleIrcMessage
         return new Channel([
             'channel_id' => $this->irc_channel,
             'server_id' => $this->irc_server,
-            'type' => Channel::TYPE_IRC,
+            'type' => ChannelType::Irc,
         ]);
     }
 }
