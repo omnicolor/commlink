@@ -91,6 +91,7 @@
         "phpstan/phpstan-phpunit": "^2.0",
         "phpstan/phpstan-strict-rules": "^2.0",
         "phpunit/phpunit": "^12.0",
+        "rector/rector": "^2.0",
         "roave/security-advisories": "dev-latest",
         "spatie/laravel-ignition": "^2.0",
         "squizlabs/php_codesniffer": "^3.6",
@@ -133,6 +134,7 @@
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
+        "rector": "rector",
         "static": [
             "@lint",
             "@phpstan"
@@ -153,6 +155,7 @@
         "phpcs": "Run PHPCodesniffer",
         "phpstan": "Run PHPstan",
         "prism": "Start a Stoplight Prism proxy for testing OpenAPI documentation versus actual responses",
+        "rector": "Automatically refactor codebase",
         "static": "Run static analysis (Lint and PHPStan)",
         "style": "Run PHPCodesniffer and php-cs-fixer",
         "test": "Run all unit/feature tests"

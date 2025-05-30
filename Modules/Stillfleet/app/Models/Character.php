@@ -157,8 +157,8 @@ class Character extends BaseCharacter implements Stringable
         if ($this->health_current < 3) {
             throw new RuntimeException('Not enough health to convert');
         }
-        $this->health_current = $this->health_current - 3;
-        $this->grit_current = $this->grit_current + 1;
+        $this->health_current -= 3;
+        $this->grit_current += 1;
     }
 
     public function health(): Attribute
