@@ -78,6 +78,7 @@ class CharactersController extends Controller
                 }
                 return 'augmentations';
             case 'magic':
+            case 'resonance':
                 return 'augmentations';
             case 'martial-arts':
                 return 'skills';
@@ -95,8 +96,6 @@ class CharactersController extends Controller
                     return 'skills';
                 }
                 return 'martial-arts';
-            case 'resonance':
-                return 'augmentations';
             case 'review':
                 return null;
             case 'rules':
@@ -145,13 +144,13 @@ class CharactersController extends Controller
             case 'martial-arts':
                 return 'qualities';
             case 'magic':
+            case 'resonance':
                 return 'knowledge';
             case 'priorities':
+            default:
                 return 'rules';
             case 'qualities':
                 return 'attributes';
-            case 'resonance':
-                return 'knowledge';
             case 'rules':
                 return null;
             case 'review':
@@ -175,9 +174,7 @@ class CharactersController extends Controller
             case 'vitals':
                 return 'priorities';
             case 'weapons':
-                return 'augmentations';
-            default:
-                return 'rules'; // @codeCoverageIgnore
+                return 'augmentations'; // @codeCoverageIgnore
         }
     }
 
@@ -1060,7 +1057,6 @@ class CharactersController extends Controller
         $levels = $request->input('skill-levels');
         $specializations = $request->input('skill-specializations');
         $skills = [];
-        /** @var string */
         foreach (array_keys($names) as $key) {
             $skill = [
                 'category' => $categories[$key],

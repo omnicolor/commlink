@@ -222,7 +222,7 @@ final class VehicleTest extends TestCase
             ],
         ]);
         self::assertSame(
-            3000 + (10000 * 1),
+            3000 + (10000),
             $vehicle->getCost()
         );
 

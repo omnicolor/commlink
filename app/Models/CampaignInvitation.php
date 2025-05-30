@@ -80,7 +80,7 @@ class CampaignInvitation extends Model
     public function hash(): string
     {
         return sha1(
-            (string)$this->campaign_id . $this->id . config('app.key')
+            $this->campaign_id . $this->id . config('app.key')
         );
     }
 }

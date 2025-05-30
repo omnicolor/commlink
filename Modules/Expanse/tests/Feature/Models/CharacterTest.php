@@ -53,9 +53,8 @@ final class CharacterTest extends TestCase
      */
     public function testGetBackgroundInvalid(): void
     {
-        $character = new Character(['background' => 'invalid']);
+        new Character(['background' => 'invalid']);
         self::expectException(RuntimeException::class);
-        $unused = $character->background;
     }
 
     /**
@@ -128,9 +127,8 @@ final class CharacterTest extends TestCase
      */
     public function testGetOriginInvalid(): void
     {
-        $character = new Character(['origin' => 'Jovian']);
+        new Character(['origin' => 'Jovian']);
         self::expectException(RuntimeException::class);
-        $unused = $character->origin;
     }
 
     /**
@@ -148,9 +146,8 @@ final class CharacterTest extends TestCase
      */
     public function testGetSocialClassInvalid(): void
     {
-        $character = new Character(['socialClass' => 'invalid']);
+        new Character(['socialClass' => 'invalid']);
         self::expectException(RuntimeException::class);
-        $unused = $character->social_class;
     }
 
     /**

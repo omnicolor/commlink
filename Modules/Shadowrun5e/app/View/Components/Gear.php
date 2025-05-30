@@ -38,7 +38,6 @@ class Gear extends Component
 
     public function render(): View
     {
-        $view = view('shadowrun5e::components.gear');
-        return $view;
+        return view('shadowrun5e::components.gear');
     }
 }

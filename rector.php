@@ -16,6 +16,8 @@ return RectorConfig::configure()
     ->withAttributesSets()
     ->withCodeQualityLevel(0)
     ->withComposerBased(phpunit: true)
-    ->withDeadCodeLevel(0)
     ->withImportNames(removeUnusedImports: true)
+    ->withPreparedSets(
+        deadCode: true,
+    )
     ->withTypeCoverageLevel(0);

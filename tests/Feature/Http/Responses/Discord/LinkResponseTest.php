@@ -182,13 +182,13 @@ final class LinkResponseTest extends TestCase
             self::createStub(Discord::class)
         );
 
-        $channel = Channel::factory()->create([
+        Channel::factory()->create([
             'channel_id' => $event->channel->id,
             'server_id' => $event->server->id,
             'type' => ChannelType::Discord,
         ]);
 
-        $chatUser = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'remote_user_id' => optional($event->user)->id,
             'server_id' => $event->server->id,
             'server_type' => ChatUser::TYPE_DISCORD,
@@ -228,14 +228,14 @@ final class LinkResponseTest extends TestCase
             self::createStub(Discord::class)
         );
 
-        $channel = Channel::factory()->create([
+        Channel::factory()->create([
             'channel_id' => $event->channel->id,
             'server_id' => $event->server->id,
             'system' => 'shadowrun5e',
             'type' => ChannelType::Discord,
         ]);
 
-        $chatUser = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'remote_user_id' => optional($event->user)->id,
             'server_id' => $event->server->id,
             'server_type' => ChatUser::TYPE_DISCORD,
@@ -274,14 +274,14 @@ final class LinkResponseTest extends TestCase
             self::createStub(Discord::class)
         );
 
-        $channel = Channel::factory()->create([
+        Channel::factory()->create([
             'channel_id' => $event->channel->id,
             'server_id' => $event->server->id,
             'system' => $character->system,
             'type' => ChannelType::Discord,
         ]);
 
-        $chatUser = ChatUser::factory()->create([
+        ChatUser::factory()->create([
             'remote_user_id' => optional($event->user)->id,
             'server_id' => $event->server->id,
             'server_type' => ChatUser::TYPE_DISCORD,

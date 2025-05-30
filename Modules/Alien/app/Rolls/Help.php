@@ -51,7 +51,7 @@ class Help extends Roll
         } elseif (null !== $this->character) {
             $this->data[] = [
                 'title' => 'Player',
-                'text' => 'You\'re playing ' . (string)$this->character
+                'text' => 'You\'re playing ' . $this->character
                     . ' in this channel' . PHP_EOL
                     . '· `skill [id]` - Make a skill roll for a skill with any '
                     . 'required stress dice' . PHP_EOL,

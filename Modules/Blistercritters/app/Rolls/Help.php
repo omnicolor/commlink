@@ -46,7 +46,7 @@ class Help extends Roll
         if (null !== $this->character) {
             $this->data[] = [
                 'title' => 'Player',
-                'text' => 'You\'re playing ' . (string)$this->character
+                'text' => 'You\'re playing ' . $this->character
                     . ' in this channel' . PHP_EOL,
                 'color' => TextAttachment::COLOR_INFO,
             ];

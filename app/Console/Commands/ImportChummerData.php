@@ -1141,8 +1141,7 @@ class ImportChummerData extends Command implements Isolatable
         $cost = (float)Str::after($formula, '*') * 100;
         /** @var string */
         $formula = Str::replace(Str::after($formula, '*'), (string)$cost, $formula);
-        $cost = self::convertFormula($formula, 'R', $rating) / 100;
-        return $cost;
+        return self::convertFormula($formula, 'R', $rating) / 100;
     }
 
     /**
@@ -1211,8 +1210,7 @@ class ImportChummerData extends Command implements Isolatable
         } else {
             $output .= '\'' . addslashes((string)$value) . '\'';
         }
-        $output .= ',' . PHP_EOL;
-        return $output;
+        return $output . (',' . PHP_EOL);
     }
 
     /**

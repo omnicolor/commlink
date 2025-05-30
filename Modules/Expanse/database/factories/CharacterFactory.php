@@ -40,7 +40,7 @@ class CharacterFactory extends Factory
 
     protected function loadBackgrounds(): void
     {
-        $filename = (string)config('expanse.data_path') . 'backgrounds.php';
+        $filename = config('expanse.data_path') . 'backgrounds.php';
         /**
          * @var array<string, array<string, string>>
          */
@@ -50,7 +50,7 @@ class CharacterFactory extends Factory
 
     protected function loadSocialClasses(): void
     {
-        $filename = (string)config('expanse.data_path') . 'social-classes.php';
+        $filename = config('expanse.data_path') . 'social-classes.php';
         /**
          * @var array<string, array<string, string>>
          */

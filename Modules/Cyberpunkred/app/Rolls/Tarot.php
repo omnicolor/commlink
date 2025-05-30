@@ -129,7 +129,7 @@ class Tarot extends Roll
         }
 
         $attachment = new TextAttachment(
-            $this->username . ' drew ' . (string)$this->card,
+            $this->username . ' drew ' . $this->card,
             $this->card->getDescription() . PHP_EOL . PHP_EOL
                 . '*Effect:* '
                 . str_replace('||', PHP_EOL, $this->card->getEffect()),
@@ -154,7 +154,7 @@ class Tarot extends Roll
             return sprintf('**%s shuffled the tarot deck**', $this->username);
         }
 
-        return $this->username . ' drew **' . (string)$this->card . '**'
+        return $this->username . ' drew **' . $this->card . '**'
             . PHP_EOL . PHP_EOL . $this->card->getDescription() . PHP_EOL
             . PHP_EOL . '**Effect:** '
             . str_replace('||', PHP_EOL, $this->card->getEffect());
@@ -171,7 +171,7 @@ class Tarot extends Roll
             return sprintf('%s shuffled the tarot deck', $this->username);
         }
 
-        return $this->username . ' drew ' . (string)$this->card . PHP_EOL
+        return $this->username . ' drew ' . $this->card . PHP_EOL
             . PHP_EOL . $this->card->getDescription() . PHP_EOL
             . PHP_EOL . 'Effect: '
             . str_replace('||', PHP_EOL, $this->card->getEffect());

@@ -133,7 +133,7 @@ class VarzController extends Controller
             if (!is_array($data)) {
                 continue; // @codeCoverageIgnore
             }
-            $file = (string)str_replace('.php', '', $file);
+            $file = str_replace('.php', '', $file);
             $metrics[str_replace('-', '_', $file)] = count($data);
         }
         return $metrics;
