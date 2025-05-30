@@ -35,7 +35,12 @@ use TypeError;
 
 use function abort;
 use function abort_if;
+use function json_decode;
+use function json_encode;
 use function max;
+use function now;
+use function redirect;
+use function response;
 use function route;
 use function sprintf;
 use function view;

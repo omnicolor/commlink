@@ -9,6 +9,9 @@ use Illuminate\View\Component;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\ContactArray;
 use Modules\Shadowrun5e\Models\PartialCharacter;
+use Override;
+
+use function view;
 
 class Contacts extends Component
 {
@@ -18,9 +21,6 @@ class Contacts extends Component
     public bool $charGen;
     public ContactArray $contacts;
 
-    /**
-     * Create a new component instance.
-     */
     public function __construct(public Character $character)
     {
         $this->attributes = $this->newAttributeBag();
@@ -29,6 +29,7 @@ class Contacts extends Component
         $this->contacts = $character->getContacts();
     }
 
+    #[Override]
     public function render(): View
     {
         return view('shadowrun5e::components.contacts');

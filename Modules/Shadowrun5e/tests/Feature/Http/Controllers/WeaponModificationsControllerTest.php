@@ -19,18 +19,12 @@ use function route;
 #[Medium]
 final class WeaponModificationsControllerTest extends TestCase
 {
-    /**
-     * Test loading the collection without authentication.
-     */
     public function testNoAuthIndex(): void
     {
         self::getJson(route('shadowrun5e.weapon-modifications.index'))
             ->assertUnauthorized();
     }
 
-    /**
-     * Test loading the collection as an authenticated user.
-     */
     public function testAuthIndex(): void
     {
         $trusted = Role::create(['name' => 'trusted']);
@@ -48,9 +42,6 @@ final class WeaponModificationsControllerTest extends TestCase
         self::assertGreaterThanOrEqual(1, count($response['data']));
     }
 
-    /**
-     * Test loading an individual modification without authentication.
-     */
     public function testNoAuthShow(): void
     {
         self::getJson(
@@ -59,9 +50,6 @@ final class WeaponModificationsControllerTest extends TestCase
             ->assertUnauthorized();
     }
 
-    /**
-     * Test loading an invalid modification without authentication.
-     */
     public function testNoAuthShowNotFound(): void
     {
         self::getJson(
@@ -70,9 +58,6 @@ final class WeaponModificationsControllerTest extends TestCase
             ->assertUnauthorized();
     }
 
-    /**
-     * Test loading an individual modification with authentication.
-     */
     public function testAuthShow(): void
     {
         $trusted = Role::create(['name' => 'trusted']);
@@ -94,9 +79,6 @@ final class WeaponModificationsControllerTest extends TestCase
             ]);
     }
 
-    /**
-     * Test loading an invalid modification with authentication.
-     */
     public function testAuthShowNotFound(): void
     {
         $user = User::factory()->create();

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Subversion\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
 use function array_keys;
+use function config;
 use function sprintf;
 
 class RelationLevel implements Stringable
@@ -52,6 +54,7 @@ class RelationLevel implements Stringable
         $this->ruleset = $level['ruleset'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

@@ -6,6 +6,7 @@ namespace Modules\Cyberpunkred\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Cyberpunkred\Models\Character;
+use Override;
 
 /**
  * @extends Factory<Character>
@@ -18,6 +19,7 @@ class CharacterFactory extends Factory
      * Define the model's default state.
      * @return array<string, int|string>
      */
+    #[Override]
     public function definition(): array
     {
         $hp = $this->faker->randomDigitNotNull() * $this->faker->randomDigitNotNull();

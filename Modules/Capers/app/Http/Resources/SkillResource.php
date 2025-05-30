@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Capers\Models\Skill;
+use Override;
 
 /**
  * @mixin Skill
@@ -21,6 +22,7 @@ class SkillResource extends JsonResource
      *     id: string
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         /** @var User */

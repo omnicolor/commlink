@@ -7,16 +7,20 @@ namespace Modules\Shadowrun5e\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function abort_if;
 use function array_key_exists;
+use function array_keys;
 use function array_values;
 use function assert;
+use function config;
 use function date;
 use function json_encode;
+use function response;
+use function route;
 use function sha1;
 use function sha1_file;
 use function sprintf;
 use function stat;
-use function urlencode;
 
 /**
  * Controller for programs.
@@ -38,8 +42,7 @@ class ProgramsController extends Controller
     {
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path') . 'programs.php';
-        $this->links['system'] = '/api/shadowrun5e';
-        $this->links['collection'] = '/api/shadowrun5e/programs';
+        $this->links['collection'] = route('shadowrun5e.programs.index');
 
         $this->programs = require $this->filename;
 
@@ -55,10 +58,7 @@ class ProgramsController extends Controller
     {
         foreach (array_keys($this->programs) as $key) {
             $this->programs[$key]['links'] = [
-                'self' => sprintf(
-                    '/api/shadowrun5e/programs/%s',
-                    urlencode($key)
-                ),
+                'self' => route('shadowrun5e.programs.show', $key),
             ];
         }
 
@@ -77,19 +77,15 @@ class ProgramsController extends Controller
      */
     public function show(string $programId): Response
     {
-        if (!array_key_exists($programId, $this->programs)) {
-            // We couldn't find it!
-            $error = [
-                'status' => Response::HTTP_NOT_FOUND,
-                'detail' => sprintf('%s not found', $programId),
-                'title' => 'Not Found',
-            ];
-            return $this->error($error);
-        }
+        abort_if(
+            !array_key_exists($programId, $this->programs),
+            Response::HTTP_NOT_FOUND,
+            sprintf('%s not found', $programId),
+        );
 
         $program = $this->programs[$programId];
         $program['links']['self'] = $this->links['self'] =
-            sprintf('/programs/%s', urlencode($programId));
+            route('shadowrun5e.programs.show', $programId);
 
         $this->headers['Etag'] = sha1((string)json_encode($program));
 

@@ -12,6 +12,7 @@ use Override;
 use Stringable;
 
 use function array_key_exists;
+use function collect;
 use function count;
 use function sprintf;
 

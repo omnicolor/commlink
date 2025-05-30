@@ -15,6 +15,8 @@ use function chr;
 use function in_array;
 use function ord;
 use function sprintf;
+use function strtoupper;
+use function ucfirst;
 
 class StandardPriorityRequest extends FormRequest
 {

@@ -7,6 +7,7 @@ namespace Modules\Shadowrun5e\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function abort_if;
 use function array_key_exists;
 use function array_keys;
 use function array_values;
@@ -15,12 +16,11 @@ use function config;
 use function date;
 use function json_encode;
 use function response;
+use function route;
 use function sha1;
 use function sha1_file;
-use function sprintf;
 use function stat;
 use function strtolower;
-use function urlencode;
 
 /**
  * Controller for vehicles.
@@ -42,8 +42,7 @@ class VehiclesController extends Controller
     {
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path') . 'vehicles.php';
-        $this->links['system'] = '/api/shadowrun5e';
-        $this->links['collection'] = '/api/shadowrun5e/vehicles';
+        $this->links['collection'] = route('shadowrun5e.vehicles.index');
 
         $this->vehicles = require $this->filename;
 
@@ -59,10 +58,7 @@ class VehiclesController extends Controller
     {
         foreach (array_keys($this->vehicles) as $key) {
             $this->vehicles[$key]['links'] = [
-                'self' => sprintf(
-                    '/api/shadowrun5e/vehicles/%s',
-                    urlencode($key)
-                ),
+                'self' => route('shadowrun5e.vehicles.show', $key),
             ];
             $this->vehicles[$key]['ruleset'] ??= 'core';
         }
@@ -83,18 +79,15 @@ class VehiclesController extends Controller
     public function show(string $id): Response
     {
         $id = strtolower($id);
-        if (!array_key_exists($id, $this->vehicles)) {
-            $error = [
-                'status' => Response::HTTP_NOT_FOUND,
-                'detail' => $id . ' not found',
-                'title' => 'Not Found',
-            ];
-            return $this->error($error);
-        }
+        abort_if(
+            !array_key_exists($id, $this->vehicles),
+            Response::HTTP_NOT_FOUND,
+            $id . ' not found',
+        );
 
         $vehicle = $this->vehicles[$id];
         $this->links['self'] = $vehicle['links']['self']
-            = sprintf('/api/shadowrun5e/vehicles/%s', urlencode($id));
+            = route('shadowrun5e.vehicles.show', $id);
         $this->headers['Etag'] = sha1((string)json_encode($vehicle));
 
         $data = [

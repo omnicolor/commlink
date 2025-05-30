@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Capers\Models;
 
+use Override;
 use Stringable;
 
 use function array_key_exists;
@@ -26,5 +27,11 @@ class Explosive extends Gear implements Stringable
         $gear = self::$gear[$id];
         $this->blast = (string)$gear['blast'];
         $this->damage = (string)$gear['damage'];
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }

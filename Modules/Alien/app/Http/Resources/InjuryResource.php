@@ -7,7 +7,10 @@ namespace Modules\Alien\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Alien\Models\Injury;
+use Override;
 use stdClass;
+
+use function route;
 
 /**
  * @mixin Injury
@@ -30,6 +33,7 @@ class InjuryResource extends JsonResource
      *     }
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         return [

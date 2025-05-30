@@ -13,6 +13,7 @@ use RuntimeException;
 
 use function abort;
 use function array_values;
+use function route;
 use function sprintf;
 
 class FocusesController extends Controller

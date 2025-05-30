@@ -12,6 +12,8 @@ use Override;
 use Stringable;
 use Sushi\Sushi;
 
+use function config;
+
 /**
  * @property TechniqueClass $class
  * @property string $description

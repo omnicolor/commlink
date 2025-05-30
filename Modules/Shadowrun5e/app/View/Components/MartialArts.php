@@ -10,6 +10,9 @@ use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\MartialArtsStyleArray;
 use Modules\Shadowrun5e\Models\MartialArtsTechniqueArray;
 use Modules\Shadowrun5e\Models\PartialCharacter;
+use Override;
+
+use function view;
 
 class MartialArts extends Component
 {
@@ -20,9 +23,6 @@ class MartialArts extends Component
     public MartialArtsStyleArray $styles;
     public MartialArtsTechniqueArray $techniques;
 
-    /**
-     * Create a new component instance.
-     */
     public function __construct(public Character $character)
     {
         $this->attributes = $this->newAttributeBag();
@@ -32,6 +32,7 @@ class MartialArts extends Component
         $this->techniques = $character->getMartialArtsTechniques();
     }
 
+    #[Override]
     public function render(): View
     {
         return view('shadowrun5e::components.martial-arts');

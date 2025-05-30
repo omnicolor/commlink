@@ -7,16 +7,19 @@ namespace Modules\Shadowrun5e\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function abort_if;
 use function array_key_exists;
+use function array_keys;
 use function array_values;
 use function assert;
+use function config;
 use function date;
 use function json_encode;
+use function response;
+use function route;
 use function sha1;
 use function sha1_file;
-use function sprintf;
 use function stat;
-use function urlencode;
 
 /**
  * Controller for the various Shadowrun skill requests.
@@ -38,8 +41,7 @@ class SkillsController extends Controller
     {
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path') . 'skills.php';
-        $this->links['system'] = '/api/shadowrun5e';
-        $this->links['collection'] = '/api/shadowrun5e/skills';
+        $this->links['collection'] = route('shadowrun5e.skills.index');
 
         $this->skills = require $this->filename;
 
@@ -55,10 +57,7 @@ class SkillsController extends Controller
     {
         foreach (array_keys($this->skills) as $key) {
             $this->skills[$key]['links'] = [
-                'self' => sprintf(
-                    '/api/shadowrun5e/skills/%s',
-                    urlencode($key)
-                ),
+                'self' => route('shadowrun5e.skills.show', $key),
             ];
         }
 
@@ -76,20 +75,15 @@ class SkillsController extends Controller
      */
     public function show(string $id): Response
     {
-        if (!array_key_exists($id, $this->skills)) {
-            // We couldn't find the requested skill!
-            $error = [
-                'status' => Response::HTTP_NOT_FOUND,
-                'detail' => $id . ' not found',
-                'title' => 'Not Found',
-            ];
-            return $this->error($error);
-        }
-        $skill = $this->skills[$id];
-        $skill['links']['self'] = $this->links['self'] = sprintf(
-            '/api/shadowrun5e/skills/%s',
-            $id
+        abort_if(
+            !array_key_exists($id, $this->skills),
+            Response::HTTP_NOT_FOUND,
+            $id . ' not found',
         );
+
+        $skill = $this->skills[$id];
+        $skill['links']['self'] = $this->links['self'] =
+            route('shadowrun5e.skills.show', $id);
 
         $this->headers['Etag'] = sha1((string)json_encode($skill));
         $data = [

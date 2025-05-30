@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\MissingValue;
 use Modules\Subversion\Models\Skill;
+use Override;
+
+use function route;
 
 /**
  * @mixin Skill
@@ -29,6 +32,7 @@ class SkillResource extends JsonResource
      *   }
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         /** @var User */

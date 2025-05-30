@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Root\ValueObjects;
 
 use DomainException;
+use Override;
 use Stringable;
 
 readonly class Attribute implements Stringable
@@ -22,6 +23,7 @@ readonly class Attribute implements Stringable
         }
     }
 
+    #[Override]
     public function __toString(): string
     {
         return (string)$this->value;

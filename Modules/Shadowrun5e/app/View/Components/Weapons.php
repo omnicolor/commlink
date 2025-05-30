@@ -9,6 +9,9 @@ use Illuminate\View\Component;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\PartialCharacter;
 use Modules\Shadowrun5e\Models\WeaponArray;
+use Override;
+
+use function view;
 
 class Weapons extends Component
 {
@@ -18,9 +21,6 @@ class Weapons extends Component
     public bool $charGen;
     public WeaponArray $weapons;
 
-    /**
-     * Create a new component instance.
-     */
     public function __construct(public Character $character)
     {
         $this->attributes = $this->newAttributeBag();
@@ -29,6 +29,7 @@ class Weapons extends Component
         $this->weapons = $character->getWeapons();
     }
 
+    #[Override]
     public function render(): View
     {
         return view('shadowrun5e::components.weapons');

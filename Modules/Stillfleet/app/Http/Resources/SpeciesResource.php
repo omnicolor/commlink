@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Stillfleet\Models\Species;
+use Override;
 
 use function array_values;
 use function count;
@@ -35,6 +36,7 @@ class SpeciesResource extends JsonResource
      *     }
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         /** @var User */

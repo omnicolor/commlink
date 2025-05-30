@@ -7,17 +7,20 @@ namespace Modules\Shadowrun5e\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function abort_if;
 use function array_key_exists;
+use function array_keys;
 use function array_values;
 use function assert;
+use function config;
 use function date;
 use function json_encode;
+use function response;
 use function sha1;
 use function sha1_file;
 use function sprintf;
 use function stat;
 use function strtolower;
-use function urlencode;
 
 /**
  * Controller for complex forms.
@@ -40,8 +43,7 @@ class ComplexFormsController extends Controller
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path')
             . 'complex-forms.php';
-        $this->links['system'] = '/api/shadowrun5e';
-        $this->links['collection'] = '/api/shadowrun5e/complex-forms';
+        $this->links['collection'] = route('shadowrun5e.complex-forms.index');
 
         $this->forms = require $this->filename;
 
@@ -57,10 +59,7 @@ class ComplexFormsController extends Controller
     {
         foreach (array_keys($this->forms) as $key) {
             $this->forms[$key]['links'] = [
-                'self' => sprintf(
-                    '/api/shadowrun5e/complex-forms/%s',
-                    urlencode($key)
-                ),
+                'self' => route('shadowrun5e.complex-forms.show', $key),
             ];
         }
 
@@ -80,18 +79,15 @@ class ComplexFormsController extends Controller
     public function show(string $identifier): Response
     {
         $identifier = strtolower($identifier);
-        if (!array_key_exists($identifier, $this->forms)) {
-            $error = [
-                'status' => Response::HTTP_NOT_FOUND,
-                'detail' => sprintf('%s not found', $identifier),
-                'title' => 'Not Found',
-            ];
-            return $this->error($error);
-        }
+        abort_if(
+            !array_key_exists($identifier, $this->forms),
+            Response::HTTP_NOT_FOUND,
+            sprintf('%s not found', $identifier),
+        );
 
         $form = $this->forms[$identifier];
         $form['links']['self'] = $this->links['self'] =
-            sprintf('/api/shadowrun5e/complex-forms/%s', $identifier);
+            route('shadowrun5e.complex-forms.show', $identifier);
 
         $this->headers['Etag'] = sha1((string)json_encode($form));
 

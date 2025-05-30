@@ -6,9 +6,11 @@ namespace Modules\Avatar\Models;
 
 use Modules\Avatar\Features\Feature;
 use Modules\Avatar\ValueObjects\AttributeModifier;
+use Override;
 use RuntimeException;
 use Stringable;
 
+use function array_keys;
 use function assert;
 use function config;
 use function debug_backtrace;
@@ -104,6 +106,7 @@ class Playbook implements Stringable
         return null; // @codeCoverageIgnore
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

@@ -12,6 +12,7 @@ use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function count;
+use function route;
 
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
@@ -24,7 +25,6 @@ final class SpritesControllerTest extends TestCase
     public function testIndexBrokenConfig(): void
     {
         Config::set('shadowrun5e.data_path', '/tmp/unused/');
-        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.sprites.index'))
@@ -45,14 +45,13 @@ final class SpritesControllerTest extends TestCase
      */
     public function testAuthIndex(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $response = $this->actingAs($user)
             ->getJson(route('shadowrun5e.sprites.index'))
             ->assertOk()
             ->assertJsonFragment([
                 'links' => [
-                    'self' => '/api/shadowrun5e/sprites/courier',
+                    'self' => route('shadowrun5e.sprites.show', 'courier'),
                 ],
             ]);
         self::assertGreaterThanOrEqual(1, count($response['data']));
@@ -81,7 +80,6 @@ final class SpritesControllerTest extends TestCase
      */
     public function testAuthShow(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.sprites.show', 'courier'))
@@ -109,7 +107,6 @@ final class SpritesControllerTest extends TestCase
      */
     public function testAuthShowNotFound(): void
     {
-        /** @var User */
         $user = User::factory()->create();
         $this->actingAs($user)
             ->getJson(route('shadowrun5e.sprites.show', 'not-found'))

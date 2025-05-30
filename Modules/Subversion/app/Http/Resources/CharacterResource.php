@@ -10,8 +10,10 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\MissingValue;
 use Modules\Subversion\Models\Character;
+use Override;
 
 use function array_values;
+use function route;
 
 /**
  * @mixin Character
@@ -45,6 +47,7 @@ class CharacterResource extends JsonResource
      *   wit: int,
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         return [

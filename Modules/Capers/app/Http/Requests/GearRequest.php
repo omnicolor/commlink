@@ -8,6 +8,10 @@ use Closure;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\In;
 use Modules\Capers\Models\Gear;
+use Override;
+
+use function array_keys;
+use function array_merge;
 
 class GearRequest extends BaseRequest
 {
@@ -15,6 +19,7 @@ class GearRequest extends BaseRequest
      * Get the validation rules that apply to the request.
      * @return array<string, array<int, string|Closure|In|Rule>>
      */
+    #[Override]
     public function rules(): array
     {
         return array_merge(

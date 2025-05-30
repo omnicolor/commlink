@@ -6,15 +6,19 @@ namespace Modules\Stillfleet\Tests\Feature\Http\Controllers;
 
 use App\Models\User;
 use Database\Seeders\RoleAndPermissionSeeder;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
 
+use function route;
+
 #[Group('stillfleet')]
 #[Medium]
 final class PowersControllerTest extends TestCase
 {
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

@@ -14,7 +14,9 @@ use League\CommonMark\CommonMarkConverter;
 use Modules\Avatar\Http\Resources\CharacterResource;
 use Modules\Avatar\Models\Character;
 
+use function abort_if;
 use function collect;
+use function route;
 use function view;
 
 /**

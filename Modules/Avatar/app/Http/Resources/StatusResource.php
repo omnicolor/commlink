@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\MissingValue;
 use Modules\Avatar\Models\Status;
+use Override;
+
+use function route;
 
 /**
  * @mixin Status
@@ -29,6 +32,7 @@ class StatusResource extends JsonResource
      *   }
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         /** @var User */

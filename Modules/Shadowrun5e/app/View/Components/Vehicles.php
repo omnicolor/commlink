@@ -9,6 +9,9 @@ use Illuminate\View\Component;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\PartialCharacter;
 use Modules\Shadowrun5e\Models\VehicleArray;
+use Override;
+
+use function view;
 
 class Vehicles extends Component
 {
@@ -18,9 +21,6 @@ class Vehicles extends Component
     public bool $charGen;
     public VehicleArray $vehicles;
 
-    /**
-     * Create a new component instance.
-     */
     public function __construct(Character $character)
     {
         $this->attributes = $this->newAttributeBag();
@@ -29,6 +29,7 @@ class Vehicles extends Component
         $this->vehicles = $character->getVehicles();
     }
 
+    #[Override]
     public function render(): View
     {
         return view('shadowrun5e::components.vehicles');

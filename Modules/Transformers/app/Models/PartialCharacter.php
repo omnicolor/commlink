@@ -6,6 +6,7 @@ namespace Modules\Transformers\Models;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Transformers\Database\Factories\PartialCharacterFactory;
+use Override;
 
 /**
  * Representation of a character currently being built.
@@ -14,16 +15,10 @@ use Modules\Transformers\Database\Factories\PartialCharacterFactory;
  */
 class PartialCharacter extends Character
 {
-    /**
-     * @var ?string
-     */
-    protected $connection = 'mongodb';
-
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $table = 'characters-partial';
 
+    #[Override]
     public function newFromBuilder(
         // @phpstan-ignore parameter.defaultValue
         $attributes = [],
@@ -39,6 +34,7 @@ class PartialCharacter extends Character
         return $character;
     }
 
+    #[Override]
     protected static function newFactory(): Factory
     {
         return PartialCharacterFactory::new();
