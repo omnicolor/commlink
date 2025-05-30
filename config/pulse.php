@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Laravel\Pulse\Http\Middleware\Authorize;
 use Laravel\Pulse\Pulse;
-use Laravel\Pulse\Recorders;
 use Laravel\Pulse\Recorders\CacheInteractions;
 use Laravel\Pulse\Recorders\Exceptions;
 use Laravel\Pulse\Recorders\Queues;

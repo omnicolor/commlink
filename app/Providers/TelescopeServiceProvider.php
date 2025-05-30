@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Gate;
 use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\Telescope;
 use Laravel\Telescope\TelescopeApplicationServiceProvider;
