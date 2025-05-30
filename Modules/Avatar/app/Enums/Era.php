@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Avatar\Enums;
 
+use function array_column;
+
 /**
  * @codeCoverageIgnore
  */

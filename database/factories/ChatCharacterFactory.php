@@ -8,6 +8,7 @@ use App\Models\Channel;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Override;
 
 /**
  * @extends Factory<ChatCharacter>
@@ -15,9 +16,12 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class ChatCharacterFactory extends Factory
 {
     /**
-     * Define the model's default state.
-     * @return array<string, int>
+     * @return array{
+     *     channel_id: int,
+     *     chat_user_id: int
+     * }
      */
+    #[Override]
     public function definition(): array
     {
         return [

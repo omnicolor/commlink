@@ -9,6 +9,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\In;
 use Modules\Subversion\Models\Origin;
 
+use function collect;
+
 class CreateOriginRequest extends FormRequest
 {
     /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Transformers\Models;
 
 use ArrayObject;
+use Override;
 use TypeError;
 
 /**
@@ -18,6 +19,7 @@ class SubgroupArray extends ArrayObject
      * @param Subgroup $value
      * @throws TypeError
      */
+    #[Override]
     public function offsetSet($offset = null, $value = null): void
     {
         if ($value instanceof Subgroup) {

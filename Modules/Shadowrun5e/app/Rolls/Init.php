@@ -18,11 +18,15 @@ use Override;
 use RuntimeException;
 
 use function array_shift;
+use function array_sum;
 use function count;
+use function ctype_digit;
 use function explode;
 use function implode;
+use function optional;
 use function preg_match;
 use function sprintf;
+use function str_contains;
 
 use const PHP_EOL;
 

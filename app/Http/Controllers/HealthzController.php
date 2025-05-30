@@ -12,12 +12,16 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 
+use function array_walk;
+use function config;
 use function count;
 use function disk_free_space;
 use function disk_total_space;
 use function escapeshellarg;
 use function explode;
+use function hrtime;
 use function in_array;
+use function now;
 use function shell_exec;
 use function sprintf;
 

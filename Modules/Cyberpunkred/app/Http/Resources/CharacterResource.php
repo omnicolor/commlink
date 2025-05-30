@@ -10,6 +10,10 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Cyberpunkred\Models\Armor;
 use Modules\Cyberpunkred\Models\Character;
 use Modules\Cyberpunkred\Models\Weapon;
+use Override;
+
+use function route;
+use function str_replace;
 
 /**
  * @mixin Character
@@ -55,6 +59,7 @@ class CharacterResource extends JsonResource
      *     }
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         $weapons = [];

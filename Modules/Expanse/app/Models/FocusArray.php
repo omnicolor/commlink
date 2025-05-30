@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Expanse\Models;
 
 use ArrayObject;
+use Override;
 use TypeError;
 
 /**
@@ -18,6 +19,7 @@ class FocusArray extends ArrayObject
      * @param Focus $focus
      * @throws TypeError
      */
+    #[Override]
     public function offsetSet(mixed $index, $focus): void
     {
         if ($focus instanceof Focus) {

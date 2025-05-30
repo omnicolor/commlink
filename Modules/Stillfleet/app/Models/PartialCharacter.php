@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Stillfleet\Models;
 
+use Override;
+
 /**
  * @method static self create(array<mixed, mixed> $attributes)
  */
@@ -14,6 +16,7 @@ class PartialCharacter extends Character
      */
     protected $table = 'characters-partial';
 
+    #[Override]
     public function newFromBuilder(
         // @phpstan-ignore parameter.defaultValue
         $attributes = [],

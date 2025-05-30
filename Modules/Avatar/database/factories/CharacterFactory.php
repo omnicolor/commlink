@@ -8,21 +8,26 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Avatar\Enums\Background;
 use Modules\Avatar\Enums\Era;
 use Modules\Avatar\Models\Character;
+use Override;
 
 /**
  * @extends Factory<Character>
  */
 class CharacterFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     */
     protected $model = Character::class;
 
     /**
-     * Define the model's default state.
-     * @return array<string, string>
+     * @return array{
+     *     name: string,
+     *     appearance: string,
+     *     background: string,
+     *     era: string,
+     *     owner: string,
+     *     system: string
+     * }
      */
+    #[Override]
     public function definition(): array
     {
         return [

@@ -11,6 +11,8 @@ use Illuminate\Validation\Rules\In;
 use Modules\Alien\Http\Controllers\CharactersController;
 use Modules\Alien\Models\PartialCharacter;
 
+use function collect;
+
 class CreateTalentRequest extends FormRequest
 {
     /**

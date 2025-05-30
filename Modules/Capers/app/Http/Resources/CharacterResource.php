@@ -11,8 +11,10 @@ use Modules\Capers\Models\Character;
 use Modules\Capers\Models\Gear;
 use Modules\Capers\Models\Power;
 use Modules\Capers\Models\Skill;
+use Override;
 
 use function array_values;
+use function route;
 
 /**
  * @mixin Character
@@ -53,6 +55,7 @@ class CharacterResource extends JsonResource
      *     }
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         return [

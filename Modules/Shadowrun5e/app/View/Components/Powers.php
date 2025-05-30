@@ -9,9 +9,11 @@ use Illuminate\View\Component;
 use Modules\Shadowrun5e\Models\AdeptPowerArray;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\PartialCharacter;
+use Override;
 
 use function assert;
 use function in_array;
+use function view;
 
 class Powers extends Component
 {
@@ -28,9 +30,6 @@ class Powers extends Component
      */
     public string $type;
 
-    /**
-     * Create a new component instance.
-     */
     public function __construct(public Character $character)
     {
         $this->attributes = $this->newAttributeBag();
@@ -66,6 +65,7 @@ class Powers extends Component
             && in_array($this->character->priorities['magic'], $adeptTypes, true);
     }
 
+    #[Override]
     public function render(): View
     {
         return view('shadowrun5e::components.powers');

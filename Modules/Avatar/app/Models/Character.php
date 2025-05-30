@@ -20,6 +20,7 @@ use Modules\Avatar\ValueObjects\GrowthAdvancements;
 use Override;
 use Stringable;
 
+use function array_map;
 use function get_class;
 
 /**

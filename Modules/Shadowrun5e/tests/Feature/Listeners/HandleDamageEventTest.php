@@ -16,6 +16,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function json_decode;
 use function sprintf;
 
 /**
@@ -69,7 +70,6 @@ final class HandleDamageEventTest extends TestCase
             ]))
             ->create();
 
-        /** @var Character */
         $character = Character::factory()->create([]);
 
         $damage = (object)[
@@ -259,7 +259,6 @@ final class HandleDamageEventTest extends TestCase
             ->has(Channel::factory(['type' => ChannelType::Slack]))
             ->create();
 
-        /** @var Character */
         $character = Character::factory()->create([]);
 
         $damage = (object)[

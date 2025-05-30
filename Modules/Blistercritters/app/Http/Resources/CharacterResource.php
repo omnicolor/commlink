@@ -7,6 +7,7 @@ namespace Modules\Blistercritters\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Blistercritters\Models\Character;
+use Override;
 
 use function route;
 
@@ -36,6 +37,7 @@ class CharacterResource extends JsonResource
      *     }
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         return [

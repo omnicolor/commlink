@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Capers\Models;
 
 use ArrayObject;
+use Override;
 use TypeError;
 
 /**
@@ -18,6 +19,7 @@ class SkillArray extends ArrayObject
      * @param Skill $skill
      * @throws TypeError
      */
+    #[Override]
     public function offsetSet(mixed $index = null, $skill = null): void
     {
         if ($skill instanceof Skill) {

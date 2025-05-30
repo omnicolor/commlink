@@ -9,6 +9,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\In;
 use Modules\Subversion\Models\Background;
 
+use function collect;
+
 class CreateBackgroundRequest extends FormRequest
 {
     /**

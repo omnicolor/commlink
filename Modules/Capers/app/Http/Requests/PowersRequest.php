@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\In;
 use Modules\Capers\Models\Power;
 use Modules\Capers\Models\PowerArray;
+use Override;
 
 use function array_merge;
 use function assert;
@@ -20,6 +21,7 @@ class PowersRequest extends BaseRequest
      * Get the error messages for the defined validation rules.
      * @return array<string, string>
      */
+    #[Override]
     public function messages()
     {
         return [
@@ -32,6 +34,7 @@ class PowersRequest extends BaseRequest
      * Get the validation rules that apply to the request.
      * @return array<string, array<int, string|Closure|In|Rule>>
      */
+    #[Override]
     public function rules(): array
     {
         return array_merge(

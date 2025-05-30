@@ -13,6 +13,8 @@ use Modules\Subversion\Models\RelationAspect;
 use Modules\Subversion\Models\RelationLevel;
 use Modules\Subversion\Models\Skill;
 
+use function collect;
+
 class CreateRelationsRequest extends FormRequest
 {
     /**

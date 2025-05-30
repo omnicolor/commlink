@@ -19,9 +19,6 @@ use function route;
 #[Medium]
 final class MentorSpiritsControllerTest extends TestCase
 {
-    /**
-     * Test loading the collection if the config is broken.
-     */
     public function testIndexBrokenConfig(): void
     {
         Config::set('shadowrun5e.data_path', '/tmp/unused/');
@@ -31,18 +28,12 @@ final class MentorSpiritsControllerTest extends TestCase
             ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
-    /**
-     * Test loading the collection without authentication.
-     */
     public function testNoAuthIndex(): void
     {
         self::getJson(route('shadowrun5e.mentor-spirits.index'))
             ->assertUnauthorized();
     }
 
-    /**
-     * Test loading the collection as an authenticated user.
-     */
     public function testAuthIndex(): void
     {
         $user = User::factory()->create();
@@ -57,18 +48,12 @@ final class MentorSpiritsControllerTest extends TestCase
         self::assertGreaterThanOrEqual(1, count($response['data']));
     }
 
-    /**
-     * Test loading an individual resource without authentication.
-     */
     public function testNoAuthShow(): void
     {
         self::getJson(route('shadowrun5e.mentor-spirits.show', 'goddess'))
             ->assertUnauthorized();
     }
 
-    /**
-     * Test loading an individual resource with authentication.
-     */
     public function testAuthShow(): void
     {
         $user = User::factory()->create();
@@ -81,9 +66,6 @@ final class MentorSpiritsControllerTest extends TestCase
             ]);
     }
 
-    /**
-     * Test loading an invalid resource with authentication.
-     */
     public function testAuthShowNotFound(): void
     {
         $user = User::factory()->create();

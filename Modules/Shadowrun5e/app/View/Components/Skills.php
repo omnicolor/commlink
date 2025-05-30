@@ -10,6 +10,9 @@ use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\PartialCharacter;
 use Modules\Shadowrun5e\Models\SkillArray;
 use Modules\Shadowrun5e\Models\SkillGroup;
+use Override;
+
+use function view;
 
 class Skills extends Component
 {
@@ -26,9 +29,6 @@ class Skills extends Component
 
     public SkillArray $skills;
 
-    /**
-     * Create a new component instance.
-     */
     public function __construct(public Character $character)
     {
         $this->attributes = $this->newAttributeBag();
@@ -38,6 +38,7 @@ class Skills extends Component
         $this->skills = $character->getSkills();
     }
 
+    #[Override]
     public function render(): View
     {
         return view('shadowrun5e::components.skills');

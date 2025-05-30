@@ -6,6 +6,7 @@ namespace Modules\Subversion\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Subversion\Models\PartialCharacter;
+use Override;
 
 /**
  * @extends Factory<PartialCharacter>
@@ -17,6 +18,7 @@ class PartialCharacterFactory extends Factory
     /**
      * @return array<string, mixed>
      */
+    #[Override]
     public function definition(): array
     {
         return [

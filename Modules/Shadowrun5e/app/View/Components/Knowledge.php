@@ -9,6 +9,9 @@ use Illuminate\View\Component;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\PartialCharacter;
 use Modules\Shadowrun5e\Models\SkillArray;
+use Override;
+
+use function view;
 
 class Knowledge extends Component
 {
@@ -20,9 +23,6 @@ class Knowledge extends Component
     public SkillArray $knowledges;
     public SkillArray $languages;
 
-    /**
-     * Create a new component instance.
-     */
     public function __construct(public Character $character)
     {
         $this->attributes = $this->newAttributeBag();
@@ -32,6 +32,7 @@ class Knowledge extends Component
         $this->languages = $character->getKnowledgeSkills(only_languages: true);
     }
 
+    #[Override]
     public function render(): View
     {
         return view('shadowrun5e::components.knowledge');

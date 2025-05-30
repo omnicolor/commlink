@@ -7,6 +7,7 @@ namespace Modules\Capers\Models;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Capers\Database\Factories\PartialCharacterFactory;
+use Override;
 use Stringable;
 
 use function optional;
@@ -20,12 +21,6 @@ use function optional;
 class PartialCharacter extends Character implements Stringable
 {
     use HasFactory;
-
-    /**
-     * The database connection that should be used by the model.
-     * @var ?string
-     */
-    protected $connection = 'mongodb';
 
     /**
      * @var list<string>
@@ -62,11 +57,19 @@ class PartialCharacter extends Character implements Stringable
      */
     protected $table = 'characters-partial';
 
+    #[Override]
+    public function __toString(): string
+    {
+        return $this->name ?? 'New Character';
+    }
+
+    #[Override]
     protected static function newFactory(): Factory
     {
         return PartialCharacterFactory::new();
     }
 
+    #[Override]
     public function newFromBuilder(
         // @phpstan-ignore parameter.defaultValue
         $attributes = [],

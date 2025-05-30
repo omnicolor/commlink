@@ -12,6 +12,7 @@ use Omnicolor\Slack\Attachments\TextAttachment;
 use Omnicolor\Slack\Response;
 use Override;
 
+use function explode;
 use function is_numeric;
 use function sprintf;
 use function trim;

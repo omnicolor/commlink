@@ -11,6 +11,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Shadowrun5e\Models\Weapon;
 use Override;
 
+use function array_merge;
+use function route;
+
 /**
  * @mixin Weapon
  * @phpstan-type MeleeWeapon array{

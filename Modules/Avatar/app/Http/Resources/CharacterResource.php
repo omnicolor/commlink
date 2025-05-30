@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Avatar\Models\Character;
 use Modules\Avatar\ValueObjects\Attribute;
+use Override;
+
+use function route;
+use function ucfirst;
 
 /**
  * @mixin Character
@@ -39,6 +43,7 @@ class CharacterResource extends JsonResource
      *     }
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         return [

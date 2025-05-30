@@ -9,6 +9,9 @@ use Modules\Transformers\Enums\Mode;
 use Modules\Transformers\Enums\Programming;
 use Modules\Transformers\Enums\Size;
 use Modules\Transformers\Models\Character;
+use Override;
+
+use function strtolower;
 
 /**
  * @extends Factory<Character>
@@ -20,6 +23,7 @@ class CharacterFactory extends Factory
     /**
      * @return array<string, array<int, mixed>|int|string>
      */
+    #[Override]
     public function definition(): array
     {
         return [

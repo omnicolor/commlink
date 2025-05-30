@@ -13,6 +13,9 @@ use Modules\Alien\Models\Injury;
 use Modules\Alien\Models\Skill;
 use Modules\Alien\Models\Talent;
 use Modules\Alien\Models\Weapon;
+use Override;
+
+use function route;
 
 /**
  * @mixin Character
@@ -57,6 +60,7 @@ class CharacterResource extends JsonResource
      *     }
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         return [

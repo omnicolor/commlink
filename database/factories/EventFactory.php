@@ -8,6 +8,7 @@ use App\Models\Campaign;
 use App\Models\Event;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Override;
 
 /**
  * @extends Factory<Event>
@@ -15,8 +16,18 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class EventFactory extends Factory
 {
     /**
-     * @return array<string, int|null|string>
+     * @return array{
+     *     campaign_id: int,
+     *     created_by: int,
+     *     description: string,
+     *     game_end: null,
+     *     game_start: null,
+     *     name: string,
+     *     real_end: null,
+     *     real_start: string
+     * }
      */
+    #[Override]
     public function definition(): array
     {
         return [

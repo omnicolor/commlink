@@ -17,10 +17,12 @@ use ParseError;
 use Throwable;
 
 use function array_key_exists;
+use function base_path;
 use function config;
 use function count;
 use function is_array;
 use function sprintf;
+use function str_replace;
 use function ucwords;
 
 class VarzController extends Controller

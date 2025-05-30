@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Capers\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -84,7 +85,7 @@ class Power implements Stringable
     public function __construct(
         public string $id,
         public int $rank = 1,
-        array $boosts = []
+        array $boosts = [],
     ) {
         $filename = config('capers.data_path') . 'powers.php';
         self::$powers ??= require $filename;
@@ -125,6 +126,7 @@ class Power implements Stringable
         $this->type = $power['type'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

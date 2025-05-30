@@ -6,6 +6,7 @@ namespace Modules\Blistercritters\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Blistercritters\Models\Character;
+use Override;
 
 /**
  * @extends Factory<Character>
@@ -17,6 +18,7 @@ class CharacterFactory extends Factory
     /**
      * @return array<string, string>
      */
+    #[Override]
     public function definition(): array
     {
         return [

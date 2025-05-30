@@ -12,60 +12,46 @@ use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function count;
+use function route;
 
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
 #[Medium]
 final class SpellsControllerTest extends TestCase
 {
-    /**
-     * Test loading the collection if the config is broken.
-     */
     public function testIndexBrokenConfig(): void
     {
         Config::set('shadowrun5e.data_path', '/tmp/unused/');
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('shadowrun5e.spells.index'))
             ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
-    /**
-     * Test loading the collection without authentication.
-     */
     public function testNoAuthIndex(): void
     {
-        $this->getJson(route('shadowrun5e.spells.index'))
+        self::getJson(route('shadowrun5e.spells.index'))
             ->assertUnauthorized();
     }
 
-    /**
-     * Test loading the collection as an authenticated user.
-     */
     public function testAuthIndex(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $response = $this->actingAs($user)
+        $response = self::actingAs($user)
             ->getJson(route('shadowrun5e.spells.index'))
             ->assertOk()
             ->assertJsonFragment([
                 'links' => [
-                    'self' => '/api/shadowrun5e/spells/control-emotions',
+                    'self' => route('shadowrun5e.spells.show', 'control-emotions'),
                 ],
             ]);
         self::assertGreaterThanOrEqual(1, count($response['data']));
     }
 
-    /**
-     * Test loading an individual spell with authentication.
-     */
     public function testAuthShow(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('shadowrun5e.spells.show', 'control-emotions'))
             ->assertOk()
             ->assertJson([
@@ -84,14 +70,10 @@ final class SpellsControllerTest extends TestCase
             ]);
     }
 
-    /**
-     * Test loading an invalid spell with authentication.
-     */
     public function testAuthShowNotFound(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-        $this->actingAs($user)
+        self::actingAs($user)
             ->getJson(route('shadowrun5e.spells.show', 'not-found'))
             ->assertNotFound();
     }

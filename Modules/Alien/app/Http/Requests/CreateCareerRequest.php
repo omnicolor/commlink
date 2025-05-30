@@ -9,6 +9,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\In;
 use Modules\Alien\Models\Career;
 
+use function collect;
+
 class CreateCareerRequest extends FormRequest
 {
     /**

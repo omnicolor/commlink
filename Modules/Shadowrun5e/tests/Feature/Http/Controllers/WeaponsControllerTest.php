@@ -12,6 +12,7 @@ use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 use function count;
+use function route;
 
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]

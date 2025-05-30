@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Root\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Override;
 use Stringable;
 use Sushi\Sushi;
 
@@ -53,6 +54,7 @@ class Nature extends Model implements Stringable
         return require $filename;
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

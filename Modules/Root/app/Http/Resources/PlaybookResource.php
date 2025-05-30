@@ -12,6 +12,9 @@ use Illuminate\Http\Resources\MissingValue;
 use Modules\Root\Models\Move;
 use Modules\Root\Models\Nature;
 use Modules\Root\Models\Playbook;
+use Override;
+
+use function route;
 
 /**
  * @mixin Playbook
@@ -39,6 +42,7 @@ class PlaybookResource extends JsonResource
      *     }
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         /** @var User */

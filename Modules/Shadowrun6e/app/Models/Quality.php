@@ -42,7 +42,7 @@ class Quality implements Stringable
         self::$qualities ??= require $filename;
 
         $id = strtolower($id);
-        if (!isset(self::$qualities[$this->id])) {
+        if (!isset(self::$qualities[$id])) {
             throw new RuntimeException(sprintf(
                 'Shadowrun 6E quality ID "%s" is invalid',
                 $this->id

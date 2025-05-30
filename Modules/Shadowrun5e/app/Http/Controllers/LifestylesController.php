@@ -7,18 +7,20 @@ namespace Modules\Shadowrun5e\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function abort_if;
 use function array_key_exists;
 use function array_keys;
 use function array_values;
 use function assert;
+use function config;
 use function date;
 use function json_encode;
+use function response;
+use function route;
 use function sha1;
 use function sha1_file;
-use function sprintf;
 use function stat;
 use function strtolower;
-use function urlencode;
 
 /**
  * Controller for Shadowrun 5th Edition lifestyles.
@@ -41,8 +43,7 @@ class LifestylesController extends Controller
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path')
             . 'lifestyles.php';
-        $this->links['system'] = '/api/shadowrun5e';
-        $this->links['collection'] = '/api/shadowrun5e/lifestyles';
+        $this->links['collection'] = route('shadowrun5e.lifestyles.index');
 
         $this->lifestyles = require $this->filename;
 
@@ -58,10 +59,7 @@ class LifestylesController extends Controller
     {
         foreach (array_keys($this->lifestyles) as $key) {
             $this->lifestyles[$key]['links'] = [
-                'self' => sprintf(
-                    '/api/shadowrun5e/lifestyles/%s',
-                    urlencode($key)
-                ),
+                'self' => route('shadowrun5e.lifestyles.show', $key),
             ];
         }
 
@@ -81,18 +79,15 @@ class LifestylesController extends Controller
     public function show(string $id): Response
     {
         $id = strtolower($id);
-        if (!array_key_exists($id, $this->lifestyles)) {
-            $error = [
-                'status' => Response::HTTP_NOT_FOUND,
-                'detail' => $id . ' not found',
-                'title' => 'Not Found',
-            ];
-            return $this->error($error);
-        }
+        abort_if(
+            !array_key_exists($id, $this->lifestyles),
+            Response::HTTP_NOT_FOUND,
+            $id . ' not found',
+        );
 
         $lifestyle = $this->lifestyles[$id];
         $this->links['self'] = $lifestyle['links']['self']
-            = sprintf('/api/shadowrun5e/lifestyles/%s', urlencode($id));
+            = route('shadowrun5e.lifestyles.show', $id);
         $this->headers['Etag'] = sha1((string)json_encode($lifestyle));
 
         $data = [

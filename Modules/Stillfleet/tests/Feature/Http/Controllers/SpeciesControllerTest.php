@@ -12,6 +12,8 @@ use PHPUnit\Framework\Attributes\Medium;
 use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
 
+use function route;
+
 #[Group('stillfleet')]
 #[Medium]
 final class SpeciesControllerTest extends TestCase

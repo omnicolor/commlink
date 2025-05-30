@@ -41,7 +41,6 @@ class SkillGroupsController extends Controller
     {
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path') . 'skills.php';
-        $this->links['system'] = '/api/shadowrun5e';
         $this->links['collection'] = route('shadowrun5e.skill-groups.index');
 
         $skills = require $this->filename;

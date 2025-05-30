@@ -9,15 +9,15 @@ use Illuminate\View\Component;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\PartialCharacter;
 use Modules\Shadowrun5e\Models\QualityArray;
+use Override;
+
+use function view;
 
 class Qualities extends Component
 {
     public bool $charGen;
     public QualityArray $qualities;
 
-    /**
-     * Create a new component instance.
-     */
     public function __construct(public Character $character)
     {
         $this->attributes = $this->newAttributeBag();
@@ -26,6 +26,7 @@ class Qualities extends Component
         $this->qualities = $character->getQualities();
     }
 
+    #[Override]
     public function render(): View
     {
         return view('shadowrun5e::components.qualities');
