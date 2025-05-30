@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Expanse\Models;
 
+use Modules\Expanse\Models\Origin\Belter;
+use Modules\Expanse\Models\Origin\Earther;
+use Modules\Expanse\Models\Origin\Martian;
 use RuntimeException;
 use Stringable;
 
@@ -38,9 +41,9 @@ abstract class Origin implements Stringable
     {
         $id = strtolower($id);
         return match ($id) {
-            'belter' => new Origin\Belter(),
-            'earther' => new Origin\Earther(),
-            'martian' => new Origin\Martian(),
+            'belter' => new Belter(),
+            'earther' => new Earther(),
+            'martian' => new Martian(),
             default => throw new RuntimeException(
                 sprintf('Origin "%s" is invalid', $id)
             ),
