@@ -9,6 +9,8 @@ use Illuminate\Foundation\Http\FormRequest;
 use Modules\Shadowrun5e\Models\Quality;
 use RuntimeException;
 
+use function explode;
+
 class QualitiesRequest extends FormRequest
 {
     /**

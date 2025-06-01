@@ -12,6 +12,7 @@ use Sushi\Sushi;
 
 use function array_merge;
 use function array_walk;
+use function config;
 use function json_decode;
 
 /**

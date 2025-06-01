@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Avatar\Database\Factories\CampaignFactory;
 use Modules\Avatar\Enums\Era;
+use Override;
 
 class Campaign extends BaseCampaign
 {
@@ -22,6 +23,7 @@ class Campaign extends BaseCampaign
         return Era::from($this->options['era']);
     }
 
+    #[Override]
     protected static function newFactory(): Factory
     {
         return CampaignFactory::new();

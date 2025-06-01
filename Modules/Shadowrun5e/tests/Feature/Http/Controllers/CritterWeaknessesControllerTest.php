@@ -9,6 +9,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function route;
+
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
 #[Medium]

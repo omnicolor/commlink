@@ -7,6 +7,9 @@ namespace Modules\Alien\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Alien\Models\Character;
+use Override;
+
+use function route;
 
 class RollResource extends JsonResource
 {
@@ -32,6 +35,7 @@ class RollResource extends JsonResource
      *     title: string,
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         return [
@@ -55,6 +59,7 @@ class RollResource extends JsonResource
      *     }
      * }
      */
+    #[Override]
     public function with(Request $request): array
     {
         $links = [

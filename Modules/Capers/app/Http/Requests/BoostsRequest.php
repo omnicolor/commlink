@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\In;
 use Modules\Capers\Models\PartialCharacter;
+use Override;
 
+use function array_merge;
 use function count;
 use function sprintf;
 
@@ -20,7 +22,8 @@ class BoostsRequest extends BaseRequest
      * Get the error messages for the defined validation rules.
      * @return array<string, string>
      */
-    public function messages()
+    #[Override]
+    public function messages(): array
     {
         return [
             'boosts.required' => 'You must choose boosts for your powers.',
@@ -31,6 +34,7 @@ class BoostsRequest extends BaseRequest
      * Get the validation rules that apply to the request.
      * @return array<string, array<int, string|Closure|In|Rule>>
      */
+    #[Override]
     public function rules(): array
     {
         /** @var User */

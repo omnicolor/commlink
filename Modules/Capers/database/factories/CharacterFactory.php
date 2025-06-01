@@ -6,6 +6,7 @@ namespace Modules\Capers\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Capers\Models\Character;
+use Override;
 
 use function array_keys;
 use function array_merge;
@@ -45,6 +46,7 @@ class CharacterFactory extends Factory
      *     virtue: string
      * }
      */
+    #[Override]
     public function definition(): array
     {
         $types = [

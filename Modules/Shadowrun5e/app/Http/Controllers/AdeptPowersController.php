@@ -7,6 +7,7 @@ namespace Modules\Shadowrun5e\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function abort_if;
 use function array_key_exists;
 use function array_keys;
 use function array_values;
@@ -15,6 +16,7 @@ use function config;
 use function count;
 use function date;
 use function json_encode;
+use function response;
 use function route;
 use function sha1;
 use function sha1_file;
@@ -102,15 +104,11 @@ class AdeptPowersController extends Controller
     public function show(string $id): Response
     {
         $id = strtolower($id);
-        if (!array_key_exists($id, $this->powers)) {
-            // We couldn't find it!
-            $errors = [
-                'status' => Response::HTTP_NOT_FOUND,
-                'detail' => $id . ' not found',
-                'title' => 'Not Found',
-            ];
-            return $this->error($errors);
-        }
+        abort_if(
+            !array_key_exists($id, $this->powers),
+            Response::HTTP_NOT_FOUND,
+            $id . ' not found',
+        );
         $power = $this->cleanup($this->powers[$id]);
 
         $this->headers['Etag'] = sha1((string)json_encode($power));

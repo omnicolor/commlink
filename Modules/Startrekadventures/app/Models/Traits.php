@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Startrekadventures\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -48,6 +49,7 @@ class Traits implements Stringable
         $this->ruleset = $trait['ruleset'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

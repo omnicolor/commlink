@@ -6,21 +6,20 @@ namespace Modules\Shadowrun6e\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Shadowrun6e\Models\Character;
+use Override;
 
 /**
  * @extends Factory<Character>
  */
 class CharacterFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     */
     protected $model = Character::class;
 
     /**
      * Define the model's default state.
      * @return array<string, int|string>
      */
+    #[Override]
     public function definition(): array
     {
         return [

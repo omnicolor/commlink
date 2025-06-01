@@ -19,7 +19,12 @@ use Modules\Transformers\Http\Resources\CharacterResource;
 use Modules\Transformers\Models\Character;
 use Modules\Transformers\Models\PartialCharacter;
 
+use function abort;
 use function count;
+use function now;
+use function redirect;
+use function route;
+use function view;
 
 class CharactersController extends Controller
 {

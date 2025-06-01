@@ -10,8 +10,10 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Capers\Models\Boost;
 use Modules\Capers\Models\Power;
+use Override;
 
 use function array_values;
+use function route;
 
 /**
  * @mixin Power
@@ -37,6 +39,7 @@ class PowerResource extends JsonResource
      *     }
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         /** @var User */

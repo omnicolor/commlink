@@ -7,18 +7,19 @@ namespace Modules\Shadowrun5e\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function abort_if;
 use function array_key_exists;
 use function array_values;
 use function assert;
+use function config;
 use function date;
 use function json_encode;
+use function response;
 use function route;
 use function sha1;
 use function sha1_file;
-use function sprintf;
 use function stat;
 use function strtolower;
-use function urlencode;
 
 /**
  * Mentor Spirit API route.
@@ -79,20 +80,16 @@ class MentorSpiritsController extends Controller
     public function show(string $id): Response
     {
         $id = strtolower($id);
-        if (!array_key_exists($id, $this->spirits)) {
-            // We couldn't find it!
-            $error = [
-                'status' => Response::HTTP_NOT_FOUND,
-                'detail' => $id . ' not found',
-                'title' => 'Not Found',
-            ];
-            return $this->error($error);
-        }
+        abort_if(
+            !array_key_exists($id, $this->spirits),
+            Response::HTTP_NOT_FOUND,
+            $id . ' not found',
+        );
 
         $spirit = $this->spirits[$id];
         $spirit['ruleset'] ??= 'core';
         $spirit['links']['self'] = $this->links['self'] =
-            sprintf('/api/shadowrun5e/mentor-spirits/%s', urlencode($id));
+            route('shadowrun5e.mentor-spirits.show', $id);
 
         $this->headers['Etag'] = sha1((string)json_encode($spirit));
         $data = [

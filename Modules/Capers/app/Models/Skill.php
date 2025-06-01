@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Capers\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -44,6 +45,7 @@ class Skill implements Stringable
         $this->name = $skill['name'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

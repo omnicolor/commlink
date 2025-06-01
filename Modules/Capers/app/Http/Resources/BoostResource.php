@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Capers\Models\Boost;
+use Override;
 
 /**
  * @mixin Boost
@@ -21,6 +22,7 @@ class BoostResource extends JsonResource
      *     id: string
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         /** @var User */

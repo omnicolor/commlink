@@ -9,10 +9,14 @@ use Database\Seeders\RoleAndPermissionSeeder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Modules\Subversion\Models\Character;
 use Modules\Subversion\Models\PartialCharacter;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
+
+use function route;
+use function session;
 
 #[Group('subversion')]
 #[Medium]
@@ -20,6 +24,7 @@ final class CharactersControllerTest extends TestCase
 {
     use WithFaker;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

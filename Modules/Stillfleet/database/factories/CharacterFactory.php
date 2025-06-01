@@ -6,6 +6,7 @@ namespace Modules\Stillfleet\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Stillfleet\Models\Character;
+use Override;
 
 /**
  * @extends Factory<Character>
@@ -18,6 +19,7 @@ class CharacterFactory extends Factory
      * Define the model's default state.
      * @return array<string, mixed>
      */
+    #[Override]
     public function definition(): array
     {
         return [

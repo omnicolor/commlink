@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Cyberpunkred\Models\Role;
 
 use Modules\Cyberpunkred\Models\Role;
+use Override;
 use Stringable;
 
 class Tech extends Role implements Stringable
@@ -48,6 +49,7 @@ class Tech extends Role implements Stringable
         $this->rank = $role['rank'] ?? self::DEFAULT_ROLE_RANK;
     }
 
+    #[Override]
     public function __toString(): string
     {
         return 'Tech';

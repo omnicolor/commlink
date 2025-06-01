@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Transformers\Models\Weapon;
+use Override;
 
 /**
  * @codeCoverageIgnore Not yet used.
@@ -18,6 +19,7 @@ class WeaponResource extends JsonResource
     /**
      * @return array<string, mixed>
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         /** @var User */

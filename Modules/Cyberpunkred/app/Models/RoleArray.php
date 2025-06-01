@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Cyberpunkred\Models;
 
 use ArrayObject;
+use Override;
 use TypeError;
 
 /**
@@ -18,6 +19,7 @@ class RoleArray extends ArrayObject
      * @param ?Role $role
      * @throws TypeError
      */
+    #[Override]
     public function offsetSet(mixed $index = null, mixed $role = null): void
     {
         if ($role instanceof Role) {

@@ -8,6 +8,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Cyberpunkred\Models\Skill;
+use Override;
+
+use function route;
 
 /**
  * @mixin Skill
@@ -28,6 +31,7 @@ class SkillResource extends JsonResource
      *     }
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         /** @var User */

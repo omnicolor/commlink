@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Transformers\Models\Subgroup;
+use Override;
 
 /**
  * @mixin Subgroup
@@ -17,6 +18,7 @@ class SubgroupResource extends JsonResource
     /**
      * @return array<string, mixed>
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         /** @var User */

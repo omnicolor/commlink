@@ -8,6 +8,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Alien\Models\Weapon;
+use Override;
+
+use function route;
 
 /**
  * @mixin Weapon
@@ -33,6 +36,7 @@ class WeaponResource extends JsonResource
      *     weight: float|null
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         /** @var User */

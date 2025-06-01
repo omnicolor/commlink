@@ -14,6 +14,9 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function config;
+use function route;
+
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
 #[Medium]
@@ -25,9 +28,6 @@ final class CharactersControllerTest extends TestCase
         $this->seed();
     }
 
-    /**
-     * Test loading Shadowrun 5E characters if unauthenticated.
-     */
     public function testUnauthenticated(): void
     {
         self::getJson(route('shadowrun5e.characters.index'))

@@ -12,6 +12,7 @@ use Illuminate\View\View;
 use Modules\Startrekadventures\Http\Resources\CharacterResource;
 use Modules\Startrekadventures\Models\Character;
 
+use function route;
 use function view;
 
 class CharactersController extends Controller

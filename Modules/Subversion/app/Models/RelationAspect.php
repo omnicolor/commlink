@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Subversion\Models;
 
+use Override;
 use RuntimeException;
 
 use function array_keys;
+use function config;
 use function sprintf;
 
 class RelationAspect
@@ -41,6 +43,7 @@ class RelationAspect
         $this->ruleset = $aspect['ruleset'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

@@ -6,6 +6,7 @@ namespace Modules\Subversion\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Subversion\Models\Character;
+use Override;
 
 /**
  * @extends Factory<Character>
@@ -18,6 +19,7 @@ class CharacterFactory extends Factory
      * Define the model's default state.
      * @return array<string, int|string>
      */
+    #[Override]
     public function definition(): array
     {
         return [

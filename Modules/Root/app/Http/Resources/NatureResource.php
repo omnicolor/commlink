@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\MissingValue;
 use Modules\Root\Models\Nature;
+use Override;
+
+use function route;
 
 /**
  * @mixin Nature
@@ -25,6 +28,7 @@ class NatureResource extends JsonResource
      *     }
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         /** @var User */

@@ -9,11 +9,16 @@ use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
+use function abort_if;
 use function array_key_exists;
+use function array_keys;
 use function array_values;
 use function assert;
+use function config;
 use function date;
 use function json_encode;
+use function response;
+use function route;
 use function sha1;
 use function sha1_file;
 use function stat;
@@ -86,15 +91,11 @@ class GearController extends Controller
         $user = Auth::user();
 
         $id = strtolower($id);
-        if (!array_key_exists($id, $this->gear)) {
-            // We couldn't find it!
-            $error = [
-                'status' => Response::HTTP_NOT_FOUND,
-                'detail' => $id . ' not found',
-                'title' => 'Not Found',
-            ];
-            return $this->error($error);
-        }
+        abort_if(
+            !array_key_exists($id, $this->gear),
+            Response::HTTP_NOT_FOUND,
+            $id . ' not found',
+        );
 
         $item = $this->gear[$id];
         $item['ruleset'] ??= 'core';

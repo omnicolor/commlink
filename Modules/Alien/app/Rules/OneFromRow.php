@@ -8,6 +8,9 @@ use Closure;
 use Illuminate\Contracts\Validation\DataAwareRule;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Modules\Alien\Models\Career;
+use Override;
+
+use function collect;
 
 class OneFromRow implements DataAwareRule, ValidationRule
 {
@@ -24,6 +27,7 @@ class OneFromRow implements DataAwareRule, ValidationRule
      * Set the data under validation.
      * @param array<mixed> $data
      */
+    #[Override]
     public function setData(array $data): static
     {
         $this->data = $data;
@@ -33,6 +37,7 @@ class OneFromRow implements DataAwareRule, ValidationRule
     /**
      * Run the validation rule.
      */
+    #[Override]
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $gear = $this->career->gear;

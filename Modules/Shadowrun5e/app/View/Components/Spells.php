@@ -9,6 +9,9 @@ use Illuminate\View\Component;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\PartialCharacter;
 use Modules\Shadowrun5e\Models\SpellArray;
+use Override;
+
+use function view;
 
 class Spells extends Component
 {
@@ -18,9 +21,6 @@ class Spells extends Component
     public bool $charGen = false;
     public SpellArray $spells;
 
-    /**
-     * Create a new component instance.
-     */
     public function __construct(public Character $character)
     {
         $this->attributes = $this->newAttributeBag();
@@ -44,6 +44,7 @@ class Spells extends Component
         $this->charGen = true;
     }
 
+    #[Override]
     public function render(): View
     {
         return view('shadowrun5e::components.spells');

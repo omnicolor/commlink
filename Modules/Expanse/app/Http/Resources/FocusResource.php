@@ -8,6 +8,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Expanse\Models\Focus;
+use Override;
+
+use function route;
 
 /**
  * @mixin Focus
@@ -26,6 +29,7 @@ class FocusResource extends JsonResource
      *     }
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         /** @var User */

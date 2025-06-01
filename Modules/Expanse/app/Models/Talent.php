@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Expanse\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -88,6 +89,7 @@ class Talent implements Stringable
         $this->requirements = $talent['requirements'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;
