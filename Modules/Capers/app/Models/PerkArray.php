@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Capers\Models;
 
 use ArrayObject;
+use Override;
 use TypeError;
 
 /**
@@ -18,6 +19,7 @@ class PerkArray extends ArrayObject
      * @param Perk $perk
      * @throws TypeError
      */
+    #[Override]
     public function offsetSet(mixed $index = null, $perk = null): void
     {
         if ($perk instanceof Perk) {

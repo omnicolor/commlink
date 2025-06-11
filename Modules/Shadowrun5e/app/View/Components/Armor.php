@@ -9,6 +9,9 @@ use Illuminate\View\Component;
 use Modules\Shadowrun5e\Models\ArmorArray;
 use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\PartialCharacter;
+use Override;
+
+use function view;
 
 class Armor extends Component
 {
@@ -19,9 +22,6 @@ class Armor extends Component
      */
     public bool $charGen;
 
-    /**
-     * Create a new component instance.
-     */
     public function __construct(public Character $character)
     {
         $this->armors = $character->getArmor();
@@ -30,6 +30,7 @@ class Armor extends Component
         $this->componentName = 'Shadowrun5e\Armor';
     }
 
+    #[Override]
     public function render(): View
     {
         return view('shadowrun5e::components.armor');

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Capers\Models;
 
+use Override;
 use Stringable;
 
 class Boost implements Stringable
@@ -15,6 +16,7 @@ class Boost implements Stringable
     ) {
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

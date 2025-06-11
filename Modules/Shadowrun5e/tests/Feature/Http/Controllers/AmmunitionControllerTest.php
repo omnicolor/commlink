@@ -12,15 +12,13 @@ use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function count;
+use function route;
 
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
 #[Medium]
 final class AmmunitionControllerTest extends TestCase
 {
-    /**
-     * Test loading the collection if the config is broken.
-     */
     public function testIndexBrokenConfig(): void
     {
         Config::set('shadowrun5e.data_path', '/tmp/unused/');
@@ -30,18 +28,12 @@ final class AmmunitionControllerTest extends TestCase
             ->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
-    /**
-     * Test loading the collection without authentication.
-     */
     public function testNoAuthIndex(): void
     {
         self::getJson(route('shadowrun5e.ammunitions.index'))
             ->assertUnauthorized();
     }
 
-    /**
-     * Test loading the collection as an authenticated user.
-     */
     public function testAuthIndex(): void
     {
         $user = User::factory()->create();
@@ -56,27 +48,18 @@ final class AmmunitionControllerTest extends TestCase
         self::assertGreaterThanOrEqual(1, count($response['data']));
     }
 
-    /**
-     * Test loading an individual ammunition without authentication.
-     */
     public function testNoAuthShow(): void
     {
         self::getJson(route('shadowrun5e.ammunitions.show', 'apds'))
             ->assertUnauthorized();
     }
 
-    /**
-     * Test loading an invalid ammunition without authentication.
-     */
     public function testNoAuthShowNotFound(): void
     {
         self::getJson(route('shadowrun5e.ammunitions.show', 'not-found'))
             ->assertUnauthorized();
     }
 
-    /**
-     * Test loading an individual ammunition with authentication.
-     */
     public function testAuthShow(): void
     {
         $user = User::factory()->create();
@@ -94,9 +77,6 @@ final class AmmunitionControllerTest extends TestCase
             ]);
     }
 
-    /**
-     * Test loading an invalid ammunition with authentication.
-     */
     public function testAuthShowNotFound(): void
     {
         $user = User::factory()->create();

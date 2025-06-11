@@ -7,6 +7,9 @@ namespace Modules\Shadowrun5e\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Shadowrun5e\Models\Character;
+use Override;
+
+use function route;
 
 /**
  * @mixin Character
@@ -17,6 +20,7 @@ class CharacterResource extends JsonResource
      * Transform the resource into an array.
      * @return array<int|string, mixed>
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         if (isset($this->priorities['a'])) {

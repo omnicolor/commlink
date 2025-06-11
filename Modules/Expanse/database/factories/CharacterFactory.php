@@ -7,6 +7,7 @@ namespace Modules\Expanse\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Expanse\Models\Character;
 use Modules\Expanse\Models\Focus;
+use Override;
 
 use function array_keys;
 use function assert;
@@ -62,6 +63,7 @@ class CharacterFactory extends Factory
      * Define the model's default state.
      * @return array<string, array<int, array<string, string>>|string>
      */
+    #[Override]
     public function definition(): array
     {
         if (!isset(self::$socialClasses)) {

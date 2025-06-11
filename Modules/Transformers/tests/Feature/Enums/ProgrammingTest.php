@@ -29,7 +29,7 @@ final class ProgrammingTest extends TestCase
     }
 
     #[DataProvider('programmingProvider')]
-    public function testActionForStrength(string $programming): void
+    public function testActionForStrength(string $programming, Action $unused): void
     {
         $programming = Programming::from($programming);
         self::assertSame(

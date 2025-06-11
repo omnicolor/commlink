@@ -142,6 +142,7 @@ class Campaign extends Model implements Stringable
             /** @var Campaign */
             $campaign = new $class($attributes);
         } else {
+            // @phpstan-ignore argument.type
             $campaign = new Campaign($attributes);
         }
 

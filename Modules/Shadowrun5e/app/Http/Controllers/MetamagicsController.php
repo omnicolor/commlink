@@ -7,11 +7,14 @@ namespace Modules\Shadowrun5e\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function abort_if;
 use function array_key_exists;
 use function array_values;
 use function assert;
+use function config;
 use function date;
 use function json_encode;
+use function response;
 use function route;
 use function sha1;
 use function sha1_file;
@@ -40,8 +43,7 @@ class MetamagicsController extends Controller
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path')
             . 'metamagics.php';
-        $this->links['system'] = '/api/shadowrun5e';
-        $this->links['collection'] = '/api/shadowrun5e/metamagics';
+        $this->links['collection'] = route('shadowrun5e.metamagics.index');
 
         $this->magics = require $this->filename;
 
@@ -77,18 +79,15 @@ class MetamagicsController extends Controller
     public function show(string $identifier): Response
     {
         $identifier = strtolower($identifier);
-        if (!array_key_exists($identifier, $this->magics)) {
-            $error = [
-                'status' => Response::HTTP_NOT_FOUND,
-                'detail' => sprintf('%s not found', $identifier),
-                'title' => 'Not Found',
-            ];
-            return $this->error($error);
-        }
+        abort_if(
+            !array_key_exists($identifier, $this->magics),
+            Response::HTTP_NOT_FOUND,
+            sprintf('%s not found', $identifier),
+        );
 
         $magic = $this->magics[$identifier];
         $magic['links']['self'] = $this->links['self'] =
-            sprintf('/api/shadowrun5e/metamagics/%s', $identifier);
+            route('shadowrun5e.metamagics.show', $identifier);
 
         $this->headers['Etag'] = sha1((string)json_encode($magic));
 

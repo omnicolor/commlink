@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun6e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -62,6 +63,7 @@ class ActiveSkill implements Stringable
         $this->untrained = $skill['untrained'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

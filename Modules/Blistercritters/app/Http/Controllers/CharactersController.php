@@ -13,6 +13,8 @@ use Illuminate\View\View;
 use Modules\Blistercritters\Http\Resources\CharacterResource;
 use Modules\Blistercritters\Models\Character;
 
+use function abort_if;
+use function route;
 use function view;
 
 class CharactersController extends Controller

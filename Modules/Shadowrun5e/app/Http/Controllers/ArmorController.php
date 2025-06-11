@@ -7,6 +7,7 @@ namespace Modules\Shadowrun5e\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
+use function abort_if;
 use function array_key_exists;
 use function array_keys;
 use function array_values;
@@ -14,6 +15,7 @@ use function assert;
 use function config;
 use function date;
 use function json_encode;
+use function response;
 use function route;
 use function sha1;
 use function sha1_file;

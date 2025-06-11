@@ -15,6 +15,7 @@ use Illuminate\View\View;
 use function abort_if;
 use function is_numeric;
 use function redirect;
+use function route;
 use function sprintf;
 use function str_starts_with;
 use function view;

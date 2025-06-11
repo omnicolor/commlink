@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Avatar\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -52,6 +53,7 @@ class Status implements Stringable
         $this->short_description = $status['description-short'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

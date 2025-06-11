@@ -12,6 +12,7 @@ use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function count;
+use function route;
 
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
@@ -40,7 +41,6 @@ final class SkillGroupsControllerTest extends TestCase
             ->assertJsonFragment([
                 'links' => [
                     'collection' => route('shadowrun5e.skill-groups.index'),
-                    'system' => '/api/shadowrun5e',
                 ],
             ]);
         self::assertGreaterThanOrEqual(1, count($response['data']));

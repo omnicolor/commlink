@@ -27,6 +27,8 @@ use function array_key_exists;
 use function explode;
 use function ksort;
 use function mime_content_type;
+use function route;
+use function view;
 
 class UsersController extends Controller
 {

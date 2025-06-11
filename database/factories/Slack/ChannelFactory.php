@@ -8,6 +8,8 @@ use App\Models\Channel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
+use function config;
+
 /**
  * @extends Factory<Channel>
  */
@@ -16,8 +18,11 @@ class ChannelFactory extends Factory
     protected $model = Channel::class;
 
     /**
-     * Define the model's default state.
-     * @return array<string, string>
+     * @return array{
+     *     channel: string,
+     *     team: string,
+     *     system: string
+     * }
      */
     public function definition(): array
     {

@@ -11,6 +11,7 @@ use Omnicolor\Slack\Exceptions\SlackException;
 use Omnicolor\Slack\Response;
 use Override;
 
+use function implode;
 use function sprintf;
 
 use const PHP_EOL;

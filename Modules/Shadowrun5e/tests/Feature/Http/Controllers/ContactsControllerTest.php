@@ -23,13 +23,8 @@ final class ContactsControllerTest extends TestCase
      */
     public function testGetContactsNotRelated(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-
-        /** @var Character */
-        $character = Character::factory()->create([
-            'created_by' => self::class . '::' . __FUNCTION__,
-        ]);
+        $character = Character::factory()->create();
 
         self::actingAs($user)
             ->get(sprintf('/api/shadowrun5e/characters/%s/contacts', $character->id))
@@ -42,10 +37,7 @@ final class ContactsControllerTest extends TestCase
      */
     public function testGetContactsAsOwner(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-
-        /** @var Character */
         $character = Character::factory()->create([
             'contacts' => [
                 [
@@ -73,13 +65,8 @@ final class ContactsControllerTest extends TestCase
      */
     public function testGetContactsAsAnotherPlayer(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
-
-        /** @var Character */
         $character = Character::factory()->create([
             'campaign_id' => $campaign,
             'contacts' => [
@@ -91,7 +78,6 @@ final class ContactsControllerTest extends TestCase
                     'name' => 'Dodger',
                 ],
             ],
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -106,16 +92,11 @@ final class ContactsControllerTest extends TestCase
      */
     public function testGetContactsAsGm(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $user->id,
             'system' => 'shadowrun5e',
         ]);
-
-        /** @var Character */
         $character = Character::factory()->create([
             'campaign_id' => $campaign,
             'contacts' => [
@@ -127,7 +108,6 @@ final class ContactsControllerTest extends TestCase
                     'name' => 'Dodger',
                 ],
             ],
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)
@@ -144,10 +124,7 @@ final class ContactsControllerTest extends TestCase
      */
     public function testCreateContactNoCampaign(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-
-        /** @var Character */
         $character = Character::factory()->create([
             'contacts' => [],
             'owner' => $user->email,
@@ -168,13 +145,8 @@ final class ContactsControllerTest extends TestCase
      */
     public function testCreateContactNotGM(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create(['system' => 'shadowrun5e']);
-
-        /** @var Character */
         $character = Character::factory()->create([
             'campaign_id' => $campaign,
             'contacts' => [
@@ -203,16 +175,11 @@ final class ContactsControllerTest extends TestCase
      */
     public function testCreateContactAsGm(): void
     {
-        /** @var User */
         $user = User::factory()->create();
-
-        /** @var Campaign */
         $campaign = Campaign::factory()->create([
             'gm' => $user->id,
             'system' => 'shadowrun5e',
         ]);
-
-        /** @var Character */
         $character = Character::factory()->create([
             'campaign_id' => $campaign,
             'contacts' => [
@@ -224,7 +191,6 @@ final class ContactsControllerTest extends TestCase
                     'name' => 'Dodger',
                 ],
             ],
-            'created_by' => self::class . '::' . __FUNCTION__,
         ]);
 
         self::actingAs($user)

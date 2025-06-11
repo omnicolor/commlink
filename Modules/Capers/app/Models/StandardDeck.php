@@ -9,6 +9,7 @@ use App\Models\Card;
 use App\Models\StandardDeck as BaseDeck;
 use Countable;
 use Illuminate\Support\Facades\DB;
+use Override;
 use RuntimeException;
 use stdClass;
 
@@ -45,6 +46,7 @@ class StandardDeck extends BaseDeck implements Countable
         return $deck;
     }
 
+    #[Override]
     protected function initialize(): void
     {
         parent::initialize();
@@ -56,6 +58,7 @@ class StandardDeck extends BaseDeck implements Countable
     /**
      * Save a new deck or update an existing one to the database.
      */
+    #[Override]
     public function save(): StandardDeck
     {
         if (!isset($this->campaign_id)) {

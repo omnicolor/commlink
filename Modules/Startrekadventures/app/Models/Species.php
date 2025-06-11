@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Startrekadventures\Models;
 
+use Override;
 use Stringable;
 
 use function sprintf;
@@ -42,6 +43,7 @@ abstract class Species implements Stringable
     /**
      * Return the species as a string (the name).
      */
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

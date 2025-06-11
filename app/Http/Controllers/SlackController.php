@@ -30,7 +30,10 @@ use function array_key_exists;
 use function explode;
 use function is_numeric;
 use function is_object;
+use function json_decode;
 use function preg_match;
+use function property_exists;
+use function redirect;
 use function sprintf;
 use function ucfirst;
 

@@ -6,6 +6,7 @@ namespace Modules\Startrekadventures\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Startrekadventures\Models\Character;
+use Override;
 
 /**
  * @extends Factory<Character>
@@ -17,6 +18,7 @@ class CharacterFactory extends Factory
     /**
      * @return array<string, string|array<int|string, int|string>>
      */
+    #[Override]
     public function definition(): array
     {
         return [

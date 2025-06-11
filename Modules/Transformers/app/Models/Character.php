@@ -20,6 +20,8 @@ use Override;
 use RuntimeException;
 use Stringable;
 
+use function strtolower;
+
 /**
  * @property string $allegiance
  * @property string $alt_mode // TODO: Change to AltMode object

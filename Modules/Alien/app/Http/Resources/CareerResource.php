@@ -11,6 +11,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Alien\Models\Career;
 use Modules\Alien\Models\Skill;
 use Modules\Alien\Models\Talent;
+use Override;
+
+use function route;
 
 /**
  * @mixin Career
@@ -32,6 +35,7 @@ class CareerResource extends JsonResource
      *     }
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         /** @var User */

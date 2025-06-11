@@ -6,9 +6,12 @@ namespace Modules\Root\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Override;
 use Stringable;
 use Sushi\Sushi;
 use stdClass;
+
+use function config;
 
 /**
  * @property string $description
@@ -46,6 +49,7 @@ class Move extends Model implements Stringable
         'weapon_move',
     ];
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

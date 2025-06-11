@@ -12,6 +12,7 @@ use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function count;
+use function route;
 
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]

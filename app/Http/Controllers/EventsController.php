@@ -30,6 +30,7 @@ use function abort_if;
 use function abort_unless;
 use function json_decode;
 use function json_encode;
+use function now;
 use function property_exists;
 use function sprintf;
 

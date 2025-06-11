@@ -11,6 +11,8 @@ use Illuminate\View\View;
 use Modules\Expanse\Http\Resources\CharacterResource;
 use Modules\Expanse\Models\Character;
 
+use function view;
+
 class CharactersController extends Controller
 {
     public function index(Request $request): JsonResource

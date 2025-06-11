@@ -8,6 +8,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Alien\Models\Talent;
+use Override;
+
+use function route;
 
 /**
  * @mixin Talent
@@ -28,6 +31,7 @@ class TalentResource extends JsonResource
      *     }
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         /** @var User */

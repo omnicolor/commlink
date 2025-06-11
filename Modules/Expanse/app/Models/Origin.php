@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Expanse\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -25,6 +26,7 @@ abstract class Origin implements Stringable
      */
     public string $name;
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

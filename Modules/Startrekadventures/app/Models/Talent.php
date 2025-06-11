@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Startrekadventures\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
+use function config;
 use function sprintf;
 
 /**
@@ -75,6 +77,7 @@ class Talent implements Stringable
     /**
      * Return the talent's name.
      */
+    #[Override]
     public function __toString(): string
     {
         if (null === $this->extra) {

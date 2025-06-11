@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Startrekadventures\Models;
 
 use ArrayObject;
+use Override;
 use TypeError;
 
 /**
@@ -18,6 +19,7 @@ class TalentArray extends ArrayObject
      * @param Talent $talent
      * @throws TypeError
      */
+    #[Override]
     public function offsetSet(mixed $index = null, $talent = null): void
     {
         if (!($talent instanceof Talent)) {

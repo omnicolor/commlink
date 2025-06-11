@@ -9,6 +9,7 @@ use Override;
 use RuntimeException;
 use Stringable;
 
+use function config;
 use function sprintf;
 use function strtolower;
 

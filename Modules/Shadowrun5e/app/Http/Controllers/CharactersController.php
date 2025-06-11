@@ -38,13 +38,29 @@ use Rs\Json\Patch\InvalidPatchDocumentJsonException;
 use Rs\Json\Pointer\InvalidPointerException;
 use RuntimeException;
 
+use function abort;
+use function abort_if;
+use function abort_unless;
+use function array_filter;
 use function array_key_exists;
 use function array_keys;
+use function array_merge;
 use function array_slice;
+use function array_walk;
 use function assert;
+use function collect;
 use function count;
+use function explode;
+use function floor;
+use function implode;
 use function in_array;
+use function json_decode;
+use function json_encode;
+use function redirect;
+use function route;
+use function sort;
 use function sprintf;
+use function view;
 
 /**
  * Controller for interacting with Shadowrun 5E characters.
@@ -1394,7 +1410,7 @@ class CharactersController extends Controller
         abort_if(
             !$user->email->is($character->owner)
             && (null === $campaign || $user->isNot($campaign->gamemaster)),
-            Response::HTTP_NOT_FOUND
+            Response::HTTP_NOT_FOUND,
         );
         return new CharacterResource($character);
     }
@@ -1499,7 +1515,7 @@ class CharactersController extends Controller
         $user = $request->user();
         return view(
             'shadowrun5e::character',
-            ['character' => $character, 'user' => $user]
+            ['character' => $character, 'user' => $user],
         );
     }
 }

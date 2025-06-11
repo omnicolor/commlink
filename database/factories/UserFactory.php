@@ -7,14 +7,28 @@ namespace Database\Factories;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Override;
 use Ramsey\Uuid\Uuid;
 use Spatie\Permission\Models\Role;
+
+use function now;
+use function str_replace;
 
 /**
  * @extends Factory<User>
  */
 class UserFactory extends Factory
 {
+    /**
+     * @return array{
+     *     name: string,
+     *     email: string,
+     *     email_verified_at: string,
+     *     password: string,
+     *     remember_token: string
+     * }
+     */
+    #[Override]
     public function definition(): array
     {
         return [

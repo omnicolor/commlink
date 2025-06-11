@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Capers\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -47,6 +48,7 @@ class Perk implements Stringable
         $this->skillId = $rawPerk['skill'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

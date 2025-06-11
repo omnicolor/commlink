@@ -6,9 +6,11 @@ namespace Modules\Cyberpunkred\Models;
 
 use App\Models\Deck;
 use Countable;
+use Override;
 use RuntimeException;
 use UnderflowException;
 
+use function array_pop;
 use function assert;
 use function count;
 
@@ -54,6 +56,7 @@ class TarotDeck extends Deck implements Countable
         'The World',
     ];
 
+    #[Override]
     protected function initialize(): void
     {
         foreach ($this->majorArcana as $title) {
@@ -65,6 +68,7 @@ class TarotDeck extends Deck implements Countable
     /**
      * @return array<int, TarotCard>
      */
+    #[Override]
     public function draw(?int $number = 1): array
     {
         if ($number <= 0) {
@@ -83,6 +87,7 @@ class TarotDeck extends Deck implements Countable
         return $cards;
     }
 
+    #[Override]
     public function drawOne(): TarotCard
     {
         return $this->draw(1)[0];

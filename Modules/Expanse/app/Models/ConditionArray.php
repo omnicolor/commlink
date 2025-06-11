@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Expanse\Models;
 
 use ArrayObject;
+use Override;
 use TypeError;
 
 /**
@@ -18,6 +19,7 @@ class ConditionArray extends ArrayObject
      * @param Condition $condition
      * @throws TypeError
      */
+    #[Override]
     public function offsetSet(mixed $index, $condition): void
     {
         if ($condition instanceof Condition) {

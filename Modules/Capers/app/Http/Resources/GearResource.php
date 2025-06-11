@@ -7,6 +7,7 @@ namespace Modules\Capers\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Capers\Models\Gear;
+use Override;
 
 /**
  * @mixin Gear
@@ -22,6 +23,7 @@ class GearResource extends JsonResource
      *     type: string
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         return [
