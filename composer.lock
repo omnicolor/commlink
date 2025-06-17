@@ -313,16 +313,16 @@
         },
         {
             "name": "discord-php/http",
-            "version": "v10.4.2",
+            "version": "v10.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/discord-php/DiscordPHP-Http.git",
-                "reference": "123ef93aa8bd820a63591a8cef0c8e7dc385e517"
+                "reference": "fd1bc9c8194b782a0f8534ff93b12b1400d3f97a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/discord-php/DiscordPHP-Http/zipball/123ef93aa8bd820a63591a8cef0c8e7dc385e517",
-                "reference": "123ef93aa8bd820a63591a8cef0c8e7dc385e517",
+                "url": "https://api.github.com/repos/discord-php/DiscordPHP-Http/zipball/fd1bc9c8194b782a0f8534ff93b12b1400d3f97a",
+                "reference": "fd1bc9c8194b782a0f8534ff93b12b1400d3f97a",
                 "shasum": ""
             },
             "require": {
@@ -363,9 +363,9 @@
             "description": "Handles HTTP requests to Discord servers",
             "support": {
                 "issues": "https://github.com/discord-php/DiscordPHP-Http/issues",
-                "source": "https://github.com/discord-php/DiscordPHP-Http/tree/v10.4.2"
+                "source": "https://github.com/discord-php/DiscordPHP-Http/tree/v10.4.3"
             },
-            "time": "2025-06-14T08:06:37+00:00"
+            "time": "2025-06-17T12:18:43+00:00"
         },
         {
             "name": "discord/interactions",
