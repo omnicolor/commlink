@@ -11,6 +11,10 @@ use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\Commlink;
 use Modules\Shadowrun5e\Models\Gear as GearModel;
 use Modules\Shadowrun5e\Models\PartialCharacter;
+use Override;
+
+use function collect;
+use function view;
 
 class Matrix extends Component
 {
@@ -20,9 +24,6 @@ class Matrix extends Component
     public bool $charGen;
     public Collection $devices;
 
-    /**
-     * Create a new component instance.
-     */
     public function __construct(public Character $character)
     {
         $this->attributes = $this->newAttributeBag();
@@ -36,6 +37,7 @@ class Matrix extends Component
             });
     }
 
+    #[Override]
     public function render(): View
     {
         return view('shadowrun5e::components.matrix');

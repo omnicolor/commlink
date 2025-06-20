@@ -6,6 +6,10 @@ namespace Modules\Shadowrun5e\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Override;
+
+use function config;
+use function view;
 
 class CampaignOptions extends Component
 {
@@ -15,9 +19,6 @@ class CampaignOptions extends Component
      */
     public array $books;
 
-    /**
-     * Create a new component instance.
-     */
     public function __construct()
     {
         $this->attributes = $this->newAttributeBag();
@@ -26,6 +27,7 @@ class CampaignOptions extends Component
         $this->componentName = 'Shadowrun5e\CampaignOptions';
     }
 
+    #[Override]
     public function render(): View
     {
         return view('shadowrun5e::components.campaign-options');

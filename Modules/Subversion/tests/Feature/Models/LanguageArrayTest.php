@@ -6,6 +6,7 @@ namespace Modules\Subversion\Tests\Feature\Models;
 
 use Modules\Subversion\Models\Language;
 use Modules\Subversion\Models\LanguageArray;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
@@ -16,15 +17,10 @@ use stdClass;
 #[Small]
 final class LanguageArrayTest extends TestCase
 {
-    /**
-     * Subject under test.
-     * @var LanguageArray<Language>
-     */
+    /** @var LanguageArray<Language> */
     protected LanguageArray $languages;
 
-    /**
-     * Set up a clean subject.
-     */
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

@@ -6,6 +6,7 @@ namespace Modules\Cyberpunkred\Models\Role;
 
 use Modules\Cyberpunkred\Models\Role;
 use OutOfBoundsException;
+use Override;
 use Stringable;
 
 class Fixer extends Role implements Stringable
@@ -70,6 +71,7 @@ class Fixer extends Role implements Stringable
         $this->type = $role['type'] ?? self::TYPE_BROKER_DEALS;
     }
 
+    #[Override]
     public function __toString(): string
     {
         return 'Fixer';

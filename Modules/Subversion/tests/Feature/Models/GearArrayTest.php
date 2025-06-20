@@ -6,6 +6,7 @@ namespace Modules\Subversion\Tests\Feature\Models;
 
 use Modules\Subversion\Models\Gear;
 use Modules\Subversion\Models\GearArray;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
@@ -16,11 +17,10 @@ use stdClass;
 #[Small]
 final class GearArrayTest extends TestCase
 {
-    /**
-     * @var GearArray<Gear>
-     */
+    /** @var GearArray<Gear> */
     protected GearArray $gears;
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

@@ -9,6 +9,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\In;
 use Modules\Cyberpunkred\Models\Role;
 
+use function array_walk;
+
 class RoleRequest extends FormRequest
 {
     /**

@@ -11,15 +11,13 @@ use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
 use function count;
+use function route;
 
 #[Group('shadowrun')]
 #[Group('shadowrun5e')]
 #[Medium]
 final class ArmorModificationsControllerTest extends TestCase
 {
-    /**
-     * Test loading the collection if the config is broken.
-     */
     public function testIndexBrokenConfig(): void
     {
         Config::set('shadowrun5e.data_path', '/tmp/unused/');
@@ -29,18 +27,12 @@ final class ArmorModificationsControllerTest extends TestCase
             ->assertInternalServerError();
     }
 
-    /**
-     * Test loading the collection without authentication.
-     */
     public function testNoAuthIndex(): void
     {
         self::getJson(route('shadowrun5e.armor-modifications.index'))
             ->assertUnauthorized();
     }
 
-    /**
-     * Test loading the collection as an authenticated user.
-     */
     public function testAuthIndex(): void
     {
         $user = User::factory()->create();
@@ -55,9 +47,6 @@ final class ArmorModificationsControllerTest extends TestCase
         self::assertGreaterThanOrEqual(1, count($response['data']));
     }
 
-    /**
-     * Test loading an individual modification without authentication.
-     */
     public function testNoAuthShow(): void
     {
         self::getJson(
@@ -66,9 +55,6 @@ final class ArmorModificationsControllerTest extends TestCase
             ->assertUnauthorized();
     }
 
-    /**
-     * Test loading an invalid modification without authentication.
-     */
     public function testNoAuthShowNotFound(): void
     {
         self::getJson(
@@ -77,9 +63,6 @@ final class ArmorModificationsControllerTest extends TestCase
             ->assertUnauthorized();
     }
 
-    /**
-     * Test loading an individual modification with authentication.
-     */
     public function testAuthShow(): void
     {
         $user = User::factory()->create();
@@ -100,9 +83,6 @@ final class ArmorModificationsControllerTest extends TestCase
             ]);
     }
 
-    /**
-     * Test loading an invalid modification with authentication.
-     */
     public function testAuthShowNotFound(): void
     {
         $user = User::factory()->create();

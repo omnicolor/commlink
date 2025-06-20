@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Modules\Avatar\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
 use function array_keys;
+use function config;
 use function sprintf;
+use function strtolower;
 
 class Move implements Stringable
 {
@@ -44,6 +47,7 @@ class Move implements Stringable
         }
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

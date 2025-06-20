@@ -10,6 +10,7 @@ use Illuminate\Validation\Rules\In;
 use Modules\Capers\Models\Identity;
 use Modules\Capers\Models\Vice;
 use Modules\Capers\Models\Virtue;
+use Override;
 
 class AnchorsRequest extends BaseRequest
 {
@@ -17,6 +18,7 @@ class AnchorsRequest extends BaseRequest
      * Get the validation rules that apply to the request.
      * @return array<string, array<int, string|Closure|In|Rule>>
      */
+    #[Override]
     public function rules(): array
     {
         return array_merge(

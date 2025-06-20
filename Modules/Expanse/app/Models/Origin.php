@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Expanse\Models;
 
-use Modules\Expanse\Models\Origin\Belter;
-use Modules\Expanse\Models\Origin\Earther;
-use Modules\Expanse\Models\Origin\Martian;
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -28,6 +26,7 @@ abstract class Origin implements Stringable
      */
     public string $name;
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

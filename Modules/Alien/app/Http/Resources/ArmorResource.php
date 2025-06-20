@@ -8,6 +8,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Alien\Models\Armor;
+use Override;
+
+use function route;
 
 /**
  * @mixin Armor
@@ -31,6 +34,7 @@ class ArmorResource extends JsonResource
      *     }
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         /** @var User */

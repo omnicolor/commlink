@@ -10,14 +10,15 @@ use Illuminate\Http\Response;
 use function array_key_exists;
 use function array_values;
 use function assert;
+use function config;
 use function date;
 use function json_encode;
+use function response;
+use function route;
 use function sha1;
 use function sha1_file;
-use function sprintf;
 use function stat;
 use function strtolower;
-use function urlencode;
 
 /**
  * Controller for Shadowrun 5th Edition martial arts styles.
@@ -40,8 +41,7 @@ class MartialArtsStylesController extends Controller
         parent::__construct();
         $this->filename = config('shadowrun5e.data_path')
             . 'martial-arts-styles.php';
-        $this->links['system'] = '/api/shadowrun5e';
-        $this->links['collection'] = '/api/shadowrun5e/martial-arts-styles';
+        $this->links['collection'] = route('shadowrun5e.martial-arts-styles.index');
 
         $this->styles = require $this->filename;
 
@@ -50,17 +50,11 @@ class MartialArtsStylesController extends Controller
         $this->headers['Last-Modified'] = date('r', $stat['mtime']);
     }
 
-    /**
-     * Get the entire collection of styles.
-     */
     public function index(): Response
     {
         foreach (array_keys($this->styles) as $key) {
             $this->styles[$key]['links'] = [
-                'self' => sprintf(
-                    '/api/shadowrun5e/martial-arts-styles/%s',
-                    urlencode($key)
-                ),
+                'self' => route('shadowrun5e.martial-arts-styles.show', $key),
             ];
         }
 
@@ -80,20 +74,15 @@ class MartialArtsStylesController extends Controller
     public function show(string $id): Response
     {
         $id = strtolower($id);
-        if (!array_key_exists($id, $this->styles)) {
-            $error = [
-                'status' => Response::HTTP_NOT_FOUND,
-                'detail' => $id . ' not found',
-                'title' => 'Not Found',
-            ];
-            return $this->error($error);
-        }
+        abort_if(
+            !array_key_exists($id, $this->styles),
+            Response::HTTP_NOT_FOUND,
+            $id . ' not found',
+        );
 
         $style = $this->styles[$id];
-        $style['links']['self'] = $this->links['self'] = sprintf(
-            '/api/shadowrun5e/martial-arts-styles/%s',
-            urlencode($id)
-        );
+        $style['links']['self'] = $this->links['self']
+            = route('shadowrun5e.martial-arts-styles.show', $id);
 
         $this->headers['Etag'] = sha1((string)json_encode($style));
         $data = [

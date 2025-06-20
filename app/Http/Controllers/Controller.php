@@ -42,18 +42,4 @@ class Controller extends BaseController
         ];
         $this->links = [];
     }
-
-    /**
-     * Return a JSON-API error.
-     * @param array<string, string|int> $error
-     */
-    public function error(array $error): Response
-    {
-        $data = [
-            'links' => $this->links,
-            'errors' => [$error],
-        ];
-        return response($data, (int)$error['status'])
-            ->withHeaders($this->headers);
-    }
 }

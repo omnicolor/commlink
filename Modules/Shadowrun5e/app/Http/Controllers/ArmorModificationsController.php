@@ -12,6 +12,7 @@ use function array_key_exists;
 use function array_keys;
 use function array_values;
 use function assert;
+use function config;
 use function date;
 use function json_encode;
 use function response;

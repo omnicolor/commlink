@@ -12,12 +12,16 @@ use Modules\Alien\Http\Controllers\CharactersController;
 use Modules\Alien\Models\Career;
 use Modules\Alien\Models\PartialCharacter;
 use Modules\Alien\Rules\OneFromRow;
+use Override;
+
+use function collect;
 
 class CreateGearRequest extends FormRequest
 {
     /**
      * @return array<string, string>
      */
+    #[Override]
     public function messages(): array
     {
         return [

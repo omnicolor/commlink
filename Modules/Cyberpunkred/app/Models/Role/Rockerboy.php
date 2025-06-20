@@ -6,6 +6,7 @@ namespace Modules\Cyberpunkred\Models\Role;
 
 use Modules\Cyberpunkred\Models\Role;
 use OutOfBoundsException;
+use Override;
 use Stringable;
 
 class Rockerboy extends Role implements Stringable
@@ -90,6 +91,7 @@ class Rockerboy extends Role implements Stringable
         $this->type = $role['type'] ?? self::TYPE_MUSICIAN;
     }
 
+    #[Override]
     public function __toString(): string
     {
         return 'Rockerboy';

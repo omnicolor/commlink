@@ -8,6 +8,7 @@ use Override;
 use RuntimeException;
 use Stringable;
 
+use function array_keys;
 use function config;
 use function sprintf;
 use function strtolower;

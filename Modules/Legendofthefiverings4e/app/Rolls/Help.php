@@ -10,6 +10,7 @@ use Omnicolor\Slack\Attachments\TextAttachment;
 use Omnicolor\Slack\Response;
 use Override;
 
+use function config;
 use function sprintf;
 
 use const PHP_EOL;

@@ -8,6 +8,7 @@ use App\Models\ChatUser;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Override;
 
 /**
  * @extends Factory<ChatUser>
@@ -15,9 +16,17 @@ use Illuminate\Support\Str;
 class ChatUserFactory extends Factory
 {
     /**
-     * Define the model's default state.
-     * @return array<string, bool|int|string>
+     * @return array{
+     *     server_id: string,
+     *     server_name: string,
+     *     server_type: string,
+     *     remote_user_id: string,
+     *     remote_user_name: string,
+     *     user_id: int,
+     *     verified: bool
+     * }
      */
+    #[Override]
     public function definition(): array
     {
         return [

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Expanse\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -59,6 +60,7 @@ class Condition implements Stringable
         $this->page = $condition['page'];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->name;

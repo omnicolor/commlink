@@ -8,6 +8,7 @@ use App\Models\Character;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
+use Override;
 
 use function array_keys;
 use function config;
@@ -31,9 +32,14 @@ class CharacterFactory extends Factory
     ];
 
     /**
-     * Define the model's default state.
-     * @return array<string, string>
+     * @return array{
+     *     handle: string,
+     *     name: string,
+     *     owner: string,
+     *     system: string
+     * }
      */
+    #[Override]
     public function definition(): array
     {
         $name = $this->faker->name;
@@ -51,6 +57,7 @@ class CharacterFactory extends Factory
      * Configure the model factory to properly set the handle or name depending
      * on the system.
      */
+    #[Override]
     public function configure(): CharacterFactory
     {
         $updateName = function (Model $character): void {

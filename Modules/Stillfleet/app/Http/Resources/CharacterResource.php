@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Stillfleet\Models\Character;
+use Override;
 
 /**
  *  @mixin Character
@@ -42,6 +43,7 @@ class CharacterResource extends JsonResource
      *     system: string
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         return [

@@ -13,9 +13,15 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class InitiativeFactory extends Factory
 {
     /**
-     * Define the model's default state.
-     * @return array<string, int|null|string>
+     * @return array{
+     *     campaign_id: null,
+     *     channel_id: null,
+     *     character_id: null,
+     *     character_name: string,
+     *     initiative: int
+     * }
      */
+    #[Override]
     public function definition(): array
     {
         return [

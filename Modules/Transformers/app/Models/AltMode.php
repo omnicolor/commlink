@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Transformers\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -30,6 +31,7 @@ readonly class AltMode implements Stringable
         }
     }
 
+    #[Override]
     public function __toString(): string
     {
         return ucfirst($this->mode);

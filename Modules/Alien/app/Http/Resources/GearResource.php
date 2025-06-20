@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Alien\Models\Gear;
+use Override;
 use stdClass;
 
 /**
@@ -29,6 +30,7 @@ class GearResource extends JsonResource
      *     weight: ?float
      * }
      */
+    #[Override]
     public function toArray(Request $request): array
     {
         /** @var User */

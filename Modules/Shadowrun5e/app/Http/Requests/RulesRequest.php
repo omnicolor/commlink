@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\In;
 use Modules\Shadowrun5e\Models\Rulebook;
 
+use function array_keys;
 use function in_array;
 
 class RulesRequest extends FormRequest
