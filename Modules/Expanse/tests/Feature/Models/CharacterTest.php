@@ -53,8 +53,10 @@ final class CharacterTest extends TestCase
      */
     public function testGetBackgroundInvalid(): void
     {
-        new Character(['background' => 'invalid']);
+        $character = new Character(['background' => 'invalid']);
         self::expectException(RuntimeException::class);
+        // @phpstan-ignore expr.resultUnused
+        $character->background;
     }
 
     /**
@@ -127,8 +129,10 @@ final class CharacterTest extends TestCase
      */
     public function testGetOriginInvalid(): void
     {
-        new Character(['origin' => 'Jovian']);
+        $character = new Character(['origin' => 'Jovian']);
         self::expectException(RuntimeException::class);
+        // @phpstan-ignore expr.resultUnused
+        $character->origin;
     }
 
     /**
@@ -146,8 +150,10 @@ final class CharacterTest extends TestCase
      */
     public function testGetSocialClassInvalid(): void
     {
-        new Character(['socialClass' => 'invalid']);
+        $character = new Character(['socialClass' => 'invalid']);
         self::expectException(RuntimeException::class);
+        // @phpstan-ignore expr.resultUnused
+        $character->social_class;
     }
 
     /**

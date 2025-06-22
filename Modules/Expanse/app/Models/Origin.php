@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Expanse\Models;
 
+use Modules\Expanse\Models\Origin\Belter;
+use Modules\Expanse\Models\Origin\Earther;
+use Modules\Expanse\Models\Origin\Martian;
 use Override;
 use RuntimeException;
 use Stringable;

@@ -1,3 +1,7 @@
+@php
+use Modules\Shadowrun5e\Models\ActiveSkill;
+use Modules\Shadowrun5e\Models\Contact;
+@endphp
 <x-app>
     <x-slot name="title">Campaign: {{ $campaign }}</x-slot>
     <x-slot name="head">
