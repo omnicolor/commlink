@@ -9,6 +9,8 @@ use Modules\Shadowrun5e\Database\Factories\PartialCharacterFactory;
 use Override;
 use Stringable;
 
+use function sprintf;
+
 /**
  * Representation of a character currently being built.
  * @method static self create(array<string, mixed> $attributes)
