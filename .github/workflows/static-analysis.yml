@@ -73,9 +73,8 @@ jobs:
       - name: Run PHPStan analysis
         run: vendor/bin/phpstan analyze
 
-	Rector:
-		runs-on: "Ubuntu-latest"
-		strategy:
+  Rector:
+    runs-on: "Ubuntu-latest"
     strategy:
       matrix:
         php-version:
