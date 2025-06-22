@@ -157,4 +157,218 @@ final class PartialCharacterTest extends TestCase
             $character->getStartingMaximumAttribute($attribute)
         );
     }
+
+    /**
+     * Test validate on an empty partial character.
+     * @test
+     */
+    public function testValidateEmpty(): void
+    {
+        $character = new PartialCharacter();
+        $character->validate();
+        self::assertSame(
+            [
+                'You must choose <a href="/characters/shadowrun5e/create/priorities">priorities</a>.',
+                'You must choose a native language',
+            ],
+            $character->errors
+        );
+    }
+
+    /**
+     * Test validate on a partial character with no metatype.
+     * @test
+     */
+    public function testValidateNoMetatype(): void
+    {
+        $character = new PartialCharacter([
+            'priorities' => [
+                'a' => 'metatype',
+            ],
+            'knowledgeSkills' => [
+                ['name' => 'English', 'category' => 'language', 'level' => 'N'],
+            ],
+        ]);
+        $character->validate();
+        self::assertSame(
+            [
+                'You must choose a <a href="/characters/shadowrun5e/create/priorities">metatype</a>.',
+                'You must allocate all <a href="/characters/shadowrun5e/create/priorities">priorities</a>.',
+            ],
+            $character->errors
+        );
+    }
+
+    /**
+     * Test a normal priority character with too many native languages.
+     * @test
+     */
+    public function testValidateTooManyNativeLanguages(): void
+    {
+        $character = new PartialCharacter([
+            'priorities' => [
+                'a' => 'metatype',
+                'b' => 'resources',
+                'c' => 'magic',
+                'd' => 'attributes',
+                'e' => 'skills',
+                'metatype' => 'human',
+            ],
+            'knowledgeSkills' => [
+                ['name' => 'English', 'category' => 'language', 'level' => 'N'],
+                ['name' => 'Spanish', 'category' => 'language', 'level' => 'N'],
+                ['name' => 'Orkish', 'category' => 'language', 'level' => 2],
+            ],
+        ]);
+        $character->validate();
+        self::assertSame(
+            [
+                'You can only have one native language',
+            ],
+            $character->errors
+        );
+    }
+
+    /**
+     * Test validating native languages with the bilingual quality.
+     * @test
+     */
+    public function testValidateBilingual(): void
+    {
+        $character = new PartialCharacter([
+            'knowledgeSkills' => [
+                ['name' => 'English', 'category' => 'language', 'level' => 'N'],
+                ['name' => 'Spanish', 'category' => 'language', 'level' => 'N'],
+                ['name' => 'Orkish', 'category' => 'language', 'level' => 2],
+            ],
+            'priorities' => [
+                'a' => 'metatype',
+                'b' => 'resources',
+                'c' => 'magic',
+                'd' => 'attributes',
+                'e' => 'skills',
+                'metatype' => 'human',
+            ],
+            'qualities' => [
+                ['id' => 'bilingual'],
+            ],
+        ]);
+        $character->validate();
+        self::assertEmpty($character->errors);
+    }
+
+    /**
+     * Test validating the bilingual quality without enough native languages.
+     * @test
+     */
+    public function testValidateBilingualNotEnoughLanguages(): void
+    {
+        $character = new PartialCharacter([
+            'knowledgeSkills' => [
+                ['name' => 'English', 'category' => 'language', 'level' => 'N'],
+                ['name' => 'Bars', 'category' => 'street', 'level' => 2],
+            ],
+            'priorities' => [
+                'a' => 'metatype',
+                'b' => 'resources',
+                'c' => 'magic',
+                'd' => 'attributes',
+                'e' => 'skills',
+                'metatype' => 'human',
+            ],
+            'qualities' => [
+                ['id' => 'bilingual'],
+            ],
+        ]);
+        $character->validate();
+        self::assertSame(
+            ['You haven\'t chosen two native languages for your bilingual quality'],
+            $character->errors
+        );
+    }
+
+    /**
+     * Test validating a sum-to-ten character that hasn't assigned all
+     * priorities.
+     * @test
+     */
+    public function testValidateSumToTenMissing(): void
+    {
+        $character = new PartialCharacter([
+            'priorities' => [
+                'metatypePriority' => 'frank',
+            ],
+            'knowledgeSkills' => [
+                ['name' => 'English', 'category' => 'language', 'level' => 'N'],
+            ],
+        ]);
+        $character->validate();
+        self::assertSame(
+            [
+                'You must choose a <a '
+                    . 'href="/characters/shadowrun5e/create/priorities">metatype</a>.',
+                'You must allocate the magic priority on the <a '
+                    . 'href="/characters/shadowrun5e/create/priorities">priorities page</a>.',
+                'You must allocate the attribute priority on the <a '
+                    . 'href="/characters/shadowrun5e/create/priorities">priorities page</a>.',
+                'You must allocate the skill priority on the <a '
+                    . 'href="/characters/shadowrun5e/create/priorities">priorities page</a>.',
+                'You must allocate the resource priority on the <a '
+                    . 'href="/characters/shadowrun5e/create/priorities">priorities page</a>.',
+                'You haven\'t allocated all sum-to-ten priority points.',
+            ],
+            $character->errors
+        );
+    }
+
+    /**
+     * Test validating a sum-to-ten character that has overspent.
+     * @test
+     */
+    public function testValidateSumToTenOverspent(): void
+    {
+        $character = new PartialCharacter([
+            'priorities' => [
+                'metatypePriority' => 'A',
+                'magicPriority' => 'A',
+                'attributePriority' => 'A',
+                'skillPriority' => 'A',
+                'resourcePriority' => 'A',
+                'metatype' => 'elf',
+            ],
+            'knowledgeSkills' => [
+                ['name' => 'English', 'category' => 'language', 'level' => 'N'],
+            ],
+        ]);
+        $character->validate();
+        self::assertSame(
+            [
+                'You have allocated too many sum-to-ten priority points.',
+            ],
+            $character->errors
+        );
+    }
+
+    /**
+     * Test validating a sum-to-ten character that chose attributes correctly.
+     * @test
+     */
+    public function testValidateSumToTen(): void
+    {
+        $character = new PartialCharacter([
+            'priorities' => [
+                'metatypePriority' => 'A',
+                'magicPriority' => 'B',
+                'attributePriority' => 'C',
+                'skillPriority' => 'D',
+                'resourcePriority' => 'E',
+                'metatype' => 'elf',
+            ],
+            'knowledgeSkills' => [
+                ['name' => 'English', 'category' => 'language', 'level' => 'N'],
+            ],
+        ]);
+        $character->validate();
+        self::assertEmpty($character->errors);
+    }
 }
