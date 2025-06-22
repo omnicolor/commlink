@@ -190,7 +190,7 @@ class ImportChummerData extends Command implements Isolatable
         $this->updateChummerRepository();
 
         $types = (array)$this->option('type');
-        if (0 === count($types)) {
+        if ([] === $types) {
             $types = self::DATA_TYPES;
         }
 
@@ -219,7 +219,7 @@ class ImportChummerData extends Command implements Isolatable
     {
         $diff = array_diff((array)$this->option('type'), self::DATA_TYPES);
 
-        if (0 !== count($diff)) {
+        if ([] !== $diff) {
             throw new RuntimeException(
                 'Invalid data ' . Str::plural('type', count($diff)) . ': '
                 . implode(', ', $diff)

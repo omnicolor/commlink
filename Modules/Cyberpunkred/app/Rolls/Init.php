@@ -66,7 +66,7 @@ class Init extends Roll
         array_shift($args);
         $this->args = $args;
 
-        if (null === $this->character && 0 === count($this->args)) {
+        if (null === $this->character && [] === $this->args) {
             $this->error = 'Rolling initiative without a linked character '
                 . 'requires your reflexes, and optionally any modififers: '
                 . '`/roll init 8 -2` for a character with 8 REF and a wound '

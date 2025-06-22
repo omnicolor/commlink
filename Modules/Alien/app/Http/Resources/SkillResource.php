@@ -10,7 +10,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Alien\Models\Skill;
 use Override;
 
-use function count;
 use function route;
 
 /**
@@ -48,7 +47,7 @@ class SkillResource extends JsonResource
             'page' => $this->page,
             'ruleset' => $this->ruleset,
             'stunts' => $this->when(
-                0 !== count($this->stunts),
+                [] !== $this->stunts,
                 $this->stunts,
             ),
             'links' => [

@@ -9,7 +9,6 @@ use RuntimeException;
 use Stringable;
 
 use function config;
-use function count;
 use function sprintf;
 use function strtolower;
 
@@ -81,7 +80,7 @@ class Quality implements Stringable
                 $qualities[] = new Quality($id);
             }
         }
-        if (0 === count($qualities)) {
+        if ([] === $qualities) {
             throw new RuntimeException(sprintf(
                 'Unable to find Shadowrun 6E quality "%s"',
                 $name

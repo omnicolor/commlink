@@ -10,8 +10,6 @@ use Modules\Subversion\Database\Factories\PartialCharacterFactory;
 use Override;
 use Stringable;
 
-use function count;
-
 /**
  * Representation of a character in character generation.
  * @method static self create(array<mixed, mixed> $attributes)
@@ -132,7 +130,7 @@ class PartialCharacter extends Character implements Stringable
                 return $relations;
             },
             set: function (array $relations): array {
-                if (0 < count($relations) && $relations[0] instanceof Relation) {
+                if ([] !== $relations && $relations[0] instanceof Relation) {
                     foreach ($relations as $key => $relation) {
                         $relations[$key] = $relation->toArray();
                     }

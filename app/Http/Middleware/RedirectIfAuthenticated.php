@@ -12,7 +12,6 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
-use function count;
 use function redirect;
 
 class RedirectIfAuthenticated
@@ -26,7 +25,7 @@ class RedirectIfAuthenticated
         Closure $next,
         string ...$guards,
     ): RedirectResponse | Redirector | Response {
-        $guards = 0 === count($guards) ? [null] : $guards;
+        $guards = [] === $guards ? [null] : $guards;
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {

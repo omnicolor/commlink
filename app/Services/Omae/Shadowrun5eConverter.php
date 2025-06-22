@@ -113,7 +113,7 @@ class Shadowrun5eConverter implements ConverterInterface
 
     protected function endOfFile(): bool
     {
-        return 0 === count($this->file);
+        return [] === $this->file;
     }
 
     protected function nextLineIsMajorHeading(): bool

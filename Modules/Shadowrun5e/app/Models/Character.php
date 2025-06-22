@@ -23,7 +23,6 @@ use function array_key_exists;
 use function array_merge;
 use function assert;
 use function ceil;
-use function count;
 use function is_int;
 use function max;
 use function str_replace;
@@ -664,7 +663,7 @@ class Character extends BaseCharacter implements Stringable
                 continue;
             }
             foreach ($armor->modifications as $mod) {
-                if (0 === count($mod->effects)) {
+                if ([] === $mod->effects) {
                     continue;
                 }
                 if (!isset($mod->effects[$clean_attribute_name])) {
@@ -672,7 +671,7 @@ class Character extends BaseCharacter implements Stringable
                 }
                 $modified_attribute += $mod->effects[$clean_attribute_name];
             }
-            if (0 === count($armor->effects)) {
+            if ([] === $armor->effects) {
                 // Armor has no effects.
                 continue;
             }

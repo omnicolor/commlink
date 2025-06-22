@@ -11,7 +11,6 @@ use Modules\Stillfleet\Models\Species;
 use Override;
 
 use function array_values;
-use function count;
 use function route;
 
 /**
@@ -61,7 +60,7 @@ class SpeciesResource extends JsonResource
             ),
             'powers_choose' => $this->powers_choose,
             'powers_chosen' => $this->when(
-                0 !== count($this->added_powers),
+                [] !== $this->added_powers,
                 PowerResource::collection($this->added_powers)
                     ->toArray($request),
             ),
