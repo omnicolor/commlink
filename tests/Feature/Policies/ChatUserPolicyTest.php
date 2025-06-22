@@ -85,12 +85,10 @@ final class ChatUserPolicyTest extends TestCase
     public function testNoOneCanRestore(): void
     {
         self::assertFalse($this->policy->restore());
-        self::assertFalse($this->policy->restore());
     }
 
     public function testNoOneCanForceDelete(): void
     {
-        self::assertFalse($this->policy->forceDelete());
         self::assertFalse($this->policy->forceDelete());
     }
 }
