@@ -10,6 +10,7 @@ use Modules\Shadowrun5e\Models\Character;
 use Modules\Shadowrun5e\Models\KarmaLog;
 use Modules\Shadowrun5e\Models\KarmaLogEntry;
 use Modules\Shadowrun5e\Models\KnowledgeSkill;
+use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
@@ -35,6 +36,7 @@ final class KarmaLogTest extends TestCase
     /**
      * Set up a clean subject under test.
      */
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Pennant\Feature;
 use Laravel\Telescope\TelescopeServiceProvider as Telescope;
+use Override;
 
 use function config;
 use function touch;
@@ -22,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
+    #[Override]
     public function register(): void
     {
         if (true === $this->app->environment('local')) {

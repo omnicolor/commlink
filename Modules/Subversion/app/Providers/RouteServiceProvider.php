@@ -6,6 +6,7 @@ namespace Modules\Subversion\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Override;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -13,6 +14,7 @@ class RouteServiceProvider extends ServiceProvider
      * Called before routes are registered. Register any model bindings or
      * pattern based filters.
      */
+    #[Override]
     public function boot(): void
     {
         parent::boot();

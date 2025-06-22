@@ -6,6 +6,7 @@ namespace Modules\Shadowrun5e\Tests\Feature\Models;
 
 use Modules\Shadowrun5e\Models\Preparation;
 use Modules\Shadowrun5e\Models\Spell;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -24,6 +25,7 @@ final class PreparationTest extends TestCase
     /**
      * Set up the subject under test.
      */
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

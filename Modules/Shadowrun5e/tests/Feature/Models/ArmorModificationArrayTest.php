@@ -7,6 +7,7 @@ namespace Modules\Shadowrun5e\Tests\Feature\Models;
 use Modules\Shadowrun5e\Models\ArmorModification;
 use Modules\Shadowrun5e\Models\ArmorModificationArray;
 use Modules\Shadowrun5e\Models\GearModification;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
@@ -27,6 +28,7 @@ final class ArmorModificationArrayTest extends TestCase
     /**
      * Set up a clean subject.
      */
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

@@ -42,6 +42,7 @@ class Judge extends Number
         }
     }
 
+    #[Override]
     protected function formatTitle(): string
     {
         return sprintf(
@@ -52,6 +53,7 @@ class Judge extends Number
         );
     }
 
+    #[Override]
     protected function formatCriticalGlitch(): void
     {
         $this->title = sprintf(

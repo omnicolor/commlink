@@ -6,6 +6,7 @@ namespace Modules\Shadowrun5e\Tests\Feature\Models;
 
 use Modules\Shadowrun5e\Models\MartialArtsTechnique;
 use Modules\Shadowrun5e\Models\MartialArtsTechniqueArray;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
@@ -26,6 +27,7 @@ final class MartialArtsTechniqueArrayTest extends TestCase
     /**
      * Set up a clean subject.
      */
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

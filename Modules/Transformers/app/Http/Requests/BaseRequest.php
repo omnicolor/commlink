@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Transformers\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Override;
 
 class BaseRequest extends FormRequest
 {
@@ -12,6 +13,7 @@ class BaseRequest extends FormRequest
      * Get the error messages for the defined validation rules.
      * @return array<string, string>
      */
+    #[Override]
     public function messages(): array
     {
         return [

@@ -7,6 +7,7 @@ namespace Modules\Shadowrun5e\Tests\Feature\Models;
 use Modules\Shadowrun5e\Models\Gear;
 use Modules\Shadowrun5e\Models\GearArray;
 use Modules\Shadowrun5e\Models\GearFactory;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
@@ -27,6 +28,7 @@ final class GearArrayTest extends TestCase
     /**
      * Set up a clean subject.
      */
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

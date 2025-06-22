@@ -7,6 +7,7 @@ namespace Tests\Feature\Policies;
 use App\Models\ChatUser;
 use App\Models\User;
 use App\Policies\ChatUserPolicy;
+use Override;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
@@ -18,6 +19,7 @@ final class ChatUserPolicyTest extends TestCase
     private User $other_user;
     private ChatUser $chat_user;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

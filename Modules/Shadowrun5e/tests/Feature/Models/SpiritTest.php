@@ -7,6 +7,7 @@ namespace Modules\Shadowrun5e\Tests\Feature\Models;
 use BadMethodCallException;
 use Illuminate\Support\Facades\Config;
 use Modules\Shadowrun5e\Models\Spirit;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -28,6 +29,7 @@ final class SpiritTest extends TestCase
     /**
      * Set up the data file's contents.
      */
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

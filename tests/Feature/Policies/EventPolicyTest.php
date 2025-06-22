@@ -8,6 +8,7 @@ use App\Models\Campaign;
 use App\Models\Event;
 use App\Models\User;
 use App\Policies\EventPolicy;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
@@ -18,6 +19,7 @@ final class EventPolicyTest extends TestCase
 {
     protected EventPolicy $policy;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();
