@@ -71,4 +71,4 @@ jobs:
         run: composer install --no-progress --no-interaction
 
       - name: Run PHPStan analysis
-        run: vendor/bin/phpstan analyze
+        run: vendor/bin/phpstan analyze --no-progress
