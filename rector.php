@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use Rector\CodeQuality\Rector\If_\SimplifyIfElseToTernaryRector;
 use Rector\CodingStyle\Rector\FuncCall\CountArrayToEmptyArrayComparisonRector;
+use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\CodingStyle\Rector\Stmt\RemoveUselessAliasInUseStatementRector;
 use Rector\CodingStyle\Rector\Use_\SeparateMultiUseImportsRector;
 use Rector\Config\RectorConfig;
@@ -29,12 +31,12 @@ return RectorConfig::configure()
         __DIR__ . '/tests',
     ])
     ->withAttributesSets()
-    ->withCodeQualityLevel(0)
-    ->withComposerBased(phpunit: true)
+    ->withCodeQualityLevel(30)
+    ->withCodingStyleLevel(5)
+    ->withComposerBased(symfony: true, phpunit: true)
     ->withImportNames(removeUnusedImports: true)
-    ->withPreparedSets(
-        deadCode: true,
-    )
+    ->withPreparedSets(deadCode: true)
+    ->withTypeCoverageLevel(34)
     ->withRules([
         AddOverrideAttributeToOverriddenMethodsRector::class,
         AddTypeToConstRector::class,
@@ -46,10 +48,11 @@ return RectorConfig::configure()
         MultiExceptionCatchRector::class,
         ReadOnlyAnonymousClassRector::class,
         ReadOnlyPropertyRector::class,
-        RemoveExtraParametersRector::class,
         RemoveUselessAliasInUseStatementRector::class,
         RoundingModeEnumRector::class,
-        SeparateMultiUseImportsRector::class,
         ThisCallOnStaticMethodToStaticCallRector::class,
     ])
-    ->withTypeCoverageLevel(0);
+    ->withSkip([
+        NewlineAfterStatementRector::class,
+        SimplifyIfElseToTernaryRector::class,
+    ]);

@@ -27,12 +27,7 @@ class ContactCreateRequest extends FormRequest
         if (null === $campaign) {
             return false;
         }
-
-        if ($user->isNot($campaign->gamemaster)) {
-            return false;
-        }
-
-        return true;
+        return !$user->isNot($campaign->gamemaster);
     }
 
     /**
