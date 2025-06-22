@@ -114,6 +114,7 @@
         "lint": "parallel-lint --colors app config database routes tests Modules",
         "lint-openapi": "npx @redocly/cli lint public/openapi/openapi.yml",
         "php-cs-fixer": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --config=php_cs.php -v --diff",
+        "php-cs-fixer-fix": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --config=php_cs.php",
         "phpcs": "phpcs -p --colors --cache",
         "phpstan": [
             "Composer\\Config::disableProcessTimeout",
@@ -134,10 +135,12 @@
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
-        "rector": "rector",
+        "rector": "rector --dry-run",
+        "rector-fix": "rector",
         "static": [
             "@lint",
-            "@phpstan"
+            "@phpstan",
+            "@rector"
         ],
         "style": [
             "@phpcs",
