@@ -6,6 +6,11 @@ use Rector\CodingStyle\Rector\FuncCall\CountArrayToEmptyArrayComparisonRector;
 use Rector\CodingStyle\Rector\Stmt\RemoveUselessAliasInUseStatementRector;
 use Rector\CodingStyle\Rector\Use_\SeparateMultiUseImportsRector;
 use Rector\Config\RectorConfig;
+use Rector\Php53\Rector\FuncCall\DirNameFileConstantToDirConstantRector;
+use Rector\Php70\Rector\FunctionLike\ExceptionHandlerTypehintRector;
+use Rector\Php70\Rector\MethodCall\ThisCallOnStaticMethodToStaticCallRector;
+use Rector\Php71\Rector\FuncCall\RemoveExtraParametersRector;
+use Rector\Php71\Rector\TryCatch\MultiExceptionCatchRector;
 use Rector\Php73\Rector\FuncCall\ArrayKeyFirstLastRector;
 use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\Php83\Rector\ClassConst\AddTypeToConstRector;
@@ -35,11 +40,16 @@ return RectorConfig::configure()
         AddTypeToConstRector::class,
         ArrayKeyFirstLastRector::class,
         CountArrayToEmptyArrayComparisonRector::class,
+        DirNameFileConstantToDirConstantRector::class,
+        ExceptionHandlerTypehintRector::class,
         ExplicitNullableParamTypeRector::class,
+        MultiExceptionCatchRector::class,
         ReadOnlyAnonymousClassRector::class,
         ReadOnlyPropertyRector::class,
+        RemoveExtraParametersRector::class,
         RemoveUselessAliasInUseStatementRector::class,
         RoundingModeEnumRector::class,
         SeparateMultiUseImportsRector::class,
+        ThisCallOnStaticMethodToStaticCallRector::class,
     ])
     ->withTypeCoverageLevel(0);

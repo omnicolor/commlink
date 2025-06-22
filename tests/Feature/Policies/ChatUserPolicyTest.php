@@ -84,25 +84,13 @@ final class ChatUserPolicyTest extends TestCase
 
     public function testNoOneCanRestore(): void
     {
-        self::assertFalse(
-            // @phpstan-ignore arguments.count
-            $this->policy->restore($this->owner, $this->chat_user),
-        );
-        self::assertFalse(
-            // @phpstan-ignore arguments.count
-            $this->policy->restore($this->other_user, $this->chat_user),
-        );
+        self::assertFalse($this->policy->restore());
+        self::assertFalse($this->policy->restore());
     }
 
     public function testNoOneCanForceDelete(): void
     {
-        self::assertFalse(
-            // @phpstan-ignore arguments.count
-            $this->policy->forceDelete($this->owner, $this->chat_user),
-        );
-        self::assertFalse(
-            // @phpstan-ignore arguments.count
-            $this->policy->forceDelete($this->other_user, $this->chat_user),
-        );
+        self::assertFalse($this->policy->forceDelete());
+        self::assertFalse($this->policy->forceDelete());
     }
 }
