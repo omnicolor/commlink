@@ -6,6 +6,7 @@ namespace Modules\Blistercritters\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 use function array_merge;
 use function config;
@@ -40,6 +41,7 @@ class BlistercrittersServiceProvider extends ServiceProvider
     /**
      * Register the service provider.
      */
+    #[Override]
     public function register(): void
     {
         $this->app->register(RouteServiceProvider::class);
@@ -121,6 +123,7 @@ class BlistercrittersServiceProvider extends ServiceProvider
      * Get the services provided by the provider.
      * @return array<int, string>
      */
+    #[Override]
     public function provides(): array
     {
         return [];

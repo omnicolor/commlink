@@ -6,6 +6,7 @@ namespace Modules\Shadowrun5e\Tests\Feature\Models;
 
 use Modules\Shadowrun5e\Models\AdeptPower;
 use Modules\Shadowrun5e\Models\AdeptPowerArray;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
@@ -26,6 +27,7 @@ final class AdeptPowerArrayTest extends TestCase
     /**
      * Set up a clean subject.
      */
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

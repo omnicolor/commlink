@@ -6,6 +6,7 @@ namespace Modules\Shadowrun5e\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 use function array_merge;
 use function config;
@@ -41,6 +42,7 @@ class Shadowrun5eServiceProvider extends ServiceProvider
     /**
      * Register the service provider.
      */
+    #[Override]
     public function register(): void
     {
         $this->app->register(EventServiceProvider::class);
@@ -127,6 +129,7 @@ class Shadowrun5eServiceProvider extends ServiceProvider
      *
      * @return array<string>
      */
+    #[Override]
     public function provides(): array
     {
         return [];

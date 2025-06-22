@@ -7,6 +7,7 @@ namespace App\Http\Requests;
 use App\Models\Event;
 use App\Policies\EventPolicy;
 use Illuminate\Foundation\Http\FormRequest;
+use Override;
 
 class RsvpPutRequest extends FormRequest
 {
@@ -21,6 +22,7 @@ class RsvpPutRequest extends FormRequest
     /**
      * @return array<string, string>
      */
+    #[Override]
     public function messages(): array
     {
         return [

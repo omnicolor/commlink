@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Services\HeroLab;
 
 use App\Services\HeroLab\Shadowrun5eConverter;
-use Modules\Shadowrun5e\Models\Character;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;

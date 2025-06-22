@@ -79,6 +79,7 @@ class PartialCharacter extends Character implements Stringable
         ];
     }
 
+    #[Override]
     protected static function newFactory(): Factory
     {
         return PartialCharacterFactory::new();

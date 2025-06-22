@@ -21,10 +21,10 @@ return [
     */
     'adrenaline-boost-1' => [
         'id' => 'adrenaline-boost-1',
-        'cost' => .25 * 1,
+        'cost' => .25,
         'description' => 'Adrenaline boost ',
         'effects' => [
-            'initiative' => 2 * 1,
+            'initiative' => 2,
         ],
         'incompatible-with' => [
             'adrenaline-boost-1',
@@ -102,7 +102,7 @@ return [
         'ruleset' => 'core',
     ],
     'pain-resistance-1' => [
-        'cost' => 0.5 * 1,
+        'cost' => 0.5,
         'description' => 'Pain resistance description.',
         'id' => 'pain-resistance-1',
         'incompatible-with' => [
@@ -119,7 +119,7 @@ return [
         'ruleset' => 'core',
     ],
     'rapid-healing-1' => [
-        'cost' => 0.5 * 1,
+        'cost' => 0.5,
         'description' => 'Rapid healing description.',
         'effects' => [],
         'id' => 'rapid-healing-1',

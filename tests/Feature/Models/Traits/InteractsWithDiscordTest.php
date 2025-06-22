@@ -9,6 +9,7 @@ use App\Models\Channel;
 use Illuminate\Http\Client\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -22,6 +23,7 @@ final class InteractsWithDiscordTest extends TestCase
 {
     protected Channel $mock;
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

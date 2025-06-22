@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Traits;
 
 use App\Traits\FormulaConverter;
+use Override;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
 
@@ -13,6 +14,7 @@ final class FormulaConverterTest extends TestCase
 {
     protected object $formula_converter;
 
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

@@ -7,6 +7,7 @@ namespace Modules\Shadowrun5e\Providers;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Modules\Shadowrun5e\Events\DamageEvent;
 use Modules\Shadowrun5e\Listeners\HandleDamageEvent;
+use Override;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -29,6 +30,7 @@ class EventServiceProvider extends ServiceProvider
     /**
      * Configure the proper event listeners for email verification.
      */
+    #[Override]
     protected function configureEmailVerification(): void
     {
     }

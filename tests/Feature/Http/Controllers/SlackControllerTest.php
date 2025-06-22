@@ -12,7 +12,6 @@ use App\Models\Character;
 use App\Models\ChatCharacter;
 use App\Models\ChatUser;
 use App\Models\User;
-use App\ValueObjects\Email;
 use Facades\App\Services\DiceService;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;

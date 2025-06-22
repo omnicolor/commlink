@@ -23,6 +23,7 @@ use App\Listeners\SendEmailOnCampaignInvitationCreated;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Override;
 use SocialiteProviders\Discord\DiscordExtendSocialite;
 use SocialiteProviders\Google\GoogleExtendSocialite;
 use SocialiteProviders\Manager\SocialiteWasCalled;
@@ -74,6 +75,7 @@ class EventServiceProvider extends ServiceProvider
     /**
      * Register any events for your application.
      */
+    #[Override]
     public function boot(): void
     {
     }

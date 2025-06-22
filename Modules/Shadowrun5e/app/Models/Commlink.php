@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Shadowrun5e\Models;
 
+use Override;
 use RuntimeException;
 use Stringable;
 
@@ -121,6 +122,7 @@ final class Commlink extends Gear implements Stringable
     /**
      * Return the cost of the commlink including modifications and programs.
      */
+    #[Override]
     public function getCost(): int
     {
         $cost = 0;

@@ -180,8 +180,8 @@ final class InfoTest extends TestCase
             . 'Server: ' . $server . PHP_EOL
             . 'Channel name: #commlink' . PHP_EOL
             . 'System: Shadowrun 5th Edition' . PHP_EOL
-            . 'Character: ' . (string)$character . PHP_EOL
-            . 'Campaign: ' . (string)$campaign;
+            . 'Character: ' . $character . PHP_EOL
+            . 'Campaign: ' . $campaign;
 
         $info = (new Info('info', $username, $channel, $event))->forIrc();
         self::assertSame($expected, $info);

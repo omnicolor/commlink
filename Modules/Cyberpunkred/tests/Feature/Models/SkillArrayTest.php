@@ -6,6 +6,7 @@ namespace Modules\Cyberpunkred\Tests\Feature\Models;
 
 use Modules\Cyberpunkred\Models\Skill;
 use Modules\Cyberpunkred\Models\SkillArray;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
@@ -25,6 +26,7 @@ final class SkillArrayTest extends TestCase
     /**
      * Set up a clean subject.
      */
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

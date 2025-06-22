@@ -113,7 +113,7 @@ class Draw extends Roll
             return $this->error;
         }
 
-        return $this->username . ' drew the **' . (string)$this->card . '**'
+        return $this->username . ' drew the **' . $this->card . '**'
             . PHP_EOL . $this->extra;
     }
 
@@ -124,7 +124,7 @@ class Draw extends Roll
             return $this->error;
         }
 
-        return $this->username . ' drew the ' . (string)$this->card . PHP_EOL
+        return $this->username . ' drew the ' . $this->card . PHP_EOL
             . $this->extra;
     }
 
@@ -136,7 +136,7 @@ class Draw extends Roll
         }
 
         $attachment = new TextAttachment(
-            $this->username . ' drew the ' . (string)$this->card,
+            $this->username . ' drew the ' . $this->card,
             $this->extra,
             TextAttachment::COLOR_INFO,
             count($this->deck) . ' cards remain'

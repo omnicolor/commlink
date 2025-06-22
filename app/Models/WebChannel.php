@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use LogicException;
+use Override;
 
 use function config;
 
@@ -20,6 +21,7 @@ class WebChannel extends Channel
 {
     protected Character $character;
 
+    #[Override]
     public function character(): Character
     {
         return $this->character;
@@ -28,11 +30,13 @@ class WebChannel extends Channel
     /**
      * @return array<int, Character>
      */
+    #[Override]
     public function characters(): array
     {
         return [$this->character];
     }
 
+    #[Override]
     public static function findForWebhook(
         string $guild_id,
         string $webhook_id,
@@ -40,11 +44,13 @@ class WebChannel extends Channel
         throw new LogicException('WebChannels do not have webhooks');
     }
 
+    #[Override]
     public function initiatives(): HasMany
     {
         throw new LogicException('WebChannels do not have initiatives');
     }
 
+    #[Override]
     public function serverName(): Attribute
     {
         return Attribute::make(
@@ -54,6 +60,7 @@ class WebChannel extends Channel
         );
     }
 
+    #[Override]
     public function system(): Attribute
     {
         return Attribute::make(

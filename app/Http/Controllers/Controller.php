@@ -7,10 +7,7 @@ namespace App\Http\Controllers;
 use DateTimeImmutable;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
-
-use function response;
 
 class Controller extends BaseController
 {
@@ -29,9 +26,6 @@ class Controller extends BaseController
      */
     protected array $links;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this->headers = [

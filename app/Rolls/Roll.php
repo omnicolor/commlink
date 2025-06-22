@@ -95,9 +95,6 @@ abstract class Roll
             return false;
         }
 
-        if ($this->campaign->gm === $this->chatUser->user->id) {
-            return true;
-        }
-        return false;
+        return $this->campaign->gm === $this->chatUser->user->id;
     }
 }

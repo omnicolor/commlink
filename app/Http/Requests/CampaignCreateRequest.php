@@ -7,6 +7,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Modules\Avatar\Enums\Era;
+use Override;
 
 use function array_keys;
 use function config;
@@ -17,6 +18,7 @@ class CampaignCreateRequest extends FormRequest
      * Customize the error messages.
      * @return array<string, string>
      */
+    #[Override]
     public function messages(): array
     {
         return [

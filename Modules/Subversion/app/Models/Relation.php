@@ -195,7 +195,7 @@ class Relation implements Stringable
                 case 'multi-talented':
                     $extraSkills = count($this->skills) - 1;
                     $extraArchetypes = count($this->archetypes) - 1;
-                    $cost = $cost + $cost * ($extraSkills + $extraArchetypes) / 2;
+                    $cost += $cost * ($extraSkills + $extraArchetypes) / 2;
                     break;
                 case 'supportive':
                     $cost += 15;

@@ -13,7 +13,6 @@ use Override;
 use Stringable;
 
 use function config;
-use function count;
 use function sprintf;
 
 /**
@@ -161,7 +160,7 @@ class SlackResponse extends JsonResponse implements Stringable
             $data['response_type'] = 'ephemeral';
         }
 
-        if (0 !== count($this->attachments)) {
+        if ([] !== $this->attachments) {
             $data['attachments'] = $this->attachments;
         }
         if (null !== $this->text) {

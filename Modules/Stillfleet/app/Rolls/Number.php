@@ -83,11 +83,11 @@ class Number extends Roll
 
         $value = sprintf('**%s rolled a %d**', $this->username, $this->result)
             . PHP_EOL
-            . (string)$this->roll;
+            . $this->roll;
         if (0 !== $this->boost) {
-            $value .= ' + ' . (string)$this->boost;
+            $value .= ' + ' . $this->boost;
         } elseif (0 !== $this->penalty) {
-            $value .= ' - ' . (string)$this->penalty;
+            $value .= ' - ' . $this->penalty;
         }
         return $value;
     }
@@ -101,11 +101,11 @@ class Number extends Roll
 
         $value = sprintf('%s rolled a %d', $this->username, $this->result)
             . PHP_EOL
-            . (string)$this->roll;
+            . $this->roll;
         if (0 !== $this->boost) {
-            $value .= ' + ' . (string)$this->boost;
+            $value .= ' + ' . $this->boost;
         } elseif (0 !== $this->penalty) {
-            $value .= ' - ' . (string)$this->penalty;
+            $value .= ' - ' . $this->penalty;
         }
         return $value;
     }
@@ -119,9 +119,9 @@ class Number extends Roll
 
         $value = (string)$this->roll;
         if (0 !== $this->boost) {
-            $value .= ' + ' . (string)$this->boost;
+            $value .= ' + ' . $this->boost;
         } elseif (0 !== $this->penalty) {
-            $value .= ' - ' . (string)$this->penalty;
+            $value .= ' - ' . $this->penalty;
         }
 
         return (new Response())

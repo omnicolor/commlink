@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Console\Commands;
 
 use App\Console\Commands\ImportChummerData;
+use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
@@ -16,6 +17,7 @@ final class ImportChummerDataTest extends TestCase
 {
     private ImportChummerData $command;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();
