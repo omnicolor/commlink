@@ -118,7 +118,7 @@ class Campaign extends Model implements Stringable
 
     /**
      * Create a new Campaign, subclassed if available.
-     * @param array<int|string, mixed>|Campaign $attributes
+     * @param array<string, mixed>|Campaign $attributes
      * @param ?string $connection
      */
     #[Override]
