@@ -3,7 +3,7 @@ name: PHP Static Analysis
 on: pull_request
 
 jobs:
-  lint:
+  Lint:
     runs-on: "ubuntu-latest"
     strategy:
       matrix:
@@ -20,7 +20,7 @@ jobs:
           coverage: none
           extensions: "json, mbstring, mongodb, pdo"
 
-      - name: Get Composer Cache Directory
+      - name: Get Composer cache directory
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
@@ -55,7 +55,7 @@ jobs:
           coverage: none
           extensions: "json, mbstring, mongodb, pdo"
 
-      - name: Get Composer Cache Directory
+      - name: Get Composer cache directory
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
@@ -72,3 +72,48 @@ jobs:
 
       - name: Run PHPStan analysis
         run: vendor/bin/phpstan analyze
+
+	Rector:
+		runs-on: "Ubuntu-latest"
+		strategy:
+    strategy:
+      matrix:
+        php-version:
+          - "8.4"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install PHP with extensions
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+          extensions: "json, mbstring, mongodb, pdo"
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --no-progress --no-interaction
+
+      - name: Rector cache
+        uses: actions/cache@v4
+        with:
+          path: /tmp/rector
+          key: ${{ runner.os }}-rector-${{ github.run_id }}
+          restore-keys: ${{ runner.os }}-rector-
+
+      - run: mkdir -p /tmp/rector
+
+      - name: Rector dry run
+        run: vendor/bin/rector process --dry-run --config=rector.php
