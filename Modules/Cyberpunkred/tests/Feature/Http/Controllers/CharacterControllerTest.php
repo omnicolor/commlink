@@ -574,7 +574,7 @@ final class CharacterControllerTest extends TestCase
             ->assertRedirect(route('cyberpunkred.create', 'stats'));
 
         $character->refresh();
-        foreach ($character->lifepath as $path => $values) {
+        foreach ($character->lifepath as $values) {
             self::assertSame(2, $values['chosen']);
         }
 

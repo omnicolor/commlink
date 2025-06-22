@@ -32,13 +32,11 @@ final class ChannelTest extends TestCase
 
     /**
      * URL that Slack connections will go to.
-     * @var string
      */
     protected const string API_SLACK_TEAMS = 'slack.com/api/auth.teams.list';
 
     /**
      * URL that Discord connections will go to.
-     * @var string
      */
     protected const string API_DISCORD_GUILDS = 'https://discord.com/api/guilds/';
 

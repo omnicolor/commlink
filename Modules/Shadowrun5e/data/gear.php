@@ -112,7 +112,7 @@ return [
         'availability' => '',
         'capacity' => 1,
         'container-type' => ['audio'],
-        'cost' => 50 * 1,
+        'cost' => 50,
         'description' => 'Ear buds description.',
         'effects' => [],
         'id' => 'ear-buds-1',

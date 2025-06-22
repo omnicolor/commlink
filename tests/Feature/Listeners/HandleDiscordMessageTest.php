@@ -25,6 +25,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Medium;
 use Tests\TestCase;
 
+use function random_int;
 use function sprintf;
 
 use const PHP_EOL;
@@ -220,16 +221,6 @@ final class HandleDiscordMessageTest extends TestCase
 
         $channelName = Str::random(12);
         $channelId = Str::random(10);
-        $expected = sprintf(
-            'To link your Commlink user, go to the settings page (%s/settings) '
-                . 'and copy the command listed there for this server. If the '
-                . 'server isn\'t listed, follow the instructions there to add '
-                . 'it. You\'ll need to know your server ID (`%s`) and your '
-                . 'user ID (`%d`).',
-            config('app.url'),
-            $serverNameAndId,
-            $userId,
-        );
         $channelMap = [
             ['guild', $serverMock],
             ['id', $channelId],
@@ -276,17 +267,6 @@ final class HandleDiscordMessageTest extends TestCase
 
         $channelName = Str::random(12);
         $channelId = Str::random(10);
-        $expected = sprintf(
-            'We couldn\'t find a Commlink registration for this Discord server '
-                . 'and your user. Go to the settings page (%s/settings) and '
-                . 'copy the command listed there for this server. If the '
-                . 'server isn\'t listed, follow the instructions there to add '
-                . 'it. You\'ll need to know your server ID (`%s`) and your '
-                . 'user ID (`%d`).',
-            config('app.url'),
-            $serverNameAndId,
-            $userId,
-        );
         $channelMap = [
             ['guild', $serverMock],
             ['id', $channelId],
@@ -340,7 +320,6 @@ final class HandleDiscordMessageTest extends TestCase
 
         $channelName = Str::random(12);
         $channelId = Str::random(10);
-        $expected = 'It looks like you\'re already verified!';
         $channelMap = [
             ['guild', $serverMock],
             ['id', $channelId],
@@ -410,10 +389,6 @@ final class HandleDiscordMessageTest extends TestCase
             'server_type' => ChatUser::TYPE_DISCORD,
             'verified' => false,
         ]);
-
-        $expected = 'Your Commlink account has been linked with this Discord '
-            . 'user. You only need to do this once for this server, no matter '
-            . 'how many different channels you play in.';
         $messageMap = [
             ['author', $userMock],
             ['channel', $channelMock],

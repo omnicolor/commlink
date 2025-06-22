@@ -7,6 +7,7 @@ namespace Modules\Shadowrun5e\Tests\Feature\Models;
 use Modules\Shadowrun5e\Enums\AugmentationGrade;
 use Modules\Shadowrun5e\Enums\AugmentationType;
 use Modules\Shadowrun5e\Models\Augmentation;
+use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
@@ -23,6 +24,7 @@ final class AugmentationTest extends TestCase
     /**
      * Set up subject under test.
      */
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

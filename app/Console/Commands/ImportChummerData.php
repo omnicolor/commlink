@@ -190,7 +190,7 @@ class ImportChummerData extends Command implements Isolatable
         $this->updateChummerRepository();
 
         $types = (array)$this->option('type');
-        if (0 === count($types)) {
+        if ([] === $types) {
             $types = self::DATA_TYPES;
         }
 
@@ -219,7 +219,7 @@ class ImportChummerData extends Command implements Isolatable
     {
         $diff = array_diff((array)$this->option('type'), self::DATA_TYPES);
 
-        if (0 !== count($diff)) {
+        if ([] !== $diff) {
             throw new RuntimeException(
                 'Invalid data ' . Str::plural('type', count($diff)) . ': '
                 . implode(', ', $diff)
@@ -1141,8 +1141,7 @@ class ImportChummerData extends Command implements Isolatable
         $cost = (float)Str::after($formula, '*') * 100;
         /** @var string */
         $formula = Str::replace(Str::after($formula, '*'), (string)$cost, $formula);
-        $cost = self::convertFormula($formula, 'R', $rating) / 100;
-        return $cost;
+        return self::convertFormula($formula, 'R', $rating) / 100;
     }
 
     /**
@@ -1211,8 +1210,7 @@ class ImportChummerData extends Command implements Isolatable
         } else {
             $output .= '\'' . addslashes((string)$value) . '\'';
         }
-        $output .= ',' . PHP_EOL;
-        return $output;
+        return $output . (',' . PHP_EOL);
     }
 
     /**

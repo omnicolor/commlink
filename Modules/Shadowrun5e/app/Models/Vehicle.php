@@ -253,7 +253,7 @@ class Vehicle implements Stringable
         }
 
         foreach ($this->modifications as $mod) {
-            if (0 === count($mod->effects)) {
+            if ([] === $mod->effects) {
                 continue;
             }
 

@@ -124,9 +124,9 @@ final class RelationTest extends TestCase
         );
 
         self::assertSame(10, $relation->cost);
-        $relation->power = $relation->power + 1;
+        $relation->power += 1;
         self::assertSame(15, $relation->cost);
-        $relation->regard = $relation->regard + 1;
+        $relation->regard += 1;
         self::assertSame(17, $relation->cost);
     }
 

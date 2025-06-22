@@ -6,6 +6,7 @@ namespace Modules\Startrekadventures\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 use function array_merge;
 use function config;
@@ -41,6 +42,7 @@ class StartrekadventuresServiceProvider extends ServiceProvider
     /**
      * Register the service provider.
      */
+    #[Override]
     public function register(): void
     {
         $this->app->register(RouteServiceProvider::class);
@@ -125,6 +127,7 @@ class StartrekadventuresServiceProvider extends ServiceProvider
      * Get the services provided by the provider.
      * @return array<string>
      */
+    #[Override]
     public function provides(): array
     {
         return [];

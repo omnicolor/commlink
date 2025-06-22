@@ -24,7 +24,7 @@ return [
     ],
     'focused-concentration-1' => [
         'description' => 'You know how to compartmentalize your mind and keep hold of arcane and emergent manipulations without straining yourself.||Game Effect: You can sustain multiple spells or complex forms without penalty. For each level, you can sustain 1 additional spell or complex form without suffering the associated penalty. The spell cannot have a modified Drain Value of 7 or greater.',
-        'karma_cost' => 12 * 1,
+        'karma_cost' => 12,
         'level' => 1,
         'name' => 'Focused concentration',
         'page' => 71,

@@ -5,6 +5,16 @@ declare(strict_types=1);
 namespace Modules\Cyberpunkred\Models;
 
 use Error;
+use Modules\Cyberpunkred\Models\Role\Exec;
+use Modules\Cyberpunkred\Models\Role\Fixer;
+use Modules\Cyberpunkred\Models\Role\Lawman;
+use Modules\Cyberpunkred\Models\Role\Media;
+use Modules\Cyberpunkred\Models\Role\Medtech;
+use Modules\Cyberpunkred\Models\Role\Netrunner;
+use Modules\Cyberpunkred\Models\Role\Nomad;
+use Modules\Cyberpunkred\Models\Role\Rockerboy;
+use Modules\Cyberpunkred\Models\Role\Solo;
+use Modules\Cyberpunkred\Models\Role\Tech;
 use RuntimeException;
 use Stringable;
 
@@ -72,16 +82,16 @@ abstract class Role implements Stringable
     public static function all(): RoleArray
     {
         $roles = new RoleArray();
-        $roles[] = new Role\Exec([]);
-        $roles[] = new Role\Fixer([]);
-        $roles[] = new Role\Lawman([]);
-        $roles[] = new Role\Media([]);
-        $roles[] = new Role\Medtech([]);
-        $roles[] = new Role\Netrunner([]);
-        $roles[] = new Role\Nomad([]);
-        $roles[] = new Role\Rockerboy([]);
-        $roles[] = new Role\Solo([]);
-        $roles[] = new Role\Tech([]);
+        $roles[] = new Exec([]);
+        $roles[] = new Fixer([]);
+        $roles[] = new Lawman([]);
+        $roles[] = new Media([]);
+        $roles[] = new Medtech([]);
+        $roles[] = new Netrunner([]);
+        $roles[] = new Nomad([]);
+        $roles[] = new Rockerboy([]);
+        $roles[] = new Solo([]);
+        $roles[] = new Tech([]);
         return $roles;
     }
 }

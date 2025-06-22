@@ -7,6 +7,7 @@ namespace Modules\Shadowrun5e\Tests\Feature\Models;
 use Modules\Shadowrun5e\Models\ActiveSkill;
 use Modules\Shadowrun5e\Models\Skill;
 use Modules\Shadowrun5e\Models\SkillArray;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
@@ -27,6 +28,7 @@ final class SkillArrayTest extends TestCase
     /**
      * Set up a clean subject.
      */
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

@@ -6,6 +6,7 @@ namespace Modules\Shadowrun5e\Tests\Feature\Models;
 
 use Modules\Shadowrun5e\Models\ActiveSkill;
 use Modules\Shadowrun5e\Models\SkillGroup;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -24,6 +25,7 @@ final class SkillGroupTest extends TestCase
     /**
      * Set up a clean subject under test.
      */
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

@@ -6,6 +6,7 @@ namespace Modules\Capers\Tests\Feature\Models;
 
 use Modules\Capers\Models\Gear;
 use Modules\Capers\Models\GearArray;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
@@ -25,6 +26,7 @@ final class GearArrayTest extends TestCase
     /**
      * Set up a clean subject.
      */
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

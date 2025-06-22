@@ -6,10 +6,12 @@ namespace Modules\Cyberpunkred\Models;
 
 use App\Models\Card;
 use InvalidArgumentException;
+use Override;
 use Stringable;
 
 class TarotCard extends Card implements Stringable
 {
+    #[Override]
     public function __toString(): string
     {
         return $this->value;

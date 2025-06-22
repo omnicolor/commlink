@@ -7,6 +7,7 @@ namespace Modules\Shadowrun5e\Http\Requests;
 use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 use Modules\Shadowrun5e\Models\Quality;
+use Override;
 use RuntimeException;
 
 use function explode;
@@ -17,6 +18,7 @@ class QualitiesRequest extends FormRequest
      * Get the error messages for the defined validation rules.
      * @return array<string, string>
      */
+    #[Override]
     public function messages(): array
     {
         return [

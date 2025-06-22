@@ -40,6 +40,7 @@ class Soak extends Number
         $this->formatRoll();
     }
 
+    #[Override]
     protected function formatTitle(): string
     {
         return sprintf(

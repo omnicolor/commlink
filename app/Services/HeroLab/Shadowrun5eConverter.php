@@ -528,7 +528,7 @@ class Shadowrun5eConverter implements ConverterInterface
              * Psalm thinks the array can never be empty, but not every skill
              * has a specialization.
              */
-            if (0 !== count($specializations)) {
+            if ([] !== $specializations) {
                 $specializations = implode(',', $specializations);
             } else {
                 $specializations = null;

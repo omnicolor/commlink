@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Redis;
 
 use function array_walk;
 use function config;
-use function count;
 use function disk_free_space;
 use function disk_total_space;
 use function escapeshellarg;
@@ -39,7 +38,7 @@ class HealthzController extends Controller
 
     protected function checkDiscord(): bool
     {
-        return 0 !== count($this->lookForProcess('commlink:discord-run'));
+        return [] !== $this->lookForProcess('commlink:discord-run');
     }
 
     protected function checkDiskSpace(): bool
@@ -52,7 +51,7 @@ class HealthzController extends Controller
 
     protected function checkIrc(): bool
     {
-        return 0 !== count($this->lookForProcess('commlink:irc-run'));
+        return [] !== $this->lookForProcess('commlink:irc-run');
     }
 
     protected function checkMongo(): bool
@@ -78,13 +77,13 @@ class HealthzController extends Controller
 
     protected function checkQueue(): bool
     {
-        return 0 !== count($this->lookForProcess('queue:work'))
-            || 0 !== count($this->lookForProcess('queue:listen'));
+        return [] !== $this->lookForProcess('queue:work')
+            || [] !== $this->lookForProcess('queue:listen');
     }
 
     protected function checkSchedule(): bool
     {
-        return 0 !== count($this->lookForProcess('schedule:work'));
+        return [] !== $this->lookForProcess('schedule:work');
     }
 
     /**

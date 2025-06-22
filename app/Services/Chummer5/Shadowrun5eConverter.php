@@ -23,7 +23,6 @@ use SimpleXMLElement;
 
 use function array_key_exists;
 use function array_merge;
-use function count;
 use function sprintf;
 
 /**
@@ -308,7 +307,7 @@ class Shadowrun5eConverter implements ConverterInterface
             $identities[] = $identity;
             $i++;
         }
-        if (0 === count($identities)) {
+        if ([] === $identities) {
             // The character has no fake SINs, thus no identities to attach
             // lifestyles to.
             return $this;

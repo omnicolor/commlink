@@ -10,6 +10,7 @@ use Modules\Shadowrun5e\Models\GearModification;
 use Modules\Shadowrun5e\Models\Program;
 use Modules\Shadowrun5e\Models\Vehicle;
 use Modules\Shadowrun5e\Models\Weapon;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use RuntimeException;
@@ -28,6 +29,7 @@ final class GearTest extends TestCase
     /**
      * Set up subject under test.
      */
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

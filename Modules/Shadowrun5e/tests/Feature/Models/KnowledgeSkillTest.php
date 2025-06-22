@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Shadowrun5e\Tests\Feature\Models;
 
 use Modules\Shadowrun5e\Models\KnowledgeSkill;
+use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
@@ -24,6 +25,7 @@ final class KnowledgeSkillTest extends TestCase
     /**
      * Set up a clean subject under test.
      */
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

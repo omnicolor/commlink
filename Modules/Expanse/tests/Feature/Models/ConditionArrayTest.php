@@ -6,6 +6,7 @@ namespace Modules\Expanse\Tests\Feature\Models;
 
 use Modules\Expanse\Models\Condition;
 use Modules\Expanse\Models\ConditionArray;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
@@ -25,6 +26,7 @@ final class ConditionArrayTest extends TestCase
     /**
      * Set up a clean subject.
      */
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

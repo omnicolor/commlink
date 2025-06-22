@@ -15,8 +15,11 @@ use Override;
 use RuntimeException;
 use stdClass;
 
-use function count;
+use function config;
 use function explode;
+use function file_exists;
+use function file_get_contents;
+use function json_decode;
 use function sprintf;
 use function strtolower;
 
@@ -43,7 +46,7 @@ class CyberpunkRedConverter implements ConverterInterface
                 associative: false,
                 flags: JSON_THROW_ON_ERROR,
             );
-        } catch (JsonException $ex) {
+        } catch (JsonException) {
             throw new RuntimeException(
                 'File does not appear to be a World Anvil file'
             );
@@ -190,7 +193,7 @@ class CyberpunkRedConverter implements ConverterInterface
         }
 
         $this->character->skills = $skills;
-        if (0 !== count($customSkills)) {
+        if ([] !== $customSkills) {
             $this->character->skills_custom = $customSkills;
         }
         return $this;

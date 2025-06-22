@@ -94,7 +94,7 @@ class TimerTest extends TestCase
         );
         self::assertStringContainsString(
             'I\'ll let you know when 10 minutes is up.',
-            (string)json_encode(
+            json_encode(
                 $timer->forSlack()->jsonSerialize(),
                 JSON_THROW_ON_ERROR,
             ),

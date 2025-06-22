@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
+use Override;
 
 /**
  * Create a stub for a new Roll object.
@@ -35,6 +36,7 @@ class MakeRollCommand extends GeneratorCommand
         return $this->laravel->basePath('/stubs/roll.stub');
     }
 
+    #[Override]
     protected function getDefaultNamespace($rootNamespace): string
     {
         return $rootNamespace . '\Rolls';

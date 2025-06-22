@@ -6,6 +6,7 @@ namespace Modules\Expanse\Tests\Feature\Models;
 
 use Modules\Expanse\Models\Focus;
 use Modules\Expanse\Models\FocusArray;
+use Override;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Small;
 use Tests\TestCase;
@@ -25,6 +26,7 @@ final class FocusArrayTest extends TestCase
     /**
      * Set up a clean subject.
      */
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();
