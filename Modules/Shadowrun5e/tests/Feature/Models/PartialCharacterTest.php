@@ -160,7 +160,6 @@ final class PartialCharacterTest extends TestCase
 
     /**
      * Test validate on an empty partial character.
-     * @test
      */
     public function testValidateEmpty(): void
     {
@@ -177,7 +176,6 @@ final class PartialCharacterTest extends TestCase
 
     /**
      * Test validate on a partial character with no metatype.
-     * @test
      */
     public function testValidateNoMetatype(): void
     {
@@ -201,7 +199,6 @@ final class PartialCharacterTest extends TestCase
 
     /**
      * Test a normal priority character with too many native languages.
-     * @test
      */
     public function testValidateTooManyNativeLanguages(): void
     {
@@ -239,7 +236,6 @@ final class PartialCharacterTest extends TestCase
 
     /**
      * Test validating native languages with the bilingual quality.
-     * @test
      */
     public function testValidateBilingual(): void
     {
@@ -275,7 +271,6 @@ final class PartialCharacterTest extends TestCase
 
     /**
      * Test validating the bilingual quality without enough native languages.
-     * @test
      */
     public function testValidateBilingualNotEnoughLanguages(): void
     {
@@ -314,7 +309,6 @@ final class PartialCharacterTest extends TestCase
     /**
      * Test validating a sum-to-ten character that hasn't assigned all
      * priorities.
-     * @test
      */
     public function testValidateSumToTenMissing(): void
     {
@@ -347,7 +341,6 @@ final class PartialCharacterTest extends TestCase
 
     /**
      * Test validating a sum-to-ten character that has overspent.
-     * @test
      */
     public function testValidateSumToTenOverspent(): void
     {
@@ -383,7 +376,6 @@ final class PartialCharacterTest extends TestCase
 
     /**
      * Test validating a sum-to-ten character that chose attributes correctly.
-     * @test
      */
     public function testValidateSumToTen(): void
     {
@@ -414,7 +406,6 @@ final class PartialCharacterTest extends TestCase
 
     /**
      * Test validating a character with unspent attribute points.
-     * @test
      */
     public function testValidateAttributesUnspent(): void
     {
