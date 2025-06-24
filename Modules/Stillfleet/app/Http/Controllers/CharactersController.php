@@ -243,7 +243,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get('stillfleet-partial');
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $character->attribute_dice_option = $request->input('dice-option');
@@ -310,7 +310,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get('stillfleet-partial');
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         if (1 !== count($character->roles)) {
@@ -341,7 +341,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get('stillfleet-partial');
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         $character->name = $request->name;
@@ -359,7 +359,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get('stillfleet-partial');
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         if ($character->species?->id !== $request->species) {
@@ -384,7 +384,7 @@ class CharactersController extends Controller
         $characterId = $request->session()->get('stillfleet-partial');
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         if (null === $character->species) {

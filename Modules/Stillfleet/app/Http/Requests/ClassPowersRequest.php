@@ -47,7 +47,7 @@ class ClassPowersRequest extends FormRequest
         $characterId = $this->session()->get('stillfleet-partial');
         /** @var PartialCharacter */
         $character = PartialCharacter::where('_id', $characterId)
-            ->where('owner', $user->email)
+            ->where('owner', $user->email->address)
             ->firstOrFail();
 
         // Let the controller handle this invalid request.

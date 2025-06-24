@@ -182,7 +182,7 @@ class Character extends BaseCharacter implements Stringable
                     return ['details' => $details->toArray()];
                 }
                 return ['details' => $details];
-            }
+            },
         );
     }
 
